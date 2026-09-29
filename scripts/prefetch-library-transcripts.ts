@@ -13,7 +13,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { createServiceClient } from '../src/lib/supabase/service';
-import { YoutubeTranscript } from 'youtube-transcript';
 import { generateJSON } from '../src/lib/ai';
 import type { AISchema } from '../src/lib/ai';
 
@@ -215,7 +214,19 @@ async function fetchTranscript(
       return 'skip';
     }
 
-    const segments = await YoutubeTranscript.fetchTranscript(entry.youtubeId);
+    const transcriptModulePath = 'youtube-transcript/dist/youtube-transcript.esm.js';
+    const { YoutubeTranscript } = await import(transcriptModulePath) as typeof import('youtube-transcript');
+    let segments;
+    let lastTranscriptError: unknown;
+    for (const lang of ['en', 'en-GB', 'en-US']) {
+      try {
+        segments = await YoutubeTranscript.fetchTranscript(entry.youtubeId, { lang });
+        if (segments.length > 0) break;
+      } catch (err) {
+        lastTranscriptError = err;
+      }
+    }
+    if (!segments?.length) throw lastTranscriptError ?? new Error('No English captions available');
     const plainText = segments.map((s) => s.text).join(' ').trim();
 
     if (!plainText) {
@@ -369,6 +380,7 @@ function sleep(ms: number) {
 
 async function main() {
   const args = process.argv.slice(2);
+  const phaseAOnly = args.includes('--phase-a-only');
   const onlyArg = args.find((arg) => arg.startsWith('--only='));
   const onlyIds = onlyArg
     ? new Set(onlyArg.slice('--only='.length).split(',').map((id) => id.trim()).filter(Boolean))
@@ -448,6 +460,22 @@ async function main() {
   }
 
   console.log(`\nPhase A: fetched=${phaseAStats.ok}  skipped=${phaseAStats.skip}  no-id=${phaseAStats.noId}  failed=${phaseAStats.fail}`);
+
+  if (phaseAOnly) {
+    console.log('\nVerifying raw_transcript rows in Supabase...');
+    let missingRows = 0;
+    for (const entry of entries) {
+      const row = await dbGetRow(entry.sourceType, entry.id);
+      if (row?.raw_transcript) console.log(`  VERIFIED [${entry.sourceType}] ${entry.id}`);
+      else {
+        console.log(`  MISSING  [${entry.sourceType}] ${entry.id}`);
+        missingRows++;
+      }
+    }
+    console.log('\nPhase B skipped (--phase-a-only).');
+    if (phaseAStats.fail > 0 || missingRows > 0) process.exit(1);
+    return;
+  }
 
   if (phaseAStats.fail > 0) {
     console.log(`\n⚠  ${phaseAStats.fail} transcript fetch(es) failed — transcripts are disabled on YouTube for those videos.`);

@@ -7,7 +7,6 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { YoutubeTranscript } from 'youtube-transcript';
 
 // ── Load .env.local ────────────────────────────────────────────────────────────
 (function loadEnvLocal() {
@@ -31,11 +30,20 @@ function sleep(ms: number) {
 
 async function checkId(videoId: string): Promise<{ ok: boolean; segments?: number; lang?: string; error?: string }> {
   try {
-    const segments = await YoutubeTranscript.fetchTranscript(videoId);
-    const plainText = segments.map((s) => s.text).join(' ').trim();
-    if (!plainText) return { ok: false, error: 'Empty transcript' };
-    const lang = (segments[0] as { lang?: string })?.lang ?? 'en';
-    return { ok: true, segments: segments.length, lang };
+    const transcriptModulePath = 'youtube-transcript/dist/youtube-transcript.esm.js';
+    const { YoutubeTranscript } = await import(transcriptModulePath) as typeof import('youtube-transcript');
+    let lastError: unknown;
+    for (const lang of ['en', 'en-GB', 'en-US']) {
+      try {
+        const segments = await YoutubeTranscript.fetchTranscript(videoId, { lang });
+        const plainText = segments.map((s) => s.text).join(' ').trim();
+        if (plainText) return { ok: true, segments: segments.length, lang };
+      } catch (err) {
+        lastError = err;
+      }
+    }
+    const msg = lastError instanceof Error ? lastError.message : 'Empty transcript';
+    return { ok: false, error: msg };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     return { ok: false, error: msg };
