@@ -2131,6 +2131,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             onLaunchActivity={(a) => { void handleSelectActivity(a); }}
             onReturn={handleBackToSelection}
             onEndSession={handleEndSession}
+            onCompleteSession={handleCompleteSession}
             flightHref={`/lesson-planner?attach=${encodeURIComponent(session.id)}&classId=${encodeURIComponent(cls.id)}`}
           />
         </div>

@@ -10,7 +10,8 @@ import type { ActivityPlugin } from '@/activities/types';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { WindscreenFlight, timeOfDayNow, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { LC_INTERNATIONAL_COORD, overflightAt, type LatLng } from '@/lib/live-room/route-terrain';
-import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
+import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
+import { destinationsWithinRange } from '@/lib/world-flight/geo';
 import { HOME_BASE_ID, HOME_BASE_NAME, HOME_BASE_SCENE } from '@/lib/world-flight/home-base';
 import { Leaderboard } from '@/components/session/leaderboard';
 import { CatalogueDrawer } from '@/components/live-room/ui/cockpit-workspace/cockpit-panels';
@@ -45,16 +46,16 @@ const VIEWS: { key: DeckView; label: string }[] = [
 ];
 const INSTRUMENT_LABEL: Record<Instrument, string> = { aboard: 'On board', answered: 'Answered', clock: 'Flight time', top: 'Top score' };
 const STAMP_TONES = ['border-orange-300/70 text-orange-200', 'border-emerald-300/70 text-emerald-200', 'border-sky-300/70 text-sky-200', 'border-violet-300/70 text-violet-200'];
-const ORIGIN: FlightCity = { id: HOME_BASE_ID, city: HOME_BASE_NAME, scene: HOME_BASE_SCENE };
+type RouteCity = FlightCity & LatLng;
+const HOME: RouteCity = { id: HOME_BASE_ID, city: HOME_BASE_NAME, scene: HOME_BASE_SCENE, ...LC_INTERNATIONAL_COORD };
 /** Take-off to arrival spans roughly one lesson; progress along the route follows the clock. */
 const LESSON_MS = 45 * 60_000;
-/** Until the class journey exists: a stable destination per session. */
-function destinationFor(sessionId: string): FlightCity & LatLng {
-  const cities = WORLD_DESTINATIONS.filter((d) => d.scene);
+const SCENE_CITIES = WORLD_DESTINATIONS.filter((d) => d.scene);
+const toRouteCity = (d: (typeof SCENE_CITIES)[number]): RouteCity => ({ id: d.id, city: d.city, scene: d.scene!, lat: d.lat, lng: d.lng });
+function hashOf(text: string) {
   let h = 0;
-  for (const ch of sessionId) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  const d = cities[h % cities.length];
-  return { id: d.id, city: d.city, scene: d.scene!, lat: d.lat, lng: d.lng };
+  for (const ch of text) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return h;
 }
 const DEFAULT_STAMPS = ['flash-quiz', 'hot-take-arena', 'vocab-sprint', 'fact-detective', 'conversation-rounds'];
 
@@ -82,6 +83,8 @@ export interface FlightDeckProps {
   onLaunchActivity: (activity: ActivityPlugin) => void;
   onReturn: () => void;
   onEndSession: () => void;
+  /** End as a completed flight (World Flight records the landing and moves the class). */
+  onCompleteSession: () => void;
   flightHref: string;
 }
 
@@ -109,6 +112,7 @@ export function FlightDeck({
   onLaunchActivity,
   onReturn,
   onEndSession,
+  onCompleteSession,
   flightHref,
 }: FlightDeckProps) {
   const reduce = useReducedMotion();
@@ -128,7 +132,35 @@ export function FlightDeck({
   const [cinematic, setCinematic] = useState(false);
   const [landed, setLanded] = useState(false);
   const [takeoffAt, setTakeoffAt] = useState<number | null>(null);
-  const destination = useMemo(() => destinationFor(sessionId), [sessionId]);
+  // The class journey is World Flight's: depart from the class's current city,
+  // within the plane's range (LC International before its first flight).
+  const [position, setPosition] = useState<{ currentDestinationId: string | null; rangeKm: number } | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (!cancelled) setPosition(d ?? { currentDestinationId: null, rangeKm: STARTER_PLANE_RANGE_KM }); })
+      .catch(() => { if (!cancelled) setPosition({ currentDestinationId: null, rangeKm: STARTER_PLANE_RANGE_KM }); });
+    return () => { cancelled = true; };
+  }, [sessionId]);
+  const origin = useMemo<RouteCity>(() => {
+    const d = position?.currentDestinationId ? SCENE_CITIES.find((c) => c.id === position.currentDestinationId) : undefined;
+    return d ? toRouteCity(d) : HOME;
+  }, [position]);
+  const reachable = useMemo<RouteCity[]>(() => {
+    const originPack = SCENE_CITIES.find((c) => c.id === origin.id);
+    // First flight: anywhere (nearest to the hub first); otherwise within range. The
+    // picker lists these 24, and the default is always one of them.
+    const list = !originPack
+      ? SCENE_CITIES.map(toRouteCity)
+      : destinationsWithinRange(originPack, SCENE_CITIES, position?.rangeKm ?? STARTER_PLANE_RANGE_KM).map((r) => toRouteCity(r.destination));
+    return list.slice(0, 24);
+  }, [origin, position]);
+  const [chosenId, setChosenId] = useState<string | null>(null);
+  const destination = useMemo<RouteCity>(
+    () => reachable.find((c) => c.id === chosenId) ?? reachable[hashOf(sessionId) % Math.max(1, reachable.length)] ?? HOME,
+    [reachable, chosenId, sessionId],
+  );
   const [talkPrompt, setTalkPrompt] = useState('');
   const [huds, setHuds] = useState<Instrument[]>([]);
   const [hudPos, setHudPos] = useState<Record<string, { x: number; y: number }>>({});
@@ -148,7 +180,7 @@ export function FlightDeck({
   const [toast, setToast] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
   const routeT = takeoffAt ? Math.min(0.97, Math.max(0, (now - takeoffAt) / LESSON_MS)) : 0;
-  const below = useMemo(() => overflightAt(LC_INTERNATIONAL_COORD, destination, routeT), [destination, routeT]);
+  const below = useMemo(() => overflightAt(origin, destination, routeT), [origin, destination, routeT]);
   const [catalogueState, setCatalogueState] = useState({ query: '', category: null as string | null, favourites: [] as string[], recent: [] as string[] });
   const launchedAt = useRef<number>(0);
   const lastView = useRef<DeckView>('boarding');
@@ -404,6 +436,19 @@ export function FlightDeck({
               {newest ? `${newest.display_name} has boarded` : 'Waiting for passengers'}
             </motion.p>
           </AnimatePresence>
+          {flightStage === 'gate' && reachable.length > 1 && (
+            <label className="flex items-center gap-2 text-sm text-white/75">
+              Fly to
+              <select
+                id="deck-destination"
+                value={destination.id}
+                onChange={(e) => setChosenId(e.target.value)}
+                className="rounded-lg border border-white/20 bg-slate-900/80 px-2 py-1 text-white"
+              >
+                {reachable.map((c) => <option key={c.id} value={c.id}>{c.city}</option>)}
+              </select>
+            </label>
+          )}
           {flightStage === 'gate' && (
             <button
               type="button"
@@ -411,6 +456,12 @@ export function FlightDeck({
                 setFlightStage('flying');
                 setTakeoffAt(Date.now());
                 flash(`Flight to ${destination.city}: cleared for take-off`);
+                // Record the leg on the class's World Flight journey.
+                void fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ destinationId: destination.id }),
+                }).catch(() => {});
               }}
               className="mt-1 w-max rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-6 py-3 font-display text-lg text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105"
             >
@@ -474,7 +525,7 @@ export function FlightDeck({
       {/* The windscreen is one flight: gate → take-off → cruise → cloud reveal → landing. */}
       <WindscreenFlight
         stage={flightStage}
-        origin={ORIGIN}
+        origin={origin}
         destination={destination}
         timeOfDay={timeOfDayNow(new Date(now))}
         terrain={below.terrain}
@@ -482,7 +533,7 @@ export function FlightDeck({
         onCinematic={setCinematic}
         onLanded={() => {
           setLanded(true);
-          window.setTimeout(onEndSession, 4500);
+          window.setTimeout(onCompleteSession, 4500);
         }}
       />
       {flightStage === 'flying' && !cinematic && below.name && (
