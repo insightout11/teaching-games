@@ -127,7 +127,7 @@ function AuroraRibbons() {
 // the slipstream pushes it up + outward (it doesn't fall) — so drops impact then
 // slowly streak across. Snow drifts past but some flakes stick to the glass.
 // Behind the HUD so the instruments stay clear.
-function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
+export function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
   const p = WEATHER_PROFILE[weather];
   // rain behaves like the snow: drops fall past the glass (faster, motion-blurred
   // into short streaks) — individual particles, not a line sheet.

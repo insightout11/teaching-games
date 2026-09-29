@@ -13,8 +13,12 @@ import { FlightTracker } from '@/components/live-room/flight/flight-tracker';
 import { DeckMap, type DeckMapPin } from '@/components/live-room/flight/deck-map';
 import { createClient } from '@/lib/supabase/client';
 import type { InputSpec } from '@/lib/input-spec';
-import { WindscreenFlight, timeOfDayNow, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
+import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { LC_INTERNATIONAL_COORD, overflightAt, type LatLng } from '@/lib/live-room/route-terrain';
+import { bearingDeg, solarClock, sunPosition } from '@/lib/live-room/sun';
+import type { LiveWeather } from '@/lib/live-room/live-weather';
+import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
+import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { destinationsWithinRange, distanceBetweenCoordsKm } from '@/lib/world-flight/geo';
 import { HOME_BASE_ID, HOME_BASE_NAME, HOME_BASE_SCENE } from '@/lib/world-flight/home-base';
@@ -308,6 +312,34 @@ export function FlightDeck({
   const holding = flightStage === 'flying' && takeoffAt !== null && elapsedMs >= flightMs;
   const minutesLeft = takeoffAt ? Math.max(0, (flightMs - elapsedMs) / 60_000) : null;
   const below = useMemo(() => overflightAt(origin, destination, routeT), [origin, destination, routeT]);
+  // Real weather under the plane (every ten minutes, or when it moves on a
+  // degree); World Flight's climate weather if the lookup fails.
+  const wxKey = `${Math.round(below.point.lat)}:${Math.round(below.point.lng)}`;
+  const [liveWx, setLiveWx] = useState<LiveWeather | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    const { lat, lng } = below.point;
+    const load = () => {
+      fetch(`/api/live-room/weather?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d: LiveWeather | null) => { if (!cancelled) setLiveWx(d?.condition ? d : null); })
+        .catch(() => { if (!cancelled) setLiveWx(null); });
+    };
+    load();
+    const t = window.setInterval(load, 10 * 60 * 1000);
+    return () => { cancelled = true; window.clearInterval(t); };
+    // Only when the plane has moved on (the key), not on every tick of its position.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wxKey]);
+
+  // The sky follows the real sun over the ground below (the destination once landing).
+  const skyNow = useMemo(() => {
+    const at = flightStage === 'landing' ? destination : below.point;
+    const s = sunPosition(at, new Date(now));
+    const heading = bearingDeg(at, destination.lat === at.lat && destination.lng === at.lng ? { lat: at.lat, lng: at.lng + 1 } : destination);
+    const timeOfDay: TimeOfDay = s.elevation < -6 ? 'night' : s.elevation < 8 ? (s.azimuth < 180 ? 'dawn' : 'dusk') : 'day';
+    return { sun: { ...s, heading }, timeOfDay, clock: solarClock(at.lng, new Date(now)) };
+  }, [below.point, destination, flightStage, now]);
   const [catalogueState, setCatalogueState] = useState({ query: '', category: null as string | null, favourites: [] as string[], recent: [] as string[] });
   const launchedAt = useRef<number>(0);
   const lastView = useRef<DeckView>('boarding');
@@ -952,7 +984,10 @@ export function FlightDeck({
         stage={flightStage}
         origin={origin}
         destination={destination}
-        timeOfDay={timeOfDayNow(new Date(now))}
+        timeOfDay={skyNow.timeOfDay}
+        sun={skyNow.sun}
+        weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
+        cloudCover={liveWx?.cloudCover}
         terrain={below.terrain}
         region={below.terrain === 'farmland' ? below.name : null}
         calm={view !== 'boarding' && view !== 'talk'}
@@ -971,7 +1006,7 @@ export function FlightDeck({
       )}
       {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
         <p className="pointer-events-none absolute bottom-3 left-4 z-[5] rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/80 backdrop-blur-sm">
-          {holding ? `Holding over ${destination.city}` : `Below us: ${below.name}`}
+          {holding ? `Holding over ${destination.city}` : `Below us: ${below.name}`} · {skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
         </p>
       )}
 

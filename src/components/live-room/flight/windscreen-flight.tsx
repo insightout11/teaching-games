@@ -6,6 +6,9 @@ import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene
 import { arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import type { TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
+import { skyForSun, lightSpot } from '@/components/live-room/flight/sun-sky';
+import { WindscreenWeather } from '@/components/session/cockpit-scene';
+import type { SunPosition } from '@/lib/live-room/sun';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CockpitSky, cockpitCloudTint } from '@/components/live-room/flight/cockpit-sky';
@@ -51,6 +54,10 @@ export interface WindscreenFlightProps {
   terrain: Terrain;
   /** Region below (e.g. 'Asia'): gives farmland its local character. */
   region?: string | null;
+  /** The real sun over the ground below, and the plane's heading: drives the cockpit sky. */
+  sun?: SunPosition & { heading: number };
+  /** Real cloud cover below (0–100), when known. */
+  cloudCover?: number;
   /** An activity or text is on screen: calmer, fewer clouds. */
   calm?: boolean;
   onLanded?: () => void;
@@ -58,7 +65,7 @@ export interface WindscreenFlightProps {
   onCinematic?: (cinematic: boolean) => void;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, calm = false, onLanded, onCinematic }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, cloudCover, calm = false, onLanded, onCinematic }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const landedRef = useRef(onLanded);
@@ -114,8 +121,22 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
           : phase === 'landing' ? { mode: 'arrival' as const, ...arrivalTimeline(APPROACH_SPLIT + progress * (1 - APPROACH_SPLIT)) }
             : { mode: 'arrival' as const, phase: 'landed' as const, progress: 1 };
 
-  const palette = useMemo(() => composeTimedPalette(timeOfDay, destination.scene), [timeOfDay, destination]);
-  const cloudTint = useMemo(() => cockpitCloudTint(palette, timeOfDay), [palette, timeOfDay]);
+  const sunSky = useMemo(() => (sun ? skyForSun(sun, destination.scene) : null), [sun, destination]);
+  const skyTime = sunSky?.timeOfDay ?? timeOfDay;
+  const palette = useMemo(() => sunSky?.palette ?? composeTimedPalette(timeOfDay, destination.scene), [sunSky, timeOfDay, destination]);
+  const cloudTint = useMemo(() => cockpitCloudTint(palette, skyTime), [palette, skyTime]);
+  // The ground's colours follow the sky in coarse steps: rebuilding its texture is costly.
+  const groundSun = sun ? Math.round(sun.elevation / 5) * 5 : null;
+  const groundPalette = useMemo(
+    () => (sun && groundSun !== null ? skyForSun({ elevation: groundSun, azimuth: sun.azimuth < 180 ? 90 : 270 }, destination.scene).palette : palette),
+    // Only when the stepped sun height, morning/evening or the destination changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [groundSun, sun ? sun.azimuth < 180 : null, destination, sun ? null : palette],
+  );
+  const cover = cloudCover ?? (weather === 'clear' || weather === 'aurora' ? 25 : 85);
+  const cloudDensity = diving ? 1 : Math.min(1, 0.3 + (cover / 100) * 0.8);
+  const undercast = phase === 'cruise' && !calm ? Math.max(0, (cover - 65) / 35) : 0;
+  const spot = sun ? lightSpot(sun, sun.heading, palette.light === 'moon') : undefined;
   const altitude = phase === 'climb' ? Math.min(1, progress * 1.1) : 1;
   const cloudSpeed = phase === 'climb' ? 1.4 : diving ? 1.2 + progress * 3 : 0.55;
   const whiteout = phase !== 'descent' ? 0 : diving ? Math.pow(progress / DIVE, 1.6) * 0.96 : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
@@ -141,13 +162,27 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
           </motion.div>
         ) : (
           <motion.div key="cockpit" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
-            <CockpitSky palette={palette} timeOfDay={timeOfDay} altitude={altitude} />
-            <CockpitWorld terrain={terrain} region={region} palette={palette} night={timeOfDay === 'night'} speed={cloudSpeed} />
+            <CockpitSky palette={palette} timeOfDay={skyTime} altitude={altitude} spot={spot} />
+            <CockpitWorld terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} />
             <div
               className="absolute inset-x-0 bottom-0"
               style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${tint},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${tint},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${tint},0.45), transparent 70%)` }}
             />
-            <CockpitClouds speed={cloudSpeed} tint={cloudTint} density={calm && !diving ? 0.4 : 1} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} />
+            {/* Thick cloud below: an undercast deck hides the ground, storms glow inside it. */}
+            {undercast > 0 && (
+              <div className="absolute inset-x-0 bottom-0" style={{ top: '56%', background: `linear-gradient(180deg, rgba(${tint},${undercast * 0.55}) 0%, rgba(${tint},${undercast * 0.9}) 35%, rgba(${tint},${undercast * 0.95}) 100%)` }} />
+            )}
+            {weather === 'storm' && phase === 'cruise' && (
+              <motion.div
+                className="absolute inset-x-0 bottom-0"
+                style={{ top: '60%', background: 'radial-gradient(ellipse 30% 40% at 35% 60%, rgba(220,230,255,0.9), transparent 70%)' }}
+                animate={{ opacity: [0, 0, 0.9, 0.1, 0.7, 0, 0, 0] }}
+                transition={{ duration: 7, repeat: Infinity, times: [0, 0.6, 0.62, 0.65, 0.67, 0.72, 0.9, 1] }}
+              />
+            )}
+            {(phase === 'climb' || phase === 'descent') && weather !== 'clear' && <WindscreenWeather weather={weather} />}
+            {phase === 'cruise' && weather === 'aurora' && <WindscreenWeather weather="aurora" />}
+            <CockpitClouds speed={cloudSpeed} tint={cloudTint} density={calm && !diving ? 0.4 : cloudDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} />
           </motion.div>
         )}
       </AnimatePresence>

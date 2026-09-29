@@ -38,7 +38,13 @@ const LIGHT_POS: Record<TimeOfDay, { x: string; y: string; size: number }> = {
   night: { x: '72%', y: '20%', size: 56 },
 };
 
-export function CockpitSky({ palette, timeOfDay, altitude }: { palette: ScenePalette; timeOfDay: TimeOfDay; altitude: number }) {
+export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
+  palette: ScenePalette;
+  timeOfDay: TimeOfDay;
+  altitude: number;
+  /** Real sun/moon placement; without it, a fixed spot per time of day. */
+  spot?: { x: string; y: string; size: number; visible: boolean };
+}) {
   const reduce = useReducedMotion();
   const top = hexToRgb(palette.skyTop);
   const mid = hexToRgb(palette.skyMid);
@@ -46,7 +52,8 @@ export function CockpitSky({ palette, timeOfDay, altitude }: { palette: ScenePal
   // Higher up, the zenith deepens and the horizon band thins.
   const zenith = mixRgb(top, [4, 10, 30], Math.min(0.45, altitude * 0.35));
   const light = hexToRgb(palette.lightColor.startsWith('#') ? palette.lightColor : '#fff6d8');
-  const pos = LIGHT_POS[timeOfDay];
+  const pos = spot ?? { ...LIGHT_POS[timeOfDay], visible: true };
+  const glide = reduce ? undefined : 'left 14s linear, top 14s linear, width 14s linear, height 14s linear';
   const stars = useMemo(
     () => Array.from({ length: 70 }, (_, i) => ({ x: (i * 137.5) % 100, y: ((i * 61.8) % 60), r: i % 7 === 0 ? 1.6 : 1, o: 0.35 + ((i * 29) % 50) / 100 })),
     [],
@@ -68,14 +75,14 @@ export function CockpitSky({ palette, timeOfDay, altitude }: { palette: ScenePal
         <span key={i} className="absolute rounded-full bg-white" style={{ left: `${s.x}%`, top: `${s.y}%`, width: s.r * 2, height: s.r * 2, opacity: s.o }} />
       ))}
       {/* Sun / moon with a soft bloom */}
-      <div
+      {pos.visible && <div
         className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ left: pos.x, top: pos.y, width: pos.size * 5, height: pos.size * 5, background: `radial-gradient(circle, ${css(light, palette.light === 'moon' ? 0.25 : 0.55)} 0%, transparent 60%)` }}
-      />
-      <div
+        style={{ transition: glide, left: pos.x, top: pos.y, width: pos.size * 5, height: pos.size * 5, background: `radial-gradient(circle, ${css(light, palette.light === 'moon' ? 0.25 : 0.55)} 0%, transparent 60%)` }}
+      />}
+      {pos.visible && <div
         className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ left: pos.x, top: pos.y, width: pos.size, height: pos.size, background: palette.light === 'moon' ? `radial-gradient(circle at 40% 40%, #f4f6ff, ${css(light)} 70%)` : `radial-gradient(circle, #fffdf0 0%, ${css(light)} 60%, ${css(light, 0)} 100%)`, boxShadow: `0 0 ${pos.size}px ${css(light, 0.5)}` }}
-      />
+        style={{ transition: glide, left: pos.x, top: pos.y, width: pos.size, height: pos.size, background: palette.light === 'moon' ? `radial-gradient(circle at 40% 40%, #f4f6ff, ${css(light)} 70%)` : `radial-gradient(circle, #fffdf0 0%, ${css(light)} 60%, ${css(light, 0)} 100%)`, boxShadow: `0 0 ${pos.size}px ${css(light, 0.5)}` }}
+      />}
     </div>
   );
 }

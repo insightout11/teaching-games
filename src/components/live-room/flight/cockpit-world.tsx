@@ -43,6 +43,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
   const live = useRef({ speed });
+  // Kept across texture rebuilds (time of day, region) so the ground never jumps.
+  const cam = useRef(0);
   live.current = { speed };
 
   useEffect(() => {
@@ -90,7 +92,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
     const ro = new ResizeObserver(fit);
     ro.observe(canvas);
 
-    let camZ = 0;
+    let camZ = cam.current;
     let raf = 0;
     let last = performance.now();
     let drawnSpeed = live.current.speed;
@@ -100,6 +102,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
       last = now;
       drawnSpeed += (live.current.speed - drawnSpeed) * Math.min(1, dt * 1.2);
       camZ += drawnSpeed * CRUISE_SPEED * dt * (reduce ? 0.1 : 1);
+      cam.current = camZ;
 
       const horizonY = h * HORIZON;
       const F = w * 0.9;

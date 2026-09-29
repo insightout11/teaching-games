@@ -200,7 +200,9 @@ export function farmTexture(region: string | null | undefined, palette: ScenePal
 }
 
 /** Large, soft light/dark blotches (tileable value noise) drawn at a scale unrelated to the ground's. */
+let macroCache: HTMLCanvasElement | null = null;
 export function macroTexture(): HTMLCanvasElement {
+  if (macroCache) return macroCache;
   const N = 16, S = 256;
   const R = rng(7919);
   const lattice = Array.from({ length: N * N }, () => R());
@@ -224,5 +226,6 @@ export function macroTexture(): HTMLCanvasElement {
     img.data[p] = l; img.data[p + 1] = l; img.data[p + 2] = l; img.data[p + 3] = 255;
   }
   g.putImageData(img, 0, 0);
+  macroCache = canvas;
   return canvas;
 }
