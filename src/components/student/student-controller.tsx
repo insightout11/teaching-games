@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
@@ -26,11 +25,12 @@ import { DebatePrepPanel } from './debate-prep-panel';
 import { VALIDATION } from '@/lib/config/rate-limits';
 import { buildStandbyTipPool } from '@/lib/standby-tips';
 import { grammarReference } from '@/lib/grammar';
-import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, RadioTower, ClipboardCheck, Share2, Check, MessageCircle, Hand } from 'lucide-react';
+import { Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, RadioTower, ClipboardCheck, Share2, Check } from 'lucide-react';
 import { openHandChannel, HAND_HEARTBEAT_MS } from '@/lib/live-room/hands';
 import { openWordBankChannel } from '@/lib/live-room/word-bank';
 import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
+import { ActionBar, BoardingHeader, PhoneSheet, seatFor, type PhoneStatus } from '@/components/student/phone-shell';
 import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
@@ -239,7 +239,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [isVoting, setIsVoting] = useState(false);
   const [sessionActive, setSessionActive] = useState(true);
-  const [connectionStatus, setConnectionStatus] = useState<'connected' | 'checking' | 'disconnected'>('checking');
+  const [, setConnectionStatus] = useState<'connected' | 'checking' | 'disconnected'>('checking');
   const [realtimeHealth, setRealtimeHealth] = useState<RealtimeHealth>('connecting');
   const [canonicalReady, setCanonicalReady] = useState(false);
   const [lastCanonicalSuccessAt, setLastCanonicalSuccessAt] = useState<number | null>(null);
@@ -404,6 +404,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   // Raise hand: joins the teacher's speaking queue in the cabin.
   const [handRaised, setHandRaised] = useState(false);
+  const [seenWordCount, setSeenWordCount] = useState(0);
   const handAt = useRef(0);
   const handChannel = useRef<ReturnType<typeof openHandChannel> | null>(null);
   useEffect(() => {
@@ -1300,20 +1301,21 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     degradedSince,
     now: connectionNow,
   });
-  const connectionLabel = {
-    checking: connectionStatus === 'disconnected' ? 'Reconnecting…' : 'Checking',
-    connected: 'Connected',
-    syncing: 'Connected · syncing',
-    reconnecting: 'Reconnecting…',
-    offline: 'Offline',
-  }[effectiveConnectionState];
-  const connectionClass = {
-    checking: 'bg-amber-400 shadow-amber-400/40 animate-pulse',
-    connected: 'bg-emerald-400 shadow-emerald-400/40',
-    syncing: 'bg-cyan-400 shadow-cyan-400/40',
-    reconnecting: 'bg-amber-400 shadow-amber-400/40 animate-pulse',
-    offline: 'bg-red-400 shadow-red-400/40',
-  }[effectiveConnectionState];
+  const newWordCount = Math.max(0, (referenceVocab?.length ?? 0) - seenWordCount);
+  const pollWaiting = Boolean(activePoll && !hiddenPollIds.has(activePoll.pollId) && activePoll.metadata?.channel !== 'side' && !submittedPollIds.has(activePoll.pollId));
+  const phoneStatus: PhoneStatus =
+    effectiveConnectionState === 'offline' ? 'offline'
+      : effectiveConnectionState === 'reconnecting' ? 'reconnecting'
+        : transitionActivityName || roomLaunch ? 'preparing'
+          : inputSpec && submitStatus === 'success' ? 'sent'
+            : inputSpec ? 'your-turn'
+              : pollWaiting ? 'vote'
+                : 'cruising';
+  const headerTitle = roomLaunch?.name ?? currentSignalName ?? sessionTopic ?? 'In flight';
+  const latestMessage = myMessages[0];
+  const messageBarLabel = latestMessage?.status === 'replied' ? 'Replied'
+    : latestMessage?.status === 'shown' ? 'On screen'
+      : questionStatus === 'sent' ? 'Sent' : 'Message';
   const lastResultLabel = lastResult ? (OUTCOME_LABELS[lastResult.outcome] ?? lastResult.outcome) : null;
 
   // Capture & share: the debrief link is the durable artifact. Pasting it unfurls
@@ -1448,54 +1450,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   return (
     <StudentSkyShell weather="cruising">
-      {/* Header */}
-      <div className="relative mb-3 overflow-hidden rounded-2xl border border-cyan-400/15 bg-slate-950/65 p-3 shadow-[0_0_28px_rgba(34,211,238,0.08)] sm:mb-4 sm:p-4">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/50 to-transparent" />
-        <Image
-          src="/lessoncaptain-mark-on-dark.svg"
-          alt="LessonCaptain"
-          width={32}
-          height={32}
-          className="pointer-events-none absolute left-1/2 top-4 hidden h-8 w-auto -translate-x-1/2 opacity-30 sm:block"
-        />
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <span className={`h-2.5 w-2.5 rounded-full shadow-lg ${connectionClass}`} />
-              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-300/70">Student Console</p>
-            </div>
-            <p className="mt-1 truncate text-lg font-bold text-white">{studentSession.displayName}</p>
-            <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
-              <span>{connectionLabel}</span>
-              {studentSession.team && (
-                <>
-                  <span className="text-slate-600">/</span>
-                  <span className={studentSession.team === 'red' ? 'text-red-300' : 'text-blue-300'}>
-                    {studentSession.team === 'red' ? 'Red Team' : 'Blue Team'}
-                  </span>
-                </>
-              )}
-              {currentSignalName && (
-                <>
-                  <span className="text-slate-600">/</span>
-                  <span className="truncate text-cyan-200/80">{currentSignalName}</span>
-                </>
-              )}
-            </div>
-          </div>
-          <div className="flex shrink-0 items-center gap-2.5">
-            {studentSession.captain && (
-              <CrewAvatar seed={studentSession.avatarSeed} name={studentSession.displayName} captain size={40} />
-            )}
-            <button
-              onClick={onLeave}
-              className="min-h-10 shrink-0 rounded-xl border border-white/10 px-3 text-sm text-slate-300 transition-colors hover:border-white/25 hover:text-white"
-            >
-              Leave
-            </button>
-          </div>
-        </div>
-      </div>
+      <BoardingHeader
+        name={studentSession.displayName}
+        seat={seatFor(studentSession.clientId)}
+        title={headerTitle}
+        status={phoneStatus}
+        aside={studentSession.captain ? <CrewAvatar seed={studentSession.avatarSeed} name={studentSession.displayName} captain size={32} /> : undefined}
+        onLeave={onLeave}
+      />
 
       {/* Active Poll — side-channel polls render inside Crew Radio instead */}
       {activePoll && !hiddenPollIds.has(activePoll.pollId) && activePoll.metadata?.channel !== 'side' && (
@@ -2155,163 +2117,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         </div>
       )}
 
-      {/* Message the teacher: always one tap away, with what happened to it */}
-      <div className="glass rounded-2xl p-4 mb-4 space-y-3">
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            onClick={toggleHand}
-            aria-pressed={handRaised}
-            className={`flex items-center justify-center gap-2 rounded-xl border py-3 text-sm font-semibold transition-colors ${
-              handRaised ? 'border-amber-300 bg-amber-300/25 text-amber-100' : 'border-amber-300/40 bg-amber-300/10 text-amber-200 hover:bg-amber-300/20'
-            }`}
-          >
-            <Hand className="h-4 w-4" /> {handRaised ? 'Hand up · lower' : 'Raise hand'}
-          </button>
-          <button
-            type="button"
-            onClick={() => setOpenPanel((p) => (p === 'question' ? null : 'question'))}
-            className="flex items-center justify-center gap-2 rounded-xl border border-cyan-400/40 bg-cyan-500/15 py-3 text-sm font-semibold text-cyan-200 hover:bg-cyan-500/25"
-          >
-            <MessageCircle className="h-4 w-4" /> Message
-          </button>
-        </div>
-        {myMessages.length > 0 && (
-          <div className="space-y-2">
-            {myMessages.slice(0, 3).map((m) => (
-              <div key={m.id} className="rounded-xl bg-white/5 px-3 py-2">
-                <div className="flex items-start justify-between gap-2">
-                  <p className="text-sm text-gray-200 leading-snug">{m.content}</p>
-                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
-                    m.status === 'shown' ? 'bg-sky-400/20 text-sky-200'
-                      : m.status === 'replied' ? 'bg-emerald-400/20 text-emerald-200'
-                        : m.status === 'sent' ? 'bg-white/10 text-gray-300' : 'bg-white/10 text-gray-400'
-                  }`}>
-                    {m.status === 'shown' ? 'On screen' : m.status === 'replied' ? 'Replied' : m.status === 'sent' ? 'Sent' : 'Seen'}
-                  </span>
-                </div>
-                {m.reply && <p className="mt-1.5 border-l-2 border-emerald-400/50 pl-2 text-sm text-emerald-100">{m.reply}</p>}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Reference panel — 2×2 grid of collapsible tiles */}
-      {(() => {
-        const grammarEntry = grammarTarget ? grammarReference[grammarTarget as keyof typeof grammarReference] : null;
-        const tiles = [
-          referenceVocab ? 'vocab' : null,
-          grammarEntry ? 'grammar' : null,
-          referenceExpressions ? 'expressions' : null,
-        ].filter(Boolean) as ReferencePanel[];
-
-        const togglePanel = (panel: ReferencePanel) =>
-          setOpenPanel((p) => (p === panel ? null : panel));
-
-        const tileClass = (panel: ReferencePanel) =>
-          `flex items-center justify-between px-4 py-3 rounded-2xl text-left transition-all ${
-            openPanel === panel
-              ? 'bg-white/15 border border-white/20'
-              : 'glass border border-transparent hover:border-white/10'
-          }`;
-
-        return (
-          <div className="space-y-2 mb-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">Student tools</p>
-            <div className="grid grid-cols-2 gap-2">
-              {tiles.map((panel) => {
-                const labels: Record<string, string> = {
-                  vocab: 'Vocabulary',
-                  grammar: 'Grammar Check',
-                  expressions: 'Phrases',
-                  question: 'Ask Captain',
-                };
-                const icons: Record<string, JSX.Element> = {
-                  vocab: <BookOpen className="w-3.5 h-3.5" />,
-                  grammar: <PencilLine className="w-3.5 h-3.5" />,
-                  expressions: <MessageSquare className="w-3.5 h-3.5" />,
-                  question: <HelpCircle className="w-3.5 h-3.5" />,
-                };
-                return (
-                  <button
-                    key={panel!}
-                    onClick={() => togglePanel(panel)}
-                    className={tileClass(panel)}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="text-gray-400">{icons[panel!]}</span>
-                      <span className="text-xs font-semibold text-white">{labels[panel!]}</span>
-                    </div>
-                    <svg
-                      className={`w-3.5 h-3.5 text-gray-400 transition-transform flex-shrink-0 ${openPanel === panel ? '' : '-rotate-90'}`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Expanded panel content — full width below grid */}
-            {openPanel === 'vocab' && referenceVocab && (
-              <div className="glass rounded-2xl p-4">
-                <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-3">Key Vocabulary</p>
-                <div className="space-y-2.5">
-                  {referenceVocab.map((item) => {
-                    const used = usedWords.has(item.word.toLowerCase());
-                    return (
-                      <div key={item.word} className="flex items-start gap-2">
-                        <div className="min-w-0 flex-1">
-                          <span className="text-sm font-semibold text-cyan-400">{item.word}</span>
-                          <span className="text-gray-400 text-xs"> — {item.definition}</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => markWordUsed(item.word)}
-                          disabled={used}
-                          className={`shrink-0 rounded-full border px-2 py-0.5 text-[11px] font-semibold ${used ? 'border-emerald-400/50 bg-emerald-400/15 text-emerald-200' : 'border-cyan-400/40 text-cyan-200 hover:bg-cyan-500/15'}`}
-                        >
-                          {used ? 'Used!' : 'I used it!'}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {openPanel === 'grammar' && grammarEntry && (
-              <div className="glass rounded-2xl p-4">
-                <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Grammar Focus</p>
-                <p className="text-xs font-semibold text-violet-400 mb-2 capitalize">{grammarTarget}</p>
-                <p className="text-sm text-gray-200 leading-relaxed mb-3">{grammarEntry.rule}</p>
-                <div className="space-y-1.5">
-                  {grammarEntry.examples.map((ex) => (
-                    <p key={ex} className="text-xs text-gray-400 italic">&ldquo;{ex}&rdquo;</p>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {openPanel === 'expressions' && referenceExpressions && (
-              <div className="glass rounded-2xl p-4">
-                <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-3">Useful Expressions</p>
-                <div className="space-y-3">
-                  {referenceExpressions.map((item) => (
-                    <div key={item.phrase}>
-                      <p className="text-sm font-semibold text-emerald-400">{item.phrase}</p>
-                      <p className="text-xs text-gray-400 mt-0.5 italic">{item.example}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {openPanel === 'question' && (
+      <PhoneSheet open={openPanel === 'question'} title="Message your captain" onClose={() => setOpenPanel(null)}>
+        <div className="space-y-3">
+            {(
               <div className="glass rounded-2xl p-4 space-y-3">
                 {questionStatus === 'sent' ? (
                   <p className="text-green-400 text-sm text-center py-2">
@@ -2348,9 +2156,96 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 )}
               </div>
             )}
+        {myMessages.length > 0 && (
+          <div className="space-y-2">
+            {myMessages.slice(0, 3).map((m) => (
+              <div key={m.id} className="rounded-xl bg-white/5 px-3 py-2">
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-sm text-gray-200 leading-snug">{m.content}</p>
+                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+                    m.status === 'shown' ? 'bg-sky-400/20 text-sky-200'
+                      : m.status === 'replied' ? 'bg-emerald-400/20 text-emerald-200'
+                        : m.status === 'sent' ? 'bg-white/10 text-gray-300' : 'bg-white/10 text-gray-400'
+                  }`}>
+                    {m.status === 'shown' ? 'On screen' : m.status === 'replied' ? 'Replied' : m.status === 'sent' ? 'Sent' : 'Seen'}
+                  </span>
+                </div>
+                {m.reply && <p className="mt-1.5 border-l-2 border-emerald-400/50 pl-2 text-sm text-emerald-100">{m.reply}</p>}
+              </div>
+            ))}
           </div>
+        )}
+        </div>
+      </PhoneSheet>
+
+      {(() => {
+        const grammarEntry = grammarTarget ? grammarReference[grammarTarget as keyof typeof grammarReference] : null;
+        const empty = !referenceVocab && !grammarEntry && !referenceExpressions;
+        return (
+          <PhoneSheet open={openPanel === 'vocab'} title="Phrasebook" onClose={() => setOpenPanel(null)}>
+            <div className="space-y-3">
+              {empty && (
+                <p className="py-6 text-center text-sm text-lc-text2">New words from today&apos;s flight land here.</p>
+              )}
+            {referenceVocab && (
+              <div className="glass rounded-2xl p-4">
+                <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-3">Key Vocabulary</p>
+                <div className="space-y-2.5">
+                  {referenceVocab.map((item) => {
+                    const used = usedWords.has(item.word.toLowerCase());
+                    return (
+                      <div key={item.word} className="flex items-start gap-2">
+                        <div className="min-w-0 flex-1">
+                          <span className="text-sm font-semibold text-cyan-400">{item.word}</span>
+                          <span className="text-gray-400 text-xs"> — {item.definition}</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => markWordUsed(item.word)}
+                          disabled={used}
+                          className={`shrink-0 rounded-full border px-2 py-0.5 text-[11px] font-semibold ${used ? 'border-emerald-400/50 bg-emerald-400/15 text-emerald-200' : 'border-cyan-400/40 text-cyan-200 hover:bg-cyan-500/15'}`}
+                        >
+                          {used ? 'Used!' : 'I used it!'}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {grammarEntry && (
+              <div className="glass rounded-2xl p-4">
+                <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Grammar Focus</p>
+                <p className="text-xs font-semibold text-violet-400 mb-2 capitalize">{grammarTarget}</p>
+                <p className="text-sm text-gray-200 leading-relaxed mb-3">{grammarEntry.rule}</p>
+                <div className="space-y-1.5">
+                  {grammarEntry.examples.map((ex) => (
+                    <p key={ex} className="text-xs text-gray-400 italic">&ldquo;{ex}&rdquo;</p>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {referenceExpressions && (
+              <div className="glass rounded-2xl p-4">
+                <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-3">Useful Expressions</p>
+                <div className="space-y-3">
+                  {referenceExpressions.map((item) => (
+                    <div key={item.phrase}>
+                      <p className="text-sm font-semibold text-emerald-400">{item.phrase}</p>
+                      <p className="text-xs text-gray-400 mt-0.5 italic">{item.example}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            </div>
+          </PhoneSheet>
         );
       })()}
+
 
       {/* Your Flight — personal session progress */}
       <div className="glass rounded-2xl px-4 py-3 mb-4">
@@ -2454,9 +2349,19 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       </div>
 
       {/* Instructions */}
-      <div className="mt-4 text-center text-gray-500 text-sm">
+      <div className="mb-24 mt-4 text-center text-gray-500 text-sm">
         <p>Your signals are private unless your teacher spotlights them.</p>
       </div>
+      <ActionBar
+        handRaised={handRaised}
+        onHand={toggleHand}
+        messageLabel={messageBarLabel}
+        messageActive={openPanel === 'question'}
+        onMessage={() => setOpenPanel((p) => (p === 'question' ? null : 'question'))}
+        newWords={newWordCount}
+        phrasebookOpen={openPanel === 'vocab'}
+        onPhrasebook={() => { setOpenPanel((p) => (p === 'vocab' ? null : 'vocab')); setSeenWordCount(referenceVocab?.length ?? 0); }}
+      />
     </StudentSkyShell>
   );
 }

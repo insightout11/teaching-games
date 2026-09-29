@@ -1,0 +1,191 @@
+'use client';
+
+import type { ReactNode } from 'react';
+import { BookOpen, Hand, LogOut, MessageCircle, X } from 'lucide-react';
+
+// The student phone is a boarding pass + seat panel: a fixed header that says
+// what the phone wants right now, one "now" card, and a fixed action bar.
+
+export type PhoneStatus = 'cruising' | 'your-turn' | 'sent' | 'preparing' | 'vote' | 'reconnecting' | 'offline';
+
+const STATUS: Record<PhoneStatus, { label: string; text: string; dot: string; pulse?: boolean }> = {
+  cruising: { label: 'Cruising', text: 'text-cyan-300', dot: 'bg-cyan-300' },
+  'your-turn': { label: 'Your turn', text: 'text-amber-300', dot: 'bg-amber-400', pulse: true },
+  sent: { label: 'Sent', text: 'text-emerald-300', dot: 'bg-emerald-400' },
+  preparing: { label: 'Boarding', text: 'text-violet-300', dot: 'bg-violet-400', pulse: true },
+  vote: { label: 'Vote', text: 'text-rose-300', dot: 'bg-rose-400', pulse: true },
+  reconnecting: { label: 'Reconnecting', text: 'text-amber-300', dot: 'bg-amber-400', pulse: true },
+  offline: { label: 'Offline', text: 'text-red-300', dot: 'bg-red-400', pulse: true },
+};
+
+export const MONO = 'font-[family-name:var(--font-instrument)] uppercase tracking-[0.12em]';
+
+/** Stable, playful seat number from the client id (e.g. "14C"). */
+export function seatFor(clientId: string): string {
+  let h = 0;
+  for (let i = 0; i < clientId.length; i++) h = (h * 31 + clientId.charCodeAt(i)) >>> 0;
+  return `${(h % 28) + 1}${'ABCDEF'[(h >>> 5) % 6]}`;
+}
+
+export function BoardingHeader({
+  name,
+  seat,
+  title,
+  status,
+  statusLabel,
+  aside,
+  onLeave,
+}: {
+  name: string;
+  seat: string;
+  title: string;
+  status: PhoneStatus;
+  statusLabel?: string;
+  aside?: ReactNode;
+  onLeave: () => void;
+}) {
+  const s = STATUS[status];
+  return (
+    <header className="sticky top-0 z-30 -mx-3 -mt-3 mb-3 border-b-2 border-dashed border-lc-border bg-lc-card px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] backdrop-blur sm:-mx-4 sm:-mt-4">
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className={`${MONO} truncate text-[11px] text-lc-text3`}>
+            {name} · Seat {seat}
+          </p>
+          <p className="truncate font-display text-xl leading-tight text-lc-text">{title}</p>
+        </div>
+        <div className="flex shrink-0 items-center gap-2">
+          <span className={`${MONO} flex items-center gap-1.5 text-[11px] ${s.text}`} role="status">
+            <span className={`h-2 w-2 rounded-full ${s.dot} ${s.pulse ? 'animate-pulse' : ''}`} />
+            {statusLabel ?? s.label}
+          </span>
+          {aside}
+          <button
+            type="button"
+            onClick={onLeave}
+            aria-label="Leave class"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-lc-border text-lc-text3 hover:text-lc-text"
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function BarButton({
+  icon,
+  label,
+  active,
+  tone,
+  onClick,
+  badge,
+}: {
+  icon: ReactNode;
+  label: string;
+  active?: boolean;
+  tone: string;
+  onClick: () => void;
+  badge?: number;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`relative flex min-h-[60px] flex-col items-center justify-center gap-1 text-[12px] font-medium transition-colors ${
+        active ? tone : 'text-lc-text2 hover:text-lc-text'
+      }`}
+    >
+      {active && <span className="absolute inset-x-6 top-0 h-0.5 rounded-full bg-current" />}
+      <span className="relative">
+        {icon}
+        {badge ? (
+          <span className="absolute -right-2.5 -top-1.5 min-w-[16px] rounded-full bg-amber-400 px-1 text-[10px] font-bold leading-4 text-lc-bg">
+            {badge}
+          </span>
+        ) : null}
+      </span>
+      {label}
+    </button>
+  );
+}
+
+export function ActionBar({
+  handRaised,
+  onHand,
+  messageLabel,
+  messageActive,
+  onMessage,
+  newWords,
+  phrasebookOpen,
+  onPhrasebook,
+}: {
+  handRaised: boolean;
+  onHand: () => void;
+  messageLabel: string;
+  messageActive: boolean;
+  onMessage: () => void;
+  newWords: number;
+  phrasebookOpen: boolean;
+  onPhrasebook: () => void;
+}) {
+  return (
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-lc-border bg-lc-surface pb-[env(safe-area-inset-bottom)] backdrop-blur">
+      <div className="mx-auto grid max-w-lg grid-cols-3">
+        <BarButton
+          icon={<Hand className="h-5 w-5" />}
+          label={handRaised ? 'Hand up' : 'Hand'}
+          active={handRaised}
+          tone="text-amber-300"
+          onClick={onHand}
+        />
+        <BarButton
+          icon={<MessageCircle className="h-5 w-5" />}
+          label={messageLabel}
+          active={messageActive}
+          tone="text-cyan-300"
+          onClick={onMessage}
+        />
+        <BarButton
+          icon={<BookOpen className="h-5 w-5" />}
+          label="Phrasebook"
+          active={phrasebookOpen}
+          tone="text-amber-200"
+          onClick={onPhrasebook}
+          badge={newWords}
+        />
+      </div>
+    </nav>
+  );
+}
+
+export function PhoneSheet({
+  open,
+  title,
+  onClose,
+  children,
+}: {
+  open: boolean;
+  title: string;
+  onClose: () => void;
+  children: ReactNode;
+}) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-end" role="dialog" aria-label={title}>
+      <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0 bg-black/60" />
+      <div className="relative mx-auto max-h-[82vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border-t border-lc-border bg-lc-surface px-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-3">
+        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-lc-border" />
+        <div className="mb-3 flex items-center justify-between">
+          <p className="font-display text-2xl text-lc-text">{title}</p>
+          <button type="button" onClick={onClose} aria-label="Close" className="rounded-lg p-2 text-lc-text3 hover:text-lc-text">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
