@@ -16,6 +16,7 @@ import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, solarClock, sunPosition } from '@/lib/live-room/sun';
+import { cityNear, countryAt, loadCountries, type CountryShape } from '@/lib/live-room/places-below';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
@@ -312,6 +313,21 @@ export function FlightDeck({
   const holding = flightStage === 'flying' && takeoffAt !== null && elapsedMs >= flightMs;
   const minutesLeft = takeoffAt ? Math.max(0, (flightMs - elapsedMs) / 60_000) : null;
   const below = useMemo(() => overflightAt(origin, destination, routeT), [origin, destination, routeT]);
+  // Country and nearby big city under the plane (outlines load lazily).
+  const [countries, setCountries] = useState<CountryShape[] | null>(null);
+  useEffect(() => { void loadCountries().then(setCountries).catch(() => {}); }, []);
+  const place = useMemo(() => {
+    const country = countries ? countryAt(countries, below.point) : null;
+    const city = below.terrain !== 'ocean' ? cityNear(below.point) : null;
+    const feature = below.terrain !== 'farmland' && below.terrain !== 'ocean' ? below.name : null;
+    const label = city
+      ? `near ${city.name}${country ? `, ${country}` : ''}`
+      : country
+        ? (feature ? `${feature}, ${country}` : country)
+        : below.name;
+    return { label, overCity: city && city.km < 30 ? city.name : null };
+  }, [countries, below]);
+
   // Real weather under the plane (every ten minutes, or when it moves on a
   // degree); World Flight's climate weather if the lookup fails.
   const wxKey = `${Math.round(below.point.lat)}:${Math.round(below.point.lng)}`;
@@ -988,8 +1004,8 @@ export function FlightDeck({
         sun={skyNow.sun}
         weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
         cloudCover={liveWx?.cloudCover}
-        terrain={below.terrain}
-        region={below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : null}
+        terrain={place.overCity ? 'farmland' : below.terrain}
+        region={place.overCity ? `city:${place.overCity}` : below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : null}
         calm={view !== 'boarding' && view !== 'talk'}
         onCinematic={setCinematic}
         onLanded={() => {
@@ -1006,7 +1022,7 @@ export function FlightDeck({
       )}
       {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
         <p className="pointer-events-none absolute bottom-3 left-4 z-[5] rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/80 backdrop-blur-sm">
-          {holding ? `Holding over ${destination.city}` : `Below us: ${below.name}`} · {skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
+          {holding ? `Holding over ${destination.city}` : `Below us: ${place.label}`} · {skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
         </p>
       )}
 

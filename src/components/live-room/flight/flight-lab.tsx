@@ -211,7 +211,7 @@ export function FlightLab() {
             {(['ocean', 'mountains', 'hills', 'forest', 'desert', 'ice', 'farmland'] as Terrain[]).map((t) => <option key={t} value={t}>Below: {t}</option>)}
           </select>
           <select value={region} onChange={(e) => setRegion(e.target.value)} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Region">
-            {['Europe', 'Asia', 'North America', 'Africa'].map((r) => <option key={r} value={r}>{r}</option>)}
+            {['Europe', 'Asia', 'North America', 'Africa', 'city:Tokyo'].map((r) => <option key={r} value={r}>{r.replace('city:', 'City: ')}</option>)}
           </select>
           <label className="flex items-center gap-1.5">Scrub
             <input

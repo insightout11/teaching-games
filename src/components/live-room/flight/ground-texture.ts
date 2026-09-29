@@ -12,7 +12,7 @@ import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
  */
 
 type RGB = [number, number, number];
-type FarmStyle = 'patchwork' | 'grid' | 'paddies' | 'savanna';
+type FarmStyle = 'patchwork' | 'grid' | 'paddies' | 'savanna' | 'city';
 
 export const FARM_TEXTURE_SIZE = 1024;
 
@@ -35,6 +35,7 @@ function hash(s: string) {
 
 export function farmStyleFor(region: string | null | undefined): FarmStyle {
   const r = region ?? '';
+  if (r.startsWith('city:')) return 'city';
   if (/Asia|Japan|Taiwan|Hainan|Philippines|Borneo|Sumatra|Java|Sulawesi|Sri Lanka/.test(r)) return 'paddies';
   if (/North America|South America|Australia/.test(r)) return 'grid';
   if (/Africa|Madagascar/.test(r)) return 'savanna';
@@ -48,12 +49,14 @@ const CROPS: Record<FarmStyle, RGB[]> = {
   grid: [[206, 180, 106], [178, 150, 92], [120, 150, 76], [96, 132, 66], [150, 120, 84], [190, 196, 120]],
   paddies: [[96, 170, 84], [120, 186, 90], [72, 148, 78], [104, 160, 120], [150, 190, 100], [86, 140, 110]],
   savanna: [[176, 150, 96], [150, 132, 84], [128, 122, 72], [190, 164, 110], [112, 118, 70]],
+  city: [[150, 148, 144], [176, 170, 160], [128, 126, 124], [196, 188, 176], [160, 118, 96], [210, 206, 198]],
 };
 const FIELD_SIZE: Record<FarmStyle, [number, number]> = {
   patchwork: [28, 150],
   grid: [110, 280],
   paddies: [18, 80],
   savanna: [60, 220],
+  city: [20, 60],
 };
 
 /** Fill the square with irregular fields by recursive splitting. */
@@ -92,6 +95,7 @@ export function farmTexture(region: string | null | undefined, palette: ScenePal
   const canvas = document.createElement('canvas');
   canvas.width = S; canvas.height = S;
   const g = canvas.getContext('2d')!;
+  if (style === 'city') return cityTexture(g, R, dim, water);
   g.fillStyle = css(tint(CROPS[style][0]));
   g.fillRect(0, 0, S, S);
 
@@ -197,6 +201,56 @@ export function farmTexture(region: string | null | undefined, palette: ScenePal
     }
   }
   return canvas;
+}
+
+/** A city seen from above: street grid, blocks of rooftops, parks, a highway and a river. */
+function cityTexture(g: CanvasRenderingContext2D, R: () => number, dim: (c: RGB) => RGB, water: RGB): HTMLCanvasElement {
+  const S = FARM_TEXTURE_SIZE;
+  const street = dim([92, 94, 100]);
+  g.fillStyle = css(street);
+  g.fillRect(0, 0, S, S);
+  // Irregular street grid: lines at 0 and S so the tile edge is just another street.
+  const cuts = (n: number) => {
+    const out = [0];
+    while (out[out.length - 1] < S - 40) out.push(Math.min(S, out[out.length - 1] + 28 + Math.floor(R() * 44)));
+    out[out.length - 1] = S;
+    return out.slice(0, n);
+  };
+  const xs = cuts(99), ys = cuts(99);
+  for (let i = 0; i < xs.length - 1; i++) for (let j = 0; j < ys.length - 1; j++) {
+    const x = xs[i] + 3, y = ys[j] + 3, w = xs[i + 1] - xs[i] - 6, h = ys[j + 1] - ys[j] - 6;
+    if (w <= 0 || h <= 0) continue;
+    if (R() < 0.07) {
+      g.fillStyle = css(dim([84, 132, 70]));               // park
+      g.fillRect(x, y, w, h);
+      for (let k = 0; k < 6; k++) { g.fillStyle = css(dim([56, 96, 50])); g.beginPath(); g.arc(x + R() * w, y + R() * h, 2 + R() * 3, 0, Math.PI * 2); g.fill(); }
+      continue;
+    }
+    // A block of buildings: rooftops of different sizes, each with a small shadow.
+    g.fillStyle = css(dim([120, 118, 116]));
+    g.fillRect(x, y, w, h);
+    const n = 2 + Math.floor(R() * 6);
+    for (let k = 0; k < n; k++) {
+      const bw = 6 + R() * Math.min(28, w), bh = 6 + R() * Math.min(28, h);
+      const bx = x + R() * Math.max(1, w - bw), by = y + R() * Math.max(1, h - bh);
+      const roof = CROPS.city[Math.floor(R() * CROPS.city.length)];
+      g.fillStyle = 'rgba(20,22,28,0.35)';
+      g.fillRect(bx + 2, by + 2, bw, bh);
+      g.fillStyle = css(dim(roof));
+      g.fillRect(bx, by, bw, bh);
+    }
+  }
+  // River and a highway across town.
+  const riverY = S * (0.25 + R() * 0.5), phase = R() * Math.PI * 2;
+  g.strokeStyle = css(dim(water));
+  g.lineWidth = 16;
+  g.beginPath();
+  for (let x = -8; x <= S + 8; x += 8) { const y = riverY + Math.sin((x / S) * Math.PI * 2 + phase) * 50; if (x < 0) g.moveTo(x, y); else g.lineTo(x, y); }
+  g.stroke();
+  g.strokeStyle = css(dim([210, 204, 190]));
+  g.lineWidth = 5;
+  g.beginPath(); g.moveTo(0, S * 0.1); g.lineTo(S, S * 0.1); g.stroke();
+  return g.canvas;
 }
 
 /** Large, soft light/dark blotches (tileable value noise) drawn at a scale unrelated to the ground's. */
