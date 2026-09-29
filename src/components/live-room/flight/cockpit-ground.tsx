@@ -103,7 +103,8 @@ function ridgePath(seed: number, amp: number, base: number): string {
   return `${d} L1000 120 L0 120 Z`;
 }
 
-export function CockpitGround({ terrain, palette, night, speed }: { terrain: Terrain; palette: ScenePalette; night: boolean; speed: number }) {
+export function CockpitGround({ terrain: requested, palette, night, speed }: { terrain: Terrain; palette: ScenePalette; night: boolean; speed: number }) {
+  const terrain: Terrain = requested ?? 'ocean';
   const reduce = useReducedMotion();
   const tile = useMemo(() => tileFor(terrain, palette, night), [terrain, palette, night]);
   const haze = palette.skyBottom;

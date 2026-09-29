@@ -8,7 +8,10 @@ import { ExternalLink, Maximize2, Menu, Minimize2, Plane, Search, Shuffle, X } f
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
-import { SkyBackground } from '@/components/ui/sky-background';
+import { WindscreenFlight, timeOfDayNow, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
+import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
+import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
+import { HOME_BASE_ID, HOME_BASE_NAME, HOME_BASE_SCENE } from '@/lib/world-flight/home-base';
 import { Leaderboard } from '@/components/session/leaderboard';
 import { CatalogueDrawer } from '@/components/live-room/ui/cockpit-workspace/cockpit-panels';
 import type { CatalogueEntry } from '@/components/live-room/ui/cockpit-workspace/types';
@@ -42,6 +45,16 @@ const VIEWS: { key: DeckView; label: string }[] = [
 ];
 const INSTRUMENT_LABEL: Record<Instrument, string> = { aboard: 'On board', answered: 'Answered', clock: 'Flight time', top: 'Top score' };
 const STAMP_TONES = ['border-orange-300/70 text-orange-200', 'border-emerald-300/70 text-emerald-200', 'border-sky-300/70 text-sky-200', 'border-violet-300/70 text-violet-200'];
+const ORIGIN: FlightCity = { id: HOME_BASE_ID, city: HOME_BASE_NAME, scene: HOME_BASE_SCENE };
+const TERRAIN_CYCLE: Terrain[] = ['ocean', 'mountains', 'desert', 'forest', 'farmland'];
+/** Until the class journey exists: a stable destination per session. */
+function destinationFor(sessionId: string): FlightCity {
+  const cities = WORLD_DESTINATIONS.filter((d) => d.scene);
+  let h = 0;
+  for (const ch of sessionId) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  const d = cities[h % cities.length];
+  return { id: d.id, city: d.city, scene: d.scene! };
+}
 const DEFAULT_STAMPS = ['flash-quiz', 'hot-take-arena', 'vocab-sprint', 'fact-detective', 'conversation-rounds'];
 
 export interface DeckParticipant {
@@ -110,6 +123,11 @@ export function FlightDeck({
   useEffect(() => markRoom(sessionId), [sessionId, markRoom]);
 
   const [view, setView] = useState<DeckView>('boarding');
+  const [flightStage, setFlightStage] = useState<FlightStage>('gate');
+  const [cinematic, setCinematic] = useState(false);
+  const [landed, setLanded] = useState(false);
+  const [takeoffAt, setTakeoffAt] = useState<number | null>(null);
+  const destination = useMemo(() => destinationFor(sessionId), [sessionId]);
   const [talkPrompt, setTalkPrompt] = useState('');
   const [huds, setHuds] = useState<Instrument[]>([]);
   const [hudPos, setHudPos] = useState<Record<string, { x: number; y: number }>>({});
@@ -375,6 +393,19 @@ export function FlightDeck({
               {newest ? `${newest.display_name} has boarded` : 'Waiting for passengers'}
             </motion.p>
           </AnimatePresence>
+          {flightStage === 'gate' && (
+            <button
+              type="button"
+              onClick={() => {
+                setFlightStage('flying');
+                setTakeoffAt(Date.now());
+                flash(`Flight to ${destination.city}: cleared for take-off`);
+              }}
+              className="mt-1 w-max rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-6 py-3 font-display text-lg text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105"
+            >
+              Take off to {destination.city}
+            </button>
+          )}
         </div>
       </div>
     );
@@ -429,18 +460,19 @@ export function FlightDeck({
       ].join(' ')}
       style={{ background: '#0b1a33' }}
     >
-      {/* The real LessonCaptain sky: on the ground while boarding, climbing into
-          cruise for the lesson, golden hour for the scoreboard. */}
-      <SkyBackground
-        className="!absolute"
-        weatherState={view === 'boarding' ? 'idle' : view === 'scores' ? 'golden' : 'cruising'}
-        earthState={view === 'boarding' ? 'takeoff' : 'flight'}
-        altitude={view === 'boarding' ? 0 : 0.8}
-        showEarth={view === 'boarding'}
-        showRunwayMarkings
-        showSkyline={view === 'boarding'}
-        intensity={view === 'game' || view === 'show' ? 'subtle' : 'moderate'}
-        parallaxDuration={3}
+      {/* The windscreen is one flight: gate → take-off → cruise → cloud reveal → landing. */}
+      <WindscreenFlight
+        stage={flightStage}
+        origin={ORIGIN}
+        destination={destination}
+        timeOfDay={timeOfDayNow(new Date(now))}
+        terrain={TERRAIN_CYCLE[Math.floor(Math.max(0, takeoffAt ? now - takeoffAt : 0) / 360000) % TERRAIN_CYCLE.length]}
+        calm={view !== 'boarding' && view !== 'talk'}
+        onCinematic={setCinematic}
+        onLanded={() => {
+          setLanded(true);
+          window.setTimeout(onEndSession, 4500);
+        }}
       />
 
       {/* The running module lives here in the Game view; elsewhere it stays mounted off-screen. */}
@@ -448,7 +480,7 @@ export function FlightDeck({
         {runningKey ? moduleHost : null}
       </div>
 
-      {scene !== null && (
+      {scene !== null && !cinematic && !landed && flightStage !== 'landing' && (
         <AnimatePresence mode="wait">
           <motion.div
             key={view + (shown?.id ?? '')}
@@ -492,6 +524,15 @@ export function FlightDeck({
           <CrewAvatar seed={spotlightP.avatar_seed ?? spotlightP.display_name} name={spotlightP.display_name} size={34} className="rounded-full" />
           <span className="font-display text-lg text-white">{spotlightP.display_name}</span>
           <button type="button" onClick={() => setSpotlight(null)} aria-label="Clear spotlight" className="text-white/60 hover:text-white"><X className="h-4 w-4" /></button>
+        </div>
+      )}
+
+      {landed && (
+        <div className="absolute inset-x-0 top-10 z-20 flex justify-center">
+          <motion.div initial={reduce ? false : { y: -20, rotate: -6, opacity: 0 }} animate={{ y: 0, rotate: -2, opacity: 1 }} className="rounded-2xl bg-[#f4efe3] px-7 py-5 text-[#1b2233] shadow-2xl">
+            <p className="font-display text-3xl">Welcome to {destination.city}</p>
+            <p className="mt-1 text-sm">Passport stamped. Thanks for flying with {className}!</p>
+          </motion.div>
         </div>
       )}
 
@@ -540,7 +581,22 @@ export function FlightDeck({
           {panel === 'menu' && (
             <div className="absolute right-0 top-10 z-50 w-56 rounded-xl border border-[#2A3854] bg-[#0c1322] p-1.5 shadow-2xl">
               <a href={flightHref} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-white/5"><Plane className="h-4 w-4" /> Launch a flight</a>
-              <button type="button" onClick={() => { setPanel(null); onEndSession(); }} className="w-full rounded-lg px-3 py-2 text-left text-sm text-rose-300 hover:bg-rose-400/10">End the session</button>
+              <button
+                type="button"
+                onClick={() => {
+                  setPanel(null);
+                  if (flightStage === 'flying') {
+                    if (runningKey) onReturn();
+                    setFlightStage('landing');
+                    flash(`Beginning our descent into ${destination.city}`);
+                  } else {
+                    onEndSession();
+                  }
+                }}
+                className="w-full rounded-lg px-3 py-2 text-left text-sm text-rose-300 hover:bg-rose-400/10"
+              >
+                {flightStage === 'flying' ? `Land in ${destination.city} and end` : 'End the session'}
+              </button>
             </div>
           )}
         </div>
