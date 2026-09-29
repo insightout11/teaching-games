@@ -1,7 +1,8 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Plus, Check, X } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { Plus, Check, X, EyeOff, Zap, CircleDot } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import { useSessionStore } from '@/stores/session-store';
@@ -57,6 +58,14 @@ interface BoardItem {
   parentId: string | null;
 }
 
+/** Sticky-note colours; each student keeps one colour for the whole board. */
+const NOTE_COLORS = ['#fde68a', '#fbcfe8', '#bbf7d0', '#bae6fd', '#ddd6fe', '#fed7aa', '#fecaca', '#d9f99d'];
+function noteColor(name: string) {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+  return NOTE_COLORS[h % NOTE_COLORS.length];
+}
+
 /** Tailwind grid columns for each board layout. Literal classes so Tailwind keeps them. */
 function columnsClass(layout: ClassBoardLayout, zoneCount: number): string {
   switch (layout) {
@@ -95,6 +104,16 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   const [answeringId, setAnsweringId] = useState<string | null>(null);
   const [answerText, setAnswerText] = useState('');
   const [busyAnswerId, setBusyAnswerId] = useState<string | null>(null);
+  // Board modes (teacher controls on the board header).
+  const [anonymous, setAnonymous] = useState(false);
+  const [autoShow, setAutoShow] = useState(false);
+  const [dotsRevealed, setDotsRevealed] = useState(false);
+  const [spotlightId, setSpotlightId] = useState<string | null>(null);
+  const [editingItemId, setEditingItemId] = useState<string | null>(null);
+  const [editItemText, setEditItemText] = useState('');
+  const [dragOverZone, setDragOverZone] = useState<string | null>(null);
+  const dragItemId = useRef<string | null>(null);
+  const reduce = useReducedMotion();
 
   const base = boardKey ?? DEFAULT_CLASS_BOARD_KEY;
   const activeBoardKey = normalizeClassBoardKey(templateLocked ? base : `${base}-${selectedPresetKey}`);
@@ -123,9 +142,9 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
             Number(b.pinned) - Number(a.pinned) ||
             (rankable && !sortByVotes
               ? a.position - b.position || a.createdAt.localeCompare(b.createdAt)
-              : b.voteCount - a.voteCount || a.createdAt.localeCompare(b.createdAt)),
+              : (questionWall || sortByVotes || dotsRevealed ? b.voteCount - a.voteCount : 0) || a.createdAt.localeCompare(b.createdAt)),
         ),
-    [items, rankable, questionWall, sortByVotes, includePending],
+    [items, rankable, questionWall, sortByVotes, includePending, dotsRevealed],
   );
 
   const repliesFor = useCallback(
@@ -182,6 +201,26 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
       supabase.removeChannel(channel);
     };
   }, [loadItems, activeBoardKey, sessionId]);
+
+  // Teacher edits: move between zones, edit text (optimistic, then saved).
+  const patchItem = useCallback(async (itemId: string, patch: Partial<Pick<BoardItem, 'zoneKey' | 'content' | 'visibility'>>) => {
+    setItems((prev) => prev.map((i) => (i.id === itemId ? { ...i, ...patch } : i)));
+    try {
+      await fetch('/api/class-board/item', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, itemId, ...patch }),
+      });
+    } finally {
+      void loadItems();
+    }
+  }, [loadItems, sessionId]);
+
+  // Auto-show: student cards appear without waiting for approval.
+  useEffect(() => {
+    if (!autoShow) return;
+    items.filter((i) => i.visibility === 'pending' && i.authorType === 'student').forEach((i) => { void patchItem(i.id, { visibility: 'visible' }); });
+  }, [autoShow, items, patchItem]);
 
   const buildSpec = useCallback(
     (nextPreset: ClassBoardPreset, nextZones: ClassBoardZone[]): InputSpec => ({
@@ -382,7 +421,18 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
     const isAdding = addingZoneKey === zone.key;
     const isEditing = editingZoneKey === zone.key;
     return (
-      <div key={zone.key} className="flex min-h-[140px] flex-col rounded-xl border border-white/10 bg-slate-950/40 p-3">
+      <div
+        key={zone.key}
+        onDragOver={(e) => { if (dragItemId.current) { e.preventDefault(); setDragOverZone(zone.key); } }}
+        onDragLeave={() => setDragOverZone((z) => (z === zone.key ? null : z))}
+        onDrop={(e) => {
+          e.preventDefault();
+          const id = dragItemId.current;
+          setDragOverZone(null);
+          if (id) void patchItem(id, { zoneKey: zone.key });
+        }}
+        className={`flex min-h-[140px] flex-col rounded-xl border p-3 transition-colors ${dragOverZone === zone.key ? 'border-amber-300/70 bg-amber-300/10' : 'border-white/10 bg-slate-950/40'}`}
+      >
         <div className="mb-2 border-b border-white/8 pb-2">
           {isEditing && !templateLocked ? (
             <div className="flex items-center gap-1.5">
@@ -416,31 +466,68 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
           )}
         </div>
 
-        <div className="flex-1 space-y-2">
-          {zoneItems.map((item, itemIndex) => (
-            <div
+        {/* One section: notes tile like a wall. Several sections: a column each. */}
+        <div className={zones.length === 1 && !questionWall ? 'grid flex-1 content-start gap-2 [grid-template-columns:repeat(auto-fill,minmax(190px,1fr))]' : 'flex-1 space-y-2'}>
+          <AnimatePresence initial={false}>
+          {zoneItems.map((item, itemIndex) => {
+            const student = item.authorType === 'student';
+            const color = student ? noteColor(item.displayName) : undefined;
+            const editing = editingItemId === item.id;
+            return (
+            <motion.div
               key={item.id}
-              className={`rounded-lg border px-3 py-2 text-sm leading-snug ${
-                item.authorType === 'teacher'
-                  ? 'border-cyan-400/30 bg-cyan-400/10 text-cyan-50'
-                  : 'border-white/10 bg-white/[0.04] text-slate-100'
+              layout={!reduce}
+              initial={reduce ? false : { opacity: 0, scale: 0.6, x: 60, y: 40, rotate: 6 }}
+              animate={{ opacity: 1, scale: 1, x: 0, y: 0, rotate: student ? ((item.id.charCodeAt(0) % 5) - 2) * 0.6 : 0 }}
+              exit={reduce ? undefined : { opacity: 0, scale: 0.8 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+              draggable={!questionWall && !editing}
+              onDragStart={(e) => { dragItemId.current = item.id; (e as unknown as DragEvent).dataTransfer?.setData('text/plain', item.id); }}
+              onDragEnd={() => { dragItemId.current = null; setDragOverZone(null); }}
+              onClick={() => { if (!editing) setSpotlightId(item.id); }}
+              onDoubleClick={(e) => { e.stopPropagation(); setEditingItemId(item.id); setEditItemText(item.content); }}
+              className={`cursor-pointer rounded-lg px-3 py-2 text-sm leading-snug shadow-[0_4px_12px_rgba(0,0,0,.25)] ${
+                student ? 'text-[#1f2430]' : 'border border-cyan-400/30 bg-cyan-400/10 text-cyan-50'
               }`}
+              style={student ? { background: color } : undefined}
             >
               <div className="flex items-start justify-between gap-2">
-                <p>
-                  {rankable && <span className="mr-2 font-game text-cyan-300">{itemIndex + 1}.</span>}
-                  <span>{item.content}</span>
-                  {item.authorType === 'student' && (
-                    <span className="mt-1 block text-[10px] uppercase tracking-wider text-slate-400">{item.displayName}</span>
+                <div className="min-w-0 flex-1">
+                  {rankable && <span className={`mr-2 font-game ${student ? 'text-[#1f2430]/70' : 'text-cyan-300'}`}>{itemIndex + 1}.</span>}
+                  {editing ? (
+                    <textarea
+                      autoFocus
+                      value={editItemText}
+                      onClick={(e) => e.stopPropagation()}
+                      onChange={(e) => setEditItemText(e.target.value.slice(0, 280))}
+                      onBlur={() => { setEditingItemId(null); if (editItemText.trim() && editItemText.trim() !== item.content) void patchItem(item.id, { content: editItemText.trim() }); }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); (e.target as HTMLTextAreaElement).blur(); }
+                        if (e.key === 'Escape') { setEditItemText(item.content); setEditingItemId(null); }
+                      }}
+                      rows={2}
+                      className="w-full resize-none rounded bg-white/60 px-1 text-sm text-[#1f2430] focus:outline-none"
+                    />
+                  ) : (
+                    <span>{item.content}</span>
                   )}
-                </p>
-                {questionWall && item.voteCount > 0 && (
-                  <span className="shrink-0 rounded-full bg-amber-400/15 px-2 py-0.5 text-[10px] font-bold text-amber-300">↑ {item.voteCount}</span>
+                  {student && !anonymous && (
+                    <span className="mt-1 block text-[10px] font-semibold uppercase tracking-wider text-[#1f2430]/55">{item.displayName}</span>
+                  )}
+                </div>
+                {item.voteCount > 0 && (questionWall || dotsRevealed) && (
+                  <span className="flex shrink-0 flex-wrap justify-end gap-0.5 pt-0.5" title={`${item.voteCount} dot${item.voteCount === 1 ? '' : 's'}`}>
+                    {item.voteCount <= 6
+                      ? Array.from({ length: item.voteCount }, (_, k) => <i key={k} className="h-2 w-2 rounded-full bg-rose-500 shadow-sm" />)
+                      : <b className="rounded-full bg-rose-500 px-1.5 text-[10px] text-white">{item.voteCount}</b>}
+                  </span>
                 )}
               </div>
               {questionWall && renderQuestionExtras(item)}
-            </div>
-          ))}
+            </motion.div>
+            );
+          })}
+          </AnimatePresence>
 
           {isAdding ? (
             <div className="rounded-lg border border-cyan-400/40 bg-slate-900/70 p-2">
@@ -542,9 +629,58 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
         </div>
       )}
 
+      {/* Board modes */}
+      <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+        <ModeToggle on={anonymous} onClick={() => setAnonymous((v) => !v)} icon={<EyeOff className="h-3 w-3" />} label="Anonymous" title="Hide names on the cards" />
+        <ModeToggle on={autoShow} onClick={() => setAutoShow((v) => !v)} icon={<Zap className="h-3 w-3" />} label="Auto-show" title="Student cards appear without approval" />
+        {!questionWall && (
+          <ModeToggle on={dotsRevealed} onClick={() => setDotsRevealed((v) => !v)} icon={<CircleDot className="h-3 w-3" />} label={dotsRevealed ? 'Dots shown' : 'Reveal dots'} title="Students vote with 3 dots each; reveal to show and sort by them" />
+        )}
+        <span className="ml-auto text-slate-500">Drag cards between sections · double-click to edit · click to spotlight</span>
+      </div>
+
       <div className={`grid grid-cols-1 gap-3 ${columnsClass(preset.layout, zones.length)}`}>
         {zones.map(renderZone)}
       </div>
+
+      {/* Spotlight: one card, big, while the class talks about it */}
+      <AnimatePresence>
+        {spotlightId && (() => {
+          const item = items.find((i) => i.id === spotlightId);
+          if (!item) return null;
+          const student = item.authorType === 'student';
+          return (
+            <motion.div
+              key="spotlight"
+              className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/55 p-8 backdrop-blur-[2px]"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setSpotlightId(null)}
+            >
+              <motion.div
+                initial={reduce ? false : { scale: 0.7, rotate: -3 }} animate={{ scale: 1, rotate: -1 }}
+                className="max-w-2xl rounded-2xl p-8 shadow-2xl"
+                style={{ background: student ? noteColor(item.displayName) : '#0e3a4a', color: student ? '#1f2430' : '#e0fbff' }}
+              >
+                <p className="font-display text-4xl leading-tight">{item.content}</p>
+                {student && !anonymous && <p className="mt-4 text-sm font-semibold uppercase tracking-wider opacity-60">{item.displayName}</p>}
+              </motion.div>
+            </motion.div>
+          );
+        })()}
+      </AnimatePresence>
     </div>
+  );
+}
+
+function ModeToggle({ on, onClick, icon, label, title }: { on: boolean; onClick: () => void; icon: React.ReactNode; label: string; title: string }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={title}
+      className={`flex items-center gap-1 rounded-full border px-2 py-0.5 font-semibold transition ${on ? 'border-amber-300/60 bg-amber-300/15 text-amber-100' : 'border-white/12 text-slate-400 hover:text-white'}`}
+    >
+      {icon} {label}
+    </button>
   );
 }

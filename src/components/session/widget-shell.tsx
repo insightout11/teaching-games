@@ -97,7 +97,7 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
             : { left: widget.position.x, top: widget.position.y, width: size ? size.w : 'clamp(320px, 28vw, 420px)', height: size?.h };
   const pxWidth = typeof box.width === 'number' ? box.width : expanded ? window.innerWidth * 0.96 : PANEL_W();
   // Content grows with the widget (gently: a bigger board also fits more).
-  const zoom = Math.min(2, Math.max(0.85, Math.pow(pxWidth / 380, 0.6)));
+  const zoom = Math.min(1.45, Math.max(0.85, Math.pow(pxWidth / 380, 0.45)));
   const filled = box.height !== undefined;
 
   const toFree = () => {
