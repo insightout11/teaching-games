@@ -7,6 +7,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ExternalLink, Maximize2, Menu, Minimize2, Plane, Search, Shuffle, X } from 'lucide-react';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
+import type { SourceMaterial } from '@/types/source-material';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { WindscreenFlight, timeOfDayNow, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { LC_INTERNATIONAL_COORD, overflightAt, type LatLng } from '@/lib/live-room/route-terrain';
@@ -85,6 +86,8 @@ export interface FlightDeckProps {
   onEndSession: () => void;
   /** End as a completed flight (World Flight records the landing and moves the class). */
   onCompleteSession: () => void;
+  /** Prepare an activity in the background for the item in focus. */
+  onPrefetch?: (activity: ActivityPlugin, source: SourceMaterial) => void;
   flightHref: string;
 }
 
@@ -113,6 +116,7 @@ export function FlightDeck({
   onReturn,
   onEndSession,
   onCompleteSession,
+  onPrefetch,
   flightHref,
 }: FlightDeckProps) {
   const reduce = useReducedMotion();
@@ -253,6 +257,22 @@ export function FlightDeck({
   }, [catalogue, games, activities, onLaunchGame, onLaunchActivity, setSourceMaterial, setCustomTopic, flash, sessionId]);
 
   const focused = material.find((m) => m.id === focusId) ?? null;
+
+  // Setting a focus item starts preparing the top two activity stamps for it, so
+  // launching one of them is near-instant. (Games generate inside themselves.)
+  useEffect(() => {
+    if (!focused || !onPrefetch) return;
+    const source = roomItemToSource(focused);
+    stamps
+      .filter((s) => s.kind === 'activity')
+      .slice(0, 2)
+      .forEach((s) => {
+        const activity = activities.find((a) => a.key === s.key);
+        if (activity) onPrefetch(activity, source);
+      });
+    // Only when the focus item changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focused?.id]);
 
   // ── sources ──────────────────────────────────────────────────────────────
   const present = useCallback((item: RoomItem) => {

@@ -2132,6 +2132,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             onReturn={handleBackToSelection}
             onEndSession={handleEndSession}
             onCompleteSession={handleCompleteSession}
+            onPrefetch={lesson.prefetchForRoom}
             flightHref={`/lesson-planner?attach=${encodeURIComponent(session.id)}&classId=${encodeURIComponent(cls.id)}`}
           />
         </div>

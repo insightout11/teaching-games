@@ -102,6 +102,8 @@ export interface LessonSession {
 
   // Content resolution
   selectActivity: (activity: ActivityPlugin) => Promise<ActivityGeneratedContent | null>;
+  /** Live Room (plan-free only): prepare an activity for a source ahead of launch. */
+  prefetchForRoom: (activity: ActivityPlugin, source: SourceMaterial) => void;
   selectGame: (game: GamePlugin) => GameGeneratedContent | null;
 
   // Actions
@@ -248,6 +250,32 @@ export function useLessonSession(
   }, [lessonSlots, lessonPlanContent, settings, studentCount, sessionId, getMissionContext, captureSourceVocab]);
 
   // ─── Content resolution: activity ──────────────────────────────────────
+  // Live Room background preparation, keyed by activity and tagged with the
+  // source it was generated for (only reused while that source is in focus).
+  const roomPrefetchRef = useRef<Record<string, { sourceKey: string; promise: Promise<ActivityGeneratedContent | null> }>>({});
+  const prefetchForRoom = useCallback((activity: ActivityPlugin, source: SourceMaterial) => {
+    if (lessonPlanContent || LANDING_ACTIVITY_KEYS.has(activity.key) || SELF_SEEDED_ACTIVITIES.has(activity.key) || activity.key === 'cabin-mystery') return;
+    const sourceKey = source.sourceKey ?? source.title;
+    if (roomPrefetchRef.current[activity.key]?.sourceKey === sourceKey) return;
+    const promise = fetch('/api/lesson-plan/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customTopic: source.title.slice(0, 120),
+        difficulty: settings.difficulty,
+        activities: [activity.key],
+        studentCount,
+        sessionId,
+        ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
+        sourceMaterial: source,
+      }),
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: LessonPlanGenerateResponse | null) => (data && data.success !== false ? data.content?.[activity.key] ?? null : null))
+      .catch(() => null);
+    roomPrefetchRef.current[activity.key] = { sourceKey, promise };
+  }, [lessonPlanContent, settings.difficulty, settings.grammarTarget, studentCount, sessionId]);
+
   const selectActivity = useCallback(async (activity: ActivityPlugin): Promise<ActivityGeneratedContent | null> => {
     if (activity.key === 'cabin-mystery') {
       return { ...switchedSuitcase, topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
@@ -260,6 +288,16 @@ export function useLessonSession(
     // Prefetched content
     const prefetched = prefetchedContentRef.current[activity.key] as ActivityGeneratedContent | undefined;
     if (prefetched) return prefetched;
+
+    // Live Room: content prepared for the source that is still in focus.
+    if (!lessonPlanContent) {
+      const prepared = roomPrefetchRef.current[activity.key];
+      const current = useSessionStore.getState().sourceMaterial;
+      if (prepared && current && prepared.sourceKey === (current.sourceKey ?? current.title)) {
+        const content = await prepared.promise;
+        if (content) return content;
+      }
+    }
 
     // Pre-generated content from lesson planner
     // Exception: grammar target-dependent activities (check-in, clarify, proof) are
@@ -661,6 +699,7 @@ export function useLessonSession(
     dismissCreditsExhausted: () => setCreditsExhausted(false),
 
     selectActivity,
+    prefetchForRoom,
     selectGame,
 
     beginLesson,
