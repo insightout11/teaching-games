@@ -8,7 +8,8 @@ import { createJSONStorage, persist } from 'zustand/middleware';
  * teacher refresh keeps the room (server persistence is a later step).
  */
 
-export type RoomItemKind = 'web' | 'news' | 'image' | 'place' | 'video' | 'article';
+/** 'note': a topic the class raised itself (typed, a student question, a Talk prompt). */
+export type RoomItemKind = 'web' | 'news' | 'image' | 'place' | 'video' | 'article' | 'note';
 
 export interface RoomItem {
   id: string;
@@ -44,6 +45,7 @@ interface LiveRoomStore {
   hide: (sessionId: string) => void;
   add: (sessionId: string, item: RoomItem) => void;
   remove: (sessionId: string, itemId: string) => void;
+  update: (sessionId: string, itemId: string, patch: Partial<RoomItem>) => void;
 }
 
 const room = (s: LiveRoomStore, sessionId: string) => s.rooms[sessionId] ?? EMPTY;
@@ -64,6 +66,17 @@ export const useLiveRoomStore = create<LiveRoomStore>()(
           const r = room(s, sessionId);
           if (r.material.some((m) => m.id === item.id)) return s;
           return { rooms: { ...s.rooms, [sessionId]: { ...r, material: [item, ...r.material].slice(0, MAX_MATERIAL) } } };
+        }),
+      update: (sessionId, itemId, patch) =>
+        set((s) => {
+          const r = room(s, sessionId);
+          const patchItem = (m: RoomItem) => (m.id === itemId ? { ...m, ...patch } : m);
+          return {
+            rooms: {
+              ...s.rooms,
+              [sessionId]: { shown: r.shown ? patchItem(r.shown) : null, material: r.material.map(patchItem) },
+            },
+          };
         }),
       remove: (sessionId, itemId) =>
         set((s) => {

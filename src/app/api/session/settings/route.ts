@@ -23,6 +23,9 @@ export async function PATCH(request: Request) {
   if (typeof topic === 'string') update.topic = topic;
   if (typeof difficulty === 'string') update.difficulty = difficulty;
   if (typeof customTopic === 'string') update.custom_topic = customTopic || null;
+  // A new topic needs new phone reference materials: clear the old ones so the
+  // follow-up reference-materials call regenerates instead of skipping.
+  const clearsReference = 'topic' in update || 'custom_topic' in update;
   if (typeof grammarTarget === 'string') update.grammar_target = grammarTarget;
   else if (grammarTarget === null) update.grammar_target = null;
 
@@ -31,6 +34,15 @@ export async function PATCH(request: Request) {
   }
 
   const supabase = createServerSupabase();
+  if (clearsReference) {
+    const { data: current } = await supabase.from('sessions').select('topic, custom_topic').eq('id', sessionId).maybeSingle();
+    const changed = ('topic' in update && update.topic !== (current?.topic ?? null))
+      || ('custom_topic' in update && update.custom_topic !== (current?.custom_topic ?? null));
+    if (changed) {
+      update.reference_vocab = null;
+      update.reference_expressions = null;
+    }
+  }
   const { error } = await supabase
     .from('sessions')
     .update(update)

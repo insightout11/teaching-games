@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import type { StudentSubmission } from '@/lib/supabase/types';
+import { useFocusBus } from '@/stores/focus-bus-store';
 
 // Class Questions widget — teacher-side moderation UI.
 // Pending section: auto-opens when questions arrive; inline ✓/✗ per row + Publish all.
@@ -30,6 +31,7 @@ const MAX_PUBLISHED = 5;
 
 export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnswer }: ClassQuestionsContentProps) {
   const [pending, setPending] = useState<StudentSubmission[]>([]);
+  const makeFocus = useFocusBus((s) => s.makeFocus);
   const [published, setPublished] = useState<PublishedQuestion[]>([]);
   const [pendingOpen, setPendingOpen] = useState(false);
   const [publishingIds, setPublishingIds] = useState<Set<string>>(new Set());
@@ -276,6 +278,15 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
                   <div className="flex items-start gap-2">
                     <span className="flex-1 text-lc-text leading-snug break-words">{sub.content}</span>
                     <div className="flex-shrink-0 flex gap-1">
+                      {makeFocus && (
+                      <button
+                        onClick={() => makeFocus({ title: sub.content, credit: sub.display_name ?? undefined })}
+                        title="Make this the class topic (Live Room)"
+                        className="text-xs px-1.5 py-0.5 rounded border text-amber-300 border-amber-400/30 hover:bg-amber-400/10 transition-colors"
+                      >
+                        Topic
+                      </button>
+                    )}
                       <button
                         onClick={() => setAnswerOpen((o) => ({ ...o, [sub.id]: !o[sub.id] }))}
                         title="Answer privately"
@@ -380,6 +391,15 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
 
                   {/* Actions */}
                   <div className="flex-shrink-0 flex gap-1">
+                    {makeFocus && (
+                      <button
+                        onClick={() => makeFocus({ title: q.content, credit: q.display_name ?? undefined })}
+                        title="Make this the class topic (Live Room)"
+                        className="text-xs px-1.5 py-0.5 rounded border text-amber-300 border-amber-400/30 hover:bg-amber-400/10 transition-colors"
+                      >
+                        Topic
+                      </button>
+                    )}
                     <button
                       onClick={() => setAnswerOpen((o) => ({ ...o, [q.id]: !o[q.id] }))}
                       className={`text-xs px-1.5 py-0.5 rounded border transition-colors ${

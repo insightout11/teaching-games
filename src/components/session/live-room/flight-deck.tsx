@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ExternalLink, Maximize2, Menu, Minimize2, Plane, Search, Shuffle, X } from 'lucide-react';
+import { Crosshair, ExternalLink, Maximize2, Menu, Minimize2, Plane, Search, Shuffle, X } from 'lucide-react';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
@@ -25,6 +25,7 @@ import { WIDGET_REGISTRY } from '@/components/session/widget-registry';
 import { WidgetShell } from '@/components/session/widget-shell';
 import { useWidgetStore } from '@/stores/widget-store';
 import { useSnapZones, snappedPosition, type SnapAnchor } from '@/stores/snap-zones-store';
+import { useFocusBus, type FocusRequest } from '@/stores/focus-bus-store';
 import { useSessionStore } from '@/stores/session-store';
 import { useLiveRoomStore, useRoom, type RoomItem } from '@/stores/live-room-store';
 import { SourcesDrawer, hostOf } from '@/components/session/live-room/sources-drawer';
@@ -354,10 +355,70 @@ export function FlightDeck({
 
   const focused = material.find((m) => m.id === focusId) ?? null;
 
+  // ── Focus: whatever the class is talking about right now ─────────────────
+  // Any topic (typed, a student's question, a Talk prompt) becomes a 'note'
+  // cargo item, so it grounds activities exactly like found material does.
+  const updateItem = useLiveRoomStore((s) => s.update);
+  const [briefs, setBriefs] = useState<Record<string, FocusBrief | 'loading' | 'failed'>>({});
+  const [focusTrail, setFocusTrail] = useState<string[]>([]);
+  const makeFocus = useCallback((req: FocusRequest) => {
+    const raw = req.title.replace(/\s+/g, ' ').trim();
+    if (!raw) return;
+    // A pasted paragraph: its first sentence is the title, the rest is material.
+    const first = raw.split(/(?<=[.?!])\s/)[0];
+    const title = (first.length <= 90 ? first : `${raw.slice(0, 87)}…`);
+    const text = req.text ?? (raw.length > 120 ? raw : undefined);
+    const id = `note-${Date.now().toString(36)}`;
+    addItem(sessionId, { id, kind: 'note', title, url: `note:${id}`, publisher: req.credit ?? 'Class', ...(text ? { text } : {}) });
+    setFocusId(id);
+    flash(req.credit ? `New topic from ${req.credit}` : 'New topic');
+  }, [addItem, sessionId, flash]);
+  const setMakeFocus = useFocusBus((s) => s.setMakeFocus);
+  useEffect(() => {
+    setMakeFocus(makeFocus);
+    return () => setMakeFocus(null);
+  }, [makeFocus, setMakeFocus]);
+
+  // Each new Focus: brief it (one AI call), move phones to it (topic chip +
+  // reference vocabulary), and give thin topics real substance to build from.
+  useEffect(() => {
+    if (!focused) return;
+    setFocusTrail((t) => [focused.id, ...t.filter((x) => x !== focused.id)].slice(0, 8));
+    setCustomTopic(focused.title.slice(0, 120));
+    if (briefs[focused.id]) return;
+    const item = focused;
+    setBriefs((b) => ({ ...b, [item.id]: 'loading' }));
+    void fetch(`/api/session/${encodeURIComponent(sessionId)}/focus`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: item.title, text: item.text ?? item.description ?? '' }),
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: FocusBrief | null) => {
+        if (!d?.briefing) {
+          setBriefs((b) => ({ ...b, [item.id]: 'failed' }));
+          return;
+        }
+        setBriefs((b) => ({ ...b, [item.id]: d }));
+        if (item.kind === 'note' && !item.text) {
+          updateItem(sessionId, item.id, {
+            text: [d.briefing, ...d.facts.map((f) => `- ${f}`), ...d.angles.map((a) => `Question: ${a}`)].join('\n'),
+          });
+        }
+      })
+      .catch(() => setBriefs((b) => ({ ...b, [item.id]: 'failed' })));
+    // Only when the Focus changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focused?.id]);
+  const focusBrief = focused ? briefs[focused.id] : undefined;
+  const brief = typeof focusBrief === 'object' ? focusBrief : null;
+
   // Setting a focus item starts preparing the top two activity stamps for it, so
   // launching one of them is near-instant. (Games generate inside themselves.)
   useEffect(() => {
     if (!focused || !onPrefetch) return;
+    // A thin typed topic is prepared once its briefing gives it substance.
+    if (focused.kind === 'note' && !focused.text) return;
     const source = roomItemToSource(focused);
     stamps
       .filter((s) => s.kind === 'activity')
@@ -366,9 +427,9 @@ export function FlightDeck({
         const activity = activities.find((a) => a.key === s.key);
         if (activity) onPrefetch(activity, source);
       });
-    // Only when the focus item changes.
+    // Only when the focus item (or a note's briefing) changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [focused?.id]);
+  }, [focused?.id, focused?.text ? 1 : 0]);
 
   // ── sources ──────────────────────────────────────────────────────────────
   const present = useCallback((item: RoomItem) => {
@@ -713,6 +774,11 @@ export function FlightDeck({
           rows={3}
           className="w-full resize-none bg-transparent text-center font-display text-4xl leading-tight text-white placeholder:text-white/40 focus:outline-none [text-shadow:0_2px_18px_rgba(0,0,0,.45)]"
         />
+        {!presenting && talkPrompt.trim().length > 3 && talkPrompt.trim() !== focused?.title && (
+          <button type="button" onClick={() => makeFocus({ title: talkPrompt })} className="flex items-center gap-1.5 rounded-lg border border-amber-300/40 bg-slate-950/60 px-2.5 py-1 text-xs text-amber-200 backdrop-blur-sm hover:bg-amber-300/10">
+            <Crosshair className="h-3.5 w-3.5" /> Make this the topic
+          </button>
+        )}
         {talkFollowUps.length > 0 && (
           <div className="flex flex-wrap justify-center gap-2">
             {talkFollowUps.map((f) => (
@@ -724,6 +790,15 @@ export function FlightDeck({
         )}
         {!presenting && (
           <>
+            {talkOptions.length === 0 && brief && brief.angles.length > 0 && (
+              <div className="grid w-full gap-2 sm:grid-cols-3">
+                {brief.angles.slice(0, 3).map((a) => (
+                  <button key={a} type="button" onClick={() => pickTalk({ prompt: a, followUps: [] })} className="rounded-2xl border border-amber-300/25 bg-slate-950/70 p-3 text-left text-sm text-white backdrop-blur-md hover:border-amber-300/60">
+                    {a}
+                  </button>
+                ))}
+              </div>
+            )}
             {talkOptions.length > 0 && (
               <div className="grid w-full gap-2 sm:grid-cols-3">
                 {talkOptions.map((o) => (
@@ -746,7 +821,7 @@ export function FlightDeck({
                 </button>
               ))}
             </div>
-            <p className="text-[11px] text-white/45">About {focused ? `"${focused.title}"` : sessionTopic && sessionTopic !== 'General' ? sessionTopic : 'everyday life'}. Set a cargo item as focus to change the topic.</p>
+            <p className="text-[11px] text-white/45">About {focused ? `"${focused.title}"` : sessionTopic && sessionTopic !== 'General' ? sessionTopic : 'everyday life'}. Change the topic in the bar at the top.</p>
           </>
         )}
       </div>
@@ -845,6 +920,13 @@ export function FlightDeck({
           window.setTimeout(onCompleteSession, 9000);
         }}
       />
+      {focused && !cinematic && !landed && view !== 'boarding' && view !== 'map' && (
+        <div className="pointer-events-none absolute inset-x-0 top-3 z-10 flex justify-center">
+          <span className="max-w-[70%] truncate rounded-full border border-white/20 bg-slate-950/65 px-3 py-1 text-xs text-white/90 backdrop-blur-md">
+            <b className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-300">Now talking about</b>&nbsp; {focused.title}
+          </span>
+        </div>
+      )}
       {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
         <p className="pointer-events-none absolute bottom-3 left-4 z-[5] rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/80 backdrop-blur-sm">
           {holding ? `Holding over ${destination.city}` : `Below us: ${below.name}`}
@@ -945,6 +1027,13 @@ export function FlightDeck({
           <i className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-rose-400 shadow-[0_0_10px_#fb7185]" />
           <span className="truncate">On screen: {onScreenLabel}</span>
         </span>
+        <FocusBar
+          current={focused}
+          status={focusBrief === 'loading' ? 'loading' : focusBrief === 'failed' ? 'failed' : focusBrief ? 'ready' : 'idle'}
+          trail={focusTrail.map((id) => material.find((m) => m.id === id)).filter((m): m is RoomItem => !!m && m.id !== focused?.id)}
+          onSubmit={(t) => makeFocus({ title: t })}
+          onPick={(id) => setFocusId(id)}
+        />
         <nav className="ml-auto flex gap-1" aria-label="Windscreen view">
           {VIEWS.map((v) => {
             const on = view === v.key;
@@ -1232,6 +1321,61 @@ const SCREEN_TEMPLATES: ScreenTemplate[] = [
   { name: 'Vote', hint: 'Poll bottom-left, timer top-right', widgets: { poll: 'bl', timer: 'tr' } },
   { name: 'Brainstorm', hint: 'Word cloud bottom-left, class questions bottom-right', widgets: { 'word-cloud': 'bl', 'class-questions': 'br' } },
 ];
+
+interface FocusBrief {
+  briefing: string;
+  facts: string[];
+  angles: string[];
+}
+
+/** The glareshield topic bar: type anything to make it the class's topic; recent topics one tap away. */
+function FocusBar({ current, status, trail, onSubmit, onPick }: {
+  current: RoomItem | null;
+  status: 'idle' | 'loading' | 'ready' | 'failed';
+  trail: RoomItem[];
+  onSubmit: (text: string) => void;
+  onPick: (id: string) => void;
+}) {
+  const [draft, setDraft] = useState('');
+  const [open, setOpen] = useState(false);
+  return (
+    <form
+      className="relative flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-[#2A3854] bg-[#0a0f19] px-2.5 py-1.5 focus-within:border-amber-300/60"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (draft.trim()) onSubmit(draft);
+        setDraft('');
+        setOpen(false);
+      }}
+    >
+      <Crosshair className={['h-4 w-4 shrink-0', current ? 'text-amber-300' : 'text-white/40'].join(' ')} aria-hidden />
+      <span className="shrink-0 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white/45">Topic</span>
+      <input
+        id="deck-focus"
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onFocus={() => setOpen(true)}
+        onBlur={() => window.setTimeout(() => setOpen(false), 150)}
+        placeholder={current ? current.title : 'Type a topic, a question, or paste a paragraph'}
+        className={['min-w-0 flex-1 bg-transparent text-sm focus:outline-none', current ? 'placeholder:text-white' : 'placeholder:text-white/40'].join(' ')}
+        aria-label="Class topic"
+      />
+      {status === 'loading' && <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] text-amber-300/80">Briefing…</span>}
+      {status === 'ready' && <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] text-emerald-300/80">Phones updated</span>}
+      {status === 'failed' && <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] text-rose-300/80">No briefing</span>}
+      {open && trail.length > 0 && (
+        <div className="absolute left-0 right-0 top-full z-50 mt-1 rounded-xl border border-[#2A3854] bg-[#0c1322] p-1.5 shadow-2xl">
+          <p className="px-2 pb-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">Earlier topics</p>
+          {trail.map((m) => (
+            <button key={m.id} type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => { onPick(m.id); setOpen(false); }} className="block w-full truncate rounded-lg px-2 py-1.5 text-left text-sm text-white/80 hover:bg-white/5">
+              {m.title}
+            </button>
+          ))}
+        </div>
+      )}
+    </form>
+  );
+}
 
 const FLIGHT_WIDGET = 'flight-tracker';
 const DECK_WIDGET_IDS = [...WIDGET_REGISTRY.map((w) => w.id), FLIGHT_WIDGET];
