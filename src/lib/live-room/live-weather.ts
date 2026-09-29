@@ -11,6 +11,8 @@ export interface LiveWeather {
   windKph: number;
   /** Short description for the class, e.g. "light rain". */
   label: string;
+  /** The place's real time-zone offset from UTC, in seconds (for its clock time). */
+  utcOffsetSeconds?: number;
 }
 
 /** WMO weather codes (as Open-Meteo reports them) → a condition and a label. */

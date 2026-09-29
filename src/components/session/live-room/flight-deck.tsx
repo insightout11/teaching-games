@@ -15,7 +15,7 @@ import { createClient } from '@/lib/supabase/client';
 import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
-import { bearingDeg, solarClock, sunPosition } from '@/lib/live-room/sun';
+import { bearingDeg, offsetClock, solarClock, sunPosition } from '@/lib/live-room/sun';
 import { cityNear, countryAt, loadCountries, type CountryShape } from '@/lib/live-room/places-below';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
@@ -1022,7 +1022,7 @@ export function FlightDeck({
       )}
       {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
         <p className="pointer-events-none absolute bottom-3 left-4 z-[5] rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/80 backdrop-blur-sm">
-          {holding ? `Holding over ${destination.city}` : `Below us: ${place.label}`} · {skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
+          {holding ? `Holding over ${destination.city}` : `Below us: ${place.label}`} · {liveWx?.utcOffsetSeconds !== undefined ? offsetClock(liveWx.utcOffsetSeconds, new Date(now)) : skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
         </p>
       )}
 

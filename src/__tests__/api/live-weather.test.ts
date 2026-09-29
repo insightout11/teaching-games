@@ -22,10 +22,10 @@ describe('live weather', () => {
   });
 
   it('asks Open-Meteo for a rounded position and returns the condition', async () => {
-    const fetchMock = vi.fn(async () => new Response(JSON.stringify({ current: { weather_code: 63, cloud_cover: 98, wind_speed_10m: 22.4, is_day: 1 } })));
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({ utc_offset_seconds: 32400, current: { weather_code: 63, cloud_cover: 98, wind_speed_10m: 22.4, is_day: 1 } })));
     vi.stubGlobal('fetch', fetchMock);
     const data = await (await get('lat=37.56&lng=126.97')).json();
-    expect(data).toEqual({ condition: 'rain', cloudCover: 98, windKph: 22, label: 'heavy rain' });
+    expect(data).toEqual({ condition: 'rain', cloudCover: 98, windKph: 22, label: 'heavy rain', utcOffsetSeconds: 32400 });
     expect(String((fetchMock.mock.calls[0] as unknown[])[0])).toContain('latitude=37.5&longitude=127');
   });
 

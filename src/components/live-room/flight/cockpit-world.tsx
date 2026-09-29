@@ -26,7 +26,8 @@ interface Peak { x: number; z: number; h: number; w: number; tone: number; hill:
 interface Layer {
   terrain: Terrain;
   region: string | null;
-  pattern: CanvasPattern | null;
+  /** The terrain texture at full, half, quarter… detail (mip levels), as patterns. */
+  patterns: CanvasPattern[];
   macroAlpha: number;
   /** World depth where this terrain begins (the previous one ends). */
   startZ: number;
@@ -46,7 +47,25 @@ const TILE_WORLD = 14;       // one texture pixel covers this many world units
 const MACRO_WORLD = 14 * 41; // the light/dark layer: a scale unrelated to the ground's, so no repeat lines up
 const SHORE = 4200;          // world units over which one terrain blends into the next
 
-const textureCache = new Map<string, HTMLCanvasElement | HTMLImageElement>();
+/** Full detail plus halved copies, so distant ground never shimmers (mip levels). */
+const textureCache = new Map<string, HTMLCanvasElement[]>();
+
+function mipChain(src: CanvasImageSource & { width: number; height: number }): HTMLCanvasElement[] {
+  const levels: HTMLCanvasElement[] = [];
+  let w = src.width, h = src.height;
+  let prev: CanvasImageSource = src;
+  for (let k = 0; k < 6 && w >= 8 && h >= 8; k++) {
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const g = c.getContext('2d')!;
+    g.imageSmoothingQuality = 'high';
+    g.drawImage(prev, 0, 0, w, h);
+    levels.push(c);
+    prev = c;
+    w = Math.floor(w / 2); h = Math.floor(h / 2);
+  }
+  return levels;
+}
 
 function spawnPeak(p: Peak, camZ: number, far: boolean) {
   p.x = (Math.random() * 2 - 1) * 42000;
@@ -93,7 +112,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
     const layer: Layer = same ? newest : {
       terrain,
       region: reg,
-      pattern: null,
+      patterns: [],
       macroAlpha: terrain === 'ocean' ? 0.22 : terrain === 'ice' ? 0.18 : 0.4,
       startZ: newest ? cam.current + Z_FAR : -Infinity,
       peaks: [],
@@ -103,16 +122,28 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
 
     // Texture: generated farmland/city, or the terrain's SVG tile; cached.
     const key = `${terrain}|${reg}|${night}|${palette.terrainTop}|${palette.waterTop}|${palette.foliage}`;
-    const apply = (src: HTMLCanvasElement | HTMLImageElement) => { layer.pattern = ctx.createPattern(src, 'repeat'); };
+    const apply = (levels: HTMLCanvasElement[]) => {
+      layer.patterns = levels.map((c) => ctx.createPattern(c, 'repeat')).filter((p): p is CanvasPattern => !!p);
+    };
     const cached = textureCache.get(key);
     if (cached) apply(cached);
     else if (terrain === 'farmland' || terrain === 'hills') {
-      const tex = farmTexture(reg, palette, night);
-      textureCache.set(key, tex);
-      apply(tex);
+      const levels = mipChain(farmTexture(reg, palette, night));
+      textureCache.set(key, levels);
+      apply(levels);
     } else {
+      // SVG tiles are rasterised once: an SVG image used as a pattern can be
+      // re-rendered on every fill, which froze the flight near coasts.
       const img = new Image();
-      img.onload = () => { textureCache.set(key, img); apply(img); };
+      img.onload = () => {
+        const size = Math.max(64, img.naturalWidth || 256);
+        const c = document.createElement('canvas');
+        c.width = size; c.height = Math.max(64, img.naturalHeight || size);
+        c.getContext('2d')!.drawImage(img, 0, 0, c.width, c.height);
+        const levels = mipChain(c);
+        textureCache.set(key, levels);
+        apply(levels);
+      };
       img.src = tileFor(terrain, palette, night).replace(/^url\("/, '').replace(/"\)$/, '');
     }
     if (textureCache.size > 24) {
@@ -158,15 +189,20 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
     let last = performance.now();
     let drawnSpeed = live.current.speed;
 
-    const paintRow = (layer: Layer, y: number, z: number, F: number, camZ: number, alpha: number) => {
-      if (!layer.pattern) return;
-      const s = (F / z) * TILE_WORLD;
+    const paintRow = (layer: Layer, y: number, z: number, F: number, camZ: number, alpha: number, withMacro = true) => {
+      if (!layer.patterns.length) return;
+      const s = (F / z) * TILE_WORLD;              // screen px per full-detail texel
+      // Pick the detail level whose texels are about a pixel wide.
+      let lvl = 0;
+      while (lvl < layer.patterns.length - 1 && s * (1 << lvl) < 0.8) lvl++;
+      const pat = layer.patterns[lvl];
+      const k = s * (1 << lvl);
       // Offset sideways so the texture's wrap line (a farm lane) isn't dead ahead.
-      layer.pattern.setTransform(new DOMMatrix([s, 0, 0, s, w / 2 - 330 * s, y - ((camZ + z) / TILE_WORLD) * s]));
+      pat.setTransform(new DOMMatrix([k, 0, 0, k, w / 2 - 330 * s, y - ((camZ + z) / TILE_WORLD) * s]));
       ctx.globalAlpha = alpha;
-      ctx.fillStyle = layer.pattern;
+      ctx.fillStyle = pat;
       ctx.fillRect(0, y, w, 2);
-      if (macro) {
+      if (macro && withMacro) {
         const m = (F / z) * MACRO_WORLD;
         macro.setTransform(new DOMMatrix([m, 0, 0, m, w / 2 + 3100 * (F / z), y - ((camZ + z) / MACRO_WORLD) * m]));
         ctx.globalCompositeOperation = 'overlay';
@@ -202,8 +238,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
           while (i > 0 && L[i].startZ > wz) i--;
           const t = i > 0 ? (wz - L[i].startZ) / SHORE : 1;
           if (t < 1 && i > 0) {
+            // Shoreline: the old terrain, the new one fading in, one overlay pass.
             paintRow(L[i - 1], y, z, F, camZ, 1);
-            paintRow(L[i], y, z, F, camZ, t * t * (3 - 2 * t));
+            paintRow(L[i], y, z, F, camZ, t * t * (3 - 2 * t), false);
           } else {
             paintRow(L[i], y, z, F, camZ, 1);
           }

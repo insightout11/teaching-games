@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { bearingDeg, solarClock, sunPosition } from '@/lib/live-room/sun';
+import { bearingDeg, offsetClock, solarClock, sunPosition } from '@/lib/live-room/sun';
 
 describe('sun position', () => {
   it('is high at local noon near the equator on an equinox', () => {
@@ -29,6 +29,7 @@ describe('sun position', () => {
   it('gives the local solar time and headings', () => {
     expect(solarClock(0, new Date('2026-09-29T18:40:00Z'))).toBe('6:40 pm');
     expect(solarClock(90, new Date('2026-09-29T18:00:00Z'))).toBe('12:00 am');
+    expect(offsetClock(7 * 3600, new Date('2026-09-29T13:08:00Z'))).toBe('8:08 pm');
     expect(bearingDeg({ lat: 0, lng: 0 }, { lat: 0, lng: 10 })).toBeCloseTo(90, 0);
   });
 });

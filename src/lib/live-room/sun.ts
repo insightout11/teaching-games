@@ -43,6 +43,14 @@ export function solarClock(lng: number, date: Date): string {
   return `${h12}:${String(m).padStart(2, '0')} ${h24 < 12 ? 'am' : 'pm'}`;
 }
 
+/** Clock time for a UTC offset (seconds), as "8:08 pm". */
+export function offsetClock(offsetSeconds: number, date: Date): string {
+  const minutes = ((date.getUTCHours() * 60 + date.getUTCMinutes() + Math.round(offsetSeconds / 60)) % 1440 + 1440) % 1440;
+  const h24 = Math.floor(minutes / 60);
+  const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
+  return `${h12}:${String(minutes % 60).padStart(2, '0')} ${h24 < 12 ? 'am' : 'pm'}`;
+}
+
 /** Compass bearing from a to b. */
 export function bearingDeg(a: LatLng, b: LatLng): number {
   const y = Math.sin(rad(b.lng - a.lng)) * Math.cos(rad(b.lat));
