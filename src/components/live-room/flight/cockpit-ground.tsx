@@ -23,7 +23,7 @@ function rng(seed: number) {
 }
 
 /** A 256×256 seamless-ish tile per terrain, as an SVG data URI. */
-function tileFor(terrain: Terrain, p: ScenePalette, night: boolean): string {
+export function tileFor(terrain: Terrain, p: ScenePalette, night: boolean): string {
   const land = hexToRgb(p.terrainTop);
   const water = hexToRgb(p.waterTop);
   const waterDeep = hexToRgb(p.waterBottom);

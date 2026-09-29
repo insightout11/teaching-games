@@ -8,7 +8,8 @@ import type { TimeOfDay, WeatherCondition } from '@/components/world-flight/arri
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CockpitSky, cockpitCloudTint } from '@/components/live-room/flight/cockpit-sky';
-import { CockpitGround, type Terrain } from '@/components/live-room/flight/cockpit-ground';
+import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
+import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 
 /**
@@ -131,7 +132,7 @@ export function FlightLab() {
             ) : (
               <motion.div key="cockpit" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
                 <CockpitSky palette={palette} timeOfDay={tod} altitude={cockpitAlt} />
-                <CockpitGround terrain={terrain} palette={palette} night={tod === 'night'} speed={cloudSpeed} />
+                <CockpitWorld terrain={terrain} palette={palette} night={tod === 'night'} speed={cloudSpeed} />
                 {/* Broken cloud layer between us and the ground */}
                 <div
                   aria-hidden

@@ -9,7 +9,8 @@ import { composeTimedPalette } from '@/components/world-flight/arrival-scene/pal
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CockpitSky, cockpitCloudTint } from '@/components/live-room/flight/cockpit-sky';
-import { CockpitGround, type Terrain } from '@/components/live-room/flight/cockpit-ground';
+import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
+import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
 
 /**
  * The Live Room windscreen as one flight (tuned in /dev/flight-lab).
@@ -139,7 +140,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
         ) : (
           <motion.div key="cockpit" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
             <CockpitSky palette={palette} timeOfDay={timeOfDay} altitude={altitude} />
-            <CockpitGround terrain={terrain} palette={palette} night={timeOfDay === 'night'} speed={cloudSpeed} />
+            <CockpitWorld terrain={terrain} palette={palette} night={timeOfDay === 'night'} speed={cloudSpeed} />
             <div
               className="absolute inset-x-0 bottom-0"
               style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${tint},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${tint},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${tint},0.45), transparent 70%)` }}
