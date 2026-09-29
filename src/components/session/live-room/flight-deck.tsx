@@ -22,6 +22,7 @@ import { Leaderboard } from '@/components/session/leaderboard';
 import { CatalogueDrawer } from '@/components/live-room/ui/cockpit-workspace/cockpit-panels';
 import type { CatalogueEntry } from '@/components/live-room/ui/cockpit-workspace/types';
 import { WIDGET_REGISTRY } from '@/components/session/widget-registry';
+import { WidgetShell } from '@/components/session/widget-shell';
 import { useWidgetStore } from '@/stores/widget-store';
 import { useSnapZones, snappedPosition, type SnapAnchor } from '@/stores/snap-zones-store';
 import { useSessionStore } from '@/stores/session-store';
@@ -461,7 +462,7 @@ export function FlightDeck({
   // until the teacher opens one from Tools.
   const closeWidgetStore = useWidgetStore((s) => s.closeWidget);
   useEffect(() => {
-    WIDGET_REGISTRY.forEach((w) => closeWidgetStore(w.id));
+    DECK_WIDGET_IDS.forEach((id) => closeWidgetStore(id));
   }, [closeWidgetStore]);
   // Each view remembers its own widget layout: leaving a view saves what was open
   // and where; entering a view with a saved layout restores it.
@@ -473,30 +474,44 @@ export function FlightDeck({
     prevView.current = view;
     const ws = useWidgetStore.getState().widgets;
     const open: Record<string, { x: number; y: number }> = {};
-    for (const w of WIDGET_REGISTRY) if (ws[w.id]?.isOpen) open[w.id] = ws[w.id].position;
+    for (const id of DECK_WIDGET_IDS) if (ws[id]?.isOpen) open[id] = ws[id].position;
     viewLayouts.current[from] = open;
     const saved = viewLayouts.current[view];
     if (!saved) return;
-    for (const w of WIDGET_REGISTRY) {
-      if (saved[w.id]) {
-        setWidgetPosition(w.id, saved[w.id]);
-        openWidgetStore(w.id);
-      } else closeWidgetStore(w.id);
+    for (const id of DECK_WIDGET_IDS) {
+      if (saved[id]) {
+        setWidgetPosition(id, saved[id]);
+        openWidgetStore(id);
+      } else closeWidgetStore(id);
     }
   }, [view, setWidgetPosition, openWidgetStore, closeWidgetStore]);
 
   const applyTemplate = (t: ScreenTemplate) => {
-    for (const w of WIDGET_REGISTRY) if (!(w.id in t.widgets)) closeWidgetStore(w.id);
+    for (const id of DECK_WIDGET_IDS) if (!(id in t.widgets)) closeWidgetStore(id);
     for (const id of Object.keys(t.widgets)) openWidgetStore(id);
     // Place once rendered, so each widget snaps by its real size.
     requestAnimationFrame(() => {
       const zones = useSnapZones.getState().zones;
       for (const [id, anchor] of Object.entries(t.widgets)) {
-        const zone = zones.find((z) => z.anchor === anchor);
+        const zone = zones.find((z) => z.id === `wind-${anchor}`);
         const el = document.querySelector<HTMLElement>(`[data-widget-id="${id}"]`);
         if (zone && el) setWidgetPosition(id, snappedPosition(zone, el.offsetWidth, el.offsetHeight));
       }
     });
+  };
+
+  // Flight map as a small corner widget: tracks the trip while the class does other things.
+  const shrinkTracker = () => {
+    setView(flightStage === 'gate' ? 'boarding' : 'talk');
+    // After the view switch restores that view's layout, add the tracker to it.
+    window.setTimeout(() => {
+      openWidgetStore(FLIGHT_WIDGET);
+      requestAnimationFrame(() => {
+        const zone = useSnapZones.getState().zones.find((z) => z.id === 'wind-br');
+        const el = document.querySelector<HTMLElement>(`[data-widget-id="${FLIGHT_WIDGET}"]`);
+        if (zone && el) setWidgetPosition(FLIGHT_WIDGET, snappedPosition(zone, el.offsetWidth, el.offsetHeight));
+      });
+    }, 60);
   };
 
   const openTool = (id: string, x: number, y: number) => {
@@ -767,6 +782,11 @@ export function FlightDeck({
             {mapMode === 'pins' && pinRound && (
               <button type="button" onClick={stopPins} className="rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">Close pins</button>
             )}
+            {mapMode === 'tracker' && (
+              <button type="button" onClick={shrinkTracker} className="flex items-center gap-1 rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">
+                <Minimize2 className="h-3 w-3" /> Shrink to corner
+              </button>
+            )}
             <button type="button" onClick={() => setMapMode(mapMode === 'pins' ? 'tracker' : 'pins')} className="rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">
               {mapMode === 'pins' ? 'Flight tracker' : 'Class map'}
             </button>
@@ -908,6 +928,14 @@ export function FlightDeck({
   return (
     <div className="grid h-[100dvh] grid-cols-[220px_minmax(0,1fr)_240px] grid-rows-[52px_minmax(0,1fr)_176px] gap-2.5 bg-[radial-gradient(ellipse_120%_70%_at_50%_120%,#1b2438_0%,#0b1120_55%,#05070D_100%)] p-2.5 text-white">
       <SnapGuides hosts={snapHosts} />
+      <WidgetShell id={FLIGHT_WIDGET} label={`${origin.city} → ${destination.city}`} icon={<Plane className="h-4 w-4" />} defaultOpen={false}>
+        <div className="relative h-52 w-full">
+          <FlightTracker compact origin={origin} destination={destination} progress={routeT} minutesLeft={flightStage === 'gate' ? null : minutesLeft} below={below.name} holding={holding} />
+          <button type="button" onClick={() => { closeWidgetStore(FLIGHT_WIDGET); setMapMode('tracker'); setView('map'); }} className="absolute right-2 top-2 flex items-center gap-1 rounded-lg border border-white/20 bg-slate-950/75 px-2 py-1 text-[11px] text-white/85 hover:text-white">
+            <Maximize2 className="h-3 w-3" /> Full map
+          </button>
+        </div>
+      </WidgetShell>
       <style>{'@keyframes deck-drift{from{transform:translateX(110vw)}to{transform:translateX(-120%)}} [data-deck-drag] img{-webkit-user-drag:none;user-select:none;pointer-events:none}'}</style>
 
       {/* Glareshield */}
@@ -1162,6 +1190,9 @@ export function FlightDeck({
                 {w.label}
               </button>
             ))}
+            <button type="button" onClick={(e) => openTool(FLIGHT_WIDGET, e.clientX, e.clientY)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] bg-[#111A2B] px-2.5 py-1.5 text-xs text-white/70 hover:border-[#3d5176] hover:text-white">
+              <Plane className="h-3.5 w-3.5" /> Flight map
+            </button>
             <a href={flightHref} className="flex items-center gap-1.5 rounded-lg border border-amber-300/40 px-2.5 py-1.5 text-xs text-amber-200 hover:bg-amber-300/10">
               <Plane className="h-3.5 w-3.5" /> Launch a flight
             </a>
@@ -1202,6 +1233,8 @@ const SCREEN_TEMPLATES: ScreenTemplate[] = [
   { name: 'Brainstorm', hint: 'Word cloud bottom-left, class questions bottom-right', widgets: { 'word-cloud': 'bl', 'class-questions': 'br' } },
 ];
 
+const FLIGHT_WIDGET = 'flight-tracker';
+const DECK_WIDGET_IDS = [...WIDGET_REGISTRY.map((w) => w.id), FLIGHT_WIDGET];
 const ROOM_PINS_KEY = 'room-pins';
 const PIN_PROMPTS = ['Where are you right now?', 'A place you would love to visit', 'Where were you born?'];
 const PIN_COLORS = ['#fb7185', '#f59e0b', '#34d399', '#60a5fa', '#a78bfa', '#f472b6', '#22d3ee', '#facc15'];
