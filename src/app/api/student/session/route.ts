@@ -102,6 +102,8 @@ interface SessionPayload {
   referenceVocab: ReferenceVocabItem[] | null;
   referenceExpressions: ReferenceExpressionItem[] | null;
   latestFeedback: { feedback: string; points: number; submissionId: string } | null;
+  /** This student's own recent messages to the teacher, newest first. */
+  myMessages: Array<{ id: string; content: string; status: 'sent' | 'shown' | 'replied' | 'seen'; reply: string | null }> | null;
   personalResults: PersonalResults | null;
   lastResult: LastResult | null;
   sessionPoints: number;
@@ -223,6 +225,7 @@ export async function GET(request: NextRequest) {
         referenceVocab: null,
         referenceExpressions: null,
         latestFeedback: null,
+        myMessages: null,
         personalResults: null,
         lastResult: null,
         sessionPoints: 0,
@@ -519,6 +522,25 @@ export async function GET(request: NextRequest) {
     // 1. Approval-queue games: feedback written to student_submissions.ai_feedback
     // 2. Race-mode games: feedback stored in scores.response_data.feedback (browser client
     //    cannot INSERT into student_submissions due to RLS — all writes are service-role only)
+    let myMessages: SessionPayload['myMessages'] = null;
+    if (isActive && clientId) {
+      const { data: mine } = await supabase
+        .from('student_submissions')
+        .select('id, content, status, published_to_class, ai_feedback')
+        .eq('session_id', sessionId)
+        .eq('client_id', clientId)
+        .is('game_key', null)
+        .order('created_at', { ascending: false })
+        .limit(5);
+      myMessages = (mine ?? []).map((m) => ({
+        id: m.id as string,
+        content: m.content as string,
+        // A dismissed message just reads "seen": students never see "rejected".
+        status: m.published_to_class ? 'shown' : m.ai_feedback ? 'replied' : m.status === 'pending' ? 'sent' : 'seen',
+        reply: (m.ai_feedback as string | null) ?? null,
+      }));
+    }
+
     let latestFeedback: SessionPayload['latestFeedback'] = null;
     if (isActive && clientId) {
       // Pathway 1: approval-queue games
@@ -767,6 +789,7 @@ export async function GET(request: NextRequest) {
       referenceVocab: normalizedReferenceVocab.length > 0 ? normalizedReferenceVocab : null,
       referenceExpressions: normalizedReferenceExpressions.length > 0 ? normalizedReferenceExpressions : null,
       latestFeedback,
+      myMessages,
       personalResults,
       lastResult,
       sessionPoints,

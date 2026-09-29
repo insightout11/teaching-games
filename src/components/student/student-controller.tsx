@@ -26,7 +26,7 @@ import { DebatePrepPanel } from './debate-prep-panel';
 import { VALIDATION } from '@/lib/config/rate-limits';
 import { buildStandbyTipPool } from '@/lib/standby-tips';
 import { grammarReference } from '@/lib/grammar';
-import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, RadioTower, ClipboardCheck, Share2, Check } from 'lucide-react';
+import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, RadioTower, ClipboardCheck, Share2, Check, MessageCircle } from 'lucide-react';
 import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { QRCodeSVG } from 'qrcode.react';
@@ -125,10 +125,6 @@ interface StudentControllerProps {
 }
 
 // ---------------------------------------------------------------------------
-// localStorage helpers for persisting voted question IDs across page reloads
-// ---------------------------------------------------------------------------
-const VOTED_KEY = 'lc-voted-questions';
-
 // Crew Radio seen/answered tracking (per session) so the badge doesn't relight
 // on reload for an item the student already opened or answered.
 const CREW_RADIO_KEY = 'lc-crew-radio';
@@ -200,24 +196,6 @@ function getAssignedStarter(clientId: string): string {
   return WONDER_STARTERS[hash % WONDER_STARTERS.length];
 }
 
-function loadVotedIds(sessionId: string): Set<string> {
-  try {
-    const raw = localStorage.getItem(VOTED_KEY);
-    const parsed = raw ? JSON.parse(raw) : {};
-    return new Set<string>(parsed[sessionId] ?? []);
-  } catch {
-    return new Set<string>();
-  }
-}
-
-function persistVotedIds(sessionId: string, ids: string[]) {
-  try {
-    const raw = localStorage.getItem(VOTED_KEY);
-    const parsed = raw ? JSON.parse(raw) : {};
-    parsed[sessionId] = ids;
-    localStorage.setItem(VOTED_KEY, JSON.stringify(parsed));
-  } catch { /* ignore */ }
-}
 
 const OUTCOME_LABELS: Record<string, string> = {
   'standout': 'Standout',
@@ -418,13 +396,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
   const [submittedPollIds, setSubmittedPollIds] = useState<Set<string>>(new Set());
 
-  // Optimistic voting state
-  const [localVoteCounts, setLocalVoteCounts] = useState<Record<string, number>>({});
-  const [votedIds, setVotedIds] = useState<Set<string>>(new Set());
+  const [myMessages, setMyMessages] = useState<Array<{ id: string; content: string; status: 'sent' | 'shown' | 'replied' | 'seen'; reply: string | null }>>([]);
 
-  // Load voted IDs from localStorage on mount
   useEffect(() => {
-    setVotedIds(loadVotedIds(sessionId));
     const radioState = loadCrewRadioState(sessionId);
     setRadioSeenId(radioState.seen);
     setRadioDoneIds(new Set(radioState.done));
@@ -607,6 +581,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setReferenceVocab(Array.isArray(data.referenceVocab) ? data.referenceVocab : null);
       setReferenceExpressions(Array.isArray(data.referenceExpressions) ? data.referenceExpressions : null);
       setLatestFeedback(data.latestFeedback ?? null);
+      setMyMessages(Array.isArray(data.myMessages) ? data.myMessages : []);
       setPersonalResults(data.personalResults ?? null);
       setDebriefToken(data.debriefToken ?? null);
       setLastResult(data.lastResult ?? null);
@@ -1184,32 +1159,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     } finally {
       setIsSavingPrefs(false);
     }
-  };
-
-  const handleUpvote = async (question: PublishedQuestion) => {
-    if (votedIds.has(question.id)) return;
-
-    // Optimistic update
-    const newVotedIds = new Set(votedIds).add(question.id);
-    setVotedIds(newVotedIds);
-    setLocalVoteCounts((prev) => ({
-      ...prev,
-      [question.id]: Math.max(prev[question.id] ?? 0, question.voteCount) + 1,
-    }));
-    persistVotedIds(sessionId, Array.from(newVotedIds));
-
-    // Fire-and-forget
-    try {
-      await fetch('/api/class-questions/vote', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId,
-          questionId: question.id,
-          clientId: studentSession.clientId,
-        }),
-      });
-    } catch { /* optimistic update stays */ }
   };
 
   const handleWonderVote = async (question: WonderQuestion) => {
@@ -2109,35 +2058,49 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         </div>
       )}
 
-      {/* Class Questions — visible only when there are published questions */}
+      {/* Messages the teacher chose to show the class */}
       {publishedQuestions.length > 0 && (
         <div className="glass rounded-2xl p-6 mb-4">
-          <h2 className="font-bold text-white mb-3">Class Questions</h2>
+          <h2 className="font-bold text-white mb-3">From the class</h2>
           <div className="space-y-3">
-            {publishedQuestions.map((q) => {
-              const displayCount = Math.max(localVoteCounts[q.id] ?? 0, q.voteCount);
-              const hasVoted = votedIds.has(q.id);
-              return (
-                <div key={q.id} className="flex items-start gap-3 bg-white/5 rounded-xl p-3">
-                  <button
-                    onClick={() => handleUpvote(q)}
-                    disabled={hasVoted}
-                    className={`flex-shrink-0 flex flex-col items-center gap-0.5 transition-colors ${
-                      hasVoted ? 'text-cyan-400' : 'text-gray-500 hover:text-cyan-400'
-                    } disabled:cursor-default`}
-                  >
-                    <svg className="w-4 h-4" fill={hasVoted ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
-                    </svg>
-                    <span className="text-xs font-bold">{displayCount}</span>
-                  </button>
-                  <p className="text-gray-200 text-sm leading-relaxed">{q.content}</p>
-                </div>
-              );
-            })}
+            {publishedQuestions.map((q) => (
+              <div key={q.id} className="bg-white/5 rounded-xl p-3">
+                <p className="text-gray-200 text-sm leading-relaxed">{q.content}</p>
+              </div>
+            ))}
           </div>
         </div>
       )}
+
+      {/* Message the teacher: always one tap away, with what happened to it */}
+      <div className="glass rounded-2xl p-4 mb-4 space-y-3">
+        <button
+          type="button"
+          onClick={() => setOpenPanel((p) => (p === 'question' ? null : 'question'))}
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-cyan-400/40 bg-cyan-500/15 py-3 text-sm font-semibold text-cyan-200 hover:bg-cyan-500/25"
+        >
+          <MessageCircle className="h-4 w-4" /> Message the teacher
+        </button>
+        {myMessages.length > 0 && (
+          <div className="space-y-2">
+            {myMessages.slice(0, 3).map((m) => (
+              <div key={m.id} className="rounded-xl bg-white/5 px-3 py-2">
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-sm text-gray-200 leading-snug">{m.content}</p>
+                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+                    m.status === 'shown' ? 'bg-sky-400/20 text-sky-200'
+                      : m.status === 'replied' ? 'bg-emerald-400/20 text-emerald-200'
+                        : m.status === 'sent' ? 'bg-white/10 text-gray-300' : 'bg-white/10 text-gray-400'
+                  }`}>
+                    {m.status === 'shown' ? 'On screen' : m.status === 'replied' ? 'Replied' : m.status === 'sent' ? 'Sent' : 'Seen'}
+                  </span>
+                </div>
+                {m.reply && <p className="mt-1.5 border-l-2 border-emerald-400/50 pl-2 text-sm text-emerald-100">{m.reply}</p>}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Reference panel — 2×2 grid of collapsible tiles */}
       {(() => {
@@ -2146,7 +2109,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           referenceVocab ? 'vocab' : null,
           grammarEntry ? 'grammar' : null,
           referenceExpressions ? 'expressions' : null,
-          'question',
         ].filter(Boolean) as ReferencePanel[];
 
         const togglePanel = (panel: ReferencePanel) =>
@@ -2245,14 +2207,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               <div className="glass rounded-2xl p-4 space-y-3">
                 {questionStatus === 'sent' ? (
                   <p className="text-green-400 text-sm text-center py-2">
-                    Question sent! The teacher will review it.
+                    Sent! Your teacher will see it.
                   </p>
                 ) : (
                   <>
                     <textarea
                       value={questionText}
                       onChange={(e) => setQuestionText(e.target.value.slice(0, VALIDATION.QUESTION_MAX))}
-                      placeholder="Type your question for the teacher…"
+                      placeholder="Ask a question, or share an idea…"
                       rows={3}
                       className="w-full bg-white/10 text-white rounded-xl p-3 text-sm resize-none placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
                     />
@@ -2272,7 +2234,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                       disabled={!questionText.trim() || isAskingQuestion || questionStatus === 'rate_limited'}
                       className="w-full py-2.5 rounded-xl text-sm font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                      {isAskingQuestion ? 'Sending…' : 'Send Question'}
+                      {isAskingQuestion ? 'Sending…' : 'Send to teacher'}
                     </button>
                   </>
                 )}

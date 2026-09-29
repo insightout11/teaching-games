@@ -539,14 +539,21 @@ export function FlightDeck({
     const channel = openRoomChannel(sessionId, (m) => {
       if (m.type === 'show') present(m.item);
       else if (m.type === 'add') addItem(sessionId, m.item);
+      else if (m.type === 'focus') makeFocus({ title: m.title, credit: m.credit });
     });
     return () => channel?.close();
-  }, [sessionId, present, addItem]);
+  }, [sessionId, present, addItem, makeFocus]);
 
   const openPopout = () => {
     const popup = window.open(`/sessions/${encodeURIComponent(sessionId)}/sources`, `lc-sources-${sessionId}`, 'popup,width=480,height=860');
     if (popup) popup.focus();
     else setPanel('sources');
+  };
+  // Messages are read in the private window, never on the shared screen.
+  const openMessages = (x: number, y: number) => {
+    const popup = window.open(`/sessions/${encodeURIComponent(sessionId)}/sources?tab=messages#messages`, `lc-sources-${sessionId}`, 'popup,width=480,height=860');
+    if (popup) popup.focus();
+    else openTool('class-questions', x, y);
   };
 
   // ── cabin ────────────────────────────────────────────────────────────────
@@ -1406,7 +1413,7 @@ export function FlightDeck({
                 <button
                   key={w.id}
                   type="button"
-                  onClick={(e) => openTool(w.id, e.clientX, e.clientY)}
+                  onClick={(e) => (w.id === 'class-questions' ? openMessages(e.clientX, e.clientY) : openTool(w.id, e.clientX, e.clientY))}
                   title={calling ? `${waitingMessages} new message${waitingMessages === 1 ? '' : 's'} from students` : undefined}
                   className={[
                     'relative flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs transition-colors',
