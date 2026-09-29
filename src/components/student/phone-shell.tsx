@@ -20,13 +20,6 @@ const STATUS: Record<PhoneStatus, { label: string; text: string; dot: string; pu
 
 export const MONO = 'font-[family-name:var(--font-instrument)] uppercase tracking-[0.12em]';
 
-/** Stable, playful seat number from the client id (e.g. "14C"). */
-export function seatFor(clientId: string): string {
-  let h = 0;
-  for (let i = 0; i < clientId.length; i++) h = (h * 31 + clientId.charCodeAt(i)) >>> 0;
-  return `${(h % 28) + 1}${'ABCDEF'[(h >>> 5) % 6]}`;
-}
-
 export function BoardingHeader({
   name,
   seat,
@@ -37,7 +30,8 @@ export function BoardingHeader({
   onLeave,
 }: {
   name: string;
-  seat: string;
+  /** Cabin seat label; null until the server has placed this phone. */
+  seat: string | null;
   title: string;
   status: PhoneStatus;
   statusLabel?: string;
@@ -50,7 +44,7 @@ export function BoardingHeader({
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
           <p className={`${MONO} truncate text-[11px] text-lc-text3`}>
-            {name} · Seat {seat}
+            {name}{seat ? ` · Seat ${seat}` : ''}
           </p>
           <p className="truncate font-display text-xl leading-tight text-lc-text">{title}</p>
         </div>

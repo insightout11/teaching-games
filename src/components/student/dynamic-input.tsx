@@ -1,5 +1,6 @@
 'use client';
 
+import { OptionLetter, PHONE_PRIMARY, PhoneLocked, PhonePrompt, PhoneSubmitStatus, PhoneTimer, phoneOption } from './phone-kit';
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { ShieldHalf } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -157,7 +158,7 @@ function BoardInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }:
         placeholder={spec.placeholder ?? 'Add your idea for the board...'}
         maxLength={maxLength}
         rows={4}
-        className="w-full resize-none rounded-xl border border-lc-border bg-lc-surface px-4 py-3 text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+        className="w-full resize-none rounded-xl border border-lc-border bg-lc-surface px-4 py-3 text-lc-text placeholder:text-lc-text3 focus:outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30"
       />
       <div className="flex items-center justify-between">
         <div>
@@ -167,7 +168,7 @@ function BoardInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }:
         <Button
           onClick={handleSubmit}
           disabled={!value.trim() || isSubmitting || submitStatus === 'rate_limited'}
-          className="bg-gradient-to-r from-cyan-500 to-blue-600"
+          className={PHONE_PRIMARY}
         >
           {isSubmitting ? 'Sending...' : 'Add to Board'}
         </Button>
@@ -177,16 +178,7 @@ function BoardInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }:
 }
 
 // Common status display component
-function SubmitStatus({ status, waitSeconds }: { status: 'idle' | 'success' | 'error' | 'rate_limited'; waitSeconds: number }) {
-  if (status === 'idle') return null;
-  return (
-    <div className="text-sm mt-2">
-      {status === 'success' && <span className="font-medium text-emerald-400">Response submitted ✓</span>}
-      {status === 'error' && <span className="text-red-400">Signal failed</span>}
-      {status === 'rate_limited' && <span className="text-yellow-400">Stand by {waitSeconds}s...</span>}
-    </div>
-  );
-}
+const SubmitStatus = PhoneSubmitStatus;
 
 // Single line text input
 function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clockOffsetMs }: DynamicInputProps) {
@@ -225,7 +217,7 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, cl
   return (
     <div className="space-y-4">
       {spec.prompt && (
-        <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
+        <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       {timerSeconds > 0 && <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />}
       <input
@@ -239,14 +231,14 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, cl
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck={false}
-        className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+        className="w-full px-4 py-3 bg-lc-bg border border-lc-border rounded-xl text-base text-lc-text placeholder:text-lc-text3 focus:outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30"
       />
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col-reverse items-center gap-2">
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
         <Button
           onClick={handleSubmit}
           disabled={isSubmitting || submitStatus === 'rate_limited' || isExpired}
-          className="bg-gradient-to-r from-cyan-500 to-blue-600"
+          className={PHONE_PRIMARY}
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
@@ -346,7 +338,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         <p className="text-sm text-lc-text2 mb-1">{spec.instruction}</p>
       )}
       {spec.prompt && (
-        <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
+        <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       {timerSeconds > 0 && <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />}
       {myWords && myWords.length > 0 && (
@@ -487,7 +479,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         placeholder={spec.placeholder || 'Type your answer...'}
         maxLength={spec.maxLength || 1000}
         rows={4}
-        className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 resize-none"
+        className="w-full px-4 py-3 bg-lc-bg border border-lc-border rounded-xl text-base text-lc-text placeholder:text-lc-text3 focus:outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30 resize-none"
       />
       <div className="flex items-center justify-between">
         <div>
@@ -497,7 +489,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         <Button
           onClick={handleSubmit}
           disabled={!value.trim() || isSubmitting || submitStatus === 'rate_limited' || resourcesRequired || isExpired}
-          className="bg-gradient-to-r from-cyan-500 to-blue-600"
+          className={PHONE_PRIMARY}
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
@@ -558,7 +550,7 @@ function GetReadyGate({ spec, opensIn }: { spec: InputSpec; opensIn: number }) {
   return (
     <div className="space-y-4">
       {spec.prompt && (
-        <p className="text-lg text-cyan-400 font-medium leading-snug">{spec.prompt}</p>
+        <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       <div className="flex flex-col items-center gap-2 py-8">
         <p className="text-xs uppercase tracking-[0.22em] text-lc-text3">Get ready</p>
@@ -570,32 +562,9 @@ function GetReadyGate({ spec, opensIn }: { spec: InputSpec; opensIn: number }) {
 }
 
 /** Visual countdown bar shown above inputs when a timer is active. */
-function TimerBar({ timeLeft, timerSeconds }: { timeLeft: number; timerSeconds: number }) {
-  const timerPct = timerSeconds > 0 ? (timeLeft / timerSeconds) * 100 : 0;
-  const timerColor = timerPct > 50 ? 'bg-green-500' : timerPct > 25 ? 'bg-amber-500' : 'bg-red-500';
-  return (
-    <div className="space-y-1">
-      <div className="flex justify-between text-xs text-lc-text2">
-        <span>Time left</span>
-        <span className={timeLeft <= 5 ? 'text-red-400 font-bold' : ''}>{timeLeft}s</span>
-      </div>
-      <div className="w-full h-2 bg-lc-surface rounded-full overflow-hidden">
-        <div
-          className={`h-full rounded-full transition-all duration-1000 ${timerColor}`}
-          style={{ width: `${timerPct}%` }}
-        />
-      </div>
-    </div>
-  );
-}
+const TimerBar = PhoneTimer;
 
 // Quiz-mode choice input: 2×2 grid, auto-submit, timer, locked state
-const QUIZ_COLORS = [
-  'bg-red-600 hover:bg-red-500 active:bg-red-700',
-  'bg-blue-600 hover:bg-blue-500 active:bg-blue-700',
-  'bg-amber-500 hover:bg-amber-400 active:bg-amber-600',
-  'bg-green-600 hover:bg-green-500 active:bg-green-700',
-];
 const QUIZ_LABELS = ['A', 'B', 'C', 'D'];
 
 function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId, studentId, clockOffsetMs }: DynamicInputProps) {
@@ -648,17 +617,15 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId,
       <div className="flex flex-col items-center gap-3 py-4">
         {result === 'correct' ? (
           <>
-            <div className="text-4xl">✓</div>
-            <p className="text-green-400 font-black text-xl">Correct!</p>
+            <p className="font-display text-4xl text-emerald-300">Correct</p>
             {myData?.pointsEarned !== undefined && (
-              <p className="text-yellow-400 font-bold text-lg">+{myData.pointsEarned} pts</p>
+              <p className="font-display text-2xl text-amber-300">+{myData.pointsEarned}</p>
             )}
           </>
         ) : (
           <>
-            <div className="text-4xl">✗</div>
-            <p className="text-red-400 font-black text-xl">Wrong</p>
-            <p className="text-lc-text2 text-sm">+0 pts</p>
+            <p className="font-display text-4xl text-rose-300">Not this time</p>
+            <p className="text-sm text-lc-text2">Next one&apos;s yours</p>
           </>
         )}
       </div>
@@ -668,16 +635,10 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId,
   // Locked but no result yet (waiting for reveal)
   if (isLocked) {
     return (
-      <div className="flex flex-col items-center gap-3 py-6 text-center">
-        <div className="text-3xl">✓</div>
-        <p className="text-green-400 font-bold text-lg">Vote submitted ✓</p>
-        {selectedIndex !== null && (
-          <p className="text-white font-semibold">
-            {QUIZ_LABELS[selectedIndex]} — {spec.options?.[selectedIndex]}
-          </p>
-        )}
-        <p className="text-lc-text2 text-sm">Waiting for others…</p>
-      </div>
+      <PhoneLocked
+        detail={selectedIndex !== null ? <>{QUIZ_LABELS[selectedIndex]} · {spec.options?.[selectedIndex]}</> : undefined}
+        note="Waiting for the others"
+      />
     );
   }
 
@@ -690,7 +651,7 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId,
   return (
     <div className="space-y-4">
       {spec.prompt && (
-        <p className="text-base text-lc-text font-medium leading-snug">{spec.prompt}</p>
+        <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />
       {/* 2×2 answer grid */}
@@ -700,9 +661,9 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId,
             key={i}
             onClick={() => handlePick(i)}
             disabled={isSubmitting || isExpired}
-            className={`${QUIZ_COLORS[i]} min-h-16 touch-manipulation whitespace-normal break-words text-white rounded-xl p-4 text-left shadow-lg transition-all disabled:opacity-40 active:scale-95`}
+            className={`${phoneOption(false)} min-h-16 whitespace-normal break-words active:scale-95`}
           >
-            <div className="text-xs font-black uppercase tracking-widest opacity-70 mb-1">{QUIZ_LABELS[i]}</div>
+            <div className="mb-1"><OptionLetter index={i} /></div>
             <div className="text-sm font-semibold leading-snug sm:text-base">{option}</div>
           </button>
         ))}
@@ -750,7 +711,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
   return (
     <div className="space-y-4">
       {spec.prompt && (
-        <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
+        <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       {!writeInMode && (
         <div className="space-y-2">
@@ -759,13 +720,13 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
               key={index}
               onClick={() => setSelected(option)}
               disabled={isSubmitting || submitStatus === 'success'}
-              className={`w-full p-4 rounded-xl text-left transition-all ${
+              className={`w-full min-h-14 p-4 rounded-xl text-left text-base transition-all ${
                 selected === option
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                  : 'bg-lc-surface text-lc-text hover:bg-lc-card'
+                  ? 'border border-amber-400 bg-amber-400/15 text-amber-50'
+                  : 'border border-lc-border bg-lc-card text-lc-text hover:border-lc-text3'
               } disabled:opacity-50`}
             >
-              {spec.optionLabels?.[index] ?? option}
+              <OptionLetter index={index} selected={selected === option} />{spec.optionLabels?.[index] ?? option}
             </button>
           ))}
           {spec.allowWriteIn && (
@@ -774,7 +735,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
               disabled={isSubmitting || submitStatus === 'success'}
               className="w-full p-4 rounded-xl text-left transition-all bg-lc-surface text-lc-text2 hover:bg-lc-card border border-dashed border-lc-border disabled:opacity-50"
             >
-              ✏️ Write your own…
+              Write your own…
             </button>
           )}
         </div>
@@ -788,7 +749,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
             placeholder="Write your mission in a few words…"
             rows={3}
             autoFocus
-            className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 resize-none"
+            className="w-full px-4 py-3 bg-lc-bg border border-lc-border rounded-xl text-base text-lc-text placeholder:text-lc-text3 focus:outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30 resize-none"
           />
           <div className="flex items-center justify-between">
             <span className="text-lc-text3 text-xs">{writeInText.length}/100</span>
@@ -801,12 +762,12 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
           </div>
         </div>
       )}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col-reverse items-center gap-2">
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
         <Button
           onClick={handleSubmit}
           disabled={!canSubmit}
-          className="bg-gradient-to-r from-cyan-500 to-blue-600"
+          className={PHONE_PRIMARY}
         >
           {isSubmitting ? 'Submitting...' : submitStatus === 'success' ? 'Submitted' : 'Submit'}
         </Button>
@@ -840,7 +801,7 @@ function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
   return (
     <div className="space-y-4">
       {spec.prompt && (
-        <p className="text-lg text-cyan-400 font-medium text-center">{spec.prompt}</p>
+        <PhonePrompt center>{spec.prompt}</PhonePrompt>
       )}
       <div className="grid grid-cols-2 gap-4">
         {options.map((option, index) => (
@@ -899,7 +860,7 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
   return (
     <div className="space-y-4">
       {spec.prompt && (
-        <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
+        <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       {raceData && (
         <div className="flex gap-4 text-sm text-lc-text2">
@@ -918,20 +879,20 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
               foundWords.has(option)
                 ? 'opacity-40 cursor-not-allowed line-through bg-lc-surface text-lc-text'
                 : selected.has(option)
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                  : 'bg-lc-surface text-lc-text hover:bg-lc-card'
+                  ? 'border border-amber-400 bg-amber-400/15 text-amber-50'
+                  : 'border border-lc-border bg-lc-card text-lc-text hover:border-lc-text3'
             } disabled:opacity-50`}
           >
             {option}
           </button>
         ))}
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col-reverse items-center gap-2">
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
         <Button
           onClick={handleSubmit}
           disabled={selected.size !== selectCount || isSubmitting || submitStatus === 'rate_limited'}
-          className="bg-gradient-to-r from-cyan-500 to-blue-600"
+          className={PHONE_PRIMARY}
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
@@ -986,7 +947,7 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
   return (
     <div className="space-y-4">
       {spec.prompt && (
-        <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
+        <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       {timerSeconds > 0 && <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />}
 
@@ -1023,12 +984,12 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         ))}
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col-reverse items-center gap-2">
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
         <Button
           onClick={handleSubmit}
           disabled={remaining.length > 0 || isSubmitting || isExpired || submitStatus === 'rate_limited'}
-          className="bg-gradient-to-r from-cyan-500 to-blue-600"
+          className={PHONE_PRIMARY}
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
@@ -1094,7 +1055,7 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
   return (
     <div className="space-y-4">
       {spec.prompt && (
-        <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
+        <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       {timerSeconds > 0 && <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />}
 
@@ -1158,12 +1119,12 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
 
       <p className="text-sm text-lc-text2">{corrections.size} correction{corrections.size !== 1 ? 's' : ''} marked</p>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col-reverse items-center gap-2">
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
         <Button
           onClick={handleSubmit}
           disabled={corrections.size === 0 || isSubmitting || isExpired || submitStatus === 'rate_limited'}
-          className="bg-gradient-to-r from-cyan-500 to-blue-600"
+          className={PHONE_PRIMARY}
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
@@ -1290,7 +1251,7 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
           )}
         </div>
       ) : spec.prompt && (
-        <p className="text-lg text-cyan-400 font-medium leading-snug">{spec.prompt}</p>
+        <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       {spec.keywordGroups && spec.keywordGroups.length > 0 ? (
         <div className="space-y-3 text-left">
@@ -1328,7 +1289,7 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
         <button
           onClick={handleConfirm}
           disabled={isSubmitting}
-          className="w-full py-5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-lg shadow-lg hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className={`w-full py-5 text-lg ${PHONE_PRIMARY}`}
         >
           {isSubmitting ? '…' : (spec.buttonLabel ?? 'Confirm')}
         </button>
@@ -1358,7 +1319,7 @@ function RankingInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds 
   return (
     <div className="space-y-4">
       {spec.prompt && (
-        <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
+        <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       <p className="text-sm text-lc-text2">Tap ↑↓ to reorder — 1 is highest</p>
 
@@ -1405,12 +1366,12 @@ function RankingInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds 
         ))}
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col-reverse items-center gap-2">
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
         <Button
           onClick={handleSubmit}
           disabled={isSubmitting || submitStatus === 'rate_limited'}
-          className="bg-gradient-to-r from-cyan-500 to-blue-600"
+          className={PHONE_PRIMARY}
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
@@ -2027,7 +1988,7 @@ function CabinVoteInput({ spec, onSubmit, isSubmitting, submitStatus, displayNam
           rows={4}
           placeholder="Explain your reasoning using the evidence…"
           autoFocus
-          className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-rose-500/50 resize-none"
+          className="w-full px-4 py-3 bg-lc-bg border border-lc-border rounded-xl text-base text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-rose-500/50 resize-none"
         />
         <p className="text-xs text-lc-text3 mt-1 text-right">{motive.length}/180</p>
       </div>

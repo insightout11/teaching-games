@@ -17,9 +17,9 @@ export function reconcileBinarySelection(
 }
 
 export function binaryOptionClassName(selected: boolean): string {
-  return `p-6 rounded-2xl border transition-all font-bold text-xl disabled:opacity-100 ${
+  return `p-6 rounded-2xl border transition-all font-display text-2xl touch-manipulation disabled:opacity-100 ${
     selected
-      ? 'border-cyan-200 bg-cyan-400 text-slate-950 shadow-lg shadow-cyan-500/30 ring-2 ring-cyan-200/70'
-      : 'border-lc-border bg-lc-surface text-lc-text hover:border-cyan-500/50 hover:bg-lc-card'
+      ? 'border-amber-200 bg-amber-400 text-slate-950 ring-2 ring-amber-200/60'
+      : 'border-lc-border bg-lc-card text-lc-text hover:border-lc-text3'
   }`;
 }

@@ -30,7 +30,9 @@ import { openHandChannel, HAND_HEARTBEAT_MS } from '@/lib/live-room/hands';
 import { openWordBankChannel } from '@/lib/live-room/word-bank';
 import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
-import { ActionBar, BoardingHeader, PhoneSheet, seatFor, type PhoneStatus } from '@/components/student/phone-shell';
+import { ActionBar, BoardingHeader, PhoneSheet, type PhoneStatus } from '@/components/student/phone-shell';
+import { OptionLetter, PhoneLabel, PhonePrompt, phoneOption } from '@/components/student/phone-kit';
+import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
@@ -405,6 +407,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // Raise hand: joins the teacher's speaking queue in the cabin.
   const [handRaised, setHandRaised] = useState(false);
   const [seenWordCount, setSeenWordCount] = useState(0);
+  const [seatIndex, setSeatIndex] = useState<number | null>(null);
   const handAt = useRef(0);
   const handChannel = useRef<ReturnType<typeof openHandChannel> | null>(null);
   useEffect(() => {
@@ -520,6 +523,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         clientId: studentSession.clientId,
       });
       if (studentSession.studentId) params.set('studentId', studentSession.studentId);
+      params.set('seat', '1');
       const allowUnchanged = !options?.forceFull && Date.now() - lastFullSessionPollAtRef.current < 60_000;
       if (allowUnchanged && inputSpecRevisionRef.current) {
         params.set('inputSpecRevision', inputSpecRevisionRef.current);
@@ -627,6 +631,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setMyMessages(Array.isArray(data.myMessages) ? data.myMessages : []);
       setPersonalResults(data.personalResults ?? null);
       setDebriefToken(data.debriefToken ?? null);
+      if (typeof data.seatIndex === 'number') setSeatIndex(data.seatIndex);
       setLastResult(data.lastResult ?? null);
       if (typeof data.sessionPoints === 'number') setSessionPoints(data.sessionPoints);
       if (typeof data.responseCount === 'number') {
@@ -1452,7 +1457,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     <StudentSkyShell weather="cruising">
       <BoardingHeader
         name={studentSession.displayName}
-        seat={seatFor(studentSession.clientId)}
+        seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)}
         title={headerTitle}
         status={phoneStatus}
         aside={studentSession.captain ? <CrewAvatar seed={studentSession.avatarSeed} name={studentSession.displayName} captain size={32} /> : undefined}
@@ -1461,11 +1466,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
       {/* Active Poll — side-channel polls render inside Crew Radio instead */}
       {activePoll && !hiddenPollIds.has(activePoll.pollId) && activePoll.metadata?.channel !== 'side' && (
-        <div className={`glass mb-3 rounded-2xl p-4 sm:mb-4 sm:p-6 ${activePoll.metadata?.poll_type === 'bonus_vote' ? 'border border-cyan-500/30' : ''}`}>
-          <div className="flex items-center justify-between mb-1">
-            <h2 className="font-bold text-white">
-              {activePoll.metadata?.poll_type === 'bonus_vote' ? 'Bonus Round! Vote for your game:' : 'Poll'}
-            </h2>
+        <div className="mb-3 rounded-2xl border border-rose-400/30 bg-lc-card p-4 sm:mb-4 sm:p-5">
+          <div className="flex items-center justify-between mb-2">
+            <PhoneLabel tone="text-rose-300">
+              {activePoll.metadata?.poll_type === 'bonus_vote' ? 'Bonus round · vote for your game' : 'Class vote'}
+            </PhoneLabel>
             {activePoll.metadata?.poll_type !== 'bonus_vote' && (
               <button
                 onClick={() => setHiddenPollIds(prev => new Set(prev).add(activePoll.pollId))}
@@ -1477,23 +1482,17 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             )}
           </div>
           {activePoll.metadata?.poll_type !== 'bonus_vote' && (
-            <p className="mb-3 text-base text-cyan-400 sm:mb-4 sm:text-lg">{activePoll.question}</p>
+            <div className="mb-3"><PhonePrompt>{activePoll.question}</PhonePrompt></div>
           )}
           <div className="space-y-2">
-            {activePoll.options.map((option) => (
+            {activePoll.options.map((option, i) => (
               <button
                 key={option}
                 onClick={() => handleVote(option)}
                 disabled={isVoting || (activePoll.metadata?.poll_type === 'bonus_vote' && submittedPollIds.has(activePoll.pollId))}
-                className={`w-full rounded-xl p-3 text-left font-medium transition-all sm:p-4 ${
-                  selectedChoice === option
-                    ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                    : activePoll.metadata?.poll_type === 'bonus_vote'
-                      ? 'bg-white/10 text-gray-200 hover:bg-white/20 text-center'
-                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
-                } disabled:opacity-50`}
+                className={phoneOption(selectedChoice === option)}
               >
-                {option}
+                <OptionLetter index={i} selected={selectedChoice === option} />{option}
               </button>
             ))}
           </div>
@@ -1592,7 +1591,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       {/* Current Signal */}
       <div className={`mb-3 rounded-2xl border p-4 transition-all sm:mb-4 sm:p-5 ${
         inputSpec
-          ? 'bg-slate-950/70 border-cyan-400/25 shadow-[0_0_32px_rgba(34,211,238,0.09)]'
+          ? submitStatus === 'success' ? 'bg-lc-card border-emerald-400/30' : 'bg-lc-card border-amber-400/40'
           : 'bg-white/5 border-white/10'
       }`}>
         {inputSpec ? (
@@ -1677,20 +1676,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             </>
           ) : (
             <>
-              <div className="mb-3 flex items-start justify-between gap-3 sm:mb-4">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <Radio className="h-4 w-4 text-cyan-300" />
-                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-300/70">Current Signal</p>
-                  </div>
-                  <h2 className="mt-1 text-xl font-bold text-white">{getInputActionLabel(inputSpec)}</h2>
-                  {currentSignalName && (
-                    <p className="mt-0.5 truncate text-xs text-slate-400">{currentSignalName}</p>
-                  )}
-                </div>
-                <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-cyan-200">
-                  Live
-                </span>
+              <div className="mb-3">
+                <PhoneLabel tone={submitStatus === 'success' ? 'text-emerald-300' : 'text-amber-300'}>
+                  {getInputActionLabel(inputSpec)}
+                </PhoneLabel>
               </div>
               {inputSpec.gameKey === 'wonder-board' && !inputSpec.wonderParentId && (
                 <div className="flex items-center gap-2 mb-4">

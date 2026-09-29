@@ -6,6 +6,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, Plane, QrCode, Search, Shuffle, X } from 'lucide-react';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
+import { cabinSeatLabel } from '@/lib/live-room/seats';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
@@ -1528,7 +1529,7 @@ export function FlightDeck({
                         animate={{ y: 0, scale: 1, opacity: 1 }}
                         transition={{ type: 'spring', stiffness: 380, damping: 18 }}
                         className="touch-none"
-                        title={p.display_name}
+                        title={`${p.display_name} · Seat ${cabinSeatLabel(r * 4 + c)}`}
                       >
                         <CrewAvatar seed={p.avatar_seed ?? p.display_name} name={p.display_name} size={30} className="rounded-full" />
                       </motion.button>

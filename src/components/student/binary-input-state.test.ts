@@ -10,7 +10,7 @@ describe('binary input submitted state', () => {
     expect(reconcileBinarySelection(1, 'success')).toBe(1);
 
     const selectedClasses = binaryOptionClassName(true);
-    expect(selectedClasses).toContain('bg-cyan-400');
+    expect(selectedClasses).toContain('bg-amber-400');
     expect(selectedClasses).toContain('text-slate-950');
     expect(selectedClasses).toContain('disabled:opacity-100');
   });

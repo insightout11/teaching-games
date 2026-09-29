@@ -113,6 +113,8 @@ interface SessionPayload {
   heldCard: HeldCard | null;
   offeredCards: OfferedCards | null;
   debriefToken: string | null;
+  /** 0-based cabin seat (join order); only when the phone asks with seat=1. */
+  seatIndex?: number | null;
 }
 
 interface SessionLightweightPayload {
@@ -240,6 +242,11 @@ export async function GET(request: NextRequest) {
         heldCard: null,
         offeredCards: null,
         debriefToken: null,
+        seatIndex: (() => {
+          const seated = [...mockStore.getSessionParticipants(sessionId)].sort((a, b) => a.joined_at.localeCompare(b.joined_at));
+          const i = seated.findIndex((p) => p.client_id === clientId);
+          return i >= 0 ? i : null;
+        })(),
       };
 
       return NextResponse.json(payload, {
@@ -281,6 +288,7 @@ export async function GET(request: NextRequest) {
     // ahead of their own leaderboard row.
     let studentId: string | null = null;
     let debriefToken: string | null = null;
+    let seatIndex: number | null = null;
     if (clientId) {
       let { data: participant } = await supabase
         .from('session_participants')
@@ -301,6 +309,27 @@ export async function GET(request: NextRequest) {
       }
       studentId = (participant?.student_id as string | undefined) ?? null;
       debriefToken = (participant?.debrief_token as string | undefined) ?? null;
+      // Cabin seat = join order (the Live Room cabin seats crew by joined_at).
+      if (participant && searchParams.get('seat') === '1') {
+        try {
+          const { data: mine } = await supabase
+            .from('session_participants')
+            .select('joined_at')
+            .eq('session_id', sessionId)
+            .eq('client_id', clientId)
+            .maybeSingle();
+          if (mine?.joined_at) {
+            const { count } = await supabase
+              .from('session_participants')
+              .select('id', { count: 'exact', head: true })
+              .eq('session_id', sessionId)
+              .lt('joined_at', mine.joined_at as string);
+            if (typeof count === 'number') seatIndex = count;
+          }
+        } catch {
+          seatIndex = null;
+        }
+      }
     }
     const personalScoreFilter = studentId
       ? `client_id.eq.${clientId},student_id.eq.${studentId}`
@@ -798,6 +827,7 @@ export async function GET(request: NextRequest) {
       sessionAccuracy,
       heldCard,
       offeredCards,
+      seatIndex,
       debriefToken,
     };
 
