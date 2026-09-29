@@ -1,44 +1,49 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { Crosshair, Eye, EyeOff, Plus, Sparkles, Swords, X } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { usePollVotes } from '@/hooks/use-poll-votes';
-import { Button } from '@/components/ui/button';
+import { useSessionStore } from '@/stores/session-store';
+import { useFocusBus } from '@/stores/focus-bus-store';
 import type { Poll } from '@/lib/supabase/types';
+import { KitButton, KitChip, KitInput, KitLabel, KitReadout, KitSection, KitStatus } from './widget-kit';
 
 interface PollContentProps {
   sessionId: string;
 }
 
-const QUICK_PRESETS = [
-  { label: 'A/B/C/D', options: ['A', 'B', 'C', 'D'] },
-  { label: 'Yes/No', options: ['Yes', 'No'] },
-  { label: '1-5 Scale', options: ['1', '2', '3', '4', '5'] },
-  { label: 'Agree/Disagree', options: ['Strongly Agree', 'Agree', 'Neutral', 'Disagree', 'Strongly Disagree'] },
-];
+/** One-tap poll types. */
+const TYPES = [
+  { key: 'yesno', label: 'Yes / No', options: ['Yes', 'No'] },
+  { key: 'abcd', label: 'A–D', options: ['A', 'B', 'C', 'D'] },
+  { key: 'scale', label: '1–5', options: ['1', '2', '3', '4', '5'] },
+  { key: 'mood', label: 'Mood', options: ['Great', 'Good', 'Okay', 'Tired', 'Confused'] },
+  { key: 'custom', label: 'Custom', options: ['', ''] },
+] as const;
 
-// One color per option index so bars are distinguishable on the projected screen.
-const OPTION_COLORS = [
-  { bar: 'bg-cyan-500/30', text: 'text-cyan-300' },
-  { bar: 'bg-violet-500/30', text: 'text-violet-300' },
-  { bar: 'bg-emerald-500/30', text: 'text-emerald-300' },
-  { bar: 'bg-amber-500/30', text: 'text-amber-300' },
-  { bar: 'bg-rose-500/30', text: 'text-rose-300' },
-  { bar: 'bg-blue-500/30', text: 'text-blue-300' },
-];
+// Bars use the kit colours so they read the same on every widget.
+const BAR_COLORS = ['#67e8f9', '#c4b5fd', '#6ee7b7', '#fcd34d', '#fda4af', '#93c5fd'];
 
 export function PollContent({ sessionId }: PollContentProps) {
   const [activePoll, setActivePoll] = useState<Poll | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [question, setQuestion] = useState('');
-  const [options, setOptions] = useState<string[]>(['', '']);
+  const [type, setType] = useState<(typeof TYPES)[number]['key']>('yesno');
+  const [options, setOptions] = useState<string[]>(['Yes', 'No']);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [revealed, setRevealed] = useState(true);
-  const supabase = createClient();
+  // Results stay hidden until the teacher reveals them (no bandwagon voting).
+  const [revealed, setRevealed] = useState(false);
+  const [aiBusy, setAiBusy] = useState(false);
+  const [note, setNote] = useState<string | null>(null);
+  const supabase = useMemo(() => createClient(), []);
+  const topic = useSessionStore((s) => s.settings.customTopic || s.settings.topic);
+  const difficulty = useSessionStore((s) => s.settings.difficulty);
+  const makeFocus = useFocusBus((s) => s.makeFocus);
 
   const { tallies, votes } = usePollVotes(activePoll?.id || null);
 
-  // Load active poll on mount
   useEffect(() => {
     async function loadActivePoll() {
       const { data } = await supabase
@@ -59,252 +64,190 @@ export function PollContent({ sessionId }: PollContentProps) {
         setActivePoll(expiredSidePoll ? null : poll);
       }
     }
-
     loadActivePoll();
   }, [sessionId, supabase]);
+
+  const pickType = (key: (typeof TYPES)[number]['key']) => {
+    setType(key);
+    setOptions([...TYPES.find((t) => t.key === key)!.options]);
+  };
+
+  const aiPoll = async () => {
+    const t = topic && topic !== 'General' ? topic : '';
+    if (!t) { setNote('Set a topic first (the topic bar at the top).'); return; }
+    setAiBusy(true);
+    try {
+      const res = await fetch('/api/widgets/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'poll', topic: t, difficulty }),
+      });
+      const d = res.ok ? await res.json() : null;
+      if (!d?.question) { setNote('Could not write a poll right now.'); return; }
+      setQuestion(d.question);
+      setType('custom');
+      setOptions(d.options);
+    } finally {
+      setAiBusy(false);
+    }
+  };
 
   const handleCreatePoll = async () => {
     const trimmedQuestion = question.trim();
     const validOptions = options.map((o) => o.trim()).filter((o) => o.length > 0);
-
     if (!trimmedQuestion || validOptions.length < 2) return;
-
     setIsSubmitting(true);
-
-    // Close any existing active poll
     if (activePoll) {
-      await supabase
-        .from('polls')
-        .update({ is_active: false })
-        .eq('id', activePoll.id);
+      await supabase.from('polls').update({ is_active: false }).eq('id', activePoll.id);
     }
-
-    // Create new poll
     const { data, error } = await supabase
       .from('polls')
-      .insert({
-        session_id: sessionId,
-        question: trimmedQuestion,
-        options: validOptions,
-        is_active: true,
-      })
+      .insert({ session_id: sessionId, question: trimmedQuestion, options: validOptions, is_active: true })
       .select()
       .single();
-
     if (!error && data) {
       setActivePoll(data as Poll);
       setIsCreating(false);
+      setRevealed(false);
       setQuestion('');
-      setOptions(['', '']);
+      pickType('yesno');
     }
-
     setIsSubmitting(false);
   };
 
   const handleClosePoll = async () => {
     if (!activePoll) return;
-
-    await supabase
-      .from('polls')
-      .update({ is_active: false })
-      .eq('id', activePoll.id);
-
+    await supabase.from('polls').update({ is_active: false }).eq('id', activePoll.id);
     setActivePoll(null);
   };
 
-  const handlePreset = (preset: typeof QUICK_PRESETS[0]) => {
-    setOptions(preset.options);
-  };
-
-  const addOption = () => {
-    if (options.length < 6) {
-      setOptions([...options, '']);
-    }
-  };
-
-  const removeOption = (index: number) => {
-    if (options.length > 2) {
-      setOptions(options.filter((_, i) => i !== index));
-    }
-  };
-
   const totalVotes = votes.length;
-  const optionCounts = activePoll ? (activePoll.options as string[]).map((o) => tallies[o] || 0) : [];
-  const maxCount = optionCounts.length ? Math.max(...optionCounts) : 0;
+  const pollOptions = (activePoll?.options as string[] | undefined) ?? [];
+  const ranked = pollOptions.map((o) => ({ o, n: tallies[o] || 0 })).sort((a, b) => b.n - a.n);
+  const maxCount = ranked[0]?.n ?? 0;
+  const resultsText = ranked.map((r) => `${r.o}: ${r.n}`).join(', ');
 
   return (
-    <div className="p-4 overflow-x-hidden">
-      {/* Active poll status badge */}
-      {activePoll && (
-        <div className="mb-3 flex items-center gap-2">
-          <span className="px-2 py-0.5 text-xs bg-green-500/20 text-green-400 rounded-full">Active</span>
-        </div>
-      )}
-
-      {/* Active Poll Display */}
+    <div className="space-y-4 overflow-x-hidden p-4">
       {activePoll && !isCreating && (
-        <div className="space-y-4">
-          <div>
-            <p className="mb-2 text-base font-semibold leading-snug text-white">{activePoll.question}</p>
-            <div className="mb-3 flex items-center justify-between">
-              <p className="text-xs text-gray-400">{totalVotes} vote{totalVotes === 1 ? '' : 's'}</p>
-              <button
-                onClick={() => setRevealed((r) => !r)}
-                className="text-xs font-medium text-cyan-400 hover:text-cyan-300"
-              >
-                {revealed ? 'Hide results' : 'Reveal results'}
-              </button>
-            </div>
-
-            <div className="space-y-2">
-              {(activePoll.options as string[]).map((option, index) => {
-                const count = tallies[option] || 0;
-                const percentage = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
-                const color = OPTION_COLORS[index % OPTION_COLORS.length];
-                const isLeading = revealed && totalVotes > 0 && count === maxCount;
-
-                return (
-                  <div
-                    key={option}
-                    className={`relative overflow-hidden rounded-lg border bg-white/[0.03] ${
-                      isLeading ? 'border-white/25' : 'border-white/10'
-                    }`}
-                  >
-                    <div
-                      className={`absolute inset-y-0 left-0 ${color.bar} transition-all duration-500 ease-out`}
-                      style={{ width: revealed ? `${percentage}%` : '0%' }}
-                    />
-                    <div className="relative flex items-center justify-between px-3 py-2.5 text-sm">
-                      <span className="flex items-center gap-1.5 font-medium text-white">
-                        {option}
-                        {isLeading && <span className={`text-xs ${color.text}`}>▲</span>}
-                      </span>
-                      {revealed ? (
-                        <span className={`font-bold ${color.text}`}>
-                          {percentage}% <span className="text-xs font-normal text-white/40">({count})</span>
-                        </span>
-                      ) : (
-                        <span className="text-xs text-white/30">hidden</span>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+        <>
+          <div className="flex items-center justify-between gap-2">
+            <KitStatus state="live" count={totalVotes} countLabel={totalVotes === 1 ? 'vote' : 'votes'} />
+            <KitButton tone={revealed ? 'plain' : 'amber'} solid={!revealed && totalVotes > 0} icon={revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />} onClick={() => setRevealed((r) => !r)}>
+              {revealed ? 'Hide results' : 'Reveal results'}
+            </KitButton>
           </div>
+          <KitReadout>{activePoll.question}</KitReadout>
+
+          <div className="space-y-2">
+            {pollOptions.map((option, index) => {
+              const count = tallies[option] || 0;
+              const pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+              const leading = revealed && totalVotes > 0 && count === maxCount;
+              const color = BAR_COLORS[index % BAR_COLORS.length];
+              return (
+                <div key={option} className={`relative overflow-hidden rounded-xl border bg-black/20 ${leading ? 'border-white/35' : 'border-white/10'}`}>
+                  <motion.div
+                    className="absolute inset-y-0 left-0"
+                    style={{ background: `${color}40` }}
+                    initial={false}
+                    animate={{ width: revealed ? `${pct}%` : '0%' }}
+                    transition={{ type: 'spring', stiffness: 70, damping: 16, delay: revealed ? index * 0.12 : 0 }}
+                  />
+                  <div className="relative flex items-center justify-between px-3 py-2.5 text-sm">
+                    <span className="flex items-center gap-2 font-medium text-white">
+                      <i className="h-2.5 w-2.5 rounded-full" style={{ background: color }} />
+                      {option}
+                    </span>
+                    {revealed ? (
+                      <span className="font-mono font-bold" style={{ color }}>{pct}% <span className="text-xs font-normal text-white/45">({count})</span></span>
+                    ) : (
+                      <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/30">hidden</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {revealed && totalVotes > 0 && makeFocus && (
+            <KitSection label="Next">
+              <div className="flex flex-wrap gap-1.5">
+                <KitButton tone="amber" icon={<Crosshair className="h-3.5 w-3.5" />} onClick={() => makeFocus({ title: activePoll.question, text: `Class poll results: ${resultsText}.` })}>
+                  Make it the topic
+                </KitButton>
+                {ranked.length >= 2 && ranked[1].n > 0 && (
+                  <KitButton tone="amber" icon={<Swords className="h-3.5 w-3.5" />} onClick={() => makeFocus({ title: `Debate: ${ranked[0].o} or ${ranked[1].o}?`, text: `The class was split on "${activePoll.question}" (${resultsText}). Each side explains why.` })}>
+                    Debate it
+                  </KitButton>
+                )}
+              </div>
+            </KitSection>
+          )}
 
           <div className="flex gap-2">
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => setIsCreating(true)}
-              className="flex-1 text-xs"
-            >
-              New Poll
-            </Button>
-            <Button
-              size="sm"
-              variant="danger"
-              onClick={handleClosePoll}
-              className="flex-1 text-xs"
-            >
-              Close Poll
-            </Button>
+            <KitButton className="flex-1" onClick={() => setIsCreating(true)}>New poll</KitButton>
+            <KitButton className="flex-1" tone="rose" onClick={handleClosePoll}>Close poll</KitButton>
           </div>
-        </div>
+        </>
       )}
 
-      {/* Create Poll Form */}
       {(isCreating || !activePoll) && (
-        <div className="space-y-4">
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">Question</label>
-            <input
-              type="text"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Enter your question..."
-              className="w-full px-3 py-2 bg-lc-surface border border-lc-border rounded-lg text-sm text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
-            />
+        <>
+          <div className="flex items-center justify-between gap-2">
+            <KitStatus state="draft" />
+            <KitButton tone="violet" icon={<Sparkles className="h-3.5 w-3.5" />} disabled={aiBusy} onClick={() => void aiPoll()}>
+              {aiBusy ? 'Writing…' : 'Poll from topic'}
+            </KitButton>
           </div>
+          {note && <button type="button" onClick={() => setNote(null)} className="text-left text-xs text-amber-200/80">{note}</button>}
 
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className="text-xs text-gray-400">Options</label>
-              <select
-                defaultValue=""
-                onChange={(e) => {
-                  const preset = QUICK_PRESETS.find((p) => p.label === e.target.value);
-                  if (preset) handlePreset(preset);
-                  e.currentTarget.value = '';
-                }}
-                className="text-xs bg-lc-surface border border-lc-border rounded px-1.5 py-0.5 text-lc-text focus:outline-none cursor-pointer"
-              >
-                <option value="" disabled>Preset…</option>
-                {QUICK_PRESETS.map((p) => (
-                  <option key={p.label} value={p.label}>{p.label}</option>
-                ))}
-              </select>
+          <KitSection label="Question">
+            <KitInput value={question} onChange={(e) => setQuestion(e.target.value)} placeholder="Ask the class something…" />
+          </KitSection>
+
+          <KitSection label="Answers">
+            <div className="flex flex-wrap gap-1.5">
+              {TYPES.map((t) => <KitChip key={t.key} on={type === t.key} onClick={() => pickType(t.key)}>{t.label}</KitChip>)}
             </div>
-
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {options.map((option, index) => (
-                <div key={index} className="flex gap-2">
-                  <input
-                    type="text"
+                <div key={index} className="flex items-center gap-2">
+                  <i className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: BAR_COLORS[index % BAR_COLORS.length] }} />
+                  <KitInput
                     value={option}
-                    onChange={(e) => {
-                      const newOptions = [...options];
-                      newOptions[index] = e.target.value;
-                      setOptions(newOptions);
-                    }}
-                    placeholder={`Option ${index + 1}`}
-                    className="flex-1 px-3 py-2 bg-lc-surface border border-lc-border rounded-lg text-sm text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
+                    onChange={(e) => { const next = [...options]; next[index] = e.target.value; setOptions(next); setType('custom'); }}
+                    placeholder={`Answer ${index + 1}`}
                   />
                   {options.length > 2 && (
-                    <button
-                      onClick={() => removeOption(index)}
-                      className="px-2 text-gray-400 hover:text-red-400"
-                    >
-                      x
+                    <button type="button" onClick={() => setOptions(options.filter((_, i) => i !== index))} className="text-white/40 hover:text-rose-300" aria-label="Remove answer">
+                      <X className="h-4 w-4" />
                     </button>
                   )}
                 </div>
               ))}
             </div>
-
             {options.length < 6 && (
-              <button
-                onClick={addOption}
-                className="mt-2 text-xs text-cyan-400 hover:text-cyan-300"
-              >
-                + Add option
+              <button type="button" onClick={() => setOptions([...options, ''])} className="flex items-center gap-1 text-xs text-cyan-200/80 hover:text-cyan-100">
+                <Plus className="h-3.5 w-3.5" /> Add answer
               </button>
             )}
-          </div>
+          </KitSection>
 
           <div className="flex gap-2">
-            {activePoll && (
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={() => setIsCreating(false)}
-                className="flex-1 text-xs"
-              >
-                Cancel
-              </Button>
-            )}
-            <Button
-              size="sm"
-              variant="primary"
+            {activePoll && <KitButton className="flex-1" onClick={() => setIsCreating(false)}>Cancel</KitButton>}
+            <KitButton
+              className="flex-1"
+              tone="amber"
+              solid
               onClick={handleCreatePoll}
               disabled={!question.trim() || options.filter((o) => o.trim()).length < 2 || isSubmitting}
-              className="flex-1 text-xs"
             >
-              {isSubmitting ? 'Creating...' : 'Create Poll'}
-            </Button>
+              {isSubmitting ? 'Starting…' : 'Start poll'}
+            </KitButton>
           </div>
-        </div>
+          <KitLabel className="text-center">Results stay hidden until you reveal them</KitLabel>
+        </>
       )}
     </div>
   );
