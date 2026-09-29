@@ -103,6 +103,11 @@ export function BoardingHeader({
           </button>
         </div>
       </div>
+      {(status === 'reconnecting' || status === 'offline') && (
+        <p className={`${MONO} mt-2 text-[11px] ${status === 'offline' ? 'text-red-300' : 'text-amber-300'}`}>
+          {status === 'offline' ? 'No signal · check your Wi-Fi, this page will catch up' : 'Finding the signal · keep this page open'}
+        </p>
+      )}
     </header>
   );
 }

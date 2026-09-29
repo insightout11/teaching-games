@@ -35,6 +35,7 @@ import { ActionBar, BoardingHeader, PhoneSheet, type PhoneStatus } from '@/compo
 import { OptionLetter, PhoneLabel, PhonePrompt, phoneOption } from '@/components/student/phone-kit';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { Phrasebook } from '@/components/student/phrase-card';
+import { useScreenWakeLock } from '@/components/student/use-screen-wake-lock';
 import type { ReferenceVocabItem } from '@/lib/reference-materials';
 import {
   loadProgress,
@@ -804,6 +805,21 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     );
     return () => clearInterval(interval);
   }, [canonicalReady, checkSession, effectiveRealtimeHealth]);
+
+  // Phones sleep, switch apps and drop Wi-Fi. When the page comes back or the
+  // network returns, catch up at once instead of waiting for the next poll.
+  useEffect(() => {
+    const resync = () => void checkSession({ forceFull: true, source: 'safety-fallback' });
+    const onVisible = () => { if (document.visibilityState === 'visible') resync(); };
+    document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('online', resync);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('online', resync);
+    };
+  }, [checkSession]);
+
+  useScreenWakeLock(sessionActive);
 
   // Load flight deck prefs once on mount
   useEffect(() => {
