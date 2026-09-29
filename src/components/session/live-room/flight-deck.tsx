@@ -4,7 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Crosshair, ExternalLink, Maximize2, Menu, Minimize2, Plane, QrCode, Search, Shuffle, X } from 'lucide-react';
+import { Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, Plane, QrCode, Search, Shuffle, X } from 'lucide-react';
+import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
@@ -600,6 +601,43 @@ export function FlightDeck({
     return new Set(scores.filter((s) => new Date(s.created_at).getTime() >= since).map((s) => s.student_id || s.client_id || ''));
   }, [scores, runningKey]);
   const seatCount = Math.max(12, Math.ceil((seated.length + 1) / 4) * 4);
+
+  // Raised hands: the speaking queue, oldest hand first.
+  const [hands, setHands] = useState<Record<string, { name: string; at: number; seen: number }>>({});
+  const handChannel = useRef<ReturnType<typeof openHandChannel> | null>(null);
+  useEffect(() => {
+    const ch = openHandChannel(sessionId, (m) => {
+      if (m.type !== 'hand') return;
+      setHands((prev) => {
+        const next = { ...prev };
+        if (m.raised) next[m.clientId] = { name: m.name, at: m.at || Date.now(), seen: Date.now() };
+        else delete next[m.clientId];
+        return next;
+      });
+    });
+    handChannel.current = ch;
+    const sweep = window.setInterval(() => {
+      setHands((prev) => {
+        const now = Date.now();
+        const next = Object.fromEntries(Object.entries(prev).filter(([, h]) => now - h.seen < HAND_STALE_MS));
+        return Object.keys(next).length === Object.keys(prev).length ? prev : next;
+      });
+    }, 4000);
+    return () => { window.clearInterval(sweep); ch.close(); handChannel.current = null; };
+  }, [sessionId]);
+  const handQueue = useMemo(() => Object.entries(hands).sort((a, b) => a[1].at - b[1].at).map(([clientId, h]) => ({ clientId, ...h })), [hands]);
+  const lowerHand = (clientId: string) => {
+    handChannel.current?.send({ type: 'lower', clientId });
+    setHands((prev) => { const next = { ...prev }; delete next[clientId]; return next; });
+  };
+  const nextSpeaker = () => {
+    const first = handQueue[0];
+    if (!first) return;
+    const p = seated.find((s) => s.client_id === first.clientId);
+    if (p) setSpotlight(p.id);
+    flash(`${first.name}, go ahead!`);
+    lowerHand(first.clientId);
+  };
 
   const spinRoulette = () => {
     if (roulette || seated.length === 0) return;
@@ -1397,6 +1435,24 @@ export function FlightDeck({
         <button type="button" onClick={spinRoulette} disabled={seated.length === 0 || !!roulette} className="flex items-center justify-center gap-1.5 rounded-xl border border-amber-300/50 bg-amber-300/10 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-amber-300 hover:bg-amber-300/20 disabled:opacity-40">
           <Shuffle className="h-3.5 w-3.5" /> Pick a student
         </button>
+        {handQueue.length > 0 && (
+          <div className="rounded-xl border border-amber-300/40 bg-amber-300/[0.07] p-2">
+            <div className="flex items-center justify-between gap-2">
+              <p className="flex items-center gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-200"><Hand className="h-3 w-3" /> Hands up</p>
+              <button type="button" onClick={nextSpeaker} className="rounded-full bg-amber-300 px-2.5 py-0.5 text-[11px] font-semibold text-[#1a1204] hover:brightness-105">Next</button>
+            </div>
+            <ol className="mt-1.5 space-y-1">
+              {handQueue.slice(0, 5).map((h, i) => (
+                <li key={h.clientId} className="flex items-center gap-1.5 text-xs text-white/85">
+                  <span className="grid h-4 w-4 place-items-center rounded-full bg-amber-300/25 font-mono text-[9px] text-amber-100">{i + 1}</span>
+                  <span className="min-w-0 flex-1 truncate">{h.name}</span>
+                  <button type="button" onClick={() => lowerHand(h.clientId)} title="Lower hand" className="text-white/40 hover:text-white"><X className="h-3 w-3" /></button>
+                </li>
+              ))}
+            </ol>
+            {handQueue.length > 5 && <p className="mt-1 text-[10px] text-white/45">+{handQueue.length - 5} more</p>}
+          </div>
+        )}
         <div className="relative flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto rounded-[80px_80px_22px_22px] border border-[#2A3854] bg-gradient-to-b from-[#141e32] to-[#0d1524] px-3 pb-3 pt-7">
           <p className="absolute inset-x-0 top-2.5 text-center font-mono text-[9px] tracking-[0.2em] text-white/35">FLIGHT DECK</p>
           {Array.from({ length: seatCount / 4 }, (_, r) => (
@@ -1407,6 +1463,7 @@ export function FlightDeck({
                 const k = p ? keyOf(p) : '';
                 const lit = p && answered.has(k);
                 const spot = p && (spotlight === p.id || roulette === p.id);
+                const handPos = p ? handQueue.findIndex((h) => h.clientId === p.client_id) : -1;
                 return (
                   <div
                     key={c}
@@ -1434,6 +1491,11 @@ export function FlightDeck({
                       <span className="h-2.5 w-2.5 rounded-full border border-dashed border-[#2b3855]" />
                     )}
                     {p && <span className="absolute -bottom-3 left-1/2 max-w-[56px] -translate-x-1/2 truncate font-mono text-[8px] text-white/60">{p.display_name}</span>}
+                    {handPos >= 0 && (
+                      <span className="absolute -right-1.5 -top-1.5 flex h-4 items-center gap-0.5 rounded-full bg-amber-300 px-1 font-mono text-[9px] font-bold text-[#1a1204] shadow-[0_0_10px_rgba(252,211,77,.7)]" title={`Hand up (#${handPos + 1})`}>
+                        <Hand className="h-2.5 w-2.5" />{handPos + 1}
+                      </span>
+                    )}
                   </div>
                 );
               })}

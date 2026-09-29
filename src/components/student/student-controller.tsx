@@ -26,7 +26,8 @@ import { DebatePrepPanel } from './debate-prep-panel';
 import { VALIDATION } from '@/lib/config/rate-limits';
 import { buildStandbyTipPool } from '@/lib/standby-tips';
 import { grammarReference } from '@/lib/grammar';
-import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, RadioTower, ClipboardCheck, Share2, Check, MessageCircle } from 'lucide-react';
+import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, RadioTower, ClipboardCheck, Share2, Check, MessageCircle, Hand } from 'lucide-react';
+import { openHandChannel, HAND_HEARTBEAT_MS } from '@/lib/live-room/hands';
 import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { QRCodeSVG } from 'qrcode.react';
@@ -399,6 +400,29 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [submittedPollIds, setSubmittedPollIds] = useState<Set<string>>(new Set());
 
   const [myMessages, setMyMessages] = useState<Array<{ id: string; content: string; status: 'sent' | 'shown' | 'replied' | 'seen'; reply: string | null }>>([]);
+
+  // Raise hand: joins the teacher's speaking queue in the cabin.
+  const [handRaised, setHandRaised] = useState(false);
+  const handAt = useRef(0);
+  const handChannel = useRef<ReturnType<typeof openHandChannel> | null>(null);
+  useEffect(() => {
+    const ch = openHandChannel(sessionId, (m) => {
+      if (m.type === 'lower' && m.clientId === studentSession.clientId) setHandRaised(false);
+    });
+    handChannel.current = ch;
+    return () => { ch.close(); handChannel.current = null; };
+  }, [sessionId, studentSession.clientId]);
+  useEffect(() => {
+    const announce = () => handChannel.current?.send({ type: 'hand', clientId: studentSession.clientId, name: studentSession.displayName, raised: handRaised, at: handAt.current });
+    announce();
+    if (!handRaised) return;
+    const t = window.setInterval(announce, HAND_HEARTBEAT_MS);
+    return () => window.clearInterval(t);
+  }, [handRaised, studentSession.clientId, studentSession.displayName]);
+  const toggleHand = () => {
+    if (!handRaised) handAt.current = Date.now();
+    setHandRaised((v) => !v);
+  };
 
   useEffect(() => {
     const radioState = loadCrewRadioState(sessionId);
@@ -2085,13 +2109,25 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
       {/* Message the teacher: always one tap away, with what happened to it */}
       <div className="glass rounded-2xl p-4 mb-4 space-y-3">
-        <button
-          type="button"
-          onClick={() => setOpenPanel((p) => (p === 'question' ? null : 'question'))}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-cyan-400/40 bg-cyan-500/15 py-3 text-sm font-semibold text-cyan-200 hover:bg-cyan-500/25"
-        >
-          <MessageCircle className="h-4 w-4" /> Message the teacher
-        </button>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={toggleHand}
+            aria-pressed={handRaised}
+            className={`flex items-center justify-center gap-2 rounded-xl border py-3 text-sm font-semibold transition-colors ${
+              handRaised ? 'border-amber-300 bg-amber-300/25 text-amber-100' : 'border-amber-300/40 bg-amber-300/10 text-amber-200 hover:bg-amber-300/20'
+            }`}
+          >
+            <Hand className="h-4 w-4" /> {handRaised ? 'Hand up · lower' : 'Raise hand'}
+          </button>
+          <button
+            type="button"
+            onClick={() => setOpenPanel((p) => (p === 'question' ? null : 'question'))}
+            className="flex items-center justify-center gap-2 rounded-xl border border-cyan-400/40 bg-cyan-500/15 py-3 text-sm font-semibold text-cyan-200 hover:bg-cyan-500/25"
+          >
+            <MessageCircle className="h-4 w-4" /> Message
+          </button>
+        </div>
         {myMessages.length > 0 && (
           <div className="space-y-2">
             {myMessages.slice(0, 3).map((m) => (
