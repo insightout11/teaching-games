@@ -20,7 +20,7 @@ import { CatalogueDrawer } from '@/components/live-room/ui/cockpit-workspace/coc
 import type { CatalogueEntry } from '@/components/live-room/ui/cockpit-workspace/types';
 import { WIDGET_REGISTRY } from '@/components/session/widget-registry';
 import { useWidgetStore } from '@/stores/widget-store';
-import { useSnapZones, type SnapAnchor } from '@/stores/snap-zones-store';
+import { useSnapZones, snappedPosition, type SnapAnchor } from '@/stores/snap-zones-store';
 import { useSessionStore } from '@/stores/session-store';
 import { useLiveRoomStore, useRoom, type RoomItem } from '@/stores/live-room-store';
 import { SourcesDrawer, hostOf } from '@/components/session/live-room/sources-drawer';
@@ -383,6 +383,42 @@ export function FlightDeck({
   useEffect(() => {
     WIDGET_REGISTRY.forEach((w) => closeWidgetStore(w.id));
   }, [closeWidgetStore]);
+  // Each view remembers its own widget layout: leaving a view saves what was open
+  // and where; entering a view with a saved layout restores it.
+  const viewLayouts = useRef<Partial<Record<DeckView, Record<string, { x: number; y: number }>>>>({});
+  const prevView = useRef<DeckView>(view);
+  useEffect(() => {
+    const from = prevView.current;
+    if (from === view) return;
+    prevView.current = view;
+    const ws = useWidgetStore.getState().widgets;
+    const open: Record<string, { x: number; y: number }> = {};
+    for (const w of WIDGET_REGISTRY) if (ws[w.id]?.isOpen) open[w.id] = ws[w.id].position;
+    viewLayouts.current[from] = open;
+    const saved = viewLayouts.current[view];
+    if (!saved) return;
+    for (const w of WIDGET_REGISTRY) {
+      if (saved[w.id]) {
+        setWidgetPosition(w.id, saved[w.id]);
+        openWidgetStore(w.id);
+      } else closeWidgetStore(w.id);
+    }
+  }, [view, setWidgetPosition, openWidgetStore, closeWidgetStore]);
+
+  const applyTemplate = (t: ScreenTemplate) => {
+    for (const w of WIDGET_REGISTRY) if (!(w.id in t.widgets)) closeWidgetStore(w.id);
+    for (const id of Object.keys(t.widgets)) openWidgetStore(id);
+    // Place once rendered, so each widget snaps by its real size.
+    requestAnimationFrame(() => {
+      const zones = useSnapZones.getState().zones;
+      for (const [id, anchor] of Object.entries(t.widgets)) {
+        const zone = zones.find((z) => z.anchor === anchor);
+        const el = document.querySelector<HTMLElement>(`[data-widget-id="${id}"]`);
+        if (zone && el) setWidgetPosition(id, snappedPosition(zone, el.offsetWidth, el.offsetHeight));
+      }
+    });
+  };
+
   const openTool = (id: string, x: number, y: number) => {
     setWidgetPosition(id, { x: Math.max(8, Math.min(window.innerWidth - 340, x - 160)), y: Math.max(8, y - 420) });
     openWidgetStore(id);
@@ -985,7 +1021,16 @@ export function FlightDeck({
               All {catalogue.length}…
             </button>
           </div>
-          <p className="mt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">Tools · open where you click, drag anywhere</p>
+          <p className="mt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
+            Tools · open where you click, drag to a windscreen corner to snap
+            <span className="ml-3 inline-flex gap-1 normal-case tracking-normal">
+              {SCREEN_TEMPLATES.map((t) => (
+                <button key={t.name} type="button" onClick={() => applyTemplate(t)} title={t.hint} className="rounded-md border border-white/15 px-1.5 py-0.5 text-[10px] text-white/60 hover:border-amber-300/50 hover:text-amber-200">
+                  {t.name}
+                </button>
+              ))}
+            </span>
+          </p>
           <div className="flex flex-wrap gap-2">
             {WIDGET_REGISTRY.filter((w) => w.id !== 'random-picker').map((w) => (
               <button key={w.id} type="button" onClick={(e) => openTool(w.id, e.clientX, e.clientY)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] bg-[#111A2B] px-2.5 py-1.5 text-xs text-white/70 hover:border-[#3d5176] hover:text-white">
@@ -1018,6 +1063,20 @@ export function FlightDeck({
     </div>
   );
 }
+
+interface ScreenTemplate {
+  name: string;
+  hint: string;
+  widgets: Record<string, SnapAnchor>;
+}
+
+/** One-click shared-screen layouts: which widgets are open and which windscreen corner each takes. */
+const SCREEN_TEMPLATES: ScreenTemplate[] = [
+  { name: 'Clear', hint: 'Close every widget', widgets: {} },
+  { name: 'Timed task', hint: 'Timer in the top-right corner', widgets: { timer: 'tr' } },
+  { name: 'Vote', hint: 'Poll bottom-left, timer top-right', widgets: { poll: 'bl', timer: 'tr' } },
+  { name: 'Brainstorm', hint: 'Word cloud bottom-left, class questions bottom-right', widgets: { 'word-cloud': 'bl', 'class-questions': 'br' } },
+];
 
 const SNAP_INSET = 14;
 const SNAP_ANCHORS: SnapAnchor[] = ['tl', 'tc', 'tr', 'bl', 'bc', 'br'];

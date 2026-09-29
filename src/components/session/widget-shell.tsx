@@ -128,6 +128,7 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
   const content = (
     <div
       ref={shellRef}
+      data-widget-id={id}
       style={{
         position: 'fixed',
         left: expanded ? '2vw' : widget.position.x,
