@@ -248,6 +248,26 @@ export function FlightDeck({
       mapMaxZoom: 9,
     } as InputSpec);
   };
+  // Class map extras: your own question, a detailed map, and pin → topic.
+  const [customPin, setCustomPin] = useState('');
+  const [detailedMap, setDetailedMap] = useState(false);
+  const [pinPick, setPinPick] = useState<{ pin: DeckMapPin; levels: Array<{ kind: string; label: string }> | null } | null>(null);
+  const pickPin = (id: string) => {
+    const pin = pins.find((p) => p.id === id);
+    if (!pin) return;
+    setPinPick({ pin, levels: null });
+    void fetch(`/api/live-room/place?lat=${pin.lat}&lng=${pin.lng}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setPinPick((cur) => (cur?.pin.id === id ? { pin, levels: Array.isArray(d?.levels) ? d.levels : [] } : cur)))
+      .catch(() => setPinPick((cur) => (cur?.pin.id === id ? { pin, levels: [] } : cur)));
+  };
+  const askCustom = () => {
+    const q = customPin.trim();
+    if (!q) return;
+    startPins(q);
+    setCustomPin('');
+  };
+
   const stopPins = () => {
     setPinRound(null);
     void setInputSpec(null);
@@ -878,6 +898,16 @@ export function FlightDeck({
                 {q}
               </button>
             ))}
+            <form onSubmit={(e) => { e.preventDefault(); askCustom(); }} className="flex items-center gap-1">
+              <input
+                value={customPin}
+                onChange={(e) => setCustomPin(e.target.value.slice(0, 120))}
+                placeholder="Your own question…"
+                aria-label="Your own class map question"
+                className="w-44 rounded-lg border border-white/20 bg-slate-950/60 px-2.5 py-1 text-xs text-white placeholder:text-white/40 focus:border-rose-300/60 focus:outline-none"
+              />
+              {customPin.trim() && <button type="submit" className="rounded-lg border border-rose-300/50 px-2 py-1 text-xs text-rose-100 hover:bg-rose-300/10">Ask</button>}
+            </form>
           </div>
         </div>
       </div>
@@ -961,7 +991,38 @@ export function FlightDeck({
     scene = (
       <div className="relative h-full w-full max-w-5xl overflow-hidden rounded-3xl border border-white/15 shadow-2xl">
         {mapMode === 'pins' ? (
-          <DeckMap className="h-full w-full" pins={pins} />
+          <>
+            <DeckMap
+              className="h-full w-full"
+              pins={pins}
+              detailed={detailedMap}
+              onPinClick={pickPin}
+              focusPoint={pinPick ? { lat: pinPick.pin.lat, lng: pinPick.pin.lng, zoom: detailedMap ? 11 : 6 } : null}
+            />
+            {pinPick && (
+              <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-white/15 bg-slate-950/85 p-3 backdrop-blur-md">
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-sm text-white"><b>{pinPick.pin.label ?? 'A student'}</b>&apos;s pin{pinPick.levels?.length ? ` · ${pinPick.levels[0].label}` : ''}</p>
+                  <button type="button" onClick={() => setPinPick(null)} className="text-white/50 hover:text-white" aria-label="Close"><X className="h-4 w-4" /></button>
+                </div>
+                <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-amber-300">Make it the topic</p>
+                <div className="mt-1.5 flex flex-wrap gap-1.5">
+                  {pinPick.levels === null && <span className="text-xs text-white/50">Finding the place…</span>}
+                  {pinPick.levels?.length === 0 && <span className="text-xs text-white/50">No place name here (open sea?).</span>}
+                  {pinPick.levels?.map((l) => (
+                    <button
+                      key={l.kind + l.label}
+                      type="button"
+                      onClick={() => { makeFocus({ title: l.label, credit: pinPick.pin.label }); setPinPick(null); }}
+                      className="flex items-center gap-1 rounded-lg border border-amber-300/40 px-2.5 py-1 text-xs text-amber-100 hover:bg-amber-300/10"
+                    >
+                      <Crosshair className="h-3 w-3" /> {l.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
         ) : flightStage === 'gate' ? (
           <>
             <DeckMap className="h-full w-full" pins={plannerPins} paths={plannerPaths} onPinClick={(id) => { if (!id.startsWith('origin:')) setChosenId(id); }} />
@@ -996,12 +1057,29 @@ export function FlightDeck({
                 <Minimize2 className="h-3 w-3" /> Shrink to corner
               </button>
             )}
+            {mapMode === 'pins' && (
+              <button type="button" onClick={() => setDetailedMap((v) => !v)} className={`rounded-lg border px-2.5 py-1 text-xs ${detailedMap ? 'border-sky-300/60 bg-sky-300/15 text-sky-100' : 'border-white/20 bg-slate-950/75 text-white/85 hover:text-white'}`}>
+                {detailedMap ? 'Detailed map' : 'Simple map'}
+              </button>
+            )}
             <button type="button" onClick={() => setMapMode(mapMode === 'pins' ? 'tracker' : 'pins')} className="rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">
               {mapMode === 'pins' ? 'Flight tracker' : 'Class map'}
             </button>
             {mapMode === 'pins' && !pinRound && PIN_PROMPTS.map((q) => (
               <button key={q} type="button" onClick={() => startPins(q)} className="rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">{q}</button>
             ))}
+            {mapMode === 'pins' && !pinRound && (
+            <form onSubmit={(e) => { e.preventDefault(); askCustom(); }} className="flex items-center gap-1">
+              <input
+                value={customPin}
+                onChange={(e) => setCustomPin(e.target.value.slice(0, 120))}
+                placeholder="Your own question…"
+                aria-label="Your own class map question"
+                className="w-44 rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white placeholder:text-white/40 focus:border-rose-300/60 focus:outline-none"
+              />
+              {customPin.trim() && <button type="submit" className="rounded-lg border border-rose-300/50 px-2 py-1 text-xs text-rose-100 hover:bg-rose-300/10">Ask</button>}
+            </form>
+            )}
           </div>
         </div>
       </div>

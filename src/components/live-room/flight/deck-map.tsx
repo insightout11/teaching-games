@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type Marker } from 'maplibre-gl';
-import { createWorldFlightGuessMapStyle } from '@/data/world-flight/map-style';
+import { createCityStreetMapStyle, createWorldFlightGuessMapStyle } from '@/data/world-flight/map-style';
 import { greatCirclePoint, type LatLng } from '@/lib/live-room/route-terrain';
 
 /**
@@ -26,6 +26,10 @@ export interface DeckMapProps {
   className?: string;
   /** Makes pins tappable (e.g. picking the next destination). */
   onPinClick?: (id: string) => void;
+  /** Detailed map: roads, buildings, parks and place names when zoomed in. */
+  detailed?: boolean;
+  /** Fly to a point (e.g. the pin the teacher just tapped). */
+  focusPoint?: (LatLng & { zoom: number }) | null;
 }
 
 const STEPS = 64;
@@ -62,7 +66,7 @@ function pinElement(pin: DeckMapPin, onClick?: (id: string) => void) {
   return el;
 }
 
-export function DeckMap({ pins, paths = [], focusZoom, labels = true, className = '', onPinClick }: DeckMapProps) {
+export function DeckMap({ pins, paths = [], focusZoom, labels = true, className = '', onPinClick, detailed = false, focusPoint = null }: DeckMapProps) {
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const markers = useRef<Map<string, Marker>>(new Map());
@@ -70,6 +74,8 @@ export function DeckMap({ pins, paths = [], focusZoom, labels = true, className 
   const clickRef = useRef(onPinClick);
   clickRef.current = onPinClick;
   const [ready, setReady] = useState(false);
+  // Bumped each time a style finishes loading (switching styles drops our layers).
+  const [styleGen, setStyleGen] = useState(0);
 
   useEffect(() => {
     if (!box.current || mapRef.current) return;
@@ -81,9 +87,12 @@ export function DeckMap({ pins, paths = [], focusZoom, labels = true, className 
       attributionControl: false,
       renderWorldCopies: true,
     });
-    map.on('load', () => {
-      map.addSource('deck-paths', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
-      map.addLayer({ id: 'deck-paths', type: 'line', source: 'deck-paths', paint: { 'line-color': '#ffb547', 'line-width': 3, 'line-dasharray': [2, 1.2] } });
+    map.on('style.load', () => {
+      if (!map.getSource('deck-paths')) {
+        map.addSource('deck-paths', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+        map.addLayer({ id: 'deck-paths', type: 'line', source: 'deck-paths', paint: { 'line-color': '#ffb547', 'line-width': 3, 'line-dasharray': [2, 1.2] } });
+      }
+      setStyleGen((g) => g + 1);
       setReady(true);
     });
     mapRef.current = map;
@@ -123,11 +132,6 @@ export function DeckMap({ pins, paths = [], focusZoom, labels = true, className 
     });
 
     const lines = paths.map((p) => arc(p.a, p.b));
-    (map.getSource('deck-paths') as GeoJSONSource | undefined)?.setData({
-      type: 'FeatureCollection',
-      features: lines.map((coordinates) => ({ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates } })),
-    });
-
     const all: Coord[] = [...pins.map((p): Coord => [p.lng, p.lat]), ...lines.flat()];
     if (all.length === 1 || (focusZoom && pins.length === 1)) {
       map.flyTo({ center: all[0], zoom: focusZoom ?? 4, duration: 1200 });
@@ -137,6 +141,31 @@ export function DeckMap({ pins, paths = [], focusZoom, labels = true, className 
       map.fitBounds([[Math.min(...lngs), Math.min(...lats)], [Math.max(...lngs), Math.max(...lats)]], { padding: 60, maxZoom: 5, duration: 900 });
     }
   }, [ready, pins, paths, focusZoom]);
+
+  // Route lines (redrawn after a style switch too, which clears them).
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready) return;
+    (map.getSource('deck-paths') as GeoJSONSource | undefined)?.setData({
+      type: 'FeatureCollection',
+      features: paths.map((pth) => ({ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: arc(pth.a, pth.b) } })),
+    });
+  }, [ready, paths, styleGen]);
+
+  // Simple ↔ detailed map, keeping the view where it is.
+  const firstStyle = useRef(true);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    if (firstStyle.current) { firstStyle.current = false; if (!detailed) return; }
+    map.setStyle(detailed ? createCityStreetMapStyle(true) : createWorldFlightGuessMapStyle(labels));
+  }, [detailed, labels]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready || !focusPoint) return;
+    map.flyTo({ center: [focusPoint.lng, focusPoint.lat], zoom: focusPoint.zoom, duration: 1400 });
+  }, [ready, focusPoint]);
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
