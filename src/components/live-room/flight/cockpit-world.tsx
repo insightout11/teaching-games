@@ -173,9 +173,12 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
     if (!canvas || !ctx) return;
     const macro = ctx.createPattern(macroTexture(), 'repeat');
 
-    let w = 0, h = 0;
+    let w = 0, h = 0, rowH = 2;
     const fit = () => {
       const dpr = Math.min(2, window.devicePixelRatio || 1);
+      // Rows exactly 2 device pixels tall, so neighbouring rows never overlap
+      // on half-pixels (overlaps doubled the haze into faint lines).
+      rowH = 2 / dpr;
       const r = canvas.getBoundingClientRect();
       w = r.width; h = r.height;
       canvas.width = w * dpr; canvas.height = h * dpr;
@@ -201,14 +204,14 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
       pat.setTransform(new DOMMatrix([k, 0, 0, k, w / 2 - 330 * s, y - ((camZ + z) / TILE_WORLD) * s]));
       ctx.globalAlpha = alpha;
       ctx.fillStyle = pat;
-      ctx.fillRect(0, y, w, 2);
+      ctx.fillRect(0, y, w, rowH);
       if (macro && withMacro) {
         const m = (F / z) * MACRO_WORLD;
         macro.setTransform(new DOMMatrix([m, 0, 0, m, w / 2 + 3100 * (F / z), y - ((camZ + z) / MACRO_WORLD) * m]));
         ctx.globalCompositeOperation = 'overlay';
         ctx.globalAlpha = alpha * layer.macroAlpha;
         ctx.fillStyle = macro;
-        ctx.fillRect(0, y, w, 2);
+        ctx.fillRect(0, y, w, rowH);
         ctx.globalCompositeOperation = 'source-over';
       }
       ctx.globalAlpha = 1;
@@ -231,7 +234,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
 
       // ── Ground, row by row at its true depth ───────────────────────────
       if (L.length) {
-        for (let y = Math.ceil(horizonY) + 1; y < h; y += 2) {
+        const y0 = (Math.ceil((horizonY + 1) / rowH)) * rowH;
+        for (let y = y0; y < h; y += rowH) {
           const z = (CAM_HEIGHT * F) / (y - horizonY);   // world depth of this row
           const wz = camZ + z;
           let i = L.length - 1;
@@ -247,7 +251,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
           // Aerial perspective. At night the air is dark: lights shine through further.
           const fog = Math.min(1, z / Z_FAR);
           ctx.fillStyle = `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, dark ? 0.9 : 0.55) * (dark ? 0.7 : 0.92)})`;
-          ctx.fillRect(0, y, w, 2);
+          ctx.fillRect(0, y, w, rowH);
         }
       }
 
