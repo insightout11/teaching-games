@@ -28,6 +28,7 @@ import { buildStandbyTipPool } from '@/lib/standby-tips';
 import { grammarReference } from '@/lib/grammar';
 import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, RadioTower, ClipboardCheck, Share2, Check, MessageCircle, Hand } from 'lucide-react';
 import { openHandChannel, HAND_HEARTBEAT_MS } from '@/lib/live-room/hands';
+import { openWordBankChannel } from '@/lib/live-room/word-bank';
 import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { QRCodeSVG } from 'qrcode.react';
@@ -419,6 +420,19 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     const t = window.setInterval(announce, HAND_HEARTBEAT_MS);
     return () => window.clearInterval(t);
   }, [handRaised, studentSession.clientId, studentSession.displayName]);
+  // Word bank: tell the teacher when you used a key word while speaking.
+  const [usedWords, setUsedWords] = useState<Set<string>>(new Set());
+  const wordBank = useRef<ReturnType<typeof openWordBankChannel> | null>(null);
+  useEffect(() => {
+    const ch = openWordBankChannel(sessionId);
+    wordBank.current = ch;
+    return () => { ch.close(); wordBank.current = null; };
+  }, [sessionId]);
+  const markWordUsed = (word: string) => {
+    setUsedWords((prev) => new Set(prev).add(word.toLowerCase()));
+    wordBank.current?.send({ word, clientId: studentSession.clientId, name: studentSession.displayName, at: Date.now() });
+  };
+
   const toggleHand = () => {
     if (!handRaised) handAt.current = Date.now();
     setHandRaised((v) => !v);
@@ -2213,12 +2227,25 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               <div className="glass rounded-2xl p-4">
                 <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-3">Key Vocabulary</p>
                 <div className="space-y-2.5">
-                  {referenceVocab.map((item) => (
-                    <div key={item.word}>
-                      <span className="text-sm font-semibold text-cyan-400">{item.word}</span>
-                      <span className="text-gray-400 text-xs"> — {item.definition}</span>
-                    </div>
-                  ))}
+                  {referenceVocab.map((item) => {
+                    const used = usedWords.has(item.word.toLowerCase());
+                    return (
+                      <div key={item.word} className="flex items-start gap-2">
+                        <div className="min-w-0 flex-1">
+                          <span className="text-sm font-semibold text-cyan-400">{item.word}</span>
+                          <span className="text-gray-400 text-xs"> — {item.definition}</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => markWordUsed(item.word)}
+                          disabled={used}
+                          className={`shrink-0 rounded-full border px-2 py-0.5 text-[11px] font-semibold ${used ? 'border-emerald-400/50 bg-emerald-400/15 text-emerald-200' : 'border-cyan-400/40 text-cyan-200 hover:bg-cyan-500/15'}`}
+                        >
+                          {used ? 'Used!' : 'I used it!'}
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}

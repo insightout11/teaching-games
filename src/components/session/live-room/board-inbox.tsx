@@ -30,6 +30,8 @@ export function BoardInbox({ sessionId }: { sessionId: string }) {
       .eq('session_id', sessionId)
       .eq('visibility', 'pending')
       .eq('author_type', 'student')
+      // Word cloud words and exit tickets aren't board cards to approve.
+      .not('board_key', 'in', '("word-cloud","exit-ticket")')
       .order('created_at', { ascending: true });
     if (data) setCards(data as PendingCard[]);
   }, [sessionId, supabase]);

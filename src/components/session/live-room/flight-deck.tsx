@@ -325,7 +325,8 @@ export function FlightDeck({
         .select('id', { count: 'exact', head: true })
         .eq('session_id', sessionId)
         .eq('visibility', 'pending')
-        .eq('author_type', 'student');
+        .eq('author_type', 'student')
+        .not('board_key', 'in', '("word-cloud","exit-ticket")');
       if (!cancelled && typeof cards === 'number') setWaitingCards(cards);
     };
     void check().catch(() => {});
@@ -538,6 +539,9 @@ export function FlightDeck({
   }, [focused?.id]);
   const focusBrief = focused ? briefs[focused.id] : undefined;
   const brief = typeof focusBrief === 'object' ? focusBrief : null;
+  // The topic's key words feed the Word bank widget.
+  const setBusVocab = useFocusBus((s) => s.setVocab);
+  useEffect(() => { setBusVocab(brief?.vocab ?? []); }, [brief, setBusVocab]);
 
   // Setting a focus item starts preparing the top two activity stamps for it, so
   // launching one of them is near-instant. (Games generate inside themselves.)
@@ -1640,6 +1644,7 @@ interface FocusBrief {
   briefing: string;
   facts: string[];
   angles: string[];
+  vocab?: Array<{ word: string; definition: string }>;
 }
 
 /** The glareshield topic bar: type anything to make it the class's topic; recent topics one tap away. */
