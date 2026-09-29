@@ -1,10 +1,18 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+export type WidgetMode = 'free' | 'half-left' | 'half-right' | 'full';
+
 export interface WidgetEntry {
   position: { x: number; y: number };
   isOpen: boolean;
   zIndex?: number;
+  /** Free size set with the resize handle (null: the default size). */
+  size?: { w: number; h: number } | null;
+  /** Live Room: fill half or all of the windscreen instead of floating. */
+  mode?: WidgetMode;
+  /** See-through, so the view outside stays visible. */
+  glass?: boolean;
 }
 
 interface WidgetStoreState {
@@ -17,6 +25,7 @@ interface WidgetStoreState {
   closeWidget: (id: string) => void;
   setDefaultPosition: (id: string, pos: { x: number; y: number }, defaultOpen?: boolean) => void;
   resetLayout: (positions: Record<string, { x: number; y: number }>) => void;
+  setLayout: (id: string, patch: Partial<Pick<WidgetEntry, 'size' | 'mode' | 'glass' | 'position'>>) => void;
 }
 
 const DEFAULT_Z = 100;
@@ -114,6 +123,20 @@ export const useWidgetStore = create<WidgetStoreState>()(
         });
       },
 
+      setLayout: (id, patch) => {
+        set((state) => ({
+          widgets: {
+            ...state.widgets,
+            [id]: {
+              ...state.widgets[id],
+              position: state.widgets[id]?.position ?? { x: 0, y: 0 },
+              isOpen: state.widgets[id]?.isOpen ?? true,
+              ...patch,
+            },
+          },
+        }));
+      },
+
       resetLayout: (positions) => {
         const widgets: Record<string, WidgetEntry> = {};
         for (const [id, pos] of Object.entries(positions)) {
@@ -129,7 +152,7 @@ export const useWidgetStore = create<WidgetStoreState>()(
         widgets: Object.fromEntries(
           Object.entries(state.widgets).map(([id, w]) => [
             id,
-            { position: w.position, isOpen: w.isOpen },
+            { position: w.position, isOpen: w.isOpen, size: w.size ?? null, mode: w.mode ?? 'free', glass: w.glass ?? false },
           ])
         ),
       }),

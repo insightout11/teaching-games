@@ -1556,6 +1556,7 @@ export interface SnapHost {
  */
 function SnapGuides({ hosts }: { hosts: SnapHost[] }) {
   const setZones = useSnapZones((s) => s.setZones);
+  const setWindRect = useSnapZones((s) => s.setWindRect);
   const dragging = useSnapZones((s) => s.dragging);
   const hotId = useSnapZones((s) => s.hot);
   const [rects, setRects] = useState<Array<{ id: string; anchor: SnapAnchor; r: DOMRect }>>([]);
@@ -1569,6 +1570,7 @@ function SnapGuides({ hosts }: { hosts: SnapHost[] }) {
         const el = h.ref.current;
         if (!el) continue;
         const r = el.getBoundingClientRect();
+        if (h.id === 'wind') setWindRect({ left: r.left, top: r.top, width: r.width, height: r.height });
         for (const a of h.anchors) next.push({ id: `${h.id}-${a}`, anchor: a, r });
       }
       setRects(next);
@@ -1587,10 +1589,11 @@ function SnapGuides({ hosts }: { hosts: SnapHost[] }) {
       ro.disconnect();
       window.removeEventListener('resize', update);
       setZones([]);
+      setWindRect(null);
     };
     // Hosts are refs; re-register when the set of hosts changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, setZones]);
+  }, [key, setZones, setWindRect]);
 
   if (!dragging) return null;
   return (

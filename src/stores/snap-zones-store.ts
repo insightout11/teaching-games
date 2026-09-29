@@ -18,6 +18,9 @@ export interface SnapZone {
 
 interface SnapZonesState {
   zones: SnapZone[];
+  /** The Live Room windscreen in viewport coordinates (widgets can fill half or all of it). */
+  windRect: { left: number; top: number; width: number; height: number } | null;
+  setWindRect: (r: SnapZonesState['windRect']) => void;
   dragging: boolean;
   hot: string | null;
   setZones: (zones: SnapZone[]) => void;
@@ -27,6 +30,8 @@ interface SnapZonesState {
 
 export const useSnapZones = create<SnapZonesState>((set) => ({
   zones: [],
+  windRect: null,
+  setWindRect: (windRect) => set({ windRect }),
   dragging: false,
   hot: null,
   setZones: (zones) => set({ zones }),
