@@ -86,13 +86,19 @@ export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive =
   const live = useRef({ speed, density, horizon, tint, dive });
   live.current = { speed, density, horizon, tint, dive };
 
-  const tintKey = tint.join(',');
+  // Light shifts only repaint the sprites; the clouds themselves keep flying.
+  const tintKey = tint.map((v) => Math.round(v / 12) * 12).join(',');
+  const sprites = useRef<HTMLCanvasElement[]>([]);
+  useEffect(() => {
+    sprites.current = Array.from({ length: SPRITES }, (_, i) => makeSprite(live.current.tint, i + 1));
+  }, [tintKey]);
+
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    const sprites = Array.from({ length: SPRITES }, (_, i) => makeSprite(live.current.tint, i + 1));
+    if (!sprites.current.length) sprites.current = Array.from({ length: SPRITES }, (_, i) => makeSprite(live.current.tint, i + 1));
     const clouds: Cloud[] = Array.from({ length: 20 }, () => {
       const c = { x: 0, y: 0, z: 0, size: 0, sprite: 0 };
       spawn(c, false);
@@ -145,7 +151,7 @@ export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive =
         const near = Math.min(1, Math.max(0, (c.z - 120) / 700));
         const far = Math.min(1, (3200 - c.z) / 1100);
         ctx.globalAlpha = Math.max(0, Math.min(near, far)) * 0.75;
-        ctx.drawImage(sprites[c.sprite], px, py, sw, sh);
+        ctx.drawImage(sprites.current[c.sprite], px, py, sw, sh);
       }
       ctx.globalAlpha = 1;
       raf = requestAnimationFrame(frame);
@@ -155,9 +161,7 @@ export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive =
       cancelAnimationFrame(raf);
       ro.disconnect();
     };
-    // Sprites are rebuilt only when the tint changes (light/weather shifts).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tintKey, reduce]);
+  }, [reduce]);
 
   return <canvas ref={ref} aria-hidden className="pointer-events-none absolute inset-0 h-full w-full" />;
 }
