@@ -1,6 +1,7 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
+import { AnimatePresence, motion, useDragControls, useReducedMotion } from 'framer-motion';
 import { BookOpen, Hand, LogOut, MessageCircle, X } from 'lucide-react';
 
 // The student phone is a boarding pass + seat panel: a fixed header that says
@@ -19,6 +20,34 @@ const STATUS: Record<PhoneStatus, { label: string; text: string; dot: string; pu
 };
 
 export const MONO = 'font-[family-name:var(--font-instrument)] uppercase tracking-[0.12em]';
+
+/** Short phone buzz patterns — each one means something. */
+export const BUZZ = {
+  yourTurn: [30, 60, 30],
+  sent: 18,
+  stamp: 55,
+  hand: 12,
+} as const;
+
+export function buzz(pattern: number | readonly number[]) {
+  try {
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) navigator.vibrate(pattern as number | number[]);
+  } catch {
+    // iOS Safari has no vibration — the visual moment carries it
+  }
+}
+
+/** Buzz when the phone starts wanting something, or confirms it got it. */
+export function useStatusBuzz(status: PhoneStatus) {
+  const prev = useRef<PhoneStatus | null>(null);
+  useEffect(() => {
+    const was = prev.current;
+    prev.current = status;
+    if (was === null || was === status) return;
+    if (status === 'your-turn' || status === 'vote') buzz(BUZZ.yourTurn);
+    else if (status === 'sent') buzz(BUZZ.sent);
+  }, [status]);
+}
 
 export function BoardingHeader({
   name,
@@ -39,6 +68,8 @@ export function BoardingHeader({
   onLeave: () => void;
 }) {
   const s = STATUS[status];
+  const reduce = useReducedMotion();
+  useStatusBuzz(status);
   return (
     <header className="sticky top-0 z-30 -mx-3 -mt-3 mb-3 border-b-2 border-dashed border-lc-border bg-lc-card px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] backdrop-blur sm:-mx-4 sm:-mt-4">
       <div className="flex items-center justify-between gap-3">
@@ -49,9 +80,17 @@ export function BoardingHeader({
           <p className="truncate font-display text-xl leading-tight text-lc-text">{title}</p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
-          <span className={`${MONO} flex items-center gap-1.5 text-[11px] ${s.text}`} role="status">
-            <span className={`h-2 w-2 rounded-full ${s.dot} ${s.pulse ? 'animate-pulse' : ''}`} />
-            {statusLabel ?? s.label}
+          <span role="status" className="relative flex items-center">
+            <motion.span
+              key={status}
+              initial={reduce ? false : { y: -8, opacity: 0, scale: 0.9 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 520, damping: 30 }}
+              className={`${MONO} flex items-center gap-1.5 text-[11px] ${s.text}`}
+            >
+              <span className={`h-2 w-2 rounded-full ${s.dot} ${s.pulse ? 'animate-pulse' : ''}`} />
+              {statusLabel ?? s.label}
+            </motion.span>
           </span>
           {aside}
           <button
@@ -88,7 +127,7 @@ function BarButton({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`relative flex min-h-[60px] flex-col items-center justify-center gap-1 text-[12px] font-medium transition-colors ${
+      className={`relative flex min-h-[60px] flex-col items-center justify-center gap-1 text-[12px] font-medium transition-[color,transform] active:scale-90 ${
         active ? tone : 'text-lc-text2 hover:text-lc-text'
       }`}
     >
@@ -133,7 +172,7 @@ export function ActionBar({
           label={handRaised ? 'Hand up' : 'Hand'}
           active={handRaised}
           tone="text-amber-300"
-          onClick={onHand}
+          onClick={() => { buzz(BUZZ.hand); onHand(); }}
         />
         <BarButton
           icon={<MessageCircle className="h-5 w-5" />}
@@ -166,20 +205,52 @@ export function PhoneSheet({
   onClose: () => void;
   children: ReactNode;
 }) {
-  if (!open) return null;
+  const reduce = useReducedMotion();
+  const dragControls = useDragControls();
   return (
-    <div className="fixed inset-0 z-50 flex items-end" role="dialog" aria-label={title}>
-      <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0 bg-black/60" />
-      <div className="relative mx-auto max-h-[82vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border-t border-lc-border bg-lc-surface px-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-3">
-        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-lc-border" />
-        <div className="mb-3 flex items-center justify-between">
-          <p className="font-display text-2xl text-lc-text">{title}</p>
-          <button type="button" onClick={onClose} aria-label="Close" className="rounded-lg p-2 text-lc-text3 hover:text-lc-text">
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-        {children}
-      </div>
-    </div>
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key="sheet"
+          className="fixed inset-0 z-50 flex items-end"
+          role="dialog"
+          aria-label={title}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: reduce ? 0 : 0.18 }}
+        >
+          <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0 bg-black/60" />
+          <motion.div
+            initial={reduce ? false : { y: '100%' }}
+            animate={{ y: 0 }}
+            exit={reduce ? undefined : { y: '100%' }}
+            transition={{ type: 'spring', stiffness: 420, damping: 38 }}
+            drag={reduce ? false : 'y'}
+            dragControls={dragControls}
+            dragListener={false}
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={{ top: 0, bottom: 0.6 }}
+            onDragEnd={(_, info) => { if (info.offset.y > 110 || info.velocity.y > 600) onClose(); }}
+            className="relative mx-auto max-h-[82vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border-t border-lc-border bg-lc-surface px-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-3"
+          >
+            <div
+              className="-mx-4 -mt-3 flex touch-none cursor-grab justify-center pb-3 pt-3"
+              onPointerDown={(e) => dragControls.start(e)}
+              aria-hidden
+            >
+              <div className="h-1 w-10 rounded-full bg-lc-border" />
+            </div>
+            <div className="mb-3 flex items-center justify-between">
+              <p className="font-display text-2xl text-lc-text">{title}</p>
+              <button type="button" onClick={onClose} aria-label="Close" className="rounded-lg p-2 text-lc-text3 hover:text-lc-text">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            {children}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

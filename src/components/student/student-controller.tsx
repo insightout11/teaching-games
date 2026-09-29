@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { motion, useAnimationControls, useReducedMotion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
@@ -1332,7 +1333,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     now: connectionNow,
   });
   const newWordCount = countNewWords(phraseProgress, (referenceVocab ?? []).map((v) => v.word));
-  const latestNewWord = (referenceVocab ?? []).find((v) => phraseState(phraseProgress, phraseHistory, v.word, sessionId) === 'new') ?? null;
+  const nowCardControls = useAnimationControls();
+  const reduceMotion = useReducedMotion();
+  const roundKey = inputSpec ? `${inputSpec.gameKey ?? ''}:${inputSpec.roundId ?? ''}:${inputSpec.prompt ?? ''}` : '';
+  useEffect(() => {
+    if (!roundKey || reduceMotion) return;
+    void nowCardControls.start({ y: [14, 0], opacity: [0.4, 1], transition: { type: 'spring', stiffness: 380, damping: 26 } });
+  }, [roundKey, reduceMotion, nowCardControls]);
+  const latestNewWord =(referenceVocab ?? []).find((v) => phraseState(phraseProgress, phraseHistory, v.word, sessionId) === 'new') ?? null;
   const pollWaiting = Boolean(activePoll && !hiddenPollIds.has(activePoll.pollId) && activePoll.metadata?.channel !== 'side' && !submittedPollIds.has(activePoll.pollId));
   const phoneStatus: PhoneStatus =
     effectiveConnectionState === 'offline' ? 'offline'
@@ -1614,8 +1622,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         );
       })()}
 
-      {/* Current Signal */}
-      <div className={`mb-3 rounded-2xl border p-4 transition-all sm:mb-4 sm:p-5 ${
+      {/* Current Signal — the "now" card. Slides in when a new round lands (no remount, so inputs keep state). */}
+      <motion.div animate={nowCardControls} className={`mb-3 rounded-2xl border p-4 transition-colors sm:mb-4 sm:p-5 ${
         inputSpec
           ? submitStatus === 'success' ? 'bg-lc-card border-emerald-400/30' : 'bg-lc-card border-amber-400/40'
           : 'bg-white/5 border-white/10'
@@ -1864,7 +1872,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             )}
           </div>
         )}
-      </div>
+      </motion.div>
 
       {/* Cockpit Timer mirror — same countdown as the shared screen */}
       <StudentTimerPill timer={sharedTimer} clockOffsetMs={clockOffsetMs} />

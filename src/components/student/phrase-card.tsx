@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Star, Volume2 } from 'lucide-react';
 import type { PhraseSource, ReferenceVocabItem } from '@/lib/reference-materials';
 import type { PhraseState } from '@/lib/phrasebook-progress';
+import { buzz, BUZZ } from '@/components/student/phone-shell';
 
 // Pocket Phrasebook: words are cream "postcard paper" cards the student keeps.
 // Cream only ever means "something you keep"; everything else stays cockpit-dark.
@@ -207,7 +208,7 @@ export function Phrasebook({
           usedAt={usedAtOf(item.word)}
           place={place}
           fresh={freshWord === item.word}
-          onUse={() => { onUse(item.word); setFreshWord(item.word); }}
+          onUse={() => { onUse(item.word); setFreshWord(item.word); window.setTimeout(() => buzz(BUZZ.stamp), 260); }}
         />
         {items.length > 1 && (
           <div className="grid grid-cols-2 gap-2">
