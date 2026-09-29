@@ -20,6 +20,7 @@ import { CatalogueDrawer } from '@/components/live-room/ui/cockpit-workspace/coc
 import type { CatalogueEntry } from '@/components/live-room/ui/cockpit-workspace/types';
 import { WIDGET_REGISTRY } from '@/components/session/widget-registry';
 import { useWidgetStore } from '@/stores/widget-store';
+import { useSnapZones, type SnapAnchor } from '@/stores/snap-zones-store';
 import { useSessionStore } from '@/stores/session-store';
 import { useLiveRoomStore, useRoom, type RoomItem } from '@/stores/live-room-store';
 import { SourcesDrawer, hostOf } from '@/components/session/live-room/sources-drawer';
@@ -666,6 +667,7 @@ export function FlightDeck({
           window.setTimeout(onCompleteSession, 4500);
         }}
       />
+      <SnapGuides host={windRef} presenting={presenting} />
       {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
         <p className="pointer-events-none absolute bottom-3 left-4 z-[5] rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/80 backdrop-blur-sm">
           {holding ? `Holding over ${destination.city}` : `Below us: ${below.name}`}
@@ -1013,6 +1015,69 @@ export function FlightDeck({
         </div>,
         document.body,
       )}
+    </div>
+  );
+}
+
+const SNAP_INSET = 14;
+const SNAP_ANCHORS: SnapAnchor[] = ['tl', 'tc', 'tr', 'bl', 'bc', 'br'];
+
+/**
+ * Registers the windscreen's corners and edges as widget snap zones (in viewport
+ * coordinates) and shows them while a widget is being dragged.
+ */
+function SnapGuides({ host, presenting }: { host: React.RefObject<HTMLDivElement>; presenting: boolean }) {
+  const setZones = useSnapZones((s) => s.setZones);
+  const dragging = useSnapZones((s) => s.dragging);
+  const hotId = useSnapZones((s) => s.hot);
+  const [box, setBox] = useState<{ w: number; h: number } | null>(null);
+
+  useEffect(() => {
+    const el = host.current;
+    if (!el) return;
+    const update = () => {
+      const r = el.getBoundingClientRect();
+      setBox({ w: r.width, h: r.height });
+      setZones(
+        SNAP_ANCHORS.map((a) => ({
+          id: `wind-${a}`,
+          anchor: a,
+          x: a.endsWith('l') ? r.left + SNAP_INSET : a.endsWith('r') ? r.right - SNAP_INSET : r.left + r.width / 2,
+          y: a.startsWith('t') ? r.top + SNAP_INSET : r.bottom - SNAP_INSET,
+        })),
+      );
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener('resize', update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', update);
+      setZones([]);
+    };
+  }, [host, presenting, setZones]);
+
+  if (!dragging || !box) return null;
+  const gw = Math.min(260, box.w * 0.28);
+  const gh = Math.min(150, box.h * 0.3);
+  return (
+    <div className="pointer-events-none absolute inset-0 z-40">
+      {SNAP_ANCHORS.map((a) => {
+        const left = a.endsWith('l') ? SNAP_INSET : a.endsWith('r') ? box.w - SNAP_INSET - gw : (box.w - gw) / 2;
+        const top = a.startsWith('t') ? SNAP_INSET : box.h - SNAP_INSET - gh;
+        const on = hotId === `wind-${a}`;
+        return (
+          <div
+            key={a}
+            className={[
+              'absolute rounded-2xl border-2 border-dashed transition-all duration-150',
+              on ? 'border-amber-300 bg-amber-300/20 shadow-[0_0_30px_rgba(252,211,77,0.45)]' : 'border-white/35 bg-white/5',
+            ].join(' ')}
+            style={{ left, top, width: gw, height: gh }}
+          />
+        );
+      })}
     </div>
   );
 }

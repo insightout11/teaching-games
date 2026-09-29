@@ -1,5 +1,6 @@
 'use client';
 
+import { useSnapZones, nearestZone, snappedPosition } from '@/stores/snap-zones-store';
 import { useEffect, useRef, useState, useMemo, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Maximize2, Minimize2 } from 'lucide-react';
@@ -101,10 +102,25 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
     const x = Math.max(0, Math.min(dragStart.current.posX + dx, window.innerWidth - shellW));
     const y = Math.max(0, Math.min(dragStart.current.posY + dy, window.innerHeight - shellH));
     setPosition(id, { x, y });
+    // Live Room snap zones (none registered elsewhere): highlight the one we'd snap to.
+    const snap = useSnapZones.getState();
+    if (snap.zones.length) {
+      if (!snap.dragging) snap.setDragging(true);
+      const zone = nearestZone(snap.zones, x, y, shellW, shellH);
+      if ((zone?.id ?? null) !== snap.hot) snap.setHot(zone?.id ?? null);
+    }
   };
 
   const handlePointerUp = () => {
     isDragging.current = false;
+    const snap = useSnapZones.getState();
+    if (snap.zones.length) {
+      const zone = snap.zones.find((z) => z.id === snap.hot);
+      if (zone && shellRef.current) {
+        setPosition(id, snappedPosition(zone, shellRef.current.offsetWidth, shellRef.current.offsetHeight));
+      }
+      snap.setDragging(false);
+    }
   };
 
   if (!mounted || !widget.isOpen) return null;
