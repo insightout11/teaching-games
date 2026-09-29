@@ -31,7 +31,8 @@ describe('route terrain', () => {
     const SEOUL = { lat: 37.57, lng: 126.98 };
     const BANGKOK = { lat: 13.75, lng: 100.5 };
     expect(overflightAt(SEOUL, BANGKOK, 0.1)).toMatchObject({ terrain: 'ocean', name: 'the Yellow Sea' });
-    expect(terrainAt({ lat: 36, lng: 128 })).toMatchObject({ terrain: 'farmland', name: 'Asia' });
+    expect(terrainAt({ lat: 37.3, lng: 127 })).toMatchObject({ terrain: 'farmland', name: 'Asia' });
+    expect(terrainAt({ lat: 36.5, lng: 128.5 })).toMatchObject({ terrain: 'hills', name: 'the mountains of Korea' });
     expect(terrainAt({ lat: 10, lng: 101.5 })).toMatchObject({ terrain: 'ocean', name: 'the Gulf of Thailand' });
     expect(terrainAt({ lat: 28, lng: 125 })).toMatchObject({ terrain: 'ocean', name: 'the East China Sea' });
     expect(terrainAt({ lat: 14, lng: 100.6 }).terrain).not.toBe('ocean');

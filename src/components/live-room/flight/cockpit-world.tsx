@@ -19,7 +19,7 @@ import { farmTexture, macroTexture } from '@/components/live-room/flight/ground-
  */
 
 type RGB = [number, number, number];
-interface Peak { x: number; z: number; h: number; w: number; tone: number }
+interface Peak { x: number; z: number; h: number; w: number; tone: number; hill: boolean }
 
 const CAM_HEIGHT = 3200;     // cruise: well above the highest peaks, looking down on them
 const HORIZON = 0.58;        // horizon line, fraction of the canvas height
@@ -32,8 +32,13 @@ const MACRO_WORLD = 14 * 41; // the light/dark layer: a scale unrelated to the g
 function spawnPeak(p: Peak, camZ: number, far: boolean) {
   p.x = (Math.random() * 2 - 1) * 42000;
   p.z = camZ + (far ? Z_FAR * (0.8 + Math.random() * 0.2) : 3000 + Math.random() * Z_FAR);
-  p.h = 900 + Math.random() * 1800;          // always below the camera
-  p.w = p.h * (1.6 + Math.random() * 1.2);
+  if (p.hill) {
+    p.h = 380 + Math.random() * 700;          // low, broad, rounded
+    p.w = p.h * (4.5 + Math.random() * 3.5);
+  } else {
+    p.h = 900 + Math.random() * 1800;        // always below the camera
+    p.w = p.h * (1.6 + Math.random() * 1.2);
+  }
   p.tone = Math.random();
 }
 
@@ -55,7 +60,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
     // Terrain texture → pattern. Farmland is generated for the region below;
     // other terrains use their SVG tile.
     let pattern: CanvasPattern | null = null;
-    if (terrain === 'farmland') {
+    if (terrain === 'farmland' || terrain === 'hills') {
       pattern = ctx.createPattern(farmTexture(region, palette, night), 'repeat');
     } else {
       const img = new Image();
@@ -72,9 +77,10 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
     const snow: RGB = night ? [150, 160, 185] : [244, 247, 252];
 
     const peaks: Peak[] = [];
-    if (terrain === 'mountains') {
-      for (let i = 0; i < 160; i++) {
-        const p = { x: 0, z: 0, h: 0, w: 0, tone: 0 };
+    if (terrain === 'mountains' || terrain === 'hills') {
+      const hill = terrain === 'hills';
+      for (let i = 0; i < (hill ? 190 : 160); i++) {
+        const p = { x: 0, z: 0, h: 0, w: 0, tone: 0, hill };
         spawnPeak(p, 0, false);
         peaks.push(p);
       }
@@ -150,6 +156,33 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
           if (cx + half < 0 || cx - half > w || topY > h) continue;
           const fog = Math.pow(Math.min(1, rz / Z_FAR), 0.7);
           const fade = Math.min(1, (Z_FAR - rz) / 8000); // appear gently at the far edge
+          if (p.hill) {
+            // A soft dome: one smooth silhouette, lit from above, melting into the
+            // fields at its foot, with the shaded flank away from the light.
+            const grass = mixRgb(land, [86, 118, 64], 0.5 + p.tone * 0.25);
+            const g = night ? mixRgb(grass, [10, 14, 28], 0.55) : grass;
+            const crest = mixRgb(mixRgb(g, [224, 232, 176], 0.34), haze, fog * 0.85);
+            const foot = mixRgb(g, haze, Math.min(1, fog + 0.15));
+            const dome = new Path2D();
+            dome.moveTo(cx - half, baseY);
+            dome.bezierCurveTo(cx - half * 0.62, baseY, cx - half * 0.5, topY, cx, topY);
+            dome.bezierCurveTo(cx + half * 0.5, topY, cx + half * 0.62, baseY, cx + half, baseY);
+            dome.closePath();
+            const body = ctx.createLinearGradient(0, topY, 0, baseY);
+            body.addColorStop(0, css(crest));
+            body.addColorStop(0.7, css(mixRgb(crest, foot, 0.6)));
+            body.addColorStop(1, `rgba(${foot[0]},${foot[1]},${foot[2]},0.35)`);
+            ctx.globalAlpha = fade;
+            ctx.fillStyle = body;
+            ctx.fill(dome);
+            const flank = ctx.createLinearGradient(cx - half * 0.2, 0, cx + half, 0);
+            flank.addColorStop(0, 'rgba(18,28,24,0)');
+            flank.addColorStop(1, `rgba(18,28,24,${0.45 * (1 - fog)})`);
+            ctx.fillStyle = flank;
+            ctx.fill(dome);
+            ctx.globalAlpha = 1;
+            continue;
+          }
           const tone = mixRgb(rock, [128, 124, 116], p.tone * 0.25);
           const lit = mixRgb(mixRgb(tone, [236, 228, 212], 0.3), haze, fog);
           const shade = mixRgb(mixRgb(tone, [18, 20, 32], 0.4), haze, fog * 0.9);

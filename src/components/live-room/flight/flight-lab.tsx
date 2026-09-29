@@ -208,7 +208,7 @@ export function FlightLab() {
             {(['clear', 'overcast', 'rain', 'storm', 'snow', 'aurora'] as WeatherCondition[]).map((w) => <option key={w} value={w}>{w}</option>)}
           </select>
           <select value={terrain} onChange={(e) => setTerrain(e.target.value as Terrain)} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Below us">
-            {(['ocean', 'mountains', 'forest', 'desert', 'ice', 'farmland'] as Terrain[]).map((t) => <option key={t} value={t}>Below: {t}</option>)}
+            {(['ocean', 'mountains', 'hills', 'forest', 'desert', 'ice', 'farmland'] as Terrain[]).map((t) => <option key={t} value={t}>Below: {t}</option>)}
           </select>
           <select value={region} onChange={(e) => setRegion(e.target.value)} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Region">
             {['Europe', 'Asia', 'North America', 'Africa'].map((r) => <option key={r} value={r}>{r}</option>)}

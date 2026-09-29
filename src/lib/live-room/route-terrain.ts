@@ -46,6 +46,20 @@ const REGIONS: Region[] = [
   ['the Caucasus Mountains', 'mountains', 40, 44, 38, 50],
   ['the Atlas Mountains', 'mountains', 29, 35, -10, 3],
   ['the Ural Mountains', 'mountains', 50, 68, 56, 62],
+  ['the Zagros Mountains', 'mountains', 28, 35, 46, 54],
+  // Hills and highlands
+  ['the Scottish Highlands', 'hills', 56, 58.7, -6, -3],
+  ['the Massif Central', 'hills', 44, 46.5, 1.8, 4.5],
+  ['the Carpathian Mountains', 'hills', 45, 49.5, 19, 26],
+  ['the Balkans', 'hills', 40, 45, 18, 24],
+  ['the Anatolian Plateau', 'hills', 37, 40.5, 29, 40],
+  ['the Ethiopian Highlands', 'hills', 6, 14, 36, 42],
+  ['the Deccan Plateau', 'hills', 12, 21, 74, 80],
+  ['the hills of southern China', 'hills', 22, 29, 105, 119],
+  ['the mountains of Korea', 'hills', 35.5, 39, 127.5, 129.3],
+  ['the Appalachian Mountains', 'hills', 34, 45, -84, -72],
+  ['the Brazilian Highlands', 'hills', -23, -12, -50, -40],
+  ['the Great Dividing Range', 'hills', -38, -16, 145, 152],
   // Deserts
   ['the Sahara Desert', 'desert', 16, 32, -17, 32],
   ['the Arabian Desert', 'desert', 16, 30, 36, 58],
@@ -99,6 +113,11 @@ function oceanName({ lat, lng }: LatLng): string {
 
 const inBox = (p: LatLng, latMin: number, latMax: number, lngMin: number, lngMax: number) =>
   p.lat >= latMin && p.lat <= latMax && p.lng >= lngMin && p.lng <= lngMax;
+
+/** The continent or island under a point, or null at sea (gives farmland its regional look). */
+export function regionOf(p: LatLng): string | null {
+  return landAt(p);
+}
 
 function landAt(p: LatLng): string | null {
   for (const [, ring] of WATER_OUTLINES) if (inRing(p.lng, p.lat, ring)) return null;

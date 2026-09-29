@@ -14,7 +14,7 @@ import { DeckMap, type DeckMapPin } from '@/components/live-room/flight/deck-map
 import { createClient } from '@/lib/supabase/client';
 import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
-import { LC_INTERNATIONAL_COORD, overflightAt, type LatLng } from '@/lib/live-room/route-terrain';
+import { LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, solarClock, sunPosition } from '@/lib/live-room/sun';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
@@ -989,7 +989,7 @@ export function FlightDeck({
         weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
         cloudCover={liveWx?.cloudCover}
         terrain={below.terrain}
-        region={below.terrain === 'farmland' ? below.name : null}
+        region={below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : null}
         calm={view !== 'boarding' && view !== 'talk'}
         onCinematic={setCinematic}
         onLanded={() => {
