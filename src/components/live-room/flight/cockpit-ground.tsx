@@ -25,7 +25,6 @@ function rng(seed: number) {
 /** A 256×256 seamless-ish tile per terrain, as an SVG data URI. */
 function tileFor(terrain: Terrain, p: ScenePalette, night: boolean): string {
   const land = hexToRgb(p.terrainTop);
-  const landDeep = hexToRgb(p.terrainBottom);
   const water = hexToRgb(p.waterTop);
   const waterDeep = hexToRgb(p.waterBottom);
   const leaf = hexToRgb(p.foliage);
@@ -54,10 +53,15 @@ function tileFor(terrain: Terrain, p: ScenePalette, night: boolean): string {
       break;
     }
     case 'forest': {
-      base = dim(mixRgb(leaf, landDeep, 0.45));
-      for (let i = 0; i < 70; i++) {
-        const x = R() * 256, y = R() * 256, r = 6 + R() * 12;
-        shapes.push(`<circle cx="${x}" cy="${y}" r="${r}" fill="${hex(dim(mixRgb(leaf, R() < 0.5 ? [10, 30, 10] : [120, 170, 90], 0.25 + R() * 0.2)))}" opacity="0.85"/>`);
+      // Lit canopy: each crown has a sunlit top-left and a shadowed rim; a river winds through.
+      base = dim(mixRgb(leaf, [8, 28, 14], 0.45));
+      shapes.push(`<path d="M-10 ${40 + R() * 40} C60 ${20 + R() * 60} 120 ${150 + R() * 40} 180 ${110 + R() * 40} S250 ${60 + R() * 40} 270 ${90 + R() * 30}" stroke="${hex(dim(mixRgb(water, [140, 180, 200], 0.35)))}" stroke-width="7" fill="none" opacity="0.85"/>`);
+      for (let i = 0; i < 90; i++) {
+        const x = R() * 256, y = R() * 256, r = 5 + R() * 9;
+        const tone = mixRgb(leaf, R() < 0.3 ? [30, 60, 20] : [70, 110, 40], 0.3 + R() * 0.25);
+        shapes.push(`<circle cx="${x + 1.5}" cy="${y + 2}" r="${r}" fill="${hex(dim(mixRgb(tone, [0, 12, 4], 0.55)))}" opacity="0.7"/>`);
+        shapes.push(`<circle cx="${x}" cy="${y}" r="${r}" fill="${hex(dim(tone))}"/>`);
+        shapes.push(`<circle cx="${x - r * 0.3}" cy="${y - r * 0.3}" r="${r * 0.45}" fill="${hex(dim(mixRgb(tone, [200, 230, 150], 0.35)))}" opacity="0.8"/>`);
       }
       break;
     }
@@ -70,23 +74,39 @@ function tileFor(terrain: Terrain, p: ScenePalette, night: boolean): string {
       break;
     }
     case 'mountains': {
-      base = dim(mixRgb(land, [104, 98, 92], 0.7));
-      for (let i = 0; i < 22; i++) {
-        const x = R() * 256, y = R() * 256, w = 50 + R() * 70;
-        shapes.push(`<path d="M${x} ${y} l${w / 2} -${w * 0.45} l${w / 2} ${w * 0.45}z" fill="${hex(dim(mixRgb(land, [60, 64, 72], 0.6)))}" opacity="0.8"/>`);
-        shapes.push(`<path d="M${x + w * 0.36} ${y - w * 0.32} l${w * 0.14} -${w * 0.13} l${w * 0.14} ${w * 0.13}z" fill="${hex(dim([240, 244, 250]))}" opacity="0.9"/>`);
+      // Peaks lit from the left: a sunlit face, a shadow face and a snow cap.
+      base = dim(mixRgb(land, [96, 90, 86], 0.72));
+      for (let i = 0; i < 18; i++) {
+        const x = R() * 256, y = 30 + R() * 226, w = 60 + R() * 80, h = w * (0.5 + R() * 0.25);
+        const px = x + w * (0.4 + R() * 0.2), py = y - h;
+        const rock = mixRgb(land, [88, 86, 92], 0.7);
+        shapes.push(`<path d="M${x} ${y} L${px} ${py} L${px} ${y}Z" fill="${hex(dim(mixRgb(rock, [230, 220, 205], 0.28)))}"/>`);
+        shapes.push(`<path d="M${px} ${py} L${x + w} ${y} L${px} ${y}Z" fill="${hex(dim(mixRgb(rock, [20, 22, 34], 0.35)))}"/>`);
+        const s1 = 0.3;
+        shapes.push(`<path d="M${px - (px - x) * s1} ${py + h * s1} L${px} ${py} L${px + (x + w - px) * s1} ${py + h * s1} L${px + (x + w - px) * s1 * 0.4} ${py + h * s1 * 0.8} L${px} ${py + h * s1 * 1.05} L${px - (px - x) * s1 * 0.5} ${py + h * s1 * 0.75}Z" fill="${hex(dim([244, 247, 252]))}"/>`);
       }
       break;
     }
     default: {
-      // farmland: a quilt of fields
-      base = dim(mixRgb(land, leaf, 0.35));
-      for (let gx = 0; gx < 4; gx++) {
-        for (let gy = 0; gy < 4; gy++) {
-          const tint = mixRgb(land, R() < 0.5 ? leaf : [200, 170, 90], 0.3 + R() * 0.4);
-          shapes.push(`<rect x="${gx * 64 + 2}" y="${gy * 64 + 2}" width="60" height="60" rx="3" fill="${hex(dim(tint))}" opacity="0.9"/>`);
+      // Patchwork fields with furrows, hedgerows and a road.
+      base = dim(mixRgb(land, leaf, 0.4));
+      const crops: RGB[] = [mixRgb(leaf, [90, 140, 50], 0.4), [196, 170, 92], mixRgb(land, [150, 110, 70], 0.5), mixRgb(leaf, [140, 170, 70], 0.55), [210, 190, 120]];
+      let y = 0;
+      while (y < 256) {
+        const hgt = 34 + R() * 30;
+        let x = 0;
+        while (x < 256) {
+          const wid = 40 + R() * 50;
+          const c = crops[Math.floor(R() * crops.length)];
+          shapes.push(`<rect x="${x + 1.5}" y="${y + 1.5}" width="${wid - 3}" height="${hgt - 3}" fill="${hex(dim(c))}"/>`);
+          for (let f = 6; f < hgt - 3; f += 6) {
+            shapes.push(`<line x1="${x + 3}" y1="${y + f}" x2="${x + wid - 3}" y2="${y + f}" stroke="${hex(dim(mixRgb(c, [40, 40, 20], 0.25)))}" stroke-width="1" opacity="0.5"/>`);
+          }
+          x += wid;
         }
+        y += hgt;
       }
+      shapes.push(`<path d="M${60 + R() * 60} 0 C${40 + R() * 80} 90 ${150 + R() * 60} 170 ${120 + R() * 60} 256" stroke="${hex(dim([214, 206, 188]))}" stroke-width="3.5" fill="none"/>`);
     }
   }
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><rect width="256" height="256" fill="${hex(base)}"/>${shapes.join('')}</svg>`;
