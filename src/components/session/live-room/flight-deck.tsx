@@ -9,6 +9,7 @@ import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
+import { FlightTracker } from '@/components/live-room/flight/flight-tracker';
 import { WindscreenFlight, timeOfDayNow, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { LC_INTERNATIONAL_COORD, overflightAt, type LatLng } from '@/lib/live-room/route-terrain';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
@@ -35,7 +36,7 @@ import { useDeckDrag, type DeckDrop } from '@/components/session/live-room/use-d
  * windscreen in the Game view (and kept alive when another view is showing).
  */
 
-export type DeckView = 'boarding' | 'talk' | 'show' | 'game' | 'scores';
+export type DeckView = 'boarding' | 'talk' | 'show' | 'game' | 'scores' | 'map';
 type Instrument = 'aboard' | 'answered' | 'clock' | 'top';
 
 const VIEWS: { key: DeckView; label: string }[] = [
@@ -44,13 +45,14 @@ const VIEWS: { key: DeckView; label: string }[] = [
   { key: 'show', label: 'Show' },
   { key: 'game', label: 'Game' },
   { key: 'scores', label: 'Scores' },
+  { key: 'map', label: 'Map' },
 ];
 const INSTRUMENT_LABEL: Record<Instrument, string> = { aboard: 'On board', answered: 'Answered', clock: 'Flight time', top: 'Top score' };
 const STAMP_TONES = ['border-orange-300/70 text-orange-200', 'border-emerald-300/70 text-emerald-200', 'border-sky-300/70 text-sky-200', 'border-violet-300/70 text-violet-200'];
 type RouteCity = FlightCity & LatLng;
 const HOME: RouteCity = { id: HOME_BASE_ID, city: HOME_BASE_NAME, scene: HOME_BASE_SCENE, ...LC_INTERNATIONAL_COORD };
-/** Take-off to arrival spans roughly one lesson; progress along the route follows the clock. */
-const LESSON_MS = 45 * 60_000;
+/** Class lengths offered at boarding; the flight lands ~5 minutes before the end. */
+const CLASS_MINUTES = [30, 45, 60, 90];
 const SCENE_CITIES = WORLD_DESTINATIONS.filter((d) => d.scene);
 const toRouteCity = (d: (typeof SCENE_CITIES)[number]): RouteCity => ({ id: d.id, city: d.city, scene: d.scene!, lat: d.lat, lng: d.lng });
 function hashOf(text: string) {
@@ -183,7 +185,13 @@ export function FlightDeck({
   const [roulette, setRoulette] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
-  const routeT = takeoffAt ? Math.min(0.97, Math.max(0, (now - takeoffAt) / LESSON_MS)) : 0;
+  const [classMinutes, setClassMinutes] = useState(60);
+  const flightMs = Math.max(15, classMinutes - 5) * 60_000;
+  const elapsedMs = takeoffAt ? Math.max(0, now - takeoffAt) : 0;
+  const routeT = takeoffAt ? Math.min(1, elapsedMs / flightMs) : 0;
+  // Class ran over: the plane circles near the destination until you land.
+  const holding = flightStage === 'flying' && takeoffAt !== null && elapsedMs >= flightMs;
+  const minutesLeft = takeoffAt ? Math.max(0, (flightMs - elapsedMs) / 60_000) : null;
   const below = useMemo(() => overflightAt(origin, destination, routeT), [origin, destination, routeT]);
   const [catalogueState, setCatalogueState] = useState({ query: '', category: null as string | null, favourites: [] as string[], recent: [] as string[] });
   const launchedAt = useRef<number>(0);
@@ -347,11 +355,14 @@ export function FlightDeck({
     });
     return best as { name: string; pts: number } | null;
   }, [scores, participants]);
-  const flightMs = startedAt ? now - new Date(startedAt).getTime() : 0;
+  const sessionMs = startedAt ? now - new Date(startedAt).getTime() : 0;
   const readings: Record<Instrument, { value: string; frac: number; sub?: string }> = {
     aboard: { value: String(seated.length), frac: rosterCount ? Math.min(1, seated.length / rosterCount) : seated.length ? 1 : 0, sub: rosterCount ? `of ${rosterCount}` : undefined },
     answered: { value: runningKey && seated.length ? `${Math.round((answered.size / seated.length) * 100)}%` : '—', frac: runningKey && seated.length ? answered.size / seated.length : 0 },
-    clock: { value: fmtClock(flightMs), frac: Math.min(1, flightMs / 3_600_000), sub: 'h:mm' },
+    // In flight the clock instrument counts down to arrival; at the gate it shows class time.
+    clock: minutesLeft != null && flightStage === 'flying'
+      ? { value: holding ? 'HOLD' : `${Math.ceil(minutesLeft)}m`, frac: routeT, sub: holding ? 'circling' : 'to arrival' }
+      : { value: fmtClock(sessionMs), frac: Math.min(1, sessionMs / 3_600_000), sub: 'h:mm' },
     top: { value: topScore ? String(topScore.pts) : '—', frac: topScore ? 1 : 0, sub: topScore?.name },
   };
 
@@ -456,6 +467,19 @@ export function FlightDeck({
               {newest ? `${newest.display_name} has boarded` : 'Waiting for passengers'}
             </motion.p>
           </AnimatePresence>
+          {flightStage === 'gate' && (
+            <label className="flex items-center gap-2 text-sm text-white/75">
+              Class length
+              <select
+                id="deck-class-minutes"
+                value={classMinutes}
+                onChange={(e) => setClassMinutes(Number(e.target.value))}
+                className="rounded-lg border border-white/20 bg-slate-900/80 px-2 py-1 text-white"
+              >
+                {CLASS_MINUTES.map((m) => <option key={m} value={m}>{m} min</option>)}
+              </select>
+            </label>
+          )}
           {flightStage === 'gate' && reachable.length > 1 && (
             <label className="flex items-center gap-2 text-sm text-white/75">
               Fly to
@@ -516,6 +540,12 @@ export function FlightDeck({
         <p className="mt-2 text-white/70">…or search for it with Sources.</p>
       </div>
     );
+  } else if (view === 'map') {
+    scene = (
+      <div className="h-full w-full max-w-5xl overflow-hidden rounded-3xl border border-white/15 shadow-2xl">
+        <FlightTracker origin={origin} destination={destination} progress={routeT} minutesLeft={flightStage === 'gate' ? null : minutesLeft} below={below.name} holding={holding} />
+      </div>
+    );
   } else if (view === 'game') {
     scene = runningKey ? null : (
       <div className="rounded-3xl border border-dashed border-white/40 bg-slate-950/40 px-10 py-8 text-center backdrop-blur-md">
@@ -556,9 +586,9 @@ export function FlightDeck({
           window.setTimeout(onCompleteSession, 4500);
         }}
       />
-      {flightStage === 'flying' && !cinematic && below.name && (
+      {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
         <p className="pointer-events-none absolute bottom-3 left-4 z-[5] rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/80 backdrop-blur-sm">
-          Below us: {below.name}
+          {holding ? `Holding over ${destination.city}` : `Below us: ${below.name}`}
         </p>
       )}
 
