@@ -10,6 +10,9 @@ import type { ActivityPlugin } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { FlightTracker } from '@/components/live-room/flight/flight-tracker';
+import { DeckMap, type DeckMapPin } from '@/components/live-room/flight/deck-map';
+import { createClient } from '@/lib/supabase/client';
+import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, timeOfDayNow, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { LC_INTERNATIONAL_COORD, overflightAt, type LatLng } from '@/lib/live-room/route-terrain';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
@@ -141,7 +144,7 @@ export function FlightDeck({
   const [takeoffAt, setTakeoffAt] = useState<number | null>(null);
   // The class journey is World Flight's: depart from the class's current city,
   // within the plane's range (LC International before its first flight).
-  const [position, setPosition] = useState<{ currentDestinationId: string | null; rangeKm: number } | null>(null);
+  const [position, setPosition] = useState<{ currentDestinationId: string | null; rangeKm: number; journey?: Array<{ from: string | null; to: string }> } | null>(null);
   useEffect(() => {
     let cancelled = false;
     fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, { cache: 'no-store' })
@@ -168,6 +171,83 @@ export function FlightDeck({
     () => reachable.find((c) => c.id === chosenId) ?? reachable[hashOf(sessionId) % Math.max(1, reachable.length)] ?? HOME,
     [reachable, chosenId, sessionId],
   );
+  // Journey map for the landing: every completed leg plus today's.
+  const journeyPaths = useMemo(() => {
+    const at = (id: string | null): LatLng => {
+      const c = id ? SCENE_CITIES.find((d) => d.id === id) : undefined;
+      return c ? toRouteCity(c) : HOME;
+    };
+    const legs = (position?.journey ?? []).map((l) => ({ a: at(l.from), b: at(l.to) }));
+    return [...legs, { a: origin as LatLng, b: destination as LatLng }];
+  }, [position, origin, destination]);
+  const journeyPins = useMemo<DeckMapPin[]>(() => {
+    const stops = new Map<string, DeckMapPin>();
+    stops.set(HOME.id, { id: HOME.id, lat: HOME.lat, lng: HOME.lng, color: '#94a3b8' });
+    for (const l of position?.journey ?? []) {
+      const c = SCENE_CITIES.find((d) => d.id === l.to);
+      if (c) { const r = toRouteCity(c); stops.set(r.id, { id: r.id, lat: r.lat, lng: r.lng, color: '#60a5fa' }); }
+    }
+    stops.set(destination.id, { id: destination.id, lat: destination.lat, lng: destination.lng, label: destination.city, color: '#f59e0b' });
+    return Array.from(stops.values());
+  }, [position, destination]);
+
+  // Class pin map: every phone drops a pin (geo-point input); pins land live.
+  const setInputSpec = useSessionStore((s) => s.setInputSpec);
+  const [pinRound, setPinRound] = useState<{ id: string; prompt: string } | null>(null);
+  const [pins, setPins] = useState<DeckMapPin[]>([]);
+  const [mapMode, setMapMode] = useState<'tracker' | 'pins'>('tracker');
+  const startPins = (prompt: string) => {
+    const id = `room-pins-${Date.now()}`;
+    setPinRound({ id, prompt });
+    setPins([]);
+    setMapMode('pins');
+    setView('map');
+    void setInputSpec({
+      type: 'geo-point',
+      gameKey: ROOM_PINS_KEY,
+      prompt,
+      instruction: 'Tap the map to drop your pin, then send it.',
+      roundId: id,
+      mapCenter: [10, 18],
+      mapZoom: 0.8,
+      mapLabels: true,
+      mapMaxZoom: 9,
+    } as InputSpec);
+  };
+  const stopPins = () => {
+    setPinRound(null);
+    void setInputSpec(null);
+  };
+  useEffect(() => {
+    if (!pinRound) return;
+    const supabase = createClient();
+    let cancelled = false;
+    const poll = async () => {
+      const { data } = await supabase
+        .from('scores')
+        .select('client_id, display_name, response_data, created_at')
+        .eq('session_id', sessionId)
+        .order('created_at', { ascending: true });
+      if (cancelled || !data) return;
+      const byId = new Map<string, DeckMapPin>();
+      for (const row of data as Array<{ client_id: string | null; display_name: string | null; response_data: Record<string, unknown> | null }>) {
+        const r = row.response_data;
+        if (r?.gameKey !== ROOM_PINS_KEY || typeof r.choice !== 'string') continue;
+        try {
+          const g = JSON.parse(r.choice) as { roundId?: string; lat?: number; lng?: number };
+          if (g.roundId !== pinRound.id || typeof g.lat !== 'number' || typeof g.lng !== 'number') continue;
+          const id = row.client_id ?? row.display_name ?? String(byId.size);
+          byId.set(id, { id, lat: g.lat, lng: g.lng, label: row.display_name ?? undefined, color: PIN_COLORS[hashOf(id) % PIN_COLORS.length] });
+        } catch { /* not a pin */ }
+      }
+      const next = Array.from(byId.values());
+      setPins((prev) => (prev.length === next.length && prev.every((p, i) => p.id === next[i].id && p.lat === next[i].lat && p.lng === next[i].lng) ? prev : next));
+    };
+    void poll();
+    const t = window.setInterval(poll, 2500);
+    return () => { cancelled = true; window.clearInterval(t); };
+  }, [pinRound, sessionId]);
+
   const [talkPrompt, setTalkPrompt] = useState('');
   const [talkFollowUps, setTalkFollowUps] = useState<string[]>([]);
   const [talkOptions, setTalkOptions] = useState<{ prompt: string; followUps: string[] }[]>([]);
@@ -427,6 +507,8 @@ export function FlightDeck({
 
   // ── drag & drop ──────────────────────────────────────────────────────────
   const windRef = useRef<HTMLDivElement>(null);
+  const cargoRef = useRef<HTMLElement>(null);
+  const cabinRef = useRef<HTMLElement>(null);
   const onDrop = useCallback((d: DeckDrop) => {
     if (d.type === 'hud' && d.zone === 'wind' && windRef.current) {
       const r = windRef.current.getBoundingClientRect();
@@ -593,6 +675,14 @@ export function FlightDeck({
               Take off to {destination.city}
             </button>
           )}
+          <div className="flex flex-wrap items-center gap-2 text-xs text-white/60">
+            Class map:
+            {PIN_PROMPTS.map((q) => (
+              <button key={q} type="button" onClick={() => startPins(q)} className="rounded-lg border border-white/20 px-2.5 py-1 text-white/80 hover:border-rose-300/60 hover:text-white">
+                {q}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -659,8 +749,32 @@ export function FlightDeck({
     );
   } else if (view === 'map') {
     scene = (
-      <div className="h-full w-full max-w-5xl overflow-hidden rounded-3xl border border-white/15 shadow-2xl">
-        <FlightTracker origin={origin} destination={destination} progress={routeT} minutesLeft={flightStage === 'gate' ? null : minutesLeft} below={below.name} holding={holding} />
+      <div className="relative h-full w-full max-w-5xl overflow-hidden rounded-3xl border border-white/15 shadow-2xl">
+        {mapMode === 'pins' ? (
+          <DeckMap className="h-full w-full" pins={pins} />
+        ) : (
+          <FlightTracker origin={origin} destination={destination} progress={routeT} minutesLeft={flightStage === 'gate' ? null : minutesLeft} below={below.name} holding={holding} />
+        )}
+        <div className="absolute inset-x-3 top-3 flex flex-wrap items-start justify-between gap-2">
+          {mapMode === 'pins' ? (
+            <div className="rounded-xl border border-white/15 bg-slate-950/75 px-3 py-2 backdrop-blur-md">
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-rose-300">{pinRound ? 'Pins open on your phones' : 'Class map'}</p>
+              <p className="font-display text-lg text-white">{pinRound?.prompt ?? 'Pinned by the class'}</p>
+              <p className="font-mono text-xs text-white/60">{pins.length} pin{pins.length === 1 ? '' : 's'}</p>
+            </div>
+          ) : <span />}
+          <div className="flex flex-wrap justify-end gap-1.5">
+            {mapMode === 'pins' && pinRound && (
+              <button type="button" onClick={stopPins} className="rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">Close pins</button>
+            )}
+            <button type="button" onClick={() => setMapMode(mapMode === 'pins' ? 'tracker' : 'pins')} className="rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">
+              {mapMode === 'pins' ? 'Flight tracker' : 'Class map'}
+            </button>
+            {mapMode === 'pins' && !pinRound && PIN_PROMPTS.map((q) => (
+              <button key={q} type="button" onClick={() => startPins(q)} className="rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">{q}</button>
+            ))}
+          </div>
+        </div>
       </div>
     );
   } else if (view === 'game') {
@@ -677,6 +791,14 @@ export function FlightDeck({
       </div>
     );
   }
+
+  const snapHosts: SnapHost[] = [
+    { id: 'wind', ref: windRef, anchors: SNAP_ANCHORS },
+    ...(presenting ? [] : [
+      { id: 'cargo', ref: cargoRef, anchors: ['tl', 'bl'] as SnapAnchor[] },
+      { id: 'cabin', ref: cabinRef, anchors: ['tr', 'br'] as SnapAnchor[] },
+    ]),
+  ];
 
   const windscreen = (
     <div
@@ -700,10 +822,9 @@ export function FlightDeck({
         onCinematic={setCinematic}
         onLanded={() => {
           setLanded(true);
-          window.setTimeout(onCompleteSession, 4500);
+          window.setTimeout(onCompleteSession, 9000);
         }}
       />
-      <SnapGuides host={windRef} presenting={presenting} />
       {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
         <p className="pointer-events-none absolute bottom-3 left-4 z-[5] rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/80 backdrop-blur-sm">
           {holding ? `Holding over ${destination.city}` : `Below us: ${below.name}`}
@@ -767,6 +888,8 @@ export function FlightDeck({
           <motion.div initial={reduce ? false : { y: -20, rotate: -6, opacity: 0 }} animate={{ y: 0, rotate: -2, opacity: 1 }} className="rounded-2xl bg-[#f4efe3] px-7 py-5 text-[#1b2233] shadow-2xl">
             <p className="font-display text-3xl">Welcome to {destination.city}</p>
             <p className="mt-1 text-sm">Passport stamped. Thanks for flying with {className}!</p>
+            <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our journey · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'}</p>
+            <DeckMap className="mt-1 h-44 w-[min(420px,70vw)] rounded-xl" pins={journeyPins} paths={journeyPaths} labels={false} />
           </motion.div>
         </div>
       )}
@@ -784,6 +907,7 @@ export function FlightDeck({
 
   return (
     <div className="grid h-[100dvh] grid-cols-[220px_minmax(0,1fr)_240px] grid-rows-[52px_minmax(0,1fr)_176px] gap-2.5 bg-[radial-gradient(ellipse_120%_70%_at_50%_120%,#1b2438_0%,#0b1120_55%,#05070D_100%)] p-2.5 text-white">
+      <SnapGuides hosts={snapHosts} />
       <style>{'@keyframes deck-drift{from{transform:translateX(110vw)}to{transform:translateX(-120%)}} [data-deck-drag] img{-webkit-user-drag:none;user-select:none;pointer-events:none}'}</style>
 
       {/* Glareshield */}
@@ -838,7 +962,7 @@ export function FlightDeck({
       </header>
 
       {/* Cargo hold (room material) */}
-      <aside className="flex min-h-0 flex-col gap-2 overflow-hidden rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#0e1524] to-[#0a101c] p-3">
+      <aside ref={cargoRef} className="flex min-h-0 flex-col gap-2 overflow-hidden rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#0e1524] to-[#0a101c] p-3">
         <p className="flex justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">Cargo <span>{material.length}</span></p>
         <div className="-mr-1 flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto pr-1">
           {material.length === 0 && <p className="text-xs text-white/45">Things you find with Sources land here. Drag one onto the windscreen to show it.</p>}
@@ -924,7 +1048,7 @@ export function FlightDeck({
       </div>
 
       {/* Cabin */}
-      <aside className="flex min-h-0 flex-col gap-2 overflow-hidden rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#0e1524] to-[#0a101c] p-3">
+      <aside ref={cabinRef} className="flex min-h-0 flex-col gap-2 overflow-hidden rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#0e1524] to-[#0a101c] p-3">
         <p className="flex justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">Cabin <span>{seated.length}{rosterCount ? ` / ${rosterCount}` : ''}</span></p>
         <button type="button" onClick={spinRoulette} disabled={seated.length === 0 || !!roulette} className="flex items-center justify-center gap-1.5 rounded-xl border border-amber-300/50 bg-amber-300/10 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-amber-300 hover:bg-amber-300/20 disabled:opacity-40">
           <Shuffle className="h-3.5 w-3.5" /> Pick a student
@@ -1078,60 +1202,77 @@ const SCREEN_TEMPLATES: ScreenTemplate[] = [
   { name: 'Brainstorm', hint: 'Word cloud bottom-left, class questions bottom-right', widgets: { 'word-cloud': 'bl', 'class-questions': 'br' } },
 ];
 
+const ROOM_PINS_KEY = 'room-pins';
+const PIN_PROMPTS = ['Where are you right now?', 'A place you would love to visit', 'Where were you born?'];
+const PIN_COLORS = ['#fb7185', '#f59e0b', '#34d399', '#60a5fa', '#a78bfa', '#f472b6', '#22d3ee', '#facc15'];
+
 const SNAP_INSET = 14;
 const SNAP_ANCHORS: SnapAnchor[] = ['tl', 'tc', 'tr', 'bl', 'bc', 'br'];
 
+export interface SnapHost {
+  id: string;
+  ref: React.RefObject<HTMLElement>;
+  anchors: SnapAnchor[];
+}
+
 /**
- * Registers the windscreen's corners and edges as widget snap zones (in viewport
- * coordinates) and shows them while a widget is being dragged.
+ * Registers snap zones (in viewport coordinates) for the windscreen's corners
+ * and edges, plus the side panels' corners (only the teacher sees those when
+ * presenting), and shows them while a widget is being dragged.
  */
-function SnapGuides({ host, presenting }: { host: React.RefObject<HTMLDivElement>; presenting: boolean }) {
+function SnapGuides({ hosts }: { hosts: SnapHost[] }) {
   const setZones = useSnapZones((s) => s.setZones);
   const dragging = useSnapZones((s) => s.dragging);
   const hotId = useSnapZones((s) => s.hot);
-  const [box, setBox] = useState<{ w: number; h: number } | null>(null);
+  const [rects, setRects] = useState<Array<{ id: string; anchor: SnapAnchor; r: DOMRect }>>([]);
+  const key = hosts.map((h) => h.id).join('|');
 
   useEffect(() => {
-    const el = host.current;
-    if (!el) return;
+    const els = hosts.map((h) => h.ref.current).filter((el): el is HTMLElement => !!el);
     const update = () => {
-      const r = el.getBoundingClientRect();
-      setBox({ w: r.width, h: r.height });
-      setZones(
-        SNAP_ANCHORS.map((a) => ({
-          id: `wind-${a}`,
-          anchor: a,
-          x: a.endsWith('l') ? r.left + SNAP_INSET : a.endsWith('r') ? r.right - SNAP_INSET : r.left + r.width / 2,
-          y: a.startsWith('t') ? r.top + SNAP_INSET : r.bottom - SNAP_INSET,
-        })),
-      );
+      const next: Array<{ id: string; anchor: SnapAnchor; r: DOMRect }> = [];
+      for (const h of hosts) {
+        const el = h.ref.current;
+        if (!el) continue;
+        const r = el.getBoundingClientRect();
+        for (const a of h.anchors) next.push({ id: `${h.id}-${a}`, anchor: a, r });
+      }
+      setRects(next);
+      setZones(next.map(({ id, anchor: a, r }) => ({
+        id,
+        anchor: a,
+        x: a.endsWith('l') ? r.left + SNAP_INSET : a.endsWith('r') ? r.right - SNAP_INSET : r.left + r.width / 2,
+        y: a.startsWith('t') ? r.top + SNAP_INSET : r.bottom - SNAP_INSET,
+      })));
     };
     update();
     const ro = new ResizeObserver(update);
-    ro.observe(el);
+    els.forEach((el) => ro.observe(el));
     window.addEventListener('resize', update);
     return () => {
       ro.disconnect();
       window.removeEventListener('resize', update);
       setZones([]);
     };
-  }, [host, presenting, setZones]);
+    // Hosts are refs; re-register when the set of hosts changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key, setZones]);
 
-  if (!dragging || !box) return null;
-  const gw = Math.min(260, box.w * 0.28);
-  const gh = Math.min(150, box.h * 0.3);
+  if (!dragging) return null;
   return (
-    <div className="pointer-events-none absolute inset-0 z-40">
-      {SNAP_ANCHORS.map((a) => {
-        const left = a.endsWith('l') ? SNAP_INSET : a.endsWith('r') ? box.w - SNAP_INSET - gw : (box.w - gw) / 2;
-        const top = a.startsWith('t') ? SNAP_INSET : box.h - SNAP_INSET - gh;
-        const on = hotId === `wind-${a}`;
+    <div className="pointer-events-none fixed inset-0 z-[99]">
+      {rects.map(({ id, anchor: a, r }) => {
+        const gw = Math.min(260, r.width * (id.startsWith('wind') ? 0.28 : 0.8));
+        const gh = Math.min(150, r.height * 0.3);
+        const left = a.endsWith('l') ? r.left + SNAP_INSET : a.endsWith('r') ? r.right - SNAP_INSET - gw : r.left + (r.width - gw) / 2;
+        const top = a.startsWith('t') ? r.top + SNAP_INSET : r.bottom - SNAP_INSET - gh;
+        const on = hotId === id;
         return (
           <div
-            key={a}
+            key={id}
             className={[
               'absolute rounded-2xl border-2 border-dashed transition-all duration-150',
-              on ? 'border-amber-300 bg-amber-300/20 shadow-[0_0_30px_rgba(252,211,77,0.45)]' : 'border-white/35 bg-white/5',
+              on ? 'border-amber-300 bg-amber-300/20 shadow-[0_0_30px_rgba(252,211,77,0.45)]' : id.startsWith('wind') ? 'border-white/35 bg-white/5' : 'border-sky-300/40 bg-sky-300/5',
             ].join(' ')}
             style={{ left, top, width: gw, height: gh }}
           />

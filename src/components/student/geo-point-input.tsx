@@ -128,7 +128,7 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
         )}
         {!position && !locked && !isGuide && (
           <div className="pointer-events-none absolute inset-x-4 top-4 rounded-xl border border-white/10 bg-slate-950/80 px-3 py-2 text-center text-xs text-slate-200 backdrop-blur">
-            {spec.mapStyle === 'city-streets' ? 'Tap the map where the directions lead.' : 'Tap the map to place your radar contact.'}
+            {spec.instruction ?? (spec.mapStyle === 'city-streets' ? 'Tap the map where the directions lead.' : 'Tap the map to place your radar contact.')}
           </div>
         )}
         {spec.mapStyle === 'city-streets' && <CompassRose className="absolute bottom-3 left-3" />}

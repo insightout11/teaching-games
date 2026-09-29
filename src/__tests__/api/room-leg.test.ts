@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 let state: Record<string, unknown> | null = null;
+let journey: Array<{ origin_destination_id: string | null; destination_id: string }> = [];
 const upsert = vi.fn(async () => ({ error: null }));
 vi.mock('@/lib/auth-credits', () => ({ requireAuth: vi.fn(async () => ({ teacher: { id: 't1' }, error: null })) }));
 vi.mock('@/lib/session-ownership', () => ({
@@ -10,7 +11,10 @@ vi.mock('@/lib/supabase/service', () => ({
   createServiceClient: () => ({
     from: (table: string) => table === 'class_world_flight_state'
       ? { select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: state }) }) }) }
-      : { upsert },
+      : {
+        upsert,
+        select: () => ({ eq: () => ({ eq: () => ({ order: () => ({ limit: async () => ({ data: journey }) }) }) }) }),
+      },
   }),
 }));
 
@@ -25,6 +29,13 @@ describe('room-leg route', () => {
   it('reports the class position (LC International before the first flight)', async () => {
     const res = await GET(new Request('http://x'), params);
     expect(await res.json()).toMatchObject({ currentDestinationId: null, planeSelectionRequired: false });
+  });
+
+  it('lists the completed journey, oldest first', async () => {
+    journey = [{ origin_destination_id: null, destination_id: 'lisbon' }, { origin_destination_id: 'lisbon', destination_id: 'madrid' }];
+    const res = await GET(new Request('http://x'), params);
+    expect((await res.json()).journey).toEqual([{ from: null, to: 'lisbon' }, { from: 'lisbon', to: 'madrid' }]);
+    journey = [];
   });
 
   it('records a leg on the first flight', async () => {

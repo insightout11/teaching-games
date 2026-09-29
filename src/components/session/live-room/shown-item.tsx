@@ -1,5 +1,6 @@
 'use client';
 
+import { DeckMap } from '@/components/live-room/flight/deck-map';
 import { ExternalLink, MapPin } from 'lucide-react';
 import type { RoomItem } from '@/stores/live-room-store';
 import { hostOf } from '@/components/session/live-room/sources-drawer';
@@ -65,6 +66,13 @@ export function ShownItem({ item }: { item: RoomItem }) {
           {item.title}
         </p>
         {item.address && <p className="text-lg text-white/75">{item.address}</p>}
+        {c && (
+          <DeckMap
+            className="h-[48vh] min-h-[260px] w-full rounded-2xl border border-white/15"
+            pins={[{ id: item.id, lat: c.latitude, lng: c.longitude, label: item.title }]}
+            focusZoom={11}
+          />
+        )}
         <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="inline-flex w-max items-center gap-1.5 rounded-lg border border-white/15 px-3 py-2 text-sm text-white hover:bg-white/10">
           <ExternalLink className="h-4 w-4" aria-hidden /> Open map
         </a>

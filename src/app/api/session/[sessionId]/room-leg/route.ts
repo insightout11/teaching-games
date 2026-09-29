@@ -33,8 +33,17 @@ async function load(sessionId: string) {
 export async function GET(_request: Request, { params }: { params: { sessionId: string } }) {
   const ctx = await load(params.sessionId);
   if ('error' in ctx && ctx.error) return ctx.error;
-  const { state } = ctx as Exclude<typeof ctx, { error: unknown }>;
+  const { state, service, classId } = ctx as Exclude<typeof ctx, { error: unknown }>;
+  // The class's journey so far, oldest first, for the landing map.
+  const { data: legs } = await service
+    .from('class_world_flight_legs')
+    .select('origin_destination_id, destination_id')
+    .eq('class_id', classId)
+    .eq('status', 'completed')
+    .order('completed_at', { ascending: true })
+    .limit(50);
   return NextResponse.json({
+    journey: (legs ?? []).map((l) => ({ from: l.origin_destination_id ?? null, to: l.destination_id })),
     currentDestinationId: state?.current_destination_id ?? null,
     rangeKm: state?.range_km ?? STARTER_PLANE_RANGE_KM,
     planeSelectionRequired: state?.plane_selection_required ?? false,
