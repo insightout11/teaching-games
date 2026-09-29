@@ -2,7 +2,8 @@ param(
   [Parameter(Mandatory = $true)]
   [int[]]$LessonNumbers,
   [ValidateSet('1', '2')]
-  [string]$Level = '1'
+  [string]$Level = '1',
+  [switch]$Preview
 )
 
 $ErrorActionPreference = 'Stop'
@@ -57,7 +58,10 @@ foreach ($number in $LessonNumbers) {
   } | Where-Object { $_ })
   $summary = $paragraphs -join "`n`n"
   $wordCount = @($summary -split '\s+' | Where-Object { $_ }).Count
-  if ($wordCount -lt 150 -or $wordCount -gt 900) { throw "$($lesson.label) has $wordCount words, outside the required 150 to 900 range." }
+  if ($wordCount -lt 150 -or $wordCount -gt 900) {
+    if ($Preview) { Write-Output "HOLD · $($lesson.label) · $wordCount words"; continue }
+    throw "$($lesson.label) has $wordCount words, outside the required 150 to 900 range."
+  }
 
   $title = ($lesson.label -replace '^Lesson\s+\d+:\s*', '').Trim()
   $slug = ($title.ToLowerInvariant() -replace '[^a-z0-9]+', '-').Trim('-')
@@ -67,6 +71,22 @@ foreach ($number in $LessonNumbers) {
   if ($existingUrls.ContainsKey($normalizedUrl) -and -not $existingIds.ContainsKey($id)) { throw "Duplicate library URL: $($lesson.url)" }
 
   $tags = if ($Level -eq '1') { switch ($number) {
+    3 { @('introductions', 'greetings', 'names', 'classroom', 'speaking-practice', 'conversation') }
+    4 { @('objects', 'descriptions', 'questions', 'vocabulary', 'classroom', 'conversation') }
+    6 { @('directions', 'places', 'neighborhood', 'gym', 'asking-for-help', 'conversation') }
+    7 { @('daily-activities', 'present-continuous', 'actions', 'grammar', 'observations', 'conversation') }
+    8 { @('schedules', 'availability', 'time', 'plans', 'daily-life', 'conversation') }
+    9 { @('weather', 'clothing', 'seasons', 'descriptions', 'small-talk', 'conversation') }
+    10 { @('invitations', 'visiting', 'home', 'friends', 'polite-requests', 'conversation') }
+    11 { @('neighborhood', 'community', 'places', 'directions', 'local-area', 'conversation') }
+    12 { @('family', 'relationships', 'people', 'introductions', 'descriptions', 'conversation') }
+    13 { @('William-Shakespeare', 'history', 'birthdays', 'culture', 'famous-people', 'conversation') }
+    14 { @('shopping', 'clothing', 'preferences', 'choices', 'demonstratives', 'conversation') }
+    15 { @('people-watching', 'descriptions', 'actions', 'public-places', 'observations', 'conversation') }
+    16 { @('countries', 'nationalities', 'origins', 'introductions', 'geography', 'conversation') }
+    17 { @('schedules', 'plans', 'invitations', 'weekends', 'time', 'conversation') }
+    18 { @('habits', 'personality', 'relationships', 'present-tense', 'descriptions', 'conversation') }
+    19 { @('jobs', 'workplace', 'starting-work', 'schedules', 'career', 'conversation') }
     20 { @('jobs', 'workplace', 'skills', 'career-advice', 'interviews', 'conversation') }
     21 { @('parties', 'invitations', 'social-plans', 'friends', 'polite-requests', 'conversation') }
     22 { @('future-plans', 'summer-vacation', 'travel', 'leisure', 'calendar', 'conversation') }
@@ -77,6 +97,8 @@ foreach ($number in $LessonNumbers) {
     27 { @('appointments', 'scheduling', 'access', 'communication', 'problem-solving', 'conversation') }
     28 { @('exams', 'school', 'achievement', 'past-tense', 'celebrations', 'conversation') }
     29 { @('history', 'past-tense', 'memories', 'time-expressions', 'storytelling', 'conversation') }
+    30 { @('music', 'river', 'leisure', 'idioms', 'culture', 'conversation') }
+    31 { @('baseball', 'sports', 'stadium', 'American-culture', 'traditions', 'conversation') }
     32 { @('treehouse', 'teamwork', 'collaboration', 'building', 'problem-solving', 'conversation') }
     33 { @('baseball', 'sports', 'american-culture', 'history', 'rules', 'conversation') }
     34 { @('future', 'decisions', 'goals', 'career-planning', 'possibilities', 'conversation') }
@@ -103,6 +125,8 @@ foreach ($number in $LessonNumbers) {
     14 { @('relationships', 'compatibility', 'people', 'describing-character', 'social-skills', 'conversation') }
     15 { @('sequences', 'before-and-after', 'time-expressions', 'change', 'daily-life', 'conversation') }
     16 { @('happiness', 'wellbeing', 'emotions', 'interests', 'healthy-habits', 'conversation') }
+    17 { @('parenthood', 'research', 'reflexive-pronouns', 'grammar', 'school-project', 'conversation') }
+    18 { @('parenthood', 'cooking', 'accidents', 'reflexive-pronouns', 'grammar', 'conversation') }
     19 { @('movies', 'entertainment', 'opinions', 'cinema', 'friends', 'conversation') }
     20 { @('cars', 'test-drives', 'transportation', 'shopping', 'decisions', 'conversation') }
     21 { @('recycling', 'upcycling', 'art', 'creativity', 'sustainability', 'conversation') }
@@ -148,10 +172,16 @@ foreach ($number in $LessonNumbers) {
     place = $place
     license = 'Public domain (VOA Learning English)'
     attribution = 'VOA Learning English, lesson dialogue'
-    needsReview = ($Level -eq '2' -and $number -in @(7, 30))
+    needsReview = ($Level -eq '2' -and $number -in @(7, 18, 30))
   })
+  if ($Preview) { Write-Output "KEEP · $($lesson.label) · $wordCount words" }
   $existingIds[$id] = $true
   $existingUrls[$normalizedUrl] = $true
+}
+
+if ($Preview) {
+  Write-Output "Preview complete: $($newItems.Count) candidate(s) meet the 150–900 word rule."
+  return
 }
 
 $allItems = [System.Collections.Generic.List[object]]::new()
