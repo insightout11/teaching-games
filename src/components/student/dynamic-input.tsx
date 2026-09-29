@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { computeTimerState, type InputSpec } from '@/lib/input-spec';
 import { ShuffleboardInput } from './shuffleboard-input';
 import { GeoPointInput } from './geo-point-input';
+import { openTrickyChannel } from '@/lib/live-room/word-bank';
 import { CargoHandInput } from './cargo-hand-input';
 import { CargoVoteInput } from './cargo-vote-input';
 import {
@@ -1433,6 +1434,43 @@ function highlightVocabReadAloud(text: string, vocabWords: string[]): React.Reac
   );
 }
 
+/** Follow along while a classmate reads; tap any word you don't know (the teacher collects them). */
+function FollowAlong({ text, reader, channelId, displayName }: { text: string; reader: string; channelId?: string; displayName?: string }) {
+  const [tapped, setTapped] = useState<Set<string>>(new Set());
+  const channel = useRef<ReturnType<typeof openTrickyChannel> | null>(null);
+  useEffect(() => {
+    if (!channelId) return;
+    const ch = openTrickyChannel(channelId);
+    channel.current = ch;
+    return () => { ch.close(); channel.current = null; };
+  }, [channelId]);
+  const clean = text.replace(/\*([^*]+)\*/g, '$1');
+  const tap = (raw: string) => {
+    const word = raw.replace(/[^A-Za-zÀ-ɏ0-9'-]/g, '').toLowerCase();
+    if (!word || tapped.has(word)) return;
+    setTapped((prev) => new Set(prev).add(word));
+    channel.current?.send({ word, clientId: displayName ?? '', name: displayName ?? 'A student', at: Date.now() });
+  };
+  return (
+    <div className="space-y-2 rounded-2xl border border-cyan-400/25 bg-cyan-500/[0.06] p-4">
+      <p className="text-xs font-semibold uppercase tracking-widest text-cyan-300">{reader} is reading · follow along</p>
+      <p className="text-base leading-relaxed text-white">
+        {clean.split(/(\s+)/).map((part, i) => {
+          if (/^\s+$/.test(part)) return part;
+          const w = part.replace(/[^A-Za-zÀ-ɏ0-9'-]/g, '').toLowerCase();
+          const on = tapped.has(w);
+          return (
+            <button key={i} type="button" onClick={() => tap(part)} className={`rounded px-0.5 ${on ? 'bg-amber-400/30 text-amber-100 underline decoration-dotted' : 'hover:bg-white/10'}`}>
+              {part}
+            </button>
+          );
+        })}
+      </p>
+      <p className="text-[11px] text-white/50">Tap a word you don&apos;t know. Your teacher will go over the tricky ones.</p>
+    </div>
+  );
+}
+
 function ReadAloudInput({ spec, onSubmit, isSubmitting, displayName }: Pick<DynamicInputProps, 'spec' | 'onSubmit' | 'isSubmitting' | 'displayName'>) {
   const [done, setDone] = useState(false);
   const queue = spec.readAloudQueue ?? [];
@@ -1479,6 +1517,8 @@ function ReadAloudInput({ spec, onSubmit, isSubmitting, displayName }: Pick<Dyna
           <p className="text-xs uppercase tracking-widest text-amber-400 font-semibold">Your paragraph is coming up</p>
           <p className="text-sm text-white/70 leading-relaxed line-clamp-3">{myUpcoming.text}</p>
         </div>
+      ) : active ? (
+        <FollowAlong text={active.text} reader={active.studentName} channelId={spec.readAloudChannel} displayName={displayName} />
       ) : (
         <div className="rounded-2xl bg-white/5 border border-white/10 p-4">
           <p className="text-sm text-white/50 text-center">

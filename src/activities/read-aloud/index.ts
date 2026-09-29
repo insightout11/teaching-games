@@ -14,7 +14,6 @@ export const readAloudPlugin: ActivityPlugin = {
   estimatedMinutes: 10,
   defaultTimerSeconds: 30,
   icon: BookOpen,
-  flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true, defaultOutcome: 'on-task' },
   minStudents: 1,
   // Round-robin reading turns don't scale to a full classroom — each student would only

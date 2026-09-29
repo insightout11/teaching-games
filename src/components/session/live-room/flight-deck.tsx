@@ -1415,6 +1415,11 @@ export function FlightDeck({
                     <button type="button" onClick={() => setFocusId(focusId === m.id ? null : m.id)} className={focusId === m.id ? 'text-amber-300' : 'opacity-0 group-hover:opacity-100'}>
                       {focusId === m.id ? '· Focus' : '· Set focus'}
                     </button>
+                    {(m.text || (m.description && m.description.length > 120)) && (
+                      <button type="button" onClick={() => launch('read-aloud', m)} className="text-emerald-300/80 opacity-0 hover:text-emerald-200 group-hover:opacity-100" title="Read it together: class version, turns, follow-along">
+                        · Read it together
+                      </button>
+                    )}
                   </span>
                 </span>
               </div>

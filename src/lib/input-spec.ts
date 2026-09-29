@@ -130,6 +130,8 @@ export interface InputSpec {
   currentSlideUrl?: string;
   /** Vocab words to highlight inline in the read-aloud passage */
   readAloudVocabWords?: string[];
+  /** Session id for the tricky-words channel (phones tap words they don't know while following along). */
+  readAloudChannel?: string;
   /** Team Debate prep: which side each student is on, keyed by roster studentId. */
   debateSideByStudentId?: Record<string, 'for' | 'against'>;
   /** Team Debate prep: stance label for the For side. */
