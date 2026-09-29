@@ -19,6 +19,8 @@ export interface CockpitCloudsProps {
   density?: number;
   /** Where the horizon sits, 0..1 of the height. */
   horizon?: number;
+  /** Descending into the cloud layer: clouds come straight at the windscreen. */
+  dive?: boolean;
 }
 
 interface Cloud { x: number; y: number; z: number; size: number; sprite: number }
@@ -63,20 +65,26 @@ function makeSprite(tint: [number, number, number], seed: number): HTMLCanvasEle
   return c;
 }
 
-function spawn(c: Cloud, far: boolean) {
+function spawn(c: Cloud, far: boolean, dive = false) {
   const side = Math.random() < 0.5 ? -1 : 1;
-  c.x = side * (650 + Math.random() * 2600);
-  c.y = Math.random() < 0.7 ? 80 + Math.random() * 380 : -(140 + Math.random() * 360);
+  if (dive) {
+    // No clear corridor: the plane is flying into the layer.
+    c.x = (Math.random() * 2 - 1) * 1100;
+    c.y = (Math.random() * 2 - 1) * 260;
+  } else {
+    c.x = side * (650 + Math.random() * 2600);
+    c.y = Math.random() < 0.7 ? 80 + Math.random() * 380 : -(140 + Math.random() * 360);
+  }
   c.z = far ? 1900 + Math.random() * 1300 : 400 + Math.random() * 2700;
   c.size = 200 + Math.random() * 220;
   c.sprite = Math.floor(Math.random() * SPRITES);
 }
 
-export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55 }: CockpitCloudsProps) {
+export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive = false }: CockpitCloudsProps) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
-  const live = useRef({ speed, density, horizon, tint });
-  live.current = { speed, density, horizon, tint };
+  const live = useRef({ speed, density, horizon, tint, dive });
+  live.current = { speed, density, horizon, tint, dive };
 
   const tintKey = tint.join(',');
   useEffect(() => {
@@ -124,7 +132,7 @@ export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55 }: Cock
         const c = clouds[i];
         c.z -= vz * dt;
         if (c.z < 120) {
-          spawn(c, true);
+          spawn(c, true, target.dive);
           continue;
         }
         if (i >= visible) continue;

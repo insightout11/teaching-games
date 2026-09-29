@@ -21,7 +21,11 @@ type Phase = 'gate' | 'takeoff' | 'climb' | 'cruise' | 'descent' | 'landing' | '
 const ARRIVAL_MS = 5200;
 const CLIMB_MS = 4200;
 /** The descent shows the first part of the arrival timeline (the approach), slowed down. */
-const DESCENT_MS = 7000;
+const DESCENT_MS = 9000;
+/** First part of the descent: the cockpit dives into the cloud layer until it whites out. */
+const DIVE = 0.35;
+/** Then the clouds part over the arrival scene. */
+const CLEAR = 0.22;
 const APPROACH_SPLIT = 0.45;
 
 const PHASE_LABEL: Record<Phase, string> = {
@@ -43,6 +47,8 @@ export function FlightLab() {
   const [tod, setTod] = useState<TimeOfDay>('day');
   const [weather, setWeather] = useState<WeatherCondition>('clear');
   const [activity, setActivity] = useState(false);
+  /** Freeze a timed phase at a chosen moment, for tuning. */
+  const [scrub, setScrub] = useState<number | null>(null);
   const origin = cities.find((c) => c.id === originId) ?? cities[0];
   const dest = cities.find((c) => c.id === destId) ?? cities[1];
 
@@ -55,6 +61,10 @@ export function FlightLab() {
         : phase === 'landing' ? ARRIVAL_MS * (1 - APPROACH_SPLIT)
           : phase === 'climb' ? CLIMB_MS : 0;
     if (!dur) return;
+    if (scrub !== null) {
+      setProgress(scrub);
+      return;
+    }
     const start = performance.now();
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / dur);
@@ -65,17 +75,19 @@ export function FlightLab() {
     setProgress(0);
     raf.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf.current);
-  }, [phase]);
+  }, [phase, scrub]);
 
   // Outside camera for everything on or near the ground; cockpit only for the
   // climb and cruise. Descent + landing are one continuous arrival shot.
-  const sideCamera = phase !== 'climb' && phase !== 'cruise';
+  const diving = phase === 'descent' && progress < DIVE;
+  const sideCamera = phase !== 'climb' && phase !== 'cruise' && !diving;
+  const approachT = phase === 'descent' ? Math.max(0, (progress - DIVE) / (1 - DIVE)) : 0;
   const arriving = phase === 'descent' || phase === 'landing' || phase === 'landed';
   const sideScene = arriving ? dest : origin;
   const sideFrame =
     phase === 'gate' ? { mode: 'departure' as const, phase: 'approach' as const, progress: 0 }
       : phase === 'takeoff' ? { mode: 'departure' as const, phase: 'approach' as const, progress }
-        : phase === 'descent' ? { mode: 'arrival' as const, ...arrivalTimeline(progress * APPROACH_SPLIT) }
+        : phase === 'descent' ? { mode: 'arrival' as const, ...arrivalTimeline(approachT * APPROACH_SPLIT) }
           : phase === 'landing' ? { mode: 'arrival' as const, ...arrivalTimeline(APPROACH_SPLIT + progress * (1 - APPROACH_SPLIT)) }
             : { mode: 'arrival' as const, phase: 'landed' as const, progress: 1 };
 
@@ -84,7 +96,12 @@ export function FlightLab() {
   const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
   const cloudTint = useMemo(() => cockpitCloudTint(palette, tod), [palette, tod]);
   const cockpitAlt = phase === 'climb' ? Math.min(1, progress * 1.1) : 1;
-  const cloudSpeed = phase === 'climb' ? 1.4 : phase === 'descent' ? 0.7 : 0.55;
+  // Whiteout: builds while diving into the layer, then clears to reveal the city.
+  const whiteout = phase !== 'descent' ? 0
+    : diving ? Math.pow(progress / DIVE, 1.6) * 0.96
+      : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
+  const parting = phase === 'descent' && !diving ? Math.min(1, (progress - DIVE) / CLEAR) : 0;
+  const cloudSpeed = phase === 'climb' ? 1.4 : diving ? 1.2 + progress * 3 : 0.55;
 
   const run = (p: Phase) => setPhase(p);
 
@@ -118,10 +135,19 @@ export function FlightLab() {
                   className="pointer-events-none absolute inset-x-0 bottom-0"
                   style={{ top: '60%', background: `linear-gradient(180deg, rgba(${cloudTint.join(',')},0) 0%, rgba(${cloudTint.join(',')},0.55) 35%, rgba(${cloudTint.join(',')},0.8) 100%)` }}
                 />
-                <CockpitClouds speed={cloudSpeed} tint={cloudTint} density={activity ? 0.4 : 1} horizon={0.58} />
+                <CockpitClouds speed={cloudSpeed} tint={cloudTint} density={activity && !diving ? 0.4 : 1} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} />
               </motion.div>
             )}
           </AnimatePresence>
+
+          {whiteout > 0.001 && (
+            <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden" style={{ opacity: whiteout }}>
+              {/* Two banks of cloud that part as the plane drops out of the layer */}
+              <div className="absolute inset-y-[-20%] left-[-10%] w-[70%]" style={{ transform: `translateX(${-parting * 70}%)`, background: `radial-gradient(ellipse 70% 60% at 60% 50%, rgb(${cloudTint.join(',')}) 0%, rgba(${cloudTint.join(',')},0.9) 45%, rgba(${cloudTint.join(',')},0) 80%)`, filter: 'blur(18px)' }} />
+              <div className="absolute inset-y-[-20%] right-[-10%] w-[70%]" style={{ transform: `translateX(${parting * 70}%)`, background: `radial-gradient(ellipse 70% 60% at 40% 50%, rgb(${cloudTint.join(',')}) 0%, rgba(${cloudTint.join(',')},0.9) 45%, rgba(${cloudTint.join(',')},0) 80%)`, filter: 'blur(18px)' }} />
+              <div className="absolute inset-0" style={{ background: `rgba(${cloudTint.join(',')},${0.85 * (1 - parting)})` }} />
+            </div>
+          )}
 
           <div className="pointer-events-none absolute left-4 top-3 flex gap-2">
             <span className="rounded-full border border-amber-300/45 bg-slate-950/55 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-amber-300">{PHASE_LABEL[phase]}</span>
@@ -176,6 +202,21 @@ export function FlightLab() {
           <select value={weather} onChange={(e) => setWeather(e.target.value as WeatherCondition)} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Weather">
             {(['clear', 'overcast', 'rain', 'storm', 'snow', 'aurora'] as WeatherCondition[]).map((w) => <option key={w} value={w}>{w}</option>)}
           </select>
+          <label className="flex items-center gap-1.5">Scrub
+            <input
+              id="flight-lab-scrub"
+              type="range"
+              min={0}
+              max={1}
+              step={0.01}
+              value={scrub ?? progress}
+              onChange={(e) => setScrub(Number(e.target.value))}
+              className="w-40"
+            />
+          </label>
+          {scrub !== null && (
+            <button type="button" onClick={() => setScrub(null)} className="rounded-lg border border-white/15 px-3 py-1.5 text-white/75">Play</button>
+          )}
           <button type="button" onClick={() => setActivity((a) => !a)} className={['rounded-lg border px-3 py-1.5', activity ? 'border-emerald-300 text-emerald-200' : 'border-white/15 text-white/75'].join(' ')}>
             Activity on screen
           </button>
