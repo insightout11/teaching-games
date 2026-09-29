@@ -26,8 +26,11 @@ foreach ($sourceFile in $SourceFiles) {
   $wordCount = ($text.Trim() -split '\s+').Count
   if ($wordCount -lt 150 -or $wordCount -gt 900) { throw "Story outside 150–900 word range ($wordCount): $title" }
 
-  $search = Invoke-RestMethod -Uri ($apiRoot + [uri]::EscapeDataString($title)) -TimeoutSec 30
-  $book = $search.data | Where-Object { $_.title.Trim().ToLowerInvariant() -eq $title.ToLowerInvariant() -and $_.language -eq 'English' } | Select-Object -First 1
+  $catalogTitle = if ($title -eq '"My fish!" "No, my fish!"') { 'My fish! No, my fish!' }
+    elseif ($title -eq 'The Hare & the Tortoise (Again!)') { 'The Hare and the Tortoise (Again!)' }
+    else { $title }
+  $search = Invoke-RestMethod -Uri ($apiRoot + [uri]::EscapeDataString($catalogTitle)) -TimeoutSec 30
+  $book = $search.data | Where-Object { $_.title.Trim().ToLowerInvariant() -eq $catalogTitle.ToLowerInvariant() -and $_.language -eq 'English' } | Select-Object -First 1
   if (!$book) { throw "No exact English StoryWeaver catalog record found: $title" }
   if ([string]$book.level -notin @('1', '2', '3', '4')) { throw "Unsupported reading level for $title" }
 
@@ -112,12 +115,32 @@ foreach ($sourceFile in $SourceFiles) {
     'What Does Anu See?' = @('observation', 'nature', 'animals', 'India')
     'Bheema, the Sleepyhead' = @('animals', 'sleep', 'humor', 'India')
     'The Generous Crow' = @('folktale', 'birds', 'kindness', 'India')
+    'Not Now, Not Now!' = @('family', 'patience', 'play', 'feelings')
+    '"My fish!" "No, my fish!"' = @('animals', 'friendship', 'fishing', 'sharing')
+    "Aunty Jui's Baby" = @('family', 'babies', 'siblings', 'growing-up')
+    'I Want That One!' = @('family', 'choices', 'patience', 'everyday-life')
+    'Goloo the Circle' = @('shapes', 'geometry', 'nature', 'early-learning')
+    'My Balwadi' = @('school', 'early-learning', 'community', 'daily-life')
+    'The Timid Train' = @('trains', 'travel', 'courage', 'adventure')
+    "Ritu's Letter Gets Longer!" = @('writing', 'letters', 'family', 'reading')
+    'The Red Raincoat' = @('weather', 'rain', 'family', 'clothing')
+    'Colours of Nature' = @('poetry', 'colours', 'animals', 'nature')
+    'The Boat Ride' = @('animals', 'river', 'friendship', 'adventure')
+    'The Sparrow and The Fruit' = @('birds', 'fruit', 'problem-solving', 'folktale')
+    'Going to Buy a Book' = @('books', 'reading', 'family', 'shopping')
+    'Samira Goes Shopping' = @('shopping', 'food', 'family', 'math')
+    'The Hare & the Tortoise (Again!)' = @('folktale', 'animals', 'competition', 'humor')
+    'Here Comes the Camel and Other Poems' = @('poetry', 'animals', 'rhythm', 'nature')
+    'Mouse in the House' = @('humor', 'family', 'animals', 'home')
+    'What If?' = @('poetry', 'imagination', 'school', 'dreams')
+    'The Royal Toothache' = @('animals', 'health', 'teeth', 'humor')
+    'Smart Sona Helps Her Mother' = @('family', 'textiles', 'art', 'creativity')
   }
   $tags = @('storyweaver', "reading-level-$level") + @($topicTagsByTitle[$title])
 
   $records += [pscustomobject][ordered]@{
     id = "storyweaver-$($book.slug)"
-    title = $title
+    title = $catalogTitle
     kind = 'picture-book'
     author = if ($archiveAuthors) { $archiveAuthors } else { ($authors -join ', ') }
     url = "https://storyweaver.org.in/en/stories/$($book.slug)"

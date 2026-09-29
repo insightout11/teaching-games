@@ -5,12 +5,12 @@ Baseline from Sep 30, 2026: **446 items** across 19 library files. Targets below
 | Category | Target additions | Current additions | Remaining |
 |---|---:|---:|---:|
 | VOA Learning English texts | 150 | 90 | 60 |
-| StoryWeaver texts (levels 1–4) | 120 | 50 | 70 |
+| StoryWeaver texts (levels 1–4) | 120 | 70 | 50 |
 | African Storybook texts | 40 | 0 | 40 |
 | Public-domain myths, legends, and fables | 60 | 0 | 60 |
 | Kids videos (A1–A2, 3–6 minutes) | 80 | 20 | 60 |
 | Teen-interest videos (A2–B2, 3–10 minutes) | 100 | 20 | 80 |
-| Place metadata coverage | Every place-related item | 38 new records tagged across VOA, StoryWeaver, and teen videos | Audit legacy libraries and continue with new batches |
+| Place metadata coverage | Every place-related item | 39 new records tagged across VOA, StoryWeaver, and teen videos | Audit legacy libraries and continue with new batches |
 | Picture books | Included in text targets | 0 | Counted above |
 
 ## Batch log
@@ -24,6 +24,7 @@ Baseline from Sep 30, 2026: **446 items** across 19 library files. Targets below
 2026-09-30 · batch 7 · +20 (VOA Level 1 dialogues 10, StoryWeaver picture books 10) · 10 needsReview · totals 586 (VOA additions 70, StoryWeaver 50)
 2026-09-30 · batch 8 · +20 (VOA Learning English original articles 20) · 0 needsReview · totals 606 (VOA additions 90)
 2026-09-30 · batch 9 · +20 (kids videos: Crash Course Kids 20) · 0 needsReview · totals 626 (kids videos 20)
+2026-09-30 · batch 10 · +20 (StoryWeaver picture books 20) · 20 needsReview · totals 646 (StoryWeaver 70)
 
 Baseline includes world-flight 150, teded 50, bbc 46, voa 32, stories 24, ted 20, kids 20, natgeo 15, crash-course 14, kurzgesagt 13, bbc-ideas 10, bigthink 10, business-english 10, vox 9, picture-books 8, travel-english 6, internet-memes 4, minecraft 4, and sports 1.
 
@@ -41,5 +42,6 @@ Baseline includes world-flight 150, teded 50, bbc 46, voa 32, stories 24, ted 20
 - Batch 7 selected 10 eligible VOA Level 1 dialogues (lessons 42–44 and 46–52) and 10 English StoryWeaver picture books. The VOA lesson index was screened through its last available lessons; lesson 45 was held because it is song-centered, and Level 2 lessons 4/23 onward either raised animal-safety/song lyric concerns or lacked an extractable dialogue. StoryWeaver candidates were screened for CC BY/public-domain status, exact English catalog matches, word count, cover art, and classroom suitability; short works below 150 words were excluded. All ten StoryWeaver additions remain `needsReview` because the source archive omits donor/funder credits and CEFR must be reviewed. Three additions have explicit place metadata (Washington, D.C. in two VOA dialogues; India in “Susheela’s Kolams”).
 - Batch 8 screened more than 30 VOA Learning English candidates and selected 20 original Everyday Grammar and Words and Their Stories lessons at 150–900 words. Candidates that exceeded the limit, included third-party song lyrics, or contained sensitive material were held. Selected texts cover grammar, speaking, writing, and common American expressions. VOA's usage page confirms Learning English texts are public domain, with third-party material excluded. The batch adds no place pins because its lesson topics are general rather than destination-tied.
 - Batch 9 screened 30 Crash Course Kids candidates across Earth, engineering, life, physical, and space science. Twenty non-duplicate videos were selected (3:03–5:17); three were already in the library and seven were held for later topical balancing. The channel identifies its audience as grades 3–5, and every selected item appears in the channel's captioned catalog and passed the local English-caption check. Phase A prefetched all 20 transcripts into Supabase and verified every `raw_transcript` row; paid Phase B was skipped. The videos teach general science concepts and were not given destination pins.
+- Batch 10 screened 30 CC BY StoryWeaver archive stories within 150–900 words and selected 20 with exact English catalog records, official reading levels, and available cover art. The stories span levels 1–3 and include early math, family life, school, letters, nature, and poetry. Ten candidates were held for later topical balancing and additional content/level review, including stories involving sadness, ladder work, intimidation, and thumb-sucking. All 20 remain `needsReview` because the source archive omits donor/funder credits and CEFR estimates need owner review. “The Timid Train” received an India map pin based on its route from Tamil Nadu to Jammu.
 - The existing AI tag enricher could not start because this worktree has no installed `@google/generative-ai` dependency. No software was installed. Batch 3 has source/title-curated StoryWeaver topic tags and narratives; batch 4 has manually curated six-topic tags and dialogue genres. Rerun the existing enrichment scripts after the dependency is available.
 - No batch is counted until its content, license/attribution, safety/level fields, and (for videos) transcript prefetch have been checked.
