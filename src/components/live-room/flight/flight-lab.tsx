@@ -19,6 +19,9 @@ import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 type Phase = 'gate' | 'takeoff' | 'climb' | 'cruise' | 'descent' | 'landing' | 'landed';
 const ARRIVAL_MS = 5200;
 const CLIMB_MS = 4200;
+/** The descent shows the first part of the arrival timeline (the approach), slowed down. */
+const DESCENT_MS = 7000;
+const APPROACH_SPLIT = 0.45;
 
 const PHASE_LABEL: Record<Phase, string> = {
   gate: 'At the gate · boarding',
@@ -46,27 +49,34 @@ export function FlightLab() {
   const raf = useRef(0);
   useEffect(() => {
     cancelAnimationFrame(raf.current);
-    const dur = phase === 'takeoff' ? DEPARTURE_DURATION_MS : phase === 'landing' ? ARRIVAL_MS : phase === 'climb' ? CLIMB_MS : 0;
+    const dur = phase === 'takeoff' ? DEPARTURE_DURATION_MS
+      : phase === 'descent' ? DESCENT_MS
+        : phase === 'landing' ? ARRIVAL_MS * (1 - APPROACH_SPLIT)
+          : phase === 'climb' ? CLIMB_MS : 0;
     if (!dur) return;
     const start = performance.now();
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / dur);
       setProgress(t);
       if (t < 1) raf.current = requestAnimationFrame(tick);
-      else setPhase(phase === 'takeoff' ? 'climb' : phase === 'climb' ? 'cruise' : 'landed');
+      else setPhase(phase === 'takeoff' ? 'climb' : phase === 'climb' ? 'cruise' : phase === 'descent' ? 'landing' : 'landed');
     };
     setProgress(0);
     raf.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf.current);
   }, [phase]);
 
-  const sideCamera = phase === 'gate' || phase === 'takeoff' || phase === 'landing' || phase === 'landed';
-  const sideScene = phase === 'landing' || phase === 'landed' ? dest : origin;
+  // Outside camera for everything on or near the ground; cockpit only for the
+  // climb and cruise. Descent + landing are one continuous arrival shot.
+  const sideCamera = phase !== 'climb' && phase !== 'cruise';
+  const arriving = phase === 'descent' || phase === 'landing' || phase === 'landed';
+  const sideScene = arriving ? dest : origin;
   const sideFrame =
     phase === 'gate' ? { mode: 'departure' as const, phase: 'approach' as const, progress: 0 }
       : phase === 'takeoff' ? { mode: 'departure' as const, phase: 'approach' as const, progress }
-        : phase === 'landing' ? { mode: 'arrival' as const, ...arrivalTimeline(progress) }
-          : { mode: 'arrival' as const, phase: 'landed' as const, progress: 1 };
+        : phase === 'descent' ? { mode: 'arrival' as const, ...arrivalTimeline(progress * APPROACH_SPLIT) }
+          : phase === 'landing' ? { mode: 'arrival' as const, ...arrivalTimeline(APPROACH_SPLIT + progress * (1 - APPROACH_SPLIT)) }
+            : { mode: 'arrival' as const, phase: 'landed' as const, progress: 1 };
 
   // The cockpit sky follows the chosen time of day (the side scenes already do).
   const cockpitWeather: WeatherState = tod === 'dusk' ? 'golden' : tod === 'night' ? 'idle' : tod === 'dawn' ? 'climbing' : 'day';
@@ -102,16 +112,16 @@ export function FlightLab() {
                 <SkyBackground
                   className="!absolute"
                   weatherState={cockpitWeather}
-                  earthState={phase === 'descent' ? 'landing' : 'flight'}
+                  earthState="flight"
                   altitude={cockpitAlt}
                   altitudeInitial={cockpitAltInitial}
-                  showEarth={phase === 'descent'}
-                  showSkyline={phase === 'descent'}
+                  showEarth={false}
+                  showSkyline={false}
                   intensity="moderate"
                   parallaxScale={2}
                   parallaxDuration={phase === 'climb' ? CLIMB_MS / 1000 : 3}
                 />
-                <CockpitClouds speed={cloudSpeed} tint={[236, 244, 255]} density={activity ? 0.4 : 1} horizon={phase === 'descent' ? 0.62 : 0.58} />
+                <CockpitClouds speed={cloudSpeed} tint={[236, 244, 255]} density={activity ? 0.4 : 1} horizon={0.58} />
               </motion.div>
             )}
           </AnimatePresence>
