@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
-import { Pause, Play, RotateCcw } from 'lucide-react';
+import { Pause, Play, Plus, RotateCcw } from 'lucide-react';
 import { KitButton, KitChip, KitSection } from './widget-kit';
 
 const PRESETS = [
@@ -12,6 +13,29 @@ const PRESETS = [
   { label: '3 min', seconds: 180 },
   { label: '5 min', seconds: 300 },
 ];
+
+/** A soft three-note chime (no audio files needed). */
+function playChime() {
+  try {
+    const Ctx = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!Ctx) return;
+    const ctx = new Ctx();
+    [660, 880, 1100].forEach((f, i) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.value = f;
+      const t = ctx.currentTime + i * 0.22;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.25, t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+      o.connect(g).connect(ctx.destination);
+      o.start(t);
+      o.stop(t + 0.65);
+    });
+    window.setTimeout(() => void ctx.close(), 1500);
+  } catch { /* audio unavailable */ }
+}
 
 interface TimerContentProps {
   sessionId?: string;
@@ -40,6 +64,16 @@ export function TimerContent({ sessionId }: TimerContentProps = {}) {
   const [customMin, setCustomMin] = useState('');
   const [customSec, setCustomSec] = useState('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  // Stopwatch (count up) for open-ended talking; local to this screen.
+  const [mode, setMode] = useState<'down' | 'up'>('down');
+  const [elapsed, setElapsed] = useState(0);
+  const [swRunning, setSwRunning] = useState(false);
+  const [flash, setFlash] = useState(false);
+  useEffect(() => {
+    if (!swRunning) return;
+    const t = setInterval(() => setElapsed((e) => e + 1), 1000);
+    return () => clearInterval(t);
+  }, [swRunning]);
 
   const syncTimer = useCallback((state: {
     totalSeconds: number;
@@ -132,6 +166,15 @@ export function TimerContent({ sessionId }: TimerContentProps = {}) {
     };
   }, [running, remaining]);
 
+  // Time's up: chime and flash the whole screen once.
+  useEffect(() => {
+    if (!finished) return;
+    playChime();
+    setFlash(true);
+    const t = setTimeout(() => setFlash(false), 1300);
+    return () => clearTimeout(t);
+  }, [finished]);
+
   // Auto-clear finished flash after 3s
   useEffect(() => {
     if (finished) {
@@ -192,6 +235,15 @@ export function TimerContent({ sessionId }: TimerContentProps = {}) {
       startedAt: null,
     });
   };
+  const addThirty = () => {
+    const nextTotal = totalSeconds + 30;
+    const nextRemaining = remaining + 30;
+    setTotalSeconds(nextTotal);
+    setRemaining(nextRemaining);
+    setFinished(false);
+    syncTimer({ totalSeconds: nextTotal, remainingSeconds: nextRemaining, running, startedAt: running ? new Date().toISOString() : null });
+  };
+
   const handleReset = () => {
     setRunning(false);
     setRemaining(totalSeconds);
@@ -204,16 +256,25 @@ export function TimerContent({ sessionId }: TimerContentProps = {}) {
     });
   };
 
-  const minutes = Math.floor(remaining / 60);
-  const seconds = remaining % 60;
-  const progress = totalSeconds > 0 ? remaining / totalSeconds : 0;
+  const shown = mode === 'up' ? elapsed : remaining;
+  const minutes = Math.floor(shown / 60);
+  const seconds = shown % 60;
+  const progress = mode === 'up' ? (elapsed % 60) / 60 : totalSeconds > 0 ? remaining / totalSeconds : 0;
   // Instrument colours: cyan while running, amber in the last 10 s, rose at zero.
-  const color = finished ? '#fda4af' : remaining <= 10 && remaining > 0 ? '#fcd34d' : '#67e8f9';
+  const color = mode === 'up' ? '#c4b5fd' : finished ? '#fda4af' : remaining <= 10 && remaining > 0 ? '#fcd34d' : '#67e8f9';
   const R = 52;
   const C = 2 * Math.PI * R;
 
   return (
     <div className="space-y-4 p-4">
+      {flash && typeof document !== 'undefined' && createPortal(
+        <div aria-hidden className="pointer-events-none fixed inset-0 z-[3000] animate-pulse bg-amber-300/25" />,
+        document.body,
+      )}
+      <div className="flex justify-center gap-1.5">
+        <KitChip on={mode === 'down'} onClick={() => setMode('down')}>Countdown</KitChip>
+        <KitChip on={mode === 'up'} tone="violet" onClick={() => setMode('up')}>Stopwatch</KitChip>
+      </div>
       {/* Dial */}
       <div className="relative mx-auto aspect-square w-full max-w-[220px]">
         <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90" aria-hidden>
@@ -233,6 +294,14 @@ export function TimerContent({ sessionId }: TimerContentProps = {}) {
       </div>
 
       {/* Controls */}
+      {mode === 'up' ? (
+        <div className="flex justify-center gap-2">
+          <KitButton tone="violet" solid className="min-w-[110px]" icon={swRunning ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />} onClick={() => setSwRunning((r) => !r)}>
+            {swRunning ? 'Pause' : elapsed ? 'Resume' : 'Start'}
+          </KitButton>
+          <KitButton icon={<RotateCcw className="h-3.5 w-3.5" />} onClick={() => { setSwRunning(false); setElapsed(0); }}>Reset</KitButton>
+        </div>
+      ) : (
       <div className="flex justify-center gap-2">
         {!running ? (
           <KitButton tone="amber" solid className="min-w-[110px]" icon={<Play className="h-3.5 w-3.5" />} onClick={handleStart}>
@@ -241,9 +310,12 @@ export function TimerContent({ sessionId }: TimerContentProps = {}) {
         ) : (
           <KitButton tone="amber" className="min-w-[110px]" icon={<Pause className="h-3.5 w-3.5" />} onClick={handlePause}>Pause</KitButton>
         )}
+        <KitButton icon={<Plus className="h-3.5 w-3.5" />} onClick={addThirty}>30 s</KitButton>
         <KitButton icon={<RotateCcw className="h-3.5 w-3.5" />} onClick={handleReset}>Reset</KitButton>
       </div>
+      )}
 
+      {mode === 'down' && (<>
       <KitSection label="Quick durations">
         <div className="flex flex-wrap gap-1.5">
           {PRESETS.map((p) => (
@@ -266,6 +338,7 @@ export function TimerContent({ sessionId }: TimerContentProps = {}) {
           <KitButton onClick={handleCustomSet}>Set</KitButton>
         </div>
       </KitSection>
+      </>)}
     </div>
   );
 }

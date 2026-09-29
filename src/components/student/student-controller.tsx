@@ -491,6 +491,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   useEffect(() => {
     setSelectedChoice(null);
+    setPollReason('');
+    setReasonSentFor(null);
   }, [activePoll?.pollId]);
 
   // Clear the splash timer on unmount.
@@ -968,8 +970,23 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     }
   }, [sessionId, studentSession, inputSpec, isSubmitting, checkSession, selectedFollowUpId]);
 
+  // Poll reasons ("Mumbai, because…"): students can change their vote and reason any time.
+  const [pollNote, setPollNote] = useState<string | null>(null);
+  const [pollReason, setPollReason] = useState('');
+  const [reasonSentFor, setReasonSentFor] = useState<string | null>(null);
+  const sendPollReason = async () => {
+    if (!activePoll || !selectedChoice || !pollReason.trim()) return;
+    const res = await fetch('/api/student/poll-reason', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pollId: activePoll.pollId, sessionId, clientId: studentSession.clientId, displayName: studentSession.displayName, choice: selectedChoice, reason: pollReason }),
+    }).catch(() => null);
+    if (res?.ok) setReasonSentFor(`${activePoll.pollId}:${selectedChoice}`);
+    else setPollNote('Could not send your reason. Try again.');
+  };
+
   const handleVote = async (choice: string) => {
-    if (!activePoll || isVoting) return;
+    if (!activePoll || isVoting || choice === selectedChoice) return;
 
     setIsVoting(true);
     setSelectedChoice(choice);
@@ -991,14 +1008,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (res.ok) {
         setLastParticipationSuccessAt(Date.now());
         setSubmittedPollIds(prev => new Set(prev).add(activePoll.pollId));
+      } else if (res.status === 429) {
+        // Changing answers quickly: keep the poll, just ask them to wait a moment.
+        setPollNote('One second… then try again.');
+        window.setTimeout(() => setPollNote(null), 2500);
       } else {
-        const data = await res.json();
-        if (res.status !== 429) {
-          setSelectedChoice(null);
-        } else {
-          console.log(`Vote rate limited, wait ${data.waitSeconds}s`);
-          setHiddenPollIds(prev => new Set(prev).add(activePoll.pollId));
-        }
+        setSelectedChoice(null);
       }
     } catch {
       setSelectedChoice(null);
@@ -1507,7 +1522,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               <button
                 key={option}
                 onClick={() => handleVote(option)}
-                disabled={isVoting || submittedPollIds.has(activePoll.pollId)}
+                disabled={isVoting || (activePoll.metadata?.poll_type === 'bonus_vote' && submittedPollIds.has(activePoll.pollId))}
                 className={`w-full rounded-xl p-3 text-left font-medium transition-all sm:p-4 ${
                   selectedChoice === option
                     ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
@@ -1524,8 +1539,27 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             <p className="text-xs text-cyan-400 text-center mt-3">
               {activePoll.metadata?.poll_type === 'bonus_vote'
                 ? `Voted for ${selectedChoice} ✓`
-                : `Vote submitted: ${selectedChoice} ✓`}
+                : `Your answer: ${selectedChoice} · tap another to change it`}
             </p>
+          )}
+          {pollNote && <p className="mt-2 text-center text-xs text-amber-300">{pollNote}</p>}
+          {Boolean(activePoll.metadata?.askWhy) && selectedChoice && submittedPollIds.has(activePoll.pollId) && (
+            reasonSentFor === `${activePoll.pollId}:${selectedChoice}` ? (
+              <p className="mt-3 text-center text-xs text-emerald-300">Your reason is in. Convince the others out loud too!</p>
+            ) : (
+              <div className="mt-3 space-y-2">
+                <textarea
+                  value={pollReason}
+                  onChange={(e) => setPollReason(e.target.value.slice(0, 200))}
+                  rows={2}
+                  placeholder={`Why ${selectedChoice}?`}
+                  className="w-full resize-none rounded-xl bg-white/10 p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                />
+                <button type="button" onClick={() => void sendPollReason()} disabled={!pollReason.trim()} className="w-full rounded-xl border border-cyan-500/30 bg-cyan-500/20 py-2 text-sm font-semibold text-cyan-300 disabled:opacity-40">
+                  Send my reason
+                </button>
+              </div>
+            )
           )}
         </div>
       )}

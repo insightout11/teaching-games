@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Crosshair, Eye, EyeOff, Plus, Sparkles, Swords, X } from 'lucide-react';
+import { Crosshair, Eye, EyeOff, MessageSquareQuote, Plane, Plus, Sparkles, Swords, X } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { usePollVotes } from '@/hooks/use-poll-votes';
 import { useSessionStore } from '@/stores/session-store';
@@ -41,6 +41,9 @@ export function PollContent({ sessionId }: PollContentProps) {
   const topic = useSessionStore((s) => s.settings.customTopic || s.settings.topic);
   const difficulty = useSessionStore((s) => s.settings.difficulty);
   const makeFocus = useFocusBus((s) => s.makeFocus);
+  const flyTo = useFocusBus((s) => s.flyTo);
+  const [askWhy, setAskWhy] = useState(false);
+  const [reasons, setReasons] = useState<Array<{ name: string; choice: string; reason: string }>>([]);
 
   const { tallies, votes } = usePollVotes(activePoll?.id || null);
 
@@ -66,6 +69,30 @@ export function PollContent({ sessionId }: PollContentProps) {
     }
     loadActivePoll();
   }, [sessionId, supabase]);
+
+  // Students' reasons for their answers (when the poll asks why).
+  useEffect(() => {
+    if (!activePoll?.metadata?.askWhy) { setReasons([]); return; }
+    let cancelled = false;
+    const load = async () => {
+      const { data } = await supabase
+        .from('student_submissions')
+        .select('display_name, content, created_at')
+        .eq('session_id', sessionId)
+        .eq('game_key', `poll-reason:${activePoll.id}`)
+        .order('created_at', { ascending: true });
+      if (cancelled || !data) return;
+      setReasons((data as Array<{ display_name: string | null; content: string }>).flatMap((r) => {
+        try {
+          const v = JSON.parse(r.content) as { choice?: string; reason?: string };
+          return v.choice && v.reason ? [{ name: r.display_name ?? 'A student', choice: v.choice, reason: v.reason }] : [];
+        } catch { return []; }
+      }));
+    };
+    void load();
+    const t = window.setInterval(() => void load(), 4000);
+    return () => { cancelled = true; window.clearInterval(t); };
+  }, [activePoll, sessionId, supabase]);
 
   const pickType = (key: (typeof TYPES)[number]['key']) => {
     setType(key);
@@ -102,7 +129,7 @@ export function PollContent({ sessionId }: PollContentProps) {
     }
     const { data, error } = await supabase
       .from('polls')
-      .insert({ session_id: sessionId, question: trimmedQuestion, options: validOptions, is_active: true })
+      .insert({ session_id: sessionId, question: trimmedQuestion, options: validOptions, is_active: true, metadata: askWhy ? { askWhy: true } : {} })
       .select()
       .single();
     if (!error && data) {
@@ -165,11 +192,29 @@ export function PollContent({ sessionId }: PollContentProps) {
                       <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/30">hidden</span>
                     )}
                   </div>
+                  {revealed && reasons.some((r) => r.choice === option) && (
+                    <ul className="relative space-y-1 px-3 pb-2.5">
+                      {reasons.filter((r) => r.choice === option).slice(0, 4).map((r) => (
+                        <li key={r.name} className="flex gap-1.5 text-xs leading-snug text-white/80">
+                          <MessageSquareQuote className="mt-0.5 h-3 w-3 shrink-0" style={{ color }} />
+                          <span><b className="font-semibold text-white">{r.name}:</b> {r.reason}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               );
             })}
           </div>
 
+          {!revealed && reasons.length > 0 && (
+            <KitLabel tone="cyan">{reasons.length} reason{reasons.length === 1 ? '' : 's'} in · shown with the results</KitLabel>
+          )}
+          {revealed && totalVotes > 0 && activePoll.metadata?.purpose === 'next-city' && flyTo && (
+            <KitButton tone="amber" solid className="w-full" icon={<Plane className="h-3.5 w-3.5" />} onClick={() => { flyTo(ranked[0].o); void handleClosePoll(); }}>
+              Fly to {ranked[0].o}
+            </KitButton>
+          )}
           {revealed && totalVotes > 0 && makeFocus && (
             <KitSection label="Next">
               <div className="flex flex-wrap gap-1.5">
@@ -233,6 +278,11 @@ export function PollContent({ sessionId }: PollContentProps) {
               </button>
             )}
           </KitSection>
+
+          <div className="flex items-center gap-2">
+            <KitChip on={askWhy} tone="cyan" onClick={() => setAskWhy((v) => !v)}>Ask why</KitChip>
+            <span className="text-[11px] text-white/45">Students can add a reason and change their answer</span>
+          </div>
 
           <div className="flex gap-2">
             {activePoll && <KitButton className="flex-1" onClick={() => setIsCreating(false)}>Cancel</KitButton>}

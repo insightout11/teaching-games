@@ -20,6 +20,9 @@ interface FocusBusState {
   /** Key words from the current topic's briefing (the Word bank shows them). */
   vocab: FocusWord[];
   setVocab: (vocab: FocusWord[]) => void;
+  /** Set the next destination by city name (the class's "where next?" poll). */
+  flyTo: ((city: string) => void) | null;
+  setFlyTo: (fn: ((city: string) => void) | null) => void;
 }
 
 export const useFocusBus = create<FocusBusState>((set) => ({
@@ -27,4 +30,6 @@ export const useFocusBus = create<FocusBusState>((set) => ({
   setMakeFocus: (makeFocus) => set({ makeFocus }),
   vocab: [],
   setVocab: (vocab) => set({ vocab }),
+  flyTo: null,
+  setFlyTo: (flyTo) => set({ flyTo }),
 }));

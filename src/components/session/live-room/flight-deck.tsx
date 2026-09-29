@@ -200,6 +200,26 @@ export function FlightDeck({
     return Array.from(stops.values());
   }, [position, destination]);
 
+  // "Where should we fly next, and why?": a poll of up to four cities in range
+  // (the picked one first). The Poll widget's "Fly to …" sets the winner.
+  const startCityPoll = async () => {
+    const others = reachable.filter((c) => c.id !== destination.id).sort(() => Math.random() - 0.5).slice(0, 3);
+    const options = [destination.city, ...others.map((c) => c.city)];
+    if (options.length < 2) { flash('Only one city is in range right now.'); return; }
+    const supabase = createClient();
+    await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+    const { error } = await supabase.from('polls').insert({
+      session_id: sessionId,
+      question: 'Where should we fly next, and why?',
+      options,
+      is_active: true,
+      metadata: { askWhy: true, purpose: 'next-city' },
+    });
+    if (error) { flash('Could not start the vote.'); return; }
+    openTool('poll', window.innerWidth / 2, window.innerHeight / 2);
+    flash('Vote open on phones: where next, and why?');
+  };
+
   const takeOff = () => {
     setFlightStage('flying');
     setTakeoffAt(Date.now());
@@ -757,6 +777,16 @@ export function FlightDeck({
   };
   const shrinkTracker = () => shrinkToCorner(FLIGHT_WIDGET, 'br', flightStage === 'gate' ? 'boarding' : 'talk');
 
+  // The class's city poll can set the next destination.
+  const setFlyTo = useFocusBus((s) => s.setFlyTo);
+  useEffect(() => {
+    setFlyTo((city: string) => {
+      const c = reachable.find((r) => r.city === city);
+      if (c) { setChosenId(c.id); flash(`The class chose ${c.city}!`); }
+    });
+    return () => setFlyTo(null);
+  }, [reachable, setFlyTo, flash]);
+
   const openTool = (id: string, x: number, y: number) => {
     setWidgetPosition(id, { x: Math.max(8, Math.min(window.innerWidth - 340, x - 160)), y: Math.max(8, y - 420) });
     openWidgetStore(id);
@@ -922,6 +952,9 @@ export function FlightDeck({
               <button type="button" onClick={() => { setMapMode('tracker'); setView('map'); }} className="rounded-lg border border-sky-300/40 px-2 py-1 text-xs text-sky-200 hover:bg-sky-300/10">
                 Choose on the map
               </button>
+              <button type="button" onClick={() => void startCityPoll()} className="rounded-lg border border-amber-300/40 px-2 py-1 text-xs text-amber-200 hover:bg-amber-300/10">
+                Let the class vote
+              </button>
             </label>
           )}
           {flightStage === 'gate' && (
@@ -1073,6 +1106,9 @@ export function FlightDeck({
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-sky-300">Where next? Tap a city</p>
                 <p className="font-display text-lg text-white">{origin.city} → {destination.city}</p>
                 <p className="font-mono text-xs text-white/60">{plannerKm.toLocaleString()} km</p>
+                <button type="button" onClick={() => void startCityPoll()} className="mt-1.5 rounded-lg border border-amber-300/40 px-2 py-0.5 text-xs text-amber-200 hover:bg-amber-300/10">
+                  Let the class vote (with reasons)
+                </button>
               </div>
               <button type="button" onClick={takeOff} className="rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-5 py-2.5 font-display text-base text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105">
                 Take off to {destination.city}

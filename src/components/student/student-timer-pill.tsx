@@ -31,8 +31,20 @@ export function StudentTimerPill({ timer, clockOffsetMs }: { timer: SharedTimerS
     return () => clearInterval(id);
   }, [running]);
 
+  // Time's up: buzz (where the phone supports it) and flash the screen once.
+  const remNow = timer ? remainingAt(timer, clockOffsetMs) : -1;
+  const [flashing, setFlashing] = useState(false);
+  const hitZero = running && remNow === 0;
+  useEffect(() => {
+    if (!hitZero) return;
+    try { navigator.vibrate?.([220, 120, 220]); } catch { /* not supported */ }
+    setFlashing(true);
+    const t = setTimeout(() => setFlashing(false), 1400);
+    return () => clearTimeout(t);
+  }, [hitZero]);
+
   if (!timer) return null;
-  const rem = remainingAt(timer, clockOffsetMs);
+  const rem = remNow;
   const engaged = timer.running || (rem > 0 && rem < timer.totalSeconds) || rem === 0;
   if (!engaged) return null;
 
@@ -40,6 +52,8 @@ export function StudentTimerPill({ timer, clockOffsetMs }: { timer: SharedTimerS
   const ss = String(rem % 60).padStart(2, '0');
   const urgent = rem <= 10;
   return (
+    <>
+    {flashing && <div aria-hidden className="pointer-events-none fixed inset-0 z-[60] animate-pulse bg-amber-300/25" />}
     <div
       role="timer"
       aria-live="off"
@@ -56,5 +70,6 @@ export function StudentTimerPill({ timer, clockOffsetMs }: { timer: SharedTimerS
       {rem === 0 ? "Time's up" : `${mm}:${ss}`}
       {!timer.running && rem > 0 && <span className="text-xs font-normal text-white/60">paused</span>}
     </div>
+    </>
   );
 }
