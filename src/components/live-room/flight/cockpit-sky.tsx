@@ -55,7 +55,12 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
   const pos = spot ?? { ...LIGHT_POS[timeOfDay], visible: true };
   const glide = reduce ? undefined : 'left 14s linear, top 14s linear, width 14s linear, height 14s linear';
   const stars = useMemo(
-    () => Array.from({ length: 70 }, (_, i) => ({ x: (i * 137.5) % 100, y: ((i * 61.8) % 60), r: i % 7 === 0 ? 1.6 : 1, o: 0.35 + ((i * 29) % 50) / 100 })),
+    // Evenly scattered (a low-discrepancy R2 sequence), fading toward the horizon.
+    () => Array.from({ length: 90 }, (_, i) => {
+      const x = ((0.5 + i * 0.7548776662) % 1) * 100;
+      const y = Math.pow((0.5 + i * 0.5698402910) % 1, 1.4) * 54;
+      return { x, y, r: i % 9 === 0 ? 1.7 : i % 3 === 0 ? 1.2 : 0.8, o: (0.4 + ((i * 29) % 50) / 100) * (1 - y / 70), tw: 2.5 + (i % 7) * 0.7, d: (i % 11) * 0.4 };
+    }),
     [],
   );
 
@@ -71,9 +76,18 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
         className="absolute inset-x-0"
         style={{ top: '55%', height: '45%', background: `radial-gradient(ellipse 80% 60% at ${pos.x} 30%, ${palette.horizonGlow} 0%, transparent 70%)`, opacity: timeOfDay === 'day' ? 0.35 : 0.8 }}
       />
-      {palette.light === 'moon' && stars.map((s, i) => (
-        <span key={i} className="absolute rounded-full bg-white" style={{ left: `${s.x}%`, top: `${s.y}%`, width: s.r * 2, height: s.r * 2, opacity: s.o }} />
-      ))}
+      {palette.light === 'moon' && (
+        <>
+          <style>{'@keyframes cockpit-twinkle{0%,100%{opacity:var(--o)}50%{opacity:calc(var(--o) * 0.35)}}'}</style>
+          {stars.map((s, i) => (
+            <span
+              key={i}
+              className="absolute rounded-full bg-white"
+              style={{ left: `${s.x}%`, top: `${s.y}%`, width: s.r * 2, height: s.r * 2, opacity: s.o, ['--o' as string]: s.o, animation: reduce || i % 3 ? undefined : `cockpit-twinkle ${s.tw}s ease-in-out ${s.d}s infinite` }}
+            />
+          ))}
+        </>
+      )}
       {/* Sun / moon with a soft bloom */}
       {pos.visible && <div
         className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"

@@ -138,7 +138,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
           }
         }
         // aerial perspective
-        ctx.fillStyle = `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, 0.55) * 0.92})`;
+        // At night the air is dark: lights on the ground shine through much further.
+        ctx.fillStyle = `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, night ? 0.9 : 0.55) * (night ? 0.7 : 0.92)})`;
         ctx.fillRect(0, y, w, ROW);
       }
 

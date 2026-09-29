@@ -95,7 +95,7 @@ export function farmTexture(region: string | null | undefined, palette: ScenePal
   const canvas = document.createElement('canvas');
   canvas.width = S; canvas.height = S;
   const g = canvas.getContext('2d')!;
-  if (style === 'city') return cityTexture(g, R, dim, water);
+  if (style === 'city') return cityTexture(g, R, dim, water, night);
   g.fillStyle = css(tint(CROPS[style][0]));
   g.fillRect(0, 0, S, S);
 
@@ -204,7 +204,7 @@ export function farmTexture(region: string | null | undefined, palette: ScenePal
 }
 
 /** A city seen from above: street grid, blocks of rooftops, parks, a highway and a river. */
-function cityTexture(g: CanvasRenderingContext2D, R: () => number, dim: (c: RGB) => RGB, water: RGB): HTMLCanvasElement {
+function cityTexture(g: CanvasRenderingContext2D, R: () => number, dim: (c: RGB) => RGB, water: RGB, night: boolean): HTMLCanvasElement {
   const S = FARM_TEXTURE_SIZE;
   const street = dim([92, 94, 100]);
   g.fillStyle = css(street);
@@ -250,6 +250,24 @@ function cityTexture(g: CanvasRenderingContext2D, R: () => number, dim: (c: RGB)
   g.strokeStyle = css(dim([210, 204, 190]));
   g.lineWidth = 5;
   g.beginPath(); g.moveTo(0, S * 0.1); g.lineTo(S, S * 0.1); g.stroke();
+  if (night) {
+    // Streetlights along every street, lit windows on the rooftops, a bright highway.
+    for (const x of xs) for (let y = 4; y < S; y += 10 + Math.floor(R() * 8)) {
+      g.fillStyle = `rgba(255,${196 + Math.floor(R() * 40)},120,${0.55 + R() * 0.4})`;
+      g.fillRect(x - 1.5, y, 3, 3);
+    }
+    for (const y of ys) for (let x = 4; x < S; x += 10 + Math.floor(R() * 8)) {
+      g.fillStyle = `rgba(255,${196 + Math.floor(R() * 40)},120,${0.55 + R() * 0.4})`;
+      g.fillRect(x, y - 1.5, 3, 3);
+    }
+    for (let i = 0; i < 1400; i++) {
+      g.fillStyle = R() < 0.8 ? `rgba(255,226,150,${0.35 + R() * 0.5})` : `rgba(190,215,255,${0.3 + R() * 0.4})`;
+      g.fillRect(R() * S, R() * S, 2.5, 2.5);
+    }
+    g.strokeStyle = 'rgba(255,214,140,0.8)';
+    g.lineWidth = 3;
+    g.beginPath(); g.moveTo(0, S * 0.1); g.lineTo(S, S * 0.1); g.stroke();
+  }
   return g.canvas;
 }
 
