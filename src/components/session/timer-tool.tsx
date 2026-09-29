@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
+import { Pause, Play, RotateCcw } from 'lucide-react';
+import { KitButton, KitChip, KitSection } from './widget-kit';
 
 const PRESETS = [
   { label: '1 min', seconds: 60 },
@@ -205,106 +207,65 @@ export function TimerContent({ sessionId }: TimerContentProps = {}) {
   const minutes = Math.floor(remaining / 60);
   const seconds = remaining % 60;
   const progress = totalSeconds > 0 ? remaining / totalSeconds : 0;
+  // Instrument colours: cyan while running, amber in the last 10 s, rose at zero.
+  const color = finished ? '#fda4af' : remaining <= 10 && remaining > 0 ? '#fcd34d' : '#67e8f9';
+  const R = 52;
+  const C = 2 * Math.PI * R;
 
   return (
-    <div className="p-4 space-y-4">
-      {/* Countdown Display */}
-      <div className="text-center">
-        <div className={`text-5xl font-mono font-bold tracking-wider ${
-          finished ? 'text-red-400 animate-pulse' : remaining <= 10 && remaining > 0 ? 'text-orange-400' : 'text-cyan-400'
-        }`}>
-          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-        </div>
-        {/* Progress bar */}
-        <div className="mt-2 h-1.5 bg-white/10 rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full transition-all duration-1000 ${
-              finished ? 'bg-red-400' : remaining <= 10 ? 'bg-orange-400' : 'bg-cyan-500'
-            }`}
-            style={{ width: `${progress * 100}%` }}
+    <div className="space-y-4 p-4">
+      {/* Dial */}
+      <div className="relative mx-auto aspect-square w-full max-w-[220px]">
+        <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90" aria-hidden>
+          <circle cx="60" cy="60" r={R} fill="rgba(0,0,0,.25)" stroke="rgba(255,255,255,.08)" strokeWidth="8" />
+          <circle
+            cx="60" cy="60" r={R} fill="none" stroke={color} strokeWidth="8" strokeLinecap="round"
+            strokeDasharray={C} strokeDashoffset={C * (1 - progress)}
+            style={{ transition: 'stroke-dashoffset 1s linear, stroke .3s', filter: `drop-shadow(0 0 6px ${color}88)` }}
           />
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <span className={`font-mono text-5xl font-bold tracking-wider ${finished ? 'animate-pulse' : ''}`} style={{ color }}>
+            {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+          </span>
+          {finished && <span className="mt-1 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-rose-200">Time&apos;s up</span>}
         </div>
-        {finished && (
-          <p className="text-red-400 text-sm font-semibold mt-2 animate-pulse">Time&apos;s Up!</p>
-        )}
       </div>
 
       {/* Controls */}
-      <div className="flex gap-2 justify-center">
+      <div className="flex justify-center gap-2">
         {!running ? (
-          <button
-            onClick={handleStart}
-            className="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg text-sm font-semibold hover:scale-105 active:scale-95 transition-all text-white"
-          >
+          <KitButton tone="amber" solid className="min-w-[110px]" icon={<Play className="h-3.5 w-3.5" />} onClick={handleStart}>
             {remaining < totalSeconds && remaining > 0 ? 'Resume' : 'Start'}
-          </button>
+          </KitButton>
         ) : (
-          <button
-            onClick={handlePause}
-            className="px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg text-sm font-semibold hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            Pause
-          </button>
+          <KitButton tone="amber" className="min-w-[110px]" icon={<Pause className="h-3.5 w-3.5" />} onClick={handlePause}>Pause</KitButton>
         )}
-        <button
-          onClick={handleReset}
-          className="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors"
-        >
-          Reset
-        </button>
+        <KitButton icon={<RotateCcw className="h-3.5 w-3.5" />} onClick={handleReset}>Reset</KitButton>
       </div>
 
-      {/* Presets */}
-      <div>
-        <p className="text-xs uppercase tracking-wider opacity-60 mb-2">Quick durations</p>
-        <div className="flex gap-2">
+      <KitSection label="Quick durations">
+        <div className="flex flex-wrap gap-1.5">
           {PRESETS.map((p) => (
-            <button
-              key={p.seconds}
-              onClick={() => handlePreset(p.seconds)}
-              className={`flex-1 py-1.5 text-xs rounded-lg transition-colors ${
-                totalSeconds === p.seconds && !running
-                  ? 'bg-cyan-500/30 text-cyan-300'
-                  : 'bg-white/10 hover:bg-white/20'
-              }`}
-            >
-              {p.label}
-            </button>
+            <KitChip key={p.seconds} on={totalSeconds === p.seconds && !running} onClick={() => handlePreset(p.seconds)}>{p.label}</KitChip>
           ))}
         </div>
-      </div>
+      </KitSection>
 
-      {/* Custom time */}
-      <div>
-        <p className="text-xs uppercase tracking-wider opacity-60 mb-2">Custom duration</p>
+      <KitSection label="Custom">
         <div className="flex items-center gap-2">
           <input
-            type="number"
-            min="0"
-            max="99"
-            value={customMin}
-            onChange={(e) => setCustomMin(e.target.value)}
-            placeholder="min"
-            className="w-16 px-2 py-1.5 bg-white/10 border border-white/20 rounded-lg text-sm text-white text-center placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
+            type="number" min="0" max="99" value={customMin} onChange={(e) => setCustomMin(e.target.value)} placeholder="min"
+            className="w-16 rounded-xl border border-white/15 bg-black/25 px-2 py-1.5 text-center text-sm text-white placeholder:text-white/35 focus:border-cyan-300/60 focus:outline-none"
           />
-          <span className="opacity-60">:</span>
+          <span className="text-white/50">:</span>
           <input
-            type="number"
-            min="0"
-            max="59"
-            value={customSec}
-            onChange={(e) => setCustomSec(e.target.value)}
-            placeholder="sec"
-            className="w-16 px-2 py-1.5 bg-white/10 border border-white/20 rounded-lg text-sm text-white text-center placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
+            type="number" min="0" max="59" value={customSec} onChange={(e) => setCustomSec(e.target.value)} placeholder="sec"
+            className="w-16 rounded-xl border border-white/15 bg-black/25 px-2 py-1.5 text-center text-sm text-white placeholder:text-white/35 focus:border-cyan-300/60 focus:outline-none"
           />
-          <button
-            onClick={handleCustomSet}
-            className="px-3 py-1.5 bg-white/10 rounded-lg text-xs hover:bg-white/20 transition-colors"
-          >
-            Set timer
-          </button>
+          <KitButton onClick={handleCustomSet}>Set</KitButton>
         </div>
-      </div>
+      </KitSection>
     </div>
   );
 }
