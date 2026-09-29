@@ -25,7 +25,7 @@ import { DebatePrepPanel } from './debate-prep-panel';
 import { VALIDATION } from '@/lib/config/rate-limits';
 import { buildStandbyTipPool } from '@/lib/standby-tips';
 import { grammarReference } from '@/lib/grammar';
-import { Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, RadioTower, ClipboardCheck, Share2, Check } from 'lucide-react';
+import { Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, RadioTower, ClipboardCheck, Share2, Check, ChevronRight } from 'lucide-react';
 import { openHandChannel, HAND_HEARTBEAT_MS } from '@/lib/live-room/hands';
 import { openWordBankChannel } from '@/lib/live-room/word-bank';
 import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
@@ -33,6 +33,18 @@ import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { ActionBar, BoardingHeader, PhoneSheet, type PhoneStatus } from '@/components/student/phone-shell';
 import { OptionLetter, PhoneLabel, PhonePrompt, phoneOption } from '@/components/student/phone-kit';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
+import { Phrasebook } from '@/components/student/phrase-card';
+import type { ReferenceVocabItem } from '@/lib/reference-materials';
+import {
+  loadProgress,
+  markSeen,
+  markUsed,
+  newWordCount as countNewWords,
+  phraseState,
+  saveProgress,
+  type SessionProgress,
+  type UsedHistory,
+} from '@/lib/phrasebook-progress';
 import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
@@ -97,10 +109,7 @@ interface ClassBoardItem {
   parentId: string | null;
 }
 
-interface VocabItem {
-  word: string;
-  definition: string;
-}
+type VocabItem = ReferenceVocabItem;
 
 interface ExpressionItem {
   phrase: string;
@@ -406,7 +415,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   // Raise hand: joins the teacher's speaking queue in the cabin.
   const [handRaised, setHandRaised] = useState(false);
-  const [seenWordCount, setSeenWordCount] = useState(0);
   const [seatIndex, setSeatIndex] = useState<number | null>(null);
   const handAt = useRef(0);
   const handChannel = useRef<ReturnType<typeof openHandChannel> | null>(null);
@@ -425,15 +433,32 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     return () => window.clearInterval(t);
   }, [handRaised, studentSession.clientId, studentSession.displayName]);
   // Word bank: tell the teacher when you used a key word while speaking.
-  const [usedWords, setUsedWords] = useState<Set<string>>(new Set());
+  // Pocket Phrasebook progress lives on the phone (new → seen → used → mastered).
+  const [phraseProgress, setPhraseProgress] = useState<SessionProgress>({});
+  const [phraseHistory, setPhraseHistory] = useState<UsedHistory>({});
+  const [openWord, setOpenWord] = useState<string | null>(null);
+  useEffect(() => {
+    const loaded = loadProgress(sessionId, studentSession.clientId);
+    setPhraseProgress(loaded.progress);
+    setPhraseHistory(loaded.history);
+  }, [sessionId, studentSession.clientId]);
   const wordBank = useRef<ReturnType<typeof openWordBankChannel> | null>(null);
   useEffect(() => {
     const ch = openWordBankChannel(sessionId);
     wordBank.current = ch;
     return () => { ch.close(); wordBank.current = null; };
   }, [sessionId]);
+  const markWordSeen = (word: string) => {
+    const next = markSeen(phraseProgress, word);
+    if (next === phraseProgress) return;
+    setPhraseProgress(next);
+    saveProgress(sessionId, studentSession.clientId, next, phraseHistory);
+  };
   const markWordUsed = (word: string) => {
-    setUsedWords((prev) => new Set(prev).add(word.toLowerCase()));
+    const next = markUsed(phraseProgress, phraseHistory, word, sessionId);
+    setPhraseProgress(next.progress);
+    setPhraseHistory(next.history);
+    saveProgress(sessionId, studentSession.clientId, next.progress, next.history);
     wordBank.current?.send({ word, clientId: studentSession.clientId, name: studentSession.displayName, at: Date.now() });
   };
 
@@ -1306,7 +1331,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     degradedSince,
     now: connectionNow,
   });
-  const newWordCount = Math.max(0, (referenceVocab?.length ?? 0) - seenWordCount);
+  const newWordCount = countNewWords(phraseProgress, (referenceVocab ?? []).map((v) => v.word));
+  const latestNewWord = (referenceVocab ?? []).find((v) => phraseState(phraseProgress, phraseHistory, v.word, sessionId) === 'new') ?? null;
   const pollWaiting = Boolean(activePoll && !hiddenPollIds.has(activePoll.pollId) && activePoll.metadata?.channel !== 'side' && !submittedPollIds.has(activePoll.pollId));
   const phoneStatus: PhoneStatus =
     effectiveConnectionState === 'offline' ? 'offline'
@@ -1818,9 +1844,24 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                   <p className="text-gray-400 text-xs">Your captain is preparing it now…</p>
                 </div>
               ) : (
-                <p className="text-gray-500 text-xs uppercase tracking-widest">Standing by for captain signal...</p>
+                <PhoneLabel tone="text-lc-text2">Standing by for your captain</PhoneLabel>
               )}
             </div>
+            {latestNewWord && !roomLaunch && (
+              <button
+                type="button"
+                onClick={() => { markWordSeen(latestNewWord.word); setOpenWord(latestNewWord.word); setOpenPanel('vocab'); }}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left active:scale-[0.99]"
+                style={{ background: '#f4efe3', color: '#1b2233' }}
+              >
+                <span className="w-1 self-stretch rounded-full bg-amber-500" />
+                <span className="min-w-0 flex-1">
+                  <span className="block font-[family-name:var(--font-instrument)] text-[10px] uppercase tracking-[0.12em] text-[#7a6f5a]">New word</span>
+                  <span className="block truncate font-display text-xl">{latestNewWord.word}</span>
+                </span>
+                <ChevronRight className="h-4 w-4 text-[#7a6f5a]" />
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -2177,30 +2218,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 <p className="py-6 text-center text-sm text-lc-text2">New words from today&apos;s flight land here.</p>
               )}
             {referenceVocab && (
-              <div className="glass rounded-2xl p-4">
-                <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-3">Key Vocabulary</p>
-                <div className="space-y-2.5">
-                  {referenceVocab.map((item) => {
-                    const used = usedWords.has(item.word.toLowerCase());
-                    return (
-                      <div key={item.word} className="flex items-start gap-2">
-                        <div className="min-w-0 flex-1">
-                          <span className="text-sm font-semibold text-cyan-400">{item.word}</span>
-                          <span className="text-gray-400 text-xs"> — {item.definition}</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => markWordUsed(item.word)}
-                          disabled={used}
-                          className={`shrink-0 rounded-full border px-2 py-0.5 text-[11px] font-semibold ${used ? 'border-emerald-400/50 bg-emerald-400/15 text-emerald-200' : 'border-cyan-400/40 text-cyan-200 hover:bg-cyan-500/15'}`}
-                        >
-                          {used ? 'Used!' : 'I used it!'}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <Phrasebook
+                items={referenceVocab}
+                stateOf={(w) => phraseState(phraseProgress, phraseHistory, w, sessionId)}
+                usedAtOf={(w) => phraseProgress[w.trim().toLowerCase()]?.usedAt}
+                onOpen={markWordSeen}
+                onUse={markWordUsed}
+                openWord={openWord}
+                setOpenWord={setOpenWord}
+              />
             )}
 
             {grammarEntry && (
@@ -2349,7 +2375,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         onMessage={() => setOpenPanel((p) => (p === 'question' ? null : 'question'))}
         newWords={newWordCount}
         phrasebookOpen={openPanel === 'vocab'}
-        onPhrasebook={() => { setOpenPanel((p) => (p === 'vocab' ? null : 'vocab')); setSeenWordCount(referenceVocab?.length ?? 0); }}
+        onPhrasebook={() => { setOpenWord(null); setOpenPanel((p) => (p === 'vocab' ? null : 'vocab')); }}
       />
     </StudentSkyShell>
   );

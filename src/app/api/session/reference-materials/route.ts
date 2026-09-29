@@ -9,6 +9,9 @@ import type { SourceVocabItem } from '@/activities/types';
 import {
   normalizeReferenceExpressions,
   normalizeReferenceVocab,
+  PHRASEBOOK_FIELDS_PROMPT,
+  PHRASEBOOK_ITEM_SCHEMA,
+  withPhraseSource,
   type ReferenceExpressionItem,
   type ReferenceVocabItem,
 } from '@/lib/reference-materials';
@@ -24,14 +27,7 @@ export const maxDuration = 60;
 
 const vocabSchema: AISchema = {
   type: 'array',
-  items: {
-    type: 'object',
-    properties: {
-      word: { type: 'string' },
-      definition: { type: 'string' },
-    },
-    required: ['word', 'definition'],
-  },
+  items: PHRASEBOOK_ITEM_SCHEMA,
 };
 
 const expressionsSchema: AISchema = {
@@ -68,7 +64,7 @@ export async function POST(request: Request) {
   if (Array.isArray(sourceVocab) && sourceVocab.length > 0) {
     await supabase
       .from('sessions')
-      .update({ reference_vocab: sourceVocab.map((v) => ({ word: v.term, definition: v.meaning })) })
+      .update({ reference_vocab: sourceVocab.map((v) => ({ word: v.term, definition: v.meaning, source: 'reading' })) })
       .eq('id', sessionId);
     return NextResponse.json({ ok: true });
   }
@@ -99,9 +95,8 @@ export async function POST(request: Request) {
   try {
     const vocabPrompt = `Generate exactly 7 key vocabulary words for a ${difficulty} English language class studying the topic: "${topic}".
 
-Return a JSON array of exactly 7 objects. Each object has:
-- "word": the vocabulary word or short phrase
-- "definition": a clear, simple definition appropriate for ${diffDesc} learners (1 sentence, no jargon)
+Return a JSON array of exactly 7 objects, written for ${diffDesc} learners.
+${PHRASEBOOK_FIELDS_PROMPT}
 
 Focus on words students will encounter or need when discussing "${topic}". Include a mix of nouns, verbs, and adjectives where natural.`;
 
@@ -118,7 +113,7 @@ Focus on expressions that help students participate in discussion, give opinions
       generateJSON<unknown>(expressionsPrompt, expressionsSchema, { taskClass: 'content-generation' }),
     ]);
 
-    const normalizedVocab: ReferenceVocabItem[] = normalizeReferenceVocab(vocab);
+    const normalizedVocab: ReferenceVocabItem[] = withPhraseSource(normalizeReferenceVocab(vocab), 'topic');
     const normalizedExpressions: ReferenceExpressionItem[] = normalizeReferenceExpressions(expressions);
 
     await supabase

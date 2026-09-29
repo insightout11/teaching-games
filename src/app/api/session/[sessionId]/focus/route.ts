@@ -5,7 +5,13 @@ import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { createServiceClient } from '@/lib/supabase/service';
 import { difficultyDescriptions, type Difficulty } from '@/lib/difficulty';
-import { normalizeReferenceExpressions, normalizeReferenceVocab } from '@/lib/reference-materials';
+import {
+  normalizeReferenceExpressions,
+  normalizeReferenceVocab,
+  PHRASEBOOK_FIELDS_PROMPT,
+  PHRASEBOOK_ITEM_SCHEMA,
+  withPhraseSource,
+} from '@/lib/reference-materials';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -25,7 +31,7 @@ const schema: AISchema = {
     angles: { type: 'array', items: { type: 'string' } },
     vocab: {
       type: 'array',
-      items: { type: 'object', properties: { word: { type: 'string' }, definition: { type: 'string' } }, required: ['word', 'definition'] },
+      items: PHRASEBOOK_ITEM_SCHEMA,
     },
     expressions: {
       type: 'array',
@@ -75,7 +81,8 @@ Prepare the teacher and students:
 - "briefing": 3-4 sentences a teacher could read out that give the class real substance on this (facts, not fluff). If material is given, summarise it.
 - "facts": 4 short, interesting, accurate facts about it.
 - "angles": 3 open questions or opinions the class could argue about.
-- "vocab": exactly 7 words or short phrases students need to talk about THIS, each with a one-sentence definition.
+- "vocab": exactly 7 words or short phrases students need to talk about THIS.
+${PHRASEBOOK_FIELDS_PROMPT}
 - "expressions": exactly 6 useful sentence stems for discussing it, each with a short example about this topic.`;
 
   let brief: FocusBrief;
@@ -87,7 +94,7 @@ Prepare the teacher and students:
     return NextResponse.json({ error: 'Briefing failed' }, { status: 502 });
   }
 
-  const vocab = normalizeReferenceVocab(brief.vocab);
+  const vocab = withPhraseSource(normalizeReferenceVocab(brief.vocab), 'topic');
   const expressions = normalizeReferenceExpressions(brief.expressions);
   await service
     .from('sessions')

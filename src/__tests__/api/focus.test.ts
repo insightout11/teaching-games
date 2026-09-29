@@ -40,7 +40,7 @@ describe('focus route', () => {
     expect(data.facts).toHaveLength(5);
     expect(update).toHaveBeenCalledWith({
       custom_topic: 'Volcanoes',
-      reference_vocab: [{ word: 'lava', definition: 'Hot melted rock.' }],
+      reference_vocab: [{ word: 'lava', definition: 'Hot melted rock.', source: 'topic' }],
       reference_expressions: [{ phrase: 'I think…', example: 'I think volcanoes are scary.' }],
     });
     expect(aiGen.mock.calls[0][0]).toContain('LANGUAGE RULE');
