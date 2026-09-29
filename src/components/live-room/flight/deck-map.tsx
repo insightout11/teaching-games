@@ -24,6 +24,8 @@ export interface DeckMapProps {
   focusZoom?: number;
   labels?: boolean;
   className?: string;
+  /** Makes pins tappable (e.g. picking the next destination). */
+  onPinClick?: (id: string) => void;
 }
 
 const STEPS = 64;
@@ -44,9 +46,10 @@ function arc(a: LatLng, b: LatLng): Coord[] {
   return pts;
 }
 
-function pinElement(pin: DeckMapPin) {
+function pinElement(pin: DeckMapPin, onClick?: (id: string) => void) {
   const el = document.createElement('div');
-  el.style.cssText = 'display:flex;flex-direction:column;align-items:center;pointer-events:none';
+  el.style.cssText = `display:flex;flex-direction:column;align-items:center;${onClick ? 'cursor:pointer' : 'pointer-events:none'}`;
+  if (onClick) el.addEventListener('click', (e) => { e.stopPropagation(); onClick(pin.id); });
   const drop = document.createElement('div');
   drop.style.cssText = `width:18px;height:18px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${pin.color ?? '#fb7185'};border:2.5px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.45);animation:deckpin .5s cubic-bezier(.2,1.6,.4,1) both`;
   el.appendChild(drop);
@@ -59,10 +62,13 @@ function pinElement(pin: DeckMapPin) {
   return el;
 }
 
-export function DeckMap({ pins, paths = [], focusZoom, labels = true, className = '' }: DeckMapProps) {
+export function DeckMap({ pins, paths = [], focusZoom, labels = true, className = '', onPinClick }: DeckMapProps) {
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const markers = useRef<Map<string, Marker>>(new Map());
+  const looks = useRef<Map<string, string>>(new Map());
+  const clickRef = useRef(onPinClick);
+  clickRef.current = onPinClick;
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -97,14 +103,22 @@ export function DeckMap({ pins, paths = [], focusZoom, labels = true, className 
     const seen = new Set<string>();
     for (const pin of pins) {
       seen.add(pin.id);
+      const look = `${pin.color}|${pin.label}`;
       const existing = markers.current.get(pin.id);
-      if (existing) existing.setLngLat([pin.lng, pin.lat]);
-      else markers.current.set(pin.id, new maplibregl.Marker({ element: pinElement(pin), anchor: 'top' }).setLngLat([pin.lng, pin.lat]).addTo(map));
+      if (existing && looks.current.get(pin.id) === look) {
+        existing.setLngLat([pin.lng, pin.lat]);
+        continue;
+      }
+      existing?.remove();
+      const click = clickRef.current ? (id: string) => clickRef.current?.(id) : undefined;
+      markers.current.set(pin.id, new maplibregl.Marker({ element: pinElement(pin, click), anchor: 'top' }).setLngLat([pin.lng, pin.lat]).addTo(map));
+      looks.current.set(pin.id, look);
     }
     markers.current.forEach((m, id) => {
       if (!seen.has(id)) {
         m.remove();
         markers.current.delete(id);
+        looks.current.delete(id);
       }
     });
 

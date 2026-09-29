@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Crosshair, ExternalLink, Maximize2, Menu, Minimize2, Plane, Search, Shuffle, X } from 'lucide-react';
+import { Crosshair, ExternalLink, Maximize2, Menu, Minimize2, Plane, QrCode, Search, Shuffle, X } from 'lucide-react';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
@@ -16,7 +16,7 @@ import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, timeOfDayNow, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { LC_INTERNATIONAL_COORD, overflightAt, type LatLng } from '@/lib/live-room/route-terrain';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
-import { destinationsWithinRange } from '@/lib/world-flight/geo';
+import { destinationsWithinRange, distanceBetweenCoordsKm } from '@/lib/world-flight/geo';
 import { HOME_BASE_ID, HOME_BASE_NAME, HOME_BASE_SCENE } from '@/lib/world-flight/home-base';
 import { Leaderboard } from '@/components/session/leaderboard';
 import { CatalogueDrawer } from '@/components/live-room/ui/cockpit-workspace/cockpit-panels';
@@ -192,6 +192,32 @@ export function FlightDeck({
     stops.set(destination.id, { id: destination.id, lat: destination.lat, lng: destination.lng, label: destination.city, color: '#f59e0b' });
     return Array.from(stops.values());
   }, [position, destination]);
+
+  const takeOff = () => {
+    setFlightStage('flying');
+    setTakeoffAt(Date.now());
+    flash(`Flight to ${destination.city}: cleared for take-off`);
+    // Record the leg on the class's World Flight journey.
+    void fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ destinationId: destination.id }),
+    }).catch(() => {});
+  };
+
+  // Route planner (before take-off): home plus every city in range as a pin.
+  const plannerPins = useMemo<DeckMapPin[]>(() => [
+    { id: `origin:${origin.id}`, lat: origin.lat, lng: origin.lng, label: origin.city, color: '#94a3b8' },
+    ...reachable.map((c) => ({
+      id: c.id,
+      lat: c.lat,
+      lng: c.lng,
+      label: c.city,
+      color: c.id === destination.id ? '#f59e0b' : '#60a5fa',
+    })),
+  ], [origin, reachable, destination.id]);
+  const plannerPaths = useMemo(() => [{ a: origin as LatLng, b: destination as LatLng }], [origin, destination]);
+  const plannerKm = Math.round(distanceBetweenCoordsKm(origin, destination));
 
   // Class pin map: every phone drops a pin (geo-point input); pins land live.
   const setInputSpec = useSessionStore((s) => s.setInputSpec);
@@ -562,18 +588,19 @@ export function FlightDeck({
   };
 
   // Flight map as a small corner widget: tracks the trip while the class does other things.
-  const shrinkTracker = () => {
-    setView(flightStage === 'gate' ? 'boarding' : 'talk');
-    // After the view switch restores that view's layout, add the tracker to it.
+  const shrinkToCorner = (id: string, anchor: SnapAnchor, nextView: DeckView) => {
+    setView(nextView);
+    // After the view switch restores that view's layout, add the widget to it.
     window.setTimeout(() => {
-      openWidgetStore(FLIGHT_WIDGET);
+      openWidgetStore(id);
       requestAnimationFrame(() => {
-        const zone = useSnapZones.getState().zones.find((z) => z.id === 'wind-br');
-        const el = document.querySelector<HTMLElement>(`[data-widget-id="${FLIGHT_WIDGET}"]`);
-        if (zone && el) setWidgetPosition(FLIGHT_WIDGET, snappedPosition(zone, el.offsetWidth, el.offsetHeight));
+        const zone = useSnapZones.getState().zones.find((z) => z.id === `wind-${anchor}`);
+        const el = document.querySelector<HTMLElement>(`[data-widget-id="${id}"]`);
+        if (zone && el) setWidgetPosition(id, snappedPosition(zone, el.offsetWidth, el.offsetHeight));
       });
     }, 60);
   };
+  const shrinkTracker = () => shrinkToCorner(FLIGHT_WIDGET, 'br', flightStage === 'gate' ? 'boarding' : 'talk');
 
   const openTool = (id: string, x: number, y: number) => {
     setWidgetPosition(id, { x: Math.max(8, Math.min(window.innerWidth - 340, x - 160)), y: Math.max(8, y - 420) });
@@ -691,7 +718,14 @@ export function FlightDeck({
   if (view === 'boarding') {
     scene = (
       <div className="flex flex-wrap items-center justify-center gap-8 rounded-3xl border border-white/15 bg-slate-950/60 px-8 py-7 backdrop-blur-md">
-        <span className="rounded-2xl bg-white p-3"><QRCodeSVG value={joinUrl} size={176} level="M" includeMargin={false} /></span>
+        <span className="relative rounded-2xl bg-white p-3">
+          <QRCodeSVG value={joinUrl} size={176} level="M" includeMargin={false} />
+          {!presenting && (
+            <button type="button" onClick={() => shrinkToCorner(QR_WIDGET, 'tr', 'talk')} title="Keep the QR code in a corner while you do other things" className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1 whitespace-nowrap rounded-full border border-white/20 bg-slate-950/90 px-2.5 py-1 text-[11px] text-white/85 hover:text-white">
+              <Minimize2 className="h-3 w-3" /> Shrink to corner
+            </button>
+          )}
+        </span>
         <div className="flex max-w-md flex-col gap-3 text-left">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">Now boarding</p>
           <p className="font-display text-4xl leading-tight text-white">Scan to board<br />{className}</p>
@@ -730,22 +764,15 @@ export function FlightDeck({
               >
                 {reachable.map((c) => <option key={c.id} value={c.id}>{c.city}</option>)}
               </select>
+              <button type="button" onClick={() => { setMapMode('tracker'); setView('map'); }} className="rounded-lg border border-sky-300/40 px-2 py-1 text-xs text-sky-200 hover:bg-sky-300/10">
+                Choose on the map
+              </button>
             </label>
           )}
           {flightStage === 'gate' && (
             <button
               type="button"
-              onClick={() => {
-                setFlightStage('flying');
-                setTakeoffAt(Date.now());
-                flash(`Flight to ${destination.city}: cleared for take-off`);
-                // Record the leg on the class's World Flight journey.
-                void fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ destinationId: destination.id }),
-                }).catch(() => {});
-              }}
+              onClick={takeOff}
               className="mt-1 w-max rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-6 py-3 font-display text-lg text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105"
             >
               Take off to {destination.city}
@@ -842,8 +869,22 @@ export function FlightDeck({
       <div className="relative h-full w-full max-w-5xl overflow-hidden rounded-3xl border border-white/15 shadow-2xl">
         {mapMode === 'pins' ? (
           <DeckMap className="h-full w-full" pins={pins} />
+        ) : flightStage === 'gate' ? (
+          <>
+            <DeckMap className="h-full w-full" pins={plannerPins} paths={plannerPaths} onPinClick={(id) => { if (!id.startsWith('origin:')) setChosenId(id); }} />
+            <div className="absolute inset-x-3 bottom-3 flex flex-wrap items-end justify-between gap-2">
+              <div className="rounded-xl border border-white/15 bg-slate-950/80 px-3 py-2 backdrop-blur-md">
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-sky-300">Where next? Tap a city</p>
+                <p className="font-display text-lg text-white">{origin.city} → {destination.city}</p>
+                <p className="font-mono text-xs text-white/60">{plannerKm.toLocaleString()} km</p>
+              </div>
+              <button type="button" onClick={takeOff} className="rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-5 py-2.5 font-display text-base text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105">
+                Take off to {destination.city}
+              </button>
+            </div>
+          </>
         ) : (
-          <FlightTracker origin={origin} destination={destination} progress={routeT} minutesLeft={flightStage === 'gate' ? null : minutesLeft} below={below.name} holding={holding} />
+          <FlightTracker origin={origin} destination={destination} progress={routeT} minutesLeft={minutesLeft} below={below.name} holding={holding} />
         )}
         <div className="absolute inset-x-3 top-3 flex flex-wrap items-start justify-between gap-2">
           {mapMode === 'pins' ? (
@@ -857,7 +898,7 @@ export function FlightDeck({
             {mapMode === 'pins' && pinRound && (
               <button type="button" onClick={stopPins} className="rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">Close pins</button>
             )}
-            {mapMode === 'tracker' && (
+            {mapMode === 'tracker' && flightStage !== 'gate' && (
               <button type="button" onClick={shrinkTracker} className="flex items-center gap-1 rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">
                 <Minimize2 className="h-3 w-3" /> Shrink to corner
               </button>
@@ -1010,6 +1051,17 @@ export function FlightDeck({
   return (
     <div className="grid h-[100dvh] grid-cols-[220px_minmax(0,1fr)_240px] grid-rows-[52px_minmax(0,1fr)_176px] gap-2.5 bg-[radial-gradient(ellipse_120%_70%_at_50%_120%,#1b2438_0%,#0b1120_55%,#05070D_100%)] p-2.5 text-white">
       <SnapGuides hosts={snapHosts} />
+      <WidgetShell id={QR_WIDGET} label={`Board ${className}`} icon={<QrCode className="h-4 w-4" />} defaultOpen={false}>
+        <div className="flex items-center gap-3 p-3">
+          <span className="shrink-0 rounded-xl bg-white p-2"><QRCodeSVG value={joinUrl} size={132} level="M" includeMargin={false} /></span>
+          <div className="min-w-0">
+            <p className="font-display text-lg leading-tight text-white">Scan to board</p>
+            <p className="mt-1 break-all font-mono text-[11px] text-white/60">{joinUrl.replace(/^https?:\/\//, '')}</p>
+            <p className="mt-2 font-mono text-xs font-semibold text-emerald-300">{seated.length} aboard</p>
+            {newest && <p className="truncate text-xs text-white/70">{newest.display_name} just boarded</p>}
+          </div>
+        </div>
+      </WidgetShell>
       <WidgetShell id={FLIGHT_WIDGET} label={`${origin.city} → ${destination.city}`} icon={<Plane className="h-4 w-4" />} defaultOpen={false}>
         <div className="relative h-52 w-full">
           <FlightTracker compact origin={origin} destination={destination} progress={routeT} minutesLeft={flightStage === 'gate' ? null : minutesLeft} below={below.name} holding={holding} />
@@ -1279,6 +1331,9 @@ export function FlightDeck({
                 {w.label}
               </button>
             ))}
+            <button type="button" onClick={(e) => openTool(QR_WIDGET, e.clientX, e.clientY)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] bg-[#111A2B] px-2.5 py-1.5 text-xs text-white/70 hover:border-[#3d5176] hover:text-white">
+              <QrCode className="h-3.5 w-3.5" /> Boarding QR
+            </button>
             <button type="button" onClick={(e) => openTool(FLIGHT_WIDGET, e.clientX, e.clientY)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] bg-[#111A2B] px-2.5 py-1.5 text-xs text-white/70 hover:border-[#3d5176] hover:text-white">
               <Plane className="h-3.5 w-3.5" /> Flight map
             </button>
@@ -1378,7 +1433,8 @@ function FocusBar({ current, status, trail, onSubmit, onPick }: {
 }
 
 const FLIGHT_WIDGET = 'flight-tracker';
-const DECK_WIDGET_IDS = [...WIDGET_REGISTRY.map((w) => w.id), FLIGHT_WIDGET];
+const QR_WIDGET = 'boarding-qr';
+const DECK_WIDGET_IDS = [...WIDGET_REGISTRY.map((w) => w.id), FLIGHT_WIDGET, QR_WIDGET];
 const ROOM_PINS_KEY = 'room-pins';
 const PIN_PROMPTS = ['Where are you right now?', 'A place you would love to visit', 'Where were you born?'];
 const PIN_COLORS = ['#fb7185', '#f59e0b', '#34d399', '#60a5fa', '#a78bfa', '#f472b6', '#22d3ee', '#facc15'];
