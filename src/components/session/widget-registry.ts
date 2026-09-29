@@ -75,7 +75,7 @@ export const WIDGET_REGISTRY: WidgetDefinition[] = [
   },
   {
     id: 'class-questions',
-    label: 'Class Questions',
+    label: 'Messages',
     iconPath: WIDGET_ICON_PATHS['class-questions'],
     component: ClassQuestionsContent,
     getProps: (ctx) => ({

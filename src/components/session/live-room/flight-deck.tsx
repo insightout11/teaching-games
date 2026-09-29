@@ -12,6 +12,7 @@ import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { FlightTracker } from '@/components/live-room/flight/flight-tracker';
 import { DeckMap, type DeckMapPin } from '@/components/live-room/flight/deck-map';
 import { createClient } from '@/lib/supabase/client';
+import { isMockMode } from '@/lib/mock/auth';
 import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
@@ -280,6 +281,28 @@ export function FlightDeck({
     const t = window.setInterval(poll, 2500);
     return () => { cancelled = true; window.clearInterval(t); };
   }, [pinRound, sessionId]);
+
+  // Student messages waiting for the teacher: lights up the Messages button
+  // (never the text itself: the screen is shared).
+  const [waitingMessages, setWaitingMessages] = useState(0);
+  useEffect(() => {
+    if (isMockMode()) return;
+    const supabase = createClient();
+    let cancelled = false;
+    const check = async () => {
+      const { count } = await supabase
+        .from('student_submissions')
+        .select('id', { count: 'exact', head: true })
+        .eq('session_id', sessionId)
+        .eq('status', 'pending')
+        .eq('published_to_class', false)
+        .is('game_key', null);
+      if (!cancelled && typeof count === 'number') setWaitingMessages(count);
+    };
+    void check().catch(() => {});
+    const t = window.setInterval(() => { void check().catch(() => {}); }, 4000);
+    return () => { cancelled = true; window.clearInterval(t); };
+  }, [sessionId]);
 
   const [talkPrompt, setTalkPrompt] = useState('');
   const [talkFollowUps, setTalkFollowUps] = useState<string[]>([]);
@@ -1377,12 +1400,31 @@ export function FlightDeck({
             </span>
           </p>
           <div className="flex flex-wrap gap-2">
-            {WIDGET_REGISTRY.filter((w) => w.id !== 'random-picker').map((w) => (
-              <button key={w.id} type="button" onClick={(e) => openTool(w.id, e.clientX, e.clientY)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] bg-[#111A2B] px-2.5 py-1.5 text-xs text-white/70 hover:border-[#3d5176] hover:text-white">
-                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={w.iconPath} /></svg>
-                {w.label}
-              </button>
-            ))}
+            {WIDGET_REGISTRY.filter((w) => w.id !== 'random-picker').map((w) => {
+              const calling = w.id === 'class-questions' && waitingMessages > 0;
+              return (
+                <button
+                  key={w.id}
+                  type="button"
+                  onClick={(e) => openTool(w.id, e.clientX, e.clientY)}
+                  title={calling ? `${waitingMessages} new message${waitingMessages === 1 ? '' : 's'} from students` : undefined}
+                  className={[
+                    'relative flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs transition-colors',
+                    calling
+                      ? 'animate-pulse border-amber-300/80 bg-amber-300/15 text-amber-100 shadow-[0_0_16px_rgba(252,211,77,0.45)]'
+                      : 'border-[#2A3854] bg-[#111A2B] text-white/70 hover:border-[#3d5176] hover:text-white',
+                  ].join(' ')}
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={w.iconPath} /></svg>
+                  {w.label}
+                  {calling && (
+                    <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-300 px-1 font-mono text-[10px] font-bold text-[#1a1204]">
+                      {waitingMessages}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
             <button type="button" onClick={(e) => openTool(QR_WIDGET, e.clientX, e.clientY)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] bg-[#111A2B] px-2.5 py-1.5 text-xs text-white/70 hover:border-[#3d5176] hover:text-white">
               <QrCode className="h-3.5 w-3.5" /> Boarding QR
             </button>
