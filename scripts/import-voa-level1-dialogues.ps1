@@ -109,6 +109,16 @@ foreach ($number in $LessonNumbers) {
     39 { @('surprise', 'reactions', 'emotions', 'expressions', 'storytelling', 'conversation') }
     40 { @('nature', 'forest', 'wildlife', 'outdoors', 'environment', 'conversation') }
     41 { @('teamwork', 'collaboration', 'roles', 'team-projects', 'communication', 'conversation') }
+    42 { @('past-tense', 'misunderstandings', 'personal-stories', 'problem-solving', 'communication', 'conversation') }
+    43 { @('problem-solving', 'plans', 'choices', 'adaptability', 'future', 'conversation') }
+    44 { @('health', 'habits', 'food', 'exercise', 'wellbeing', 'conversation') }
+    46 { @('borrowing', 'requests', 'politeness', 'belongings', 'communication', 'conversation') }
+    47 { @('helping', 'community', 'kindness', 'offers', 'requests', 'conversation') }
+    48 { @('life-experiences', 'present-perfect', 'travel', 'memories', 'questions', 'conversation') }
+    49 { @('mystery', 'spying', 'teamwork', 'observation', 'problem-solving', 'conversation') }
+    50 { @('school', 'education', 'routines', 'preparation', 'classroom', 'conversation') }
+    51 { @('habits', 'routines', 'health', 'self-improvement', 'daily-life', 'conversation') }
+    52 { @('choices', 'risks', 'decisions', 'experiences', 'confidence', 'conversation') }
   }} else { switch ($number) {
     1 { @('budgets', 'school-costs', 'finance', 'workplace', 'money', 'conversation') }
     2 { @('job-interviews', 'careers', 'employment', 'workplace', 'questions', 'conversation') }
