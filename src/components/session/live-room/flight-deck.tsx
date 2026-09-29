@@ -9,7 +9,7 @@ import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { WindscreenFlight, timeOfDayNow, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
-import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
+import { LC_INTERNATIONAL_COORD, overflightAt, type LatLng } from '@/lib/live-room/route-terrain';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { HOME_BASE_ID, HOME_BASE_NAME, HOME_BASE_SCENE } from '@/lib/world-flight/home-base';
 import { Leaderboard } from '@/components/session/leaderboard';
@@ -46,14 +46,15 @@ const VIEWS: { key: DeckView; label: string }[] = [
 const INSTRUMENT_LABEL: Record<Instrument, string> = { aboard: 'On board', answered: 'Answered', clock: 'Flight time', top: 'Top score' };
 const STAMP_TONES = ['border-orange-300/70 text-orange-200', 'border-emerald-300/70 text-emerald-200', 'border-sky-300/70 text-sky-200', 'border-violet-300/70 text-violet-200'];
 const ORIGIN: FlightCity = { id: HOME_BASE_ID, city: HOME_BASE_NAME, scene: HOME_BASE_SCENE };
-const TERRAIN_CYCLE: Terrain[] = ['ocean', 'mountains', 'desert', 'forest', 'farmland'];
+/** Take-off to arrival spans roughly one lesson; progress along the route follows the clock. */
+const LESSON_MS = 45 * 60_000;
 /** Until the class journey exists: a stable destination per session. */
-function destinationFor(sessionId: string): FlightCity {
+function destinationFor(sessionId: string): FlightCity & LatLng {
   const cities = WORLD_DESTINATIONS.filter((d) => d.scene);
   let h = 0;
   for (const ch of sessionId) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
   const d = cities[h % cities.length];
-  return { id: d.id, city: d.city, scene: d.scene! };
+  return { id: d.id, city: d.city, scene: d.scene!, lat: d.lat, lng: d.lng };
 }
 const DEFAULT_STAMPS = ['flash-quiz', 'hot-take-arena', 'vocab-sprint', 'fact-detective', 'conversation-rounds'];
 
@@ -146,6 +147,8 @@ export function FlightDeck({
   const [roulette, setRoulette] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
+  const routeT = takeoffAt ? Math.min(0.97, Math.max(0, (now - takeoffAt) / LESSON_MS)) : 0;
+  const below = useMemo(() => overflightAt(LC_INTERNATIONAL_COORD, destination, routeT), [destination, routeT]);
   const [catalogueState, setCatalogueState] = useState({ query: '', category: null as string | null, favourites: [] as string[], recent: [] as string[] });
   const launchedAt = useRef<number>(0);
   const lastView = useRef<DeckView>('boarding');
@@ -466,7 +469,7 @@ export function FlightDeck({
         origin={ORIGIN}
         destination={destination}
         timeOfDay={timeOfDayNow(new Date(now))}
-        terrain={TERRAIN_CYCLE[Math.floor(Math.max(0, takeoffAt ? now - takeoffAt : 0) / 360000) % TERRAIN_CYCLE.length]}
+        terrain={below.terrain}
         calm={view !== 'boarding' && view !== 'talk'}
         onCinematic={setCinematic}
         onLanded={() => {
@@ -474,6 +477,11 @@ export function FlightDeck({
           window.setTimeout(onEndSession, 4500);
         }}
       />
+      {flightStage === 'flying' && !cinematic && below.name && (
+        <p className="pointer-events-none absolute bottom-3 left-4 z-[5] rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/80 backdrop-blur-sm">
+          Below us: {below.name}
+        </p>
+      )}
 
       {/* The running module lives here in the Game view; elsewhere it stays mounted off-screen. */}
       <div className={view === 'game' && runningKey ? 'absolute inset-0 overflow-y-auto p-4 sm:p-6' : 'hidden'}>
