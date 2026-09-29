@@ -74,16 +74,11 @@ function tileFor(terrain: Terrain, p: ScenePalette, night: boolean): string {
       break;
     }
     case 'mountains': {
-      // Peaks lit from the left: a sunlit face, a shadow face and a snow cap.
-      base = dim(mixRgb(land, [96, 90, 86], 0.72));
-      for (let i = 0; i < 18; i++) {
-        const x = R() * 256, y = 30 + R() * 226, w = 60 + R() * 80, h = w * (0.5 + R() * 0.25);
-        const px = x + w * (0.4 + R() * 0.2), py = y - h;
-        const rock = mixRgb(land, [88, 86, 92], 0.7);
-        shapes.push(`<path d="M${x} ${y} L${px} ${py} L${px} ${y}Z" fill="${hex(dim(mixRgb(rock, [230, 220, 205], 0.28)))}"/>`);
-        shapes.push(`<path d="M${px} ${py} L${x + w} ${y} L${px} ${y}Z" fill="${hex(dim(mixRgb(rock, [20, 22, 34], 0.35)))}"/>`);
-        const s1 = 0.3;
-        shapes.push(`<path d="M${px - (px - x) * s1} ${py + h * s1} L${px} ${py} L${px + (x + w - px) * s1} ${py + h * s1} L${px + (x + w - px) * s1 * 0.4} ${py + h * s1 * 0.8} L${px} ${py + h * s1 * 1.05} L${px - (px - x) * s1 * 0.5} ${py + h * s1 * 0.75}Z" fill="${hex(dim([244, 247, 252]))}"/>`);
+      // Valley floor only; the peaks stand up as ridge rows (see MountainRows).
+      base = dim(mixRgb(land, [88, 92, 80], 0.6));
+      for (let i = 0; i < 40; i++) {
+        const x = R() * 256, y = R() * 256, r = 8 + R() * 20;
+        shapes.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r * 0.6}" fill="${hex(dim(mixRgb(land, R() < 0.5 ? [70, 72, 64] : [120, 124, 104], 0.5)))}" opacity="0.55"/>`);
       }
       break;
     }
@@ -123,6 +118,59 @@ function ridgePath(seed: number, amp: number, base: number): string {
   return `${d} L1000 120 L0 120 Z`;
 }
 
+/** One range of peaks, lit from the left, with snow on the summits. */
+function RangeSvg({ seed, rock, snow }: { seed: number; rock: RGB; snow: string }) {
+  const R = rng(seed);
+  const peaks: { x: number; h: number; w: number }[] = [];
+  for (let x = -40; x < 1040; x += 70 + R() * 90) peaks.push({ x, h: 60 + R() * 90, w: 110 + R() * 120 });
+  const lit = hex(mixRgb(rock, [235, 228, 214], 0.32));
+  const shade = hex(mixRgb(rock, [18, 20, 32], 0.38));
+  return (
+    <svg viewBox="0 0 1000 170" preserveAspectRatio="none" className="h-full w-full">
+      {peaks.map((p, i) => {
+        const top = 170 - p.h, l = p.x - p.w / 2, r = p.x + p.w / 2, sx = p.h * 0.28;
+        return (
+          <g key={i}>
+            <path d={`M${l} 170 L${p.x} ${top} L${p.x} 170Z`} fill={lit} />
+            <path d={`M${p.x} ${top} L${r} 170 L${p.x} 170Z`} fill={shade} />
+            <path d={`M${p.x - sx * (p.w / 2 / p.h)} ${top + sx} L${p.x} ${top} L${p.x + sx * (p.w / 2 / p.h)} ${top + sx} L${p.x + 6} ${top + sx * 0.7} L${p.x - 4} ${top + sx * 0.9}Z`} fill={snow} />
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+/**
+ * Ranges at several depths: far rows are small and hazy at the horizon, then
+ * grow and slide toward the viewer and pass underneath, so the peaks stand
+ * up instead of lying flat on the tilted floor.
+ */
+function MountainRows({ rock, night, duration }: { rock: RGB; night: boolean; duration: number }) {
+  const reduce = useReducedMotion();
+  const rows = 5;
+  const snow = night ? '#9aa4bd' : '#f4f7fb';
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden" style={{ top: '52%' }}>
+      {Array.from({ length: rows }, (_, i) => (
+        <div
+          key={i}
+          className="absolute inset-x-[-30%] origin-bottom"
+          style={{
+            top: 0,
+            height: '26%',
+            animation: reduce ? undefined : `cockpit-range ${duration * 1.6}s linear ${(-duration * 1.6 * i) / rows}s infinite`,
+            transform: reduce ? `translateY(${i * 60}%) scale(${0.4 + i * 0.4})` : undefined,
+          }}
+        >
+          <RangeSvg seed={i * 13 + 5} rock={night ? mixRgb(rock, [10, 14, 28], 0.55) : rock} snow={snow} />
+        </div>
+      ))}
+      <style>{'@keyframes cockpit-range{0%{transform:translateY(12%) scale(0.28);opacity:0}12%{opacity:1}100%{transform:translateY(330%) scale(3.2);opacity:1}}'}</style>
+    </div>
+  );
+}
+
 export function CockpitGround({ terrain: requested, palette, night, speed }: { terrain: Terrain; palette: ScenePalette; night: boolean; speed: number }) {
   const terrain: Terrain = requested ?? 'ocean';
   const reduce = useReducedMotion();
@@ -148,6 +196,7 @@ export function CockpitGround({ terrain: requested, palette, night, speed }: { t
       <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, ${haze} 0%, ${haze}cc 12%, ${haze}33 45%, transparent 75%)` }} />
       <style>{'@keyframes cockpit-ground-scroll{from{background-position:0 0}to{background-position:0 1024px}}'}</style>
     </div>
+    {terrain === 'mountains' && <MountainRows rock={mixRgb(land, [86, 84, 92], 0.7)} night={night} duration={duration} />}
       {terrain === 'mountains' && (
         // Ridges stand on the horizon line (the ground plane starts at 58%), nearest last.
         <svg aria-hidden className="pointer-events-none absolute inset-x-0 w-full" style={{ top: '42%', height: '18%' }} viewBox="0 0 1000 120" preserveAspectRatio="none">
