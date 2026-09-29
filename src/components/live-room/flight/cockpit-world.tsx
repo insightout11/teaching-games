@@ -5,6 +5,7 @@ import { useReducedMotion } from 'framer-motion';
 import type { ScenePalette } from '@/components/world-flight/arrival-scene/types';
 import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
 import { tileFor, type Terrain } from '@/components/live-room/flight/cockpit-ground';
+import { farmTexture, macroTexture } from '@/components/live-room/flight/ground-texture';
 
 /**
  * The world below the cockpit, drawn through ONE camera so everything moves
@@ -26,6 +27,7 @@ const Z_FAR = 60000;
 const Z_NEAR = 900;
 const CRUISE_SPEED = 4200;   // world units per second at speed 1
 const TILE_WORLD = 14;       // one texture pixel covers this many world units
+const MACRO_WORLD = 14 * 41; // the light/dark layer: a scale unrelated to the ground's, so no repeat lines up
 
 function spawnPeak(p: Peak, camZ: number, far: boolean) {
   p.x = (Math.random() * 2 - 1) * 42000;
@@ -37,7 +39,7 @@ function spawnPeak(p: Peak, camZ: number, far: boolean) {
 
 const css = (c: RGB) => `rgb(${c[0]},${c[1]},${c[2]})`;
 
-export function CockpitWorld({ terrain, palette, night, speed }: { terrain: Terrain; palette: ScenePalette; night: boolean; speed: number }) {
+export function CockpitWorld({ terrain, region, palette, night, speed }: { terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
   const live = useRef({ speed });
@@ -48,11 +50,18 @@ export function CockpitWorld({ terrain, palette, night, speed }: { terrain: Terr
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
 
-    // Terrain texture → pattern (the tile is an SVG data URI).
+    // Terrain texture → pattern. Farmland is generated for the region below;
+    // other terrains use their SVG tile.
     let pattern: CanvasPattern | null = null;
-    const img = new Image();
-    img.onload = () => { pattern = ctx.createPattern(img, 'repeat'); };
-    img.src = tileFor(terrain, palette, night).replace(/^url\("/, '').replace(/"\)$/, '');
+    if (terrain === 'farmland') {
+      pattern = ctx.createPattern(farmTexture(region, palette, night), 'repeat');
+    } else {
+      const img = new Image();
+      img.onload = () => { pattern = ctx.createPattern(img, 'repeat'); };
+      img.src = tileFor(terrain, palette, night).replace(/^url\("/, '').replace(/"\)$/, '');
+    }
+    const macro = ctx.createPattern(macroTexture(), 'repeat');
+    const macroAlpha = terrain === 'ocean' ? 0.22 : terrain === 'ice' ? 0.18 : 0.4;
 
     const haze = hexToRgb(palette.skyBottom.startsWith('#') ? palette.skyBottom : '#9fb8d0');
     const land = hexToRgb(palette.terrainTop);
@@ -104,9 +113,20 @@ export function CockpitWorld({ terrain, palette, night, speed }: { terrain: Terr
         const fog = Math.min(1, z / Z_FAR);
         if (pattern) {
           const s = (F / z) * TILE_WORLD;           // texture → screen scale at this depth
-          pattern.setTransform(new DOMMatrix([s, 0, 0, s, w / 2, y - ((camZ + z) / TILE_WORLD) * s]));
+          // Offset sideways so the texture's wrap line (a farm lane) isn't dead ahead.
+          pattern.setTransform(new DOMMatrix([s, 0, 0, s, w / 2 - 330 * s, y - ((camZ + z) / TILE_WORLD) * s]));
           ctx.fillStyle = pattern;
           ctx.fillRect(0, y, w, ROW);
+          if (macro) {
+            const m = (F / z) * MACRO_WORLD;
+            macro.setTransform(new DOMMatrix([m, 0, 0, m, w / 2 + 3100 * (F / z), y - ((camZ + z) / MACRO_WORLD) * m]));
+            ctx.globalCompositeOperation = 'overlay';
+            ctx.globalAlpha = macroAlpha;
+            ctx.fillStyle = macro;
+            ctx.fillRect(0, y, w, ROW);
+            ctx.globalAlpha = 1;
+            ctx.globalCompositeOperation = 'source-over';
+          }
         }
         // aerial perspective
         ctx.fillStyle = `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, 0.55) * 0.92})`;
@@ -164,7 +184,7 @@ export function CockpitWorld({ terrain, palette, night, speed }: { terrain: Terr
     };
     raf = requestAnimationFrame(frame);
     return () => { cancelAnimationFrame(raf); ro.disconnect(); };
-  }, [terrain, palette, night, reduce]);
+  }, [terrain, region, palette, night, reduce]);
 
   return <canvas ref={ref} aria-hidden className="pointer-events-none absolute inset-0 h-full w-full" />;
 }

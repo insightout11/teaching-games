@@ -954,6 +954,7 @@ export function FlightDeck({
         destination={destination}
         timeOfDay={timeOfDayNow(new Date(now))}
         terrain={below.terrain}
+        region={below.terrain === 'farmland' ? below.name : null}
         calm={view !== 'boarding' && view !== 'talk'}
         onCinematic={setCinematic}
         onLanded={() => {

@@ -26,4 +26,20 @@ describe('route terrain', () => {
     expect(terrainAt({ lat: 50, lng: 10 })).toMatchObject({ terrain: 'farmland', name: 'Europe' });
     expect(terrainAt({ lat: 0, lng: -150 })).toMatchObject({ terrain: 'ocean', name: 'the Pacific Ocean' });
   });
+
+  it('knows sea from land along an Asian route (Seoul to Bangkok)', () => {
+    const SEOUL = { lat: 37.57, lng: 126.98 };
+    const BANGKOK = { lat: 13.75, lng: 100.5 };
+    expect(overflightAt(SEOUL, BANGKOK, 0.1)).toMatchObject({ terrain: 'ocean', name: 'the Yellow Sea' });
+    expect(terrainAt({ lat: 36, lng: 128 })).toMatchObject({ terrain: 'farmland', name: 'Asia' });
+    expect(terrainAt({ lat: 10, lng: 101.5 })).toMatchObject({ terrain: 'ocean', name: 'the Gulf of Thailand' });
+    expect(terrainAt({ lat: 28, lng: 125 })).toMatchObject({ terrain: 'ocean', name: 'the East China Sea' });
+    expect(terrainAt({ lat: 14, lng: 100.6 }).terrain).not.toBe('ocean');
+  });
+
+  it('keeps land scenery off the sea and sea names off the land', () => {
+    expect(terrainAt({ lat: 42, lng: 51 })).toMatchObject({ terrain: 'ocean', name: 'the Caspian Sea' });
+    expect(terrainAt({ lat: 36, lng: 138 }).terrain).not.toBe('ocean'); // Honshu, inside the Sea of Japan box
+    expect(terrainAt({ lat: 40, lng: 135 })).toMatchObject({ terrain: 'ocean', name: 'the Sea of Japan' });
+  });
 });

@@ -50,6 +50,7 @@ export function FlightLab() {
   const [weather, setWeather] = useState<WeatherCondition>('clear');
   const [activity, setActivity] = useState(false);
   const [terrain, setTerrain] = useState<Terrain>('ocean');
+  const [region, setRegion] = useState('Europe');
   /** Freeze a timed phase at a chosen moment, for tuning. */
   const [scrub, setScrub] = useState<number | null>(null);
   const origin = cities.find((c) => c.id === originId) ?? cities[0];
@@ -132,7 +133,7 @@ export function FlightLab() {
             ) : (
               <motion.div key="cockpit" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
                 <CockpitSky palette={palette} timeOfDay={tod} altitude={cockpitAlt} />
-                <CockpitWorld terrain={terrain} palette={palette} night={tod === 'night'} speed={cloudSpeed} />
+                <CockpitWorld terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={cloudSpeed} />
                 {/* Broken cloud layer between us and the ground */}
                 <div
                   aria-hidden
@@ -208,6 +209,9 @@ export function FlightLab() {
           </select>
           <select value={terrain} onChange={(e) => setTerrain(e.target.value as Terrain)} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Below us">
             {(['ocean', 'mountains', 'forest', 'desert', 'ice', 'farmland'] as Terrain[]).map((t) => <option key={t} value={t}>Below: {t}</option>)}
+          </select>
+          <select value={region} onChange={(e) => setRegion(e.target.value)} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Region">
+            {['Europe', 'Asia', 'North America', 'Africa'].map((r) => <option key={r} value={r}>{r}</option>)}
           </select>
           <label className="flex items-center gap-1.5">Scrub
             <input

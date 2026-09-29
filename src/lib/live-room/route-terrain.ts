@@ -1,11 +1,12 @@
 /**
  * What the class is flying over. A great-circle route between two cities is
  * sampled by lesson progress, and each point is looked up in a small hand-made
- * map of named regions (oceans, seas, deserts, ranges, forests, ice) with rough
- * continent boxes as the fallback. Deliberately coarse: it drives scenery and
+ * map of named regions (seas, deserts, ranges, forests, ice); rough coastline
+ * outlines decide land or sea. Deliberately coarse: it drives scenery and
  * an optional "Below us: …" line, not navigation.
  */
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
+import { LAND_OUTLINES, WATER_OUTLINES, inRing } from '@/lib/live-room/land-outlines';
 
 export interface LatLng { lat: number; lng: number }
 export interface Overflight { terrain: Terrain; name: string | null; point: LatLng }
@@ -73,21 +74,20 @@ const REGIONS: Region[] = [
   ['the Bay of Bengal', 'ocean', 5, 22, 80, 95],
   ['the Gulf of Mexico', 'ocean', 18, 30, -98, -81],
   ['the Tasman Sea', 'ocean', -45, -30, 150, 172],
-];
-
-/** Rough continent boxes; anything outside all of them is open ocean. */
-const LAND: [string, number, number, number, number][] = [
-  ['Europe', 36, 71, -10, 40],
-  ['Asia', 5, 75, 40, 145],
-  ['Africa', -35, 37, -18, 51],
-  ['North America', 15, 72, -168, -52],
-  ['Central America', 7, 20, -92, -77],
-  ['South America', -56, 13, -82, -34],
-  ['Australia', -39, -11, 113, 154],
-  ['Japan', 30, 46, 129, 146],
-  ['the British Isles', 50, 59, -11, 2],
-  ['Indonesia', -9, 6, 95, 141],
-  ['New Zealand', -47, -34, 166, 179],
+  ['the Yellow Sea', 'ocean', 32, 41, 119, 127],
+  ['the East China Sea', 'ocean', 24, 33, 119, 131],
+  ['the Gulf of Thailand', 'ocean', 6, 13.8, 99, 105],
+  ['the Java Sea', 'ocean', -8, -2, 105, 120],
+  ['the Philippine Sea', 'ocean', 5, 30, 125, 140],
+  ['the Persian Gulf', 'ocean', 24, 30.5, 48, 57],
+  ['the Arabian Sea', 'ocean', 5, 25, 55, 75],
+  ['the Baltic Sea', 'ocean', 53, 66, 10, 30],
+  ['Hudson Bay', 'ocean', 51, 66, -95, -76],
+  ['the Sea of Okhotsk', 'ocean', 44, 62, 135, 160],
+  ['the Coral Sea', 'ocean', -25, -8, 145, 165],
+  ['the Gulf of Guinea', 'ocean', -5, 6, -10, 10],
+  ['the Bering Sea', 'ocean', 52, 66, 162, 180],
+  ['the Bering Sea', 'ocean', 52, 66, -180, -157],
 ];
 
 function oceanName({ lat, lng }: LatLng): string {
@@ -100,14 +100,26 @@ function oceanName({ lat, lng }: LatLng): string {
 const inBox = (p: LatLng, latMin: number, latMax: number, lngMin: number, lngMax: number) =>
   p.lat >= latMin && p.lat <= latMax && p.lng >= lngMin && p.lng <= lngMax;
 
+function landAt(p: LatLng): string | null {
+  for (const [, ring] of WATER_OUTLINES) if (inRing(p.lng, p.lat, ring)) return null;
+  for (const [name, ring] of LAND_OUTLINES) {
+    if (!inRing(p.lng, p.lat, ring)) continue;
+    return name === 'Eurasia' ? (p.lng < 40 && p.lat > 35 ? 'Europe' : 'Asia') : name;
+  }
+  return null;
+}
+
 export function terrainAt(p: LatLng): Overflight {
+  const land = landAt(p);
   for (const [name, terrain, a, b, c, d] of REGIONS) {
-    if (inBox(p, a, b, c, d)) return { terrain, name, point: p };
+    if (!inBox(p, a, b, c, d)) continue;
+    if (terrain === 'ice') return { terrain, name, point: p };
+    // Land scenery only on land, sea names only at sea.
+    if ((terrain === 'ocean') === !land) return { terrain, name, point: p };
   }
-  for (const [name, a, b, c, d] of LAND) {
-    if (inBox(p, a, b, c, d)) return { terrain: 'farmland', name, point: p };
-  }
-  return { terrain: 'ocean', name: oceanName(p), point: p };
+  if (land) return { terrain: 'farmland', name: land, point: p };
+  const water = WATER_OUTLINES.find(([, ring]) => inRing(p.lng, p.lat, ring));
+  return { terrain: 'ocean', name: water ? water[0] : oceanName(p), point: p };
 }
 
 /** What is below the plane at lesson progress t (0 = departure, 1 = arrival). */

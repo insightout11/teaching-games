@@ -49,6 +49,8 @@ export interface WindscreenFlightProps {
   timeOfDay: TimeOfDay;
   weather?: WeatherCondition;
   terrain: Terrain;
+  /** Region below (e.g. 'Asia'): gives farmland its local character. */
+  region?: string | null;
   /** An activity or text is on screen: calmer, fewer clouds. */
   calm?: boolean;
   onLanded?: () => void;
@@ -56,7 +58,7 @@ export interface WindscreenFlightProps {
   onCinematic?: (cinematic: boolean) => void;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, calm = false, onLanded, onCinematic }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, calm = false, onLanded, onCinematic }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const landedRef = useRef(onLanded);
@@ -140,7 +142,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
         ) : (
           <motion.div key="cockpit" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
             <CockpitSky palette={palette} timeOfDay={timeOfDay} altitude={altitude} />
-            <CockpitWorld terrain={terrain} palette={palette} night={timeOfDay === 'night'} speed={cloudSpeed} />
+            <CockpitWorld terrain={terrain} region={region} palette={palette} night={timeOfDay === 'night'} speed={cloudSpeed} />
             <div
               className="absolute inset-x-0 bottom-0"
               style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${tint},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${tint},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${tint},0.45), transparent 70%)` }}
