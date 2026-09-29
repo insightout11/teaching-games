@@ -2,12 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { SkyBackground, type WeatherState } from '@/components/ui/sky-background';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import { arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import type { TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
+import { CockpitSky, cockpitCloudTint } from '@/components/live-room/flight/cockpit-sky';
+import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 
 /**
  * Dev-only flight lab: the Live Room windscreen as one flight with two cameras.
@@ -78,10 +79,11 @@ export function FlightLab() {
           : phase === 'landing' ? { mode: 'arrival' as const, ...arrivalTimeline(APPROACH_SPLIT + progress * (1 - APPROACH_SPLIT)) }
             : { mode: 'arrival' as const, phase: 'landed' as const, progress: 1 };
 
-  // The cockpit sky follows the chosen time of day (the side scenes already do).
-  const cockpitWeather: WeatherState = tod === 'dusk' ? 'golden' : tod === 'night' ? 'idle' : tod === 'dawn' ? 'climbing' : 'day';
-  const cockpitAlt = phase === 'climb' ? 0.85 : phase === 'descent' ? 0.35 : 0.85;
-  const cockpitAltInitial = phase === 'climb' ? 0.05 : undefined;
+  // The cockpit is graded from the destination's own palette for this time of
+  // day: the same colours the arrival cinematic uses, so the cut is seamless.
+  const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
+  const cloudTint = useMemo(() => cockpitCloudTint(palette, tod), [palette, tod]);
+  const cockpitAlt = phase === 'climb' ? Math.min(1, progress * 1.1) : 1;
   const cloudSpeed = phase === 'climb' ? 1.4 : phase === 'descent' ? 0.7 : 0.55;
 
   const run = (p: Phase) => setPhase(p);
@@ -109,19 +111,14 @@ export function FlightLab() {
               </motion.div>
             ) : (
               <motion.div key="cockpit" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
-                <SkyBackground
-                  className="!absolute"
-                  weatherState={cockpitWeather}
-                  earthState="flight"
-                  altitude={cockpitAlt}
-                  altitudeInitial={cockpitAltInitial}
-                  showEarth={false}
-                  showSkyline={false}
-                  intensity="moderate"
-                  parallaxScale={2}
-                  parallaxDuration={phase === 'climb' ? CLIMB_MS / 1000 : 3}
+                <CockpitSky palette={palette} timeOfDay={tod} altitude={cockpitAlt} />
+                {/* Cloud deck far below the horizon */}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 bottom-0"
+                  style={{ top: '60%', background: `linear-gradient(180deg, rgba(${cloudTint.join(',')},0) 0%, rgba(${cloudTint.join(',')},0.55) 35%, rgba(${cloudTint.join(',')},0.8) 100%)` }}
                 />
-                <CockpitClouds speed={cloudSpeed} tint={[236, 244, 255]} density={activity ? 0.4 : 1} horizon={0.58} />
+                <CockpitClouds speed={cloudSpeed} tint={cloudTint} density={activity ? 0.4 : 1} horizon={0.58} />
               </motion.div>
             )}
           </AnimatePresence>
