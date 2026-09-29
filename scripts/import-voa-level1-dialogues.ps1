@@ -1,11 +1,14 @@
 param(
   [Parameter(Mandatory = $true)]
-  [int[]]$LessonNumbers
+  [int[]]$LessonNumbers,
+  [ValidateSet('1', '2')]
+  [string]$Level = '1'
 )
 
 $ErrorActionPreference = 'Stop'
 $root = 'https://learningenglish.voanews.com'
-$catalog = (Invoke-WebRequest -Uri "$root/p/5644.html" -UseBasicParsing).Content
+$catalogPath = if ($Level -eq '1') { '/p/5644.html' } else { '/p/6765.html' }
+$catalog = (Invoke-WebRequest -Uri "$root$catalogPath" -UseBasicParsing).Content
 $anchors = [regex]::Matches($catalog, '(?is)<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>')
 $lessonLinks = @{}
 foreach ($anchor in $anchors) {
@@ -58,12 +61,12 @@ foreach ($number in $LessonNumbers) {
 
   $title = ($lesson.label -replace '^Lesson\s+\d+:\s*', '').Trim()
   $slug = ($title.ToLowerInvariant() -replace '[^a-z0-9]+', '-').Trim('-')
-  $id = "voa-level1-lesson-$number-$slug"
+  $id = "voa-level$Level-lesson-$number-$slug"
   if ($existingIds.ContainsKey($id) -and $existingIds[$id].url -ne $lesson.url) { throw "Duplicate library ID: $id" }
   $normalizedUrl = $lesson.url.TrimEnd('/').ToLowerInvariant()
   if ($existingUrls.ContainsKey($normalizedUrl) -and -not $existingIds.ContainsKey($id)) { throw "Duplicate library URL: $($lesson.url)" }
 
-  $tags = switch ($number) {
+  $tags = if ($Level -eq '1') { switch ($number) {
     20 { @('jobs', 'workplace', 'skills', 'career-advice', 'interviews', 'conversation') }
     21 { @('parties', 'invitations', 'social-plans', 'friends', 'polite-requests', 'conversation') }
     22 { @('future-plans', 'summer-vacation', 'travel', 'leisure', 'calendar', 'conversation') }
@@ -84,9 +87,40 @@ foreach ($number in $LessonNumbers) {
     39 { @('surprise', 'reactions', 'emotions', 'expressions', 'storytelling', 'conversation') }
     40 { @('nature', 'forest', 'wildlife', 'outdoors', 'environment', 'conversation') }
     41 { @('teamwork', 'collaboration', 'roles', 'team-projects', 'communication', 'conversation') }
+  }} else { switch ($number) {
+    1 { @('budgets', 'school-costs', 'finance', 'workplace', 'money', 'conversation') }
+    2 { @('job-interviews', 'careers', 'employment', 'workplace', 'questions', 'conversation') }
+    3 { @('reported-speech', 'relationships', 'misunderstandings', 'communication', 'hearsay', 'conversation') }
+    5 { @('vacations', 'travel', 'summer', 'activities', 'planning', 'conversation') }
+    6 { @('science', 'floating', 'experiments', 'materials', 'predictions', 'conversation') }
+    7 { @('tourism', 'tour-guides', 'politeness', 'tips', 'travel-etiquette', 'conversation') }
+    8 { @('barbecue', 'food', 'cooking', 'american-culture', 'meals', 'conversation') }
+    9 { @('pets', 'animals', 'families', 'responsibility', 'care', 'conversation') }
+    10 { @('Peru', 'travel', 'South-America', 'culture', 'geography', 'conversation') }
+    11 { @('snow', 'weather', 'winter', 'seasons', 'clothing', 'conversation') }
+    12 { @('bees', 'insects', 'wildlife', 'gardens', 'nature', 'conversation') }
+    13 { @('bees', 'pollination', 'conservation', 'gardening', 'agriculture', 'conversation') }
+    14 { @('relationships', 'compatibility', 'people', 'describing-character', 'social-skills', 'conversation') }
+    15 { @('sequences', 'before-and-after', 'time-expressions', 'change', 'daily-life', 'conversation') }
+    16 { @('happiness', 'wellbeing', 'emotions', 'interests', 'healthy-habits', 'conversation') }
+    19 { @('movies', 'entertainment', 'opinions', 'cinema', 'friends', 'conversation') }
+    20 { @('cars', 'test-drives', 'transportation', 'shopping', 'decisions', 'conversation') }
+    21 { @('recycling', 'upcycling', 'art', 'creativity', 'sustainability', 'conversation') }
+    22 { @('recycling', 'waste', 'crafts', 'creativity', 'sustainability', 'conversation') }
+    23 { @('rock-music', 'music', 'performance', 'talent', 'entertainment', 'conversation') }
+    30 { @('dreams', 'goals', 'future-plans', 'careers', 'aspirations', 'conversation') }
+  }}
+  $cefr = if ($Level -eq '2') { 'B1' } elseif ($number -le 29) { 'A1' } else { 'A2' }
+  $difficulty = if ($Level -eq '2') { 'Intermediate' } elseif ($cefr -eq 'A1') { 'Beginner' } else { 'Pre-Intermediate' }
+  $ageBand = if ($Level -eq '2') { 'teens' } else { 'kids' }
+  $place = $null
+  if ($summary -match '(?i)Washington, D\.C\.') {
+    $place = @{ name = 'Washington, D.C.'; lat = 38.9072; lng = -77.0369 }
+  } elseif ($summary -match '(?i)\bPeru\b') {
+    $place = @{ name = 'Peru'; lat = -9.19; lng = -75.0152 }
+  } elseif ($summary -match '(?i)\bUnited States\b|\bAmerica\b') {
+    $place = @{ name = 'United States'; lat = 39.8283; lng = -98.5795 }
   }
-  $cefr = if ($number -le 29) { 'A1' } else { 'A2' }
-  $difficulty = if ($cefr -eq 'A1') { 'Beginner' } else { 'Pre-Intermediate' }
 
   $descriptionMatch = [regex]::Match($html, '(?is)<meta name="description" content="([^"]+)"')
   $description = if ($descriptionMatch.Success) {
@@ -110,11 +144,11 @@ foreach ($number in $LessonNumbers) {
     genre = 'dialogue'
     difficultyLevel = $difficulty
     cefr = $cefr
-    ageBand = 'kids'
-    place = $null
+    ageBand = $ageBand
+    place = $place
     license = 'Public domain (VOA Learning English)'
     attribution = 'VOA Learning English, lesson dialogue'
-    needsReview = $false
+    needsReview = ($Level -eq '2' -and $number -in @(7, 30))
   })
   $existingIds[$id] = $true
   $existingUrls[$normalizedUrl] = $true
@@ -131,5 +165,7 @@ foreach ($item in $newItems) {
   else { $allItems.Add($item) }
 }
 ConvertTo-Json -InputObject $allItems -Depth 20 | Set-Content -LiteralPath $path -Encoding utf8
-Write-Output "Added $($newItems.Count) VOA Level 1 reading dialogues."
-$newItems | Select-Object id, title, wordCount, cefr, ageBand | Format-Table -AutoSize
+Write-Output "Added $($newItems.Count) VOA Level $Level reading dialogues."
+foreach ($item in $newItems) {
+  Write-Output "- $($item['id']) · $($item['wordCount']) words · $($item['cefr']) · $($item['ageBand'])"
+}
