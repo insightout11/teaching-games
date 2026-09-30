@@ -3,12 +3,13 @@
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SceneIgniterActivity } from '@/activities/scene-igniter';
+import { RankItActivity } from '@/activities/rank-it';
 import { SceneScriptPanel } from '@/components/student/scene-script-panel';
 import type { InputSpec } from '@/lib/input-spec';
 import { RadioCheckActivity } from '@/activities/radio-check';
 import { StaticActivity } from '@/activities/static';
 import { BlackBoxActivity } from '@/activities/black-box';
-import type { ActivityProps, RadioCheckContent, StaticContent, BlackBoxContent, SceneIgniterContent } from '@/activities/types';
+import type { ActivityProps, RadioCheckContent, StaticContent, BlackBoxContent, SceneIgniterContent, RankItContent } from '@/activities/types';
 
 const VOICE: RadioCheckContent = {
   activityKey: 'radio-check',
@@ -71,6 +72,23 @@ const SCENE: SceneIgniterContent = {
   }],
 };
 
+const RANK: RankItContent = {
+  activityKey: 'rank-it',
+  topicContext: 'Animals',
+  challenges: [{
+    id: 'c1',
+    prompt: 'Rank these animals from fastest to slowest',
+    items: [
+      { id: 'a', name: 'Cheetah', hiddenFact: 'Up to 110 km/h in short bursts.' },
+      { id: 'b', name: 'Horse', hiddenFact: 'About 70 km/h at a gallop.' },
+      { id: 'c', name: 'Ostrich', hiddenFact: 'Up to 70 km/h, faster than it looks!' },
+      { id: 'd', name: 'Rabbit', hiddenFact: 'Around 55 km/h when escaping.' },
+    ],
+    correctOrder: ['a', 'c', 'b', 'd'],
+    correctRationale: 'Ostriches are surprisingly fast runners.',
+  }],
+};
+
 export function RadioCheckDevClient() {
   const [spec, setSpec] = useState<InputSpec | null>(null);
   const mode = useSearchParams().get('mode');
@@ -78,7 +96,7 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'scene' ? (
+      {mode === 'rank' ? <RankItActivity {...props} generatedContent={RANK} /> : mode === 'scene' ? (
         <div className="flex gap-6">
           <div className="flex-1"><SceneIgniterActivity {...props} generatedContent={SCENE} students={[{ id: 's1', name: 'Ana' }, { id: 's2', name: 'Ben' }] as unknown as ActivityProps['students']} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} /></div>
           <div className="w-80 shrink-0 rounded-3xl border border-white/10 bg-slate-900 p-4">{spec ? <SceneScriptPanel spec={spec} displayName="Ana" studentId="s1" /> : <p className="text-white/40">phone</p>}</div>
