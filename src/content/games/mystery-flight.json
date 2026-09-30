@@ -1,0 +1,57 @@
+{
+  "slug": "mystery-flight",
+  "schemaVersion": 1,
+  "headline": "Mystery Flight: A Speaking Game of Hidden Destinations",
+  "problemStatement": "A destination becomes more interesting when learners have to explain their guesses. Mystery Flight turns geography into a spoken investigation: clues arrive one at a time, students pin a city on their phones, and the class compares what the evidence suggests. Learners can practise describing weather, food, culture, and places while using careful language such as ‘It might be… because…’.",
+  "outcomes": [
+    "Practise describing places and responding to clues about weather, food, culture, and landmarks.",
+    "Build speculation language by making a guess and explaining which evidence supports it.",
+    "Connect geography and cultural knowledge through spoken reasoning and a world map.",
+    "Listen to classmates explain different interpretations when their map pins are far apart."
+  ],
+  "howItWorks": [
+    "The class flies to a secret city. The teacher controls the pace with Next clue and Land; there is no countdown. Clues arrive one at a time and can include words with a photo, words only, or a photo first.",
+    "Students pin the city on a world map using their phones. Each student gets one pin per flight. A closer guess earns more points, and pinning early while staying close earns a bonus. When at least two students pin, the closest pin gets two extra points.",
+    "After a flight, Hear both sides invites the two students whose pins were furthest apart to explain their guesses and the clues they followed.",
+    "Choose three flights for a session of about 12 minutes or five flights for about 20 minutes. Clues build from weather and food through a photo and culture to a landmark, with the giveaway saved for last."
+  ],
+  "teacherUseCases": [
+    "Use the flights in geography or culture lessons to connect place knowledge with spoken evidence and discussion.",
+    "Prompt learners to explain a guess with ‘It might be… because…’ or to describe what they can infer from a photo.",
+    "Choose the classmate describing mode when you want learners to practise giving clear clues without naming a place."
+  ],
+  "estimatedTime": "12 min for 3 flights; 20 min for 5 flights",
+  "groupSize": "Any class size",
+  "faq": [
+    {
+      "q": "How do students make a guess?",
+      "a": "Each student places one pin on the world map from their phone during a flight. The teacher reveals the secret city when the class lands."
+    },
+    {
+      "q": "Does Mystery Flight use a countdown?",
+      "a": "No. The teacher controls the pace by choosing Next clue and Land, so the class can take time to discuss the evidence."
+    },
+    {
+      "q": "How does scoring work?",
+      "a": "Pins closer to the secret city earn more points. Pinning early and close earns a bonus. When at least two students pin, the closest pin receives two extra points."
+    },
+    {
+      "q": "What happens in ‘A classmate describes it’ mode?",
+      "a": "One student privately sees the secret place on their phone and describes it aloud without naming it. Everyone else pins a guess. The game gives the next flight to a student with the fewest prior describing turns, so turns are balanced across flights."
+    },
+    {
+      "q": "How long does a session take?",
+      "a": "A three-flight session takes about 12 minutes; five flights take about 20 minutes. The teacher can pace each flight clue by clue."
+    },
+    {
+      "q": "What speaking skills can learners practise?",
+      "a": "Learners describe places, interpret clues, and explain why a city might fit. Hear both sides also gives two students with the furthest-apart pins a chance to explain their reasoning."
+    }
+  ],
+  "related": [
+    "connections",
+    "twenty-questions",
+    "fact-detective"
+  ],
+  "ogImageTheme": "logic"
+}

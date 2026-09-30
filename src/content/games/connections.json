@@ -1,52 +1,47 @@
 {
   "slug": "connections",
   "schemaVersion": 1,
-  "headline": "Word Grouping Puzzle Game for ESL Vocabulary Classes",
+  "headline": "Connections: Sort Vocabulary into Word Groups",
+  "problemStatement": "A word can belong to a pattern that is easy to miss when learners look at each item alone. Connections gives the class a sixteen-word grid and asks players to discover four groups of four. Students need to compare meanings, test a theory, and explain the categories they find.",
   "outcomes": [
-    "Students identify hidden semantic categories linking groups of four words, building vocabulary depth",
-    "Develop critical thinking by testing and rejecting possible groupings before committing",
-    "Encounter topic-relevant vocabulary in a puzzle context that rewards careful analysis over quick guessing",
-    "Build pattern recognition skills transferable to reading comprehension and exam tasks"
+    "Build vocabulary connections by sorting words according to shared meaning or use.",
+    "Practice making and revising a hypothesis when a group does not fit.",
+    "Explain how words relate instead of relying only on individual definitions."
   ],
   "howItWorks": [
-    "The AI generates 16 words on your chosen topic, secretly grouped into four categories of four",
-    "Students see the 16 words on their device and attempt to identify and select one complete group",
-    "Correct groups are revealed with the category name; incorrect attempts cost points",
-    "The round ends when all four groups are found — or when the timer expires"
+    "Players study the same 16-word grid and select a set they think shares a category.",
+    "Guesses are checked immediately. The game can show when a selection is one word away from a complete group.",
+    "In race mode, found groups are tracked per player so repeating another student's answer does not count as a new discovery. Phone feedback shows found categories, remaining lives, and the finish result.",
+    "The teacher view shows which groups have been found and by how many students without exposing the words during play. At review, categories are revealed in turn."
   ],
   "teacherUseCases": [
-    "Vocabulary review at the end of a unit — students must categorize rather than just recall",
-    "Topic introduction that surfaces prior knowledge before teaching new vocabulary",
-    "Critical thinking challenge where the difficulty lies in the deceptive 'trap' group"
+    "Use the grid as a vocabulary review and ask students to defend a grouping before they submit it.",
+    "After a round, compare two tempting patterns and explain why only one matches the hidden category."
   ],
-  "estimatedTime": "15–20 min",
-  "groupSize": "Any",
+  "estimatedTime": "15 min",
+  "groupSize": "Any class size",
   "faq": [
     {
-      "q": "How does the puzzle difficulty work?",
-      "a": "The AI generates four groups with increasing subtlety: one easy group (obvious category), two medium groups (overlapping vocabulary), and one hard 'trap' group where words seem to belong elsewhere. The difficulty setting increases how deceptive the groupings are."
+      "q": "How many words are in a Connections puzzle?",
+      "a": "Each puzzle uses a 16-word grid with four hidden groups of four. Players work out the categories by comparing how the words relate."
     },
     {
-      "q": "Can the class work together on the puzzle?",
-      "a": "Yes. In whole-class mode, the puzzle is displayed on the board and students discuss groupings collaboratively. In individual mode, each student works on their own device and the class compares results."
+      "q": "What does one away mean?",
+      "a": "It signals that three of the selected words belong together and one does not. Students can reconsider the final word instead of starting over."
     },
     {
-      "q": "What if the AI creates a category that doesn't make sense?",
-      "a": "Teachers can review the groups before starting and reject a round. The AI regenerates fresh content on demand, so finding a replacement takes seconds."
+      "q": "Can a player score the same group more than once?",
+      "a": "No. Race mode tracks discoveries per player, so resubmitting a group already found by that player cannot finish the puzzle a second time."
     },
     {
-      "q": "How do students interact with the 16-word grid?",
-      "a": "Each student needs a phone or tablet with a browser. They tap words to form groups on their own device. No download, app, or student account required — they join via the session link."
-    },
-    {
-      "q": "Is this suitable for exam prep?",
-      "a": "Yes. The deductive reasoning and vocabulary precision required in Connections maps well to vocabulary sections in Cambridge and IELTS exams."
-    },
-    {
-      "q": "Does LessonCaptain cost anything?",
-      "a": "LessonCaptain is free to start. Teachers set up a session in under a minute and students join through any browser — no app install or account creation required."
+      "q": "How does the teacher review answers?",
+      "a": "The teacher sees class heat for each group during play, not the hidden words. At the reveal, the categories appear one by one with how many students found each."
     }
   ],
-  "related": ["dialogue-detective", "twenty-questions"],
+  "related": [
+    "twenty-questions",
+    "flash-quiz",
+    "synonym-showdown"
+  ],
   "ogImageTheme": "logic"
 }

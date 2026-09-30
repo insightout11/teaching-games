@@ -21,6 +21,7 @@ import gridRushJson from '@/content/games/grid-rush.json';
 import sectorStrikeJson from '@/content/games/sector-strike.json';
 import radarFixJson from '@/content/games/radar-fix.json';
 import worldLensJson from '@/content/games/world-lens.json';
+import mysteryFlightJson from '@/content/games/mystery-flight.json';
 
 import wouldYouRatherJson from '@/content/activities/would-you-rather.json';
 import twoTruthsJson from '@/content/activities/two-truths.json';
@@ -44,6 +45,8 @@ import listeningGapFillJson from '@/content/activities/listening-gap-fill.json';
 import conversationRoundsJson from '@/content/activities/conversation-rounds.json';
 import decisionCouncilJson from '@/content/activities/decision-council.json';
 import cabinMysteryJson from '@/content/activities/cabin-mystery.json';
+import hotSeatJson from '@/content/activities/hot-seat.json';
+import twoTruthsAndALieJson from '@/content/activities/two-truths-and-a-lie.json';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -126,11 +129,13 @@ const GAME_CONTENT: Record<string, LandingContent> = {
   'sector-strike': sectorStrikeJson as LandingContent,
   'radar-fix': radarFixJson as LandingContent,
   'world-lens': worldLensJson as LandingContent,
+  'mystery-flight': mysteryFlightJson as LandingContent,
 };
 
 const ACTIVITY_CONTENT: Record<string, LandingContent> = {
   'would-you-rather': wouldYouRatherJson as LandingContent,
   'two-truths': twoTruthsJson as LandingContent,
+  'two-truths-and-a-lie': twoTruthsAndALieJson as LandingContent,
   'rank-it': rankItJson as LandingContent,
   'fact-detective': factDetectiveJson as LandingContent,
   'expert-panel': expertPanelJson as LandingContent,
@@ -139,6 +144,7 @@ const ACTIVITY_CONTENT: Record<string, LandingContent> = {
   'hot-take-arena': hotTakeArenaJson as LandingContent,
   'bluff-definition': bluffDefinitionJson as LandingContent,
   'taboo-sprint': tabooSprintJson as LandingContent,
+  'hot-seat': hotSeatJson as LandingContent,
   'wonder-board': wonderBoardJson as LandingContent,
   'password': passwordJson as LandingContent,
   'in-your-words': inYourWordsJson as LandingContent,

@@ -1,52 +1,47 @@
 {
   "slug": "flash-quiz",
   "schemaVersion": 1,
-  "headline": "Flash Quiz Game — Simultaneous Quiz Race for ESL Classrooms",
+  "headline": "Flash Quiz: A Speaking-Focused Quiz Race for ESL",
+  "problemStatement": "A multiple-choice quiz can check recall, but the explanation behind an answer often matters just as much. Flash Quiz turns each question into a class moment: students answer on phones, compare results, and can explain why an answer is correct or why a tempting option looked right.",
   "outcomes": [
-    "Students consolidate vocabulary, grammar, and topic knowledge under timed conditions — retrieval practice that sticks",
-    "Build speed and automaticity: repeated exposure to target language at pace reduces hesitation in real communication",
-    "Every student answers every question simultaneously — no dead time, no passenger seats",
-    "Instant answer reveal creates a natural comprehension check moment after each question"
+    "Review lesson knowledge through quick multiple-choice questions.",
+    "Practice explaining evidence and responding to common misconceptions aloud.",
+    "Adjust pace and challenge with modes for calm practice, teams, lives, wagers, and rapid rounds."
   ],
   "howItWorks": [
-    "The AI generates 10–20 topic-relevant questions covering vocabulary, grammar, or comprehension",
-    "All students see the question on their device at the same time and submit their answer before the timer runs out",
-    "Points are awarded for both accuracy and speed — early correct answers score highest",
-    "Live leaderboard updates after every question so the class can track the race in real time"
+    "Choose a quiz mode: Classic, Calm skies, Turbulence, Team battle, Wager, Rapid fire, or Our class quiz, which draws on today's class materials.",
+    "Students answer on their phones. Mode rules can reward speed, protect beginner pacing, track three lives, calculate team averages, or ask for a wager before the question.",
+    "At reveal, Ask why can invite one student who chose the correct answer to explain it and another who chose a popular wrong answer to say why it looked plausible.",
+    "The altitude board shows the race and mode-specific standings. A boss finale can make the final question worth double."
   ],
   "teacherUseCases": [
-    "Mid-lesson comprehension check — run a 10-question Flash Quiz after input to see who understood before moving on",
-    "End-of-unit vocabulary review — generate questions around the unit topic to surface gaps before the test",
-    "Warm-up retrieval — start class with a 5-minute quiz on last lesson's content to activate prior knowledge"
+    "Use Calm skies when accuracy matters more than speed, or Turbulence when your class enjoys a challenge with limited lives.",
+    "Choose Our class quiz to review today's notes, board content, or readings instead of relying only on general questions."
   ],
-  "estimatedTime": "12–25 min",
-  "groupSize": "Any",
+  "estimatedTime": "1;�u���S25 min",
+  "groupSize": "Any class size",
   "faq": [
     {
-      "q": "How are the quiz questions generated?",
-      "a": "The AI creates questions matched to your topic and difficulty level — covering vocabulary definitions, grammar choices, comprehension, and topic facts. You can regenerate the set before starting if any questions don't fit."
+      "q": "Which Flash Quiz modes are available?",
+      "a": "The modes are Classic, Calm skies, Turbulence, Team battle, Wager, Rapid fire, and Our class quiz. Each changes the pace, scoring, or source of the questions."
     },
     {
-      "q": "Does faster answering always win?",
-      "a": "Speed matters, but accuracy matters more. A fast wrong answer scores zero; a slower correct answer still earns full points. The scoring formula rewards students who get it right first, while still giving points to everyone who answers correctly."
+      "q": "What is the Ask why speaking beat?",
+      "a": "After a reveal, the teacher can ask a correct student to explain why the answer works and a student with a common wrong answer to explain why it seemed convincing."
     },
     {
-      "q": "What happens if a student joins late?",
-      "a": "Late joiners pick up from the current question — they won't see questions they missed, but they're included in the leaderboard going forward. Their score reflects only the questions they answered."
+      "q": "Can I make a team quiz?",
+      "a": "Team battle uses teams from the Teams widget when available and otherwise falls back to two roster teams. The board compares team average scores."
     },
     {
-      "q": "Can I use my own questions instead of AI-generated ones?",
-      "a": "Not in the current version — Flash Quiz is designed for instant, on-demand generation. If you want full custom question sets, Vocab Sprint or Sentence Scramble give you more manual control over content."
-    },
-    {
-      "q": "How difficult are the questions?",
-      "a": "Difficulty is tied to the session level you set (Beginner through Advanced). Beginner questions use simple recall and clear multiple-choice options; Advanced questions include inference, nuance, and open-form input."
-    },
-    {
-      "q": "Is Flash Quiz free to use?",
-      "a": "Yes, Flash Quiz is free. Students join through a shared browser link — no app download or student account needed."
+      "q": "What happens in Turbulence?",
+      "a": "Each learner starts with three lives. A wrong or missed answer costs a life, and students who are out cannot answer further questions in that round."
     }
   ],
-  "related": ["vocab-sprint", "grammar-boss", "connections"],
-  "ogImageTheme": "practice"
+  "related": [
+    "connections",
+    "sector-strike",
+    "fact-detective"
+  ],
+  "ogImageTheme": "quiz"
 }

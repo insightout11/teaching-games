@@ -1,52 +1,47 @@
 {
   "slug": "sentence-scramble",
   "schemaVersion": 1,
-  "headline": "Interactive Sentence Order Game for Grammar Practice",
+  "headline": "Sentence Scramble: Build Correct Sentences Together",
+  "problemStatement": "Students may know individual vocabulary items yet struggle to arrange them into a grammatical sentence. Sentence Scramble makes word order visible: learners tap the available tiles into a sentence, check their attempt, and can try again before the class reviews the correct structure.",
   "outcomes": [
-    "Students internalize English word order by physically arranging scrambled words into correct sentences",
-    "Build awareness of grammatical structure — subjects, verbs, objects, and modifiers — through active construction",
-    "Develop reading accuracy by processing each word's grammatical role rather than guessing from context",
-    "Practice a range of sentence types including questions, negatives, and complex clauses"
+    "Notice word order and sentence patterns while actively rebuilding a sentence.",
+    "Practice reading for meaning instead of guessing from isolated vocabulary.",
+    "Learn from common wrong orders and compare them with the correct sentence."
   ],
   "howItWorks": [
-    "The AI generates a sentence on the chosen topic, then scrambles the words into random order",
-    "Students tap words on their device to build the sentence in the correct sequence",
-    "The game validates placement in real time — students see which words are correctly positioned",
-    "Faster, accurate completions earn more points; the teacher sees all responses on the classroom board"
+    "The game generates a short sentence at the chosen difficulty and mixes its words into tiles.",
+    "Students arrange the words on their phones. Repeated words remain separate tiles, so a sentence with two instances of the same word can still be solved.",
+    "In race mode, correct answers earn points by speed, and a wrong order can be corrected without losing the chance to participate.",
+    "The teacher can reveal the first word as a hint. At the end, the tiles form the answer and the most common wrong order can be discussed anonymously."
   ],
   "teacherUseCases": [
-    "Grammar point practice after introducing a new structure — conditionals, passive voice, question forms",
-    "Reading warmup that activates syntactic awareness before a text-based lesson",
-    "Formative check to see which sentence patterns students find most difficult"
+    "Use easy sentences for a quick grammar warm-up, or raise the difficulty when students are ready to handle longer structures.",
+    "After a round, ask students to explain a common slip and say the corrected sentence aloud."
   ],
-  "estimatedTime": "10–15 min",
-  "groupSize": "Any",
+  "estimatedTime": "8 min",
+  "groupSize": "Any class size",
   "faq": [
     {
-      "q": "Can I target a specific grammar point?",
-      "a": "Yes. The difficulty setting shapes sentence complexity. For specific structures, set the topic to something like 'present perfect sentences' and the AI will generate sentences that feature that grammar point."
+      "q": "Can students try again after a wrong order?",
+      "a": "Yes. In race mode, a wrong submission receives feedback and the learner can submit another arrangement. Correct solvers are tracked separately."
     },
     {
-      "q": "How long are the sentences?",
-      "a": "Easy mode uses 4–6 word sentences suitable for beginners. Medium is 6–8 words and hard uses 8–12 words with more complex structures including embedded clauses."
+      "q": "What happens when a sentence repeats a word?",
+      "a": "The game keeps repeated words as distinct tiles instead of removing duplicates. This lets students place both copies in the sentence."
     },
     {
-      "q": "Is there an app students need to install?",
-      "a": "No app needed. Students open the session in their mobile browser — they tap the link the teacher shares and they're in. Works on any modern phone or tablet."
+      "q": "Does the teacher have to reveal the whole answer?",
+      "a": "No. The teacher can offer a first-word hint, keep the round going, and reveal the full sentence when it is time for class review."
     },
     {
-      "q": "What happens if students get stuck?",
-      "a": "There's no penalty for taking longer — students still complete the round. The teacher can also reveal the correct sentence for discussion."
-    },
-    {
-      "q": "Is the content pre-made or AI-generated?",
-      "a": "Fully AI-generated on demand. Every session pulls fresh sentences matched to your topic, so content never feels stale or repeated."
-    },
-    {
-      "q": "Is Sentence Scramble free?",
-      "a": "Yes, Sentence Scramble is free to try. No student accounts are needed — students join through a browser link in seconds."
+      "q": "Can the class learn from incorrect attempts?",
+      "a": "The game tracks wrong orders and can show the common slip anonymously. Use it to discuss why that order sounds less natural and how the grammar works."
     }
   ],
-  "related": ["grammar-boss", "error-hunter", "story-sprint"],
+  "related": [
+    "vocab-sprint",
+    "grammar-boss",
+    "error-hunter"
+  ],
   "ogImageTheme": "grammar"
 }

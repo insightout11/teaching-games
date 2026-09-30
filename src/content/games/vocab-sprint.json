@@ -1,53 +1,47 @@
 {
   "slug": "vocab-sprint",
   "schemaVersion": 1,
-  "headline": "Live Vocabulary Upgrade Game for ESL Classes",
-  "problemStatement": "Students often know words on a quiz—but when they write or speak, they reach for the same basic vocabulary. Vocab Sprint trains better word choice in context, fast, with instant feedback the class can learn from.",
+  "headline": "Vocab Sprint: Build Precise Vocabulary in Context",
+  "problemStatement": "Learners often understand a word on a quiz but still reach for a vague choice when they speak or write. VocabSprint gives them a short sentence with one weak word and asks them to replace it with a stronger alternative that fits the context. The class can then discuss what makes a word precise.",
   "outcomes": [
-    "Upgrade vague words (\"good\", \"nice\", \"thing\", \"do\") into more precise choices inside real sentences",
-    "Practice register (formal vs casual) by choosing words that fit the situation",
-    "Build speed: make a better word choice in under 30 seconds",
-    "Learn from the leaderboard + examples: why one word fit better than another"
+    "Replace vague words with alternatives that communicate a clearer idea.",
+    "Compare register and meaning so an upgrade fits the sentence, not just a thesaurus list.",
+    "Build vocabulary retrieval speed through repeated, short choices."
   ],
   "howItWorks": [
-    "Pick a topic and difficulty; the game generates short sentences with intentionally weak words",
-    "Students replace one weak word with a stronger option (phone/tablet browser)",
-    "Scoring is immediate: accuracy + fit + precision (not exact-match only)",
-    "Project the round: discuss 1–2 top answers, then move on"
+    "Choose a topic and difficulty. The game creates short sentences and marks one intentionally weak word for students to improve.",
+    "During a race, each learner submits an upgrade on a phone. A turn-based option lets the teacher work with one student at a time.",
+    "The game evaluates whether a suggestion fits the meaning, context, and register; it is not limited to a single exact-match answer.",
+    "At review, the best upgrade is swapped into the sentence. The answer wall keeps names private apart from the winner, and useful words can be collected in a word bank for later rounds."
   ],
   "teacherUseCases": [
-    "5-minute warm-up: \"stronger verbs\" or \"stronger adjectives\"",
-    "Pre-writing: run 2–3 rounds before a paragraph task to prime vocabulary",
-    "Revision day: use topics from the writing you’re currently grading"
+    "Warm up a writing lesson with stronger verbs or adjectives drawn from the current unit topic.",
+    "Use the step-through review to compare a suggested word with the original sentence, then ask students to explain why it fits."
   ],
-  "estimatedTime": "10–15 min",
-  "groupSize": "Any",
+  "estimatedTime": ":��y��y�10 min",
+  "groupSize": "Any class size",
   "faq": [
     {
-      "q": "Can I align this to my unit topic?",
-      "a": "Yes. Use your unit terms as the topic (e.g., \"jobs\", \"space\", \"environment\"). You’ll get new sentences each time, so you can repeat it across lessons without repeats."
+      "q": "Does VocabSprint accept more than one correct upgrade?",
+      "a": "Yes. Suggestions are judged for context and quality rather than exact matching alone, so different words can work when they keep the sentence accurate and stronger."
     },
     {
-      "q": "Do students need accounts?",
-      "a": "No. They join with a code/link and submit from a browser. This is designed for classrooms with minimal setup."
+      "q": "What happens after students submit?",
+      "a": "The game evaluates each answer and shows a class review. A strong upgrade replaces the weak word in the sentence, giving everyone context for discussion."
     },
     {
-      "q": "How do I run it with a big class?",
-      "a": "Run ‘everyone submits’ rounds, then project the top 3 answers and discuss them. If you want more speaking, have pairs justify why their word fits better."
+      "q": "Can I use my own topic?",
+      "a": "Choose the lesson topic or enter a custom one when available. Generated sentences give students a fresh setting for applying unit vocabulary."
     },
     {
-      "q": "What level does it work for?",
-      "a": "A2+ is the sweet spot. For lower levels, keep topics concrete and difficulty low; for higher levels, use abstract topics and push for register/nuance."
-    },
-    {
-      "q": "Will it accept different correct words?",
-      "a": "Yes. It rewards fit. Two students can get points with different words if both make the sentence stronger and still correct."
-    },
-    {
-      "q": "How long should a session be?",
-      "a": "10–15 minutes is ideal: enough repetition to build the habit without dragging."
+      "q": "How does the word bank help?",
+      "a": "The bank collects strong upgrades and suggested words across rounds. Teachers can return to it during a later writing task or use it as a class vocabulary recap."
     }
   ],
-  "related": ["synonym-showdown", "word-chain", "sentence-scramble"],
+  "related": [
+    "synonym-showdown",
+    "sentence-scramble",
+    "grammar-boss"
+  ],
   "ogImageTheme": "vocabulary"
 }

@@ -47,6 +47,9 @@
       "a": "Rank It is free to use. Students join through a shared browser link — no accounts or downloads required on their end."
     }
   ],
-  "related": ["would-you-rather", "two-truths"],
+  "related": [
+    "would-you-rather",
+    "fact-detective"
+  ],
   "ogImageTheme": "icebreakers"
 }

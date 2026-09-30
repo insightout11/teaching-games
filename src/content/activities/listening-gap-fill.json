@@ -43,6 +43,10 @@
       "a": "No. Students type answers through the live browser link without creating accounts or installing anything."
     }
   ],
-  "related": ["vocab-radar", "in-your-words", "fact-detective"],
+  "related": [
+    "vocab-radar",
+    "vocab-sprint",
+    "fact-detective"
+  ],
   "ogImageTheme": "learning"
 }

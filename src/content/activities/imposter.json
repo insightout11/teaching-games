@@ -1,48 +1,47 @@
 {
   "slug": "imposter",
   "schemaVersion": 1,
-  "headline": "Imposter Activity - Secret Word Speaking Game for ESL Classes",
+  "headline": "Imposter: A Secret-Role Speaking Game for ESL",
+  "problemStatement": "A secret-role game can give every student a reason to listen for clues and choose their words carefully. In Imposter, most students receive the same secret while one player gets a different card. The class speaks in turn, watches for mismatched clues, and votes on who may not belong.",
   "outcomes": [
-    "Students practise careful description because most of the class knows the secret word but one student does not",
-    "Listening matters: students must notice vague answers, suspicious details, and overconfident guesses",
-    "The format creates repeated speaking turns without feeling like a formal presentation",
-    "Teachers get a high-energy icebreaker that works especially well for small groups and teen or adult classes"
+    "Practice concise spoken clues or answers while withholding a secret word or question.",
+    "Listen for details that fit the shared prompt and notice when a response feels different.",
+    "Use inference and class discussion to make a case before voting."
   ],
   "howItWorks": [
-    "LessonCaptain gives most students the same secret word while one student receives an unknown role",
-    "Students take turns giving clues or answering questions without saying the secret word directly",
-    "The class listens for who sounds least informed and votes on the likely imposter",
-    "The reveal opens a short discussion about which clues were useful and which answers gave the game away"
+    "Choose Secret word, Secret question, or Today's words. The activity deals private role cards to phones; students hold the phone to peek and release to hide it.",
+    "In a word round, the crew knows the word and gives one clue each. In a question round, everyone answers aloud to their own question, while the imposter receives a related but different one.",
+    "The clue order changes each round, never repeats the same first speaker, and keeps an imposter from speaking first. Easy hint can give an imposter a category clue for word or topic rounds.",
+    "After clues, the class votes and sees the result. With enough students, the teacher can choose two imposters; a last-chance guess and the reveal complete the round."
   ],
   "teacherUseCases": [
-    "Vocabulary review where students describe a word indirectly instead of translating it",
-    "Small-group speaking practice for teens or adults who enjoy deduction games",
-    "A topic warm-up before a discussion lesson where students need to activate descriptive language"
+    "Use Secret question when you want fuller spoken answers; choose a word or today's vocabulary when the lesson is focused on concise clues.",
+    "Ask students to cite the clue that influenced their vote, so the reveal becomes a listening and reasoning discussion."
   ],
-  "estimatedTime": "8-12 min",
-  "groupSize": "Best with 3+",
+  "estimatedTime": "10 min",
+  "groupSize": "3 or more students; two imposters requires 6 or more",
   "faq": [
     {
-      "q": "How many students do I need for Imposter?",
-      "a": "Imposter needs at least three students because one student must be the hidden outsider while others know the word. It is strongest with five or more."
+      "q": "Can classmates see the private role cards?",
+      "a": "No. Roles and secrets are sent to individual phones. A student holds the screen to peek and releases it to hide the card from nearby classmates."
     },
     {
-      "q": "Can students say the secret word?",
-      "a": "No. The point is to describe around the word, give clues, and sound convincing. That makes it useful for circumlocution and descriptive vocabulary."
+      "q": "What are the three secret types?",
+      "a": "Students can play with a shared word, a shared question with a different question for the imposter, or a word drawn from today's topic vocabulary."
     },
     {
-      "q": "Is Imposter good for beginner students?",
-      "a": "It can work with simple topics and clear vocabulary, but it is usually best from A2 upward because students need enough language to describe without naming the word."
+      "q": "How does the activity keep speaking turns fair?",
+      "a": "The clue order changes every round and does not reuse the previous first speaker. The imposter is not placed first, and the roster rotates across rounds."
     },
     {
-      "q": "Does the teacher need to prepare word cards?",
-      "a": "No. LessonCaptain handles the secret word and role assignment through the live student devices."
-    },
-    {
-      "q": "How are secret roles delivered to students?",
-      "a": "No. Students join from any browser with the class link. No app or student account is required."
+      "q": "Can beginners get help?",
+      "a": "Easy hint can give the imposter a category clue in word and vocabulary rounds. The teacher can also select Secret question, where everyone answers a prompt aloud."
     }
   ],
-  "related": ["two-truths", "bluff-definition", "password"],
+  "related": [
+    "fact-detective",
+    "bluff-definition",
+    "conversation-rounds"
+  ],
   "ogImageTheme": "icebreakers"
 }

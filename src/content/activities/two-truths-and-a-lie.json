@@ -1,0 +1,47 @@
+{
+  "slug": "two-truths-and-a-lie",
+  "schemaVersion": 1,
+  "headline": "Two Truths & a Lie Speaking Activity for ESL Classes",
+  "problemStatement": "Personal stories give learners a reason to listen closely and ask follow-up questions. In this activity, one student shares three statements about their life, classmates decide which one is false, and the storyteller reveals the answer. Private phone voting keeps the class guessing until the reveal.",
+  "outcomes": [
+    "Practice describing personal experiences with clear, complete sentences.",
+    "Build listening and inference skills by comparing details and noticing what sounds unlikely.",
+    "Ask spontaneous questions before making a class decision."
+  ],
+  "howItWorks": [
+    "The storyteller submits three separate statements on a phone and privately marks which one is the lie. Starter chips can help them begin a sentence.",
+    "The class reads or listens to the statements, then gets question time to ask the storyteller for more detail.",
+    "Students vote for the statement they think is false on their phones. The vote stays hidden while the class is still deciding.",
+    "The activity reveals the three statements with vote counts, shows the marked lie, and records how many classmates were fooled."
+  ],
+  "teacherUseCases": [
+    "Use it as a speaking warm-up when students need a low-preparation reason to share a short personal story.",
+    "After the reveal, invite learners to ask what detail changed their minds or made a statement convincing."
+  ],
+  "estimatedTime": "15 min",
+  "groupSize": "Any class size",
+  "faq": [
+    {
+      "q": "How does the storyteller mark the lie?",
+      "a": "They write three separate statements on their phone and select the false one with a private control. The shared screen does not ask the teacher to guess for them."
+    },
+    {
+      "q": "Can classmates ask questions first?",
+      "a": "Yes. The activity includes a question period before voting, so students can request details and listen to the storyteller's answers before deciding."
+    },
+    {
+      "q": "Are votes visible before the reveal?",
+      "a": "No. The activity keeps votes hidden during the decision period and reveals the totals with the statements afterward."
+    },
+    {
+      "q": "What if a student prefers typing?",
+      "a": "The phone accepts the three statements as separate pieces of text. Sentence starters are available as prompts, and the student can still share the story with the class."
+    }
+  ],
+  "related": [
+    "fact-detective",
+    "quick-pulse",
+    "imposter"
+  ],
+  "ogImageTheme": "icebreakers"
+}

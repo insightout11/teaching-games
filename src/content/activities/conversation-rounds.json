@@ -1,48 +1,47 @@
 {
   "slug": "conversation-rounds",
   "schemaVersion": 1,
-  "headline": "Conversation Rounds Activity - Rotating ESL Role-Play Practice",
+  "headline": "Conversation Rounds: Secret-Goal Role Play for ESL",
+  "problemStatement": "A role play works best when both speakers have a reason to listen and respond. Conversation Rounds pairs two students in a generated situation and gives each a private goal on their phone. The rest of the class listens for useful phrases, so every learner has a job during the dialogue.",
   "outcomes": [
-    "Students practise spontaneous speaking in short, focused rounds instead of one long unfocused chat",
-    "Every student gets a turn because the activity rotates roles and keeps the class moving",
-    "Listening remains active while classmates perform, because observers can notice useful phrases or strong choices",
-    "Teachers can turn almost any topic into repeated role-play practice without writing scenarios manually"
+    "Build fluency through short, goal-directed conversations rather than memorized scripts.",
+    "Practice listening for target phrases and noticing how classmates use them in context.",
+    "Give speakers feedback while encouraging every student to take part."
   ],
   "howItWorks": [
-    "LessonCaptain generates a role-play situation connected to the lesson topic",
-    "Two students take the active roles while the rest of the class observes with a clear listening focus",
-    "After a short round, the teacher rotates roles or changes the scenario constraint",
-    "The class reflects on useful language, then runs another round with stronger phrasing"
+    "The activity selects a pair from students who have not spoken yet and gives each speaker a role card with a situation, goal, and useful phrases.",
+    "Speakers improvise the scene aloud. Their goals stay off the shared screen until the debrief unless the teacher chooses to reveal them.",
+    "Other students listen and tap phrases they hear on their phones. The teacher sees the count, and speakers can earn points for phrases the audience spots.",
+    "After the scene, the class reviews what happened and moves to another pair. Plot twists can add a new constraint while keeping the role-play moving."
   ],
   "teacherUseCases": [
-    "Business English practice such as client calls, job interviews, complaints, or negotiations",
-    "Conversation classes where students need structure but not a full scripted dialogue",
-    "Small-group speaking lessons where everyone needs repeated chances to perform"
+    "Use one round to model how a phrase sounds in a real exchange before students practice it in pairs.",
+    "Run multiple rounds when the lesson needs broad participation; the activity tracks who has spoken and chooses a fresh pair."
   ],
-  "estimatedTime": "15-25 min",
-  "groupSize": "2+",
+  "estimatedTime": "20 min",
+  "groupSize": "2 or more students",
   "faq": [
     {
-      "q": "How is Conversation Rounds different from Scenario Simulator?",
-      "a": "Conversation Rounds is lighter and more repeatable. It focuses on short role-play turns and rotation, while Scenario Simulator builds a longer branching situation with roles and consequences."
+      "q": "What do students see on their phones?",
+      "a": "The two speakers get their own role cards privately. Everyone else gets phrase-spotting controls so listeners can mark language they hear during the scene."
     },
     {
-      "q": "Can I use this with one student?",
-      "a": "It is designed for at least two students so learners can perform with each other. In a one-on-one lesson, the teacher can take the second role, but the group rotation is lost."
+      "q": "Can classmates see the role goals?",
+      "a": "The goals stay hidden from the shared screen until the debrief by default. The teacher can reveal them if the class needs a clearer explanation of the scene."
     },
     {
-      "q": "Do observers have anything to do?",
-      "a": "Yes. The teacher can give observers a listening focus such as useful phrases, politeness, problem-solving moves, or one improvement for the next round."
+      "q": "How are the pairs chosen?",
+      "a": "The activity chooses from students who have not spoken yet, then tracks each pair's turns. This helps distribute speaking opportunities across the roster."
     },
     {
-      "q": "Which lesson topics fit Conversation Rounds?",
-      "a": "Any topic with a social or practical situation works: travel problems, workplace decisions, school issues, customer service, interviews, planning, or disagreements."
-    },
-    {
-      "q": "How do students join a Conversation Rounds lesson?",
-      "a": "No. Students join through the lesson link and participate from any browser without student accounts."
+      "q": "What is the audience doing during a role play?",
+      "a": "Listeners hear the dialogue and tap the useful phrases they notice. Their selections appear as counts, turning audience attention into a language-listening task."
     }
   ],
-  "related": ["scenario-simulator", "scene-igniter", "problem-solvers"],
+  "related": [
+    "quick-pulse",
+    "taboo-sprint",
+    "hot-take-arena"
+  ],
   "ogImageTheme": "learning"
 }

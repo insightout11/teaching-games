@@ -1,53 +1,47 @@
 {
   "slug": "synonym-showdown",
   "schemaVersion": 1,
-  "headline": "Fast-Paced Synonym Race Game for English Classes",
-  "problemStatement": "Students learn new words, but in real speaking and writing they default to the same ‘safe’ choices. Synonym Showdown forces quick recall and shows the class better alternatives in seconds.",
+  "headline": "Synonym Showdown: Find Stronger Words as a Team",
+  "problemStatement": "A synonym list is most useful when learners can compare choices in context and discover how meaning changes with register or precision. Synonym Showdown gives the class a target word and its context sentence, then asks students to produce alternatives and explain which ones fit.",
   "outcomes": [
-    "Build lexical range by generating multiple alternatives for common words",
-    "Notice meaning differences (strong vs mild, formal vs casual) between near-synonyms",
-    "Increase speed: retrieve 3–10 alternatives under time pressure",
-    "Create better writing choices by expanding the word pool before a task"
+    "Expand active vocabulary by producing multiple synonyms for a target word.",
+    "Compare word quality and context instead of assuming every similar word is interchangeable.",
+    "Use a final speaking prompt to put a selected synonym into an original sentence."
   ],
   "howItWorks": [
-    "Choose a topic and difficulty; the game selects a target word that fits",
-    "Students type synonyms against the clock — points for valid answers",
-    "After the round, project the accepted words and quickly discuss which ones fit different contexts",
-    "Run a second round with a new word or the same theme to reinforce patterns"
+    "The game generates a target word with a context sentence. Students submit synonym ideas on their phones during a race.",
+    "Each distinct suggestion is checked once, while each student's list is tracked separately. One student's word does not block another learner from earning credit for it.",
+    "Accepted answers show their points and quality; rejected words show a reason. A word found by only one student earns a rare-word bonus.",
+    "At the end, the class sees a word wall with unique discoveries marked and can complete the Use it in a sentence speaking beat."
   ],
   "teacherUseCases": [
-    "Pre-writing warm-up: expand options before a paragraph/essay",
-    "Unit review: synonyms for words from the week’s reading",
-    "Quick energy reset: 5–8 minutes of fast recall and discussion"
+    "Choose a familiar target when students need confidence, or use unit vocabulary to reinforce a current topic.",
+    "Compare a basic synonym with a rarer option and ask which one sounds most natural in the original sentence."
   ],
-  "estimatedTime": "10–15 min",
-  "groupSize": "Any",
+  "estimatedTime": "8 min",
+  "groupSize": "Any class size",
   "faq": [
     {
-      "q": "Do students have to find unique answers?",
-      "a": "No. If two students submit the same synonym, they both get credit. The goal is range and speed, not ‘gotcha’ uniqueness."
+      "q": "Can the same synonym count for multiple students?",
+      "a": "Yes. The game checks each distinct word once but tracks student lists separately, so one learner's answer does not prevent another person from earning credit."
     },
     {
-      "q": "How do I run this with a big class?",
-      "a": "Run one short round, then project the accepted word list and ask pairs to choose the best word for 2–3 example sentences (formal vs casual, strong vs neutral)."
+      "q": "What is the rare-word bonus?",
+      "a": "A valid synonym earns an extra bonus when only one student found it. The word wall marks that discovery so the class can discuss why it fits."
     },
     {
-      "q": "Can I align it to my unit vocabulary?",
-      "a": "Yes. Set the topic to your unit theme (e.g., jobs, travel, environment). The target words will stay in that lane, so students practice synonyms they’ll actually use."
+      "q": "How are weak synonyms handled?",
+      "a": "The checker returns a quality and feedback for each answer. Accepted suggestions receive points, while unsuitable words are crossed out with a reason."
     },
     {
-      "q": "Is it suitable for beginners?",
-      "a": "Yes with the easy setting. Start with high-frequency words where students can find 2–3 alternatives, then build up as confidence grows."
-    },
-    {
-      "q": "Will it accept phrases or only single words?",
-      "a": "It depends on the prompt, but the goal is usable replacements. If a phrase is a realistic substitute, it can be accepted — and it’s a good teachable moment."
-    },
-    {
-      "q": "Do students need to sign up?",
-      "a": "No. Students join with a link/code and submit from a browser on any phone or tablet."
+      "q": "How does the round end?",
+      "a": "The class reviews the collected word wall, with unique discoveries highlighted, then students use a selected synonym in an original sentence."
     }
   ],
-  "related": ["vocab-sprint", "word-chain"],
+  "related": [
+    "vocab-sprint",
+    "sentence-scramble",
+    "grid-rush"
+  ],
   "ogImageTheme": "vocabulary"
 }
