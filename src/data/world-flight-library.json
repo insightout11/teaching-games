@@ -2017,7 +2017,9 @@
       "name": "Mexico City, Mexico",
       "lat": 19.4326,
       "lng": -99.1332
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mexico-city-street-food-video",
@@ -2047,7 +2049,9 @@
       "name": "Mexico City, Mexico",
       "lat": 19.4326,
       "lng": -99.1332
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-buenos-aires-city-history-video",
@@ -2076,7 +2080,9 @@
       "name": "Buenos Aires, Argentina",
       "lat": -34.6037,
       "lng": -58.3816
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-buenos-aires-tango-video",
@@ -2105,7 +2111,9 @@
       "name": "Buenos Aires, Argentina",
       "lat": -34.6037,
       "lng": -58.3816
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-buenos-aires-landmarks-video",
@@ -2133,7 +2141,9 @@
       "name": "Buenos Aires, Argentina",
       "lat": -34.6037,
       "lng": -58.3816
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-los-angeles-hollywood-history-video",
@@ -2162,7 +2172,9 @@
       "name": "Los Angeles, United States",
       "lat": 34.0522,
       "lng": -118.2437
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-los-angeles-metro-rail-video",
@@ -2192,7 +2204,9 @@
       "name": "Los Angeles, United States",
       "lat": 34.0522,
       "lng": -118.2437
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-los-angeles-smog-history-video",
@@ -2221,7 +2235,9 @@
       "name": "Los Angeles, United States",
       "lat": 34.0522,
       "lng": -118.2437
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-jakarta-historical-places-video",
@@ -2250,7 +2266,9 @@
       "name": "Jakarta, Indonesia",
       "lat": -6.2088,
       "lng": 106.8456
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-jakarta-flood-control-video",
@@ -2278,7 +2296,9 @@
       "name": "Jakarta, Indonesia",
       "lat": -6.2088,
       "lng": 106.8456
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-jakarta-transport-video",
@@ -2308,7 +2328,9 @@
       "name": "Jakarta, Indonesia",
       "lat": -6.2088,
       "lng": 106.8456
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lagos-local-city-video",
@@ -2337,7 +2359,9 @@
       "name": "Lagos, Nigeria",
       "lat": 6.5244,
       "lng": 3.3792
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lagos-mass-transit-video",
@@ -2367,7 +2391,9 @@
       "name": "Lagos, Nigeria",
       "lat": 6.5244,
       "lng": 3.3792
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lagos-market-video",
@@ -2395,7 +2421,9 @@
       "name": "Lagos, Nigeria",
       "lat": 6.5244,
       "lng": 3.3792
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-hong-kong-animated-history-video",
@@ -2424,7 +2452,9 @@
       "name": "Hong Kong, China",
       "lat": 22.3193,
       "lng": 114.1694
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-hong-kong-transport-system-video",
@@ -2454,7 +2484,9 @@
       "name": "Hong Kong, China",
       "lat": 22.3193,
       "lng": 114.1694
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-hong-kong-housing-video",
@@ -2482,7 +2514,9 @@
       "name": "Hong Kong, China",
       "lat": 22.3193,
       "lng": 114.1694
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-amsterdam-city-history-video",
@@ -2511,7 +2545,9 @@
       "name": "Amsterdam, Netherlands",
       "lat": 52.3676,
       "lng": 4.9041
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-amsterdam-cycling-video",
@@ -2541,7 +2577,9 @@
       "name": "Amsterdam, Netherlands",
       "lat": 52.3676,
       "lng": 4.9041
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-amsterdam-canals-video",
@@ -2570,7 +2608,9 @@
       "name": "Amsterdam, Netherlands",
       "lat": 52.3676,
       "lng": 4.9041
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-honolulu-hula-story-video",
