@@ -205,8 +205,8 @@ export function FlightDeck({
   // "Where should we fly next, and why?": a poll of up to four cities in range
   // (the picked one first). The Poll widget's "Fly to …" sets the winner.
   const startCityPoll = async () => {
-    const others = reachable.filter((c) => c.id !== destination.id).sort(() => Math.random() - 0.5).slice(0, 3);
-    const options = [destination.city, ...others.map((c) => c.city)];
+    // Every city in range is a choice (nearest first reads naturally as a list).
+    const options = Array.from(new Set(reachable.map((c) => c.city)));
     if (options.length < 2) { flash('Only one city is in range right now.'); return; }
     const supabase = createClient();
     await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
