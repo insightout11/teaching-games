@@ -1,7 +1,7 @@
 // DB-row → API-shape mappers for courses. Kept out of the route files because Next.js
 // route modules may only export HTTP handlers (GET/POST/…) + config.
 
-import type { Course, CourseLesson, CourseLessonPayload, CourseSourceRef } from '@/lib/course';
+import type { Course, CourseLesson, CourseLessonMemory, CourseLessonPayload, CourseSourceRef } from '@/lib/course';
 import { getLibrarySourceMaterial } from '@/lib/library-source-material';
 
 export interface DbCourse {
@@ -21,6 +21,7 @@ export interface DbLesson {
   lesson_payload: CourseLessonPayload;
   status: 'planned' | 'launched' | 'completed';
   session_id: string | null;
+  lesson_memory?: CourseLessonMemory | null;
 }
 
 export function hydrateLessonPayload(sourceRef: CourseSourceRef, payload: CourseLessonPayload): CourseLessonPayload {
@@ -40,6 +41,7 @@ export function toLesson(l: DbLesson): CourseLesson {
     lessonPayload: hydrateLessonPayload(sourceRef, l.lesson_payload),
     status: l.status,
     sessionId: l.session_id,
+    lessonMemory: l.lesson_memory ?? null,
   };
 }
 

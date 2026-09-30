@@ -297,7 +297,14 @@ export async function POST(request: Request) {
   let courseContext: Awaited<ReturnType<typeof getCompletedCourseContext>> = null;
   if (completed) {
     try {
-      await supabase.from('course_lessons').update({ status: 'completed' }).eq('session_id', sessionId);
+      // Lesson memory: the phrases this lesson actually taught (its canonical vocab), so the
+      // next course lessons can bring them back.
+      const { data: vocabRow } = await supabase.from('sessions').select('reference_vocab').eq('id', sessionId).maybeSingle();
+      const phrases = ((vocabRow?.reference_vocab ?? []) as Array<{ word?: string }>).map((v) => v.word ?? '').filter(Boolean).slice(0, 8);
+      await supabase
+        .from('course_lessons')
+        .update({ status: 'completed', ...(phrases.length ? { lesson_memory: { phrases, completedAt: new Date().toISOString() } } : {}) })
+        .eq('session_id', sessionId);
       courseContext = await getCompletedCourseContext(sessionId);
     } catch (courseError) {
       console.error('[api/session/end] course lesson completion error:', courseError);

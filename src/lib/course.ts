@@ -58,6 +58,14 @@ export interface CourseLesson {
   lessonPayload: CourseLessonPayload;
   status: 'planned' | 'launched' | 'completed';
   sessionId: string | null;
+  /** Written when the lesson's session ends: what it actually taught, carried into later lessons. */
+  lessonMemory?: CourseLessonMemory | null;
+}
+
+export interface CourseLessonMemory {
+  /** The lesson's key phrases (its canonical vocab), reviewed in the next lessons. */
+  phrases?: string[];
+  completedAt?: string;
 }
 
 export interface Course {

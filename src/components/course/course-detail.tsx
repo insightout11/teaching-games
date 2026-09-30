@@ -51,7 +51,7 @@ export function CourseDetail({ courseId }: { courseId: string }) {
     setLaunchingId(lesson.id);
     setError(null);
     try {
-      await launchCourseLesson(lesson, selectedClassId);
+      await launchCourseLesson(lesson, selectedClassId, course?.lessons ?? []);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to launch lesson');
       setLaunchingId(null);

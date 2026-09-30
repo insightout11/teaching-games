@@ -8,11 +8,36 @@ import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
  * create the session, hand the lesson payload to the runtime via sessionStorage, link the
  * lesson to its session, then navigate. Content generates lazily on the session page.
  */
-export async function launchCourseLesson(lesson: CourseLesson, classId: string): Promise<void> {
+/**
+ * Course carry-over: the phrases the last two completed lessons actually taught go to the
+ * front of this lesson's review terms, which every stage generator already recycles.
+ */
+export function withCarryOver(lesson: CourseLesson, courseLessons: CourseLesson[] = []): CourseLesson['lessonPayload'] {
+  const payload = lesson.lessonPayload;
+  const ctx = payload.courseContext;
+  if (!ctx) return payload;
+  const carried = courseLessons
+    .filter((l) => l.orderIndex < lesson.orderIndex && l.status === 'completed' && l.lessonMemory?.phrases?.length)
+    .sort((a, b) => b.orderIndex - a.orderIndex)
+    .slice(0, 2)
+    .flatMap((l) => l.lessonMemory!.phrases!);
+  if (!carried.length) return payload;
+  const seen = new Set<string>();
+  const reviewTerms = [...carried, ...ctx.reviewTerms].filter((t) => {
+    const k = t.trim().toLowerCase();
+    if (!k || seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  }).slice(0, 8);
+  return { ...payload, courseContext: { ...ctx, reviewTerms } };
+}
+
+export async function launchCourseLesson(lesson: CourseLesson, classId: string, courseLessons: CourseLesson[] = []): Promise<void> {
+  const lessonPayload = withCarryOver(lesson, courseLessons);
   const res = await fetch('/api/session/create', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ classId, lessonPlanContent: lesson.lessonPayload }),
+    body: JSON.stringify({ classId, lessonPlanContent: lessonPayload }),
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: 'Failed to create session' }));
@@ -21,7 +46,7 @@ export async function launchCourseLesson(lesson: CourseLesson, classId: string):
   const { sessionId } = (await res.json()) as { sessionId: string };
 
   // use-lesson-session reads this on the session page.
-  const serializedLessonPlan = JSON.stringify(lesson.lessonPayload);
+  const serializedLessonPlan = JSON.stringify(lessonPayload);
   sessionStorage.setItem(lessonPlanStorageKey(sessionId), serializedLessonPlan);
   sessionStorage.setItem('lessonPlanContent', serializedLessonPlan);
 
