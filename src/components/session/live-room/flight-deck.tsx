@@ -4,9 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, Plane, QrCode, Search, Shuffle, X } from 'lucide-react';
+import { Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, Plane, QrCode, Search, Shuffle, Vote, X } from 'lucide-react';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
+import { parseWouldYouRather } from '@/lib/live-room/talk-vote';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
@@ -357,7 +358,9 @@ export function FlightDeck({
 
   const [talkPrompt, setTalkPrompt] = useState('');
   const [talkFollowUps, setTalkFollowUps] = useState<string[]>([]);
-  const [talkOptions, setTalkOptions] = useState<{ prompt: string; followUps: string[] }[]>([]);
+  const [talkOptions, setTalkOptions] = useState<{ prompt: string; followUps: string[]; options?: string[] }[]>([]);
+  /** Two choices for the class vote on the current talking point (Would you rather / opinion / debate). */
+  const [talkVote, setTalkVote] = useState<string[] | null>(null);
   const [talkBusy, setTalkBusy] = useState<string | null>(null);
   const [talkUsed, setTalkUsed] = useState<string[]>([]);
   const difficulty = useSessionStore((s) => s.settings.difficulty);
@@ -892,11 +895,31 @@ export function FlightDeck({
       setTalkBusy(null);
     }
   };
-  const pickTalk = (p: { prompt: string; followUps: string[] }) => {
+  const pickTalk = (p: { prompt: string; followUps: string[]; options?: string[] }) => {
     setTalkPrompt(p.prompt);
     setTalkFollowUps(p.followUps);
+    setTalkVote(p.options ?? null);
     setTalkOptions([]);
     setTalkUsed((u) => [...u, p.prompt].slice(-20));
+  };
+  // Class vote on the talking point: a real phone poll with "why?" reasons and
+  // changeable answers (replaces the separate Would You Rather activity).
+  const startTalkVote = async () => {
+    const question = talkPrompt.trim();
+    const options = talkVote ?? parseWouldYouRather(question) ?? ['Agree', 'Disagree'];
+    if (!question) return;
+    const supabase = createClient();
+    await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+    const { error } = await supabase.from('polls').insert({
+      session_id: sessionId,
+      question,
+      options,
+      is_active: true,
+      metadata: { askWhy: true, purpose: 'talk-vote' },
+    });
+    if (error) { flash('Could not start the vote.'); return; }
+    openTool('poll', window.innerWidth / 2, window.innerHeight / 2);
+    flash('Vote open on phones: pick a side, then say why');
   };
 
   // ── windscreen content ───────────────────────────────────────────────────
@@ -995,7 +1018,7 @@ export function FlightDeck({
         <textarea
           id="deck-talk-prompt"
           value={talkPrompt}
-          onChange={(e) => { setTalkPrompt(e.target.value); setTalkFollowUps([]); }}
+          onChange={(e) => { setTalkPrompt(e.target.value); setTalkFollowUps([]); setTalkVote(parseWouldYouRather(e.target.value) ?? null); }}
           placeholder={presenting ? '' : 'Type a question, or tap a kind of prompt below…'}
           rows={3}
           className="w-full resize-none bg-transparent text-center font-display text-4xl leading-tight text-white placeholder:text-white/40 focus:outline-none [text-shadow:0_2px_18px_rgba(0,0,0,.45)]"
@@ -1003,6 +1026,18 @@ export function FlightDeck({
         {!presenting && talkPrompt.trim().length > 3 && talkPrompt.trim() !== focused?.title && (
           <button type="button" onClick={() => makeFocus({ title: talkPrompt })} className="flex items-center gap-1.5 rounded-lg border border-amber-300/40 bg-slate-950/60 px-2.5 py-1 text-xs text-amber-200 backdrop-blur-sm hover:bg-amber-300/10">
             <Crosshair className="h-3.5 w-3.5" /> Make this the topic
+          </button>
+        )}
+        {talkVote && (
+          <div className="flex items-center gap-3">
+            <span className="rounded-2xl border border-rose-300/40 bg-slate-950/60 px-4 py-2 font-display text-2xl text-white backdrop-blur-sm">{talkVote[0]}</span>
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/50">or</span>
+            <span className="rounded-2xl border border-rose-300/40 bg-slate-950/60 px-4 py-2 font-display text-2xl text-white backdrop-blur-sm">{talkVote[1]}</span>
+          </div>
+        )}
+        {!presenting && talkPrompt.trim().length > 3 && (
+          <button type="button" onClick={() => void startTalkVote()} className="flex items-center gap-1.5 rounded-lg border border-rose-300/50 bg-slate-950/60 px-2.5 py-1 text-xs text-rose-100 backdrop-blur-sm hover:bg-rose-300/10">
+            <Vote className="h-3.5 w-3.5" /> {talkVote ? 'Class vote on phones' : 'Class vote: agree or disagree'}
           </button>
         )}
         {talkFollowUps.length > 0 && (

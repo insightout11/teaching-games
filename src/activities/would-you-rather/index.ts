@@ -18,6 +18,9 @@ export const wouldYouRatherPlugin: ActivityPlugin = {
   minStudents: 1,
   idealStudents: { min: 1, max: null },
   deviceFree: false,
+  // The Live Room Talk view now runs Would You Rather with a phone vote; this
+  // activity stays for Flight Plans and the lesson planner, hidden from browsing.
+  flightPlanOnly: true,
 };
 
 export { WouldYouRatherActivity };

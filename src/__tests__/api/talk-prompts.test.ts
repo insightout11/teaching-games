@@ -26,6 +26,24 @@ describe('talk-prompts route', () => {
     expect(aiGen.mock.calls[0][0]).toContain('Topic: "travel"');
   });
 
+  it('keeps two clean vote options on voteable kinds only', async () => {
+    aiGen.mockResolvedValue([
+      { prompt: 'Would you rather fly or swim?', followUps: [], options: ['Fly?', 'Swim'] },
+      { prompt: 'Bad options', followUps: [], options: ['Only one'] },
+      { prompt: 'Same twice', followUps: [], options: ['Yes', 'yes'] },
+    ]);
+    const data = await (await post({ kind: 'wyr', topic: 'animals' })).json();
+    expect(data.prompts[0].options).toEqual(['Fly', 'Swim']);
+    expect(data.prompts[1].options).toBeUndefined();
+    expect(data.prompts[2].options).toBeUndefined();
+    expect(aiGen.mock.calls[0][0]).toContain('"options"');
+
+    aiGen.mockResolvedValue([{ prompt: 'Tell us about a trip', followUps: [], options: ['A', 'B'] }]);
+    const story = await (await post({ kind: 'story' })).json();
+    expect(story.prompts[0].options).toBeUndefined();
+    expect(aiGen.mock.calls[1][0]).not.toContain('"options"');
+  });
+
   it('rejects unknown kinds', async () => {
     expect((await post({ kind: 'nope' })).status).toBe(400);
     expect(aiGen).not.toHaveBeenCalled();
