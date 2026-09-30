@@ -36,4 +36,11 @@
 - Added five packs and 25 souvenirs, each with the required reward mix.
 - `npx tsx scripts/validate-city-packs.ts --batch 5` passes: 25 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
 - Review flags: Italian pronunciation (Rome), Mexican Spanish pronunciation (Mexico City), Rioplatense Spanish wording (Buenos Aires), regional English expressions (Los Angeles), and Indonesian pronunciation (Jakarta).
+- Commit: `be23f4d8` (`Add validated city packs batch 5`).
+
+## Batch 6 — Lagos, Hong Kong, Amsterdam, Honolulu, Miami
+
+- Added five packs and 25 souvenirs, each with the required reward mix.
+- `npx tsx scripts/validate-city-packs.ts --batch 6` passes: 30 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
+- Review flags: Nigerian Pidgin (Lagos), Cantonese (Hong Kong), Dutch pronunciation (Amsterdam), Hawaiian spelling/pronunciation and cultural framing (Honolulu), and Miami Spanish/local coffee terms (Miami).
 - Commit: pending validation and commit.

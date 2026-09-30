@@ -748,5 +748,155 @@
     ],
     "needsReview": true,
     "reviewNotes": "Please check the Indonesian phrases and simplified pronunciations with a fluent speaker familiar with Jakarta usage."
+  },
+  "lagos": {
+    "id": "lagos",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm humid weather lasts most of the year, with a rainy season and a drier season." },
+      { "order": 2, "kind": "food", "text": "A bright orange-red rice dish is cooked with tomatoes, peppers, and spices." },
+      { "order": 3, "kind": "culture", "text": "Music, markets, and outdoor food stalls add lively sounds to many neighborhood streets." },
+      { "order": 4, "kind": "nature", "text": "Creeks and wide lagoons weave between busy districts near the Atlantic coast." },
+      { "order": 5, "kind": "landmark", "text": "A museum by the water displays Nigerian art and objects from many cultures." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Nigeria." }
+    ],
+    "souvenirs": [
+      { "id": "lagos-jollof-pot", "name": "Jollof rice pot", "description": "Jollof rice is cooked with tomatoes, peppers, and seasoning in one pot.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style steaming pot of tomato-red jollof rice with sliced peppers, no text, no people's faces" },
+      { "id": "lagos-minibus-token", "name": "Minibus token", "description": "Yellow minibuses are a familiar form of shared transport around the city.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "bus", "artPrompt": "sticker-style bright yellow shared minibus with a blue stripe, no text, no people's faces" },
+      { "id": "lagos-suya-skewer", "name": "Suya skewer", "description": "Suya is grilled meat dusted with a spicy ground-peanut seasoning.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style grilled meat skewer dusted with spice and served with onions, no text, no people's faces" },
+      { "id": "lagos-market-basket", "name": "Market basket", "description": "Markets sell colorful produce, fabrics, and everyday goods across the city.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shopping-bag", "artPrompt": "sticker-style woven market basket filled with peppers and tomatoes, no text, no people's faces" },
+      { "id": "lagos-art-mask", "name": "Carved art mask", "description": "The National Museum Lagos displays Nigerian art and cultural objects.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style carved wooden mask with colorful geometric details, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Lagos street food would your class like to try?",
+      "What colors would you notice in a Lagos market?",
+      "What would you ask about an artwork in the National Museum Lagos?"
+    ],
+    "localWords": [
+      { "word": "how far?", "language": "Nigerian Pidgin", "meaning": "how are you?", "say": "how FAR" },
+      { "word": "abeg", "language": "Nigerian Pidgin", "meaning": "please", "say": "ah-BEG" },
+      { "word": "chop", "language": "Nigerian Pidgin", "meaning": "eat or food", "say": "CHOP" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check these Nigerian Pidgin expressions and their friendly use with a fluent Lagos speaker."
+  },
+  "hong-kong": {
+    "id": "hong-kong",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Humid summers bring warm rain, while winters are usually mild in this coastal city." },
+      { "order": 2, "kind": "food", "text": "Small shared plates may include steamed buns, dumplings, and tea." },
+      { "order": 3, "kind": "culture", "text": "Double-decker trams, buses, ferries, and trains help people travel through dense neighborhoods." },
+      { "order": 4, "kind": "nature", "text": "Steep green hills rise close behind clusters of tall buildings and busy streets." },
+      { "order": 5, "kind": "landmark", "text": "A high lookout on a green peak gives a sweeping view of the harbor and towers." },
+      { "order": 6, "kind": "giveaway", "text": "This city is a special administrative region of China." }
+    ],
+    "souvenirs": [
+      { "id": "hong-kong-dim-sum-basket", "name": "Dim sum basket", "description": "Dim sum dishes are often served in small bamboo steamers with tea.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style bamboo dim sum basket with two dumplings, no text, no people's faces" },
+      { "id": "hong-kong-tram-bell", "name": "Ding ding tram bell", "description": "The city's double-decker tram is nicknamed the ding ding for its bell.", "earn": { "type": "mode", "mode": "world" }, "icon": "train", "artPrompt": "sticker-style vintage double-decker tram with a small bell, no text, no people's faces" },
+      { "id": "hong-kong-egg-tart", "name": "Egg tart tin", "description": "An egg tart has a crisp pastry shell and a smooth custard center.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "cookie", "artPrompt": "sticker-style golden egg tart in a fluted pastry shell, no text, no people's faces" },
+      { "id": "hong-kong-ferry-ticket", "name": "Harbor ferry ticket", "description": "Passenger ferries cross the harbor between the island and the mainland.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "ship", "artPrompt": "sticker-style green-and-white ferry crossing calm harbor water, no text, no people's faces" },
+      { "id": "hong-kong-peak-viewfinder", "name": "Peak viewfinder", "description": "Victoria Peak is a popular lookout over the harbor and city skyline.", "earn": { "type": "rare" }, "icon": "mountain", "artPrompt": "sticker-style mountain lookout framing a harbor full of tiny boats, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Hong Kong tram or ferry would your class ride first?",
+      "What would you order for a shared dim sum meal in Hong Kong?",
+      "What would you look for in the harbor view from Victoria Peak?"
+    ],
+    "localWords": [
+      { "word": "néih hóu", "language": "Cantonese", "meaning": "hello", "say": "NAY-hoh" },
+      { "word": "m̀h'gōi", "language": "Cantonese", "meaning": "thank you for a service", "say": "mm-GOY" },
+      { "word": "hou hou mei", "language": "Cantonese", "meaning": "very tasty", "say": "HOH-hoh-may" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Cantonese romanization, tones, and phrase contexts with a fluent Hong Kong speaker."
+  },
+  "amsterdam": {
+    "id": "amsterdam",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Changeable skies and cool breezes are common, so a light rain jacket is useful." },
+      { "order": 2, "kind": "food", "text": "Two thin waffles sandwich a warm, sweet layer of syrup." },
+      { "order": 3, "kind": "culture", "text": "Bicycles are used for school, shopping, and everyday trips across the city." },
+      { "order": 4, "kind": "nature", "text": "Waterways, bridges, houseboats, and leafy quays shape many neighborhood walks." },
+      { "order": 5, "kind": "landmark", "text": "A curved ring of waterways is lined with narrow historic houses and bridges." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of the Netherlands." }
+    ],
+    "souvenirs": [
+      { "id": "amsterdam-stroopwafel", "name": "Stroopwafel pair", "description": "A stroopwafel sandwiches sweet syrup between two thin waffle layers.", "earn": { "type": "land" }, "icon": "cookie", "artPrompt": "sticker-style two round thin waffles with a little syrup filling, no text, no people's faces" },
+      { "id": "amsterdam-bicycle-bell", "name": "Bicycle bell", "description": "Many people use bicycles for everyday trips around the flat city.", "earn": { "type": "mode", "mode": "free" }, "icon": "bike", "artPrompt": "sticker-style silver bicycle bell with a tiny orange tulip, no text, no people's faces" },
+      { "id": "amsterdam-canal-house", "name": "Canal house model", "description": "Historic canal houses often have narrow fronts and tall, stepped gables.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "building", "artPrompt": "sticker-style narrow canal house with a stepped gable and blue windows, no text, no people's faces" },
+      { "id": "amsterdam-bitterballen", "name": "Bitterballen plate", "description": "Bitterballen are crispy fried snacks usually served with mustard.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "utensils", "artPrompt": "sticker-style plate of golden round snacks with a small mustard bowl, no text, no people's faces" },
+      { "id": "amsterdam-houseboat", "name": "Houseboat charm", "description": "Houseboats are moored along many of the city's canals.", "earn": { "type": "rare" }, "icon": "ship", "artPrompt": "sticker-style cozy houseboat with flower boxes on a calm canal, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Amsterdam street would your class explore by bicycle?",
+      "How would you share a warm stroopwafel with a friend in Amsterdam?",
+      "What would you notice while walking along Amsterdam's canals?"
+    ],
+    "localWords": [
+      { "word": "hallo", "language": "Dutch", "meaning": "hello", "say": "HAH-loh" },
+      { "word": "dank je", "language": "Dutch", "meaning": "thank you", "say": "DAHNK-yuh" },
+      { "word": "lekker", "language": "Dutch", "meaning": "tasty or nice", "say": "LEK-er" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check these Dutch words and simplified pronunciations with a fluent Amsterdam speaker."
+  },
+  "honolulu": {
+    "id": "honolulu",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm ocean breezes and passing showers keep the weather mild through much of the year." },
+      { "order": 2, "kind": "food", "text": "A chilled bowl can mix cubed raw fish with rice, seaweed, and savory sauce." },
+      { "order": 3, "kind": "language", "text": "Hawaiian words appear in local place names and everyday greetings alongside English." },
+      { "order": 4, "kind": "nature", "text": "Palm-lined shores and green volcanic slopes meet beside a sheltered ocean bay." },
+      { "order": 5, "kind": "landmark", "text": "A royal palace with tall columns stands among busy streets in the island capital." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of the U.S. state of Hawaii." }
+    ],
+    "souvenirs": [
+      { "id": "honolulu-poke-bowl", "name": "Poke bowl", "description": "Poke is often made with cubed raw fish, sea salt, and other seasonings.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style bowl of poke with fish cubes, seaweed, and sesame seeds, no text, no people's faces" },
+      { "id": "honolulu-outrigger-paddle", "name": "Canoe paddle", "description": "Outrigger canoes are a traditional part of ocean travel in Hawaiʻi.", "earn": { "type": "mode", "mode": "world" }, "icon": "ship", "artPrompt": "sticker-style wooden canoe paddle with a blue wave pattern, no text, no people's faces" },
+      { "id": "honolulu-spam-musubi", "name": "Spam musubi", "description": "Spam musubi wraps grilled luncheon meat and rice with a strip of seaweed.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style rectangular rice snack wrapped with a dark seaweed strip, no text, no people's faces" },
+      { "id": "honolulu-ukulele", "name": "Ukulele charm", "description": "The small ukulele is widely associated with music in Hawaiʻi.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "music", "artPrompt": "sticker-style small four-string ukulele with hibiscus flower decoration, no text, no people's faces" },
+      { "id": "honolulu-palace-column", "name": "Palace column model", "description": "ʻIolani Palace was the home of Hawaiʻi's last reigning monarchs.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style white palace column and palm leaf, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Honolulu snack would your class try after a walk by the water?",
+      "What Hawaiian word would you use to greet a friend in Honolulu?",
+      "What would you look for inside ʻIolani Palace in Honolulu?"
+    ],
+    "localWords": [
+      { "word": "aloha", "language": "Hawaiian", "meaning": "hello, goodbye, or love", "say": "ah-LOH-hah" },
+      { "word": "mahalo", "language": "Hawaiian", "meaning": "thank you", "say": "mah-HAH-loh" },
+      { "word": "ʻono", "language": "Hawaiian", "meaning": "delicious", "say": "OH-noh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Hawaiian spelling, diacritics, pronunciation, and classroom framing with a Hawaiian language resource."
+  },
+  "miami": {
+    "id": "miami",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm humid days last much of the year, and summer often brings short heavy showers." },
+      { "order": 2, "kind": "food", "text": "A pressed sandwich layers roast pork, ham, Swiss cheese, pickles, and mustard." },
+      { "order": 3, "kind": "language", "text": "English and Spanish are both heard in shops, cafés, and neighborhood conversations." },
+      { "order": 4, "kind": "nature", "text": "Sandy shores and warm blue coastal water meet a city of palm-lined streets." },
+      { "order": 5, "kind": "landmark", "text": "Pastel Art Deco buildings line a famous beach neighborhood's oceanfront road." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in the United States." }
+    ],
+    "souvenirs": [
+      { "id": "miami-cuban-sandwich", "name": "Cuban sandwich", "description": "A Cuban sandwich layers pork, ham, cheese, pickles, and mustard in pressed bread.", "earn": { "type": "land" }, "icon": "sandwich", "artPrompt": "sticker-style pressed Cuban sandwich cut to show its colorful layers, no text, no people's faces" },
+      { "id": "miami-cafecito-cup", "name": "Cafecito cup", "description": "A cafecito is a small, sweet Cuban-style espresso often ordered at a walk-up window.", "earn": { "type": "mode", "mode": "topic" }, "icon": "coffee", "artPrompt": "sticker-style tiny cup of dark espresso with a sugar sparkle, no text, no people's faces" },
+      { "id": "miami-stone-crab-claw", "name": "Stone crab claw", "description": "Florida stone crab claws are served chilled with a dipping sauce.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "fish", "artPrompt": "sticker-style orange stone crab claw with a lemon wedge, no text, no people's faces" },
+      { "id": "miami-key-lime-pie", "name": "Key lime pie slice", "description": "Key lime pie has a tart citrus filling in a crumbly crust.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "cookie", "artPrompt": "sticker-style pale green pie slice with a small lime wheel, no text, no people's faces" },
+      { "id": "miami-art-deco-keychain", "name": "Art Deco keychain", "description": "South Beach is known for pastel Art Deco buildings near the shore.", "earn": { "type": "rare" }, "icon": "building", "artPrompt": "sticker-style pastel geometric hotel front with a palm silhouette, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would your class order at a Miami walk-up coffee window?",
+      "Which Miami beach street would you photograph, and why?",
+      "What would you put in your perfect Miami picnic?"
+    ],
+    "localWords": [
+      { "word": "hola", "language": "Miami Spanish", "meaning": "hello", "say": "OH-lah" },
+      { "word": "gracias", "language": "Miami Spanish", "meaning": "thank you", "say": "GRAH-see-ahs" },
+      { "word": "cafecito", "language": "Miami Spanish", "meaning": "small Cuban coffee", "say": "kah-feh-SEE-toh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Spanish and Cuban coffee terms for natural local usage in Miami."
   }
 }
