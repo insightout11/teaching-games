@@ -3886,7 +3886,9 @@
       "name": "Dublin, Ireland",
       "lat": 53.3498,
       "lng": -6.2603
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dublin-oscar-wilde-video",
@@ -3914,7 +3916,9 @@
       "name": "Dublin, Ireland",
       "lat": 53.3498,
       "lng": -6.2603
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dakar-ladoum-sheep-video",
@@ -3944,7 +3948,9 @@
       "name": "Dakar, Senegal",
       "lat": 14.7167,
       "lng": -17.4677
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dakar-biennale-video",
@@ -3973,7 +3979,9 @@
       "name": "Dakar, Senegal",
       "lat": 14.7167,
       "lng": -17.4677
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dakar-goree-electricity-video",
@@ -4001,7 +4009,9 @@
       "name": "Dakar, Senegal",
       "lat": 14.7167,
       "lng": -17.4677
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-recife-brazil-for-kids-video",
@@ -4031,7 +4041,9 @@
       "name": "Recife, Brazil",
       "lat": -8.0476,
       "lng": -34.877
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-recife-frevo-video",
@@ -4060,7 +4072,9 @@
       "name": "Recife, Brazil",
       "lat": -8.0476,
       "lng": -34.877
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-recife-silent-drums-video",
@@ -4090,7 +4104,9 @@
       "name": "Recife, Brazil",
       "lat": -8.0476,
       "lng": -34.877
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-panama-city-mola-art-video",
@@ -4120,7 +4136,9 @@
       "name": "Panama City, Panama",
       "lat": 8.9824,
       "lng": -79.5199
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-panama-city-canal-for-kids-video",
@@ -4150,7 +4168,9 @@
       "name": "Panama City, Panama",
       "lat": 8.9824,
       "lng": -79.5199
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-panama-city-amphibian-conservation-video",
@@ -4179,7 +4199,9 @@
       "name": "Panama City, Panama",
       "lat": 8.9824,
       "lng": -79.5199
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-santiago-chile-for-kids-video",
@@ -4209,7 +4231,9 @@
       "name": "Santiago, Chile",
       "lat": -33.4489,
       "lng": -70.6693
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-santiago-marraqueta-video",
@@ -4239,7 +4263,9 @@
       "name": "Santiago, Chile",
       "lat": -33.4489,
       "lng": -70.6693
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-santiago-moai-video",
@@ -4267,7 +4293,9 @@
       "name": "Santiago, Chile",
       "lat": -33.4489,
       "lng": -70.6693
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-addis-ababa-ethiopia-culture-video",
@@ -4297,7 +4325,9 @@
       "name": "Addis Ababa, Ethiopia",
       "lat": 8.9806,
       "lng": 38.7578
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-addis-ababa-coffee-traditions-video",
@@ -4327,7 +4357,9 @@
       "name": "Addis Ababa, Ethiopia",
       "lat": 8.9806,
       "lng": 38.7578
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-addis-ababa-lucy-fossil-video",
@@ -4355,7 +4387,9 @@
       "name": "Addis Ababa, Ethiopia",
       "lat": 8.9806,
       "lng": 38.7578
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-delhi-indian-food-video",
@@ -4385,7 +4419,9 @@
       "name": "Delhi, India",
       "lat": 28.6139,
       "lng": 77.209
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-delhi-red-fort-video",
@@ -4415,7 +4451,9 @@
       "name": "Delhi, India",
       "lat": 28.6139,
       "lng": 77.209
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-delhi-qutub-minar-video",
@@ -4444,7 +4482,9 @@
       "name": "Delhi, India",
       "lat": 28.6139,
       "lng": 77.209
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-manila-philippines-for-kids-video",
