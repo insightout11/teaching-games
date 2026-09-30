@@ -7,3 +7,11 @@
 - `npx tsx scripts/validate-city-packs.ts --batch 1` passes: 5 / 50 cities present, 25 souvenirs, 4 packs marked `needsReview`.
 - Review flags: Thai pronunciations (Bangkok), French pronunciations (Paris), Egyptian Arabic words and pronunciations (Cairo), and Rio Portuguese pronunciation (Rio de Janeiro). Tokyo's Japanese phrases are unflagged.
 - Owner approved the tone with the two revisions above; batch 1 is ready and authorized to commit.
+- Commit: `8d4e1567` (`Add validated city packs batch 1`).
+
+## Batch 2 — Seoul, Singapore, London, New York, Dubai
+
+- Added five packs and 25 souvenirs, with the required 1 land, 1 mode, 2 distinct challenges, and 1 rare reward per city.
+- `npx tsx scripts/validate-city-packs.ts --batch 2` passes: 10 / 50 cities present, 25 souvenirs in this batch, 3 packs marked `needsReview`.
+- Review flags: Korean phrase pronunciation (Seoul), Singapore English/Singlish usage (Singapore), and Arabic wording/pronunciation in Emirati usage (Dubai). London and New York wording is unflagged.
+- Commit: pending validation and commit.

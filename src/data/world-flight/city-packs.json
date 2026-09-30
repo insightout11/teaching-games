@@ -148,5 +148,155 @@
     ],
     "needsReview": true,
     "reviewNotes": "Please check the simplified pronunciations against Rio Portuguese, where sounds can differ from other regions."
+  },
+  "seoul": {
+    "id": "seoul",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Hot, humid summer days and cold winter days bring clear seasonal changes to this huge capital." },
+      { "order": 2, "kind": "food", "text": "Chewy rice cakes simmer in a bright red sauce that can be sweet and spicy." },
+      { "order": 3, "kind": "nature", "text": "Mountain slopes and walking paths meet dense neighborhoods in many parts of the city." },
+      { "order": 4, "kind": "language", "text": "Everyday greetings often include a small bow, and polite speech changes with age and situation." },
+      { "order": 5, "kind": "landmark", "text": "A palace with broad courtyards and painted wooden gates stands at the foot of a mountain." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of South Korea." }
+    ],
+    "souvenirs": [
+      { "id": "seoul-subway-card", "name": "Subway card case", "description": "The metro and rail network link busy districts across this large city.", "earn": { "type": "land" }, "icon": "train", "artPrompt": "sticker-style transit card case beside a sleek subway train, no text, no people's faces" },
+      { "id": "seoul-rice-cake-skewer", "name": "Rice cake skewer", "description": "Tteokbokki is made with chewy rice cakes in a spicy sauce.", "earn": { "type": "mode", "mode": "topic" }, "icon": "utensils", "artPrompt": "sticker-style skewer of chewy rice cakes with red sauce, no text, no people's faces" },
+      { "id": "seoul-hanok-roof", "name": "Hanok roof tile", "description": "Traditional hanok homes often have gently curved rooflines.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "house", "artPrompt": "sticker-style curved tiled roof from a traditional wooden home, no text, no people's faces" },
+      { "id": "seoul-palace-gate", "name": "Palace gate charm", "description": "Gyeongbokgung Palace has painted gates and broad ceremonial courtyards.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "landmark", "artPrompt": "sticker-style colorful palace gate charm with painted roof details, no text, no people's faces" },
+      { "id": "seoul-market-pancake", "name": "Market pancake plate", "description": "Bindaetteok is a savory mung bean pancake sold at traditional markets.", "earn": { "type": "rare" }, "icon": "utensils", "artPrompt": "sticker-style golden mung bean pancake with a small dipping bowl, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Seoul street food would your class try first, and what might it taste like?",
+      "What would you notice while walking through Gyeongbokgung Palace?",
+      "Which Seoul neighborhood would you explore by subway?"
+    ],
+    "localWords": [
+      { "word": "annyeonghaseyo", "language": "Korean", "meaning": "hello", "say": "ahn-yung-ha-seh-YOH" },
+      { "word": "gamsahamnida", "language": "Korean", "meaning": "thank you", "say": "kahm-sah-ham-nee-DAH" },
+      { "word": "masisseoyo", "language": "Korean", "meaning": "delicious", "say": "mah-shee-suh-YOH" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the simplified English pronunciations of these polite Korean phrases with a fluent speaker."
+  },
+  "singapore": {
+    "id": "singapore",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm, humid days continue through the year, and short heavy showers can arrive quickly." },
+      { "order": 2, "kind": "food", "text": "A breakfast favorite pairs toasted bread with coconut-and-egg jam, butter, and soft eggs." },
+      { "order": 3, "kind": "language", "text": "People use several languages in daily life, including English, Malay, Mandarin, and Tamil." },
+      { "order": 4, "kind": "culture", "text": "Open-air food halls let neighbors choose dishes from many cooks at shared tables." },
+      { "order": 5, "kind": "landmark", "text": "A waterfront garden is known for huge tree-shaped towers covered in plants." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Singapore." }
+    ],
+    "souvenirs": [
+      { "id": "singapore-kaya-toast", "name": "Kaya toast charm", "description": "Kaya is a sweet coconut-and-egg spread often served on toast at breakfast.", "earn": { "type": "land" }, "icon": "coffee", "artPrompt": "sticker-style kaya toast triangles with a soft-boiled egg and coffee cup, no text, no people's faces" },
+      { "id": "singapore-hawker-tray", "name": "Hawker tray token", "description": "Hawker centres bring many food stalls together around shared seating.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "utensils", "artPrompt": "sticker-style metal food tray with colorful local dishes, no text, no people's faces" },
+      { "id": "singapore-orchid-pin", "name": "Orchid garden pin", "description": "The Singapore Botanic Gardens include a garden devoted to orchids.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "flower", "artPrompt": "sticker-style purple orchid flower pin with green leaves, no text, no people's faces" },
+      { "id": "singapore-chili-crab-bib", "name": "Crab feast bib", "description": "Chili crab is served with a rich sauce and often eaten with bread.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "fish", "artPrompt": "sticker-style crab-shaped dinner bib beside a bowl of chili crab, no text, no people's faces" },
+      { "id": "singapore-garden-tree", "name": "Garden tree magnet", "description": "The Supertrees at Gardens by the Bay are vertical gardens built on tall structures.", "earn": { "type": "rare" }, "icon": "tree-palm", "artPrompt": "sticker-style glowing garden tree structure with hanging vines, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Singapore breakfast would you share with a friend, and why?",
+      "What plants would you look for at Gardens by the Bay?",
+      "Which dishes would your class choose at a Singapore hawker centre?"
+    ],
+    "localWords": [
+      { "word": "lah", "language": "Singlish", "meaning": "friendly sentence-ending emphasis", "say": "LAH" },
+      { "word": "can", "language": "Singlish", "meaning": "yes, possible", "say": "CAN" },
+      { "word": "shiok", "language": "Singlish", "meaning": "great or delicious", "say": "SHEE-ok" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check that the Singlish words and short meanings feel natural and friendly to Singaporean speakers."
+  },
+  "london": {
+    "id": "london",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Cloudy skies and passing showers are common, so people often carry a light raincoat." },
+      { "order": 2, "kind": "food", "text": "A warm meal can pair flaky pastry with meat and mashed potatoes." },
+      { "order": 3, "kind": "nature", "text": "Small green squares and larger parks offer quiet paths among busy streets." },
+      { "order": 4, "kind": "culture", "text": "People queue for buses, shops, and shows, then chat over tea and small sandwiches." },
+      { "order": 5, "kind": "landmark", "text": "A large clock tower beside Parliament is home to a famous bell." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of the United Kingdom." }
+    ],
+    "souvenirs": [
+      { "id": "london-double-decker", "name": "Double-decker bus", "description": "The red double-decker bus is a familiar way to travel around the city.", "earn": { "type": "land" }, "icon": "bus", "artPrompt": "sticker-style red double-decker city bus, no text, no people's faces" },
+      { "id": "london-tea-cup", "name": "Afternoon tea cup", "description": "Afternoon tea can include small sandwiches, scones, and a pot of tea.", "earn": { "type": "mode", "mode": "world" }, "icon": "coffee", "artPrompt": "sticker-style floral teacup with a tiny plate of scones, no text, no people's faces" },
+      { "id": "london-black-cab", "name": "Black cab token", "description": "Traditional black taxis are driven by licensed London cab drivers.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "car", "artPrompt": "sticker-style classic black city taxi with a lit roof sign, no text, no people's faces" },
+      { "id": "london-pie-mash-plate", "name": "Pie and mash plate", "description": "Pie and mash is a traditional meal of meat pie with mashed potatoes.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "utensils", "artPrompt": "sticker-style golden meat pie with mashed potatoes and green sauce, no text, no people's faces" },
+      { "id": "london-phone-box", "name": "Red phone box", "description": "The red telephone kiosk is a familiar design seen on streets across the city.", "earn": { "type": "rare" }, "icon": "phone", "artPrompt": "sticker-style miniature red telephone kiosk, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which London park would your class explore between busy city streets?",
+      "What would you include in a London afternoon tea?",
+      "What would you ask a London bus driver about the route?"
+    ],
+    "localWords": [
+      { "word": "cheers", "language": "British English", "meaning": "thanks", "say": "CHEERZ" },
+      { "word": "cuppa", "language": "British English", "meaning": "a cup of tea", "say": "KUP-uh" },
+      { "word": "brilliant", "language": "British English", "meaning": "excellent", "say": "BRIL-yunt" }
+    ],
+    "needsReview": false,
+    "reviewNotes": ""
+  },
+  "new-york": {
+    "id": "new-york",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "This coastal city has humid summers, chilly winters, and sometimes snowy days." },
+      { "order": 2, "kind": "food", "text": "A round bread with a chewy middle is often topped with cream cheese." },
+      { "order": 3, "kind": "culture", "text": "Corner shops stay open late and sell snacks, drinks, and everyday supplies." },
+      { "order": 4, "kind": "nature", "text": "Ferries and bridges connect a group of islands and waterfront neighborhoods." },
+      { "order": 5, "kind": "landmark", "text": "A large green park stretches through the middle of Manhattan." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in the United States." }
+    ],
+    "souvenirs": [
+      { "id": "new-york-yellow-taxi", "name": "Yellow taxi model", "description": "Yellow taxis are a well-known way to travel through the city's busy streets.", "earn": { "type": "land" }, "icon": "car", "artPrompt": "sticker-style bright yellow city taxi, no text, no people's faces" },
+      { "id": "new-york-bagel", "name": "Bagel breakfast", "description": "New York bagels are boiled before they are baked, giving them a chewy crust.", "earn": { "type": "mode", "mode": "topic" }, "icon": "utensils", "artPrompt": "sticker-style sesame bagel with a small cup of cream cheese, no text, no people's faces" },
+      { "id": "new-york-bodega-cat", "name": "Bodega snack bag", "description": "Neighborhood bodegas sell snacks and everyday items from small corner shops.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "shopping-bag", "artPrompt": "sticker-style brown paper snack bag with an apple and pretzel, no text, no people's faces" },
+      { "id": "new-york-subway-token", "name": "Subway route token", "description": "The subway runs day and night on routes linking the city's boroughs.", "earn": { "type": "challenge", "challenge": "debate-win" }, "icon": "train", "artPrompt": "sticker-style subway train pulling into an underground station, no text, no people's faces" },
+      { "id": "new-york-park-squirrel", "name": "Park squirrel badge", "description": "Squirrels are often spotted among the trees and lawns of city parks.", "earn": { "type": "rare" }, "icon": "squirrel", "artPrompt": "sticker-style friendly gray squirrel holding an acorn, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which New York snack would your class try first, and what might it taste like?",
+      "What would you notice while walking through Central Park?",
+      "Which New York neighborhood would you visit by subway?"
+    ],
+    "localWords": [
+      { "word": "bodega", "language": "New York English", "meaning": "a small neighborhood shop", "say": "boh-DAY-guh" },
+      { "word": "slice", "language": "New York English", "meaning": "a piece of pizza", "say": "SLICE" },
+      { "word": "hey", "language": "New York English", "meaning": "hello", "say": "HAY" }
+    ],
+    "needsReview": false,
+    "reviewNotes": ""
+  },
+  "dubai": {
+    "id": "dubai",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Very hot summers bring little rain, while winter days are much milder." },
+      { "order": 2, "kind": "food", "text": "Small sweet dumplings are crisp outside and served with sticky date syrup." },
+      { "order": 3, "kind": "nature", "text": "Some neighborhoods sit beside a tidal waterway where boats cross between the banks." },
+      { "order": 4, "kind": "culture", "text": "Guests may be welcomed with Arabic coffee and sweet dates." },
+      { "order": 5, "kind": "landmark", "text": "The world's tallest building rises above a lake and a dancing fountain." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in the United Arab Emirates." }
+    ],
+    "souvenirs": [
+      { "id": "dubai-abra-boat", "name": "Abra boat charm", "description": "A traditional abra carries passengers across the old creek for short rides.", "earn": { "type": "land" }, "icon": "sailboat", "artPrompt": "sticker-style wooden abra boat with a small canopy on blue water, no text, no people's faces" },
+      { "id": "dubai-luqaimat", "name": "Luqaimat sweets", "description": "Luqaimat are sweet fried dumplings often drizzled with date syrup.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "cookie", "artPrompt": "sticker-style golden dumplings drizzled with date syrup, no text, no people's faces" },
+      { "id": "dubai-date-bowl", "name": "Date bowl", "description": "Dates are often served to guests alongside Arabic coffee.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "cup-soda", "artPrompt": "sticker-style small bowl of dates beside a dallah coffee pot, no text, no people's faces" },
+      { "id": "dubai-dhow-sail", "name": "Dhow sail model", "description": "Traditional wooden boats once carried goods along coastal trade routes.", "earn": { "type": "challenge", "challenge": "return-visit" }, "icon": "ship", "artPrompt": "sticker-style wooden dhow with a cream sail on a calm blue sea, no text, no people's faces" },
+      { "id": "dubai-wind-tower", "name": "Wind tower model", "description": "Wind towers were designed to catch breezes above older homes in the region.", "earn": { "type": "rare" }, "icon": "building", "artPrompt": "sticker-style small sand-colored wind tower house model, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would you notice during a short abra ride in Dubai?",
+      "Which sweet would your class like to taste in Dubai?",
+      "What might you ask about an old wind tower in Dubai?"
+    ],
+    "localWords": [
+      { "word": "marhaba", "language": "Arabic", "meaning": "hello", "say": "MAR-ha-ba" },
+      { "word": "shukran", "language": "Arabic", "meaning": "thank you", "say": "SHOOK-ran" },
+      { "word": "yalla", "language": "Arabic", "meaning": "let's go", "say": "YAL-la" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check these Arabic words and simplified pronunciations with a fluent speaker familiar with Emirati usage."
   }
 }
