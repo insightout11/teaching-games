@@ -137,7 +137,7 @@ export const ARCHIVED_PRESETS: FlightPlanPreset[] = [
     goal: 'vocabulary-building',
     lessonType: 'skill-builder',
     takeoff: 'vocab-radar',
-    landing: 'in-your-words',
+    landing: 'final-answer',
     moduleSequence: [
       { slotType: 'practice', key: 'synonym-showdown' },
       { slotType: 'practice', key: 'vocab-sprint' },
@@ -369,7 +369,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'error-hunter', stageId: 'accuracy-check', isMicroEvent: true, pool: ['error-hunter', 'sentence-scramble', 'synonym-showdown', 'vocab-sprint'] },
       { slotType: 'production', key: 'decision-council', stageId: 'production' },
       { slotType: 'practice', key: 'radar-fix', stageId: 'navigation-check', isMicroEvent: true, worldFlightOnly: true },
-      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['flash-quiz', 'connections', 'word-chain', 'grid-rush', 'imposter', 'password', 'sector-strike'] },
+      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['flash-quiz', 'connections', 'grid-rush', 'imposter', 'password', 'sector-strike'] },
     ],
     flightConfig: {
       stages: [
@@ -436,7 +436,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it'] },
       { slotType: 'production', key: 'conversation-rounds', stageId: 'conversation' },
       { slotType: 'practice', key: 'vocab-micro', stageId: 'vocab-check', isMicroEvent: true },
-      { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['word-chain', 'connections', 'synonym-showdown', 'vocab-sprint', 'taboo-sprint', 'imposter'] },
+      { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['connections', 'synonym-showdown', 'vocab-sprint', 'taboo-sprint', 'imposter'] },
     ],
     flightConfig: {
       stages: [
@@ -559,7 +559,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'production', key: 'trip-hotel', stageId: 'hotel' },
       { slotType: 'production', key: 'trip-attractions', stageId: 'attraction' },
       { slotType: 'production', key: 'trip-meal', stageId: 'local-table' },
-      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['flash-quiz', 'connections', 'word-chain', 'vocab-sprint'] },
+      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['flash-quiz', 'connections', 'vocab-sprint'] },
     ],
     flightConfig: {
       stages: [
@@ -604,7 +604,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'presentation', key: 'fact-detective', stageId: 'evidence' },
       { slotType: 'practice', key: 'would-you-rather', stageId: 'take-side', isMicroEvent: true, pool: ['would-you-rather', 'rank-it'] },
       { slotType: 'production', key: 'team-debate', stageId: 'debate' },
-      { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['flash-quiz', 'connections', 'word-chain', 'synonym-showdown', 'imposter', 'twenty-questions', 'sector-strike'] },
+      { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['flash-quiz', 'connections', 'synonym-showdown', 'imposter', 'twenty-questions', 'sector-strike'] },
     ],
     flightConfig: {
       stages: [

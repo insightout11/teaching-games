@@ -1,3 +1,4 @@
+import { isRetired } from '@/lib/retired-plugins';
 // Flight Plan routing config — static metadata for generator slot-filling and sequencing.
 // Generator imports this file to make slot and goal decisions.
 
@@ -837,7 +838,8 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = FLIGHT_PLAN_ITEM_BASE.map((it
   if (!classSizeMetadata) {
     throw new Error(`Missing class-size metadata for Flight Plan item: ${item.key}`);
   }
-  return { ...item, ...classSizeMetadata };
+  // Retired items stay resolvable but fit no slot, so composers never pick them.
+  return { ...item, ...classSizeMetadata, ...(isRetired(item.key) ? { slotFit: [] } : {}) };
 });
 
 /** Lookup a single item's config by key. Returns undefined if not found. */

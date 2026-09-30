@@ -3,6 +3,7 @@
  * Handles slug mapping between registry keys and URL-friendly display slugs.
  */
 
+import { isRetired } from '@/lib/retired-plugins';
 import vocabSprintJson from '@/content/games/vocab-sprint.json';
 import synonymShowdownJson from '@/content/games/synonym-showdown.json';
 import wordChainJson from '@/content/games/word-chain.json';
@@ -153,17 +154,17 @@ const ACTIVITY_CONTENT: Record<string, LandingContent> = {
 };
 
 export function getGameContent(slug: string): LandingContent | undefined {
-  return GAME_CONTENT[slug];
+  return isRetired(slug) ? undefined : GAME_CONTENT[slug];
 }
 
 export function getActivityContent(slug: string): LandingContent | undefined {
-  return ACTIVITY_CONTENT[slug];
+  return isRetired(slug) ? undefined : ACTIVITY_CONTENT[slug];
 }
 
 export function getAllGameSlugs(): string[] {
-  return Object.keys(GAME_CONTENT);
+  return Object.keys(GAME_CONTENT).filter((k) => !isRetired(k));
 }
 
 export function getAllActivitySlugs(): string[] {
-  return Object.keys(ACTIVITY_CONTENT);
+  return Object.keys(ACTIVITY_CONTENT).filter((k) => !isRetired(k));
 }

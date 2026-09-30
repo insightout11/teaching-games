@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+import { isRetired } from '@/lib/retired-plugins';
 import type { ActivityPlugin, ActivityCategory } from './types';
 import { wouldYouRatherPlugin } from './would-you-rather';
 import { hotTakeArenaPlugin } from './hot-take-arena';
@@ -124,14 +125,14 @@ export function getActivity(key: string): ActivityPlugin | undefined {
  * Get all registered activities
  */
 export function getAllActivities(): ActivityPlugin[] {
-  return activities;
+  return activities.filter((x) => !isRetired(x.key));
 }
 
 /**
  * Get activities filtered by category
  */
 export function getActivitiesByCategory(category: ActivityCategory): ActivityPlugin[] {
-  return activities.filter((a) => a.category === category);
+  return activities.filter((a) => a.category === category && !isRetired(a.key));
 }
 
 /**

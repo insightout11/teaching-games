@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+import { isRetired } from '@/lib/retired-plugins';
 import type { GamePlugin, GameCategory } from './types';
 import { sentenceScramblePlugin } from './sentence-scramble';
 import { vocabSprintPlugin } from './vocab-sprint';
@@ -46,14 +47,14 @@ export function getGame(key: string): GamePlugin | undefined {
 }
 
 export function getAllGames(): GamePlugin[] {
-  return games;
+  return games.filter((x) => !isRetired(x.key));
 }
 
 /**
  * Get games filtered by category
  */
 export function getGamesByCategory(category: GameCategory): GamePlugin[] {
-  return games.filter((g) => g.category === category);
+  return games.filter((g) => g.category === category && !isRetired(g.key));
 }
 
 /**
