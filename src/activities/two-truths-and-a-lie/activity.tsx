@@ -1,34 +1,36 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, XCircle, Users, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Check, Clock, MessageCircleQuestion, Sparkles, Users, X } from 'lucide-react';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type StudentEntry, type VoteRecord } from './types';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { CrewAvatar } from '@/components/ui/crew-avatar';
 
-function parseStatements(raw: string): [string, string, string] | null {
-  // Split by newlines, strip leading numbers/bullets, filter blanks
-  const lines = raw
-    .split('\n')
-    .map((l) => l.replace(/^[\d]+[.)]\s*/, '').trim())
-    .filter(Boolean);
+const QUESTION_SECONDS = 60;
+const POINTS_FEATURED = 5;
+const POINTS_PER_FOOLED = 2;
+const POINTS_RIGHT = 10;
+const POINTS_TRIED = 3;
 
-  if (lines.length >= 3) {
-    return [lines[0], lines[1], lines[2]];
-  }
-
-  // Fallback: split by period-space
-  const sentences = raw
-    .split(/\.\s+/)
-    .map((s) => s.replace(/\.$/, '').trim())
-    .filter(Boolean);
-
-  if (sentences.length >= 3) {
-    return [sentences[0], sentences[1], sentences[2]];
-  }
-
+/** New phones send JSON { statements, lie }; old free text is split into lines. */
+function parseEntry(raw: string): { statements: [string, string, string]; lie: number | null } | null {
+  try {
+    const j = JSON.parse(raw) as { statements?: unknown; lie?: unknown };
+    if (Array.isArray(j.statements) && j.statements.length === 3 && j.statements.every((x) => typeof x === 'string' && x.trim())) {
+      const lie = typeof j.lie === 'number' && j.lie >= 0 && j.lie <= 2 ? j.lie : null;
+      return { statements: j.statements.map((x: string) => x.trim()) as [string, string, string], lie };
+    }
+  } catch { /* plain text */ }
+  const lines = raw.split('\n').map((l) => l.replace(/^[\d]+[.)]\s*/, '').trim()).filter(Boolean);
+  if (lines.length >= 3) return { statements: [lines[0], lines[1], lines[2]], lie: null };
+  const sentences = raw.split(/\.\s+/).map((s) => s.replace(/\.$/, '').trim()).filter(Boolean);
+  if (sentences.length >= 3) return { statements: [sentences[0], sentences[1], sentences[2]], lie: null };
   return null;
 }
+
+type Entry = StudentEntry & { secretLie: number | null };
 
 export function TwoTruthsAndALieActivity({
   students,
@@ -38,13 +40,11 @@ export function TwoTruthsAndALieActivity({
   onScore,
 }: ActivityProps) {
   const [status, setStatus] = useState<ActivityStatus>(ActivityStatus.IDLE);
-  // clientId → entry
-  const [entries, setEntries] = useState<Record<string, StudentEntry>>({});
-  // ordered queue of clientIds for spotlight
+  const [entries, setEntries] = useState<Record<string, Entry>>({});
   const [queue, setQueue] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  // votes for current spotlight round: clientId → VoteRecord
   const [votes, setVotes] = useState<Record<string, VoteRecord>>({});
+  const [questionTime, setQuestionTime] = useState<number | null>(null);
 
   const statusRef = useRef(status);
   statusRef.current = status;
@@ -59,22 +59,22 @@ export function TwoTruthsAndALieActivity({
   const promptIndexRef = useRef(1);
 
   const currentEntry = queue[currentIndex] ? entries[queue[currentIndex]] : undefined;
+  const avatarOf = (clientId: string) => students.find((s) => s.id === clientId)?.avatar_seed ?? null;
 
-  // Set input spec based on phase
+  // ─── Phones ───
   useEffect(() => {
     if (status === ActivityStatus.COLLECTING) {
       onSetInputSpec?.({
         type: 'textarea',
         gameKey: 'two-truths-and-a-lie',
-        prompt: 'Write 3 sentences about yourself — 2 truths and 1 lie.\nPut each sentence on its own line.',
+        prompt: 'Write two true things about you and one lie. Tap which one is your lie (it stays secret).',
         maxLength: 400,
-        placeholder: 'I once met a famous actor.\nI can speak 4 languages.\nI have never eaten pizza.',
       });
     } else if (status === ActivityStatus.SPOTLIGHTING && currentEntry) {
       onSetInputSpec?.({
         type: 'choice',
         gameKey: 'two-truths-and-a-lie',
-        prompt: 'Which statement is the LIE?',
+        prompt: `Which of ${currentEntry.displayName}'s sentences is the LIE?`,
         options: currentEntry.statements,
       });
     } else {
@@ -82,54 +82,38 @@ export function TwoTruthsAndALieActivity({
     }
   }, [status, currentEntry, onSetInputSpec]);
 
-  // Register remote vote handler
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
       const s = statusRef.current;
-
       if (s === ActivityStatus.COLLECTING) {
-        const parsed = parseStatements(vote.choice);
+        const parsed = parseEntry(vote.choice);
         if (!parsed) return;
         setEntries((prev) => ({
           ...prev,
-          [vote.clientId]: {
-            clientId: vote.clientId,
-            displayName: vote.displayName,
-            statements: parsed,
-            lieIndex: null,
-          },
+          [vote.clientId]: { clientId: vote.clientId, displayName: vote.displayName, statements: parsed.statements, lieIndex: null, secretLie: parsed.lie },
         }));
         return;
       }
-
       if (s === ActivityStatus.SPOTLIGHTING) {
-        const q = queueRef.current;
-        const idx = currentIndexRef.current;
-        const featuredClientId = q[idx];
-        // Featured student can't vote on their own statements
-        if (vote.clientId === featuredClientId) return;
-
-        const entry = entriesRef.current[featuredClientId];
+        const featured = queueRef.current[currentIndexRef.current];
+        if (vote.clientId === featured) return;
+        const entry = entriesRef.current[featured];
         if (!entry) return;
-
         const choiceIndex = entry.statements.indexOf(vote.choice);
         if (choiceIndex === -1) return;
-
-        setVotes((prev) => ({
-          ...prev,
-          [vote.clientId]: {
-            clientId: vote.clientId,
-            studentId: vote.studentId ?? null,
-            displayName: vote.displayName,
-            choiceIndex,
-          },
-        }));
+        setVotes((prev) => ({ ...prev, [vote.clientId]: { clientId: vote.clientId, studentId: vote.studentId ?? null, displayName: vote.displayName, choiceIndex } }));
       }
     });
-
     return () => onRegisterRemoteVoteHandler?.(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onRegisterRemoteVoteHandler]);
+
+  // Question time countdown
+  useEffect(() => {
+    if (questionTime === null || questionTime <= 0) return;
+    const t = setTimeout(() => setQuestionTime((q) => (q === null ? null : q - 1)), 1000);
+    return () => clearTimeout(t);
+  }, [questionTime]);
 
   const startCollecting = useCallback(() => {
     setStatus(ActivityStatus.COLLECTING);
@@ -137,76 +121,44 @@ export function TwoTruthsAndALieActivity({
   }, [onPhaseChange]);
 
   const startSpotlight = useCallback(() => {
-    const clientIds = Object.keys(entriesRef.current);
-    const shuffled = [...clientIds].sort(() => Math.random() - 0.5);
+    const shuffled = Object.keys(entriesRef.current).sort(() => Math.random() - 0.5);
     setQueue(shuffled);
     setCurrentIndex(0);
     setVotes({});
+    setQuestionTime(null);
     setStatus(ActivityStatus.SPOTLIGHTING);
     onPhaseChange?.('spotlighting');
   }, [onPhaseChange]);
 
-  const revealLie = useCallback(
-    async (lieIdx: number) => {
-      const q = queueRef.current;
-      const idx = currentIndexRef.current;
-      const featuredClientId = q[idx];
-      const entry = entriesRef.current[featuredClientId];
-      if (!entry) return;
+  const revealLie = useCallback(async (lieIdx: number) => {
+    const featured = queueRef.current[currentIndexRef.current];
+    const entry = entriesRef.current[featured];
+    if (!entry) return;
+    setEntries((prev) => ({ ...prev, [featured]: { ...prev[featured], lieIndex: lieIdx } }));
+    setQuestionTime(null);
+    setStatus(ActivityStatus.REVEALING);
+    onPhaseChange?.('revealing');
 
-      setEntries((prev) => ({
-        ...prev,
-        [featuredClientId]: { ...prev[featuredClientId], lieIndex: lieIdx },
-      }));
-
-      setStatus(ActivityStatus.REVEALING);
-      onPhaseChange?.('revealing');
-
-      const promptIdx = promptIndexRef.current;
-      promptIndexRef.current += 1;
-
-      // Score featured student (participation)
-      if (onScore) {
-        await onScore({
-          studentId: null,
-          clientId: featuredClientId,
-          displayName: entry.displayName,
-          promptIndex: promptIdx,
-          points: 5,
-          isCorrect: null,
-          outcome: 'on-task',
-        });
-      }
-
-      // Score voters
-      const currentVotes = Object.values(votesRef.current);
-      for (const v of currentVotes) {
-        const correct = v.choiceIndex === lieIdx;
-        if (onScore) {
-          await onScore({
-            studentId: v.studentId ?? null,
-            clientId: v.clientId,
-            displayName: v.displayName,
-            promptIndex: promptIdx,
-            points: correct ? 10 : 3,
-            isCorrect: correct,
-          });
-        }
-      }
-    },
-    [onScore, onPhaseChange],
-  );
+    const promptIdx = promptIndexRef.current++;
+    const all = Object.values(votesRef.current);
+    const fooled = all.filter((v) => v.choiceIndex !== lieIdx).length;
+    // The storyteller scores for taking part plus every classmate they fooled.
+    await onScore?.({ studentId: null, clientId: featured, displayName: entry.displayName, promptIndex: promptIdx, points: POINTS_FEATURED + fooled * POINTS_PER_FOOLED, isCorrect: null, outcome: 'on-task' });
+    for (const v of all) {
+      const correct = v.choiceIndex === lieIdx;
+      await onScore?.({ studentId: v.studentId ?? null, clientId: v.clientId, displayName: v.displayName, promptIndex: promptIdx, points: correct ? POINTS_RIGHT : POINTS_TRIED, isCorrect: correct });
+    }
+  }, [onScore, onPhaseChange]);
 
   const nextStudent = useCallback(() => {
-    const q = queueRef.current;
     const nextIdx = currentIndexRef.current + 1;
-
-    if (nextIdx >= q.length) {
+    if (nextIdx >= queueRef.current.length) {
       setStatus(ActivityStatus.FINISHED);
       onPhaseChange?.('finished');
     } else {
       setCurrentIndex(nextIdx);
       setVotes({});
+      setQuestionTime(null);
       setStatus(ActivityStatus.SPOTLIGHTING);
       onPhaseChange?.('spotlighting');
     }
@@ -225,323 +177,149 @@ export function TwoTruthsAndALieActivity({
   const submittedCount = Object.keys(entries).length;
   const expectedCount = students.length || submittedCount;
 
-  // ─── IDLE ────────────────────────────────────────────────────────────────
+  const Header = () => (
+    <div className="flex items-center justify-between">
+      <KitLabel tone="violet">Two Truths &amp; a Lie</KitLabel>
+      {queue.length > 0 && status !== ActivityStatus.COLLECTING && status !== ActivityStatus.FINISHED && <KitReadout>{currentIndex + 1} of {queue.length}</KitReadout>}
+    </div>
+  );
+
+  // ─── IDLE ───
   if (status === ActivityStatus.IDLE) {
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="text-center py-12"
-      >
-        <p className="text-xl mb-2 opacity-90">Two Truths & a Lie</p>
-        <p className="opacity-60 text-sm mb-8 max-w-sm mx-auto">
-          Every student writes 3 sentences — 2 true, 1 lie. The class guesses the lie, then the
-          student reveals.
-        </p>
-        <button
-          onClick={startCollecting}
-          className="px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
-        >
-          START
-        </button>
-      </motion.div>
+      <div className="mx-auto max-w-3xl space-y-5 py-6 text-center text-white">
+        <p className="font-display text-5xl">Two truths and a lie.</p>
+        <p className="mx-auto max-w-xl text-lg text-white/70">Everyone writes two true things about themselves and one lie on their phone. Then each person takes the spotlight: the class asks questions, votes, and the lie is revealed.</p>
+        <div className="flex justify-center">
+          <KitButton tone="violet" solid onClick={startCollecting} className="!px-8 !py-3 !text-base" icon={<Sparkles className="h-4 w-4" />}>Start writing</KitButton>
+        </div>
+      </div>
     );
   }
 
-  // ─── COLLECTING ──────────────────────────────────────────────────────────
+  // ─── COLLECTING ───
   if (status === ActivityStatus.COLLECTING) {
     return (
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold text-violet-400">Collecting Statements</h3>
-          <span className="text-sm opacity-60">
-            {submittedCount} / {expectedCount} submitted
-          </span>
+      <div className="mx-auto max-w-3xl space-y-5 text-white">
+        <Header />
+        <p className="text-center font-display text-4xl">Write on your phone</p>
+        <p className="text-center text-lg text-white/70">Two true sentences, one lie. Make the lie believable!</p>
+        <div className="h-2.5 overflow-hidden rounded-full bg-white/10">
+          <motion.div className="h-full bg-violet-400" animate={{ width: expectedCount ? `${(submittedCount / expectedCount) * 100}%` : '0%' }} />
+        </div>
+        <div className="flex flex-wrap justify-center gap-2">
+          {Object.values(entries).map((e) => (
+            <motion.span key={e.clientId} initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex items-center gap-1.5 rounded-full border border-violet-300/40 bg-violet-400/10 py-1 pl-1 pr-3 text-sm">
+              <CrewAvatar seed={avatarOf(e.clientId)} name={e.displayName} size={24} />{e.displayName}<Check className="h-3.5 w-3.5 text-emerald-300" />
+            </motion.span>
+          ))}
+          {submittedCount === 0 && <p className="text-sm text-white/45">Waiting for the first one…</p>}
+        </div>
+        <div className="flex items-center justify-center gap-3">
+          <KitReadout>{submittedCount} / {expectedCount} ready</KitReadout>
+          <KitButton tone="violet" solid disabled={submittedCount === 0} onClick={startSpotlight} className="!px-6 !py-2.5 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>Start the spotlight</KitButton>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── SPOTLIGHTING (votes hidden until the reveal) ───
+  if (status === ActivityStatus.SPOTLIGHTING && currentEntry) {
+    const totalVotes = Object.keys(votes).length;
+    return (
+      <div className="mx-auto max-w-3xl space-y-5 text-white">
+        <Header />
+        <div className="flex items-center justify-center gap-3">
+          <CrewAvatar seed={avatarOf(currentEntry.clientId)} name={currentEntry.displayName} size={56} />
+          <p className="font-display text-5xl">{currentEntry.displayName}</p>
+        </div>
+        <div className="space-y-2.5">
+          {currentEntry.statements.map((stmt, i) => (
+            <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.12 }} className="flex items-start gap-4 rounded-2xl border border-white/12 bg-slate-950/45 px-5 py-4">
+              <span className="font-display text-3xl text-violet-300">{i + 1}</span>
+              <p className="pt-1 text-2xl leading-snug">{stmt}</p>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Progress bar */}
-        <div className="w-full bg-white/10 rounded-full h-2">
-          <motion.div
-            className="h-2 bg-gradient-to-r from-violet-500 to-purple-500 rounded-full"
-            animate={{ width: expectedCount > 0 ? `${(submittedCount / expectedCount) * 100}%` : '0%' }}
-            transition={{ duration: 0.4 }}
-          />
-        </div>
-
-        {/* Submitted list */}
-        {submittedCount > 0 ? (
-          <div className="space-y-2">
-            {Object.values(entries).map((e) => (
-              <motion.div
-                key={e.clientId}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="glass p-3 rounded-xl border border-violet-500/40 flex items-center gap-3"
-              >
-                <div className="w-7 h-7 rounded-full bg-violet-500 flex items-center justify-center text-sm font-bold shrink-0">
-                  {e.displayName.charAt(0).toUpperCase()}
-                </div>
-                <p className="text-sm font-semibold">{e.displayName}</p>
-                <span className="ml-auto text-xs text-violet-400">✓ ready</span>
-              </motion.div>
-            ))}
+        {questionTime !== null && (
+          <div className="rounded-2xl border border-amber-300/35 bg-amber-300/[0.07] p-4 text-center">
+            <p className="flex items-center justify-center gap-2 font-display text-2xl"><MessageCircleQuestion className="h-6 w-6 text-amber-300" />Question time: ask {currentEntry.displayName} anything!</p>
+            <p className="mt-1 text-white/70">&ldquo;When did you…?&rdquo; &ldquo;Where was that?&rdquo; &ldquo;Who were you with?&rdquo;</p>
+            <p className={`mt-2 font-mono text-2xl ${questionTime <= 10 ? 'text-rose-300' : ''}`}><Clock className="mr-1 inline h-5 w-5 opacity-60" />{questionTime}s</p>
           </div>
-        ) : (
-          <p className="text-center opacity-40 text-sm py-6">
-            Waiting for students to submit their statements…
-          </p>
         )}
 
-        <div className="flex justify-center pt-2">
-          <button
-            onClick={startSpotlight}
-            disabled={submittedCount === 0}
-            className="px-8 py-4 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
-          >
-            START SPOTLIGHT
-          </button>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-3">
+            <p className="font-display text-3xl">{totalVotes}<span className="text-lg text-white/50"> voted</span></p>
+            {questionTime === null && <KitButton tone="amber" onClick={() => setQuestionTime(QUESTION_SECONDS)} icon={<MessageCircleQuestion className="h-3.5 w-3.5" />}>Question time</KitButton>}
+          </div>
+          {currentEntry.secretLie !== null ? (
+            <KitButton tone="violet" solid onClick={() => void revealLie(currentEntry.secretLie!)} className="!px-6 !py-2.5 !text-sm" icon={<Sparkles className="h-4 w-4" />}>Reveal the lie</KitButton>
+          ) : (
+            // Old-style answers (no lie marked): ask the student, then tap it.
+            <div className="flex items-center gap-1.5">
+              <span className="text-sm text-white/55">Ask {currentEntry.displayName}, then tap the lie:</span>
+              {[0, 1, 2].map((i) => <KitButton key={i} tone="rose" onClick={() => void revealLie(i)}>{i + 1}</KitButton>)}
+            </div>
+          )}
         </div>
       </div>
     );
   }
 
-  // ─── SPOTLIGHTING ────────────────────────────────────────────────────────
-  if (status === ActivityStatus.SPOTLIGHTING && currentEntry) {
-    const voteList = Object.values(votes);
-    const voteCounts = [0, 1, 2].map(
-      (i) => voteList.filter((v) => v.choiceIndex === i).length,
-    );
-    const totalVotes = voteList.length;
-
-    return (
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold text-violet-400">Spotlight</h3>
-          <span className="text-sm opacity-60">
-            {currentIndex + 1} / {queue.length}
-          </span>
-        </div>
-
-        {/* Featured student */}
-        <div className="text-center py-4">
-          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-2xl font-bold mx-auto mb-2">
-            {currentEntry.displayName.charAt(0).toUpperCase()}
-          </div>
-          <p className="text-xl font-semibold">{currentEntry.displayName}</p>
-          <p className="text-xs opacity-50 mt-1">Which statement is the lie?</p>
-        </div>
-
-        {/* Statements */}
-        <div className="space-y-3">
-          {currentEntry.statements.map((stmt, i) => {
-            const count = voteCounts[i];
-            const pct = totalVotes > 0 ? (count / totalVotes) * 100 : 0;
-            const voters = voteList.filter((v) => v.choiceIndex === i);
-
-            return (
-              <div
-                key={i}
-                className="glass p-4 rounded-2xl border-2 border-white/10 space-y-2"
-              >
-                <div className="flex items-start gap-3">
-                  <span className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center font-bold text-sm shrink-0">
-                    {i + 1}
-                  </span>
-                  <p className="flex-1">{stmt}</p>
-                </div>
-
-                {totalVotes > 0 && (
-                  <div className="ml-10">
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className="flex-1 bg-white/10 rounded-full h-1.5">
-                        <motion.div
-                          className="h-1.5 bg-violet-500 rounded-full"
-                          animate={{ width: `${pct}%` }}
-                          transition={{ duration: 0.3 }}
-                        />
-                      </div>
-                      <span className="text-xs font-bold text-violet-300 w-6 text-right">
-                        {count}
-                      </span>
-                    </div>
-                    {voters.length > 0 && (
-                      <div className="flex flex-wrap gap-1">
-                        {voters.map((v) => (
-                          <span
-                            key={v.clientId}
-                            className="text-xs bg-violet-500/20 border border-violet-500/30 px-2 py-0.5 rounded-full"
-                          >
-                            {v.displayName}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Reveal buttons */}
-        <div className="glass p-4 rounded-xl space-y-2">
-          <p className="text-xs opacity-50 uppercase tracking-widest mb-3">
-            Tap the lie to reveal
-          </p>
-          <div className="flex gap-2">
-            {currentEntry.statements.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => revealLie(i)}
-                className="flex-1 py-3 bg-red-500/20 hover:bg-red-500/40 border border-red-500/40 rounded-xl font-bold text-red-300 transition-all hover:scale-105 active:scale-95"
-              >
-                {i + 1} is the lie
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="text-center text-xs opacity-40">
-          {totalVotes} vote{totalVotes !== 1 ? 's' : ''} cast
-        </div>
-      </div>
-    );
-  }
-
-  // ─── REVEALING ───────────────────────────────────────────────────────────
+  // ─── REVEALING ───
   if (status === ActivityStatus.REVEALING && currentEntry && currentEntry.lieIndex !== null) {
     const lieIdx = currentEntry.lieIndex;
     const voteList = Object.values(votes);
-    const correctVoters = voteList.filter((v) => v.choiceIndex === lieIdx);
-    const wrongVoters = voteList.filter((v) => v.choiceIndex !== lieIdx);
-
+    const counts = [0, 1, 2].map((i) => voteList.filter((v) => v.choiceIndex === i).length);
+    const right = voteList.filter((v) => v.choiceIndex === lieIdx);
+    const fooled = voteList.length - right.length;
     return (
-      <AnimatePresence mode="wait">
-        <motion.div
-          key="reveal"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="space-y-6"
-        >
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-semibold text-violet-400">Reveal</h3>
-            <span className="text-sm opacity-60">
-              {currentIndex + 1} / {queue.length}
-            </span>
-          </div>
-
-          <div className="text-center">
-            <p className="text-lg font-semibold">{currentEntry.displayName}</p>
-          </div>
-
-          <div className="space-y-3">
-            {currentEntry.statements.map((stmt, i) => {
-              const isLie = i === lieIdx;
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.15 }}
-                  className={`glass p-4 rounded-2xl border-2 ${
-                    isLie
-                      ? 'border-red-500 bg-red-500/10'
-                      : 'border-green-500 bg-green-500/10'
-                  }`}
-                >
-                  <div className="flex items-start gap-3">
-                    <span
-                      className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
-                        isLie ? 'bg-red-500' : 'bg-green-500'
-                      }`}
-                    >
-                      {isLie ? (
-                        <XCircle className="w-4 h-4 text-white" />
-                      ) : (
-                        <CheckCircle className="w-4 h-4 text-white" />
-                      )}
-                    </span>
-                    <div className="flex-1">
-                      <p>{stmt}</p>
-                      <p
-                        className={`text-xs font-bold mt-1 ${
-                          isLie ? 'text-red-400' : 'text-green-400'
-                        }`}
-                      >
-                        {isLie ? 'THE LIE' : 'TRUE'}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Score summary */}
-          {voteList.length > 0 && (
-            <div className="glass p-4 rounded-xl space-y-2">
-              {correctVoters.length > 0 && (
-                <div className="flex items-center gap-2">
-                  <span className="text-green-400 font-bold text-sm">+10</span>
-                  <span className="text-xs opacity-70">
-                    {correctVoters.map((v) => v.displayName).join(', ')} got it right
-                  </span>
+      <div className="mx-auto max-w-3xl space-y-5 text-white">
+        <Header />
+        <div className="flex items-center justify-center gap-3">
+          <CrewAvatar seed={avatarOf(currentEntry.clientId)} name={currentEntry.displayName} size={48} />
+          <p className="font-display text-4xl">{currentEntry.displayName}</p>
+        </div>
+        <div className="space-y-2.5">
+          {currentEntry.statements.map((stmt, i) => {
+            const isLie = i === lieIdx;
+            return (
+              <motion.div key={i} initial={{ opacity: 0.4, scale: 0.98 }} animate={{ opacity: 1, scale: isLie ? 1.02 : 1 }} transition={{ delay: 0.25 + i * 0.25 }} className={`flex items-start gap-4 rounded-2xl border-2 px-5 py-4 ${isLie ? 'border-rose-300/70 bg-rose-400/10' : 'border-emerald-300/40 bg-emerald-400/[0.06]'}`}>
+                {isLie ? <X className="mt-1 h-7 w-7 shrink-0 text-rose-300" /> : <Check className="mt-1 h-7 w-7 shrink-0 text-emerald-300" />}
+                <div className="flex-1">
+                  <p className={`text-2xl leading-snug ${isLie ? 'line-through decoration-rose-300/70' : ''}`}>{stmt}</p>
+                  <p className={`mt-1 font-mono text-xs uppercase tracking-[0.14em] ${isLie ? 'text-rose-300' : 'text-emerald-300'}`}>{isLie ? 'The lie' : 'True'} · {counts[i]} vote{counts[i] === 1 ? '' : 's'}</p>
                 </div>
-              )}
-              {wrongVoters.length > 0 && (
-                <div className="flex items-center gap-2">
-                  <span className="text-white/40 font-bold text-sm">+3</span>
-                  <span className="text-xs opacity-50">
-                    {wrongVoters.map((v) => v.displayName).join(', ')} fooled
-                  </span>
-                </div>
-              )}
-              <div className="flex items-center gap-2">
-                <span className="text-violet-400 font-bold text-sm">+5</span>
-                <span className="text-xs opacity-70">{currentEntry.displayName} participated</span>
-              </div>
-            </div>
-          )}
-
-          <div className="flex justify-center">
-            <button
-              onClick={nextStudent}
-              className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              {currentIndex + 1 < queue.length ? (
-                <>
-                  Next Student <ChevronRight className="w-5 h-5" />
-                </>
-              ) : (
-                'FINISH'
-              )}
-            </button>
-          </div>
+              </motion.div>
+            );
+          })}
+        </div>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="space-y-3 text-center">
+          <p className="font-display text-3xl">{fooled > 0 ? `${currentEntry.displayName} fooled ${fooled}!` : voteList.length ? 'Nobody was fooled!' : ''}</p>
+          {right.length > 0 && <p className="text-white/70">Spotted it: {right.map((v) => v.displayName).join(', ')}</p>}
+          <p className="text-lg text-amber-100">{currentEntry.displayName}, what&apos;s the real story?</p>
         </motion.div>
-      </AnimatePresence>
+        <div className="flex justify-center">
+          <KitButton tone="violet" solid onClick={nextStudent} className="!px-6 !py-2.5 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>
+            {currentIndex + 1 < queue.length ? 'Next storyteller' : 'Finish'}
+          </KitButton>
+        </div>
+      </div>
     );
   }
 
-  // ─── FINISHED ────────────────────────────────────────────────────────────
+  // ─── FINISHED ───
   if (status === ActivityStatus.FINISHED) {
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="text-center py-12"
-      >
-        <Users className="w-12 h-12 text-violet-400 mx-auto mb-4" />
-        <p className="text-2xl font-game text-violet-400 mb-2">Everyone&apos;s a storyteller!</p>
-        <p className="opacity-60 mb-8">
-          {queue.length} student{queue.length !== 1 ? 's' : ''} in the spotlight
-        </p>
-        <button
-          onClick={restart}
-          className="px-8 py-4 glass hover:bg-white/10 rounded-xl font-game text-lg transition-all border border-white/20"
-        >
-          PLAY AGAIN
-        </button>
-      </motion.div>
+      <div className="mx-auto max-w-3xl space-y-4 py-10 text-center text-white">
+        <Users className="mx-auto h-10 w-10 text-violet-300" />
+        <p className="font-display text-5xl">Everyone&apos;s a storyteller!</p>
+        <p className="text-white/65">{queue.length} student{queue.length !== 1 ? 's' : ''} in the spotlight</p>
+        <KitButton className="mx-auto" onClick={restart}>Play again</KitButton>
+      </div>
     );
   }
 

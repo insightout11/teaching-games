@@ -15,6 +15,7 @@ import { CargoVoteInput } from './cargo-vote-input';
 import { ConversationRoundsPanel } from './conversation-rounds-panel';
 import { TabooSprintPanel } from './taboo-sprint-panel';
 import { DefendItPanel } from './defend-it-panel';
+import { TwoTruthsWriter } from './two-truths-writer';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -41,6 +42,7 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
     case 'text':
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clockOffsetMs={clockOffsetMs} />;
     case 'textarea':
+      if (spec.gameKey === 'two-truths-and-a-lie') return <TwoTruthsWriter spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus ?? 'idle'} />;
       return <TextareaInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} clockOffsetMs={clockOffsetMs} />;
     case 'choice':
       if (spec.timerSeconds) {
