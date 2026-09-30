@@ -65,3 +65,10 @@
 - `npx tsx scripts/validate-city-packs.ts --batch 9` passes: 45 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
 - Review flags: European Portuguese (Lisbon), Irish English (Dublin), Wolof (Dakar), Brazilian Portuguese (Recife), and Panamanian Spanish (Panama City).
 - Commit: pending validation and commit.
+
+## Batch 10 — Santiago, Addis Ababa, Delhi, Manila, Ho Chi Minh City
+
+- Added five packs and 25 souvenirs, each with the required reward mix.
+- `npx tsx scripts/validate-city-packs.ts --batch 10` passes: 50 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
+- Review flags: Chilean Spanish (Santiago), Amharic transliteration (Addis Ababa), Hindi and Delhi language-community fit (Delhi), Filipino usage (Manila), and Vietnamese tones/diacritics (Ho Chi Minh City).
+- Commit: pending validation and commit.
