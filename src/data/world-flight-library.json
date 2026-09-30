@@ -22,7 +22,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "See how artists and businesses reuse old spaces instead of flattening local character.",
-    "summary": "This VICE Asia short follows Bangkok creatives who work with older buildings, local streets, and neighborhood memory. The video gives students a concrete way to discuss whether development should always mean new construction. Students can identify the speakers' reasons for preserving local character, compare creative districts with shopping malls, and decide what makes a neighborhood feel alive."
+    "summary": "This VICE Asia short follows Bangkok creatives who work with older buildings, local streets, and neighborhood memory. The video gives students a concrete way to discuss whether development should always mean new construction. Students can identify the speakers' reasons for preserving local character, compare creative districts with shopping malls, and decide what makes a neighborhood feel alive.",
+    "place": {
+      "name": "Bangkok, Thailand",
+      "lat": 13.7563,
+      "lng": 100.5018
+    }
   },
   {
     "id": "world-flight-bangkok-food-identity-video",
@@ -47,7 +52,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use street food to discuss pride, regulation, tourism, and daily convenience.",
-    "summary": "This short documentary asks how Bangkok's food identity is changing as street food becomes both a local habit and an international image. It raises questions about regulation, embarrassment, pride, convenience, and tourism. Students can compare local food scenes, decide what should be protected, and practice explaining why a dish or eating place matters beyond taste."
+    "summary": "This short documentary asks how Bangkok's food identity is changing as street food becomes both a local habit and an international image. It raises questions about regulation, embarrassment, pride, convenience, and tourism. Students can compare local food scenes, decide what should be protected, and practice explaining why a dish or eating place matters beyond taste.",
+    "place": {
+      "name": "Bangkok, Thailand",
+      "lat": 13.7563,
+      "lng": 100.5018
+    }
   },
   {
     "id": "world-flight-bangkok-river-boats-video",
@@ -72,7 +82,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Learn how Sathorn Pier connects boats, trains, shuttles, landmarks, and commuters.",
-    "summary": "This practical guide uses Sathorn Pier to show how Bangkok's river transport connects with BTS trains, tourist routes, hotel shuttles, and major riverside landmarks. Students can practice giving directions, comparing transport choices, and explaining why water transport is useful in a crowded city."
+    "summary": "This practical guide uses Sathorn Pier to show how Bangkok's river transport connects with BTS trains, tourist routes, hotel shuttles, and major riverside landmarks. Students can practice giving directions, comparing transport choices, and explaining why water transport is useful in a crowded city.",
+    "place": {
+      "name": "Bangkok, Thailand",
+      "lat": 13.7563,
+      "lng": 100.5018
+    }
   },
   {
     "id": "world-flight-tokyo-metro-economics-video",
@@ -97,7 +112,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Compare Tokyo and New York to see how connections, land use, and operations shape a railway.",
-    "summary": "This Wall Street Journal comparison asks why Tokyo's metro can operate profitably while New York's subway requires significant public support. It examines Tokyo's interconnected commuter and subway lines, high ridership, convenient payment cards, frequent service, and the relationship between railway companies and development around stations. Students can identify cause-and-effect claims, compare two transport systems, and debate whether public transit should be judged mainly as a business or as an essential public service."
+    "summary": "This Wall Street Journal comparison asks why Tokyo's metro can operate profitably while New York's subway requires significant public support. It examines Tokyo's interconnected commuter and subway lines, high ridership, convenient payment cards, frequent service, and the relationship between railway companies and development around stations. Students can identify cause-and-effect claims, compare two transport systems, and debate whether public transit should be judged mainly as a business or as an essential public service.",
+    "place": {
+      "name": "Tokyo, Japan",
+      "lat": 35.6762,
+      "lng": 139.6503
+    }
   },
   {
     "id": "world-flight-tokyo-vending-machines-video",
@@ -120,7 +140,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "See why millions of machines fit Japan’s labor market, public spaces, and daily routines.",
-    "summary": "CNN Business explores why vending machines are so common in Japan and how manufacturers keep changing them. The report connects machines with round-the-clock convenience, limited staffing needs, reliable public spaces, and the ability to sell hot and cold products in compact locations. It also looks at factory production and new machine designs. Students can explain why a technology fits a particular society, evaluate convenience against labor and waste concerns, and propose a vending-machine service for their own city."
+    "summary": "CNN Business explores why vending machines are so common in Japan and how manufacturers keep changing them. The report connects machines with round-the-clock convenience, limited staffing needs, reliable public spaces, and the ability to sell hot and cold products in compact locations. It also looks at factory production and new machine designs. Students can explain why a technology fits a particular society, evaluate convenience against labor and waste concerns, and propose a vending-machine service for their own city.",
+    "place": {
+      "name": "Tokyo, Japan",
+      "lat": 35.6762,
+      "lng": 139.6503
+    }
   },
   {
     "id": "world-flight-tokyo-urban-history-video",
@@ -145,7 +170,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace Tokyo from Edo’s waterways through railways, reconstruction, and modern urban planning.",
-    "summary": "This official Tokyo Metropolitan Government short traces the city's development from Edo to the modern metropolis. It explains the importance of roads and waterways, reconstruction after fires and disasters, the arrival of railways and Western technologies, postwar growth, Olympic-era infrastructure, and later urban-renewal plans. Students can build a timeline, identify how problems led to planning changes, and discuss whether a city's identity survives repeated rebuilding."
+    "summary": "This official Tokyo Metropolitan Government short traces the city's development from Edo to the modern metropolis. It explains the importance of roads and waterways, reconstruction after fires and disasters, the arrival of railways and Western technologies, postwar growth, Olympic-era infrastructure, and later urban-renewal plans. Students can build a timeline, identify how problems led to planning changes, and discuss whether a city's identity survives repeated rebuilding.",
+    "place": {
+      "name": "Tokyo, Japan",
+      "lat": 35.6762,
+      "lng": 139.6503
+    }
   },
   {
     "id": "world-flight-seoul-subway-system-video",
@@ -170,7 +200,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use an official transit film to discuss reliability, scale, and public-service language.",
-    "summary": "This official corporate film introduces Seoul subway lines, stations, service goals, and the idea of transport as a public promise. Students can compare the language of public-service branding with the practical needs of commuters, then explain what makes a subway system feel reliable, safe, and easy to use."
+    "summary": "This official corporate film introduces Seoul subway lines, stations, service goals, and the idea of transport as a public promise. Students can compare the language of public-service branding with the practical needs of commuters, then explain what makes a subway system feel reliable, safe, and easy to use.",
+    "place": {
+      "name": "Seoul, South Korea",
+      "lat": 37.5665,
+      "lng": 126.978
+    }
   },
   {
     "id": "world-flight-seoul-gyeongbokgung-video",
@@ -193,7 +228,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Visit a palace site and notice color, ceremony, architecture, and public memory.",
-    "summary": "This short palace visit gives students a quick visual and listening entry point into Gyeongbokgung. The clip works well for lower-level classes because the language is simple and concrete. Students can describe what they see, compare palace behavior with shopping-street behavior, and discuss why historic places remain important in a fast modern city."
+    "summary": "This short palace visit gives students a quick visual and listening entry point into Gyeongbokgung. The clip works well for lower-level classes because the language is simple and concrete. Students can describe what they see, compare palace behavior with shopping-street behavior, and discuss why historic places remain important in a fast modern city.",
+    "place": {
+      "name": "Seoul, South Korea",
+      "lat": 37.5665,
+      "lng": 126.978
+    }
   },
   {
     "id": "world-flight-seoul-korea-history-video",
@@ -217,7 +257,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Build a timeline from early kingdoms to division, rebuilding, and modern South Korea.",
-    "summary": "This fast history overview gives context for Seoul as a capital shaped by kingdoms, invasion, colonization, war, division, industrialization, and global influence. Students can practice timeline language, separate major events from details, and discuss how a capital city carries national memory."
+    "summary": "This fast history overview gives context for Seoul as a capital shaped by kingdoms, invasion, colonization, war, division, industrialization, and global influence. Students can practice timeline language, separate major events from details, and discuss how a capital city carries national memory.",
+    "place": {
+      "name": "Seoul, South Korea",
+      "lat": 37.5665,
+      "lng": 126.978
+    }
   },
   {
     "id": "world-flight-singapore-urban-design-video",
@@ -239,7 +284,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Connect public housing, transit, land scarcity, and planning into one city system.",
-    "summary": "This explainer focuses on Singapore's design logic: limited land, public housing, transport, green space, and government planning. Students can identify linked causes and effects, compare planned and less-planned cities, and debate whether strong planning creates comfort, control, or both."
+    "summary": "This explainer focuses on Singapore's design logic: limited land, public housing, transport, green space, and government planning. Students can identify linked causes and effects, compare planned and less-planned cities, and debate whether strong planning creates comfort, control, or both.",
+    "place": {
+      "name": "Singapore, Singapore",
+      "lat": 1.3521,
+      "lng": 103.8198
+    }
   },
   {
     "id": "world-flight-singapore-hawker-culture-video",
@@ -264,7 +314,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Hear Singaporeans explain why hawker centres are food, memory, and community.",
-    "summary": "This Straits Times short uses hawker dishes and public voices to explain why hawker culture matters in Singapore. Students can practice food vocabulary, identify reasons people value shared eating places, and compare hawker centres with food courts, markets, cafeterias, or street-food areas in other cities."
+    "summary": "This Straits Times short uses hawker dishes and public voices to explain why hawker culture matters in Singapore. Students can practice food vocabulary, identify reasons people value shared eating places, and compare hawker centres with food courts, markets, cafeterias, or street-food areas in other cities.",
+    "place": {
+      "name": "Singapore, Singapore",
+      "lat": 1.3521,
+      "lng": 103.8198
+    }
   },
   {
     "id": "world-flight-singapore-changi-jewel-video",
@@ -287,7 +342,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Look at Jewel Changi and ask why an airport would become a public destination.",
-    "summary": "This Business Insider video explains Jewel Changi as a lifestyle hub with gardens, retail, an indoor waterfall, and airport connectivity. Students can discuss how design changes the stress of travel, whether airports should become destinations, and what services tired passengers actually need."
+    "summary": "This Business Insider video explains Jewel Changi as a lifestyle hub with gardens, retail, an indoor waterfall, and airport connectivity. Students can discuss how design changes the stress of travel, whether airports should become destinations, and what services tired passengers actually need.",
+    "place": {
+      "name": "Singapore, Singapore",
+      "lat": 1.3521,
+      "lng": 103.8198
+    }
   },
   {
     "id": "world-flight-paris-city-history-video",
@@ -311,7 +371,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Build a compressed history from early settlement to a global capital.",
-    "summary": "This short history asks students to move beyond postcard Paris. It compresses settlement, power, conflict, planning, and modern identity into a manageable listening task. Students can build a timeline, identify turning points, and discuss how a city becomes a symbol for people who have never visited it."
+    "summary": "This short history asks students to move beyond postcard Paris. It compresses settlement, power, conflict, planning, and modern identity into a manageable listening task. Students can build a timeline, identify turning points, and discuss how a city becomes a symbol for people who have never visited it.",
+    "place": {
+      "name": "Paris, France",
+      "lat": 48.8566,
+      "lng": 2.3522
+    }
   },
   {
     "id": "world-flight-paris-cafe-culture-video",
@@ -334,7 +399,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use a short travel bite to discuss conversation, time, and people-watching.",
-    "summary": "This quick cafe segment gives students a simple, concrete entry into Paris public life. It works well for speaking practice because students can describe atmosphere, compare cafe routines, and decide whether a cafe is mainly a business, a social space, a workplace, or a place to slow down."
+    "summary": "This quick cafe segment gives students a simple, concrete entry into Paris public life. It works well for speaking practice because students can describe atmosphere, compare cafe routines, and decide whether a cafe is mainly a business, a social space, a workplace, or a place to slow down.",
+    "place": {
+      "name": "Paris, France",
+      "lat": 48.8566,
+      "lng": 2.3522
+    }
   },
   {
     "id": "world-flight-paris-louvre-history-video",
@@ -359,7 +429,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace the Louvre from medieval fortress to royal palace to public museum.",
-    "summary": "This official Louvre video shows how the building changed from fortress to palace to museum. Students can track how architecture reflects political power, public access, and cultural memory. The short length also makes it useful before a discussion on who museums are for."
+    "summary": "This official Louvre video shows how the building changed from fortress to palace to museum. Students can track how architecture reflects political power, public access, and cultural memory. The short length also makes it useful before a discussion on who museums are for.",
+    "place": {
+      "name": "Paris, France",
+      "lat": 48.8566,
+      "lng": 2.3522
+    }
   },
   {
     "id": "world-flight-london-sightseeing-english-video",
@@ -382,7 +457,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use an A1-A2 city tour to practice landmarks, numbers, and short descriptions.",
-    "summary": "This simple London sightseeing video is useful for lower-level classes because the language is clear, short, and landmark-based. Students can practice describing what they see, asking basic travel questions, and building a simple route through the city."
+    "summary": "This simple London sightseeing video is useful for lower-level classes because the language is clear, short, and landmark-based. Students can practice describing what they see, asking basic travel questions, and building a simple route through the city.",
+    "place": {
+      "name": "London, United Kingdom",
+      "lat": 51.5072,
+      "lng": -0.1276
+    }
   },
   {
     "id": "world-flight-london-tube-engineering-video",
@@ -407,7 +487,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Look inside the Tube as an engineering system, not only a famous map.",
-    "summary": "This National Geographic short turns the London Underground into a systems topic. Students can listen for engineering details, compare underground and surface transport, and discuss why old infrastructure needs constant adaptation in a modern city."
+    "summary": "This National Geographic short turns the London Underground into a systems topic. Students can listen for engineering details, compare underground and surface transport, and discuss why old infrastructure needs constant adaptation in a modern city.",
+    "place": {
+      "name": "London, United Kingdom",
+      "lat": 51.5072,
+      "lng": -0.1276
+    }
   },
   {
     "id": "world-flight-london-chinatown-restaurant-video",
@@ -432,7 +517,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Meet a long-time restaurant owner and discuss work, migration, and local memory.",
-    "summary": "This short documentary centers on a restaurant owner and the routines behind a neighborhood food business. It gives students a human story for discussing migration, family work, local memory, and how food businesses become part of a city's identity."
+    "summary": "This short documentary centers on a restaurant owner and the routines behind a neighborhood food business. It gives students a human story for discussing migration, family work, local memory, and how food businesses become part of a city's identity.",
+    "place": {
+      "name": "London, United Kingdom",
+      "lat": 51.5072,
+      "lng": -0.1276
+    }
   },
   {
     "id": "world-flight-new-york-ellis-island-video",
@@ -456,7 +546,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Learn why Ellis Island became a symbol of arrival, hope, inspection, and anxiety.",
-    "summary": "This HISTORY short explains Ellis Island as a major immigration gateway in New York Harbor. Students can listen for numbers, procedures, emotions, and symbols, then discuss why a place of inspection could also become a place of hope and family memory."
+    "summary": "This HISTORY short explains Ellis Island as a major immigration gateway in New York Harbor. Students can listen for numbers, procedures, emotions, and symbols, then discuss why a place of inspection could also become a place of hope and family memory.",
+    "place": {
+      "name": "New York, United States",
+      "lat": 40.7128,
+      "lng": -74.006
+    }
   },
   {
     "id": "world-flight-new-york-subway-building-video",
@@ -481,7 +576,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use early subway construction to discuss speed, electricity, and city growth.",
-    "summary": "This short history of New York subway construction introduces students to promises of speed, electric transport, tunnels, and the relationship between infrastructure and city growth. Students can compare early subway ambitions with modern complaints about transit reliability."
+    "summary": "This short history of New York subway construction introduces students to promises of speed, electric transport, tunnels, and the relationship between infrastructure and city growth. Students can compare early subway ambitions with modern complaints about transit reliability.",
+    "place": {
+      "name": "New York, United States",
+      "lat": 40.7128,
+      "lng": -74.006
+    }
   },
   {
     "id": "world-flight-new-york-street-vendors-video",
@@ -504,7 +604,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Hear vendors explain work, flavor, permits, and belonging on city sidewalks.",
-    "summary": "This short documentary presents New York street vendors as workers and community members, not just background city scenery. Students can identify arguments about permits, opportunity, food, and fairness, then compare street vending with markets or food stalls in other cities."
+    "summary": "This short documentary presents New York street vendors as workers and community members, not just background city scenery. Students can identify arguments about permits, opportunity, food, and fairness, then compare street vending with markets or food stalls in other cities.",
+    "place": {
+      "name": "New York, United States",
+      "lat": 40.7128,
+      "lng": -74.006
+    }
   },
   {
     "id": "world-flight-cairo-ancient-egypt-video",
@@ -528,7 +633,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a NatGeo overview to connect pyramids, pharaohs, religion, writing, and empire.",
-    "summary": "This National Geographic overview gives students a compact introduction to ancient Egyptian civilization. It covers long timelines, powerful rulers, monuments, writing, religion, and cultural legacy. Students can separate ancient history from modern Cairo and discuss why ancient symbols still shape how many visitors imagine Egypt."
+    "summary": "This National Geographic overview gives students a compact introduction to ancient Egyptian civilization. It covers long timelines, powerful rulers, monuments, writing, religion, and cultural legacy. Students can separate ancient history from modern Cairo and discuss why ancient symbols still shape how many visitors imagine Egypt.",
+    "place": {
+      "name": "Cairo, Egypt",
+      "lat": 30.0444,
+      "lng": 31.2357
+    }
   },
   {
     "id": "world-flight-cairo-nile-explainer-video",
@@ -550,7 +660,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Understand why measuring and depending on a river is more complicated than it sounds.",
-    "summary": "This short Nile explainer introduces students to river length, geography, and why the Nile matters beyond a map label. It works well as a springboard for discussing water, farming, settlement, transport, and why many people can depend on the same river in different ways."
+    "summary": "This short Nile explainer introduces students to river length, geography, and why the Nile matters beyond a map label. It works well as a springboard for discussing water, farming, settlement, transport, and why many people can depend on the same river in different ways.",
+    "place": {
+      "name": "Cairo, Egypt",
+      "lat": 30.0444,
+      "lng": 31.2357
+    }
   },
   {
     "id": "world-flight-cairo-food-tour-video",
@@ -575,7 +690,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Follow a BBC Travel Show food segment and discuss how food changes a travel story.",
-    "summary": "This BBC Travel Show segment moves attention from ancient-history tourism toward food and daily city experience. Students can compare what visitors expect from Egypt with what local food tours reveal about neighborhoods, taste, hospitality, and modern urban life."
+    "summary": "This BBC Travel Show segment moves attention from ancient-history tourism toward food and daily city experience. Students can compare what visitors expect from Egypt with what local food tours reveal about neighborhoods, taste, hospitality, and modern urban life.",
+    "place": {
+      "name": "Cairo, Egypt",
+      "lat": 30.0444,
+      "lng": 31.2357
+    }
   },
   {
     "id": "world-flight-dubai-airport-history-video",
@@ -599,7 +719,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use Dubai Airports history to discuss hubs, ambition, and global movement.",
-    "summary": "This Dubai Airports short frames airport growth as a story of ambition, connectivity, and global movement. Students can listen for institutional storytelling, practice airport vocabulary, and discuss why some cities become major transfer hubs between regions."
+    "summary": "This Dubai Airports short frames airport growth as a story of ambition, connectivity, and global movement. Students can listen for institutional storytelling, practice airport vocabulary, and discuss why some cities become major transfer hubs between regions.",
+    "place": {
+      "name": "Dubai, United Arab Emirates",
+      "lat": 25.2048,
+      "lng": 55.2708
+    }
   },
   {
     "id": "world-flight-dubai-metro-route-2020-video",
@@ -624,7 +749,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Follow the Route 2020 story and discuss public transport in a car-oriented region.",
-    "summary": "This Roads and Transport Authority video connects the Dubai Metro to ambition, Expo-era planning, and the belief that rail can shape a future city. Students can compare metro investment with highways, taxis, and airport links, then discuss what public transport must do in extreme heat."
+    "summary": "This Roads and Transport Authority video connects the Dubai Metro to ambition, Expo-era planning, and the belief that rail can shape a future city. Students can compare metro investment with highways, taxis, and airport links, then discuss what public transport must do in extreme heat.",
+    "place": {
+      "name": "Dubai, United Arab Emirates",
+      "lat": 25.2048,
+      "lng": 55.2708
+    }
   },
   {
     "id": "world-flight-dubai-dubai-history-video",
@@ -648,7 +778,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Trace how trade, oil, ports, airlines, tourism, and finance reshaped Dubai.",
-    "summary": "This short history overview gives students a compressed explanation of Dubai's growth from a trading settlement to a global city. It supports discussion about ports, oil revenue, aviation, tourism, finance, real estate, and city branding."
+    "summary": "This short history overview gives students a compressed explanation of Dubai's growth from a trading settlement to a global city. It supports discussion about ports, oil revenue, aviation, tourism, finance, real estate, and city branding.",
+    "place": {
+      "name": "Dubai, United Arab Emirates",
+      "lat": 25.2048,
+      "lng": 55.2708
+    }
   },
   {
     "id": "world-flight-sydney-harbour-ecology-video",
@@ -671,7 +806,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use an ABC News short to discuss hidden marine life below a famous view.",
-    "summary": "This ABC News segment asks what people really know about life beneath Sydney Harbour. Students can contrast famous surface views with hidden ecosystems, discuss how cities affect water environments, and practice describing nature inside an urban setting."
+    "summary": "This ABC News segment asks what people really know about life beneath Sydney Harbour. Students can contrast famous surface views with hidden ecosystems, discuss how cities affect water environments, and practice describing nature inside an urban setting.",
+    "place": {
+      "name": "Sydney, Australia",
+      "lat": -33.8688,
+      "lng": 151.2093
+    }
   },
   {
     "id": "world-flight-sydney-opera-house-history-video",
@@ -695,7 +835,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Learn why a famous building can be controversial before it becomes beloved.",
-    "summary": "This BBC Global short explains the difficult history behind the Sydney Opera House. Students can discuss why ambitious architecture can create conflict, how public opinion changes over time, and what makes a building become a symbol of a city."
+    "summary": "This BBC Global short explains the difficult history behind the Sydney Opera House. Students can discuss why ambitious architecture can create conflict, how public opinion changes over time, and what makes a building become a symbol of a city.",
+    "place": {
+      "name": "Sydney, Australia",
+      "lat": -33.8688,
+      "lng": 151.2093
+    }
   },
   {
     "id": "world-flight-sydney-city-growth-video",
@@ -720,7 +865,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace geography, harbour access, migration, and growth in a compact city story.",
-    "summary": "This short overview focuses on Sydney's rise as Australia's largest city. Students can identify the role of the harbour, migration, economy, and global image, then compare Sydney with capitals or port cities in other countries."
+    "summary": "This short overview focuses on Sydney's rise as Australia's largest city. Students can identify the role of the harbour, migration, economy, and global image, then compare Sydney with capitals or port cities in other countries.",
+    "place": {
+      "name": "Sydney, Australia",
+      "lat": -33.8688,
+      "lng": 151.2093
+    }
   },
   {
     "id": "world-flight-beijing-city-history-video",
@@ -744,7 +894,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace how Beijing grew into a political and cultural capital.",
-    "summary": "This short city history gives students a compact timeline for Beijing. They can identify dynasties, capital-city functions, and modern growth, then compare Beijing with other political capitals on the route."
+    "summary": "This short city history gives students a compact timeline for Beijing. They can identify dynasties, capital-city functions, and modern growth, then compare Beijing with other political capitals on the route.",
+    "place": {
+      "name": "Beijing, China",
+      "lat": 39.9042,
+      "lng": 116.4074
+    }
   },
   {
     "id": "world-flight-beijing-hutong-culture-video",
@@ -768,7 +923,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use hutong neighborhoods to discuss memory, housing, tourism, and change.",
-    "summary": "This culture video introduces Beijing hutongs as more than narrow lanes. Students can discuss family life, public space, preservation, and what is lost or gained when historic neighborhoods become tourist destinations."
+    "summary": "This culture video introduces Beijing hutongs as more than narrow lanes. Students can discuss family life, public space, preservation, and what is lost or gained when historic neighborhoods become tourist destinations.",
+    "place": {
+      "name": "Beijing, China",
+      "lat": 39.9042,
+      "lng": 116.4074
+    }
   },
   {
     "id": "world-flight-beijing-subway-system-video",
@@ -793,7 +953,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Look at how a huge city uses rail to make daily movement possible.",
-    "summary": "This CGTN segment follows a foreign visitor exploring Beijing's subway. Students can notice ticketing, signs, scale, cleanliness, and passenger flow, then compare it with transit systems in other cities."
+    "summary": "This CGTN segment follows a foreign visitor exploring Beijing's subway. Students can notice ticketing, signs, scale, cleanliness, and passenger flow, then compare it with transit systems in other cities.",
+    "place": {
+      "name": "Beijing, China",
+      "lat": 39.9042,
+      "lng": 116.4074
+    }
   },
   {
     "id": "world-flight-shanghai-towers-temples-food-video",
@@ -818,7 +983,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use a short city visit to notice skyline, old streets, temple space, and local eating.",
-    "summary": "This compact visit moves through Shanghai skyline views, temple streets, and food experiences. It gives younger learners a concrete first look at the city without adding another transport lesson."
+    "summary": "This compact visit moves through Shanghai skyline views, temple streets, and food experiences. It gives younger learners a concrete first look at the city without adding another transport lesson.",
+    "place": {
+      "name": "Shanghai, China",
+      "lat": 31.2304,
+      "lng": 121.4737
+    }
   },
   {
     "id": "world-flight-shanghai-food-culture-shock-video",
@@ -843,7 +1013,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Hear a youth perspective on food, belonging, and cultural adjustment in Shanghai.",
-    "summary": "This TEDx youth talk uses food and personal experience to discuss cultural adjustment. It supports class discussion about belonging, assumptions, and how ordinary meals can carry meaning."
+    "summary": "This TEDx youth talk uses food and personal experience to discuss cultural adjustment. It supports class discussion about belonging, assumptions, and how ordinary meals can carry meaning.",
+    "place": {
+      "name": "Shanghai, China",
+      "lat": 31.2304,
+      "lng": 121.4737
+    }
   },
   {
     "id": "world-flight-shanghai-journey-to-the-west-video",
@@ -868,7 +1043,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Use a classic Chinese story to explore literature, characters, and cultural memory.",
-    "summary": "This short talk introduces Journey to the West through a Shanghai cultural institution. It gives advanced learners a culture-focused option about story, character, translation, and shared memory."
+    "summary": "This short talk introduces Journey to the West through a Shanghai cultural institution. It gives advanced learners a culture-focused option about story, character, translation, and shared memory.",
+    "place": {
+      "name": "Shanghai, China",
+      "lat": 31.2304,
+      "lng": 121.4737
+    }
   },
   {
     "id": "world-flight-berlin-berlin-wall-video",
@@ -892,7 +1072,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Understand why a wall divided a city and why its fall still matters.",
-    "summary": "This explainer introduces the Berlin Wall as a political border inside everyday city life. Students can discuss division, movement, family separation, and why physical barriers can become powerful symbols."
+    "summary": "This explainer introduces the Berlin Wall as a political border inside everyday city life. Students can discuss division, movement, family separation, and why physical barriers can become powerful symbols.",
+    "place": {
+      "name": "Berlin, Germany",
+      "lat": 52.52,
+      "lng": 13.405
+    }
   },
   {
     "id": "world-flight-berlin-public-transport-video",
@@ -917,7 +1102,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use Berlin transit to practice routes, tickets, transfers, and city movement.",
-    "summary": "This visitBerlin video explains public transport basics. Students can practice giving directions, comparing tickets, and describing why reliable transit changes how residents and visitors experience a city."
+    "summary": "This visitBerlin video explains public transport basics. Students can practice giving directions, comparing tickets, and describing why reliable transit changes how residents and visitors experience a city.",
+    "place": {
+      "name": "Berlin, Germany",
+      "lat": 52.52,
+      "lng": 13.405
+    }
   },
   {
     "id": "world-flight-berlin-berlin-blockade-video",
@@ -941,7 +1131,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a short history clip to discuss supply, pressure, and resilience.",
-    "summary": "This compact animation introduces the Berlin Blockade. Students can identify the problem, the actors, and the response, then discuss why air routes mattered when roads and rail were blocked."
+    "summary": "This compact animation introduces the Berlin Blockade. Students can identify the problem, the actors, and the response, then discuss why air routes mattered when roads and rail were blocked.",
+    "place": {
+      "name": "Berlin, Germany",
+      "lat": 52.52,
+      "lng": 13.405
+    }
   },
   {
     "id": "world-flight-moscow-city-history-video",
@@ -965,7 +1160,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace Moscow from settlement to capital and global city.",
-    "summary": "This concise history clip gives students a city-specific timeline for Moscow. They can identify growth, political power, and rebuilding, then compare Moscow with other capitals in Europe and Asia."
+    "summary": "This concise history clip gives students a city-specific timeline for Moscow. They can identify growth, political power, and rebuilding, then compare Moscow with other capitals in Europe and Asia.",
+    "place": {
+      "name": "Moscow, Russia",
+      "lat": 55.7558,
+      "lng": 37.6173
+    }
   },
   {
     "id": "world-flight-moscow-metro-video",
@@ -990,7 +1190,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Explore why a subway can be transport, art, and state image at once.",
-    "summary": "This BBC segment introduces the Moscow Metro as one of the world's busiest and most ornate systems. Students can discuss why stations might be decorated like palaces and how public transport can communicate pride."
+    "summary": "This BBC segment introduces the Moscow Metro as one of the world's busiest and most ornate systems. Students can discuss why stations might be decorated like palaces and how public transport can communicate pride.",
+    "place": {
+      "name": "Moscow, Russia",
+      "lat": 55.7558,
+      "lng": 37.6173
+    }
   },
   {
     "id": "world-flight-moscow-kremlin-red-square-video",
@@ -1013,7 +1218,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a UNESCO clip to examine landmarks, symbolism, and public space.",
-    "summary": "This UNESCO/NHK clip presents the Kremlin and Red Square as a World Heritage site. Students can practice describing landmarks while also asking why some places become symbols of national power."
+    "summary": "This UNESCO/NHK clip presents the Kremlin and Red Square as a World Heritage site. Students can practice describing landmarks while also asking why some places become symbols of national power.",
+    "place": {
+      "name": "Moscow, Russia",
+      "lat": 55.7558,
+      "lng": 37.6173
+    }
   },
   {
     "id": "world-flight-istanbul-constantinople-istanbul-video",
@@ -1037,7 +1247,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a short history video to discuss names, empire, and memory.",
-    "summary": "This History Matters video explains the shift from Constantinople to Istanbul. Students can discuss how names carry memory, conquest, language, and identity, then compare cities with changed names in other countries."
+    "summary": "This History Matters video explains the shift from Constantinople to Istanbul. Students can discuss how names carry memory, conquest, language, and identity, then compare cities with changed names in other countries.",
+    "place": {
+      "name": "Istanbul, Turkey",
+      "lat": 41.0082,
+      "lng": 28.9784
+    }
   },
   {
     "id": "world-flight-istanbul-mosques-architecture-video",
@@ -1061,7 +1276,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Compare religious buildings, architecture, and changing city identity.",
-    "summary": "This BBC clip links Hagia Sophia and Suleymaniye Mosque to Istanbul's layered history. Students can compare form, function, and symbolism while practicing respectful language around religious heritage."
+    "summary": "This BBC clip links Hagia Sophia and Suleymaniye Mosque to Istanbul's layered history. Students can compare form, function, and symbolism while practicing respectful language around religious heritage.",
+    "place": {
+      "name": "Istanbul, Turkey",
+      "lat": 41.0082,
+      "lng": 28.9784
+    }
   },
   {
     "id": "world-flight-istanbul-two-continents-video",
@@ -1083,7 +1303,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use geography to explain movement, trade, ferries, and identity.",
-    "summary": "This city overview focuses on Istanbul as a place between continents. Students can discuss bridges, boats, neighborhoods, and the Bosphorus as both a route and a symbol."
+    "summary": "This city overview focuses on Istanbul as a place between continents. Students can discuss bridges, boats, neighborhoods, and the Bosphorus as both a route and a symbol.",
+    "place": {
+      "name": "Istanbul, Turkey",
+      "lat": 41.0082,
+      "lng": 28.9784
+    }
   },
   {
     "id": "world-flight-vancouver-underground-streams-video",
@@ -1106,7 +1331,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Investigate what happened to Vancouver streams as roads and neighborhoods developed.",
-    "summary": "This CBC short film investigates the streams that once crossed Vancouver and asks what happened when many were buried beneath the growing city. Students can connect maps, urban development, salmon habitat, flooding, and restoration while evaluating whether hidden waterways should be brought back."
+    "summary": "This CBC short film investigates the streams that once crossed Vancouver and asks what happened when many were buried beneath the growing city. Students can connect maps, urban development, salmon habitat, flooding, and restoration while evaluating whether hidden waterways should be brought back.",
+    "place": {
+      "name": "Vancouver, Canada",
+      "lat": 49.2827,
+      "lng": -123.1207
+    }
   },
   {
     "id": "world-flight-vancouver-skytrain-video",
@@ -1131,7 +1361,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Learn how an elevated rail system connects airport, suburbs, and downtown.",
-    "summary": "This practical SkyTrain guide helps students practice transport language: stations, cards, transfers, routes, and arrival. It also opens discussion about why airport links matter for a global city."
+    "summary": "This practical SkyTrain guide helps students practice transport language: stations, cards, transfers, routes, and arrival. It also opens discussion about why airport links matter for a global city.",
+    "place": {
+      "name": "Vancouver, Canada",
+      "lat": 49.2827,
+      "lng": -123.1207
+    }
   },
   {
     "id": "world-flight-vancouver-city-in-nature-video",
@@ -1154,7 +1389,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Look at how parks, trees, mountains, and water shape a city identity.",
-    "summary": "This Destination Vancouver short frames the city through nature. Students can compare Vancouver with cities where nature is distant, hidden, or built into everyday streets and views."
+    "summary": "This Destination Vancouver short frames the city through nature. Students can compare Vancouver with cities where nature is distant, hidden, or built into everyday streets and views.",
+    "place": {
+      "name": "Vancouver, Canada",
+      "lat": 49.2827,
+      "lng": -123.1207
+    }
   },
   {
     "id": "world-flight-toronto-growth-video",
@@ -1179,7 +1419,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Explain how Toronto became a major Canadian and global city.",
-    "summary": "This explainer focuses on Toronto's growth into Canada's largest city. Students can identify immigration, finance, geography, and regional connections, then compare Toronto with other national hubs."
+    "summary": "This explainer focuses on Toronto's growth into Canada's largest city. Students can identify immigration, finance, geography, and regional connections, then compare Toronto with other national hubs.",
+    "place": {
+      "name": "Toronto, Canada",
+      "lat": 43.6532,
+      "lng": -79.3832
+    }
   },
   {
     "id": "world-flight-toronto-public-transit-video",
@@ -1204,7 +1449,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use Toronto transit to discuss route planning, transfers, and urban scale.",
-    "summary": "This short overview introduces public transit in Toronto. Students can practice giving route advice and discuss how transit shapes access to school, work, sports, and neighborhoods."
+    "summary": "This short overview introduces public transit in Toronto. Students can practice giving route advice and discuss how transit shapes access to school, work, sports, and neighborhoods.",
+    "place": {
+      "name": "Toronto, Canada",
+      "lat": 43.6532,
+      "lng": -79.3832
+    }
   },
   {
     "id": "world-flight-toronto-multicultural-video",
@@ -1227,7 +1477,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Discuss identity, immigration, sport, and belonging through soccer fandom.",
-    "summary": "This Al Jazeera segment uses World Cup loyalties to show Toronto's multicultural identity. Students can discuss family roots, national teams, flags, and how sport can reveal layered belonging."
+    "summary": "This Al Jazeera segment uses World Cup loyalties to show Toronto's multicultural identity. Students can discuss family roots, national teams, flags, and how sport can reveal layered belonging.",
+    "place": {
+      "name": "Toronto, Canada",
+      "lat": 43.6532,
+      "lng": -79.3832
+    }
   },
   {
     "id": "world-flight-mumbai-city-history-video",
@@ -1251,7 +1506,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a Britannica short to trace islands, empire, trade, and renaming.",
-    "summary": "This Britannica spotlight gives students a concise history of Mumbai. They can identify port geography, colonial layers, commerce, and the significance of name changes."
+    "summary": "This Britannica spotlight gives students a concise history of Mumbai. They can identify port geography, colonial layers, commerce, and the significance of name changes.",
+    "place": {
+      "name": "Mumbai, India",
+      "lat": 19.076,
+      "lng": 72.8777
+    }
   },
   {
     "id": "world-flight-mumbai-dabbawalas-video",
@@ -1274,7 +1534,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Study a famous lunchbox network built on trust, timing, and codes.",
-    "summary": "This Global News video explains how Mumbai's dabbawalas move lunches through a dense city. Students can discuss coding systems, reliability, teamwork, and why simple tools can be powerful."
+    "summary": "This Global News video explains how Mumbai's dabbawalas move lunches through a dense city. Students can discuss coding systems, reliability, teamwork, and why simple tools can be powerful.",
+    "place": {
+      "name": "Mumbai, India",
+      "lat": 19.076,
+      "lng": 72.8777
+    }
   },
   {
     "id": "world-flight-mumbai-street-food-video",
@@ -1299,7 +1564,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use food to discuss city routines, vendors, taste, and public space.",
-    "summary": "This Great Big Story segment samples Mumbai street foods. Students can practice food description while asking how vendors, commuters, price, and speed shape city eating."
+    "summary": "This Great Big Story segment samples Mumbai street foods. Students can practice food description while asking how vendors, commuters, price, and speed shape city eating.",
+    "place": {
+      "name": "Mumbai, India",
+      "lat": 19.076,
+      "lng": 72.8777
+    }
   },
   {
     "id": "world-flight-cape-town-founded-video",
@@ -1322,7 +1592,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace early colonial settlement and the city around Table Bay.",
-    "summary": "This short history of Cape Town introduces settlement, maritime geography, and colonial growth. Students can discuss why ports attract trade, power, migration, and conflict."
+    "summary": "This short history of Cape Town introduces settlement, maritime geography, and colonial growth. Students can discuss why ports attract trade, power, migration, and conflict.",
+    "place": {
+      "name": "Cape Town, South Africa",
+      "lat": -33.9249,
+      "lng": 18.4241
+    }
   },
   {
     "id": "world-flight-cape-town-table-mountain-video",
@@ -1345,7 +1620,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use the cableway to discuss nature, tourism, weather, and risk.",
-    "summary": "This guide to the Table Mountain cable car helps students practice visitor advice while noticing how weather, views, safety, and access shape a famous natural landmark."
+    "summary": "This guide to the Table Mountain cable car helps students practice visitor advice while noticing how weather, views, safety, and access shape a famous natural landmark.",
+    "place": {
+      "name": "Cape Town, South Africa",
+      "lat": -33.9249,
+      "lng": 18.4241
+    }
   },
   {
     "id": "world-flight-cape-town-water-crisis-video",
@@ -1370,7 +1650,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Examine how residents responded when Day Zero became a real possibility.",
-    "summary": "This National Geographic segment explains Cape Town's water crisis. Students can discuss household limits, fairness, public communication, and how a city changes behavior under pressure."
+    "summary": "This National Geographic segment explains Cape Town's water crisis. Students can discuss household limits, fairness, public communication, and how a city changes behavior under pressure.",
+    "place": {
+      "name": "Cape Town, South Africa",
+      "lat": -33.9249,
+      "lng": 18.4241
+    }
   },
   {
     "id": "world-flight-rome-ancient-rome-video",
@@ -1394,7 +1679,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a National Geographic overview to build a fast ancient-city timeline.",
-    "summary": "This National Geographic overview introduces Ancient Rome in a compact format. Students can identify republic, empire, engineering, law, and public spectacle as pieces of one city story."
+    "summary": "This National Geographic overview introduces Ancient Rome in a compact format. Students can identify republic, empire, engineering, law, and public spectacle as pieces of one city story.",
+    "place": {
+      "name": "Rome, Italy",
+      "lat": 41.9028,
+      "lng": 12.4964
+    }
   },
   {
     "id": "world-flight-rome-colosseum-video",
@@ -1418,7 +1708,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Look at an iconic landmark as engineering, entertainment, and power.",
-    "summary": "This Colosseum video helps students describe a landmark while also asking critical questions about crowds, entertainment, labor, and power in ancient Rome."
+    "summary": "This Colosseum video helps students describe a landmark while also asking critical questions about crowds, entertainment, labor, and power in ancient Rome.",
+    "place": {
+      "name": "Rome, Italy",
+      "lat": 41.9028,
+      "lng": 12.4964
+    }
   },
   {
     "id": "world-flight-rome-food-market-video",
@@ -1443,7 +1738,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use a market clip to discuss fresh food, vendors, and daily routines.",
-    "summary": "This food-market video gives students a practical Rome topic beyond monuments. They can practice asking about ingredients, prices, habits, and what markets reveal about daily life."
+    "summary": "This food-market video gives students a practical Rome topic beyond monuments. They can practice asking about ingredients, prices, habits, and what markets reveal about daily life.",
+    "place": {
+      "name": "Rome, Italy",
+      "lat": 41.9028,
+      "lng": 12.4964
+    }
   },
   {
     "id": "world-flight-rio-de-janeiro-city-history-video",
@@ -1467,7 +1767,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace colonial port, capital city, and global image in one short overview.",
-    "summary": "This CitiesX video introduces Rio's history. Students can discuss ports, capitals, slavery, empire, republic, tourism, and how one city can carry many national images."
+    "summary": "This CitiesX video introduces Rio's history. Students can discuss ports, capitals, slavery, empire, republic, tourism, and how one city can carry many national images.",
+    "place": {
+      "name": "Rio de Janeiro, Brazil",
+      "lat": -22.9068,
+      "lng": -43.1729
+    }
   },
   {
     "id": "world-flight-rio-de-janeiro-favela-history-video",
@@ -1490,7 +1795,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Use a city history topic to discuss housing, inequality, and community.",
-    "summary": "This favela history video helps students move beyond simple images of poverty. They can discuss housing, migration, informal building, community, policing, and representation."
+    "summary": "This favela history video helps students move beyond simple images of poverty. They can discuss housing, migration, informal building, community, policing, and representation.",
+    "place": {
+      "name": "Rio de Janeiro, Brazil",
+      "lat": -22.9068,
+      "lng": -43.1729
+    }
   },
   {
     "id": "world-flight-rio-de-janeiro-carnival-video",
@@ -1515,7 +1825,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use Carnival to discuss performance, preparation, costumes, and shared celebration.",
-    "summary": "This accessible Carnival explainer introduces students to costumes, music, parades, and preparation. It supports simple descriptive language and discussion about why festivals matter."
+    "summary": "This accessible Carnival explainer introduces students to costumes, music, parades, and preparation. It supports simple descriptive language and discussion about why festivals matter.",
+    "place": {
+      "name": "Rio de Janeiro, Brazil",
+      "lat": -22.9068,
+      "lng": -43.1729
+    }
   },
   {
     "id": "world-flight-mexico-city-complex-history-video",
@@ -1539,7 +1854,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a local guide episode to discuss older cities beneath the modern city.",
-    "summary": "This local guide episode introduces Mexico City's complex history. Students can discuss Tenochtitlan, colonial rebuilding, public squares, and why one place can hold many city stories at once."
+    "summary": "This local guide episode introduces Mexico City's complex history. Students can discuss Tenochtitlan, colonial rebuilding, public squares, and why one place can hold many city stories at once.",
+    "place": {
+      "name": "Mexico City, Mexico",
+      "lat": 19.4326,
+      "lng": -99.1332
+    }
   },
   {
     "id": "world-flight-mexico-city-metro-tips-video",
@@ -1564,7 +1884,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use practical transit advice to discuss scale, safety, and movement.",
-    "summary": "This Mexico City Metro guide supports practical language around ticketing, crowds, routes, and etiquette. Students can compare it with other large metro systems in the World Flight map."
+    "summary": "This Mexico City Metro guide supports practical language around ticketing, crowds, routes, and etiquette. Students can compare it with other large metro systems in the World Flight map.",
+    "place": {
+      "name": "Mexico City, Mexico",
+      "lat": 19.4326,
+      "lng": -99.1332
+    }
   },
   {
     "id": "world-flight-mexico-city-street-food-video",
@@ -1589,7 +1914,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use street food to discuss taste, vendors, history, routine, and cultural pride.",
-    "summary": "This Great Big Story feature visits six street-food specialists across Mexico City. Students can describe ingredients and preparation while discussing how vendors preserve regional food traditions inside a vast modern city."
+    "summary": "This Great Big Story feature visits six street-food specialists across Mexico City. Students can describe ingredients and preparation while discussing how vendors preserve regional food traditions inside a vast modern city.",
+    "place": {
+      "name": "Mexico City, Mexico",
+      "lat": 19.4326,
+      "lng": -99.1332
+    }
   },
   {
     "id": "world-flight-buenos-aires-city-history-video",
@@ -1613,7 +1943,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace port city growth, immigration, politics, and identity.",
-    "summary": "This history overview helps students connect Buenos Aires with port geography, immigration, national politics, and cultural identity. It works well for timeline and cause-and-effect practice."
+    "summary": "This history overview helps students connect Buenos Aires with port geography, immigration, national politics, and cultural identity. It works well for timeline and cause-and-effect practice.",
+    "place": {
+      "name": "Buenos Aires, Argentina",
+      "lat": -34.6037,
+      "lng": -58.3816
+    }
   },
   {
     "id": "world-flight-buenos-aires-tango-video",
@@ -1637,7 +1972,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use tango to discuss music, movement, partnership, and social codes.",
-    "summary": "This quick tango lesson gives students a physical and cultural entry point into Buenos Aires. They can describe steps, posture, partnership, and why dance can become a city symbol."
+    "summary": "This quick tango lesson gives students a physical and cultural entry point into Buenos Aires. They can describe steps, posture, partnership, and why dance can become a city symbol.",
+    "place": {
+      "name": "Buenos Aires, Argentina",
+      "lat": -34.6037,
+      "lng": -58.3816
+    }
   },
   {
     "id": "world-flight-buenos-aires-landmarks-video",
@@ -1660,7 +2000,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use landmarks to discuss neighborhoods, routes, and public memory.",
-    "summary": "This landmarks video gives students concrete places to describe. They can design a short walking route and explain how each stop shows a different side of Buenos Aires."
+    "summary": "This landmarks video gives students concrete places to describe. They can design a short walking route and explain how each stop shows a different side of Buenos Aires.",
+    "place": {
+      "name": "Buenos Aires, Argentina",
+      "lat": -34.6037,
+      "lng": -58.3816
+    }
   },
   {
     "id": "world-flight-los-angeles-hollywood-history-video",
@@ -1684,7 +2029,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace geography, weather, film studios, and global image.",
-    "summary": "This video explains Hollywood's rise in Los Angeles. Students can discuss weather, land, business, technology, and how a place name becomes shorthand for an industry."
+    "summary": "This video explains Hollywood's rise in Los Angeles. Students can discuss weather, land, business, technology, and how a place name becomes shorthand for an industry.",
+    "place": {
+      "name": "Los Angeles, United States",
+      "lat": 34.0522,
+      "lng": -118.2437
+    }
   },
   {
     "id": "world-flight-los-angeles-metro-rail-video",
@@ -1709,7 +2059,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use an official transit video to practice route and station language.",
-    "summary": "This Metro Los Angeles video gives students practical language for rail travel. It also supports discussion about how a car-associated city is expanding transit choices."
+    "summary": "This Metro Los Angeles video gives students practical language for rail travel. It also supports discussion about how a car-associated city is expanding transit choices.",
+    "place": {
+      "name": "Los Angeles, United States",
+      "lat": 34.0522,
+      "lng": -118.2437
+    }
   },
   {
     "id": "world-flight-los-angeles-smog-history-video",
@@ -1733,7 +2088,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use environmental history to discuss cars, air, science, and regulation.",
-    "summary": "This PBS segment introduces the history of LA smog. Students can connect cars, weather, industry, science, and public policy, then discuss how cities solve problems people breathe every day."
+    "summary": "This PBS segment introduces the history of LA smog. Students can connect cars, weather, industry, science, and public policy, then discuss how cities solve problems people breathe every day.",
+    "place": {
+      "name": "Los Angeles, United States",
+      "lat": 34.0522,
+      "lng": -118.2437
+    }
   },
   {
     "id": "world-flight-jakarta-historical-places-video",
@@ -1757,7 +2117,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use landmarks to trace colonial, national, and everyday city memory.",
-    "summary": "This Jakarta landmarks video gives students a route through historical places. They can connect sites with trade, colonial history, independence, and modern public memory."
+    "summary": "This Jakarta landmarks video gives students a route through historical places. They can connect sites with trade, colonial history, independence, and modern public memory.",
+    "place": {
+      "name": "Jakarta, Indonesia",
+      "lat": -6.2088,
+      "lng": 106.8456
+    }
   },
   {
     "id": "world-flight-jakarta-flood-control-video",
@@ -1780,7 +2145,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Examine how a coastal megacity responds to flooding and lawsuits.",
-    "summary": "This CNA segment focuses on flood control in Jakarta. Students can discuss canals, drainage, responsibility, rescue, and why residents may sue when city systems fail."
+    "summary": "This CNA segment focuses on flood control in Jakarta. Students can discuss canals, drainage, responsibility, rescue, and why residents may sue when city systems fail.",
+    "place": {
+      "name": "Jakarta, Indonesia",
+      "lat": -6.2088,
+      "lng": 106.8456
+    }
   },
   {
     "id": "world-flight-jakarta-transport-video",
@@ -1805,7 +2175,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use transit expansion to discuss congestion, planning, and behavior change.",
-    "summary": "This Al Jazeera segment looks at Jakarta's public transport expansion. Students can discuss traffic, commuting time, and what it takes to persuade people to change travel habits."
+    "summary": "This Al Jazeera segment looks at Jakarta's public transport expansion. Students can discuss traffic, commuting time, and what it takes to persuade people to change travel habits.",
+    "place": {
+      "name": "Jakarta, Indonesia",
+      "lat": -6.2088,
+      "lng": 106.8456
+    }
   },
   {
     "id": "world-flight-lagos-local-city-video",
@@ -1829,7 +2204,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a local travel segment to discuss pace, creativity, and city identity.",
-    "summary": "This DW Travel segment introduces Lagos through a local perspective. Students can notice markets, movement, creativity, and how a fast-growing city is described by residents."
+    "summary": "This DW Travel segment introduces Lagos through a local perspective. Students can notice markets, movement, creativity, and how a fast-growing city is described by residents.",
+    "place": {
+      "name": "Lagos, Nigeria",
+      "lat": 6.5244,
+      "lng": 3.3792
+    }
   },
   {
     "id": "world-flight-lagos-mass-transit-video",
@@ -1854,7 +2234,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Examine transit efforts in a rapidly growing city.",
-    "summary": "This AFP video looks at mass transit in Lagos. Students can discuss congestion, commuting, bus systems, water routes, and why infrastructure must grow with population."
+    "summary": "This AFP video looks at mass transit in Lagos. Students can discuss congestion, commuting, bus systems, water routes, and why infrastructure must grow with population.",
+    "place": {
+      "name": "Lagos, Nigeria",
+      "lat": 6.5244,
+      "lng": 3.3792
+    }
   },
   {
     "id": "world-flight-lagos-market-video",
@@ -1877,7 +2262,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use a market visit to discuss vendors, price, supply, and daily work.",
-    "summary": "This VOA Africa market video gives students concrete language for stalls, goods, vendors, and customers. It supports comparison with markets in Bangkok, Mexico City, and Mumbai."
+    "summary": "This VOA Africa market video gives students concrete language for stalls, goods, vendors, and customers. It supports comparison with markets in Bangkok, Mexico City, and Mumbai.",
+    "place": {
+      "name": "Lagos, Nigeria",
+      "lat": 6.5244,
+      "lng": 3.3792
+    }
   },
   {
     "id": "world-flight-hong-kong-animated-history-video",
@@ -1901,7 +2291,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace trading port, colony, handover, and global city identity.",
-    "summary": "This animated history gives students a compact overview of Hong Kong. They can discuss trade, empire, migration, handover, and why city identity can be politically complex."
+    "summary": "This animated history gives students a compact overview of Hong Kong. They can discuss trade, empire, migration, handover, and why city identity can be politically complex.",
+    "place": {
+      "name": "Hong Kong, China",
+      "lat": 22.3193,
+      "lng": 114.1694
+    }
   },
   {
     "id": "world-flight-hong-kong-transport-system-video",
@@ -1926,7 +2321,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use transit to discuss density, payment, reliability, and city design.",
-    "summary": "This Al Jazeera segment uses Hong Kong transport as a model. Students can discuss Octopus cards, density, rail connections, and why land use affects transit success."
+    "summary": "This Al Jazeera segment uses Hong Kong transport as a model. Students can discuss Octopus cards, density, rail connections, and why land use affects transit success.",
+    "place": {
+      "name": "Hong Kong, China",
+      "lat": 22.3193,
+      "lng": 114.1694
+    }
   },
   {
     "id": "world-flight-hong-kong-housing-video",
@@ -1949,7 +2349,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Discuss housing size, affordability, dignity, and policy.",
-    "summary": "This video examines Hong Kong's tiny-flat problem. Students can discuss dignity, rent, regulation, and the difference between density as design and density as pressure."
+    "summary": "This video examines Hong Kong's tiny-flat problem. Students can discuss dignity, rent, regulation, and the difference between density as design and density as pressure.",
+    "place": {
+      "name": "Hong Kong, China",
+      "lat": 22.3193,
+      "lng": 114.1694
+    }
   },
   {
     "id": "world-flight-amsterdam-city-history-video",
@@ -1973,7 +2378,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace trade, canals, tolerance, and urban growth in a compact history.",
-    "summary": "This history clip gives students a compact overview of Amsterdam. They can connect trade, canals, religious history, and city planning in one route discussion."
+    "summary": "This history clip gives students a compact overview of Amsterdam. They can connect trade, canals, religious history, and city planning in one route discussion.",
+    "place": {
+      "name": "Amsterdam, Netherlands",
+      "lat": 52.3676,
+      "lng": 4.9041
+    }
   },
   {
     "id": "world-flight-amsterdam-cycling-video",
@@ -1998,7 +2408,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use cycling to discuss safety, design, habits, and policy.",
-    "summary": "This Bloomberg Originals video explains Amsterdam cycling culture. Students can discuss bike lanes, safety, children, traffic, and how city design changes behavior."
+    "summary": "This Bloomberg Originals video explains Amsterdam cycling culture. Students can discuss bike lanes, safety, children, traffic, and how city design changes behavior.",
+    "place": {
+      "name": "Amsterdam, Netherlands",
+      "lat": 52.3676,
+      "lng": 4.9041
+    }
   },
   {
     "id": "world-flight-amsterdam-canals-video",
@@ -2022,7 +2437,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use the canal system to discuss water, streets, homes, and tourism.",
-    "summary": "This canal facts video gives students concrete details about Amsterdam's water system. It supports vocabulary for bridges, boats, houses, routes, and heritage."
+    "summary": "This canal facts video gives students concrete details about Amsterdam's water system. It supports vocabulary for bridges, boats, houses, routes, and heritage.",
+    "place": {
+      "name": "Amsterdam, Netherlands",
+      "lat": 52.3676,
+      "lng": 4.9041
+    }
   },
   {
     "id": "world-flight-honolulu-hula-story-video",
@@ -2046,7 +2466,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "See how hula carries stories, language, and cultural responsibility.",
-    "summary": "This National Geographic short presents hula as a way of carrying Hawaiian stories and responsibilities, not simply as entertainment. Students can listen for the relationship between movement, language, teaching, and cultural continuity."
+    "summary": "This National Geographic short presents hula as a way of carrying Hawaiian stories and responsibilities, not simply as entertainment. Students can listen for the relationship between movement, language, teaching, and cultural continuity.",
+    "place": {
+      "name": "Honolulu, United States",
+      "lat": 21.3069,
+      "lng": -157.8583
+    }
   },
   {
     "id": "world-flight-honolulu-spam-musubi-video",
@@ -2071,7 +2496,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use a familiar snack to explore migration, adaptation, convenience, and local identity.",
-    "summary": "This PBS Hawaiʻi feature follows spam musubi through shops, family routines, and changing recipes. Students can describe ingredients and preparation while discussing how an adapted food becomes a widely shared local symbol."
+    "summary": "This PBS Hawaiʻi feature follows spam musubi through shops, family routines, and changing recipes. Students can describe ingredients and preparation while discussing how an adapted food becomes a widely shared local symbol.",
+    "place": {
+      "name": "Honolulu, United States",
+      "lat": 21.3069,
+      "lng": -157.8583
+    }
   },
   {
     "id": "world-flight-honolulu-city-history-video",
@@ -2095,7 +2525,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace Honolulu from a sheltered gathering place to a modern Pacific capital.",
-    "summary": "This compact history introduces the meaning of Honolulu's name and follows the city's growth as a harbor, royal capital, territorial center, and modern destination. It supports timeline language and discussion of how cities change roles over time."
+    "summary": "This compact history introduces the meaning of Honolulu's name and follows the city's growth as a harbor, royal capital, territorial center, and modern destination. It supports timeline language and discussion of how cities change roles over time.",
+    "place": {
+      "name": "Honolulu, United States",
+      "lat": 21.3069,
+      "lng": -157.8583
+    }
   },
   {
     "id": "world-flight-miami-little-havana-video",
@@ -2119,7 +2554,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Explore Cuban culture through music, coffee, food, cigars, and neighborhood life.",
-    "summary": "This Voice of America report introduces Little Havana through residents and everyday cultural details. Students can listen for how music, food, language, and businesses keep connections to Cuba while developing a distinct Miami identity."
+    "summary": "This Voice of America report introduces Little Havana through residents and everyday cultural details. Students can listen for how music, food, language, and businesses keep connections to Cuba while developing a distinct Miami identity.",
+    "place": {
+      "name": "Miami, United States",
+      "lat": 25.7617,
+      "lng": -80.1918
+    }
   },
   {
     "id": "world-flight-miami-everglades-video",
@@ -2143,7 +2583,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Connect South Florida wetlands with water, wildlife, restoration, and the nearby city.",
-    "summary": "This Miami Herald explainer describes the Everglades as a river of grass and examines its importance to South Florida. Students can connect water flow, wildlife, restoration, and urban growth without treating the wetland as separate from Miami."
+    "summary": "This Miami Herald explainer describes the Everglades as a river of grass and examines its importance to South Florida. Students can connect water flow, wildlife, restoration, and urban growth without treating the wetland as separate from Miami.",
+    "place": {
+      "name": "Miami, United States",
+      "lat": 25.7617,
+      "lng": -80.1918
+    }
   },
   {
     "id": "world-flight-miami-rapid-transit-video",
@@ -2168,7 +2613,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use a current transit project to discuss speed, access, comfort, and commuting.",
-    "summary": "This CBS Miami report follows the launch of a bus rapid transit route in South Miami-Dade. Students can identify promised improvements and discuss what riders need from a service beyond simply having a bus available."
+    "summary": "This CBS Miami report follows the launch of a bus rapid transit route in South Miami-Dade. Students can identify promised improvements and discuss what riders need from a service beyond simply having a bus available.",
+    "place": {
+      "name": "Miami, United States",
+      "lat": 25.7617,
+      "lng": -80.1918
+    }
   },
   {
     "id": "world-flight-bogota-my-city-video",
@@ -2191,7 +2641,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Follow a resident through weather, history, food, music, and changing public life.",
-    "summary": "This BBC My City segment presents Bogota through a resident's perspective. Students can notice how weather, history, neighborhoods, food, and music combine into a city identity that is more complex than one headline."
+    "summary": "This BBC My City segment presents Bogota through a resident's perspective. Students can notice how weather, history, neighborhoods, food, and music combine into a city identity that is more complex than one headline.",
+    "place": {
+      "name": "Bogota, Colombia",
+      "lat": 4.711,
+      "lng": -74.0721
+    }
   },
   {
     "id": "world-flight-bogota-gold-museum-video",
@@ -2216,7 +2671,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use ancient objects to explore craftsmanship, belief, archaeology, and preservation.",
-    "summary": "This CGTN America report visits Bogota's Museum of Gold and its large collection of pre-Columbian objects. Students can practice describing artifacts while asking why gold held meanings beyond wealth and how museums preserve that evidence."
+    "summary": "This CGTN America report visits Bogota's Museum of Gold and its large collection of pre-Columbian objects. Students can practice describing artifacts while asking why gold held meanings beyond wealth and how museums preserve that evidence.",
+    "place": {
+      "name": "Bogota, Colombia",
+      "lat": 4.711,
+      "lng": -74.0721
+    }
   },
   {
     "id": "world-flight-bogota-graffiti-projects-video",
@@ -2241,7 +2701,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Examine how street art moved from conflict toward tourism and public support.",
-    "summary": "This AFP report examines publicly supported graffiti projects in Bogota. Students can discuss the line between vandalism and art, how policy changed opportunities for artists, and why murals became part of the city's public image."
+    "summary": "This AFP report examines publicly supported graffiti projects in Bogota. Students can discuss the line between vandalism and art, how policy changed opportunities for artists, and why murals became part of the city's public image.",
+    "place": {
+      "name": "Bogota, Colombia",
+      "lat": 4.711,
+      "lng": -74.0721
+    }
   },
   {
     "id": "world-flight-reykjavik-city-landmarks-video",
@@ -2265,7 +2730,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Explore architecture, public space, culture, and nature in a compact northern city.",
-    "summary": "This DW city profile moves through Reykjavik's landmarks, arts, and public spaces. Students can listen for how a small capital presents itself through architecture while remaining closely connected to the surrounding landscape."
+    "summary": "This DW city profile moves through Reykjavik's landmarks, arts, and public spaces. Students can listen for how a small capital presents itself through architecture while remaining closely connected to the surrounding landscape.",
+    "place": {
+      "name": "Reykjavik, Iceland",
+      "lat": 64.1466,
+      "lng": -21.9426
+    }
   },
   {
     "id": "world-flight-reykjavik-iceland-history-video",
@@ -2289,7 +2759,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Build a timeline from settlement and parliament to modern Iceland.",
-    "summary": "This animated history gives students a concise timeline of Icelandic settlement, government, outside rule, independence, and modern development. It provides national context for understanding Reykjavik's role as the capital."
+    "summary": "This animated history gives students a concise timeline of Icelandic settlement, government, outside rule, independence, and modern development. It provides national context for understanding Reykjavik's role as the capital.",
+    "place": {
+      "name": "Reykjavik, Iceland",
+      "lat": 64.1466,
+      "lng": -21.9426
+    }
   },
   {
     "id": "world-flight-reykjavik-culture-night-video",
@@ -2312,7 +2787,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "See how small events, public spaces, and hospitality create a citywide festival.",
-    "summary": "This short introduction to Reykjavik Culture Night shows how residents and organizations create events throughout the city. Students can discuss hospitality, public participation, and why many small contributions can matter more than one central performance."
+    "summary": "This short introduction to Reykjavik Culture Night shows how residents and organizations create events throughout the city. Students can discuss hospitality, public participation, and why many small contributions can matter more than one central performance.",
+    "place": {
+      "name": "Reykjavik, Iceland",
+      "lat": 64.1466,
+      "lng": -21.9426
+    }
   },
   {
     "id": "world-flight-nairobi-capital-history-video",
@@ -2337,7 +2817,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace how a railway camp became Kenya’s capital and a major regional city.",
-    "summary": "This Kenya Explained video traces Nairobi from a railway camp to a large capital. Students can identify the roles of geography, colonial planning, administration, migration, and infrastructure in rapid urban growth."
+    "summary": "This Kenya Explained video traces Nairobi from a railway camp to a large capital. Students can identify the roles of geography, colonial planning, administration, migration, and infrastructure in rapid urban growth.",
+    "place": {
+      "name": "Nairobi, Kenya",
+      "lat": -1.2921,
+      "lng": 36.8219
+    }
   },
   {
     "id": "world-flight-nairobi-railway-city-video",
@@ -2362,7 +2847,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Examine a major redevelopment proposal around Nairobi Central Station.",
-    "summary": "This Kenya Railways presentation introduces the Nairobi Railway City plan. Students can identify goals involving transport, business, housing, and public space while considering who benefits from a large redevelopment project."
+    "summary": "This Kenya Railways presentation introduces the Nairobi Railway City plan. Students can identify goals involving transport, business, housing, and public space while considering who benefits from a large redevelopment project.",
+    "place": {
+      "name": "Nairobi, Kenya",
+      "lat": -1.2921,
+      "lng": 36.8219
+    }
   },
   {
     "id": "world-flight-nairobi-un-hub-video",
@@ -2385,7 +2875,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Explore why Nairobi is one of the world’s major United Nations duty stations.",
-    "summary": "This NTV Kenya report examines the expansion of the United Nations hub in Nairobi. Students can discuss employment, diplomacy, infrastructure, and why hosting international institutions changes a city's global role."
+    "summary": "This NTV Kenya report examines the expansion of the United Nations hub in Nairobi. Students can discuss employment, diplomacy, infrastructure, and why hosting international institutions changes a city's global role.",
+    "place": {
+      "name": "Nairobi, Kenya",
+      "lat": -1.2921,
+      "lng": 36.8219
+    }
   },
   {
     "id": "world-flight-lima-city-history-video",
@@ -2409,7 +2904,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Build a timeline through Indigenous history, colonial rule, independence, and modern growth.",
-    "summary": "This compact history follows Lima through several major periods and landmarks. Students can practice timeline language while recognizing that the city's story began before its colonial founding and continued through independence and urban growth."
+    "summary": "This compact history follows Lima through several major periods and landmarks. Students can practice timeline language while recognizing that the city's story began before its colonial founding and continued through independence and urban growth.",
+    "place": {
+      "name": "Lima, Peru",
+      "lat": -12.0464,
+      "lng": -77.0428
+    }
   },
   {
     "id": "world-flight-lima-ancient-ruins-video",
@@ -2432,7 +2932,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use Pachacamac to examine archaeology, nearby communities, and shared stewardship.",
-    "summary": "This National Geographic short visits Pachacamac south of Lima and shows how archaeologists work with nearby communities. Students can discuss why ancient sites remain part of present-day life and how local stewardship supports preservation."
+    "summary": "This National Geographic short visits Pachacamac south of Lima and shows how archaeologists work with nearby communities. Students can discuss why ancient sites remain part of present-day life and how local stewardship supports preservation.",
+    "place": {
+      "name": "Lima, Peru",
+      "lat": -12.0464,
+      "lng": -77.0428
+    }
   },
   {
     "id": "world-flight-lima-transport-strike-video",
@@ -2457,7 +2962,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Use a current event to examine commuting, safety, organized crime, and public pressure.",
-    "summary": "This Al Jazeera English report follows a public transport strike in Lima over threats and organized crime. Students can identify how worker safety, commuting, business, and government responsibility become connected during a citywide disruption."
+    "summary": "This Al Jazeera English report follows a public transport strike in Lima over threats and organized crime. Students can identify how worker safety, commuting, business, and government responsibility become connected during a citywide disruption.",
+    "place": {
+      "name": "Lima, Peru",
+      "lat": -12.0464,
+      "lng": -77.0428
+    }
   },
   {
     "id": "world-flight-perth-quokkas-video",
@@ -2481,7 +2991,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Explore how an island habitat supports a famous animal near Perth.",
-    "summary": "This Australian Geographic short introduces quokkas and the island habitat where they remain abundant. Students can describe animal adaptations while connecting habitat protection, introduced predators, tourism, and conservation."
+    "summary": "This Australian Geographic short introduces quokkas and the island habitat where they remain abundant. Students can describe animal adaptations while connecting habitat protection, introduced predators, tourism, and conservation.",
+    "place": {
+      "name": "Perth, Australia",
+      "lat": -31.9523,
+      "lng": 115.8613
+    }
   },
   {
     "id": "world-flight-perth-transperth-video",
@@ -2506,7 +3021,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use Transperth to examine buses, trains, ferries, growth, and transport integration.",
-    "summary": "This UITP profile introduces Transperth and the challenge of serving a rapidly growing, spread-out city. Students can identify how buses, trains, ferries, information, and planning work together as one network."
+    "summary": "This UITP profile introduces Transperth and the challenge of serving a rapidly growing, spread-out city. Students can identify how buses, trains, ferries, information, and planning work together as one network.",
+    "place": {
+      "name": "Perth, Australia",
+      "lat": -31.9523,
+      "lng": 115.8613
+    }
   },
   {
     "id": "world-flight-perth-fremantle-video",
@@ -2529,7 +3049,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Explore how local businesses, heritage, creativity, and community shape a port district.",
-    "summary": "This Destination Perth feature presents Fremantle through the people who work and create there. Students can listen for how heritage buildings, local businesses, arts, and community relationships contribute to a strong sense of place."
+    "summary": "This Destination Perth feature presents Fremantle through the people who work and create there. Students can listen for how heritage buildings, local businesses, arts, and community relationships contribute to a strong sense of place.",
+    "place": {
+      "name": "Perth, Australia",
+      "lat": -31.9523,
+      "lng": 115.8613
+    }
   },
   {
     "id": "world-flight-auckland-volcanic-field-video",
@@ -2552,7 +3077,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use Auckland volcanoes to connect geology, landscape, and city growth.",
-    "summary": "This Learnz Trips short explains the Tamaki Makaurau Auckland volcanic field. It gives students a clear geological foundation for understanding why cones, craters, lava flows, and harbours shape the city's map and remain important places today."
+    "summary": "This Learnz Trips short explains the Tamaki Makaurau Auckland volcanic field. It gives students a clear geological foundation for understanding why cones, craters, lava flows, and harbours shape the city's map and remain important places today.",
+    "place": {
+      "name": "Auckland, New Zealand",
+      "lat": -36.8509,
+      "lng": 174.7645
+    }
   },
   {
     "id": "world-flight-auckland-electric-bus-video",
@@ -2577,7 +3107,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Examine the infrastructure needed to move a bus fleet away from fossil fuels.",
-    "summary": "This short visit to an Auckland electric bus depot shows the charging, planning, and operating systems behind lower-emission public transport. It supports discussion about how cities change large fleets while keeping daily service reliable."
+    "summary": "This short visit to an Auckland electric bus depot shows the charging, planning, and operating systems behind lower-emission public transport. It supports discussion about how cities change large fleets while keeping daily service reliable.",
+    "place": {
+      "name": "Auckland, New Zealand",
+      "lat": -36.8509,
+      "lng": 174.7645
+    }
   },
   {
     "id": "world-flight-auckland-new-zealand-history-video",
@@ -2601,7 +3136,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Build a rapid timeline from Maori settlement through colonization and modern nationhood.",
-    "summary": "This compact national history gives Auckland a wider context. Its fast pace makes it useful for identifying major periods, questioning simplification, and deciding which voices or events need further investigation."
+    "summary": "This compact national history gives Auckland a wider context. Its fast pace makes it useful for identifying major periods, questioning simplification, and deciding which voices or events need further investigation.",
+    "place": {
+      "name": "Auckland, New Zealand",
+      "lat": -36.8509,
+      "lng": 174.7645
+    }
   },
   {
     "id": "world-flight-suva-city-geography-video",
@@ -2623,7 +3163,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a guided city georamble to connect landscape, buildings, and public life.",
-    "summary": "This city georamble moves through Suva while explaining what the landscape and streets reveal. It supports close observation of a Pacific capital instead of treating Fiji only as a beach destination."
+    "summary": "This city georamble moves through Suva while explaining what the landscape and streets reveal. It supports close observation of a Pacific capital instead of treating Fiji only as a beach destination.",
+    "place": {
+      "name": "Suva, Fiji",
+      "lat": -18.1416,
+      "lng": 178.4419
+    }
   },
   {
     "id": "world-flight-suva-city-history-video",
@@ -2647,7 +3192,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Build a short national timeline before examining Suva as Fiji’s capital.",
-    "summary": "This fast history gives students the national context needed to understand Suva. It introduces Fiji's island geography, settlement, colonial period, independence, and modern identity while leaving room to ask which perspectives a short overview cannot fully represent."
+    "summary": "This fast history gives students the national context needed to understand Suva. It introduces Fiji's island geography, settlement, colonial period, independence, and modern identity while leaving room to ask which perspectives a short overview cannot fully represent.",
+    "place": {
+      "name": "Suva, Fiji",
+      "lat": -18.1416,
+      "lng": 178.4419
+    }
   },
   {
     "id": "world-flight-suva-rugby-climate-video",
@@ -2670,7 +3220,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Connect a national sport with communities facing climate change.",
-    "summary": "This Reuters report examines how climate change threatens communities where rugby is part of everyday life. It helps connect Suva with national conversations about relocation, identity, sport, and resilience."
+    "summary": "This Reuters report examines how climate change threatens communities where rugby is part of everyday life. It helps connect Suva with national conversations about relocation, identity, sport, and resilience.",
+    "place": {
+      "name": "Suva, Fiji",
+      "lat": -18.1416,
+      "lng": 178.4419
+    }
   },
   {
     "id": "world-flight-ulaanbaatar-changing-capital-video",
@@ -2694,7 +3249,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Trace how a monastery center became a rapidly changing modern capital.",
-    "summary": "This BBC Travel Show short examines Ulaanbaatar's transformation over a century. It provides a visual timeline for discussing political change, migration, architecture, and the pressures of rapid urban growth."
+    "summary": "This BBC Travel Show short examines Ulaanbaatar's transformation over a century. It provides a visual timeline for discussing political change, migration, architecture, and the pressures of rapid urban growth.",
+    "place": {
+      "name": "Ulaanbaatar, Mongolia",
+      "lat": 47.8864,
+      "lng": 106.9057
+    }
   },
   {
     "id": "world-flight-ulaanbaatar-ger-area-transport-video",
@@ -2719,7 +3279,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Examine how transport planning can begin with residents and daily journeys.",
-    "summary": "This Asian Development Bank video looks at human-centered transport planning in Ulaanbaatar's ger areas. It supports discussion of access, road safety, public participation, and the difference between moving vehicles and serving people."
+    "summary": "This Asian Development Bank video looks at human-centered transport planning in Ulaanbaatar's ger areas. It supports discussion of access, road safety, public participation, and the difference between moving vehicles and serving people.",
+    "place": {
+      "name": "Ulaanbaatar, Mongolia",
+      "lat": 47.8864,
+      "lng": 106.9057
+    }
   },
   {
     "id": "world-flight-ulaanbaatar-sustainable-gers-video",
@@ -2743,7 +3308,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Connect home design with winter air pollution and energy use.",
-    "summary": "This CNA report presents efforts to make gers more energy efficient. It connects insulation, heating, household costs, and air quality in one practical response to Ulaanbaatar's severe winter conditions."
+    "summary": "This CNA report presents efforts to make gers more energy efficient. It connects insulation, heating, household costs, and air quality in one practical response to Ulaanbaatar's severe winter conditions.",
+    "place": {
+      "name": "Ulaanbaatar, Mongolia",
+      "lat": 47.8864,
+      "lng": 106.9057
+    }
   },
   {
     "id": "world-flight-almaty-garden-city-video",
@@ -2765,7 +3335,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Explore how trees, public spaces, culture, and mountain geography shape Almaty.",
-    "summary": "This euronews feature introduces Almaty as a green cultural center below the mountains. It offers a broad city portrait that supports observation of public space, landscape, food, and daily life."
+    "summary": "This euronews feature introduces Almaty as a green cultural center below the mountains. It offers a broad city portrait that supports observation of public space, landscape, food, and daily life.",
+    "place": {
+      "name": "Almaty, Kazakhstan",
+      "lat": 43.222,
+      "lng": 76.8512
+    }
   },
   {
     "id": "world-flight-almaty-apple-origin-video",
@@ -2790,7 +3365,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Trace the wild apple forests that connect Almaty’s landscape, name, and identity.",
-    "summary": "This EFE feature visits the wild apple forests near Almaty and explains why the region is considered an ancestral home of the modern apple. It connects biodiversity, scientific research, local landscape, and the meaning of the city's name."
+    "summary": "This EFE feature visits the wild apple forests near Almaty and explains why the region is considered an ancestral home of the modern apple. It connects biodiversity, scientific research, local landscape, and the meaning of the city's name.",
+    "place": {
+      "name": "Almaty, Kazakhstan",
+      "lat": 43.222,
+      "lng": 76.8512
+    }
   },
   {
     "id": "world-flight-almaty-metro-video",
@@ -2815,7 +3395,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Examine how a small metro system combines transport, architecture, and civic identity.",
-    "summary": "This guided visit explores Almaty's metro, including its stations, trains, and design. It supports comparison between transport efficiency and the cultural messages built into public infrastructure."
+    "summary": "This guided visit explores Almaty's metro, including its stations, trains, and design. It supports comparison between transport efficiency and the cultural messages built into public infrastructure.",
+    "place": {
+      "name": "Almaty, Kazakhstan",
+      "lat": 43.222,
+      "lng": 76.8512
+    }
   },
   {
     "id": "world-flight-madrid-city-exploration-video",
@@ -2840,7 +3425,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Visit major places through an upbeat introduction designed for younger viewers.",
-    "summary": "This lively introduction gives younger learners a welcoming first look at Madrid. It uses clear narration and concrete city details to build useful language for places, food, and cultural observation."
+    "summary": "This lively introduction gives younger learners a welcoming first look at Madrid. It uses clear narration and concrete city details to build useful language for places, food, and cultural observation.",
+    "place": {
+      "name": "Madrid, Spain",
+      "lat": 40.4168,
+      "lng": -3.7038
+    }
   },
   {
     "id": "world-flight-madrid-flamenco-video",
@@ -2865,7 +3455,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Follow students as they experience the discipline and expression of flamenco.",
-    "summary": "This short vlog follows students learning flamenco in Madrid. It supports discussion of rhythm, posture, emotion, practice, and the difference between watching a cultural form and trying to understand its technique."
+    "summary": "This short vlog follows students learning flamenco in Madrid. It supports discussion of rhythm, posture, emotion, practice, and the difference between watching a cultural form and trying to understand its technique.",
+    "place": {
+      "name": "Madrid, Spain",
+      "lat": 40.4168,
+      "lng": -3.7038
+    }
   },
   {
     "id": "world-flight-madrid-prado-collections-video",
@@ -2889,7 +3484,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Hear the Prado director explain how a major museum collection developed.",
-    "summary": "The Prado director introduces the museum through the development of its collections. The video supports deeper questions about royal collecting, public museums, artistic value, and how institutions frame national and European art history."
+    "summary": "The Prado director introduces the museum through the development of its collections. The video supports deeper questions about royal collecting, public museums, artistic value, and how institutions frame national and European art history.",
+    "place": {
+      "name": "Madrid, Spain",
+      "lat": 40.4168,
+      "lng": -3.7038
+    }
   },
   {
     "id": "world-flight-lisbon-city-guide-video",
@@ -2914,7 +3514,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "See Lisbon through hills, viewpoints, streets, food, and the river.",
-    "summary": "This compact city guide gives younger learners an accessible visual introduction to Lisbon. It provides concrete details about streets, hills, landmarks, food, and the waterfront without overwhelming them with a long itinerary."
+    "summary": "This compact city guide gives younger learners an accessible visual introduction to Lisbon. It provides concrete details about streets, hills, landmarks, food, and the waterfront without overwhelming them with a long itinerary.",
+    "place": {
+      "name": "Lisbon, Portugal",
+      "lat": 38.7223,
+      "lng": -9.1393
+    }
   },
   {
     "id": "world-flight-lisbon-azulejos-video",
@@ -2939,7 +3544,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Explore how Portuguese azulejos combine decoration, history, and public art.",
-    "summary": "This short explanation introduces Portuguese ceramic tiles and the way they appear across public and private buildings. It supports close observation of pattern, color, storytelling, protection, and cultural identity."
+    "summary": "This short explanation introduces Portuguese ceramic tiles and the way they appear across public and private buildings. It supports close observation of pattern, color, storytelling, protection, and cultural identity.",
+    "place": {
+      "name": "Lisbon, Portugal",
+      "lat": 38.7223,
+      "lng": -9.1393
+    }
   },
   {
     "id": "world-flight-lisbon-fado-video",
@@ -2963,7 +3573,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Use traditional music to examine longing, performance, and cultural identity.",
-    "summary": "This introduction to fado explains a music tradition strongly associated with Lisbon. It supports nuanced discussion of voice, poetry, emotion, performance settings, and what happens when a local tradition becomes internationally recognized."
+    "summary": "This introduction to fado explains a music tradition strongly associated with Lisbon. It supports nuanced discussion of voice, poetry, emotion, performance settings, and what happens when a local tradition becomes internationally recognized.",
+    "place": {
+      "name": "Lisbon, Portugal",
+      "lat": 38.7223,
+      "lng": -9.1393
+    }
   },
   {
     "id": "world-flight-dublin-irish-dance-video",
@@ -2988,7 +3603,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Learn basic Irish dance movements through a child-friendly cultural lesson.",
-    "summary": "This child-friendly lesson introduces Irish dance through clear demonstrations and cultural context. It gives younger learners an active way to notice rhythm, posture, steps, and the concentration involved in performance."
+    "summary": "This child-friendly lesson introduces Irish dance through clear demonstrations and cultural context. It gives younger learners an active way to notice rhythm, posture, steps, and the concentration involved in performance.",
+    "place": {
+      "name": "Dublin, Ireland",
+      "lat": 53.3498,
+      "lng": -6.2603
+    }
   },
   {
     "id": "world-flight-dublin-book-of-kells-video",
@@ -3013,7 +3633,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Examine how writing, illustration, materials, and belief meet in one manuscript.",
-    "summary": "This introduction explains the Book of Kells and its visual detail. It supports discussion of manuscripts, materials, preservation, religious history, and how close observation reveals the work behind a famous object."
+    "summary": "This introduction explains the Book of Kells and its visual detail. It supports discussion of manuscripts, materials, preservation, religious history, and how close observation reveals the work behind a famous object.",
+    "place": {
+      "name": "Dublin, Ireland",
+      "lat": 53.3498,
+      "lng": -6.2603
+    }
   },
   {
     "id": "world-flight-dublin-oscar-wilde-video",
@@ -3036,7 +3661,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Use a Trinity College exhibition to examine a writer's public image and later memory.",
-    "summary": "This exhibition feature considers Oscar Wilde through objects, writing, reputation, and changing public interpretation. It supports a more advanced discussion of how institutions frame literary lives and difficult historical attitudes."
+    "summary": "This exhibition feature considers Oscar Wilde through objects, writing, reputation, and changing public interpretation. It supports a more advanced discussion of how institutions frame literary lives and difficult historical attitudes.",
+    "place": {
+      "name": "Dublin, Ireland",
+      "lat": 53.3498,
+      "lng": -6.2603
+    }
   },
   {
     "id": "world-flight-dakar-ladoum-sheep-video",
@@ -3061,7 +3691,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Meet a celebrated Senegalese sheep breed through care, competition, and community pride.",
-    "summary": "This engaging feature introduces Ladoum sheep and the people who raise them. It gives younger learners a concrete cultural topic through animals while opening discussion of care, competition, beauty standards, and value."
+    "summary": "This engaging feature introduces Ladoum sheep and the people who raise them. It gives younger learners a concrete cultural topic through animals while opening discussion of care, competition, beauty standards, and value.",
+    "place": {
+      "name": "Dakar, Senegal",
+      "lat": 14.7167,
+      "lng": -17.4677
+    }
   },
   {
     "id": "world-flight-dakar-biennale-video",
@@ -3085,7 +3720,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "See how the Dakar Biennale turns many spaces into places for contemporary art.",
-    "summary": "This report follows pop-up exhibitions during the Dakar Biennale. It supports discussion of contemporary African art, public access, temporary venues, and the role of a capital city in connecting artists and audiences."
+    "summary": "This report follows pop-up exhibitions during the Dakar Biennale. It supports discussion of contemporary African art, public access, temporary venues, and the role of a capital city in connecting artists and audiences.",
+    "place": {
+      "name": "Dakar, Senegal",
+      "lat": 14.7167,
+      "lng": -17.4677
+    }
   },
   {
     "id": "world-flight-dakar-goree-electricity-video",
@@ -3108,7 +3748,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Examine how reliable energy changes life on a historic island near Dakar.",
-    "summary": "This World Bank feature examines electricity access on Goree Island. It supports a systems-level discussion of energy, heritage, local businesses, public services, and how infrastructure changes daily possibilities."
+    "summary": "This World Bank feature examines electricity access on Goree Island. It supports a systems-level discussion of energy, heritage, local businesses, public services, and how infrastructure changes daily possibilities.",
+    "place": {
+      "name": "Dakar, Senegal",
+      "lat": 14.7167,
+      "lng": -17.4677
+    }
   },
   {
     "id": "world-flight-recife-brazil-for-kids-video",
@@ -3133,7 +3778,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Build a child-friendly foundation for Brazil before focusing on the northeast.",
-    "summary": "This concise child-friendly guide introduces Brazil's culture, wildlife, geography, and traditions. It gives younger learners useful national context before examining what makes Recife and Pernambuco distinctive."
+    "summary": "This concise child-friendly guide introduces Brazil's culture, wildlife, geography, and traditions. It gives younger learners useful national context before examining what makes Recife and Pernambuco distinctive.",
+    "place": {
+      "name": "Recife, Brazil",
+      "lat": -8.0476,
+      "lng": -34.877
+    }
   },
   {
     "id": "world-flight-recife-frevo-video",
@@ -3157,7 +3807,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Discover a fast music and dance tradition created in Pernambuco.",
-    "summary": "This report introduces frevo as a music and dance tradition central to carnival in Pernambuco. It supports discussion of rhythm, athletic movement, umbrellas, public celebration, and living cultural heritage."
+    "summary": "This report introduces frevo as a music and dance tradition central to carnival in Pernambuco. It supports discussion of rhythm, athletic movement, umbrellas, public celebration, and living cultural heritage.",
+    "place": {
+      "name": "Recife, Brazil",
+      "lat": -8.0476,
+      "lng": -34.877
+    }
   },
   {
     "id": "world-flight-recife-silent-drums-video",
@@ -3182,7 +3837,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Examine a pre-carnival tradition connecting memory, religion, and Afro-Brazilian culture.",
-    "summary": "This feature presents Olinda's Night of the Silent Drums near Recife. It supports a nuanced discussion of Afro-Brazilian memory, religious tradition, public ritual, and how carnival includes solemn reflection as well as celebration."
+    "summary": "This feature presents Olinda's Night of the Silent Drums near Recife. It supports a nuanced discussion of Afro-Brazilian memory, religious tradition, public ritual, and how carnival includes solemn reflection as well as celebration.",
+    "place": {
+      "name": "Recife, Brazil",
+      "lat": -8.0476,
+      "lng": -34.877
+    }
   },
   {
     "id": "world-flight-panama-city-mola-art-video",
@@ -3207,7 +3867,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Learn how Guna artists build colorful designs through layered fabric.",
-    "summary": "This child-friendly museum lesson introduces mola art through color, pattern, layers, and Guna culture. It gives younger learners a concrete creative entry point while emphasizing that the art belongs to a living community."
+    "summary": "This child-friendly museum lesson introduces mola art through color, pattern, layers, and Guna culture. It gives younger learners a concrete creative entry point while emphasizing that the art belongs to a living community.",
+    "place": {
+      "name": "Panama City, Panama",
+      "lat": 8.9824,
+      "lng": -79.5199
+    }
   },
   {
     "id": "world-flight-panama-city-canal-for-kids-video",
@@ -3232,7 +3897,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a child-friendly explanation to follow ships through locks between oceans.",
-    "summary": "This clear educational video explains why the Panama Canal was built and how locks move ships. It supports systems language and provides essential context for understanding Panama City's global role."
+    "summary": "This clear educational video explains why the Panama Canal was built and how locks move ships. It supports systems language and provides essential context for understanding Panama City's global role.",
+    "place": {
+      "name": "Panama City, Panama",
+      "lat": 8.9824,
+      "lng": -79.5199
+    }
   },
   {
     "id": "world-flight-panama-city-amphibian-conservation-video",
@@ -3256,7 +3926,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Use conservation science to examine why frogs are disappearing and how people respond.",
-    "summary": "This McGill University feature presents amphibian conservation connected to Panama. It supports deeper discussion of disease, biodiversity, scientific evidence, and why protecting small species matters to whole ecosystems."
+    "summary": "This McGill University feature presents amphibian conservation connected to Panama. It supports deeper discussion of disease, biodiversity, scientific evidence, and why protecting small species matters to whole ecosystems.",
+    "place": {
+      "name": "Panama City, Panama",
+      "lat": 8.9824,
+      "lng": -79.5199
+    }
   },
   {
     "id": "world-flight-santiago-chile-for-kids-video",
@@ -3281,7 +3956,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Build context through Chilean landscapes, traditions, landmarks, and daily life.",
-    "summary": "This child-friendly overview introduces Chile through clear narration and colorful examples. It gives younger learners useful cultural and geographic context for understanding Santiago as the capital of a long and varied country."
+    "summary": "This child-friendly overview introduces Chile through clear narration and colorful examples. It gives younger learners useful cultural and geographic context for understanding Santiago as the capital of a long and varied country.",
+    "place": {
+      "name": "Santiago, Chile",
+      "lat": -33.4489,
+      "lng": -70.6693
+    }
   },
   {
     "id": "world-flight-santiago-marraqueta-video",
@@ -3306,7 +3986,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Follow a common bread through ingredients, technique, and everyday food culture.",
-    "summary": "This bread-making episode introduces marraqueta through a practical recipe and cultural context. It supports sequence language while showing how an everyday food can become part of national and city identity."
+    "summary": "This bread-making episode introduces marraqueta through a practical recipe and cultural context. It supports sequence language while showing how an everyday food can become part of national and city identity.",
+    "place": {
+      "name": "Santiago, Chile",
+      "lat": -33.4489,
+      "lng": -70.6693
+    }
   },
   {
     "id": "world-flight-santiago-moai-video",
@@ -3329,7 +4014,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Use a major Chilean heritage site to examine evidence, engineering, and cultural survival.",
-    "summary": "This National Geographic short examines the moai of Rapa Nui, part of Chile. It supports nuanced discussion of archaeological evidence, engineering, environmental change, and why monumental heritage must also be understood through the living community connected to it."
+    "summary": "This National Geographic short examines the moai of Rapa Nui, part of Chile. It supports nuanced discussion of archaeological evidence, engineering, environmental change, and why monumental heritage must also be understood through the living community connected to it.",
+    "place": {
+      "name": "Santiago, Chile",
+      "lat": -33.4489,
+      "lng": -70.6693
+    }
   },
   {
     "id": "world-flight-addis-ababa-ethiopia-culture-video",
@@ -3354,7 +4044,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use a museum lesson to explore objects, stories, and traditions from Ethiopia.",
-    "summary": "This child-friendly museum program introduces Ethiopian history, art, and culture through clear examples. It gives younger learners a respectful foundation for understanding Addis Ababa as a capital connected to many communities and traditions."
+    "summary": "This child-friendly museum program introduces Ethiopian history, art, and culture through clear examples. It gives younger learners a respectful foundation for understanding Addis Ababa as a capital connected to many communities and traditions.",
+    "place": {
+      "name": "Addis Ababa, Ethiopia",
+      "lat": 8.9806,
+      "lng": 38.7578
+    }
   },
   {
     "id": "world-flight-addis-ababa-coffee-traditions-video",
@@ -3379,7 +4074,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Follow coffee preparation as a practice of hospitality and shared time.",
-    "summary": "This feature presents Ethiopian coffee traditions through a cafe and community setting. It supports discussion of preparation, aroma, time, hospitality, migration, and how a cultural practice changes while remaining meaningful."
+    "summary": "This feature presents Ethiopian coffee traditions through a cafe and community setting. It supports discussion of preparation, aroma, time, hospitality, migration, and how a cultural practice changes while remaining meaningful.",
+    "place": {
+      "name": "Addis Ababa, Ethiopia",
+      "lat": 8.9806,
+      "lng": 38.7578
+    }
   },
   {
     "id": "world-flight-addis-ababa-lucy-fossil-video",
@@ -3402,7 +4102,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Use a major fossil discovery to examine evidence about human origins.",
-    "summary": "This HHMI BioInteractive video explains the discovery of Lucy, whose remains are held in Addis Ababa. It supports deeper discussion of fossils, scientific inference, fieldwork, uncertainty, and Ethiopia's importance to research on human origins."
+    "summary": "This HHMI BioInteractive video explains the discovery of Lucy, whose remains are held in Addis Ababa. It supports deeper discussion of fossils, scientific inference, fieldwork, uncertainty, and Ethiopia's importance to research on human origins.",
+    "place": {
+      "name": "Addis Ababa, Ethiopia",
+      "lat": 8.9806,
+      "lng": 38.7578
+    }
   },
   {
     "id": "world-flight-delhi-indian-food-video",
@@ -3427,7 +4132,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use a child-friendly food guide to build vocabulary and curiosity.",
-    "summary": "This child-friendly guide introduces a range of Indian foods through clear names and visual examples. It gives younger learners an accessible entry point while creating opportunities to discuss regional variety rather than treating Indian food as one single cuisine."
+    "summary": "This child-friendly guide introduces a range of Indian foods through clear names and visual examples. It gives younger learners an accessible entry point while creating opportunities to discuss regional variety rather than treating Indian food as one single cuisine.",
+    "place": {
+      "name": "Delhi, India",
+      "lat": 28.6139,
+      "lng": 77.209
+    }
   },
   {
     "id": "world-flight-delhi-red-fort-video",
@@ -3452,7 +4162,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a compact monument guide to connect architecture with Mughal history.",
-    "summary": "This concise educational feature introduces Delhi's Red Fort through its major architectural and historical features. It supports clear description while building context for Mughal rule and the fort's later national significance."
+    "summary": "This concise educational feature introduces Delhi's Red Fort through its major architectural and historical features. It supports clear description while building context for Mughal rule and the fort's later national significance.",
+    "place": {
+      "name": "Delhi, India",
+      "lat": 28.6139,
+      "lng": 77.209
+    }
   },
   {
     "id": "world-flight-delhi-qutub-minar-video",
@@ -3476,7 +4191,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Examine layers of construction, evidence, and interpretation around a famous monument.",
-    "summary": "This history feature examines the construction and purpose of the Qutub Minar. It supports deeper analysis of evidence, architectural change, political symbolism, and why famous monuments often have more complex histories than a single label suggests."
+    "summary": "This history feature examines the construction and purpose of the Qutub Minar. It supports deeper analysis of evidence, architectural change, political symbolism, and why famous monuments often have more complex histories than a single label suggests.",
+    "place": {
+      "name": "Delhi, India",
+      "lat": 28.6139,
+      "lng": 77.209
+    }
   },
   {
     "id": "world-flight-manila-philippines-for-kids-video",
@@ -3501,7 +4221,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Build a child-friendly introduction through islands, wildlife, food, traditions, and Manila.",
-    "summary": "This narrated child-friendly introduction presents the Philippines through clear geographic and cultural examples. It gives younger learners useful context for understanding Manila as the lively capital of a large and varied island country."
+    "summary": "This narrated child-friendly introduction presents the Philippines through clear geographic and cultural examples. It gives younger learners useful context for understanding Manila as the lively capital of a large and varied island country.",
+    "place": {
+      "name": "Manila, Philippines",
+      "lat": 14.5995,
+      "lng": 120.9842
+    }
   },
   {
     "id": "world-flight-manila-filipino-identity-video",
@@ -3524,7 +4249,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use an animated story to explore family, values, culture, and belonging.",
-    "summary": "This animated episode explores Filipino identity through values, family, history, and everyday culture. It supports discussion of belonging without reducing a diverse country to one simple description."
+    "summary": "This animated episode explores Filipino identity through values, family, history, and everyday culture. It supports discussion of belonging without reducing a diverse country to one simple description.",
+    "place": {
+      "name": "Manila, Philippines",
+      "lat": 14.5995,
+      "lng": 120.9842
+    }
   },
   {
     "id": "world-flight-manila-philippines-history-video",
@@ -3548,7 +4278,12 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Trace major periods while questioning what a short national history can include.",
-    "summary": "This compact history provides a fast timeline for the Philippines. It supports advanced summary and media-literacy work by asking what a short overview emphasizes, simplifies, or leaves for further investigation."
+    "summary": "This compact history provides a fast timeline for the Philippines. It supports advanced summary and media-literacy work by asking what a short overview emphasizes, simplifies, or leaves for further investigation.",
+    "place": {
+      "name": "Manila, Philippines",
+      "lat": 14.5995,
+      "lng": 120.9842
+    }
   },
   {
     "id": "world-flight-ho-chi-minh-city-tet-for-kids-video",
@@ -3573,7 +4308,12 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Use a child-friendly guide to explore Vietnamese New Year traditions.",
-    "summary": "This child-friendly guide introduces Tet through clear examples of family traditions, food, symbols, and celebration. It gives younger learners a respectful and accessible cultural entry point."
+    "summary": "This child-friendly guide introduces Tet through clear examples of family traditions, food, symbols, and celebration. It gives younger learners a respectful and accessible cultural entry point.",
+    "place": {
+      "name": "Ho Chi Minh City, Vietnam",
+      "lat": 10.8231,
+      "lng": 106.6297
+    }
   },
   {
     "id": "world-flight-ho-chi-minh-city-vietnam-culture-video",
@@ -3598,7 +4338,12 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a five-minute journey to connect food, places, and everyday cultural details.",
-    "summary": "This compact cultural journey includes Ho Chi Minh City alongside other Vietnamese places. It supports comparison of food, architecture, routines, and regional identity while keeping the focus on specific observable details."
+    "summary": "This compact cultural journey includes Ho Chi Minh City alongside other Vietnamese places. It supports comparison of food, architecture, routines, and regional identity while keeping the focus on specific observable details.",
+    "place": {
+      "name": "Ho Chi Minh City, Vietnam",
+      "lat": 10.8231,
+      "lng": 106.6297
+    }
   },
   {
     "id": "world-flight-ho-chi-minh-city-vietnam-history-video",
@@ -3622,6 +4367,11 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Build a national timeline while recognizing the limits of a short historical summary.",
-    "summary": "This compact history provides wider context for Ho Chi Minh City. It supports advanced summary and source evaluation by asking how a fast overview frames long periods of conflict, exchange, political change, and national identity."
+    "summary": "This compact history provides wider context for Ho Chi Minh City. It supports advanced summary and source evaluation by asking how a fast overview frames long periods of conflict, exchange, political change, and national identity.",
+    "place": {
+      "name": "Ho Chi Minh City, Vietnam",
+      "lat": 10.8231,
+      "lng": 106.6297
+    }
   }
 ]

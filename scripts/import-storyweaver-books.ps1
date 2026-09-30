@@ -53,9 +53,13 @@ foreach ($sourceFile in $SourceFiles) {
   $slug = [regex]::Match($book.slug, '^\d+').Value
   $genre = if ($title -match 'poem') { 'poem' } else { 'narrative' }
   $place = $null
-  if ($title -eq 'The Missing Bat') { $place = @{ name = 'Srinagar, India'; lat = 34.0837; lng = 74.7973 } }
+  if ($title -eq 'First House') { $place = @{ name = 'Arunachal Pradesh, India'; lat = 28.2180; lng = 94.7278 } }
+  elseif ($title -eq 'Singing in the Rain') { $place = @{ name = 'Rajasthan, India'; lat = 27.0238; lng = 74.2179 } }
+  elseif ($title -eq "Nadir's Pet") { $place = @{ name = 'Adyar, Chennai, India'; lat = 13.0067; lng = 80.2565 } }
+  elseif ($title -eq 'The Missing Bat') { $place = @{ name = 'Srinagar, India'; lat = 34.0837; lng = 74.7973 } }
   elseif ($title -eq 'Lassi, Ice-cream or Falooda?') { $place = @{ name = 'Delhi, India'; lat = 28.6139; lng = 77.2090 } }
-  elseif ($text -match '(?i)\bIndia\b|\bHoli\b|\bDiwali\b|\bOnam\b|\bVasant Panchami\b|\bGujarat\b|\bTamil Nadu\b|\bKerala\b|\bBengaluru\b|\bSrinagar\b') { $place = @{ name = 'India'; lat = 20.5937; lng = 78.9629 } }
+  elseif ($text -match '(?i)\bDhanushkodi\b') { $place = @{ name = 'Dhanushkodi, Tamil Nadu, India'; lat = 9.1710; lng = 79.4150 } }
+  elseif ($text -match '(?i)\bGujarat\b|\bTamil Nadu\b|\bKerala\b|\bBengaluru\b|\bSrinagar\b') { $place = @{ name = 'India'; lat = 20.5937; lng = 78.9629 } }
   $topicTagsByTitle = @{
     'Everything looks new!' = @('seasons', 'plants', 'festivals', 'India')
     'Hot Tea and Warm Rugs' = @('seasons', 'weather', 'family', 'India')
@@ -135,6 +139,55 @@ foreach ($sourceFile in $SourceFiles) {
     'What If?' = @('poetry', 'imagination', 'school', 'dreams')
     'The Royal Toothache' = @('animals', 'health', 'teeth', 'humor')
     'Smart Sona Helps Her Mother' = @('family', 'textiles', 'art', 'creativity')
+    'Veeru Goes to the Circus' = @('circus', 'performance', 'family', 'imagination')
+    'Bani' = @('school', 'family', 'dreams', 'imagination')
+    'Sniffles, the Crocodile and Punch, the Butterfly' = @('animals', 'emotions', 'friendship', 'kindness')
+    'Too Much Noise' = @('farming', 'animals', 'noise', 'problem-solving')
+    "Phani's Funny Chappals" = @('school', 'family', 'humor', 'daily-life')
+    'Pehelwaan ji Plays Cricket' = @('cricket', 'sports', 'teamwork', 'friendship')
+    'Saboo and Jojo' = @('animals', 'friendship', 'imagination', 'family')
+    'First House' = @('folktale', 'homes', 'architecture', 'friendship')
+    "Grandma's Glasses" = @('family', 'grandparents', 'humor', 'daily-life')
+    'Busy Ants' = @('insects', 'science', 'communication', 'nature')
+    'Clean Cat' = @('cats', 'pets', 'family', 'humor')
+    'Noisy Crows' = @('birds', 'animals', 'nature', 'food')
+    'We Are All Animals' = @('animals', 'humans', 'drama', 'comparison')
+    'Singing in the Rain' = @('music', 'weather', 'celebrations', 'Rajasthan')
+    'Thangwang and Bhalluka' = @('friendship', 'animals', 'communication', 'adventure')
+    'My Juggling Granny' = @('grandparents', 'humor', 'poetry', 'family')
+    'Where is Gogo?' = @('animals', 'search', 'zoo', 'adventure')
+    'My Musical Adventure' = @('music', 'creativity', 'family', 'ambition')
+    "Mili's birthday celebration" = @('birthday', 'family', 'celebrations', 'India')
+    "Ammu's Puppy" = @('pets', 'friendship', 'honesty', 'family')
+    'No Smiles Today' = @('emotions', 'friendship', 'school', 'kindness')
+    "Samira's Awful Lunch" = @('food', 'family', 'school', 'humor')
+    'Topsy Turvy' = @('poetry', 'imagination', 'opposites', 'humor')
+    'Wailers Three - A Folktale From China' = @('folktale', 'China', 'humor', 'community')
+    'Tok Tok' = @('folktale', 'humor', 'animals', 'problem-solving')
+    "Anaya's Thumb" = @('family', 'habits', 'growing-up', 'health')
+    'Naughty Dog' = @('pets', 'family', 'responsibility', 'humor')
+    'Pishi Caught in a Storm' = @('ocean', 'manta-rays', 'weather', 'friendship')
+    'Tara Finds Her Stars' = @('astronomy', 'trains', 'family', 'adventure')
+    'BooBoo sings for Vihaan' = @('music', 'babies', 'family', 'humor')
+    'Mangoes For Moidootty' = @('folktale', 'food', 'family', 'imagination')
+    'The Woman With No Soul' = @('humor', 'water-buffalo', 'family', 'storytelling')
+    'The Princess and the Veggy Lion' = @('folktale', 'animals', 'food', 'courage')
+    'Asha gives up a bad habit!' = @('health', 'habits', 'family', 'school')
+    "Jaggee's mornings" = @('school', 'daily-life', 'sleep', 'family')
+    'My Friend Trace Roger the robot!' = @('robots', 'imagination', 'school', 'friendship')
+    "Nadir's Pet" = @('pets', 'animals', 'Chennai', 'family')
+    'Long Water' = @('rivers', 'nature', 'water', 'riddles')
+    'The Day It Rained Fish' = @('animals', 'imagination', 'birthday', 'zoo')
+    'Little Painters' = @('art', 'painting', 'family', 'creativity')
+    'The Flyaway Cradle' = @('family', 'siblings', 'wind', 'adventure')
+    'Rumniya' = @('family', 'weddings', 'problem-solving', 'folktale')
+    'Prakruti' = @('nature', 'environment', 'family', 'India')
+    'Happy world' = @('dreams', 'kindness', 'animals', 'friendship')
+    'Tina and the crazy animal' = @('adventure', 'animals', 'forest', 'courage')
+    "Richard's unlucky day" = @('daily-life', 'problem-solving', 'humor', 'school')
+    'Gargi and Soapy' = @('beach', 'animals', 'friendship', 'adventure')
+    "Wonders of Martina's Adventure" = @('adventure', 'ocean', 'nature', 'travel')
+    'Guess this place? Ghost Town!' = @('riddles', 'geography', 'Tamil Nadu', 'history')
   }
   $tags = @('storyweaver', "reading-level-$level") + @($topicTagsByTitle[$title])
 
