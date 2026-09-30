@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import confetti from 'canvas-confetti';
+import { motion, AnimatePresence } from 'framer-motion';
+import { KitButton, KitLabel } from '@/components/session/widget-kit';
 import {
   Radar, Check, X as XIcon, Clock, Trophy, Star, Repeat, Zap, Bomb,
-  Navigation, Crosshair, AlertTriangle, Users,
+  Navigation, Crosshair, AlertTriangle, Users, Mic, PenLine, Plane,
 } from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
 import type { InputSpec } from '@/lib/input-spec';
@@ -142,6 +144,21 @@ function threatTeam(cells: Cell[]): Team | null {
   }
   return null;
 }
+
+/** The line a team is one sector away from completing (for the red board highlight). */
+function threatLine(cells: Cell[]): { team: Team; line: number[] } | null {
+  for (const line of allLines()) {
+    const teams = line.map((i) => cells[i]?.team);
+    for (const t of ['x', 'o'] as Team[]) {
+      if (teams.filter((v) => v === t).length === 3 && teams.filter((v) => v === null).length === 1) return { team: t, line };
+    }
+  }
+  return null;
+}
+
+const COLS = 'ABCDEFGH';
+/** Spoken coordinates (A1–H8) so pickers call their sector out loud. */
+const coord = (i: number) => `${COLS[i % 8]}${Math.floor(i / 8) + 1}`;
 
 function buildCells(questionMode: string): Cell[] {
   const positions = shuffle(Array.from({ length: 64 }, (_, i) => i));
@@ -741,8 +758,8 @@ export function SectorStrikeGame({
           <Radar className="relative w-10 h-10 text-sky-400" />
         </div>
         <div className="text-center space-y-2">
-          <h2 className="text-2xl font-game text-lc-text">Sector Strike</h2>
-          <p className="text-lc-text2 text-sm max-w-xs">
+          <h2 className="font-display text-5xl text-white">Sector Strike</h2>
+          <p className="mx-auto max-w-md text-lg text-white/70">
             Two squadrons fight for control of the airspace. Your whole team answers each
             sector — claim it when the majority is correct. Lock 4 sectors in a row to win.
           </p>
@@ -753,12 +770,7 @@ export function SectorStrikeGame({
             } · 20 minutes
           </p>
         </div>
-        <button
-          onClick={startGame}
-          className="px-8 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-xl font-bold shadow-lg shadow-sky-500/20 hover:scale-105 active:scale-95 transition-all"
-        >
-          Scramble Squadrons
-        </button>
+        <KitButton tone="cyan" solid className="!px-8 !py-3 !text-base" onClick={startGame} icon={<Plane className="h-4 w-4" />}>Scramble squadrons</KitButton>
       </div>
     );
   }
@@ -797,8 +809,8 @@ export function SectorStrikeGame({
               <Trophy className={`w-12 h-12 ${wt?.text ?? ''}`} />
             )}
           </div>
-          <h2 className="text-2xl font-game text-lc-text">
-            {tied ? "Stalemate over the airspace" : `${wt?.name} takes the skies!`}
+          <h2 className="font-display text-5xl text-white">
+            {tied ? 'Stalemate over the airspace' : `${wt?.name} takes the skies!`}
           </h2>
           <p className="text-lc-text2 text-sm">
             {phase === 'timeout' ? "Fuel's out — most sectors held wins" : '4 sectors locked in a row!'}
@@ -811,7 +823,7 @@ export function SectorStrikeGame({
         </div>
 
         <div className="rounded-2xl border border-sky-500/20 bg-gradient-to-b from-slate-900 to-slate-950 p-2">
-          <div className="grid grid-cols-8 grid-rows-8 gap-1 w-full max-w-md mx-auto aspect-square">
+          <div className="mx-auto grid aspect-square w-full max-w-[min(100%,60vh)] grid-cols-8 grid-rows-8 gap-1">
             {cells.map((cell) => (
               <div
                 key={cell.index}
@@ -829,12 +841,9 @@ export function SectorStrikeGame({
           </div>
         </div>
 
-        <button
-          onClick={() => { stopTimer(); setPhase('idle'); onSetInputSpec?.(null); }}
-          className="w-full py-3 bg-lc-surface border border-lc-border text-lc-text rounded-xl font-bold hover:bg-lc-card transition-all"
-        >
-          New Sortie
-        </button>
+        <div className="flex justify-center">
+          <KitButton tone="cyan" solid className="!px-8 !py-3 !text-base" onClick={() => { stopTimer(); setPhase('idle'); onSetInputSpec?.(null); }} icon={<Plane className="h-4 w-4" />}>New sortie</KitButton>
+        </div>
       </div>
     );
   }
@@ -842,284 +851,198 @@ export function SectorStrikeGame({
   // ── Render: Playing phases ────────────────────────────────────────────────
   const ct = TEAM[currentTeam];
   const showResultReveal = phase === 'applying' || (phase === 'bonus-pick');
+  const tl = (phase === 'picking' || phase === 'answering' || phase === 'loading') ? threatLine(cells) : null;
+  const territory = xCount + oCount;
+  const xPct = territory ? (xCount / territory) * 100 : 50;
 
   return (
-    <div className="space-y-3">
-      {/* Squadron HUD */}
-      <div className="flex items-center justify-between text-sm font-bold">
-        <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border ${currentTeam === 'x' ? TEAM.x.chip : 'border-transparent'}`}>
-          <Navigation className={`w-4 h-4 ${TEAM.x.text} fill-current`} />
-          <span className={TEAM.x.text}>{xCount}</span>
-        </div>
-        <div className={`flex items-center gap-1 font-mono text-xs ${timeLeft <= 60 ? 'text-red-400 font-bold animate-pulse' : 'text-lc-text2'}`}>
-          <Clock className="w-3 h-3" />
-          {formatTime(timeLeft)}
-        </div>
-        <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border ${currentTeam === 'o' ? TEAM.o.chip : 'border-transparent'}`}>
-          <span className={TEAM.o.text}>{oCount}</span>
-          <Navigation className={`w-4 h-4 ${TEAM.o.text} fill-current rotate-180`} />
+    <div className="flex flex-wrap items-start gap-4 text-white">
+      {/* ── Board ── (wraps above the panel when the windscreen is narrow) */}
+      <div className="relative min-w-0 flex-[2_1_420px] rounded-[1.5rem] border border-sky-400/20 bg-[radial-gradient(ellipse_at_center,#0c1a2e_0%,#060b16_75%)] p-3 shadow-[inset_0_0_60px_rgba(56,189,248,0.08)]">
+        {phase === 'picking' && (
+          <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[1.5rem] opacity-20">
+            <div className="absolute left-1/2 top-1/2 h-[170%] w-[170%] -translate-x-1/2 -translate-y-1/2 animate-radar-sweep" style={{ background: `conic-gradient(from 0deg, transparent 300deg, ${currentTeam === 'x' ? 'rgba(56,189,248,0.55)' : 'rgba(251,191,36,0.55)'} 360deg)` }} />
+          </div>
+        )}
+        <div className="relative mx-auto grid w-full max-w-[min(100%,60vh)] grid-cols-[1.4rem_1fr] grid-rows-[1.4rem_1fr] gap-1">
+          <span />
+          <div className="grid grid-cols-8 gap-1">{COLS.split('').map((c) => <span key={c} className="text-center font-mono text-xs font-semibold text-sky-200/60">{c}</span>)}</div>
+          <div className="grid grid-rows-8 gap-1">{Array.from({ length: 8 }, (_, r) => <span key={r} className="flex items-center justify-center font-mono text-xs font-semibold text-sky-200/60">{r + 1}</span>)}</div>
+          <div className="relative grid aspect-square grid-cols-8 grid-rows-8 gap-1">
+            {cells.map((cell) => {
+              const isSelected = cell.index === selectedCell;
+              const isTarget = bonusPickTargets.includes(cell.index);
+              const wasBombed = cell.index === lastBombedCell;
+              const isClaiming = animatingCells.includes(cell.index);
+              const isWinning = winningCells.includes(cell.index);
+              const inThreat = tl?.line.includes(cell.index);
+              const canPick = phase === 'picking' && cell.team === null;
+              const canBonus = phase === 'bonus-pick' && isTarget;
+              const showLock = isSelected && (phase === 'answering' || phase === 'loading');
+              return (
+                <button
+                  key={cell.index}
+                  onClick={() => { if (canBonus) handleBonusPick(cell.index); else if (canPick) handleCellClick(cell.index); }}
+                  disabled={!canPick && !canBonus}
+                  className={[
+                    'relative flex h-full w-full select-none items-center justify-center rounded-md border transition-all',
+                    cell.team === 'x' ? `${TEAM.x.cellBg} ${TEAM.x.cellGlow} border-sky-200/40` :
+                    cell.team === 'o' ? `${TEAM.o.cellBg} ${TEAM.o.cellGlow} border-amber-200/40` :
+                    'border-sky-300/10 bg-sky-950/40',
+                    isClaiming ? 'animate-cell-claim' : '',
+                    wasBombed ? 'animate-cell-shake ring-2 ring-red-500' : '',
+                    isWinning ? 'animate-cell-flash z-10 ring-4 ring-white' : '',
+                    inThreat && !isWinning ? `ring-2 ${tl?.team === 'x' ? 'ring-sky-300' : 'ring-amber-300'} animate-pulse` : '',
+                    showResultReveal && isSelected && lastResult === 'correct' ? 'ring-4 ring-emerald-300' : '',
+                    showResultReveal && isSelected && lastResult === 'wrong' ? 'ring-4 ring-rose-400' : '',
+                    isTarget ? 'animate-pulse cursor-pointer ring-2 ring-yellow-300' : '',
+                    canPick ? 'cursor-pointer hover:scale-105 hover:border-sky-300/60 hover:bg-sky-800/40' : 'cursor-default',
+                  ].filter(Boolean).join(' ')}
+                >
+                  {cell.team && <Navigation className={`h-[45%] w-[45%] fill-white/30 text-white/95 ${cell.team === 'o' ? 'rotate-180' : ''}`} />}
+                  {!cell.team && cell.bonusRevealed && cell.bonus && <BonusIcon bonus={cell.bonus} className="h-[45%] w-[45%] text-yellow-300" />}
+                  {!cell.team && !cell.bonusRevealed && phase === 'picking' && <span className="font-mono text-[10px] font-semibold text-sky-200/35 sm:text-xs">{coord(cell.index)}</span>}
+                  {showLock && (
+                    <span className="pointer-events-none absolute inset-0 flex items-center justify-center animate-target-lock">
+                      <Crosshair className="h-full w-full text-white/85" strokeWidth={1.25} />
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+            {/* Capture fly-in: a plane streaks from the team's side to the new sector */}
+            <AnimatePresence>
+              {animatingCells.slice(0, 1).map((idx) => {
+                const team = cells[idx]?.team;
+                if (!team) return null;
+                const left = `${(idx % 8) * 12.5 + 6.25}%`;
+                const top = `${Math.floor(idx / 8) * 12.5 + 6.25}%`;
+                return (
+                  <motion.span key={`fly-${idx}`} className="pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-1/2" initial={{ left: team === 'x' ? '-8%' : '108%', top, opacity: 0, scale: 0.6 }} animate={{ left, top, opacity: [0, 1, 1, 0], scale: [0.6, 1.4, 1.4, 0.4] }} exit={{ opacity: 0 }} transition={{ duration: 0.9, ease: 'easeOut' }}>
+                    <Plane className={`h-8 w-8 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] ${team === 'x' ? 'rotate-45 text-sky-200' : '-rotate-[135deg] text-amber-200'}`} />
+                  </motion.span>
+                );
+              })}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
 
-      {/* Threat warning — one sector from victory */}
-      {threat && (
-        <div className="rounded-lg px-3 py-1.5 text-xs font-bold text-center bg-red-500/15 text-red-300 border border-red-500/30 flex items-center justify-center gap-1.5 animate-pulse">
-          <AlertTriangle className="w-3.5 h-3.5" />
-          {TEAM[threat].name} is one sector from victory — defend the line!
-        </div>
-      )}
-
-      {/* Team / picker banner */}
-      {phase !== 'bonus-pick' && (
-        <div className={`rounded-xl px-3 py-2 text-xs font-semibold flex items-center justify-between border ${ct.chip}`}>
-          <span className="flex items-center gap-1.5">
-            <span className={`w-2 h-2 rounded-full ${ct.dot}`} />
-            {ct.name}
-          </span>
-          {currentPicker && (
-            <span className="text-white/80 font-normal">
-              {phase === 'picking'
-                ? `${currentPicker.name} — choose a sector`
-                : currentCell?.qType === 'written'
-                  ? 'Squadron, answer on your devices'
-                  : `${currentPicker.name} — answer aloud`}
-            </span>
-          )}
-          {currentCell?.qType && (phase === 'answering' || phase === 'loading' || phase === 'applying') && (
-            <span className="text-white/50 text-xs">
-              {currentCell.qType === 'speaking' ? '🎙' : '✍'}
-            </span>
-          )}
-        </div>
-      )}
-
-      {phase === 'bonus-pick' && currentCell?.bonus && (
-        currentCell.bonus === 'bomb' ? (
-          <div className="rounded-xl px-3 py-2.5 text-sm font-bold text-center bg-red-500/15 text-red-300 border border-red-500/30 flex items-center justify-center gap-2">
-            <Bomb className="w-4 h-4" />
-            Bomb! {currentPicker?.name} — choose an enemy sector to destroy
+      {/* ── Side panel ── */}
+      <div className="min-w-0 flex-[1_1_300px] space-y-3">
+        {/* Squadron scoreboard + territory tug */}
+        <div className="rounded-2xl border border-white/10 bg-slate-950/50 p-3">
+          <div className="flex items-center justify-between">
+            <div className={`rounded-xl px-3 py-1.5 ${currentTeam === 'x' ? 'bg-sky-400/15 ring-1 ring-sky-300/60' : ''}`}>
+              <p className={`font-mono text-[11px] uppercase tracking-[0.14em] ${TEAM.x.text}`}>{TEAM.x.name}</p>
+              <p className="font-display text-4xl leading-none">{xCount}</p>
+            </div>
+            <div className={`flex items-center gap-1 font-mono text-sm ${timeLeft <= 60 ? 'animate-pulse font-bold text-rose-300' : 'text-white/60'}`}><Clock className="h-4 w-4" />{formatTime(timeLeft)}</div>
+            <div className={`rounded-xl px-3 py-1.5 text-right ${currentTeam === 'o' ? 'bg-amber-400/15 ring-1 ring-amber-300/60' : ''}`}>
+              <p className={`font-mono text-[11px] uppercase tracking-[0.14em] ${TEAM.o.text}`}>{TEAM.o.name}</p>
+              <p className="font-display text-4xl leading-none">{oCount}</p>
+            </div>
           </div>
-        ) : (
-          <div className="rounded-xl px-3 py-2 text-xs font-semibold text-center bg-yellow-500/15 text-yellow-300 border border-yellow-500/25 flex items-center justify-center gap-1.5">
-            <BonusIcon bonus={currentCell.bonus} className="w-3.5 h-3.5" />
-            {BONUS_NAMES[currentCell.bonus]} — tap a highlighted sector
+          <div className="mt-2 flex h-2 overflow-hidden rounded-full bg-white/10">
+            <motion.div className="h-full bg-sky-400" animate={{ width: `${xPct}%` }} transition={{ type: 'spring', stiffness: 90, damping: 16 }} />
+            <div className="h-full flex-1 bg-amber-400" />
           </div>
-        )
-      )}
+        </div>
 
-      {/* Tactical board */}
-      <div className="relative rounded-2xl border border-sky-500/20 bg-gradient-to-b from-slate-900 to-slate-950 p-2 shadow-[inset_0_0_40px_rgba(56,189,248,0.07)]">
-        {/* Radar sweep — only while a pilot is choosing */}
-        {phase === 'picking' && (
-          <div className="pointer-events-none absolute inset-0 rounded-2xl overflow-hidden opacity-25">
-            <div
-              className="absolute left-1/2 top-1/2 h-[160%] w-[160%] -translate-x-1/2 -translate-y-1/2 animate-radar-sweep"
-              style={{ background: `conic-gradient(from 0deg, transparent 300deg, ${currentTeam === 'x' ? 'rgba(56,189,248,0.5)' : 'rgba(251,191,36,0.5)'} 360deg)` }}
-            />
+        {threat && (
+          <div className="flex items-center gap-2 rounded-xl border border-rose-400/40 bg-rose-500/15 px-3 py-2 text-sm font-semibold text-rose-100 animate-pulse">
+            <AlertTriangle className="h-4 w-4 shrink-0" />{TEAM[threat].name} is one sector from victory. Defend the line!
           </div>
         )}
 
-        <div className="relative grid grid-cols-8 grid-rows-8 gap-1 w-full max-w-md mx-auto aspect-square">
-          {cells.map((cell) => {
-            const isSelected = cell.index === selectedCell;
-            const isTarget = bonusPickTargets.includes(cell.index);
-            const wasBombed = cell.index === lastBombedCell;
-            const isClaiming = animatingCells.includes(cell.index);
-            const isWinning = winningCells.includes(cell.index);
-            const canPick = phase === 'picking' && cell.team === null;
-            const canBonus = phase === 'bonus-pick' && isTarget;
-            const showLock = isSelected && (phase === 'answering' || phase === 'loading');
+        {phase !== 'bonus-pick' && (
+          <div className={`rounded-2xl border px-4 py-3 ${ct.chip}`}>
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em]">{ct.name}</p>
+            {currentPicker && (
+              <p className="mt-0.5 flex items-center gap-2 text-lg text-white">
+                {phase === 'picking'
+                  ? <><Crosshair className="h-5 w-5" />{currentPicker.name}: call a sector (like &ldquo;B4&rdquo;)</>
+                  : currentCell?.qType === 'written'
+                    ? <><PenLine className="h-5 w-5" />Squadron: answer on your phones</>
+                    : <><Mic className="h-5 w-5" />{currentPicker.name}: answer out loud</>}
+              </p>
+            )}
+          </div>
+        )}
 
-            return (
-              <button
-                key={cell.index}
-                onClick={() => {
-                  if (canBonus) handleBonusPick(cell.index);
-                  else if (canPick) handleCellClick(cell.index);
-                }}
-                disabled={!canPick && !canBonus}
-                className={[
-                  'relative w-full h-full rounded-[4px] flex items-center justify-center transition-all select-none border',
-                  cell.team === 'x' ? `${TEAM.x.cellBg} ${TEAM.x.cellGlow} border-sky-300/30` :
-                  cell.team === 'o' ? `${TEAM.o.cellBg} ${TEAM.o.cellGlow} border-amber-300/30` :
-                  'bg-slate-800/40 border-white/5',
-                  isClaiming ? 'animate-cell-claim' : '',
-                  wasBombed ? 'animate-cell-shake ring-2 ring-red-500' : '',
-                  isWinning ? 'animate-cell-flash ring-2 ring-white' : '',
-                  showResultReveal && isSelected && lastResult === 'correct' ? 'ring-2 ring-green-400' : '',
-                  showResultReveal && isSelected && lastResult === 'wrong' ? 'ring-2 ring-red-400' : '',
-                  isTarget ? 'ring-2 ring-yellow-400 animate-pulse cursor-pointer' : '',
-                  canPick ? 'hover:bg-slate-700/60 hover:border-sky-400/40 hover:scale-105 cursor-pointer' : 'cursor-default',
-                ].filter(Boolean).join(' ')}
-              >
-                {cell.team && <Navigation className={`w-3 h-3 text-white/95 fill-white/30 ${cell.team === 'o' ? 'rotate-180' : ''}`} />}
-                {!cell.team && cell.bonusRevealed && cell.bonus && (
-                  <BonusIcon bonus={cell.bonus} className="w-3.5 h-3.5 text-yellow-400" />
-                )}
-                {!cell.team && !cell.bonusRevealed && phase === 'picking' && (
-                  <span className="text-[11px] font-mono font-semibold text-sky-200/70">{cell.index + 1}</span>
-                )}
-                {/* Target-lock reticle on the chosen sector */}
-                {showLock && (
-                  <span className="pointer-events-none absolute inset-0 flex items-center justify-center animate-target-lock">
-                    <Crosshair className="w-full h-full text-white/80" strokeWidth={1.25} />
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+        {phase === 'bonus-pick' && currentCell?.bonus && (
+          <div className={`flex items-center gap-2 rounded-2xl border px-4 py-3 text-lg font-semibold ${currentCell.bonus === 'bomb' ? 'border-rose-400/40 bg-rose-500/15 text-rose-100' : 'border-yellow-300/40 bg-yellow-400/10 text-yellow-100'}`}>
+            <BonusIcon bonus={currentCell.bonus} className="h-5 w-5 shrink-0" />
+            {currentCell.bonus === 'bomb' ? `Bomb! ${currentPicker?.name}: pick an enemy sector` : currentCell.bonus === 'double-down' ? 'Double Down: tap a free sector next to it' : currentCell.bonus === 'steal' ? 'Steal: tap any enemy sector' : `${BONUS_NAMES[currentCell.bonus]}: tap a highlighted sector`}
+          </div>
+        )}
 
-      {/* Question / answer panel */}
-      {(phase === 'loading' || phase === 'answering' || phase === 'applying') && (
-        <div className="rounded-xl border border-lc-border bg-lc-surface p-3 space-y-3">
-          {phase === 'loading' && (
-            <div className="flex items-center gap-2 text-lc-text2 py-1">
-              <div className="w-4 h-4 border-2 border-sky-500 border-t-transparent rounded-full animate-spin flex-shrink-0" />
-              <span className="text-sm">Loading question…</span>
-            </div>
-          )}
-
-          {(phase === 'answering' || phase === 'applying') && (
-            <>
-              {/* Bonus banner */}
-              {currentCell?.bonus && currentCell.bonusRevealed && (
-                <div className={`rounded-lg border px-3 py-2.5 flex items-center gap-3 ${
-                  currentCell.bonus === 'bomb'
-                    ? 'bg-red-500/15 border-red-500/30'
-                    : 'bg-yellow-500/15 border-yellow-500/30'
-                }`}>
-                  <BonusIcon bonus={currentCell.bonus} className={`w-6 h-6 flex-shrink-0 ${
-                    currentCell.bonus === 'bomb' ? 'text-red-400' : 'text-yellow-400'
-                  }`} />
-                  <div>
-                    <p className={`text-sm font-bold ${currentCell.bonus === 'bomb' ? 'text-red-300' : 'text-yellow-300'}`}>
-                      {BONUS_NAMES[currentCell.bonus]}!
-                    </p>
-                    {currentCell.bonus === 'free-square' && (
-                      <p className="text-xs text-yellow-400/70">Sector auto-claimed</p>
-                    )}
+        {(phase === 'loading' || phase === 'answering' || phase === 'applying') && (
+          <div className="space-y-3 rounded-2xl border border-white/10 bg-slate-950/50 p-4">
+            {selectedCell !== null && <KitLabel tone={currentTeam === 'x' ? 'cyan' : 'amber'}>Sector {coord(selectedCell)}</KitLabel>}
+            {phase === 'loading' && <p className="flex items-center gap-2 text-white/70"><span className="h-4 w-4 animate-spin rounded-full border-2 border-sky-400 border-t-transparent" />Loading question…</p>}
+            {(phase === 'answering' || phase === 'applying') && (
+              <>
+                {currentCell?.bonus && currentCell.bonusRevealed && (
+                  <div className={`flex items-center gap-2 rounded-xl border px-3 py-2 ${currentCell.bonus === 'bomb' ? 'border-rose-400/40 bg-rose-500/15 text-rose-100' : 'border-yellow-300/40 bg-yellow-400/10 text-yellow-100'}`}>
+                    <BonusIcon bonus={currentCell.bonus} className="h-5 w-5" />
+                    <span className="font-semibold">{BONUS_NAMES[currentCell.bonus]}!</span>
+                    {currentCell.bonus === 'free-square' && <span className="text-sm opacity-80">Sector auto-claimed</span>}
                   </div>
-                </div>
-              )}
-
-              {/* Question text */}
-              {currentCell?.question && (
-                <p className="text-sm font-semibold text-lc-text leading-snug">
-                  {currentCell.question}
-                </p>
-              )}
-
-              {/* Written: MC option grid (correct answer hidden until reveal) */}
-              {currentCell?.qType === 'written' && currentCell.options && (
-                <div className="grid grid-cols-2 gap-1.5">
-                  {currentCell.options.map((opt, i) => {
-                    const LABELS = ['A', 'B', 'C', 'D'];
-                    const COLORS = ['bg-red-600', 'bg-blue-600', 'bg-amber-500', 'bg-green-600'];
-                    const revealed = revealCorrectIndex !== null;
-                    const isCorrect = i === revealCorrectIndex;
-                    return (
-                      <div
-                        key={i}
-                        className={`rounded-lg px-2 py-1.5 transition-all ${COLORS[i]} ${
-                          revealed ? (isCorrect ? 'opacity-100 ring-2 ring-white' : 'opacity-35') : 'opacity-85'
-                        }`}
-                      >
-                        <span className="text-[10px] font-black text-white/70 uppercase">{LABELS[i]}</span>
-                        <p className="text-xs font-semibold text-white leading-snug">{opt}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-
-              {/* Written: live reporting + reveal control */}
-              {currentCell?.qType === 'written' && phase === 'answering' && (
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="flex items-center gap-1.5 text-lc-text2">
-                      <Users className="w-3.5 h-3.5" />
-                      {reportedCount} of {activeTeamSize} reporting
-                    </span>
-                    <div className="flex gap-1">
-                      {Array.from({ length: activeTeamSize }).map((_, i) => (
-                        <span
-                          key={i}
-                          className={`w-2 h-2 rounded-full ${i < reportedCount ? ct.dot : 'bg-lc-border'}`}
-                        />
-                      ))}
+                )}
+                {currentCell?.question && <p className="font-display text-2xl leading-snug">{currentCell.question}</p>}
+                {currentCell?.qType === 'written' && currentCell.options && (
+                  <div className="grid grid-cols-2 gap-2">
+                    {currentCell.options.map((opt, i) => {
+                      const revealed = revealCorrectIndex !== null;
+                      const isCorrect = i === revealCorrectIndex;
+                      const tone = ['border-cyan-300/50 bg-cyan-400/10', 'border-violet-300/50 bg-violet-400/10', 'border-amber-300/50 bg-amber-300/10', 'border-rose-300/50 bg-rose-400/10'][i];
+                      return (
+                        <div key={i} className={`rounded-xl border-2 px-3 py-2 transition-all ${tone} ${revealed ? (isCorrect ? 'ring-2 ring-emerald-300' : 'opacity-35') : ''}`}>
+                          <span className="font-mono text-xs font-bold text-white/60">{'ABCD'[i]}</span>
+                          <p className="text-base font-semibold leading-snug">{opt}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                {currentCell?.qType === 'written' && phase === 'answering' && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm text-white/70">
+                      <span className="flex items-center gap-1.5"><Users className="h-4 w-4" />{reportedCount} of {activeTeamSize} answered</span>
+                      <span className="flex gap-1">{Array.from({ length: activeTeamSize }).map((_, i) => <span key={i} className={`h-2.5 w-2.5 rounded-full ${i < reportedCount ? ct.dot : 'bg-white/15'}`} />)}</span>
                     </div>
+                    <KitButton tone={currentTeam === 'x' ? 'cyan' : 'amber'} solid className="w-full !py-2.5 !text-sm" onClick={evaluateWritten}>{reportedCount === 0 ? 'Reveal answer & continue' : 'Reveal result'}</KitButton>
                   </div>
-                  <button
-                    onClick={evaluateWritten}
-                    className="w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95 bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg shadow-sky-500/20 hover:scale-[1.02]"
-                  >
-                    {reportedCount === 0 ? 'Reveal answer & continue' : 'Reveal result'}
-                  </button>
-                </div>
-              )}
+                )}
+                {phase === 'answering' && currentCell?.qType === 'speaking' && (
+                  <div className="flex gap-2">
+                    <KitButton tone="emerald" solid className="flex-1 !py-2.5 !text-sm" onClick={handleCorrect} icon={<Check className="h-4 w-4" />}>Correct</KitButton>
+                    <KitButton tone="rose" className="flex-1 !py-2.5 !text-sm" onClick={handleWrong} icon={<XIcon className="h-4 w-4" />}>Wrong</KitButton>
+                  </div>
+                )}
+                {phase === 'applying' && lastResult !== null && (
+                  <motion.p initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className={`flex items-center justify-center gap-2 rounded-xl py-2 text-lg font-semibold ${lastResult === 'correct' ? 'bg-emerald-400/15 text-emerald-200' : 'bg-rose-400/15 text-rose-200'}`}>
+                    {lastResult === 'correct' ? <Check className="h-5 w-5" /> : <XIcon className="h-5 w-5" />}
+                    {currentCell?.qType === 'written' && lastTally
+                      ? lastResult === 'correct' ? `${lastTally.correct}/${lastTally.total} correct: sector claimed!` : `${lastTally.correct}/${lastTally.total} correct: sector held`
+                      : lastResult === 'correct' ? 'Sector claimed!' : 'Missed: next squadron'}
+                  </motion.p>
+                )}
+              </>
+            )}
+          </div>
+        )}
 
-              {/* Speaking: approve/reject buttons */}
-              {phase === 'answering' && currentCell?.qType === 'speaking' && (
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleCorrect}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-green-500/15 hover:bg-green-500/25 text-green-400 border border-green-500/30 rounded-xl text-sm font-bold transition-all active:scale-95"
-                  >
-                    <Check className="w-4 h-4" />
-                    Correct
-                  </button>
-                  <button
-                    onClick={handleWrong}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-red-500/15 hover:bg-red-500/25 text-red-400 border border-red-500/30 rounded-xl text-sm font-bold transition-all active:scale-95"
-                  >
-                    <XIcon className="w-4 h-4" />
-                    Wrong
-                  </button>
-                </div>
-              )}
-
-              {/* Applying result */}
-              {phase === 'applying' && lastResult !== null && (
-                <div className={`text-center font-bold text-sm py-1.5 rounded-lg ${
-                  lastResult === 'correct'
-                    ? 'text-green-400 bg-green-500/10'
-                    : 'text-red-400 bg-red-500/10'
-                }`}>
-                  {currentCell?.qType === 'written' && lastTally
-                    ? lastResult === 'correct'
-                      ? `✓ ${lastTally.correct}/${lastTally.total} correct — sector claimed!`
-                      : `✗ ${lastTally.correct}/${lastTally.total} correct — sector held`
-                    : lastResult === 'correct' ? '✓ Sector claimed!' : '✗ Missed — next squadron'}
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      )}
-
-      {/* Bonus-pick instruction */}
-      {phase === 'bonus-pick' && currentCell?.bonus === 'double-down' && (
-        <p className="text-xs text-lc-text3 text-center">
-          Tap an adjacent free sector to claim it as a bonus
-        </p>
-      )}
-      {phase === 'bonus-pick' && currentCell?.bonus === 'steal' && (
-        <p className="text-xs text-lc-text3 text-center">
-          Tap any enemy sector to capture it
-        </p>
-      )}
-
-      {/* Legend (only during picking, compact) */}
-      {phase === 'picking' && (
-        <div className="flex items-center justify-center gap-4 text-[10px] text-lc-text3 pt-1">
-          <span className="flex items-center gap-1"><Star className="w-3 h-3 text-yellow-400" /> Double Down</span>
-          <span className="flex items-center gap-1"><Repeat className="w-3 h-3 text-yellow-400" /> Steal</span>
-          <span className="flex items-center gap-1"><Zap className="w-3 h-3 text-yellow-400" /> Free</span>
-          <span className="flex items-center gap-1"><Bomb className="w-3 h-3 text-yellow-400" /> Bomb</span>
-        </div>
-      )}
+        {phase === 'picking' && (
+          <div className="grid grid-cols-2 gap-1.5 text-xs text-white/60">
+            <span className="flex items-center gap-1.5"><Star className="h-3.5 w-3.5 text-yellow-300" />Double Down: +1 sector</span>
+            <span className="flex items-center gap-1.5"><Repeat className="h-3.5 w-3.5 text-yellow-300" />Steal an enemy sector</span>
+            <span className="flex items-center gap-1.5"><Zap className="h-3.5 w-3.5 text-yellow-300" />Free sector</span>
+            <span className="flex items-center gap-1.5"><Bomb className="h-3.5 w-3.5 text-yellow-300" />Bomb an enemy sector</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
