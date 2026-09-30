@@ -21,6 +21,7 @@ import gridRushJson from '@/content/games/grid-rush.json';
 import sectorStrikeJson from '@/content/games/sector-strike.json';
 import radarFixJson from '@/content/games/radar-fix.json';
 import worldLensJson from '@/content/games/world-lens.json';
+import mysteryFlightJson from '@/content/games/mystery-flight.json';
 
 import wouldYouRatherJson from '@/content/activities/would-you-rather.json';
 import twoTruthsJson from '@/content/activities/two-truths.json';
@@ -128,6 +129,7 @@ const GAME_CONTENT: Record<string, LandingContent> = {
   'sector-strike': sectorStrikeJson as LandingContent,
   'radar-fix': radarFixJson as LandingContent,
   'world-lens': worldLensJson as LandingContent,
+  'mystery-flight': mysteryFlightJson as LandingContent,
 };
 
 const ACTIVITY_CONTENT: Record<string, LandingContent> = {

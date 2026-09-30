@@ -53,7 +53,7 @@ const VALID_GAME_SLUG_LIST = [
   'grammar-boss', 'error-hunter', 'story-sprint', 'dialogue-detective',
   'connections', 'twenty-questions',
   'flash-quiz', 'brain-teasers', 'defend-it',
-  'grid-rush', 'sector-strike', 'radar-fix', 'world-lens',
+  'grid-rush', 'sector-strike', 'radar-fix', 'world-lens', 'mystery-flight',
 ];
 
 const VALID_ACTIVITY_SLUG_LIST = [
