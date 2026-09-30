@@ -433,8 +433,9 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
   return (
     <div className={inLiveRoom ? 'h-full' : 'grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px] h-full'}>
         {/* Main game area */}
-        <div className="min-w-0 space-y-4">
-          <div className="glass rounded-2xl min-h-[480px] max-h-[680px] flex flex-col overflow-hidden">
+        {/* Live Room: the panel fills the windscreen height. */}
+        <div className={inLiveRoom ? 'flex h-full min-w-0 flex-col' : 'min-w-0 space-y-4'}>
+          <div className={`glass rounded-2xl flex flex-col overflow-hidden ${inLiveRoom ? 'min-h-0 flex-1' : 'min-h-[480px] max-h-[680px]'}`}>
             <div className="flex items-center justify-between px-6 py-3 border-b border-white/[0.06] shrink-0">
               <div className="flex items-center gap-3">
                 <h2 className="text-lg font-bold">{game.name}</h2>

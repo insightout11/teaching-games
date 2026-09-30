@@ -648,8 +648,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // Stable portal target: the running game/activity renders into this node,
   // which the Live Room cockpit moves between its stage and presenting view
   // without remounting (so a running module never restarts).
-  const [roomModuleEl] = useState<HTMLElement | null>(() =>
-    typeof document !== 'undefined' ? document.createElement('div') : null,
+  const [roomModuleEl] = useState<HTMLElement | null>(() => {
+    if (typeof document === 'undefined') return null;
+    const el = document.createElement('div');
+    el.style.height = '100%'; // lets the running panel fill the Live Room windscreen
+    return el;
+  }
   );
   isRoomSessionRef.current = isRoomSession;
   const [selectedGame, setSelectedGame] = useState<GamePlugin | null>(null);

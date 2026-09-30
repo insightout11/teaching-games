@@ -231,7 +231,7 @@ export function ReadAloudActivity({
                 {preparing ? 'Preparing class version…' : classVersion ? `Class version (${sessionSettings.difficulty})` : 'Class version unavailable'}
               </KitChip>
               <KitChip on={!useClassVersion || !classVersion} tone="cyan" onClick={() => setUseClassVersion(false)}>Original</KitChip>
-              <span className="ml-auto font-mono text-[11px] text-white/50">{readingTurns.length} turns · {students.length} readers</span>
+              <span className="ml-auto font-mono text-[11px] text-white/50">{readingTurns.length} turn{readingTurns.length === 1 ? '' : 's'} · {students.length} reader{students.length === 1 ? '' : 's'}</span>
             </div>
             {classVersion && !classVersion.safe && (
               <div className="flex items-start gap-2 rounded-xl border border-rose-300/40 bg-rose-400/10 px-3 py-2 text-sm text-rose-100">
@@ -370,10 +370,15 @@ export function ReadAloudActivity({
         <KitChip on={autoPace} tone="emerald" onClick={() => setAutoPace((v) => !v)}>
           <span className="flex items-center gap-1">{autoPace ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />} Follow-along pace</span>
         </KitChip>
-        <KitButton icon={<SkipForward className="h-3.5 w-3.5" />} onClick={() => advance(activeEntry?.studentName)}>Skip reader</KitButton>
+        {students.length > 1 && <KitButton icon={<SkipForward className="h-3.5 w-3.5" />} onClick={() => advance(activeEntry?.studentName)}>Skip reader</KitButton>}
         <KitButton tone="emerald" solid className="ml-auto" icon={<ChevronRight className="h-3.5 w-3.5" />} onClick={() => advance()}>Next passage</KitButton>
       </div>
 
+      {students.length === 1 ? (
+        <p className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/70">
+          <span className="text-white">{students[0].name}</span> reads all {readingTurns.length} passage{readingTurns.length === 1 ? '' : 's'}
+        </p>
+      ) : (
       <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
         <KitLabel className="mb-2">Reading queue</KitLabel>
         <div className="space-y-1">
@@ -386,6 +391,7 @@ export function ReadAloudActivity({
           ))}
         </div>
       </div>
+      )}
     </div>
   );
 }

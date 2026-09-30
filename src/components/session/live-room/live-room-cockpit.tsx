@@ -387,5 +387,6 @@ export function HostSlot({ el }: { el: HTMLElement }) {
       if (el.parentNode === node) node.removeChild(el);
     };
   }, [el]);
-  return <div ref={ref} className="min-h-0 w-full" />;
+  // h-full so a game/activity panel can fill the windscreen height.
+  return <div ref={ref} className="h-full min-h-0 w-full" />;
 }
