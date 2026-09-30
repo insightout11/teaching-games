@@ -214,7 +214,9 @@
       "name": "Egypt",
       "lat": 26.8206,
       "lng": 30.8025
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "natgeo-climate-change",
@@ -231,7 +233,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Climate change is already affecting communities around the world. Here's what the science says — and what it means for the future.",
     "summary": "Climate change is no longer a distant future threat. Its effects are already being felt around the world — in rising sea levels, more intense storms, prolonged droughts, and shifting seasons. Understanding what is happening and why is essential to making informed decisions about how to respond.\n\nThe Earth's climate has always changed. Over millions of years, the planet has experienced ice ages, warm periods, and dramatic shifts driven by changes in Earth's orbit, volcanic activity, and other natural factors. What is different now is the speed of change — and the cause.\n\nSince the Industrial Revolution, human activities have released enormous quantities of greenhouse gases — primarily carbon dioxide from burning fossil fuels — into the atmosphere. These gases trap heat from the sun that would otherwise escape into space. As their concentration rises, more heat is retained, and global average temperatures increase. The planet has already warmed approximately 1.1 degrees Celsius above pre-industrial levels.\n\nThe effects are wide-ranging. Glaciers and ice sheets are melting, contributing to sea level rise that threatens coastal cities and low-lying nations. Warming oceans are more acidic and less oxygen-rich, harming marine life. Extreme weather events — heatwaves, floods, wildfires, hurricanes — are becoming more frequent and intense.\n\nThe communities most affected are often those least responsible for causing climate change. Small island nations face complete inundation. Subsistence farmers in Africa and Asia face worsening droughts. Arctic communities see the landscapes they have lived on for generations literally disappearing.\n\nThe scientific consensus is clear: limiting warming to 1.5 or 2 degrees Celsius above pre-industrial levels requires rapidly reducing greenhouse gas emissions and transitioning away from fossil fuels. The decisions made in the coming years will shape the climate for centuries.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "natgeo-plastic-pollution",
@@ -248,7 +252,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Only 9% of all plastic ever made has been recycled. The rest is in landfills, the environment, or the ocean.",
     "summary": "Plastic is one of the most useful materials humans have ever invented. It is cheap, lightweight, durable, and can be formed into almost any shape. Since its invention in the early 20th century, plastic has transformed medicine, food storage, transportation, and construction. But our relationship with plastic has created a global environmental crisis.\n\nThe numbers are staggering. Since the 1950s, humans have produced over 8 billion tonnes of plastic. Of that, only about 9 percent has been recycled. Around 12 percent has been incinerated. The remaining 79 percent has accumulated in landfills, the natural environment, or the ocean.\n\nEach year, an estimated 8 million tonnes of plastic enter the world's oceans — the equivalent of a rubbish truck full of plastic entering the sea every minute. Plastic does not biodegrade in the way that organic material does. Instead, it breaks down into ever-smaller fragments called microplastics. These tiny particles are now found everywhere — in the deepest ocean trenches, in Arctic snow, in the air above cities, in drinking water, and in human blood.\n\nThe impact on wildlife is severe. Seabirds, sea turtles, whales, and fish ingest plastic or become entangled in it. Scientists estimate that by 2050, there could be more plastic in the ocean by weight than fish.\n\nAddressing the plastic problem requires action across the entire system — from redesigning products and packaging to avoid unnecessary plastic, to improving waste collection and recycling infrastructure, to developing new materials that break down safely in the environment. Several countries have already banned single-use plastics.\n\nBut as with many environmental challenges, the most significant changes will require political will, corporate responsibility, and shifts in consumer behaviour at a global scale.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "natgeo-sleep-science",
@@ -265,7 +271,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Sleep is not just rest — it is one of the most active and essential processes your brain and body perform.",
     "summary": "We spend about a third of our lives asleep. For most of human history, sleep was considered a passive state — a simple shutdown of the body and mind. Modern science has revealed a very different picture. Sleep is an active and essential biological process, during which some of the most important work of the brain and body takes place.\n\nSleep occurs in cycles of about 90 minutes, each containing different stages. During slow-wave sleep, the body does much of its physical repair work — releasing growth hormone, repairing tissues, and strengthening the immune system. During REM sleep — characterised by rapid eye movement and vivid dreams — the brain is highly active, consolidating memories and processing emotional experiences.\n\nMemory and learning are strongly linked to sleep. Studies show that people who sleep after learning new information remember it significantly better than those who stay awake. The sleeping brain replays and strengthens memories, moving information from short-term to long-term storage. This is why 'sleeping on a problem' often results in new insights in the morning.\n\nLack of sleep has serious consequences. After just one night of poor sleep, reaction times slow, concentration falls, and emotional regulation deteriorates. Chronic sleep deprivation is linked to increased risk of obesity, heart disease, diabetes, and mental health problems. People who regularly sleep less than seven hours a night have significantly higher rates of illness.\n\nDespite this, modern life consistently works against good sleep. Artificial light — particularly the blue light from screens — suppresses the production of melatonin, the hormone that signals sleep. Work schedules, social pressures, and digital technology keep people awake longer than their biology recommends.\n\nScientists increasingly view sleep not as a luxury but as a biological necessity — as essential to health as food and exercise.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "natgeo-great-barrier-reef",
@@ -282,7 +290,9 @@
     "difficultyLevel": "Easy",
     "description": "The Great Barrier Reef is the largest living structure on Earth — visible from space and home to thousands of species. It is also in serious danger.",
     "summary": "The Great Barrier Reef stretches for more than 2,300 kilometres along the northeastern coast of Australia. It is the largest coral reef system in the world and the largest living structure on Earth — so large it can be seen from space. It contains more than 2,900 individual reefs, 900 islands, and is home to more than 1,500 species of fish, 4,000 types of mollusc, and six of the world's seven species of sea turtle.\n\nThe reef has existed for approximately 20,000 years. It is not a single coral structure but an ecosystem of extraordinary complexity — a network of living organisms that has built up over thousands of generations. The corals that form the reef are tiny animals called polyps. They secrete calcium carbonate to build their hard skeletons, and over millennia these skeletons accumulate to form the massive reef structures we see today.\n\nThe Great Barrier Reef is recognised as one of the world's greatest natural wonders and is listed as a UNESCO World Heritage Site. It generates approximately six billion Australian dollars per year for the economy through tourism and fishing, and supports around 64,000 jobs.\n\nBut the reef is under severe stress. Rising ocean temperatures caused by climate change have triggered repeated mass bleaching events. In 2016 and 2017, back-to-back bleaching events killed approximately half the coral in the shallow-water areas of the northern reef. Scientists have recorded bleaching events in 1998, 2002, 2016, 2017, 2020, 2022, and 2024 — a frequency that gives the reef little time to recover.\n\nAustralia's government and research institutions are investing in reef restoration and science, but most scientists agree that the reef's survival depends above all on reducing global carbon emissions.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "teens"
   },
   {
     "id": "natgeo-space-exploration",
@@ -299,6 +309,8 @@
     "difficultyLevel": "Intermediate",
     "description": "There are thousands of satellites orbiting Earth right now — but how do they get there, and what keeps them from falling back down?",
     "summary": "Right now, thousands of satellites are orbiting Earth — providing GPS navigation, weather forecasting, internet connectivity, and scientific data. But how do they get into orbit, and what keeps them from falling back to Earth?\n\nThe key to understanding orbits lies in a simple but counterintuitive idea: a satellite in orbit is constantly falling. Gravity pulls it toward Earth just as it pulls everything else. But the satellite is also moving sideways so fast that as it falls, the Earth curves away beneath it at the same rate. The result is a continuous freefall that never reaches the ground. This is what an orbit is.\n\nTo get a satellite into orbit, a rocket must accelerate it to orbital velocity — roughly 7.9 kilometres per second (about 28,000 km/h) for low Earth orbit. At that speed, the satellite's forward momentum exactly balances Earth's gravitational pull. Go faster, and the orbit rises. Go slower, and the satellite spirals back down.\n\nDifferent missions require different orbits. Low Earth Orbit (LEO), between about 160 and 2,000 kilometres altitude, is used for the International Space Station, many Earth observation satellites, and the Hubble Space Telescope. Medium Earth Orbit (MEO), around 20,000 kilometres, is where GPS satellites operate. Geostationary Orbit (GEO), at exactly 35,786 kilometres, is where communications and weather satellites sit — at this altitude, a satellite takes exactly 24 hours to complete one orbit, so it appears stationary above a fixed point on Earth.\n\nSatellites do face some drag, especially in lower orbits where trace amounts of atmosphere still exist. Without occasional boosts from onboard thrusters, they would slowly lose altitude and burn up on re-entry. Managing satellite orbits — including safely deorbiting old satellites to reduce space debris — is a growing challenge as the number of satellites continues to increase.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   }
 ]
