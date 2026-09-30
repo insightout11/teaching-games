@@ -8,6 +8,12 @@ import type { Challenge, SynonymValidation } from './types';
 import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/session-store';
 import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import { GenerationLoader } from '@/components/ui/generation-loader';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { ArrowRight, Clock, Mic, RefreshCw, Star } from 'lucide-react';
+import type { SynonymMine, SynonymRoom } from '@/components/student/synonym-panel';
+
+const UNIQUE_BONUS = 2;
+interface Entry { clientId: string; studentId: string; name: string; word: string; status: 'checking' | 'ok' | 'bad'; score: number; quality: string; feedback: string }
 
 const EMPTY_SEEN: string[] = [];
 
@@ -35,6 +41,14 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   // Remote player submissions (simultaneous mode)
   const isSimultaneous = students.length >= 2;
   const [remoteSynonyms, setRemoteSynonyms] = useState<RemoteSynonym[]>([]);
+  // Race mode: every student's own words (duplicates across students are fine).
+  const [entries, setEntries] = useState<Entry[]>([]);
+  const entriesRef = useRef<Entry[]>([]);
+  entriesRef.current = entries;
+  // Each distinct word is checked once, however many students type it.
+  const evalCacheRef = useRef<Map<string, Promise<SynonymValidation>>>(new Map());
+  const [speaker, setSpeaker] = useState<{ name: string; word: string } | null>(null);
+  const bonusGivenRef = useRef(false);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
@@ -58,12 +72,32 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   const statusRef = useRef<GameStatus>(status);
   statusRef.current = status;
   const difficultyRef = useRef(sessionSettings.difficulty);
+  const isSimultaneousRef = useRef(isSimultaneous);
+  isSimultaneousRef.current = isSimultaneous;
   const challengeStartedAtRef = useRef(0);
   difficultyRef.current = sessionSettings.difficulty;
 
   // Register input spec for student controller
   useEffect(() => {
-    if (status === GameStatus.PLAYING && challenge) {
+    if (status === GameStatus.PLAYING && challenge && isSimultaneous) {
+      if (!challengeStartedAtRef.current) challengeStartedAtRef.current = Date.now();
+      const data: Record<string, unknown> = { __room: { target: challenge.targetWord, sentence: challenge.contextSentence } satisfies SynonymRoom };
+      entries.forEach((e) => {
+        const mine = (data[e.clientId] as SynonymMine | undefined) ?? { words: [] };
+        mine.words.push({ w: e.word, status: e.status, pts: e.score, feedback: e.feedback });
+        data[e.clientId] = mine;
+      });
+      onSetInputSpec?.({
+        type: 'confirm',
+        gameKey: 'synonym-showdown',
+        prompt: `Find synonyms for: "${challenge.targetWord}"`,
+        allowMultiple: true,
+        stableInput: true,
+        perStudentData: data,
+        timerSeconds: sessionSettings.timerSeconds,
+        startedAt: challengeStartedAtRef.current,
+      });
+    } else if (status === GameStatus.PLAYING && challenge) {
       if (!challengeStartedAtRef.current) challengeStartedAtRef.current = Date.now();
       onSetInputSpec?.({
         type: 'text',
@@ -78,7 +112,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
       challengeStartedAtRef.current = 0;
       onSetInputSpec?.(null);
     }
-  }, [status, challenge, onSetInputSpec, sessionSettings.timerSeconds]);
+  }, [status, challenge, entries, isSimultaneous, onSetInputSpec, sessionSettings.timerSeconds]);
 
   // Register remote vote handler for direct real-time submissions
   useEffect(() => {
@@ -90,6 +124,30 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
 
       const synonym = vote.choice?.trim().toLowerCase();
       if (!synonym) return;
+
+      if (isSimultaneousRef.current) {
+        // Per-student dedupe only: several students may find the same word.
+        if (entriesRef.current.some((e) => e.clientId === vote.clientId && e.word === synonym)) return;
+        const sid = vote.studentId || vote.clientId;
+        setEntries((prev) => [...prev, { clientId: vote.clientId, studentId: sid, name: vote.displayName, word: synonym, status: 'checking', score: 0, quality: 'basic', feedback: '' }]);
+        let check = evalCacheRef.current.get(synonym);
+        if (!check) {
+          check = fetch('/api/synonym-showdown/evaluate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ targetWord: ch.targetWord, contextSentence: ch.contextSentence, synonym, difficulty: difficultyRef.current }),
+          }).then((r) => r.json() as Promise<SynonymValidation>);
+          evalCacheRef.current.set(synonym, check);
+          check.catch(() => evalCacheRef.current.delete(synonym));
+        }
+        check.then((result) => {
+          setEntries((prev) => prev.map((e) => (e.clientId === vote.clientId && e.word === synonym ? { ...e, status: result.isValid ? 'ok' : 'bad', score: result.isValid ? result.score : 0, quality: result.quality, feedback: result.feedback } : e)));
+          onScore(sid, { isCorrect: result.isValid, points: result.isValid ? result.score : 0, responseData: { clientId: vote.clientId, synonym, quality: result.quality } });
+        }).catch(() => {
+          setEntries((prev) => prev.filter((e) => !(e.clientId === vote.clientId && e.word === synonym)));
+        });
+        return;
+      }
 
       // Check duplicates
       if (submittedSynonymsRef.current.includes(synonym)) return;
@@ -196,6 +254,17 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
 
     setStatus(GameStatus.FINISHED);
 
+    // Race: words only one student found earn a bonus (rewards rarer vocabulary).
+    if (isSimultaneous && !bonusGivenRef.current) {
+      bonusGivenRef.current = true;
+      const ok = entriesRef.current.filter((e) => e.status === 'ok');
+      ok.forEach((e) => {
+        if (ok.filter((x) => x.word === e.word).length === 1) {
+          onScore(e.studentId, { isCorrect: true, points: UNIQUE_BONUS, responseData: { clientId: e.clientId, bonus: 'unique', synonym: e.word } });
+        }
+      });
+    }
+
     // Only score the current student in turn-based mode
     if (!isSimultaneous && currentStudentId) {
       const avgScore = validSynonyms.length > 0
@@ -247,6 +316,10 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     setLastFeedback(null);
     setCurrentInput('');
     setRemoteSynonyms([]);
+    setEntries([]);
+    setSpeaker(null);
+    evalCacheRef.current = new Map();
+    bonusGivenRef.current = false;
 
     try {
       const response = await fetch('/api/synonym-showdown/generate', {
@@ -341,6 +414,9 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     setLastFeedback(null);
     setCurrentInput('');
     setRemoteSynonyms([]);
+    setEntries([]);
+    setSpeaker(null);
+    bonusGivenRef.current = false;
     setStatus(GameStatus.PLAYING);
     if (!isSimultaneous) onPickStudent();
   };
@@ -352,6 +428,95 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
       default: return 'from-slate-400 to-slate-500';
     }
   };
+
+  // ============ RACE (2+ students) ============
+  if (isSimultaneous && (status === GameStatus.PLAYING || status === GameStatus.FINISHED) && challenge) {
+    const ok = entries.filter((e) => e.status === 'ok');
+    const byWord = new Map<string, { word: string; finders: string[]; score: number; quality: string }>();
+    ok.forEach((e) => {
+      const w = byWord.get(e.word) ?? { word: e.word, finders: [], score: e.score, quality: e.quality };
+      w.finders.push(e.name);
+      byWord.set(e.word, w);
+    });
+    const wall = Array.from(byWord.values()).sort((a, b) => b.score - a.score || a.finders.length - b.finders.length);
+    const perStudent = students.map((st) => ({ name: st.name, n: new Set(ok.filter((e) => e.name === st.name).map((e) => e.word)).size }));
+    const total = sessionSettings.timerSeconds || 1;
+    const highlight = (sentence: string, word: string) => {
+      const i = sentence.toLowerCase().indexOf(word.toLowerCase());
+      if (i < 0) return <>{sentence}</>;
+      return <>{sentence.slice(0, i)}<span className="rounded-md bg-amber-300/15 px-1 text-amber-200 underline decoration-amber-300 underline-offset-4">{sentence.slice(i, i + word.length)}</span>{sentence.slice(i + word.length)}</>;
+    };
+    const pickSpeaker = () => {
+      const best = wall.filter((w) => w.quality === 'excellent' || w.finders.length === 1);
+      const pool = best.length ? best : wall;
+      const w = pool[Math.floor(Math.random() * pool.length)];
+      if (w) setSpeaker({ name: w.finders[Math.floor(Math.random() * w.finders.length)], word: w.word });
+    };
+    return (
+      <div className="mx-auto max-w-4xl space-y-5 text-white">
+        <div className="flex items-center justify-between">
+          <KitLabel tone="cyan">Synonym Showdown · {getDisplayTopic(sessionSettings, sourceMaterial)}</KitLabel>
+          {status === GameStatus.PLAYING && <KitButton onClick={handleGenerate} icon={<RefreshCw className="h-3.5 w-3.5" />}>Skip word</KitButton>}
+        </div>
+        <div className="rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-7 text-center">
+          <KitLabel>Other words for</KitLabel>
+          <p className="mt-1 font-display text-6xl">{challenge.targetWord}</p>
+          <p className="mt-3 text-xl italic text-white/75">&ldquo;{highlight(challenge.contextSentence, challenge.targetWord)}&rdquo;</p>
+          {status === GameStatus.PLAYING && challenge.hint && <p className="mt-2 text-sm text-white/45">Hint: {challenge.hint}</p>}
+        </div>
+
+        {status === GameStatus.PLAYING ? (
+          <>
+            <div className="flex items-center gap-4">
+              <Clock className={`h-5 w-5 ${timeRemaining <= 10 ? 'text-rose-300' : 'text-white/60'}`} />
+              <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/10"><motion.div className={`h-full ${timeRemaining <= 10 ? 'bg-rose-400' : 'bg-cyan-400'}`} animate={{ width: `${Math.max(0, Math.min(100, (timeRemaining / total) * 100))}%` }} transition={{ ease: 'linear', duration: 1 }} /></div>
+              <span className={`w-14 text-right font-mono text-2xl ${timeRemaining <= 10 ? 'text-rose-300' : ''}`}>{timeRemaining}s</span>
+            </div>
+            {/* Counts only while racing (the wall appears at the end) */}
+            <div className="flex flex-wrap gap-2">
+              {perStudent.map((p) => <span key={p.name} className="rounded-full border border-white/10 bg-slate-950/40 px-3 py-1 text-sm">{p.name} <span className="font-mono text-xs text-cyan-300">{p.n}</span></span>)}
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="font-display text-3xl">{byWord.size}<span className="text-lg text-white/50"> different words so far</span></p>
+              <KitButton onClick={finishGame}>End round</KitButton>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="text-center">
+              <KitLabel tone="emerald">The class found</KitLabel>
+              <p className="font-display text-5xl">{byWord.size} word{byWord.size === 1 ? '' : 's'}</p>
+            </div>
+            <div className="flex flex-wrap justify-center gap-2">
+              {wall.map((w, i) => (
+                <motion.span key={w.word} initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: i * 0.04 }} className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 font-display ${w.quality === 'excellent' ? 'border-amber-300/50 bg-amber-300/10 text-3xl text-amber-50' : w.quality === 'good' ? 'border-emerald-300/40 bg-emerald-400/10 text-2xl' : 'border-white/12 bg-white/[0.04] text-xl'}`} title={w.finders.join(', ')}>
+                  {w.finders.length === 1 && <Star className="h-4 w-4 fill-amber-300 text-amber-300" />}{w.word}
+                  <span className="font-mono text-xs text-white/50">{w.finders.length === 1 ? w.finders[0] : `×${w.finders.length}`}</span>
+                </motion.span>
+              ))}
+              {wall.length === 0 && <p className="text-white/55">No synonyms this time. What could we have said?</p>}
+            </div>
+            {wall.some((w) => w.finders.length === 1) && <p className="text-center text-sm text-white/55"><Star className="mr-1 inline h-3.5 w-3.5 fill-amber-300 text-amber-300" />Only one person found it: +{UNIQUE_BONUS} bonus</p>}
+            {speaker && (
+              <div className="rounded-2xl border border-amber-300/40 bg-amber-300/[0.07] p-4 text-center">
+                <p className="font-display text-3xl">{speaker.name}</p>
+                <p className="mt-1 flex items-center justify-center gap-2 text-lg text-amber-100"><Mic className="h-5 w-5" />Say a sentence with &ldquo;{speaker.word}&rdquo;</p>
+              </div>
+            )}
+            <div className="flex flex-wrap justify-center gap-2">
+              <KitButton tone="amber" disabled={wall.length === 0} onClick={pickSpeaker} icon={<Mic className="h-3.5 w-3.5" />}>{speaker ? 'Someone else' : 'Use it in a sentence'}</KitButton>
+              {isMicroEvent ? <KitReadout>Round complete · advance the flight to continue</KitReadout> : (
+                <>
+                  <KitButton onClick={handleSameChallenge}>Same word again</KitButton>
+                  <KitButton tone="cyan" solid onClick={handleGenerate} className="!px-6 !py-2.5 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>New word</KitButton>
+                </>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

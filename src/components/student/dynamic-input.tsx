@@ -18,6 +18,7 @@ import { DefendItPanel } from './defend-it-panel';
 import { TwoTruthsWriter } from './two-truths-writer';
 import { TwentyQuestionsPanel } from './twenty-questions-panel';
 import { GridRushPanel } from './grid-rush-panel';
+import { SynonymPanel } from './synonym-panel';
 import { HotSeatPanel } from './hot-seat-panel';
 import {
   binaryOptionClassName,
@@ -41,6 +42,9 @@ interface DynamicInputProps {
 }
 
 export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId, clockOffsetMs, initialResponse }: DynamicInputProps) {
+  if (spec.gameKey === 'synonym-showdown' && spec.perStudentData?.__room) {
+    return <SynonymRace spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} clockOffsetMs={clockOffsetMs} />;
+  }
   if (spec.gameKey === 'grid-rush' && spec.perStudentData?.__room) {
     return <GridRushRound1 spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} clockOffsetMs={clockOffsetMs} />;
   }
@@ -572,6 +576,13 @@ function GetReadyGate({ spec, opensIn }: { spec: InputSpec; opensIn: number }) {
       </div>
     </div>
   );
+}
+
+/** Synonym Showdown race: word list panel with the shared timer + 3-2-1 gate. */
+function SynonymRace({ spec, onSubmit, clientId, clockOffsetMs }: DynamicInputProps) {
+  const { timeLeft, timerSeconds, answersOpen, opensIn } = useInputTimer(spec, false, clockOffsetMs);
+  if (timerSeconds > 0 && !answersOpen) return <GetReadyGate spec={spec} opensIn={opensIn} />;
+  return <SynonymPanel spec={spec} clientId={clientId} onSubmit={onSubmit} timeLeft={timeLeft} timerSeconds={timerSeconds} />;
 }
 
 /** GridRush Round 1: the letter-grid panel with the shared (server-stamped) timer + 3-2-1 gate. */
