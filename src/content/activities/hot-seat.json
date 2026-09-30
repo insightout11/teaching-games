@@ -1,0 +1,47 @@
+{
+  "slug": "hot-seat",
+  "schemaVersion": 1,
+  "headline": "Hot Seat Speaking Game for ESL Classes",
+  "problemStatement": "Many vocabulary games ask students to recognize a word before they have to explain it. Hot Seat turns recall into live speaking: one learner guesses while classmates describe the same secret word, one clue at a time. It works in a classroom or over Zoom because the word is delivered privately to phones.",
+  "outcomes": [
+    "Practice explaining meaning with simple definitions, examples, and circumlocution.",
+    "Build listening confidence as the hot-seat student connects clues and makes a spoken guess.",
+    "Give every learner a clear speaking turn instead of relying on volunteers."
+  ],
+  "howItWorks": [
+    "Choose a topic and start a round. One student takes the hot seat and cannot see the word; every other student sees the word and its definition on a phone.",
+    "The teacher identifies the next clue giver. That student gives one spoken clue, then the turn moves to another classmate.",
+    "The hot-seat student listens and guesses aloud. The teacher taps Got it when the word is correct or Pass to reveal another card.",
+    "Each turn lasts 60 seconds. The teacher can add time, and students rotate through the hot seat so the class gets repeated speaking practice."
+  ],
+  "teacherUseCases": [
+    "Use it after introducing a vocabulary set to move from definitions on paper to explanations students can say aloud.",
+    "For an online lesson, share the classroom screen and have students keep their private clue card open on a phone."
+  ],
+  "estimatedTime": "15 min",
+  "groupSize": "3 or more students",
+  "faq": [
+    {
+      "q": "What can the student in the hot seat see?",
+      "a": "The hot-seat phone gives an instruction to listen and guess aloud, but it does not show the secret word. Other students see the word and definition on their own phones."
+    },
+    {
+      "q": "How does the clue order stay fair?",
+      "a": "Classmates take turns giving one spoken clue at a time. The teacher advances the clue giver, so one confident speaker cannot take over the whole round."
+    },
+    {
+      "q": "Can we use Hot Seat in an online class?",
+      "a": "Yes. Students join on their phones while the teacher shares the activity screen. The word stays on phones, which also works when classmates are watching through Zoom."
+    },
+    {
+      "q": "What happens if the hot-seat student is stuck?",
+      "a": "The teacher can tap Pass to move to another card. Got it records a successful guess, and the next turn can rotate to a different hot-seat student."
+    }
+  ],
+  "related": [
+    "taboo-sprint",
+    "fact-detective",
+    "imposter"
+  ],
+  "ogImageTheme": "practice"
+}

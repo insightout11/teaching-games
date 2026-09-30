@@ -1,52 +1,47 @@
 {
   "slug": "taboo-sprint",
   "schemaVersion": 1,
-  "headline": "Taboo Sprint Activity — Forbidden Words Speaking Game for ESL Classes",
+  "headline": "Taboo Sprint: A Phone-Based Speaking Game for ESL",
+  "problemStatement": "When learners forget a word, they need strategies for explaining its meaning another way. Taboo Sprint makes that skill the point of the game: a student describes a target without saying the target or its forbidden helper words, while classmates listen and guess. Private phone cards make it suitable for shared-screen lessons.",
   "outcomes": [
-    "Students rapidly expand active vocabulary by finding synonyms, definitions, and circumlocutions under pressure",
-    "Build speaking fluency and spontaneity — students must communicate without their usual go-to words",
-    "Develop listening comprehension as students decode descriptions without the expected keyword",
-    "Practise the real-world skill of explaining meaning when a word is unknown — essential for fluent communication"
+    "Practice circumlocution by describing a word without using obvious related terms.",
+    "Build spontaneous speaking and attentive listening under a short time limit.",
+    "Expand active vocabulary through guesses, definitions, and teacher-led review."
   ],
   "howItWorks": [
-    "The AI generates a target word and four forbidden words related to it — all shown on the teacher's screen",
-    "One student describes the target word from their phone without saying it or any of the four forbidden words, while the class races to guess",
-    "Team members guess the word on their devices while the teacher monitors for violations with a buzz button",
-    "Rounds are timed — the team scores for each correct guess"
+    "Choose a topic and difficulty. The activity prepares a set of target words and four forbidden words for each card.",
+    "The describer sees the target and forbidden words on their phone; the shared screen hides the secret until the round summary.",
+    "Classmates submit guesses on their phones in Everyone guesses mode, or the class can split into two teams. The teacher judges possible taboo violations with the buzz control.",
+    "A correct guess advances the card. The describer can skip when needed, and the timed round ends with a summary that reveals the cards and definitions."
   ],
   "teacherUseCases": [
-    "Vocabulary production practice — students move from passive recognition to active, flexible use of words",
-    "Speaking fluency drill — the time pressure and forbidden words force students to speak without pausing to translate",
-    "Review lesson — run Taboo Sprint at the end of a unit to surface which words students can explain vs which they just recognise"
+    "Run a short review after teaching a vocabulary set and ask students to explain ideas without translating or reaching for the first obvious word.",
+    "Choose the team mode when you want one group to guess while the other listens for forbidden words."
   ],
-  "estimatedTime": "15–20 min",
-  "groupSize": "Any",
+  "estimatedTime": "15�w^~)�w20 min",
+  "groupSize": "2 or more students",
   "faq": [
     {
-      "q": "How are the forbidden words chosen?",
-      "a": "The AI selects the four most natural helper words for the target — the words students would normally reach for first. Banning them forces creative circumlocution. For example, for 'migration', the AI might forbid: move, country, travel, birds."
+      "q": "Can guessers see the describer's secret card?",
+      "a": "No. The target and its four forbidden words appear on the describer's phone. Other students use their own phones to send guesses, and the shared screen keeps the word hidden until review."
     },
     {
-      "q": "What counts as a violation?",
-      "a": "Using a forbidden word, the target word itself, or any part of it (e.g. saying 'migrate' when 'migration' is the target). The teacher controls the buzz button and is the final judge — there's no automated detection."
+      "q": "How are taboo violations judged?",
+      "a": "The teacher listens and controls the buzz button. The activity does not claim to detect spoken violations automatically, so the teacher makes the call."
     },
     {
-      "q": "Can shy or lower-level students participate?",
-      "a": "Yes. Lower-difficulty settings produce simpler target words and more obvious circumlocutions. You can also let students pass a round if they're stuck — the game supports skipping to the next word without a penalty."
+      "q": "Can students pass when they do not know a word?",
+      "a": "Yes. The describer can skip to the next card without a penalty. This keeps the round moving while classmates continue listening for clues."
     },
     {
-      "q": "How many rounds does a session typically cover?",
-      "a": "A 20-minute session typically covers 6–10 words depending on the pace of guessing. The AI generates a full set of words upfront so there's no loading delay between rounds."
-    },
-    {
-      "q": "Does the whole class play at once or do teams compete?",
-      "a": "The standard mode is team-based — one speaker per round, team guesses together. For smaller groups, the whole class can guess simultaneously. The teacher controls when to advance to the next word."
-    },
-    {
-      "q": "Is Taboo Sprint free to use?",
-      "a": "Yes, Taboo Sprint is free. Students join on any phone or tablet through a shared browser link — no download or student account required."
+      "q": "What changes in Two teams mode?",
+      "a": "One team gives clues and its team guesses while the other team listens for forbidden words. In Everyone guesses mode, classmates can all submit guesses."
     }
   ],
-  "related": ["bluff-definition", "expert-panel", "password"],
+  "related": [
+    "bluff-definition",
+    "expert-panel",
+    "fact-detective"
+  ],
   "ogImageTheme": "practice"
 }
