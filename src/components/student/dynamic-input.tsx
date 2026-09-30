@@ -16,6 +16,7 @@ import { ConversationRoundsPanel } from './conversation-rounds-panel';
 import { TabooSprintPanel } from './taboo-sprint-panel';
 import { DefendItPanel } from './defend-it-panel';
 import { TwoTruthsWriter } from './two-truths-writer';
+import { TwentyQuestionsPanel } from './twenty-questions-panel';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -1224,6 +1225,10 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
         </p>
       </div>
     );
+  }
+
+  if (spec.gameKey === 'twenty-questions' && spec.perStudentData?.__room) {
+    return <TwentyQuestionsPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} onSubmit={onSubmit} />;
   }
 
   if (spec.gameKey === 'defend-it' && spec.perStudentData?.__room) {

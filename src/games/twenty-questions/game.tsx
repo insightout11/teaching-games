@@ -2,7 +2,9 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Bot, Eye, EyeOff, Lightbulb } from 'lucide-react';
+import { Users, Bot, Eye, EyeOff, Lightbulb, X, KeyRound, HelpCircle, Trophy, ArrowRight } from 'lucide-react';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import type { TwentyQCard, TwentyQRoom } from '@/components/student/twenty-questions-panel';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { Question, Guess, GameConstraints } from './types';
@@ -112,9 +114,14 @@ export function TwentyQuestionsGame({
   const [aiMode, setAiMode] = useState(false);
   const [secretVisible, setSecretVisible] = useState(false);
   const [secretOverrideVisible, setSecretOverrideVisible] = useState(false);
-  const [customAnswerDraft, setCustomAnswerDraft] = useState<Record<string, string>>({});
   const [hints, setHints] = useState<string[]>([]);
   const [hintLoading, setHintLoading] = useState(false);
+  // Why a phone's question was not accepted (shown on that phone only).
+  const [rejections, setRejections] = useState<Record<string, { reason: string; n: number }>>({});
+  const reject = (clientId: string, reason: string) =>
+    setRejections((prev) => ({ ...prev, [clientId]: { reason, n: (prev[clientId]?.n ?? 0) + 1 } }));
+  const clearRejection = (clientId: string) =>
+    setRejections((prev) => { if (!prev[clientId]) return prev; const n = { ...prev }; delete n[clientId]; return n; });
   // Secrets the AI has already used this session — sent as an avoid-list so
   // "New Game" doesn't keep landing on the single most obvious pick (e.g. Minecraft → creeper).
   const usedSecretsRef = useRef<string[]>([]);
@@ -135,6 +142,8 @@ export function TwentyQuestionsGame({
   statusRef.current = status;
   const hostIdRef = useRef(hostId);
   hostIdRef.current = hostId;
+  const hostNameRef = useRef(hostName);
+  hostNameRef.current = hostName;
   const secretRef = useRef(secret);
   secretRef.current = secret;
   const questionsRef = useRef(questions);
@@ -151,39 +160,38 @@ export function TwentyQuestionsGame({
     if (el) el.scrollTop = el.scrollHeight;
   }, [answeredQuestions.length]);
 
-  // ─── InputSpec Effect ───
+  // ─── Phones: one live panel (keeper answers on their phone; askers get feedback) ───
   useEffect(() => {
-    if (status === GameStatus.WAITING_FOR_SECRET) {
-      onSetInputSpec?.({
-        type: 'text',
-        gameKey: 'twenty-questions',
-        prompt: `${hostName}, type your secret! (person, place, or thing)`,
-        placeholder: 'e.g. The Eiffel Tower',
-        maxLength: 100,
-      });
-    } else if (status === GameStatus.COLLECTING_QUESTIONS) {
-      const remaining = constraints.questionLimit - totalQuestionsAsked;
-      const rulesText = getConstraintRules(constraints);
-      onSetInputSpec?.({
-        type: 'text',
-        gameKey: 'twenty-questions',
-        prompt: `Ask a question! (${remaining} left)${rulesText ? `\n${rulesText}` : ''}`,
-        placeholder: 'Type your question...',
-        maxLength: 200,
-        hint: rulesText ? { title: 'Question Rules', content: rulesText } : undefined,
-      });
-    } else if (status === GameStatus.GUESSING) {
-      onSetInputSpec?.({
-        type: 'text',
-        gameKey: 'twenty-questions',
-        prompt: 'What is it? Submit your guess!',
-        placeholder: 'Type your guess...',
-        maxLength: 100,
-      });
-    } else {
-      onSetInputSpec?.(null);
+    const phase: TwentyQRoom['phase'] | null =
+      status === GameStatus.WAITING_FOR_SECRET ? 'secret'
+        : status === GameStatus.COLLECTING_QUESTIONS ? 'asking'
+          : status === GameStatus.GUESSING ? 'guessing' : null;
+    if (!phase) { onSetInputSpec?.(null); return; }
+    const pending = questions.find((q) => q.answer === null) ?? null;
+    const data: Record<string, unknown> = {
+      __room: {
+        phase,
+        remaining: Math.max(0, constraints.questionLimit - totalQuestionsAsked),
+        style: constraints.questionStyle,
+        pending: pending ? { id: pending.id, text: pending.text, asker: pending.askerName } : null,
+      } satisfies TwentyQRoom,
+    };
+    if (hostId) {
+      const keeper: TwentyQCard = { role: 'keeper', ...(secret ? { secret } : {}) };
+      data[hostId] = keeper;
+      if (hostName) data[hostName] = keeper;
     }
-  }, [status, hostName, constraints, totalQuestionsAsked, onSetInputSpec]);
+    Object.keys(rejections).forEach((clientId) => { data[clientId] = { role: 'asker', rejected: rejections[clientId] } satisfies TwentyQCard; });
+    onSetInputSpec?.({
+      type: 'confirm',
+      gameKey: 'twenty-questions',
+      prompt: phase === 'secret' ? `${hostName} is choosing a secret` : phase === 'asking' ? 'Ask a question' : 'Guess the secret',
+      // Many questions/guesses per student: no roundId; live updates keep typed text.
+      allowMultiple: true,
+      stableInput: true,
+      perStudentData: data,
+    });
+  }, [status, hostId, hostName, secret, questions, constraints, totalQuestionsAsked, rejections, onSetInputSpec]);
 
   // A correct guess ends the round. Shared by the guessing phase AND the questioning phase — a
   // question that already names the secret ("Is it the great wall?") is really a guess, so it
@@ -208,72 +216,69 @@ export function TwentyQuestionsGame({
   const handleRemoteVote = useCallback((vote: GameRemoteVote) => {
     const studentId = vote.studentId || vote.clientId;
     if (!studentId) return;
-    const text = vote.choice?.trim();
+    const raw = vote.choice?.trim();
+    if (!raw) return;
+    const m = /^(secret|ask|guess|answer):([\s\S]*)$/.exec(raw);
+    const kind = m?.[1] ?? null;
+    const text = (m ? m[2] : raw).trim();
     if (!text) return;
-
+    const isKeeper = !!hostIdRef.current && (studentId === hostIdRef.current || vote.clientId === hostIdRef.current || vote.displayName === hostNameRef.current);
     const currentStatus = statusRef.current;
 
-    // WAITING_FOR_SECRET: only host can submit
+    // Keeper sets the secret
     if (currentStatus === GameStatus.WAITING_FOR_SECRET) {
-      if (studentId !== hostIdRef.current) return;
+      if (!isKeeper || (kind && kind !== 'secret')) return;
       setSecret(text);
       setSecretVisible(false);
       setStatus(GameStatus.COLLECTING_QUESTIONS);
       return;
     }
 
-    // COLLECTING_QUESTIONS: keeper can't ask (hostId is null in AI Keeper mode, so nobody is
-    // excluded); validate the question form; dedup repeats; cap total questions.
-    if (currentStatus === GameStatus.COLLECTING_QUESTIONS) {
-      if (studentId === hostIdRef.current) return;
+    // Keeper answers from their phone: answer:<questionId>:<yes|no|maybe|sort of>
+    if (kind === 'answer') {
+      if (!isKeeper || currentStatus !== GameStatus.COLLECTING_QUESTIONS) return;
+      const sep = text.indexOf(':');
+      if (sep < 0) return;
+      handleAnswerQuestion(text.slice(0, sep), text.slice(sep + 1));
+      return;
+    }
 
-      // If the question already names the secret ("Is it the great wall?"), that's a correct
-      // guess — end the round instead of answering "yes" and letting them keep asking. Uses the
-      // STRICT check so ordinary questions sharing a word can't trigger a false win.
+    if (currentStatus === GameStatus.COLLECTING_QUESTIONS) {
+      if (isKeeper || kind === 'guess') return;
       if (questionNamesSecret(text, secretRef.current)) {
         registerCorrectGuess(text, vote.displayName, studentId);
         return;
       }
-
-      const { valid } = validateQuestion(text, constraintsRef.current);
-      if (!valid) return; // silently drop invalid
-
+      const { valid, reason } = validateQuestion(text, constraintsRef.current);
+      if (!valid) { reject(vote.clientId, reason ?? 'That question doesn’t fit the rules'); return; }
       const currentQuestions = questionsRef.current;
-
-      // Dedup: ignore a repeat of an already-asked question so it isn't answered or counted twice.
       const norm = (s: string) => s.toLowerCase().replace(/\s+/g, ' ').replace(/[?.!]+$/, '').trim();
-      const asked = norm(text);
-      if (currentQuestions.some((q) => norm(q.text) === asked)) return;
-
-      // Cap total questions at the limit (each one gets answered) — with several students asking
-      // at once this stops the queue from blowing past 20.
+      if (currentQuestions.some((q) => norm(q.text) === norm(text))) { reject(vote.clientId, 'Someone already asked that'); return; }
       if (currentQuestions.length >= constraintsRef.current.questionLimit) {
         setStatus(GameStatus.GUESSING);
         return;
       }
-
-      const newQuestion: Question = {
+      clearRejection(vote.clientId);
+      setQuestions((prev) => [...prev, {
         id: `q-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-        text,
+        text: /[?]$/.test(text) ? text : `${text}?`,
         askerName: vote.displayName,
         askerId: studentId,
         answer: null,
         roundNumber: 1,
-      };
-      setQuestions((prev) => [...prev, newQuestion]);
+      }]);
       return;
     }
 
-    // GUESSING: reject keeper, fuzzy-match guess
     if (currentStatus === GameStatus.GUESSING) {
-      if (studentId === hostIdRef.current) return;
+      if (isKeeper) return;
       if (fuzzyMatch(text, secretRef.current)) {
         registerCorrectGuess(text, vote.displayName, studentId);
       } else {
         setGuesses((prev) => [...prev, { text, guesserName: vote.displayName, guesserId: studentId, isCorrect: false, roundNumber: 1 }]);
       }
-      return;
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerCorrectGuess]);
 
   // Register remote vote handler
@@ -445,6 +450,7 @@ export function TwentyQuestionsGame({
     setAiLoading(null);
     setHints([]);
     setHintLoading(false);
+    setRejections({});
   };
 
   // ─── Hint Panel (teacher-triggered, shown to the class) ───
@@ -479,38 +485,6 @@ export function TwentyQuestionsGame({
     );
   }
 
-  // ─── Answer Badge Helper ───
-
-  function renderAnswerBadge(answer: string) {
-    const base = 'shrink-0 text-center text-xs px-2 py-0.5 rounded-full font-bold';
-    if (answer === 'yes') return <span className={`${base} w-14 bg-green-500/20 text-green-300`}>yes</span>;
-    if (answer === 'no')  return <span className={`${base} w-14 bg-red-500/20 text-red-300`}>no</span>;
-    if (answer === 'maybe') return <span className={`${base} w-14 bg-yellow-500/20 text-yellow-300`}>maybe</span>;
-    return <span className={`${base} bg-slate-500/20 text-slate-300 max-w-[120px] truncate`}>{answer}</span>;
-  }
-
-  function renderAnsweredRow(q: Question, extraClasses = '') {
-    const isShort = q.answer === 'yes' || q.answer === 'no' || q.answer === 'maybe';
-    if (isShort) {
-      return (
-        <div className={`flex items-center gap-2 ${extraClasses}`}>
-          {renderAnswerBadge(q.answer!)}
-          <span className="text-slate-400 truncate">{q.text}</span>
-          <span className="text-xs text-slate-600 shrink-0">— {q.askerName}</span>
-        </div>
-      );
-    }
-    return (
-      <div className={extraClasses}>
-        <div className="flex items-center gap-1 text-slate-400">
-          <span className="truncate">{q.text}</span>
-          <span className="text-xs text-slate-600 shrink-0">— {q.askerName}</span>
-        </div>
-        <div className="text-xs text-slate-300 italic mt-0.5">→ {q.answer}</div>
-      </div>
-    );
-  }
-
   // ─── Render ───
 
   // ===== IDLE =====
@@ -518,7 +492,8 @@ export function TwentyQuestionsGame({
     return (
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
         <div className="text-center">
-          <p className="opacity-70 text-sm">Guess the secret in 20 questions — a student or the AI keeps it.</p>
+          <p className="font-display text-5xl text-white">Twenty questions.</p>
+          <p className="mt-2 text-lg text-white/70">One keeper, one secret. The class asks questions on their phones to work it out.</p>
           <p className="text-xs text-cyan-400 mt-1">{students.length} student{students.length !== 1 ? 's' : ''} connected</p>
         </div>
 
@@ -610,12 +585,11 @@ export function TwentyQuestionsGame({
           </button>
         </div>
 
-        <button
-          onClick={handleStart}
-          className="w-full px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
-        >
-          {aiMode ? 'START — AI PICKS THE SECRET' : 'PICK A STUDENT & START'}
-        </button>
+        <div className="flex justify-center">
+          <KitButton tone="violet" solid onClick={handleStart} className="!px-8 !py-3 !text-base" icon={aiMode ? <Bot className="h-4 w-4" /> : <Users className="h-4 w-4" />}>
+            {aiMode ? 'Start: the AI picks a secret' : 'Pick the keeper'}
+          </KitButton>
+        </div>
       </motion.div>
     );
   }
@@ -634,9 +608,9 @@ export function TwentyQuestionsGame({
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
         <div className="glass p-6 rounded-2xl border-2 border-violet-500/30 text-center">
-          <p className="text-xs font-bold text-violet-400 uppercase tracking-widest mb-2">Waiting for Keeper</p>
-          <h2 className="text-3xl font-black text-white mb-2">{hostName}</h2>
-          <p className="text-slate-400 text-sm">is typing their secret on their device...</p>
+          <p className="text-xs font-bold text-violet-400 uppercase tracking-widest mb-2">The keeper</p>
+          <h2 className="font-display text-5xl text-white mb-2">{hostName}</h2>
+          <p className="text-slate-300 text-lg">is choosing a secret on their phone…</p>
           <div className="mt-4 w-8 h-8 border-3 border-violet-500/20 border-t-violet-500 rounded-full animate-spin mx-auto" />
         </div>
 
@@ -673,287 +647,155 @@ export function TwentyQuestionsGame({
     );
   }
 
+  // Clue board: every answered question, sorted into what it IS and what it ISN'T.
+  const clueBoard = () => {
+    const yes = answeredQuestions.filter((q) => q.answer === 'yes' || q.answer === 'sort of');
+    const no = answeredQuestions.filter((q) => q.answer === 'no');
+    const other = answeredQuestions.filter((q) => !['yes', 'no', 'sort of'].includes(q.answer ?? ''));
+    const Col = ({ title, items, tone }: { title: string; items: Question[]; tone: 'emerald' | 'rose' | 'amber' }) => (
+      <div className={`rounded-2xl border p-3 ${tone === 'emerald' ? 'border-emerald-300/35 bg-emerald-400/[0.06]' : tone === 'rose' ? 'border-rose-300/35 bg-rose-400/[0.06]' : 'border-amber-300/30 bg-amber-300/[0.05]'}`}>
+        <KitLabel tone={tone}>{title} · {items.length}</KitLabel>
+        <div className="mt-2 space-y-1">
+          {items.map((q) => (
+            <motion.p key={q.id} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} className="text-base leading-snug">
+              {q.text}{q.answer === 'sort of' && <span className="ml-1 font-mono text-[11px] text-amber-200">sort of</span>}
+              {!['yes', 'no', 'sort of'].includes(q.answer ?? '') && q.answer !== 'maybe' && <span className="block text-sm italic text-white/60">→ {q.answer}</span>}
+            </motion.p>
+          ))}
+          {items.length === 0 && <p className="text-sm text-white/35">Nothing yet</p>}
+        </div>
+      </div>
+    );
+    return (
+      <div className={`grid gap-3 ${other.length ? 'sm:grid-cols-3' : 'grid-cols-2'}`}>
+        <Col title="It is…" items={yes} tone="emerald" />
+        <Col title="It isn’t…" items={no} tone="rose" />
+        {other.length > 0 && <Col title="Maybe / other" items={other} tone="amber" />}
+      </div>
+    );
+  };
+
+  const counterDots = () => (
+    <div className="flex flex-wrap gap-1">
+      {Array.from({ length: constraints.questionLimit }).map((_, i) => (
+        <span key={i} className={`h-2.5 w-2.5 rounded-full ${i < totalQuestionsAsked ? 'bg-violet-400' : 'bg-white/12'}`} />
+      ))}
+    </div>
+  );
+
+  // Teacher-only peek (held down), so a stray click never shows the secret to the class.
+  const secretPeek = () => (
+    <button
+      type="button"
+      onPointerDown={() => setSecretVisible(true)}
+      onPointerUp={() => setSecretVisible(false)}
+      onPointerLeave={() => setSecretVisible(false)}
+      className="flex items-center gap-1.5 rounded-full border border-white/12 px-3 py-1 text-xs text-white/60 hover:text-white"
+      title="Hold to peek (the class can see your screen)"
+    >
+      {secretVisible ? <><Eye className="h-3.5 w-3.5" />{secret}</> : <><EyeOff className="h-3.5 w-3.5" />Hold to peek</>}
+    </button>
+  );
+
   // ===== COLLECTING_QUESTIONS =====
   if (status === GameStatus.COLLECTING_QUESTIONS) {
-    const remaining = constraints.questionLimit - totalQuestionsAsked;
     const nextQ = unansweredQuestions[0] ?? null;
-
     return (
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
-        {/* Header */}
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-xs font-bold text-violet-400 uppercase tracking-widest">
-              {aiMode ? (
-                <span className="inline-flex items-center gap-1"><Bot className="w-3.5 h-3.5" /> AI Keeper</span>
-              ) : (
-                `${hostName} is the keeper`
-              )}
-            </p>
-            <p className="text-sm text-slate-400">
-              {remaining} question{remaining !== 1 ? 's' : ''} remaining
-            </p>
-          </div>
+      <div className="mx-auto max-w-4xl space-y-4 text-white">
+        <div className="flex items-center justify-between gap-3">
+          <KitLabel tone="violet">20 Questions · {aiMode ? 'AI keeper' : `${hostName} keeps the secret`}</KitLabel>
           <div className="flex items-center gap-2">
-            <div className="px-3 py-1 bg-violet-500/20 text-violet-300 rounded-lg text-sm font-bold">
-              {totalQuestionsAsked}/{constraints.questionLimit}
-            </div>
-            <button onClick={handleGuessPhase} className="px-3 py-1.5 bg-amber-500/20 text-amber-300 rounded-lg font-game text-xs border border-amber-500/30 hover:bg-amber-500/30">
-              GUESS
-            </button>
+            {secretPeek()}
+            <KitButton tone="amber" onClick={handleGuessPhase}>Guess now</KitButton>
           </div>
         </div>
-
-        {/* Secret (teacher-only blur) */}
-        <div className="flex justify-between items-center px-4 py-2 bg-violet-500/10 border border-violet-500/20 rounded-xl">
-          <span className="text-xs text-slate-500">Secret</span>
-          <button onClick={() => setSecretVisible((v) => !v)} className="text-violet-300 font-bold text-sm">
-            {secretVisible ? secret : <span className="select-none tracking-widest opacity-60">•••••• tap to reveal</span>}
-          </button>
+        <div className="flex items-center gap-3">
+          {counterDots()}
+          <KitReadout>{totalQuestionsAsked} / {constraints.questionLimit}</KitReadout>
         </div>
 
-        {/* Optional hints — teacher reveals to the class when stuck */}
-        {renderHintPanel()}
-
-        {/* Next unanswered question — answering zone */}
-        {nextQ ? (
-          <div className="glass p-5 rounded-2xl border-2 border-violet-500/30 space-y-4">
-            <div>
-              <p className="text-xs text-slate-500 mb-1">{nextQ.askerName} asks:</p>
-              <p className="text-xl font-semibold text-white">{nextQ.text}</p>
-            </div>
-            {aiMode ? (
-              <div className="flex items-center gap-2 text-blue-300 text-sm animate-pulse">
-                <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce" />
-                Auto-answering…
-              </div>
+        <div className="flex min-h-[150px] flex-col items-center justify-center rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-6 text-center">
+          <AnimatePresence mode="wait">
+            {nextQ ? (
+              <motion.div key={nextQ.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-3">
+                <KitLabel>{nextQ.askerName} asks</KitLabel>
+                <p className="font-display text-4xl leading-snug">{nextQ.text}</p>
+                {aiMode ? (
+                  <p className="text-sky-200"><Bot className="mr-1 inline h-4 w-4" />Thinking…</p>
+                ) : (
+                  <div className="space-y-2">
+                    <p className="text-white/60"><KeyRound className="mr-1 inline h-4 w-4" />{hostName} answers on their phone</p>
+                    {/* Fallback if the keeper is stuck or offline */}
+                    <div className="flex justify-center gap-1.5 opacity-70 hover:opacity-100">
+                      {(['yes', 'no', 'maybe'] as const).map((a) => <KitButton key={a} onClick={() => handleAnswerQuestion(nextQ.id, a)}>{a}</KitButton>)}
+                      <KitButton disabled={aiLoading !== null} onClick={() => void handleAiAutoAnswer(nextQ.id)} icon={<Bot className="h-3.5 w-3.5" />}>{aiLoading === nextQ.id ? '…' : 'AI'}</KitButton>
+                    </div>
+                  </div>
+                )}
+              </motion.div>
             ) : (
-              <>
-                <div className="flex gap-2">
-                  {(['yes', 'no', 'maybe'] as const).map((ans) => (
-                    <button
-                      key={ans}
-                      onClick={() => handleAnswerQuestion(nextQ.id, ans)}
-                      disabled={aiLoading === nextQ.id}
-                      className={`flex-1 py-2.5 rounded-xl font-bold text-sm transition-all disabled:opacity-30 ${
-                        ans === 'yes' ? 'bg-green-500/20 text-green-300 hover:bg-green-500/30 border border-green-500/30'
-                        : ans === 'no' ? 'bg-red-500/20 text-red-300 hover:bg-red-500/30 border border-red-500/30'
-                        : 'bg-yellow-500/20 text-yellow-300 hover:bg-yellow-500/30 border border-yellow-500/30'
-                      }`}
-                    >
-                      {ans.toUpperCase()}
-                    </button>
-                  ))}
-                  <button
-                    onClick={() => handleAiAutoAnswer(nextQ.id)}
-                    disabled={aiLoading !== null}
-                    className="px-3 py-2.5 bg-blue-500/20 text-blue-300 rounded-xl text-xs font-bold hover:bg-blue-500/30 disabled:opacity-30 border border-blue-500/30"
-                  >
-                    {aiLoading === nextQ.id ? '…' : 'Auto'}
-                  </button>
-                </div>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder="Or type a custom answer..."
-                    value={customAnswerDraft[nextQ.id] ?? ''}
-                    onChange={(e) => setCustomAnswerDraft((prev) => ({ ...prev, [nextQ.id]: e.target.value }))}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && customAnswerDraft[nextQ.id]?.trim()) {
-                        handleAnswerQuestion(nextQ.id, customAnswerDraft[nextQ.id].trim());
-                        setCustomAnswerDraft((prev) => ({ ...prev, [nextQ.id]: '' }));
-                      }
-                    }}
-                    className="flex-1 bg-black/40 border border-white/10 text-white rounded-lg px-3 py-1.5 text-sm focus:border-violet-500 outline-none"
-                  />
-                  <button
-                    onClick={() => {
-                      const val = customAnswerDraft[nextQ.id]?.trim();
-                      if (val) { handleAnswerQuestion(nextQ.id, val); setCustomAnswerDraft((prev) => ({ ...prev, [nextQ.id]: '' })); }
-                    }}
-                    disabled={!customAnswerDraft[nextQ.id]?.trim()}
-                    className="px-3 py-1.5 bg-slate-500/20 text-slate-300 rounded-lg text-sm font-bold hover:bg-slate-500/30 border border-slate-500/30 disabled:opacity-30"
-                  >
-                    Set
-                  </button>
-                </div>
-              </>
+              <motion.div key="wait" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-1">
+                <p className="font-display text-3xl text-white/70">Ask on your phones!</p>
+                {getConstraintRules(constraints) && <p className="text-amber-200"><HelpCircle className="mr-1 inline h-4 w-4" />{getConstraintRules(constraints)}</p>}
+              </motion.div>
             )}
-          </div>
-        ) : (
-          <div className="glass p-5 rounded-2xl border border-white/10 text-center">
-            <p className="text-slate-400 text-sm">Waiting for students to ask questions…</p>
-            {getConstraintRules(constraints) && (
-              <p className="text-xs text-amber-300 mt-2">{getConstraintRules(constraints)}</p>
-            )}
-          </div>
-        )}
+          </AnimatePresence>
+          {unansweredQuestions.length > 1 && <p className="mt-3 font-mono text-xs text-white/45">+{unansweredQuestions.length - 1} waiting</p>}
+        </div>
 
-        {/* Q&A history */}
-        {answeredQuestions.length > 0 && (
-          <div ref={qnaScrollRef} className="glass p-4 rounded-xl border border-white/5 max-h-48 overflow-y-auto">
-            <p className="text-xs font-bold uppercase tracking-widest opacity-50 mb-2">Q&A History</p>
-            <div className="space-y-1">
-              {answeredQuestions.map((q, i) => (
-                <div key={q.id} className="flex items-start gap-2">
-                  <span className="text-slate-600 w-5 shrink-0 text-xs mt-0.5">{i + 1}.</span>
-                  <div className="flex-1">{renderAnsweredRow(q, 'text-sm py-0.5')}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Pending unanswered (beyond the first) */}
-        {unansweredQuestions.length > 1 && (
-          <div className="px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-xs text-slate-400">
-            +{unansweredQuestions.length - 1} more question{unansweredQuestions.length - 1 !== 1 ? 's' : ''} queued
-          </div>
-        )}
-
-      </motion.div>
+        {answeredQuestions.length > 0 && clueBoard()}
+        {renderHintPanel()}
+      </div>
     );
   }
 
   // ===== GUESSING =====
   if (status === GameStatus.GUESSING) {
     return (
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-        <div className="text-center">
-          <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Guess Phase</p>
-          <p className="text-sm text-slate-400">Students submit their guesses!</p>
+      <div className="mx-auto max-w-4xl space-y-4 text-white">
+        <div className="flex items-center justify-between">
+          <KitLabel tone="amber">Guessing time</KitLabel>
+          {secretPeek()}
         </div>
-
-        {/* Q&A Transcript */}
-        <div className="glass p-4 rounded-xl border border-white/10 max-h-48 overflow-y-auto">
-          <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-2">
-            Q&A History ({answeredQuestions.length} questions)
-          </p>
-          <div className="space-y-1">
-            {answeredQuestions.map((q) => (
-              <div key={q.id}>{renderAnsweredRow(q, 'text-xs py-0.5')}</div>
+        <p className="text-center font-display text-4xl">What is it? Guess on your phones!</p>
+        {clueBoard()}
+        <div className="flex min-h-[44px] flex-wrap gap-2">
+          <AnimatePresence>
+            {guesses.map((g, i) => (
+              <motion.span key={i} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.05] px-3 py-1 text-base">
+                <X className="h-3.5 w-3.5 text-rose-300" /><span className="text-white/45">{g.guesserName}:</span> {g.text}
+              </motion.span>
             ))}
-          </div>
+          </AnimatePresence>
+          {guesses.length === 0 && <p className="text-sm text-white/40">Guesses appear here…</p>}
         </div>
-
-        {/* Secret (teacher only) */}
-        <div className="px-4 py-2 bg-violet-500/10 border border-violet-500/20 rounded-xl text-center">
-          <p className="text-xs text-slate-500">Secret</p>
-          <button
-            onClick={() => setSecretVisible((v) => !v)}
-            className="text-lg font-bold text-violet-300"
-            title={secretVisible ? 'Click to hide' : 'Click to reveal'}
-          >
-            {secretVisible ? secret : <span className="select-none tracking-widest opacity-60">•••••• tap to reveal</span>}
-          </button>
-        </div>
-
-        {/* Optional hints — teacher reveals to the class when stuck */}
         {renderHintPanel()}
-
-        {/* Guess feed */}
-        <div className="glass p-4 rounded-xl border border-white/10">
-          <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-3">Guesses</p>
-          {guesses.length === 0 ? (
-            <p className="text-sm text-slate-500 text-center py-4">Waiting for guesses...</p>
-          ) : (
-            <div className="space-y-2">
-              <AnimatePresence>
-                {guesses.map((g, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className={`flex items-center gap-3 p-2 rounded-lg ${
-                      g.isCorrect ? 'bg-green-500/20 border border-green-500/30' : 'bg-white/5'
-                    }`}
-                  >
-                    <span className={`text-lg ${g.isCorrect ? '' : 'opacity-50'}`}>
-                      {g.isCorrect ? '\u2713' : '\u2717'}
-                    </span>
-                    <div>
-                      <p className={`text-sm font-medium ${g.isCorrect ? 'text-green-300' : 'text-slate-300'}`}>
-                        {g.text}
-                      </p>
-                      <p className="text-xs text-slate-500">{g.guesserName}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          )}
+        <div className="flex justify-end">
+          <KitButton tone="amber" solid onClick={handleRevealAndEnd} className="!px-6 !py-2.5 !text-sm">Reveal the secret</KitButton>
         </div>
-
-        <button
-          onClick={handleRevealAndEnd}
-          className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-lg text-white shadow-lg hover:scale-[1.01] active:scale-95 transition-all"
-        >
-          REVEAL & END
-        </button>
-      </motion.div>
+      </div>
     );
   }
 
   // ===== ENDED =====
   if (status === GameStatus.ENDED) {
     return (
-      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-        <div className="glass p-6 rounded-2xl border-2 border-violet-500/30 text-center">
-          <p className="text-xs font-bold text-violet-400 uppercase tracking-widest mb-2">Game Over</p>
-          <h2 className="text-4xl font-black text-white mb-2">The secret was...</h2>
-          <p className="text-3xl font-black text-violet-400 mb-4">{secret}</p>
-
+      <div className="mx-auto max-w-4xl space-y-5 text-white">
+        <div className="text-center">
+          <KitLabel tone="violet">The secret was</KitLabel>
+          <motion.p initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 160, damping: 14 }} className="mt-2 font-display text-6xl text-violet-200">{secret}</motion.p>
           {winner ? (
-            <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4 mb-4">
-              <p className="text-green-300 font-bold text-lg">{winner.name} guessed it!</p>
-              <p className="text-xs text-slate-400 mt-1">
-                in {questions.length} question{questions.length !== 1 ? 's' : ''}
-              </p>
-            </div>
+            <p className="mt-3 flex items-center justify-center gap-2 text-xl"><Trophy className="h-5 w-5 text-amber-300" /><span className="font-semibold">{winner.name}</span> got it in {questions.length} question{questions.length !== 1 ? 's' : ''}!</p>
           ) : (
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 mb-4">
-              <p className="text-amber-300 font-bold">Nobody guessed the secret!</p>
-            </div>
+            <p className="mt-3 text-xl text-amber-200">Nobody cracked it this time!</p>
           )}
-
-          <p className="text-sm text-slate-400">Keeper: <span className="text-white font-medium">{hostName}</span> (+3 pts)</p>
+          {hostName && <p className="mt-1 text-sm text-white/55">Keeper: {hostName} (+3)</p>}
         </div>
-
-        {/* Full Transcript */}
-        <div className="glass p-4 rounded-xl border border-white/10 max-h-64 overflow-y-auto">
-          <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-2">Full Transcript</p>
-          <div className="space-y-1">
-            {answeredQuestions.map((q, i) => (
-              <div key={q.id} className="flex items-start gap-2">
-                <span className="text-slate-600 w-5 shrink-0 text-xs mt-0.5">{i + 1}.</span>
-                {renderAnsweredRow(q, 'text-xs py-0.5 flex-1')}
-              </div>
-            ))}
-          </div>
-          {guesses.length > 0 && (
-            <>
-              <hr className="border-white/5 my-2" />
-              <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-1">Guesses</p>
-              {guesses.map((g, i) => (
-                <div key={i} className="flex items-center gap-2 text-xs py-0.5">
-                  <span className={g.isCorrect ? 'text-green-400' : 'text-red-400'}>
-                    {g.isCorrect ? '\u2713' : '\u2717'}
-                  </span>
-                  <span className="text-slate-400">{g.text}</span>
-                  <span className="text-slate-600">— {g.guesserName}</span>
-                </div>
-              ))}
-            </>
-          )}
+        {answeredQuestions.length > 0 && clueBoard()}
+        <div className="flex justify-center">
+          <KitButton tone="violet" solid onClick={handleNewGame} className="!px-6 !py-2.5 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>New game</KitButton>
         </div>
-
-        <button
-          onClick={handleNewGame}
-          className="w-full px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
-        >
-          NEW GAME
-        </button>
-      </motion.div>
+      </div>
     );
   }
 

@@ -84,6 +84,8 @@ export interface InputSpec {
   activityInstanceStartedAt?: number;
   /** Monotonic step within an activity instance (for example Quick Pulse prompt index). */
   activitySequence?: number;
+  /** Live panels (e.g. 20 Questions): room state updates must not remount the phone input or wipe typed text. */
+  stableInput?: boolean;
   /** Class Board: stable board namespace for the current activity/session. */
   boardKey?: string;
   /** Class Board: title shown on student and teacher board surfaces. */
@@ -239,6 +241,7 @@ export function getInputRemountKey(spec: InputSpec | null | undefined): string {
   delete rest.timerSeconds;
   delete rest.publishedAt;
   if (spec.type === 'sequence' || spec.type === 'multi-select') delete rest.perStudentData;
+  if (spec.stableInput) { delete rest.perStudentData; delete rest.prompt; }
   return getInputSpecRevision(rest);
 }
 
