@@ -12,6 +12,7 @@ import { GeoPointInput } from './geo-point-input';
 import { openTrickyChannel } from '@/lib/live-room/word-bank';
 import { CargoHandInput } from './cargo-hand-input';
 import { CargoVoteInput } from './cargo-vote-input';
+import { ConversationRoundsPanel } from './conversation-rounds-panel';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -1181,6 +1182,10 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
         </p>
       </div>
     );
+  }
+
+  if (spec.gameKey === 'conversation-rounds' && spec.perStudentData) {
+    return <ConversationRoundsPanel spec={spec} displayName={displayName} onSubmit={onSubmit} />;
   }
 
   if (cabinRoleCard) {
