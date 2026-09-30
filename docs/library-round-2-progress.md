@@ -7,7 +7,7 @@ Branch: `codex/library-round-2`, created from fetched `origin/main` (`c405b115`)
 | Metadata backfill | 446 | 446 missing `cefr` or `ageBand` | 446 / 446 |
 | Grammar videos | +60 | 17 | 60 / 60 |
 | Short hooks under 180 seconds | +60 | 43 | 60 / 60 |
-| Opinion/discussion texts | +40 | 10 | 0 / 40 |
+| Opinion/discussion texts | +40 | 10 | 20 / 40 |
 
 ## Batch log
 
@@ -94,3 +94,8 @@ Metadata backfill: 446 / 446 complete across 23 validated commits. Grammar video
 
 - Batch 3: +20 captioned clips under 180 seconds from National Geographic, BBC Earth, NASA, Nat Geo Kids, and the Smithsonian. Topics include landscapes, architecture, wildlife, conservation, space, and culture; all 20 transcripts were prefetched and verified in Supabase.
 - Hook closeout: 60 / 60 new clips meet the under-180-second limit and carry the `hook` tag. One destination clip is marked `needsReview` for historical and political context.
+
+## Task 4 — opinion and discussion texts
+
+- Batch 1: +20 original LessonCaptain texts, each 150–400 words, tagged `CC BY 4.0`, leveled A2–B1, and written to present both sides of a classroom debate.
+- The validator now accepts the brief’s `discussion` genre. The new grammar, hook, and debate shelves are connected to the Library UI, source recommender, extraction route, and transcript grounding.

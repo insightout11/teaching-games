@@ -35,7 +35,7 @@ const ids = new Map<string, string>();
 const urls = new Map<string, string>();
 const cefrValues = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const ageBandValues = new Set(['kids', 'teens', 'all']);
-const genres = new Set(['expository', 'narrative', 'news', 'opinion', 'poem', 'dialogue']);
+const genres = new Set(['expository', 'narrative', 'news', 'opinion', 'discussion', 'poem', 'dialogue']);
 const youtubeIdPattern = /^[A-Za-z0-9_-]{11}$/;
 
 function fail(where: string, message: string) {
@@ -93,7 +93,7 @@ function validateExpandedItem(item: Item, where: string) {
   } else {
     fail(where, `kind must be text, video, or picture-book (found ${String(item.kind)})`);
   }
-  if (!nonEmpty(item.genre) || !genres.has(item.genre)) fail(where, 'genre must be expository, narrative, news, opinion, poem, or dialogue');
+  if (!nonEmpty(item.genre) || !genres.has(item.genre)) fail(where, 'genre must be expository, narrative, news, opinion, discussion, poem, or dialogue');
 }
 
 for (const file of files) {

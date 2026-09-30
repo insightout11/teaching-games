@@ -19,6 +19,9 @@ import sportsRaw from '@/data/sports-library.json';
 import storiesRaw from '@/data/stories-library.json';
 import voaRaw from '@/data/voa-library.json';
 import pictureBookRaw from '@/data/picture-books-library.json';
+import grammarRaw from '@/data/grammar-library.json';
+import hooksRaw from '@/data/hooks-library.json';
+import discussionRaw from '@/data/discussion-library.json';
 
 interface LibraryEntry {
   id: string;
@@ -52,6 +55,9 @@ const LIBRARIES: Record<string, LibraryEntry[]> = {
   stories: storiesRaw as LibraryEntry[],
   voa: voaRaw as LibraryEntry[],
   'picture-books': pictureBookRaw as LibraryEntry[],
+  grammar: grammarRaw as LibraryEntry[],
+  hooks: hooksRaw as LibraryEntry[],
+  discussion: discussionRaw as LibraryEntry[],
 };
 
 function displayTitle(entry: LibraryEntry): string {
