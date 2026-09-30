@@ -3262,7 +3262,9 @@
       "name": "Perth, Australia",
       "lat": -31.9523,
       "lng": 115.8613
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-auckland-volcanic-field-video",
@@ -3290,7 +3292,9 @@
       "name": "Auckland, New Zealand",
       "lat": -36.8509,
       "lng": 174.7645
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-auckland-electric-bus-video",
@@ -3320,7 +3324,9 @@
       "name": "Auckland, New Zealand",
       "lat": -36.8509,
       "lng": 174.7645
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-auckland-new-zealand-history-video",
@@ -3349,7 +3355,9 @@
       "name": "Auckland, New Zealand",
       "lat": -36.8509,
       "lng": 174.7645
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-suva-city-geography-video",
@@ -3376,7 +3384,9 @@
       "name": "Suva, Fiji",
       "lat": -18.1416,
       "lng": 178.4419
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-suva-city-history-video",
@@ -3405,7 +3415,9 @@
       "name": "Suva, Fiji",
       "lat": -18.1416,
       "lng": 178.4419
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-suva-rugby-climate-video",
@@ -3433,7 +3445,9 @@
       "name": "Suva, Fiji",
       "lat": -18.1416,
       "lng": 178.4419
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ulaanbaatar-changing-capital-video",
@@ -3462,7 +3476,9 @@
       "name": "Ulaanbaatar, Mongolia",
       "lat": 47.8864,
       "lng": 106.9057
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ulaanbaatar-ger-area-transport-video",
@@ -3492,7 +3508,9 @@
       "name": "Ulaanbaatar, Mongolia",
       "lat": 47.8864,
       "lng": 106.9057
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ulaanbaatar-sustainable-gers-video",
@@ -3521,7 +3539,9 @@
       "name": "Ulaanbaatar, Mongolia",
       "lat": 47.8864,
       "lng": 106.9057
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-almaty-garden-city-video",
@@ -3548,7 +3568,9 @@
       "name": "Almaty, Kazakhstan",
       "lat": 43.222,
       "lng": 76.8512
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-almaty-apple-origin-video",
@@ -3578,7 +3600,9 @@
       "name": "Almaty, Kazakhstan",
       "lat": 43.222,
       "lng": 76.8512
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-almaty-metro-video",
@@ -3608,7 +3632,9 @@
       "name": "Almaty, Kazakhstan",
       "lat": 43.222,
       "lng": 76.8512
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-madrid-city-exploration-video",
@@ -3638,7 +3664,9 @@
       "name": "Madrid, Spain",
       "lat": 40.4168,
       "lng": -3.7038
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-madrid-flamenco-video",
@@ -3668,7 +3696,9 @@
       "name": "Madrid, Spain",
       "lat": 40.4168,
       "lng": -3.7038
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-madrid-prado-collections-video",
@@ -3697,7 +3727,9 @@
       "name": "Madrid, Spain",
       "lat": 40.4168,
       "lng": -3.7038
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lisbon-city-guide-video",
@@ -3727,7 +3759,9 @@
       "name": "Lisbon, Portugal",
       "lat": 38.7223,
       "lng": -9.1393
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lisbon-azulejos-video",
@@ -3757,7 +3791,9 @@
       "name": "Lisbon, Portugal",
       "lat": 38.7223,
       "lng": -9.1393
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lisbon-fado-video",
@@ -3786,7 +3822,9 @@
       "name": "Lisbon, Portugal",
       "lat": 38.7223,
       "lng": -9.1393
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dublin-irish-dance-video",
@@ -3816,7 +3854,9 @@
       "name": "Dublin, Ireland",
       "lat": 53.3498,
       "lng": -6.2603
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dublin-book-of-kells-video",

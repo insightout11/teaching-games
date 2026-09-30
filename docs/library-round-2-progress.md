@@ -65,3 +65,5 @@ px tsc --noEmit -p . pass · needsReview added only where source text is too lim
 - 2026-09-30 · metadata batch 19 · +20 (world-flight-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
 
 - 2026-09-30 · metadata batch 20 · +20 (world-flight-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
+
+- 2026-09-30 · metadata batch 21 · +20 (world-flight-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
