@@ -7,6 +7,7 @@ import { GameStatus, ENGLISH_FACTS } from './types';
 import type { GameSentence, EvaluationResult } from './types';
 import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
+import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import { ArrowRight, BookOpen, Check, Clock, Lightbulb, Sparkles, Trophy } from 'lucide-react';
 
@@ -68,7 +69,6 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   const [showBank, setShowBank] = useState(false);
   const bankedRoundRef = useRef(0);
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
@@ -456,11 +456,20 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     }
   };
 
-  // Timer effect
+  // Timer: the SAME server-stamped clock the phones use (incl. their 3-2-1 beat),
+  // so the teacher screen and devices end together. A fresh round ignores the
+  // previous round's final 0 for its first moments.
+  const synced = useSyncedTimer(sessionSettings.timerSeconds, status === GameStatus.RUNNING, raceStartedAtRef.current || undefined);
+  const runStartRef = useRef(0);
+  useEffect(() => { if (status === GameStatus.RUNNING) runStartRef.current = Date.now(); }, [status, currentSentence]);
   useEffect(() => {
-    if (status === GameStatus.RUNNING && timeLeft > 0) {
-      timerRef.current = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
-    } else if (timeLeft === 0 && status === GameStatus.RUNNING) {
+    if (status !== GameStatus.RUNNING) return;
+    if (synced.timeLeft === 0 && Date.now() - runStartRef.current < 1500) return;
+    setTimeLeft(synced.timeLeft);
+  }, [synced.timeLeft, status]);
+
+  useEffect(() => {
+    if (timeLeft === 0 && status === GameStatus.RUNNING) {
       if (isSimultaneous) {
         setRaceFinished(true);
         setStatus(GameStatus.FINISHED);
@@ -468,9 +477,6 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         setStatus(GameStatus.TIME_UP);
       }
     }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
   }, [status, timeLeft, isSimultaneous]);
 
   // Focus input when running (turn-based)
@@ -639,7 +645,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                 <motion.div className={`h-full ${timeLeft <= 5 ? 'bg-rose-400' : 'bg-cyan-400'}`} animate={{ width: `${Math.max(0, Math.min(100, (timeLeft / total) * 100))}%` }} transition={{ ease: 'linear', duration: 1 }} />
               </div>
               <span className={`w-14 text-right font-mono text-2xl ${timeLeft <= 5 ? 'text-rose-300' : 'text-white'}`}>{timeLeft}s</span>
-              <KitButton onClick={() => { setTimeLeft((t) => t + 30); setExtraSeconds((x) => x + 30); }}>+30s</KitButton>
+              <KitButton onClick={() => { synced.addSeconds(30); setExtraSeconds((x) => x + 30); }}>+30s</KitButton>
             </div>
 
             {/* Sealed answers: names only */}
