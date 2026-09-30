@@ -33,5 +33,5 @@ for (const file of files) {
   if (changed) fs.writeFileSync(filePath, `${JSON.stringify(items, null, 2)}\n`);
 }
 
-for (const [country, count] of updatedByCountry) console.log(`${country}: added place metadata to ${count} tagged items`);
-console.log(`Place metadata audit updated ${[...updatedByCountry.values()].reduce((sum, count) => sum + count, 0)} items.`);
+for (const [country, count] of Array.from(updatedByCountry)) console.log(`${country}: added place metadata to ${count} tagged items`);
+console.log(`Place metadata audit updated ${Array.from(updatedByCountry.values()).reduce((sum, count) => sum + count, 0)} items.`);

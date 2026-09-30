@@ -4,8 +4,8 @@ import { BookOpen } from 'lucide-react';
 
 export const readAloudPlugin: ActivityPlugin = {
   key: 'read-aloud',
-  name: 'Read Aloud',
-  description: 'Students take turns reading paragraphs aloud — round-robin with a live queue on every device',
+  name: 'Read it together',
+  description: 'Read any text as a class: class-level version, turns reading aloud, everyone else follows on phones and taps tricky words. Start it from a cargo item with text.',
   category: 'learning',
   pppStage: 'presentation',
   skills: ['Speaking', 'Listening'],

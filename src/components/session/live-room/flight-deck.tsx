@@ -1264,7 +1264,8 @@ export function FlightDeck({
       )}
 
       {/* The running module lives here in the Game view; elsewhere it stays mounted off-screen. */}
-      <div className={view === 'game' && runningKey ? 'absolute inset-0 overflow-y-auto p-4 sm:p-6' : 'hidden'}>
+      {/* pb-16 keeps the floating "End activity" pill clear of the game's last buttons */}
+      <div className={view === 'game' && runningKey ? 'absolute inset-0 overflow-y-auto p-4 pb-16 sm:p-6 sm:pb-16' : 'hidden'}>
         {runningKey ? moduleHost : null}
       </div>
 
@@ -1452,7 +1453,7 @@ export function FlightDeck({
                       {focusId === m.id ? '· Focus' : '· Set focus'}
                     </button>
                     {(m.text || (m.description && m.description.length > 120)) && (
-                      <button type="button" onClick={() => launch('read-aloud', m)} className="text-emerald-300/80 opacity-0 hover:text-emerald-200 group-hover:opacity-100" title="Read it together: class version, turns, follow-along">
+                      <button type="button" onClick={() => launch('read-aloud', m)} className="text-emerald-300/90 hover:text-emerald-200" title="Read it together: class version, turns, follow-along">
                         · Read it together
                       </button>
                     )}

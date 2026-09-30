@@ -5,6 +5,8 @@ import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { createServiceClient } from '@/lib/supabase/service';
 import { difficultyDescriptions, type Difficulty } from '@/lib/difficulty';
+import { broadcastInputSpecFromServer } from '@/lib/supabase/realtime-broadcast';
+import { inputSpecChannelName, SESSION_REFRESH_EVENT } from '@/lib/input-spec';
 import {
   normalizeReferenceExpressions,
   normalizeReferenceVocab,
@@ -104,6 +106,8 @@ ${PHRASEBOOK_FIELDS_PROMPT}
       ...(expressions.length ? { reference_expressions: expressions } : {}),
     })
     .eq('id', params.sessionId);
+  // Phones fetch the new topic + words now, not on their next minute poll.
+  await broadcastInputSpecFromServer(inputSpecChannelName(params.sessionId), SESSION_REFRESH_EVENT, { at: Date.now() }).catch(() => null);
 
   return NextResponse.json({
     briefing: clean(brief.briefing, 1200),

@@ -216,7 +216,7 @@ async function fetchTranscript(
 
     const transcriptModulePath = 'youtube-transcript/dist/youtube-transcript.esm.js';
     const { YoutubeTranscript } = await import(transcriptModulePath) as typeof import('youtube-transcript');
-    let segments;
+    let segments: Array<{ text: string }> | undefined;
     let lastTranscriptError: unknown;
     for (const lang of ['en', 'en-GB', 'en-US']) {
       try {

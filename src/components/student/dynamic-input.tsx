@@ -1460,9 +1460,12 @@ function ReadAloudInput({ spec, onSubmit, isSubmitting, displayName }: Pick<Dyna
           </button>
         </div>
       ) : myUpcoming ? (
-        <div className="rounded-2xl bg-amber-500/10 border border-amber-500/30 p-4 space-y-2">
-          <p className="text-xs uppercase tracking-widest text-amber-400 font-semibold">Your paragraph is coming up</p>
-          <p className="text-sm text-white/70 leading-relaxed line-clamp-3">{myUpcoming.text}</p>
+        <div className="space-y-3">
+          {active && <FollowAlong text={active.text} reader={active.studentName} channelId={spec.readAloudChannel} displayName={displayName} />}
+          <div className="rounded-2xl bg-amber-500/10 border border-amber-500/30 p-4 space-y-2">
+            <p className="text-xs uppercase tracking-widest text-amber-400 font-semibold">Your paragraph is coming up</p>
+            <p className="text-sm text-white/70 leading-relaxed line-clamp-3">{myUpcoming.text}</p>
+          </div>
         </div>
       ) : active ? (
         <FollowAlong text={active.text} reader={active.studentName} channelId={spec.readAloudChannel} displayName={displayName} />

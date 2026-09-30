@@ -65,7 +65,7 @@ function validateExpandedItem(item: Item, where: string) {
     if (!nonEmpty(item.author)) fail(where, 'author is required for text items');
     if (!nonEmpty(item.url)) fail(where, 'url is required for text items');
     if (!nonEmpty(item.summary)) fail(where, 'full text summary is required');
-    const words = item.summary.trim().split(/\s+/).filter(Boolean).length;
+    const words = String(item.summary).trim().split(/\s+/).filter(Boolean).length;
     if (typeof item.wordCount !== 'number' || item.wordCount !== words) {
       fail(where, `wordCount must equal the summary word count (${words})`);
     }
@@ -76,7 +76,7 @@ function validateExpandedItem(item: Item, where: string) {
     }
     if (item.kind === 'picture-book') {
       if (!Array.isArray(item.images) || item.images.length === 0) fail(where, 'picture-book requires at least one image');
-      else for (const [index, value] of item.images.entries()) {
+      else for (const [index, value] of Array.from(item.images.entries())) {
         const image = value as { url?: unknown; alt?: unknown; license?: unknown; attribution?: unknown };
         if (!nonEmpty(image.url) || !nonEmpty(image.alt)) fail(where, `images[${index}] requires url and alt`);
         if (!nonEmpty(image.license ?? item.license) || !nonEmpty(image.attribution ?? item.attribution)) {
@@ -110,7 +110,7 @@ for (const file of files) {
     continue;
   }
 
-  for (const [index, raw] of items.entries()) {
+  for (const [index, raw] of Array.from(items.entries())) {
     const item = raw as Item;
     const where = `${file}[${index}]${nonEmpty(item.id) ? ` (${item.id})` : ''}`;
     if (!nonEmpty(item.id)) fail(where, 'id is required');

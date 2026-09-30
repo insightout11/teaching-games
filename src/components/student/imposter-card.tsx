@@ -14,7 +14,7 @@ const MONO = 'font-[family-name:var(--font-instrument)] uppercase tracking-[0.12
  */
 export function ImposterSecretCard({ card }: { card: ImposterAssignment }) {
   const [peek, setPeek] = useState(false);
-  const show = () => { if (!peek) buzz(10); setPeek(true); };
+  const show = () => { if (!peek) buzz(40); setPeek(true); };
   const hide = () => setPeek(false);
 
   return (

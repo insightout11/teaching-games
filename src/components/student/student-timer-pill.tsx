@@ -43,10 +43,19 @@ export function StudentTimerPill({ timer, clockOffsetMs }: { timer: SharedTimerS
     return () => clearTimeout(t);
   }, [hitZero]);
 
+  // "Time's up" shows for a few seconds, then gets out of the way.
+  const atZero = !!timer && remNow === 0;
+  const [zeroGone, setZeroGone] = useState(false);
+  useEffect(() => {
+    if (!atZero) { setZeroGone(false); return; }
+    const t = setTimeout(() => setZeroGone(true), 6000);
+    return () => clearTimeout(t);
+  }, [atZero]);
+
   if (!timer) return null;
   const rem = remNow;
   const engaged = timer.running || (rem > 0 && rem < timer.totalSeconds) || rem === 0;
-  if (!engaged) return null;
+  if (!engaged || (rem === 0 && zeroGone)) return null;
 
   const mm = Math.floor(rem / 60);
   const ss = String(rem % 60).padStart(2, '0');
@@ -58,7 +67,7 @@ export function StudentTimerPill({ timer, clockOffsetMs }: { timer: SharedTimerS
       role="timer"
       aria-live="off"
       className={[
-        'fixed right-3 top-3 z-40 flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-mono text-base font-semibold tabular-nums shadow-lg backdrop-blur-md',
+        'fixed right-3 top-[84px] z-40 flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-mono text-base font-semibold tabular-nums shadow-lg backdrop-blur-md',
         rem === 0
           ? 'border-red-400/50 bg-red-950/80 text-red-200'
           : urgent

@@ -136,8 +136,17 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-slate-950/45">
             <div className="rounded-2xl border border-cyan-300/30 bg-slate-950/90 px-5 py-4 text-center shadow-xl">
               <MapPin className="mx-auto mb-2 h-7 w-7 text-cyan-300" />
-              <p className="font-bold text-white">Position locked</p>
-              <p className="mt-1 text-xs text-slate-400">Watch the main screen for the reveal.</p>
+              {spec.gameKey === 'room-pins' ? (
+                <>
+                  <p className="font-display text-xl text-white">Pin dropped</p>
+                  <p className="mt-1 text-xs text-slate-400">It&apos;s on the big screen now. Find it!</p>
+                </>
+              ) : (
+                <>
+                  <p className="font-bold text-white">Position locked</p>
+                  <p className="mt-1 text-xs text-slate-400">Watch the main screen for the reveal.</p>
+                </>
+              )}
             </div>
           </div>
         )}

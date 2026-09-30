@@ -13,6 +13,7 @@ import {
   inputSpecChannelName,
   INPUT_SPEC_REALTIME_EVENT,
   ROOM_LAUNCH_EVENT,
+  SESSION_REFRESH_EVENT,
   shouldApplyActivityInstanceUpdate,
   type ActivityInstanceIdentity,
   type InputSpec,
@@ -700,6 +701,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId, applyAuthoritativeInputSpec]);
+  const checkSessionRef = useRef(checkSession);
+  checkSessionRef.current = checkSession;
 
   useEffect(() => {
     const supabase = createClient();
@@ -757,6 +760,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         }
         setConnectionStatus('connected');
           logRealtimeDiagnostic('student-input-spec', 'ui_apply', { revision });
+        })
+        .on('broadcast', { event: SESSION_REFRESH_EVENT }, () => {
+          // Twice: the first can be swallowed by a poll already in flight.
+          void checkSessionRef.current({ forceFull: true, source: 'database-change' });
+          window.setTimeout(() => void checkSessionRef.current({ forceFull: true, source: 'database-change' }), 2500);
         })
         .on('broadcast', { event: ROOM_LAUNCH_EVENT }, ({ payload }: { payload: unknown }) => {
           const data = payload as { name?: unknown; at?: unknown };

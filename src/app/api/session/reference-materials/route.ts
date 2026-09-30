@@ -6,6 +6,8 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import type { SourceVocabItem } from '@/activities/types';
+import { broadcastInputSpecFromServer } from '@/lib/supabase/realtime-broadcast';
+import { inputSpecChannelName, SESSION_REFRESH_EVENT } from '@/lib/input-spec';
 import {
   normalizeReferenceExpressions,
   normalizeReferenceVocab,
@@ -120,6 +122,7 @@ Focus on expressions that help students participate in discussion, give opinions
       .from('sessions')
       .update({ reference_vocab: normalizedVocab, reference_expressions: normalizedExpressions })
       .eq('id', sessionId);
+    await broadcastInputSpecFromServer(inputSpecChannelName(sessionId), SESSION_REFRESH_EVENT, { at: Date.now() }).catch(() => null);
 
     return NextResponse.json({ ok: true });
   } catch {

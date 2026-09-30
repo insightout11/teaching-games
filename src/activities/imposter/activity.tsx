@@ -237,7 +237,7 @@ export function ImposterActivity({
   // ─── Setup ────────────────────────────────────────────────────────────────
   if (phase === 'idle') {
     return (
-      <div className="mx-auto max-w-3xl space-y-6 pb-16 text-lc-text">
+      <div className="mx-auto max-w-3xl space-y-6 text-lc-text">
         <div className="text-center">
           <p className={`${MONO} text-xs text-rose-300`}>Imposter · round {roundIndex + 1}{rounds.length ? ` of ${rounds.length}` : ''}</p>
           <p className="mt-1 font-display text-4xl">Who&apos;s the imposter?</p>

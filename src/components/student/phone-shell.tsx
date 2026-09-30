@@ -22,11 +22,12 @@ const STATUS: Record<PhoneStatus, { label: string; text: string; dot: string; pu
 export const MONO = 'font-[family-name:var(--font-instrument)] uppercase tracking-[0.12em]';
 
 /** Short phone buzz patterns — each one means something. */
+// Many Android motors ignore pulses under ~25ms, so every buzz is at least 40ms.
 export const BUZZ = {
-  yourTurn: [30, 60, 30],
-  sent: 18,
-  stamp: 55,
-  hand: 12,
+  yourTurn: [70, 80, 70],
+  sent: 45,
+  stamp: 90,
+  hand: 50,
 } as const;
 
 export function buzz(pattern: number | readonly number[]) {
