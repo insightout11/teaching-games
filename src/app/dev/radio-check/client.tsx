@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SceneIgniterActivity } from '@/activities/scene-igniter';
 import { RankItActivity } from '@/activities/rank-it';
+import { OpinionShiftActivity } from '@/activities/opinion-shift/activity';
+import { useSessionStore } from '@/stores/session-store';
 import { SceneScriptPanel } from '@/components/student/scene-script-panel';
 import type { InputSpec } from '@/lib/input-spec';
 import { RadioCheckActivity } from '@/activities/radio-check';
@@ -91,12 +93,18 @@ const RANK: RankItContent = {
 
 export function RadioCheckDevClient() {
   const [spec, setSpec] = useState<InputSpec | null>(null);
+  const [seeded] = useState(() => {
+    if (typeof window !== 'undefined') {
+      useSessionStore.getState().recordPulse({ text: 'Homework should be banned.', type: 'likert', votes: { Mia: { name: 'Mia', choice: '2' }, Sam: { name: 'Sam', choice: '4' }, Kai: { name: 'Kai', choice: '1' } } });
+    }
+    return true;
+  });
   const mode = useSearchParams().get('mode');
   const video = mode === 'video';
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'rank' ? <RankItActivity {...props} generatedContent={RANK} /> : mode === 'scene' ? (
+      {mode === 'shift' && seeded ? <OpinionShiftActivity {...props} generatedContent={{ activityKey: 'opinion-shift', topicContext: 'x', beforePrompt: 'Before', nowPrompt: 'Now' } as unknown as ActivityProps['generatedContent']} /> : mode === 'rank' ? <RankItActivity {...props} generatedContent={RANK} /> : mode === 'scene' ? (
         <div className="flex gap-6">
           <div className="flex-1"><SceneIgniterActivity {...props} generatedContent={SCENE} students={[{ id: 's1', name: 'Ana' }, { id: 's2', name: 'Ben' }] as unknown as ActivityProps['students']} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} /></div>
           <div className="w-80 shrink-0 rounded-3xl border border-white/10 bg-slate-900 p-4">{spec ? <SceneScriptPanel spec={spec} displayName="Ana" studentId="s1" /> : <p className="text-white/40">phone</p>}</div>

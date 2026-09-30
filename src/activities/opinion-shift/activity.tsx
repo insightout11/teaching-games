@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { ActivityProps } from '../types';
 import type { OpinionShiftContent } from '../types';
+import { useSessionStore } from '@/stores/session-store';
+import { ShiftFromPulse } from './shift-from-pulse';
 
 type Phase = 'idle' | 'collecting' | 'revealing';
 
@@ -12,7 +14,8 @@ interface Submission {
   studentId?: string | null;
 }
 
-export function OpinionShiftActivity({
+/** Fallback when the lesson had no opening pulse: the written before/now reflection. */
+function OpinionShiftWritten({
   sessionSettings,
   generatedContent,
   onPhaseChange,
@@ -231,4 +234,16 @@ export function OpinionShiftActivity({
       )}
     </div>
   );
+}
+
+/**
+ * Opinion Shift. When the lesson opened with a Quick Pulse (Lesson Thread), it asks that same
+ * question again and shows the Shift, spoken-first. Otherwise: the written reflection.
+ */
+export function OpinionShiftActivity(props: ActivityProps) {
+  const pulse = useSessionStore((s) => s.lessonThread.pulse);
+  // The first opinion scale the class answered is the best "before" (fallback: the first question).
+  const baseline = pulse.find((p) => p.type === 'likert' && Object.keys(p.votes).length > 0) ?? pulse.find((p) => Object.keys(p.votes).length > 0);
+  if (baseline) return <ShiftFromPulse baseline={baseline} {...props} />;
+  return <OpinionShiftWritten {...props} />;
 }

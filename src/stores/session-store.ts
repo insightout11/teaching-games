@@ -41,6 +41,17 @@ export function goalToScoringMode(goal?: string | null): ScoringMode {
   return 'competitive';
 }
 
+/** One opinion question the class answered, with each student's answer (clientId-keyed). */
+export interface ThreadPulse {
+  text: string;
+  type: 'likert' | 'binary';
+  votes: Record<string, { name: string; choice: string }>;
+}
+
+export interface LessonThread {
+  pulse: ThreadPulse[];
+}
+
 export interface SessionSettings {
   difficulty: Difficulty;
   topic: Topic;
@@ -188,6 +199,9 @@ interface SessionState {
   flightLog: FlightLogEntry[];
   // Active flight preset id — set on lesson load; scopes the flight log to Captain's Flight.
   flightPresetId: string | null;
+  // Lesson Thread — what happened earlier in THIS lesson, for later stages to build on
+  // (e.g. Quick Pulse at takeoff is Opinion Shift's "before" at landing). Clears per session.
+  lessonThread: LessonThread;
 
   // Actions
   initSession: (sessionId: string, classId: string, students: Student[]) => void;
@@ -220,6 +234,7 @@ interface SessionState {
   addTripLogEntry: (entry: TripLogEntry) => void;
   setPredictionResults: (results: PredictionResult[]) => void;
   addFlightLogEntry: (entry: FlightLogEntry) => void;
+  recordPulse: (entry: ThreadPulse) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
@@ -323,6 +338,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   tripLog: [],
   predictionResults: [],
   flightLog: [],
+  lessonThread: { pulse: [] },
   flightPresetId: null,
 
   initSession: (sessionId, classId, students) => {
@@ -363,6 +379,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       predictionResults: [],
       // flightLog clears per session; flightPresetId is set separately on lesson load.
       flightLog: [],
+      lessonThread: { pulse: [] },
     });
   },
 
@@ -373,6 +390,12 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   },
 
   setPredictionResults: (results) => set({ predictionResults: results }),
+
+  recordPulse: (entry) => {
+    const { lessonThread } = get();
+    // One entry per question — a re-reveal replaces it.
+    set({ lessonThread: { ...lessonThread, pulse: [...lessonThread.pulse.filter((p) => p.text !== entry.text), entry] } });
+  },
 
   addFlightLogEntry: (entry) => {
     // Flight log is a Captain's Flight feature only — silently ignore elsewhere so shared beats
@@ -662,6 +685,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       tripLog: [],
       predictionResults: [],
       flightLog: [],
+      lessonThread: { pulse: [] },
       flightPresetId: null,
     });
   },

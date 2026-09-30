@@ -6,6 +6,7 @@ import { ArrowRight, Clock, MessageCircleQuestion, Plus, Send, Users } from 'luc
 import type { ActivityProps } from '../types';
 import { KitButton, KitInput, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import type { QuickPulseContent, QuickPulsePrompt } from '../types';
+import { useSessionStore } from '@/stores/session-store';
 
 type Phase = 'idle' | 'prompting' | 'revealing' | 'summary';
 
@@ -256,10 +257,19 @@ export function QuickPulseActivity({
     onPhaseChange?.('prompting');
   }, [timerSeconds, onPhaseChange]);
 
+  const recordPulse = useSessionStore((s) => s.recordPulse);
   const handleReveal = useCallback(() => {
     setPhase('revealing');
     onPhaseChange?.('revealing');
-  }, [onPhaseChange]);
+    // Lesson Thread: keep this answer set so a later stage (Opinion Shift) can ask it again.
+    const prompt = prompts[currentIndexRef.current];
+    const round = votesRef.current[currentIndexRef.current] ?? {};
+    if (prompt && Object.keys(round).length > 0) {
+      const votes: Record<string, { name: string; choice: string }> = {};
+      Object.entries(round).forEach(([cid, choice]) => { votes[cid] = { name: namesRef.current[cid] ?? 'Someone', choice: String(choice) }; });
+      recordPulse({ text: prompt.text, type: prompt.type === 'likert' ? 'likert' : 'binary', votes });
+    }
+  }, [onPhaseChange, prompts, recordPulse]);
 
   const handleNext = useCallback(() => {
     const nextIndex = currentIndex + 1;
