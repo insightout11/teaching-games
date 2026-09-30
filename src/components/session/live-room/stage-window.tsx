@@ -12,7 +12,6 @@ const AUDIENCE_CSS = `
 #lc-stage-root [data-scene] form,
 #lc-stage-root [data-scene] label:has(select),
 #lc-stage-root [data-scene] [data-teacher] { display: none !important; }
-#lc-stage-root [data-scene] textarea[data-empty] { display: none !important; }
 #lc-stage-root [data-scene] textarea { pointer-events: none; }
 #lc-stage-root [data-scene] textarea::placeholder { color: transparent; }
 `;

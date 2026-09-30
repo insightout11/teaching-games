@@ -1045,11 +1045,10 @@ export function FlightDeck({
   } else if (view === 'talk') {
     scene = (
       <div className="flex w-full max-w-4xl flex-col items-center gap-4">
-        <p data-teacher={talkPrompt.trim() ? undefined : ''} className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">Talking point</p>
+        <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">Talking point</p>
         <textarea
           id="deck-talk-prompt"
           data-keep=""
-          data-empty={talkPrompt.trim() ? undefined : ''}
           value={talkPrompt}
           onChange={(e) => { setTalkPrompt(e.target.value); setTalkFollowUps([]); setTalkVote(parseWouldYouRather(e.target.value) ?? null); }}
           placeholder={presenting ? '' : 'Type a question, or tap a kind of prompt below…'}
@@ -1115,7 +1114,7 @@ export function FlightDeck({
                 </button>
               ))}
             </div>
-            <p data-teacher="" className="text-[11px] text-white/45">About {focused ? `"${focused.title}"` : sessionTopic && sessionTopic !== 'General' ? sessionTopic : 'everyday life'}. Change the topic in the bar at the top.</p>
+            <p className="text-[11px] text-white/45">About {focused ? `"${focused.title}"` : sessionTopic && sessionTopic !== 'General' ? sessionTopic : 'everyday life'}. Change the topic in the bar at the top.</p>
           </>
         )}
       </div>
@@ -1254,25 +1253,22 @@ export function FlightDeck({
   };
 
   const snapHosts: SnapHost[] = [
-    { id: 'wind', ref: windRef, anchors: SNAP_ANCHORS },
+    // While staged, the windscreen is in another window: its coordinates don't apply here.
+    ...(stage.isOpen ? [] : [{ id: 'wind', ref: windRef, anchors: SNAP_ANCHORS }]),
     ...(presenting ? [] : [
       { id: 'cargo', ref: cargoRef, anchors: ['tl', 'bl'] as SnapAnchor[] },
       { id: 'cabin', ref: cabinRef, anchors: ['tr', 'br'] as SnapAnchor[] },
     ]),
   ];
 
-  // The windscreen is drawn once for the teacher (interactive: drops, controls)
-  // and, while the Stage window is open, again as the audience copy there
-  // (same flight and content, no teacher controls). The running activity can
-  // only live in one place: on the stage while it's open.
-  const renderWindscreen = (audience: boolean) => (
+  const windscreen = (
     <div
-      ref={audience ? undefined : windRef}
-      data-deck-drop={audience ? undefined : 'wind'}
+      ref={windRef}
+      data-deck-drop="wind"
       className={[
         'overflow-hidden transition-[filter] duration-300',
-        audience ? 'absolute inset-0 rounded-none' : presenting ? 'fixed inset-0 z-[60] rounded-none' : 'absolute inset-0 rounded-[30px_30px_18px_18px]',
-        !audience && hot(hotZone, 'wind') ? 'brightness-110 saturate-125' : '',
+        stage.isOpen ? 'absolute inset-0 rounded-none' : presenting ? 'fixed inset-0 z-[60] rounded-none' : 'absolute inset-0 rounded-[30px_30px_18px_18px]',
+        hot(hotZone, 'wind') ? 'brightness-110 saturate-125' : '',
       ].join(' ')}
       style={{ background: '#0b1a33' }}
     >
@@ -1288,8 +1284,8 @@ export function FlightDeck({
         terrain={place.overCity ? 'farmland' : below.terrain}
         region={place.overCity ? `city:${place.overCity}` : below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : null}
         calm={view !== 'boarding' && view !== 'talk'}
-        onCinematic={audience ? undefined : setCinematic}
-        onLanded={audience ? undefined : () => {
+        onCinematic={setCinematic}
+        onLanded={() => {
           setLanded(true);
           window.setTimeout(() => onCompleteSession(destination.id), 9000);
         }}
@@ -1309,18 +1305,9 @@ export function FlightDeck({
 
       {/* The running module lives here in the Game view; elsewhere it stays mounted off-screen. */}
       {/* pb-16 keeps the floating "End activity" pill clear of the game's last buttons */}
-      {audience === stage.isOpen && (
-        <div className={view === 'game' && runningKey ? 'absolute inset-0 overflow-y-auto p-4 pb-16 sm:p-6 sm:pb-16' : 'hidden'}>
-          {runningKey ? moduleHost : null}
-        </div>
-      )}
-      {!audience && stage.isOpen && view === 'game' && runningKey && (
-        <div className="absolute inset-x-0 top-4 z-10 flex justify-center">
-          <button type="button" onClick={stage.focus} className="flex items-center gap-2 rounded-full border border-sky-300/50 bg-slate-950/80 px-4 py-2 text-sm text-sky-100 backdrop-blur-md hover:bg-slate-900">
-            <MonitorUp className="h-4 w-4" /> The activity is running on the Stage window: its buttons are there
-          </button>
-        </div>
-      )}
+      <div className={view === 'game' && runningKey ? 'absolute inset-0 overflow-y-auto p-4 pb-16 sm:p-6 sm:pb-16' : 'hidden'}>
+        {runningKey ? moduleHost : null}
+      </div>
 
       {scene !== null && !cinematic && !landed && flightStage !== 'landing' && (
         <AnimatePresence mode="wait">
@@ -1331,7 +1318,7 @@ export function FlightDeck({
             exit={reduce ? undefined : { opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
             className="absolute inset-0 flex items-center justify-center p-6"
-            data-scene={audience ? '' : undefined}
+            data-scene=""
           >
             {scene}
           </motion.div>
@@ -1350,14 +1337,14 @@ export function FlightDeck({
           >
             <p className="font-mono text-2xl font-semibold text-white">{readings[h].value}</p>
             <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/65">{INSTRUMENT_LABEL[h]}</p>
-            {!audience && <button
+            <button
               type="button"
               onClick={() => setHuds((x) => x.filter((y) => y !== h))}
               className="absolute -right-2 -top-2 grid h-5 w-5 place-items-center rounded-full border border-white/20 bg-slate-950 text-[10px] text-white/70"
               aria-label={`Hide ${INSTRUMENT_LABEL[h]}`}
             >
               <X className="h-3 w-3" />
-            </button>}
+            </button>
           </div>
         );
       })}
@@ -1365,7 +1352,7 @@ export function FlightDeck({
       {/* Boarding walk-up: shows only while someone is walking up the airstairs (any view). */}
       {!cinematic && !landed && walkingIds.size > 0 && (
         <div className="pointer-events-none absolute inset-x-6 bottom-3 z-[15]">
-          <BoardingLane planeKey={position?.planeKey ?? null} arrivals={arrivals.filter((a) => walkingIds.has(a.id))} onBoarded={audience ? undefined : onBoarded} />
+          <BoardingLane planeKey={position?.planeKey ?? null} arrivals={arrivals.filter((a) => walkingIds.has(a.id))} onBoarded={onBoarded} />
         </div>
       )}
 
@@ -1373,7 +1360,7 @@ export function FlightDeck({
         <div className="absolute left-1/2 top-4 z-10 flex -translate-x-1/2 items-center gap-3 rounded-full border border-amber-300/60 bg-slate-950/75 py-1.5 pl-1.5 pr-4 backdrop-blur-md">
           <CrewAvatar seed={spotlightP.avatar_seed ?? spotlightP.display_name} name={spotlightP.display_name} size={34} className="rounded-full" />
           <span className="font-display text-lg text-white">{spotlightP.display_name}</span>
-          {!audience && <button type="button" onClick={() => setSpotlight(null)} aria-label="Clear spotlight" className="text-white/60 hover:text-white"><X className="h-4 w-4" /></button>}
+          <button type="button" onClick={() => setSpotlight(null)} aria-label="Clear spotlight" className="text-white/60 hover:text-white"><X className="h-4 w-4" /></button>
         </div>
       )}
 
@@ -1388,12 +1375,12 @@ export function FlightDeck({
         </div>
       )}
 
-      {!audience && presenting && (
+      {presenting && (
         <button type="button" onClick={() => setPresenting(false)} className="absolute right-3 top-3 z-20 flex items-center gap-1.5 rounded-lg border border-white/20 bg-slate-950/70 px-3 py-1.5 text-xs text-white/80">
           <Minimize2 className="h-3.5 w-3.5" /> Exit presenting (Esc)
         </button>
       )}
-      {!audience && !presenting && dragging && hot(hotZone, 'wind') && (
+      {!presenting && dragging && hot(hotZone, 'wind') && (
         <p className="pointer-events-none absolute inset-x-0 bottom-3 text-center font-mono text-xs uppercase tracking-[0.16em] text-white/85">Drop to show the class</p>
       )}
     </div>
@@ -1539,8 +1526,35 @@ export function FlightDeck({
 
       {/* Windscreen (or, while staged, a note: it's in the Stage window) */}
       <div className="relative min-h-0">
-        {renderWindscreen(false)}
-        {stage.container && createPortal(renderWindscreen(true), stage.container)}
+        {stage.container ? (
+          <>
+            {createPortal(windscreen, stage.container)}
+            {/* Presenter view: your controls for what's on the stage. The class sees the Stage window. */}
+            <div className="absolute inset-0 flex flex-col overflow-hidden rounded-[30px_30px_18px_18px] border border-sky-300/30 bg-[#0b1a33]">
+              <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-white/10 bg-slate-950/60 px-4 py-2">
+                <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-sky-200">
+                  <MonitorUp className="h-4 w-4" /> Your controls · the class sees the Stage window
+                </p>
+                <div className="flex gap-2">
+                  <button type="button" onClick={stage.focus} className="rounded-lg border border-sky-300/50 px-2.5 py-1 text-xs text-sky-100 hover:bg-sky-300/10">Show Stage window</button>
+                  <button type="button" onClick={stage.close} className="rounded-lg border border-white/20 px-2.5 py-1 text-xs text-white/80 hover:text-white">Bring it back here</button>
+                </div>
+              </div>
+              <div className="relative min-h-0 flex-1">
+                {view === 'game' && runningKey ? (
+                  <div className="flex h-full flex-col items-center justify-center gap-2 p-6 text-center">
+                    <p className="font-display text-2xl text-white">The activity is running on the Stage window</p>
+                    <p className="max-w-md text-sm text-white/60">Its buttons (reveal, next…) are on the stage: click them there. Everything in this window stays private.</p>
+                  </div>
+                ) : scene !== null ? (
+                  <div className="absolute inset-0 flex items-center justify-center overflow-auto p-6">{scene}</div>
+                ) : (
+                  <div className="flex h-full items-center justify-center p-6 text-sm text-white/55">The stage is showing the flight.</div>
+                )}
+              </div>
+            </div>
+          </>
+        ) : windscreen}
         <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[30px_30px_18px_18px] shadow-[inset_0_0_0_6px_#121a2a,inset_0_0_40px_rgba(0,0,0,.35)]" />
         {panel === 'catalogue' && (
           <div className="absolute inset-y-3 right-3 z-30 flex w-[380px] flex-col overflow-hidden rounded-2xl border border-[#2A3854] bg-[#0c1322]/97 shadow-2xl">

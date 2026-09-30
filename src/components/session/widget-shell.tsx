@@ -49,9 +49,6 @@ function getDefaultPosition(id: string): { x: number; y: number } {
   return computeDefaultPositions([id])[id] ?? { x: 0, y: 0 };
 }
 
-/** Never shown to the class by default (the shared screen is public). */
-const PRIVATE_WIDGETS = new Set(['class-questions']);
-
 export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = true, children }: WidgetShellProps) {
   // Individual selectors — avoid re-rendering on other widgets' changes
   const widgetEntry = useWidgetStore((s) => s.widgets[id]);
@@ -66,9 +63,9 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
   const stageSize = useStageStore((s) => s.size);
   const stageChoice = useStageStore((s) => s.onStage[id]);
   const setOnStage = useStageStore((s) => s.setOnStage);
-  // Default: open widgets show on the stage (flight map, timer, poll…), except
-  // private teacher ones. The title-bar button takes any widget back.
-  const onStage = !!stageEl && (stageChoice ?? !PRIVATE_WIDGETS.has(id));
+  const rawMode = widgetEntry?.mode ?? 'free';
+  // Default: widgets filling half / all of the windscreen follow it onto the stage.
+  const onStage = !!stageEl && (stageChoice ?? rawMode !== 'free');
   // The area half / full modes fill: the stage when on it, else the windscreen.
   const wind = onStage ? { left: 0, top: 0, width: stageSize.w, height: stageSize.h } : windRect;
 
