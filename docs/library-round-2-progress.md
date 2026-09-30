@@ -35,3 +35,5 @@ px tsc --noEmit -p . pass · needsReview added only where source text is too lim
 - 2026-09-30 · metadata batch 4 · +20 (bigthink-library.json, business-english-library.json, crash-course-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
 
 - 2026-09-30 · metadata batch 5 · +20 (crash-course-library.json, internet-memes-library.json, kids-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
+
+- 2026-09-30 · metadata batch 6 · +20 (kids-library.json, kurzgesagt-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
