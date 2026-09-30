@@ -1,52 +1,47 @@
 {
   "slug": "twenty-questions",
   "schemaVersion": 1,
-  "headline": "20 Questions Deduction Game for ESL Question Formation Practice",
+  "headline": "20 Questions: Ask, Listen, and Find the Secret",
+  "problemStatement": "Good questions help students narrow down an idea, check a hypothesis, and listen to an answer. In 20 Questions, one keeper holds a secret while the class asks yes-or-no questions and guesses. The Speak it mode gives the game a spoken rhythm, with phones helping the teacher manage turns and record clues.",
   "outcomes": [
-    "Students practise forming grammatically correct yes/no questions in a natural, game-driven context",
-    "Develop logical deduction and elimination strategies using English question structures",
-    "Build confidence asking questions spontaneously rather than from a scripted list",
-    "Reinforce topic vocabulary — the secret concept is always drawn from the lesson theme"
+    "Practice forming clear questions that can narrow down a possible answer.",
+    "Listen closely to keeper responses and use them to revise the next question.",
+    "Develop deduction and turn-taking through a shared clue board."
   ],
   "howItWorks": [
-    "One student picks a secret concept — a word, place, person, or object related to the class topic",
-    "The rest of the class takes turns submitting yes/no questions on their devices to narrow down possibilities",
-    "The secret holder answers each question; the class tracks answers and eliminates possibilities",
-    "The round ends when someone correctly identifies the secret — or when 20 questions are exhausted"
+    "Choose a student keeper or let the AI choose a topic-related secret. When a student keeps the secret, it is set on their phone and hidden from the shared class view.",
+    "Speak it is the default with a student keeper: learners raise a hand, the teacher calls the next student, and that student asks the question aloud. They can optionally type it onto the clue board.",
+    "The keeper answers Yes, No, Maybe, or Sort of on their phone; the teacher has answer controls as a fallback. Type it mode lets students send questions from phones.",
+    "Answers build an It is / It isn't clue board. Students can make a final guess, and the teacher can briefly hold to peek at the answer during the game."
   ],
   "teacherUseCases": [
-    "Question formation practice where students must produce interrogative structures to progress",
-    "Vocabulary review — the secret concept forces students to think around the word rather than state it",
-    "Speaking fluency warm-up that feels like a game rather than a drill"
+    "Use Speak it for question-form practice and ask students to explain how each answer changes their next guess.",
+    "Switch to Type it when you want every learner to contribute a question without taking a spoken turn."
   ],
-  "estimatedTime": "10–15 min",
-  "groupSize": "Any",
+  "estimatedTime": "15 min",
+  "groupSize": "2 or more students",
   "faq": [
     {
-      "q": "How does question quality affect scores?",
-      "a": "Points are awarded for grammatically correct questions. Poorly formed questions are flagged and the student can revise before submitting — making every question a mini grammar check."
+      "q": "Does the whole class see the keeper's secret?",
+      "a": "The student keeper sets the secret on their phone, and the class-facing screen keeps it hidden. The teacher can hold the peek control briefly when needed."
     },
     {
-      "q": "Who chooses the secret concept?",
-      "a": "Either a student chooses something from the topic, or the teacher enters a concept at the start. The AI can also generate a suitable secret concept based on the session topic."
+      "q": "What is Speak it mode?",
+      "a": "Students raise a hand, the teacher calls one asker, and that learner asks aloud. They may type the spoken question onto the clue board if the class needs a written record."
     },
     {
-      "q": "Can questions beyond yes/no be asked?",
-      "a": "The classic format uses yes/no questions only. Some teachers run it in 'expanded' mode where follow-up clarification questions are allowed — this can be managed by the teacher in the session settings."
+      "q": "Can a student keeper answer from their phone?",
+      "a": "Yes. The keeper receives Yes, No, Maybe, and Sort of controls on the phone. The teacher can still use the shared-screen buttons as a fallback."
     },
     {
-      "q": "How do students submit their questions during play?",
-      "a": "Students type questions on their phone or tablet through a mobile browser. The session link is all they need — no app download or student account required."
-    },
-    {
-      "q": "What level is this best suited to?",
-      "a": "20 Questions works well from A2 upward. Lower levels benefit from the constraint of yes/no questions which are grammatically simpler. Higher levels can explore more creative, abstract questioning strategies."
-    },
-    {
-      "q": "Is 20 Questions free to run in class?",
-      "a": "Yes, 20 Questions is free. Teachers start the session and students join through a browser link — no account setup required on either side."
+      "q": "What helps students avoid repeating a question?",
+      "a": "The clue board stores questions and answers, shows rejected duplicates, and organizes clues into what the secret is and is not."
     }
   ],
-  "related": ["connections", "dialogue-detective"],
+  "related": [
+    "connections",
+    "fact-detective",
+    "imposter"
+  ],
   "ogImageTheme": "logic"
 }
