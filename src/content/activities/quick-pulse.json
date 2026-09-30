@@ -1,48 +1,47 @@
 {
   "slug": "quick-pulse",
   "schemaVersion": 1,
-  "headline": "Quick Pulse Activity - 3-Minute ESL Warm-Up Poll",
+  "headline": "Quick Pulse: Speaking Follow-Ups for ESL Warm-Ups",
+  "problemStatement": "A poll can show what a class thinks without helping students explain why. Quick Pulse turns a fast phone response into a speaking prompt: students answer a question, review a visual class result, and hear classmates explain different views. Teachers can use it to warm up a topic or check understanding.",
   "outcomes": [
-    "Students answer fast, low-pressure prompts so the whole class speaks from the first minutes of the lesson",
-    "The teacher sees an instant distribution of opinions, confidence, or prior knowledge before choosing the next move",
-    "Short prompts lower anxiety for quiet students because everyone responds at the same time",
-    "The result screen gives the class a natural reason to compare answers and explain choices"
+    "Practice making a quick choice and then explaining the reason behind it aloud.",
+    "Compare class opinions through animated results that make a split easy to see.",
+    "Give students practice responding to a teacher question or one they create themselves."
   ],
   "howItWorks": [
-    "LessonCaptain generates three mini-prompts connected to your topic or lesson goal",
-    "Students answer from their phones or laptops while the teacher screen tracks responses live",
-    "The class sees the response distribution after each prompt, not a long report after the activity",
-    "The teacher uses the strongest split or surprise result as the first discussion question"
+    "Start with a short set of prompts. Students answer each prompt on their phones using a Yes/No choice or a 1-to-5 scale.",
+    "The class result appears as animated columns for a rating question or a tug-of-war view for a Yes/No question.",
+    "Use Ask both sides to hear from voters at opposite ends of the result, then ask why. The teacher can invite more students when the class needs a second voice.",
+    "Ask your own adds a yes/no or rating prompt, so the teacher can bring a fresh question into the pulse instead of being limited to a fixed set."
   ],
   "teacherUseCases": [
-    "Opening a lesson with a quick opinion check before a reading, video, or debate",
-    "Checking background knowledge before teaching a new topic",
-    "Restarting energy after a break with a fast whole-class participation moment"
+    "Open a lesson with a low-stakes question that gives every student a response before anyone speaks to the whole group.",
+    "Pause after a result and ask two classmates to explain different answers, turning the chart into a short discussion."
   ],
-  "estimatedTime": "3-5 min",
-  "groupSize": "Any",
+  "estimatedTime": "3 min",
+  "groupSize": "Any class size",
   "faq": [
     {
-      "q": "What kind of prompts does Quick Pulse generate?",
-      "a": "Prompts are short and easy to answer quickly: agreement checks, preference choices, confidence ratings, or prediction questions. They are designed to start conversation, not test students formally."
+      "q": "What answer formats are available?",
+      "a": "A pulse can use a Yes/No response or a five-point agreement scale. Students answer on their phones, and the teacher sees a class-level result."
     },
     {
-      "q": "Can Quick Pulse work with one student?",
-      "a": "Yes. With one student it becomes a fast diagnostic or conversation starter. In groups, the distribution reveal adds extra energy because students can compare how the room answered."
+      "q": "Does Quick Pulse always use three prompts?",
+      "a": "It begins with a short set of mini-prompts, and the teacher can add an original question with Ask your own. The activity can therefore continue beyond the starter set."
     },
     {
-      "q": "Is Quick Pulse scored?",
-      "a": "No. Quick Pulse is a warm-up and check-in activity. The value comes from participation and discussion, not points."
+      "q": "How do I get students talking after the vote?",
+      "a": "Ask both sides selects students from different ends of the result and invites them to say why. The teacher can repeat the follow-up with other voters."
     },
     {
-      "q": "How do students answer the pulse prompts?",
-      "a": "No. Students join through a browser link on any device. They do not need to install an app or create a student account."
-    },
-    {
-      "q": "When should I use Quick Pulse?",
-      "a": "Use it when you need the class talking quickly: the first minutes of class, before a source-based lesson, before a debate, or after a long teacher explanation."
+      "q": "Can a quick poll work as a lesson check?",
+      "a": "Yes. Ask a question tied to the topic, inspect the class pattern, and invite students to explain answers. The result is a discussion cue rather than an automatic grade."
     }
   ],
-  "related": ["would-you-rather", "wonder-board", "rank-it"],
+  "related": [
+    "hot-take-arena",
+    "fact-detective",
+    "rank-it"
+  ],
   "ogImageTheme": "icebreakers"
 }

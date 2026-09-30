@@ -1,52 +1,47 @@
 {
   "slug": "fact-detective",
   "schemaVersion": 1,
-  "headline": "Fact vs Myth Discussion Activity for ESL Content-Area Classes",
+  "headline": "Fact Detective: Discuss Claims and Spot the Fib",
+  "problemStatement": "Students learn more from a claim when they predict, listen to a different view, and explain their reasoning before seeing the answer. Fact Detective uses topic-based claims to turn factual reading into a spoken investigation, with highlighted vocabulary and explanations during the reveal.",
   "outcomes": [
-    "Students evaluate the truth of claims using critical reasoning, not just guessing or test-taking heuristics",
-    "Encounter and discuss target vocabulary embedded in plausible factual claims",
-    "Build listening comprehension by processing and responding to information-dense statements",
-    "Develop the language of probability and hedging — 'this is likely true because,' 'I doubt this because'"
+    "Practice evaluating a statement and supporting a true-or-false choice with a reason.",
+    "Build listening skills by hearing classmates defend different predictions before the answer appears.",
+    "Learn topic vocabulary through claim explanations and highlighted key words."
   ],
   "howItWorks": [
-    "The AI presents a series of claims about your topic — a mix of genuine facts and convincingly wrong myths",
-    "Students discuss each claim and vote true or false on their device with a brief written justification",
-    "The truth is revealed with a full explanation — highlighting key vocabulary from the lesson",
-    "The teacher uses each reveal as a teaching moment, connecting back to lesson content"
+    "Choose True or false to consider one claim at a time, or Spot the fib to compare three claims and identify the single fake.",
+    "Students submit their predictions on phones. When the votes show different views, the teacher can hear both sides before revealing the truth.",
+    "The reveal explains the answer and highlights useful words. In Spot the fib, the false claim is marked clearly after the discussion.",
+    "The activity scores a correct prediction more highly than an attempted answer, but the main learning moment is explaining why a claim seems believable."
   ],
   "teacherUseCases": [
-    "Content-based language teaching where lesson facts are embedded in a detection activity",
-    "Pre-reading activity to activate prior knowledge and surface misconceptions before a text",
-    "Vocabulary in context — students encounter key terms in realistic sentences before formal teaching"
+    "Use a topic from the current unit so students can activate what they know before reading or listening to a longer source.",
+    "After the reveal, ask learners to restate the explanation or use one highlighted word in a new sentence."
   ],
-  "estimatedTime": "12–18 min",
-  "groupSize": "Any",
+  "estimatedTime": "12 min",
+  "groupSize": "Any class size",
   "faq": [
     {
-      "q": "How does this differ from Two Truths and a Fabrication?",
-      "a": "Fact Detective presents claims one at a time for true/false evaluation, with detailed explanations. Two Truths presents three simultaneous statements for comparative judgment. Both build critical thinking but through different discussion structures."
+      "q": "How is Spot the fib different from True or false?",
+      "a": "True or false presents one claim for a prediction. Spot the fib presents three claims from the same generated set, with one false statement to find."
     },
     {
-      "q": "Are the myths completely invented or based on real misconceptions?",
-      "a": "The AI generates myths that reflect common misconceptions or plausible-sounding false beliefs — not random nonsense. This makes the reveal more educational and the discussion richer."
+      "q": "Can students hear opposing views before the answer?",
+      "a": "Yes. Hear both sides selects students who voted differently so they can argue their case before the class sees the truth."
     },
     {
-      "q": "Can I review the claims before class?",
-      "a": "Yes. Teachers can preview all claims and explanations before starting the session and remove any that don't fit the lesson focus."
+      "q": "What does the reveal include?",
+      "a": "The reveal marks the true or false answer, gives an explanation, shows the vote split, and highlights key vocabulary. The fib mode also strikes through the false claim."
     },
     {
-      "q": "What do students need to participate?",
-      "a": "Each student votes and justifies their choice on their phone or tablet in the browser. No download or student account required — the teacher's session link is all they need."
-    },
-    {
-      "q": "What language level suits Fact Detective best?",
-      "a": "Fact Detective works from A2 upward. At lower levels, use short, concrete claims with simple vocabulary. At higher levels, the claims can feature complex structures and academic vocabulary."
-    },
-    {
-      "q": "Is Fact Detective free to use?",
-      "a": "Fact Detective is free. Students join the session through a browser link — no app installs or student accounts needed."
+      "q": "What if the claim set has too few facts for Spot the fib?",
+      "a": "The mode is available only when the generated set contains enough true and false claims. The screen indicates when there are not enough claims and the teacher can use True or false."
     }
   ],
-  "related": ["expert-panel", "two-truths"],
+  "related": [
+    "expert-panel",
+    "hot-take-arena",
+    "quick-pulse"
+  ],
   "ogImageTheme": "learning"
 }
