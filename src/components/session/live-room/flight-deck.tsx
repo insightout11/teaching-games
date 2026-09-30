@@ -1021,7 +1021,7 @@ export function FlightDeck({
               Take off to {destination.city}
             </button>
           )}
-          <div data-teacher="" className="flex flex-wrap items-center gap-2 text-xs text-white/60">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-white/60">
             Class map:
             {PIN_PROMPTS.map((q) => (
               <button key={q} type="button" onClick={() => startPins(q)} className="rounded-lg border border-white/20 px-2.5 py-1 text-white/80 hover:border-rose-300/60 hover:text-white">
@@ -1048,7 +1048,6 @@ export function FlightDeck({
         <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">Talking point</p>
         <textarea
           id="deck-talk-prompt"
-          data-keep=""
           value={talkPrompt}
           onChange={(e) => { setTalkPrompt(e.target.value); setTalkFollowUps([]); setTalkVote(parseWouldYouRather(e.target.value) ?? null); }}
           placeholder={presenting ? '' : 'Type a question, or tap a kind of prompt below…'}
@@ -1318,7 +1317,6 @@ export function FlightDeck({
             exit={reduce ? undefined : { opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
             className="absolute inset-0 flex items-center justify-center p-6"
-            data-scene=""
           >
             {scene}
           </motion.div>
@@ -1529,28 +1527,13 @@ export function FlightDeck({
         {stage.container ? (
           <>
             {createPortal(windscreen, stage.container)}
-            {/* Presenter view: your controls for what's on the stage. The class sees the Stage window. */}
-            <div className="absolute inset-0 flex flex-col overflow-hidden rounded-[30px_30px_18px_18px] border border-sky-300/30 bg-[#0b1a33]">
-              <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-white/10 bg-slate-950/60 px-4 py-2">
-                <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-sky-200">
-                  <MonitorUp className="h-4 w-4" /> Your controls · the class sees the Stage window
-                </p>
-                <div className="flex gap-2">
-                  <button type="button" onClick={stage.focus} className="rounded-lg border border-sky-300/50 px-2.5 py-1 text-xs text-sky-100 hover:bg-sky-300/10">Show Stage window</button>
-                  <button type="button" onClick={stage.close} className="rounded-lg border border-white/20 px-2.5 py-1 text-xs text-white/80 hover:text-white">Bring it back here</button>
-                </div>
-              </div>
-              <div className="relative min-h-0 flex-1">
-                {view === 'game' && runningKey ? (
-                  <div className="flex h-full flex-col items-center justify-center gap-2 p-6 text-center">
-                    <p className="font-display text-2xl text-white">The activity is running on the Stage window</p>
-                    <p className="max-w-md text-sm text-white/60">Its buttons (reveal, next…) are on the stage: click them there. Everything in this window stays private.</p>
-                  </div>
-                ) : scene !== null ? (
-                  <div className="absolute inset-0 flex items-center justify-center overflow-auto p-6">{scene}</div>
-                ) : (
-                  <div className="flex h-full items-center justify-center p-6 text-sm text-white/55">The stage is showing the flight.</div>
-                )}
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-[30px_30px_18px_18px] border border-dashed border-sky-300/40 bg-[#0b1a33] p-6 text-center">
+              <MonitorUp className="h-8 w-8 text-sky-300" />
+              <p className="font-display text-2xl text-white">The stage is in its own window</p>
+              <p className="max-w-md text-sm text-white/65">In Zoom, share <b className="text-white">that window</b>, not your whole screen. Students see only the stage; everything here stays private.</p>
+              <div className="flex gap-2">
+                <button type="button" onClick={stage.focus} className="rounded-lg border border-sky-300/50 px-3 py-1.5 text-sm text-sky-100 hover:bg-sky-300/10">Show the Stage window</button>
+                <button type="button" onClick={stage.close} className="rounded-lg border border-white/20 px-3 py-1.5 text-sm text-white/80 hover:text-white">Bring it back here</button>
               </div>
             </div>
           </>
