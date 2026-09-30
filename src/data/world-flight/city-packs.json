@@ -298,5 +298,155 @@
     ],
     "needsReview": true,
     "reviewNotes": "Please check these Arabic words and simplified pronunciations with a fluent speaker familiar with Emirati usage."
+  },
+  "sydney": {
+    "id": "sydney",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm sunny days mix with quick coastal showers, and ocean breezes cool many afternoons." },
+      { "order": 2, "kind": "food", "text": "A flaky hand-held pastry can hold minced meat and savory gravy." },
+      { "order": 3, "kind": "nature", "text": "A sheltered saltwater inlet cuts into the coast, with small coves and beaches." },
+      { "order": 4, "kind": "culture", "text": "Commuter ferries carry people across the water to work, school, and seaside neighborhoods." },
+      { "order": 5, "kind": "landmark", "text": "White sail-shaped roofs curve beside the deep blue harbor at the water's edge." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Australia." }
+    ],
+    "souvenirs": [
+      { "id": "sydney-ferry-token", "name": "Harbour ferry token", "description": "Ferries cross the harbor and link the city with nearby beaches and islands.", "earn": { "type": "land" }, "icon": "ship", "artPrompt": "sticker-style green-and-yellow commuter ferry leaving a city pier, no text, no people's faces" },
+      { "id": "sydney-meat-pie", "name": "Meat pie charm", "description": "Australian meat pies are small pastry shells filled with savory minced meat.", "earn": { "type": "mode", "mode": "world" }, "icon": "utensils", "artPrompt": "sticker-style golden hand pie on a napkin, no text, no people's faces" },
+      { "id": "sydney-rock-oyster", "name": "Rock oyster shell", "description": "Sydney rock oysters grow in estuaries along Australia's east coast.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "shell", "artPrompt": "sticker-style open oyster shell with a small pearl, no text, no people's faces" },
+      { "id": "sydney-lamington-cube", "name": "Lamington cake cube", "description": "A lamington is a sponge cake coated in chocolate and rolled in coconut.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "cookie", "artPrompt": "sticker-style square chocolate-and-coconut sponge cake, no text, no people's faces" },
+      { "id": "sydney-harbour-shells", "name": "Harbour shell ornament", "description": "The city's harbor has many small coves, beaches, and islands to explore.", "earn": { "type": "rare" }, "icon": "waves", "artPrompt": "sticker-style spiral seashell with blue harbor waves, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Sydney ferry trip would your class choose, and what might you see?",
+      "What would you put inside a warm Sydney meat pie?",
+      "What would you say to a friend after visiting the Sydney Opera House?"
+    ],
+    "localWords": [
+      { "word": "arvo", "language": "Australian English", "meaning": "afternoon", "say": "AR-voh" },
+      { "word": "brekkie", "language": "Australian English", "meaning": "breakfast", "say": "BREK-ee" },
+      { "word": "ta", "language": "Australian English", "meaning": "thanks", "say": "TAH" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check that these Australian English expressions and simple pronunciations sound natural in Sydney."
+  },
+  "beijing": {
+    "id": "beijing",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Winters can be cold and dry, while summers are hot and bring heavier rain." },
+      { "order": 2, "kind": "food", "text": "Crisp-skinned roast duck is served with thin pancakes, sauce, and sliced vegetables." },
+      { "order": 3, "kind": "culture", "text": "Older neighborhoods have narrow lanes and shared courtyards where neighbors live close together." },
+      { "order": 4, "kind": "language", "text": "Mandarin is used in school, shops, and everyday conversations across the capital." },
+      { "order": 5, "kind": "landmark", "text": "A vast former palace has red walls and many golden-roofed halls." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of China." }
+    ],
+    "souvenirs": [
+      { "id": "beijing-duck-plate", "name": "Roast duck plate", "description": "Peking duck is often wrapped in thin pancakes with sauce and vegetables.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style roast duck slices with pancakes and cucumber sticks, no text, no people's faces" },
+      { "id": "beijing-bicycle-bell", "name": "Bicycle bell", "description": "Bicycles are a familiar way to travel through the city's neighborhood lanes.", "earn": { "type": "mode", "mode": "topic" }, "icon": "bike", "artPrompt": "sticker-style shiny bicycle bell with a small red ribbon, no text, no people's faces" },
+      { "id": "beijing-jianbing-wrap", "name": "Jianbing wrap", "description": "Jianbing is a thin savory pancake folded around egg and crunchy toppings.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "utensils", "artPrompt": "sticker-style folded savory breakfast pancake with crisp crackers, no text, no people's faces" },
+      { "id": "beijing-courtyard-gate", "name": "Courtyard gate tile", "description": "Traditional courtyard homes are arranged around an open central space.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "house", "artPrompt": "sticker-style gray courtyard gate tile with red wooden doors, no text, no people's faces" },
+      { "id": "beijing-palace-roof", "name": "Golden roof model", "description": "The Forbidden City's halls are topped with golden glazed roof tiles.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style miniature golden palace roof with curved eaves, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Beijing breakfast would your class like to taste first?",
+      "What might you notice while walking through the Forbidden City?",
+      "What would you ask a shopkeeper in one of Beijing's narrow lanes?"
+    ],
+    "localWords": [
+      { "word": "nǐ hǎo", "language": "Mandarin Chinese", "meaning": "hello", "say": "NEE-how" },
+      { "word": "xièxie", "language": "Mandarin Chinese", "meaning": "thank you", "say": "shyeh-SHYEH" },
+      { "word": "hǎo chī", "language": "Mandarin Chinese", "meaning": "tasty", "say": "how-CHIR" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Mandarin tones and the simplified English pronunciations with a fluent speaker."
+  },
+  "shanghai": {
+    "id": "shanghai",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Summer days are hot and humid, while winter can feel cool and damp." },
+      { "order": 2, "kind": "food", "text": "Small steamed dumplings hold hot savory broth inside their thin wrappers." },
+      { "order": 3, "kind": "nature", "text": "A broad waterway meets smaller canals, with boats moving beside dense neighborhoods." },
+      { "order": 4, "kind": "culture", "text": "People tap phones to pay for many everyday purchases, from snacks to train rides." },
+      { "order": 5, "kind": "landmark", "text": "A row of historic riverside buildings faces a skyline of very tall towers." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in China." }
+    ],
+    "souvenirs": [
+      { "id": "shanghai-soup-dumpling", "name": "Soup dumpling steamer", "description": "Xiaolongbao are delicate soup-filled dumplings often served in bamboo steamers.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style bamboo steamer basket with soup dumplings, no text, no people's faces" },
+      { "id": "shanghai-maglev-ticket", "name": "Maglev ticket", "description": "The airport maglev train uses magnetic levitation to travel at high speed.", "earn": { "type": "mode", "mode": "world" }, "icon": "train", "artPrompt": "sticker-style streamlined silver train with a blue motion trail, no text, no people's faces" },
+      { "id": "shanghai-crab-pin", "name": "River crab pin", "description": "Hairy crab is a seasonal specialty served in autumn around the city.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "fish", "artPrompt": "sticker-style small mitten crab with a golden autumn leaf, no text, no people's faces" },
+      { "id": "shanghai-garden-window", "name": "Garden window tile", "description": "Classical gardens use shaped windows to frame views of plants and rocks.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "flower", "artPrompt": "sticker-style round garden window framing a tiny tree and rock, no text, no people's faces" },
+      { "id": "shanghai-river-ferry", "name": "River ferry charm", "description": "Ferries carry passengers across the broad river between the city's banks.", "earn": { "type": "rare" }, "icon": "ship", "artPrompt": "sticker-style small river ferry with a pale city skyline, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "How would you carefully taste a hot soup dumpling in Shanghai?",
+      "Which Shanghai river crossing would your class like to try?",
+      "What would you notice in a quiet Shanghai garden?"
+    ],
+    "localWords": [
+      { "word": "nǐ hǎo", "language": "Mandarin Chinese", "meaning": "hello", "say": "NEE-how" },
+      { "word": "xièxie", "language": "Mandarin Chinese", "meaning": "thank you", "say": "shyeh-SHYEH" },
+      { "word": "hǎo chī", "language": "Mandarin Chinese", "meaning": "tasty", "say": "how-CHIR" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Mandarin tones and the simplified English pronunciations with a fluent speaker."
+  },
+  "berlin": {
+    "id": "berlin",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Winters are often chilly and gray, while summers bring longer, warmer days." },
+      { "order": 2, "kind": "food", "text": "A grilled sausage is topped with a tangy tomato sauce and curry spice." },
+      { "order": 3, "kind": "nature", "text": "Wide lawns, tree-lined paths, and lakes give residents room to cycle and picnic." },
+      { "order": 4, "kind": "culture", "text": "Trains, trams, and bicycles help people move between neighborhoods and markets." },
+      { "order": 5, "kind": "landmark", "text": "A neoclassical gate with tall columns stands at the end of a grand avenue." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Germany." }
+    ],
+    "souvenirs": [
+      { "id": "berlin-currywurst-fork", "name": "Currywurst fork", "description": "Currywurst is sliced sausage served with a tomato-based curry sauce.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style tiny wooden fork beside currywurst pieces and sauce, no text, no people's faces" },
+      { "id": "berlin-sbahn-ticket", "name": "S-Bahn ticket", "description": "S-Bahn trains connect central neighborhoods with places across the wider city.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "train", "artPrompt": "sticker-style green city train pulling into an open-air station, no text, no people's faces" },
+      { "id": "berlin-doner-wrap", "name": "Döner wrap", "description": "Döner kebab is a popular street-food sandwich with sliced meat and salad.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "utensils", "artPrompt": "sticker-style toasted döner wrap with lettuce and tomato, no text, no people's faces" },
+      { "id": "berlin-park-bicycle", "name": "Park bicycle bell", "description": "Many Berlin parks have paths used by cyclists and walkers.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "bike", "artPrompt": "sticker-style bicycle bell with a tiny green park leaf, no text, no people's faces" },
+      { "id": "berlin-gate-miniature", "name": "Column gate miniature", "description": "The Brandenburg Gate has twelve columns arranged in two rows.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style miniature neoclassical gate with tall columns, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Berlin park would your class choose for a picnic?",
+      "What toppings would you try on a Berlin currywurst?",
+      "What would you ask while standing near the Brandenburg Gate?"
+    ],
+    "localWords": [
+      { "word": "hallo", "language": "German", "meaning": "hello", "say": "HAH-loh" },
+      { "word": "danke", "language": "German", "meaning": "thank you", "say": "DAHN-kuh" },
+      { "word": "lecker", "language": "German", "meaning": "tasty", "say": "LEK-er" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the simplified English pronunciations of these German words with a fluent speaker."
+  },
+  "moscow": {
+    "id": "moscow",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Snowy winters can last a long time, while summer brings greener parks and warmer days." },
+      { "order": 2, "kind": "food", "text": "Thin pancakes may be filled with jam, cottage cheese, or savory ingredients." },
+      { "order": 3, "kind": "nature", "text": "Tree-lined boulevards and large gardens bring patches of green into the busy city." },
+      { "order": 4, "kind": "culture", "text": "Many commuters travel underground, where some stations have chandeliers and colorful stone walls." },
+      { "order": 5, "kind": "landmark", "text": "A famous cathedral has brightly colored onion-shaped domes beside an old central square." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Russia." }
+    ],
+    "souvenirs": [
+      { "id": "moscow-metro-map", "name": "Metro map case", "description": "The metro has many ornate stations that commuters use every day.", "earn": { "type": "land" }, "icon": "train", "artPrompt": "sticker-style folded metro map with a small underground train, no text, no people's faces" },
+      { "id": "moscow-blini-stack", "name": "Blini stack", "description": "Blini are thin pancakes served with sweet or savory fillings.", "earn": { "type": "mode", "mode": "world" }, "icon": "utensils", "artPrompt": "sticker-style stack of thin pancakes with a small bowl of berries, no text, no people's faces" },
+      { "id": "moscow-matryoshka", "name": "Nested wooden dolls", "description": "Matryoshka dolls fit one inside another, from largest to smallest.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "gift", "artPrompt": "sticker-style set of colorful nested wooden dolls, no text, no people's faces" },
+      { "id": "moscow-park-snowglobe", "name": "Park snow globe", "description": "Large parks offer tree-lined paths and open lawns in the capital.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "snowflake", "artPrompt": "sticker-style glass snow globe with a leafy city park inside, no text, no people's faces" },
+      { "id": "moscow-domed-cathedral", "name": "Domed cathedral model", "description": "Saint Basil's Cathedral is known for its colorful onion-shaped domes.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style tiny cathedral with colorful onion-shaped domes, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Moscow pancake filling would your class try first?",
+      "What would you notice inside a decorated Moscow metro station?",
+      "What colors would you use to draw a Moscow cathedral?"
+    ],
+    "localWords": [
+      { "word": "privet", "language": "Russian", "meaning": "hi", "say": "pree-VYET" },
+      { "word": "spasibo", "language": "Russian", "meaning": "thank you", "say": "spah-SEE-bah" },
+      { "word": "vkusno", "language": "Russian", "meaning": "tasty", "say": "KVOOS-nuh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Russian word choices and simplified pronunciations with a fluent speaker."
   }
 }
