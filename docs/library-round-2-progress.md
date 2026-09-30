@@ -5,7 +5,7 @@ Branch: `codex/library-round-2`, created from fetched `origin/main` (`c405b115`)
 | Task | Target | Baseline | Complete |
 |---|---:|---:|---:|
 | Metadata backfill | 446 | 446 missing `cefr` or `ageBand` | 446 / 446 |
-| Grammar videos | +60 | 17 | 50 / 60 |
+| Grammar videos | +60 | 17 | 60 / 60 |
 | Short hooks under 180 seconds | +60 | 43 | 0 / 60 |
 | Opinion/discussion texts | +40 | 10 | 0 / 40 |
 
@@ -82,3 +82,6 @@ Metadata backfill: 446 / 446 complete across 23 validated commits. Grammar video
 
 - Batch 3: +18 captioned grammar videos: 14 BBC Learning English Grammar Gameshow clips and 4 British Council Grammar Snacks. All English transcripts were prefetched and verified in Supabase.
 - VOA Everyday Grammar candidates were rejected because their YouTube videos have captions disabled; none were counted.
+
+- Batch 4: +10 captioned grammar videos; all transcripts were prefetched and verified in Supabase. Four clips longer than six minutes are marked `needsReview` for class-pacing review.
+- Grammar video closeout: 60 / 60 new clips have the exact grammar-point tags and verified transcripts.
