@@ -1,0 +1,1067 @@
+{
+  "bangkok": {
+    "id": "bangkok",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm air lasts through much of the year, and a rainy season brings sudden tropical showers." },
+      { "order": 2, "kind": "food", "text": "A wok sizzles with rice noodles, egg, tofu, peanuts, and a sweet-sour tamarind sauce." },
+      { "order": 3, "kind": "culture", "text": "A polite greeting may include palms pressed together in a small wai." },
+      { "order": 4, "kind": "nature", "text": "A wide river crosses the city, and boats carry passengers between busy piers." },
+      { "order": 5, "kind": "landmark", "text": "A riverside temple has a tall central spire decorated with colorful porcelain." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Thailand." }
+    ],
+    "souvenirs": [
+      { "id": "bangkok-tuk-tuk", "name": "Tuk-tuk model", "description": "This three-wheeled vehicle can weave through busy streets and is a familiar local ride.", "earn": { "type": "land" }, "icon": "car", "artPrompt": "sticker-style bright three-wheeled tuk-tuk, no text, no people's faces" },
+      { "id": "bangkok-river-boat", "name": "River boat token", "description": "Passenger boats cross the Chao Phraya River and stop at piers along the banks.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "ship", "artPrompt": "sticker-style long-tail river boat with colorful ribbons, no text, no people's faces" },
+      { "id": "bangkok-noodle-bowl", "name": "Noodle bowl", "description": "Pad Thai is a stir-fried noodle dish often made with tamarind, egg, tofu, and peanuts.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "utensils", "artPrompt": "sticker-style bowl of rice noodles with lime and peanuts, no text, no people's faces" },
+      { "id": "bangkok-market-tote", "name": "Market tote", "description": "Chatuchak Weekend Market has stalls selling food, clothes, plants, and souvenirs.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shopping-bag", "artPrompt": "sticker-style woven market tote with colorful produce peeking out, no text, no people's faces" },
+      { "id": "bangkok-temple-spire", "name": "Porcelain temple spire", "description": "Wat Arun's central tower is decorated with colorful pieces of porcelain.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style miniature porcelain-covered temple spire, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Bangkok market or temple would you most like to visit, and what would you look for there?",
+      "What would you ask a vendor at Chatuchak Weekend Market?",
+      "Describe what you imagine seeing from a boat in Bangkok."
+    ],
+    "localWords": [
+      { "word": "sawasdee", "language": "Thai", "meaning": "hello", "say": "sa-wat-DEE" },
+      { "word": "khop khun", "language": "Thai", "meaning": "thank you", "say": "khawp-KHOON" },
+      { "word": "aroi", "language": "Thai", "meaning": "delicious", "say": "a-ROY" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the simple English pronunciations of the Thai words with a fluent Thai speaker."
+  },
+  "tokyo": {
+    "id": "tokyo",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Hot, humid summers and mild winters shape a city that stretches from a busy bay toward wooded hills." },
+      { "order": 2, "kind": "food", "text": "At a counter, chefs shape vinegared rice with fresh seafood into small bites." },
+      { "order": 3, "kind": "nature", "text": "A forested shrine path can feel quiet even though tall buildings stand nearby." },
+      { "order": 4, "kind": "culture", "text": "At a famous scramble crossing, crowds move in many directions, then pause for the next signal." },
+      { "order": 5, "kind": "landmark", "text": "An old temple in Asakusa is reached through a lively street of stalls and lanterns." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Japan." }
+    ],
+    "souvenirs": [
+      { "id": "tokyo-train-pass", "name": "Train pass case", "description": "Trains and subway lines connect neighborhoods across this very large city.", "earn": { "type": "land" }, "icon": "train", "artPrompt": "sticker-style colorful commuter train with a tiny ticket case, no text, no people's faces" },
+      { "id": "tokyo-sushi-set", "name": "Sushi plate", "description": "Edomae sushi pairs seafood with small portions of vinegared rice.", "earn": { "type": "mode", "mode": "topic" }, "icon": "utensils", "artPrompt": "sticker-style neat plate of nigiri sushi, no text, no people's faces" },
+      { "id": "tokyo-lantern", "name": "Temple lantern", "description": "A large red lantern hangs at the Kaminarimon gate near Senso-ji Temple.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "lamp", "artPrompt": "sticker-style red paper temple lantern with simple trim, no text, no people's faces" },
+      { "id": "tokyo-nakamise-snack", "name": "Nakamise snack bag", "description": "Stalls along Nakamise Street sell snacks and small souvenirs near Senso-ji Temple.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shopping-bag", "artPrompt": "sticker-style paper snack bag with a few round rice crackers, no text, no people's faces" },
+      { "id": "tokyo-folding-fan", "name": "Folding fan", "description": "Traditional fans are sold among the craft and snack stalls of Asakusa.", "earn": { "type": "rare" }, "icon": "fan", "artPrompt": "sticker-style open folding fan with a blue wave pattern, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "In Tokyo, what would you notice first near the lively stalls by Senso-ji Temple?",
+      "Which Tokyo train or food detail would you tell a friend about?",
+      "In Tokyo, what would you see and hear at Shibuya Crossing?"
+    ],
+    "localWords": [
+      { "word": "konnichiwa", "language": "Japanese", "meaning": "hello", "say": "kohn-nee-chee-WAH" },
+      { "word": "arigatou", "language": "Japanese", "meaning": "thank you", "say": "ah-ree-gah-TOH" },
+      { "word": "oishii", "language": "Japanese", "meaning": "delicious", "say": "oh-ee-SHEE" }
+    ],
+    "needsReview": false,
+    "reviewNotes": ""
+  },
+  "paris": {
+    "id": "paris",
+    "mysteryClues": [
+      { "order": 1, "kind": "nature", "text": "A broad river curves through the city, passing islands, quays, and many bridges." },
+      { "order": 2, "kind": "food", "text": "A flaky crescent-shaped pastry is often enjoyed with breakfast or a warm drink." },
+      { "order": 3, "kind": "culture", "text": "Art-filled galleries share the streets with bookshops, cafés, and outdoor markets." },
+      { "order": 4, "kind": "culture", "text": "People pause at sidewalk cafés, browse bookstalls, and stroll through leafy public gardens." },
+      { "order": 5, "kind": "landmark", "text": "A glass pyramid marks the entrance courtyard of a famous art museum." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of France." }
+    ],
+    "souvenirs": [
+      { "id": "paris-croissant", "name": "Butter croissant", "description": "A croissant is a flaky pastry shaped like a crescent and baked in layers.", "earn": { "type": "land" }, "icon": "croissant", "artPrompt": "sticker-style golden crescent croissant on a small plate, no text, no people's faces" },
+      { "id": "paris-river-boat", "name": "Seine boat", "description": "Sightseeing boats travel along the Seine beneath many of the city's bridges.", "earn": { "type": "mode", "mode": "world" }, "icon": "ship", "artPrompt": "sticker-style small sightseeing boat on a blue river, no text, no people's faces" },
+      { "id": "paris-glass-pyramid", "name": "Glass pyramid model", "description": "The Louvre's glass pyramid stands in the courtyard of a former royal palace.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "landmark", "artPrompt": "sticker-style miniature glass pyramid with a subtle museum arch, no text, no people's faces" },
+      { "id": "paris-bridge-tile", "name": "River bridge tile", "description": "Historic bridges cross the Seine and connect walks along both riverbanks.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "landmark", "artPrompt": "sticker-style miniature stone arch bridge above a blue river, no text, no people's faces" },
+      { "id": "paris-cafe-cup", "name": "Café cup", "description": "Small café tables often sit outdoors along busy sidewalks.", "earn": { "type": "rare" }, "icon": "coffee", "artPrompt": "sticker-style tiny white café cup and saucer, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which place beside the Seine in Paris would your class explore first?",
+      "What kind of art would you hope to see inside the Louvre in Paris?",
+      "What would you say to a friend while looking up at the Eiffel Tower in Paris?"
+    ],
+    "localWords": [
+      { "word": "bonjour", "language": "French", "meaning": "hello", "say": "bohn-ZHOOR" },
+      { "word": "merci", "language": "French", "meaning": "thank you", "say": "mehr-SEE" },
+      { "word": "délicieux", "language": "French", "meaning": "delicious", "say": "day-lee-SYUH" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the simplified English pronunciations of the French words with a fluent French speaker."
+  },
+  "cairo": {
+    "id": "cairo",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "This large city sits where green riverbanks meet the dry edge of a broad desert." },
+      { "order": 2, "kind": "food", "text": "A filling street-food bowl layers rice, lentils, pasta, chickpeas, and tangy tomato sauce." },
+      { "order": 3, "kind": "nature", "text": "Green river islands and leafy banks make open spaces beside dense city streets." },
+      { "order": 4, "kind": "culture", "text": "A historic covered market has narrow lanes filled with shops, cafés, and crafts." },
+      { "order": 5, "kind": "landmark", "text": "Nearby, ancient stone pyramids rise from the desert beside the Great Sphinx." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Egypt." }
+    ],
+    "souvenirs": [
+      { "id": "cairo-papyrus-bookmark", "name": "Papyrus bookmark", "description": "Papyrus is a plant that ancient Egyptians processed into a writing material.", "earn": { "type": "land" }, "icon": "scroll", "artPrompt": "sticker-style papyrus reed bookmark with a tiny blank scroll, no text, no people's faces" },
+      { "id": "cairo-koshari-bowl", "name": "Koshari bowl", "description": "Koshari combines rice, lentils, pasta, chickpeas, and a spiced tomato sauce.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "utensils", "artPrompt": "sticker-style colorful bowl of koshari with chickpeas and tomato sauce, no text, no people's faces" },
+      { "id": "cairo-nile-felucca", "name": "Nile felucca", "description": "Feluccas are traditional sailboats seen on the Nile near the city.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "sailboat", "artPrompt": "sticker-style simple felucca sailboat on a blue river, no text, no people's faces" },
+      { "id": "cairo-market-lantern", "name": "Market lantern", "description": "Khan el-Khalili is a historic market area with narrow lanes, shops, and cafés.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "store", "artPrompt": "sticker-style brass market lantern with geometric cutouts, no text, no people's faces" },
+      { "id": "cairo-pyramid-model", "name": "Pyramid model", "description": "The Giza pyramids stand on the desert edge of greater Cairo.", "earn": { "type": "rare" }, "icon": "triangle", "artPrompt": "sticker-style small golden stone pyramid in a sandy landscape, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would your class like to ask a shopkeeper in Khan el-Khalili?",
+      "Which ingredients would you put into a bowl of koshari in Cairo?",
+      "What might you notice from a boat on the Nile near Cairo?"
+    ],
+    "localWords": [
+      { "word": "ahlan", "language": "Egyptian Arabic", "meaning": "hello", "say": "AH-lan" },
+      { "word": "shukran", "language": "Egyptian Arabic", "meaning": "thank you", "say": "SHOOK-ran" },
+      { "word": "tamam", "language": "Egyptian Arabic", "meaning": "okay", "say": "ta-MAAM" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Egyptian Arabic word choices and simplified pronunciations with a fluent local speaker."
+  },
+  "rio-de-janeiro": {
+    "id": "rio-de-janeiro",
+    "mysteryClues": [
+      { "order": 1, "kind": "nature", "text": "A large tropical forest with trails and waterfalls grows among the city's busy neighborhoods." },
+      { "order": 2, "kind": "food", "text": "A hearty black-bean stew is served with rice and other sides." },
+      { "order": 3, "kind": "culture", "text": "Samba music and dance are part of the city's lively cultural scene." },
+      { "order": 4, "kind": "nature", "text": "Curved beaches meet steep green hills along a bay on the Atlantic coast." },
+      { "order": 5, "kind": "landmark", "text": "A cable car carries visitors to a rounded granite peak above the bay." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Brazil." }
+    ],
+    "souvenirs": [
+      { "id": "rio-de-janeiro-biscoito-globo", "name": "Beach snack ring", "description": "Biscoito Globo is a light, ring-shaped manioc snack sold on local beaches.", "earn": { "type": "land" }, "icon": "cookie", "artPrompt": "sticker-style airy ring-shaped manioc biscuit with a paper snack bag, no text, no people's faces" },
+      { "id": "rio-de-janeiro-sugarloaf-cable-car", "name": "Cable car model", "description": "A cable car climbs above Guanabara Bay toward the granite peak called Sugarloaf Mountain.", "earn": { "type": "mode", "mode": "free" }, "icon": "cable-car", "artPrompt": "sticker-style red cable car above a blue bay and rounded granite peak, no text, no people's faces" },
+      { "id": "rio-de-janeiro-feijoada-pot", "name": "Feijoada pot", "description": "Feijoada is a black-bean stew commonly served with rice and sides.", "earn": { "type": "challenge", "challenge": "debate-win" }, "icon": "cooking-pot", "artPrompt": "sticker-style little pot of black-bean stew with a bowl of rice, no text, no people's faces" },
+      { "id": "rio-de-janeiro-copacabana-shell", "name": "Copacabana shell", "description": "Copacabana Beach has a curved promenade beside the Atlantic shore.", "earn": { "type": "challenge", "challenge": "return-visit" }, "icon": "shell", "artPrompt": "sticker-style small seashell resting on a curved wave-pattern tile, no text, no people's faces" },
+      { "id": "rio-de-janeiro-tijuca-leaf", "name": "Tijuca forest leaf", "description": "Tijuca National Park protects a large forest inside the urban area.", "earn": { "type": "rare" }, "icon": "leaf", "artPrompt": "sticker-style glossy tropical leaf with a tiny waterfall, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would your class want to see from the top of Sugarloaf Mountain?",
+      "Which Rio beach or forest would you explore, and what would you bring?",
+      "Describe the music or food you would tell a friend about from Rio."
+    ],
+    "localWords": [
+      { "word": "oi", "language": "Brazilian Portuguese", "meaning": "hi", "say": "OY" },
+      { "word": "valeu", "language": "Brazilian Portuguese", "meaning": "thanks", "say": "vah-LEH-oo" },
+      { "word": "bom dia", "language": "Brazilian Portuguese", "meaning": "good morning", "say": "bohn JEE-ah" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the simplified pronunciations against Rio Portuguese, where sounds can differ from other regions."
+  },
+  "seoul": {
+    "id": "seoul",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Hot, humid summer days and cold winter days bring clear seasonal changes to this huge capital." },
+      { "order": 2, "kind": "food", "text": "Chewy rice cakes simmer in a bright red sauce that can be sweet and spicy." },
+      { "order": 3, "kind": "nature", "text": "Mountain slopes and walking paths meet dense neighborhoods in many parts of the city." },
+      { "order": 4, "kind": "language", "text": "Everyday greetings often include a small bow, and polite speech changes with age and situation." },
+      { "order": 5, "kind": "landmark", "text": "A palace with broad courtyards and painted wooden gates stands at the foot of a mountain." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of South Korea." }
+    ],
+    "souvenirs": [
+      { "id": "seoul-subway-card", "name": "Subway card case", "description": "The metro and rail network link busy districts across this large city.", "earn": { "type": "land" }, "icon": "train", "artPrompt": "sticker-style transit card case beside a sleek subway train, no text, no people's faces" },
+      { "id": "seoul-rice-cake-skewer", "name": "Rice cake skewer", "description": "Tteokbokki is made with chewy rice cakes in a spicy sauce.", "earn": { "type": "mode", "mode": "topic" }, "icon": "utensils", "artPrompt": "sticker-style skewer of chewy rice cakes with red sauce, no text, no people's faces" },
+      { "id": "seoul-hanok-roof", "name": "Hanok roof tile", "description": "Traditional hanok homes often have gently curved rooflines.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "house", "artPrompt": "sticker-style curved tiled roof from a traditional wooden home, no text, no people's faces" },
+      { "id": "seoul-palace-gate", "name": "Palace gate charm", "description": "Gyeongbokgung Palace has painted gates and broad ceremonial courtyards.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "landmark", "artPrompt": "sticker-style colorful palace gate charm with painted roof details, no text, no people's faces" },
+      { "id": "seoul-market-pancake", "name": "Market pancake plate", "description": "Bindaetteok is a savory mung bean pancake sold at traditional markets.", "earn": { "type": "rare" }, "icon": "utensils", "artPrompt": "sticker-style golden mung bean pancake with a small dipping bowl, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Seoul street food would your class try first, and what might it taste like?",
+      "What would you notice while walking through Gyeongbokgung Palace?",
+      "Which Seoul neighborhood would you explore by subway?"
+    ],
+    "localWords": [
+      { "word": "annyeonghaseyo", "language": "Korean", "meaning": "hello", "say": "ahn-yung-ha-seh-YOH" },
+      { "word": "gamsahamnida", "language": "Korean", "meaning": "thank you", "say": "kahm-sah-ham-nee-DAH" },
+      { "word": "masisseoyo", "language": "Korean", "meaning": "delicious", "say": "mah-shee-suh-YOH" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the simplified English pronunciations of these polite Korean phrases with a fluent speaker."
+  },
+  "singapore": {
+    "id": "singapore",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm, humid days continue through the year, and short heavy showers can arrive quickly." },
+      { "order": 2, "kind": "food", "text": "A breakfast favorite pairs toasted bread with coconut-and-egg jam, butter, and soft eggs." },
+      { "order": 3, "kind": "language", "text": "People use several languages in daily life, including English, Malay, Mandarin, and Tamil." },
+      { "order": 4, "kind": "culture", "text": "Open-air food halls let neighbors choose dishes from many cooks at shared tables." },
+      { "order": 5, "kind": "landmark", "text": "A waterfront garden is known for huge tree-shaped towers covered in plants." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Singapore." }
+    ],
+    "souvenirs": [
+      { "id": "singapore-kaya-toast", "name": "Kaya toast charm", "description": "Kaya is a sweet coconut-and-egg spread often served on toast at breakfast.", "earn": { "type": "land" }, "icon": "coffee", "artPrompt": "sticker-style kaya toast triangles with a soft-boiled egg and coffee cup, no text, no people's faces" },
+      { "id": "singapore-hawker-tray", "name": "Hawker tray token", "description": "Hawker centres bring many food stalls together around shared seating.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "utensils", "artPrompt": "sticker-style metal food tray with colorful local dishes, no text, no people's faces" },
+      { "id": "singapore-orchid-pin", "name": "Orchid garden pin", "description": "The Singapore Botanic Gardens include a garden devoted to orchids.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "flower", "artPrompt": "sticker-style purple orchid flower pin with green leaves, no text, no people's faces" },
+      { "id": "singapore-chili-crab-bib", "name": "Crab feast bib", "description": "Chili crab is served with a rich sauce and often eaten with bread.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "fish", "artPrompt": "sticker-style crab-shaped dinner bib beside a bowl of chili crab, no text, no people's faces" },
+      { "id": "singapore-garden-tree", "name": "Garden tree magnet", "description": "The Supertrees at Gardens by the Bay are vertical gardens built on tall structures.", "earn": { "type": "rare" }, "icon": "tree-palm", "artPrompt": "sticker-style glowing garden tree structure with hanging vines, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Singapore breakfast would you share with a friend, and why?",
+      "What plants would you look for at Gardens by the Bay?",
+      "Which dishes would your class choose at a Singapore hawker centre?"
+    ],
+    "localWords": [
+      { "word": "lah", "language": "Singlish", "meaning": "friendly sentence-ending emphasis", "say": "LAH" },
+      { "word": "can", "language": "Singlish", "meaning": "yes, possible", "say": "CAN" },
+      { "word": "shiok", "language": "Singlish", "meaning": "great or delicious", "say": "SHEE-ok" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check that the Singlish words and short meanings feel natural and friendly to Singaporean speakers."
+  },
+  "london": {
+    "id": "london",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Cloudy skies and passing showers are common, so people often carry a light raincoat." },
+      { "order": 2, "kind": "food", "text": "A warm meal can pair flaky pastry with meat and mashed potatoes." },
+      { "order": 3, "kind": "nature", "text": "Small green squares and larger parks offer quiet paths among busy streets." },
+      { "order": 4, "kind": "culture", "text": "People queue for buses, shops, and shows, then chat over tea and small sandwiches." },
+      { "order": 5, "kind": "landmark", "text": "A large clock tower beside Parliament is home to a famous bell." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of the United Kingdom." }
+    ],
+    "souvenirs": [
+      { "id": "london-double-decker", "name": "Double-decker bus", "description": "The red double-decker bus is a familiar way to travel around the city.", "earn": { "type": "land" }, "icon": "bus", "artPrompt": "sticker-style red double-decker city bus, no text, no people's faces" },
+      { "id": "london-tea-cup", "name": "Afternoon tea cup", "description": "Afternoon tea can include small sandwiches, scones, and a pot of tea.", "earn": { "type": "mode", "mode": "world" }, "icon": "coffee", "artPrompt": "sticker-style floral teacup with a tiny plate of scones, no text, no people's faces" },
+      { "id": "london-black-cab", "name": "Black cab token", "description": "Traditional black taxis are driven by licensed London cab drivers.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "car", "artPrompt": "sticker-style classic black city taxi with a lit roof sign, no text, no people's faces" },
+      { "id": "london-pie-mash-plate", "name": "Pie and mash plate", "description": "Pie and mash is a traditional meal of meat pie with mashed potatoes.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "utensils", "artPrompt": "sticker-style golden meat pie with mashed potatoes and green sauce, no text, no people's faces" },
+      { "id": "london-phone-box", "name": "Red phone box", "description": "The red telephone kiosk is a familiar design seen on streets across the city.", "earn": { "type": "rare" }, "icon": "phone", "artPrompt": "sticker-style miniature red telephone kiosk, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which London park would your class explore between busy city streets?",
+      "What would you include in a London afternoon tea?",
+      "What would you ask a London bus driver about the route?"
+    ],
+    "localWords": [
+      { "word": "cheers", "language": "British English", "meaning": "thanks", "say": "CHEERZ" },
+      { "word": "cuppa", "language": "British English", "meaning": "a cup of tea", "say": "KUP-uh" },
+      { "word": "brilliant", "language": "British English", "meaning": "excellent", "say": "BRIL-yunt" }
+    ],
+    "needsReview": false,
+    "reviewNotes": ""
+  },
+  "new-york": {
+    "id": "new-york",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "This coastal city has humid summers, chilly winters, and sometimes snowy days." },
+      { "order": 2, "kind": "food", "text": "A round bread with a chewy middle is often topped with cream cheese." },
+      { "order": 3, "kind": "culture", "text": "Corner shops stay open late and sell snacks, drinks, and everyday supplies." },
+      { "order": 4, "kind": "nature", "text": "Ferries and bridges connect a group of islands and waterfront neighborhoods." },
+      { "order": 5, "kind": "landmark", "text": "A large green park stretches through the middle of Manhattan." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in the United States." }
+    ],
+    "souvenirs": [
+      { "id": "new-york-yellow-taxi", "name": "Yellow taxi model", "description": "Yellow taxis are a well-known way to travel through the city's busy streets.", "earn": { "type": "land" }, "icon": "car", "artPrompt": "sticker-style bright yellow city taxi, no text, no people's faces" },
+      { "id": "new-york-bagel", "name": "Bagel breakfast", "description": "New York bagels are boiled before they are baked, giving them a chewy crust.", "earn": { "type": "mode", "mode": "topic" }, "icon": "utensils", "artPrompt": "sticker-style sesame bagel with a small cup of cream cheese, no text, no people's faces" },
+      { "id": "new-york-bodega-cat", "name": "Bodega snack bag", "description": "Neighborhood bodegas sell snacks and everyday items from small corner shops.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "shopping-bag", "artPrompt": "sticker-style brown paper snack bag with an apple and pretzel, no text, no people's faces" },
+      { "id": "new-york-subway-token", "name": "Subway route token", "description": "The subway runs day and night on routes linking the city's boroughs.", "earn": { "type": "challenge", "challenge": "debate-win" }, "icon": "train", "artPrompt": "sticker-style subway train pulling into an underground station, no text, no people's faces" },
+      { "id": "new-york-park-squirrel", "name": "Park squirrel badge", "description": "Squirrels are often spotted among the trees and lawns of city parks.", "earn": { "type": "rare" }, "icon": "squirrel", "artPrompt": "sticker-style friendly gray squirrel holding an acorn, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which New York snack would your class try first, and what might it taste like?",
+      "What would you notice while walking through Central Park?",
+      "Which New York neighborhood would you visit by subway?"
+    ],
+    "localWords": [
+      { "word": "bodega", "language": "New York English", "meaning": "a small neighborhood shop", "say": "boh-DAY-guh" },
+      { "word": "slice", "language": "New York English", "meaning": "a piece of pizza", "say": "SLICE" },
+      { "word": "hey", "language": "New York English", "meaning": "hello", "say": "HAY" }
+    ],
+    "needsReview": false,
+    "reviewNotes": ""
+  },
+  "dubai": {
+    "id": "dubai",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Very hot summers bring little rain, while winter days are much milder." },
+      { "order": 2, "kind": "food", "text": "Small sweet dumplings are crisp outside and served with sticky date syrup." },
+      { "order": 3, "kind": "nature", "text": "Some neighborhoods sit beside a tidal waterway where boats cross between the banks." },
+      { "order": 4, "kind": "culture", "text": "Guests may be welcomed with Arabic coffee and sweet dates." },
+      { "order": 5, "kind": "landmark", "text": "The world's tallest building rises above a lake and a dancing fountain." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in the United Arab Emirates." }
+    ],
+    "souvenirs": [
+      { "id": "dubai-abra-boat", "name": "Abra boat charm", "description": "A traditional abra carries passengers across the old creek for short rides.", "earn": { "type": "land" }, "icon": "sailboat", "artPrompt": "sticker-style wooden abra boat with a small canopy on blue water, no text, no people's faces" },
+      { "id": "dubai-luqaimat", "name": "Luqaimat sweets", "description": "Luqaimat are sweet fried dumplings often drizzled with date syrup.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "cookie", "artPrompt": "sticker-style golden dumplings drizzled with date syrup, no text, no people's faces" },
+      { "id": "dubai-date-bowl", "name": "Date bowl", "description": "Dates are often served to guests alongside Arabic coffee.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "cup-soda", "artPrompt": "sticker-style small bowl of dates beside a dallah coffee pot, no text, no people's faces" },
+      { "id": "dubai-dhow-sail", "name": "Dhow sail model", "description": "Traditional wooden boats once carried goods along coastal trade routes.", "earn": { "type": "challenge", "challenge": "return-visit" }, "icon": "ship", "artPrompt": "sticker-style wooden dhow with a cream sail on a calm blue sea, no text, no people's faces" },
+      { "id": "dubai-wind-tower", "name": "Wind tower model", "description": "Wind towers were designed to catch breezes above older homes in the region.", "earn": { "type": "rare" }, "icon": "building", "artPrompt": "sticker-style small sand-colored wind tower house model, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would you notice during a short abra ride in Dubai?",
+      "Which sweet would your class like to taste in Dubai?",
+      "What might you ask about an old wind tower in Dubai?"
+    ],
+    "localWords": [
+      { "word": "marhaba", "language": "Arabic", "meaning": "hello", "say": "MAR-ha-ba" },
+      { "word": "shukran", "language": "Arabic", "meaning": "thank you", "say": "SHOOK-ran" },
+      { "word": "yalla", "language": "Arabic", "meaning": "let's go", "say": "YAL-la" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check these Arabic words and simplified pronunciations with a fluent speaker familiar with Emirati usage."
+  },
+  "sydney": {
+    "id": "sydney",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm sunny days mix with quick coastal showers, and ocean breezes cool many afternoons." },
+      { "order": 2, "kind": "food", "text": "A flaky hand-held pastry can hold minced meat and savory gravy." },
+      { "order": 3, "kind": "nature", "text": "A sheltered saltwater inlet cuts into the coast, with small coves and beaches." },
+      { "order": 4, "kind": "culture", "text": "Commuter ferries carry people across the water to work, school, and seaside neighborhoods." },
+      { "order": 5, "kind": "landmark", "text": "White sail-shaped roofs curve beside the deep blue harbor at the water's edge." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Australia." }
+    ],
+    "souvenirs": [
+      { "id": "sydney-ferry-token", "name": "Harbour ferry token", "description": "Ferries cross the harbor and link the city with nearby beaches and islands.", "earn": { "type": "land" }, "icon": "ship", "artPrompt": "sticker-style green-and-yellow commuter ferry leaving a city pier, no text, no people's faces" },
+      { "id": "sydney-meat-pie", "name": "Meat pie charm", "description": "Australian meat pies are small pastry shells filled with savory minced meat.", "earn": { "type": "mode", "mode": "world" }, "icon": "utensils", "artPrompt": "sticker-style golden hand pie on a napkin, no text, no people's faces" },
+      { "id": "sydney-rock-oyster", "name": "Rock oyster shell", "description": "Sydney rock oysters grow in estuaries along Australia's east coast.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "shell", "artPrompt": "sticker-style open oyster shell with a small pearl, no text, no people's faces" },
+      { "id": "sydney-lamington-cube", "name": "Lamington cake cube", "description": "A lamington is a sponge cake coated in chocolate and rolled in coconut.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "cookie", "artPrompt": "sticker-style square chocolate-and-coconut sponge cake, no text, no people's faces" },
+      { "id": "sydney-harbour-shells", "name": "Harbour shell ornament", "description": "The city's harbor has many small coves, beaches, and islands to explore.", "earn": { "type": "rare" }, "icon": "waves", "artPrompt": "sticker-style spiral seashell with blue harbor waves, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Sydney ferry trip would your class choose, and what might you see?",
+      "What would you put inside a warm Sydney meat pie?",
+      "What would you say to a friend after visiting the Sydney Opera House?"
+    ],
+    "localWords": [
+      { "word": "arvo", "language": "Australian English", "meaning": "afternoon", "say": "AR-voh" },
+      { "word": "brekkie", "language": "Australian English", "meaning": "breakfast", "say": "BREK-ee" },
+      { "word": "ta", "language": "Australian English", "meaning": "thanks", "say": "TAH" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check that these Australian English expressions and simple pronunciations sound natural in Sydney."
+  },
+  "beijing": {
+    "id": "beijing",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Winters can be cold and dry, while summers are hot and bring heavier rain." },
+      { "order": 2, "kind": "food", "text": "Crisp-skinned roast duck is served with thin pancakes, sauce, and sliced vegetables." },
+      { "order": 3, "kind": "culture", "text": "Older neighborhoods have narrow lanes and shared courtyards where neighbors live close together." },
+      { "order": 4, "kind": "language", "text": "Mandarin is used in school, shops, and everyday conversations across the capital." },
+      { "order": 5, "kind": "landmark", "text": "A vast former palace has red walls and many golden-roofed halls." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of China." }
+    ],
+    "souvenirs": [
+      { "id": "beijing-duck-plate", "name": "Roast duck plate", "description": "Peking duck is often wrapped in thin pancakes with sauce and vegetables.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style roast duck slices with pancakes and cucumber sticks, no text, no people's faces" },
+      { "id": "beijing-bicycle-bell", "name": "Bicycle bell", "description": "Bicycles are a familiar way to travel through the city's neighborhood lanes.", "earn": { "type": "mode", "mode": "topic" }, "icon": "bike", "artPrompt": "sticker-style shiny bicycle bell with a small red ribbon, no text, no people's faces" },
+      { "id": "beijing-jianbing-wrap", "name": "Jianbing wrap", "description": "Jianbing is a thin savory pancake folded around egg and crunchy toppings.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "utensils", "artPrompt": "sticker-style folded savory breakfast pancake with crisp crackers, no text, no people's faces" },
+      { "id": "beijing-courtyard-gate", "name": "Courtyard gate tile", "description": "Traditional courtyard homes are arranged around an open central space.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "house", "artPrompt": "sticker-style gray courtyard gate tile with red wooden doors, no text, no people's faces" },
+      { "id": "beijing-palace-roof", "name": "Golden roof model", "description": "The Forbidden City's halls are topped with golden glazed roof tiles.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style miniature golden palace roof with curved eaves, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Beijing breakfast would your class like to taste first?",
+      "What might you notice while walking through the Forbidden City?",
+      "What would you ask a shopkeeper in one of Beijing's narrow lanes?"
+    ],
+    "localWords": [
+      { "word": "nǐ hǎo", "language": "Mandarin Chinese", "meaning": "hello", "say": "NEE-how" },
+      { "word": "xièxie", "language": "Mandarin Chinese", "meaning": "thank you", "say": "shyeh-SHYEH" },
+      { "word": "hǎo chī", "language": "Mandarin Chinese", "meaning": "tasty", "say": "how-CHIR" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Mandarin tones and the simplified English pronunciations with a fluent speaker."
+  },
+  "shanghai": {
+    "id": "shanghai",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Summer days are hot and humid, while winter can feel cool and damp." },
+      { "order": 2, "kind": "food", "text": "Small steamed dumplings hold hot savory broth inside their thin wrappers." },
+      { "order": 3, "kind": "nature", "text": "A broad waterway meets smaller canals, with boats moving beside dense neighborhoods." },
+      { "order": 4, "kind": "culture", "text": "People tap phones to pay for many everyday purchases, from snacks to train rides." },
+      { "order": 5, "kind": "landmark", "text": "A row of historic riverside buildings faces a skyline of very tall towers." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in China." }
+    ],
+    "souvenirs": [
+      { "id": "shanghai-soup-dumpling", "name": "Soup dumpling steamer", "description": "Xiaolongbao are delicate soup-filled dumplings often served in bamboo steamers.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style bamboo steamer basket with soup dumplings, no text, no people's faces" },
+      { "id": "shanghai-maglev-ticket", "name": "Maglev ticket", "description": "The airport maglev train uses magnetic levitation to travel at high speed.", "earn": { "type": "mode", "mode": "world" }, "icon": "train", "artPrompt": "sticker-style streamlined silver train with a blue motion trail, no text, no people's faces" },
+      { "id": "shanghai-crab-pin", "name": "River crab pin", "description": "Hairy crab is a seasonal specialty served in autumn around the city.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "fish", "artPrompt": "sticker-style small mitten crab with a golden autumn leaf, no text, no people's faces" },
+      { "id": "shanghai-garden-window", "name": "Garden window tile", "description": "Classical gardens use shaped windows to frame views of plants and rocks.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "flower", "artPrompt": "sticker-style round garden window framing a tiny tree and rock, no text, no people's faces" },
+      { "id": "shanghai-river-ferry", "name": "River ferry charm", "description": "Ferries carry passengers across the broad river between the city's banks.", "earn": { "type": "rare" }, "icon": "ship", "artPrompt": "sticker-style small river ferry with a pale city skyline, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "How would you carefully taste a hot soup dumpling in Shanghai?",
+      "Which Shanghai river crossing would your class like to try?",
+      "What would you notice in a quiet Shanghai garden?"
+    ],
+    "localWords": [
+      { "word": "nǐ hǎo", "language": "Mandarin Chinese", "meaning": "hello", "say": "NEE-how" },
+      { "word": "xièxie", "language": "Mandarin Chinese", "meaning": "thank you", "say": "shyeh-SHYEH" },
+      { "word": "hǎo chī", "language": "Mandarin Chinese", "meaning": "tasty", "say": "how-CHIR" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Mandarin tones and the simplified English pronunciations with a fluent speaker."
+  },
+  "berlin": {
+    "id": "berlin",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Winters are often chilly and gray, while summers bring longer, warmer days." },
+      { "order": 2, "kind": "food", "text": "A grilled sausage is topped with a tangy tomato sauce and curry spice." },
+      { "order": 3, "kind": "nature", "text": "Wide lawns, tree-lined paths, and lakes give residents room to cycle and picnic." },
+      { "order": 4, "kind": "culture", "text": "Trains, trams, and bicycles help people move between neighborhoods and markets." },
+      { "order": 5, "kind": "landmark", "text": "A neoclassical gate with tall columns stands at the end of a grand avenue." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Germany." }
+    ],
+    "souvenirs": [
+      { "id": "berlin-currywurst-fork", "name": "Currywurst fork", "description": "Currywurst is sliced sausage served with a tomato-based curry sauce.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style tiny wooden fork beside currywurst pieces and sauce, no text, no people's faces" },
+      { "id": "berlin-sbahn-ticket", "name": "S-Bahn ticket", "description": "S-Bahn trains connect central neighborhoods with places across the wider city.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "train", "artPrompt": "sticker-style green city train pulling into an open-air station, no text, no people's faces" },
+      { "id": "berlin-doner-wrap", "name": "Döner wrap", "description": "Döner kebab is a popular street-food sandwich with sliced meat and salad.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "utensils", "artPrompt": "sticker-style toasted döner wrap with lettuce and tomato, no text, no people's faces" },
+      { "id": "berlin-park-bicycle", "name": "Park bicycle bell", "description": "Many Berlin parks have paths used by cyclists and walkers.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "bike", "artPrompt": "sticker-style bicycle bell with a tiny green park leaf, no text, no people's faces" },
+      { "id": "berlin-gate-miniature", "name": "Column gate miniature", "description": "The Brandenburg Gate has twelve columns arranged in two rows.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style miniature neoclassical gate with tall columns, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Berlin park would your class choose for a picnic?",
+      "What toppings would you try on a Berlin currywurst?",
+      "What would you ask while standing near the Brandenburg Gate?"
+    ],
+    "localWords": [
+      { "word": "hallo", "language": "German", "meaning": "hello", "say": "HAH-loh" },
+      { "word": "danke", "language": "German", "meaning": "thank you", "say": "DAHN-kuh" },
+      { "word": "lecker", "language": "German", "meaning": "tasty", "say": "LEK-er" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the simplified English pronunciations of these German words with a fluent speaker."
+  },
+  "moscow": {
+    "id": "moscow",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Snowy winters can last a long time, while summer brings greener parks and warmer days." },
+      { "order": 2, "kind": "food", "text": "Thin pancakes may be filled with jam, cottage cheese, or savory ingredients." },
+      { "order": 3, "kind": "nature", "text": "Tree-lined boulevards and large gardens bring patches of green into the busy city." },
+      { "order": 4, "kind": "culture", "text": "Many commuters travel underground, where some stations have chandeliers and colorful stone walls." },
+      { "order": 5, "kind": "landmark", "text": "A famous cathedral has brightly colored onion-shaped domes beside an old central square." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Russia." }
+    ],
+    "souvenirs": [
+      { "id": "moscow-metro-map", "name": "Metro map case", "description": "The metro has many ornate stations that commuters use every day.", "earn": { "type": "land" }, "icon": "train", "artPrompt": "sticker-style folded metro map with a small underground train, no text, no people's faces" },
+      { "id": "moscow-blini-stack", "name": "Blini stack", "description": "Blini are thin pancakes served with sweet or savory fillings.", "earn": { "type": "mode", "mode": "world" }, "icon": "utensils", "artPrompt": "sticker-style stack of thin pancakes with a small bowl of berries, no text, no people's faces" },
+      { "id": "moscow-matryoshka", "name": "Nested wooden dolls", "description": "Matryoshka dolls fit one inside another, from largest to smallest.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "gift", "artPrompt": "sticker-style set of colorful nested wooden dolls, no text, no people's faces" },
+      { "id": "moscow-park-snowglobe", "name": "Park snow globe", "description": "Large parks offer tree-lined paths and open lawns in the capital.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "snowflake", "artPrompt": "sticker-style glass snow globe with a leafy city park inside, no text, no people's faces" },
+      { "id": "moscow-domed-cathedral", "name": "Domed cathedral model", "description": "Saint Basil's Cathedral is known for its colorful onion-shaped domes.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style tiny cathedral with colorful onion-shaped domes, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Moscow pancake filling would your class try first?",
+      "What would you notice inside a decorated Moscow metro station?",
+      "What colors would you use to draw a Moscow cathedral?"
+    ],
+    "localWords": [
+      { "word": "privet", "language": "Russian", "meaning": "hi", "say": "pree-VYET" },
+      { "word": "spasibo", "language": "Russian", "meaning": "thank you", "say": "spah-SEE-bah" },
+      { "word": "vkusno", "language": "Russian", "meaning": "tasty", "say": "KVOOS-nuh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Russian word choices and simplified pronunciations with a fluent speaker."
+  },
+  "istanbul": {
+    "id": "istanbul",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Rainy winters and warm, sunny summers shape life in this large city by the water." },
+      { "order": 2, "kind": "food", "text": "A sesame-covered bread ring is often eaten plain or filled for a quick snack." },
+      { "order": 3, "kind": "culture", "text": "Tea is commonly served in small tulip-shaped glasses during visits and breaks." },
+      { "order": 4, "kind": "nature", "text": "Ferries carry passengers between busy waterfront neighborhoods on opposite shores." },
+      { "order": 5, "kind": "landmark", "text": "A domed former church and mosque has a large central dome and tall minarets." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Turkey." }
+    ],
+    "souvenirs": [
+      { "id": "istanbul-simit-ring", "name": "Simit bread ring", "description": "Simit is a round bread coated with sesame seeds and sold by street vendors.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style golden sesame bread ring on a small paper tray, no text, no people's faces" },
+      { "id": "istanbul-ferry-token", "name": "Ferry token", "description": "Ferries carry passengers between neighborhoods on both sides of the water.", "earn": { "type": "mode", "mode": "world" }, "icon": "ship", "artPrompt": "sticker-style white passenger ferry with a red flag on blue water, no text, no people's faces" },
+      { "id": "istanbul-tea-glass", "name": "Tea glass charm", "description": "Turkish tea is often served in a small clear glass shaped like a tulip.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "coffee", "artPrompt": "sticker-style tulip-shaped glass filled with dark tea on a saucer, no text, no people's faces" },
+      { "id": "istanbul-bazaar-scarf", "name": "Market scarf square", "description": "The Grand Bazaar is a covered market with lanes of small shops.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "flower", "artPrompt": "sticker-style folded patterned scarf with colorful geometric motifs, no text, no people's faces" },
+      { "id": "istanbul-ceramic-tile", "name": "Ceramic tulip tile", "description": "Ceramic tiles in many historic buildings use repeating floral patterns.", "earn": { "type": "rare" }, "icon": "flower", "artPrompt": "sticker-style blue-and-white ceramic tile with a red tulip pattern, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Istanbul snack would you buy before boarding a ferry?",
+      "What colors would you use to draw a tea glass in Istanbul?",
+      "What would your class like to discover in the Grand Bazaar?"
+    ],
+    "localWords": [
+      { "word": "merhaba", "language": "Turkish", "meaning": "hello", "say": "mehr-hah-BAH" },
+      { "word": "teşekkürler", "language": "Turkish", "meaning": "thank you", "say": "teh-shek-KOOR-lehr" },
+      { "word": "lezzetli", "language": "Turkish", "meaning": "tasty", "say": "lez-ZET-lee" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Turkish meanings and simplified pronunciations with a fluent speaker."
+  },
+  "vancouver": {
+    "id": "vancouver",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Cloudy skies and gentle rain are common in the cooler months, with drier summers." },
+      { "order": 2, "kind": "food", "text": "Smoky pink fish from the nearby Pacific coast is served in many local dishes." },
+      { "order": 3, "kind": "culture", "text": "Many residents walk or cycle on a paved path that follows the water's edge." },
+      { "order": 4, "kind": "nature", "text": "Evergreen forests, beaches, and snow-topped mountains sit close to the coast." },
+      { "order": 5, "kind": "landmark", "text": "A huge urban park has a long seawall path beside beaches and forest trails." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Canada." }
+    ],
+    "souvenirs": [
+      { "id": "vancouver-salmon-pin", "name": "Salmon pin", "description": "Pacific sockeye salmon is known for its deep red flesh and rich flavor.", "earn": { "type": "land" }, "icon": "fish", "artPrompt": "sticker-style red salmon leaping above a blue wave, no text, no people's faces" },
+      { "id": "vancouver-seawall-bike", "name": "Seawall bicycle bell", "description": "The waterfront seawall path is popular with people walking and cycling.", "earn": { "type": "mode", "mode": "free" }, "icon": "bike", "artPrompt": "sticker-style bicycle bell with a tiny blue ocean wave, no text, no people's faces" },
+      { "id": "vancouver-nanaimo-bar", "name": "Nanaimo bar", "description": "A Nanaimo bar has crumbly layers, custard-flavored filling, and chocolate on top.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "cookie", "artPrompt": "sticker-style layered chocolate square with a pale custard middle, no text, no people's faces" },
+      { "id": "vancouver-orca-sticker", "name": "Orca tail badge", "description": "Orcas can be seen in the coastal waters around southwestern British Columbia.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "fish", "artPrompt": "sticker-style black-and-white orca tail rising above calm water, no text, no people's faces" },
+      { "id": "vancouver-rainforest-leaf", "name": "Rainforest leaf", "description": "The city's largest park includes a natural West Coast rainforest.", "earn": { "type": "rare" }, "icon": "leaf", "artPrompt": "sticker-style glossy evergreen leaf with a tiny raindrop, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Vancouver seawall view would your class want to sketch?",
+      "What would you ask about a salmon dish in Vancouver?",
+      "Which Vancouver park trail would you explore, and why?"
+    ],
+    "localWords": [
+      { "word": "eh", "language": "Canadian English", "meaning": "friendly question tag", "say": "AY" },
+      { "word": "toque", "language": "Canadian English", "meaning": "warm knitted hat", "say": "TOOK" },
+      { "word": "loonie", "language": "Canadian English", "meaning": "one-dollar coin", "say": "LOO-nee" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check that these Canadian English words and their explanations are locally natural and age-appropriate."
+  },
+  "toronto": {
+    "id": "toronto",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Cold snowy winters and warm humid summers make the seasons feel very different." },
+      { "order": 2, "kind": "food", "text": "A soft bun holds a slice of cured pork, often topped with mustard or relish." },
+      { "order": 3, "kind": "culture", "text": "Streetcars share the roads with buses and cyclists in busy neighborhoods." },
+      { "order": 4, "kind": "nature", "text": "A chain of small green islands lies just offshore across a broad freshwater lake." },
+      { "order": 5, "kind": "landmark", "text": "A very tall tower has a glass floor high above the city." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Canada." }
+    ],
+    "souvenirs": [
+      { "id": "toronto-peameal-sandwich", "name": "Peameal sandwich", "description": "A peameal bacon sandwich is a Toronto favorite served on a soft bun.", "earn": { "type": "land" }, "icon": "sandwich", "artPrompt": "sticker-style peameal bacon sandwich with a soft golden bun, no text, no people's faces" },
+      { "id": "toronto-streetcar-token", "name": "Streetcar token", "description": "Streetcars run along many busy streets and connect city neighborhoods.", "earn": { "type": "mode", "mode": "world" }, "icon": "train", "artPrompt": "sticker-style red-and-white streetcar rolling along city tracks, no text, no people's faces" },
+      { "id": "toronto-butter-tart", "name": "Butter tart tin", "description": "A butter tart has a flaky pastry shell with a sweet, soft filling.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "cookie", "artPrompt": "sticker-style small golden butter tart in a fluted pastry tin, no text, no people's faces" },
+      { "id": "toronto-market-basket", "name": "Market basket token", "description": "St. Lawrence Market has stalls selling food and other goods.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shopping-bag", "artPrompt": "sticker-style woven market basket with apples and bread, no text, no people's faces" },
+      { "id": "toronto-tower-viewfinder", "name": "Tower viewfinder", "description": "The CN Tower's glass floor lets visitors look down toward the ground below.", "earn": { "type": "rare" }, "icon": "building", "artPrompt": "sticker-style tiny observation tower with a clear glass floor, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Toronto streetcar route would your class ride first?",
+      "What would you put on a peameal sandwich in Toronto?",
+      "What would you look for at St. Lawrence Market?"
+    ],
+    "localWords": [
+      { "word": "toonie", "language": "Canadian English", "meaning": "two-dollar coin", "say": "TOO-nee" },
+      { "word": "double-double", "language": "Canadian English", "meaning": "coffee with two creams and two sugars", "say": "DUB-ul DUB-ul" },
+      { "word": "eh", "language": "Canadian English", "meaning": "friendly question tag", "say": "AY" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check these Canadian English expressions, especially their everyday use in Toronto."
+  },
+  "mumbai": {
+    "id": "mumbai",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "The year brings a very wet monsoon season as well as hot, humid days." },
+      { "order": 2, "kind": "food", "text": "A spicy potato patty is tucked into a soft bread roll for a popular snack." },
+      { "order": 3, "kind": "culture", "text": "Crowded local trains carry commuters across long distances during the morning rush." },
+      { "order": 4, "kind": "nature", "text": "The busy neighborhoods stretch along a warm coastline with promenades and beaches." },
+      { "order": 5, "kind": "landmark", "text": "A grand stone arch stands at the water's edge beside a busy harbor." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in India." }
+    ],
+    "souvenirs": [
+      { "id": "mumbai-vada-pav", "name": "Vada pav snack", "description": "Vada pav pairs a spiced potato fritter with bread and chutneys.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style potato fritter in a soft bread roll with chutney, no text, no people's faces" },
+      { "id": "mumbai-local-train", "name": "Local train charm", "description": "Suburban trains carry large numbers of commuters across the city each day.", "earn": { "type": "mode", "mode": "topic" }, "icon": "train", "artPrompt": "sticker-style blue-and-white commuter train beside a station platform, no text, no people's faces" },
+      { "id": "mumbai-bhelpuri-cone", "name": "Bhelpuri paper cone", "description": "Bhelpuri mixes puffed rice with vegetables, chutneys, and crunchy toppings.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style paper cone filled with puffed rice and colorful toppings, no text, no people's faces" },
+      { "id": "mumbai-monsoon-umbrella", "name": "Monsoon umbrella", "description": "Umbrellas are handy during the city's rainy monsoon months.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "umbrella", "artPrompt": "sticker-style bright umbrella with silver raindrops, no text, no people's faces" },
+      { "id": "mumbai-harbor-tram", "name": "Harbor arch magnet", "description": "The Gateway of India is a stone arch beside Mumbai's waterfront.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style small stone arch beside blue harbor waves, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Mumbai street snack would your class try first?",
+      "What would you notice during a Mumbai local train ride?",
+      "What would your postcard show beside Mumbai's harbor?"
+    ],
+    "localWords": [
+      { "word": "namaskar", "language": "Marathi", "meaning": "hello", "say": "nah-mah-SKAAR" },
+      { "word": "dhanyavaad", "language": "Marathi", "meaning": "thank you", "say": "dhan-yah-VAAD" },
+      { "word": "chhaan", "language": "Marathi", "meaning": "nice or good", "say": "CHHAAN" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Marathi word choices and simplified pronunciations with a fluent speaker from Mumbai."
+  },
+  "cape-town": {
+    "id": "cape-town",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Bright, dry summers and cooler rainy winters give this coastal city distinct seasons." },
+      { "order": 2, "kind": "food", "text": "A long, filled sandwich may contain meat, chips, salad, and sauce." },
+      { "order": 3, "kind": "culture", "text": "Families and friends often gather outdoors to cook over a fire and share food." },
+      { "order": 4, "kind": "nature", "text": "A flat-topped mountain rises behind the neighborhoods, with ocean bays nearby." },
+      { "order": 5, "kind": "landmark", "text": "A broad, level summit above the city is often covered by a blanket of cloud." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in South Africa." }
+    ],
+    "souvenirs": [
+      { "id": "cape-town-gatsby-roll", "name": "Gatsby sandwich roll", "description": "A Gatsby is a large sandwich filled with several ingredients and shared in slices.", "earn": { "type": "land" }, "icon": "sandwich", "artPrompt": "sticker-style long sandwich roll cut into colorful shareable pieces, no text, no people's faces" },
+      { "id": "cape-town-koeksister", "name": "Koeksister twist", "description": "A koeksister is a plaited pastry soaked in syrup and served sweet.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "cookie", "artPrompt": "sticker-style golden plaited syrup pastry twist, no text, no people's faces" },
+      { "id": "cape-town-fynbos-flower", "name": "Fynbos flower pin", "description": "Fynbos is a diverse plant community found in the Cape region.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "flower", "artPrompt": "sticker-style pink protea flower with delicate green leaves, no text, no people's faces" },
+      { "id": "cape-town-penguin-shell", "name": "Penguin beach shell", "description": "African penguins live along the nearby coast and can be seen at some beaches.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shell", "artPrompt": "sticker-style small penguin footprint beside a seashell on sand, no text, no people's faces" },
+      { "id": "cape-town-mountain-cloud", "name": "Mountain cloud globe", "description": "Clouds sometimes cover the flat summit and spill down the mountain slopes.", "earn": { "type": "rare" }, "icon": "mountain", "artPrompt": "sticker-style flat-topped mountain wrapped in a soft white cloud, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Cape Town snack would you share with a friend?",
+      "What would you draw on a postcard of Cape Town's mountain view?",
+      "What would your class add to a Cape Town seaside braai?"
+    ],
+    "localWords": [
+      { "word": "howzit", "language": "South African English", "meaning": "hello; how are you?", "say": "HOW-zit" },
+      { "word": "lekker", "language": "South African English", "meaning": "great or tasty", "say": "LEK-er" },
+      { "word": "braai", "language": "South African English", "meaning": "barbecue", "say": "BRY" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check these South African English expressions and their context with a Cape Town speaker."
+  },
+  "rome": {
+    "id": "rome",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Long hot summers and mild, rainy winters shape daily life in this ancient capital." },
+      { "order": 2, "kind": "food", "text": "A simple pasta dish combines grated sheep's cheese with plenty of black pepper." },
+      { "order": 3, "kind": "nature", "text": "Pine trees and leafy gardens appear between old stone buildings and busy streets." },
+      { "order": 4, "kind": "culture", "text": "People pause at small cafés for a quick espresso, then continue on foot through lively squares." },
+      { "order": 5, "kind": "landmark", "text": "A huge oval stone arena once held contests for crowds of ancient spectators." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Italy." }
+    ],
+    "souvenirs": [
+      { "id": "rome-suppli-snack", "name": "Supplì snack", "description": "Supplì are crisp rice croquettes with a soft center, often filled with tomato and cheese.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style golden rice croquette split to show a cheesy center, no text, no people's faces" },
+      { "id": "rome-espresso-cup", "name": "Espresso cup", "description": "A small espresso is a quick coffee break enjoyed at cafés around the city.", "earn": { "type": "mode", "mode": "world" }, "icon": "coffee", "artPrompt": "sticker-style tiny white espresso cup with a dark crema surface, no text, no people's faces" },
+      { "id": "rome-cacio-pepe-bowl", "name": "Cacio e pepe bowl", "description": "Cacio e pepe is pasta tossed with sheep's cheese and black pepper.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style twirled pasta with grated cheese and black pepper, no text, no people's faces" },
+      { "id": "rome-stone-arch", "name": "Stone arch model", "description": "Ancient stone arches remain visible among Rome's historic streets.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "landmark", "artPrompt": "sticker-style small weathered stone arch with a sprig of green ivy, no text, no people's faces" },
+      { "id": "rome-colosseum-miniature", "name": "Arena miniature", "description": "The Colosseum is an ancient oval amphitheater in the center of the city.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style miniature oval stone amphitheater, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would you order for a quick espresso break in Rome?",
+      "Which Roman pasta dish would your class taste first in Rome?",
+      "What would you wonder about while walking past the Colosseum?"
+    ],
+    "localWords": [
+      { "word": "ciao", "language": "Italian", "meaning": "hello or goodbye", "say": "CHOW" },
+      { "word": "grazie", "language": "Italian", "meaning": "thank you", "say": "GRAHT-see-eh" },
+      { "word": "buono", "language": "Italian", "meaning": "good or tasty", "say": "BWOH-noh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Italian word choices and simplified pronunciations with a fluent speaker."
+  },
+  "mexico-city": {
+    "id": "mexico-city",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "High elevation brings mild days, cool evenings, and a rainy season in summer." },
+      { "order": 2, "kind": "food", "text": "Thin tortillas are filled with spiced meat shaved from a slowly turning vertical spit." },
+      { "order": 3, "kind": "culture", "text": "Street stalls serve snacks while families browse open-air markets for produce and flowers." },
+      { "order": 4, "kind": "nature", "text": "Tree-lined avenues and green gardens offer shade in a huge highland city." },
+      { "order": 5, "kind": "landmark", "text": "A wide central square is surrounded by a cathedral and government buildings." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Mexico." }
+    ],
+    "souvenirs": [
+      { "id": "mexico-city-taco-al-pastor", "name": "Taco al pastor", "description": "Tacos al pastor use marinated meat cooked on a vertical spit and served in tortillas.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style small tacos with pineapple and cilantro on a plate, no text, no people's faces" },
+      { "id": "mexico-city-papel-picado", "name": "Papel picado strand", "description": "Colorful cut-paper banners are used as festive decorations in many Mexican celebrations.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "sparkles", "artPrompt": "sticker-style bright papel picado flags with simple cutout patterns, no text, no people's faces" },
+      { "id": "mexico-city-tlacoyo", "name": "Tlacoyo snack", "description": "A tlacoyo is a thick oval corn masa cake filled with beans or other ingredients.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "utensils", "artPrompt": "sticker-style blue-corn tlacoyo topped with cactus strips and cheese, no text, no people's faces" },
+      { "id": "mexico-city-market-flower", "name": "Market flower bundle", "description": "Flower stalls brighten many of the city's open-air markets.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "flower", "artPrompt": "sticker-style small bundle of marigolds and other market flowers, no text, no people's faces" },
+      { "id": "mexico-city-axolotl", "name": "Axolotl charm", "description": "The axolotl is a salamander native to the lake system of the Valley of Mexico.", "earn": { "type": "rare" }, "icon": "fish", "artPrompt": "sticker-style smiling pink axolotl with feathery gills, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Mexico City market would your class visit for snacks and flowers?",
+      "What would you put inside your first taco al pastor in Mexico City?",
+      "What would you look for in a Mexico City garden?"
+    ],
+    "localWords": [
+      { "word": "hola", "language": "Mexican Spanish", "meaning": "hello", "say": "OH-lah" },
+      { "word": "gracias", "language": "Mexican Spanish", "meaning": "thank you", "say": "GRAH-see-ahs" },
+      { "word": "rico", "language": "Mexican Spanish", "meaning": "tasty", "say": "REE-koh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Mexican Spanish word choices and simplified pronunciations with a fluent speaker."
+  },
+  "buenos-aires": {
+    "id": "buenos-aires",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm humid summers and cool winters shape this large city in the Southern Hemisphere." },
+      { "order": 2, "kind": "food", "text": "A flaky pastry pocket can hold savory meat, cheese, or vegetables." },
+      { "order": 3, "kind": "culture", "text": "Friends may share a bitter herbal drink from a hollow gourd through a metal straw." },
+      { "order": 4, "kind": "nature", "text": "Wide avenues lead to leafy parks where people walk, cycle, and relax." },
+      { "order": 5, "kind": "landmark", "text": "A grand opera house is known for its elegant halls and excellent acoustics." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Argentina." }
+    ],
+    "souvenirs": [
+      { "id": "buenos-aires-empanada", "name": "Empanada pocket", "description": "Empanadas are baked or fried pastry pockets with savory fillings.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style golden folded empanada with a small fork mark, no text, no people's faces" },
+      { "id": "buenos-aires-mate-gourd", "name": "Mate gourd set", "description": "Mate is shared from a hollow gourd and sipped through a metal straw.", "earn": { "type": "mode", "mode": "topic" }, "icon": "coffee", "artPrompt": "sticker-style mate gourd with a metal straw beside a small flask, no text, no people's faces" },
+      { "id": "buenos-aires-alfajor", "name": "Dulce de leche alfajor", "description": "An alfajor is a soft cookie sandwich often filled with dulce de leche.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "cookie", "artPrompt": "sticker-style two sandwich cookies with a dulce de leche center, no text, no people's faces" },
+      { "id": "buenos-aires-tango-shoe", "name": "Tango shoe ornament", "description": "Tango music and dance grew from the cultural life of the city and its port.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "music", "artPrompt": "sticker-style polished dance shoe beside a few musical notes, no text, no people's faces" },
+      { "id": "buenos-aires-opera-mask", "name": "Opera house token", "description": "Teatro Colón is a famous opera house with a richly decorated interior.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style ornate opera-house balcony viewed from the stage, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Who would your class invite to share a mate in Buenos Aires?",
+      "Which empanada filling would you choose in Buenos Aires?",
+      "What might you hear inside the opera house in Buenos Aires?"
+    ],
+    "localWords": [
+      { "word": "hola", "language": "Rioplatense Spanish", "meaning": "hello", "say": "OH-lah" },
+      { "word": "gracias", "language": "Rioplatense Spanish", "meaning": "thank you", "say": "GRAH-syahs" },
+      { "word": "che", "language": "Rioplatense Spanish", "meaning": "hey; friend", "say": "CHAY" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Rioplatense Spanish meanings and pronunciations, especially the local informal greeting."
+  },
+  "los-angeles": {
+    "id": "los-angeles",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Sunny, dry summers and mild winters make outdoor plans possible for much of the year." },
+      { "order": 2, "kind": "food", "text": "A corn tortilla can hold grilled meat, fresh salsa, and a squeeze of lime." },
+      { "order": 3, "kind": "culture", "text": "Many people drive between far-apart neighborhoods, studios, shops, and beaches." },
+      { "order": 4, "kind": "nature", "text": "Palm-lined streets, low hills, and a long Pacific coastline shape the wide city." },
+      { "order": 5, "kind": "landmark", "text": "A white observatory sits high in the hills above a bowl-shaped lawn and city views." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in the United States." }
+    ],
+    "souvenirs": [
+      { "id": "los-angeles-french-dip", "name": "French dip sandwich", "description": "A French dip is a roast beef sandwich served with savory broth for dipping.", "earn": { "type": "land" }, "icon": "sandwich", "artPrompt": "sticker-style roast beef sandwich with a small cup of dipping broth, no text, no people's faces" },
+      { "id": "los-angeles-freeway-map", "name": "Freeway map fold", "description": "Freeways link neighborhoods spread across the wide metropolitan area.", "earn": { "type": "mode", "mode": "free" }, "icon": "map", "artPrompt": "sticker-style folded road map with winding colored routes, no text, no people's faces" },
+      { "id": "los-angeles-korean-taco", "name": "Korean taco", "description": "Korean tacos combine Korean-inspired fillings with a tortilla.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "utensils", "artPrompt": "sticker-style taco with bright slaw and sesame seeds, no text, no people's faces" },
+      { "id": "los-angeles-beach-sunglasses", "name": "Beach sunglasses", "description": "The city has a long Pacific coast with beaches and seaside paths.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "sun", "artPrompt": "sticker-style blue sunglasses with a tiny ocean wave reflection, no text, no people's faces" },
+      { "id": "los-angeles-observatory-view", "name": "Hilltop observatory model", "description": "Griffith Observatory has telescopes and exhibits about space and science.", "earn": { "type": "rare" }, "icon": "telescope", "artPrompt": "sticker-style white hilltop observatory with stars above, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Los Angeles beach would your class visit after a sunny day?",
+      "What would you put inside a Los Angeles street taco?",
+      "What would you hope to see through a telescope in Los Angeles?"
+    ],
+    "localWords": [
+      { "word": "dude", "language": "Los Angeles English", "meaning": "friend; casual greeting", "say": "DOOD" },
+      { "word": "the 101", "language": "Los Angeles English", "meaning": "a local freeway name", "say": "theh wun-oh-WUN" },
+      { "word": "to-go", "language": "Los Angeles English", "meaning": "food packed to take away", "say": "too-GOH" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check that these English expressions feel locally natural and suitable for a worldwide classroom."
+  },
+  "jakarta": {
+    "id": "jakarta",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Hot humid days continue through the year, with a wetter monsoon season." },
+      { "order": 2, "kind": "food", "text": "A smoky rice dish is stir-fried with sweet soy sauce, vegetables, and egg." },
+      { "order": 3, "kind": "culture", "text": "Motorbikes, buses, and trains share busy streets as commuters travel across the city." },
+      { "order": 4, "kind": "nature", "text": "Canals and small waterways pass between dense neighborhoods near the coast." },
+      { "order": 5, "kind": "landmark", "text": "A tall white tower with a gold flame rises from a central green square." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Indonesia." }
+    ],
+    "souvenirs": [
+      { "id": "jakarta-nasi-goreng", "name": "Nasi goreng bowl", "description": "Nasi goreng is fried rice often seasoned with sweet soy sauce and aromatics.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style plate of fried rice with egg and cucumber slices, no text, no people's faces" },
+      { "id": "jakarta-commuter-train", "name": "Commuter train token", "description": "Commuter trains connect central neighborhoods with places across the wider city.", "earn": { "type": "mode", "mode": "topic" }, "icon": "train", "artPrompt": "sticker-style modern commuter train crossing a city viaduct, no text, no people's faces" },
+      { "id": "jakarta-kerak-telor-pan", "name": "Kerak telor pan", "description": "Kerak telor is a savory omelet made with sticky rice and toasted coconut.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style small savory rice omelet with toasted coconut, no text, no people's faces" },
+      { "id": "jakarta-batik-square", "name": "Batik cloth square", "description": "Batik fabric is decorated with patterns made using wax-resist dyeing.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "flower", "artPrompt": "sticker-style folded batik cloth with a blue floral wax-resist pattern, no text, no people's faces" },
+      { "id": "jakarta-monument-flame", "name": "Golden flame model", "description": "The National Monument is topped by a flame-shaped sculpture covered in gold foil.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style slim white tower topped with a golden flame, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What ingredients would your class add to nasi goreng in Jakarta?",
+      "Which Jakarta train ride would you take across the city?",
+      "What colors would you choose for a Jakarta batik design?"
+    ],
+    "localWords": [
+      { "word": "halo", "language": "Indonesian", "meaning": "hello", "say": "HAH-loh" },
+      { "word": "terima kasih", "language": "Indonesian", "meaning": "thank you", "say": "tuh-REE-mah KAH-see" },
+      { "word": "enak", "language": "Indonesian", "meaning": "tasty", "say": "EH-nahk" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Indonesian phrases and simplified pronunciations with a fluent speaker familiar with Jakarta usage."
+  },
+  "lagos": {
+    "id": "lagos",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm humid weather lasts most of the year, with a rainy season and a drier season." },
+      { "order": 2, "kind": "food", "text": "A bright orange-red rice dish is cooked with tomatoes, peppers, and spices." },
+      { "order": 3, "kind": "culture", "text": "Music, markets, and outdoor food stalls add lively sounds to many neighborhood streets." },
+      { "order": 4, "kind": "nature", "text": "Creeks and wide lagoons weave between busy districts near the Atlantic coast." },
+      { "order": 5, "kind": "landmark", "text": "A museum by the water displays Nigerian art and objects from many cultures." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Nigeria." }
+    ],
+    "souvenirs": [
+      { "id": "lagos-jollof-pot", "name": "Jollof rice pot", "description": "Jollof rice is cooked with tomatoes, peppers, and seasoning in one pot.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style steaming pot of tomato-red jollof rice with sliced peppers, no text, no people's faces" },
+      { "id": "lagos-minibus-token", "name": "Minibus token", "description": "Yellow minibuses are a familiar form of shared transport around the city.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "bus", "artPrompt": "sticker-style bright yellow shared minibus with a blue stripe, no text, no people's faces" },
+      { "id": "lagos-suya-skewer", "name": "Suya skewer", "description": "Suya is grilled meat dusted with a spicy ground-peanut seasoning.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style grilled meat skewer dusted with spice and served with onions, no text, no people's faces" },
+      { "id": "lagos-market-basket", "name": "Market basket", "description": "Markets sell colorful produce, fabrics, and everyday goods across the city.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shopping-bag", "artPrompt": "sticker-style woven market basket filled with peppers and tomatoes, no text, no people's faces" },
+      { "id": "lagos-art-mask", "name": "Carved art mask", "description": "The National Museum Lagos displays Nigerian art and cultural objects.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style carved wooden mask with colorful geometric details, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Lagos street food would your class like to try?",
+      "What colors would you notice in a Lagos market?",
+      "What would you ask about an artwork in the National Museum Lagos?"
+    ],
+    "localWords": [
+      { "word": "how far?", "language": "Nigerian Pidgin", "meaning": "how are you?", "say": "how FAR" },
+      { "word": "abeg", "language": "Nigerian Pidgin", "meaning": "please", "say": "ah-BEG" },
+      { "word": "chop", "language": "Nigerian Pidgin", "meaning": "eat or food", "say": "CHOP" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check these Nigerian Pidgin expressions and their friendly use with a fluent Lagos speaker."
+  },
+  "hong-kong": {
+    "id": "hong-kong",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Humid summers bring warm rain, while winters are usually mild in this coastal city." },
+      { "order": 2, "kind": "food", "text": "Small shared plates may include steamed buns, dumplings, and tea." },
+      { "order": 3, "kind": "culture", "text": "Double-decker trams, buses, ferries, and trains help people travel through dense neighborhoods." },
+      { "order": 4, "kind": "nature", "text": "Steep green hills rise close behind clusters of tall buildings and busy streets." },
+      { "order": 5, "kind": "landmark", "text": "A high lookout on a green peak gives a sweeping view of the harbor and towers." },
+      { "order": 6, "kind": "giveaway", "text": "This city is a special administrative region of China." }
+    ],
+    "souvenirs": [
+      { "id": "hong-kong-dim-sum-basket", "name": "Dim sum basket", "description": "Dim sum dishes are often served in small bamboo steamers with tea.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style bamboo dim sum basket with two dumplings, no text, no people's faces" },
+      { "id": "hong-kong-tram-bell", "name": "Ding ding tram bell", "description": "The city's double-decker tram is nicknamed the ding ding for its bell.", "earn": { "type": "mode", "mode": "world" }, "icon": "train", "artPrompt": "sticker-style vintage double-decker tram with a small bell, no text, no people's faces" },
+      { "id": "hong-kong-egg-tart", "name": "Egg tart tin", "description": "An egg tart has a crisp pastry shell and a smooth custard center.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "cookie", "artPrompt": "sticker-style golden egg tart in a fluted pastry shell, no text, no people's faces" },
+      { "id": "hong-kong-ferry-ticket", "name": "Harbor ferry ticket", "description": "Passenger ferries cross the harbor between the island and the mainland.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "ship", "artPrompt": "sticker-style green-and-white ferry crossing calm harbor water, no text, no people's faces" },
+      { "id": "hong-kong-peak-viewfinder", "name": "Peak viewfinder", "description": "Victoria Peak is a popular lookout over the harbor and city skyline.", "earn": { "type": "rare" }, "icon": "mountain", "artPrompt": "sticker-style mountain lookout framing a harbor full of tiny boats, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Hong Kong tram or ferry would your class ride first?",
+      "What would you order for a shared dim sum meal in Hong Kong?",
+      "What would you look for in the harbor view from Victoria Peak?"
+    ],
+    "localWords": [
+      { "word": "néih hóu", "language": "Cantonese", "meaning": "hello", "say": "NAY-hoh" },
+      { "word": "m̀h'gōi", "language": "Cantonese", "meaning": "thank you for a service", "say": "mm-GOY" },
+      { "word": "hou hou mei", "language": "Cantonese", "meaning": "very tasty", "say": "HOH-hoh-may" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Cantonese romanization, tones, and phrase contexts with a fluent Hong Kong speaker."
+  },
+  "amsterdam": {
+    "id": "amsterdam",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Changeable skies and cool breezes are common, so a light rain jacket is useful." },
+      { "order": 2, "kind": "food", "text": "Two thin waffles sandwich a warm, sweet layer of syrup." },
+      { "order": 3, "kind": "culture", "text": "Bicycles are used for school, shopping, and everyday trips across the city." },
+      { "order": 4, "kind": "nature", "text": "Waterways, bridges, houseboats, and leafy quays shape many neighborhood walks." },
+      { "order": 5, "kind": "landmark", "text": "A curved ring of waterways is lined with narrow historic houses and bridges." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of the Netherlands." }
+    ],
+    "souvenirs": [
+      { "id": "amsterdam-stroopwafel", "name": "Stroopwafel pair", "description": "A stroopwafel sandwiches sweet syrup between two thin waffle layers.", "earn": { "type": "land" }, "icon": "cookie", "artPrompt": "sticker-style two round thin waffles with a little syrup filling, no text, no people's faces" },
+      { "id": "amsterdam-bicycle-bell", "name": "Bicycle bell", "description": "Many people use bicycles for everyday trips around the flat city.", "earn": { "type": "mode", "mode": "free" }, "icon": "bike", "artPrompt": "sticker-style silver bicycle bell with a tiny orange tulip, no text, no people's faces" },
+      { "id": "amsterdam-canal-house", "name": "Canal house model", "description": "Historic canal houses often have narrow fronts and tall, stepped gables.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "building", "artPrompt": "sticker-style narrow canal house with a stepped gable and blue windows, no text, no people's faces" },
+      { "id": "amsterdam-bitterballen", "name": "Bitterballen plate", "description": "Bitterballen are crispy fried snacks usually served with mustard.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "utensils", "artPrompt": "sticker-style plate of golden round snacks with a small mustard bowl, no text, no people's faces" },
+      { "id": "amsterdam-houseboat", "name": "Houseboat charm", "description": "Houseboats are moored along many of the city's canals.", "earn": { "type": "rare" }, "icon": "ship", "artPrompt": "sticker-style cozy houseboat with flower boxes on a calm canal, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Amsterdam street would your class explore by bicycle?",
+      "How would you share a warm stroopwafel with a friend in Amsterdam?",
+      "What would you notice while walking along Amsterdam's canals?"
+    ],
+    "localWords": [
+      { "word": "hallo", "language": "Dutch", "meaning": "hello", "say": "HAH-loh" },
+      { "word": "dank je", "language": "Dutch", "meaning": "thank you", "say": "DAHNK-yuh" },
+      { "word": "lekker", "language": "Dutch", "meaning": "tasty or nice", "say": "LEK-er" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check these Dutch words and simplified pronunciations with a fluent Amsterdam speaker."
+  },
+  "honolulu": {
+    "id": "honolulu",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm ocean breezes and passing showers keep the weather mild through much of the year." },
+      { "order": 2, "kind": "food", "text": "A chilled bowl can mix cubed raw fish with rice, seaweed, and savory sauce." },
+      { "order": 3, "kind": "language", "text": "Hawaiian words appear in local place names and everyday greetings alongside English." },
+      { "order": 4, "kind": "nature", "text": "Palm-lined shores and green volcanic slopes meet beside a sheltered ocean bay." },
+      { "order": 5, "kind": "landmark", "text": "A royal palace with tall columns stands among busy streets in the island capital." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of the U.S. state of Hawaii." }
+    ],
+    "souvenirs": [
+      { "id": "honolulu-poke-bowl", "name": "Poke bowl", "description": "Poke is often made with cubed raw fish, sea salt, and other seasonings.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style bowl of poke with fish cubes, seaweed, and sesame seeds, no text, no people's faces" },
+      { "id": "honolulu-outrigger-paddle", "name": "Canoe paddle", "description": "Outrigger canoes are a traditional part of ocean travel in Hawaiʻi.", "earn": { "type": "mode", "mode": "world" }, "icon": "ship", "artPrompt": "sticker-style wooden canoe paddle with a blue wave pattern, no text, no people's faces" },
+      { "id": "honolulu-spam-musubi", "name": "Spam musubi", "description": "Spam musubi wraps grilled luncheon meat and rice with a strip of seaweed.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style rectangular rice snack wrapped with a dark seaweed strip, no text, no people's faces" },
+      { "id": "honolulu-ukulele", "name": "Ukulele charm", "description": "The small ukulele is widely associated with music in Hawaiʻi.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "music", "artPrompt": "sticker-style small four-string ukulele with hibiscus flower decoration, no text, no people's faces" },
+      { "id": "honolulu-palace-column", "name": "Palace column model", "description": "ʻIolani Palace was the home of Hawaiʻi's last reigning monarchs.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style white palace column and palm leaf, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Honolulu snack would your class try after a walk by the water?",
+      "What Hawaiian word would you use to greet a friend in Honolulu?",
+      "What would you look for inside ʻIolani Palace in Honolulu?"
+    ],
+    "localWords": [
+      { "word": "aloha", "language": "Hawaiian", "meaning": "hello, goodbye, or love", "say": "ah-LOH-hah" },
+      { "word": "mahalo", "language": "Hawaiian", "meaning": "thank you", "say": "mah-HAH-loh" },
+      { "word": "ʻono", "language": "Hawaiian", "meaning": "delicious", "say": "OH-noh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Hawaiian spelling, diacritics, pronunciation, and classroom framing with a Hawaiian language resource."
+  },
+  "miami": {
+    "id": "miami",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm humid days last much of the year, and summer often brings short heavy showers." },
+      { "order": 2, "kind": "food", "text": "A pressed sandwich layers roast pork, ham, Swiss cheese, pickles, and mustard." },
+      { "order": 3, "kind": "language", "text": "English and Spanish are both heard in shops, cafés, and neighborhood conversations." },
+      { "order": 4, "kind": "nature", "text": "Sandy shores and warm blue coastal water meet a city of palm-lined streets." },
+      { "order": 5, "kind": "landmark", "text": "Pastel Art Deco buildings line a famous beach neighborhood's oceanfront road." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in the United States." }
+    ],
+    "souvenirs": [
+      { "id": "miami-cuban-sandwich", "name": "Cuban sandwich", "description": "A Cuban sandwich layers pork, ham, cheese, pickles, and mustard in pressed bread.", "earn": { "type": "land" }, "icon": "sandwich", "artPrompt": "sticker-style pressed Cuban sandwich cut to show its colorful layers, no text, no people's faces" },
+      { "id": "miami-cafecito-cup", "name": "Cafecito cup", "description": "A cafecito is a small, sweet Cuban-style espresso often ordered at a walk-up window.", "earn": { "type": "mode", "mode": "topic" }, "icon": "coffee", "artPrompt": "sticker-style tiny cup of dark espresso with a sugar sparkle, no text, no people's faces" },
+      { "id": "miami-stone-crab-claw", "name": "Stone crab claw", "description": "Florida stone crab claws are served chilled with a dipping sauce.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "fish", "artPrompt": "sticker-style orange stone crab claw with a lemon wedge, no text, no people's faces" },
+      { "id": "miami-key-lime-pie", "name": "Key lime pie slice", "description": "Key lime pie has a tart citrus filling in a crumbly crust.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "cookie", "artPrompt": "sticker-style pale green pie slice with a small lime wheel, no text, no people's faces" },
+      { "id": "miami-art-deco-keychain", "name": "Art Deco keychain", "description": "South Beach is known for pastel Art Deco buildings near the shore.", "earn": { "type": "rare" }, "icon": "building", "artPrompt": "sticker-style pastel geometric hotel front with a palm silhouette, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would your class order at a Miami walk-up coffee window?",
+      "Which Miami beach street would you photograph, and why?",
+      "What would you put in your perfect Miami picnic?"
+    ],
+    "localWords": [
+      { "word": "hola", "language": "Miami Spanish", "meaning": "hello", "say": "OH-lah" },
+      { "word": "gracias", "language": "Miami Spanish", "meaning": "thank you", "say": "GRAH-see-ahs" },
+      { "word": "cafecito", "language": "Miami Spanish", "meaning": "small Cuban coffee", "say": "kah-feh-SEE-toh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Spanish and Cuban coffee terms for natural local usage in Miami."
+  },
+  "bogota": {
+    "id": "bogota",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Cool breezes and quick showers are common because this huge city sits high above sea level." },
+      { "order": 2, "kind": "food", "text": "A hearty chicken soup includes several kinds of potato, corn, and a fragrant herb." },
+      { "order": 3, "kind": "culture", "text": "Commuters board long red buses that travel in special lanes through the city." },
+      { "order": 4, "kind": "nature", "text": "Green slopes rise along one side of the broad highland city." },
+      { "order": 5, "kind": "landmark", "text": "A cable car climbs to a hilltop church above a valley full of city lights." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Colombia." }
+    ],
+    "souvenirs": [
+      { "id": "bogota-ajiaco-bowl", "name": "Ajiaco soup bowl", "description": "Ajiaco is a chicken soup with potatoes, corn, and the herb guascas.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style bowl of creamy potato soup with corn and avocado, no text, no people's faces" },
+      { "id": "bogota-bus-pass", "name": "Red bus pass", "description": "The TransMilenio bus rapid transit system uses dedicated lanes across the city.", "earn": { "type": "mode", "mode": "world" }, "icon": "bus", "artPrompt": "sticker-style long red articulated city bus, no text, no people's faces" },
+      { "id": "bogota-changua-cup", "name": "Changua breakfast cup", "description": "Changua is a warm breakfast soup made with milk, water, egg, and herbs.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "coffee", "artPrompt": "sticker-style steaming breakfast bowl with egg and fresh herbs, no text, no people's faces" },
+      { "id": "bogota-tamal-leaf", "name": "Tamal leaf parcel", "description": "A tamal wraps corn dough and filling in a leaf before it is cooked.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "leaf", "artPrompt": "sticker-style green leaf parcel opened to reveal a corn tamal, no text, no people's faces" },
+      { "id": "bogota-hilltop-view", "name": "Hilltop view token", "description": "Monserrate offers wide views over the high-altitude city and its mountain edges.", "earn": { "type": "rare" }, "icon": "mountain", "artPrompt": "sticker-style hilltop viewpoint above a spread of city rooftops, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Bogota soup would your class try on a cool afternoon?",
+      "What might you see from a bus ride across Bogota?",
+      "What would you hope to spot from Monserrate?"
+    ],
+    "localWords": [
+      { "word": "hola", "language": "Colombian Spanish", "meaning": "hello", "say": "OH-lah" },
+      { "word": "gracias", "language": "Colombian Spanish", "meaning": "thank you", "say": "GRAH-syahs" },
+      { "word": "rico", "language": "Colombian Spanish", "meaning": "tasty", "say": "REE-koh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Colombian Spanish meanings and simple pronunciations with a fluent Bogotá speaker."
+  },
+  "reykjavik": {
+    "id": "reykjavik",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Cool ocean breezes and fast-changing skies make a warm waterproof layer useful in every season." },
+      { "order": 2, "kind": "food", "text": "A thick cultured dairy snack is often served plain or with berries and sugar." },
+      { "order": 3, "kind": "culture", "text": "People visit outdoor swimming pools year-round, even when the air is cold." },
+      { "order": 4, "kind": "nature", "text": "Warm water from underground heats pools while steam rises into the cool air." },
+      { "order": 5, "kind": "landmark", "text": "A tall church tower shaped like stepped basalt columns overlooks the city center." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Iceland." }
+    ],
+    "souvenirs": [
+      { "id": "reykjavik-skyr-cup", "name": "Skyr cup", "description": "Skyr is a thick Icelandic dairy food with a mild, tangy taste.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style cup of skyr topped with blueberries, no text, no people's faces" },
+      { "id": "reykjavik-wool-mitten", "name": "Wool mitten", "description": "A warm wool layer helps in the city's cool, windy weather.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "snowflake", "artPrompt": "sticker-style knitted wool mitten with a simple Nordic pattern, no text, no people's faces" },
+      { "id": "reykjavik-hot-pool-token", "name": "Hot pool token", "description": "Geothermal energy keeps many outdoor swimming pools warm throughout the year.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "waves", "artPrompt": "sticker-style steaming blue outdoor pool with snowy hills, no text, no people's faces" },
+      { "id": "reykjavik-rugbraud-loaf", "name": "Rúgbrauð loaf", "description": "Rúgbrauð is a dense, dark rye bread traditionally baked slowly with geothermal heat.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "cookie", "artPrompt": "sticker-style round dark rye loaf with a slice beside it, no text, no people's faces" },
+      { "id": "reykjavik-church-tower", "name": "Basalt tower model", "description": "Hallgrímskirkja's tower design was inspired by Iceland's basalt columns.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style pale stepped church tower against a cool blue sky, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Would your class visit a warm pool on a cool day in Reykjavik?",
+      "What toppings would you add to skyr in Reykjavik?",
+      "What would you draw beside Hallgrimskirkja in Reykjavik?"
+    ],
+    "localWords": [
+      { "word": "halló", "language": "Icelandic", "meaning": "hello", "say": "HAH-loh" },
+      { "word": "takk", "language": "Icelandic", "meaning": "thanks", "say": "TAHK" },
+      { "word": "gott", "language": "Icelandic", "meaning": "good or tasty", "say": "GOHT" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Icelandic word meanings and simplified pronunciation with a fluent speaker."
+  },
+  "nairobi": {
+    "id": "nairobi",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm sunny days alternate with cooler evenings in this highland city near the equator." },
+      { "order": 2, "kind": "food", "text": "Chunks of meat are grilled over charcoal and served with a simple side dish." },
+      { "order": 3, "kind": "culture", "text": "Friends often meet over shared meals at open-air cafés and local markets." },
+      { "order": 4, "kind": "nature", "text": "Open grassland begins surprisingly close to busy roads and modern buildings." },
+      { "order": 5, "kind": "animal", "text": "Giraffes and zebras graze on grass with the city skyline behind them." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Kenya." }
+    ],
+    "souvenirs": [
+      { "id": "nairobi-nyama-choma-skewer", "name": "Nyama choma skewer", "description": "Nyama choma is meat grilled over a fire and shared with friends.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style grilled meat skewer with a lemon wedge, no text, no people's faces" },
+      { "id": "nairobi-matatu-model", "name": "Matatu model", "description": "Matatus are shared minibuses used for everyday trips around Nairobi.", "earn": { "type": "mode", "mode": "topic" }, "icon": "bus", "artPrompt": "sticker-style colorful Nairobi minibus with abstract painted patterns, no text, no people's faces" },
+      { "id": "nairobi-ugali-bowl", "name": "Ugali serving bowl", "description": "Ugali is a firm maize meal often served alongside vegetables or stew.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style mound of ugali beside a small vegetable stew, no text, no people's faces" },
+      { "id": "nairobi-giraffe-badge", "name": "Giraffe park badge", "description": "Wild giraffes can be seen in protected grassland close to the city center.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "award", "artPrompt": "sticker-style giraffe silhouette with a small city skyline in the distance, no text, no people's faces" },
+      { "id": "nairobi-acacia-tree", "name": "Acacia tree charm", "description": "Acacia trees dot the open landscapes around the city's wildlife areas.", "earn": { "type": "rare" }, "icon": "tree-palm", "artPrompt": "sticker-style flat-topped acacia tree against a golden grassland, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would you ask a cook about nyama choma in Nairobi?",
+      "Which animals would your class hope to see near Nairobi?",
+      "What colors would you paint on a Nairobi matatu?"
+    ],
+    "localWords": [
+      { "word": "habari", "language": "Swahili", "meaning": "hello; how are things?", "say": "hah-BAH-ree" },
+      { "word": "asante", "language": "Swahili", "meaning": "thank you", "say": "ah-SAHN-teh" },
+      { "word": "tamu", "language": "Swahili", "meaning": "tasty or sweet", "say": "TAH-moo" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Swahili phrase choices and pronunciation with a fluent speaker familiar with Nairobi usage."
+  },
+  "lima": {
+    "id": "lima",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Summer days are brighter and warmer, while winter can bring cool mist and cloudy skies." },
+      { "order": 2, "kind": "food", "text": "Fresh fish is mixed with lime juice, onion, and chili for a bright, tangy dish." },
+      { "order": 3, "kind": "culture", "text": "Markets and small family restaurants serve recipes influenced by many communities." },
+      { "order": 4, "kind": "nature", "text": "High cliffs and walking paths follow the edge of the sea." },
+      { "order": 5, "kind": "landmark", "text": "An ancient stepped adobe temple stands among modern homes and streets." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Peru." }
+    ],
+    "souvenirs": [
+      { "id": "lima-ceviche-bowl", "name": "Ceviche bowl", "description": "Peruvian ceviche combines fresh fish with lime, onion, and chili.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style ceviche bowl with fish, lime, onion, and corn, no text, no people's faces" },
+      { "id": "lima-coastal-bike", "name": "Coastal bike token", "description": "Walking and cycling paths run along tall cliffs above the sea.", "earn": { "type": "mode", "mode": "free" }, "icon": "bike", "artPrompt": "sticker-style bicycle beside a coastal path and blue water, no text, no people's faces" },
+      { "id": "lima-causa-limena", "name": "Causa limeña mold", "description": "Causa limeña layers seasoned mashed potato with fillings such as chicken or tuna.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "utensils", "artPrompt": "sticker-style layered yellow potato causa with avocado and herbs, no text, no people's faces" },
+      { "id": "lima-chicha-morada", "name": "Chicha morada cup", "description": "Chicha morada is a purple drink made from purple corn and fruit.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "cup-soda", "artPrompt": "sticker-style glass of deep purple corn drink with a lime wedge, no text, no people's faces" },
+      { "id": "lima-adobe-temple", "name": "Adobe temple model", "description": "Huaca Pucllana is an ancient adobe-and-clay pyramid in the city.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style stepped earth-colored adobe pyramid with tiny bricks, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which fresh ingredients would you add to ceviche in Lima?",
+      "What would your class notice on a walk above Lima's seaside cliffs?",
+      "What would you ask about the old temple at Huaca Pucllana?"
+    ],
+    "localWords": [
+      { "word": "hola", "language": "Peruvian Spanish", "meaning": "hello", "say": "OH-lah" },
+      { "word": "gracias", "language": "Peruvian Spanish", "meaning": "thank you", "say": "GRAH-syahs" },
+      { "word": "rico", "language": "Peruvian Spanish", "meaning": "tasty", "say": "REE-koh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Peruvian Spanish word choices and simplified pronunciations with a fluent Lima speaker."
+  },
+  "perth": {
+    "id": "perth",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Long sunny summers and mild, wetter winters shape this coastal city's seasons." },
+      { "order": 2, "kind": "food", "text": "Local shellfish can be cooked with tomato, garlic, and a little chili." },
+      { "order": 3, "kind": "culture", "text": "People cycle, picnic, and watch the sunset beside a broad river after work." },
+      { "order": 4, "kind": "nature", "text": "White-sand beaches and green parks are close to the downtown streets." },
+      { "order": 5, "kind": "landmark", "text": "A huge hillside park looks down over the river and the city center." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Western Australia." }
+    ],
+    "souvenirs": [
+      { "id": "perth-rock-lobster", "name": "Rock lobster shell", "description": "Western rock lobster is harvested off the coast of Western Australia.", "earn": { "type": "land" }, "icon": "shell", "artPrompt": "sticker-style red rock lobster beside a blue ocean wave, no text, no people's faces" },
+      { "id": "perth-river-ferry", "name": "River ferry token", "description": "Ferries carry passengers between riverside stops in the city.", "earn": { "type": "mode", "mode": "world" }, "icon": "ship", "artPrompt": "sticker-style small passenger ferry on a wide blue river, no text, no people's faces" },
+      { "id": "perth-marron-pot", "name": "Marron serving pot", "description": "Marron are freshwater crayfish native to Western Australia.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "cooking-pot", "artPrompt": "sticker-style freshwater crayfish on a small serving dish, no text, no people's faces" },
+      { "id": "perth-beach-shell", "name": "Beach shell charm", "description": "The city has many sandy beaches along the Indian Ocean coast.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shell", "artPrompt": "sticker-style spiral shell resting on a pale sandy beach, no text, no people's faces" },
+      { "id": "perth-park-wildflower", "name": "Park wildflower pin", "description": "Kings Park has walking trails and views over the city and river.", "earn": { "type": "rare" }, "icon": "flower", "artPrompt": "sticker-style bright Western Australian wildflower above a city view, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Perth beach would your class visit on a sunny afternoon?",
+      "What would you pack for a sunset picnic beside Perth's river?",
+      "Which Perth seafood dish would you like to taste?"
+    ],
+    "localWords": [
+      { "word": "arvo", "language": "Australian English", "meaning": "afternoon", "say": "AR-voh" },
+      { "word": "brekkie", "language": "Australian English", "meaning": "breakfast", "say": "BREK-ee" },
+      { "word": "ta", "language": "Australian English", "meaning": "thanks", "say": "TAH" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check that these Australian English expressions and simple pronunciations sound natural in Perth."
+  },
+  "auckland": {"id":"auckland","mysteryClues":[{"order":1,"kind":"weather","text":"Mild, changeable weather can bring sunshine and showers on the same day."},{"order":2,"kind":"food","text":"Fresh seafood and sweet pavlova often appear on local menus."},{"order":3,"kind":"nature","text":"Green volcanic hills and two broad harbors shape the surrounding landscape."},{"order":4,"kind":"culture","text":"Many residents enjoy sailing, coastal walks, and weekend trips to nearby islands."},{"order":5,"kind":"landmark","text":"A tall observation tower rises above the central streets."},{"order":6,"kind":"giveaway","text":"This city is New Zealand's largest urban area."}],"souvenirs":[{"id":"auckland-mussel-shell","name":"Green mussel shell","description":"Green-lipped mussels are a well-known seafood from New Zealand waters.","earn":{"type":"land"},"icon":"shell","artPrompt":"sticker-style green-lipped mussel shell, no text, no people's faces"},{"id":"auckland-ferry-token","name":"Harbor ferry token","description":"Ferries connect the downtown waterfront with island and coastal communities.","earn":{"type":"mode","mode":"world"},"icon":"ship","artPrompt":"sticker-style blue harbor ferry, no text, no people's faces"},{"id":"auckland-pavlova-plate","name":"Pavlova plate","description":"Pavlova is a crisp meringue dessert topped with cream and fruit.","earn":{"type":"challenge","challenge":"words-3"},"icon":"cake","artPrompt":"sticker-style pavlova topped with fruit, no text, no people's faces"},{"id":"auckland-harbor-postcard","name":"Harbor postcard","description":"Two harbors give the city many waterfront places to explore.","earn":{"type":"challenge","challenge":"postcard"},"icon":"map","artPrompt":"sticker-style postcard of blue harbors and green hills, no text, no people's faces"},{"id":"auckland-sky-tower","name":"Sky tower charm","description":"The Sky Tower offers wide views across the city and its harbors.","earn":{"type":"rare"},"icon":"landmark","artPrompt":"sticker-style slender city observation tower, no text, no people's faces"}],"postcardPrompts":["What would your class do first on an Auckland island?","Which Auckland seafood would you like to try?","Describe the view from Auckland's Sky Tower."],"localWords":[{"word":"sweet as","language":"New Zealand English","meaning":"great or all good","say":"SWEET az"},{"word":"kia ora","language":"Maori and New Zealand English","meaning":"hello","say":"KEE-ah OR-ah"},{"word":"jandals","language":"New Zealand English","meaning":"flip-flops","say":"JAN-dulz"}],"needsReview":true,"reviewNotes":"Please review Maori pronunciation and regional usage of New Zealand expressions."},
+  "suva": {"id":"suva","mysteryClues":[{"order":1,"kind":"weather","text":"Warm, humid air and frequent tropical showers are common through much of the year."},{"order":2,"kind":"food","text":"Coconut milk, root vegetables, and fresh fish are common in local cooking."},{"order":3,"kind":"nature","text":"Rainforest green surrounds a lively harbor on the edge of the Pacific."},{"order":4,"kind":"culture","text":"At markets, bright produce and handmade woven goods fill busy stalls."},{"order":5,"kind":"landmark","text":"A national museum sits beside a large botanical garden."},{"order":6,"kind":"giveaway","text":"This city is the capital of Fiji."}],"souvenirs":[{"id":"suva-coconut-bowl","name":"Coconut serving bowl","description":"Coconut milk adds richness to many island dishes.","earn":{"type":"land"},"icon":"cooking-pot","artPrompt":"sticker-style polished coconut bowl, no text, no people's faces"},{"id":"suva-harbor-boat","name":"Harbor boat model","description":"Small boats travel between the capital and nearby coastal communities.","earn":{"type":"mode","mode":"mystery"},"icon":"ship","artPrompt":"sticker-style small island boat on turquoise water, no text, no people's faces"},{"id":"suva-kokoda-dish","name":"Kokoda dish","description":"Kokoda combines fish with citrus juice, coconut milk, and vegetables.","earn":{"type":"challenge","challenge":"quiz-perfect"},"icon":"fish","artPrompt":"sticker-style bowl of citrus fish and coconut, no text, no people's faces"},{"id":"suva-market-basket","name":"Market basket","description":"The central market sells local produce, seafood, and woven crafts.","earn":{"type":"challenge","challenge":"vote-reasons"},"icon":"shopping-basket","artPrompt":"sticker-style woven basket of tropical fruit, no text, no people's faces"},{"id":"suva-forest-leaf","name":"Rainforest leaf","description":"A forest reserve near the city protects tropical plants and streams.","earn":{"type":"rare"},"icon":"leaf","artPrompt":"sticker-style broad tropical rainforest leaf, no text, no people's faces"}],"postcardPrompts":["Which Suva market fruit would your class taste first?","What would you notice beside Suva's harbor?","Describe a walk through Suva's rainforest reserve."],"localWords":[{"word":"bula","language":"Fijian","meaning":"hello or life","say":"BOO-lah"},{"word":"vinaka","language":"Fijian","meaning":"thank you","say":"vee-NAH-kah"},{"word":"kana","language":"Fijian","meaning":"eat","say":"KAH-nah"}],"needsReview":true,"reviewNotes":"Please check Fijian word meanings and simplified pronunciations with a fluent speaker."},
+  "ulaanbaatar": {"id":"ulaanbaatar","mysteryClues":[{"order":1,"kind":"weather","text":"Long, very cold winters contrast with short summers on a high open plateau."},{"order":2,"kind":"food","text":"Steamed dumplings filled with meat are a favorite meal, especially during celebrations."},{"order":3,"kind":"culture","text":"Families honor a nomadic heritage, and horses remain important in national traditions."},{"order":4,"kind":"nature","text":"Wide grasslands begin close to the dense streets and apartment blocks."},{"order":5,"kind":"landmark","text":"A large Buddhist monastery stands among the city's notable buildings."},{"order":6,"kind":"giveaway","text":"This city is the capital of Mongolia."}],"souvenirs":[{"id":"ulaanbaatar-felt-boot","name":"Felt boot charm","description":"Felt helps keep traditional boots warm during cold weather.","earn":{"type":"land"},"icon":"footprints","artPrompt":"sticker-style colorful felt boot with stitched pattern, no text, no people's faces"},{"id":"ulaanbaatar-horse-token","name":"Steppe horse token","description":"Horses are central to many stories and traditions across the country.","earn":{"type":"mode","mode":"topic"},"icon":"footprints","artPrompt":"sticker-style sturdy steppe horse, no text, no people's faces"},{"id":"ulaanbaatar-buuz-steamer","name":"Buuz steamer basket","description":"Buuz are steamed dumplings often shared during the Lunar New Year.","earn":{"type":"challenge","challenge":"words-3"},"icon":"cooking-pot","artPrompt":"sticker-style bamboo steamer with dumplings, no text, no people's faces"},{"id":"ulaanbaatar-yurt-model","name":"Ger tent model","description":"A ger is a round portable home used by some Mongolian families.","earn":{"type":"challenge","challenge":"postcard"},"icon":"tent","artPrompt":"sticker-style round felt ger tent on open grassland, no text, no people's faces"},{"id":"ulaanbaatar-monastery-bell","name":"Monastery bell charm","description":"The city's historic monastery is an active place of Buddhist learning.","earn":{"type":"rare"},"icon":"bell","artPrompt":"sticker-style small bronze monastery bell, no text, no people's faces"}],"postcardPrompts":["What warm food would you try on a cold Ulaanbaatar day?","What would you pack for a summer visit to Ulaanbaatar?","Describe the ger homes found near Ulaanbaatar."],"localWords":[{"word":"sain baina uu","language":"Mongolian","meaning":"hello","say":"sain bai-NAH oo"},{"word":"bayarlalaa","language":"Mongolian","meaning":"thank you","say":"buy-ar-LAH-lah"},{"word":"tsai","language":"Mongolian","meaning":"tea","say":"TSYE"}],"needsReview":true,"reviewNotes":"Please review Mongolian transliteration and pronunciation with a fluent speaker."},
+  "almaty": {"id":"almaty","mysteryClues":[{"order":1,"kind":"weather","text":"Hot summers and snowy winters sit beneath dramatic high peaks."},{"order":2,"kind":"food","text":"Noodles, dumplings, and hearty meat dishes are popular across the region."},{"order":3,"kind":"nature","text":"Orchard trees and leafy avenues make the foothill city feel green."},{"order":4,"kind":"culture","text":"Tea is often shared with small breads and sweets when guests visit."},{"order":5,"kind":"landmark","text":"A mountain skating rink sits high above the city in a narrow valley."},{"order":6,"kind":"giveaway","text":"This city is Kazakhstan's largest city, though not its capital."}],"souvenirs":[{"id":"almaty-apple-basket","name":"Almaty apple basket","description":"The name Almaty is linked to apples, and wild apple forests grow nearby.","earn":{"type":"land"},"icon":"apple","artPrompt":"sticker-style red apple in a small woven basket, no text, no people's faces"},{"id":"almaty-cable-car","name":"Mountain cable car","description":"A cable car carries visitors toward a hilltop recreation area.","earn":{"type":"mode","mode":"world"},"icon":"cable-car","artPrompt":"sticker-style cable car above green foothills, no text, no people's faces"},{"id":"almaty-noodle-bowl","name":"Lagman noodle bowl","description":"Lagman is a dish of pulled noodles served with vegetables and sauce.","earn":{"type":"challenge","challenge":"quiz-perfect"},"icon":"utensils","artPrompt":"sticker-style bowl of hand-pulled noodles and vegetables, no text, no people's faces"},{"id":"almaty-mountain-ski","name":"Mountain ski pin","description":"Snowy slopes close to the city draw visitors in winter.","earn":{"type":"challenge","challenge":"vote-reasons"},"icon":"mountain","artPrompt":"sticker-style pair of skis beside snowy peaks, no text, no people's faces"},{"id":"almaty-cathedral-dome","name":"Wooden cathedral charm","description":"A colorful wooden cathedral is built without metal nails.","earn":{"type":"rare"},"icon":"church","artPrompt":"sticker-style small painted wooden cathedral, no text, no people's faces"}],"postcardPrompts":["Which Almaty apple treat would you like to taste?","What would you see on a walk through Almaty's leafy avenues?","Describe the mountain skating rink near Almaty."],"localWords":[{"word":"salem","language":"Kazakh","meaning":"hello","say":"sah-LEM"},{"word":"rahmet","language":"Kazakh","meaning":"thank you","say":"rah-MET"},{"word":"shai","language":"Kazakh","meaning":"tea","say":"SHY"}],"needsReview":true,"reviewNotes":"Please review Kazakh words, transliteration, and pronunciation with a fluent speaker."},
+  "madrid": {"id":"madrid","mysteryClues":[{"order":1,"kind":"weather","text":"Summers are hot and dry, while winter nights can feel surprisingly chilly."},{"order":2,"kind":"food","text":"A small fried dough snack is often dipped into thick hot chocolate."},{"order":3,"kind":"culture","text":"Dinner can begin late, and people enjoy lingering over a meal together."},{"order":4,"kind":"nature","text":"Parks and tree-lined paths offer shade in the middle of a busy inland city."},{"order":5,"kind":"landmark","text":"A world-famous art museum holds paintings by Spanish masters."},{"order":6,"kind":"giveaway","text":"This city is the capital of Spain."}],"souvenirs":[{"id":"madrid-churros","name":"Churros cup","description":"Churros are often eaten with a cup of thick chocolate for dipping.","earn":{"type":"land"},"icon":"coffee","artPrompt":"sticker-style cup of chocolate with churros, no text, no people's faces"},{"id":"madrid-metro-ticket","name":"Metro ticket case","description":"The metro connects many neighborhoods across this large city.","earn":{"type":"mode","mode":"mystery"},"icon":"train","artPrompt":"sticker-style red metro train and ticket case, no text, no people's faces"},{"id":"madrid-football","name":"Football scarf","description":"Football is followed passionately by many local fans.","earn":{"type":"challenge","challenge":"vote-reasons"},"icon":"trophy","artPrompt":"sticker-style colorful football scarf and ball, no text, no people's faces"},{"id":"madrid-market-fan","name":"Handheld paper fan","description":"A folding fan can help cool someone during a hot afternoon.","earn":{"type":"challenge","challenge":"postcard"},"icon":"fan","artPrompt":"sticker-style folding fan with bright geometric pattern, no text, no people's faces"},{"id":"madrid-museum-brush","name":"Museum paintbrush","description":"The Prado Museum displays paintings spanning many centuries.","earn":{"type":"rare"},"icon":"brush","artPrompt":"sticker-style paintbrush beside a tiny framed painting, no text, no people's faces"}],"postcardPrompts":["Which Madrid snack would you share with a friend?","What would your class do in a shady Madrid park?","Which painting would you hope to see at Madrid's Prado Museum?"],"localWords":[{"word":"hola","language":"Spanish","meaning":"hello","say":"OH-lah"},{"word":"gracias","language":"Spanish","meaning":"thank you","say":"GRAH-see-as"},{"word":"vale","language":"Spanish","meaning":"okay","say":"BAH-leh"}],"needsReview":true,"reviewNotes":"Please review Spanish pronunciation and local usage for Spain."},
+  "lisbon": {"id":"lisbon","mysteryClues":[{"order":1,"kind":"weather","text":"Sunny days are common, and breezes from the Atlantic help cool warm afternoons."},{"order":2,"kind":"food","text":"Custard tarts with crisp pastry are a popular sweet treat."},{"order":3,"kind":"culture","text":"Painted ceramic tiles decorate building fronts and everyday public spaces."},{"order":4,"kind":"nature","text":"The city climbs and falls across steep hills above a broad estuary."},{"order":5,"kind":"landmark","text":"A historic tower stands beside the water near the mouth of the estuary."},{"order":6,"kind":"giveaway","text":"This city is the capital of Portugal."}],"souvenirs":[{"id":"lisbon-pastry-tin","name":"Custard tart tin","description":"Pastel de nata has flaky pastry and a creamy baked custard center.","earn":{"type":"land"},"icon":"cake","artPrompt":"sticker-style golden custard tart in a small tin, no text, no people's faces"},{"id":"lisbon-tram-token","name":"Yellow tram token","description":"Electric trams climb steep streets and connect central neighborhoods.","earn":{"type":"mode","mode":"world"},"icon":"tram-front","artPrompt":"sticker-style vintage yellow city tram on a hill, no text, no people's faces"},{"id":"lisbon-tile-square","name":"Blue tile square","description":"Decorative azulejo tiles often show patterns or scenes on walls.","earn":{"type":"challenge","challenge":"quiz-perfect"},"icon":"square","artPrompt":"sticker-style blue and white patterned ceramic tile, no text, no people's faces"},{"id":"lisbon-fado-guitar","name":"Fado guitar charm","description":"Fado is a Portuguese music tradition often performed with a guitar.","earn":{"type":"challenge","challenge":"postcard"},"icon":"music","artPrompt":"sticker-style Portuguese guitar with blue ribbon, no text, no people's faces"},{"id":"lisbon-river-tower","name":"Riverside tower model","description":"Belem Tower once helped guard the entrance to the harbor.","earn":{"type":"rare"},"icon":"landmark","artPrompt":"sticker-style small stone riverside tower, no text, no people's faces"}],"postcardPrompts":["Which Lisbon pastry would you share with someone?","What would you notice while riding a Lisbon tram uphill?","Describe the tiles you might see in Lisbon."],"localWords":[{"word":"ola","language":"Portuguese","meaning":"hello","say":"oh-LAH"},{"word":"obrigado","language":"Portuguese","meaning":"thank you (said by a boy or man)","say":"oh-bree-GAH-doo"},{"word":"obrigada","language":"Portuguese","meaning":"thank you (said by a girl or woman)","say":"oh-bree-GAH-dah"}],"needsReview":true,"reviewNotes":"Please check European Portuguese pronunciation and the gendered forms with a fluent speaker."},
+  "dublin": {"id":"dublin","mysteryClues":[{"order":1,"kind":"weather","text":"Cool, changeable weather brings soft rain, clouds, and occasional bright sunshine."},{"order":2,"kind":"food","text":"A warming stew may combine potatoes, vegetables, and slow-cooked meat."},{"order":3,"kind":"culture","text":"Storytelling, music, and friendly conversation are part of many evenings out."},{"order":4,"kind":"nature","text":"Green public parks offer quiet paths among the busy streets."},{"order":5,"kind":"landmark","text":"A famous library holds a richly decorated medieval manuscript."},{"order":6,"kind":"giveaway","text":"This city is the capital of Ireland."}],"souvenirs":[{"id":"dublin-stew-bowl","name":"Irish stew bowl","description":"Irish stew is commonly made with meat, potatoes, and vegetables.","earn":{"type":"land"},"icon":"cooking-pot","artPrompt":"sticker-style bowl of hearty Irish stew, no text, no people's faces"},{"id":"dublin-bus-token","name":"Double decker token","description":"Tall buses carry passengers through the city and its suburbs.","earn":{"type":"mode","mode":"topic"},"icon":"bus","artPrompt":"sticker-style red double-decker city bus, no text, no people's faces"},{"id":"dublin-harp-pin","name":"Celtic harp pin","description":"The harp is a long-standing symbol of Ireland and its music.","earn":{"type":"challenge","challenge":"words-3"},"icon":"music","artPrompt":"sticker-style small golden Celtic harp, no text, no people's faces"},{"id":"dublin-park-leaf","name":"Park leaf badge","description":"Phoenix Park is one of Europe's largest enclosed city parks.","earn":{"type":"challenge","challenge":"postcard"},"icon":"leaf","artPrompt":"sticker-style green leaf and park gate, no text, no people's faces"},{"id":"dublin-manuscript-quill","name":"Manuscript quill","description":"The Book of Kells is an illuminated manuscript kept at Trinity College.","earn":{"type":"rare"},"icon":"feather","artPrompt":"sticker-style feather quill beside an illuminated page, no text, no people's faces"}],"postcardPrompts":["What story would you tell a friend about Dublin?","Which Dublin park path would your class explore?","What colors would you look for in the Book of Kells in Dublin?"],"localWords":[{"word":"grand","language":"Irish English","meaning":"good or fine","say":"GRAND"},{"word":"craic","language":"Irish English","meaning":"fun or lively conversation","say":"KRACK"},{"word":"thanks a million","language":"Irish English","meaning":"thank you very much","say":"THANKS uh MILL-yun"}],"needsReview":true,"reviewNotes":"Please check Irish English expression usage and pronunciation."},
+  "dakar": {"id":"dakar","mysteryClues":[{"order":1,"kind":"weather","text":"A warm coastal climate has a dry season and a wetter season."},{"order":2,"kind":"food","text":"Fish, rice, and vegetables often come together in a flavorful one-pot meal."},{"order":3,"kind":"nature","text":"Ocean breezes reach a peninsula with sandy shores and busy fishing waters."},{"order":4,"kind":"culture","text":"Colorful fabric, music, and lively markets are part of daily city life."},{"order":5,"kind":"landmark","text":"A giant bronze monument stands on a hill above the western edge of the city."},{"order":6,"kind":"giveaway","text":"This city is the capital of Senegal."}],"souvenirs":[{"id":"dakar-fish-rice-bowl","name":"Fish rice bowl","description":"Thieboudienne pairs fish with rice and vegetables in a celebrated local dish.","earn":{"type":"land"},"icon":"fish","artPrompt":"sticker-style bowl of fish rice and vegetables, no text, no people's faces"},{"id":"dakar-fishing-pirogue","name":"Fishing boat model","description":"Brightly painted wooden pirogues are used by local fishing crews.","earn":{"type":"mode","mode":"world"},"icon":"ship","artPrompt":"sticker-style colorful wooden fishing boat, no text, no people's faces"},{"id":"dakar-drum","name":"Sabar drum charm","description":"Sabar drums accompany dance and music in Senegal.","earn":{"type":"challenge","challenge":"vote-reasons"},"icon":"drum","artPrompt":"sticker-style hand drum with colorful trim, no text, no people's faces"},{"id":"dakar-market-cloth","name":"Market cloth square","description":"Markets offer vivid fabrics, produce, and handmade goods.","earn":{"type":"challenge","challenge":"postcard"},"icon":"shirt","artPrompt":"sticker-style folded bright patterned cloth, no text, no people's faces"},{"id":"dakar-monument-model","name":"Bronze monument model","description":"The African Renaissance Monument looks out over the Atlantic coast.","earn":{"type":"rare"},"icon":"landmark","artPrompt":"sticker-style bronze hilltop monument silhouette, no text, no people's faces"}],"postcardPrompts":["Which fish dish would you try during a visit to Dakar?","What colors might you see at a Dakar market?","Describe the ocean view near Dakar's monument."],"localWords":[{"word":"salaam aleekum","language":"Wolof","meaning":"peace be upon you; greeting","say":"sah-LAHM ah-LAY-koom"},{"word":"jerejef","language":"Wolof","meaning":"thank you","say":"jeh-reh-JEF"},{"word":"ndank ndank","language":"Wolof","meaning":"slowly, little by little","say":"ndahnk ndahnk"}],"needsReview":true,"reviewNotes":"Please review Wolof spelling, pronunciation, and cultural context with a fluent speaker."},
+  "recife": {"id":"recife","mysteryClues":[{"order":1,"kind":"weather","text":"Warm tropical weather brings bright days and seasonal heavy rain."},{"order":2,"kind":"food","text":"A rolled sponge cake has many thin layers wrapped around a sweet filling."},{"order":3,"kind":"culture","text":"Drumming, dance, and elaborate costumes fill the streets during carnival season."},{"order":4,"kind":"nature","text":"Rivers and canals cross a low coastal city close to sandy beaches."},{"order":5,"kind":"landmark","text":"A historic old town sits on an island linked to the mainland by bridges."},{"order":6,"kind":"giveaway","text":"This city is a major coastal capital in northeastern Brazil."}],"souvenirs":[{"id":"recife-roll-cake","name":"Rolled cake slice","description":"Bolo de rolo is a thin layered cake filled with guava paste.","earn":{"type":"land"},"icon":"cake","artPrompt":"sticker-style rolled cake slice with pink guava filling, no text, no people's faces"},{"id":"recife-canal-boat","name":"Canal boat model","description":"Several rivers and bridges run through the city center.","earn":{"type":"mode","mode":"mystery"},"icon":"ship","artPrompt":"sticker-style small boat on a city canal, no text, no people's faces"},{"id":"recife-carnival-mask","name":"Carnival mask","description":"Frevo dancers perform energetic steps with small colorful umbrellas.","earn":{"type":"challenge","challenge":"quiz-perfect"},"icon":"drama","artPrompt":"sticker-style bright carnival umbrella and mask, no text, no people's faces"},{"id":"recife-tapioca-pan","name":"Tapioca pan","description":"Tapioca crepes are made from cassava starch and filled sweet or savory.","earn":{"type":"challenge","challenge":"postcard"},"icon":"cooking-pot","artPrompt":"sticker-style round tapioca crepe on a small plate, no text, no people's faces"},{"id":"recife-bridge-charm","name":"Bridge charm","description":"Recife Antigo has historic streets and buildings on a river island.","earn":{"type":"rare"},"icon":"landmark","artPrompt":"sticker-style stone bridge over blue water, no text, no people's faces"}],"postcardPrompts":["What flavor would you choose for a Recife rolled cake?","Which Recife carnival dance would you like to learn?","What would you notice while crossing a bridge in Recife?"],"localWords":[{"word":"oi","language":"Brazilian Portuguese","meaning":"hi","say":"OY"},{"word":"obrigado","language":"Brazilian Portuguese","meaning":"thank you (said by a boy or man)","say":"oh-bree-GAH-doo"},{"word":"legal","language":"Brazilian Portuguese","meaning":"cool or nice","say":"leh-GAHL"}],"needsReview":true,"reviewNotes":"Please check regional Brazilian Portuguese pronunciation and usage."},
+  "panama-city": {"id":"panama-city","mysteryClues":[{"order":1,"kind":"weather","text":"The tropical year has a sunny dry season and a rainy season with afternoon showers."},{"order":2,"kind":"food","text":"Corn cakes and hearty soups are common parts of local meals."},{"order":3,"kind":"culture","text":"A narrow land bridge links two continents, bringing many cultures together."},{"order":4,"kind":"nature","text":"Tropical birds and green hills are close to a busy waterfront skyline."},{"order":5,"kind":"landmark","text":"A famous ship canal uses locks to cross the narrow land bridge."},{"order":6,"kind":"giveaway","text":"This city is the capital of Panama."}],"souvenirs":[{"id":"panama-city-corn-cake","name":"Corn cake plate","description":"Hojaldras are fried dough, while tortillas are thick corn cakes.","earn":{"type":"land"},"icon":"sandwich","artPrompt":"sticker-style golden corn cake on a small plate, no text, no people's faces"},{"id":"panama-city-lock-ship","name":"Canal ship model","description":"Large ships pass through locks linking the Atlantic and Pacific oceans.","earn":{"type":"mode","mode":"world"},"icon":"ship","artPrompt":"sticker-style cargo ship approaching a canal lock, no text, no people's faces"},{"id":"panama-city-hat","name":"Woven straw hat","description":"The traditional pintao hat is woven from plant fibers in Panama.","earn":{"type":"challenge","challenge":"words-3"},"icon":"shirt","artPrompt":"sticker-style woven straw hat with dark patterned bands, no text, no people's faces"},{"id":"panama-city-tropical-bird","name":"Tropical bird pin","description":"The country has rich tropical forests and many colorful bird species.","earn":{"type":"challenge","challenge":"postcard"},"icon":"bird","artPrompt":"sticker-style bright tropical bird on a leafy branch, no text, no people's faces"},{"id":"panama-city-casco-tile","name":"Old town tile","description":"Casco Viejo has plazas and historic buildings near the waterfront.","earn":{"type":"rare"},"icon":"landmark","artPrompt":"sticker-style pastel old-town balcony above a cobbled street, no text, no people's faces"}],"postcardPrompts":["What would you watch from a ship crossing Panama City?","Which Panama City corn snack would you taste?","Describe an evening walk through Panama City's old town."],"localWords":[{"word":"hola","language":"Spanish","meaning":"hello","say":"OH-lah"},{"word":"gracias","language":"Spanish","meaning":"thank you","say":"GRAH-see-as"},{"word":"chévere","language":"Panamanian Spanish","meaning":"great or cool","say":"CHEH-beh-reh"}],"needsReview":true,"reviewNotes":"Please review regional Spanish vocabulary and pronunciation for Panama."},
+  "santiago": {"id":"santiago","mysteryClues":[{"order":1,"kind":"weather","text":"Dry summers and cooler, rainy winters come to this city in the Southern Hemisphere."},{"order":2,"kind":"food","text":"A toasted sandwich often arrives with avocado, tomato, or melted cheese."},{"order":3,"kind":"culture","text":"People enjoy long conversations over tea-like herbal drinks shared from a special cup."},{"order":4,"kind":"nature","text":"Snowy high peaks can be seen beyond the city on clear days."},{"order":5,"kind":"landmark","text":"A hilltop park has paths, gardens, and a large statue near its summit."},{"order":6,"kind":"giveaway","text":"This city is the capital of Chile."}],"souvenirs":[{"id":"santiago-avocado-toast","name":"Avocado toastie","description":"A completo is a hot dog often topped with avocado and tomato.","earn":{"type":"land"},"icon":"sandwich","artPrompt":"sticker-style Chilean sandwich with avocado and tomato, no text, no people's faces"},{"id":"santiago-metro-card","name":"Metro card sleeve","description":"A large metro network helps people travel across the city.","earn":{"type":"mode","mode":"world"},"icon":"train","artPrompt":"sticker-style blue metro train beside a transit card, no text, no people's faces"},{"id":"santiago-mate-cup","name":"Herbal tea cup","description":"Mate is shared from a small cup through a metal straw in parts of the region.","earn":{"type":"challenge","challenge":"vote-reasons"},"icon":"coffee","artPrompt":"sticker-style mate gourd and metal straw, no text, no people's faces"},{"id":"santiago-mountain-snow","name":"Andes snow globe","description":"The Andes rise close to the city and are visible from many neighborhoods.","earn":{"type":"challenge","challenge":"postcard"},"icon":"mountain","artPrompt":"sticker-style snow-capped mountain range in a glass globe, no text, no people's faces"},{"id":"santiago-hill-funicular","name":"Hill funicular model","description":"A funicular climbs a central hill with views over the city.","earn":{"type":"rare"},"icon":"tram-front","artPrompt":"sticker-style hillside funicular car, no text, no people's faces"}],"postcardPrompts":["Which Santiago sandwich topping would you choose?","What might you see on a clear day in Santiago?","Describe a ride up Santiago's hilltop park."],"localWords":[{"word":"hola","language":"Chilean Spanish","meaning":"hello","say":"OH-lah"},{"word":"gracias","language":"Chilean Spanish","meaning":"thank you","say":"GRAH-see-as"},{"word":"cachai","language":"Chilean Spanish","meaning":"you know? or get it?","say":"kah-CHAI"}],"needsReview":true,"reviewNotes":"Please review Chilean Spanish pronunciation and local expression usage."},
+  "addis-ababa": {"id":"addis-ababa","mysteryClues":[{"order":1,"kind":"weather","text":"Mild days and cool evenings are common in this highland city."},{"order":2,"kind":"food","text":"A soft, tangy flatbread is used to scoop up richly spiced stews."},{"order":3,"kind":"culture","text":"Coffee is carefully roasted, brewed, and shared with guests in a welcoming ceremony."},{"order":4,"kind":"nature","text":"Green hills rise around a busy city set high above sea level."},{"order":5,"kind":"landmark","text":"A national museum displays an ancient human ancestor fossil."},{"order":6,"kind":"giveaway","text":"This city is the capital of Ethiopia."}],"souvenirs":[{"id":"addis-ababa-injera-basket","name":"Injera serving basket","description":"Injera is a sour flatbread made from fermented teff batter.","earn":{"type":"land"},"icon":"utensils","artPrompt":"sticker-style round injera flatbread on a woven basket, no text, no people's faces"},{"id":"addis-ababa-coffee-pot","name":"Coffee pot charm","description":"Coffee ceremonies are an important part of hospitality in Ethiopia.","earn":{"type":"mode","mode":"topic"},"icon":"coffee","artPrompt":"sticker-style traditional coffee pot with small cups, no text, no people's faces"},{"id":"addis-ababa-spice-bowl","name":"Berbere spice bowl","description":"Berbere is a fragrant spice blend used in many Ethiopian dishes.","earn":{"type":"challenge","challenge":"quiz-perfect"},"icon":"cooking-pot","artPrompt":"sticker-style bowl of red berbere spice, no text, no people's faces"},{"id":"addis-ababa-highland-flower","name":"Highland flower pin","description":"The highlands have distinctive plants adapted to cooler mountain air.","earn":{"type":"challenge","challenge":"words-3"},"icon":"flower","artPrompt":"sticker-style bright highland flower on a green stem, no text, no people's faces"},{"id":"addis-ababa-fossil-replica","name":"Fossil replica charm","description":"The fossil known as Lucy is displayed at the National Museum of Ethiopia.","earn":{"type":"rare"},"icon":"bone","artPrompt":"sticker-style small ancient fossil replica, no text, no people's faces"}],"postcardPrompts":["What would you serve with injera in Addis Ababa?","Describe the smell of coffee during a ceremony in Addis Ababa.","What would you like to learn at Addis Ababa's national museum?"],"localWords":[{"word":"selam","language":"Amharic","meaning":"hello","say":"seh-LAHM"},{"word":"ameseginalehu","language":"Amharic","meaning":"thank you","say":"ah-meh-seh-gee-nah-LEH-hoo"},{"word":"buna","language":"Amharic","meaning":"coffee","say":"BOO-nah"}],"needsReview":true,"reviewNotes":"Please check Amharic transliteration, pronunciation, and context with a fluent speaker."},
+  "delhi": {"id":"delhi","mysteryClues":[{"order":1,"kind":"weather","text":"A very hot summer, a rainy season, and a cool winter shape the year."},{"order":2,"kind":"food","text":"Flaky flatbread is cooked on a hot griddle and served with savory fillings."},{"order":3,"kind":"culture","text":"Many languages and regional foods meet in crowded markets and busy neighborhoods."},{"order":4,"kind":"nature","text":"Peacocks and green spaces can be found among broad avenues and urban parks."},{"order":5,"kind":"landmark","text":"A huge red sandstone fort once housed Mughal emperors."},{"order":6,"kind":"giveaway","text":"This city is India's capital."}],"souvenirs":[{"id":"delhi-paratha","name":"Stuffed paratha","description":"Parathas are flatbreads that may be filled with potato or other ingredients.","earn":{"type":"land"},"icon":"sandwich","artPrompt":"sticker-style golden stuffed flatbread on a plate, no text, no people's faces"},{"id":"delhi-metro-token","name":"Metro token","description":"The metro carries millions of passengers across the capital region.","earn":{"type":"mode","mode":"mystery"},"icon":"train","artPrompt":"sticker-style modern metro train and round token, no text, no people's faces"},{"id":"delhi-spice-scoop","name":"Spice scoop charm","description":"Spice shops sell colorful ingredients for dishes from many regions.","earn":{"type":"challenge","challenge":"vote-reasons"},"icon":"utensils","artPrompt":"sticker-style wooden scoop with colorful spices, no text, no people's faces"},{"id":"delhi-peacock-feather","name":"Peacock feather pin","description":"Peacocks are sometimes seen in parks and other green areas.","earn":{"type":"challenge","challenge":"postcard"},"icon":"feather","artPrompt":"sticker-style iridescent peacock feather, no text, no people's faces"},{"id":"delhi-fort-arch","name":"Red fort arch","description":"The Red Fort is built from red sandstone and has large gates.","earn":{"type":"rare"},"icon":"landmark","artPrompt":"sticker-style red sandstone fort arch miniature, no text, no people's faces"}],"postcardPrompts":["Which Delhi flatbread filling would you try?","What colors would you notice in a Delhi spice market?","What would you ask about the Red Fort in Delhi?"],"localWords":[{"word":"namaste","language":"Hindi","meaning":"hello; respectful greeting","say":"nuh-muh-STAY"},{"word":"shukriya","language":"Hindi","meaning":"thank you","say":"shook-REE-yah"},{"word":"accha","language":"Hindi","meaning":"okay or good","say":"uh-CHAH"}],"needsReview":true,"reviewNotes":"Please check Hindi pronunciation and whether examples are suitable across Delhi's language communities."},
+  "manila": {"id":"manila","mysteryClues":[{"order":1,"kind":"weather","text":"The air is warm and humid, with frequent heavy rain during part of the year."},{"order":2,"kind":"food","text":"Garlic rice and a fried egg often accompany a savory breakfast plate."},{"order":3,"kind":"culture","text":"Family gatherings and shared meals are important parts of many celebrations."},{"order":4,"kind":"nature","text":"The city sits beside a large bay where sunsets color the water."},{"order":5,"kind":"landmark","text":"Walled streets preserve old stone buildings from the Spanish colonial period."},{"order":6,"kind":"giveaway","text":"This city is the capital of the Philippines."}],"souvenirs":[{"id":"manila-garlic-rice","name":"Garlic rice bowl","description":"Sinangag is garlic fried rice often served with eggs or meat.","earn":{"type":"land"},"icon":"cooking-pot","artPrompt":"sticker-style bowl of garlic fried rice with egg, no text, no people's faces"},{"id":"manila-jeepney-model","name":"Jeepney model","description":"Colorfully decorated jeepneys are a familiar form of public transport.","earn":{"type":"mode","mode":"world"},"icon":"bus","artPrompt":"sticker-style brightly painted jeepney, no text, no people's faces"},{"id":"manila-sampaguita-flower","name":"Sampaguita flower pin","description":"Sampaguita is the national flower of the Philippines.","earn":{"type":"challenge","challenge":"words-3"},"icon":"flower","artPrompt":"sticker-style small white sampaguita blossoms, no text, no people's faces"},{"id":"manila-bay-sunset","name":"Bay sunset charm","description":"Manila Bay is known for colorful sunsets over the water.","earn":{"type":"challenge","challenge":"postcard"},"icon":"sun","artPrompt":"sticker-style orange sunset over a calm bay, no text, no people's faces"},{"id":"manila-walled-gate","name":"Walled city gate","description":"Intramuros means within the walls and is Manila's historic district.","earn":{"type":"rare"},"icon":"landmark","artPrompt":"sticker-style old stone gate with tropical plants, no text, no people's faces"}],"postcardPrompts":["What would you eat for breakfast in Manila?","Describe a sunset by Manila Bay.","What would you explore inside Manila's old walled district?"],"localWords":[{"word":"kumusta","language":"Filipino","meaning":"hello; how are you?","say":"koo-MOOS-tah"},{"word":"salamat","language":"Filipino","meaning":"thank you","say":"sah-LAH-maht"},{"word":"masarap","language":"Filipino","meaning":"delicious","say":"mah-sah-RAHP"}],"needsReview":true,"reviewNotes":"Please review Filipino pronunciation and language choices with a fluent speaker from Manila."},
+  "ho-chi-minh-city": {"id":"ho-chi-minh-city","mysteryClues":[{"order":1,"kind":"weather","text":"Hot, humid weather lasts much of the year, with a wetter rainy season."},{"order":2,"kind":"food","text":"A crusty sandwich can hold pickled vegetables, herbs, and savory fillings."},{"order":3,"kind":"culture","text":"Scooters fill the streets, and food stalls serve quick meals throughout the day."},{"order":4,"kind":"nature","text":"Tropical trees and waterways bring green corners to a dense southern city."},{"order":5,"kind":"landmark","text":"A central market has a clock tower and stalls selling food and goods."},{"order":6,"kind":"giveaway","text":"This is Vietnam's largest city, though Hanoi is the capital."}],"souvenirs":[{"id":"ho-chi-minh-city-banh-mi","name":"Banh mi sandwich","description":"Banh mi combines a crisp baguette with herbs, pickled vegetables, and fillings.","earn":{"type":"land"},"icon":"sandwich","artPrompt":"sticker-style Vietnamese baguette sandwich with herbs, no text, no people's faces"},{"id":"ho-chi-minh-city-scooter","name":"City scooter model","description":"Motorbikes and scooters are widely used for daily journeys.","earn":{"type":"mode","mode":"mystery"},"icon":"bike","artPrompt":"sticker-style small scooter with a delivery basket, no text, no people's faces"},{"id":"ho-chi-minh-city-coffee-filter","name":"Drip coffee filter","description":"A metal filter slowly drips strong coffee into a glass.","earn":{"type":"challenge","challenge":"quiz-perfect"},"icon":"coffee","artPrompt":"sticker-style Vietnamese metal coffee filter above a glass, no text, no people's faces"},{"id":"ho-chi-minh-city-lantern","name":"Paper lantern charm","description":"Paper lanterns bring color to streets and festivals across Vietnam.","earn":{"type":"challenge","challenge":"postcard"},"icon":"lamp","artPrompt":"sticker-style round red paper lantern with tassel, no text, no people's faces"},{"id":"ho-chi-minh-city-market-clock","name":"Market clock charm","description":"Ben Thanh Market is known for its clock tower and central location.","earn":{"type":"rare"},"icon":"clock","artPrompt":"sticker-style small market clock tower, no text, no people's faces"}],"postcardPrompts":["Which banh mi filling would you choose in Ho Chi Minh City?","What would you notice on a scooter ride through Ho Chi Minh City?","What would you buy at Ho Chi Minh City's central market?"],"localWords":[{"word":"xin chao","language":"Vietnamese","meaning":"hello","say":"sin CHOW"},{"word":"cam on","language":"Vietnamese","meaning":"thank you","say":"kahm UHN"},{"word":"ngon","language":"Vietnamese","meaning":"delicious","say":"NGON"}],"needsReview":true,"reviewNotes":"Please review Vietnamese tones, pronunciation, and diacritics with a fluent speaker."}
+}
