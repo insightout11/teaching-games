@@ -135,6 +135,8 @@ export function ListeningGapFillActivity({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [votes, setVotes] = useState<VoteMap>({});
   const [results, setResults] = useState<ResultMap>({});
+  const [extraSeconds, setExtraSeconds] = useState(0);
+  const roundStartedAtRef = useRef(0);
 
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
@@ -196,6 +198,7 @@ export function ListeningGapFillActivity({
   // Set InputSpec
   useEffect(() => {
     if (phase !== 'prompting') {
+      roundStartedAtRef.current = 0;
       onSetInputSpec?.(null);
       return;
     }
@@ -208,12 +211,13 @@ export function ListeningGapFillActivity({
       placeholder: 'Type the missing word…',
       maxLength: 40,
       ...(item.hint ? { hint: { content: item.hint } } : {}),
-      timerSeconds: sessionSettings.timerSeconds,
-      startedAt: Date.now(),
+      timerSeconds: timerSeconds + extraSeconds,
+      startedAt: roundStartedAtRef.current || (roundStartedAtRef.current = Date.now()),
     });
-  }, [phase, currentIndex, items, onSetInputSpec, sessionSettings.timerSeconds]);
+  }, [phase, currentIndex, items, onSetInputSpec, timerSeconds, extraSeconds]);
 
   const handleStart = useCallback(() => {
+    setExtraSeconds(0);
     setCurrentIndex(0);
     setVotes({});
     setResults({});
@@ -253,6 +257,7 @@ export function ListeningGapFillActivity({
       setPhase('summary');
       onPhaseChange?.('summary');
     } else {
+      setExtraSeconds(0);
       setCurrentIndex(nextIndex);
       setPhase('prompting');
       onPhaseChange?.('prompting');
@@ -321,7 +326,7 @@ export function ListeningGapFillActivity({
                 {timeLeft}s
               </div>
               <button
-                onClick={() => addSeconds(30)}
+                onClick={() => { addSeconds(30); setExtraSeconds((seconds) => seconds + 30); }}
                 className="px-2 py-1 rounded-lg text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10"
               >
                 +30s

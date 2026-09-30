@@ -95,6 +95,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   const [sentenceIndex, setSentenceIndex] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [extraSeconds, setExtraSeconds] = useState(0);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
   const [revealed, setRevealed] = useState(false);
   const studentResultRef = useRef<'correct' | 'incorrect' | null>(null);
@@ -134,6 +135,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     setRevealed(false);
     setFeedback(null);
     studentResultRef.current = null;
+    setExtraSeconds(0);
     resetRace();
     setRaceSolvers([]);
   }, [sentenceIndex, words, resetRace]);
@@ -151,7 +153,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
           gameKey: 'sentence-scramble',
           prompt: 'Arrange the words in the correct order — race!',
           options: availableWords.map(w => w.word),
-          timerSeconds: sessionSettings.timerSeconds,
+          timerSeconds: sessionSettings.timerSeconds + extraSeconds,
           startedAt: raceStartedAtRef.current,
         });
       } else {
@@ -183,7 +185,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
         onSetInputSpec?.(null);
       }
     }
-  }, [isSimultaneous, raceActive, raceFinished, submitted, availableWords, onSetInputSpec, sessionSettings.timerSeconds]);
+  }, [isSimultaneous, raceActive, raceFinished, submitted, availableWords, onSetInputSpec, sessionSettings.timerSeconds, extraSeconds]);
 
   // Handle remote submissions in simultaneous race mode
   const handleRaceSubmission = useCallback((vote: GameRemoteVote) => {
@@ -317,6 +319,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   // --- Simultaneous mode handlers ---
   const handleStartRace = () => {
+    setExtraSeconds(0);
     startRace();
     setRaceSolvers([]);
   };
@@ -356,7 +359,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
                 {timeRemaining}s
               </div>
               <button
-                onClick={() => addTime(30)}
+                onClick={() => { addTime(30); setExtraSeconds((seconds) => seconds + 30); }}
                 className="px-3 py-1.5 rounded-lg text-sm font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10"
               >
                 +30s

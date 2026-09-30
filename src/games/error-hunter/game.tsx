@@ -73,6 +73,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
   const [correctionInput, setCorrectionInput] = useState('');
   const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [extraSeconds, setExtraSeconds] = useState(0);
 
   // Simultaneous race mode
   const { isSimultaneous, raceActive, raceFinished, timeRemaining, startRace, endRace, resetRace, addTime } = useRaceMode({
@@ -107,7 +108,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
           gameKey: 'error-hunter',
           options: words.map(w => w.word),
           prompt: `Find and correct the ${challenge.errorCount} error${challenge.errorCount !== 1 ? 's' : ''} — race!`,
-          timerSeconds: sessionSettings.timerSeconds,
+          timerSeconds: sessionSettings.timerSeconds + extraSeconds,
           startedAt: raceStartedAtRef.current,
         });
       } else {
@@ -122,7 +123,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
           gameKey: 'error-hunter',
           options: words.map(w => w.word),
           prompt: `Find and correct the ${challenge.errorCount} error${challenge.errorCount !== 1 ? 's' : ''} in this paragraph`,
-          timerSeconds: sessionSettings.timerSeconds,
+          timerSeconds: sessionSettings.timerSeconds + extraSeconds,
           startedAt: raceStartedAtRef.current,
         });
       } else {
@@ -130,7 +131,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
         onSetInputSpec?.(null);
       }
     }
-  }, [isSimultaneous, raceActive, raceFinished, status, challenge, words, onSetInputSpec, sessionSettings.timerSeconds]);
+  }, [isSimultaneous, raceActive, raceFinished, status, challenge, words, onSetInputSpec, sessionSettings.timerSeconds, extraSeconds]);
 
   // Handle remote vote — race mode
   const handleRaceVote = useCallback(async (vote: GameRemoteVote) => {
@@ -263,6 +264,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     setCorrectionInput('');
     setRaceSolvers([]);
     setAnswerKey([]);
+    setExtraSeconds(0);
     resetRace();
 
     try {
@@ -475,7 +477,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
                     {timeRemaining}s
                   </div>
                   <button
-                    onClick={() => addTime(30)}
+                    onClick={() => { addTime(30); setExtraSeconds((seconds) => seconds + 30); }}
                     className="px-3 py-1.5 rounded-lg text-sm font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10"
                   >
                     +30s

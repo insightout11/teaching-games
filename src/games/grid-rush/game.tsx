@@ -50,6 +50,7 @@ export function GridRushGame({
   const roundActive = phase === GamePhase.ROUND1 || phase === GamePhase.ROUND2;
   const roundDuration = phase === GamePhase.ROUND2 ? GRID_RUSH_ROUND2_DURATION : ROUND1_DURATION;
   const { timeLeft, addSeconds } = useSyncedTimer(roundDuration, roundActive);
+  const [extraSeconds, setExtraSeconds] = useState(0);
   const [forceEnd, setForceEnd] = useState(false);
 
   // Per-student word tracking
@@ -203,6 +204,7 @@ export function GridRushGame({
       setGrid(data.grid);
 
       setForceEnd(false);
+      setExtraSeconds(0);
       setPhase(GamePhase.ROUND1);
       phaseRef.current = GamePhase.ROUND1;
     } catch (err) {
@@ -231,6 +233,7 @@ export function GridRushGame({
 
   const startRound2 = useCallback(() => {
     setForceEnd(false);
+    setExtraSeconds(0);
     setPhase(GamePhase.ROUND2);
     phaseRef.current = GamePhase.ROUND2;
   }, []);
@@ -259,23 +262,26 @@ export function GridRushGame({
         prompt: `${gridText} — bonus letter: ${grid.bonusLetter}`,
         placeholder: 'Type a word from the grid...',
         maxLength: 20,
-        timerSeconds: ROUND1_DURATION,
+        timerSeconds: ROUND1_DURATION + extraSeconds,
         startedAt: r1StartedAtRef.current,
       });
     } else if (phase === GamePhase.ROUND2) {
       if (!r2StartedAtRef.current) r2StartedAtRef.current = Date.now();
-      onSetInputSpec?.(buildGridRushRound2InputSpec({
+      onSetInputSpec?.({
+        ...buildGridRushRound2InputSpec({
         startedAt: r2StartedAtRef.current,
         studentWords,
         studentSentences,
         studentIdToClientId: studentIdToClientIdRef.current,
-      }));
+        }),
+        timerSeconds: GRID_RUSH_ROUND2_DURATION + extraSeconds,
+      });
     } else {
       r1StartedAtRef.current = 0;
       r2StartedAtRef.current = 0;
       onSetInputSpec?.(null);
     }
-  }, [phase, grid, studentWords, studentSentences, onSetInputSpec]);
+  }, [phase, grid, studentWords, studentSentences, onSetInputSpec, extraSeconds]);
 
   // ------- REMOTE VOTE HANDLER -------
 
@@ -562,7 +568,7 @@ export function GridRushGame({
               {timeLeft}s
             </div>
             <button
-              onClick={() => addSeconds(30)}
+              onClick={() => { addSeconds(30); setExtraSeconds((seconds) => seconds + 30); }}
               className="text-xs px-2 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-colors font-semibold"
             >
               +30s
@@ -687,7 +693,7 @@ export function GridRushGame({
               {timeLeft}s
             </div>
             <button
-              onClick={() => addSeconds(30)}
+              onClick={() => { addSeconds(30); setExtraSeconds((seconds) => seconds + 30); }}
               className="text-xs px-2 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-colors font-semibold"
             >
               +30s
