@@ -6,6 +6,8 @@ import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { ArrowRight, Check, Clock, Lightbulb, Shuffle, Trophy } from 'lucide-react';
 
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -42,6 +44,7 @@ function getPositionPoints(position: number): number {
 
 interface RaceSolver {
   studentId: string;
+  clientId: string;
   displayName: string;
   timestamp: number;
   points: number;
@@ -106,6 +109,10 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     timerSeconds: sessionSettings.timerSeconds,
   });
   const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
+  // Wrong tries per phone (clientId): feeds "Not quite, try again" + the common-slip reveal.
+  const [attempts, setAttempts] = useState<Record<string, { tries: number; last: string }>>({});
+  const [hintShown, setHintShown] = useState(false);
+  const [roundNo, setRoundNo] = useState(1);
 
   const original = sentences[sentenceIndex % sentences.length];
   const words = useMemo(() => tokenize(original), [original]);
@@ -138,7 +145,17 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     setExtraSeconds(0);
     resetRace();
     setRaceSolvers([]);
+    setAttempts({});
+    setHintShown(false);
   }, [sentenceIndex, words, resetRace]);
+
+  // Per-phone feedback: solved (#position, points) or "try again".
+  const perStudentData = useMemo(() => {
+    const data: Record<string, unknown> = {};
+    Object.keys(attempts).forEach((id) => { data[id] = { status: 'retry', tries: attempts[id].tries }; });
+    raceSolvers.forEach((sv) => { data[sv.clientId] = { status: 'solved', position: sv.position, points: sv.points }; });
+    return data;
+  }, [attempts, raceSolvers]);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
@@ -155,6 +172,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
           options: availableWords.map(w => w.word),
           timerSeconds: sessionSettings.timerSeconds + extraSeconds,
           startedAt: raceStartedAtRef.current,
+          perStudentData,
         });
       } else {
         raceStartedAtRef.current = 0;
@@ -185,7 +203,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
         onSetInputSpec?.(null);
       }
     }
-  }, [isSimultaneous, raceActive, raceFinished, submitted, availableWords, onSetInputSpec, sessionSettings.timerSeconds, extraSeconds]);
+  }, [isSimultaneous, raceActive, raceFinished, submitted, availableWords, onSetInputSpec, sessionSettings.timerSeconds, extraSeconds, perStudentData]);
 
   // Handle remote submissions in simultaneous race mode
   const handleRaceSubmission = useCallback((vote: GameRemoteVote) => {
@@ -196,10 +214,13 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
       const answer = orderedWords.join(' ');
       const isCorrect = isAnswerCorrect(answer, originalRef.current, sentenceAlternativesRef.current[originalRef.current] ?? []);
 
-      if (!isCorrect) return; // Only track correct solvers
-
       const studentId = vote.studentId || vote.clientId;
       if (!studentId) return;
+
+      if (!isCorrect) {
+        setAttempts((prev) => ({ ...prev, [vote.clientId]: { tries: (prev[vote.clientId]?.tries ?? 0) + 1, last: answer } }));
+        return;
+      }
 
       // Prevent duplicate submissions from same student
       setRaceSolvers(prev => {
@@ -217,6 +238,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
         return [...prev, {
           studentId,
+          clientId: vote.clientId,
           displayName: vote.displayName,
           timestamp: Date.now(),
           points,
@@ -313,7 +335,27 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   const handleNext = () => {
     setSentenceIndex((i) => i + 1);
+    setRoundNo((n) => n + 1);
   };
+
+  // Everyone solved it: no need to wait for the clock.
+  useEffect(() => {
+    if (isSimultaneous && raceActive && !raceFinished && students.length > 0 && raceSolvers.length >= students.length) endRace();
+  }, [isSimultaneous, raceActive, raceFinished, raceSolvers.length, students.length, endRace]);
+
+  // The most common wrong order (anonymous) — a teaching moment at the reveal.
+  const commonSlip = useMemo(() => {
+    const solvedIds = new Set(raceSolvers.map((sv) => sv.clientId));
+    const counts = new Map<string, number>();
+    Object.keys(attempts).forEach((id) => {
+      if (solvedIds.has(id)) return;
+      const a = attempts[id].last;
+      counts.set(a, (counts.get(a) ?? 0) + 1);
+    });
+    let best: { answer: string; n: number } | null = null;
+    counts.forEach((n, answer) => { if (!best || n > best.n) best = { answer, n }; });
+    return best as { answer: string; n: number } | null;
+  }, [attempts, raceSolvers]);
 
   const handleReveal = () => setRevealed(true);
 
@@ -343,171 +385,112 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   // --- Simultaneous Race Mode ---
   if (isSimultaneous) {
+    const total = (sessionSettings.timerSeconds + extraSeconds) || 1;
+    // Same keys in both orders, so the tiles glide into the right sentence at the reveal.
+    const tiles = raceFinished ? [...availableWords].sort((a, b) => a.originalIndex - b.originalIndex) : availableWords;
+    const slipWords = commonSlip ? commonSlip.answer.split(' ') : [];
+    const stillTrying = Object.keys(attempts).filter((id) => !raceSolvers.some((sv) => sv.clientId === id)).length;
+
     return (
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="text-center">
-          <p className="opacity-70 text-sm">Everyone races to arrange the sentence!</p>
-          <p className="text-xs text-cyan-400 mt-1">{students.length} students connected</p>
+      <div className="mx-auto max-w-4xl space-y-5 text-white">
+        <div className="flex items-center justify-between">
+          <KitLabel tone="cyan">Sentence Scramble · sentence {roundNo}</KitLabel>
+          {(raceActive || raceFinished) && <KitReadout>{raceSolvers.length} / {students.length} solved</KitReadout>}
         </div>
 
-        {/* Timer (during race) */}
-        {raceActive && !raceFinished && (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className={`px-4 py-2 rounded-xl font-game text-2xl ${timeRemaining <= 10 ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-white/10 text-white'}`}>
-                {timeRemaining}s
-              </div>
-              <button
-                onClick={() => { addTime(30); setExtraSeconds((seconds) => seconds + 30); }}
-                className="px-3 py-1.5 rounded-lg text-sm font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10"
-              >
-                +30s
-              </button>
-            </div>
-            <div className="text-right">
-              <p className="text-xs text-slate-400 uppercase">Solved</p>
-              <p className="text-2xl font-bold text-emerald-400">{raceSolvers.length}<span className="text-sm opacity-60">/{students.length}</span></p>
+        {!raceActive && !raceFinished && (
+          <div className="space-y-5 py-6 text-center">
+            <p className="font-display text-5xl">Unscramble the sentence.</p>
+            <p className="mx-auto max-w-xl text-lg text-white/70">The words appear here and on every phone. Tap them into the right order. The fastest correct answers score most, and wrong orders can try again.</p>
+            <div className="flex justify-center">
+              <KitButton tone="cyan" solid onClick={handleStartRace} className="!px-8 !py-3 !text-base" icon={<Shuffle className="h-4 w-4" />}>Start the race</KitButton>
             </div>
           </div>
         )}
 
-        {/* Sentence display (teacher sees the scrambled words on screen) */}
         {(raceActive || raceFinished) && (
-          <div className="glass p-6 rounded-2xl border-2 border-cyan-500/30">
-            <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-3">Scrambled Sentence</p>
-            <div className="flex flex-wrap gap-2 justify-center">
-              {availableWords.map((wordItem) => (
-                <span
-                  key={`word-${wordItem.originalIndex}`}
-                  className="px-4 py-2 rounded-xl text-sm font-medium glass border border-white/10"
-                >
-                  {wordItem.word}
-                </span>
-              ))}
-            </div>
-            {raceFinished && (
-              <div className="mt-4 pt-4 border-t border-white/10">
-                <p className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-1">Correct Answer</p>
-                <p className="text-lg text-white font-medium">{original}</p>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Sealed solver feed during race — name + checkmark only */}
-        {raceActive && !raceFinished && raceSolvers.length > 0 && (
-          <div className="space-y-2">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-              {raceSolvers.length} of {students.length} submitted
-            </p>
-            <AnimatePresence>
-              {raceSolvers.map((solver) => (
-                <motion.div
-                  key={solver.studentId}
-                  initial={{ opacity: 0, x: -20, scale: 0.95 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10"
-                >
-                  <span className="font-semibold text-white">{solver.displayName}</span>
-                  <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        )}
-
-        {/* Revealed solver feed after race — positions + points */}
-        {raceFinished && raceSolvers.length > 0 && (
-          <div className="space-y-2">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Results</p>
-            <AnimatePresence>
-              {raceSolvers.map((solver) => (
-                <motion.div
-                  key={solver.studentId}
-                  initial={{ opacity: 0, x: -20, scale: 0.95 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  className={`flex items-center justify-between px-4 py-3 rounded-xl ${
-                    solver.position === 1
-                      ? 'bg-yellow-500/20 border border-yellow-500/30'
-                      : solver.position === 2
-                      ? 'bg-slate-400/10 border border-slate-400/20'
-                      : solver.position === 3
-                      ? 'bg-amber-700/20 border border-amber-700/30'
-                      : 'bg-white/5 border border-white/10'
+          <div className={`rounded-[1.75rem] border px-6 py-8 ${raceFinished ? 'border-emerald-300/40 bg-emerald-400/[0.06]' : 'border-white/12 bg-slate-950/45'}`}>
+            <div className="flex flex-wrap justify-center gap-2.5">
+              {tiles.map((w, i) => (
+                <motion.span
+                  key={`tile-${w.originalIndex}`}
+                  layout
+                  transition={{ type: 'spring', stiffness: 170, damping: 20, delay: raceFinished ? i * 0.04 : 0 }}
+                  className={`rounded-xl border px-4 py-2 font-display text-3xl ${
+                    raceFinished ? 'border-emerald-300/50 bg-emerald-400/15 text-emerald-50'
+                      : hintShown && w.originalIndex === 0 ? 'border-amber-300 bg-amber-300/20 text-amber-50'
+                      : 'border-white/15 bg-white/[0.06]'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className={`text-xl font-black ${
-                      solver.position === 1 ? 'text-yellow-400' :
-                      solver.position === 2 ? 'text-slate-300' :
-                      solver.position === 3 ? 'text-amber-600' : 'text-slate-500'
-                    }`}>
-                      #{solver.position}
-                    </span>
-                    <span className="font-semibold text-white">{solver.displayName}</span>
-                  </div>
-                  <span className="font-game text-emerald-400">+{solver.points}</span>
-                </motion.div>
+                  {w.word}
+                </motion.span>
               ))}
-            </AnimatePresence>
+            </div>
+            {hintShown && !raceFinished && <p className="mt-4 text-center text-sm text-amber-200"><Lightbulb className="mr-1 inline h-3.5 w-3.5" />The sentence starts with the highlighted word</p>}
           </div>
         )}
 
-        {/* Race finished summary */}
-        {raceFinished && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center glass p-6 rounded-2xl border border-white/10"
-          >
-            <p className="font-game text-xl text-white mb-2">
-              {raceSolvers.length === 0 ? 'TIME\'S UP!' : 'ROUND COMPLETE!'}
-            </p>
-            <p className="text-slate-400">
-              {raceSolvers.length} of {students.length} students solved it
-            </p>
-          </motion.div>
+        {raceActive && !raceFinished && (
+          <>
+            <div className="flex items-center gap-4">
+              <Clock className={`h-5 w-5 ${timeRemaining <= 10 ? 'text-rose-300' : 'text-white/60'}`} />
+              <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/10">
+                <motion.div className={`h-full ${timeRemaining <= 10 ? 'bg-rose-400' : 'bg-cyan-400'}`} animate={{ width: `${Math.max(0, Math.min(100, (timeRemaining / total) * 100))}%` }} transition={{ ease: 'linear', duration: 1 }} />
+              </div>
+              <span className={`w-14 text-right font-mono text-2xl ${timeRemaining <= 10 ? 'text-rose-300' : ''}`}>{timeRemaining}s</span>
+              <KitButton onClick={() => { addTime(30); setExtraSeconds((seconds) => seconds + 30); }}>+30s</KitButton>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <AnimatePresence>
+                {raceSolvers.map((sv) => (
+                  <motion.span key={sv.studentId} initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex items-center gap-1 rounded-full border border-emerald-300/40 bg-emerald-400/10 px-3 py-1 text-sm text-emerald-100">
+                    <Check className="h-3.5 w-3.5" />{sv.displayName}
+                  </motion.span>
+                ))}
+              </AnimatePresence>
+              {stillTrying > 0 && <KitReadout>{stillTrying} trying again</KitReadout>}
+              {raceSolvers.length === 0 && stillTrying === 0 && <p className="text-sm text-white/45">Waiting for answers on phones…</p>}
+            </div>
+            <div className="flex justify-between">
+              <KitButton tone="amber" disabled={hintShown} onClick={() => setHintShown(true)} icon={<Lightbulb className="h-3.5 w-3.5" />}>Show first word</KitButton>
+              <KitButton onClick={handleEndRace}>End early</KitButton>
+            </div>
+          </>
         )}
 
-        {/* Controls */}
-        <div className="flex justify-center gap-3">
-          {!raceActive && !raceFinished && (
-            <button
-              onClick={handleStartRace}
-              className="px-8 py-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl font-game text-lg shadow-xl hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              START RACE
-            </button>
-          )}
-          {raceActive && !raceFinished && (
-            <button
-              onClick={handleEndRace}
-              className="px-8 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-game text-sm transition-all border border-white/10"
-            >
-              END EARLY
-            </button>
-          )}
-          {raceFinished && (
-            isMicroEvent ? (
-              <div className="glass p-4 rounded-xl text-center">
-                <p className="text-sm text-emerald-400 font-bold">Round complete</p>
-                <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
+        {raceFinished && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="space-y-4">
+            {commonSlip && (
+              <div className="rounded-2xl border border-rose-300/30 bg-slate-950/45 p-4">
+                <KitLabel tone="rose">Common slip{commonSlip.n > 1 ? ` · ${commonSlip.n} students` : ''}</KitLabel>
+                <p className="mt-2 flex flex-wrap gap-1.5 font-display text-2xl">
+                  {slipWords.map((w, i) => (
+                    <span key={i} className={w === words[i] ? 'text-white/60' : 'rounded-md bg-rose-400/20 px-1 text-rose-200'}>{w}</span>
+                  ))}
+                </p>
               </div>
-            ) : (
-              <button
-                onClick={handleNext}
-                className="px-8 py-3 bg-white text-slate-900 rounded-xl font-game text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
-              >
-                NEXT SENTENCE
-              </button>
-            )
-          )}
-        </div>
+            )}
+            {raceSolvers.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-2">
+                {raceSolvers.map((sv) => (
+                  <span key={sv.studentId} className={`flex items-center gap-2 rounded-full border px-4 py-1.5 text-base ${sv.position === 1 ? 'border-amber-300/50 bg-amber-300/10' : 'border-white/12 bg-white/[0.04]'}`}>
+                    {sv.position === 1 ? <Trophy className="h-4 w-4 text-amber-300" /> : <span className="font-mono text-xs text-white/50">#{sv.position}</span>}
+                    {sv.displayName}
+                    <span className="font-mono text-xs text-emerald-300">+{sv.points}</span>
+                  </span>
+                ))}
+              </div>
+            )}
+            {raceSolvers.length === 0 && <p className="text-center text-white/60">Nobody got it this time. Talk through the order together.</p>}
+            <div className="flex justify-center">
+              {isMicroEvent ? (
+                <KitReadout>Round complete · advance the flight to continue</KitReadout>
+              ) : (
+                <KitButton tone="cyan" solid onClick={handleNext} className="!px-6 !py-2.5 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>Next sentence</KitButton>
+              )}
+            </div>
+          </motion.div>
+        )}
       </div>
     );
   }

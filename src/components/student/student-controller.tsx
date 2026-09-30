@@ -8,7 +8,7 @@ import { CrewAvatar } from '@/components/ui/crew-avatar';
 import type { Team } from '@/lib/supabase/types';
 import {
   getActivityInstanceIdentity,
-  getInputSpecRevision,
+  getInputRemountKey, getInputSpecRevision,
   getStudentSignalTransitionMs,
   inputSpecChannelName,
   INPUT_SPEC_REALTIME_EVENT,
@@ -1768,7 +1768,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 </div>
               )}
               <DynamicInput
-                key={inputSpecRevisionRef.current ?? getInputSpecRevision(inputSpec)}
+                key={getInputRemountKey(inputSpec)}
                 spec={inputSpec}
                 onSubmit={handleSubmit}
                 isSubmitting={isSubmitting}

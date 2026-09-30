@@ -227,6 +227,21 @@ export function getInputSpecRevision(spec: unknown): string {
   return (hash >>> 0).toString(36);
 }
 
+/**
+ * Key for remounting the student's answer UI. Unlike the revision, it ignores
+ * changes that must NOT wipe a half-built answer: +30s (timerSeconds), publish
+ * stamps, and per-student feedback on sequence inputs (one student's result
+ * must not reset everyone else's tiles).
+ */
+export function getInputRemountKey(spec: InputSpec | null | undefined): string {
+  if (!spec) return 'none';
+  const rest: Partial<InputSpec> = { ...spec };
+  delete rest.timerSeconds;
+  delete rest.publishedAt;
+  if (spec.type === 'sequence') delete rest.perStudentData;
+  return getInputSpecRevision(rest);
+}
+
 /** Grace window between a timed spec's broadcast and answers opening (one synchronized 3-2-1 beat). */
 export const ANSWERS_OPEN_GRACE_MS = 3000;
 

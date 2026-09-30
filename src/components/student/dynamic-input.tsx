@@ -53,7 +53,7 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
     case 'multi-select':
       return <MultiSelectInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
     case 'sequence':
-      return <SequenceInput key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clockOffsetMs={clockOffsetMs} />;
+      return <SequenceInput key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clockOffsetMs={clockOffsetMs} clientId={clientId} />;
     case 'ranking':
       return <RankingInput key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'error-correction':
@@ -906,28 +906,22 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
 }
 
 // Sequence input (tap to build ordered list)
-function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clockOffsetMs }: DynamicInputProps) {
-  const [sequence, setSequence] = useState<string[]>([]);
-  const [remaining, setRemaining] = useState<string[]>(spec.options || []);
+/** Per-student race feedback the game pushes on sequence specs (keyed by clientId). */
+type SequenceStatus = { status: 'solved'; position?: number; points?: number } | { status: 'retry'; tries: number };
+
+function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clockOffsetMs, clientId }: DynamicInputProps) {
+  // Tiles are tracked by index so repeated words ("the ... the") stay separate.
+  const options = useMemo(() => spec.options || [], [spec.options]);
+  const [sequence, setSequence] = useState<number[]>([]);
   const { timeLeft, isExpired, timerSeconds, answersOpen, opensIn } = useInputTimer(spec, false, clockOffsetMs);
-
-  const addToSequence = (item: string) => {
-    setSequence([...sequence, item]);
-    setRemaining(remaining.filter(r => r !== item));
-  };
-
-  const removeFromSequence = (index: number) => {
-    const item = sequence[index];
-    setRemaining([...remaining, item]);
-    setSequence(sequence.filter((_, i) => i !== index));
-  };
+  const mine = (clientId ? spec.perStudentData?.[clientId] : undefined) as SequenceStatus | undefined;
+  const remaining = options.map((_, i) => i).filter((i) => !sequence.includes(i));
 
   const handleSubmit = useCallback(async () => {
     if (remaining.length > 0 || isSubmitting || isExpired) return;
-    await onSubmit(JSON.stringify(sequence));
+    await onSubmit(JSON.stringify(sequence.map((i) => options[i])));
     setSequence([]);
-    setRemaining(spec.options || []);
-  }, [sequence, remaining.length, isSubmitting, isExpired, onSubmit, spec.options]);
+  }, [sequence, remaining.length, isSubmitting, isExpired, onSubmit, options]);
 
   // Result feedback: game pushed correct/incorrect after evaluation
   if (spec.result) {
@@ -944,6 +938,10 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
     );
   }
 
+  if (mine?.status === 'solved') {
+    return <PhoneLocked title="Solved!" detail={mine.position ? `#${mine.position}${mine.points ? ` · +${mine.points}` : ''}` : undefined} />;
+  }
+
   if (timerSeconds > 0 && !answersOpen) {
     return <GetReadyGate spec={spec} opensIn={opensIn} />;
   }
@@ -954,6 +952,11 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       {timerSeconds > 0 && <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />}
+      {mine?.status === 'retry' && (
+        <p className="rounded-xl border border-amber-400/40 bg-amber-400/10 px-3 py-2 text-sm text-amber-200">
+          Not quite{mine.tries > 1 ? ` (try ${mine.tries + 1})` : ''}. Try a different order!
+        </p>
+      )}
 
       {/* Built sequence */}
       <div className="min-h-[60px] p-3 bg-lc-surface rounded-xl border border-dashed border-lc-border">
@@ -961,13 +964,13 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
           <p className="text-lc-text3 text-sm">Tap words to build your sentence...</p>
         ) : (
           <div className="flex flex-wrap gap-2">
-            {sequence.map((item, index) => (
+            {sequence.map((i, pos) => (
               <button
-                key={index}
-                onClick={() => removeFromSequence(index)}
+                key={`${i}-${pos}`}
+                onClick={() => setSequence(sequence.filter((_, p) => p !== pos))}
                 className="px-3 py-1.5 bg-cyan-500/20 text-cyan-400 rounded-lg hover:bg-red-500/20 hover:text-red-400 transition-colors"
               >
-                {item}
+                {options[i]}
               </button>
             ))}
           </div>
@@ -976,14 +979,14 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
 
       {/* Remaining words */}
       <div className="flex flex-wrap gap-2">
-        {remaining.map((item, index) => (
+        {remaining.map((i) => (
           <button
-            key={index}
-            onClick={() => addToSequence(item)}
+            key={i}
+            onClick={() => setSequence([...sequence, i])}
             disabled={isSubmitting}
             className="px-3 py-1.5 bg-lc-card text-lc-text rounded-lg hover:bg-lc-border transition-colors disabled:opacity-50"
           >
-            {item}
+            {options[i]}
           </button>
         ))}
       </div>
