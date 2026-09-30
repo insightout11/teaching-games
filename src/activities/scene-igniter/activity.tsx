@@ -1,31 +1,34 @@
 'use client';
 
-import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
-import { Theater } from 'lucide-react';
-import type { ActivityProps } from '../types';
-import type { SceneIgniterContent, SceneIgniterLine, SceneIgniterScene } from '../types';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowLeft, ArrowRight, Clapperboard, Captions, CaptionsOff, Film, Megaphone, RefreshCw, Shuffle, Sparkles, Star, Users } from 'lucide-react';
+import type { ActivityProps, SceneIgniterContent, SceneIgniterLine, SceneIgniterScene, SceneIgniterCastMember } from '../types';
 import type { Student } from '@/lib/supabase/types';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 
-type Phase = 'idle' | 'running' | 'group_done' | 'improv-running' | 'summary';
+// Scene Igniter: "You're in a movie." The class is cast as named characters; each actor's
+// phone holds THEIR script (their lines + the cue before each). The shared screen is the
+// stage, never the script: who's speaking, as whom, and how. Teacher advances each line.
+// Take 1 -> Director's notes (sent to one actor's phone) -> Take 2 -> "The scene continues…"
+// (unscripted, in character) -> credits. Subtitles (off by default) show a line only AFTER it's said.
+
+type Phase = 'idle' | 'casting' | 'take' | 'notes' | 'improv' | 'wrap';
+
+const NOTES = ['More feeling!', 'Louder!', 'Slow down', 'Big pause for drama', 'Look at your partner', 'Bigger face!'];
+const GENRE_TONE: Record<string, string> = { comedy: 'text-amber-300', mystery: 'text-violet-300', drama: 'text-rose-300', adventure: 'text-emerald-300' };
 
 function assignRoles(lines: SceneIgniterLine[], students: Student[]): Map<string, Student> {
   const result = new Map<string, Student>();
   if (students.length === 0) return result;
   const charLineCounts = new Map<string, number>();
-  for (const line of lines) {
-    charLineCounts.set(line.character, (charLineCounts.get(line.character) ?? 0) + 1);
-  }
+  for (const line of lines) charLineCounts.set(line.character, (charLineCounts.get(line.character) ?? 0) + 1);
   const sorted = Array.from(charLineCounts.entries()).sort((a, b) => b[1] - a[1]);
-  const studentLineCounts = new Map(students.map((s) => [s.id, 0]));
+  const load = new Map(students.map((s) => [s.id, 0]));
   for (const [char] of sorted) {
-    const candidate = students.reduce((a, b) =>
-      (studentLineCounts.get(a.id) ?? 0) <= (studentLineCounts.get(b.id) ?? 0) ? a : b
-    );
-    result.set(char, candidate);
-    studentLineCounts.set(
-      candidate.id,
-      (studentLineCounts.get(candidate.id) ?? 0) + (charLineCounts.get(char) ?? 0)
-    );
+    const pick = students.reduce((a, b) => ((load.get(a.id) ?? 0) <= (load.get(b.id) ?? 0) ? a : b));
+    result.set(char, pick);
+    load.set(pick.id, (load.get(pick.id) ?? 0) + (charLineCounts.get(char) ?? 0));
   }
   return result;
 }
@@ -39,628 +42,293 @@ function shuffled<T>(arr: T[]): T[] {
   return a;
 }
 
-function renderWithBlanks(text: string): React.ReactNode {
-  const parts = text.split('___');
-  return parts.map((part, i) => (
-    <React.Fragment key={i}>
-      {part}
-      {i < parts.length - 1 && (
-        <span className="border-b-2 border-amber-400 text-amber-300 font-semibold px-1 mx-0.5">
-          ___
-        </span>
-      )}
-    </React.Fragment>
-  ));
+function castOf(scene: SceneIgniterScene): SceneIgniterCastMember[] {
+  const ids = Array.from(new Set(scene.lines.map((l) => l.character)));
+  return ids.map((id) => scene.cast?.find((c) => c.id === id) ?? { id, name: `Character ${id}`, role: '', want: '' });
 }
 
-function substituteNames(text: string, charToStudent: Map<string, Student>): string {
-  return text.replace(/((?:,\s|\s|^))([A-D])(?=[!?,])/g, (match, prefix, char) => {
-    const name = charToStudent.get(char)?.name;
-    return name ? prefix + name : match;
+/** Older scripts addressed characters by letter ("A, look!"): swap in the character's name. */
+function withNames(text: string, cast: SceneIgniterCastMember[]): string {
+  return text.replace(/(^|[\s,])([A-D])(?=[!?,.])/g, (m, pre, id) => {
+    const name = cast.find((c) => c.id === id)?.name;
+    return name ? pre + name : m;
   });
 }
 
-
-export function SceneIgniterActivity({
-  students,
-  generatedContent,
-  onPhaseChange,
-  onScore,
-}: ActivityProps) {
+export function SceneIgniterActivity({ students, generatedContent, onPhaseChange, onScore, onSetInputSpec }: ActivityProps) {
   const content = generatedContent as SceneIgniterContent;
-  const { scenes } = content;
+  const scenes = content.scenes ?? [];
 
-  // Which scene/group we're currently on (0 = group 1, 1 = group 2)
-  const [sceneIndex, setSceneIndex] = useState<0 | 1>(0);
-  // Whether we're using the alt (pre-generated replacement) scene
-  const [useAltScene, setUseAltScene] = useState(false);
+  const groups = useMemo(() => [students.slice(0, 4), students.slice(4)] as const, [students]);
+  const hasSecondCast = groups[1].length >= 2 && !!scenes[1];
 
-  // Split students into groups once on mount
-  const groupStudents = useMemo(() => {
-    const g1 = students.slice(0, 4);
-    const g2 = students.slice(4);
-    return [g1, g2] as const;
-  }, [students]);
-
-  const hasGroup2 = groupStudents[1].length >= 2;
-
-  const currentScene: SceneIgniterScene =
-    scenes[sceneIndex + (useAltScene ? 2 : 0)] ?? scenes[sceneIndex];
-  const currentGroup = groupStudents[sceneIndex];
-  const hasAltScene = Boolean(scenes[sceneIndex + 2]);
+  const [castNo, setCastNo] = useState<0 | 1>(0);
+  const [alt, setAlt] = useState(false);
+  const scene: SceneIgniterScene | undefined = scenes[castNo + (alt ? 2 : 0)] ?? scenes[castNo];
+  const cast = useMemo(() => (scene ? castOf(scene) : []), [scene]);
+  const group = groups[castNo];
 
   const [phase, setPhase] = useState<Phase>('idle');
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [charToStudent, setCharToStudent] = useState<Map<string, Student>>(
-    () => assignRoles(scenes[0]?.lines ?? [], groupStudents[0])
+  const [take, setTake] = useState<1 | 2>(1);
+  const [lineIdx, setLineIdx] = useState(0);
+  const [roles, setRoles] = useState<Map<string, Student>>(new Map());
+  const [notes, setNotes] = useState<Record<string, string>>({});
+  const [subtitles, setSubtitles] = useState(false);
+  const [flash, setFlash] = useState<'action' | 'cut' | null>(null);
+  const scored = useRef<Set<string>>(new Set());
+  const [credits, setCredits] = useState<Array<{ key: string; character: string; actor?: string }>>([]);
+
+  const go = (p: Phase) => { setPhase(p); onPhaseChange?.(p); };
+  const clap = (kind: 'action' | 'cut') => { setFlash(kind); window.setTimeout(() => setFlash(null), 1100); };
+
+  const castScene = useCallback((shuffle = false) => {
+    if (!scene) return;
+    setRoles(assignRoles(scene.lines, shuffle ? shuffled(group) : group));
+  }, [scene, group]);
+
+  useEffect(() => { if (phase === 'casting') castScene(); }, [phase, castScene]);
+
+  const line = scene?.lines[lineIdx];
+  const speaker = line ? cast.find((c) => c.id === line.character) : undefined;
+  const actor = line ? roles.get(line.character) : undefined;
+  const prevLine = scene && lineIdx > 0 ? scene.lines[lineIdx - 1] : undefined;
+
+  // ─── Phones: each actor gets their own script; everyone else is the audience ───
+  useEffect(() => {
+    if (!scene || phase === 'idle' || phase === 'wrap') { onSetInputSpec?.(null); return; }
+    const per: Record<string, unknown> = { __room: true };
+    const mode = phase === 'improv' ? 'improv' : 'script';
+    cast.forEach((c) => {
+      const st = roles.get(c.id);
+      if (!st) return;
+      const mine = scene.lines
+        .map((l, i) => ({ l, i }))
+        .filter(({ l }) => l.character === c.id)
+        .map(({ l, i }) => {
+          const before = scene.lines[i - 1];
+          const cueBy = before ? cast.find((x) => x.id === before.character)?.name : null;
+          return { i, text: withNames(l.text, cast), direction: l.direction ?? null, cue: before ? { by: cueBy, text: withNames(before.text, cast) } : null };
+        });
+      const card = {
+        role: 'actor',
+        character: { name: c.name, role: c.role, want: c.want },
+        scene: { title: scene.title, genre: scene.genre ?? null },
+        lines: mine,
+        current: phase === 'take' ? lineIdx : -1,
+        take,
+        mode,
+        note: notes[st.id] ?? null,
+        improv: phase === 'improv' ? { prompt: scene.improvPrompt } : null,
+      };
+      per[st.id] = card;
+      per[st.name] = card;
+    });
+    onSetInputSpec?.({ type: 'confirm', gameKey: 'scene-igniter', prompt: `Scene: ${scene.title}`, perStudentData: per, stableInput: true });
+  }, [scene, cast, roles, phase, lineIdx, take, notes, onSetInputSpec]);
+  useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
+
+  // ─── Flow ───
+  const startTake = (n: 1 | 2) => { setTake(n); setLineIdx(0); go('take'); clap('action'); };
+
+  const nextLine = () => {
+    if (!scene || !line) return;
+    const key = `${castNo}:${alt}:${line.lineIndex}`;
+    if (take === 1 && actor?.id && !scored.current.has(key)) {
+      scored.current.add(key);
+      void onScore?.({ studentId: actor.id, clientId: null, displayName: actor.name, promptIndex: line.lineIndex, points: 1, isCorrect: null });
+    }
+    if (lineIdx + 1 >= scene.lines.length) {
+      clap('cut');
+      window.setTimeout(() => go(take === 1 ? 'notes' : 'improv'), 900);
+    } else setLineIdx((i) => i + 1);
+  };
+
+  const endImprov = () => {
+    setCredits((prev) => [...prev, ...cast.map((c) => ({ key: `${castNo}-${alt}-${c.id}`, character: c.name, actor: roles.get(c.id)?.name }))]);
+    if (castNo === 0 && hasSecondCast) { setCastNo(1); setAlt(false); setNotes({}); go('casting'); }
+    else go('wrap');
+  };
+
+  if (!scene) {
+    return (
+      <div className="mx-auto max-w-xl space-y-3 py-10 text-center text-white">
+        <Film className="mx-auto h-12 w-12 text-white/40" />
+        <p className="font-display text-3xl">Scene Igniter</p>
+        <p className="text-white/60">No scene came through for this topic. Try launching it again.</p>
+      </div>
+    );
+  }
+
+  const genreTone = GENRE_TONE[scene.genre ?? ''] ?? 'text-amber-300';
+  const overlay = (
+    <AnimatePresence>
+      {flash && (
+        <motion.div key={flash} initial={{ opacity: 0, scale: 0.8, rotate: -6 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} exit={{ opacity: 0, scale: 1.1 }} className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
+          <div className={`flex items-center gap-4 rounded-3xl border-4 px-10 py-6 font-display text-7xl shadow-2xl ${flash === 'action' ? 'border-amber-300 bg-slate-950/90 text-amber-300' : 'border-rose-300 bg-slate-950/90 text-rose-300'}`}>
+            <Clapperboard className="h-16 w-16" />{flash === 'action' ? 'ACTION!' : 'CUT!'}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 
-  // Improv: student order for round-robin; can be reshuffled independently
-  const [improvStudentOrder, setImprovStudentOrder] = useState<Student[]>([]);
-  const [improvShuffled, setImprovShuffled] = useState(false);
+  const sceneHeader = (
+    <div className="text-center">
+      <p className={`font-mono text-xs uppercase tracking-[0.3em] ${genreTone}`}>{scene.genre ?? 'scene'}{castNo === 1 ? ' · second cast' : ''}</p>
+      <p className="mt-1 font-display text-5xl">{scene.title}</p>
+      <p className="mx-auto mt-2 max-w-2xl text-lg text-white/70">{scene.context}</p>
+    </div>
+  );
 
-  // Track scored lines per group separately so summary can combine them
-  const [scoredLines, setScoredLines] = useState<Set<number>>(new Set());
-  const group1ScoredLinesRef = useRef<Set<number>>(new Set());
-  // Mapping from line index to student name (for combined summary)
-  const group1StudentMapRef = useRef<Map<string, Student>>(new Map());
-
-  const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Auto-scroll current line into view
-  useEffect(() => {
-    if (phase === 'running' || phase === 'improv-running') {
-      lineRefs.current[currentIdx]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }, [currentIdx, phase]);
-
-  const handleReroll = useCallback(() => {
-    setCharToStudent(assignRoles(currentScene.lines, shuffled(currentGroup)));
-  }, [currentScene.lines, currentGroup]);
-
-  const handleStart = useCallback(() => {
-    setCurrentIdx(0);
-    setScoredLines(new Set());
-    setPhase('running');
-    onPhaseChange?.('running');
-  }, [onPhaseChange]);
-
-  const handleNext = useCallback(async () => {
-    const line = currentScene.lines[currentIdx];
-    if (line && !scoredLines.has(line.lineIndex)) {
-      const student = charToStudent.get(line.character);
-      if (student?.id) {
-        await onScore?.({
-          studentId: student.id,
-          clientId: null,
-          displayName: student.name,
-          promptIndex: line.lineIndex,
-          points: 1,
-          isCorrect: null,
-        });
-      }
-      setScoredLines((prev) => new Set(prev).add(line.lineIndex));
-    }
-    if (currentIdx + 1 >= currentScene.lines.length) {
-      handleEndScene();
-    } else {
-      setCurrentIdx((i) => i + 1);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentScene.lines, currentIdx, scoredLines, charToStudent, onScore]);
-
-  const handleSkip = useCallback(() => {
-    if (currentIdx + 1 >= currentScene.lines.length) {
-      handleEndScene();
-    } else {
-      setCurrentIdx((i) => i + 1);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIdx, currentScene.lines.length]);
-
-  const handlePrev = useCallback(() => {
-    setCurrentIdx((i) => Math.max(0, i - 1));
-  }, []);
-
-  // Enter improv: initialize student order and reset cursor
-  const handleEnterImprov = useCallback(() => {
-    setImprovStudentOrder([...currentGroup]);
-    setImprovShuffled(false);
-    setCurrentIdx(0);
-    setPhase('improv-running');
-    onPhaseChange?.('improv-running');
-  }, [currentGroup, onPhaseChange]);
-
-  const handleEndScene = useCallback(() => {
-    if (sceneIndex === 0 && hasGroup2) {
-      // Save group 1 data before transitioning
-      group1ScoredLinesRef.current = new Set(scoredLines);
-      group1StudentMapRef.current = new Map(charToStudent);
-      setPhase('group_done');
-      onPhaseChange?.('group_done');
-    } else {
-      // Final group → flow directly into improv
-      handleEnterImprov();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sceneIndex, hasGroup2, scoredLines, charToStudent, onPhaseChange, handleEnterImprov]);
-
-  // Improv navigation (no scoring)
-  const handleImprovNext = useCallback(() => {
-    if (currentIdx + 1 >= currentScene.improvScript.length) {
-      setPhase('summary');
-      onPhaseChange?.('summary');
-    } else {
-      setCurrentIdx((i) => i + 1);
-    }
-  }, [currentIdx, currentScene.improvScript.length, onPhaseChange]);
-
-  const handleImprovPrev = useCallback(() => {
-    setCurrentIdx((i) => Math.max(0, i - 1));
-  }, []);
-
-  const handleStartGroup2 = useCallback(() => {
-    const g2 = groupStudents[1];
-    const s2 = scenes[1];
-    setSceneIndex(1);
-    setCharToStudent(assignRoles(s2.lines, g2));
-    setCurrentIdx(0);
-    setScoredLines(new Set());
-    setUseAltScene(false);
-    setPhase('idle');
-    onPhaseChange?.('idle');
-  }, [groupStudents, scenes, onPhaseChange]);
-
-  const handleRunAgain = useCallback(() => {
-    const g1 = groupStudents[0];
-    const s1 = scenes[0];
-    setSceneIndex(0);
-    setCharToStudent(assignRoles(s1.lines, shuffled(g1)));
-    setCurrentIdx(0);
-    setScoredLines(new Set());
-    group1ScoredLinesRef.current = new Set();
-    group1StudentMapRef.current = new Map();
-    setPhase('idle');
-    onPhaseChange?.('idle');
-  }, [groupStudents, scenes, onPhaseChange]);
-
-  const handleNewScene = useCallback(() => {
-    const altIdx = sceneIndex + 2;
-    const altScene = scenes[altIdx];
-    if (!altScene) return;
-    setUseAltScene(true);
-    setCharToStudent(assignRoles(altScene.lines, shuffled(currentGroup)));
-    setCurrentIdx(0);
-    setScoredLines(new Set());
-    group1ScoredLinesRef.current = new Set();
-    group1StudentMapRef.current = new Map();
-    setPhase('idle');
-    onPhaseChange?.('idle');
-  }, [sceneIndex, scenes, currentGroup, onPhaseChange]);
-
-  // Combined lines-per-student across both groups for summary
-  const combinedLinesPerStudent = useCallback((): { name: string; count: number }[] => {
-    const counts = new Map<string, number>();
-
-    // Group 1
-    for (const lineIndex of Array.from(group1ScoredLinesRef.current)) {
-      const line = scenes[0].lines.find((l) => l.lineIndex === lineIndex);
-      if (!line) continue;
-      const student = group1StudentMapRef.current.get(line.character);
-      if (!student) continue;
-      counts.set(student.name, (counts.get(student.name) ?? 0) + 1);
-    }
-
-    // Group 2 (current group when at summary)
-    for (const lineIndex of Array.from(scoredLines)) {
-      const scene = sceneIndex === 0 ? scenes[0] : scenes[1];
-      const line = scene.lines.find((l) => l.lineIndex === lineIndex);
-      if (!line) continue;
-      const student = charToStudent.get(line.character);
-      if (!student) continue;
-      counts.set(student.name, (counts.get(student.name) ?? 0) + 1);
-    }
-
-    return Array.from(counts.entries())
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count);
-  }, [scoredLines, scenes, charToStudent, sceneIndex]);
-
-  const totalScoredLines = (sceneIndex === 0 ? 0 : group1ScoredLinesRef.current.size) + scoredLines.size;
-  const totalLines = (hasGroup2 ? scenes[0].lines.length + scenes[1].lines.length : scenes[0].lines.length);
-
-  const chars = Array.from(new Set(currentScene.lines.map((l) => l.character))).sort();
-
-  // ─── NO STUDENTS ───────────────────────────────────────────────────────────
-  // Role-play needs at least one student to cast. Show a waiting state instead
-  // of crashing on an empty role assignment.
-  if (students.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center text-center min-h-[320px] space-y-3">
-        <Theater className="w-12 h-12 text-emerald-400/70" />
-        <p className="text-xl font-bold opacity-90">Waiting for students to join</p>
-        <p className="text-sm opacity-50 max-w-sm">
-          Scene Igniter casts students into the roles. Once at least one student joins,
-          the scene and its role assignments will appear here.
-        </p>
-      </div>
-    );
-  }
-
-  // ─── IDLE ─────────────────────────────────────────────────────────────────
+  // ─── IDLE ───
   if (phase === 'idle') {
-    const groupLabel = hasGroup2 ? (sceneIndex === 0 ? 'Group 1 of 2' : 'Group 2 of 2') : null;
     return (
-      <div className="space-y-5">
-        {/* Title */}
-        <div className="text-center space-y-1">
-          {groupLabel && (
-            <span className="inline-block text-xs px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full font-medium mb-1">
-              {groupLabel}
-            </span>
-          )}
-          <p className="text-2xl font-bold opacity-90">{currentScene.title}</p>
-          <p className="text-xs opacity-40">{currentScene.lines.length} lines · {chars.length} characters</p>
+      <div className="mx-auto max-w-3xl space-y-6 py-4 text-center text-white">
+        <Clapperboard className="mx-auto h-10 w-10 text-amber-300" />
+        <div>
+          <KitLabel tone="amber">Scene Igniter</KitLabel>
+          <p className="mt-2 font-display text-5xl">Lights, camera… English!</p>
         </div>
-
-        {/* Context card */}
-        <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 space-y-1">
-          <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">The Scene</p>
-          <p className="text-sm opacity-80 leading-relaxed">{currentScene.context}</p>
-        </div>
-
-        {/* Role assignments */}
-        <div className="grid grid-cols-2 gap-3">
-          {chars.map((char) => {
-            const student = charToStudent.get(char);
-            const charLines = currentScene.lines.filter((l) => l.character === char).length;
-            return (
-              <div
-                key={char}
-                className="glass p-3 rounded-2xl border border-emerald-500/20 space-y-1"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full font-mono font-bold">
-                    {char}
-                  </span>
-                  <span className="text-xs opacity-40">{charLines} line{charLines !== 1 ? 's' : ''}</span>
-                </div>
-                <p className="font-semibold text-sm truncate">{student?.name ?? '—'}</p>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Full script preview */}
-        <div className="space-y-1">
-          <p className="text-xs font-semibold opacity-40 uppercase tracking-wide">Full Script</p>
-          <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1">
-            {currentScene.lines.map((line) => {
-              const student = charToStudent.get(line.character);
-              return (
-                <div key={line.lineIndex} className="flex items-start gap-2 text-sm">
-                  <span className="text-xs opacity-40 w-4 shrink-0 pt-0.5 text-right">{line.lineIndex}</span>
-                  <span className="px-1.5 py-0.5 bg-emerald-500/15 text-emerald-300 rounded text-xs font-mono font-bold shrink-0">{line.character}</span>
-                  <div className="flex-1 min-w-0">
-                    <span className="text-xs opacity-50 mr-1">{student?.name ?? '—'}</span>
-                    {line.direction && (
-                      <span className="italic text-amber-400/70 text-xs mr-1">({line.direction})</span>
-                    )}
-                    <span className="opacity-80">{line.text}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Actions */}
-        <div className="flex items-center justify-between gap-3 pt-1">
-          <button
-            onClick={handleReroll}
-            className="px-4 py-2 text-sm bg-white/10 hover:bg-white/15 rounded-xl transition-colors"
-          >
-            Re-roll Roles
-          </button>
-          <button
-            onClick={handleStart}
-            className="px-10 py-4 bg-gradient-to-br from-emerald-500 to-green-500 rounded-full font-game text-xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
-          >
-            Start Scene ▶
-          </button>
+        <p className="mx-auto max-w-xl text-lg text-white/70">You&apos;re in a movie. Each actor gets their script on their phone: their lines, and the cue that tells them when to speak. Everyone else is the audience: listen closely!</p>
+        <div className="flex justify-center">
+          <KitButton tone="amber" solid onClick={() => go('casting')} className="!px-8 !py-3 !text-base" icon={<Users className="h-4 w-4" />}>Cast the scene</KitButton>
         </div>
       </div>
     );
   }
 
-  // ─── RUNNING ───────────────────────────────────────────────────────────────
-  if (phase === 'running') {
+  // ─── CASTING ───
+  if (phase === 'casting') {
     return (
-      <div className="space-y-4">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-emerald-400">{currentScene.title}</h3>
-          <span className="text-sm opacity-60">Line {currentIdx + 1} / {currentScene.lines.length}</span>
-        </div>
-
-        {/* Full script with highlight */}
-        <div className="space-y-1 max-h-[420px] overflow-y-auto pr-1">
-          {currentScene.lines.map((line, idx) => {
-            const student = charToStudent.get(line.character);
-            const isCurrent = idx === currentIdx;
-            const isPast = idx < currentIdx;
-            return (
-              <div
-                key={line.lineIndex}
-                ref={(el) => { lineRefs.current[idx] = el; }}
-                className={[
-                  'flex items-start gap-2 px-3 py-2 rounded-xl transition-all',
-                  isCurrent
-                    ? 'bg-emerald-500/10 border-l-2 border-emerald-400'
-                    : 'border-l-2 border-transparent',
-                  isPast ? 'opacity-35' : isCurrent ? 'opacity-100' : 'opacity-60',
-                ].join(' ')}
-              >
-                <span className="text-xs opacity-40 w-4 shrink-0 pt-0.5 text-right">{line.lineIndex}</span>
-                <span className="px-1.5 py-0.5 bg-emerald-500/15 text-emerald-300 rounded text-xs font-mono font-bold shrink-0">{line.character}</span>
-                <div className="flex-1 min-w-0">
-                  <span className="text-xs opacity-50 mr-1">{student?.name ?? '—'}</span>
-                  {line.direction && (
-                    <span className="italic text-amber-400/70 text-xs mr-1">({line.direction})</span>
-                  )}
-                  <span className={isCurrent ? 'text-xl font-semibold' : 'text-base'}>{substituteNames(line.text, charToStudent)}</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Nav bar */}
-        <div className="flex items-center gap-2 pt-1">
-          <button
-            onClick={handlePrev}
-            disabled={currentIdx === 0}
-            className="px-4 py-2.5 bg-white/10 hover:bg-white/15 disabled:opacity-30 disabled:cursor-not-allowed rounded-xl transition-colors text-sm font-medium"
-          >
-            ← Prev
-          </button>
-          <button
-            onClick={handleSkip}
-            className="px-4 py-2.5 bg-white/10 hover:bg-white/15 rounded-xl transition-colors text-sm font-medium"
-          >
-            Skip
-          </button>
-          <button
-            onClick={handleNext}
-            className="flex-1 py-2.5 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            {currentIdx + 1 >= currentScene.lines.length ? 'Finish Scene ✓' : 'Next Line ▶'}
-          </button>
-          <button
-            onClick={handleEndScene}
-            className="px-4 py-2.5 text-sm opacity-40 hover:opacity-60 transition-opacity bg-white/5 rounded-xl"
-          >
-            End Scene
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── GROUP DONE ────────────────────────────────────────────────────────────
-  if (phase === 'group_done') {
-    const g1Lines = combinedLinesPerStudent();
-    const g2 = groupStudents[1];
-    const s2chars = Array.from(new Set(scenes[1].lines.map((l) => l.character))).sort();
-    // Preview role assignment for group 2
-    const previewRoles = assignRoles(scenes[1].lines, g2);
-
-    return (
-      <div className="space-y-5">
-        <div className="text-center space-y-1">
-          <p className="text-2xl font-bold text-emerald-400">Group 1 — Scene Complete!</p>
-        </div>
-
-        {/* Lines per student for group 1 */}
-        <div className="space-y-2">
-          {g1Lines.map(({ name, count }) => (
-            <div
-              key={name}
-              className="flex items-center justify-between glass px-4 py-3 rounded-xl"
-            >
-              <span className="font-medium text-sm">{name}</span>
-              <span className="text-sm opacity-60">{count} line{count !== 1 ? 's' : ''}</span>
-            </div>
+      <div className="mx-auto max-w-5xl space-y-6 text-white">
+        {sceneHeader}
+        <div className="flex flex-wrap justify-center gap-3">
+          {cast.map((c) => (
+            <motion.div key={c.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="w-56 rounded-2xl border border-amber-300/30 bg-slate-950/60 p-4 text-center">
+              <p className="font-display text-3xl text-amber-200">{c.name}</p>
+              {c.role && <p className="text-white/70">{c.role}</p>}
+              {c.want && <p className="mt-2 text-sm italic text-white/55">{c.want}</p>}
+              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.15em] text-white/45">played by</p>
+              <p className="text-xl">{roles.get(c.id)?.name ?? '—'}</p>
+            </motion.div>
           ))}
         </div>
-
-        {/* Group 2 preview */}
-        <div className="space-y-2">
-          <p className="text-xs font-semibold opacity-40 uppercase tracking-wide">Next up: Group 2</p>
-          <div className="grid grid-cols-2 gap-3">
-            {s2chars.map((char) => {
-              const student = previewRoles.get(char);
-              return (
-                <div
-                  key={char}
-                  className="glass p-3 rounded-2xl border border-emerald-500/20 space-y-1"
-                >
-                  <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full font-mono font-bold">
-                    {char}
-                  </span>
-                  <p className="font-semibold text-sm truncate">{student?.name ?? '—'}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="flex justify-end">
-          <button
-            onClick={handleStartGroup2}
-            className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            Start Group 2 ▶
-          </button>
+        {group.length > cast.length && <p className="text-center text-white/55">Two actors share a part? No problem: they take turns, line by line.</p>}
+        <div className="flex flex-wrap justify-center gap-2">
+          <KitButton tone="plain" onClick={() => castScene(true)} icon={<Shuffle className="h-3.5 w-3.5" />}>Recast</KitButton>
+          {scenes[castNo + 2] && <KitButton tone="plain" onClick={() => setAlt((a) => !a)} icon={<RefreshCw className="h-3.5 w-3.5" />}>Another scene</KitButton>}
+          <KitButton tone="amber" solid onClick={() => startTake(1)} className="!px-6 !py-2.5" icon={<Clapperboard className="h-4 w-4" />}>Take 1: Action!</KitButton>
         </div>
       </div>
     );
   }
 
-  // ─── IMPROV RUNNING ────────────────────────────────────────────────────────
-  if (phase === 'improv-running') {
-    const isLastImprovLine = currentIdx + 1 >= currentScene.improvScript.length;
-    const activeOrder = improvStudentOrder.length > 0 ? improvStudentOrder : currentGroup;
-
+  // ─── TAKE ───
+  if (phase === 'take') {
     return (
-      <div className="space-y-4">
-        {/* Header */}
+      <div className="mx-auto max-w-5xl space-y-5 text-white">
+        {overlay}
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-amber-400">Act 2 — Improv</h3>
-          <span className="text-sm opacity-60">Line {currentIdx + 1} / {currentScene.improvScript.length}</span>
+          <KitLabel tone="amber">Take {take} · {scene.title}</KitLabel>
+          <KitReadout>line {lineIdx + 1} / {scene.lines.length}</KitReadout>
         </div>
 
-        {/* Twist card */}
-        <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 space-y-1">
-          <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">The Twist</p>
-          <p className="text-base font-medium leading-snug">{currentScene.improvPrompt}</p>
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-slate-900/80 to-slate-950/90 px-6 py-10 text-center">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-amber-300/10 to-transparent" />
+          <AnimatePresence mode="wait">
+            <motion.div key={lineIdx} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}>
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-white/45">now speaking</p>
+              <p className="mt-2 font-display text-6xl">{actor?.name ?? speaker?.name}</p>
+              <p className="mt-1 text-2xl text-amber-200">as {speaker?.name}</p>
+              {line?.direction && <p className="mt-4 inline-block rounded-full border border-white/15 px-4 py-1 text-lg italic text-white/75">({line.direction})</p>}
+            </motion.div>
+          </AnimatePresence>
+          <div className="mt-8 flex flex-wrap justify-center gap-2">
+            {cast.map((c) => (
+              <span key={c.id} className={`rounded-full border px-3 py-1 text-sm transition ${c.id === line?.character ? 'border-amber-300 bg-amber-300/15 text-amber-50' : 'border-white/10 text-white/45'}`}>{c.name} · {roles.get(c.id)?.name}</span>
+            ))}
+          </div>
         </div>
 
-        {/* Escalation rule */}
-        <div className="glass px-4 py-3 rounded-xl border border-white/10 text-xs opacity-55 space-y-0.5">
-          <p className="font-semibold uppercase tracking-wide">Improv Rule</p>
-          <p>Each new line must: add a problem · add emotion · or add a new idea</p>
-        </div>
+        {subtitles && prevLine && (
+          <p className="mx-auto max-w-3xl rounded-xl bg-black/60 px-5 py-3 text-center text-xl text-white/90">
+            <span className="text-amber-200">{cast.find((c) => c.id === prevLine.character)?.name}:</span> {withNames(prevLine.text, cast)}
+          </p>
+        )}
 
-        {/* Actor reshuffle toggle */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => { setImprovStudentOrder([...currentGroup]); setImprovShuffled(false); }}
-            className={[
-              'px-3 py-1.5 text-xs rounded-lg transition-colors',
-              !improvShuffled ? 'bg-emerald-500/20 text-emerald-300' : 'bg-white/10 opacity-60 hover:opacity-80',
-            ].join(' ')}
-          >
-            Keep Same Roles
-          </button>
-          <button
-            onClick={() => { setImprovStudentOrder(shuffled(currentGroup)); setImprovShuffled(true); }}
-            className={[
-              'px-3 py-1.5 text-xs rounded-lg transition-colors',
-              improvShuffled ? 'bg-amber-500/20 text-amber-300' : 'bg-white/10 opacity-60 hover:opacity-80',
-            ].join(' ')}
-          >
-            Shuffle Roles
-          </button>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex gap-2">
+            <KitButton tone="plain" disabled={lineIdx === 0} onClick={() => setLineIdx((i) => Math.max(0, i - 1))} icon={<ArrowLeft className="h-3.5 w-3.5" />}>Back</KitButton>
+            <KitButton tone="plain" onClick={() => setSubtitles((v) => !v)} icon={subtitles ? <CaptionsOff className="h-3.5 w-3.5" /> : <Captions className="h-3.5 w-3.5" />}>{subtitles ? 'Subtitles off' : 'Subtitles'}</KitButton>
+          </div>
+          <KitButton tone="amber" solid onClick={nextLine} className="!px-6 !py-2.5" icon={<ArrowRight className="h-4 w-4" />}>{lineIdx + 1 >= scene.lines.length ? 'Cut!' : 'Next line'}</KitButton>
         </div>
+      </div>
+    );
+  }
 
-        {/* Line-by-line improv script */}
-        <div className="space-y-1 max-h-[360px] overflow-y-auto pr-1">
-          {currentScene.improvScript.map((line, idx) => {
-            const assignedStudent = activeOrder[idx % activeOrder.length];
-            const isCurrent = idx === currentIdx;
-            const isPast = idx < currentIdx;
-            const hasBlank = line.text.includes('___');
+  // ─── DIRECTOR'S NOTES ───
+  if (phase === 'notes') {
+    return (
+      <div className="mx-auto max-w-4xl space-y-5 text-white">
+        {overlay}
+        <div className="text-center">
+          <Megaphone className="mx-auto h-9 w-9 text-amber-300" />
+          <p className="mt-2 font-display text-5xl">Director&apos;s notes</p>
+          <p className="text-lg text-white/65">Great take! Send each actor a note. It appears on their phone for Take 2.</p>
+        </div>
+        <div className="space-y-2">
+          {cast.map((c) => {
+            const st = roles.get(c.id);
+            if (!st) return null;
             return (
-              <div
-                key={idx}
-                ref={(el) => { lineRefs.current[idx] = el; }}
-                className={[
-                  'px-3 py-2 rounded-xl transition-all',
-                  isCurrent
-                    ? 'bg-amber-500/10 border-l-2 border-amber-400'
-                    : 'border-l-2 border-transparent',
-                  isPast ? 'opacity-35' : isCurrent ? 'opacity-100' : 'opacity-60',
-                ].join(' ')}
-              >
-                <div className="flex items-start gap-2 text-sm">
-                  <span className="px-1.5 py-0.5 bg-amber-500/15 text-amber-300 rounded text-xs font-mono font-bold shrink-0">{line.character}</span>
-                  <div className="flex-1 min-w-0">
-                    <span className="text-xs opacity-50 mr-1">{assignedStudent?.name ?? '—'}</span>
-                    <span className={isCurrent ? 'text-xl font-semibold' : 'text-base'}>{renderWithBlanks(substituteNames(line.text, charToStudent))}</span>
-                    {isCurrent && hasBlank && line.hint && (
-                      <p className="text-xs opacity-50 italic mt-1">{line.hint}</p>
-                    )}
-                  </div>
-                </div>
+              <div key={c.id} className="flex flex-wrap items-center gap-2 rounded-2xl border border-white/10 bg-slate-950/50 px-4 py-3">
+                <span className="w-44 shrink-0"><span className="font-display text-2xl">{st.name}</span> <span className="text-white/50">as {c.name}</span></span>
+                {NOTES.map((n) => (
+                  <button key={n} type="button" onClick={() => setNotes((prev) => ({ ...prev, [st.id]: prev[st.id] === n ? '' : n }))} className={`rounded-full border px-3 py-1 text-sm transition ${notes[st.id] === n ? 'border-amber-300 bg-amber-300/20 text-amber-50' : 'border-white/15 text-white/65 hover:border-white/30'}`}>{n}</button>
+                ))}
               </div>
             );
           })}
         </div>
-
-        {/* Nav bar */}
-        <div className="flex items-center gap-2 pt-1">
-          <button
-            onClick={handleImprovPrev}
-            disabled={currentIdx === 0}
-            className="px-4 py-2.5 bg-white/10 hover:bg-white/15 disabled:opacity-30 disabled:cursor-not-allowed rounded-xl transition-colors text-sm font-medium"
-          >
-            ← Prev
-          </button>
-          <button
-            onClick={handleImprovNext}
-            className="flex-1 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            {isLastImprovLine ? 'Improv Complete ✓' : 'Next Line ▶'}
-          </button>
+        <div className="flex flex-wrap justify-center gap-2">
+          <KitButton tone="plain" onClick={() => go('improv')} icon={<Sparkles className="h-3.5 w-3.5" />}>Skip to the twist</KitButton>
+          <KitButton tone="amber" solid onClick={() => startTake(2)} className="!px-6 !py-2.5" icon={<Clapperboard className="h-4 w-4" />}>Take 2: Action!</KitButton>
         </div>
       </div>
     );
   }
 
-  // ─── SUMMARY ───────────────────────────────────────────────────────────────
-  const activeScene = scenes[sceneIndex];
-  return (
-    <div className="space-y-5">
-      <div className="text-center space-y-1">
-        <p className="text-2xl font-bold text-emerald-400">Scene Complete!</p>
-        <p className="text-sm opacity-50">{totalScoredLines} / {totalLines} lines spoken</p>
-      </div>
-
-      {/* Lines per student (combined) */}
-      <div className="space-y-2">
-        {combinedLinesPerStudent().map(({ name, count }) => (
-          <div
-            key={name}
-            className="flex items-center justify-between glass px-4 py-3 rounded-xl"
-          >
-            <span className="font-medium text-sm">{name}</span>
-            <span className="text-sm opacity-60">
-              {count} line{count !== 1 ? 's' : ''}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      {/* Improv Twist card */}
-      <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 space-y-3">
-        <div className="space-y-1">
-          <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">Optional Improv Twist</p>
-          <p className="text-base font-medium leading-snug">{activeScene.improvPrompt}</p>
+  // ─── THE SCENE CONTINUES (improv) ───
+  if (phase === 'improv') {
+    return (
+      <div className="mx-auto max-w-4xl space-y-6 py-2 text-center text-white">
+        {overlay}
+        <KitLabel tone="violet">The scene continues…</KitLabel>
+        <motion.p initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="rounded-3xl border border-violet-300/40 bg-violet-400/[0.08] px-8 py-8 font-display text-4xl leading-snug">{scene.improvPrompt}</motion.p>
+        <p className="text-xl text-white/70">No script now. Stay in character and keep the scene going! Your phone has your character and a few lines you can reuse.</p>
+        <div className="flex flex-wrap justify-center gap-2">
+          {cast.map((c) => <span key={c.id} className="rounded-full border border-white/15 px-4 py-1.5 text-lg">{roles.get(c.id)?.name} <span className="text-white/50">as {c.name}</span></span>)}
         </div>
-        <button
-          onClick={handleEnterImprov}
-          className="px-5 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded-xl text-sm font-medium transition-colors"
-        >
-          Run Improv ▶
-        </button>
+        <div className="flex justify-center">
+          <KitButton tone="violet" solid onClick={endImprov} className="!px-6 !py-2.5" icon={<Clapperboard className="h-4 w-4" />}>{castNo === 0 && hasSecondCast ? 'Cut! Next cast' : "Cut! That's a wrap"}</KitButton>
+        </div>
       </div>
+    );
+  }
 
-      <div className="flex items-center justify-end gap-3">
-        {hasAltScene && !useAltScene && (
-          <button
-            onClick={handleNewScene}
-            className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            New Scene ✨
-          </button>
-        )}
-        <button
-          onClick={handleRunAgain}
-          className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-        >
-          Run Again
-        </button>
+  // ─── WRAP (credits) ───
+  return (
+    <div className="mx-auto max-w-3xl space-y-6 py-6 text-center text-white">
+      <Star className="mx-auto h-10 w-10 text-amber-300" />
+      <p className="font-display text-6xl">That&apos;s a wrap!</p>
+      <p className="text-xl text-white/65">Starring…</p>
+      <div className="space-y-1">
+        {credits.map((c, i) => (
+          <motion.p key={c.key} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.25 }} className="text-2xl">
+            <span className="text-amber-200">{c.character}</span>{c.actor ? <span className="text-white/60"> · {c.actor}</span> : null}
+          </motion.p>
+        ))}
       </div>
     </div>
   );

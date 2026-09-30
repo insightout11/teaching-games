@@ -167,9 +167,9 @@ export function useLessonSession(
   const sceneKitRef = useRef<{ title: string; context: string; characters?: string[]; keyLines?: string[] } | null>(null);
   const captureKit = useCallback((key: string, content: unknown) => {
     if (key !== 'scene-igniter' || !content) return;
-    const scene = (content as { scenes?: Array<{ title?: string; context?: string; characters?: Array<{ name?: string } | string>; lines?: Array<{ text?: string }> }> }).scenes?.[0];
+    const scene = (content as { scenes?: Array<{ title?: string; context?: string; cast?: Array<{ name?: string; role?: string }>; lines?: Array<{ text?: string }> }> }).scenes?.[0];
     if (!scene?.title || !scene.context) return;
-    const characters = (scene.characters ?? []).map((c) => (typeof c === 'string' ? c : c?.name ?? '')).filter(Boolean);
+    const characters = (scene.cast ?? []).map((c) => (c?.name ? `${c.name}${c.role ? ` (${c.role})` : ''}` : '')).filter(Boolean);
     const keyLines = (scene.lines ?? []).map((l) => l.text ?? '').filter(Boolean).slice(0, 4);
     sceneKitRef.current = { title: scene.title, context: scene.context, ...(characters.length ? { characters } : {}), ...(keyLines.length ? { keyLines } : {}) };
   }, []);

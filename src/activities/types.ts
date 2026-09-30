@@ -1067,9 +1067,18 @@ export interface SceneIgniterImprovLine {
   hint?: string;      // e.g. "e.g. weird, broken, tiny" — 2–3 example words for the blank
 }
 
+export interface SceneIgniterCastMember {
+  id: string;    // 'A' | 'B' | 'C' | 'D' — matches SceneIgniterLine.character
+  name: string;  // character name, e.g. "Maya"
+  role: string;  // e.g. "a tired airline pilot"
+  want: string;  // what they want in this scene
+}
+
 export interface SceneIgniterScene {
   title: string;
   context: string;           // 2–3 sentence scene setup
+  genre?: string;            // comedy | mystery | drama | adventure
+  cast?: SceneIgniterCastMember[];
   lines: SceneIgniterLine[]; // Scene 1 has 4 chars (12 lines); Scene 2 has 3 chars (9 lines)
   improvPrompt: string;      // one-sentence twist
   improvScript: SceneIgniterImprovLine[];  // 8 lines, 1–2 blanks each

@@ -1,10 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { SceneIgniterActivity } from '@/activities/scene-igniter';
+import { SceneScriptPanel } from '@/components/student/scene-script-panel';
+import type { InputSpec } from '@/lib/input-spec';
 import { RadioCheckActivity } from '@/activities/radio-check';
 import { StaticActivity } from '@/activities/static';
 import { BlackBoxActivity } from '@/activities/black-box';
-import type { ActivityProps, RadioCheckContent, StaticContent, BlackBoxContent } from '@/activities/types';
+import type { ActivityProps, RadioCheckContent, StaticContent, BlackBoxContent, SceneIgniterContent } from '@/activities/types';
 
 const VOICE: RadioCheckContent = {
   activityKey: 'radio-check',
@@ -45,13 +49,41 @@ const BLACK_BOX: BlackBoxContent = {
   ],
 };
 
+const SCENE: SceneIgniterContent = {
+  activityKey: 'scene-igniter',
+  topicContext: 'Airports',
+  scenes: [{
+    title: 'The Missing Suitcase',
+    genre: 'comedy',
+    context: "At a tiny airport at midnight, the traveller's suitcase is missing, and the only person at the desk is very, very sleepy.",
+    cast: [
+      { id: 'A', name: 'Maya', role: 'a worried traveller', want: 'wants her suitcase before her wedding tomorrow' },
+      { id: 'B', name: 'Leo', role: 'a sleepy desk agent', want: 'wants to finish his shift and go home' },
+    ],
+    lines: [
+      { lineIndex: 1, character: 'A', text: 'Excuse me, Leo? My suitcase never came out.', direction: 'nervously' },
+      { lineIndex: 2, character: 'B', text: 'Mm? Suitcase? What colour is it, Maya?', direction: 'yawning' },
+      { lineIndex: 3, character: 'A', text: 'It is bright pink, with a big yellow flower!' },
+      { lineIndex: 4, character: 'B', text: 'Oh no. I think it went to Paris.', direction: 'slowly' },
+    ],
+    improvPrompt: 'The scene continues… a pink suitcase suddenly rolls past on its own!',
+    improvScript: [],
+  }],
+};
+
 export function RadioCheckDevClient() {
+  const [spec, setSpec] = useState<InputSpec | null>(null);
   const mode = useSearchParams().get('mode');
   const video = mode === 'video';
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'static' ? <StaticActivity {...props} generatedContent={STATIC} /> : mode === 'black-box' ? <BlackBoxActivity {...props} generatedContent={BLACK_BOX} /> : <RadioCheckActivity {...props} />}
+      {mode === 'scene' ? (
+        <div className="flex gap-6">
+          <div className="flex-1"><SceneIgniterActivity {...props} generatedContent={SCENE} students={[{ id: 's1', name: 'Ana' }, { id: 's2', name: 'Ben' }] as unknown as ActivityProps['students']} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} /></div>
+          <div className="w-80 shrink-0 rounded-3xl border border-white/10 bg-slate-900 p-4">{spec ? <SceneScriptPanel spec={spec} displayName="Ana" studentId="s1" /> : <p className="text-white/40">phone</p>}</div>
+        </div>
+      ) : mode === 'static' ? <StaticActivity {...props} generatedContent={STATIC} /> : mode === 'black-box' ? <BlackBoxActivity {...props} generatedContent={BLACK_BOX} /> : <RadioCheckActivity {...props} />}
     </div>
   );
 }

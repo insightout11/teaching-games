@@ -23,6 +23,7 @@ import { HotSeatPanel } from './hot-seat-panel';
 import { StoryChainPanel } from './story-chain-panel';
 import { TravellerCard, type TravellerCardData } from './traveller-card';
 import { BlackBoxPanel } from './black-box-panel';
+import { SceneScriptPanel } from './scene-script-panel';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -1264,6 +1265,9 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
     return <StoryChainPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} onSubmit={onSubmit} />;
   }
 
+  if (spec.gameKey === 'scene-igniter' && spec.perStudentData?.__room) {
+    return <SceneScriptPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} />;
+  }
   if (spec.gameKey === 'black-box') {
     return <BlackBoxPanel key={spec.prompt} spec={spec} onSubmit={onSubmit} />;
   }

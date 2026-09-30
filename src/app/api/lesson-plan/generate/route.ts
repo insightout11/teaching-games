@@ -1537,6 +1537,15 @@ async function generateSingleScene(
     properties: {
       title: { type: 'string' },
       context: { type: 'string' },
+      genre: { type: 'string' },
+      cast: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: { id: { type: 'string' }, name: { type: 'string' }, role: { type: 'string' }, want: { type: 'string' } },
+          required: ['id', 'name', 'role', 'want'],
+        },
+      },
       improvPrompt: { type: 'string' },
       improvScript: {
         type: 'array',
@@ -1564,7 +1573,7 @@ async function generateSingleScene(
         },
       },
     },
-    required: ['title', 'context', 'improvPrompt', 'improvScript', 'lines'],
+    required: ['title', 'context', 'genre', 'cast', 'improvPrompt', 'improvScript', 'lines'],
   };
 
   const charList = charCount === 4 ? 'A, B, C, D' : charCount === 3 ? 'A, B, C' : 'A, B';
@@ -1586,7 +1595,10 @@ Requirements:
 - Vocabulary and sentence complexity appropriate for the difficulty level
 - Lines numbered sequentially from 1 to ${lineCount}
 - A "direction" field on most lines (1–2 words describing how the line should be delivered, e.g. "nervously", "whispering", "excitedly", "sighing", "leaning in") — not every line needs one
-- An "improvPrompt" field: one sentence describing a fun twist for students to redo the scene in their own words, e.g. "Now do it again — but A forgot their wallet!"
+- A "genre" field: one of "comedy", "mystery", "drama", "adventure" — pick what suits the scene; kids love comedy and mystery.
+- A "cast" field: one entry per character (${charList}) with id (the letter), a memorable first NAME that fits the story, a short role (3–6 words, e.g. "a tired airline pilot"), and a want (what they want in this scene, one short sentence, e.g. "wants to get home before midnight"). Wants should pull against each other so the scene has tension.
+- Write it like a short MOVIE scene students will ACT: characters address each other by NAME (never by letter), each line sounds like something an actor would say, and the scene has a clear little arc (a problem, a turn, an ending or a cliffhanger).
+- An "improvPrompt" field: one sentence describing a fun twist for students to redo the scene in their own words, e.g. "The lights go out — what happens next?". Phrase it as "The scene continues…" twist that the actors will play WITHOUT a script, staying in character
 - An "improvScript" field: 8 dialogue lines using the same characters (${charList}).
   Each line's "text" must contain 1–2 blanks written as ___ where students improvise a word or phrase.
   The blanks should replace key nouns, emotions, or topic-specific phrases related to the twist.
@@ -1595,11 +1607,13 @@ Requirements:
   Example: { "character": "A", "text": "I can't believe you used to be a ___ champion!", "hint": "e.g. chess, baking, trivia" }
   Example: { "character": "B", "text": "Well, it taught me how to stay ___ under pressure.", "hint": "e.g. calm, focused, cool" }
 
-Return JSON: { title: string, context: string, improvPrompt: string, improvScript: Array<{ character: string, text: string, hint?: string }>, lines: Array<{ lineIndex: number, character: string, text: string, direction?: string }> }`;
+Return JSON: { title: string, context: string, genre: string, cast: Array<{ id: string, name: string, role: string, want: string }>, improvPrompt: string, improvScript: Array<{ character: string, text: string, hint?: string }>, lines: Array<{ lineIndex: number, character: string, text: string, direction?: string }> }`;
 
   const parsed = await generateJSON<{
     title: string;
     context?: string;
+    genre?: string;
+    cast?: Array<{ id: string; name: string; role: string; want: string }>;
     improvPrompt?: string;
     improvScript?: Array<{ character: string; text: string; hint?: string }>;
     lines: Array<{ lineIndex: number; character: string; text: string; direction?: string }>;
@@ -1648,8 +1662,15 @@ Return JSON: { title: string, context: string, improvPrompt: string, improvScrip
       (l) => typeof l.character === 'string' && typeof l.text === 'string' && l.text.includes('___')
     );
 
+  const cast = expectedChars.map((id) => {
+    const c = (parsed.cast ?? []).find((x) => x?.id === id);
+    return { id, name: c?.name?.trim() || `Character ${id}`, role: c?.role?.trim() || '', want: c?.want?.trim() || '' };
+  });
+
   return {
     title: parsed.title ?? 'Scene Igniter',
+    genre: parsed.genre ?? 'comedy',
+    cast,
     context: parsed.context ?? `A scene about ${topic}.`,
     improvPrompt: parsed.improvPrompt ?? 'Now try the scene again in your own words!',
     improvScript: validImprovScript
