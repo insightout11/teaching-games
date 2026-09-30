@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Star, Volume2 } from 'lucide-react';
 import type { PhraseSource, ReferenceVocabItem } from '@/lib/reference-materials';
 import type { PhraseState } from '@/lib/phrasebook-progress';
 import { buzz, BUZZ } from '@/components/student/phone-shell';
+import { speak, warmUpSpeech } from '@/lib/speech';
 
 // Pocket Phrasebook: words are cream "postcard paper" cards the student keeps.
 // Cream only ever means "something you keep"; everything else stays cockpit-dark.
@@ -27,18 +28,7 @@ function ribbonOf(item: ReferenceVocabItem) {
   return SOURCE_RIBBON[item.source ?? 'topic'];
 }
 
-export function speak(text: string) {
-  try {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'en-US';
-    u.rate = 0.9;
-    window.speechSynthesis.speak(u);
-  } catch {
-    // no voice on this device — the button just does nothing
-  }
-}
+export { speak };
 
 /** Passport-style "USED IT" stamp. `fresh` plays the thud. */
 export function UsedStamp({ date, place, fresh }: { date: string; place?: string | null; fresh?: boolean }) {
@@ -180,6 +170,7 @@ export function Phrasebook({
   setOpenWord: (word: string | null) => void;
 }) {
   const [freshWord, setFreshWord] = useState<string | null>(null);
+  useEffect(() => { warmUpSpeech(); }, []);
   useEffect(() => {
     if (!freshWord) return;
     const t = window.setTimeout(() => setFreshWord(null), 900);

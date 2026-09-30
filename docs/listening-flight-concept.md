@@ -80,9 +80,9 @@ A single **Radio Check** stage can drop into Captain's Flight (video source) or 
 - **Synthetic voice** quality varies. A paid voice service later could fix it, at a cost.
 - **Level:** fast native videos are hard for kids, so the difficulty setting should pick shorter clips, more replays and easier questions.
 
-## Questions for you
+## Decisions (owner, Sep 30 2026)
 
-1. Is the before/after ("% caught, first vs final listen") the right result for this flight?
-2. Which audio do you use most in listening lessons: videos, podcasts, songs, or you reading?
-3. Is the synthetic voice acceptable as a fallback, or does it feel too robotic for kids?
-4. Build order: Radio Check → Static → Black Box. Agree?
+1. The result is **"% caught, first listen vs final listen"**: agreed.
+2. Main audio: **podcasts and videos** (the owner hasn't taught a dedicated listening lesson yet). So podcast clips need to be a first-class source, alongside library videos.
+3. The synthetic voice is fine as a fallback. The phrasebook's speech delay was fixed first (`src/lib/speech.ts`: on-device voice, preloaded).
+4. Build order: **Radio Check → Static → Black Box**: agreed.
