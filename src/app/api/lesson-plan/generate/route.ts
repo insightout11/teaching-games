@@ -107,6 +107,8 @@ import businessEnglishLibrary from '@/data/business-english-library.json';
 import internetMemesLibrary from '@/data/internet-memes-library.json';
 import minecraftLibrary from '@/data/minecraft-library.json';
 import sportsLibrary from '@/data/sports-library.json';
+import grammarLibrary from '@/data/grammar-library.json';
+import hooksLibrary from '@/data/hooks-library.json';
 import { switchedSuitcase } from '@/activities/cabin-mystery/cases/switched-suitcase';
 
 export const maxDuration = 60;
@@ -2911,6 +2913,8 @@ export async function POST(request: NextRequest) {
               'crash-course': crashCourseLibrary as Array<{ id: string; youtubeId: string }>,
               'travel-english': travelEnglishLibrary as Array<{ id: string; youtubeId: string }>,
               'world-flight': worldFlightLibrary as Array<{ id: string; youtubeId: string }>,
+              grammar: grammarLibrary as Array<{ id: string; youtubeId: string }>,
+              hooks: hooksLibrary as Array<{ id: string; youtubeId: string }>,
               'business-english': businessEnglishLibrary as Array<{ id: string; youtubeId: string }>,
               'internet-memes': internetMemesLibrary as Array<{ id: string; youtubeId: string }>,
               minecraft: minecraftLibrary as Array<{ id: string; youtubeId: string }>,

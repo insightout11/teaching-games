@@ -4,7 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Blend, Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, Package, Plane, QrCode, Search, Shuffle, Users, Video, Vote, X } from 'lucide-react';
+import { Blend, Crosshair, ExternalLink, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, QrCode, Search, Shuffle, Users, Video, Vote, X } from 'lucide-react';
+import { getActivity } from '@/activities/registry';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
@@ -532,14 +533,18 @@ export function FlightDeck({
         body: JSON.stringify({ sessionId, name: entry.name }),
       }).catch(() => {});
     }
-    flash(`Captain's announcement: ${entry?.name ?? 'Activity'}${sourceItem ? ` from "${sourceItem.title}"` : ''}, boarding now`);
+    flash(`Captain's announcement: ${entry?.name ?? getActivity(key)?.name ?? 'Activity'}${sourceItem ? ` from "${sourceItem.title}"` : ''}, boarding now`);
     const game = games.find((g) => g.key === key);
     if (game) return onLaunchGame(game);
-    const activity = activities.find((a) => a.key === key);
+    // Planner-only activities (e.g. Video Player's comprehension check) still launch from an item.
+    const activity = activities.find((a) => a.key === key) ?? getActivity(key);
     if (activity) onLaunchActivity(activity);
   }, [catalogue, games, activities, onLaunchGame, onLaunchActivity, setSourceMaterial, setCustomTopic, flash, sessionId]);
 
   const focused = material.find((m) => m.id === focusId) ?? null;
+  const roomChannelRef = useRef<BroadcastChannel | null>(null);
+  const focusedTitleRef = useRef<string | null>(null);
+  focusedTitleRef.current = focused ? focused.title.slice(0, 120) : null;
 
   // ── Focus: whatever the class is talking about right now ─────────────────
   // Any topic (typed, a student's question, a Talk prompt) becomes a 'note'
@@ -571,6 +576,7 @@ export function FlightDeck({
     if (!focused) return;
     setFocusTrail((t) => [focused.id, ...t.filter((x) => x !== focused.id)].slice(0, 8));
     setCustomTopic(focused.title.slice(0, 120));
+    roomChannelRef.current?.postMessage({ type: 'topic', title: focused.title.slice(0, 120) });
     if (briefs[focused.id]) return;
     const item = focused;
     setBriefs((b) => ({ ...b, [item.id]: 'loading' }));
@@ -632,8 +638,11 @@ export function FlightDeck({
       if (m.type === 'show') present(m.item);
       else if (m.type === 'add') addItem(sessionId, m.item);
       else if (m.type === 'focus') makeFocus({ title: m.title, credit: m.credit });
+      // A newly opened Sources window asks what the topic is.
+      else if (m.type === 'hello' && focusedTitleRef.current) channel?.postMessage({ type: 'topic', title: focusedTitleRef.current });
     });
-    return () => channel?.close();
+    roomChannelRef.current = channel;
+    return () => { channel?.close(); roomChannelRef.current = null; };
   }, [sessionId, present, addItem, makeFocus]);
 
   const openPopout = () => {
@@ -1154,6 +1163,11 @@ export function FlightDeck({
     scene = shown ? (
       <div className="flex max-h-full w-full max-w-4xl flex-col gap-3 overflow-y-auto rounded-3xl border border-white/15 bg-slate-950/60 p-6 backdrop-blur-md">
         <ShownItem item={shown} />
+        {shown.kind === 'video' && shown.videoId && (
+          <button type="button" onClick={() => launch('video-player', shown)} className="flex items-center gap-1.5 self-start rounded-full border border-emerald-300/40 bg-emerald-400/10 px-3.5 py-1.5 text-sm text-emerald-100 hover:bg-emerald-400/20">
+            <ListChecks className="h-4 w-4" /> After watching: comprehension questions
+          </button>
+        )}
       </div>
     ) : (
       <div className="rounded-3xl border border-dashed border-white/40 bg-slate-950/40 px-10 py-8 text-center backdrop-blur-md">
@@ -1552,7 +1566,12 @@ export function FlightDeck({
                     <button type="button" onClick={() => setFocusId(focusId === m.id ? null : m.id)} className={focusId === m.id ? 'text-amber-300' : 'opacity-0 group-hover:opacity-100'}>
                       {focusId === m.id ? '· Focus' : '· Set focus'}
                     </button>
-                    {(m.text || (m.description && m.description.length > 120)) && (
+                    {m.kind === 'video' && m.videoId && (
+                      <button type="button" onClick={() => launch('video-player', m)} className="text-emerald-300/90 hover:text-emerald-200" title="Watch together, then comprehension questions on phones">
+                        · Questions
+                      </button>
+                    )}
+                    {(m.text || (m.description && m.description.length > 120)) && m.kind !== 'video' && (
                       <button type="button" onClick={() => launch('read-aloud', m)} className="text-emerald-300/90 hover:text-emerald-200" title="Read it together: class version, turns, follow-along">
                         · Read it together
                       </button>

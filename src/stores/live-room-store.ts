@@ -26,6 +26,8 @@ export interface RoomItem {
   address?: string | null;
   videoId?: string | null;
   thumbnailUrl?: string | null;
+  /** Library items: where it came from, so activities can use the stored transcript. */
+  library?: { source: string; id: string };
 }
 
 interface RoomState {

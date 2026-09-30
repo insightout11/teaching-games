@@ -10,6 +10,8 @@ export type RoomMessage =
   | { type: 'add'; item: RoomItem }
   /** Make a student's message the class topic (the room runs the Focus flow). */
   | { type: 'focus'; title: string; credit?: string }
+  /** Room → Sources window: the class topic changed (the Library shelf follows it). */
+  | { type: 'topic'; title: string }
   | { type: 'hello' };
 
 const channelName = (sessionId: string) => `lc-live-room:${sessionId}`;

@@ -18,9 +18,11 @@ const VIDEO_KINDS = new Set<LibraryKind>(['video', 'hook', 'grammar']);
 async function sessionTopic(sessionId: string): Promise<string | null> {
   if (!sessionId) return null;
   try {
-    if (isMockMode()) return mockStore.getSession(sessionId)?.topic ?? null;
-    const { data } = await createServiceClient().from('sessions').select('topic').eq('id', sessionId).maybeSingle();
-    return (data as { topic?: string | null } | null)?.topic ?? null;
+    if (isMockMode()) { const s = mockStore.getSession(sessionId) as { topic?: string; custom_topic?: string | null } | undefined; return s?.custom_topic || s?.topic || null; }
+    // custom_topic is the Live Room Focus (updated on every new topic); topic is the planned one.
+    const { data } = await createServiceClient().from('sessions').select('topic, custom_topic').eq('id', sessionId).maybeSingle();
+    const row = data as { topic?: string | null; custom_topic?: string | null } | null;
+    return row?.custom_topic || row?.topic || null;
   } catch {
     return null;
   }
@@ -60,11 +62,11 @@ export async function GET(request: Request) {
       ? {
           id: `lib-${key}`, kind: 'video', title: entry.title, url: entry.url ?? `https://www.youtube.com/watch?v=${entry.youtubeId}`,
           publisher: entry.publisher, description: entry.blurb, videoId: entry.youtubeId,
-          thumbnailUrl: `https://i.ytimg.com/vi/${entry.youtubeId}/mqdefault.jpg`, text: text || undefined,
+          thumbnailUrl: `https://i.ytimg.com/vi/${entry.youtubeId}/mqdefault.jpg`, text: text || undefined, library: { source, id },
         }
       : {
           id: `lib-${key}`, kind: 'article', title: entry.title, url: entry.url ?? `library:${key}`,
-          publisher: entry.byline ? `${entry.publisher} · ${entry.byline}` : entry.publisher, description: entry.blurb, text,
+          publisher: entry.byline ? `${entry.publisher} · ${entry.byline}` : entry.publisher, description: entry.blurb, text, library: { source, id },
         };
     return NextResponse.json({ item });
   }
@@ -79,7 +81,8 @@ export async function GET(request: Request) {
   const length = lengthParam && LENGTHS.includes(lengthParam) ? lengthParam : null;
   const filters = { levels, age, kind, length };
 
-  const topic = q ? null : await sessionTopic(p.get('sessionId') ?? '');
+  const liveTopic = (p.get('topic') ?? '').trim().slice(0, 120);
+  const topic = q ? null : liveTopic || await sessionTopic(p.get('sessionId') ?? '');
   const shelf = topic ? searchLibrary({ ...filters, topic, limit: 8 }) : [];
   const shelfKeys = new Set(shelf.map((e) => e.key));
   const results = searchLibrary({ ...filters, q, limit: 60 }).filter((e) => !shelfKeys.has(e.key));

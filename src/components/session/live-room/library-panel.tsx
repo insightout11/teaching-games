@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { BookOpen, Clock, FileText, Film, MessagesSquare, Plus, Search, Sparkles, SpellCheck, Zap } from 'lucide-react';
 import type { RoomItem } from '@/stores/live-room-store';
+import { openRoomChannel } from '@/components/session/live-room/room-channel';
 import type { LibraryEntry, LibraryKind, LibraryLength } from '@/lib/live-room/library-search';
 
 /**
@@ -50,6 +51,13 @@ export function LibraryPanel({ sessionId, onShow, onAdd }: { sessionId: string; 
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [working, setWorking] = useState<string | null>(null);
   const reqRef = useRef(0);
+  // The room's live topic (Focus), sent over the room channel; the server falls back to the saved topic.
+  const [liveTopic, setLiveTopic] = useState<string | null>(null);
+  useEffect(() => {
+    const channel = openRoomChannel(sessionId, (m) => { if (m.type === 'topic') setLiveTopic(m.title); });
+    channel?.postMessage({ type: 'hello' });
+    return () => channel?.close();
+  }, [sessionId]);
 
   // Remember filters per teacher (a convenience only).
   useEffect(() => {
@@ -69,6 +77,7 @@ export function LibraryPanel({ sessionId, onShow, onAdd }: { sessionId: string; 
     setError(null);
     const p = new URLSearchParams({ sessionId });
     if (query) p.set('q', query);
+    if (liveTopic) p.set('topic', liveTopic);
     if (levels.length) p.set('levels', levels.join(','));
     if (age) p.set('age', age);
     if (kind) p.set('kind', kind);
@@ -83,7 +92,7 @@ export function LibraryPanel({ sessionId, onShow, onAdd }: { sessionId: string; 
     } finally {
       if (id === reqRef.current) setBusy(false);
     }
-  }, [sessionId, levels, age, kind, length]);
+  }, [sessionId, levels, age, kind, length, liveTopic]);
 
   // Filters apply at once; typing waits a moment.
   useEffect(() => {

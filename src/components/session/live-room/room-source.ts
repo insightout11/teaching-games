@@ -1,4 +1,4 @@
-import type { SourceMaterial } from '@/types/source-material';
+import type { SourceMaterial, SourceType } from '@/types/source-material';
 import type { RoomItem } from '@/stores/live-room-store';
 
 /**
@@ -9,6 +9,20 @@ import type { RoomItem } from '@/stores/live-room-store';
 export function roomItemToSource(item: RoomItem): SourceMaterial {
   const publisher = item.publisher ?? hostname(item.url);
   const citations = [{ title: item.title, publisher, url: item.url }];
+  // Videos keep their identity: Video Player (comprehension questions) needs the
+  // video, and library videos read their prefetched transcript by source + id.
+  if (item.kind === 'video' && item.videoId) {
+    const lib = item.library;
+    const summary = item.text ?? [item.title, item.description].filter(Boolean).join('\n');
+    return {
+      sourceType: (lib?.source ?? 'youtube') as SourceType,
+      sourceKey: lib?.id ?? item.videoId,
+      title: item.title,
+      summary: summary.slice(0, 3000),
+      ...(item.text ? { rawText: item.text } : {}),
+      citations,
+    };
+  }
   if (item.text) {
     return {
       sourceType: 'text',
