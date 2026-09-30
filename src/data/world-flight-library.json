@@ -2639,7 +2639,9 @@
       "name": "Honolulu, United States",
       "lat": 21.3069,
       "lng": -157.8583
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-honolulu-spam-musubi-video",
@@ -2669,7 +2671,9 @@
       "name": "Honolulu, United States",
       "lat": 21.3069,
       "lng": -157.8583
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-honolulu-city-history-video",
@@ -2698,7 +2702,9 @@
       "name": "Honolulu, United States",
       "lat": 21.3069,
       "lng": -157.8583
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-miami-little-havana-video",
@@ -2727,7 +2733,9 @@
       "name": "Miami, United States",
       "lat": 25.7617,
       "lng": -80.1918
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-miami-everglades-video",
@@ -2756,7 +2764,9 @@
       "name": "Miami, United States",
       "lat": 25.7617,
       "lng": -80.1918
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-miami-rapid-transit-video",
@@ -2786,7 +2796,9 @@
       "name": "Miami, United States",
       "lat": 25.7617,
       "lng": -80.1918
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-bogota-my-city-video",
@@ -2814,7 +2826,9 @@
       "name": "Bogota, Colombia",
       "lat": 4.711,
       "lng": -74.0721
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-bogota-gold-museum-video",
@@ -2844,7 +2858,9 @@
       "name": "Bogota, Colombia",
       "lat": 4.711,
       "lng": -74.0721
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-bogota-graffiti-projects-video",
@@ -2874,7 +2890,9 @@
       "name": "Bogota, Colombia",
       "lat": 4.711,
       "lng": -74.0721
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-reykjavik-city-landmarks-video",
@@ -2903,7 +2921,9 @@
       "name": "Reykjavik, Iceland",
       "lat": 64.1466,
       "lng": -21.9426
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-reykjavik-iceland-history-video",
@@ -2932,7 +2952,9 @@
       "name": "Reykjavik, Iceland",
       "lat": 64.1466,
       "lng": -21.9426
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-reykjavik-culture-night-video",
@@ -2960,7 +2982,9 @@
       "name": "Reykjavik, Iceland",
       "lat": 64.1466,
       "lng": -21.9426
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-nairobi-capital-history-video",
@@ -2990,7 +3014,9 @@
       "name": "Nairobi, Kenya",
       "lat": -1.2921,
       "lng": 36.8219
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-nairobi-railway-city-video",
@@ -3020,7 +3046,9 @@
       "name": "Nairobi, Kenya",
       "lat": -1.2921,
       "lng": 36.8219
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-nairobi-un-hub-video",
@@ -3048,7 +3076,9 @@
       "name": "Nairobi, Kenya",
       "lat": -1.2921,
       "lng": 36.8219
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lima-city-history-video",
@@ -3077,7 +3107,9 @@
       "name": "Lima, Peru",
       "lat": -12.0464,
       "lng": -77.0428
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lima-ancient-ruins-video",
@@ -3105,7 +3137,9 @@
       "name": "Lima, Peru",
       "lat": -12.0464,
       "lng": -77.0428
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lima-transport-strike-video",
@@ -3135,7 +3169,9 @@
       "name": "Lima, Peru",
       "lat": -12.0464,
       "lng": -77.0428
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-perth-quokkas-video",
@@ -3164,7 +3200,9 @@
       "name": "Perth, Australia",
       "lat": -31.9523,
       "lng": 115.8613
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-perth-transperth-video",
@@ -3194,7 +3232,9 @@
       "name": "Perth, Australia",
       "lat": -31.9523,
       "lng": 115.8613
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-perth-fremantle-video",
