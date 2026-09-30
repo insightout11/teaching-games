@@ -50,4 +50,11 @@
 - Added five packs and 25 souvenirs, each with the required reward mix.
 - `npx tsx scripts/validate-city-packs.ts --batch 7` passes: 35 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
 - Review flags: Colombian Spanish (Bogota), Icelandic pronunciation (Reykjavik), Swahili usage/pronunciation (Nairobi), Peruvian Spanish pronunciation (Lima), and Australian English expressions (Perth).
+- Commit: `43b4e051` (`Add validated city packs batch 7`).
+
+## Batch 8 — Auckland, Suva, Ulaanbaatar, Almaty, Madrid
+
+- Added five packs and 25 souvenirs, each with the required reward mix.
+- `npx tsx scripts/validate-city-packs.ts --batch 8` passes: 40 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
+- Review flags: Māori and New Zealand regional expressions (Auckland), Fijian vocabulary (Suva), Mongolian transliteration (Ulaanbaatar), Kazakh wording (Almaty), and Spain Spanish usage (Madrid).
 - Commit: pending validation and commit.
