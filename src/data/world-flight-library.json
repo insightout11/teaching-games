@@ -1396,7 +1396,9 @@
       "name": "Istanbul, Turkey",
       "lat": 41.0082,
       "lng": 28.9784
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-vancouver-underground-streams-video",
@@ -1424,7 +1426,9 @@
       "name": "Vancouver, Canada",
       "lat": 49.2827,
       "lng": -123.1207
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-vancouver-skytrain-video",
@@ -1454,7 +1458,9 @@
       "name": "Vancouver, Canada",
       "lat": 49.2827,
       "lng": -123.1207
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-vancouver-city-in-nature-video",
@@ -1482,7 +1488,9 @@
       "name": "Vancouver, Canada",
       "lat": 49.2827,
       "lng": -123.1207
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-toronto-growth-video",
@@ -1512,7 +1520,9 @@
       "name": "Toronto, Canada",
       "lat": 43.6532,
       "lng": -79.3832
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-toronto-public-transit-video",
@@ -1542,7 +1552,9 @@
       "name": "Toronto, Canada",
       "lat": 43.6532,
       "lng": -79.3832
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-toronto-multicultural-video",
@@ -1570,7 +1582,9 @@
       "name": "Toronto, Canada",
       "lat": 43.6532,
       "lng": -79.3832
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mumbai-city-history-video",
@@ -1599,7 +1613,9 @@
       "name": "Mumbai, India",
       "lat": 19.076,
       "lng": 72.8777
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mumbai-dabbawalas-video",
@@ -1627,7 +1643,9 @@
       "name": "Mumbai, India",
       "lat": 19.076,
       "lng": 72.8777
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mumbai-street-food-video",
@@ -1657,7 +1675,9 @@
       "name": "Mumbai, India",
       "lat": 19.076,
       "lng": 72.8777
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cape-town-founded-video",
@@ -1685,7 +1705,9 @@
       "name": "Cape Town, South Africa",
       "lat": -33.9249,
       "lng": 18.4241
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cape-town-table-mountain-video",
@@ -1713,7 +1735,9 @@
       "name": "Cape Town, South Africa",
       "lat": -33.9249,
       "lng": 18.4241
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cape-town-water-crisis-video",
@@ -1743,7 +1767,9 @@
       "name": "Cape Town, South Africa",
       "lat": -33.9249,
       "lng": 18.4241
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rome-ancient-rome-video",
@@ -1772,7 +1798,9 @@
       "name": "Rome, Italy",
       "lat": 41.9028,
       "lng": 12.4964
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rome-colosseum-video",
@@ -1801,7 +1829,9 @@
       "name": "Rome, Italy",
       "lat": 41.9028,
       "lng": 12.4964
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rome-food-market-video",
@@ -1831,7 +1861,9 @@
       "name": "Rome, Italy",
       "lat": 41.9028,
       "lng": 12.4964
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rio-de-janeiro-city-history-video",
@@ -1860,7 +1892,9 @@
       "name": "Rio de Janeiro, Brazil",
       "lat": -22.9068,
       "lng": -43.1729
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rio-de-janeiro-favela-history-video",
@@ -1888,7 +1922,9 @@
       "name": "Rio de Janeiro, Brazil",
       "lat": -22.9068,
       "lng": -43.1729
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rio-de-janeiro-carnival-video",
@@ -1918,7 +1954,9 @@
       "name": "Rio de Janeiro, Brazil",
       "lat": -22.9068,
       "lng": -43.1729
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mexico-city-complex-history-video",
@@ -1947,7 +1985,9 @@
       "name": "Mexico City, Mexico",
       "lat": 19.4326,
       "lng": -99.1332
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mexico-city-metro-tips-video",
