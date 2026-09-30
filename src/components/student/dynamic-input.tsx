@@ -20,6 +20,7 @@ import { TwentyQuestionsPanel } from './twenty-questions-panel';
 import { GridRushPanel } from './grid-rush-panel';
 import { SynonymPanel } from './synonym-panel';
 import { HotSeatPanel } from './hot-seat-panel';
+import { StoryChainPanel } from './story-chain-panel';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -1248,6 +1249,10 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
         </p>
       </div>
     );
+  }
+
+  if (spec.gameKey === 'story-sprint' && spec.perStudentData?.__room) {
+    return <StoryChainPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} onSubmit={onSubmit} />;
   }
 
   if (spec.gameKey === 'hot-seat' && spec.perStudentData?.__room) {

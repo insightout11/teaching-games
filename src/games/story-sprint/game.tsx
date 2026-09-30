@@ -1,5 +1,7 @@
 'use client';
 
+import { StoryChain } from './story-chain';
+import { KitButton } from '@/components/session/widget-kit';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps } from '../types';
@@ -9,7 +11,22 @@ import type { StorySentence, AIScoreResponse, FinalStoryResult } from './types';
 
 const MAX_SENTENCES = 10;
 
-export function StorySprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, config }: GameProps) {
+/**
+ * Story Sprint: "Story Chain" (spoken, default: one sentence each out loud with
+ * a story card) or "Write it" (the original written chain with feedback).
+ */
+export function StorySprintGame(props: GameProps) {
+  const [mode, setMode] = useState<'chain' | 'write'>('chain');
+  if (mode === 'chain') return <StoryChain {...props} onBack={() => setMode('write')} />;
+  return (
+    <div className="space-y-3">
+      <div className="flex justify-end"><KitButton onClick={() => setMode('chain')}>Switch to Story Chain (spoken)</KitButton></div>
+      <StorySprintWriting {...props} />
+    </div>
+  );
+}
+
+function StorySprintWriting({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, config }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [story, setStory] = useState<StorySentence[]>([]);
   const [inputValue, setInputValue] = useState('');

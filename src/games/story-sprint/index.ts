@@ -5,11 +5,11 @@ import { PenLine } from 'lucide-react';
 export const storySprintPlugin: GamePlugin = {
   key: 'story-sprint',
   name: 'Story Sprint',
-  description: 'Collaborative storytelling. Add one sentence at a time and get smart feedback.',
+  description: 'Build a story together out loud: one sentence each, prompted by a story card on your phone. Optional written mode with feedback.',
   category: 'grammar-writing',
   pppStage: 'production',
   icon: PenLine,
-  skills: ['Creative Writing', 'Grammar', 'Storytelling'],
+  skills: ['Speaking', 'Storytelling', 'Listening'],
   component: StorySprintGame,
   configSchema: [],
   maxPointsPerTurn: 10,
