@@ -113,7 +113,7 @@ export const ARCHIVED_PRESETS: FlightPlanPreset[] = [
     landing: 'opinion-shift',
     moduleSequence: [
       { slotType: 'presentation', key: 'fact-detective' },
-      { slotType: 'production', key: 'defend-it' },
+      { slotType: 'production', key: 'decision-council' },
       { slotType: 'production', key: 'hot-take-arena' },
     ],
     scenarios: {

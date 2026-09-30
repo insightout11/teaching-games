@@ -9,6 +9,7 @@
  * - in-your-words: duplicate of Language Toolkit
  * - two-truths (Spot the Fib): merged into Fact Detective
  * - password: replaced by Hot Seat
+ * - defend-it: folded into Hot Take Arena as the Wild card mode
  */
 export const RETIRED_PLUGIN_KEYS: ReadonlySet<string> = new Set([
   'word-chain',
@@ -18,6 +19,7 @@ export const RETIRED_PLUGIN_KEYS: ReadonlySet<string> = new Set([
   'in-your-words',
   'two-truths',
   'password', // replaced by Hot Seat (everyone gives clues, not one team)
+  'defend-it', // now Hot Take Arena's "Wild card" mode
 ]);
 
 export const isRetired = (key: string) => RETIRED_PLUGIN_KEYS.has(key);

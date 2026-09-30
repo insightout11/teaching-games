@@ -2,7 +2,8 @@
 
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ChevronRight, Flame, Hand, Mic, Scale, Sparkles, Star, Swords, Timer } from 'lucide-react';
+import { ArrowRight, ChevronRight, Flame, Gavel, Hand, Mic, Scale, Shuffle, Sparkles, Star, Swords, Timer } from 'lucide-react';
+import type { DefendCard, DefendRoomState } from '@/components/student/defend-it-panel';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type Side, type SideSelection, type SpokeEntry, type DevilsAdvocateChallenge, type HotTakeArenaContent } from './types';
 import { VocabPill } from '@/components/ui/vocab-pill';
@@ -17,20 +18,22 @@ const PICK_LABELS = ['AGREE (PRO)', 'DISAGREE (CON)'];
 const sideOf = (choice: string): Side => (choice === PICK_LABELS[0] ? 'pro' : 'con');
 const other = (s: Side): Side => (s === 'pro' ? 'con' : 'pro');
 
-type Mode = 'classic' | 'quick';
+// Wild card = the old Defend the Indefensible: phones assign sides on an absurd statement.
+type Mode = 'classic' | 'quick' | 'wild';
+const VERDICT_LABELS = ['DEFEND argued better', 'ATTACK argued better'];
 
-interface RaisedHand { claimTag: string; timestamp: number; clientId: string; displayName: string }
+interface RaisedHand { key: string; claimTag: string; timestamp: number; clientId: string; displayName: string }
 interface FinalVote { clientId: string; displayName: string; side: Side }
 
 /** Live tug-of-war: how the class splits. */
-function TugOfWar({ pro, con, big = false }: { pro: number; con: number; big?: boolean }) {
+function TugOfWar({ pro, con, big = false, labels = ['Agree', 'Disagree'] }: { pro: number; con: number; big?: boolean; labels?: [string, string] }) {
   const total = pro + con;
   const p = total ? (pro / total) * 100 : 50;
   return (
     <div className="space-y-1.5">
       <div className="flex justify-between font-mono text-xs uppercase tracking-[0.14em]">
-        <span className="text-cyan-300">Agree · {pro}</span>
-        <span className="text-rose-300">{con} · Disagree</span>
+        <span className="text-cyan-300">{labels[0]} · {pro}</span>
+        <span className="text-rose-300">{con} · {labels[1]}</span>
       </div>
       <div className={`relative flex overflow-hidden rounded-full bg-white/10 ${big ? 'h-5' : 'h-3'}`}>
         <motion.div className="h-full bg-cyan-400" animate={{ width: `${p}%` }} transition={{ type: 'spring', stiffness: 120, damping: 18 }} />
@@ -42,6 +45,8 @@ function TugOfWar({ pro, con, big = false }: { pro: number; con: number; big?: b
 }
 
 export function HotTakeArenaActivity({
+  students,
+  sessionSettings,
   generatedContent,
   onContinue,
   onPhaseChange,
@@ -66,34 +71,58 @@ export function HotTakeArenaActivity({
   const [isLoadingChallenge, setIsLoadingChallenge] = useState(false);
   const promptIndexRef = useRef(1);
   const resultsPointsAwarded = useRef(false);
+  const [wildStatement, setWildStatement] = useState<string | null>(null);
+  const [wildLoading, setWildLoading] = useState(false);
+  const usedWildRef = useRef<string[]>([]);
+  const wild = mode === 'wild';
+  const statementText = wild && wildStatement ? wildStatement : content.statement;
+  const sideLabel = (x: Side) => (wild ? (x === 'pro' ? 'Defend' : 'Attack') : SIDE[x].label);
+  // Wild card sides are dealt to the roster, so match phone replies by id or name.
+  const keyFor = (vote: { clientId: string; studentId?: string | null; displayName: string }): string | null => {
+    if (!wild) return vote.clientId;
+    return sideSelections.find((x) => x.studentId === vote.studentId || x.studentId === vote.clientId || x.studentName === vote.displayName)?.studentId ?? null;
+  };
 
   // Quick take reuses the MIND_CHANGE_VOTE slot as its "one reason" phase.
   const collectingReasons = mode === 'quick' && status === ActivityStatus.MIND_CHANGE_VOTE;
 
   // ─── What phones see ──────────────────────────────────────────────────────
   useEffect(() => {
-    if (status === ActivityStatus.SIDE_SELECTION) {
-      onSetInputSpec?.({ type: 'binary', gameKey: 'hot-take-arena', prompt: `"${content.statement}" Pick a side!`, optionLabels: PICK_LABELS });
+    if (status === ActivityStatus.SIDE_SELECTION && wild) {
+      const data: Record<string, unknown> = { __room: { phase: 'sides' } satisfies DefendRoomState };
+      sideSelections.forEach((x) => {
+        const c: DefendCard = { side: x.side === 'pro' ? 'DEFEND' : 'ATTACK' };
+        data[x.studentId] = c;
+        data[x.studentName] = c;
+      });
+      onSetInputSpec?.({ type: 'confirm', gameKey: 'defend-it', prompt: statementText, perStudentData: data });
+    } else if (status === ActivityStatus.SIDE_SELECTION) {
+      onSetInputSpec?.({ type: 'binary', gameKey: 'hot-take-arena', prompt: `"${statementText}" Pick a side!`, optionLabels: PICK_LABELS });
     } else if (status === ActivityStatus.DEBATE) {
       onSetInputSpec?.({
         type: 'text',
         gameKey: 'hot-take-arena',
-        prompt: 'Raise your hand with your point. Start with "I agree because…" or "I disagree because…"',
-        placeholder: 'I agree because…',
+        prompt: wild ? 'Raise your hand with your argument for YOUR side (check your side card!).' : 'Raise your hand with your point. Start with "I agree because…" or "I disagree because…"',
+        placeholder: wild ? 'Actually, this is a great idea because…' : 'I agree because…',
         maxLength: 80,
       });
     } else if (collectingReasons) {
       onSetInputSpec?.({ type: 'text', gameKey: 'hot-take-arena', prompt: 'Why? One sentence for your side.', placeholder: 'Because…', maxLength: 120 });
+    } else if (status === ActivityStatus.MIND_CHANGE_VOTE && wild) {
+      onSetInputSpec?.({ type: 'binary', gameKey: 'hot-take-arena', prompt: 'Who argued better? Vote for the best arguments, not your side.', optionLabels: VERDICT_LABELS });
     } else if (status === ActivityStatus.MIND_CHANGE_VOTE) {
       onSetInputSpec?.({ type: 'binary', gameKey: 'hot-take-arena', prompt: 'After the debate: where do you stand now?', optionLabels: PICK_LABELS });
     } else {
       onSetInputSpec?.(null);
     }
-  }, [status, collectingReasons, content?.statement, onSetInputSpec]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, collectingReasons, statementText, wild, onSetInputSpec]);
 
   // ─── Phone replies ────────────────────────────────────────────────────────
   useEffect(() => {
-    if (status === ActivityStatus.SIDE_SELECTION) {
+    if (status === ActivityStatus.SIDE_SELECTION && wild) {
+      return; // sides are dealt, not picked
+    } else if (status === ActivityStatus.SIDE_SELECTION) {
       onRegisterRemoteVoteHandler?.((vote) => {
         const side = sideOf(vote.choice);
         setSideSelections((prev) => [...prev.filter((s) => s.studentId !== vote.clientId), { studentId: vote.clientId, studentName: vote.displayName, side }]);
@@ -101,8 +130,9 @@ export function HotTakeArenaActivity({
     } else if (status === ActivityStatus.DEBATE) {
       onRegisterRemoteVoteHandler?.((vote) => {
         const claimTag = vote.choice?.trim();
-        if (!claimTag || !sideSelections.some((s) => s.studentId === vote.clientId)) return;
-        setRaisedHands((prev) => new Map(prev).set(vote.clientId, { claimTag, timestamp: Date.now(), clientId: vote.clientId, displayName: vote.displayName }));
+        const key = keyFor(vote);
+        if (!claimTag || !key || !sideSelections.some((s) => s.studentId === key)) return;
+        setRaisedHands((prev) => new Map(prev).set(key, { key, claimTag, timestamp: Date.now(), clientId: vote.clientId, displayName: vote.displayName }));
       });
     } else if (collectingReasons) {
       onRegisterRemoteVoteHandler?.((vote) => {
@@ -111,6 +141,12 @@ export function HotTakeArenaActivity({
       });
     } else if (status === ActivityStatus.MIND_CHANGE_VOTE) {
       onRegisterRemoteVoteHandler?.((vote) => {
+        if (wild) {
+          // Verdict: anyone may vote on who argued better.
+          const side: Side = vote.choice === VERDICT_LABELS[0] ? 'pro' : 'con';
+          setFinalVotes((prev) => [...prev.filter((v) => v.clientId !== vote.clientId), { clientId: vote.clientId, displayName: vote.displayName, side }]);
+          return;
+        }
         if (!sideSelections.some((s) => s.studentId === vote.clientId)) return;
         const side = sideOf(vote.choice);
         setFinalVotes((prev) => [...prev.filter((v) => v.clientId !== vote.clientId), { clientId: vote.clientId, displayName: vote.displayName, side }]);
@@ -119,7 +155,8 @@ export function HotTakeArenaActivity({
       return;
     }
     return () => onRegisterRemoteVoteHandler?.(null);
-  }, [status, collectingReasons, sideSelections, onRegisterRemoteVoteHandler]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, collectingReasons, sideSelections, wild, onRegisterRemoteVoteHandler]);
 
   // ─── Derived ──────────────────────────────────────────────────────────────
   const teams = useMemo(() => ({
@@ -129,7 +166,7 @@ export function HotTakeArenaActivity({
 
   const handsBySide = useMemo(() => {
     const hands = Array.from(raisedHands.values());
-    const of = (side: Side) => hands.filter((h) => sideSelections.find((s) => s.studentId === h.clientId)?.side === side).sort((a, b) => a.timestamp - b.timestamp);
+    const of = (side: Side) => hands.filter((h) => sideSelections.find((s) => s.studentId === h.key)?.side === side).sort((a, b) => a.timestamp - b.timestamp);
     return { pro: of('pro'), con: of('con') };
   }, [raisedHands, sideSelections]);
 
@@ -148,13 +185,47 @@ export function HotTakeArenaActivity({
     return { before: { pro: teams.pro.length, con: teams.con.length }, after, switched, wonTo, winner };
   }, [finalVotes, sideSelections, teams]);
 
+  // Wild card verdict: which side argued better (majority of votes).
+  const verdict = useMemo(() => {
+    const pro = finalVotes.filter((v) => v.side === 'pro').length;
+    const con = finalVotes.filter((v) => v.side === 'con').length;
+    return { pro, con, winner: (pro > con ? 'pro' : con > pro ? 'con' : null) as Side | null };
+  }, [finalVotes]);
+
   // ─── Flow ─────────────────────────────────────────────────────────────────
   const go = useCallback((next: ActivityStatus, phase: string) => {
     setStatus(next);
     onPhaseChange?.(phase);
   }, [onPhaseChange]);
 
-  const startSideSelection = () => { setSideSelections([]); go(ActivityStatus.SIDE_SELECTION, 'side-selection'); };
+  const startSideSelection = () => {
+    if (wild) {
+      const shuffled = [...students].sort(() => Math.random() - 0.5);
+      const half = Math.ceil(shuffled.length / 2);
+      setSideSelections(shuffled.map((st, i) => ({ studentId: st.id, studentName: st.name, side: i < half ? 'pro' : 'con' })));
+    } else {
+      setSideSelections([]);
+    }
+    go(ActivityStatus.SIDE_SELECTION, 'side-selection');
+  };
+
+  // Wild card: an absurd statement from the Defend generator.
+  const revealWild = async () => {
+    setWildLoading(true);
+    try {
+      const res = await fetch('/api/defend-it/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: content.topicContext || customTopic, difficulty: sessionSettings?.difficulty, count: 1, avoid: usedWildRef.current }),
+        cache: 'no-store',
+      });
+      const data = (await res.json()) as { statements?: string[] };
+      const st = data.statements?.[0];
+      if (st) { setWildStatement(st); usedWildRef.current = [...usedWildRef.current, st].slice(-12); }
+    } catch { /* falls back to the hot take statement */ }
+    setWildLoading(false);
+    go(ActivityStatus.PRESENTING, 'presenting');
+  };
   const afterSides = () => (mode === 'quick' ? go(ActivityStatus.MIND_CHANGE_VOTE, 'reasons') : go(ActivityStatus.DEBATE, 'debate'));
 
   const callOn = (clientId: string) => setCurrentSpeaker(clientId);
@@ -165,14 +236,14 @@ export function HotTakeArenaActivity({
     return handsBySide[prefer][0] ?? handsBySide[other(prefer)][0] ?? null;
   }, [handsBySide, lastSide]);
 
-  const markDone = useCallback((clientId: string, starred: boolean) => {
-    const hand = raisedHands.get(clientId);
-    const selection = sideSelections.find((s) => s.studentId === clientId);
+  const markDone = useCallback((key: string, starred: boolean) => {
+    const hand = raisedHands.get(key);
+    const selection = sideSelections.find((s) => s.studentId === key);
     if (!hand || !selection) return;
-    setSpokeLog((prev) => [...prev, { id: `spoke-${Date.now()}`, studentId: clientId, studentName: hand.displayName, side: selection.side, claimTag: hand.claimTag, timestamp: Date.now(), isStarred: starred }]);
-    setRaisedHands((prev) => { const n = new Map(prev); n.delete(clientId); return n; });
+    setSpokeLog((prev) => [...prev, { id: `spoke-${Date.now()}`, studentId: key, studentName: hand.displayName, side: selection.side, claimTag: hand.claimTag, timestamp: Date.now(), isStarred: starred }]);
+    setRaisedHands((prev) => { const n = new Map(prev); n.delete(key); return n; });
     setCurrentSpeaker(null);
-    void onScore?.({ studentId: null, clientId, displayName: hand.displayName, promptIndex: promptIndexRef.current++, points: starred ? 10 : 5, isCorrect: null });
+    void onScore?.({ studentId: null, clientId: hand.clientId, displayName: hand.displayName, promptIndex: promptIndexRef.current++, points: starred ? 10 : 5, isCorrect: null });
   }, [raisedHands, sideSelections, onScore]);
 
   const triggerDevilsAdvocate = useCallback(async (targetSide: Side) => {
@@ -219,16 +290,24 @@ export function HotTakeArenaActivity({
     finalVotes.forEach((v) => {
       void onScore?.({ studentId: null, clientId: v.clientId, displayName: v.displayName, promptIndex: promptIndexRef.current++, points: 2, isCorrect: null });
     });
+    if (wild) {
+      if (verdict.winner) {
+        sideSelections.filter((s) => s.side === verdict.winner).forEach((s) => {
+          void onScore?.({ studentId: s.studentId, clientId: null, displayName: s.studentName, promptIndex: promptIndexRef.current++, points: 15, isCorrect: null });
+        });
+      }
+      return;
+    }
     // The side that won people over: its original members earn the bonus.
     if (shift.winner) {
       sideSelections.filter((s) => s.side === shift.winner).forEach((s) => {
         void onScore?.({ studentId: null, clientId: s.studentId, displayName: s.studentName, promptIndex: promptIndexRef.current++, points: 15, isCorrect: null });
       });
     }
-  }, [go, mode, reasons, finalVotes, shift.winner, sideSelections, onScore]);
+  }, [go, mode, wild, verdict.winner, reasons, finalVotes, shift.winner, sideSelections, onScore]);
 
   const restart = () => {
-    setSideSelections([]); setRaisedHands(new Map()); setCurrentSpeaker(null); setSpokeLog([]); setFinalVotes([]); setReasons(new Map());
+    setSideSelections([]); setRaisedHands(new Map()); setCurrentSpeaker(null); setSpokeLog([]); setFinalVotes([]); setReasons(new Map()); setWildStatement(null);
     setCurrentChallenge(null); setChallengeIndex({ pro: 0, con: 0 }); setIsLoadingChallenge(false);
     promptIndexRef.current = 1; resultsPointsAwarded.current = false;
     go(ActivityStatus.IDLE, 'idle');
@@ -240,7 +319,7 @@ export function HotTakeArenaActivity({
 
   const Statement = ({ size = 'lg' }: { size?: 'lg' | 'sm' }) => (
     <p className={`text-center font-display leading-tight text-white ${size === 'lg' ? 'text-4xl' : 'text-2xl'}`} style={{ textWrap: 'balance' }}>
-      &ldquo;{content.statement}&rdquo;
+      &ldquo;{statementText}&rdquo;
     </p>
   );
 
@@ -252,10 +331,11 @@ export function HotTakeArenaActivity({
           <KitLabel tone="amber">Hot Take Arena{customTopic && customTopic !== 'General' ? ` · ${customTopic}` : ''}</KitLabel>
           <p className="mt-2 font-display text-4xl">Pick a side. Defend it.</p>
         </div>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-3">
           {([
             { key: 'classic', icon: Swords, title: 'Full debate', blurb: 'Pick sides, speak in turns, AI challenges both sides, then see who changed minds.', time: '~15 min' },
             { key: 'quick', icon: Timer, title: 'Quick take', blurb: 'Everyone picks a side and gives one reason on their phone. A fast warm-up.', time: '~5 min' },
+            { key: 'wild', icon: Shuffle, title: 'Wild card', blurb: 'An absurd statement, and phones deal your side. Defend it or attack it, whatever you really think!', time: '~10 min' },
           ] as const).map((m) => {
             const on = mode === m.key;
             const Icon = m.icon;
@@ -270,8 +350,8 @@ export function HotTakeArenaActivity({
           })}
         </div>
         <div className="flex justify-center">
-          <KitButton tone="amber" solid onClick={() => go(ActivityStatus.PRESENTING, 'presenting')} className="!px-8 !py-3 !text-base" icon={<Flame className="h-4 w-4" />}>
-            Reveal the hot take
+          <KitButton tone="amber" solid disabled={wildLoading || (wild && students.length < 2)} onClick={() => (wild ? void revealWild() : go(ActivityStatus.PRESENTING, 'presenting'))} className="!px-8 !py-3 !text-base" icon={<Flame className="h-4 w-4" />}>
+            {wildLoading ? 'Finding something absurd…' : wild ? 'Reveal the wild card' : 'Reveal the hot take'}
           </KitButton>
         </div>
       </div>
@@ -282,7 +362,7 @@ export function HotTakeArenaActivity({
   if (status === ActivityStatus.PRESENTING) {
     return (
       <motion.div initial={reduce ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl space-y-6 text-white">
-        <div className="text-center"><KitLabel tone="amber">Today&apos;s hot take</KitLabel></div>
+        <div className="text-center"><KitLabel tone="amber">{wild ? 'Wild card' : 'Today’s hot take'}</KitLabel></div>
         <Statement />
         {(content.vocabularyHighlights?.length ?? 0) > 0 && (
           <div className="flex flex-wrap justify-center gap-2">
@@ -290,7 +370,7 @@ export function HotTakeArenaActivity({
           </div>
         )}
         <div className="flex justify-center">
-          <KitButton tone="amber" solid onClick={startSideSelection} className="!px-8 !py-3 !text-base" icon={<Scale className="h-4 w-4" />}>Pick sides on your phones</KitButton>
+          <KitButton tone="amber" solid onClick={startSideSelection} className="!px-8 !py-3 !text-base" icon={wild ? <Shuffle className="h-4 w-4" /> : <Scale className="h-4 w-4" />}>{wild ? 'Deal sides to phones' : 'Pick sides on your phones'}</KitButton>
         </div>
       </motion.div>
     );
@@ -301,11 +381,11 @@ export function HotTakeArenaActivity({
     return (
       <div className="mx-auto max-w-4xl space-y-6 text-white">
         <Statement size="sm" />
-        <TugOfWar pro={teams.pro.length} con={teams.con.length} big />
+        <TugOfWar pro={teams.pro.length} con={teams.con.length} big labels={[sideLabel('pro'), sideLabel('con')]} />
         <div className="grid grid-cols-2 gap-4">
           {(['pro', 'con'] as const).map((side) => (
             <div key={side} className={`min-h-[120px] rounded-2xl border p-4 ${SIDE[side].border} ${SIDE[side].bg}`}>
-              <p className={`font-mono text-xs uppercase tracking-[0.16em] ${SIDE[side].text}`}>{SIDE[side].label}</p>
+              <p className={`font-mono text-xs uppercase tracking-[0.16em] ${SIDE[side].text}`}>{sideLabel(side)}</p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {teams[side].map((s) => (
                   <motion.span key={s.studentId} initial={reduce ? false : { scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="rounded-full bg-white/10 px-3 py-1 text-sm">{s.studentName}</motion.span>
@@ -315,7 +395,7 @@ export function HotTakeArenaActivity({
           ))}
         </div>
         <div className="flex items-center justify-between">
-          <KitReadout>{sideSelections.length} picked</KitReadout>
+          <KitReadout>{wild ? 'Sides dealt · check your phone' : `${sideSelections.length} picked`}</KitReadout>
           <KitButton tone="amber" solid disabled={mode === 'classic' && (teams.pro.length === 0 || teams.con.length === 0)} onClick={afterSides} className="!px-6 !py-2.5 !text-sm" icon={<ChevronRight className="h-4 w-4" />}>
             {mode === 'quick' ? 'Now: one reason each' : 'Start the debate'}
           </KitButton>
@@ -339,7 +419,7 @@ export function HotTakeArenaActivity({
             ) : currentChallenge && (
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <KitLabel tone="violet">Devil&apos;s advocate · to {SIDE[currentChallenge.targetSide].label}</KitLabel>
+                  <KitLabel tone="violet">Devil&apos;s advocate · to {sideLabel(currentChallenge.targetSide)}</KitLabel>
                   <p className="mt-1 font-display text-2xl leading-snug">{currentChallenge.challenge}</p>
                 </div>
                 <KitButton onClick={() => setCurrentChallenge(null)}>Done</KitButton>
@@ -350,21 +430,21 @@ export function HotTakeArenaActivity({
 
         {speaker && speakerSide ? (
           <motion.div initial={reduce ? false : { y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className={`rounded-2xl border-2 p-5 ${SIDE[speakerSide].border} ${SIDE[speakerSide].bg}`}>
-            <KitLabel tone={speakerSide === 'pro' ? 'cyan' : 'rose'}>Speaking now · {SIDE[speakerSide].label}</KitLabel>
+            <KitLabel tone={speakerSide === 'pro' ? 'cyan' : 'rose'}>Speaking now · {sideLabel(speakerSide)}</KitLabel>
             <div className="mt-1 flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="font-display text-4xl">{speaker.displayName}</p>
                 <p className="mt-1 text-lg text-white/80">&ldquo;{speaker.claimTag}&rdquo;</p>
               </div>
               <div className="flex gap-2">
-                <KitButton tone="amber" onClick={() => markDone(speaker.clientId, true)} className="!py-2 !text-sm" icon={<Star className="h-4 w-4" />}>Great point</KitButton>
-                <KitButton onClick={() => markDone(speaker.clientId, false)} className="!py-2 !text-sm">Done</KitButton>
+                <KitButton tone="amber" onClick={() => markDone(speaker.key, true)} className="!py-2 !text-sm" icon={<Star className="h-4 w-4" />}>Great point</KitButton>
+                <KitButton onClick={() => markDone(speaker.key, false)} className="!py-2 !text-sm">Done</KitButton>
               </div>
             </div>
           </motion.div>
         ) : (
           <div className="flex items-center justify-center gap-3">
-            <KitButton tone="emerald" solid disabled={!nextHand} onClick={() => nextHand && callOn(nextHand.clientId)} className="!px-6 !py-2.5 !text-sm" icon={<Mic className="h-4 w-4" />}>
+            <KitButton tone="emerald" solid disabled={!nextHand} onClick={() => nextHand && callOn(nextHand.key)} className="!px-6 !py-2.5 !text-sm" icon={<Mic className="h-4 w-4" />}>
               {nextHand ? `Next speaker: ${nextHand.displayName}` : 'Waiting for hands on phones…'}
             </KitButton>
             {lastSide && nextHand && <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/45">sides take turns</span>}
@@ -375,13 +455,13 @@ export function HotTakeArenaActivity({
           {(['pro', 'con'] as const).map((side) => (
             <div key={side} className={`rounded-2xl border p-3 ${SIDE[side].border} bg-slate-950/40`}>
               <div className="mb-2 flex items-center justify-between">
-                <p className={`font-mono text-xs uppercase tracking-[0.16em] ${SIDE[side].text}`}>{SIDE[side].label} · {teams[side].length}</p>
+                <p className={`font-mono text-xs uppercase tracking-[0.16em] ${SIDE[side].text}`}>{sideLabel(side)} · {teams[side].length}</p>
                 <span className="flex items-center gap-1 font-mono text-[11px] text-white/50"><Hand className="h-3.5 w-3.5" />{handsBySide[side].length}</span>
               </div>
               <div className="min-h-[70px] space-y-1.5">
                 {handsBySide[side].length === 0 && <p className="pt-3 text-center text-xs text-white/40">No hands up yet</p>}
                 {handsBySide[side].map((h) => (
-                  <button key={h.clientId} type="button" disabled={!!currentSpeaker} onClick={() => callOn(h.clientId)} className={`flex w-full items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-left hover:bg-white/5 disabled:cursor-default ${nextHand?.clientId === h.clientId && !currentSpeaker ? 'ring-1 ring-emerald-300/60' : ''}`}>
+                  <button key={h.key} type="button" disabled={!!currentSpeaker} onClick={() => callOn(h.key)} className={`flex w-full items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-left hover:bg-white/5 disabled:cursor-default ${nextHand?.key === h.key && !currentSpeaker ? 'ring-1 ring-emerald-300/60' : ''}`}>
                     <span className={`text-sm font-semibold ${SIDE[side].text}`}>{h.displayName}</span>
                     <span className="truncate text-sm text-white/70">{h.claimTag}</span>
                   </button>
@@ -409,10 +489,10 @@ export function HotTakeArenaActivity({
 
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex gap-2">
-            <KitButton tone="violet" disabled={isLoadingChallenge} onClick={() => void triggerDevilsAdvocate('pro')} icon={<Sparkles className="h-3.5 w-3.5" />}>Challenge Agree</KitButton>
-            <KitButton tone="violet" disabled={isLoadingChallenge} onClick={() => void triggerDevilsAdvocate('con')} icon={<Sparkles className="h-3.5 w-3.5" />}>Challenge Disagree</KitButton>
+            <KitButton tone="violet" disabled={isLoadingChallenge} onClick={() => void triggerDevilsAdvocate('pro')} icon={<Sparkles className="h-3.5 w-3.5" />}>Challenge {sideLabel('pro')}</KitButton>
+            <KitButton tone="violet" disabled={isLoadingChallenge} onClick={() => void triggerDevilsAdvocate('con')} icon={<Sparkles className="h-3.5 w-3.5" />}>Challenge {sideLabel('con')}</KitButton>
           </div>
-          <KitButton tone="amber" solid onClick={endDebate} className="!px-5 !py-2 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>End debate · vote again</KitButton>
+          <KitButton tone="amber" solid onClick={endDebate} className="!px-5 !py-2 !text-sm" icon={wild ? <Gavel className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}>{wild ? 'End debate · class verdict' : 'End debate · vote again'}</KitButton>
         </div>
       </div>
     );
@@ -423,9 +503,9 @@ export function HotTakeArenaActivity({
     const count = collectingReasons ? reasons.size : finalVotes.length;
     return (
       <div className="mx-auto max-w-3xl space-y-6 text-center text-white">
-        <KitLabel tone="amber">{collectingReasons ? 'One reason each' : 'Vote again'}</KitLabel>
+        <KitLabel tone="amber">{collectingReasons ? 'One reason each' : wild ? 'Class verdict' : 'Vote again'}</KitLabel>
         <Statement size="sm" />
-        <p className="text-lg text-white/75">{collectingReasons ? 'Type one reason on your phone.' : 'After hearing both sides: where do you stand now? You can switch.'}</p>
+        <p className="text-lg text-white/75">{collectingReasons ? 'Type one reason on your phone.' : wild ? 'Who argued better? Vote for the arguments, not your side.' : 'After hearing both sides: where do you stand now? You can switch.'}</p>
         <p className="font-display text-5xl">{count}<span className="text-2xl text-white/50"> / {sideSelections.length}</span></p>
         <KitButton tone="amber" solid onClick={showResults} className="mx-auto !px-8 !py-3 !text-base" icon={<ChevronRight className="h-4 w-4" />}>See the results</KitButton>
       </div>
@@ -438,11 +518,11 @@ export function HotTakeArenaActivity({
       return (
         <div className="mx-auto max-w-4xl space-y-5 text-white">
           <Statement size="sm" />
-          <TugOfWar pro={teams.pro.length} con={teams.con.length} big />
+          <TugOfWar pro={teams.pro.length} con={teams.con.length} big labels={[sideLabel('pro'), sideLabel('con')]} />
           <div className="grid grid-cols-2 gap-4">
             {(['pro', 'con'] as const).map((side) => (
               <div key={side} className={`rounded-2xl border p-4 ${SIDE[side].border} ${SIDE[side].bg}`}>
-                <p className={`mb-2 font-mono text-xs uppercase tracking-[0.16em] ${SIDE[side].text}`}>{SIDE[side].label}</p>
+                <p className={`mb-2 font-mono text-xs uppercase tracking-[0.16em] ${SIDE[side].text}`}>{sideLabel(side)}</p>
                 <div className="space-y-2">
                   {teams[side].filter((s) => reasons.has(s.studentId)).map((s) => (
                     <p key={s.studentId} className="text-base"><span className="font-semibold">{s.studentName}:</span> <span className="text-white/80">{reasons.get(s.studentId)}</span></p>
@@ -459,13 +539,40 @@ export function HotTakeArenaActivity({
         </div>
       );
     }
+    if (wild) {
+      const vw = verdict.winner;
+      return (
+        <div className="mx-auto max-w-4xl space-y-5 text-white">
+          <Statement size="sm" />
+          <div className="text-center">
+            <KitLabel tone="amber">The verdict</KitLabel>
+            <p className="mt-2 font-display text-4xl">{vw ? <><span className={SIDE[vw].text}>{sideLabel(vw)}</span> argued better!</> : 'A draw!'}</p>
+          </div>
+          <TugOfWar pro={verdict.pro} con={verdict.con} big labels={['Defend votes', 'Attack votes']} />
+          {starred.length > 0 && (
+            <div className="rounded-2xl border border-amber-300/40 bg-amber-300/[0.06] p-4">
+              <KitLabel tone="amber">Best points</KitLabel>
+              <div className="mt-2 space-y-1.5">
+                {starred.map((e) => (
+                  <p key={e.id} className="flex items-center gap-2 text-base"><Star className="h-4 w-4 shrink-0 fill-amber-300 text-amber-300" /><span className="font-semibold">{e.studentName}</span><span className={`font-mono text-[11px] uppercase ${SIDE[e.side].text}`}>{sideLabel(e.side)}</span><span className="text-white/80">{e.claimTag}</span></p>
+                ))}
+              </div>
+            </div>
+          )}
+          <div className="flex justify-center gap-2">
+            <KitButton onClick={restart}>Another round</KitButton>
+            <KitButton tone="amber" solid onClick={() => go(ActivityStatus.FINISHED, 'finished')}>Finish</KitButton>
+          </div>
+        </div>
+      );
+    }
     const w = shift.winner;
     return (
       <div className="mx-auto max-w-4xl space-y-5 text-white">
         <div className="text-center">
           <KitLabel tone="amber">The opinion shift</KitLabel>
           <p className="mt-2 font-display text-4xl">
-            {w ? <><span className={SIDE[w].text}>{SIDE[w].label}</span> won people over!</> : 'Nobody switched sides: a strong stand-off!'}
+            {w ? <><span className={SIDE[w].text}>{sideLabel(w)}</span> won people over!</> : 'Nobody switched sides: a strong stand-off!'}
           </p>
         </div>
         <div className="space-y-3">
@@ -478,7 +585,7 @@ export function HotTakeArenaActivity({
             <div className="mt-2 flex flex-wrap gap-2">
               {shift.switched.map((x) => (
                 <span key={x.name} className="flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-sm">
-                  {x.name} <span className={SIDE[x.from].text}>{SIDE[x.from].label}</span> <ArrowRight className="h-3.5 w-3.5" /> <span className={SIDE[x.to].text}>{SIDE[x.to].label}</span>
+                  {x.name} <span className={SIDE[x.from].text}>{sideLabel(x.from)}</span> <ArrowRight className="h-3.5 w-3.5" /> <span className={SIDE[x.to].text}>{sideLabel(x.to)}</span>
                 </span>
               ))}
             </div>
@@ -492,7 +599,7 @@ export function HotTakeArenaActivity({
                 <p key={e.id} className="flex items-center gap-2 text-base">
                   <Star className="h-4 w-4 shrink-0 fill-amber-300 text-amber-300" />
                   <span className="font-semibold">{e.studentName}</span>
-                  <span className={`font-mono text-[11px] uppercase ${SIDE[e.side].text}`}>{SIDE[e.side].label}</span>
+                  <span className={`font-mono text-[11px] uppercase ${SIDE[e.side].text}`}>{sideLabel(e.side)}</span>
                   <span className="text-white/80">{e.claimTag}</span>
                 </p>
               ))}
