@@ -448,5 +448,155 @@
     ],
     "needsReview": true,
     "reviewNotes": "Please check the Russian word choices and simplified pronunciations with a fluent speaker."
+  },
+  "istanbul": {
+    "id": "istanbul",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Rainy winters and warm, sunny summers shape life in this large city by the water." },
+      { "order": 2, "kind": "food", "text": "A sesame-covered bread ring is often eaten plain or filled for a quick snack." },
+      { "order": 3, "kind": "culture", "text": "Tea is commonly served in small tulip-shaped glasses during visits and breaks." },
+      { "order": 4, "kind": "nature", "text": "Ferries carry passengers between busy waterfront neighborhoods on opposite shores." },
+      { "order": 5, "kind": "landmark", "text": "A domed former church and mosque has a large central dome and tall minarets." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Turkey." }
+    ],
+    "souvenirs": [
+      { "id": "istanbul-simit-ring", "name": "Simit bread ring", "description": "Simit is a round bread coated with sesame seeds and sold by street vendors.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style golden sesame bread ring on a small paper tray, no text, no people's faces" },
+      { "id": "istanbul-ferry-token", "name": "Ferry token", "description": "Ferries carry passengers between neighborhoods on both sides of the water.", "earn": { "type": "mode", "mode": "world" }, "icon": "ship", "artPrompt": "sticker-style white passenger ferry with a red flag on blue water, no text, no people's faces" },
+      { "id": "istanbul-tea-glass", "name": "Tea glass charm", "description": "Turkish tea is often served in a small clear glass shaped like a tulip.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "coffee", "artPrompt": "sticker-style tulip-shaped glass filled with dark tea on a saucer, no text, no people's faces" },
+      { "id": "istanbul-bazaar-scarf", "name": "Market scarf square", "description": "The Grand Bazaar is a covered market with lanes of small shops.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "flower", "artPrompt": "sticker-style folded patterned scarf with colorful geometric motifs, no text, no people's faces" },
+      { "id": "istanbul-ceramic-tile", "name": "Ceramic tulip tile", "description": "Ceramic tiles in many historic buildings use repeating floral patterns.", "earn": { "type": "rare" }, "icon": "flower", "artPrompt": "sticker-style blue-and-white ceramic tile with a red tulip pattern, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Istanbul snack would you buy before boarding a ferry?",
+      "What colors would you use to draw a tea glass in Istanbul?",
+      "What would your class like to discover in the Grand Bazaar?"
+    ],
+    "localWords": [
+      { "word": "merhaba", "language": "Turkish", "meaning": "hello", "say": "mehr-hah-BAH" },
+      { "word": "teşekkürler", "language": "Turkish", "meaning": "thank you", "say": "teh-shek-KOOR-lehr" },
+      { "word": "lezzetli", "language": "Turkish", "meaning": "tasty", "say": "lez-ZET-lee" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Turkish meanings and simplified pronunciations with a fluent speaker."
+  },
+  "vancouver": {
+    "id": "vancouver",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Cloudy skies and gentle rain are common in the cooler months, with drier summers." },
+      { "order": 2, "kind": "food", "text": "Smoky pink fish from the nearby Pacific coast is served in many local dishes." },
+      { "order": 3, "kind": "culture", "text": "Many residents walk or cycle on a paved path that follows the water's edge." },
+      { "order": 4, "kind": "nature", "text": "Evergreen forests, beaches, and snow-topped mountains sit close to the coast." },
+      { "order": 5, "kind": "landmark", "text": "A huge urban park has a long seawall path beside beaches and forest trails." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Canada." }
+    ],
+    "souvenirs": [
+      { "id": "vancouver-salmon-pin", "name": "Salmon pin", "description": "Pacific sockeye salmon is known for its deep red flesh and rich flavor.", "earn": { "type": "land" }, "icon": "fish", "artPrompt": "sticker-style red salmon leaping above a blue wave, no text, no people's faces" },
+      { "id": "vancouver-seawall-bike", "name": "Seawall bicycle bell", "description": "The waterfront seawall path is popular with people walking and cycling.", "earn": { "type": "mode", "mode": "free" }, "icon": "bike", "artPrompt": "sticker-style bicycle bell with a tiny blue ocean wave, no text, no people's faces" },
+      { "id": "vancouver-nanaimo-bar", "name": "Nanaimo bar", "description": "A Nanaimo bar has crumbly layers, custard-flavored filling, and chocolate on top.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "cookie", "artPrompt": "sticker-style layered chocolate square with a pale custard middle, no text, no people's faces" },
+      { "id": "vancouver-orca-sticker", "name": "Orca tail badge", "description": "Orcas can be seen in the coastal waters around southwestern British Columbia.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "fish", "artPrompt": "sticker-style black-and-white orca tail rising above calm water, no text, no people's faces" },
+      { "id": "vancouver-rainforest-leaf", "name": "Rainforest leaf", "description": "The city's largest park includes a natural West Coast rainforest.", "earn": { "type": "rare" }, "icon": "leaf", "artPrompt": "sticker-style glossy evergreen leaf with a tiny raindrop, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Vancouver seawall view would your class want to sketch?",
+      "What would you ask about a salmon dish in Vancouver?",
+      "Which Vancouver park trail would you explore, and why?"
+    ],
+    "localWords": [
+      { "word": "eh", "language": "Canadian English", "meaning": "friendly question tag", "say": "AY" },
+      { "word": "toque", "language": "Canadian English", "meaning": "warm knitted hat", "say": "TOOK" },
+      { "word": "loonie", "language": "Canadian English", "meaning": "one-dollar coin", "say": "LOO-nee" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check that these Canadian English words and their explanations are locally natural and age-appropriate."
+  },
+  "toronto": {
+    "id": "toronto",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Cold snowy winters and warm humid summers make the seasons feel very different." },
+      { "order": 2, "kind": "food", "text": "A soft bun holds a slice of cured pork, often topped with mustard or relish." },
+      { "order": 3, "kind": "culture", "text": "Streetcars share the roads with buses and cyclists in busy neighborhoods." },
+      { "order": 4, "kind": "nature", "text": "A chain of small green islands lies just offshore across a broad freshwater lake." },
+      { "order": 5, "kind": "landmark", "text": "A very tall tower has a glass floor high above the city." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Canada." }
+    ],
+    "souvenirs": [
+      { "id": "toronto-peameal-sandwich", "name": "Peameal sandwich", "description": "A peameal bacon sandwich is a Toronto favorite served on a soft bun.", "earn": { "type": "land" }, "icon": "sandwich", "artPrompt": "sticker-style peameal bacon sandwich with a soft golden bun, no text, no people's faces" },
+      { "id": "toronto-streetcar-token", "name": "Streetcar token", "description": "Streetcars run along many busy streets and connect city neighborhoods.", "earn": { "type": "mode", "mode": "world" }, "icon": "train", "artPrompt": "sticker-style red-and-white streetcar rolling along city tracks, no text, no people's faces" },
+      { "id": "toronto-butter-tart", "name": "Butter tart tin", "description": "A butter tart has a flaky pastry shell with a sweet, soft filling.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "cookie", "artPrompt": "sticker-style small golden butter tart in a fluted pastry tin, no text, no people's faces" },
+      { "id": "toronto-market-basket", "name": "Market basket token", "description": "St. Lawrence Market has stalls selling food and other goods.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shopping-bag", "artPrompt": "sticker-style woven market basket with apples and bread, no text, no people's faces" },
+      { "id": "toronto-tower-viewfinder", "name": "Tower viewfinder", "description": "The CN Tower's glass floor lets visitors look down toward the ground below.", "earn": { "type": "rare" }, "icon": "building", "artPrompt": "sticker-style tiny observation tower with a clear glass floor, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Toronto streetcar route would your class ride first?",
+      "What would you put on a peameal sandwich in Toronto?",
+      "What would you look for at St. Lawrence Market?"
+    ],
+    "localWords": [
+      { "word": "toonie", "language": "Canadian English", "meaning": "two-dollar coin", "say": "TOO-nee" },
+      { "word": "double-double", "language": "Canadian English", "meaning": "coffee with two creams and two sugars", "say": "DUB-ul DUB-ul" },
+      { "word": "eh", "language": "Canadian English", "meaning": "friendly question tag", "say": "AY" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check these Canadian English expressions, especially their everyday use in Toronto."
+  },
+  "mumbai": {
+    "id": "mumbai",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "The year brings a very wet monsoon season as well as hot, humid days." },
+      { "order": 2, "kind": "food", "text": "A spicy potato patty is tucked into a soft bread roll for a popular snack." },
+      { "order": 3, "kind": "culture", "text": "Crowded local trains carry commuters across long distances during the morning rush." },
+      { "order": 4, "kind": "nature", "text": "The busy neighborhoods stretch along a warm coastline with promenades and beaches." },
+      { "order": 5, "kind": "landmark", "text": "A grand stone arch stands at the water's edge beside a busy harbor." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in India." }
+    ],
+    "souvenirs": [
+      { "id": "mumbai-vada-pav", "name": "Vada pav snack", "description": "Vada pav pairs a spiced potato fritter with bread and chutneys.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style potato fritter in a soft bread roll with chutney, no text, no people's faces" },
+      { "id": "mumbai-local-train", "name": "Local train charm", "description": "Suburban trains carry large numbers of commuters across the city each day.", "earn": { "type": "mode", "mode": "topic" }, "icon": "train", "artPrompt": "sticker-style blue-and-white commuter train beside a station platform, no text, no people's faces" },
+      { "id": "mumbai-bhelpuri-cone", "name": "Bhelpuri paper cone", "description": "Bhelpuri mixes puffed rice with vegetables, chutneys, and crunchy toppings.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style paper cone filled with puffed rice and colorful toppings, no text, no people's faces" },
+      { "id": "mumbai-monsoon-umbrella", "name": "Monsoon umbrella", "description": "Umbrellas are handy during the city's rainy monsoon months.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "umbrella", "artPrompt": "sticker-style bright umbrella with silver raindrops, no text, no people's faces" },
+      { "id": "mumbai-harbor-tram", "name": "Harbor arch magnet", "description": "The Gateway of India is a stone arch beside Mumbai's waterfront.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style small stone arch beside blue harbor waves, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Mumbai street snack would your class try first?",
+      "What would you notice during a Mumbai local train ride?",
+      "What would your postcard show beside Mumbai's harbor?"
+    ],
+    "localWords": [
+      { "word": "namaskar", "language": "Marathi", "meaning": "hello", "say": "nah-mah-SKAAR" },
+      { "word": "dhanyavaad", "language": "Marathi", "meaning": "thank you", "say": "dhan-yah-VAAD" },
+      { "word": "chhaan", "language": "Marathi", "meaning": "nice or good", "say": "CHHAAN" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Marathi word choices and simplified pronunciations with a fluent speaker from Mumbai."
+  },
+  "cape-town": {
+    "id": "cape-town",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Bright, dry summers and cooler rainy winters give this coastal city distinct seasons." },
+      { "order": 2, "kind": "food", "text": "A long, filled sandwich may contain meat, chips, salad, and sauce." },
+      { "order": 3, "kind": "culture", "text": "Families and friends often gather outdoors to cook over a fire and share food." },
+      { "order": 4, "kind": "nature", "text": "A flat-topped mountain rises behind the neighborhoods, with ocean bays nearby." },
+      { "order": 5, "kind": "landmark", "text": "A broad, level summit above the city is often covered by a blanket of cloud." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in South Africa." }
+    ],
+    "souvenirs": [
+      { "id": "cape-town-gatsby-roll", "name": "Gatsby sandwich roll", "description": "A Gatsby is a large sandwich filled with several ingredients and shared in slices.", "earn": { "type": "land" }, "icon": "sandwich", "artPrompt": "sticker-style long sandwich roll cut into colorful shareable pieces, no text, no people's faces" },
+      { "id": "cape-town-koeksister", "name": "Koeksister twist", "description": "A koeksister is a plaited pastry soaked in syrup and served sweet.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "cookie", "artPrompt": "sticker-style golden plaited syrup pastry twist, no text, no people's faces" },
+      { "id": "cape-town-fynbos-flower", "name": "Fynbos flower pin", "description": "Fynbos is a diverse plant community found in the Cape region.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "flower", "artPrompt": "sticker-style pink protea flower with delicate green leaves, no text, no people's faces" },
+      { "id": "cape-town-penguin-shell", "name": "Penguin beach shell", "description": "African penguins live along the nearby coast and can be seen at some beaches.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shell", "artPrompt": "sticker-style small penguin footprint beside a seashell on sand, no text, no people's faces" },
+      { "id": "cape-town-mountain-cloud", "name": "Mountain cloud globe", "description": "Clouds sometimes cover the flat summit and spill down the mountain slopes.", "earn": { "type": "rare" }, "icon": "mountain", "artPrompt": "sticker-style flat-topped mountain wrapped in a soft white cloud, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Cape Town snack would you share with a friend?",
+      "What would you draw on a postcard of Cape Town's mountain view?",
+      "What would your class add to a Cape Town seaside braai?"
+    ],
+    "localWords": [
+      { "word": "howzit", "language": "South African English", "meaning": "hello; how are you?", "say": "HOW-zit" },
+      { "word": "lekker", "language": "South African English", "meaning": "great or tasty", "say": "LEK-er" },
+      { "word": "braai", "language": "South African English", "meaning": "barbecue", "say": "BRY" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check these South African English expressions and their context with a Cape Town speaker."
   }
 }

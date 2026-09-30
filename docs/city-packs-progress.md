@@ -21,4 +21,12 @@
 - Added five packs and 25 souvenirs, each with the required reward mix.
 - `npx tsx scripts/validate-city-packs.ts --batch 3` passes: 15 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
 - Review flags: Australian English local expressions (Sydney), Mandarin tones/pronunciation (Beijing and Shanghai), and German (Berlin) and Russian (Moscow) pronunciation/wording.
+- Commit: `cad8986b` (`Add validated city packs batch 3`).
+
+## Batch 4 — Istanbul, Vancouver, Toronto, Mumbai, Cape Town
+
+- Added five packs and 25 souvenirs, each with the required reward mix.
+- Clues 1–4 use generic climate, food, daily-life, and nature details; named travel-anchor places are reserved for later clues.
+- `npx tsx scripts/validate-city-packs.ts --batch 4` passes: 20 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
+- Review flags: Turkish pronunciations (Istanbul), Canadian English local wording (Vancouver and Toronto), Marathi phrases (Mumbai), and South African English expressions (Cape Town).
 - Commit: pending validation and commit.
