@@ -422,7 +422,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'speak-60',
     name: 'Speak',
-    description: 'Warm up, play out a scaffolded scene, then keep talking — an opinion pulse, open conversation, a comms check, a review game, and a final word.',
+    description: 'Warm up, learn the key phrases, act out a scene, then keep it going as a free conversation — with an opinion pulse, a comms check, a review game, and a final word.',
     tagline: 'Maximum talk time — fluency over accuracy',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
@@ -432,8 +432,10 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     // No new components — reuses the existing speaking engine (scene-igniter → conversation-rounds).
     // Micro defaults (Vocab) await the Vocab micro + toggle system; Opinion Pulse baked in for now.
     moduleSequence: [
-      { slotType: 'presentation', key: 'scene-igniter', stageId: 'scene' },
+      // Lesson thread: Toolkit phrases -> the scene uses them -> the conversation continues the scene.
+      { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
       { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it'] },
+      { slotType: 'presentation', key: 'scene-igniter', stageId: 'scene' },
       { slotType: 'production', key: 'conversation-rounds', stageId: 'conversation' },
       { slotType: 'practice', key: 'vocab-micro', stageId: 'vocab-check', isMicroEvent: true },
       { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['connections', 'synonym-showdown', 'vocab-sprint', 'taboo-sprint', 'imposter'] },
@@ -441,8 +443,9 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     flightConfig: {
       stages: [
         { stageId: 'icebreaker', label: 'Warm-up', kind: 'stage', phase: 'takeoff' },
-        { stageId: 'scene', label: 'Scene', kind: 'stage', phase: 'climb' },
-        { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event', phase: 'cruise' },
+        { stageId: 'language-toolkit', label: 'Language Toolkit', kind: 'stage', phase: 'climb' },
+        { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event', phase: 'climb' },
+        { stageId: 'scene', label: 'Scene', kind: 'stage', phase: 'cruise' },
         { stageId: 'conversation', label: 'Conversation', kind: 'stage', phase: 'cruise' },
         { stageId: 'vocab-check', label: 'Comms Check', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
@@ -450,6 +453,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       ],
       stageByKey: {
         'character-cards': 'icebreaker',
+        'language-toolkit': 'language-toolkit',
         'scene-igniter': 'scene',
         'would-you-rather': 'opinion-pulse',
         'rank-it': 'opinion-pulse',

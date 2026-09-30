@@ -2878,6 +2878,8 @@ export async function POST(request: NextRequest) {
       standardTopicId?: string;
       sessionId?: string;
       taskRoleplay?: boolean;
+      /** Lesson Kit: the scene this lesson already played (Scene Igniter), so later stages continue it. */
+      sceneContext?: { title: string; context: string; characters?: string[]; keyLines?: string[] };
     };
 
     const {
@@ -2936,13 +2938,25 @@ export async function POST(request: NextRequest) {
 
     // Canonical source vocab: generate once at start, carry forward to all source-grounded activities
     let sourceVocab: SourceVocabItem[] = sourceVocabFromRequest ?? [];
-    if (needsSourceVocab && sourceVocab.length === 0 && sourceCtx.length > 0) {
+    if (needsSourceVocab && sourceVocab.length === 0) {
       try {
         sourceVocab = await generateSourceVocab(customTopic, diff, sourceCtx);
       } catch (err) {
         console.warn('generateSourceVocab failed:', err instanceof Error ? err.message.slice(0, 100) : err);
       }
     }
+
+    // ─── Lesson Kit ───
+    // Every stage of a flight plan gets the same key phrases (and the scene, once played), so the
+    // lesson threads end to end instead of each stage only knowing the topic.
+    const kitPhrases = sourceVocab.map((v) => v.term).filter(Boolean).slice(0, 8);
+    const sceneFromKit = body.sceneContext?.title && body.sceneContext?.context ? body.sceneContext : undefined;
+    const kitCtx = [
+      kitPhrases.length ? `\n\nLESSON KEY PHRASES (taught earlier in this lesson; reuse several of them naturally): ${kitPhrases.join(', ')}` : '',
+      sceneFromKit ? `\n\nSCENE ALREADY PLAYED IN THIS LESSON: "${sceneFromKit.title}". ${sceneFromKit.context}${sceneFromKit.characters?.length ? ` Characters: ${sceneFromKit.characters.join(', ')}.` : ''}` : '',
+    ].join('');
+    const kitSourceCtx = `${sourceCtx}${kitCtx}`;
+    const kitGrounding = kitCtx ? groundingVariant(kitSourceCtx, missionContext && missionContext.length > 0 ? missionContext.join('') : undefined) : grounding;
 
     // Vocab Blitz shared word list: run Vocab Radar first, pass words to Vocab Sprint
     const vocabBlitzMode = hasActivities && hasGames &&
@@ -3188,7 +3202,7 @@ export async function POST(request: NextRequest) {
           }
           case 'scene-igniter':
             if (sceneChainMode) break; // already generated sequentially above
-            generators.push(generateSceneIgniter(customTopic, diff, sourceCtx, studentCount).then((r) => { content[activityKey] = r; }));
+            generators.push(generateSceneIgniter(customTopic, diff, kitSourceCtx, studentCount).then((r) => { content[activityKey] = r; }));
             break;
           case 'final-answer':
             generators.push(generateFinalAnswer(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
@@ -3213,7 +3227,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateCargoHold(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'imposter':
-            generators.push(generateImposter(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
+            generators.push(generateImposter(customTopic, diff, kitSourceCtx, kitGrounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'password':
             generators.push(generatePassword(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
@@ -3222,7 +3236,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateBluffDefinition(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'taboo-sprint':
-            generators.push(generateTabooSprint(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
+            generators.push(generateTabooSprint(customTopic, diff, kitSourceCtx, kitGrounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'static':
             generators.push(generateStatic(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
@@ -3235,7 +3249,7 @@ export async function POST(request: NextRequest) {
             break;
           case 'hot-seat':
             // Same topic cards as Taboo (word + definition); the forbidden words go unused.
-            generators.push(generateTabooSprint(customTopic, diff, sourceCtx, grounding).then((r) => {
+            generators.push(generateTabooSprint(customTopic, diff, kitSourceCtx, kitGrounding).then((r) => {
               content[activityKey] = { activityKey: 'hot-seat', topicContext: r.topicContext, cards: r.rounds, topic: r.topic };
             }));
             break;
@@ -3260,7 +3274,8 @@ export async function POST(request: NextRequest) {
             break;
           case 'conversation-rounds':
             if (sceneChainMode) break; // already generated sequentially above
-            generators.push(generateConversationRounds(customTopic, diff, undefined, sourceCtx, taskRoleplay).then((r) => { content[activityKey] = r; }));
+            // Continues the lesson's scene when one was played (same characters, now unscripted).
+            generators.push(generateConversationRounds(customTopic, diff, sceneFromKit, kitSourceCtx, taskRoleplay).then((r) => { content[activityKey] = r; }));
             break;
           case 'trip-hotel':
             // Travel-arc roleplay stage: ConversationRounds task-roleplay grounded on its own
@@ -3313,7 +3328,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateConnection(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'connections':
-            generators.push(generateConnections(customTopic, diff, sourceCtx).then((r) => { gameContent[gameKey] = r; }));
+            generators.push(generateConnections(customTopic, diff, kitSourceCtx).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'story-sprint':
             if (sceneChainMode) break; // already generated sequentially above

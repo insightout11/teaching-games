@@ -161,6 +161,19 @@ export function useLessonSession(
   // ─── Canonical source vocab ─────────────────────────────────────────────
   const sourceVocabRef = useRef<SourceVocabItem[]>([]);
 
+  // ─── Lesson Kit ─────────────────────────────────────────────────────────
+  // What later stages should build on: the key phrases (sourceVocabRef, above) and the scene
+  // once Scene Igniter has played, so Conversation Rounds can continue it.
+  const sceneKitRef = useRef<{ title: string; context: string; characters?: string[]; keyLines?: string[] } | null>(null);
+  const captureKit = useCallback((key: string, content: unknown) => {
+    if (key !== 'scene-igniter' || !content) return;
+    const scene = (content as { scenes?: Array<{ title?: string; context?: string; characters?: Array<{ name?: string } | string>; lines?: Array<{ text?: string }> }> }).scenes?.[0];
+    if (!scene?.title || !scene.context) return;
+    const characters = (scene.characters ?? []).map((c) => (typeof c === 'string' ? c : c?.name ?? '')).filter(Boolean);
+    const keyLines = (scene.lines ?? []).map((l) => l.text ?? '').filter(Boolean).slice(0, 4);
+    sceneKitRef.current = { title: scene.title, context: scene.context, ...(characters.length ? { characters } : {}), ...(keyLines.length ? { keyLines } : {}) };
+  }, []);
+
   const captureSourceVocab = useCallback((data: Pick<LessonPlanGenerateResponse, 'sourceVocab'>) => {
     if (data.sourceVocab?.length && sourceVocabRef.current.length === 0) {
       sourceVocabRef.current = data.sourceVocab;
@@ -199,7 +212,7 @@ export function useLessonSession(
     // Self-seeded activities (content comes from the session store, not AI) — skip prefetch.
     if (SELF_SEEDED_ACTIVITIES.has(key)) return;
 
-    const needsSourceVocab = lessonSlots.some((s) => s.key === 'language-toolkit');
+    const needsSourceVocab = lessonSlots.length > 1; // Lesson Kit: every stage of a flight plan shares the key phrases
 
     // Don't prefetch language-toolkit until canonical vocab is ready — it would generate a second list
     if (needsSourceVocab && key === 'language-toolkit' && sourceVocabRef.current.length === 0) return;
@@ -218,11 +231,15 @@ export function useLessonSession(
     const sourceMaterial = lessonPlanContent?.stageSources?.[key] ?? lessonPlanContent?.sourceMaterial;
     const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
     const courseContextPayload = lessonPlanContent?.courseContext ? { courseContext: lessonPlanContent.courseContext } : {};
+    const kitPayload = {
+      ...(sceneKitRef.current ? { sceneContext: sceneKitRef.current } : {}),
+      ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
+    };
     const body = isLanding
       ? { activityKey: key, topic: effectiveTopic, difficulty: settings.difficulty, ...(sourceMaterial ? { sourceKey: sourceMaterial.sourceKey ?? sourceMaterial.title } : {}), ...(missionContext.length > 0 ? { missionContext } : {}) }
       : isGame
-        ? { customTopic: effectiveTopic, difficulty: settings.difficulty, games: [key], sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...courseContextPayload, ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) }
-        : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount, sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...courseContextPayload, ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) };
+        ? { customTopic: effectiveTopic, difficulty: settings.difficulty, games: [key], sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...courseContextPayload, ...kitPayload, ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) }
+        : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount, sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...courseContextPayload, ...kitPayload, ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) };
 
     fetch(endpoint, {
       method: 'POST',
@@ -239,6 +256,7 @@ export function useLessonSession(
           prefetchedContentRef.current[key] = data.gameContent[key];
         } else if (data.content?.[key]) {
           prefetchedContentRef.current[key] = data.content[key];
+          captureKit(key, data.content[key]);
         }
       })
       .catch((err) => {
@@ -247,7 +265,7 @@ export function useLessonSession(
       .finally(() => {
         prefetchingKeysRef.current.delete(key);
       });
-  }, [lessonSlots, lessonPlanContent, settings, studentCount, sessionId, getMissionContext, captureSourceVocab]);
+  }, [lessonSlots, lessonPlanContent, settings, studentCount, sessionId, getMissionContext, captureSourceVocab, captureKit]);
 
   // ─── Content resolution: activity ──────────────────────────────────────
   // Live Room background preparation, keyed by activity and tagged with the
@@ -276,7 +294,7 @@ export function useLessonSession(
     roomPrefetchRef.current[activity.key] = { sourceKey, promise };
   }, [lessonPlanContent, settings.difficulty, settings.grammarTarget, studentCount, sessionId]);
 
-  const selectActivity = useCallback(async (activity: ActivityPlugin): Promise<ActivityGeneratedContent | null> => {
+  const selectActivityInner = useCallback(async (activity: ActivityPlugin): Promise<ActivityGeneratedContent | null> => {
     if (activity.key === 'cabin-mystery') {
       return { ...switchedSuitcase, topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
     }
@@ -333,7 +351,7 @@ export function useLessonSession(
       const sourceMaterial = lessonPlanContent
         ? lessonPlanContent.stageSources?.[activity.key] ?? lessonPlanContent.sourceMaterial
         : useSessionStore.getState().sourceMaterial ?? undefined;
-      const needsSourceVocab = lessonSlots.some((s) => s.key === 'language-toolkit');
+      const needsSourceVocab = lessonSlots.length > 1; // Lesson Kit: every stage of a flight plan shares the key phrases
       const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
       const courseContextPayload = lessonPlanContent?.courseContext ? { courseContext: lessonPlanContent.courseContext } : {};
       const body = isLanding
@@ -347,6 +365,7 @@ export function useLessonSession(
             ...(missionContext.length > 0 ? { missionContext } : {}),
             ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
             ...(sourceMaterial ? { sourceMaterial } : {}),
+            ...(sceneKitRef.current ? { sceneContext: sceneKitRef.current } : {}),
             ...courseContextPayload,
             ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}),
           });
@@ -378,6 +397,12 @@ export function useLessonSession(
       setGeneratingModuleName(null);
     }
   }, [lessonPlanContent, lessonSlots, phase, settings, studentCount, sessionId, getMissionContext, captureSourceVocab]);
+
+  const selectActivity = useCallback(async (activity: ActivityPlugin): Promise<ActivityGeneratedContent | null> => {
+    const resolved = await selectActivityInner(activity);
+    captureKit(activity.key, resolved);
+    return resolved;
+  }, [selectActivityInner, captureKit]);
 
   // ─── Content resolution: game ──────────────────────────────────────────
   const selectGame = useCallback((game: GamePlugin): GameGeneratedContent | null => {
