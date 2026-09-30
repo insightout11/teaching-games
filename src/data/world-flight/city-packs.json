@@ -598,5 +598,155 @@
     ],
     "needsReview": true,
     "reviewNotes": "Please check these South African English expressions and their context with a Cape Town speaker."
+  },
+  "rome": {
+    "id": "rome",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Long hot summers and mild, rainy winters shape daily life in this ancient capital." },
+      { "order": 2, "kind": "food", "text": "A simple pasta dish combines grated sheep's cheese with plenty of black pepper." },
+      { "order": 3, "kind": "nature", "text": "Pine trees and leafy gardens appear between old stone buildings and busy streets." },
+      { "order": 4, "kind": "culture", "text": "People pause at small cafés for a quick espresso, then continue on foot through lively squares." },
+      { "order": 5, "kind": "landmark", "text": "A huge oval stone arena once held contests for crowds of ancient spectators." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Italy." }
+    ],
+    "souvenirs": [
+      { "id": "rome-suppli-snack", "name": "Supplì snack", "description": "Supplì are crisp rice croquettes with a soft center, often filled with tomato and cheese.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style golden rice croquette split to show a cheesy center, no text, no people's faces" },
+      { "id": "rome-espresso-cup", "name": "Espresso cup", "description": "A small espresso is a quick coffee break enjoyed at cafés around the city.", "earn": { "type": "mode", "mode": "world" }, "icon": "coffee", "artPrompt": "sticker-style tiny white espresso cup with a dark crema surface, no text, no people's faces" },
+      { "id": "rome-cacio-pepe-bowl", "name": "Cacio e pepe bowl", "description": "Cacio e pepe is pasta tossed with sheep's cheese and black pepper.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style twirled pasta with grated cheese and black pepper, no text, no people's faces" },
+      { "id": "rome-stone-arch", "name": "Stone arch model", "description": "Ancient stone arches remain visible among Rome's historic streets.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "landmark", "artPrompt": "sticker-style small weathered stone arch with a sprig of green ivy, no text, no people's faces" },
+      { "id": "rome-colosseum-miniature", "name": "Arena miniature", "description": "The Colosseum is an ancient oval amphitheater in the center of the city.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style miniature oval stone amphitheater, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would you order for a quick espresso break in Rome?",
+      "Which Roman pasta dish would your class taste first in Rome?",
+      "What would you wonder about while walking past the Colosseum?"
+    ],
+    "localWords": [
+      { "word": "ciao", "language": "Italian", "meaning": "hello or goodbye", "say": "CHOW" },
+      { "word": "grazie", "language": "Italian", "meaning": "thank you", "say": "GRAHT-see-eh" },
+      { "word": "buono", "language": "Italian", "meaning": "good or tasty", "say": "BWOH-noh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Italian word choices and simplified pronunciations with a fluent speaker."
+  },
+  "mexico-city": {
+    "id": "mexico-city",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "High elevation brings mild days, cool evenings, and a rainy season in summer." },
+      { "order": 2, "kind": "food", "text": "Thin tortillas are filled with spiced meat shaved from a slowly turning vertical spit." },
+      { "order": 3, "kind": "culture", "text": "Street stalls serve snacks while families browse open-air markets for produce and flowers." },
+      { "order": 4, "kind": "nature", "text": "Tree-lined avenues and green gardens offer shade in a huge highland city." },
+      { "order": 5, "kind": "landmark", "text": "A wide central square is surrounded by a cathedral and government buildings." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Mexico." }
+    ],
+    "souvenirs": [
+      { "id": "mexico-city-taco-al-pastor", "name": "Taco al pastor", "description": "Tacos al pastor use marinated meat cooked on a vertical spit and served in tortillas.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style small tacos with pineapple and cilantro on a plate, no text, no people's faces" },
+      { "id": "mexico-city-papel-picado", "name": "Papel picado strand", "description": "Colorful cut-paper banners are used as festive decorations in many Mexican celebrations.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "sparkles", "artPrompt": "sticker-style bright papel picado flags with simple cutout patterns, no text, no people's faces" },
+      { "id": "mexico-city-tlacoyo", "name": "Tlacoyo snack", "description": "A tlacoyo is a thick oval corn masa cake filled with beans or other ingredients.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "utensils", "artPrompt": "sticker-style blue-corn tlacoyo topped with cactus strips and cheese, no text, no people's faces" },
+      { "id": "mexico-city-market-flower", "name": "Market flower bundle", "description": "Flower stalls brighten many of the city's open-air markets.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "flower", "artPrompt": "sticker-style small bundle of marigolds and other market flowers, no text, no people's faces" },
+      { "id": "mexico-city-axolotl", "name": "Axolotl charm", "description": "The axolotl is a salamander native to the lake system of the Valley of Mexico.", "earn": { "type": "rare" }, "icon": "fish", "artPrompt": "sticker-style smiling pink axolotl with feathery gills, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Mexico City market would your class visit for snacks and flowers?",
+      "What would you put inside your first taco al pastor in Mexico City?",
+      "What would you look for in a Mexico City garden?"
+    ],
+    "localWords": [
+      { "word": "hola", "language": "Mexican Spanish", "meaning": "hello", "say": "OH-lah" },
+      { "word": "gracias", "language": "Mexican Spanish", "meaning": "thank you", "say": "GRAH-see-ahs" },
+      { "word": "rico", "language": "Mexican Spanish", "meaning": "tasty", "say": "REE-koh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Mexican Spanish word choices and simplified pronunciations with a fluent speaker."
+  },
+  "buenos-aires": {
+    "id": "buenos-aires",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm humid summers and cool winters shape this large city in the Southern Hemisphere." },
+      { "order": 2, "kind": "food", "text": "A flaky pastry pocket can hold savory meat, cheese, or vegetables." },
+      { "order": 3, "kind": "culture", "text": "Friends may share a bitter herbal drink from a hollow gourd through a metal straw." },
+      { "order": 4, "kind": "nature", "text": "Wide avenues lead to leafy parks where people walk, cycle, and relax." },
+      { "order": 5, "kind": "landmark", "text": "A grand opera house is known for its elegant halls and excellent acoustics." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Argentina." }
+    ],
+    "souvenirs": [
+      { "id": "buenos-aires-empanada", "name": "Empanada pocket", "description": "Empanadas are baked or fried pastry pockets with savory fillings.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style golden folded empanada with a small fork mark, no text, no people's faces" },
+      { "id": "buenos-aires-mate-gourd", "name": "Mate gourd set", "description": "Mate is shared from a hollow gourd and sipped through a metal straw.", "earn": { "type": "mode", "mode": "topic" }, "icon": "coffee", "artPrompt": "sticker-style mate gourd with a metal straw beside a small flask, no text, no people's faces" },
+      { "id": "buenos-aires-alfajor", "name": "Dulce de leche alfajor", "description": "An alfajor is a soft cookie sandwich often filled with dulce de leche.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "cookie", "artPrompt": "sticker-style two sandwich cookies with a dulce de leche center, no text, no people's faces" },
+      { "id": "buenos-aires-tango-shoe", "name": "Tango shoe ornament", "description": "Tango music and dance grew from the cultural life of the city and its port.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "music", "artPrompt": "sticker-style polished dance shoe beside a few musical notes, no text, no people's faces" },
+      { "id": "buenos-aires-opera-mask", "name": "Opera house token", "description": "Teatro Colón is a famous opera house with a richly decorated interior.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style ornate opera-house balcony viewed from the stage, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Who would your class invite to share a mate in Buenos Aires?",
+      "Which empanada filling would you choose in Buenos Aires?",
+      "What might you hear inside the opera house in Buenos Aires?"
+    ],
+    "localWords": [
+      { "word": "hola", "language": "Rioplatense Spanish", "meaning": "hello", "say": "OH-lah" },
+      { "word": "gracias", "language": "Rioplatense Spanish", "meaning": "thank you", "say": "GRAH-syahs" },
+      { "word": "che", "language": "Rioplatense Spanish", "meaning": "hey; friend", "say": "CHAY" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Rioplatense Spanish meanings and pronunciations, especially the local informal greeting."
+  },
+  "los-angeles": {
+    "id": "los-angeles",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Sunny, dry summers and mild winters make outdoor plans possible for much of the year." },
+      { "order": 2, "kind": "food", "text": "A corn tortilla can hold grilled meat, fresh salsa, and a squeeze of lime." },
+      { "order": 3, "kind": "culture", "text": "Many people drive between far-apart neighborhoods, studios, shops, and beaches." },
+      { "order": 4, "kind": "nature", "text": "Palm-lined streets, low hills, and a long Pacific coastline shape the wide city." },
+      { "order": 5, "kind": "landmark", "text": "A white observatory sits high in the hills above a bowl-shaped lawn and city views." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in the United States." }
+    ],
+    "souvenirs": [
+      { "id": "los-angeles-french-dip", "name": "French dip sandwich", "description": "A French dip is a roast beef sandwich served with savory broth for dipping.", "earn": { "type": "land" }, "icon": "sandwich", "artPrompt": "sticker-style roast beef sandwich with a small cup of dipping broth, no text, no people's faces" },
+      { "id": "los-angeles-freeway-map", "name": "Freeway map fold", "description": "Freeways link neighborhoods spread across the wide metropolitan area.", "earn": { "type": "mode", "mode": "free" }, "icon": "map", "artPrompt": "sticker-style folded road map with winding colored routes, no text, no people's faces" },
+      { "id": "los-angeles-korean-taco", "name": "Korean taco", "description": "Korean tacos combine Korean-inspired fillings with a tortilla.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "utensils", "artPrompt": "sticker-style taco with bright slaw and sesame seeds, no text, no people's faces" },
+      { "id": "los-angeles-beach-sunglasses", "name": "Beach sunglasses", "description": "The city has a long Pacific coast with beaches and seaside paths.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "sun", "artPrompt": "sticker-style blue sunglasses with a tiny ocean wave reflection, no text, no people's faces" },
+      { "id": "los-angeles-observatory-view", "name": "Hilltop observatory model", "description": "Griffith Observatory has telescopes and exhibits about space and science.", "earn": { "type": "rare" }, "icon": "telescope", "artPrompt": "sticker-style white hilltop observatory with stars above, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Los Angeles beach would your class visit after a sunny day?",
+      "What would you put inside a Los Angeles street taco?",
+      "What would you hope to see through a telescope in Los Angeles?"
+    ],
+    "localWords": [
+      { "word": "dude", "language": "Los Angeles English", "meaning": "friend; casual greeting", "say": "DOOD" },
+      { "word": "the 101", "language": "Los Angeles English", "meaning": "a local freeway name", "say": "theh wun-oh-WUN" },
+      { "word": "to-go", "language": "Los Angeles English", "meaning": "food packed to take away", "say": "too-GOH" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check that these English expressions feel locally natural and suitable for a worldwide classroom."
+  },
+  "jakarta": {
+    "id": "jakarta",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Hot humid days continue through the year, with a wetter monsoon season." },
+      { "order": 2, "kind": "food", "text": "A smoky rice dish is stir-fried with sweet soy sauce, vegetables, and egg." },
+      { "order": 3, "kind": "culture", "text": "Motorbikes, buses, and trains share busy streets as commuters travel across the city." },
+      { "order": 4, "kind": "nature", "text": "Canals and small waterways pass between dense neighborhoods near the coast." },
+      { "order": 5, "kind": "landmark", "text": "A tall white tower with a gold flame rises from a central green square." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Indonesia." }
+    ],
+    "souvenirs": [
+      { "id": "jakarta-nasi-goreng", "name": "Nasi goreng bowl", "description": "Nasi goreng is fried rice often seasoned with sweet soy sauce and aromatics.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style plate of fried rice with egg and cucumber slices, no text, no people's faces" },
+      { "id": "jakarta-commuter-train", "name": "Commuter train token", "description": "Commuter trains connect central neighborhoods with places across the wider city.", "earn": { "type": "mode", "mode": "topic" }, "icon": "train", "artPrompt": "sticker-style modern commuter train crossing a city viaduct, no text, no people's faces" },
+      { "id": "jakarta-kerak-telor-pan", "name": "Kerak telor pan", "description": "Kerak telor is a savory omelet made with sticky rice and toasted coconut.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style small savory rice omelet with toasted coconut, no text, no people's faces" },
+      { "id": "jakarta-batik-square", "name": "Batik cloth square", "description": "Batik fabric is decorated with patterns made using wax-resist dyeing.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "flower", "artPrompt": "sticker-style folded batik cloth with a blue floral wax-resist pattern, no text, no people's faces" },
+      { "id": "jakarta-monument-flame", "name": "Golden flame model", "description": "The National Monument is topped by a flame-shaped sculpture covered in gold foil.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style slim white tower topped with a golden flame, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What ingredients would your class add to nasi goreng in Jakarta?",
+      "Which Jakarta train ride would you take across the city?",
+      "What colors would you choose for a Jakarta batik design?"
+    ],
+    "localWords": [
+      { "word": "halo", "language": "Indonesian", "meaning": "hello", "say": "HAH-loh" },
+      { "word": "terima kasih", "language": "Indonesian", "meaning": "thank you", "say": "tuh-REE-mah KAH-see" },
+      { "word": "enak", "language": "Indonesian", "meaning": "tasty", "say": "EH-nahk" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Indonesian phrases and simplified pronunciations with a fluent speaker familiar with Jakarta usage."
   }
 }

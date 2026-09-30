@@ -29,4 +29,11 @@
 - Clues 1–4 use generic climate, food, daily-life, and nature details; named travel-anchor places are reserved for later clues.
 - `npx tsx scripts/validate-city-packs.ts --batch 4` passes: 20 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
 - Review flags: Turkish pronunciations (Istanbul), Canadian English local wording (Vancouver and Toronto), Marathi phrases (Mumbai), and South African English expressions (Cape Town).
+- Commit: `9571b53f` (`Add validated city packs batch 4`).
+
+## Batch 5 — Rome, Mexico City, Buenos Aires, Los Angeles, Jakarta
+
+- Added five packs and 25 souvenirs, each with the required reward mix.
+- `npx tsx scripts/validate-city-packs.ts --batch 5` passes: 25 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
+- Review flags: Italian pronunciation (Rome), Mexican Spanish pronunciation (Mexico City), Rioplatense Spanish wording (Buenos Aires), regional English expressions (Los Angeles), and Indonesian pronunciation (Jakarta).
 - Commit: pending validation and commit.
