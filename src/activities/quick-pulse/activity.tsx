@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Clock, MessageCircleQuestion, Plus, Send, Users } from 'lucide-react';
 import type { ActivityProps } from '../types';
+import { KitButton, KitInput, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import type { QuickPulseContent, QuickPulsePrompt } from '../types';
 
 type Phase = 'idle' | 'prompting' | 'revealing' | 'summary';
@@ -36,61 +39,60 @@ function recoverQuickPulseRuntime(
   return { ...candidate, prompts } as QuickPulseRuntimeState;
 }
 
-function DistributionBar({ label, count, total, color }: { label: string; count: number; total: number; color: string }) {
-  const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+const LIKERT_COLORS = ['bg-rose-400', 'bg-orange-400', 'bg-amber-300', 'bg-lime-400', 'bg-emerald-400'];
+const LIKERT_WORDS = ['Strongly disagree', 'Disagree', 'Not sure', 'Agree', 'Strongly agree'];
+
+function LikertChart({ votes, big }: { votes: Record<string, string>; big?: boolean }) {
+  const values = Object.values(votes).map(Number).filter((n) => n >= 1 && n <= 5);
+  const counts = [1, 2, 3, 4, 5].map((n) => values.filter((v) => v === n).length);
+  const max = Math.max(1, ...counts);
+  const mean = values.length ? values.reduce((a, b) => a + b, 0) / values.length : null;
   return (
-    <div className="flex items-center gap-3">
-      <span className="text-sm w-6 text-right opacity-70">{label}</span>
-      <div className="flex-1 bg-white/10 rounded-full h-6 overflow-hidden">
-        <div
-          className={`h-full ${color} rounded-full transition-all duration-500`}
-          style={{ width: `${pct}%` }}
-        />
+    <div className="space-y-3">
+      <div className={`flex items-end gap-3 ${big ? 'h-44' : 'h-24'}`}>
+        {counts.map((c, i) => (
+          <div key={i} className="flex h-full flex-1 flex-col items-center justify-end gap-1">
+            <span className="font-mono text-sm text-white/80">{c}</span>
+            <motion.div className={`w-full rounded-t-lg ${LIKERT_COLORS[i]}`} initial={{ height: 0 }} animate={{ height: `${(c / max) * 100}%` }} transition={{ type: 'spring', stiffness: 90, damping: 16, delay: i * 0.06 }} style={{ minHeight: c ? 6 : 0 }} />
+          </div>
+        ))}
       </div>
-      <span className="text-sm w-10 text-right">{count}</span>
-      <span className="text-xs opacity-50 w-8">{pct}%</span>
-    </div>
-  );
-}
-
-function LikertChart({ votes }: { votes: Record<string, string> }) {
-  const counts = [1, 2, 3, 4, 5].map((n) =>
-    Object.values(votes).filter((v) => v === String(n)).length
-  );
-  const total = Object.keys(votes).length;
-  const colors = ['bg-red-400', 'bg-orange-400', 'bg-yellow-400', 'bg-lime-400', 'bg-emerald-400'];
-  return (
-    <div className="space-y-2">
-      {[1, 2, 3, 4, 5].map((n, i) => (
-        <DistributionBar key={n} label={String(n)} count={counts[i]} total={total} color={colors[i]} />
-      ))}
-      <p className="text-xs opacity-50 mt-1">{total} response{total !== 1 ? 's' : ''} · 1 = disagree, 5 = agree</p>
-    </div>
-  );
-}
-
-function YesNoChart({ votes }: { votes: Record<string, string> }) {
-  const yesCount = Object.values(votes).filter((v) => v === 'Yes').length;
-  const noCount = Object.values(votes).filter((v) => v === 'No').length;
-  const total = yesCount + noCount;
-  return (
-    <div className="space-y-2">
-      <DistributionBar label="Yes" count={yesCount} total={total} color="bg-emerald-400" />
-      <DistributionBar label="No" count={noCount} total={total} color="bg-rose-400" />
-      <p className="text-xs opacity-50 mt-1">{total} response{total !== 1 ? 's' : ''}</p>
-    </div>
-  );
-}
-
-function PromptChart({ prompt, votes }: { prompt: QuickPulsePrompt; votes: Record<string, string> }) {
-  return (
-    <div className="glass p-5 rounded-2xl space-y-4">
-      <p className="font-semibold">{prompt.text}</p>
-      {prompt.type === 'likert' ? (
-        <LikertChart votes={votes} />
-      ) : (
-        <YesNoChart votes={votes} />
+      <div className="flex gap-3">{LIKERT_WORDS.map((w, i) => <span key={w} className="flex-1 text-center text-[11px] leading-tight text-white/55">{i + 1}<br />{big ? w : ''}</span>)}</div>
+      {mean !== null && (
+        <div className="relative mt-1 h-2 rounded-full bg-gradient-to-r from-rose-400 via-amber-300 to-emerald-400">
+          <motion.span className="absolute -top-1.5 h-5 w-1.5 -translate-x-1/2 rounded bg-white shadow" initial={{ left: '50%' }} animate={{ left: `${((mean - 1) / 4) * 100}%` }} transition={{ type: 'spring', stiffness: 80, damping: 14, delay: 0.3 }} />
+        </div>
       )}
+      <p className="text-center font-mono text-xs text-white/55">{values.length} response{values.length !== 1 ? 's' : ''}{mean !== null ? ` · class average ${mean.toFixed(1)}` : ''}</p>
+    </div>
+  );
+}
+
+function YesNoChart({ votes, big }: { votes: Record<string, string>; big?: boolean }) {
+  const yes = Object.values(votes).filter((v) => v === 'Yes').length;
+  const no = Object.values(votes).filter((v) => v === 'No').length;
+  const pct = yes + no ? (yes / (yes + no)) * 100 : 50;
+  return (
+    <div className="space-y-2">
+      <div className="flex justify-between font-display text-3xl">
+        <span className="text-emerald-300">Yes {yes}</span>
+        <span className="text-rose-300">{no} No</span>
+      </div>
+      <div className={`relative flex overflow-hidden rounded-full bg-white/10 ${big ? 'h-6' : 'h-3'}`}>
+        <motion.div className="h-full bg-emerald-400" initial={{ width: '50%' }} animate={{ width: `${pct}%` }} transition={{ type: 'spring', stiffness: 90, damping: 16 }} />
+        <div className="h-full flex-1 bg-rose-400" />
+        <span className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-white/80" aria-hidden />
+      </div>
+      <p className="text-center font-mono text-xs text-white/55">{yes + no} response{yes + no !== 1 ? 's' : ''}</p>
+    </div>
+  );
+}
+
+function PromptChart({ prompt, votes, big }: { prompt: QuickPulsePrompt; votes: Record<string, string>; big?: boolean }) {
+  return (
+    <div className="space-y-4 rounded-2xl border border-white/10 bg-slate-950/45 p-5">
+      <p className={`font-display leading-snug ${big ? 'text-center text-3xl' : 'text-xl'}`}>{prompt.text}</p>
+      {prompt.type === 'likert' ? <LikertChart votes={votes} big={big} /> : <YesNoChart votes={votes} big={big} />}
     </div>
   );
 }
@@ -108,7 +110,13 @@ export function QuickPulseActivity({
   const content = generatedContent as QuickPulseContent;
   const recoveredRuntimeRef = useRef(recoverQuickPulseRuntime(initialRuntimeState, content.prompts));
   const recoveredRuntime = recoveredRuntimeRef.current;
-  const prompts = recoveredRuntime?.prompts ?? content.prompts;
+  // Teachers can add their own questions on the fly, so prompts is state.
+  const [prompts, setPrompts] = useState<QuickPulsePrompt[]>(recoveredRuntime?.prompts ?? content.prompts);
+  const [ownText, setOwnText] = useState('');
+  const [ownType, setOwnType] = useState<QuickPulsePrompt['type']>('yesno');
+  const [asking, setAsking] = useState(false);
+  const [voices, setVoices] = useState<Array<{ name: string; answer: string }> | null>(null);
+  const namesRef = useRef<Record<string, string>>({});
 
   const [phase, setPhase] = useState<Phase>(recoveredRuntime?.phase ?? 'idle');
   const [currentIndex, setCurrentIndex] = useState(recoveredRuntime?.currentIndex ?? 0);
@@ -172,6 +180,7 @@ export function QuickPulseActivity({
       const expectedRoundId = instance ? `${instance.id}:prompt-${idx + 1}` : null;
       if (vote.roundId && expectedRoundId && vote.roundId !== expectedRoundId) return;
       const alreadyVoted = votesRef.current[idx]?.[vote.clientId];
+      namesRef.current[vote.clientId] = vote.displayName;
       if (!alreadyVoted) {
         setVotes((prev) => ({
           ...prev,
@@ -254,7 +263,8 @@ export function QuickPulseActivity({
 
   const handleNext = useCallback(() => {
     const nextIndex = currentIndex + 1;
-    if (nextIndex >= 3) {
+    setVoices(null);
+    if (nextIndex >= prompts.length) {
       setPhase('summary');
       onPhaseChange?.('summary');
     } else {
@@ -263,7 +273,7 @@ export function QuickPulseActivity({
       setPhase('prompting');
       onPhaseChange?.('prompting');
     }
-  }, [currentIndex, timerSeconds, onPhaseChange]);
+  }, [currentIndex, prompts.length, timerSeconds, onPhaseChange]);
 
   const handleEnd = useCallback(() => {
     setPhase('idle');
@@ -276,106 +286,133 @@ export function QuickPulseActivity({
     } : null);
   }, [currentIndex, onPhaseChange, onSetInputSpec]);
 
+  // Add the teacher's own question and send it right away.
+  const askOwn = () => {
+    const text = ownText.trim();
+    if (!text) return;
+    const idx = prompts.length;
+    setPrompts((prev) => [...prev, { type: ownType, text }]);
+    setVotes((prev) => ({ ...prev, [idx]: {} }));
+    setOwnText('');
+    setAsking(false);
+    setVoices(null);
+    setCurrentIndex(idx);
+    setTimeLeft(timerSeconds);
+    setPhase('prompting');
+    onPhaseChange?.('prompting');
+  };
+
+  // "Ask both sides": one voter from each end of the result, named on screen with "why?".
+  const askBothSides = () => {
+    const entries = Object.entries(votes[currentIndex] ?? {});
+    const pick = (pred: (v: string) => boolean) => {
+      const pool = entries.filter(([, v]) => pred(v));
+      const hit = pool[Math.floor(Math.random() * pool.length)];
+      return hit ? { name: namesRef.current[hit[0]] ?? 'Someone', answer: hit[1] } : null;
+    };
+    const likert = prompts[currentIndex]?.type === 'likert';
+    const a = likert ? pick((v) => Number(v) >= 4) : pick((v) => v === 'Yes');
+    const b = likert ? pick((v) => Number(v) <= 2) : pick((v) => v === 'No');
+    setVoices([a, b].filter((x): x is { name: string; answer: string } => !!x));
+  };
+
   const currentPrompt = prompts[currentIndex];
   const currentVotes = votes[currentIndex] ?? {};
   const totalVotes = Object.keys(currentVotes).length;
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
+  const ownQuestion = () => (asking ? (
+    <div className="space-y-2 rounded-2xl border border-cyan-300/30 bg-slate-950/45 p-4">
+      <KitLabel tone="cyan">Your own question</KitLabel>
+      <KitInput autoFocus value={ownText} onChange={(e) => setOwnText(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') askOwn(); }} placeholder="e.g. Have you ever been on a plane?" maxLength={140} />
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-cyan-400">Quick Pulse</h3>
-        {phase !== 'idle' && phase !== 'summary' && (
-          <span className="text-sm opacity-60">
-            Prompt {currentIndex + 1} of 3
-          </span>
-        )}
+        <div className="flex gap-1.5">
+          {([['yesno', 'Yes / No'], ['likert', 'Rate 1–5']] as const).map(([t, label]) => (
+            <button key={t} type="button" onClick={() => setOwnType(t)} className={`rounded-full border px-3 py-1 text-xs ${ownType === t ? 'border-cyan-300 bg-cyan-400/15 text-white' : 'border-white/15 text-white/60'}`}>{label}</button>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <KitButton onClick={() => setAsking(false)}>Cancel</KitButton>
+          <KitButton tone="cyan" solid disabled={!ownText.trim()} onClick={askOwn} icon={<Send className="h-3.5 w-3.5" />}>Send to phones</KitButton>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <KitButton onClick={() => setAsking(true)} icon={<Plus className="h-3.5 w-3.5" />}>Ask your own</KitButton>
+  ));
+
+  return (
+    <div className="mx-auto max-w-3xl space-y-5 text-white">
+      <div className="flex items-center justify-between">
+        <KitLabel tone="cyan">Quick Pulse</KitLabel>
+        {phase !== 'idle' && phase !== 'summary' && <KitReadout>Question {currentIndex + 1} of {prompts.length}</KitReadout>}
       </div>
 
-      {/* IDLE */}
       {phase === 'idle' && (
-        <div className="text-center py-12 space-y-4">
-          <p className="text-xl opacity-90">3 quick prompts — instant results.</p>
-          <p className="text-sm opacity-50">Students respond simultaneously on their devices.</p>
-          <button
-            onClick={handleStart}
-            className="px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
-          >
-            START
-          </button>
+        <div className="space-y-5 py-6 text-center">
+          <p className="font-display text-5xl">Take the class&apos;s pulse.</p>
+          <p className="text-lg text-white/70">{prompts.length} quick questions. Everyone answers on their phone, then the results appear, and we hear from both sides.</p>
+          <div className="flex justify-center">
+            <KitButton tone="cyan" solid onClick={handleStart} className="!px-8 !py-3 !text-base" icon={<Users className="h-4 w-4" />}>Start</KitButton>
+          </div>
         </div>
       )}
 
-      {/* PROMPTING */}
       {phase === 'prompting' && currentPrompt && (
-        <div className="space-y-6">
-          <div className="glass p-6 rounded-2xl border-2 border-cyan-500/30 space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="text-xs px-2 py-0.5 bg-white/10 rounded-full uppercase tracking-widest opacity-60">
-                {currentPrompt.type === 'likert' ? 'Rate 1–5' : 'Yes / No'}
-              </span>
-            </div>
-            <p className="text-xl font-semibold">{currentPrompt.text}</p>
+        <div className="space-y-5">
+          <div className="rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-8 text-center">
+            <KitReadout>{currentPrompt.type === 'likert' ? 'Rate 1–5' : 'Yes or no'}</KitReadout>
+            <p className="mt-3 font-display text-4xl leading-snug" style={{ textWrap: 'balance' }}>{currentPrompt.text}</p>
           </div>
-
+          <div className="flex items-center gap-4">
+            <Clock className={`h-5 w-5 ${timeLeft <= 5 ? 'text-rose-300' : 'text-white/60'}`} />
+            <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/10">
+              <motion.div className={`h-full ${timeLeft <= 5 ? 'bg-rose-400' : 'bg-cyan-400'}`} animate={{ width: `${Math.min(100, (timeLeft / Math.max(1, timerSeconds)) * 100)}%` }} transition={{ ease: 'linear', duration: 1 }} />
+            </div>
+            <span className="w-12 text-right font-mono text-2xl">{timeLeft}s</span>
+            <KitButton onClick={() => setTimeLeft((prev) => prev + 30)}>+30s</KitButton>
+          </div>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className={`text-3xl font-game ${timeLeft <= 5 ? 'text-red-400' : 'text-cyan-400'}`}>
-                {timeLeft}s
-              </div>
-              <button onClick={() => setTimeLeft(prev => prev + 30)} className="px-2 py-1 rounded-lg text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10">+30s</button>
-              <div className="text-sm opacity-50">{totalVotes} vote{totalVotes !== 1 ? 's' : ''}</div>
-            </div>
-            <button
-              onClick={handleReveal}
-              className="px-6 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              REVEAL NOW
-            </button>
+            <p className="font-display text-3xl">{totalVotes}<span className="text-lg text-white/50"> answered</span></p>
+            <KitButton tone="cyan" solid onClick={handleReveal} className="!px-6 !py-2.5 !text-sm">Show results</KitButton>
           </div>
         </div>
       )}
 
-      {/* REVEALING */}
       {phase === 'revealing' && currentPrompt && (
-        <div className="space-y-6">
-          <PromptChart prompt={currentPrompt} votes={currentVotes} />
-
-          <div className="flex justify-end">
-            {currentIndex < 2 ? (
-              <button
-                onClick={handleNext}
-                className="px-8 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-              >
-                NEXT PROMPT
-              </button>
-            ) : (
-              <button
-                onClick={handleNext}
-                className="px-8 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-              >
-                VIEW SUMMARY
-              </button>
-            )}
+        <div className="space-y-4">
+          <PromptChart prompt={currentPrompt} votes={currentVotes} big />
+          {voices && (
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="grid gap-3 sm:grid-cols-2">
+              {voices.length === 0 && <p className="text-center text-white/55 sm:col-span-2">Not enough different answers. Ask anyone: why?</p>}
+              {voices.map((v) => (
+                <div key={v.name} className="rounded-2xl border border-amber-300/35 bg-amber-300/[0.07] p-4 text-center">
+                  <p className="font-display text-3xl">{v.name}</p>
+                  <p className="mt-1 text-lg text-amber-100">You said {currentPrompt.type === 'likert' ? v.answer : `“${v.answer}”`}. Why?</p>
+                </div>
+              ))}
+            </motion.div>
+          )}
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex gap-2">
+              <KitButton tone="amber" disabled={totalVotes === 0} onClick={askBothSides} icon={<MessageCircleQuestion className="h-3.5 w-3.5" />}>{voices ? 'Ask two others' : 'Ask both sides'}</KitButton>
+              {!asking && ownQuestion()}
+            </div>
+            <KitButton tone="cyan" solid onClick={handleNext} className="!px-6 !py-2.5 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>
+              {currentIndex < prompts.length - 1 ? 'Next question' : 'See all results'}
+            </KitButton>
           </div>
+          {asking && ownQuestion()}
         </div>
       )}
 
-      {/* SUMMARY */}
       {phase === 'summary' && (
-        <div className="space-y-6">
-          <div className="grid gap-4">
-            {prompts.map((prompt, i) => (
-              <PromptChart key={i} prompt={prompt} votes={votes[i] ?? {}} />
-            ))}
+        <div className="space-y-4">
+          <div className="grid gap-3 sm:grid-cols-2">
+            {prompts.map((prompt, i) => <PromptChart key={i} prompt={prompt} votes={votes[i] ?? {}} />)}
           </div>
-          <div className="flex justify-end">
-            <button
-              onClick={handleEnd}
-              className="px-8 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              END ACTIVITY
-            </button>
+          <div className="flex items-center justify-between">
+            {ownQuestion()}
+            <KitButton onClick={handleEnd}>End activity</KitButton>
           </div>
         </div>
       )}
