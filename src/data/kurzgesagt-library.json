@@ -128,7 +128,9 @@
     "difficultyLevel": "Advanced",
     "description": "A blue whale has trillions more cells than a human yet gets cancer at the same rate — this paradox points the way to new cancer treatments.",
     "summary": "This video introduces *Peto's Paradox*, one of the most counterintuitive findings in cancer biology. Logically, larger animals with more cells should get more cancer — more cells means more *cell divisions*, and more cell divisions means more chances for a *mutation*. But body size does not *correlate* with cancer rates across species. Blue whales, with 1,000 times more cells than humans, do not get cancer 1,000 times more often.\n\nKurzgesagt explains the biology of cancer first. Every *cell division* copies DNA, and every copy introduces tiny errors. Occasionally, an error affects a gene that controls cell growth, causing *uncontrolled division* — this is cancer. The fact that large, long-lived animals are not constantly developing cancer is a genuine puzzle.\n\nThe resolution lies in *evolution*. Large animals have developed better *cancer suppression* mechanisms through millions of years of selection pressure. Elephants carry 20 copies of the *TP53* gene — a major cancer suppressor — while humans carry just 2. When elephant cells detect DNA damage, they are far more likely to trigger *apoptosis* (programmed cell death) than to allow damaged cells to replicate.\n\nThe implication for medicine is significant: if we can understand how these species suppress cancer, we may be able to replicate their *molecular* strategies in human treatment.\n\nKey vocabulary: *mutation*, *cell division*, *tumour*, *paradox*, *suppress*, *apoptosis*, *gene*, *evolve*, *mechanism*, *correlate*. This video works well for Advanced learners interested in biology, medicine, or science communication.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "kurzgesagt_overpopulation_africa",
@@ -145,7 +147,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Why Africa's population is projected to double by 2050 — and why this is far more complicated than the 'overpopulation' framing suggests.",
     "summary": "Kurzgesagt addresses a widespread anxiety: Africa's population is projected to reach four billion by 2100, raising fears of *overpopulation*, resource shortages, and mass migration. But the video argues this framing misunderstands both demography and development.\n\nThe key concept is *demographic transition*: a predictable pattern in which birth rates fall as countries develop. When *child mortality* is high, parents have many children to ensure some survive. As healthcare improves and *infant mortality* falls, and as girls receive more education and enter the workforce, family sizes fall — typically to replacement level or below. This pattern has played out in Europe, Asia, and Latin America over the past century.\n\nSub-Saharan Africa is currently in an early phase of this transition. *Fertility rates* are high not because of cultural preference but because many countries still have high child mortality, low female education, and limited access to *contraception*. As these conditions change — and evidence suggests they are changing — birth rates will fall.\n\nThe video challenges the idea that Africa's growing population is a problem for the world. A young, growing, *urbanising* population can be an enormous economic asset — the *demographic dividend* — if invested in with education and infrastructure. The real questions are about political will, *inequality*, and who benefits from development.\n\nKey vocabulary: *demographic transition*, *fertility rate*, *mortality*, *urbanisation*, *development*, *inequality*, *contraception*, *projection*, *dividend*. Strong for debate, critical thinking, and examining how framing shapes understanding of global issues.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "kurzgesagt_why_are_you_alive",
@@ -162,7 +166,9 @@
     "difficultyLevel": "Advanced",
     "description": "The chemical story of life itself — how every living cell is powered by a remarkable molecular machine called ATP synthase.",
     "summary": "This video zooms into the most fundamental question in biology: what does it mean to be alive? The answer, Kurzgesagt argues, comes down to a single extraordinary molecule: *ATP* (adenosine triphosphate).\n\nAll life runs on ATP — the universal *currency* of cellular energy. Every time your muscles contract, your neurons fire, or a protein is built, ATP is consumed and must be replaced. A human body turns over roughly its own weight in ATP every day.\n\nThe video explains how ATP is made. The dominant process is *cellular respiration*, which takes place in *mitochondria*. The key component is *ATP synthase* — a molecular *rotor* that spins like a turbine, driven by a flow of *protons* across the inner mitochondrial membrane, using rotational energy to attach a third *phosphate group* to ADP, creating ATP. This is one of the oldest and most conserved mechanisms in all of life.\n\nKurzgesagt also explains how the proton gradient is created: through the *electron transport chain*, which extracts energy from glucose-derived molecules and pumps protons. The entire process has run essentially unchanged for two billion years.\n\nKey vocabulary: *ATP*, *mitochondria*, *cellular respiration*, *proton*, *gradient*, *molecule*, *rotor*, *phosphate*, *electron*, *protein*. Best for Advanced learners in science or medicine, or those who enjoy understanding how things work at the deepest level.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "kurzgesagt_universal_basic_income",
@@ -179,7 +185,9 @@
     "difficultyLevel": "Intermediate",
     "description": "A clear and balanced explainer on Universal Basic Income — what it is, what the experiments show, and why it is so controversial.",
     "summary": "Kurzgesagt opens with a thought experiment: what if every adult citizen received a regular sum of money from the government, unconditionally, regardless of whether they work? This is *Universal Basic Income* (UBI) — an old idea that has returned to mainstream debate driven by *automation*, rising *inequality*, and the perceived failure of existing welfare systems.\n\nThe video presents the argument for UBI clearly. Proponents argue it would *eliminate poverty* by ensuring a floor below which no one can fall, *simplify* a complex bureaucratic welfare system, and give people the *security* to take risks — start businesses, retrain, care for family members — that they currently cannot afford. It might also provide a *cushion* as automation displaces workers.\n\nThe video covers main objections too. Critics argue it is too *expensive*, that it would reduce *incentive* to work, that it would cause *inflation* as prices absorb the extra money, and that it might erode support for targeted benefits for the very poor.\n\nKurzgesagt then looks at experiments: pilot programmes in Finland, Kenya, and US cities found recipients did not stop working en masse; they used money for food, education, and small business investment, and reported improved *mental health* and wellbeing.\n\nKey vocabulary: *universal*, *unconditional*, *automation*, *inequality*, *incentive*, *pilot programme*, *inflation*, *welfare*, *redistribute*, *poverty*. Ideal for debate, economics discussions, and exploring how societies make policy decisions.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "kurzgesagt_selfish_argument",
@@ -196,7 +204,9 @@
     "difficultyLevel": "Intermediate",
     "description": "You do not need to be moral to want a better world — the self-interest argument for ending poverty and investing in global development.",
     "summary": "Kurzgesagt challenges a standard moral argument: you should help others because it is the *right thing to do*. The video takes a different approach — what if helping others is also the *selfish* thing to do?\n\nThe core argument rests on *specialisation* and *comparative advantage*. In a world where everyone is poor and uneducated, innovation is slow. Most of human history was trapped in a *Malthusian* cycle: population grew until resources ran out, then collapsed. Life was short and brutal for nearly everyone.\n\nThe *industrial revolution* broke this cycle in parts of the world. As more people received education and resources, more *innovators* appeared, more problems were solved, and the benefits *compounded*. The key insight: every person lifted out of poverty is a potential source of ideas that benefit everyone — including you. The person who might have cured cancer could have died of a preventable disease in childhood.\n\nThis is *egoistic altruism*: helping others is a way to help yourself. An interconnected, prosperous world is better for you personally — more *stable*, more innovative, offering more goods and services — than a world divided between extreme wealth and extreme poverty.\n\nKey vocabulary: *altruism*, *egoism*, *specialisation*, *comparative advantage*, *innovation*, *poverty*, *compound*, *interconnected*, *stability*, *investment*. Works well as a discussion starter: Is it good to help others for selfish reasons? Does motivation matter if the outcome is positive?",
-    "genre": "opinion"
+    "genre": "opinion",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "kurzgesagt_addiction",
@@ -213,7 +223,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Everything you think you know about addiction may be wrong — it is not just about chemicals, but about connection and environment.",
     "summary": "Kurzgesagt challenges the standard story of addiction: that it is caused by *drugs* creating a physical *dependency* in the brain, so that anyone who uses addictive substances will inevitably become addicted. This model, the video argues, is incomplete and has led to harmful *policies* that treat addicts as criminals rather than people in distress.\n\nThe video introduces the *Rat Park* experiments by psychologist Bruce Alexander. In standard lab experiments, isolated rats given access to *morphine* water drank it obsessively and died. But when rats were placed in a stimulating social environment — with space, play, and other rats — they largely ignored the drug, even after becoming *dependent* on it. The difference was not the drug but the *environment*.\n\nHuman data tells a similar story. Vietnam veterans who became addicted to heroin during the war stopped using in high numbers when they returned home — without treatment. People who use *opioids* in hospital for pain rarely become addicted despite repeated administration.\n\nKurzgesagt argues that addiction is primarily a *coping mechanism* for pain — social, emotional, or physical. People get trapped not by substances but by circumstances that make the short-term *relief* of substance use feel like the only available option. The implication: shift from punishment to *connection* and addressing the *root causes* of distress.\n\nKey vocabulary: *addiction*, *dependency*, *substance*, *withdrawal*, *dopamine*, *environment*, *coping*, *isolation*, *policy*, *recovery*. Excellent for discussions about health, social policy, and challenging assumptions.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "kurzgesagt_nuclear_energy",
@@ -230,6 +242,8 @@
     "difficultyLevel": "Advanced",
     "description": "A balanced look at whether nuclear power should be part of the solution to climate change — examining the evidence on cost, safety, and waste.",
     "summary": "Kurzgesagt asks a contentious question: in a world that must *decarbonise* rapidly to avoid the worst effects of *climate change*, should nuclear power be part of the solution? The answer, the video argues, is complicated — and much public debate has been shaped by *misinformation* on both sides.\n\nThe video begins with scale: global energy demand is enormous, and *renewable energy* alone may not be able to meet it fast enough. Solar and wind are *intermittent* — they do not produce power when the sun is not shining or the wind is not blowing — creating a need for *grid storage* or *baseload* power.\n\nNuclear power offers *low-carbon* baseload electricity. Kurzgesagt examines the main objections. On safety: nuclear is statistically among the *safest* energy sources per unit of electricity produced; Chernobyl and Fukushima killed far fewer people than coal's daily air pollution. On waste: *radioactive waste* is real, but nuclear generates far less physical waste than most people imagine — all nuclear waste ever produced in the US would fit on a standard football field. On cost: this is nuclear's real weakness — new plants have become *prohibitively expensive* in the West, even as renewables have become cheaper.\n\nThe video concludes that nuclear is neither the enemy nor the silver bullet — the answer depends heavily on context, existing grid infrastructure, and political economy.\n\nKey vocabulary: *nuclear*, *radioactive*, *decarbonise*, *renewable*, *intermittent*, *baseload*, *carbon emissions*, *waste*, *fission*, *reactor*. Strong for debate and critical thinking around energy policy.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   }
 ]

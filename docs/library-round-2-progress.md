@@ -37,3 +37,5 @@ px tsc --noEmit -p . pass · needsReview added only where source text is too lim
 - 2026-09-30 · metadata batch 5 · +20 (crash-course-library.json, internet-memes-library.json, kids-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
 
 - 2026-09-30 · metadata batch 6 · +20 (kids-library.json, kurzgesagt-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
+
+- 2026-09-30 · metadata batch 7 · +20 (kurzgesagt-library.json, minecraft-library.json, natgeo-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
