@@ -57,18 +57,18 @@
 - Added five packs and 25 souvenirs, each with the required reward mix.
 - `npx tsx scripts/validate-city-packs.ts --batch 8` passes: 40 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
 - Review flags: Māori and New Zealand regional expressions (Auckland), Fijian vocabulary (Suva), Mongolian transliteration (Ulaanbaatar), Kazakh wording (Almaty), and Spain Spanish usage (Madrid).
-- Commit: pending validation and commit.
+- Commit: `601b5506` (`Add validated city packs batch 10`).`r`n`r`n## Final validation`r`n`r`n- `npx tsx scripts/validate-city-packs.ts` passes for all 50 destinations: 250 souvenirs and 47 packs marked `needsReview`.
 
 ## Batch 9 — Lisbon, Dublin, Dakar, Recife, Panama City
 
 - Added five packs and 25 souvenirs, each with the required reward mix.
 - `npx tsx scripts/validate-city-packs.ts --batch 9` passes: 45 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
 - Review flags: European Portuguese (Lisbon), Irish English (Dublin), Wolof (Dakar), Brazilian Portuguese (Recife), and Panamanian Spanish (Panama City).
-- Commit: pending validation and commit.
+- Commit: `601b5506` (`Add validated city packs batch 10`).`r`n`r`n## Final validation`r`n`r`n- `npx tsx scripts/validate-city-packs.ts` passes for all 50 destinations: 250 souvenirs and 47 packs marked `needsReview`.
 
 ## Batch 10 — Santiago, Addis Ababa, Delhi, Manila, Ho Chi Minh City
 
 - Added five packs and 25 souvenirs, each with the required reward mix.
 - `npx tsx scripts/validate-city-packs.ts --batch 10` passes: 50 / 50 cities present, 25 souvenirs in this batch, 5 packs marked `needsReview`.
 - Review flags: Chilean Spanish (Santiago), Amharic transliteration (Addis Ababa), Hindi and Delhi language-community fit (Delhi), Filipino usage (Manila), and Vietnamese tones/diacritics (Ho Chi Minh City).
-- Commit: pending validation and commit.
+- Commit: `601b5506` (`Add validated city packs batch 10`).`r`n`r`n## Final validation`r`n`r`n- `npx tsx scripts/validate-city-packs.ts` passes for all 50 destinations: 250 souvenirs and 47 packs marked `needsReview`.
