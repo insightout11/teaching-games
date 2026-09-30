@@ -43,6 +43,10 @@
       "a": "No. Students join through a shared browser link and participate from any device without creating an account."
     }
   ],
-  "related": ["world-lens", "brain-teasers", "twenty-questions"],
+  "related": [
+    "world-lens",
+    "connections",
+    "twenty-questions"
+  ],
   "ogImageTheme": "quiz"
 }

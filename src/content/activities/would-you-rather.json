@@ -47,6 +47,10 @@
       "a": "Yes, Would You Rather is free to run. Teachers create the session and students join through a browser link — no accounts or downloads required."
     }
   ],
-  "related": ["two-truths", "rank-it", "hot-take-arena"],
+  "related": [
+    "fact-detective",
+    "rank-it",
+    "hot-take-arena"
+  ],
   "ogImageTheme": "icebreakers"
 }

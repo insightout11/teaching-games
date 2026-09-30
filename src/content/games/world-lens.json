@@ -43,6 +43,10 @@
       "a": "The point is not memorizing capitals. Students solve from evidence, then talk through why the evidence did or did not support their guess. That makes it a speaking and reasoning activity, not just trivia."
     }
   ],
-  "related": ["radar-fix", "twenty-questions", "brain-teasers"],
+  "related": [
+    "radar-fix",
+    "twenty-questions",
+    "connections"
+  ],
   "ogImageTheme": "quiz"
 }
