@@ -70,6 +70,8 @@ import type {
   ConnectionGeneratedContent,
   ConnectionsGeneratedContent,
   VideoPlayerContent,
+  RadioCheckContent,
+  RadioCheckSegment,
   DecisionCouncilContent,
   TeamDebateContent,
   SourceVocabItem,
@@ -1272,6 +1274,148 @@ async function generateVideoComprehensionQuestions(source: SourceMaterial, diffi
     } catch { /* fall through to summary */ }
   }
   return generateComprehensionQuestions(source.title, contentBlock, 'video', difficulty, { count });
+}
+
+const YOUTUBE_LIBRARIES: Record<string, Array<{ id: string; youtubeId: string }>> = {
+  bbc: bbcLibrary as Array<{ id: string; youtubeId: string }>,
+  'bbc-ideas': bbcIdeasLibrary as Array<{ id: string; youtubeId: string }>,
+  kurzgesagt: kurzgesagtLibrary as Array<{ id: string; youtubeId: string }>,
+  bigthink: bigthinkLibrary as Array<{ id: string; youtubeId: string }>,
+  vox: voxLibrary as Array<{ id: string; youtubeId: string }>,
+  kids: kidsLibrary as Array<{ id: string; youtubeId: string }>,
+  natgeo: natgeoLibrary as Array<{ id: string; youtubeId: string }>,
+  'crash-course': crashCourseLibrary as Array<{ id: string; youtubeId: string }>,
+  'travel-english': travelEnglishLibrary as Array<{ id: string; youtubeId: string }>,
+  'world-flight': worldFlightLibrary as Array<{ id: string; youtubeId: string }>,
+  grammar: grammarLibrary as Array<{ id: string; youtubeId: string }>,
+  hooks: hooksLibrary as Array<{ id: string; youtubeId: string }>,
+  'business-english': businessEnglishLibrary as Array<{ id: string; youtubeId: string }>,
+  'internet-memes': internetMemesLibrary as Array<{ id: string; youtubeId: string }>,
+  minecraft: minecraftLibrary as Array<{ id: string; youtubeId: string }>,
+  sports: sportsLibrary as Array<{ id: string; youtubeId: string }>,
+};
+
+// ─── Radio Check (listening) ───
+
+/** YouTube id for a video source (library, TED-Ed or pasted YouTube); null for TED/other. */
+function youtubeIdForSource(source?: SourceMaterial | null): string | null {
+  if (!source?.sourceKey) return null;
+  if (source.sourceType === 'youtube') return source.sourceKey;
+  if (source.sourceType === 'teded') {
+    const t = (tededLibrary as Array<{ id: string; youtubeId: string }>).find((x) => x.id === source.sourceKey);
+    return t?.youtubeId ?? null;
+  }
+  const lib = YOUTUBE_LIBRARIES[source.sourceType as string];
+  return lib ? (lib.find((x) => x.id === source.sourceKey)?.youtubeId ?? null) : null;
+}
+
+function labelToSeconds(label?: string): number | null {
+  if (!label) return null;
+  const m = label.replace(/[[\]]/g, '').trim().match(/^(\d+):(\d{1,2})$/);
+  return m ? parseInt(m[1], 10) * 60 + parseInt(m[2], 10) : null;
+}
+
+const RADIO_SEGMENT_SCHEMA = {
+  question: { type: 'string' },
+  options: { type: 'array', items: { type: 'string' } },
+  correctIndex: { type: 'number' },
+  keyLine: { type: 'string' },
+} as const;
+
+async function generateRadioCheck(
+  topic: string,
+  difficulty: Difficulty,
+  source: SourceMaterial | null | undefined,
+  rawTranscript: string | undefined,
+  sourceCtx: string,
+): Promise<RadioCheckContent> {
+  const youtubeId = youtubeIdForSource(source);
+  const timed = rawTranscript ? formatTranscriptForAI(rawTranscript) : '';
+
+  // Video mode: 4 moments from the real recording, cut by transcript timestamps.
+  if (youtubeId && /\[\d+:\d{2}\]/.test(timed)) {
+    try {
+      const schema: AISchema = {
+        type: 'object',
+        properties: {
+          segments: {
+            type: 'array',
+            items: { type: 'object', properties: { ...RADIO_SEGMENT_SCHEMA, startLabel: { type: 'string' }, endLabel: { type: 'string' } }, required: ['question', 'options', 'correctIndex', 'keyLine', 'startLabel', 'endLabel'] },
+          },
+        },
+        required: ['segments'],
+      };
+      const prompt = `You are making a LISTENING activity for an ESL class from a video transcript. The class hears short segments of the video, one at a time, and answers one question per segment.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+Questions and options must use language at this level.
+
+Video: "${source?.title ?? topic}"
+TIMESTAMPED TRANSCRIPT ([M:SS] marks the start of each ~15-second chunk):
+${timed}
+
+Choose exactly 4 segments, spread from the beginning to the end of the video, in time order. For each:
+- startLabel / endLabel: [M:SS] timestamps taken from the transcript. Each segment lasts 15–45 seconds.
+- question: about ONE specific thing clearly SAID in that segment (a detail, number, name, reason, or how someone feels). It must be answerable by listening to that segment alone, not from general knowledge.
+- options: 3 short options, exactly one correct. Wrong options should sound plausible (e.g. a similar number or a word that is also mentioned nearby).
+- correctIndex: 0-based index of the correct option.
+- keyLine: the exact words from the transcript that give the answer.
+
+Return JSON: { "segments": [...] }.`;
+      const parsed = await generateJSON<{ segments: Array<{ question: string; options: string[]; correctIndex: number; keyLine: string; startLabel: string; endLabel: string }> }>(prompt, schema);
+      const segments: RadioCheckSegment[] = [];
+      for (const s of parsed.segments ?? []) {
+        const start = labelToSeconds(s.startLabel);
+        let end = labelToSeconds(s.endLabel);
+        if (start == null || !s.question || !Array.isArray(s.options) || s.options.length < 2) continue;
+        // Transcript labels mark chunk STARTS, so pad the end to include the whole last chunk.
+        end = Math.max((end ?? start) + 15, start + 15);
+        end = Math.min(end, start + 60);
+        const raw = s.options.slice(0, 3);
+        const { options, correctIndex } = shuffleOptions(raw, Math.max(0, Math.min(s.correctIndex ?? 0, raw.length - 1)));
+        segments.push({ question: s.question, options, correctIndex, keyLine: s.keyLine ?? '', start, end });
+      }
+      segments.sort((a, b) => (a.start ?? 0) - (b.start ?? 0));
+      if (segments.length >= 2) {
+        return { activityKey: 'radio-check', topicContext: topic, title: source?.title ?? topic, mode: 'video', youtubeId, segments: segments.slice(0, 4) };
+      }
+    } catch { /* fall through to voice mode */ }
+  }
+
+  // Voice mode: short spoken passages on the topic, read by the synthetic voice.
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      segments: {
+        type: 'array',
+        items: { type: 'object', properties: { ...RADIO_SEGMENT_SCHEMA, script: { type: 'string' } }, required: ['question', 'options', 'correctIndex', 'keyLine', 'script'] },
+      },
+    },
+    required: ['segments'],
+  };
+  const prompt = `You are making a LISTENING activity for an ESL class on the topic "${topic}". A computer voice reads 4 short passages aloud, one at a time; students answer one question after each.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+Passages, questions and options must use language at this level.
+${sourceCtx ? `\nGround the passages in this source material where possible:\n${sourceCtx.slice(0, 4000)}\n` : ''}
+Write exactly 4 passages, each a different real-world listening format connected to the topic: e.g. an announcement, a voicemail, a short podcast or radio clip, a tour guide, a news headline, someone describing their day. For each:
+- script: 35–60 words, natural spoken English, written to be read aloud (no lists, no headings, no stage directions).
+- question: about ONE specific detail in the passage (a time, number, place, reason, or feeling), answerable only by listening.
+- options: 3 short options, exactly one correct; wrong options should sound plausible (a similar time, a place mentioned nearby).
+- correctIndex: 0-based index of the correct option.
+- keyLine: the exact sentence from the script that gives the answer.
+
+Return JSON: { "segments": [...] }.`;
+  const parsed = await generateJSON<{ segments: Array<{ question: string; options: string[]; correctIndex: number; keyLine: string; script: string }> }>(prompt, schema);
+  const segments: RadioCheckSegment[] = (parsed.segments ?? [])
+    .filter((s) => s.script && s.question && Array.isArray(s.options) && s.options.length >= 2)
+    .slice(0, 4)
+    .map((s) => {
+      const raw = s.options.slice(0, 3);
+      const { options, correctIndex } = shuffleOptions(raw, Math.max(0, Math.min(s.correctIndex ?? 0, raw.length - 1)));
+      return { question: s.question, options, correctIndex, keyLine: s.keyLine ?? '', script: s.script };
+    });
+  return { activityKey: 'radio-check', topicContext: topic, title: topic, mode: 'voice', segments };
 }
 
 async function generateSingleScene(
@@ -2902,24 +3046,7 @@ export async function POST(request: NextRequest) {
             break;
           }
           case 'video-player': {
-            const youtubeLibraries: Record<string, Array<{ id: string; youtubeId: string }>> = {
-              bbc: bbcLibrary as Array<{ id: string; youtubeId: string }>,
-              'bbc-ideas': bbcIdeasLibrary as Array<{ id: string; youtubeId: string }>,
-              kurzgesagt: kurzgesagtLibrary as Array<{ id: string; youtubeId: string }>,
-              bigthink: bigthinkLibrary as Array<{ id: string; youtubeId: string }>,
-              vox: voxLibrary as Array<{ id: string; youtubeId: string }>,
-              kids: kidsLibrary as Array<{ id: string; youtubeId: string }>,
-              natgeo: natgeoLibrary as Array<{ id: string; youtubeId: string }>,
-              'crash-course': crashCourseLibrary as Array<{ id: string; youtubeId: string }>,
-              'travel-english': travelEnglishLibrary as Array<{ id: string; youtubeId: string }>,
-              'world-flight': worldFlightLibrary as Array<{ id: string; youtubeId: string }>,
-              grammar: grammarLibrary as Array<{ id: string; youtubeId: string }>,
-              hooks: hooksLibrary as Array<{ id: string; youtubeId: string }>,
-              'business-english': businessEnglishLibrary as Array<{ id: string; youtubeId: string }>,
-              'internet-memes': internetMemesLibrary as Array<{ id: string; youtubeId: string }>,
-              minecraft: minecraftLibrary as Array<{ id: string; youtubeId: string }>,
-              sports: sportsLibrary as Array<{ id: string; youtubeId: string }>,
-            };
+            const youtubeLibraries = YOUTUBE_LIBRARIES;
             const isYouTubeLibrary = sourceMaterial?.sourceType != null && sourceMaterial.sourceType in youtubeLibraries;
             if (sourceMaterial && (sourceMaterial.sourceType === 'youtube' || sourceMaterial.sourceType === 'ted' || sourceMaterial.sourceType === 'teded' || isYouTubeLibrary) && sourceMaterial.sourceKey) {
               generators.push(generateVideoComprehensionQuestions(sourceMaterial, diff).then(({ questions, discussionPrompt }) => {
@@ -2988,6 +3115,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'taboo-sprint':
             generators.push(generateTabooSprint(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'radio-check':
+            generators.push(generateRadioCheck(customTopic, diff, sourceMaterial, sourceRawTranscript, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'hot-seat':
             // Same topic cards as Taboo (word + definition); the forbidden words go unused.

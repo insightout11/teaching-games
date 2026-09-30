@@ -29,6 +29,7 @@ import { bluffDefinitionPlugin } from './bluff-definition';
 import { cargoHoldPlugin } from './cargo-hold';
 import { tabooSprintPlugin } from './taboo-sprint';
 import { hotSeatPlugin } from './hot-seat';
+import { radioCheckPlugin } from './radio-check';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarClarifyPlugin } from './grammar-clarify';
 import { vocabMicroPlugin } from './vocab-micro';
@@ -66,6 +67,7 @@ const activities: ActivityPlugin[] = [
   cargoHoldPlugin,
   tabooSprintPlugin,
   hotSeatPlugin,
+  radioCheckPlugin,
   grammarCheckInPlugin,
   grammarClarifyPlugin,
   vocabMicroPlugin,

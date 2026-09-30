@@ -913,6 +913,28 @@ export interface TabooRound {
   forbiddenWords: string[];
 }
 
+/** Radio Check: short listening segments, one question each. */
+export interface RadioCheckSegment {
+  question: string;
+  options: string[];
+  correctIndex: number;
+  /** The exact line that holds the answer, shown on reveal. */
+  keyLine: string;
+  /** Video mode: segment start/end in seconds. */
+  start?: number;
+  end?: number;
+  /** Voice mode: the passage read aloud by the synthetic voice (never shown before reveal). */
+  script?: string;
+}
+
+export interface RadioCheckContent extends ActivityGeneratedContent {
+  activityKey: 'radio-check';
+  title: string;
+  mode: 'video' | 'voice';
+  youtubeId?: string;
+  segments: RadioCheckSegment[];
+}
+
 /** Hot Seat reuses Taboo's topic cards (word + short definition). */
 export interface HotSeatContent extends ActivityGeneratedContent {
   activityKey: 'hot-seat';

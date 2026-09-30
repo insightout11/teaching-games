@@ -31,9 +31,9 @@ export function warmUpSpeech() {
   }
 }
 
-export function speak(text: string, rate = 0.9) {
+export function speak(text: string, rate = 0.9, onEnd?: () => void) {
   try {
-    if (!supported()) return;
+    if (!supported()) { onEnd?.(); return; }
     const synth = window.speechSynthesis;
     if (cachedVoice === undefined) cachedVoice = pickVoice();
     if (synth.speaking || synth.pending) synth.cancel();
@@ -42,6 +42,7 @@ export function speak(text: string, rate = 0.9) {
     const u = new SpeechSynthesisUtterance(text);
     if (cachedVoice) { u.voice = cachedVoice; u.lang = cachedVoice.lang; } else u.lang = 'en-US';
     u.rate = rate;
+    if (onEnd) { u.onend = () => onEnd(); u.onerror = () => onEnd(); }
     synth.speak(u);
   } catch {
     // no voice on this device: the button just does nothing
