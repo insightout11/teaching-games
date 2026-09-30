@@ -7,7 +7,7 @@ Branch: `codex/library-round-2`, created from fetched `origin/main` (`c405b115`)
 | Metadata backfill | 446 | 446 missing `cefr` or `ageBand` | 446 / 446 |
 | Grammar videos | +60 | 17 | 60 / 60 |
 | Short hooks under 180 seconds | +60 | 43 | 60 / 60 |
-| Opinion/discussion texts | +40 | 10 | 20 / 40 |
+| Opinion/discussion texts | +40 | 10 | 40 / 40 |
 
 ## Batch log
 
@@ -99,3 +99,6 @@ Metadata backfill: 446 / 446 complete across 23 validated commits. Grammar video
 
 - Batch 1: +20 original LessonCaptain texts, each 150–400 words, tagged `CC BY 4.0`, leveled A2–B1, and written to present both sides of a classroom debate.
 - The validator now accepts the brief’s `discussion` genre. The new grammar, hook, and debate shelves are connected to the Library UI, source recommender, extraction route, and transcript grounding.
+
+- Batch 2: +20 original LessonCaptain debate texts. Topics include practical money skills, school schedules, media literacy, food, arts, public spaces, and community choices. All items pass the 150–400 word limit and carry original CC BY 4.0 attribution.
+- Opinion/discussion closeout: 40 / 40 new texts are included in the Debate Texts library and source-grounding flow.
