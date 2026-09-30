@@ -9,6 +9,9 @@ import { GenerationLoader } from '@/components/ui/generation-loader';
 import { GrammarTarget, GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
 import { GRAMMAR_RULES } from './grammar-rules';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { ArrowLeft, ArrowRight, Check, Clock, Eye, EyeOff, Mic, PenLine, Trophy } from 'lucide-react';
+import { isUnchanged, wordDiff } from '@/lib/word-diff';
 
 const TENSE_TARGETS = [
   GrammarTarget.PresentSimple,
@@ -57,7 +60,7 @@ function getLessonGrammarTarget(): GrammarTarget | null {
   } catch { return null; }
 }
 
-export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions }: GameProps) {
+export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(
@@ -88,6 +91,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
   const [reviewIndex, setReviewIndex] = useState(0);
   const [showingReview, setShowingReview] = useState(false);
+  const [peekExample, setPeekExample] = useState(false);
+  const [sayItRight, setSayItRight] = useState(false);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
@@ -326,6 +331,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     resetRace();
     setShowingReview(false);
     setReviewIndex(0);
+    setSayItRight(false);
 
     try {
       const response = await fetch('/api/grammar-boss/generate', {
@@ -510,190 +516,146 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   );
   };
 
+  // Shared-screen review: the student's sentence vs the correction, changed words highlighted.
+  const renderCorrection = (sentence: string, corrected: string) => {
+    const parts = wordDiff(sentence, corrected);
+    const same = isUnchanged(sentence, corrected);
+    return (
+      <div className="space-y-3">
+        <div>
+          <KitLabel>Written</KitLabel>
+          <p className="mt-1 text-2xl leading-snug">
+            {parts.filter((p) => p.kind !== 'added').map((p, i) => <span key={i} className={p.kind === 'removed' ? 'rounded bg-rose-400/15 px-0.5 text-rose-200 line-through decoration-rose-300/80' : ''}>{p.text} </span>)}
+          </p>
+        </div>
+        {same ? (
+          <p className="flex items-center gap-2 text-xl text-emerald-200"><Check className="h-5 w-5" />Perfect: nothing to fix!</p>
+        ) : (
+          <div>
+            <KitLabel tone="emerald">Corrected</KitLabel>
+            <p className="mt-1 text-2xl leading-snug">
+              {parts.filter((p) => p.kind !== 'removed').map((p, i) => <span key={i} className={p.kind === 'added' ? 'rounded bg-emerald-400/15 px-0.5 font-semibold text-emerald-200' : ''}>{p.text} </span>)}
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   // ============ SIMULTANEOUS RACE MODE ============
   if (isSimultaneous) {
     const sortedSolvers = [...raceSolvers].sort((a, b) => b.avgScore - a.avgScore);
     const reviewSolver = sortedSolvers[reviewIndex];
+    const best = sortedSolvers[0];
+    const rule = currentChallenge ? GRAMMAR_RULES[currentChallenge.target] : null;
+    const total = sessionSettings.timerSeconds || 1;
 
     return (
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="text-center">
-          <p className="opacity-70 text-sm">Everyone writes a sentence — best grammar wins!</p>
-          <p className="text-xs text-cyan-400 mt-1">{students.length} students connected</p>
+      <div className="mx-auto max-w-4xl space-y-5 text-white">
+        <div className="flex items-center justify-between">
+          <KitLabel tone="violet">Grammar Boss{currentChallenge ? ` · ${capitalize(currentChallenge.target)}` : ''}</KitLabel>
+          {status === GameStatus.CHALLENGE_READY && <KitReadout>{raceSolvers.length} / {students.length} written</KitReadout>}
         </div>
 
-        {/* IDLE State */}
         {status === GameStatus.IDLE && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-            <div className="glass p-6 rounded-2xl border border-white/10 space-y-4">
-              <h3 className="text-sm font-bold uppercase tracking-widest opacity-60">Challenge Configuration</h3>
-              <div>
-                <label className="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Grammar Target</label>
-                {renderGrammarTargetSelect()}
-              </div>
+          <div className="space-y-5 py-4 text-center">
+            <p className="font-display text-5xl">Beat the Grammar Boss.</p>
+            <p className="mx-auto max-w-xl text-lg text-white/70">One task, one grammar point. Everyone writes a sentence on their phone, then we fix them together.</p>
+            <div className="mx-auto max-w-sm text-left">
+              <KitLabel>Grammar point</KitLabel>
+              <div className="mt-1">{renderGrammarTargetSelect()}</div>
             </div>
-            <button onClick={handleGenerate} className="w-full px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20">
-              GENERATE CHALLENGE
-            </button>
-          </motion.div>
-        )}
-
-        {/* GENERATING State */}
-        {status === GameStatus.GENERATING && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <GenerationLoader label="challenge" />
-          </motion.div>
-        )}
-
-        {/* Error */}
-        {error && <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl">{error}</div>}
-
-        {/* CHALLENGE_READY — Race active */}
-        {status === GameStatus.CHALLENGE_READY && currentChallenge && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-            {/* Timer */}
-            {raceActive && !raceFinished && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className={`px-4 py-2 rounded-xl font-game text-2xl ${timeRemaining <= 10 ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-white/10 text-white'}`}>
-                    {timeRemaining}s
-                  </div>
-                  <button
-                    onClick={() => addTime(30)}
-                    className="px-3 py-1.5 rounded-lg text-sm font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10"
-                  >
-                    +30s
-                  </button>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs text-slate-400 uppercase">Submissions</p>
-                  <p className="text-2xl font-bold text-emerald-400">{raceSolvers.length}</p>
-                </div>
-              </div>
-            )}
-
-            {renderChallengeCard()}
-
-            {/* Sealed solver feed — name + checkmark only during race */}
-            {raceActive && !raceFinished && raceSolvers.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                  {raceSolvers.length} of {students.length} submitted
-                </p>
-                <AnimatePresence>
-                  {raceSolvers.map(solver => (
-                    <motion.div
-                      key={solver.studentId}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10"
-                    >
-                      <span className="font-semibold text-white">
-                        {prefsMap?.get(solver.clientId)?.score_visible === false ? 'Anonymous pilot' : solver.displayName}
-                      </span>
-                      <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
-                        <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </div>
-            )}
-
-            {raceActive && raceSolvers.length === 0 && (
-              <div className="text-center py-4">
-                <p className="text-slate-400 text-sm">Waiting for students to submit on their devices...</p>
-              </div>
-            )}
-
-            {raceActive && !raceFinished && (
-              <button onClick={handleEndRace} className="w-full py-3 glass hover:bg-white/10 rounded-xl font-game text-sm transition-all border border-white/10">
-                END RACE
-              </button>
-            )}
-          </motion.div>
-        )}
-
-        {/* Race finished — review stepper */}
-        {raceFinished && currentChallenge && !showingReview && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-            <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30 text-center">
-              <h3 className="text-2xl font-bold text-white mb-2">CHALLENGE COMPLETE!</h3>
-              <p className="text-slate-400">{raceSolvers.length} students submitted sentences</p>
+            <div className="flex justify-center">
+              <KitButton tone="violet" solid onClick={handleGenerate} className="!px-8 !py-3 !text-base" icon={<PenLine className="h-4 w-4" />}>Set the task</KitButton>
             </div>
+          </div>
+        )}
 
-            {raceSolvers.length > 0 && (
-              <button
-                onClick={() => { setShowingReview(true); setReviewIndex(0); }}
-                className="w-full py-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl font-game text-lg transition-all text-white border-2 border-white/20 hover:scale-[1.02] active:scale-95"
-              >
-                REVIEW SUBMISSIONS ({sortedSolvers.length})
-              </button>
-            )}
+        {status === GameStatus.GENERATING && <GenerationLoader label="challenge" />}
+        {error && <p className="rounded-xl border border-rose-300/30 bg-rose-400/10 px-4 py-3 text-rose-100">{error}</p>}
 
-            <div className="flex gap-3 flex-wrap">
-              {onRevealTopSubmissions && raceSolvers.length > 0 && (
-                <button
-                  onClick={() => onRevealTopSubmissions(sortedSolvers.slice(0, 3).map((s) => ({
-                    content: s.sentence,
-                    feedback: s.feedback,
-                    points: s.avgScore,
-                    clientId: s.clientId,
-                    displayName: s.displayName,
-                  })))}
-                  className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-xl font-game text-sm shadow hover:bg-cyan-500/30 transition-all"
-                >
-                  REVEAL TOP 3
-                </button>
+        {status === GameStatus.CHALLENGE_READY && currentChallenge && !raceFinished && (
+          <div className="space-y-4">
+            <div className="rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-6">
+              <p className="font-display text-3xl leading-snug">{currentChallenge.task}</p>
+              {currentChallenge.sentenceStarter && <p className="mt-3 text-lg text-white/70">Stuck? Start with <span className="text-sky-200">&ldquo;{currentChallenge.sentenceStarter}&rdquo;</span></p>}
+              {rule && (
+                <div className="mt-4 rounded-2xl border border-emerald-300/25 bg-emerald-400/[0.06] px-4 py-3">
+                  <KitLabel tone="emerald">How it works</KitLabel>
+                  <p className="mt-1 text-lg text-emerald-100">{rule.rule}</p>
+                  <p className="text-base italic text-emerald-200/80">&ldquo;{rule.example}&rdquo;</p>
+                </div>
               )}
-              <button onClick={handleGenerate} className="flex-1 py-4 bg-gradient-to-br from-lc-blue to-blue-500 rounded-xl font-game transition-all text-white border-2 border-white/20 hover:scale-[1.02] active:scale-95 shadow-lg">NEW TASK</button>
-              <button onClick={handleSameChallenge} className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10 text-slate-400">SAME TASK, AGAIN</button>
             </div>
-          </motion.div>
-        )}
-
-        {/* Post-race review stepper */}
-        {raceFinished && showingReview && reviewSolver && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+            <div className="flex items-center gap-4">
+              <Clock className={`h-5 w-5 ${timeRemaining <= 10 ? 'text-rose-300' : 'text-white/60'}`} />
+              <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/10"><motion.div className={`h-full ${timeRemaining <= 10 ? 'bg-rose-400' : 'bg-violet-400'}`} animate={{ width: `${Math.max(0, Math.min(100, (timeRemaining / total) * 100))}%` }} transition={{ ease: 'linear', duration: 1 }} /></div>
+              <span className={`w-14 text-right font-mono text-2xl ${timeRemaining <= 10 ? 'text-rose-300' : ''}`}>{timeRemaining}s</span>
+              <KitButton onClick={() => addTime(30)}>+30s</KitButton>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <AnimatePresence>
+                {raceSolvers.map((sv) => (
+                  <motion.span key={sv.studentId} initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex items-center gap-1 rounded-full border border-emerald-300/40 bg-emerald-400/10 px-3 py-1 text-sm text-emerald-100">
+                    <Check className="h-3.5 w-3.5" />{prefsMap?.get(sv.clientId)?.score_visible === false ? 'Anonymous pilot' : sv.displayName}
+                  </motion.span>
+                ))}
+              </AnimatePresence>
+              {raceSolvers.length === 0 && <p className="text-sm text-white/45">Writing on phones…</p>}
+            </div>
             <div className="flex items-center justify-between">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                Student {reviewIndex + 1} of {sortedSolvers.length}
-              </p>
-              {reviewIndex === 0 && sortedSolvers.length > 0 && (
-                <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-bold uppercase">Best Score</span>
-              )}
-            </div>
-
-            {renderEvaluationCard(reviewSolver)}
-
-            <div className="flex gap-3">
-              <button
-                onClick={() => setReviewIndex(Math.max(0, reviewIndex - 1))}
-                disabled={reviewIndex === 0}
-                className="flex-1 py-3 glass rounded-xl font-game text-sm transition-all border border-white/10 disabled:opacity-30"
-              >
-                PREV
+              {/* The model sentence answers this exact task: teacher-only peek while they write. */}
+              <button type="button" onPointerDown={() => setPeekExample(true)} onPointerUp={() => setPeekExample(false)} onPointerLeave={() => setPeekExample(false)} className="flex max-w-md items-center gap-1.5 rounded-full border border-white/12 px-3 py-1.5 text-xs text-white/60 hover:text-white">
+                {peekExample ? <><Eye className="h-3.5 w-3.5 shrink-0" /><span className="truncate">{currentChallenge.exampleSentence}</span></> : <><EyeOff className="h-3.5 w-3.5" />Hold to peek at a model</>}
               </button>
-              {reviewIndex < sortedSolvers.length - 1 ? (
-                <button
-                  onClick={() => setReviewIndex(reviewIndex + 1)}
-                  className="flex-1 py-3 bg-indigo-500/20 text-indigo-300 rounded-xl font-game text-sm transition-all border border-indigo-500/30 hover:bg-indigo-500/30"
-                >
-                  NEXT STUDENT
-                </button>
-              ) : (
-                <button
-                  onClick={() => setShowingReview(false)}
-                  className="flex-1 py-3 bg-emerald-500/20 text-emerald-300 rounded-xl font-game text-sm transition-all border border-emerald-500/30 hover:bg-emerald-500/30"
-                >
-                  DONE
-                </button>
-              )}
+              <KitButton onClick={handleEndRace}>Time&apos;s up</KitButton>
             </div>
-          </motion.div>
+          </div>
+        )}
+
+        {raceFinished && currentChallenge && !showingReview && (
+          <div className="space-y-4">
+            <div className="rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-5">
+              <KitLabel>The task</KitLabel>
+              <p className="mt-1 font-display text-2xl">{currentChallenge.task}</p>
+              <p className="mt-3 text-lg"><span className="font-mono text-xs uppercase tracking-[0.14em] text-amber-300">Model </span><span className="italic text-amber-100">&ldquo;{currentChallenge.exampleSentence}&rdquo;</span></p>
+            </div>
+            {best && (
+              <div className="rounded-2xl border border-amber-300/40 bg-amber-300/[0.07] p-5">
+                <p className="flex items-center gap-2 font-display text-2xl"><Trophy className="h-5 w-5 text-amber-300" />Top sentence: {best.displayName}</p>
+                <div className="mt-3">{renderCorrection(best.sentence, best.correctedSentence)}</div>
+                {sayItRight
+                  ? <p className="mt-3 flex items-center gap-2 text-lg text-amber-100"><Mic className="h-5 w-5" />{best.displayName} reads the corrected sentence aloud, then everyone repeats it.</p>
+                  : <KitButton tone="amber" className="mt-3" onClick={() => setSayItRight(true)} icon={<Mic className="h-3.5 w-3.5" />}>Say it right</KitButton>}
+              </div>
+            )}
+            {raceSolvers.length === 0 && <p className="text-center text-white/55">No sentences this time.</p>}
+            <div className="flex flex-wrap justify-center gap-2">
+              {sortedSolvers.length > 1 && <KitButton tone="violet" onClick={() => { setShowingReview(true); setReviewIndex(1); }} icon={<ArrowRight className="h-3.5 w-3.5" />}>Fix the others together ({sortedSolvers.length - 1})</KitButton>}
+              <KitButton onClick={handleSameChallenge}>Same task again</KitButton>
+              <KitButton tone="violet" solid onClick={handleGenerate} className="!px-6 !py-2.5 !text-sm">New task</KitButton>
+            </div>
+          </div>
+        )}
+
+        {raceFinished && showingReview && reviewSolver && (
+          <div className="space-y-4">
+            {/* Anonymous: the class fixes the sentence, not the person */}
+            <div className="flex items-center justify-between">
+              <KitLabel tone="violet">Sentence {reviewIndex} of {sortedSolvers.length - 1}</KitLabel>
+              <KitReadout>Spot what changed</KitReadout>
+            </div>
+            <div className="rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-5">
+              {renderCorrection(reviewSolver.sentence, reviewSolver.correctedSentence)}
+              {reviewSolver.feedback && <p className="mt-4 border-t border-white/10 pt-3 text-lg text-white/75">{reviewSolver.feedback}</p>}
+            </div>
+            <div className="flex justify-center gap-2">
+              <KitButton disabled={reviewIndex <= 1} onClick={() => setReviewIndex(Math.max(1, reviewIndex - 1))} icon={<ArrowLeft className="h-3.5 w-3.5" />}>Back</KitButton>
+              {reviewIndex < sortedSolvers.length - 1
+                ? <KitButton tone="violet" solid onClick={() => setReviewIndex(reviewIndex + 1)} icon={<ArrowRight className="h-3.5 w-3.5" />}>Next sentence</KitButton>
+                : <KitButton tone="emerald" solid onClick={() => setShowingReview(false)} icon={<Check className="h-3.5 w-3.5" />}>Done</KitButton>}
+            </div>
+          </div>
         )}
       </div>
     );
