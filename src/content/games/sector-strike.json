@@ -1,48 +1,47 @@
 {
   "slug": "sector-strike",
   "schemaVersion": 1,
-  "headline": "Sector Strike Game - Team Quiz Battle for ESL Classrooms",
+  "headline": "Sector Strike: Speak Coordinates and Claim the Grid",
+  "problemStatement": "Team quiz games can make recall lively, but students also need visible reasons to coordinate and explain their choices. Sector Strike combines questions with territory: two teams answer, choose a location on an 8-by-8 board, and try to connect four claimed sectors in a row.",
   "outcomes": [
-    "Students practise recall and explanation under pressure while working toward a visible team goal",
-    "Team strategy keeps stronger students engaged without leaving quieter students as passengers",
-    "Questions become meaningful because each answer claims territory on the board, not just points on a scoreboard",
-    "Teachers can turn review content into a 20-minute class event with almost no preparation"
+    "Review speaking and recall while competing toward a shared team goal.",
+    "Practice calling grid coordinates clearly so teammates can follow a choice.",
+    "Build turn-taking and tactical discussion as teams decide where to claim territory."
   ],
   "howItWorks": [
-    "The class splits into teams and sees an 8 by 8 sector grid on the teacher screen",
-    "Teams answer speaking or written questions generated for the lesson topic and level",
-    "Correct answers let a team claim a sector, building toward four connected sectors in a row",
-    "The board state changes after every answer, so students have to balance language accuracy with team strategy"
+    "Two teams take turns answering questions and choosing an open sector on the board.",
+    "The board labels rows and columns from A to H and 1 to 8. Empty cells show their coordinate so a picker can call it aloud.",
+    "Choose speaking, written, or both question modes. Questions and options are shown at a size designed for a shared classroom screen.",
+    "A successful capture animates a plane across the board and lights the new sector. The tug-of-war bar tracks territory, and the winning line flashes when a team connects four."
   ],
   "teacherUseCases": [
-    "End-of-unit review where teams need repeated retrieval across vocabulary, grammar, and comprehension",
-    "A Friday game format that still forces students to explain, justify, and recall lesson language",
-    "A group-class speaking task where teammates coach each other before committing an answer"
+    "Use a topic or question set from the current unit and pause before each pick so teammates can recommend a coordinate.",
+    "Ask students to say the coordinate and explain their team strategy before committing to a sector."
   ],
-  "estimatedTime": "18-25 min",
-  "groupSize": "Best with teams",
+  "estimatedTime": "20 min",
+  "groupSize": "2 or more students",
   "faq": [
     {
-      "q": "How many students do I need for Sector Strike?",
-      "a": "Sector Strike is designed for teams, so it works best with at least four students. Smaller classes can still play with two students, but the strategic team energy is strongest in groups."
+      "q": "How does a team win Sector Strike?",
+      "a": "Teams answer questions to claim sectors and try to connect four claimed cells in a row on the 8-by-8 board."
     },
     {
-      "q": "Can I choose speaking or written questions?",
-      "a": "Yes. The game supports speaking-only, written-only, or mixed question modes. That lets you use it for conversation review, grammar checks, or a balanced end-of-lesson game."
+      "q": "Can students call their move aloud?",
+      "a": "Yes. Each empty sector displays a coordinate such as B4, and the board is designed so students can call the location clearly during a shared-screen lesson."
     },
     {
-      "q": "Is it just a quiz with a board?",
-      "a": "No. The board changes the conversation. Students have to decide which sector to attack, whether to block another team, and how to use strong answers at the right moment."
+      "q": "What question formats are available?",
+      "a": "The game offers speaking only, written only, or both. The selected mode shapes whether students answer aloud, submit on phones, or use both approaches."
     },
     {
-      "q": "Do students need their own devices?",
-      "a": "Yes. Students submit or prepare answers through the live classroom flow. They join by browser link, with no app download and no student accounts."
-    },
-    {
-      "q": "What level is Sector Strike best for?",
-      "a": "It works from A2 upward. Lower-level classes do best with short recall prompts, while B1 and above can handle explanation, persuasion, and team discussion before answering."
+      "q": "What does the board show during play?",
+      "a": "A large radar-style board shows claimed territory, a team tug-of-war bar tracks progress, and a capture animation marks new sectors."
     }
   ],
-  "related": ["flash-quiz", "brain-teasers", "connections"],
+  "related": [
+    "flash-quiz",
+    "connections",
+    "twenty-questions"
+  ],
   "ogImageTheme": "quiz"
 }

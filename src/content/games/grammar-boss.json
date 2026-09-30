@@ -1,53 +1,47 @@
 {
   "slug": "grammar-boss",
   "schemaVersion": 1,
-  "headline": "AI Grammar Speaking Game for ESL Classes",
-  "problemStatement": "Grammar practice through worksheets rarely transfers to spontaneous speech. Grammar Boss forces students to produce spoken examples on the spot — the gap where most learners struggle.",
+  "headline": "Grammar Boss: Write and Say It Right",
+  "problemStatement": "Grammar practice is easier to remember when students apply a rule to a sentence and then hear how the corrected version sounds. Grammar Boss generates a targeted challenge, collects student sentences, and turns the review into an anonymous class correction and read-aloud.",
   "outcomes": [
-    "Students produce grammatically correct sentences in real time rather than in isolated drills",
-    "Receive immediate AI feedback on grammatical accuracy and fluency — not just right or wrong",
-    "Build confidence forming complete sentences under mild time pressure",
-    "Practice a targeted grammar structure repeatedly across multiple turns with fresh content each time"
+    "Apply a selected grammar target in an original sentence.",
+    "Notice word-level corrections and explain how they improve meaning or form.",
+    "Practice speaking by reading and repeating a corrected sentence aloud."
   ],
   "howItWorks": [
-    "Teacher selects a grammar target — past simple, third conditional, reported speech, and more",
-    "The AI generates a specific challenge prompt requiring a student to produce a sentence using that structure",
-    "The student speaks or types their answer on their device and submits",
-    "AI evaluates grammatical accuracy and gives structured feedback; the teacher can follow up with class discussion"
+    "Choose a grammar target and topic. The game presents a short task and a rule card with an example to guide student writing.",
+    "Students submit sentences on phones or take turns responding. During a race, a model sentence can be held to peek at without exposing it to the class immediately.",
+    "The review celebrates a top sentence by name when appropriate, then fixes other sentences together anonymously with removed words struck through and corrections highlighted.",
+    "A Say it right step invites the top student to read a corrected sentence aloud and the class to repeat it."
   ],
   "teacherUseCases": [
-    "Productive grammar practice immediately after explicit instruction",
-    "Diagnostic round to identify which students haven't grasped a new structure",
-    "Speaking accuracy drill that keeps the whole class engaged while one student responds"
+    "Use a recent grammar lesson as the target, then ask students to create an example connected to the current topic.",
+    "Keep the model sentence hidden during the challenge and reveal it after learners have had time to form their own answer."
   ],
-  "estimatedTime": "10–20 min",
-  "groupSize": "Any",
+  "estimatedTime": "10 min",
+  "groupSize": "Any class size",
   "faq": [
     {
-      "q": "What grammar targets are available?",
-      "a": "You can type any grammar target into the session settings. The AI understands standard EFL/ESL terminology — past perfect, zero conditional, passive causative, relative clauses — and generates appropriate challenges."
+      "q": "Can the class see a model answer while students work?",
+      "a": "The model sentence is hidden behind a hold-to-peek control during the race and shown after the challenge. The rule and example card remain available as support."
     },
     {
-      "q": "Does the AI handle spoken responses?",
-      "a": "In text mode, students type their sentences. The teacher can also run Grammar Boss in a spoken format where students say their answer aloud and the teacher or AI judges it."
+      "q": "How does the review protect student privacy?",
+      "a": "The top sentence may be celebrated by name, while the remaining sentences are corrected anonymously as a class rather than displayed in a named score-by-score parade."
     },
     {
-      "q": "How does feedback work?",
-      "a": "The AI gives structured feedback: it identifies the specific grammatical error, explains the rule, and shows a corrected version. This makes each turn a micro-lesson, not just a score."
+      "q": "What does Say it right do?",
+      "a": "The top student reads the corrected sentence aloud, then the class repeats it. This adds a spoken fluency step after written grammar practice."
     },
     {
-      "q": "Can I use it with beginners?",
-      "a": "Yes. Set easy difficulty for simpler structures — present simple, basic questions — and the prompts and expected responses scale down accordingly."
-    },
-    {
-      "q": "Can students join Grammar Boss on their phones?",
-      "a": "Yes — any phone or laptop with a browser works. Students join via a class link or code. No app download or student account setup required."
-    },
-    {
-      "q": "Can I run Grammar Boss for free?",
-      "a": "Yes, Grammar Boss is free to use. The teacher creates a session and students join through their browser in under a minute — no subscription needed."
+      "q": "Does Grammar Boss focus on one rule at a time?",
+      "a": "The challenge is generated for a selected grammar target, and the rule card shows a relevant explanation and example. Students apply that target in their own sentence."
     }
   ],
-  "related": ["sentence-scramble", "error-hunter", "story-sprint"],
+  "related": [
+    "sentence-scramble",
+    "error-hunter",
+    "vocab-sprint"
+  ],
   "ogImageTheme": "grammar"
 }
