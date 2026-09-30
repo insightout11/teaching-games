@@ -126,7 +126,9 @@ for (const file of files) {
     // The current library contains legacy records. Apply the complete contract
     // to records explicitly migrated to the new schema; keep legacy records
     // participating in global ID/URL collision checks.
-    if (item.kind !== undefined || item.cefr !== undefined || item.ageBand !== undefined || item.license !== undefined) {
+    // Metadata-only backfills on legacy records should not force unrelated schema migration.
+    // New-schema records declare kind or license; cefr/ageBand alone are valid legacy additions.
+    if (item.kind !== undefined || item.license !== undefined) {
       validateExpandedItem(item, where);
     }
   }

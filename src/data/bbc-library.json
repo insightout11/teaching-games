@@ -13,7 +13,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan explains the most common grammar mistakes made by advanced English learners — misuse of articles, prepositions, and complex tenses — and how to fix them.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_present_past",
@@ -29,7 +31,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan explores the 'historical present' — how English speakers use present tenses to tell past stories, narrate sports, and create dramatic effects.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_formal_informal",
@@ -46,7 +50,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan breaks down the key differences between formal and informal English — vocabulary choices, grammatical structures, and when to use each register.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_giving_emphasis",
@@ -62,7 +68,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan teaches advanced emphasis structures — cleft sentences, fronting, and do-support — to make English more expressive and persuasive.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_native_speaker_mistakes",
@@ -78,7 +86,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan reveals common grammatical 'mistakes' that native English speakers make — and explains which ones are now considered acceptable in modern usage.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_mixing_conditionals",
@@ -94,7 +104,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan teaches mixed conditionals — combining different conditional forms to talk about unreal situations with complex time relationships between past and present.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_question_tags",
@@ -110,7 +122,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan explains how to form and use question tags in British English — including the difference between falling and rising intonation and how tags function in natural conversation.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_linking_words_contrast",
@@ -127,7 +141,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan presents four key ways to express contrast in English — although, despite, however, and while — with clear examples of when and how to use each.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_more_advanced_mistakes",
@@ -143,7 +159,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan continues the advanced learner mistakes series — covering more subtle errors in grammar and usage that prevent advanced speakers from sounding fully natural.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_what_emphasis",
@@ -159,7 +177,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan dives into 'what' as a focus marker in cleft sentences — a powerful structure that adds emphasis and contrast, often misused by even advanced learners.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_masterclass_conversation_phrases",

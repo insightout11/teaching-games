@@ -14,7 +14,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Is the pursuit of pleasure the key to a good life? This animated short explores hedonism — the philosophical idea that pleasure is the highest good — and asks whether it can really guide how we live.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbcideas_philosophy_absurdism",
@@ -31,7 +33,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "What do you do when life feels meaningless? This video explores absurdism — the philosophy of Albert Camus — and his argument that we must imagine Sisyphus happy, embracing life despite its lack of meaning.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbcideas_sports_psychology",
@@ -48,7 +52,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Elite athletes use specific psychological techniques to perform under pressure — and researchers say they work for everyone. This video reveals four evidence-based strategies for focus, confidence, and resilience.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbcideas_critical_thinking",
@@ -65,7 +71,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Why do smart people believe nonsense? This animated explainer breaks down five practical tools for thinking more clearly — from spotting logical fallacies to questioning your own assumptions.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbcideas_social_media_emotions",
@@ -82,7 +90,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Social media was supposed to connect us — but is it changing how we feel and express emotion? This video examines how platforms like Twitter and Instagram reshape our emotional lives in ways we barely notice.",
-    "genre": "discussion"
+    "genre": "discussion",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbcideas_science_of_storytelling",
@@ -99,7 +109,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Stories do more than entertain — they physically change our brains. This animated short explores the neuroscience of storytelling: why narrative is how humans make sense of the world, build empathy, and form identity.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbcideas_power_of_kindness",
@@ -116,7 +128,9 @@
     ],
     "difficultyLevel": "Easy",
     "description": "Being kind doesn't just feel good — it rewires your brain. This video unpacks what neuroscience has discovered about acts of kindness: how they boost health, reduce stress, and create ripple effects through communities.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "teens"
   },
   {
     "id": "bbcideas_experience_world_differently",
@@ -133,7 +147,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Two people can stand in the same room and have completely different experiences. This video explores how the brain constructs reality — and why our perception of the world is always a personal, filtered version of what's really there.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbcideas_hidden_clues_personality",
@@ -150,7 +166,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Your music taste, bedroom tidiness, and even how you walk reveal more about your personality than you might think. This video digs into the psychology of personality cues — the unconscious signals we broadcast about who we are.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbcideas_psychology_seduction",
@@ -167,6 +185,8 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Seduction isn't just about romance — it's a form of social influence with deep psychological roots. This video examines what drives our desire to persuade and attract, and the cognitive mechanisms behind why it works.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   }
 ]
