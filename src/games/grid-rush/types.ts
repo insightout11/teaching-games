@@ -12,6 +12,7 @@ export interface WordEntry {
   isTopicWord: boolean;
   submittedAt: number;     // Date.now()
   rejected?: boolean;      // true if AI later rejected the optimistic add
+  checking?: boolean;      // optimistic, awaiting the word check
 }
 
 export interface SentenceEntry {

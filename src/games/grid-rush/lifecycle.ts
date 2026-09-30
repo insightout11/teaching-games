@@ -57,6 +57,8 @@ export function buildGridRushRound2InputSpec({
     placeholder: 'Your sentence...',
     maxLength: 300,
     perStudentData,
+    // Sentence results arriving for others must not wipe a half-typed sentence.
+    stableInput: true,
     timerSeconds: GRID_RUSH_ROUND2_DURATION,
     startedAt,
   };

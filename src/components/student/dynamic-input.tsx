@@ -17,6 +17,7 @@ import { TabooSprintPanel } from './taboo-sprint-panel';
 import { DefendItPanel } from './defend-it-panel';
 import { TwoTruthsWriter } from './two-truths-writer';
 import { TwentyQuestionsPanel } from './twenty-questions-panel';
+import { GridRushPanel } from './grid-rush-panel';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -39,6 +40,9 @@ interface DynamicInputProps {
 }
 
 export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId, clockOffsetMs, initialResponse }: DynamicInputProps) {
+  if (spec.gameKey === 'grid-rush' && spec.perStudentData?.__room) {
+    return <GridRushRound1 spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} clockOffsetMs={clockOffsetMs} />;
+  }
   switch (spec.type) {
     case 'text':
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clockOffsetMs={clockOffsetMs} />;
@@ -567,6 +571,13 @@ function GetReadyGate({ spec, opensIn }: { spec: InputSpec; opensIn: number }) {
       </div>
     </div>
   );
+}
+
+/** GridRush Round 1: the letter-grid panel with the shared (server-stamped) timer + 3-2-1 gate. */
+function GridRushRound1({ spec, onSubmit, clientId, clockOffsetMs }: DynamicInputProps) {
+  const { timeLeft, timerSeconds, answersOpen, opensIn } = useInputTimer(spec, false, clockOffsetMs);
+  if (timerSeconds > 0 && !answersOpen) return <GetReadyGate spec={spec} opensIn={opensIn} />;
+  return <GridRushPanel spec={spec} clientId={clientId} onSubmit={onSubmit} timeLeft={timeLeft} timerSeconds={timerSeconds} />;
 }
 
 /** Visual countdown bar shown above inputs when a timer is active. */

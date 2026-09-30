@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Brain, PencilLine, Ruler, Star, Target, Trophy } from 'lucide-react';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import type { GridRushMine, GridRushRoom } from '@/components/student/grid-rush-panel';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/session-store';
 import { useSyncedTimer } from '@/hooks/use-synced-timer';
@@ -57,6 +60,9 @@ export function GridRushGame({
   const [studentWords, setStudentWords] = useState<Record<string, WordEntry[]>>({});
   const studentWordsRef = useRef<Record<string, WordEntry[]>>({});
   studentWordsRef.current = studentWords;
+
+  // Words the checker rejected (shown crossed out on that student's phone).
+  const [rejectedWords, setRejectedWords] = useState<Record<string, Array<{ w: string; reason?: string }>>>({});
 
   // Dedup sets per student (mutable, no state mirror needed)
   const studentWordSetsRef = useRef<Record<string, Set<string>>>({});
@@ -178,6 +184,7 @@ export function GridRushGame({
 
     // Reset transient state
     setStudentWords({});
+    setRejectedWords({});
     setStudentSentences({});
     studentSentencesRef.current = {};
     setR2SubmissionCount(0);
@@ -243,25 +250,28 @@ export function GridRushGame({
   useEffect(() => {
     if (phase === GamePhase.ROUND1 && grid) {
       if (!r1StartedAtRef.current) r1StartedAtRef.current = Date.now();
-      const rows = [
-        grid.letters.slice(0, 3),
-        grid.letters.slice(3, 6),
-        grid.letters.slice(6, 9),
-      ];
-      const gridText = rows
-        .map((row, ri) =>
-          row.map((l, ci) => {
-            const idx = ri * 3 + ci;
-            return idx === grid.bonusIndex ? `★${l}` : l;
-          }).join(' ')
-        )
-        .join(' / ');
+      const data: Record<string, unknown> = {
+        __room: { letters: grid.letters, bonusIndex: grid.bonusIndex, bonusLetter: grid.bonusLetter } satisfies GridRushRoom,
+      };
+      const ids = Array.from(new Set([...Object.keys(studentWords), ...Object.keys(rejectedWords)]));
+      ids.forEach((sid) => {
+        const clientId = studentIdToClientIdRef.current[sid] ?? sid;
+        const mine: GridRushMine = {
+          words: [
+            ...(studentWords[sid] ?? []).map((e) => ({ w: e.word, status: e.checking ? 'checking' as const : 'ok' as const, pts: e.points })),
+            ...(rejectedWords[sid] ?? []).map((r) => ({ w: r.w, status: 'rejected' as const, reason: r.reason })),
+          ],
+        };
+        data[clientId] = mine;
+      });
       onSetInputSpec?.({
-        type: 'text',
+        type: 'confirm',
         gameKey: 'grid-rush',
-        prompt: `${gridText} — bonus letter: ${grid.bonusLetter}`,
-        placeholder: 'Type a word from the grid...',
-        maxLength: 20,
+        prompt: `Make words from the grid. Bonus letter: ${grid.bonusLetter}`,
+        // Many words per student: no roundId; live word updates keep what they're building.
+        allowMultiple: true,
+        stableInput: true,
+        perStudentData: data,
         timerSeconds: ROUND1_DURATION + extraSeconds,
         startedAt: r1StartedAtRef.current,
       });
@@ -281,7 +291,7 @@ export function GridRushGame({
       r2StartedAtRef.current = 0;
       onSetInputSpec?.(null);
     }
-  }, [phase, grid, studentWords, studentSentences, onSetInputSpec, extraSeconds]);
+  }, [phase, grid, studentWords, rejectedWords, studentSentences, onSetInputSpec, extraSeconds]);
 
   // ------- REMOTE VOTE HANDLER -------
 
@@ -325,7 +335,7 @@ export function GridRushGame({
 
       // Optimistic UI
       const optimisticEntry: WordEntry = {
-        word, points: optimisticPoints, hasBonusLetter, isTopicWord, submittedAt,
+        word, points: optimisticPoints, hasBonusLetter, isTopicWord, submittedAt, checking: true,
       };
       setStudentWords((prev) => ({
         ...prev,
@@ -352,14 +362,15 @@ export function GridRushGame({
 
         if (!result.isValid) {
           // Remove optimistic entry + show rejection flash
-          studentWordSetsRef.current[studentId].delete(word);
           setStudentWords((prev) => ({
             ...prev,
             [studentId]: (prev[studentId] ?? []).filter((e) => e.submittedAt !== submittedAt),
           }));
+          // Keep it in the dedup set so the same rejected word isn't re-checked.
+          setRejectedWords((prev) => ({ ...prev, [studentId]: [...(prev[studentId] ?? []), { w: word, reason: result.reason }] }));
           onScore(studentId, {
             isCorrect: false,
-            points: 1,
+            points: 0,
             responseData: {
               round: 1,
               word,
@@ -375,7 +386,7 @@ export function GridRushGame({
           ...prev,
           [studentId]: (prev[studentId] ?? []).map((e) =>
             e.submittedAt === submittedAt
-              ? { ...e, points: result.points, hasBonusLetter: result.hasBonusLetter, isTopicWord: result.isTopicWord }
+              ? { ...e, points: result.points, hasBonusLetter: result.hasBonusLetter, isTopicWord: result.isTopicWord, checking: false }
               : e
           ),
         }));
@@ -479,6 +490,7 @@ export function GridRushGame({
     phaseRef.current = GamePhase.IDLE;
     setGrid(null);
     setStudentWords({});
+    setRejectedWords({});
     setStudentSentences({});
     studentSentencesRef.current = {};
     setR2SubmissionCount(0);
@@ -494,7 +506,7 @@ export function GridRushGame({
     return (
       <div className="flex flex-col items-center justify-center h-full gap-6 p-8">
         <div className="text-center">
-          <h2 className="text-3xl font-black text-white tracking-tight mb-2">GridRush</h2>
+          <h2 className="font-display text-5xl text-white mb-2">GridRush</h2>
           <p className="text-slate-400 text-sm">2-Round Vocabulary Race</p>
         </div>
         <div className="bg-slate-800/60 rounded-2xl p-6 border border-slate-700 max-w-md w-full text-center">
@@ -532,12 +544,9 @@ export function GridRushGame({
             <span>·</span>
             <span>{getDisplayTopic(sessionSettings, sourceMaterial)}</span>
           </div>
-          <button
-            onClick={startGame}
-            className="w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-lg transition-colors"
-          >
-            Start Game
-          </button>
+          <div className="flex justify-center">
+            <KitButton tone="cyan" solid onClick={startGame} className="!px-8 !py-3 !text-base">Deal the letters</KitButton>
+          </div>
         </div>
       </div>
     );
@@ -555,82 +564,66 @@ export function GridRushGame({
   // -------- PHASE: ROUND1 --------
   if (phase === GamePhase.ROUND1 && grid) {
     const isLow = timeLeft <= 10;
+    const all = Object.entries(studentWords).flatMap(([sid, list]) => list.filter((e) => !e.checking).map((e) => ({ ...e, sid })));
+    const wall = Array.from(new Map(all.map((e) => [e.word, e])).values()).sort((a, b) => b.submittedAt - a.submittedAt).slice(0, 28);
+    const longest = all.reduce<typeof all[number] | null>((best, e) => (!best || e.word.length > best.word.length ? e : best), null);
+    const total = (ROUND1_DURATION + extraSeconds) || 1;
     return (
-      <div className="flex flex-col h-full gap-4 p-4">
-        {/* Header */}
+      <div className="mx-auto flex max-w-5xl flex-col gap-4 text-white">
         <div className="flex items-center justify-between">
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-cyan-400">Round 1</span>
-            <h3 className="text-white font-bold text-lg">Word Race</h3>
-          </div>
+          <KitLabel tone="cyan">GridRush · round 1 of 2 · word race</KitLabel>
           <div className="flex items-center gap-2">
-            <div className={`text-3xl font-black tabular-nums ${isLow ? 'text-red-400 animate-pulse' : 'text-white'}`}>
-              {timeLeft}s
+            <span className={`font-mono text-3xl ${isLow ? 'text-rose-300' : ''}`}>{timeLeft}s</span>
+            <KitButton onClick={() => { addSeconds(30); setExtraSeconds((seconds) => seconds + 30); }}>+30s</KitButton>
+          </div>
+        </div>
+        <div className="h-2 overflow-hidden rounded-full bg-white/10"><motion.div className={`h-full ${isLow ? 'bg-rose-400' : 'bg-cyan-400'}`} animate={{ width: `${Math.min(100, (timeLeft / total) * 100)}%` }} transition={{ ease: 'linear', duration: 1 }} /></div>
+
+        <div className="grid items-start gap-5 md:grid-cols-[minmax(0,300px)_1fr]">
+          <div className="space-y-3">
+            <div className="grid grid-cols-3 gap-2.5">
+              {grid.letters.map((letter, idx) => {
+                const isBonus = idx === grid.bonusIndex;
+                return (
+                  <div key={idx} className={`relative flex aspect-square items-center justify-center rounded-2xl font-display text-5xl ${isBonus ? 'border-2 border-amber-300 bg-amber-300/15 text-amber-100 shadow-[0_0_18px_rgba(251,191,36,0.3)]' : 'border border-white/12 bg-slate-950/50'}`}>
+                    {isBonus && <Star className="absolute left-2 top-2 h-4 w-4 fill-amber-300 text-amber-300" />}
+                    {letter}
+                  </div>
+                );
+              })}
             </div>
-            <button
-              onClick={() => { addSeconds(30); setExtraSeconds((seconds) => seconds + 30); }}
-              className="text-xs px-2 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-colors font-semibold"
-            >
-              +30s
-            </button>
+            <div className="flex flex-wrap gap-1.5 text-xs">
+              <span className="rounded-full border border-amber-300/40 bg-amber-300/10 px-2.5 py-1 text-amber-100">Uses {grid.bonusLetter}: +1</span>
+              <span className="rounded-full border border-emerald-300/40 bg-emerald-400/10 px-2.5 py-1 text-emerald-100">Topic word: +2</span>
+              <span className="rounded-full border border-white/12 px-2.5 py-1 text-white/70">Letters can repeat</span>
+            </div>
+          </div>
+
+          <div className="min-h-[260px] space-y-3 rounded-[1.5rem] border border-white/10 bg-slate-950/40 p-4">
+            <div className="flex items-center justify-between">
+              <KitLabel>The class found · {Object.values(studentWords).reduce((n, l) => n + l.filter((e) => !e.checking).length, 0)}</KitLabel>
+              {longest && <KitReadout><Ruler className="mr-1 inline h-3.5 w-3.5" />Longest: {longest.word.toUpperCase()}</KitReadout>}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <AnimatePresence>
+                {wall.map((e) => (
+                  <motion.span key={e.word} initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className={`rounded-xl border px-3 py-1 font-display ${e.word.length >= 6 ? 'text-3xl' : e.word.length === 5 ? 'text-2xl' : 'text-xl'} ${e.isTopicWord ? 'border-emerald-300/50 bg-emerald-400/10 text-emerald-100' : e.hasBonusLetter ? 'border-amber-300/40 bg-amber-300/10 text-amber-50' : 'border-white/12 bg-white/[0.04]'}`}>
+                    {e.word}
+                  </motion.span>
+                ))}
+              </AnimatePresence>
+              {wall.length === 0 && <p className="text-white/45">Words appear here as the class finds them…</p>}
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 flex-1 min-h-0">
-            {/* 3x3 grid */}
-            <div className="bg-slate-800/60 rounded-2xl p-5 border border-slate-700">
-              <div className="grid grid-cols-3 gap-3 mb-4">
-                {grid.letters.map((letter, idx) => {
-                  const isBonus = idx === grid.bonusIndex;
-                  return (
-                    <div
-                      key={idx}
-                      className={`flex items-center justify-center h-16 rounded-xl font-black text-2xl select-none transition-all ${
-                        isBonus
-                          ? 'bg-amber-500/20 border-2 border-amber-400 text-amber-300 shadow-[0_0_12px_rgba(251,191,36,0.3)]'
-                          : 'bg-slate-700 text-slate-100'
-                      }`}
-                    >
-                      {isBonus && <span className="text-xs mr-0.5">★</span>}
-                      {letter}
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="flex items-center gap-3 text-xs text-slate-400">
-                <span className="bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full">★ {grid.bonusLetter} = +1 pt</span>
-                <span className="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full">Topic word = +2 pt</span>
-              </div>
-            </div>
-
-            {/* Per-student word counts */}
-            <div className="bg-slate-800/40 rounded-xl p-3 border border-slate-700/50">
-              <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">Word counts</p>
-              <div className="flex flex-wrap gap-2">
-                {students.map((s) => {
-                  const words = (studentWords[s.id] ?? []);
-                  const totalPts = words.reduce((sum, w) => sum + w.points, 0);
-                  return (
-                    <div key={s.id} className="flex items-center gap-1.5 bg-slate-700/50 rounded-lg px-3 py-1.5">
-                      <span className="text-slate-300 text-sm font-medium">{s.name}</span>
-                      <span className="bg-cyan-500/20 text-cyan-300 text-xs rounded px-1.5 py-0.5 font-bold">{words.length} words</span>
-                      <span className="text-slate-500 text-xs">{totalPts}pt</span>
-                    </div>
-                  );
-                })}
-                {students.length === 0 && (
-                  <p className="text-slate-600 text-sm italic">Waiting for students…</p>
-                )}
-              </div>
-            </div>
+        <div className="flex flex-wrap gap-2">
+          {students.map((st) => {
+            const n = (studentWords[st.id] ?? []).filter((e) => !e.checking).length;
+            return <span key={st.id} className="rounded-full border border-white/10 bg-slate-950/40 px-3 py-1 text-sm">{st.name} <span className="font-mono text-xs text-cyan-300">{n}</span></span>;
+          })}
         </div>
-
-        <button
-          onClick={endRoundEarly}
-          className="self-end text-sm text-slate-500 hover:text-slate-300 transition-colors underline underline-offset-2"
-        >
-          End Round 1 early
-        </button>
+        <div className="flex justify-end"><KitButton onClick={endRoundEarly}>End round 1</KitButton></div>
       </div>
     );
   }
@@ -648,9 +641,8 @@ export function GridRushGame({
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="text-5xl"
         >
-          ✏️
+          <PencilLine className="h-12 w-12 text-violet-300" />
         </motion.div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-cyan-400">Round 1 of 2 complete</p>
@@ -665,12 +657,9 @@ export function GridRushGame({
             </div>
           ))}
         </div>
-        <button
-          onClick={startRound2}
-          className="mt-2 px-8 py-3 rounded-xl bg-violet-500 hover:bg-violet-400 text-white font-bold text-lg transition-colors"
-        >
-          Start Sentence Showdown — Round 2 of 2 →
-        </button>
+        <KitButton tone="violet" solid onClick={startRound2} className="mt-2 !px-7 !py-3 !text-base" icon={<ArrowRight className="h-4 w-4" />}>
+          Round 2: sentence showdown
+        </KitButton>
       </div>
     );
   }
@@ -776,7 +765,6 @@ export function GridRushGame({
       }))
       .sort((a, b) => b.score - a.score);
 
-    const medals = ['🥇', '🥈', '🥉'];
 
     return (
       <div className="flex flex-col h-full gap-4 p-4 overflow-y-auto">
@@ -794,7 +782,7 @@ export function GridRushGame({
               transition={{ delay: i * 0.12 }}
               className={`flex items-center gap-3 px-5 py-3 ${i < leaderboard.length - 1 ? 'border-b border-slate-700/50' : ''} ${i === 0 ? 'bg-amber-500/10' : ''}`}
             >
-              <span className="text-xl w-7 text-center">{medals[i] ?? `${i + 1}.`}</span>
+              <span className="flex w-7 justify-center">{i === 0 ? <Trophy className="h-5 w-5 text-amber-300" /> : <span className="font-mono text-sm text-white/60">{i + 1}</span>}</span>
               <span className="text-white font-semibold flex-1">{entry.name}</span>
               <div className="flex items-center gap-3 text-sm">
                 <span className="text-cyan-400 text-xs">R1: {entry.r1Pts}</span>
@@ -818,7 +806,7 @@ export function GridRushGame({
               className="bg-slate-800/60 rounded-xl border border-cyan-500/30 p-4"
             >
               <div className="flex items-center justify-between mb-1">
-                <p className="text-cyan-400 text-xs font-semibold uppercase tracking-wider">🏆 Longest Word</p>
+                <p className="text-cyan-400 text-xs font-semibold uppercase tracking-wider"><Ruler className="mr-1 inline h-3.5 w-3.5" />Longest word</p>
                 {specialAwards.longestWord.studentId && <span className="text-cyan-300 text-xs font-bold">+3 pts</span>}
               </div>
               {specialAwards.longestWord.studentId ? (
@@ -838,7 +826,7 @@ export function GridRushGame({
               className="bg-slate-800/60 rounded-xl border border-emerald-500/30 p-4"
             >
               <div className="flex items-center justify-between mb-1">
-                <p className="text-emerald-400 text-xs font-semibold uppercase tracking-wider">🎯 Most Topic Words</p>
+                <p className="text-emerald-400 text-xs font-semibold uppercase tracking-wider"><Target className="mr-1 inline h-3.5 w-3.5" />Most topic words</p>
                 {specialAwards.mostTopicWords.studentId && specialAwards.mostTopicWords.count > 0 && <span className="text-emerald-300 text-xs font-bold">+3 pts</span>}
               </div>
               {specialAwards.mostTopicWords.studentId ? (
@@ -858,7 +846,7 @@ export function GridRushGame({
               className="bg-slate-800/60 rounded-xl border border-violet-500/30 p-4"
             >
               <div className="flex items-center justify-between mb-1">
-                <p className="text-violet-400 text-xs font-semibold uppercase tracking-wider">🧠 Best Sentence</p>
+                <p className="text-violet-400 text-xs font-semibold uppercase tracking-wider"><Brain className="mr-1 inline h-3.5 w-3.5" />Best sentence</p>
                 {specialAwards.bestSentence.studentId && <span className="text-violet-300 text-xs font-bold">+3 pts</span>}
               </div>
               {specialAwards.bestSentence.studentId ? (
@@ -932,12 +920,7 @@ export function GridRushGame({
           </div>
         )}
 
-        <button
-          onClick={resetToIdle}
-          className="self-center mt-2 px-8 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold transition-colors"
-        >
-          Play Again
-        </button>
+        <KitButton className="mx-auto mt-2" onClick={resetToIdle}>Play again</KitButton>
       </div>
     );
   }
