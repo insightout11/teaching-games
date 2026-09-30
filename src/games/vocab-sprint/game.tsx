@@ -7,6 +7,8 @@ import { GameStatus, ENGLISH_FACTS } from './types';
 import type { GameSentence, EvaluationResult } from './types';
 import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { ArrowRight, BookOpen, Check, Clock, Lightbulb, Sparkles, Trophy } from 'lucide-react';
 
 const EMPTY_SEEN: string[] = [];
 
@@ -57,6 +59,12 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   const [raceFinished, setRaceFinished] = useState(false);
   const [reviewIndex, setReviewIndex] = useState(-1);
   const [reviewShowSuggestions, setReviewShowSuggestions] = useState(false);
+  // Race extras: teacher-revealed hint, round count, and a word bank of the best upgrades.
+  const [raceHint, setRaceHint] = useState(false);
+  const [roundNo, setRoundNo] = useState(0);
+  const [wordBank, setWordBank] = useState<Array<{ weak: string; words: string[] }>>([]);
+  const [showBank, setShowBank] = useState(false);
+  const bankedRoundRef = useRef(0);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -337,6 +345,9 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     inFlightRef.current.clear();
     setReviewIndex(-1);
     setReviewShowSuggestions(false);
+    setRaceHint(false);
+    setShowBank(false);
+    setRoundNo((n) => n + 1);
 
     if (sentenceQueue.length > 0) {
       const next = sentenceQueue[0];
@@ -466,6 +477,24 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     }
   }, [isSimultaneous, status]);
 
+  // Everyone has answered: end the race without waiting for the clock.
+  useEffect(() => {
+    if (isSimultaneous && status === GameStatus.RUNNING && students.length > 0 && raceSolvers.length >= students.length) {
+      setRaceFinished(true);
+      setStatus(GameStatus.FINISHED);
+    }
+  }, [isSimultaneous, status, raceSolvers.length, students.length]);
+
+  // Bank the strong upgrades once per finished round (plus the AI's suggestions).
+  useEffect(() => {
+    if (!isSimultaneous || status !== GameStatus.FINISHED || !currentSentence || bankedRoundRef.current === roundNo) return;
+    bankedRoundRef.current = roundNo;
+    const good = [...raceSolvers].filter((r) => r.score >= 7).sort((a, b) => b.score - a.score).map((r) => r.replacement.toLowerCase());
+    const extra = raceSolvers.flatMap((r) => r.suggestions).map((w) => w.toLowerCase());
+    const words = Array.from(new Set([...good, ...extra])).slice(0, 5);
+    if (words.length) setWordBank((prev) => [...prev, { weak: currentSentence.weakWord, words }]);
+  }, [isSimultaneous, status, currentSentence, raceSolvers, roundNo]);
+
   const LEVEL_LABELS: Record<'easy' | 'medium' | 'hard', string> = {
     easy: 'EASY',
     medium: 'MEDIUM',
@@ -477,21 +506,28 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     hard: 'text-red-400 border-red-500/30 bg-red-500/10',
   };
 
-  // Render sentence with highlighted weak word or phrase
-  const renderSentence = () => {
+  // Render sentence with the weak word highlighted — or swapped for an upgrade.
+  const renderSentence = (swap?: string) => {
     if (!currentSentence) return null;
     const escaped = currentSentence.weakWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const parts = currentSentence.sentence.split(new RegExp(`(${escaped})`, 'gi'));
     return (
-      <div className="text-2xl md:text-4xl font-semibold leading-tight text-center px-2">
+      <p className="px-2 text-center font-display text-3xl leading-snug text-white md:text-[2.6rem]" style={{ textWrap: 'balance' }}>
         {parts.map((part, i) => (
           part.toLowerCase() === currentSentence.weakWord.toLowerCase() ? (
-            <span key={i} className="text-yellow-400 underline decoration-yellow-400 underline-offset-4 decoration-2 bg-yellow-400/10 px-1 rounded-md">
-              {part}
-            </span>
+            swap ? (
+              <span key={i} className="relative inline-block">
+                <span className="mr-1.5 text-white/35 line-through decoration-rose-400/80 decoration-2">{part}</span>
+                <motion.span initial={{ opacity: 0, y: -14, scale: 0.8 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 260, damping: 16, delay: 0.25 }} className="rounded-lg bg-emerald-400/15 px-1.5 text-emerald-300">
+                  {swap}
+                </motion.span>
+              </span>
+            ) : (
+              <span key={i} className="rounded-lg bg-amber-300/15 px-1.5 text-amber-200 underline decoration-amber-300 decoration-2 underline-offset-[6px]">{part}</span>
+            )
           ) : <span key={i}>{part}</span>
         ))}
-      </div>
+      </p>
     );
   };
 
@@ -500,343 +536,203 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     if (s >= 5) return 'bg-yellow-500';
     return 'bg-red-500';
   };
+  const scoreTone = (s: number) => (s >= 8 ? 'border-emerald-300/50 bg-emerald-400/10 text-emerald-200' : s >= 5 ? 'border-amber-300/40 bg-amber-300/10 text-amber-100' : 'border-white/15 bg-white/[0.04] text-white/70');
 
   const handleEndRace = () => {
     setRaceFinished(true);
     setStatus(GameStatus.FINISHED);
   };
 
+  const nameFor = (s: RaceSolver) => (prefsMap?.get(s.clientId)?.score_visible === false ? 'Anonymous pilot' : s.displayName);
+  const topic = getDisplayTopic(sessionSettings, sourceMaterial);
+  const total = sessionSettings.timerSeconds || 1;
+
+  const NextButton = ({ label = 'Next sentence' }: { label?: string }) => (isMicroEvent ? (
+    <KitReadout>Round complete · advance the flight to continue</KitReadout>
+  ) : (
+    <KitButton tone="cyan" solid onClick={startSprint} className="!px-6 !py-2.5 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>{label}</KitButton>
+  ));
+
+  const WordBank = () => (
+    <div className="rounded-2xl border border-cyan-300/30 bg-slate-950/50 p-5">
+      <KitLabel tone="cyan">Word bank · {topic}</KitLabel>
+      <div className="mt-3 space-y-2.5">
+        {wordBank.map((row, i) => (
+          <div key={i} className="flex flex-wrap items-center gap-2">
+            <span className="min-w-[90px] font-mono text-sm text-white/45 line-through decoration-rose-400/70">{row.weak}</span>
+            <ArrowRight className="h-4 w-4 text-white/35" />
+            {row.words.map((w) => <span key={w} className="rounded-full border border-emerald-300/40 bg-emerald-400/10 px-3 py-1 text-base text-emerald-100">{w}</span>)}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   // ============ SIMULTANEOUS RACE MODE ============
   if (isSimultaneous) {
+    const sorted = [...raceSolvers].sort((a, b) => b.score - a.score);
+    const best = sorted[0] && sorted[0].score >= 5 ? sorted[0] : null;
+    const currentReview = reviewIndex >= 0 && reviewIndex < sorted.length ? sorted[reviewIndex] : null;
+
     return (
-      <div className="space-y-6">
+      <div className="mx-auto max-w-4xl space-y-5 text-white">
         {/* Header */}
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-lg font-semibold text-cyan-400">
-              Everyone plays! ({students.length} students)
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            {isFetchingBatch && (
-              <div className="w-3 h-3 bg-cyan-500 rounded-full animate-pulse" title="Pre-loading..." />
+        <div className="flex items-center justify-between">
+          <KitLabel tone="cyan">VocabSprint{roundNo ? ` · sentence ${roundNo}` : ''} · {topic}</KitLabel>
+          <div className="flex items-center gap-3">
+            {wordBank.length > 0 && status !== GameStatus.RUNNING && (
+              <KitButton tone={showBank ? 'cyan' : 'plain'} onClick={() => setShowBank((v) => !v)} icon={<BookOpen className="h-3.5 w-3.5" />}>Word bank · {wordBank.length}</KitButton>
             )}
-            <span className="text-xs opacity-40">{sentenceQueue.length} ready</span>
+            {isFetchingBatch && <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-400" title="Pre-loading..." />}
           </div>
         </div>
 
-        {/* IDLE State */}
-        {status === GameStatus.IDLE && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-8">
-            <div className="mb-6">
-              <p className="text-xl mb-1 opacity-90 font-bold italic tracking-tight">Level Up Your Vocabulary</p>
-              <p className="text-slate-500 text-[10px] uppercase tracking-widest font-black">
-                Race Mode: {getDisplayTopic(sessionSettings, sourceMaterial)} / {sessionSettings.difficulty}
-              </p>
+        {showBank && status !== GameStatus.RUNNING && <WordBank />}
+
+        {/* IDLE */}
+        {status === GameStatus.IDLE && !showBank && (
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-5 py-6 text-center">
+            <p className="font-display text-5xl">Upgrade the word.</p>
+            <p className="mx-auto max-w-xl text-lg text-white/70">A sentence appears with one weak word. Everyone races on their phones to type a stronger one. The best upgrade gets swapped in.</p>
+            <div className="flex justify-center">
+              <KitButton tone="cyan" solid onClick={startSprint} className="!px-8 !py-3 !text-base" icon={<Sparkles className="h-4 w-4" />}>
+                {sentenceQueue.length > 0 ? 'Start the race' : 'Load sentences'}
+              </KitButton>
             </div>
-            <button
-              onClick={startSprint}
-              className="px-12 py-6 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
-            >
-              {sentenceQueue.length > 0 ? 'START RACE' : 'LOAD SPRINT'}
-            </button>
           </motion.div>
         )}
 
-        {/* GENERATING State */}
+        {/* GENERATING */}
         {status === GameStatus.GENERATING && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-6 py-8 max-w-2xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mx-auto flex max-w-2xl flex-col items-center gap-6 py-8 text-center">
             <GenerationLoader label="sentences" />
-            <div className="space-y-4">
-              <div className="glass p-6 rounded-2xl border border-white/10 shadow-inner">
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 block mb-2">Did you know?</span>
-                <p className="text-lg font-semibold italic text-slate-300">&quot;{currentFact}&quot;</p>
-              </div>
+            <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-5">
+              <KitLabel>Did you know?</KitLabel>
+              <p className="mt-2 text-lg italic text-white/80">&quot;{currentFact}&quot;</p>
             </div>
           </motion.div>
         )}
 
-        {/* RUNNING State — Race mode */}
+        {/* RUNNING */}
         {status === GameStatus.RUNNING && currentSentence && (
-          <div className="space-y-6">
-            {/* Timer */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className={`text-5xl font-game transition-all ${
-                  timeLeft <= 5 ? 'text-red-500 animate-pulse' : 'text-white'
-                }`}>
-                  {timeLeft}s
-                </div>
-                <button
-                  onClick={() => setTimeLeft(prev => prev + 30)}
-                  className="px-3 py-1.5 rounded-lg text-sm font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10"
-                >
-                  +30s
-                </button>
+          <div className="space-y-5">
+            <div className="rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-8">
+              <div className="mb-5 flex items-center justify-center gap-2">
+                <span className={`rounded-full border px-3 py-0.5 font-mono text-[11px] uppercase tracking-[0.16em] ${LEVEL_COLORS[currentSentence.level]}`}>{LEVEL_LABELS[currentSentence.level]}</span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/45">{currentSentence.level === 'hard' ? 'Say it precisely' : 'Replace the highlighted word'}</span>
               </div>
-              <div className="text-right">
-                <p className="text-xs text-slate-400 uppercase">Submissions</p>
-                <p className="text-2xl font-bold text-emerald-400">{raceSolvers.length}</p>
-              </div>
-            </div>
-
-            {/* Sentence Card */}
-            <div className="glass p-6 md:p-8 rounded-[2rem] shadow-xl border-2 border-white/10">
-              {currentSentence.level && (
-                <div className="flex justify-center mb-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest border ${LEVEL_COLORS[currentSentence.level]}`}>
-                    {LEVEL_LABELS[currentSentence.level]}
-                  </span>
-                </div>
-              )}
               {renderSentence()}
-              <div className="flex justify-between items-center mt-4 border-t border-white/5 pt-3 gap-2 opacity-50 text-[8px] font-black uppercase tracking-widest">
-                <div className="flex gap-2">
-                  <span>{sessionSettings.difficulty}</span>
-                  <span>{getDisplayTopic(sessionSettings, sourceMaterial)}</span>
-                </div>
-                <p>{currentSentence.level === 'hard' ? "What's the precise term?" : 'Replace the highlighted word'}</p>
-              </div>
+              {raceHint && currentSentence.hint && (
+                <motion.p initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-5 text-center text-lg text-amber-200">
+                  <Lightbulb className="mr-1.5 inline h-4 w-4" />{currentSentence.hint}
+                </motion.p>
+              )}
             </div>
 
-            {/* Live solver feed — sealed during race to prevent copying */}
-            {raceSolvers.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                  {raceSolvers.length} of {students.length} submitted
-                </p>
-                <AnimatePresence>
-                  {raceSolvers.map(solver => (
-                    <motion.div
-                      key={solver.studentId}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="font-semibold text-white">
-                          {prefsMap?.get(solver.clientId)?.score_visible === false ? 'Anonymous pilot' : solver.displayName}
-                        </span>
-                      </div>
-                      <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
-                        <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
+            {/* Clock bar + count */}
+            <div className="flex items-center gap-4">
+              <Clock className={`h-5 w-5 ${timeLeft <= 5 ? 'text-rose-300' : 'text-white/60'}`} />
+              <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/10">
+                <motion.div className={`h-full ${timeLeft <= 5 ? 'bg-rose-400' : 'bg-cyan-400'}`} animate={{ width: `${Math.max(0, Math.min(100, (timeLeft / total) * 100))}%` }} transition={{ ease: 'linear', duration: 1 }} />
               </div>
-            )}
+              <span className={`w-14 text-right font-mono text-2xl ${timeLeft <= 5 ? 'text-rose-300' : 'text-white'}`}>{timeLeft}s</span>
+              <KitButton onClick={() => setTimeLeft((t) => t + 30)}>+30s</KitButton>
+            </div>
 
-            {raceSolvers.length === 0 && (
-              <div className="text-center py-4">
-                <p className="text-slate-400 text-sm">Waiting for students to submit on their devices...</p>
-              </div>
-            )}
+            {/* Sealed answers: names only */}
+            <div className="flex flex-wrap items-center gap-2">
+              <KitReadout>{raceSolvers.length} / {students.length} answered</KitReadout>
+              <AnimatePresence>
+                {raceSolvers.map((sv) => (
+                  <motion.span key={sv.studentId} initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex items-center gap-1 rounded-full border border-emerald-300/40 bg-emerald-400/10 px-3 py-1 text-sm text-emerald-100">
+                    <Check className="h-3.5 w-3.5" />{nameFor(sv)}
+                  </motion.span>
+                ))}
+              </AnimatePresence>
+            </div>
 
-            {/* End race button */}
-            <button
-              onClick={handleEndRace}
-              className="w-full py-3 glass hover:bg-white/10 rounded-xl font-game text-sm transition-all border border-white/10"
-            >
-              END EARLY
-            </button>
+            <div className="flex justify-between gap-2">
+              <KitButton tone="amber" disabled={raceHint || !currentSentence.hint} onClick={() => setRaceHint(true)} icon={<Lightbulb className="h-3.5 w-3.5" />}>Show hint</KitButton>
+              <KitButton onClick={handleEndRace}>End early</KitButton>
+            </div>
           </div>
         )}
 
-        {/* FINISHED State — Race results with teacher review */}
-        {status === GameStatus.FINISHED && currentSentence && (() => {
-          const sorted = [...raceSolvers].sort((a, b) => b.score - a.score);
-          const currentReview = reviewIndex >= 0 && reviewIndex < sorted.length ? sorted[reviewIndex] : null;
+        {/* FINISHED: overview */}
+        {status === GameStatus.FINISHED && currentSentence && reviewIndex === -1 && !showBank && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
+            <div className="rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-7">
+              <div className="mb-4 text-center">
+                <KitLabel tone={best ? 'emerald' : 'plain'}>{best ? `Best upgrade · ${nameFor(best)}` : raceSolvers.length ? 'Try these upgrades' : 'No answers this time'}</KitLabel>
+              </div>
+              {renderSentence(best?.replacement ?? sorted[0]?.suggestions[0] ?? raceSolvers.flatMap((r) => r.suggestions)[0])}
+              {best?.comment && <p className="mt-4 text-center text-base italic text-white/65">{best.comment}</p>}
+            </div>
 
-          return (
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-              {/* Phase A: Overview */}
-              {reviewIndex === -1 && (
-                <>
-                  <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30 text-center">
-                    <h3 className="text-2xl font-bold text-white mb-2">
-                      {raceFinished || timeLeft === 0 ? "TIME'S UP!" : 'ROUND COMPLETE!'}
-                    </h3>
-                    <p className="text-slate-400">{raceSolvers.length} submission{raceSolvers.length !== 1 ? 's' : ''} received</p>
-                  </div>
+            {/* Answer wall: words only (names stay private on the shared screen) */}
+            {sorted.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-2">
+                {sorted.map((sv, i) => (
+                  <motion.span key={sv.studentId} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 + i * 0.06 }} className={`flex items-center gap-2 rounded-full border px-4 py-1.5 text-lg ${scoreTone(sv.score)}`}>
+                    {i === 0 && best && <Trophy className="h-4 w-4 text-amber-300" />}
+                    {sv.replacement}
+                    <span className="font-mono text-xs opacity-60">{sv.score}</span>
+                  </motion.span>
+                ))}
+              </div>
+            )}
 
-                  {sorted.length > 0 && (
-                    <div className="space-y-2">
-                      {sorted.map((solver, i) => (
-                        <div
-                          key={solver.studentId}
-                          className={`flex items-center justify-between px-4 py-3 rounded-xl ${
-                            i === 0 ? 'bg-yellow-500/20 border border-yellow-500/30' : 'bg-white/5 border border-white/10'
-                          }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            {i === 0 && <span className="text-lg font-black text-yellow-400">BEST</span>}
-                            <span className="text-sm text-slate-400 italic">&quot;{solver.replacement}&quot;</span>
-                          </div>
-                          <div className={`w-10 h-10 rounded-lg ${getScoreColor(solver.score)} flex items-center justify-center text-lg font-black text-white`}>
-                            {solver.score}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  <div className="flex gap-3">
-                    {sorted.length > 0 && (
-                      <button
-                        onClick={() => { setReviewIndex(0); setReviewShowSuggestions(false); }}
-                        className="flex-1 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
-                      >
-                        REVIEW ANSWERS
-                      </button>
-                    )}
-                    {onRevealTopSubmissions && sorted.length > 0 && (
-                      <button
-                        onClick={() => onRevealTopSubmissions(sorted.slice(0, 3).map((s) => ({
-                          content: s.replacement,
-                          feedback: s.comment,
-                          points: s.score,
-                          clientId: s.clientId,
-                          displayName: s.displayName,
-                        })))}
-                        className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-xl font-game text-sm shadow hover:bg-cyan-500/30 transition-all"
-                      >
-                        REVEAL TOP 3
-                      </button>
-                    )}
-                    {isMicroEvent ? (
-                      <div className="glass p-4 rounded-xl text-center flex-1">
-                        <p className="text-sm text-emerald-400 font-bold">Round complete</p>
-                        <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={startSprint}
-                        className="flex-1 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
-                      >
-                        NEXT SENTENCE
-                      </button>
-                    )}
-                  </div>
-                </>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {sorted.length > 0 && (
+                <KitButton tone="amber" onClick={() => { setReviewIndex(0); setReviewShowSuggestions(false); }}>Review one by one</KitButton>
               )}
-
-              {/* Phase B: Step-through review */}
-              {reviewIndex >= 0 && currentReview && (
-                <>
-                  <div className="text-center">
-                    <p className="text-xs font-black uppercase tracking-widest text-slate-400">
-                      Reviewing {reviewIndex + 1} of {sorted.length}
-                    </p>
-                    <div className="flex justify-center gap-1 mt-2">
-                      {sorted.map((_, i) => (
-                        <div key={i} className={`w-2 h-2 rounded-full transition-all ${
-                          i < reviewIndex ? 'bg-emerald-500' : i === reviewIndex ? 'bg-cyan-400 scale-125' : 'bg-white/20'
-                        }`} />
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="glass p-6 rounded-[2rem] border-2 border-white/10 shadow-xl flex flex-col items-center gap-4">
-                    <div className="flex items-center gap-6 w-full">
-                      <div className={`w-24 h-24 flex flex-col items-center justify-center rounded-2xl font-game shadow-lg shrink-0 ${getScoreColor(currentReview.score)}`}>
-                        <span className="text-[10px] -mb-1 opacity-60">SCORE</span>
-                        <span className="text-4xl font-black">{currentReview.score}</span>
-                      </div>
-                      <div className="text-left flex-grow">
-                        <p className="text-3xl font-black leading-none mb-2 tracking-tight">
-                          {currentReview.replacement.toUpperCase()}
-                        </p>
-                        <div className="text-sm italic font-bold text-cyan-300 bg-black/30 p-3 rounded-lg">
-                          &quot;{currentReview.comment}&quot;
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Suggestions */}
-                    {currentReview.suggestions.length > 0 && (
-                      <div className="w-full bg-white/5 p-4 rounded-xl border border-white/5">
-                        {!reviewShowSuggestions ? (
-                          <button
-                            onClick={() => setReviewShowSuggestions(true)}
-                            className="w-full py-2 bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 font-game text-xs rounded-lg transition-all border border-yellow-500/20"
-                          >
-                            REVEAL PRO UPGRADES
-                          </button>
-                        ) : (
-                          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-                            <p className="text-center text-[8px] font-black uppercase tracking-widest opacity-40 mb-3">
-                              Elite Level Suggestions
-                            </p>
-                            <div className="flex flex-wrap justify-center gap-2">
-                              {currentReview.suggestions.map((w, i) => (
-                                <span key={i} className="px-3 py-1 bg-black/50 text-white rounded-md text-sm font-bold border border-white/5">
-                                  {w}
-                                </span>
-                              ))}
-                            </div>
-                          </motion.div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Navigation */}
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => { setReviewIndex(-1); setReviewShowSuggestions(false); }}
-                      className="py-3 px-4 glass hover:bg-white/10 rounded-xl font-game text-xs transition-all border border-white/10"
-                    >
-                      BACK
-                    </button>
-                    {reviewIndex < sorted.length - 1 ? (
-                      <button
-                        onClick={() => { setReviewIndex(reviewIndex + 1); setReviewShowSuggestions(false); }}
-                        className="flex-1 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
-                      >
-                        NEXT STUDENT
-                      </button>
-                    ) : isMicroEvent ? (
-                      <div className="glass p-4 rounded-xl text-center flex-1">
-                        <p className="text-sm text-emerald-400 font-bold">Round complete</p>
-                        <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={startSprint}
-                        className="flex-1 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
-                      >
-                        NEXT SENTENCE
-                      </button>
-                    )}
-                  </div>
-                </>
+              {onRevealTopSubmissions && sorted.length > 0 && (
+                <KitButton onClick={() => onRevealTopSubmissions(sorted.slice(0, 3).map((sv) => ({ content: sv.replacement, feedback: sv.comment, points: sv.score, clientId: sv.clientId, displayName: sv.displayName })))}>Reveal top 3</KitButton>
               )}
+              <NextButton />
+            </div>
+          </motion.div>
+        )}
 
-              {/* Phase B: End of review (no more students) */}
-              {reviewIndex >= 0 && !currentReview && (
-                <div className="text-center space-y-4">
-                  <p className="text-lg font-bold text-emerald-400">All answers reviewed!</p>
-                  {isMicroEvent ? (
-                    <div className="glass p-4 rounded-xl text-center">
-                      <p className="text-sm text-emerald-400 font-bold">Round complete</p>
-                      <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={startSprint}
-                      className="w-full py-4 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
-                    >
-                      NEXT SENTENCE
-                    </button>
-                  )}
+        {/* FINISHED: step-through review */}
+        {status === GameStatus.FINISHED && reviewIndex >= 0 && !showBank && (
+          currentReview ? (
+            <div className="space-y-4">
+              <div className="flex items-center justify-center gap-1.5">
+                {sorted.map((_, i) => <span key={i} className={`h-2 w-2 rounded-full ${i < reviewIndex ? 'bg-emerald-400' : i === reviewIndex ? 'scale-125 bg-cyan-300' : 'bg-white/20'}`} />)}
+              </div>
+              <div className="rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-7">
+                {renderSentence(currentReview.replacement)}
+                <div className="mt-5 flex items-center justify-center gap-3">
+                  <span className={`rounded-xl border px-3 py-1 font-mono text-lg ${scoreTone(currentReview.score)}`}>{currentReview.score}/10</span>
+                  <p className="text-base italic text-white/75">{currentReview.comment}</p>
                 </div>
-              )}
-            </motion.div>
-          );
-        })()}
+                {currentReview.suggestions.length > 0 && (
+                  <div className="mt-5 text-center">
+                    {!reviewShowSuggestions ? (
+                      <KitButton tone="amber" className="mx-auto" onClick={() => setReviewShowSuggestions(true)} icon={<Sparkles className="h-3.5 w-3.5" />}>Show stronger options</KitButton>
+                    ) : (
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {currentReview.suggestions.map((w) => <span key={w} className="rounded-full border border-emerald-300/40 bg-emerald-400/10 px-3 py-1 text-base text-emerald-100">{w}</span>)}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+              <div className="flex justify-center gap-2">
+                <KitButton onClick={() => { setReviewIndex(-1); setReviewShowSuggestions(false); }}>Back</KitButton>
+                {reviewIndex < sorted.length - 1 ? (
+                  <KitButton tone="cyan" solid onClick={() => { setReviewIndex(reviewIndex + 1); setReviewShowSuggestions(false); }} icon={<ArrowRight className="h-4 w-4" />}>Next answer</KitButton>
+                ) : <NextButton />}
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4 text-center">
+              <p className="font-display text-3xl">All answers reviewed</p>
+              <div className="flex justify-center"><NextButton /></div>
+            </div>
+          )
+        )}
       </div>
     );
   }
