@@ -1,11 +1,25 @@
 'use client';
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Ban, Check, Clock, Mic, SkipForward, Trophy, Users, User } from 'lucide-react';
 import type { ActivityProps } from '../types';
-import type { TabooSprintContent } from '../types';
+import type { TabooSprintContent, TabooRound } from '../types';
 import type { Student } from '@/lib/supabase/types';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import type { TabooPhoneCard } from '@/components/student/taboo-sprint-panel';
 
-type Phase = 'idle' | 'briefing' | 'speaking' | 'discussing' | 'guessing' | 'reveal' | 'done';
+// Everyone guesses, or two teams take turns (only the describer's team guesses).
+type Mode = 'everyone' | 'teams';
+type Phase = 'idle' | 'ready' | 'turn' | 'summary' | 'done';
+type Team = 'A' | 'B';
+type CardResult = { card: TabooRound; outcome: 'got' | 'skip' | 'taboo'; by?: string };
+
+const TURN_SECONDS = 60;
+const TEAM = {
+  A: { label: 'Team Amber', text: 'text-amber-300', border: 'border-amber-300/45', bg: 'bg-amber-300/10' },
+  B: { label: 'Team Cyan', text: 'text-cyan-300', border: 'border-cyan-300/45', bg: 'bg-cyan-400/10' },
+} as const;
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -16,6 +30,15 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
+// Forgiving match: case, punctuation, and a simple plural/verb ending.
+const norm = (s: string) => s.toLowerCase().replace(/[^a-zÀ-ɏ]/g, '');
+const stem = (s: string) => norm(s).replace(/(ing|ed|es|s)$/, '');
+const isMatch = (guess: string, word: string) => {
+  const g = norm(guess);
+  const w = norm(word);
+  return g.length > 0 && (g === w || (w.length > 3 && stem(g) === stem(w)));
+};
+
 export function TabooSprintActivity({
   students,
   generatedContent,
@@ -25,509 +48,335 @@ export function TabooSprintActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as TabooSprintContent;
+  const deckAll = useMemo(() => content.rounds ?? [], [content.rounds]);
 
+  const [mode, setMode] = useState<Mode>('everyone');
   const [phase, setPhase] = useState<Phase>('idle');
-  const [roundIndex, setRoundIndex] = useState(0);
-  const [speakingGroup, setSpeakingGroup] = useState<'A' | 'B'>('A');
-  const [groupA, setGroupA] = useState<Student[]>([]);
-  const [groupB, setGroupB] = useState<Student[]>([]);
-  const [currentSpeakerIdx, setCurrentSpeakerIdx] = useState(0);
-  const [teamBGuess, setTeamBGuess] = useState('');
-  const [timer, setTimer] = useState(30);
-  const [tabooFlash, setTabooFlash] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [teams, setTeams] = useState<{ A: Student[]; B: Student[] }>({ A: [], B: [] });
+  const [teamScore, setTeamScore] = useState({ A: 0, B: 0 });
+  const [turnTeam, setTurnTeam] = useState<Team>('A');
+  const [turnsTaken, setTurnsTaken] = useState<Record<string, number>>({});
+  const [describer, setDescriber] = useState<Student | null>(null);
+  const [deck, setDeck] = useState<TabooRound[]>([]);
+  const [cardIdx, setCardIdx] = useState(0);
+  const [results, setResults] = useState<CardResult[]>([]);
+  const [guesses, setGuesses] = useState<Array<{ id: number; name: string; text: string }>>([]);
+  const [flash, setFlash] = useState<null | { kind: 'got' | 'taboo' | 'skip'; text: string }>(null);
+  const [timeLeft, setTimeLeft] = useState(TURN_SECONDS);
+  const promptIndexRef = useRef(1);
+  const guessIdRef = useRef(0);
 
-  const currentRound = content.rounds?.[roundIndex] ?? content.rounds?.[0];
-  const hasNextRound = roundIndex + 1 < (content.rounds?.length ?? 0);
-  const enoughStudents = students.length >= 4;
+  const card = deck[cardIdx] ?? null;
+  const got = results.filter((r) => r.outcome === 'got').length;
+  const describerTeam: Team | null = describer ? (teams.A.some((s) => s.id === describer.id) ? 'A' : teams.B.some((s) => s.id === describer.id) ? 'B' : null) : null;
+  const minPlayers = mode === 'teams' ? 4 : 2;
 
-  const speakingStudents = speakingGroup === 'A' ? groupA : groupB;
-  const guessingStudents = speakingGroup === 'A' ? groupB : groupA;
-
-  // ─── Timer ────────────────────────────────────────────────────────────────────
-  const startTimer = useCallback((seconds: number) => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    setTimer(seconds);
-    timerRef.current = setInterval(() => {
-      setTimer((prev) => {
-        if (prev <= 1) {
-          if (timerRef.current) clearInterval(timerRef.current);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  }, []);
-
-  const stopTimer = useCallback(() => {
-    if (timerRef.current) clearInterval(timerRef.current);
-  }, []);
-
-  useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current); }, []);
-
-  const phaseRef = useRef(phase);
-  phaseRef.current = phase;
+  // ─── Timer ────────────────────────────────────────────────────────────────
   useEffect(() => {
-    if (phase === 'discussing' && timer === 0) {
-      setPhase('guessing');
-      onPhaseChange?.('guessing');
+    if (phase !== 'turn') return;
+    if (timeLeft <= 0) { setPhase('summary'); onPhaseChange?.('summary'); return; }
+    const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [phase, timeLeft, onPhaseChange]);
+
+  // ─── Phones ───────────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (phase !== 'turn' || !describer || !card) { onSetInputSpec?.(null); return; }
+    const data: Record<string, TabooPhoneCard> = {};
+    const put = (s: Student, c: TabooPhoneCard) => { data[s.id] = c; data[s.name] = c; };
+    put(describer, { role: 'describer', word: card.word, forbidden: card.forbiddenWords });
+    if (mode === 'teams' && describerTeam) {
+      teams[describerTeam === 'A' ? 'B' : 'A'].forEach((s) => put(s, { role: 'bench' }));
     }
-  }, [timer, phase, onPhaseChange]);
+    onSetInputSpec?.({
+      type: 'confirm',
+      gameKey: 'taboo-sprint',
+      prompt: 'Guess the word',
+      // Many guesses per student: no roundId (the server keeps only the first per round).
+      allowMultiple: true,
+      perStudentData: data,
+    });
+  }, [phase, describer, card, mode, describerTeam, teams, onSetInputSpec]);
 
-  // ─── Input spec ──────────────────────────────────────────────────────────────
+  // ─── Card flow ────────────────────────────────────────────────────────────
+  const showFlash = (kind: 'got' | 'taboo' | 'skip', text: string) => {
+    setFlash({ kind, text });
+    setTimeout(() => setFlash(null), 1600);
+  };
+
+  const nextCard = useCallback((result: CardResult) => {
+    setResults((prev) => [...prev, result]);
+    setGuesses([]);
+    setCardIdx((i) => {
+      const n = i + 1;
+      if (n >= deck.length) { setPhase('summary'); onPhaseChange?.('summary'); }
+      return n;
+    });
+  }, [deck.length, onPhaseChange]);
+
+  const score = useCallback((who: { studentId: string | null; clientId: string | null; name: string }, points: number) => {
+    void onScore?.({ studentId: who.studentId, clientId: who.clientId, displayName: who.name, promptIndex: promptIndexRef.current++, points, isCorrect: points > 0 ? true : null });
+  }, [onScore]);
+
+  const isDescriber = useCallback((v: { studentId?: string | null; clientId: string; displayName: string }) =>
+    !!describer && (v.studentId === describer.id || v.clientId === describer.id || v.displayName === describer.name), [describer]);
+
   useEffect(() => {
-    if (phase === 'briefing' && currentRound) {
-      const perStudentData: Record<string, unknown> = {};
-      for (const s of speakingStudents) {
-        perStudentData[s.name] = {
-          role: 'speaker',
-          word: currentRound.word,
-          forbidden: currentRound.forbiddenWords,
-        };
-      }
-      for (const s of guessingStudents) {
-        perStudentData[s.name] = { role: 'guesser' };
-      }
-      onSetInputSpec?.({
-        type: 'confirm',
-        gameKey: 'taboo-sprint',
-        prompt: 'Read your card carefully.',
-        buttonLabel: 'Got it!',
-        perStudentData,
-      });
-    } else {
-      onSetInputSpec?.(null);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase]);
-
-  // ─── Remote vote handler (briefing confirmations) ─────────────────────────────
-  const confirmedIdsRef = useRef<Set<string>>(new Set());
-  const [confirmedCount, setConfirmedCount] = useState(0);
-
-  useEffect(() => {
+    if (phase !== 'turn' || !card || !describer) return;
     onRegisterRemoteVoteHandler?.((vote) => {
-      if (phaseRef.current !== 'briefing') return;
-      if (confirmedIdsRef.current.has(vote.clientId)) return;
-      confirmedIdsRef.current.add(vote.clientId);
-      setConfirmedCount((prev) => prev + 1);
+      const choice = vote.choice ?? '';
+      if (isDescriber(vote)) {
+        if (choice === 'skip') { showFlash('skip', card.word); nextCard({ card, outcome: 'skip' }); }
+        return;
+      }
+      if (!choice.startsWith('guess:')) return;
+      if (mode === 'teams' && describerTeam) {
+        const mine = teams[describerTeam].some((s) => s.id === vote.studentId || s.id === vote.clientId || s.name === vote.displayName);
+        if (!mine) return;
+      }
+      const text = choice.slice(6).trim();
+      if (!text) return;
+      if (isMatch(text, card.word)) {
+        score({ studentId: vote.studentId ?? null, clientId: vote.clientId, name: vote.displayName }, 3);
+        score({ studentId: describer.id, clientId: null, name: describer.name }, 2);
+        if (mode === 'teams' && describerTeam) setTeamScore((t) => ({ ...t, [describerTeam]: t[describerTeam] + 1 }));
+        showFlash('got', `${vote.displayName} got it: ${card.word}`);
+        nextCard({ card, outcome: 'got', by: vote.displayName });
+      } else {
+        setGuesses((prev) => [{ id: ++guessIdRef.current, name: vote.displayName, text }, ...prev].slice(0, 14));
+      }
     });
     return () => onRegisterRemoteVoteHandler?.(null);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onRegisterRemoteVoteHandler]);
+  }, [phase, card, describer, mode, describerTeam, teams, isDescriber, nextCard, score, onRegisterRemoteVoteHandler]);
 
-  // ─── Taboo buzz (cosmetic only) ───────────────────────────────────────────────
-  const handleTabooBuzz = useCallback(() => {
-    setTabooFlash(true);
-    setTimeout(() => setTabooFlash(false), 1500);
-  }, []);
+  const taboo = () => {
+    if (!card || !describer) return;
+    score({ studentId: describer.id, clientId: null, name: describer.name }, -1);
+    if (mode === 'teams' && describerTeam) setTeamScore((t) => ({ ...t, [describerTeam]: t[describerTeam] - 1 }));
+    showFlash('taboo', card.word);
+    nextCard({ card, outcome: 'taboo' });
+  };
 
-  // ─── Handlers ─────────────────────────────────────────────────────────────────
-  const handleStart = useCallback(() => {
-    if (!currentRound) return;
-    confirmedIdsRef.current = new Set();
-    setConfirmedCount(0);
-    setTeamBGuess('');
-    setCurrentSpeakerIdx(0);
-    setTabooFlash(false);
-    stopTimer();
+  // ─── Turns ────────────────────────────────────────────────────────────────
+  const pickDescriber = useCallback((team: Team | null, taken: Record<string, number>, t = teams) => {
+    const pool = team ? t[team] : students;
+    if (!pool.length) return null;
+    const least = Math.min(...pool.map((s) => taken[s.id] ?? 0));
+    const fresh = pool.filter((s) => (taken[s.id] ?? 0) === least);
+    return fresh[Math.floor(Math.random() * fresh.length)];
+  }, [students, teams]);
 
-    if (groupA.length === 0) {
-      const mid = Math.ceil(students.length / 2);
-      const shuffled = shuffle(students);
-      setGroupA(shuffled.slice(0, mid));
-      setGroupB(shuffled.slice(mid));
+  const setUp = () => {
+    let t = teams;
+    if (mode === 'teams') {
+      const sh = shuffle(students);
+      const mid = Math.ceil(sh.length / 2);
+      t = { A: sh.slice(0, mid), B: sh.slice(mid) };
+      setTeams(t);
+      setTeamScore({ A: 0, B: 0 });
     }
+    setTurnTeam('A');
+    setDescriber(pickDescriber(mode === 'teams' ? 'A' : null, turnsTaken, t));
+    setPhase('ready');
+    onPhaseChange?.('ready');
+  };
 
-    setPhase('briefing');
-    onPhaseChange?.('briefing');
-  }, [currentRound, students, groupA.length, stopTimer, onPhaseChange]);
+  const startTurn = () => {
+    if (!describer) return;
+    // Each turn draws a fresh shuffle of the cards not yet used this game.
+    const used = new Set(results.map((r) => r.card.word));
+    const left = deckAll.filter((c) => !used.has(c.word));
+    setDeck(shuffle(left.length ? left : deckAll));
+    setCardIdx(0);
+    setGuesses([]);
+    setTimeLeft(TURN_SECONDS);
+    setPhase('turn');
+    onPhaseChange?.('turn');
+  };
 
-  const handleStartSpeaking = useCallback(() => {
-    setCurrentSpeakerIdx(0);
-    setPhase('speaking');
-    onPhaseChange?.('speaking');
-    startTimer(30);
-  }, [onPhaseChange, startTimer]);
+  const nextTurn = () => {
+    if (!describer) return;
+    const taken = { ...turnsTaken, [describer.id]: (turnsTaken[describer.id] ?? 0) + 1 };
+    setTurnsTaken(taken);
+    const nextTeam: Team = turnTeam === 'A' ? 'B' : 'A';
+    setTurnTeam(nextTeam);
+    setDescriber(pickDescriber(mode === 'teams' ? nextTeam : null, taken));
+    setPhase('ready');
+    onPhaseChange?.('ready');
+  };
 
-  const handleNextSpeaker = useCallback(async () => {
-    stopTimer();
-    const speaker = speakingStudents[currentSpeakerIdx];
-    if (speaker) {
-      await onScore?.({
-        studentId: speaker.id ?? null,
-        clientId: speaker.id ?? null,
-        displayName: speaker.name,
-        promptIndex: currentSpeakerIdx + 1,
-        points: 1,
-        isCorrect: null,
-      });
-    }
-    const next = currentSpeakerIdx + 1;
-    if (next >= speakingStudents.length) {
-      setPhase('discussing');
-      onPhaseChange?.('discussing');
-      startTimer(30);
-    } else {
-      setCurrentSpeakerIdx(next);
-      startTimer(30);
-    }
-  }, [currentSpeakerIdx, speakingStudents, stopTimer, startTimer, onScore, onPhaseChange]);
+  const turnResults = results.slice(results.length - cardIdx);
+  const cardsLeft = deckAll.length - new Set(results.map((r) => r.card.word)).size;
 
-  const handleSkipDiscuss = useCallback(() => {
-    stopTimer();
-    setPhase('guessing');
-    onPhaseChange?.('guessing');
-  }, [stopTimer, onPhaseChange]);
+  const TeamBar = () => mode === 'teams' ? (
+    <div className="grid grid-cols-2 gap-3">
+      {(['A', 'B'] as const).map((k) => (
+        <div key={k} className={`flex items-center justify-between rounded-2xl border px-4 py-2 ${TEAM[k].border} ${TEAM[k].bg} ${phase !== 'idle' && describerTeam === k ? 'ring-1 ring-white/40' : ''}`}>
+          <span className={`font-mono text-xs uppercase tracking-[0.16em] ${TEAM[k].text}`}>{TEAM[k].label}</span>
+          <span className="font-display text-3xl">{teamScore[k]}</span>
+        </div>
+      ))}
+    </div>
+  ) : null;
 
-  const handleReveal = useCallback(async () => {
-    if (!currentRound || !teamBGuess.trim()) return;
-    stopTimer();
-    const guessCorrect = teamBGuess.trim().toLowerCase() === currentRound.word.toLowerCase();
-
-    if (guessCorrect) {
-      for (const s of guessingStudents) {
-        await onScore?.({
-          studentId: s.id ?? null,
-          clientId: s.id ?? null,
-          displayName: s.name,
-          promptIndex: speakingStudents.length + 1,
-          points: 2,
-          isCorrect: null,
-        });
-      }
-    } else {
-      for (const s of speakingStudents) {
-        await onScore?.({
-          studentId: s.id ?? null,
-          clientId: s.id ?? null,
-          displayName: s.name,
-          promptIndex: speakingStudents.length + 1,
-          points: 1,
-          isCorrect: null,
-        });
-      }
-    }
-
-    setPhase('reveal');
-    onPhaseChange?.('reveal');
-  }, [currentRound, teamBGuess, guessingStudents, speakingStudents, stopTimer, onScore, onPhaseChange]);
-
-  const handleNextRound = useCallback(() => {
-    setRoundIndex((i) => i + 1);
-    setSpeakingGroup((g) => (g === 'A' ? 'B' : 'A'));
-    setPhase('idle');
-    onPhaseChange?.('idle');
-  }, [onPhaseChange]);
-
-  const handleEnd = useCallback(() => {
-    setPhase('done');
-    onPhaseChange?.('finished');
-  }, [onPhaseChange]);
-
-  // ─── IDLE ──────────────────────────────────────────────────────────────────────
+  // ─── IDLE ─────────────────────────────────────────────────────────────────
   if (phase === 'idle') {
-    const nextSpeakers = speakingGroup === 'A'
-      ? (groupA.length > 0 ? groupA : null)
-      : (groupB.length > 0 ? groupB : null);
-    const nextGuessers = speakingGroup === 'A'
-      ? (groupB.length > 0 ? groupB : null)
-      : (groupA.length > 0 ? groupA : null);
-
     return (
-      <div className="space-y-6">
-        <div className="text-center space-y-2">
-          <p className="text-2xl font-bold opacity-90">Taboo Sprint</p>
-          <p className="text-sm opacity-50 leading-relaxed">
-            Like Password — but you can&apos;t say the secret word<br />
-            or any of the 4 forbidden words either.
-          </p>
+      <div className="mx-auto max-w-3xl space-y-6 text-white">
+        <div className="text-center">
+          <KitLabel tone="rose">Taboo Sprint{content.topic ? ` · ${content.topic}` : ''}</KitLabel>
+          <p className="mt-2 font-display text-5xl">Describe it. Don&apos;t say it.</p>
+          <p className="mx-auto mt-2 max-w-xl text-lg text-white/70">One student gets a secret word on their phone, with four words they can&apos;t say. Everyone else types guesses. Get as many as you can in {TURN_SECONDS} seconds.</p>
         </div>
-
-        {nextSpeakers && nextGuessers ? (
-          <div className="grid grid-cols-2 gap-3">
-            <div className="glass p-4 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 space-y-2">
-              <p className="text-xs opacity-40 uppercase tracking-wide text-center">Speaking</p>
-              <div className="flex flex-wrap gap-1.5 justify-center">
-                {nextSpeakers.map((s) => (
-                  <span key={s.id} className="text-xs px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300">{s.name}</span>
-                ))}
-              </div>
-            </div>
-            <div className="glass p-4 rounded-2xl border border-sky-500/20 bg-sky-500/5 space-y-2">
-              <p className="text-xs opacity-40 uppercase tracking-wide text-center">Guessing</p>
-              <div className="flex flex-wrap gap-1.5 justify-center">
-                {nextGuessers.map((s) => (
-                  <span key={s.id} className="text-xs px-2.5 py-1 rounded-full bg-sky-500/20 text-sky-300">{s.name}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="glass p-4 rounded-2xl border border-white/10 text-center">
-            <p className="text-sm opacity-40">Round {roundIndex + 1} of {content.rounds?.length ?? 1}</p>
-          </div>
-        )}
-
-        {!enoughStudents && (
-          <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 text-sm text-amber-300 text-center">
-            Need at least 4 students to play. ({students.length} joined)
-          </div>
-        )}
-
-        <div className="flex justify-center pt-2">
-          <button
-            onClick={handleStart}
-            disabled={!enoughStudents || !currentRound}
-            className="px-12 py-6 bg-gradient-to-br from-orange-500 to-red-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-          >
-            DEAL CARDS
-          </button>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {([
+            { key: 'everyone', icon: User, title: 'Everyone guesses', blurb: 'The whole class races to guess. Works from 2 students.' },
+            { key: 'teams', icon: Users, title: 'Two teams', blurb: 'Teams take turns. Only the describer’s team guesses. 4+ students.' },
+          ] as const).map((m) => {
+            const on = mode === m.key;
+            const Icon = m.icon;
+            return (
+              <button key={m.key} type="button" onClick={() => setMode(m.key)} className={`rounded-2xl border p-4 text-left ${on ? 'border-rose-300 bg-rose-400/10' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
+                <Icon className={`h-5 w-5 ${on ? 'text-rose-300' : 'text-white/50'}`} />
+                <p className="mt-2 font-display text-2xl">{m.title}</p>
+                <p className="mt-1 text-sm text-white/65">{m.blurb}</p>
+              </button>
+            );
+          })}
+        </div>
+        {students.length < minPlayers && <p className="text-center text-sm text-amber-200">Needs at least {minPlayers} students on phones ({students.length} joined).</p>}
+        <div className="flex justify-center">
+          <KitButton tone="rose" solid disabled={students.length < minPlayers || deckAll.length === 0} onClick={setUp} className="!px-8 !py-3 !text-base" icon={<Ban className="h-4 w-4" />}>Deal the cards</KitButton>
         </div>
       </div>
     );
   }
 
-  // ─── BRIEFING ──────────────────────────────────────────────────────────────────
-  if (phase === 'briefing') {
+  // ─── READY: next describer ───────────────────────────────────────────────
+  if (phase === 'ready') {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-orange-400">Reading Cards…</h3>
-          <span className="text-sm opacity-60">{confirmedCount} / {students.length} ready</span>
+      <div className="mx-auto max-w-3xl space-y-6 text-center text-white">
+        <TeamBar />
+        <KitLabel tone={describerTeam ? (describerTeam === 'A' ? 'amber' : 'cyan') : 'rose'}>{describerTeam ? `${TEAM[describerTeam].label} · ` : ''}Next describer</KitLabel>
+        <p className="font-display text-6xl">{describer?.name ?? '—'}</p>
+        <p className="text-lg text-white/70">Your words appear on your phone when the clock starts. Everyone else: get ready to type guesses.</p>
+        <div className="flex justify-center gap-2">
+          <KitButton onClick={() => setDescriber(pickDescriber(mode === 'teams' ? turnTeam : null, { ...turnsTaken, ...(describer ? { [describer.id]: 99 } : {}) }))}>Someone else</KitButton>
+          <KitButton tone="rose" solid disabled={!describer} onClick={startTurn} className="!px-7 !py-2.5 !text-sm" icon={<Mic className="h-4 w-4" />}>Start {TURN_SECONDS}s</KitButton>
         </div>
+        <KitReadout>{cardsLeft} cards left</KitReadout>
+      </div>
+    );
+  }
 
-        <div className="glass p-5 rounded-2xl border border-white/10 space-y-3">
-          <div className="flex flex-wrap gap-2">
-            {speakingStudents.map((s) => (
-              <span key={s.id} className="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400">
-                {s.name} — speaker
-              </span>
-            ))}
-            {guessingStudents.map((s) => (
-              <span key={s.id} className="text-xs px-3 py-1 rounded-full bg-sky-500/20 text-sky-400">
-                {s.name} — guesser
-              </span>
-            ))}
+  // ─── TURN (word stays secret on this shared screen) ──────────────────────
+  if (phase === 'turn') {
+    return (
+      <div className="mx-auto max-w-4xl space-y-5 text-white">
+        <TeamBar />
+        <div className="flex items-center justify-between">
+          <div>
+            <KitLabel tone="rose">Describing</KitLabel>
+            <p className="font-display text-4xl">{describer?.name}</p>
+          </div>
+          <div className="text-right">
+            <KitLabel>Got</KitLabel>
+            <p className="font-display text-4xl text-emerald-300">{turnResults.filter((r) => r.outcome === 'got').length}</p>
           </div>
         </div>
 
-        <div className="flex justify-end">
-          <button
-            onClick={handleStartSpeaking}
-            className="px-8 py-3 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            START SPEAKING ▶
-          </button>
+        <div className="flex items-center gap-4">
+          <Clock className={`h-5 w-5 ${timeLeft <= 10 ? 'text-rose-300' : 'text-white/60'}`} />
+          <div className="h-3 flex-1 overflow-hidden rounded-full bg-white/10">
+            <motion.div className={`h-full ${timeLeft <= 10 ? 'bg-rose-400' : 'bg-amber-300'}`} animate={{ width: `${(timeLeft / TURN_SECONDS) * 100}%` }} transition={{ ease: 'linear', duration: 1 }} />
+          </div>
+          <span className={`w-14 text-right font-mono text-3xl ${timeLeft <= 10 ? 'text-rose-300' : ''}`}>{timeLeft}</span>
+          <KitButton onClick={() => setTimeLeft((t) => t + 30)}>+30s</KitButton>
+        </div>
+
+        {/* Mystery card + flash */}
+        <div className="relative flex min-h-[170px] items-center justify-center overflow-hidden rounded-[1.75rem] border border-white/12 bg-slate-950/45">
+          <AnimatePresence mode="wait">
+            {flash ? (
+              <motion.div key={`${flash.kind}-${flash.text}`} initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ opacity: 0 }} className="text-center">
+                {flash.kind === 'got' && <p className="font-display text-4xl text-emerald-300"><Check className="mr-2 inline h-8 w-8" />{flash.text}</p>}
+                {flash.kind === 'taboo' && <p className="font-display text-5xl text-rose-300"><Ban className="mr-2 inline h-9 w-9" />Taboo! <span className="text-white/60">({flash.text})</span></p>}
+                {flash.kind === 'skip' && <p className="font-display text-4xl text-white/70"><SkipForward className="mr-2 inline h-8 w-8" />Skipped: {flash.text}</p>}
+              </motion.div>
+            ) : (
+              <motion.div key={`card-${cardIdx}`} initial={{ rotateY: 90, opacity: 0 }} animate={{ rotateY: 0, opacity: 1 }} className="text-center">
+                <p className="font-display text-6xl tracking-[0.3em] text-white/25">? ? ?</p>
+                <p className="mt-2 font-mono text-xs uppercase tracking-[0.18em] text-white/45">Card {cardIdx + 1} · the word is on {describer?.name}&apos;s phone</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Guess feed (wrong guesses only) */}
+        <div className="flex min-h-[44px] flex-wrap gap-2">
+          <AnimatePresence>
+            {guesses.map((g) => (
+              <motion.span key={g.id} initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="rounded-full border border-white/12 bg-white/[0.05] px-3 py-1 text-base">
+                <span className="text-white/45">{g.name}:</span> {g.text}
+              </motion.span>
+            ))}
+          </AnimatePresence>
+          {guesses.length === 0 && <p className="text-sm text-white/40">Guesses appear here…</p>}
+        </div>
+
+        <div className="flex items-center justify-between gap-2">
+          <KitButton tone="rose" solid onClick={taboo} className="!px-6 !py-2.5 !text-sm" icon={<Ban className="h-4 w-4" />}>Taboo! (-1)</KitButton>
+          <div className="flex gap-2">
+            <KitButton onClick={() => card && (showFlash('skip', card.word), nextCard({ card, outcome: 'skip' }))} icon={<SkipForward className="h-3.5 w-3.5" />}>Skip</KitButton>
+            <KitButton onClick={() => { setPhase('summary'); onPhaseChange?.('summary'); }}>End turn</KitButton>
+          </div>
         </div>
       </div>
     );
   }
 
-  // ─── SPEAKING ──────────────────────────────────────────────────────────────────
-  if (phase === 'speaking') {
-    const currentSpeaker = speakingStudents[currentSpeakerIdx];
-    const isLastSpeaker = currentSpeakerIdx + 1 >= speakingStudents.length;
-    const timerColor = timer <= 5 ? 'text-rose-400' : timer <= 10 ? 'text-amber-400' : 'text-orange-400';
-
+  // ─── SUMMARY: reveal this turn's cards ───────────────────────────────────
+  if (phase === 'summary') {
+    const turnGot = turnResults.filter((r) => r.outcome === 'got').length;
     return (
-      <div className={`space-y-5 transition-all duration-300 ${tabooFlash ? 'ring-2 ring-rose-500/60 rounded-2xl bg-rose-500/5 p-2' : ''}`}>
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-orange-400">Speaking</h3>
-          <span className="text-sm opacity-60">{currentSpeakerIdx + 1} / {speakingStudents.length}</span>
+      <div className="mx-auto max-w-4xl space-y-5 text-white">
+        <TeamBar />
+        <div className="text-center">
+          <KitLabel tone="emerald">Time!</KitLabel>
+          <p className="mt-1 font-display text-5xl">{describer?.name}: {turnGot} word{turnGot === 1 ? '' : 's'}</p>
         </div>
-
-        {/* Secret word + forbidden words */}
-        {currentRound && (
-          <div className="glass p-4 rounded-2xl border border-orange-500/20 bg-orange-500/5 space-y-3">
-            <div className="text-center space-y-1">
-              <p className="text-xs opacity-40 uppercase tracking-widest">Secret Word</p>
-              <p className="text-3xl font-bold text-orange-300">{currentRound.word}</p>
-            </div>
-            <div className="border-t border-white/10 pt-3 space-y-1.5">
-              <p className="text-xs opacity-40 uppercase tracking-widest text-center">🚫 Forbidden Words</p>
-              <div className="flex flex-wrap gap-2 justify-center">
-                {currentRound.forbiddenWords.map((w, i) => (
-                  <span key={i} className="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-full text-sm font-medium border border-rose-500/30">
-                    {w}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Current speaker */}
-        {currentSpeaker && (
-          <div className="glass p-5 rounded-2xl border-2 border-orange-500/30 text-center space-y-2">
-            <p className="text-xs opacity-40 uppercase tracking-widest">Now speaking</p>
-            <p className="text-2xl font-bold">{currentSpeaker.name}</p>
-            <p className={`text-4xl font-bold font-mono ${timerColor}`}>{timer}s</p>
-          </div>
-        )}
-
-        {/* Progress */}
-        <div className="flex flex-wrap gap-2">
-          {speakingStudents.map((s, i) => (
-            <span
-              key={s.id}
-              className={`text-xs px-3 py-1 rounded-full ${
-                i < currentSpeakerIdx
-                  ? 'bg-emerald-500/20 text-emerald-400'
-                  : i === currentSpeakerIdx
-                  ? 'bg-orange-500/30 text-orange-300 ring-1 ring-orange-400'
-                  : 'bg-white/10 opacity-40'
-              }`}
-            >
-              {s.name}
-            </span>
+        <div className="space-y-2">
+          {turnResults.map((r, i) => (
+            <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }} className={`flex flex-wrap items-center gap-3 rounded-2xl border px-4 py-2.5 ${r.outcome === 'got' ? 'border-emerald-300/40 bg-emerald-400/10' : r.outcome === 'taboo' ? 'border-rose-300/40 bg-rose-400/10' : 'border-white/10 bg-white/[0.03]'}`}>
+              {r.outcome === 'got' ? <Check className="h-5 w-5 text-emerald-300" /> : r.outcome === 'taboo' ? <Ban className="h-5 w-5 text-rose-300" /> : <SkipForward className="h-5 w-5 text-white/45" />}
+              <span className="font-display text-2xl">{r.card.word}</span>
+              <span className="text-sm text-white/60">{r.card.description}</span>
+              {r.by && <span className="ml-auto font-mono text-xs text-emerald-200">{r.by}</span>}
+            </motion.div>
           ))}
+          {turnResults.length === 0 && <p className="text-center text-white/50">No cards played this turn.</p>}
         </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleTabooBuzz}
-            className="px-4 py-2.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/30 rounded-xl transition-colors text-sm font-medium text-rose-300"
-          >
-            🚫 Taboo!
-          </button>
-          <button
-            onClick={() => void handleNextSpeaker()}
-            className="flex-1 py-2.5 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            {isLastSpeaker ? 'Done — Start Discussion ▶' : 'Next Speaker ▶'}
-          </button>
+        <div className="flex justify-center gap-2">
+          <KitButton onClick={() => { setPhase('done'); onPhaseChange?.('finished'); }}>Finish game</KitButton>
+          <KitButton tone="rose" solid disabled={cardsLeft <= 0} onClick={nextTurn} className="!px-6 !py-2.5 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>{cardsLeft > 0 ? 'Next describer' : 'Deck finished'}</KitButton>
         </div>
       </div>
     );
   }
 
-  // ─── DISCUSSING ────────────────────────────────────────────────────────────────
-  if (phase === 'discussing') {
-    const timerColor = timer <= 5 ? 'text-rose-400' : timer <= 10 ? 'text-amber-400' : 'text-orange-400';
-
-    return (
-      <div className="space-y-6">
-        <h3 className="text-lg font-semibold text-orange-400">Team Discussion</h3>
-
-        <div className="glass p-6 rounded-2xl border border-orange-500/20 bg-orange-500/5 text-center space-y-4">
-          <p className="text-xs opacity-40 uppercase tracking-widest">Guessing team — agree on your answer</p>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {guessingStudents.map((s) => (
-              <span key={s.id} className="text-xs px-3 py-1 rounded-full bg-sky-500/20 text-sky-300">{s.name}</span>
-            ))}
-          </div>
-          <p className={`text-5xl font-bold font-mono ${timerColor}`}>{timer}s</p>
-        </div>
-
-        <div className="flex justify-end">
-          <button
-            onClick={handleSkipDiscuss}
-            className="px-8 py-3 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            Time&apos;s Up →
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── GUESSING ──────────────────────────────────────────────────────────────────
-  if (phase === 'guessing') {
-    return (
-      <div className="space-y-6">
-        <h3 className="text-lg font-semibold text-orange-400">What&apos;s the Word?</h3>
-
-        <div className="glass p-5 rounded-2xl border border-orange-500/20 bg-orange-500/5 text-center">
-          <p className="text-sm opacity-60">Ask the guessing team for their answer, then type it below.</p>
-        </div>
-
-        <div className="space-y-3">
-          <input
-            type="text"
-            value={teamBGuess}
-            onChange={(e) => setTeamBGuess(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter' && teamBGuess.trim()) void handleReveal(); }}
-            placeholder="Type their answer…"
-            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:opacity-30 focus:outline-none focus:border-orange-400/50 text-lg"
-            autoFocus
-          />
-          <div className="flex justify-end">
-            <button
-              onClick={() => void handleReveal()}
-              disabled={!teamBGuess.trim()}
-              className="px-8 py-3 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-            >
-              REVEAL ✨
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── REVEAL ────────────────────────────────────────────────────────────────────
-  if (phase === 'reveal') {
-    const guessCorrect = teamBGuess.trim().toLowerCase() === currentRound?.word.toLowerCase();
-
-    return (
-      <div className="space-y-6">
-        <div className={`text-center py-4 space-y-1 ${guessCorrect ? 'text-emerald-400' : 'text-rose-400'}`}>
-          <p className="text-3xl font-bold">
-            {guessCorrect ? '🎉 Correct!' : '🙈 Wrong guess!'}
-          </p>
-          <p className="text-sm opacity-60">
-            {guessCorrect ? 'The guessing team cracked it!' : 'The speaking team fooled them!'}
-          </p>
-        </div>
-
-        <div className="glass p-5 rounded-2xl border border-orange-500/20 bg-orange-500/5 text-center space-y-2">
-          <p className="text-xs opacity-40 uppercase tracking-widest">The word was</p>
-          <p className="text-4xl font-bold text-orange-300">{currentRound?.word}</p>
-          <p className="text-sm opacity-60 leading-relaxed">{currentRound?.description}</p>
-          {currentRound && currentRound.forbiddenWords.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 justify-center pt-1">
-              {currentRound.forbiddenWords.map((w, i) => (
-                <span key={i} className="text-xs px-2 py-0.5 bg-rose-500/20 text-rose-400 rounded-full">
-                  🚫 {w}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="glass px-4 py-3 rounded-xl flex items-center justify-between">
-          <span className="text-sm opacity-60">Their guess</span>
-          <span className={`font-bold ${guessCorrect ? 'text-emerald-400' : 'text-rose-400'}`}>
-            {teamBGuess}
-          </span>
-        </div>
-
-        <div className="flex items-center justify-end gap-3 pt-2">
-          {hasNextRound && (
-            <button
-              onClick={handleNextRound}
-              className="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              Next Round ✨
-            </button>
-          )}
-          <button
-            onClick={handleEnd}
-            className="px-8 py-3 bg-white/10 hover:bg-white/15 rounded-xl text-sm font-medium transition-colors"
-          >
-            End Activity
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── DONE ──────────────────────────────────────────────────────────────────────
+  // ─── DONE ─────────────────────────────────────────────────────────────────
+  const winner: Team | null = mode === 'teams' ? (teamScore.A > teamScore.B ? 'A' : teamScore.B > teamScore.A ? 'B' : null) : null;
   return (
-    <div className="text-center py-12 space-y-3">
-      <p className="text-2xl font-bold text-orange-400">Game Over</p>
-      <p className="text-sm opacity-50">Thanks for playing Taboo Sprint!</p>
+    <div className="mx-auto max-w-3xl space-y-5 py-8 text-center text-white">
+      <Trophy className="mx-auto h-10 w-10 text-amber-300" />
+      <p className="font-display text-5xl">{mode === 'teams' ? (winner ? `${TEAM[winner].label} wins!` : 'It’s a tie!') : 'Great describing!'}</p>
+      <TeamBar />
+      <p className="text-lg text-white/70">{got} of {results.length} words guessed</p>
+      <div className="flex flex-wrap justify-center gap-2">
+        {results.map((r, i) => (
+          <span key={i} className={`rounded-full border px-3 py-1 text-base ${r.outcome === 'got' ? 'border-emerald-300/40 text-emerald-100' : 'border-white/15 text-white/55'}`}>{r.card.word}</span>
+        ))}
+      </div>
     </div>
   );
 }

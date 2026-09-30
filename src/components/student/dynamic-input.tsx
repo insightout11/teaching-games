@@ -13,6 +13,7 @@ import { openTrickyChannel } from '@/lib/live-room/word-bank';
 import { CargoHandInput } from './cargo-hand-input';
 import { CargoVoteInput } from './cargo-vote-input';
 import { ConversationRoundsPanel } from './conversation-rounds-panel';
+import { TabooSprintPanel } from './taboo-sprint-panel';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -1182,6 +1183,10 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
         </p>
       </div>
     );
+  }
+
+  if (spec.gameKey === 'taboo-sprint' && spec.perStudentData) {
+    return <TabooSprintPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} onSubmit={onSubmit} />;
   }
 
   if (spec.gameKey === 'conversation-rounds' && spec.perStudentData) {

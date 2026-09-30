@@ -5,19 +5,19 @@ import { Ban } from 'lucide-react';
 export const tabooSprintPlugin: ActivityPlugin = {
   key: 'taboo-sprint',
   name: 'Taboo Sprint',
-  description: 'Like Password — but speakers can\'t use the secret word OR the 4 forbidden words. How creative can you be?',
+  description: 'One student describes a secret word from their phone without saying it or 4 forbidden words; the class races to guess. Everyone or two teams.',
   category: 'practice',
   pppStage: 'production',
   skills: ['Speaking', 'Listening', 'Vocabulary'],
   component: TabooSprintActivity,
   supportsCustomTopic: true,
-  estimatedMinutes: 20,
+  estimatedMinutes: 15,
   defaultTimerSeconds: 30,
   icon: Ban,
   flightPlanOnly: false,
   scoringProfile: { displayMode: 'team', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
-  minStudents: 4,
-  idealStudents: { min: 6, max: null },
+  minStudents: 2,
+  idealStudents: { min: 4, max: null },
   deviceFree: false,
 };
 

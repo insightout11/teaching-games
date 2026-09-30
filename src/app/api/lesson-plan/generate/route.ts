@@ -1895,7 +1895,7 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word", "descr
 
   try {
     const data = await generateJSON<{ rounds: ImposterRound[] }>(prompt, schema);
-    const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3) : [];
+    const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 12) : [];
     void storeCachedContent('imposter', topic, difficulty, { rounds }, 2, variant);
     return { activityKey: 'imposter', topicContext: topic, rounds, topic };
   } catch {
@@ -2163,7 +2163,7 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "co
 }
 
 async function generateTabooSprint(topic: string, difficulty: Difficulty, sourceContext = '', variant?: string): Promise<TabooSprintContent> {
-  const cached = await getCachedContent('taboo-sprint', topic, difficulty, [], variant, 1);
+  const cached = await getCachedContent('taboo-sprint', topic, difficulty, [], variant, 2);
   if (cached) {
     const c = cached.content_json as { rounds: TabooRound[] };
     return { activityKey: 'taboo-sprint', topicContext: topic, rounds: c.rounds ?? [], topic };
@@ -2191,7 +2191,7 @@ async function generateTabooSprint(topic: string, difficulty: Difficulty, source
     required: ['rounds'],
   };
 
-  const prompt = `Generate 3 rounds for an ESL classroom Taboo Sprint game on the topic: ${topic}
+  const prompt = `Generate 12 cards for an ESL classroom Taboo Sprint game on the topic: ${topic}
 ${languageRule(difficulty)}
 ${sourceContext}
 Rules:
@@ -2201,9 +2201,9 @@ Rules:
   (e.g. for word="explore" forbidden=["discover", "travel", "find", "journey"])
 - Choosing forbidden words well forces speakers to find creative, less obvious angles
 - description: one sentence (max 20 words) defining the secret word — revealed after guessing
-- All 3 secret words must be different parts of speech or difficulty level
+- All 12 secret words must be different; mix nouns, verbs and adjectives; start easier and get harder
 
-Return JSON: { "rounds": [{ "word": string, "description": string, "forbiddenWords": string[] }] } — exactly 3 rounds, each with exactly 4 forbidden words.`;
+Return JSON: { "rounds": [{ "word": string, "description": string, "forbiddenWords": string[] }] } — exactly 12 rounds, each with exactly 4 forbidden words.`;
 
   try {
     const data = await generateJSON<{ rounds: TabooRound[] }>(prompt, schema);
@@ -2211,7 +2211,7 @@ Return JSON: { "rounds": [{ "word": string, "description": string, "forbiddenWor
       ...r,
       forbiddenWords: Array.isArray(r.forbiddenWords) ? r.forbiddenWords.slice(0, 4) : [],
     })) : [];
-    void storeCachedContent('taboo-sprint', topic, difficulty, { rounds }, 1, variant);
+    void storeCachedContent('taboo-sprint', topic, difficulty, { rounds }, 2, variant);
     return { activityKey: 'taboo-sprint', topicContext: topic, rounds, topic };
   } catch {
     const fallback: TabooRound[] = [
