@@ -169,7 +169,6 @@ export function CharacterCardsActivity({
   const currentStudent = students[currentSpeakerIndex];
   const currentChar = currentStudent ? assignments[currentStudent.name] : null;
   const briefingStudent = students[briefingIndex];
-  const briefingChar = briefingStudent ? assignments[briefingStudent.name] : null;
 
   // Sorted vote results for display
   const sortedVotes = Object.entries(voteCounts).sort((a, b) => b[1] - a[1]);
@@ -209,43 +208,22 @@ export function CharacterCardsActivity({
         <div className="space-y-6">
           <p className="text-sm opacity-50">Students are reading their character cards on their devices.</p>
 
-          {/* Large card spotlight */}
-          <div className="glass p-8 rounded-2xl border-2 border-amber-500/30 space-y-4 text-center">
-            <p className="text-xs opacity-40 uppercase tracking-widest">Card for</p>
-            <p className="text-2xl font-semibold">{briefingStudent.name}</p>
-            {briefingChar && (
-              <div className="bg-amber-500/10 rounded-xl p-6 space-y-3">
-                <p className="text-3xl font-bold text-amber-400 leading-tight">{briefingChar.name}</p>
-                <p className="text-base opacity-60 leading-relaxed">{briefingChar.viewpoint}</p>
-                <p className="text-xs opacity-40 uppercase tracking-widest pt-1">They will say</p>
-                <p className="text-2xl font-bold leading-snug">&ldquo;{briefingChar.speakingLine}&rdquo;</p>
+          {/* Cards stay private on phones: the shared screen only shows who has one. */}
+          <div className="flex flex-wrap justify-center gap-3">
+            {students.map((student) => (
+              <div key={student.id} className="glass flex w-36 flex-col items-center gap-2 rounded-2xl border border-amber-500/30 p-4 text-center">
+                <div className="h-16 w-12 rounded-lg border-2 border-amber-400/50 bg-gradient-to-br from-amber-500/30 to-orange-500/20" />
+                <p className="text-sm font-semibold">{student.name}</p>
               </div>
-            )}
+            ))}
           </div>
 
-          {/* Navigation */}
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => setBriefingIndex((i) => Math.max(0, i - 1))}
-              disabled={briefingIndex === 0}
-              className="px-6 py-2 glass rounded-xl text-sm disabled:opacity-30 hover:bg-white/10 transition-all"
-            >
-              ← PREV
-            </button>
-
+          <div className="flex justify-center">
             <button
               onClick={handleAdvanceBriefing}
               className="px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               START SPEAKING
-            </button>
-
-            <button
-              onClick={() => setBriefingIndex((i) => Math.min(students.length - 1, i + 1))}
-              disabled={briefingIndex === students.length - 1}
-              className="px-6 py-2 glass rounded-xl text-sm disabled:opacity-30 hover:bg-white/10 transition-all"
-            >
-              NEXT →
             </button>
           </div>
         </div>
@@ -259,9 +237,8 @@ export function CharacterCardsActivity({
             <p className="text-xs opacity-50 uppercase tracking-widest">Now speaking</p>
             <p className="text-2xl font-semibold">{currentStudent.name}</p>
             <div className="bg-amber-500/10 rounded-xl p-5 space-y-3">
-              <p className="text-base font-semibold text-amber-400">{currentChar.name}</p>
-              <p className="text-xs opacity-40 uppercase tracking-widest">Read this aloud</p>
-              <p className="text-3xl font-bold leading-snug">&ldquo;{currentChar.speakingLine}&rdquo;</p>
+              <p className="text-3xl font-bold text-amber-400">{currentChar.name}</p>
+              <p className="text-sm opacity-60">Listen: what is their point of view?</p>
             </div>
           </div>
 
