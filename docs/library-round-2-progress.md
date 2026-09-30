@@ -5,7 +5,7 @@ Branch: `codex/library-round-2`, created from fetched `origin/main` (`c405b115`)
 | Task | Target | Baseline | Complete |
 |---|---:|---:|---:|
 | Metadata backfill | 446 | 446 missing `cefr` or `ageBand` | 446 / 446 |
-| Grammar videos | +60 | 17 | 18 / 60 |
+| Grammar videos | +60 | 17 | 32 / 60 |
 | Short hooks under 180 seconds | +60 | 43 | 0 / 60 |
 | Opinion/discussion texts | +40 | 10 | 0 / 40 |
 
@@ -77,3 +77,5 @@ Metadata backfill: 446 / 446 complete across 23 validated commits. Grammar video
 
 - Batch 1: +18 BBC Learning English 6 Minute Grammar clips; two candidates were rejected because the linked official pages had no extractable transcript. The retained entries use exact `grammar:*` tags and have prefetched `raw_transcript` rows verified in Supabase.
 - BBC transcript extraction now reads the nested rich-text widget with JSDOM so nested markup does not truncate the transcript.
+
+- Batch 2: +14 BBC Learning English grammar clips. Four candidates were dropped because the linked BBC pages returned no transcript; all 14 retained transcripts were prefetched and verified in Supabase.
