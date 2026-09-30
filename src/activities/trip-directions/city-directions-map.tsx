@@ -19,9 +19,14 @@ interface CityDirectionsMapProps {
   landmarks: Array<{ lat: number; lng: number }>;
   /** The destination — only drawn on the reveal (it stays the guide's secret until then). */
   target: { lat: number; lng: number; name: string } | null;
+  /** Revealed pins, closest first. Only the top 3 are named (low scores stay private). */
   guesses: DirectionsGuessPin[];
   revealed: boolean;
+  /** Bump to replay the Start → destination route line. */
+  replayKey?: number;
 }
+
+const ROUTE_SOURCE = 'fyw-route';
 
 function escapeHtml(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -41,7 +46,7 @@ function labelledMarker(map: MapLibreMap, lat: number, lng: number, color: strin
   return marker;
 }
 
-export function CityDirectionsMap({ center, start, landmarks, target, guesses, revealed }: CityDirectionsMapProps) {
+export function CityDirectionsMap({ center, start, landmarks, target, guesses, revealed, replayKey = 0 }: CityDirectionsMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const markersRef = useRef<MapLibreMarker[]>([]);
@@ -91,8 +96,8 @@ export function CityDirectionsMap({ center, start, landmarks, target, guesses, r
         markersRef.current.push(labelledMarker(map, target.lat, target.lng, '#fbbf24', target.name));
       }
       if (revealed) {
-        guesses.forEach((g) => {
-          markersRef.current.push(labelledMarker(map, g.lat, g.lng, '#22d3ee', g.displayName));
+        guesses.forEach((g, i) => {
+          markersRef.current.push(labelledMarker(map, g.lat, g.lng, '#22d3ee', i < 3 ? `${i + 1}. ${g.displayName}` : undefined));
         });
       }
     };
@@ -100,16 +105,44 @@ export function CityDirectionsMap({ center, start, landmarks, target, guesses, r
     else map.once('load', draw);
   }, [start, target, guesses, revealed]);
 
+  // Route replay: an amber line draws itself from Start to the destination.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    let raf = 0;
+    const clear = () => {
+      if (map.getLayer(ROUTE_SOURCE)) map.removeLayer(ROUTE_SOURCE);
+      if (map.getSource(ROUTE_SOURCE)) map.removeSource(ROUTE_SOURCE);
+    };
+    const run = () => {
+      clear();
+      if (!revealed || !target) return;
+      const line = (t: number) => ({ type: 'Feature' as const, properties: {}, geometry: { type: 'LineString' as const, coordinates: [[start.lng, start.lat], [start.lng + (target.lng - start.lng) * t, start.lat + (target.lat - start.lat) * t]] } });
+      map.addSource(ROUTE_SOURCE, { type: 'geojson', data: line(0) });
+      map.addLayer({ id: ROUTE_SOURCE, type: 'line', source: ROUTE_SOURCE, layout: { 'line-cap': 'round' }, paint: { 'line-color': '#fbbf24', 'line-width': 5, 'line-dasharray': [1.5, 1.2] } });
+      const t0 = performance.now();
+      const step = (now: number) => {
+        const t = Math.min(1, (now - t0) / 1800);
+        (map.getSource(ROUTE_SOURCE) as maplibregl.GeoJSONSource | undefined)?.setData(line(1 - Math.pow(1 - t, 3)));
+        if (t < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    };
+    if (map.isStyleLoaded()) run();
+    else map.once('load', run);
+    return () => { cancelAnimationFrame(raf); if (mapRef.current && map.isStyleLoaded()) clear(); };
+  }, [start, target, revealed, replayKey]);
+
   return (
     <div className="space-y-2">
       <div className="relative">
-        <div ref={containerRef} className="h-[420px] w-full overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950" />
+        <div ref={containerRef} className="h-[52vh] min-h-[360px] w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-950" />
         <CompassRose className="absolute bottom-3 left-3" />
       </div>
-      <div className="flex flex-wrap gap-4 text-xs text-slate-400">
+      <div className="flex flex-wrap gap-4 font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">
         <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />Start</span>
-        <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-amber-400" />Destination (revealed at the end)</span>
-        <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-cyan-400" />Student pins (revealed at the end)</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-amber-400" />Destination{revealed ? '' : ' (secret)'}</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-cyan-400" />Pins{revealed ? '' : ' (hidden till reveal)'}</span>
       </div>
     </div>
   );

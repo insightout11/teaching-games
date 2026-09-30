@@ -1,8 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Compass, Users } from 'lucide-react';
-import { distanceBetweenCoordsKm, formatDistance } from '@/lib/world-flight/geo';
+import { Compass, Eye, Flag, Mic, RefreshCw, Repeat, Route, Users } from 'lucide-react';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { distanceBetweenCoordsKm } from '@/lib/world-flight/geo';
 import { parseGeoGuess } from '@/games/radar-fix/scoring';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, RemoteVote, TripDirectionsContent } from '../types';
@@ -47,6 +48,7 @@ export function TripDirectionsActivity({
   // via the check-in beat before round 1; the role rotates each round.
   const [guideDevice, setGuideDevice] = useState<{ clientId: string; name: string } | null>(null);
   const [readyNames, setReadyNames] = useState<string[]>([]);
+  const [replayKey, setReplayKey] = useState(0);
 
   const phaseRef = useRef<Phase>('idle');
   const roundIndexRef = useRef(0);
@@ -181,6 +183,13 @@ export function TripDirectionsActivity({
       guessesRef.current.forEach((g) => {
         void onScore?.({ studentId: null, clientId: g.studentKey, displayName: g.displayName, promptIndex: roundIndexRef.current + 1, points: g.points, isCorrect: null });
       });
+      // The guide scores for clear directions: the class's average pin points x2 (max 10).
+      const guide = guideRef.current;
+      const gs = guessesRef.current;
+      if (guide && gs.length) {
+        const points = Math.min(10, Math.round((gs.reduce((n, g) => n + g.points, 0) / gs.length) * 2));
+        void onScore?.({ studentId: null, clientId: guide.clientId, displayName: guide.name, promptIndex: roundIndexRef.current + 1, points, isCorrect: null });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onSetInputSpec, onPhaseChange, onScore, landmarks]);
@@ -213,113 +222,115 @@ export function TripDirectionsActivity({
 
   const ranked = useMemo(() => [...guesses].sort((a, b) => a.distanceKm - b.distanceKm), [guesses]);
 
+  const PHRASES = [
+    'Start at the green pin.',
+    'Head north / south / east / west.',
+    'Go along the river / the main road.',
+    'Cross the river / the bridge.',
+    'Go past ___.',
+    "It's next to / across from ___.",
+    "It's about ___ minutes' walk.",
+    'You are there!',
+  ];
+  const within400 = ranked.filter((g) => g.distanceKm <= 0.4).length;
+  const STEPS: Array<[typeof Users, string, string]> = [
+    [Users, 'Check in', 'Phones tap ready. A guide is picked at random.'],
+    [Mic, 'Guide talks', 'Only the guide sees the destination. They describe the route.'],
+    [Flag, 'Pin + reveal', 'Everyone pins; the route draws itself; closest wins.'],
+  ];
+
   // No coordinates for this city yet — show a graceful state rather than a broken map.
   if (landmarks.length === 0) {
     return (
-      <div className="flex min-h-[360px] flex-col items-center justify-center gap-4 py-6 text-center">
-        <Compass className="h-14 w-14 text-slate-500" />
-        <h3 className="text-2xl font-game text-white">Find Your Way</h3>
-        <p className="max-w-md text-sm text-slate-400">The street map for {content.city} isn&apos;t ready yet. Swap this stage for now — it&apos;ll light up once this city has landmark coordinates.</p>
+      <div className="mx-auto max-w-xl space-y-3 py-10 text-center text-white">
+        <Compass className="mx-auto h-12 w-12 text-white/40" />
+        <p className="font-display text-3xl">Find Your Way</p>
+        <p className="text-white/60">The street map for {content.city} isn&apos;t ready yet. Swap this stage for now; it&apos;ll light up once this city has landmark coordinates.</p>
       </div>
     );
   }
 
   if (phase === 'idle') {
     return (
-      <div className="flex min-h-[440px] flex-col items-center justify-center gap-6 py-6 text-center">
-        <div className="relative">
-          <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-2xl" />
-          <Compass className="relative h-20 w-20 text-cyan-300" />
-        </div>
+      <div className="mx-auto max-w-3xl space-y-6 py-4 text-center text-white">
+        <Compass className="mx-auto h-10 w-10 text-cyan-300" />
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/70">Find Your Way</p>
-          <h3 className="mt-2 text-4xl font-game text-white">Directions in {content.city}</h3>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-300">
-            The guide sees the destination on their map — nobody else does. They describe the route from {content.start.name}; everyone else follows the streets on their device and drops a pin where the directions lead.
-          </p>
+          <KitLabel tone="cyan">Find Your Way</KitLabel>
+          <p className="mt-2 font-display text-5xl">Directions in {content.city}.</p>
         </div>
-        <ol className="mx-auto w-full max-w-md space-y-1.5 text-left text-sm text-slate-300">
-          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">1.</span> Students check in on their devices — one becomes the <span className="font-semibold text-white">guide</span>.</li>
-          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">2.</span> The destination appears secretly on the guide&apos;s map. They describe the route from {content.start.name} out loud.</li>
-          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">3.</span> Everyone else traces the route on their street map and drops a pin — closest pins score, then a new guide takes over.</li>
-        </ol>
-        <button onClick={beginCheckIn} className="rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600 px-12 py-5 font-game text-xl text-white shadow-xl transition hover:scale-105 active:scale-95">CREW CHECK-IN</button>
+        <p className="mx-auto max-w-xl text-lg text-white/70">One student secretly sees a destination on their phone and gives directions from {content.start.name}. Everyone else follows on their street map and drops a pin where the directions lead.</p>
+        <div className="mx-auto grid max-w-2xl gap-2 text-left sm:grid-cols-3">
+          {STEPS.map(([Icon, title, text]) => (
+            <div key={title} className="rounded-2xl border border-white/10 bg-slate-950/45 p-4">
+              <Icon className="h-5 w-5 text-cyan-300" />
+              <p className="mt-2 font-display text-xl">{title}</p>
+              <p className="text-sm text-white/60">{text}</p>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-center">
+          <KitButton tone="cyan" solid onClick={beginCheckIn} className="!px-8 !py-3 !text-base" icon={<Users className="h-4 w-4" />}>Crew check-in</KitButton>
+        </div>
       </div>
     );
   }
 
   if (phase === 'check-in') {
     return (
-      <div className="flex min-h-[420px] flex-col items-center justify-center gap-6 py-6 text-center">
-        <div className="relative">
-          <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-2xl" />
-          <Users className="relative h-16 w-16 text-cyan-300" />
+      <div className="mx-auto max-w-3xl space-y-6 py-6 text-center text-white">
+        <KitLabel tone="cyan">Crew check-in</KitLabel>
+        <p className="font-display text-5xl">Who&apos;s navigating?</p>
+        <p className="text-lg text-white/70">Tap <span className="text-white">&ldquo;I&apos;m ready&rdquo;</span> on your phone.</p>
+        <div className="flex min-h-[48px] flex-wrap items-center justify-center gap-2">
+          {readyNames.length === 0
+            ? <span className="text-white/45">Waiting for the crew…</span>
+            : readyNames.map((name) => <span key={name} className="rounded-full border border-cyan-300/40 bg-cyan-400/10 px-4 py-1.5 text-lg text-cyan-50">{name}</span>)}
         </div>
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/70">Crew check-in</p>
-          <h3 className="mt-2 text-3xl font-game text-white">Who&apos;s navigating?</h3>
-          <p className="mx-auto mt-3 max-w-md text-sm text-slate-300">
-            Students tap <span className="font-semibold text-white">&ldquo;I&apos;m ready&rdquo;</span> on their device. A guide is chosen at random each round.
-          </p>
+        <div className="flex justify-center">
+          <KitButton tone="cyan" solid disabled={readyNames.length < 2} onClick={startRounds} className="!px-8 !py-3 !text-base" icon={<Compass className="h-4 w-4" />}>Start round 1</KitButton>
         </div>
-        <div className="flex min-h-[44px] flex-wrap items-center justify-center gap-2">
-          {readyNames.length === 0 ? (
-            <span className="text-sm text-slate-500">Waiting for the crew…</span>
-          ) : (
-            readyNames.map((name) => (
-              <span key={name} className="rounded-xl border border-cyan-300/30 bg-cyan-500/10 px-3 py-1.5 text-sm font-semibold text-cyan-100">{name}</span>
-            ))
-          )}
-        </div>
-        <button
-          onClick={startRounds}
-          disabled={readyNames.length < 2}
-          className="rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600 px-12 py-5 font-game text-xl text-white shadow-xl transition hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
-        >
-          START ROUND 1
-        </button>
-        {readyNames.length < 2 && (
-          <p className="text-xs text-slate-500">Needs at least 2 connected students — one guides, the rest navigate.</p>
-        )}
+        {readyNames.length < 2 && <p className="text-sm text-white/45">Needs at least 2 phones: one guides, the rest navigate.</p>}
       </div>
     );
   }
 
   if (phase === 'done') {
     return (
-      <div className="flex min-h-[320px] flex-col items-center justify-center gap-4 py-6 text-center">
-        <Compass className="h-14 w-14 text-cyan-300" />
-        <h3 className="text-3xl font-game text-white">You know your way around</h3>
-        <p className="max-w-md text-sm text-slate-300">The class navigated {content.city}. Next: checking in.</p>
+      <div className="mx-auto max-w-xl space-y-3 py-10 text-center text-white">
+        <Compass className="mx-auto h-12 w-12 text-cyan-300" />
+        <p className="font-display text-4xl">You know your way around {content.city}.</p>
       </div>
     );
   }
 
   const revealed = phase === 'reveal';
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-cyan-300/70">Find Your Way · Round {roundIndex + 1}</p>
-          <h3 className="mt-1 text-2xl font-game text-white">From {content.start.name}…</h3>
-          <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-300"><Users className="h-4 w-4 text-cyan-300" />Guide: <span className="font-semibold text-white">{guideDevice?.name ?? '—'}</span></p>
-        </div>
-        <div className="flex items-center gap-2">
-          {!revealed && (
-            <button onClick={swapGuide} className="rounded-xl bg-white/10 px-4 py-2 font-game text-xs text-white transition hover:bg-white/20">
-              Swap guide
-            </button>
-          )}
-          <div className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-right">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-cyan-200/70">Pins dropped</p>
-            <p className="font-game text-2xl text-cyan-200">{guesses.length} / {Math.max(students.length - 1, 0) || '?'}</p>
-          </div>
-        </div>
+    <div className="mx-auto max-w-5xl space-y-3 text-white">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <KitLabel tone="cyan">Find Your Way · round {roundIndex + 1} · from {content.start.name}</KitLabel>
+        <KitReadout>{guesses.length} / {Math.max(students.length - 1, 0) || '?'} pinned</KitReadout>
       </div>
 
       {!revealed && (
-        <div className="rounded-xl border border-amber-300/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-          <span className="font-semibold">{guideDevice?.name ?? 'The guide'}</span> is the guide — the destination is marked on <span className="font-semibold">their device only</span>. They describe the route from <span className="font-semibold">{content.start.name}</span> (the green START pin); everyone else follows and drops a pin.
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-300/40 bg-amber-300/[0.07] px-5 py-3">
+          <p className="flex items-center gap-2 text-xl"><Mic className="h-5 w-5 text-amber-300" /><span className="font-display text-3xl">{guideDevice?.name ?? 'The guide'}</span> is guiding. Only their phone shows the destination.</p>
+          <KitButton tone="plain" onClick={swapGuide} icon={<RefreshCw className="h-3.5 w-3.5" />}>Swap guide</KitButton>
+        </div>
+      )}
+      {revealed && target && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-300/40 bg-amber-300/[0.07] px-5 py-3">
+          <div>
+            <KitLabel tone="amber">The destination</KitLabel>
+            <p className="font-display text-4xl">{target.name}</p>
+          </div>
+          <div className="text-right">
+            {ranked.length > 0 ? (
+              <>
+                <p className="text-lg">{ranked.slice(0, 3).map((g, i) => `${i + 1}. ${g.displayName}`).join('   ')}</p>
+                <p className="text-sm text-white/60">{within400} of {ranked.length} pins within 400 m</p>
+              </>
+            ) : <p className="text-white/60">No pins dropped.</p>}
+          </div>
         </div>
       )}
 
@@ -330,51 +341,24 @@ export function TripDirectionsActivity({
         target={revealed ? target : null}
         guesses={ranked}
         revealed={revealed}
+        replayKey={replayKey}
       />
 
-      {!revealed && (
-        <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Direction language for the guide</p>
-          <div className="flex flex-wrap gap-2">
-            {[
-              'Start at the green pin.',
-              'Head north / south / east / west.',
-              'Go along the river / the main road.',
-              'Cross the river / the bridge.',
-              'Go past ___.',
-              'Turn towards ___ at the corner.',
-              "It's next to / across from ___.",
-              "It's about ___ minutes' walk.",
-              'You are there!',
-            ].map((phrase) => (
-              <span key={phrase} className="rounded-lg bg-white/[0.05] px-3 py-1.5 text-sm text-slate-200">{phrase}</span>
-            ))}
-          </div>
-          <p className="mt-2 text-xs text-slate-500">
-            The maps never rotate — north is always up, and everyone has the same compass. Compass words and landmarks beat left/right here.
-          </p>
-        </div>
-      )}
-
       {!revealed ? (
-        <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3">
-          <p className="text-sm text-slate-300">Pins stay hidden until you reveal.</p>
-          <button onClick={reveal} disabled={guesses.length === 0} className="rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 px-5 py-3 font-game text-sm text-slate-950 transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-30">REVEAL PINS</button>
-        </div>
-      ) : (
-        <div className="grid gap-3 lg:grid-cols-[1fr_auto]">
-          <div className="rounded-xl border border-white/10 bg-white/[0.035] p-4">
-            <p className="text-sm font-semibold text-white">Destination: {target?.name}</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {ranked.slice(0, 6).map((g, i) => (
-                <span key={g.studentKey} className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-xs text-slate-200">{i + 1}. {g.displayName}: {formatDistance(g.distanceKm)} · +{g.points}</span>
-              ))}
-              {ranked.length === 0 && <span className="text-xs text-slate-400">No pins dropped.</span>}
-            </div>
+        <>
+          <div className="flex flex-wrap gap-1.5">{PHRASES.map((p) => <span key={p} className="rounded-full border border-white/10 px-3 py-1 text-base text-white/75">{p}</span>)}</div>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm text-white/50">North is always up. Compass words and landmarks beat left and right.</p>
+            <KitButton tone="amber" solid disabled={guesses.length === 0} onClick={reveal} className="!px-5 !py-2 !text-sm" icon={<Eye className="h-4 w-4" />}>Reveal</KitButton>
           </div>
-          <div className="flex items-center gap-2">
-            <button onClick={anotherRound} className="rounded-xl border border-white/15 bg-white/5 px-5 py-3 font-game text-sm text-slate-200 transition hover:bg-white/10">ANOTHER ROUND</button>
-            <button onClick={finish} className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]">FINISH</button>
+        </>
+      ) : (
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <KitButton tone="amber" onClick={() => setReplayKey((k) => k + 1)} icon={<Route className="h-3.5 w-3.5" />}>Replay route</KitButton>
+          <p className="text-sm text-white/55">{guideDevice?.name}, walk us through it again.</p>
+          <div className="flex gap-2">
+            <KitButton tone="plain" onClick={anotherRound} icon={<Repeat className="h-3.5 w-3.5" />}>Another round</KitButton>
+            <KitButton tone="cyan" solid onClick={finish} className="!px-5 !py-2 !text-sm" icon={<Flag className="h-4 w-4" />}>Finish</KitButton>
           </div>
         </div>
       )}
