@@ -24,7 +24,7 @@ async function load(sessionId: string) {
   const service = createServiceClient();
   const { data: state } = await service
     .from('class_world_flight_state')
-    .select('current_destination_id, range_km, plane_selection_required')
+    .select('current_destination_id, range_km, plane_selection_required, plane_key')
     .eq('class_id', owned.session.class_id)
     .maybeSingle();
   return { service, classId: owned.session.class_id, state };
@@ -47,6 +47,7 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
     currentDestinationId: state?.current_destination_id ?? null,
     rangeKm: state?.range_km ?? STARTER_PLANE_RANGE_KM,
     planeSelectionRequired: state?.plane_selection_required ?? false,
+    planeKey: (state as { plane_key?: string | null } | null)?.plane_key ?? null,
   });
 }
 

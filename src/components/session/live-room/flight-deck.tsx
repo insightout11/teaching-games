@@ -157,7 +157,7 @@ export function FlightDeck({
   const [takeoffAt, setTakeoffAt] = useState<number | null>(null);
   // The class journey is World Flight's: depart from the class's current city,
   // within the plane's range (LC International before its first flight).
-  const [position, setPosition] = useState<{ currentDestinationId: string | null; rangeKm: number; journey?: Array<{ from: string | null; to: string }> } | null>(null);
+  const [position, setPosition] = useState<{ currentDestinationId: string | null; rangeKm: number; planeKey?: string | null; journey?: Array<{ from: string | null; to: string }> } | null>(null);
   useEffect(() => {
     let cancelled = false;
     fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, { cache: 'no-store' })
@@ -1341,7 +1341,7 @@ export function FlightDeck({
       {/* Boarding walk-up: shows only while someone is walking up the airstairs (any view). */}
       {!cinematic && !landed && walkingIds.size > 0 && (
         <div className="pointer-events-none absolute inset-x-6 bottom-3 z-[15]">
-          <BoardingLane arrivals={arrivals.filter((a) => walkingIds.has(a.id))} onBoarded={onBoarded} />
+          <BoardingLane planeKey={position?.planeKey ?? null} arrivals={arrivals.filter((a) => walkingIds.has(a.id))} onBoarded={onBoarded} />
         </div>
       )}
 
