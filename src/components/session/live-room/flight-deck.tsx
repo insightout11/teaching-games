@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, Package, Plane, QrCode, Search, Shuffle, Users, Video, Vote, X } from 'lucide-react';
+import { Blend, Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, Package, Plane, QrCode, Search, Shuffle, Users, Video, Vote, X } from 'lucide-react';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
@@ -378,6 +378,15 @@ export function FlightDeck({
   }, []);
   const toggleZoomLayout = () => setZoomLayout((v) => {
     try { localStorage.setItem('lc-zoom-layout', v ? '0' : '1'); } catch { /* storage blocked */ }
+    return !v;
+  });
+  // See-through games / activities, like glass widgets. Remembered.
+  const [gameGlass, setGameGlass] = useState(false);
+  useEffect(() => {
+    try { setGameGlass(localStorage.getItem('lc-game-glass') === '1'); } catch { /* storage blocked */ }
+  }, []);
+  const toggleGameGlass = () => setGameGlass((v) => {
+    try { localStorage.setItem('lc-game-glass', v ? '0' : '1'); } catch { /* storage blocked */ }
     return !v;
   });
   const [railOpen, setRailOpen] = useState<null | 'cargo' | 'cabin'>(null);
@@ -1319,7 +1328,10 @@ export function FlightDeck({
 
       {/* The running module lives here in the Game view; elsewhere it stays mounted off-screen. */}
       {/* pb-16 keeps the floating "End activity" pill clear of the game's last buttons */}
-      <div className={view === 'game' && runningKey ? 'absolute inset-0 overflow-y-auto p-4 pb-16 sm:p-6 sm:pb-16' : 'hidden'}>
+      <div
+        className={view === 'game' && runningKey ? `absolute inset-0 overflow-y-auto p-4 pb-16 sm:p-6 sm:pb-16 ${gameGlass ? 'lc-game-glass' : ''}` : 'hidden'}
+        style={zoomLayout && sceneZoom > 1 ? { zoom: Math.min(1.35, sceneZoom) } : undefined}
+      >
         {runningKey ? moduleHost : null}
       </div>
 
@@ -1423,6 +1435,7 @@ export function FlightDeck({
           </button>
         </div>
       </WidgetShell>
+      <style>{`.lc-game-glass .glass{background:rgba(8,14,28,.18)!important;backdrop-filter:blur(3px)!important;-webkit-backdrop-filter:blur(3px)!important;border-color:rgba(255,255,255,.18)!important}.lc-game-glass{text-shadow:0 1px 6px rgba(0,0,0,.6)}.lc-game-glass [class*="bg-slate-9"],.lc-game-glass [class*="bg-lc-"],.lc-game-glass [class*="bg-white/"],.lc-game-glass [class*="bg-black/"]{background-color:rgba(10,18,34,.32)!important}`}</style>
       <style>{'@keyframes deck-drift{from{transform:translateX(110vw)}to{transform:translateX(-120%)}} [data-deck-drag] img{-webkit-user-drag:none;user-select:none;pointer-events:none}'}</style>
 
       {/* Glareshield */}
@@ -1592,9 +1605,19 @@ export function FlightDeck({
           </div>
         )}
         {view === 'game' && runningKey && !presenting && (
-          <button type="button" onClick={onReturn} className="absolute bottom-3 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/25 bg-slate-950/75 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur-md hover:bg-slate-900">
-            End activity · back to the room
-          </button>
+          <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+            <button type="button" onClick={onReturn} className="rounded-full border border-white/25 bg-slate-950/75 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur-md hover:bg-slate-900">
+              End activity · back to the room
+            </button>
+            <button
+              type="button"
+              onClick={toggleGameGlass}
+              title={gameGlass ? 'Solid panel' : 'See-through panel (show the sky behind)'}
+              className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs backdrop-blur-md ${gameGlass ? 'border-sky-300/60 bg-sky-300/15 text-sky-100' : 'border-white/25 bg-slate-950/75 text-white/80 hover:text-white'}`}
+            >
+              <Blend className="h-3.5 w-3.5" /> {gameGlass ? 'See-through' : 'Solid'}
+            </button>
+          </div>
         )}
       </div>
 
