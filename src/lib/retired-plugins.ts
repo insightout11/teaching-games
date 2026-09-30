@@ -8,6 +8,7 @@
  * - mic-drop, lightning-round: duplicate exit tickets (Final Answer stays)
  * - in-your-words: duplicate of Language Toolkit
  * - two-truths (Spot the Fib): merged into Fact Detective
+ * - password: replaced by Hot Seat
  */
 export const RETIRED_PLUGIN_KEYS: ReadonlySet<string> = new Set([
   'word-chain',
@@ -16,6 +17,7 @@ export const RETIRED_PLUGIN_KEYS: ReadonlySet<string> = new Set([
   'lightning-round',
   'in-your-words',
   'two-truths',
+  'password', // replaced by Hot Seat (everyone gives clues, not one team)
 ]);
 
 export const isRetired = (key: string) => RETIRED_PLUGIN_KEYS.has(key);

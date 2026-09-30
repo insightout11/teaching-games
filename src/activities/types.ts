@@ -913,6 +913,13 @@ export interface TabooRound {
   forbiddenWords: string[];
 }
 
+/** Hot Seat reuses Taboo's topic cards (word + short definition). */
+export interface HotSeatContent extends ActivityGeneratedContent {
+  activityKey: 'hot-seat';
+  cards: TabooRound[];
+  topic: string;
+}
+
 export interface TabooSprintContent extends ActivityGeneratedContent {
   activityKey: 'taboo-sprint';
   rounds: TabooRound[];

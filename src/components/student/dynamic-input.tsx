@@ -18,6 +18,7 @@ import { DefendItPanel } from './defend-it-panel';
 import { TwoTruthsWriter } from './two-truths-writer';
 import { TwentyQuestionsPanel } from './twenty-questions-panel';
 import { GridRushPanel } from './grid-rush-panel';
+import { HotSeatPanel } from './hot-seat-panel';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -1236,6 +1237,10 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
         </p>
       </div>
     );
+  }
+
+  if (spec.gameKey === 'hot-seat' && spec.perStudentData?.__room) {
+    return <HotSeatPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} />;
   }
 
   if (spec.gameKey === 'twenty-questions' && spec.perStudentData?.__room) {

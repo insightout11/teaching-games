@@ -141,7 +141,7 @@ export const ARCHIVED_PRESETS: FlightPlanPreset[] = [
     moduleSequence: [
       { slotType: 'practice', key: 'synonym-showdown' },
       { slotType: 'practice', key: 'vocab-sprint' },
-      { slotType: 'production', key: 'password' },
+      { slotType: 'production', key: 'taboo-sprint' },
     ],
     scenarios: {
       label: 'Choose a topic',
@@ -369,7 +369,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'error-hunter', stageId: 'accuracy-check', isMicroEvent: true, pool: ['error-hunter', 'sentence-scramble', 'synonym-showdown', 'vocab-sprint'] },
       { slotType: 'production', key: 'decision-council', stageId: 'production' },
       { slotType: 'practice', key: 'radar-fix', stageId: 'navigation-check', isMicroEvent: true, worldFlightOnly: true },
-      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['flash-quiz', 'connections', 'grid-rush', 'imposter', 'password', 'sector-strike'] },
+      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['flash-quiz', 'connections', 'grid-rush', 'imposter', 'sector-strike'] },
     ],
     flightConfig: {
       stages: [

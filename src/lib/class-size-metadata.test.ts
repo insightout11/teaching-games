@@ -25,14 +25,15 @@ describe('class-size metadata', () => {
 
   it('uses audited ideals and hard minimums for chips', () => {
     const items = getDiscoveryItems();
-    const password = items.find((item) => item.key === 'password')!;
+    // Password retired (Sep 2026); Imposter (min 3) exercises the same chip paths.
+    const imposter = items.find((item) => item.key === 'imposter')!;
     const storySprint = items.find((item) => item.key === 'story-sprint')!;
     const twentyQuestions = items.find((item) => item.key === 'twenty-questions')!;
 
-    expect(getClassSizeChip(password)).toBe('Best with 4+');
-    expect(getClassSizeChip(password, { setup: 'small-group' })).toBe('Best with 4+');
-    expect(getClassSizeChip(password, { setup: 'small-group', studentCount: 3 })).toBe('Needs 4+ students');
-    expect(getClassSizeChip(password, { setup: 'small-group', studentCount: 4 })).toBe('Great for small groups');
+    expect(getClassSizeChip(imposter)).toBe('Best with 3+');
+    expect(getClassSizeChip(imposter, { setup: 'small-group' })).toBe('Best with 3+');
+    expect(getClassSizeChip(imposter, { setup: 'small-group', studentCount: 2 })).toBe('Needs 3+ students');
+    expect(getClassSizeChip(imposter, { setup: 'small-group', studentCount: 3 })).toBe('Great for small groups');
     expect(getClassSizeChip(storySprint, { setup: 'classroom' })).toBe('Best for small groups');
     expect(getClassSizeChip(twentyQuestions, { setup: 'one-on-one' })).toBe('Best with 2+');
   });

@@ -2989,6 +2989,12 @@ export async function POST(request: NextRequest) {
           case 'taboo-sprint':
             generators.push(generateTabooSprint(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
+          case 'hot-seat':
+            // Same topic cards as Taboo (word + definition); the forbidden words go unused.
+            generators.push(generateTabooSprint(customTopic, diff, sourceCtx, grounding).then((r) => {
+              content[activityKey] = { activityKey: 'hot-seat', topicContext: r.topicContext, cards: r.rounds, topic: r.topic };
+            }));
+            break;
           case 'grammar-check-in':
             generators.push(generateGrammarCheckIn(customTopic, diff, grammarTarget, skipCache).then((r) => { content[activityKey] = r; }));
             break;
