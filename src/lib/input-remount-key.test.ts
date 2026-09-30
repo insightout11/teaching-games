@@ -9,6 +9,8 @@ describe('getInputRemountKey', () => {
     expect(getInputRemountKey({ ...base, timerSeconds: 60 })).toBe(k);
     expect(getInputRemountKey({ ...base, perStudentData: { c1: { status: 'retry', tries: 1 } } })).toBe(k);
     expect(getInputRemountKey({ ...base, publishedAt: 99 })).toBe(k);
+    const grid: InputSpec = { type: 'multi-select', gameKey: 'connections', options: ['a', 'b'], selectCount: 4 };
+    expect(getInputRemountKey({ ...grid, perStudentData: { c1: { livesRemaining: 3 } } })).toBe(getInputRemountKey(grid));
   });
 
   it('remounts for a new question, and keeps per-student data significant elsewhere', () => {

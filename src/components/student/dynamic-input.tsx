@@ -833,6 +833,17 @@ function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
 }
 
 // Multi-select (pick N from list)
+const CONNECTIONS_COLORS: Record<string, string> = {
+  yellow: 'bg-yellow-400 text-yellow-950', green: 'bg-emerald-400 text-emerald-950',
+  blue: 'bg-blue-400 text-blue-950', purple: 'bg-violet-400 text-violet-950',
+};
+const GUESS_FEEDBACK: Record<string, { text: string; cls: string }> = {
+  right: { text: 'Group found!', cls: 'border-emerald-400/40 bg-emerald-400/10 text-emerald-200' },
+  'one-away': { text: 'One away! Three of those belong together.', cls: 'border-amber-400/40 bg-amber-400/10 text-amber-200' },
+  wrong: { text: 'Not a group. One life lost.', cls: 'border-rose-400/40 bg-rose-400/10 text-rose-200' },
+  repeat: { text: 'You already found that group.', cls: 'border-white/15 bg-white/5 text-lc-text2' },
+};
+
 function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId }: DynamicInputProps) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const selectCount = spec.selectCount || 4;
@@ -840,9 +851,15 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
   // Race mode per-student state (populated via perStudentData from the game)
   const raceData = useMemo(() => {
     if (!clientId || !spec.perStudentData?.[clientId]) return null;
-    return spec.perStudentData[clientId] as { foundWords?: string[]; groupsFound?: number; livesRemaining?: number };
+    return spec.perStudentData[clientId] as {
+      foundWords?: string[]; groupsFound?: number; livesRemaining?: number;
+      found?: Array<{ category: string; words: string[]; color: string }>;
+      last?: { kind: string; n: number }; done?: 'finished' | 'eliminated'; position?: number | null;
+    };
   }, [clientId, spec.perStudentData]);
   const foundWords = useMemo(() => new Set(raceData?.foundWords ?? []), [raceData]);
+  const lives = raceData?.livesRemaining ?? 4;
+  const feedback = raceData?.last ? GUESS_FEEDBACK[raceData.last.kind] : null;
 
   const toggleOption = (option: string) => {
     if (foundWords.has(option)) return;
@@ -861,30 +878,48 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
     setSelected(new Set());
   }, [selected, selectCount, isSubmitting, onSubmit]);
 
+  if (raceData?.done === 'finished') {
+    return <PhoneLocked title="All four groups!" detail={raceData.position ? `Finished #${raceData.position}` : undefined} />;
+  }
+  if (raceData?.done === 'eliminated') {
+    return <PhoneLocked title="Out of lives" detail={`${raceData.found?.length ?? 0} of 4 groups found`} note="Watch the big screen for the answers" />;
+  }
+
+  const options = (spec.options ?? []).filter((o) => !foundWords.has(o));
+
   return (
     <div className="space-y-4">
       {spec.prompt && (
         <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       {raceData && (
-        <div className="flex gap-4 text-sm text-lc-text2">
-          <span>{raceData.groupsFound ?? 0}/4 groups found</span>
-          <span>{'❤️'.repeat(raceData.livesRemaining ?? 4)} {raceData.livesRemaining ?? 4} lives</span>
+        <div className="flex items-center justify-between text-sm text-lc-text2">
+          <span>{raceData.found?.length ?? raceData.groupsFound ?? 0}/4 groups</span>
+          <span className="flex items-center gap-1" aria-label={`${lives} lives`}>
+            {Array.from({ length: 4 }).map((_, i) => <span key={i} className={`h-2.5 w-2.5 rounded-full ${i < lives ? 'bg-rose-400' : 'bg-white/10'}`} />)}
+          </span>
         </div>
       )}
-      <p className="text-sm text-lc-text2">Select {selectCount} items ({selected.size}/{selectCount})</p>
+      {feedback && (
+        <p key={raceData?.last?.n} className={`rounded-xl border px-3 py-2 text-sm ${feedback.cls}`}>{feedback.text}</p>
+      )}
+      {raceData?.found?.map((g) => (
+        <div key={g.category} className={`rounded-xl px-3 py-2 text-center ${CONNECTIONS_COLORS[g.color] ?? 'bg-white/10'}`}>
+          <p className="text-[11px] font-bold uppercase tracking-wider">{g.category}</p>
+          <p className="text-sm">{g.words.join(', ')}</p>
+        </div>
+      ))}
+      <p className="text-sm text-lc-text2">Select {selectCount} ({selected.size}/{selectCount})</p>
       <div className="grid grid-cols-4 gap-1 sm:gap-1.5">
-        {spec.options?.map((option, index) => (
+        {options.map((option, index) => (
           <button
-            key={index}
+            key={`${option}-${index}`}
             onClick={() => toggleOption(option)}
-            disabled={isSubmitting || foundWords.has(option)}
+            disabled={isSubmitting}
             className={`p-1.5 sm:p-2.5 rounded-xl text-xs sm:text-sm transition-all min-h-[3rem] flex items-center justify-center text-center leading-tight break-words overflow-hidden hyphens-auto ${
-              foundWords.has(option)
-                ? 'opacity-40 cursor-not-allowed line-through bg-lc-surface text-lc-text'
-                : selected.has(option)
-                  ? 'border border-amber-400 bg-amber-400/15 text-amber-50'
-                  : 'border border-lc-border bg-lc-card text-lc-text hover:border-lc-text3'
+              selected.has(option)
+                ? 'border border-amber-400 bg-amber-400/15 text-amber-50'
+                : 'border border-lc-border bg-lc-card text-lc-text hover:border-lc-text3'
             } disabled:opacity-50`}
           >
             {option}

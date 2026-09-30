@@ -6,7 +6,9 @@ import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus, GROUP_COLORS } from './types';
 import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
-import type { ConnectionsChallenge, ConnectionsGroup, ConnectionsResult, GroupColor } from './types';
+import type { ConnectionsChallenge, ConnectionsGroup, ConnectionsResult, ConnectionsPhoneState, GroupColor } from './types';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { ArrowRight, HeartCrack, Puzzle, Trophy } from 'lucide-react';
 
 const MAX_LIVES = 4;
 
@@ -17,10 +19,26 @@ function getPositionPoints(position: number): number {
   return 3;
 }
 
+const GROUP_POINTS = 2; // every group found scores, finishing adds the position bonus
+
+/** Deterministic check (the answer key is known): right group, one away, or wrong. */
+function checkGuess(groups: ConnectionsGroup[], picked: string[]): { group: ConnectionsGroup | null; oneAway: boolean } {
+  const set = new Set(picked);
+  let oneAway = false;
+  for (const g of groups) {
+    const hits = g.words.filter((w) => set.has(w)).length;
+    if (hits === 4) return { group: g, oneAway: false };
+    if (hits === 3) oneAway = true;
+  }
+  return { group: null, oneAway };
+}
+
 interface RacePlayer {
   studentId: string;
   clientId: string;
   foundWords: string[];
+  foundCategories: string[];
+  last?: ConnectionsPhoneState['last'];
   displayName: string;
   groupsFound: number;
   finished: boolean;
@@ -93,10 +111,13 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
           options: challenge.words,
           selectCount: 4,
           perStudentData: Object.fromEntries(
-            racePlayers.map(p => [p.clientId, {
+            racePlayers.map((p): [string, ConnectionsPhoneState & { foundWords: string[] }] => [p.clientId, {
               foundWords: p.foundWords,
-              groupsFound: p.groupsFound,
+              found: challenge.groups.filter((g) => p.foundCategories.includes(g.category)).map((g) => ({ category: g.category, words: g.words, color: g.color })),
               livesRemaining: p.livesRemaining,
+              last: p.last,
+              done: p.finished ? 'finished' : p.eliminated ? 'eliminated' : undefined,
+              position: p.finishPosition,
             }])
           ),
         });
@@ -191,125 +212,55 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
     }
   }, [challenge, status, remainingGroups, mistakes, score, foundGroups, lives, currentStudentId, onScore]);
 
-  // Handle race mode submissions
-  const handleRaceSubmission = useCallback(async (vote: GameRemoteVote) => {
-    if (!challengeRef.current || statusRef.current !== GameStatus.PLAYING || raceCompleteRef.current) return;
-
+  // Handle race mode submissions — checked locally (instant; the answer key is known).
+  const handleRaceSubmission = useCallback((vote: GameRemoteVote) => {
+    const ch = challengeRef.current;
+    if (!ch || statusRef.current !== GameStatus.PLAYING || raceCompleteRef.current) return;
     const studentId = vote.studentId || vote.clientId;
     if (!studentId) return;
+    let picked: string[];
+    try { picked = JSON.parse(vote.choice) as string[]; } catch { return; }
+    if (!Array.isArray(picked) || picked.length !== 4) return;
 
-    try {
-      const selectedWords = JSON.parse(vote.choice) as string[];
-      if (!Array.isArray(selectedWords) || selectedWords.length !== 4) return;
-
-      // Evaluate against ALL groups (not just remaining, since each student plays independently)
-      const response = await fetch('/api/connections/evaluate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          selectedWords,
-          remainingGroups: challengeRef.current.groups, // all groups for evaluation
-        })
-      });
-
-      if (!response.ok) return;
-
-      const result: ConnectionsResult = await response.json();
-
-      // Check if player is already done (finished or eliminated) using ref to avoid stale closure
-      const currentPlayer = racePlayersRef.current.find(p => p.studentId === studentId);
-      if (currentPlayer?.finished || currentPlayer?.eliminated) return;
-
-      if (result.isCorrect && result.matchedGroup) {
-        setRacePlayers(prev => {
-          const existing = prev.find(p => p.studentId === studentId);
-          if (existing) {
-            // Check if they already found this group
-            if (existing.finished || existing.eliminated) return prev;
-
-            const newGroupsFound = existing.groupsFound + 1;
-            const isComplete = newGroupsFound === 4;
-
-            let finishPosition = existing.finishPosition;
-            let bonus = 0;
-
-            if (isComplete && !existing.finished) {
-              // Calculate finish position
-              const currentFinishCount = prev.filter(p => p.finished).length;
-              finishPosition = currentFinishCount + 1;
-              bonus = getPositionPoints(finishPosition);
-
-              // Score the student
-              onScore(studentId, {
-                isCorrect: true,
-                points: bonus,
-                responseData: { groupsFound: 4, finishPosition },
-              });
-
-            }
-
-            return prev.map(p =>
-              p.studentId === studentId
-                ? { ...p, groupsFound: newGroupsFound, foundWords: [...p.foundWords, ...selectedWords], finished: isComplete, finishPosition, score: p.score + bonus }
-                : p
-            );
-          } else {
-            // New player entry — first submission is correct
-            return [...prev, {
-              studentId,
-              clientId: vote.clientId,
-              foundWords: [...selectedWords],
-              displayName: vote.displayName,
-              groupsFound: 1,
-              finished: false,
-              eliminated: false,
-              finishPosition: null,
-              score: 0,
-              livesRemaining: MAX_LIVES,
-            }];
-          }
+    const { group, oneAway } = checkGuess(ch.groups, picked);
+    setRacePlayers((prev) => {
+      const existing: RacePlayer = prev.find((p) => p.studentId === studentId) ?? {
+        studentId, clientId: vote.clientId, displayName: vote.displayName, foundWords: [], foundCategories: [],
+        groupsFound: 0, finished: false, eliminated: false, finishPosition: null, score: 0, livesRemaining: MAX_LIVES,
+      };
+      if (existing.finished || existing.eliminated) return prev;
+      const n = (existing.last?.n ?? 0) + 1;
+      let next: RacePlayer;
+      if (group && existing.foundCategories.includes(group.category)) {
+        // Already found: no double counting, no life lost.
+        next = { ...existing, last: { kind: 'repeat', n } };
+      } else if (group) {
+        const groupsFound = existing.groupsFound + 1;
+        const finished = groupsFound === 4;
+        const finishPosition = finished ? prev.filter((p) => p.finished).length + 1 : null;
+        const points = GROUP_POINTS + (finishPosition ? getPositionPoints(finishPosition) : 0);
+        onScore(studentId, {
+          isCorrect: true,
+          points,
+          ...(finishPosition === 1 ? { outcome: 'standout' as const } : {}),
+          responseData: { clientId: vote.clientId, groupsFound, category: group.category, ...(finishPosition ? { finishPosition } : {}) },
         });
+        next = {
+          ...existing, groupsFound, finished, finishPosition,
+          foundWords: [...existing.foundWords, ...group.words],
+          foundCategories: [...existing.foundCategories, group.category],
+          score: existing.score + points, last: { kind: 'right', n },
+        };
       } else {
-        // Wrong answer — deduct a life
-        setRacePlayers(prev => {
-          const existing = prev.find(p => p.studentId === studentId);
-          if (existing) {
-            if (existing.finished || existing.eliminated) return prev;
-            const newLives = existing.livesRemaining - 1;
-            const isEliminated = newLives === 0;
-            if (isEliminated) {
-              onScore(studentId, {
-                isCorrect: false,
-                points: 0,
-                responseData: { groupsFound: existing.groupsFound, livesRemaining: 0, eliminated: true },
-              });
-            }
-            return prev.map(p =>
-              p.studentId === studentId
-                ? { ...p, livesRemaining: newLives, eliminated: isEliminated }
-                : p
-            );
-          } else {
-            // New player — first submission is wrong
-            const newLives = MAX_LIVES - 1;
-            return [...prev, {
-              studentId,
-              clientId: vote.clientId,
-              foundWords: [],
-              displayName: vote.displayName,
-              groupsFound: 0,
-              finished: false,
-              eliminated: false,
-              finishPosition: null,
-              score: 0,
-              livesRemaining: newLives,
-            }];
-          }
-        });
+        const livesRemaining = existing.livesRemaining - 1;
+        const eliminated = livesRemaining <= 0;
+        if (eliminated) {
+          onScore(studentId, { isCorrect: false, points: 0, responseData: { clientId: vote.clientId, groupsFound: existing.groupsFound, eliminated: true } });
+        }
+        next = { ...existing, livesRemaining, eliminated, last: { kind: oneAway ? 'one-away' : 'wrong', n } };
       }
-    } catch (err) {
-      console.error('Failed to process race submission:', err);
-    }
+      return prev.some((p) => p.studentId === studentId) ? prev.map((p) => (p.studentId === studentId ? next : p)) : [...prev, next];
+    });
   }, [onScore]);
 
   // Register remote vote handler
@@ -486,6 +437,13 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
     setStatus(GameStatus.WON); // Reuse WON state for race results
   };
 
+  // Everyone is done (finished or out of lives): end without waiting.
+  useEffect(() => {
+    if (!isSimultaneous || status !== GameStatus.PLAYING || raceComplete) return;
+    const done = racePlayers.filter((p) => p.finished || p.eliminated).length;
+    if (students.length > 0 && done >= students.length) { setRaceComplete(true); setStatus(GameStatus.WON); }
+  }, [isSimultaneous, status, raceComplete, racePlayers, students.length]);
+
   const getWordColor = (word: string): GroupColor | null => {
     const group = foundGroups.find(g => g.words.includes(word));
     return group?.color || null;
@@ -502,224 +460,118 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
   // ============ SIMULTANEOUS RACE MODE ============
   if (isSimultaneous) {
     const sortedPlayers = [...racePlayers].sort((a, b) => {
-      if (a.eliminated && !b.eliminated) return 1;
-      if (!a.eliminated && b.eliminated) return -1;
-      if (a.finished && !b.finished) return -1;
-      if (!a.finished && b.finished) return 1;
       if (a.finished && b.finished) return (a.finishPosition || 99) - (b.finishPosition || 99);
+      if (a.finished !== b.finished) return a.finished ? -1 : 1;
+      if (a.eliminated !== b.eliminated) return a.eliminated ? 1 : -1;
       return b.groupsFound - a.groupsFound;
     });
+    const foundBy = (category: string) => racePlayers.filter((p) => p.foundCategories.includes(category)).length;
+    const ORDER: GroupColor[] = ['yellow', 'green', 'blue', 'purple'];
+    const groupsByColor = challenge ? [...challenge.groups].sort((a, b) => ORDER.indexOf(a.color) - ORDER.indexOf(b.color)) : [];
+
+    const PlayerRow = ({ player }: { player: RacePlayer }) => (
+      <motion.div layout initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} className={`flex items-center justify-between rounded-2xl border px-4 py-2.5 ${player.finished && player.finishPosition === 1 ? 'border-amber-300/50 bg-amber-300/10' : player.eliminated ? 'border-white/10 bg-white/[0.02] opacity-60' : 'border-white/10 bg-slate-950/40'}`}>
+        <span className="flex items-center gap-2.5">
+          {player.finished && player.finishPosition === 1 ? <Trophy className="h-4 w-4 text-amber-300" />
+            : player.finished ? <span className="font-mono text-xs text-white/60">#{player.finishPosition}</span>
+            : player.eliminated ? <HeartCrack className="h-4 w-4 text-rose-300" /> : null}
+          <span className="text-base font-semibold">{player.displayName}</span>
+        </span>
+        <span className="flex items-center gap-3">
+          {/* Group colours found (never the words) */}
+          <span className="flex gap-1">
+            {groupsByColor.map((g) => (
+              <span key={g.category} className={`h-3.5 w-3.5 rounded-full ${player.foundCategories.includes(g.category) ? GROUP_COLORS[g.color].bg : 'bg-white/10'}`} />
+            ))}
+          </span>
+          {!player.finished && !player.eliminated && (
+            <span className="flex gap-0.5">{Array.from({ length: MAX_LIVES }).map((_, i) => <span key={i} className={`h-2 w-2 rounded-full ${i < player.livesRemaining ? 'bg-rose-400' : 'bg-white/10'}`} />)}</span>
+          )}
+          {player.score > 0 && <span className="font-mono text-xs text-emerald-300">+{player.score}</span>}
+        </span>
+      </motion.div>
+    );
 
     return (
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="text-center">
-          <p className="opacity-70 text-sm">Everyone solves independently — first to complete all 4 groups wins!</p>
-          <p className="text-xs text-cyan-400 mt-1">{students.length} students connected</p>
+      <div className="mx-auto max-w-4xl space-y-5 text-white">
+        <div className="flex items-center justify-between">
+          <KitLabel tone="violet">Connections{getDisplayTopic(sessionSettings, sourceMaterial) ? ` · ${getDisplayTopic(sessionSettings, sourceMaterial)}` : ''}</KitLabel>
+          {status === GameStatus.PLAYING && <KitReadout>{raceFinishCount} finished · {racePlayers.filter((p) => p.eliminated).length} out</KitReadout>}
         </div>
 
-        {/* IDLE State */}
         {status === GameStatus.IDLE && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-            <div className="glass p-6 rounded-2xl border border-white/10">
-              <h3 className="text-sm font-bold uppercase tracking-widest opacity-60 mb-3">Race Mode</h3>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                All students will receive the same 16-word grid on their devices. Race to find all 4 groups!
-              </p>
+          <div className="space-y-5 py-6 text-center">
+            <p className="font-display text-5xl">Find the four groups.</p>
+            <p className="mx-auto max-w-xl text-lg text-white/70">Sixteen words, four hidden groups of four. Everyone solves on their own phone: every group scores, the first to find all four win a bonus. Four wrong guesses and you&apos;re out.</p>
+            <div className="flex justify-center">
+              <KitButton tone="violet" solid onClick={handleGenerate} className="!px-8 !py-3 !text-base" icon={<Puzzle className="h-4 w-4" />}>Deal the puzzle</KitButton>
             </div>
-            <button
-              onClick={handleGenerate}
-              className="w-full px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
-            >
-              GENERATE PUZZLE
-            </button>
-          </motion.div>
+          </div>
         )}
 
-        {/* GENERATING State */}
-        {status === GameStatus.GENERATING && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <GenerationLoader label="puzzle" />
-          </motion.div>
-        )}
+        {status === GameStatus.GENERATING && <GenerationLoader label="puzzle" />}
+        {error && <p className="rounded-xl border border-rose-300/30 bg-rose-400/10 px-4 py-3 text-rose-100">{error}</p>}
 
-        {/* Error */}
-        {error && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl">{error}</div>
-        )}
-
-        {/* PLAYING State — Race tracker */}
         {status === GameStatus.PLAYING && challenge && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-            {/* Puzzle preview (teacher screen) */}
-            <div className="glass p-4 rounded-2xl border border-white/10">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Puzzle Words</p>
-              <div className="grid grid-cols-4 gap-2">
-                {challenge.words.map(word => (
-                  <div key={word} className="p-2 rounded-lg bg-slate-800 text-slate-200 text-sm font-bold text-center uppercase">
-                    {word}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Race Progress */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Race Progress</p>
-                <p className="text-sm text-emerald-400 font-bold">{raceFinishCount} finished</p>
-              </div>
-
-              {sortedPlayers.length === 0 && (
-                <div className="text-center py-6">
-                  <div className="flex justify-center gap-2 mb-3">
-                    <div className="w-3 h-3 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <div className="w-3 h-3 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <div className="w-3 h-3 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '300ms' }} />
-                  </div>
-                  <p className="text-slate-400">Waiting for students to start solving...</p>
-                </div>
-              )}
-
-              <AnimatePresence>
-                {sortedPlayers.map(player => (
-                  <motion.div
-                    key={player.studentId}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl ${
-                      player.eliminated
-                        ? 'bg-red-500/10 border border-red-500/20 opacity-60'
-                        : player.finished
-                          ? player.finishPosition === 1
-                            ? 'bg-yellow-500/20 border border-yellow-500/30'
-                            : 'bg-emerald-500/10 border border-emerald-500/20'
-                          : 'bg-white/5 border border-white/10'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      {player.eliminated && (
-                        <span className="text-lg">💀</span>
-                      )}
-                      {!player.eliminated && player.finished && player.finishPosition && (
-                        <span className={`text-lg font-black ${
-                          player.finishPosition === 1 ? 'text-yellow-400' :
-                          player.finishPosition === 2 ? 'text-slate-300' :
-                          player.finishPosition === 3 ? 'text-amber-600' : 'text-slate-500'
-                        }`}>
-                          #{player.finishPosition}
-                        </span>
-                      )}
-                      <span className="font-semibold text-white">{player.displayName}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      {/* Lives (only show while in progress) */}
-                      {!player.finished && (
-                        <div className="flex gap-1">
-                          {Array.from({ length: MAX_LIVES }).map((_, i) => (
-                            <div key={i} className={`w-2 h-2 rounded-full ${
-                              i < (player.livesRemaining ?? MAX_LIVES) ? 'bg-red-500' : 'bg-slate-700'
-                            }`} />
-                          ))}
-                        </div>
-                      )}
-                      {/* Group progress dots */}
-                      <div className="flex gap-1">
-                        {[0, 1, 2, 3].map(i => (
-                          <div key={i} className={`w-3 h-3 rounded-full ${
-                            i < player.groupsFound ? 'bg-emerald-400' : 'bg-slate-700'
-                          }`} />
-                        ))}
-                      </div>
-                      {player.finished && (
-                        <span className="font-game text-emerald-400">+{player.score}</span>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-
-            {/* End race button */}
-            <button
-              onClick={handleEndRace}
-              className="w-full py-3 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10"
-            >
-              END RACE
-            </button>
-          </motion.div>
-        )}
-
-        {/* WON State (Race results) */}
-        {(status === GameStatus.WON || raceComplete) && challenge && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-            <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30 text-center">
-              <h2 className="text-3xl font-game text-emerald-400 mb-2">RACE COMPLETE!</h2>
-              <p className="text-slate-300">{raceFinishCount} of {racePlayers.length} players completed the puzzle</p>
-            </div>
-
-            {/* Final standings */}
-            <div className="space-y-2">
-              {sortedPlayers.map(player => (
-                <div
-                  key={player.studentId}
-                  className={`flex items-center justify-between px-4 py-3 rounded-xl ${
-                    player.eliminated
-                      ? 'bg-red-500/10 border border-red-500/20 opacity-60'
-                      : player.finished && player.finishPosition === 1
-                        ? 'bg-yellow-500/20 border border-yellow-500/30'
-                        : 'bg-white/5 border border-white/10'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    {player.eliminated && <span className="text-lg">💀</span>}
-                    {!player.eliminated && player.finishPosition && (
-                      <span className={`text-lg font-black ${
-                        player.finishPosition === 1 ? 'text-yellow-400' :
-                        player.finishPosition === 2 ? 'text-slate-300' :
-                        player.finishPosition === 3 ? 'text-amber-600' : 'text-slate-500'
-                      }`}>#{player.finishPosition}</span>
-                    )}
-                    <span className="font-semibold text-white">{player.displayName}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-slate-400">{player.groupsFound}/4 groups</span>
-                    {player.score > 0 && <span className="font-game text-emerald-400">+{player.score}</span>}
-                    {player.eliminated && <span className="text-sm text-red-400">eliminated</span>}
-                  </div>
+          <div className="space-y-4">
+            <div className="grid grid-cols-4 gap-2">
+              {challenge.words.map((word) => (
+                <div key={word} className="flex min-h-[64px] items-center justify-center rounded-xl border border-white/12 bg-slate-950/50 px-2 text-center font-display text-2xl leading-tight">
+                  {word}
                 </div>
               ))}
             </div>
 
-            {/* Show solution */}
+            {/* Group heat: which colours the class has cracked (no words shown) */}
+            {racePlayers.length > 0 && (
+              <div className="grid grid-cols-4 gap-2">
+                {groupsByColor.map((g) => (
+                  <div key={g.category} className="flex items-center gap-2 rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2">
+                    <span className={`h-3 w-3 rounded-full ${GROUP_COLORS[g.color].bg}`} />
+                    <span className="font-mono text-xs text-white/70">found by {foundBy(g.category)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="space-y-1.5">
+              <AnimatePresence>
+                {sortedPlayers.map((player) => <PlayerRow key={player.studentId} player={player} />)}
+              </AnimatePresence>
+              {sortedPlayers.length === 0 && <p className="py-3 text-center text-sm text-white/45">Solvers are thinking on their phones…</p>}
+            </div>
+
+            <div className="flex justify-end"><KitButton onClick={handleEndRace}>End the race</KitButton></div>
+          </div>
+        )}
+
+        {(status === GameStatus.WON || raceComplete) && challenge && (
+          <div className="space-y-4">
+            <div className="text-center">
+              <KitLabel tone="emerald">Race over</KitLabel>
+              <p className="mt-1 font-display text-4xl">{raceFinishCount > 0 ? `${raceFinishCount} solved it all` : 'Let\u2019s reveal the groups'}</p>
+            </div>
+
+            {/* Reveal each group's connection in turn (easiest first) */}
             <div className="space-y-2">
-              <p className="text-sm text-center opacity-60 mb-2">The groups were: <span className="italic">(tap a group to reveal its connection)</span></p>
-              {challenge.groups.map((group) => {
+              {groupsByColor.map((group) => {
                 const revealed = revealedCategories.has(group.category);
                 return (
-                  <button
-                    key={group.category}
-                    onClick={() => toggleReveal(group.category)}
-                    className={`w-full ${GROUP_COLORS[group.color].bg} ${GROUP_COLORS[group.color].text} p-3 rounded-xl text-center transition-all hover:brightness-110 active:scale-[0.98]`}
-                  >
-                    {revealed ? (
-                      <p className="font-bold text-sm uppercase tracking-wider">{group.category}</p>
-                    ) : (
-                      <p className="font-bold text-sm uppercase tracking-wider opacity-40">? ? ?</p>
-                    )}
-                    <p className="text-sm">{group.words.join(', ')}</p>
+                  <button key={group.category} type="button" onClick={() => toggleReveal(group.category)} className={`w-full rounded-2xl px-4 py-3 text-center transition-all hover:brightness-110 active:scale-[0.99] ${GROUP_COLORS[group.color].bg} ${GROUP_COLORS[group.color].text}`}>
+                    <p className="font-mono text-xs font-bold uppercase tracking-[0.16em]">{revealed ? group.category : 'Tap to reveal the connection'}</p>
+                    <p className="font-display text-2xl">{group.words.join(' · ')}</p>
+                    {racePlayers.length > 0 && <p className="mt-0.5 font-mono text-[11px] opacity-70">found by {foundBy(group.category)} / {racePlayers.length}</p>}
                   </button>
                 );
               })}
             </div>
 
-            <button
-              onClick={handleNewGame}
-              className="w-full py-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl font-game text-lg text-white hover:scale-[1.02] active:scale-95 transition-all"
-            >
-              NEW PUZZLE
-            </button>
-          </motion.div>
+            <div className="space-y-1.5">{sortedPlayers.map((player) => <PlayerRow key={player.studentId} player={player} />)}</div>
+
+            <div className="flex justify-center">
+              <KitButton tone="violet" solid onClick={handleNewGame} className="!px-6 !py-2.5 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>New puzzle</KitButton>
+            </div>
+          </div>
         )}
       </div>
     );

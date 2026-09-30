@@ -27,6 +27,16 @@ export enum GameStatus {
 
 export type GroupColor = 'yellow' | 'green' | 'blue' | 'purple';
 
+/** What one phone gets in a Connections race (perStudentData[clientId]). */
+export interface ConnectionsPhoneState {
+  found: Array<{ category: string; words: string[]; color: GroupColor }>;
+  livesRemaining: number;
+  /** Last guess result, with a counter so the same result twice still shows. */
+  last?: { kind: 'right' | 'one-away' | 'wrong' | 'repeat'; n: number };
+  done?: 'finished' | 'eliminated';
+  position?: number | null;
+}
+
 export const GROUP_COLORS: Record<GroupColor, { bg: string; text: string; border: string }> = {
   yellow: {
     bg: 'bg-yellow-400',
@@ -44,8 +54,8 @@ export const GROUP_COLORS: Record<GroupColor, { bg: string; text: string; border
     border: 'border-blue-500'
   },
   purple: {
-    bg: 'bg-blue-400',
-    text: 'text-blue-900',
-    border: 'border-blue-500'
+    bg: 'bg-violet-400',
+    text: 'text-violet-950',
+    border: 'border-violet-500'
   }
 };

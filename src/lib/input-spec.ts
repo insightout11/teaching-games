@@ -238,7 +238,7 @@ export function getInputRemountKey(spec: InputSpec | null | undefined): string {
   const rest: Partial<InputSpec> = { ...spec };
   delete rest.timerSeconds;
   delete rest.publishedAt;
-  if (spec.type === 'sequence') delete rest.perStudentData;
+  if (spec.type === 'sequence' || spec.type === 'multi-select') delete rest.perStudentData;
   return getInputSpecRevision(rest);
 }
 
