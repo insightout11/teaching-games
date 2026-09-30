@@ -67,9 +67,21 @@ Each preset measures a **different kind of change**. That becomes its identity.
 - The **arrival scene** and **logbook deposit** already exist; the result is layered on top.
 - Scoring doesn't change. The checks are about the class's progress, not points.
 
-## Questions for you
+## Decisions so far (owner, Sep 30 2026)
 
-1. Do the five "kinds of change" (accuracy, opinion, understanding, expression, can-do) feel right for each preset?
-2. Speak: are "which reply would you use" plus "how confident are you" good enough measures, or is there a better one from your classes?
-3. Should the result be shown **only at landing** (a big reveal), or also as a hint at the midpoint?
-4. For courses: include the "still flying?" item from last lesson automatically?
+- **The result shows only at landing:** the before → after is the arrival reveal. No midpoint hint.
+- **Material carries through:** source, toolkit phrases and takeoff answers flow through every stage **and on to the next lesson** in a course.
+- **Pacing: do less, go deeper.** Fewer main stages, each deeper, with fun breaks between them (turbulence, comms check and other micro-events) as the rhythm.
+- **Goal: polished, fun for kids, and distinct from each other.** Keep the proven shape. The upgrade is connection, polish and identity, not a new structure.
+- **Listening gets featured:** its own flight, plus a listening stage other flights can include. New listening activities are needed (ideas: Radio Check, Dictogloss, Mishear).
+- **Reading courses from books:** the teacher uploads their own PDF, and it's used only for their lessons (never hosted or shared). We could also offer a public-domain book library (Gutenberg). Book = course, chapter = lesson.
+- **Courses:** tracks (all Speaking, all Grammar…) or mixed (a flight per lesson). A course is a list of flights plus material carried from one lesson to the next.
+- **Composed lessons ("source in, lesson out") come back later:** the AI fills in content inside a preset's proven shape and never invents the structure. Earlier generated lessons felt sloppy because the structure was generated too.
+- Teachers can bring their own material (PDFs etc.). Every flight must work from teacher uploads, not only the library.
+
+## Open questions
+
+1. Do the five kinds of change (accuracy, opinion, understanding, expression, can-do) fit each preset? *(Owner: yes, close to before.)*
+2. Speak's measure: "which reply would you use" + confidence is a start; still open.
+3. Listening flight: its before/after, and which new listening activities to build first.
+4. Reading: a mode of Captain's Flight, or its own flight for book courses?
