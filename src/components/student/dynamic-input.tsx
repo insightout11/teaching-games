@@ -58,7 +58,7 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
     case 'error-correction':
       return <ErrorCorrectionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clockOffsetMs={clockOffsetMs} />;
     case 'confirm':
-      return <ConfirmInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
+      return <ConfirmInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} studentId={studentId} clientId={clientId} />;
     case 'read-aloud':
       return <ReadAloudInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
     case 'shuffleboard':
@@ -1137,7 +1137,7 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
 }
 
 // Confirm button — student taps once to confirm they've done something (spoken, read, etc.)
-function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName }: DynamicInputProps) {
+function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName, studentId, clientId }: DynamicInputProps) {
   const [confirmed, setConfirmed] = useState(false);
 
   const handleConfirm = useCallback(async () => {
@@ -1185,7 +1185,7 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
   }
 
   if (spec.gameKey === 'conversation-rounds' && spec.perStudentData) {
-    return <ConversationRoundsPanel spec={spec} displayName={displayName} onSubmit={onSubmit} />;
+    return <ConversationRoundsPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} onSubmit={onSubmit} />;
   }
 
   if (cabinRoleCard) {

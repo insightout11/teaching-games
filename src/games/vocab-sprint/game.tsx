@@ -61,6 +61,8 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   const [reviewShowSuggestions, setReviewShowSuggestions] = useState(false);
   // Race extras: teacher-revealed hint, round count, and a word bank of the best upgrades.
   const [raceHint, setRaceHint] = useState(false);
+  // Seconds added with +30s — sent to phones too (same start, longer timer).
+  const [extraSeconds, setExtraSeconds] = useState(0);
   const [roundNo, setRoundNo] = useState(0);
   const [wordBank, setWordBank] = useState<Array<{ weak: string; words: string[] }>>([]);
   const [showBank, setShowBank] = useState(false);
@@ -93,7 +95,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
             : `Replace the weak word "${currentSentence.weakWord}" with a stronger word â€” race!`,
           placeholder: currentSentence.level === 'hard' ? 'Type the precise term...' : 'Type an upgrade word...',
           maxLength: 50,
-          timerSeconds: sessionSettings.timerSeconds,
+          timerSeconds: sessionSettings.timerSeconds + extraSeconds,
           startedAt: raceStartedAtRef.current,
         });
       } else {
@@ -111,7 +113,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
             : `Replace the weak word "${currentSentence.weakWord}" with a stronger word`,
           placeholder: currentSentence.level === 'hard' ? 'Type the precise term...' : 'Type an upgrade word...',
           maxLength: 50,
-          timerSeconds: sessionSettings.timerSeconds,
+          timerSeconds: sessionSettings.timerSeconds + extraSeconds,
           startedAt: raceStartedAtRef.current,
         });
       } else {
@@ -119,7 +121,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         onSetInputSpec?.(null);
       }
     }
-  }, [isSimultaneous, status, currentSentence, raceFinished, onSetInputSpec, sessionSettings.timerSeconds]);
+  }, [isSimultaneous, status, currentSentence, raceFinished, onSetInputSpec, sessionSettings.timerSeconds, extraSeconds]);
 
   // Track in-flight evaluate calls to prevent duplicate concurrent requests for the same student
   const inFlightRef = useRef(new Set<string>());
@@ -346,6 +348,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     setReviewIndex(-1);
     setReviewShowSuggestions(false);
     setRaceHint(false);
+    setExtraSeconds(0);
     setShowBank(false);
     setRoundNo((n) => n + 1);
 
@@ -545,7 +548,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
 
   const nameFor = (s: RaceSolver) => (prefsMap?.get(s.clientId)?.score_visible === false ? 'Anonymous pilot' : s.displayName);
   const topic = getDisplayTopic(sessionSettings, sourceMaterial);
-  const total = sessionSettings.timerSeconds || 1;
+  const total = (sessionSettings.timerSeconds + extraSeconds) || 1;
 
   const NextButton = ({ label = 'Next sentence' }: { label?: string }) => (isMicroEvent ? (
     <KitReadout>Round complete Â· advance the flight to continue</KitReadout>
@@ -636,7 +639,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                 <motion.div className={`h-full ${timeLeft <= 5 ? 'bg-rose-400' : 'bg-cyan-400'}`} animate={{ width: `${Math.max(0, Math.min(100, (timeLeft / total) * 100))}%` }} transition={{ ease: 'linear', duration: 1 }} />
               </div>
               <span className={`w-14 text-right font-mono text-2xl ${timeLeft <= 5 ? 'text-rose-300' : 'text-white'}`}>{timeLeft}s</span>
-              <KitButton onClick={() => setTimeLeft((t) => t + 30)}>+30s</KitButton>
+              <KitButton onClick={() => { setTimeLeft((t) => t + 30); setExtraSeconds((x) => x + 30); }}>+30s</KitButton>
             </div>
 
             {/* Sealed answers: names only */}

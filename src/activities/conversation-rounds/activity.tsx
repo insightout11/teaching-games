@@ -56,8 +56,9 @@ export function ConversationRoundsActivity({
   // ─── Phones: speakers get a secret role card, everyone else spots phrases ──
   const perStudentData = useMemo(() => {
     const data: Record<string, ConversationRoleCard> = {};
-    if (studentA && roleA) data[studentA.name] = { side: 0, title: roleA.title, goal: roleA.goal, situation: roleA.situation, phrases: roleA.phrases };
-    if (studentB && roleB) data[studentB.name] = { side: 1, title: roleB.title, goal: roleB.goal, situation: roleB.situation, phrases: roleB.phrases };
+    // Keyed by id AND name: the phone's typed name can differ from the roster name.
+    if (studentA && roleA) data[studentA.id] = data[studentA.name] = { side: 0, title: roleA.title, goal: roleA.goal, situation: roleA.situation, phrases: roleA.phrases };
+    if (studentB && roleB) data[studentB.id] = data[studentB.name] = { side: 1, title: roleB.title, goal: roleB.goal, situation: roleB.situation, phrases: roleB.phrases };
     return data;
   }, [studentA, studentB, roleA, roleB]);
 

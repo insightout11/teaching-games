@@ -23,8 +23,11 @@ const TONE = [
  * Conversation Rounds on the phone: speakers see their secret role card;
  * everyone else spots phrases as they hear them (each tap reaches the teacher).
  */
-export function ConversationRoundsPanel({ spec, displayName, onSubmit }: { spec: InputSpec; displayName?: string; onSubmit: (content: string) => Promise<void> | void }) {
-  const card = displayName ? (spec.perStudentData?.[displayName] as ConversationRoleCard | undefined) : undefined;
+export function ConversationRoundsPanel({ spec, displayName, studentId, clientId, onSubmit }: { spec: InputSpec; displayName?: string; studentId?: string | null; clientId?: string; onSubmit: (content: string) => Promise<void> | void }) {
+  const data = spec.perStudentData ?? {};
+  const card = [studentId, clientId, displayName]
+    .map((k) => (k ? (data[k] as ConversationRoleCard | undefined) : undefined))
+    .find(Boolean);
   const [spotted, setSpotted] = useState<Set<string>>(new Set());
 
   if (card) {
