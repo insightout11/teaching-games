@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
-  AlertCircle, ChevronRight, Cloud, Coins, Crown, Heart, Plane, SkipForward, Sparkles,
+  AlertCircle, ChevronRight, Cloud, Coins, Crown, Flame, Heart, MessageCircleQuestion, Plane, SkipForward, Sparkles,
   Trophy, Users, Wind, Zap, BookOpen,
 } from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
@@ -148,6 +148,9 @@ export function FlashQuizGame({
   const questionsRef = useRef<QuizQuestion[]>([]); questionsRef.current = questions;
   const roundAnswersRef = useRef<StudentAnswer[]>([]); roundAnswersRef.current = roundAnswers;
   const scoredAnswersRef = useRef<Set<string>>(new Set());
+  // Correct answers in a row (streaks) and the "why?" speaking beat after a reveal.
+  const [streaks, setStreaks] = useState<Map<string, { name: string; n: number }>>(() => new Map());
+  const [voices, setVoices] = useState<Array<{ name: string; kind: 'right' | 'wrong'; option: number }> | null>(null);
   const roundStartRef = useRef<number>(0);
 
   // Mode timers: calm is roomy, rapid is short.
@@ -299,6 +302,7 @@ export function FlashQuizGame({
     setError(null);
     setScores(new Map()); scoresRef.current = new Map();
     setLives(new Map()); livesRef.current = new Map();
+    setStreaks(new Map());
     scoredAnswersRef.current = new Set();
     const count = isTrip ? 5 : mode === 'rapid' ? 15 : questionCount;
     const source = mode === 'ourclass' ? classSource : sourceMaterial;
@@ -331,6 +335,7 @@ export function FlashQuizGame({
     const question = questionsRef.current[index];
     if (!question) return;
     setRoundAnswers([]);
+    setVoices(null);
     const now = Date.now();
     roundStartRef.current = now;
     setRoundNonce(now);
@@ -376,6 +381,13 @@ export function FlashQuizGame({
         points: answer.isCorrect ? 3 : 1,
         responseData: { clientId: answer.clientId, questionIndex: currentIndexRef.current, choiceIndex: answer.choiceIndex, quizPoints: answer.pointsEarned, timeRemaining: answer.timeRemaining, mode: modeRef.current },
       });
+    });
+    setStreaks((prev) => {
+      const next = new Map<string, { name: string; n: number }>();
+      roundAnswersRef.current.forEach((a) => {
+        if (a.isCorrect) next.set(a.studentId, { name: a.displayName, n: (prev.get(a.studentId)?.n ?? 0) + 1 });
+      });
+      return next;
     });
     // Turbulence: a wrong answer (or no answer) costs a life.
     if (modeRef.current === 'turbulence') {
@@ -442,6 +454,22 @@ export function FlashQuizGame({
     return best && (best as { index: number; count: number }).count >= Math.ceil(totalAnswers * 0.3) ? best as { index: number; count: number } : null;
   })();
   const modeInfo = MODES.find((m) => m.key === mode)!;
+  const hotStreak = Array.from(streaks.values()).filter((x) => x.n >= 3).sort((a, b) => b.n - a.n)[0] ?? null;
+  // "Why?": one student who got it right explains; one who picked the popular wrong answer says why it looked right.
+  const askWhy = () => {
+    if (!currentQuestion) return;
+    const pick = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
+    const right = roundAnswers.filter((a) => a.isCorrect);
+    const wrongPool = mostPickedWrong ? roundAnswers.filter((a) => a.choiceIndex === mostPickedWrong.index) : roundAnswers.filter((a) => !a.isCorrect);
+    const out: Array<{ name: string; kind: 'right' | 'wrong'; option: number }> = [];
+    const r = right.length ? pick(right) : null;
+    if (r) out.push({ name: r.displayName, kind: 'right', option: r.choiceIndex });
+    const w = wrongPool.length ? pick(wrongPool) : null;
+    if (w) out.push({ name: w.displayName, kind: 'wrong', option: w.choiceIndex });
+    setVoices(out);
+  };
+  // Show the altitude board every 5 questions (and at the end); otherwise go straight on.
+  const boardDue = (currentIndex + 1) % 5 === 0 || currentIndex >= questions.length - 1;
   const header = (
     <div className="flex flex-wrap items-center justify-between gap-2">
       <span className="flex items-center gap-2">
@@ -547,8 +575,8 @@ export function FlashQuizGame({
             <Crown className="h-4 w-4" /> Boss question · double points
           </div>
         )}
-        <div className="rounded-3xl border border-white/12 bg-black/25 p-6">
-          <KitReadout className="text-2xl sm:text-3xl">{currentQuestion.question}</KitReadout>
+        <div className="rounded-3xl border border-white/12 bg-black/25 px-6 py-7">
+          <p className="text-center font-display text-3xl leading-snug text-white sm:text-4xl" style={{ textWrap: 'balance' }}>{currentQuestion.question}</p>
         </div>
         {answersOpenIn > 0 ? (
           <div className="flex flex-col items-center gap-1 py-8">
@@ -561,8 +589,8 @@ export function FlashQuizGame({
               const st = OPTION_STYLES[i];
               return (
                 <div key={i} className={`rounded-2xl border-2 p-4 ${st.bg} ${st.border}`}>
-                  <div className={`mb-1 font-mono text-xs font-black uppercase tracking-widest ${st.text}`}>{OPTION_LABELS[i]}</div>
-                  <div className="text-base font-semibold leading-snug text-white">{option}</div>
+                  <div className={`mb-1 font-mono text-sm font-black uppercase tracking-widest ${st.text}`}>{OPTION_LABELS[i]}</div>
+                  <div className="text-2xl font-semibold leading-snug text-white">{option}</div>
                 </div>
               );
             })}
@@ -597,8 +625,8 @@ export function FlashQuizGame({
         {accuracy !== null && (
           <KitLabel tone={accuracy >= 70 ? 'emerald' : accuracy >= 40 ? 'amber' : 'rose'}>{accuracy}% got it right</KitLabel>
         )}
-        <div className="rounded-2xl border border-white/12 bg-black/25 p-4">
-          <KitReadout>{currentQuestion.question}</KitReadout>
+        <div className="rounded-2xl border border-white/12 bg-black/25 px-5 py-4">
+          <p className="font-display text-2xl leading-snug text-white">{currentQuestion.question}</p>
         </div>
         <div className="space-y-2">
           {currentQuestion.options.map((option, i) => {
@@ -611,7 +639,7 @@ export function FlashQuizGame({
                 <div className="relative flex items-center justify-between px-4 py-3">
                   <span className="flex items-center gap-3">
                     <i className="h-2.5 w-2.5 rounded-full" style={{ background: OPTION_STYLES[i].dot }} />
-                    <span className={`text-sm font-medium ${right ? 'text-emerald-100' : 'text-white/85'}`}>{option}</span>
+                    <span className={`text-xl font-medium ${right ? 'text-emerald-100' : 'text-white/85'}`}>{option}</span>
                     {right && <span className="font-mono text-xs font-bold text-emerald-300">CORRECT</span>}
                   </span>
                   <span className="font-mono text-xs text-white/60">{count} ({barPct}%)</span>
@@ -626,10 +654,35 @@ export function FlashQuizGame({
             Many chose <strong>{OPTION_LABELS[mostPickedWrong.index]}</strong>: worth talking about why.
           </div>
         )}
-        <p className="rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm italic text-white/70">{currentQuestion.explanation}</p>
-        <KitButton tone="amber" solid className="w-full py-2.5 text-sm" icon={<Trophy className="h-4 w-4" />} onClick={showLeaderboard}>
-          {mode === 'teams' ? 'Team standings' : 'Altitude board'}
-        </KitButton>
+        <p className="rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-lg text-white/80">{currentQuestion.explanation}</p>
+        {hotStreak && (
+          <p className="flex items-center justify-center gap-2 text-lg text-amber-100"><Flame className="h-5 w-5 text-orange-400" /><span className="font-semibold">{hotStreak.name}</span> is on fire: {hotStreak.n} in a row!</p>
+        )}
+        {voices && (
+          <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="grid gap-2 sm:grid-cols-2">
+            {voices.length === 0 && <p className="text-center text-white/55 sm:col-span-2">Ask anyone: why is it {OPTION_LABELS[currentQuestion.correctIndex]}?</p>}
+            {voices.map((v) => (
+              <div key={v.name + v.kind} className={`rounded-2xl border p-4 text-center ${v.kind === 'right' ? 'border-emerald-300/40 bg-emerald-400/[0.07]' : 'border-amber-300/40 bg-amber-300/[0.07]'}`}>
+                <p className="font-display text-3xl">{v.name}</p>
+                <p className="mt-1 text-lg text-white/80">{v.kind === 'right' ? `Why is ${OPTION_LABELS[v.option]} right?` : `Why did ${OPTION_LABELS[v.option]} look right?`}</p>
+              </div>
+            ))}
+          </motion.div>
+        )}
+        <div className="flex flex-wrap gap-2">
+          <KitButton tone="amber" disabled={totalAnswers === 0} onClick={askWhy} icon={<MessageCircleQuestion className="h-3.5 w-3.5" />}>{voices ? 'Ask two others' : 'Ask why'}</KitButton>
+          <span className="flex-1" />
+          {boardDue ? (
+            <KitButton tone="amber" solid className="px-6 py-2.5 text-sm" icon={<Trophy className="h-4 w-4" />} onClick={showLeaderboard}>
+              {mode === 'teams' ? 'Team standings' : 'Altitude board'}
+            </KitButton>
+          ) : (
+            <>
+              <KitButton icon={<Trophy className="h-3.5 w-3.5" />} onClick={showLeaderboard}>Board</KitButton>
+              <KitButton tone="amber" solid className="px-6 py-2.5 text-sm" icon={<ChevronRight className="h-4 w-4" />} onClick={advance}>Next question ({currentIndex + 2}/{questions.length})</KitButton>
+            </>
+          )}
+        </div>
       </div>
     );
   }
