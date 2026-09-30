@@ -4,8 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, MonitorUp, Plane, QrCode, Search, Shuffle, Vote, X } from 'lucide-react';
-import { useStageWindow } from '@/components/session/live-room/stage-window';
+import { Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, Plane, QrCode, Search, Shuffle, Vote, X } from 'lucide-react';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
@@ -1244,16 +1243,8 @@ export function FlightDeck({
     );
   }
 
-  // Stage window: the windscreen lives in its own pop-out (shared in Zoom).
-  const stage = useStageWindow({ title: `${className} · Stage` });
-  const openStage = () => {
-    if (!stage.open()) flash('Allow pop-ups for LessonCaptain to open the Stage window.');
-    else flash('Stage window open. In Zoom, share that window.');
-  };
-
   const snapHosts: SnapHost[] = [
-    // While staged, the windscreen is in another window: its coordinates don't apply here.
-    ...(stage.isOpen ? [] : [{ id: 'wind', ref: windRef, anchors: SNAP_ANCHORS }]),
+    { id: 'wind', ref: windRef, anchors: SNAP_ANCHORS },
     ...(presenting ? [] : [
       { id: 'cargo', ref: cargoRef, anchors: ['tl', 'bl'] as SnapAnchor[] },
       { id: 'cabin', ref: cabinRef, anchors: ['tr', 'br'] as SnapAnchor[] },
@@ -1266,7 +1257,7 @@ export function FlightDeck({
       data-deck-drop="wind"
       className={[
         'overflow-hidden transition-[filter] duration-300',
-        stage.isOpen ? 'absolute inset-0 rounded-none' : presenting ? 'fixed inset-0 z-[60] rounded-none' : 'absolute inset-0 rounded-[30px_30px_18px_18px]',
+        presenting ? 'fixed inset-0 z-[60] rounded-none' : 'absolute inset-0 rounded-[30px_30px_18px_18px]',
         hot(hotZone, 'wind') ? 'brightness-110 saturate-125' : '',
       ].join(' ')}
       style={{ background: '#0b1a33' }}
@@ -1435,9 +1426,6 @@ export function FlightDeck({
             );
           })}
         </nav>
-        <button type="button" onClick={stage.isOpen ? stage.close : openStage} title="Open the windscreen in its own window to share in Zoom" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${stage.isOpen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
-          <MonitorUp className="h-3.5 w-3.5" /> {stage.isOpen ? 'Stage window open' : 'Stage window'}
-        </button>
         <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Maximize2 className="h-3.5 w-3.5" /> Present
         </button>
@@ -1522,22 +1510,9 @@ export function FlightDeck({
         <button type="button" onClick={() => setPanel(panel === 'sources' ? null : 'sources')} className="text-[11px] text-white/45 hover:text-white/80">or search here (class can see)</button>
       </aside>
 
-      {/* Windscreen (or, while staged, a note: it's in the Stage window) */}
+      {/* Windscreen */}
       <div className="relative min-h-0">
-        {stage.container ? (
-          <>
-            {createPortal(windscreen, stage.container)}
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-[30px_30px_18px_18px] border border-dashed border-sky-300/40 bg-[#0b1a33] p-6 text-center">
-              <MonitorUp className="h-8 w-8 text-sky-300" />
-              <p className="font-display text-2xl text-white">The stage is in its own window</p>
-              <p className="max-w-md text-sm text-white/65">In Zoom, share <b className="text-white">that window</b>, not your whole screen. Students see only the stage; everything here stays private.</p>
-              <div className="flex gap-2">
-                <button type="button" onClick={stage.focus} className="rounded-lg border border-sky-300/50 px-3 py-1.5 text-sm text-sky-100 hover:bg-sky-300/10">Show the Stage window</button>
-                <button type="button" onClick={stage.close} className="rounded-lg border border-white/20 px-3 py-1.5 text-sm text-white/80 hover:text-white">Bring it back here</button>
-              </div>
-            </div>
-          </>
-        ) : windscreen}
+        {windscreen}
         <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[30px_30px_18px_18px] shadow-[inset_0_0_0_6px_#121a2a,inset_0_0_40px_rgba(0,0,0,.35)]" />
         {panel === 'catalogue' && (
           <div className="absolute inset-y-3 right-3 z-30 flex w-[380px] flex-col overflow-hidden rounded-2xl border border-[#2A3854] bg-[#0c1322]/97 shadow-2xl">
