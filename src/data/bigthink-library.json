@@ -90,7 +90,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Harvard negotiation expert Sheila Heen explores what psychological research reveals about happiness — why we're bad at predicting what will make us happy, and what actually does.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bigthink_evolution_intelligence",
@@ -107,7 +109,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Michio Kaku traces the evolution of the human brain — from primates to modern Homo sapiens — and asks whether artificial intelligence could surpass us on the same evolutionary scale.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bigthink_reverse_unhappiness",
@@ -124,7 +128,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Positive psychology pioneer Tal Ben-Shahar shares the personal crisis that led him to study happiness — and the counterintuitive lessons about meaning, acceptance, and what makes life worthwhile.",
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bigthink_teenage_brain",
@@ -141,7 +147,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Robert Sapolsky explains the neuroscience behind teenage risk-taking — why adolescent brains are wired differently, how the prefrontal cortex develops, and what this means for how we treat young people.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bigthink_neuroscience_creativity",
@@ -158,7 +166,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Neuroscientist Beau Lotto reveals how the brain generates creative ideas — why uncertainty is essential for innovation, and how changing your perceptions can unlock new ways of thinking.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bigthink_growth_mindset",
@@ -175,6 +185,8 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Stanford psychologist Carol Dweck explains the difference between a fixed mindset and a growth mindset — and how believing your abilities can develop changes what you achieve.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   }
 ]
