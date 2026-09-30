@@ -37,6 +37,7 @@ import { OptionLetter, PhoneLabel, PhonePrompt, phoneOption } from '@/components
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { Phrasebook } from '@/components/student/phrase-card';
 import { useScreenWakeLock } from '@/components/student/use-screen-wake-lock';
+import { BoardingMoment } from '@/components/student/boarding-moment';
 import type { ReferenceVocabItem } from '@/lib/reference-materials';
 import {
   loadProgress,
@@ -1514,6 +1515,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   return (
     <StudentSkyShell weather="cruising">
+      <BoardingMoment
+        sessionId={sessionId}
+        name={studentSession.displayName}
+        seed={studentSession.avatarSeed ?? null}
+        seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)}
+      />
       <BoardingHeader
         name={studentSession.displayName}
         seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)}

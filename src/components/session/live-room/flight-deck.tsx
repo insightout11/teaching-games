@@ -7,6 +7,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, Plane, QrCode, Search, Shuffle, Vote, X } from 'lucide-react';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
+import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
 import { parseWouldYouRather } from '@/lib/live-room/talk-vote';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
@@ -630,6 +631,34 @@ export function FlightDeck({
     return new Set(scores.filter((s) => new Date(s.created_at).getTime() >= since).map((s) => s.student_id || s.client_id || ''));
   }, [scores, runningKey]);
   const seatCount = Math.max(12, Math.ceil((seated.length + 1) / 4) * 4);
+
+  // Boarding walk-up: students who join after the room opens walk across the
+  // tarmac and up the airstairs; their seat lights up as they step inside.
+  // (Anyone already aboard when the teacher opens/refreshes the room is seated.)
+  const roomOpenedAt = useRef(Date.now() - 5000);
+  const [walkingIds, setWalkingIds] = useState<Set<string>>(new Set());
+  const arrivals = useMemo<Boarder[]>(
+    () => seated
+      .filter((p) => new Date(p.joined_at).getTime() >= roomOpenedAt.current)
+      .map((p) => ({ id: p.id, name: p.display_name, seed: p.avatar_seed ?? null, late: flightStage !== 'gate' })),
+    // flightStage only matters at the moment someone arrives
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [seated],
+  );
+  const seenArrivals = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    const fresh = arrivals.filter((a) => !seenArrivals.current.has(a.id));
+    if (!fresh.length) return;
+    fresh.forEach((a) => seenArrivals.current.add(a.id));
+    setWalkingIds((prev) => new Set([...Array.from(prev), ...fresh.map((a) => a.id)]));
+  }, [arrivals]);
+  const onBoarded = useCallback((id: string) => {
+    setWalkingIds((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
+  }, []);
 
   // Raised hands: the speaking queue, oldest hand first.
   const [hands, setHands] = useState<Record<string, { name: string; at: number; seen: number }>>({});
@@ -1309,6 +1338,13 @@ export function FlightDeck({
         );
       })}
 
+      {/* Boarding walk-up: shows only while someone is walking up the airstairs (any view). */}
+      {!cinematic && !landed && walkingIds.size > 0 && (
+        <div className="pointer-events-none absolute inset-x-6 bottom-3 z-[15]">
+          <BoardingLane arrivals={arrivals.filter((a) => walkingIds.has(a.id))} onBoarded={onBoarded} />
+        </div>
+      )}
+
       {spotlightP && (
         <div className="absolute left-1/2 top-4 z-10 flex -translate-x-1/2 items-center gap-3 rounded-full border border-amber-300/60 bg-slate-950/75 py-1.5 pl-1.5 pr-4 backdrop-blur-md">
           <CrewAvatar seed={spotlightP.avatar_seed ?? spotlightP.display_name} name={spotlightP.display_name} size={34} className="rounded-full" />
@@ -1543,7 +1579,9 @@ export function FlightDeck({
             <div key={r} className="grid grid-cols-[1fr_1fr_12px_1fr_1fr] items-center gap-1.5">
               {[0, 1, -1, 2, 3].map((c) => {
                 if (c === -1) return <span key="aisle" className="text-center font-mono text-[8px] text-white/30">{r + 1}</span>;
-                const p = seated[r * 4 + c];
+                const occupant = seated[r * 4 + c];
+                // Still walking up the airstairs: the seat lights up when they step inside.
+                const p = occupant && !walkingIds.has(occupant.id) ? occupant : undefined;
                 const k = p ? keyOf(p) : '';
                 const lit = p && answered.has(k);
                 const spot = p && (spotlight === p.id || roulette === p.id);
