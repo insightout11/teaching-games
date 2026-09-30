@@ -27,7 +27,7 @@ import { DebatePrepPanel } from './debate-prep-panel';
 import { VALIDATION } from '@/lib/config/rate-limits';
 import { buildStandbyTipPool } from '@/lib/standby-tips';
 import { grammarReference } from '@/lib/grammar';
-import { Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, RadioTower, ClipboardCheck, Share2, Check, ChevronRight } from 'lucide-react';
+import { Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, RadioTower, ClipboardCheck, Check, ChevronRight } from 'lucide-react';
 import { openHandChannel, HAND_HEARTBEAT_MS } from '@/lib/live-room/hands';
 import { openWordBankChannel } from '@/lib/live-room/word-bank';
 import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
@@ -36,6 +36,7 @@ import { ActionBar, BoardingHeader, PhoneSheet, type PhoneStatus } from '@/compo
 import { OptionLetter, PhoneLabel, PhonePrompt, phoneOption } from '@/components/student/phone-kit';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { Phrasebook } from '@/components/student/phrase-card';
+import { LandingCard } from '@/components/student/landing-card';
 import { useScreenWakeLock } from '@/components/student/use-screen-wake-lock';
 import { BoardingMoment } from '@/components/student/boarding-moment';
 import type { ReferenceVocabItem } from '@/lib/reference-materials';
@@ -49,7 +50,6 @@ import {
   type SessionProgress,
   type UsedHistory,
 } from '@/lib/phrasebook-progress';
-import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
 import { LatestRequestGate } from '@/lib/latest-request-gate';
@@ -1407,108 +1407,28 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   if (!sessionActive) {
     return (
       <StudentSkyShell weather="landing" center>
-        <div className="glass rounded-3xl p-8 w-full max-w-md text-center space-y-6">
-          <div>
-            <PlaneLanding className="mx-auto mb-3 h-10 w-10 text-cyan-300" strokeWidth={1.5} aria-hidden />
-            <h1 className="text-2xl font-bold text-white">You&apos;ve landed!</h1>
-            <p className="font-instrument mt-1 text-[11px] uppercase tracking-[0.2em] text-amber-300/70">Flight complete · great work today</p>
+        {personalResults || (referenceVocab && referenceVocab.length > 0) ? (
+          <LandingCard
+            name={studentSession.displayName}
+            seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)}
+            avatarSeed={studentSession.avatarSeed ?? null}
+            topic={sessionTopic}
+            results={personalResults}
+            words={(referenceVocab ?? []).map((item) => ({ item, state: phraseState(phraseProgress, phraseHistory, item.word, sessionId) }))}
+            debriefUrl={debriefUrl}
+            shareCopied={shareCopied}
+            onShare={handleShare}
+          />
+        ) : (
+          <div className="glass w-full max-w-md space-y-3 rounded-3xl p-8 text-center">
+            <PlaneLanding className="mx-auto h-10 w-10 text-cyan-300" strokeWidth={1.5} aria-hidden />
+            <h1 className="font-display text-3xl text-white">You&apos;ve landed!</h1>
+            <p className="text-sm text-gray-400">This session is no longer active.</p>
           </div>
-
-          {personalResults ? (
-            <>
-              {/* Stat tiles */}
-              <div className={`grid gap-3 ${
-                personalResults.accuracy !== null && personalResults.bestStreak >= 2
-                  ? 'grid-cols-3'
-                  : personalResults.accuracy !== null || personalResults.bestStreak >= 2
-                  ? 'grid-cols-2'
-                  : 'grid-cols-1'
-              }`}>
-                <div
-                  className="bg-white/5 rounded-2xl p-4 animate-passport-stamp"
-                  style={{ '--stamp-rotation': '-1.6deg', animationDelay: '0.25s' } as React.CSSProperties}
-                >
-                  <p className="text-2xl font-bold text-cyan-400">{personalResults.totalPoints}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">Points</p>
-                </div>
-                {personalResults.accuracy !== null && (
-                  <div
-                    className="bg-white/5 rounded-2xl p-4 animate-passport-stamp"
-                    style={{ '--stamp-rotation': '1.4deg', animationDelay: '0.41s' } as React.CSSProperties}
-                  >
-                    <p className={`text-2xl font-bold ${
-                      personalResults.accuracy >= 80 ? 'text-emerald-400'
-                      : personalResults.accuracy >= 50 ? 'text-amber-400'
-                      : 'text-red-400'
-                    }`}>{personalResults.accuracy}%</p>
-                    <p className="text-xs text-gray-400 mt-0.5">Accuracy</p>
-                  </div>
-                )}
-                {personalResults.bestStreak >= 2 && (
-                  <div
-                    className="bg-white/5 rounded-2xl p-4 animate-passport-stamp"
-                    style={{ '--stamp-rotation': '-1.2deg', animationDelay: '0.57s' } as React.CSSProperties}
-                  >
-                    <p className="flex items-center justify-center gap-1 text-2xl font-bold text-orange-400">
-                      <Flame className="h-5 w-5" aria-hidden />
-                      {personalResults.bestStreak}
-                    </p>
-                    <p className="text-xs text-gray-400 mt-0.5">Best Streak</p>
-                  </div>
-                )}
-              </div>
-
-              {/* Rank — suppressed when the student is the only participant ("#1 of 1" is hollow) */}
-              {personalResults.rank !== null &&
-                personalResults.totalParticipants !== null &&
-                personalResults.totalParticipants > 1 && (
-                <p className="text-sm text-gray-300">
-                  You ranked <span className="font-bold text-white">#{personalResults.rank}</span> of {personalResults.totalParticipants} students
-                </p>
-              )}
-
-              {/* Words from this lesson — review on the device, not just the take-home page */}
-              {referenceVocab && referenceVocab.length > 0 && (
-                <div className="text-left">
-                  <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-2">Words from this lesson</p>
-                  <div className="space-y-1.5">
-                    {referenceVocab.map((item) => (
-                      <div key={item.word} className="rounded-lg bg-white/5 px-3 py-2">
-                        <span className="text-sm font-semibold text-cyan-400">{item.word}</span>
-                        <span className="text-gray-400 text-xs"> — {item.definition}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Capture & share — the link is the durable save; QR makes it portable */}
-              {debriefUrl && (
-                <div className="space-y-3 pt-1">
-                  <button
-                    onClick={handleShare}
-                    className="inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-400/10 px-5 py-2 text-sm font-medium text-cyan-200 transition-colors hover:bg-cyan-400/20"
-                  >
-                    {shareCopied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
-                    {shareCopied ? 'Link copied' : 'Share my results'}
-                  </button>
-                  <div className="flex flex-col items-center gap-1.5">
-                    <div className="rounded-xl bg-white p-2.5">
-                      <QRCodeSVG value={debriefUrl} size={108} bgColor="#ffffff" fgColor="#0a1f3a" />
-                    </div>
-                    <p className="text-[11px] text-gray-500">Scan or bookmark to reopen later</p>
-                  </div>
-                </div>
-              )}
-            </>
-          ) : (
-            <p className="text-gray-400 text-sm">This session is no longer active.</p>
-          )}
-
-          <Button onClick={onLeave} variant="ghost">
-            Back
-          </Button>
-        </div>
+        )}
+        <Button onClick={onLeave} variant="ghost" className="mt-3">
+          Back
+        </Button>
       </StudentSkyShell>
     );
   }
