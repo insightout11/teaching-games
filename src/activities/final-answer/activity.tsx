@@ -1,9 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { motion } from 'framer-motion';
+import { Check, Eye, EyeOff, Mic, PenLine, Star } from 'lucide-react';
 import type { ActivityProps } from '../types';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import type { FinalAnswerContent } from '../types';
-import { scoreAllHeuristic, FINAL_ANSWER_WEIGHTS, getImprovementTip, getDimensionBreakdown, getDisplayScore } from '@/lib/landing-scorer';
+import { scoreAllHeuristic, FINAL_ANSWER_WEIGHTS } from '@/lib/landing-scorer';
 import type { LandingScore } from '@/lib/landing-scorer';
 
 type Phase = 'idle' | 'collecting' | 'scoring' | 'highlights';
@@ -21,45 +24,6 @@ const BONUS_POINTS: Record<string, number> = {
   'Best Vocabulary': 2,
   'Clear Answer': 2,
 };
-
-const TAG_LABELS: Record<string, string> = {
-  used_target_vocab: 'Target vocab',
-  clear_complete_answer: 'Complete',
-  detailed_response: 'Detailed',
-  on_topic: 'On topic',
-  creative_language: 'Creative',
-};
-
-function ReasonTag({ tag }: { tag: string }) {
-  return (
-    <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">
-      {TAG_LABELS[tag] ?? tag}
-    </span>
-  );
-}
-
-function ScoreBreakdown({ score }: { score: LandingScore }) {
-  const breakdown = getDimensionBreakdown(score);
-  const tip = getImprovementTip(score);
-  const display = getDisplayScore(score);
-  return (
-    <div className="mt-3 space-y-2">
-      <div className="flex items-baseline gap-2">
-        <span className="text-xl font-game text-teal-400">{display}</span>
-        <span className="text-xs opacity-50">/ 40</span>
-      </div>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-0.5">
-        {breakdown.map((d) => (
-          <div key={d.label} className="flex items-center justify-between text-xs opacity-70">
-            <span>{d.label}</span>
-            <span className="font-semibold">{d.value}<span className="opacity-50">/10</span></span>
-          </div>
-        ))}
-      </div>
-      <p className="text-xs opacity-60 italic">&ldquo;{tip}&rdquo;</p>
-    </div>
-  );
-}
 
 export function FinalAnswerActivity({
   sessionSettings,
@@ -81,6 +45,8 @@ export function FinalAnswerActivity({
   const [scoreSource, setScoreSource] = useState<'ai' | 'heuristic'>('heuristic');
   const [timeLeft, setTimeLeft] = useState(0);
   const [scoring, setScoring] = useState(false);
+  const [peek, setPeek] = useState(false);
+  const [readIdx, setReadIdx] = useState<number | null>(null);
 
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
@@ -220,207 +186,115 @@ export function FinalAnswerActivity({
   }, [onPhaseChange]);
 
   const submissionCount = Object.keys(submissions).length;
-  const isSpotlight = scores.length === 1;
+  const standouts = scores.filter((sc) => sc.suggestedLabel && submissions[sc.clientId]);
+  // One submission: it's the spotlight. Otherwise the labelled standouts.
+  const spotlight = scores.length === 1 ? scores : standouts;
+  const rest = scores.filter((sc) => !spotlight.includes(sc) && submissions[sc.clientId]);
+  const title = hasMissions ? 'Mission Debrief' : 'Final Answer';
+
+  const promptCard = (
+    <div className="rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-7 text-center">
+      <p className="font-display text-4xl leading-snug text-white" style={{ textWrap: 'balance' }}>{hasMissions ? 'Answer your mission question' : content.prompt}</p>
+      {!hasMissions && content.sentenceStarter && <p className="mt-3 text-lg text-white/70">Start with: <span className="text-teal-200">{content.sentenceStarter}</span></p>}
+      {content.targetKeywords.length > 0 && (
+        <div className="mt-4 flex flex-wrap justify-center gap-2">
+          {content.targetKeywords.map((kw) => <span key={kw} className="rounded-full border border-teal-300/40 bg-teal-400/10 px-3 py-1 text-base text-teal-100">{kw}</span>)}
+        </div>
+      )}
+    </div>
+  );
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
+    <div className="mx-auto max-w-4xl space-y-5 text-white">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-teal-400">{hasMissions ? 'Mission Debrief' : 'Final Answer'}</h3>
-        {phase === 'collecting' && (
-          <span className="text-sm opacity-60">{submissionCount} submitted</span>
-        )}
+        <KitLabel tone="emerald">{title}</KitLabel>
+        {phase === 'collecting' && <KitReadout>{submissionCount} submitted</KitReadout>}
       </div>
 
-      {/* IDLE */}
       {phase === 'idle' && (
-        <div className="space-y-6">
-          {hasMissions ? (
-            <div className="glass p-5 rounded-2xl space-y-3">
-              <p className="text-xl font-semibold">Mission Debrief</p>
-              <p className="text-sm opacity-70">Each student will answer their personal mission</p>
-              <p className="text-xs opacity-50">{Object.keys(studentMissions).length} mission{Object.keys(studentMissions).length !== 1 ? 's' : ''} assigned</p>
-              {content.targetKeywords.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {content.targetKeywords.map((kw) => (
-                    <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="glass p-5 rounded-2xl space-y-3">
-              <p className="text-xl font-semibold">{content.prompt}</p>
-              {content.sentenceStarter && (
-                <p className="text-sm opacity-60">Starter: <em>{content.sentenceStarter}</em></p>
-              )}
-              <div className="flex flex-wrap gap-2 pt-1">
-                {content.targetKeywords.map((kw) => (
-                  <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
-                ))}
-              </div>
-            </div>
-          )}
-          {!hasMissions && content.exampleAnswer && (
-            <div className="glass p-4 rounded-xl border border-teal-500/20 space-y-1">
-              <p className="text-xs opacity-50 uppercase tracking-widest">Model answer (teacher only)</p>
-              <p className="text-sm opacity-80 italic">{content.exampleAnswer}</p>
-            </div>
-          )}
-          <div className="text-center">
-            <button
-              onClick={handleStart}
-              className="px-12 py-6 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
-            >
-              START
-            </button>
+        <div className="space-y-5">
+          {hasMissions && <p className="text-center text-lg text-white/70">{Object.keys(studentMissions!).length} students answer their personal mission question.</p>}
+          {promptCard}
+          <div className="flex items-center justify-center gap-3">
+            {!hasMissions && content.exampleAnswer && (
+              // Teacher-only: the class can see this screen, so the model answer is hold-to-peek.
+              <button type="button" onPointerDown={() => setPeek(true)} onPointerUp={() => setPeek(false)} onPointerLeave={() => setPeek(false)} className="flex max-w-md items-center gap-1.5 rounded-full border border-white/12 px-3 py-1.5 text-xs text-white/60 hover:text-white">
+                {peek ? <><Eye className="h-3.5 w-3.5 shrink-0" /><span className="truncate">{content.exampleAnswer}</span></> : <><EyeOff className="h-3.5 w-3.5" />Hold to peek at a model answer</>}
+              </button>
+            )}
+            <KitButton tone="emerald" solid onClick={handleStart} className="!px-8 !py-3 !text-base" icon={<PenLine className="h-4 w-4" />}>Everyone writes</KitButton>
           </div>
         </div>
       )}
 
-      {/* COLLECTING */}
       {phase === 'collecting' && (
-        <div className="space-y-6">
-          <div className="glass p-5 rounded-2xl border-2 border-teal-500/30">
-            <p className="text-xl font-semibold">{hasMissions ? 'Mission Debrief' : content.prompt}</p>
-            {hasMissions ? (
-              <p className="text-sm opacity-70 mt-2">Students are answering their missions</p>
-            ) : (
-              content.sentenceStarter && (
-                <p className="text-sm opacity-60 mt-2">Starter: <em>{content.sentenceStarter}</em></p>
-              )
-            )}
-            {content.targetKeywords.length > 0 && (
-              <div className="flex flex-wrap gap-2 pt-2">
-                {content.targetKeywords.map((kw) => (
-                  <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className={`text-3xl font-game ${timeLeft <= 10 ? 'text-red-400' : 'text-teal-400'}`}>
-                {timeLeft}s
-              </div>
-              <button onClick={() => setTimeLeft(prev => prev + 30)} className="px-2 py-1 rounded-lg text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10">+30s</button>
-              <div className="text-sm opacity-50">{submissionCount} submitted</div>
-            </div>
-            <button
-              onClick={handleLock}
-              className="px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              LOCK &amp; SCORE
-            </button>
+        <div className="space-y-5">
+          {promptCard}
+          <div className="flex items-center gap-4">
+            <span className={`font-mono text-3xl ${timeLeft <= 10 ? 'text-rose-300' : ''}`}>{timeLeft}s</span>
+            <KitButton onClick={() => setTimeLeft((prev) => prev + 30)}>+30s</KitButton>
+            <p className="font-display text-3xl">{submissionCount}<span className="text-lg text-white/50"> written</span></p>
+            <span className="flex-1" />
+            <KitButton tone="emerald" solid onClick={() => void handleLock()} className="!px-6 !py-2.5 !text-sm" icon={<Check className="h-4 w-4" />}>Done writing</KitButton>
           </div>
         </div>
       )}
 
-      {/* SCORING */}
       {phase === 'scoring' && (
-        <div className="text-center py-16 space-y-4">
-          {scoring && <div className="w-8 h-8 border-4 border-teal-400 border-t-transparent rounded-full animate-spin mx-auto" />}
-          <p className="text-lg opacity-70">Scoring responses…</p>
+        <div className="space-y-4 py-16 text-center">
+          {scoring && <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-teal-400 border-t-transparent" />}
+          <p className="text-lg text-white/70">Finding the standout answers…</p>
         </div>
       )}
 
-      {/* HIGHLIGHTS */}
       {phase === 'highlights' && (
         <div className="space-y-5">
-          <p className="text-sm opacity-50">
-            {scores.length} response{scores.length !== 1 ? 's' : ''} · scored by {scoreSource === 'ai' ? 'smart scoring' : 'heuristic'}
-          </p>
-          {content.targetKeywords.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs opacity-40 uppercase tracking-widest">Target vocab</span>
-              {content.targetKeywords.map((kw) => (
-                <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
-              ))}
-            </div>
-          )}
-
-          {/* Spotlight Mode — single submission */}
-          {isSpotlight && scores[0] && (() => {
-            const score = scores[0];
-            const sub = submissions[score.clientId];
-            if (!sub) return null;
-            const mission = studentMissions?.[score.clientId];
-            return (
-              <div className="glass p-6 rounded-2xl border-2 border-teal-400 shadow-lg shadow-teal-500/20 space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-semibold">⭐ Spotlight Response</span>
-                </div>
-                {mission && (
-                  <p className="text-xs text-teal-300 opacity-70 italic">
-                    Mission: &ldquo;{mission}&rdquo;
-                  </p>
-                )}
-                <p className="font-semibold text-sm opacity-70">{sub.displayName}</p>
-                <p className="text-lg leading-snug">{sub.text}</p>
-                <ScoreBreakdown score={score} />
-                {score.reasonTags.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {score.reasonTags.map((tag) => <ReasonTag key={tag} tag={tag} />)}
-                  </div>
-                )}
-                <div className="mt-3 px-4 py-2 rounded-xl bg-teal-500/10 border border-teal-500/20">
-                  <p className="text-xs text-teal-300">Read this response aloud to close the lesson.</p>
-                </div>
-              </div>
-            );
-          })()}
-
-          {/* Normal card list */}
-          {!isSpotlight && (
+          {spotlight.length > 0 ? (
             <div className="space-y-3">
-              {scores.map((score) => {
-                const sub = submissions[score.clientId];
+              <KitLabel tone="amber">{spotlight.length === 1 && scores.length === 1 ? 'Spotlight' : 'Standout answers'}</KitLabel>
+              {spotlight.map((sc, i) => {
+                const sub = submissions[sc.clientId];
                 if (!sub) return null;
-                const mission = studentMissions?.[score.clientId];
+                const reading = readIdx === i;
+                const mission = studentMissions?.[sc.clientId];
                 return (
-                  <div
-                    key={score.clientId}
-                    className="w-full text-left glass p-4 rounded-2xl border-2 border-white/10"
-                  >
-                    {mission && (
-                      <p className="text-xs text-teal-300 opacity-70 mb-2 italic">
-                        Mission: &ldquo;{mission}&rdquo;
-                      </p>
-                    )}
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-sm opacity-70 mb-1">{sub.displayName}</p>
-                        <p className="text-base leading-snug">{sub.text}</p>
-                      </div>
+                  <motion.div key={sc.clientId} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0, scale: reading ? 1.02 : 1 }} transition={{ delay: i * 0.12 }} className={`rounded-2xl border-2 p-5 ${reading ? 'border-amber-300 bg-amber-300/10' : 'border-teal-300/40 bg-teal-400/[0.06]'}`}>
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="flex items-center gap-2 font-display text-2xl">{sub.displayName}</p>
+                      {sc.suggestedLabel && <span className="flex items-center gap-1 rounded-full border border-amber-300/50 bg-amber-300/10 px-3 py-1 text-sm text-amber-100"><Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />{sc.suggestedLabel}</span>}
                     </div>
-                    <ScoreBreakdown score={score} />
-                    {(score.reasonTags.length > 0 || score.suggestedLabel) && (
-                      <div className="flex flex-wrap gap-1.5 mt-2">
-                        {score.reasonTags.map((tag) => <ReasonTag key={tag} tag={tag} />)}
-                        {score.suggestedLabel && (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-semibold">
-                            ⭐ {score.suggestedLabel}
-                          </span>
-                        )}
-                      </div>
-                    )}
-                  </div>
+                    {mission && <p className="mt-1 text-sm italic text-teal-200">Mission: &ldquo;{mission}&rdquo;</p>}
+                    <p className="mt-2 text-2xl leading-snug">{sub.text}</p>
+                    {reading && <p className="mt-3 flex items-center gap-2 text-lg text-amber-100"><Mic className="h-5 w-5" />{sub.displayName}, read yours aloud!</p>}
+                  </motion.div>
                 );
               })}
+              <div className="flex justify-center">
+                <KitButton tone="amber" onClick={() => setReadIdx((i) => (i === null ? 0 : i + 1 < spotlight.length ? i + 1 : null))} icon={<Mic className="h-3.5 w-3.5" />}>
+                  {readIdx === null ? 'Read them aloud' : readIdx + 1 < spotlight.length ? 'Next reader' : 'Done reading'}
+                </KitButton>
+              </div>
+            </div>
+          ) : scores.length > 0 ? (
+            <p className="text-center text-white/60">Everyone wrote an answer. Pick a few to read aloud!</p>
+          ) : null}
+
+          {rest.length > 0 && (
+            <div className="space-y-2">
+              <KitLabel>Everyone&apos;s answers</KitLabel>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {rest.map((sc) => (
+                  <p key={sc.clientId} className="rounded-xl border border-white/10 bg-slate-950/40 px-4 py-3 text-lg leading-snug">{submissions[sc.clientId]?.text}</p>
+                ))}
+              </div>
             </div>
           )}
 
-          {scores.length === 0 && (
-            <p className="text-center opacity-50 py-8">No submissions to display.</p>
-          )}
+          {scores.length === 0 && <p className="py-8 text-center text-white/50">No answers this time.</p>}
+          <p className="text-center font-mono text-[11px] text-white/35">{scores.length} answer{scores.length !== 1 ? 's' : ''} · standouts picked by {scoreSource === 'ai' ? 'smart scoring' : 'quick scoring'}</p>
 
           <div className="flex justify-end">
-            <button
-              onClick={handleDone}
-              className="px-8 py-3 bg-gradient-to-r from-teal-500 to-emerald-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              DONE
-            </button>
+            <KitButton tone="emerald" solid onClick={handleDone}>Done</KitButton>
           </div>
         </div>
       )}
