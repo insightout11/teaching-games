@@ -47,3 +47,5 @@ px tsc --noEmit -p . pass · needsReview added only where source text is too lim
 - 2026-09-30 · metadata batch 10 · +20 (ted-library.json, teded-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
 
 - 2026-09-30 · metadata batch 11 · +20 (teded-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
+
+- 2026-09-30 · metadata batch 12 · +20 (teded-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.

@@ -431,7 +431,9 @@
     "difficultyLevel": "Advanced",
     "description": "Colm Kelleher traces the 300-year scientific debate about the nature of light — and reveals why the answer is more mind-bending than either side expected.",
     "summary": "For over 300 years, physicists argued about the fundamental nature of light: is it a *wave* or a stream of *particles*? The answer — reached only in the 20th century — turned out to be 'both, and neither', and in the process it revolutionised physics.\n\nIsaac *Newton* championed the particle camp, observing that light travels in straight lines and reflects like a ball bouncing off a wall — his *corpuscular theory*.\n\nThe wave camp gained ground when Thomas *Young* conducted the famous *double-slit experiment* (1801): light passed through two narrow slits produced alternating bands of light and dark on a screen — the classic *interference pattern* of overlapping waves. This seemed to settle it: light was a wave.\n\nThe 20th century reopened the debate. *Max Planck* discovered that light energy was *quantised* — released in discrete packets called *quanta*. *Einstein* then explained the *photoelectric effect* — light knocking electrons off metal surfaces — by treating light as particles (*photons*). He won the Nobel Prize for this in 1921.\n\nBut here's where it gets strange: the double-slit experiment works even when photons are fired *one at a time*. Each single photon somehow interferes with itself, as if passing through both slits simultaneously. This is *wave-particle duality* at the heart of *quantum mechanics*: particles of light (and matter) behave as waves when not observed and as particles when they are. The act of *measurement* determines which behaviour appears.\n\nKey vocabulary: *photon, wave-particle duality, interference, quantum, double-slit experiment, measurement, uncertainty, Planck, Einstein, frequency*. A fascinating window into the history of science and the genuinely strange nature of reality at small scales.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "teded_what_is_entropy",
@@ -454,7 +456,9 @@
     "difficultyLevel": "Advanced",
     "description": "Jeff Phillips explains entropy — one of the most fundamental and counterintuitive concepts in physics — and why the universe is always moving toward disorder.",
     "summary": "Why does a hot cup of coffee cool down rather than heat up? Why does a broken egg never un-break? Why do things always seem to get messier over time? The answer lies in one of the most fundamental principles in all of physics: *entropy*.\n\nEntropy measures the number of *microscopic arrangements* that correspond to a given *macroscopic state*. A hot coffee cup has its molecules moving fast and concentrated; there are relatively *few* arrangements of molecules producing this tidy state. As the coffee cools and heat spreads into the room, the molecules spread out — and there are vastly more arrangements that produce this uniform, spread-out state.\n\nThis is why the *Second Law of Thermodynamics* holds: isolated systems tend toward states with more possible *microstates* — higher entropy — simply because they are *statistically* overwhelmingly more probable. It is not that nature 'prefers' disorder in any purposeful sense; disordered states are almost incomprehensibly more numerous than ordered ones.\n\nThe implications are extraordinary. Entropy explains the *arrow of time* — why time moves forward but not backward, why the past is fixed and the future is open. It explains why *perpetual motion machines* are impossible. It explains why the universe will eventually reach a state of *heat death* — maximum entropy, no usable energy, no change.\n\nYet entropy is not simply destruction: the flow from high-energy, low-entropy states to high-entropy states is what *powers* virtually all processes in the universe — from stars burning to organisms metabolising food.\n\nKey vocabulary: *entropy, microstate, macrostate, thermodynamics, disorder, statistical, arrow of time, equilibrium, heat death, probability*. A challenging but rewarding physics lesson that connects to philosophy, cosmology, and everyday experience.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "teded_how_memories_can_be_manipulated",
@@ -471,7 +475,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Based on Elizabeth Loftus's landmark research, this lesson reveals that memory is not a recording — it is a reconstructive process that can be changed by suggestion, emotion, and time.",
     "summary": "We tend to think of memory as a *recording* — a faithful video of the past we can play back. Decades of research, led by psychologist *Elizabeth Loftus*, have dismantled this assumption entirely. Memory is a *reconstruction* — and every time you remember something, you subtly change it.\n\nWhen you form a memory, your brain doesn't store a perfect snapshot. It encodes a *gist* of the experience and fills in the rest with *inference*, *expectation*, and *context*. When you later retrieve the memory, you are rebuilding it — filling gaps with what 'must have' happened. This makes memory *flexible*, *adaptive* — and *vulnerable*.\n\nLoftus's most famous experiments demonstrate the *misinformation effect*: when people witness an event and are later given incorrect information about it, they often incorporate that false information into their memories. In a classic study, participants watched a car accident video. When asked 'How fast were the cars going when they *smashed*?' they gave higher speed estimates than those asked 'How fast when they *hit*?' — and were more likely to falsely 'remember' seeing broken glass (there was none). A single word changed what people *remembered*.\n\nThe implications are profound. *Eyewitness testimony* — long considered among the most compelling evidence in criminal trials — is now understood to be highly unreliable. Studies of *wrongful conviction* cases find that eyewitness misidentification is the leading contributing factor.\n\nMost startlingly, Loftus demonstrated that entirely *false memories* can be *implanted* in some people — including detailed 'memories' of childhood events that never happened.\n\nKey vocabulary: *reconstructive memory, misinformation effect, encoding, retrieval, eyewitness testimony, suggestion, false memory, implantation, confabulation, reliability*. A psychology lesson with significant implications for law, journalism, and personal identity.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_power_of_creative_constraints",
@@ -488,7 +494,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Brandon Rodriguez argues that creativity doesn't flourish despite constraints — it flourishes because of them.",
     "summary": "We tend to assume that creativity requires complete freedom — blank pages, no deadlines, unlimited options. But this TED-Ed video by Brandon Rodriguez makes a counterintuitive argument: *creative constraints* are not enemies of creativity. They are often its most powerful catalyst.\n\nComposer Igor Stravinsky argued that 'the more constraints one imposes, the more one frees oneself.' Freedom, he suggested, is *paralysing*. When everything is possible, nothing is compelled. Constraint forces the brain to work *around* the obstacle — and working around obstacles is, neurologically, what creativity actually is.\n\nPsychologist Patricia Stokes studied Picasso's career and found that his most innovative periods occurred precisely when he *imposed strict constraints* on himself — deciding to paint only in blues, or to eliminate all but geometric forms. Each constraint forced him to solve visual problems he had never needed to solve before, generating genuinely new approaches.\n\nResearch by Catrinel Haught-Tromp demonstrated that *bizarre constraints* force the brain out of its default thinking pathways — what psychologists call *functional fixedness* — the tendency to approach problems in familiar ways. When familiar approaches are blocked, novel ones emerge.\n\nFamous examples: the *sonnet* form (14 lines, specific rhyme scheme) has produced some of English literature's most celebrated poems. *Twitter's* original 140-character limit forced a new genre of communication. *Dogme 95* (a filmmaking movement banning special effects and artificial lighting) produced raw, emotionally powerful films.\n\nFor learners and educators, the implication is direct: the right constraint — a specific format, a time limit, a strange restriction — can unlock creative work that open-ended assignments fail to produce.\n\nKey vocabulary: *constraint, creative, functional fixedness, innovation, paradox, default, neurological, novel, catalyst, restriction*. An inspiring lesson about the unexpected relationship between limitation and imagination.",
-    "genre": "opinion"
+    "genre": "opinion",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_why_do_cats_act_so_weird",
@@ -504,7 +512,9 @@
     "difficultyLevel": "Beginner",
     "description": "Tony Buffington uses evolutionary biology to explain the seemingly bizarre behaviours of domestic cats — from knocking things off shelves to 'gifts' of dead animals.",
     "summary": "Cats are the world's most popular pet — and arguably the most *enigmatic*. They seem simultaneously cuddly and indifferent, playful and aloof, affectionate and brutal. This TED-Ed video by Tony Buffington explains apparently strange cat behaviour through *evolutionary biology* — revealing that cats are not weird, they are simply optimised for a very different environment than the one most of them actually live in.\n\nAll domestic cats are descended from *Near Eastern wildcats* (*Felis silvestris lybica*), with domestication beginning roughly 10,000 years ago — almost certainly because early agricultural communities offered rodents near human grain stores. Unlike dogs, which have been selectively bred for thousands of years to be *cooperative* with humans, cats self-domesticated. Their *genome* remains very close to their wild ancestors.\n\nThis explains many puzzling behaviours. *Knocking objects off tables* activates the same predatory *stalking and striking* behaviour used to stun prey — cats are hardwired to bat at and manipulate objects of interest. The bringing of *'gifts' of dead animals* is a teaching behaviour: in the wild, mother cats bring prey to kittens to teach hunting skills. A domestic cat is trying, in its own way, to teach you.\n\n*Marking territory* — scratching furniture, rubbing faces on objects — is a communication system for *solitary* animals whose home ranges may overlap. Domestic cats often live in far higher *population density* than their wild ancestors ever encountered, and many stress behaviours (hiding, aggression, over-grooming) are responses to this social pressure.\n\nCats' famous *aloofness* is simply the default social style of a solitary hunter: they have not evolved the strong pack-bonding instincts of dogs. Their affection, when displayed, is *chosen*, not *obligatory*.\n\nKey vocabulary: *domestication, genome, predatory, territorial, solitary, evolutionary biology, wildcat, instinct, hunting, behaviour*. A light and fascinating biology lesson revealing science hidden in everyday observation.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_what_makes_a_poem",
@@ -521,7 +531,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Melissa Kovacs asks the deceptively hard question of what defines poetry — and explores how form, sound, and meaning work together in ways that prose cannot.",
     "summary": "Poetry is one of the oldest human art forms — predating written language — yet it remains stubbornly difficult to define. When does a piece of writing become a poem rather than just a short paragraph? This TED-Ed video by Melissa Kovacs explores the qualities that distinguish poetry from other forms of language.\n\nThe most obvious element is *line breaks*. Unlike prose, poetry breaks its lines at deliberate points — creating *pauses*, *emphasis*, and double meanings. A line break can make a single phrase mean two different things simultaneously. The white space around a poem is not emptiness — it is part of the meaning.\n\nSound is central to poetry in a way it is not to prose. *Rhythm* — the pattern of stressed and unstressed syllables — gives many poems a physical, almost musical quality. *Rhyme* creates expectation and satisfaction. Beyond rhyme, poetry uses subtler sound devices: *alliteration* (repeated initial consonants), *assonance* (repeated vowel sounds), and *consonance* (repeated consonant patterns within words). These are not decorations — in poetry, *how something sounds* contributes to what it means.\n\nPoetry also exploits *compression* and *ambiguity* in ways prose typically avoids. A single image in a poem can carry more emotional weight than paragraphs of explanation. Poetry asks the reader to bring *active interpretation*: to sit with the ambiguity, to follow the emotional logic rather than the explanatory logic.\n\n*Free verse* (poetry without regular metre or rhyme) dominates modern poetry — but freedom from traditional form creates its own demands. Without metre or rhyme to guide the reader, every word choice, every line break, every white space must carry its weight.\n\nKey vocabulary: *line break, rhythm, rhyme, alliteration, assonance, metre, free verse, compression, ambiguity, imagery*. A rich lesson for language learners exploring literature and creative writing.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_why_is_glass_transparent",
@@ -537,7 +549,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Mark Miodownik explains the quantum mechanics behind why glass lets light through — and why most materials don't.",
     "summary": "Glass is everywhere — in our windows, our phones, our glasses — yet it has a property that should seem remarkable: you can see right through it. Most solid materials are *opaque*; they block light. What makes glass different? The answer requires *quantum mechanics*.\n\nLight is made of *photons* — particles of electromagnetic energy. When a photon encounters matter, one of three things can happen: it is *absorbed* (energy taken up by the material), *reflected* (bounced back), or *transmitted* (passes through). What happens depends on the *energy* of the photon and the *atomic structure* of the material.\n\nAtoms can only absorb photons of specific energies — the exact energies required to *jump their electrons* to higher *energy levels* (called *quantum states*). When a photon's energy exactly matches the gap between two electron energy levels, it can be absorbed. When the photon's energy doesn't match any available gap, it cannot be absorbed and passes straight through.\n\nIn most metals and opaque materials, electrons have many closely spaced energy levels — an almost continuous *band* of possible states — so photons of almost any energy can be absorbed. This is why metals are opaque (and shiny — absorbed and re-emitted photons produce reflection).\n\nIn glass, the *silicon-oxygen network* creates a structure where the electron energy gaps are *large* — too large for *visible light* photons to bridge. Visible photons pass straight through. *Ultraviolet* photons (higher energy) do have enough energy to be absorbed — which is why glass blocks UV light but transmits visible light.\n\nDifferent materials absorb different ranges of photon energies, which is also why objects have *colour*: a red apple absorbs all wavelengths except red, which it reflects back to your eye.\n\nKey vocabulary: *photon, quantum, energy level, electron, absorption, transmission, opacity, wavelength, visible light, ultraviolet*. A physics lesson that connects everyday experience to some of the most elegant ideas in modern science.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_how_does_stock_market_work",
@@ -554,7 +568,9 @@
     "difficultyLevel": "Easy",
     "description": "A clear, jargon-free explanation of what the stock market is, why it exists, and how ordinary people interact with it every day.",
     "summary": "This concise TED-Ed lesson by Oliver Elfenbaum explains the *stock market* from first principles — what it is, why it exists, and what happens when you buy or sell a *share*.\n\nThe video begins with the concept of a *corporation*: a company that needs money to grow. Rather than borrowing from a bank, a company can sell small pieces of itself — called *shares* or *stocks* — to the public. When you buy a share, you own a tiny fraction of that company and are entitled to a proportional share of its future *profits*. This is why stocks are sometimes called *equities*.\n\nThe *stock market* is the mechanism through which shares are bought and sold. The price of a share is set by *supply and demand*: if many people want to buy a share and few want to sell, the price rises. If confidence in the company falls and many people want to sell, the price drops. Ultimately, share prices reflect investors' *collective expectation* of the company's future performance.\n\nThe video explains *market indices* — such as the Dow Jones or S&P 500 — which track the average performance of a basket of major company shares and serve as a *barometer* of overall economic health.\n\nInvestors profit in two ways: *capital gains* (buying a share at a low price and selling it at a higher price) and *dividends* (regular payments companies make to shareholders from their profits).\n\nKey vocabulary: *stock, share, equity, dividend, index, portfolio, investor, market, capital, corporation*. A highly accessible lesson for any class involving business, economics, or current affairs — and relevant to adult learners planning for their financial futures.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "teens"
   },
   {
     "id": "teded_how_do_vaccines_work",
@@ -571,7 +587,9 @@
     "difficultyLevel": "Easy",
     "description": "A clear explanation of how vaccines train the immune system to fight disease — without exposing you to the real thing.",
     "summary": "Vaccines are one of the most successful public health interventions in history, yet many people are unclear on exactly how they work. This TED-Ed lesson by Kelwalin Dhanasarnsombut explains the biology behind *vaccination* in accessible terms.\n\nThe immune system fights disease in two phases. The *innate* immune system responds quickly and generally to any foreign invader — causing the redness, swelling, and fever you feel when sick. The *adaptive* immune system is slower but far more precise: it learns to recognise specific *pathogens* (bacteria, viruses) by their surface proteins, called *antigens*, and produces matching *antibodies*.\n\nThe power of the adaptive system lies in *immunological memory*: after fighting an infection, it retains memory *B cells* and *T cells* specific to that pathogen. If the same pathogen returns, the response is dramatically faster and stronger — often eliminating the threat before you even notice symptoms.\n\nVaccines work by triggering this memory response *without causing actual disease*. They do this by introducing a weakened or inactivated form of a pathogen, or just its distinctive surface antigens (or, in the case of mRNA vaccines, the genetic instructions to make those antigens). The immune system mounts a response, produces memory cells, and is ready to act fast if the real pathogen ever arrives.\n\n*Herd immunity* — when enough people in a community are immune — protects those who cannot be vaccinated (newborns, immunocompromised individuals) by reducing the pathogen's ability to spread.\n\nKey vocabulary: *vaccine, antigen, antibody, pathogen, immunity, herd immunity, adaptive, memory cell, inoculation, infection*. A timely and important lesson for health literacy and evidence-based discussion.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "teens"
   },
   {
     "id": "teded_how_did_english_evolve",
@@ -588,7 +606,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Kate Gardoqui traces English from its Anglo-Saxon roots through Viking invasions, the Norman Conquest, and into the global language it is today.",
     "summary": "The English language that 1.5 billion people use today is a linguistic accident — the product of a series of invasions, trade networks, and colonial histories that no one planned. This TED-Ed lesson by Kate Gardoqui traces the remarkable evolution of English from a regional Germanic dialect to the world's most-studied second language.\n\nOld English — the language of *Beowulf* — sounds almost nothing like modern English. It was brought to Britain by *Anglo-Saxon* tribes from what is now Germany and the Netherlands around the 5th century. Grammatically, it was highly *inflected* (with case endings like Latin), and its vocabulary was almost entirely Germanic.\n\nViking raids from the 8th century onward introduced *Old Norse* words, many of them common everyday terms: 'sky', 'egg', 'knife', 'they', 'them'. Norse-speaking Danes and Saxons needed to communicate, and the result was a simplified, less inflected grammar — possibly explaining why English has far fewer case endings than German.\n\nThe *Norman Conquest* of 1066 was transformative. French-speaking Normans became England's ruling class, and for 300 years French was the language of law, government, and literature. English absorbed thousands of French words — typically for higher-status concepts (*beef*, *pork*, *justice*, *parliament*, *romance*) while Anglo-Saxon words were retained for everyday life (*cow*, *pig*, *law*, *meeting*, *love*). This dual-register vocabulary (native vs. Latin/French) persists in English today.\n\nThe *printing press* standardised spelling and grammar. The British Empire spread English globally, absorbing vocabulary from dozens of languages along the way (*pyjamas*, *bungalow*, *typhoon*).\n\nKey vocabulary: *evolve, Anglo-Saxon, Norman Conquest, dialect, inflection, register, vocabulary, borrow, standardise, lingua franca*. Uniquely relevant for ESL students, who are living proof of English's continued spread.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_what_is_consciousness",
@@ -605,7 +625,9 @@
     "difficultyLevel": "Advanced",
     "description": "Michael Graziano presents a scientific account of consciousness — the 'hard problem' of how physical brain activity produces subjective experience.",
     "summary": "Why does it feel like something to be you? This is the *hard problem of consciousness* — one of the deepest unsolved questions in science and philosophy. This TED-Ed lesson by Michael Graziano outlines the leading scientific theories.\n\nThe video begins by distinguishing the *easy problems* of consciousness (how the brain processes information, directs attention, integrates sensory data — difficult in practice but tractable in principle) from the *hard problem*: why any of this processing is *accompanied by subjective experience* at all. Why isn't the brain just a machine that processes inputs and generates outputs, with nobody home? The fact that there is something it *feels like* to be conscious seems to require explanation.\n\nGraziano presents his own *Attention Schema Theory*: the brain builds simplified *models* of the world — representations that capture useful approximations without capturing every detail. The brain also builds a model of *itself*, and specifically of its own *attention*. Consciousness, in this view, is the brain's imperfect model of its own attentional processes — not a magical property but a kind of controlled *hallucination*, a story the brain tells itself about what it is doing.\n\nOther major theories include *Global Workspace Theory* (consciousness = information being broadcast widely across the brain) and *Integrated Information Theory* (consciousness = the degree of integrated information in a system — implying even simple networks might have minimal consciousness).\n\nThe video is honest about the limits of current understanding: no theory of consciousness has yet achieved scientific consensus.\n\nKey vocabulary: *consciousness, subjective experience, attention, perception, hard problem, theory, model, integrate, awareness, neuroscience*. A challenging and genuinely mind-bending lesson for Advanced learners interested in philosophy, science, or the nature of the self.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "teded_heisenberg_uncertainty_principle",
@@ -622,7 +644,9 @@
     "difficultyLevel": "Advanced",
     "description": "Chad Orzel explains one of the most famous — and most misunderstood — principles in quantum mechanics: the fundamental limit on how precisely we can know a particle's position and momentum simultaneously.",
     "summary": "The *Heisenberg Uncertainty Principle* is probably the most famous result in quantum physics — and one of the most commonly misunderstood. It is often described as a measurement problem: we disturb a particle when we try to measure it. But this TED-Ed lesson by Chad Orzel explains that the reality is far more fundamental and strange.\n\nThe principle states that you cannot simultaneously know a particle's *position* and its *momentum* (mass × velocity) with unlimited precision. The more precisely you determine one, the more uncertain the other becomes. Mathematically: Δx × Δp ≥ ℏ/2 (where ℏ is the reduced Planck constant).\n\nThe key point: this is not a limitation of our instruments. It is not that our measurement disturbs the particle, though that also occurs. The *fundamental reason* is that quantum particles are not point-objects with definite positions — they are *waves*, described by *wave functions* that give the probability of finding the particle at any given location. A particle with a very definite position has a very *spread-out* momentum, and vice versa — because of the mathematical relationship between a wave and its *frequency spectrum*.\n\nThe video uses the analogy of musical notes: a pure, single frequency (definite momentum) extends forever in time and has no specific 'position' in time. A sharp click (definite time/position) contains a spread of many frequencies (indefinite momentum). This is not measurement error — it is how waves work.\n\nThe uncertainty principle has real-world consequences: it explains why electrons don't spiral into the nucleus, and it sets fundamental limits on computer chip miniaturisation.\n\nKey vocabulary: *uncertainty, quantum, wave function, momentum, probability, particle, wave, frequency, Planck, fundamental*. A challenging but clarifying lesson for advanced physics and philosophy of science discussions.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "teded_what_is_imposter_syndrome",
@@ -639,7 +663,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Elizabeth Cox explains what imposter syndrome is, why high achievers are especially vulnerable, and what evidence-based strategies actually help.",
     "summary": "You just received a promotion, a scholarship, or a compliment on your work — but instead of feeling proud, you feel like a *fraud* who is about to be exposed. This is *imposter syndrome*, a psychological pattern that affects an estimated 70% of people at some point in their lives.\n\nThis TED-Ed lesson by Elizabeth Cox explains the phenomenon clearly. People with imposter syndrome attribute their *successes* to luck, timing, or error rather than to their own abilities. They fear that if others knew how little they really understood, they would be *unmasked*. The feeling is particularly common among high achievers, perfectionists, and people entering new environments — first-year university students, new employees, or anyone in a *minority* in their field.\n\nThe concept was identified by psychologists Pauline Clance and Suzanne Imes in 1978, who initially studied it in high-achieving women. Subsequent research found it affects all genders, ages, and backgrounds — including some of the most accomplished people in their fields. Neil Armstrong reportedly felt it. Maya Angelou described it. Albert Einstein wrote about it.\n\nWhat causes it? The video points to a combination of personality traits (perfectionism, neuroticism), cultural factors (under-representation in a field), and early experiences. It often develops in environments where only *outcomes* are praised, not *effort* or *growth*.\n\nEvidence-based strategies include: *acknowledging* the feeling without accepting it as truth; tracking *concrete evidence* of your competence; talking openly with trusted colleagues (who almost always admit to similar feelings); and reframing failure as *learning* rather than *exposure*.\n\nKey vocabulary: *imposter syndrome, fraud, attribution, perfectionism, self-doubt, achievement, competence, validate, acknowledge, reframe*. Highly relatable for adult learners in new environments — including anyone learning in a second language.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_history_of_world_according_to_cats",
@@ -668,7 +694,9 @@
       "name": "Egypt",
       "lat": 26.8206,
       "lng": 30.8025
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "teens"
   },
   {
     "id": "teded_how_does_money_laundering_work",
@@ -685,7 +713,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Delena Spann explains the three-stage process by which criminals hide the origins of illegal money — and the global systems built to detect it.",
     "summary": "Every year, an estimated $800 billion to $2 trillion in criminal money is *laundered* through the global financial system. This TED-Ed lesson by Delena Spann explains exactly how — and why it is so hard to stop.\n\nThe goal of *money laundering* is to disguise the *illicit origins* of money so it can be spent openly without attracting suspicion. The process typically has three stages.\n\nThe first is *placement*: getting the cash into the financial system. This is the most vulnerable stage — large cash deposits stand out. Common methods include *smurfing* (making many small deposits below reporting thresholds), mixing criminal cash with a legitimate cash business (a restaurant, a car wash) known as *front company* activity, or physically transporting cash across borders.\n\nThe second stage is *layering*: creating a complex trail of transactions to separate the money from its source. This might involve shell companies in multiple countries, *offshore accounts* in financial *secrecy jurisdictions*, currency exchanges, and cryptocurrency transfers — anything that creates enough layers to make tracing the origin *impractical*.\n\nThe third stage is *integration*: the clean money re-enters the economy as apparently legitimate income — through real estate purchases, luxury goods, or business investments. Once integrated, it is nearly impossible to distinguish from legally earned money.\n\nCountermeasures include *anti-money laundering* (AML) regulations requiring banks to report suspicious transactions, *Know Your Customer* (KYC) requirements for financial institutions, and international *cooperation* between law enforcement agencies.\n\nKey vocabulary: *laundering, illicit, placement, layering, integration, smurfing, shell company, offshore, secrecy jurisdiction, compliance*. Relevant for business English, economics discussions, and exploring how crime intersects with the global financial system.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_what_is_dyslexia",
@@ -702,7 +732,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Kelli Sandman-Hurley explains what dyslexia actually is — not a vision problem or a sign of low intelligence, but a specific difference in how the brain processes language.",
     "summary": "An estimated 20% of people have *dyslexia* — making it the most common *learning difference* in the world. Yet it is widely misunderstood. This TED-Ed lesson by Kelli Sandman-Hurley explains what dyslexia actually is, and what it is not.\n\nDyslexia is not a vision problem: people with dyslexia do not see letters backwards. It is not a sign of low *intelligence*: many people with dyslexia have above-average IQs. It is a specific difficulty with *phonological processing* — the brain's ability to connect written letters and letter combinations to the sounds they represent.\n\nReading is not a natural ability; it has to be taught and involves a specific brain network connecting *visual processing* (recognising letter shapes), *phonological processing* (connecting letters to sounds), and *language comprehension* (deriving meaning). In people with dyslexia, the phonological processing component works differently, making it harder to *decode* written words into sounds and therefore harder to read fluently.\n\nBrain imaging studies consistently show that readers with dyslexia use different neural pathways when reading — relying more heavily on the front of the brain (slower, effortful processing) rather than the back-left areas used by fluent readers. With structured intervention, some of these pathways can be trained and strengthened.\n\nDyslexia often comes alongside *strengths*: many people with dyslexia excel at visual-spatial reasoning, big-picture thinking, and creative problem-solving. The same neurological profile that makes reading hard can support exceptional abilities in architecture, engineering, and entrepreneurship.\n\nKey vocabulary: *dyslexia, phonological, decode, neural, processing, literacy, intervention, cognition, fluency, diagnosis*. A valuable lesson for empathy, educational awareness, and understanding cognitive diversity.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_evolution_of_human_eye",
@@ -719,7 +751,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Joshua Harvey traces the 500-million-year evolution of the eye — from simple light-sensitive patches to the astonishing optical instrument humans have today.",
     "summary": "The eye is often cited by *creationists* as too complex to have evolved — 'an organ of extreme perfection.' Darwin himself acknowledged the objection. This TED-Ed lesson by Joshua Harvey explains why the eye is actually a *textbook* example of how gradual evolution produces extraordinary complexity.\n\nThe fossil record and comparative anatomy allow biologists to reconstruct the likely stages of eye evolution. It begins around 540 million years ago with simple *light-sensitive patches* — clusters of *photoreceptor* cells that could only detect the difference between light and dark. Even this crude ability was advantageous: an organism that could sense a shadow (a potential predator) had a survival advantage over one that could not.\n\nOver millions of years, a simple groove in the surface deepened into a *pit* — allowing detection of the *direction* of light. The pit's opening narrowed, creating a *pinhole* effect that increased *spatial resolution*. A transparent covering evolved to protect the pit and improve *focusing*. The covering thickened and became *curved*, acting as a *lens*. Muscles to control the shape of the lens for *accommodation* (focusing at different distances) developed. And so on.\n\nEach step was a small improvement on the last — and each step was advantageous, meaning *natural selection* would preserve it. Computer simulations show that a functional *camera eye* can evolve from a light-sensitive patch in fewer than 400,000 generations — a geologically short time.\n\nKey vocabulary: *photoreceptor, retina, lens, pupil, evolution, natural selection, adaptation, complexity, fossil record, cornea*. A powerful lesson connecting biology, evolutionary theory, and the argument from design.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_how_do_solar_panels_work",
@@ -736,7 +770,9 @@
     "difficultyLevel": "Easy",
     "description": "Richard Komp explains the physics of the photovoltaic effect — how solar panels convert sunlight directly into electricity.",
     "summary": "Solar panels are now one of the fastest-growing sources of electricity in the world — but how do they actually work? This short TED-Ed lesson by Richard Komp explains the *photovoltaic effect*: the physical process by which light becomes electricity.\n\nSolar panels are made of *silicon*, a *semiconductor* material. In its pure form, silicon doesn't conduct electricity well. To make it useful, manufacturers create two layers of *doped* silicon: *n-type silicon* (with extra electrons) and *p-type silicon* (with 'holes' — places where an electron could be). Where these two layers meet is the *p-n junction*.\n\nWhen a *photon* of sunlight strikes the panel, it can knock an electron free from a silicon atom. At the p-n junction, the built-in electric field pushes the freed electron in one direction and the hole in the other. This *separation of charge* creates a flow of electricity — a *current* — which can be captured and used.\n\nA single silicon cell generates only about half a volt of electricity. In a full solar panel, cells are connected in *series* (to increase voltage) and in *parallel* (to increase current). A typical rooftop system produces several *kilowatts*.\n\nThe energy conversion is clean: no fuel burned, no emissions produced, no moving parts to wear out. The main limitation is *efficiency* — most commercial panels convert around 15–20% of incident sunlight into electricity — and *intermittency* (solar only works when the sun shines, requiring storage or grid backup).\n\nKey vocabulary: *photovoltaic, semiconductor, silicon, photon, electron, p-n junction, current, voltage, efficiency, renewable*. A practical, relevant lesson for any discussion of energy, climate, or technology.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "teens"
   },
   {
     "id": "teded_benefits_of_bilingual_brain",
@@ -753,7 +789,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Mia Nacamulli explains how speaking two languages changes your brain structure and function — and the surprising cognitive advantages bilingualism confers.",
     "summary": "Most of the world's population speaks more than one language — and this TED-Ed lesson by Mia Nacamulli explains that bilingualism does far more than just add vocabulary. It fundamentally changes the *architecture* of the brain.\n\nBrain imaging studies consistently show that bilinguals use a larger network of brain regions when speaking than *monolinguals*. In particular, the *prefrontal cortex* — the region associated with attention, *executive function*, and *cognitive control* — is more active and, in many bilinguals, structurally denser.\n\nThis matters because bilinguals are constantly managing two language systems simultaneously. Even when using one language, the other is never fully switched off — the brain must continuously *inhibit* the non-target language to prevent *interference*. This constant inhibitory work is a form of *cognitive exercise* that strengthens the general executive control network.\n\nThe benefits show up in measurable ways. Bilinguals outperform monolinguals on tasks requiring *attentional switching*, *task-switching*, and filtering out *distractions* — skills that underlie academic performance, decision-making, and professional effectiveness. Studies suggest bilingual children show these advantages as early as age seven.\n\nLong-term, bilingualism appears to *delay the onset of dementia* by an average of 4–5 years. The cognitive reserve built by decades of managing two language systems may make the brain more *resilient* against neurodegenerative decline.\n\nKey vocabulary: *bilingual, cognitive, executive function, inhibit, interference, monolingual, neural, proficiency, fluency, dementia*. Uniquely motivating for ESL learners — a lesson in which they are the subject, and the finding is that learning a second language is making them smarter.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_what_is_a_calorie",
@@ -770,7 +808,9 @@
     "difficultyLevel": "Easy",
     "description": "Emma Bryce explains what a calorie actually is — a unit of energy — and how your body uses the calories in food to power everything from breathing to running.",
     "summary": "We all talk about calories constantly — but what is a *calorie* actually? This short TED-Ed lesson by Emma Bryce explains the science behind one of nutrition's most-used (and least-understood) units.\n\nA *calorie* is a unit of *energy* — specifically, the amount of energy needed to raise the temperature of one gram of water by one degree Celsius. In nutritional contexts, what is typically labelled a 'calorie' is actually a *kilocalorie* (kcal) — 1,000 times larger. The 250-calorie label on a snack bar means 250 kilocalories.\n\nYour body is constantly burning calories — even at rest. The *basal metabolic rate* (BMR) represents the energy needed to keep you alive: keeping your heart beating, your lungs breathing, your brain processing, and your body temperature stable. For most adults this is around 1,200–1,800 kcal per day, depending on body size and composition. Physical activity and digestion add to this total.\n\nNot all calorie sources are equal. Carbohydrates and proteins provide roughly 4 kcal per gram. Fats provide 9 kcal per gram. But the *metabolic impact* of different foods varies: dietary fibre in complex carbohydrates slows digestion and reduces *blood sugar spikes*; protein is the most *satiating* macronutrient; and highly *processed foods* engineered for palatability can override normal satiety signals.\n\nThe lesson cautions against oversimplifying nutrition to a simple *calorie-counting* model while still affirming that total energy intake and expenditure is a central factor in *weight management*.\n\nKey vocabulary: *calorie, kilocalorie, energy, metabolism, basal metabolic rate, macronutrient, protein, carbohydrate, fat, satiety*. An accessible entry point for health, nutrition, and body science discussions.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "teens"
   },
   {
     "id": "teded_why_do_we_feel_nostalgia",
