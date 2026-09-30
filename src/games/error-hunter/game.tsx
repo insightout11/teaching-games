@@ -8,6 +8,8 @@ import { GameStatus } from './types';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import type { Challenge, EvaluationResult, UserCorrection, ErrorLocation } from './types';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { ArrowRight, Check, Clock, Eye, Search, Trophy } from 'lucide-react';
 
 interface WordData {
   word: string;
@@ -16,11 +18,25 @@ interface WordData {
   correction: string;
 }
 
+// Speed bonus for the first accurate hunters (accuracy always matters more).
 function getPositionPoints(position: number): number {
-  if (position === 1) return 10;
-  if (position === 2) return 8;
-  if (position === 3) return 6;
-  return 3;
+  if (position === 1) return 3;
+  if (position === 2) return 2;
+  if (position === 3) return 1;
+  return 0;
+}
+
+/** Which paragraph word (index) each answer-key error sits on: by position, else first unused matching word. */
+function locateSolutions(paragraph: string, solutions: ErrorLocation[]): number[] {
+  const words = paragraph.split(/\s+/);
+  const used = new Set<number>();
+  return solutions.map((sol) => {
+    let at = -1;
+    if (sol.position >= 0 && sol.position < words.length && normalizeWord(words[sol.position]) === normalizeWord(sol.word)) at = sol.position;
+    if (at < 0) at = words.findIndex((w, i) => !used.has(i) && normalizeWord(w) === normalizeWord(sol.word));
+    if (at >= 0) used.add(at);
+    return at;
+  });
 }
 
 const normalizeWord = (w: string) => w.replace(/[.,!?;:'"()]/g, '').toLowerCase();
@@ -58,6 +74,7 @@ function renderCorrectedParagraph(paragraph: string, solutions: ErrorLocation[])
 interface RaceSolver {
   studentId: string;
   displayName: string;
+  corrections: UserCorrection[];
   score: number;
   found: number;
   totalErrors: number;
@@ -82,6 +99,8 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
   });
   const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
   const [answerKey, setAnswerKey] = useState<ErrorLocation[]>([]);
+  const [revealed, setRevealed] = useState(0);
+  const [roundNo, setRoundNo] = useState(1);
 
   // Stable refs so handleRaceVote / handleTurnBasedVote don't need to be recreated on state changes
   const challengeRef = useRef<Challenge | null>(null);
@@ -170,8 +189,9 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
         if (prev.some(s => s.studentId === studentId)) return prev;
 
         const position = prev.length + 1;
-        const positionBonus = getPositionPoints(position);
-        const totalPoints = Math.min(10, result.score + (position <= 3 ? positionBonus : 0));
+        // Speed only counts for an accurate hunt: submitting nothing first scores nothing.
+        const positionBonus = result.score >= 5 ? getPositionPoints(position) : 0;
+        const totalPoints = Math.min(10, result.score + positionBonus);
 
         onScore(studentId, {
           isCorrect: result.score >= 5,
@@ -188,6 +208,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
         return [...prev, {
           studentId,
           displayName: vote.displayName,
+          corrections,
           score: totalPoints,
           found: result.found,
           totalErrors: result.totalErrors,
@@ -264,6 +285,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     setCorrectionInput('');
     setRaceSolvers([]);
     setAnswerKey([]);
+    setRevealed(0);
     setExtraSeconds(0);
     resetRace();
 
@@ -408,7 +430,28 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     endRace();
   };
 
+  // Everyone submitted: end now.
+  useEffect(() => {
+    if (isSimultaneous && raceActive && !raceFinished && students.length > 0 && raceSolvers.length >= students.length) endRace();
+  }, [isSimultaneous, raceActive, raceFinished, raceSolvers.length, students.length, endRace]);
+
+  // Nobody submitted (or the first check failed): still fetch the answer key for the reveal.
+  useEffect(() => {
+    if (!isSimultaneous || !raceFinished || !challenge || answerKey.length > 0) return;
+    let cancelled = false;
+    void fetch('/api/error-hunter/evaluate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ paragraph: challenge.paragraph, corrections: [], difficulty: sessionSettings.difficulty }),
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((res: EvaluationResult | null) => { if (!cancelled && res?.solutions?.length) setAnswerKey(res.solutions); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [isSimultaneous, raceFinished, challenge, answerKey.length, sessionSettings.difficulty]);
+
   const handleNewRound = () => {
+    setRoundNo((n) => n + 1);
     setChallenge(null);
     setWords([]);
     setEvaluation(null);
@@ -428,210 +471,127 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
 
   // ============ SIMULTANEOUS RACE MODE ============
   if (isSimultaneous) {
+    const total = (sessionSettings.timerSeconds + extraSeconds) || 1;
+    const paragraphWords = challenge ? challenge.paragraph.split(/\s+/) : [];
+    const spots = challenge ? locateSolutions(challenge.paragraph, answerKey) : [];
+    // How many hunters flagged each error (their word index lands on it).
+    const foundBy = spots.map((at) => raceSolvers.filter((sv) => sv.corrections.some((c) => c.position === at)).length);
+    const revealedAt = new Map<number, number>();
+    spots.forEach((at, i) => { if (at >= 0 && i < revealed) revealedAt.set(at, i); });
+    const ranked = [...raceSolvers].sort((a, b) => b.score - a.score || a.position - b.position);
+
     return (
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="text-center">
-          <p className="opacity-70 text-sm">Everyone hunts for errors — race to find them all!</p>
-          <p className="text-xs text-cyan-400 mt-1">{students.length} students connected</p>
+      <div className="mx-auto max-w-4xl space-y-5 text-white">
+        <div className="flex items-center justify-between">
+          <KitLabel tone="rose">Error Hunter · paragraph {roundNo}</KitLabel>
+          {challenge && status !== GameStatus.IDLE && <KitReadout>{challenge.errorCount} errors hidden · {raceSolvers.length} / {students.length} submitted</KitReadout>}
         </div>
 
-        {/* IDLE State */}
         {status === GameStatus.IDLE && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-            <div className="glass p-6 rounded-2xl border border-white/10">
-              <h3 className="text-sm font-bold uppercase tracking-widest opacity-60 mb-3">Race Mode</h3>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                All students will see the same paragraph on their devices and race to find and correct the errors!
-              </p>
+          <div className="space-y-5 py-6 text-center">
+            <p className="font-display text-5xl">Hunt the mistakes.</p>
+            <p className="mx-auto max-w-xl text-lg text-white/70">A short paragraph appears with hidden grammar and vocabulary errors. Everyone taps the wrong words on their phone and types the fix. Accuracy scores most; the first accurate hunters get a bonus.</p>
+            <div className="flex justify-center">
+              <KitButton tone="rose" solid onClick={handleGenerate} className="!px-8 !py-3 !text-base" icon={<Search className="h-4 w-4" />}>Start hunting</KitButton>
             </div>
-            <button
-              onClick={handleGenerate}
-              className="w-full px-12 py-6 bg-gradient-to-br from-lc-danger to-red-500 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
-            >
-              START HUNTING
-            </button>
-          </motion.div>
+          </div>
         )}
 
-        {/* GENERATING State */}
-        {status === GameStatus.GENERATING && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <GenerationLoader label="challenge" />
-          </motion.div>
+        {status === GameStatus.GENERATING && <GenerationLoader label="challenge" />}
+        {error && <p className="rounded-xl border border-rose-300/30 bg-rose-400/10 px-4 py-3 text-rose-100">{error}</p>}
+
+        {challenge && status !== GameStatus.IDLE && status !== GameStatus.GENERATING && (
+          <div className={`rounded-[1.75rem] border px-7 py-7 ${raceFinished ? 'border-emerald-300/30 bg-slate-950/50' : 'border-white/12 bg-slate-950/45'}`}>
+            <p className="text-2xl leading-[1.9] text-white/90">
+              {paragraphWords.map((w, i) => {
+                const k = revealedAt.get(i);
+                if (k === undefined) return <span key={i}>{w} </span>;
+                const sol = answerKey[k];
+                return (
+                  <motion.span key={i} initial={{ opacity: 0.4 }} animate={{ opacity: 1 }} className="relative inline-block">
+                    <span className="text-rose-300 line-through decoration-2">{w}</span>{' '}
+                    <motion.span initial={{ y: -8, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="rounded-md bg-emerald-400/15 px-1 font-semibold text-emerald-200">{sol.correction}</motion.span>{' '}
+                  </motion.span>
+                );
+              })}
+            </p>
+          </div>
         )}
 
-        {/* Error */}
-        {error && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl">{error}</div>
-        )}
-
-        {/* PLAYING State — Race mode */}
-        {status === GameStatus.PLAYING && challenge && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-            {/* Timer & Stats */}
-            {raceActive && !raceFinished && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className={`px-4 py-2 rounded-xl font-game text-2xl ${timeRemaining <= 10 ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-white/10 text-white'}`}>
-                    {timeRemaining}s
-                  </div>
-                  <button
-                    onClick={() => { addTime(30); setExtraSeconds((seconds) => seconds + 30); }}
-                    className="px-3 py-1.5 rounded-lg text-sm font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10"
-                  >
-                    +30s
-                  </button>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="px-4 py-2 bg-red-500/20 text-red-400 rounded-xl text-sm font-bold">
-                    {challenge.errorCount} errors hidden
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs text-slate-400 uppercase">Submitted</p>
-                    <p className="text-2xl font-bold text-emerald-400">{raceSolvers.length}</p>
-                  </div>
-                </div>
+        {raceActive && !raceFinished && challenge && (
+          <>
+            <div className="flex items-center gap-4">
+              <Clock className={`h-5 w-5 ${timeRemaining <= 10 ? 'text-rose-300' : 'text-white/60'}`} />
+              <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/10">
+                <motion.div className={`h-full ${timeRemaining <= 10 ? 'bg-rose-400' : 'bg-cyan-400'}`} animate={{ width: `${Math.max(0, Math.min(100, (timeRemaining / total) * 100))}%` }} transition={{ ease: 'linear', duration: 1 }} />
               </div>
-            )}
-
-            {/* Paragraph preview (teacher screen) */}
-            <div className="glass p-6 rounded-2xl border-2 border-red-500/30">
-              <p className="text-xs font-bold text-red-400 uppercase tracking-widest mb-3">Paragraph</p>
-              <p className="text-lg leading-relaxed text-slate-200">{challenge.paragraph}</p>
+              <span className={`w-14 text-right font-mono text-2xl ${timeRemaining <= 10 ? 'text-rose-300' : ''}`}>{timeRemaining}s</span>
+              <KitButton onClick={() => { addTime(30); setExtraSeconds((seconds) => seconds + 30); }}>+30s</KitButton>
             </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <AnimatePresence>
+                {raceSolvers.map((sv) => (
+                  <motion.span key={sv.studentId} initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex items-center gap-1 rounded-full border border-emerald-300/40 bg-emerald-400/10 px-3 py-1 text-sm text-emerald-100">
+                    <Check className="h-3.5 w-3.5" />{sv.displayName}
+                  </motion.span>
+                ))}
+              </AnimatePresence>
+              {raceSolvers.length === 0 && <p className="text-sm text-white/45">Hunters are reading on their phones…</p>}
+            </div>
+            <div className="flex justify-end"><KitButton onClick={handleEndRace}>End the hunt</KitButton></div>
+          </>
+        )}
 
-            {/* Race solver feed */}
-            {raceSolvers.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Submissions</p>
-                <AnimatePresence>
-                  {raceSolvers.map(solver => (
-                    <motion.div
-                      key={solver.studentId}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className={`flex items-center justify-between px-4 py-3 rounded-xl ${
-                        solver.position === 1
-                          ? 'bg-yellow-500/20 border border-yellow-500/30'
-                          : 'bg-white/5 border border-white/10'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className={`text-lg font-black ${
-                          solver.position === 1 ? 'text-yellow-400' :
-                          solver.position === 2 ? 'text-slate-300' :
-                          solver.position === 3 ? 'text-amber-600' : 'text-slate-500'
-                        }`}>#{solver.position}</span>
-                        <span className="font-semibold text-white">{solver.displayName}</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm text-slate-400">{solver.found}/{solver.totalErrors} found</span>
-                        <span className="font-game text-emerald-400">+{solver.score}</span>
-                      </div>
+        {raceFinished && challenge && (
+          <div className="space-y-4">
+            {/* Step-through reveal: each error, its fix, its type, and how many found it */}
+            {answerKey.length > 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-slate-950/45 p-4">
+                <div className="mb-3 flex items-center justify-between">
+                  <KitLabel tone="emerald">The errors · {revealed} / {answerKey.length}</KitLabel>
+                  <div className="flex gap-2">
+                    {revealed < answerKey.length && <KitButton tone="emerald" solid onClick={() => setRevealed((n) => n + 1)} icon={<Eye className="h-3.5 w-3.5" />}>Reveal next</KitButton>}
+                    {revealed < answerKey.length && <KitButton onClick={() => setRevealed(answerKey.length)}>Show all</KitButton>}
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  {answerKey.slice(0, revealed).map((err, i) => (
+                    <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} className="flex flex-wrap items-center gap-3 text-lg">
+                      <span className="text-rose-300 line-through">{err.word}</span>
+                      <ArrowRight className="h-4 w-4 text-white/35" />
+                      <span className="font-semibold text-emerald-200">{err.correction}</span>
+                      <span className="rounded-full border border-white/12 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.12em] text-white/55">{err.errorType}</span>
+                      {raceSolvers.length > 0 && <span className="ml-auto font-mono text-xs text-white/50">found by {foundBy[i]} / {raceSolvers.length}</span>}
                     </motion.div>
                   ))}
-                </AnimatePresence>
-              </div>
-            )}
-
-            {raceActive && raceSolvers.length === 0 && (
-              <div className="text-center py-6">
-                <div className="flex justify-center gap-2 mb-3">
-                  <div className="w-3 h-3 rounded-full bg-red-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <div className="w-3 h-3 rounded-full bg-red-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <div className="w-3 h-3 rounded-full bg-red-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                  {revealed === 0 && <p className="text-sm text-white/50">Ask the class first: which words looked wrong?</p>}
                 </div>
-                <p className="text-slate-400">Waiting for students to submit corrections...</p>
               </div>
+            ) : (
+              <p className="text-center text-sm text-white/50">Loading the answer key…</p>
             )}
 
-            {/* Controls */}
-            <div className="flex gap-3">
-              {raceActive && !raceFinished && (
-                <button
-                  onClick={handleEndRace}
-                  className="flex-1 py-3 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10"
-                >
-                  END RACE
-                </button>
-              )}
-            </div>
-          </motion.div>
-        )}
-
-        {/* Race finished */}
-        {raceFinished && challenge && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-            <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30 text-center">
-              <h2 className="text-3xl font-game text-emerald-400 mb-2">HUNT COMPLETE!</h2>
-              <p className="text-slate-300">{raceSolvers.length} students submitted corrections</p>
-            </div>
-
-            {/* Final standings */}
-            {raceSolvers.length > 0 && (
-              <div className="space-y-2">
-                {raceSolvers.map(solver => (
-                  <div
-                    key={solver.studentId}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl ${
-                      solver.position === 1
-                        ? 'bg-yellow-500/20 border border-yellow-500/30'
-                        : 'bg-white/5 border border-white/10'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className={`text-lg font-black ${
-                        solver.position === 1 ? 'text-yellow-400' :
-                        solver.position === 2 ? 'text-slate-300' :
-                        solver.position === 3 ? 'text-amber-600' : 'text-slate-500'
-                      }`}>#{solver.position}</span>
-                      <span className="font-semibold text-white">{solver.displayName}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm text-slate-400">{solver.found}/{solver.totalErrors} found</span>
-                      <span className="font-game text-emerald-400">+{solver.score}</span>
-                    </div>
-                  </div>
+            {ranked.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-2">
+                {ranked.map((sv, i) => (
+                  <span key={sv.studentId} className={`flex items-center gap-2 rounded-full border px-4 py-1.5 text-base ${i === 0 ? 'border-amber-300/50 bg-amber-300/10' : 'border-white/12 bg-white/[0.04]'}`}>
+                    {i === 0 && <Trophy className="h-4 w-4 text-amber-300" />}
+                    {sv.displayName}
+                    <span className="font-mono text-xs text-white/55">{sv.found}/{sv.totalErrors}</span>
+                    <span className="font-mono text-xs text-emerald-300">+{sv.score}</span>
+                  </span>
                 ))}
               </div>
             )}
 
-            {answerKey.length > 0 && (
-              <div className="glass p-4 rounded-xl space-y-2">
-                <p className="text-xs opacity-50 uppercase tracking-widest">Answer Key</p>
-                <div className="space-y-2">
-                  {answerKey.map((err, i) => (
-                    <div key={i} className="flex items-start gap-3 text-sm">
-                      <div className="flex items-center gap-3 flex-1 min-w-0">
-                        <span className="text-rose-400 line-through opacity-70 shrink-0">{err.word}</span>
-                        <span className="opacity-40 shrink-0">→</span>
-                        <span className="text-emerald-400 shrink-0">{err.correction}</span>
-                        {err.context && (
-                          <span className="text-xs opacity-40 italic truncate">&ldquo;...{err.context}...&rdquo;</span>
-                        )}
-                      </div>
-                      <span className="text-xs opacity-40 italic shrink-0">{err.errorType}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {isMicroEvent ? (
-              <div className="glass p-4 rounded-xl text-center">
-                <p className="text-sm text-emerald-400 font-bold">Round complete</p>
-                <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
-              </div>
-            ) : (
-              <button
-                onClick={handleNewRound}
-                className="w-full py-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl font-game text-lg text-white hover:scale-[1.02] active:scale-95 transition-all"
-              >
-                NEW PARAGRAPH
-              </button>
-            )}
-          </motion.div>
+            <div className="flex justify-center">
+              {isMicroEvent ? (
+                <KitReadout>Round complete · advance the flight to continue</KitReadout>
+              ) : (
+                <KitButton tone="rose" solid onClick={() => { handleNewRound(); }} className="!px-6 !py-2.5 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>New paragraph</KitButton>
+              )}
+            </div>
+          </div>
         )}
       </div>
     );
