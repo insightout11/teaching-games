@@ -191,7 +191,12 @@
     "difficultyLevel": "Intermediate",
     "description": "Ancient Egypt produced some of the most enduring monuments in human history. New technology is revealing secrets that were buried for thousands of years.",
     "summary": "Ancient Egypt is one of the longest-lived civilisations in human history. It endured, with remarkable continuity, for more than three thousand years — from around 3100 BC until the conquest by Alexander the Great in 332 BC. During that time, Egyptians built monuments that have survived to the present day and created a culture of extraordinary richness and complexity.\n\nThe pyramids of Giza are the most famous monuments of ancient Egypt — and among the most enduring structures ever built. The Great Pyramid of Giza, built around 2560 BC, was the tallest human-made structure in the world for nearly four thousand years. Despite centuries of study, questions remain about exactly how it was built. Modern research suggests large numbers of skilled workers — not slaves, as was once believed — were employed and well fed, with evidence of meat and fish in the workers' diet.\n\nEgyptian society was organised around the pharaoh — a ruler who was considered both a god and a human being. The pharaoh was responsible for maintaining maat — cosmic order and justice. When a pharaoh died, elaborate rituals ensured their safe passage to the afterlife. The process of mummification was designed to preserve the body for eternity.\n\nNew technology is transforming our understanding of ancient Egypt. CT scanning of mummies has revealed details of health, diet, and disease without unwrapping and damaging the mummies themselves. Satellite imaging has detected the outlines of buried cities and tombs invisible to the naked eye. DNA analysis is clarifying the relationships between different pharaohs and the origins of Egypt's population.\n\nEach new discovery reveals that ancient Egypt was even more sophisticated, diverse, and complex than previously understood.",
-    "genre": "expository"
+    "genre": "expository",
+    "place": {
+      "name": "Egypt",
+      "lat": 26.8206,
+      "lng": 30.8025
+    }
   },
   {
     "id": "natgeo-climate-change",
