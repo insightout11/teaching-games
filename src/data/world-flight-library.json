@@ -27,7 +27,9 @@
       "name": "Bangkok, Thailand",
       "lat": 13.7563,
       "lng": 100.5018
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-bangkok-food-identity-video",
@@ -57,7 +59,9 @@
       "name": "Bangkok, Thailand",
       "lat": 13.7563,
       "lng": 100.5018
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-bangkok-river-boats-video",
@@ -87,7 +91,9 @@
       "name": "Bangkok, Thailand",
       "lat": 13.7563,
       "lng": 100.5018
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-tokyo-metro-economics-video",
@@ -117,7 +123,9 @@
       "name": "Tokyo, Japan",
       "lat": 35.6762,
       "lng": 139.6503
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-tokyo-vending-machines-video",
