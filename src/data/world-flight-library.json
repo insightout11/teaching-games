@@ -153,7 +153,9 @@
       "name": "Tokyo, Japan",
       "lat": 35.6762,
       "lng": 139.6503
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-tokyo-urban-history-video",
@@ -183,7 +185,9 @@
       "name": "Tokyo, Japan",
       "lat": 35.6762,
       "lng": 139.6503
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-seoul-subway-system-video",
@@ -213,7 +217,9 @@
       "name": "Seoul, South Korea",
       "lat": 37.5665,
       "lng": 126.978
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-seoul-gyeongbokgung-video",
@@ -241,7 +247,9 @@
       "name": "Seoul, South Korea",
       "lat": 37.5665,
       "lng": 126.978
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-seoul-korea-history-video",
@@ -270,7 +278,9 @@
       "name": "Seoul, South Korea",
       "lat": 37.5665,
       "lng": 126.978
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-singapore-urban-design-video",
@@ -297,7 +307,9 @@
       "name": "Singapore, Singapore",
       "lat": 1.3521,
       "lng": 103.8198
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-singapore-hawker-culture-video",
@@ -327,7 +339,9 @@
       "name": "Singapore, Singapore",
       "lat": 1.3521,
       "lng": 103.8198
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-singapore-changi-jewel-video",
@@ -355,7 +369,9 @@
       "name": "Singapore, Singapore",
       "lat": 1.3521,
       "lng": 103.8198
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-paris-city-history-video",
@@ -384,7 +400,9 @@
       "name": "Paris, France",
       "lat": 48.8566,
       "lng": 2.3522
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-paris-cafe-culture-video",
@@ -412,7 +430,9 @@
       "name": "Paris, France",
       "lat": 48.8566,
       "lng": 2.3522
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-paris-louvre-history-video",
@@ -442,7 +462,9 @@
       "name": "Paris, France",
       "lat": 48.8566,
       "lng": 2.3522
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-london-sightseeing-english-video",
@@ -470,7 +492,9 @@
       "name": "London, United Kingdom",
       "lat": 51.5072,
       "lng": -0.1276
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-london-tube-engineering-video",
@@ -500,7 +524,9 @@
       "name": "London, United Kingdom",
       "lat": 51.5072,
       "lng": -0.1276
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-london-chinatown-restaurant-video",
@@ -530,7 +556,9 @@
       "name": "London, United Kingdom",
       "lat": 51.5072,
       "lng": -0.1276
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-new-york-ellis-island-video",
@@ -559,7 +587,9 @@
       "name": "New York, United States",
       "lat": 40.7128,
       "lng": -74.006
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-new-york-subway-building-video",
@@ -589,7 +619,9 @@
       "name": "New York, United States",
       "lat": 40.7128,
       "lng": -74.006
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-new-york-street-vendors-video",
@@ -617,7 +649,9 @@
       "name": "New York, United States",
       "lat": 40.7128,
       "lng": -74.006
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cairo-ancient-egypt-video",
@@ -646,7 +680,9 @@
       "name": "Cairo, Egypt",
       "lat": 30.0444,
       "lng": 31.2357
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cairo-nile-explainer-video",
@@ -673,7 +709,9 @@
       "name": "Cairo, Egypt",
       "lat": 30.0444,
       "lng": 31.2357
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cairo-food-tour-video",
@@ -703,7 +741,9 @@
       "name": "Cairo, Egypt",
       "lat": 30.0444,
       "lng": 31.2357
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dubai-airport-history-video",
