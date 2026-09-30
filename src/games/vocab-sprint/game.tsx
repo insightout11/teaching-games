@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -24,12 +24,12 @@ interface RaceSolver {
   position: number;
 }
 
-export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions, config, isMicroEvent }: GameProps) {
+export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, config, isMicroEvent }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
 
-  // Repetition tracking — read from store but keep refs to avoid stale closures in callbacks
+  // Repetition tracking â€” read from store but keep refs to avoid stale closures in callbacks
   const addSeenItems = useSessionStore((s) => s.addSeenItems);
   const addSeenCacheId = useSessionStore((s) => s.addSeenCacheId);
   const storeSeenItems = useSessionStore((s) => s.seenItemsByGame['vocab-sprint']) ?? EMPTY_SEEN;
@@ -39,7 +39,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   useEffect(() => { seenItemsRef.current = storeSeenItems; }, [storeSeenItems]);
   useEffect(() => { seenCacheIdsRef.current = storeSeenCacheIds; }, [storeSeenCacheIds]);
 
-  // Prefetching logic — seed from pre-generated content if provided (e.g. Vocab Blitz)
+  // Prefetching logic â€” seed from pre-generated content if provided (e.g. Vocab Blitz)
   const [sentenceQueue, setSentenceQueue] = useState<GameSentence[]>(() => {
     const preGen = (config?.preGeneratedContent as { gameKey?: string; sentences?: GameSentence[] } | undefined);
     return preGen?.gameKey === 'vocab-sprint' && preGen.sentences?.length ? preGen.sentences : [];
@@ -89,8 +89,8 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           type: 'text',
           gameKey: 'vocab-sprint',
           prompt: currentSentence.level === 'hard'
-            ? `What's the precise term for: "${currentSentence.weakWord}"? — race!`
-            : `Replace the weak word "${currentSentence.weakWord}" with a stronger word — race!`,
+            ? `What's the precise term for: "${currentSentence.weakWord}"? â€” race!`
+            : `Replace the weak word "${currentSentence.weakWord}" with a stronger word â€” race!`,
           placeholder: currentSentence.level === 'hard' ? 'Type the precise term...' : 'Type an upgrade word...',
           maxLength: 50,
           timerSeconds: sessionSettings.timerSeconds,
@@ -158,14 +158,14 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
       });
 
       if (!response.ok) {
-        console.warn('[VocabSprint] evaluate API returned', response.status, '— using fallback score');
-        result = { score: 5, comment: '✓', isValid: true, suggestions: [] };
+        console.warn('[VocabSprint] evaluate API returned', response.status, 'â€” using fallback score');
+        result = { score: 5, comment: 'âœ“', isValid: true, suggestions: [] };
       } else {
         result = await response.json() as EvaluationResult;
       }
     } catch (err) {
-      console.warn('[VocabSprint] evaluate API failed:', err, '— using fallback score');
-      result = { score: 5, comment: '✓', isValid: true, suggestions: [] };
+      console.warn('[VocabSprint] evaluate API failed:', err, 'â€” using fallback score');
+      result = { score: 5, comment: 'âœ“', isValid: true, suggestions: [] };
     } finally {
       inFlightRef.current.delete(studentId);
     }
@@ -506,7 +506,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     hard: 'text-red-400 border-red-500/30 bg-red-500/10',
   };
 
-  // Render sentence with the weak word highlighted — or swapped for an upgrade.
+  // Render sentence with the weak word highlighted â€” or swapped for an upgrade.
   const renderSentence = (swap?: string) => {
     if (!currentSentence) return null;
     const escaped = currentSentence.weakWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -548,14 +548,14 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   const total = sessionSettings.timerSeconds || 1;
 
   const NextButton = ({ label = 'Next sentence' }: { label?: string }) => (isMicroEvent ? (
-    <KitReadout>Round complete · advance the flight to continue</KitReadout>
+    <KitReadout>Round complete Â· advance the flight to continue</KitReadout>
   ) : (
     <KitButton tone="cyan" solid onClick={startSprint} className="!px-6 !py-2.5 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>{label}</KitButton>
   ));
 
   const WordBank = () => (
     <div className="rounded-2xl border border-cyan-300/30 bg-slate-950/50 p-5">
-      <KitLabel tone="cyan">Word bank · {topic}</KitLabel>
+      <KitLabel tone="cyan">Word bank Â· {topic}</KitLabel>
       <div className="mt-3 space-y-2.5">
         {wordBank.map((row, i) => (
           <div key={i} className="flex flex-wrap items-center gap-2">
@@ -578,10 +578,10 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
       <div className="mx-auto max-w-4xl space-y-5 text-white">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <KitLabel tone="cyan">VocabSprint{roundNo ? ` · sentence ${roundNo}` : ''} · {topic}</KitLabel>
+          <KitLabel tone="cyan">VocabSprint{roundNo ? ` Â· sentence ${roundNo}` : ''} Â· {topic}</KitLabel>
           <div className="flex items-center gap-3">
             {wordBank.length > 0 && status !== GameStatus.RUNNING && (
-              <KitButton tone={showBank ? 'cyan' : 'plain'} onClick={() => setShowBank((v) => !v)} icon={<BookOpen className="h-3.5 w-3.5" />}>Word bank · {wordBank.length}</KitButton>
+              <KitButton tone={showBank ? 'cyan' : 'plain'} onClick={() => setShowBank((v) => !v)} icon={<BookOpen className="h-3.5 w-3.5" />}>Word bank Â· {wordBank.length}</KitButton>
             )}
             {isFetchingBatch && <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-400" title="Pre-loading..." />}
           </div>
@@ -663,7 +663,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
             <div className="rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-7">
               <div className="mb-4 text-center">
-                <KitLabel tone={best ? 'emerald' : 'plain'}>{best ? `Best upgrade · ${nameFor(best)}` : raceSolvers.length ? 'Try these upgrades' : 'No answers this time'}</KitLabel>
+                <KitLabel tone={best ? 'emerald' : 'plain'}>{best ? `Best upgrade Â· ${nameFor(best)}` : raceSolvers.length ? 'Try these upgrades' : 'No answers this time'}</KitLabel>
               </div>
               {renderSentence(best?.replacement ?? sorted[0]?.suggestions[0] ?? raceSolvers.flatMap((r) => r.suggestions)[0])}
               {best?.comment && <p className="mt-4 text-center text-base italic text-white/65">{best.comment}</p>}
@@ -685,9 +685,6 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
             <div className="flex flex-wrap items-center justify-center gap-2">
               {sorted.length > 0 && (
                 <KitButton tone="amber" onClick={() => { setReviewIndex(0); setReviewShowSuggestions(false); }}>Review one by one</KitButton>
-              )}
-              {onRevealTopSubmissions && sorted.length > 0 && (
-                <KitButton onClick={() => onRevealTopSubmissions(sorted.slice(0, 3).map((sv) => ({ content: sv.replacement, feedback: sv.comment, points: sv.score, clientId: sv.clientId, displayName: sv.displayName })))}>Reveal top 3</KitButton>
               )}
               <NextButton />
             </div>
