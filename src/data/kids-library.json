@@ -14,7 +14,9 @@
     "difficultyLevel": "Easy",
     "description": "Why do all living things need to eat? Sabrina explores what organisms eat to get energy and how plants, animals, and people fit into the big picture of life on Earth.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_here_comes_the_sun",
@@ -31,7 +33,9 @@
     "difficultyLevel": "Easy",
     "description": "Sabrina explains what the Sun is, how it works, and how its energy travels 93 million miles to reach us and power almost all life on Earth.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_fabulous_food_chains",
@@ -48,7 +52,9 @@
     "difficultyLevel": "Easy",
     "description": "Sabrina breaks down how energy moves through an ecosystem — from the Sun to plants to animals — and why every link in a food chain matters.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_defining_gravity",
@@ -65,7 +71,9 @@
     "difficultyLevel": "Easy",
     "description": "What is gravity, and why does everything fall down? Sabrina explains the invisible force that holds the universe together — from falling apples to orbiting planets.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_weathering_erosion",
@@ -82,7 +90,9 @@
     "difficultyLevel": "Easy",
     "description": "How do rivers carve canyons and rain wear down mountains? Sabrina explores weathering and erosion — the slow, powerful forces that reshape the surface of our planet.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_science_of_lunch",
@@ -99,7 +109,9 @@
     "difficultyLevel": "Easy",
     "description": "What actually happens when you eat your lunch? Sabrina investigates the science behind food — from where ingredients come from to how your body uses energy.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_home_sweet_habitat",
