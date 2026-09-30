@@ -47,6 +47,9 @@
       "a": "Yes. Students access it through a shared browser link on any device — no download or sign-in required."
     }
   ],
-  "related": ["fact-detective", "two-truths", "expert-panel"],
+  "related": [
+    "fact-detective",
+    "expert-panel"
+  ],
   "ogImageTheme": "icebreakers"
 }

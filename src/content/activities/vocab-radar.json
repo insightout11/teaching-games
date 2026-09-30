@@ -43,6 +43,10 @@
       "a": "No. Students join through the live lesson link and respond without signing in."
     }
   ],
-  "related": ["vocab-sprint", "word-chain", "wonder-board"],
+  "related": [
+    "vocab-sprint",
+    "synonym-showdown",
+    "wonder-board"
+  ],
   "ogImageTheme": "icebreakers"
 }
