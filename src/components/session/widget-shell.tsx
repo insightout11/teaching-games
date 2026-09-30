@@ -3,7 +3,8 @@
 import { useSnapZones, nearestZone, snappedPosition } from '@/stores/snap-zones-store';
 import { useEffect, useRef, useState, useMemo, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { Blend, Columns2, Maximize2, Minimize2 } from 'lucide-react';
+import { Blend, Columns2, Maximize2, Minimize2, MonitorUp } from 'lucide-react';
+import { useStageStore } from '@/stores/stage-store';
 import { useWidgetStore } from '@/stores/widget-store';
 
 interface WidgetShellProps {
@@ -56,7 +57,17 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
   const closeWidget = useWidgetStore((s) => s.closeWidget);
   const setDefaultPosition = useWidgetStore((s) => s.setDefaultPosition);
   const setLayout = useWidgetStore((s) => s.setLayout);
-  const wind = useSnapZones((s) => s.windRect);
+  const windRect = useSnapZones((s) => s.windRect);
+  // Stage window (Live Room pop-out shared in Zoom): widgets can render there.
+  const stageEl = useStageStore((s) => s.container);
+  const stageSize = useStageStore((s) => s.size);
+  const stageChoice = useStageStore((s) => s.onStage[id]);
+  const setOnStage = useStageStore((s) => s.setOnStage);
+  const rawMode = widgetEntry?.mode ?? 'free';
+  // Default: widgets filling half / all of the windscreen follow it onto the stage.
+  const onStage = !!stageEl && (stageChoice ?? rawMode !== 'free');
+  // The area half / full modes fill: the stage when on it, else the windscreen.
+  const wind = onStage ? { left: 0, top: 0, width: stageSize.w, height: stageSize.h } : windRect;
 
   const widget = useMemo(() => ({
     position: widgetEntry?.position ?? { x: 0, y: 0 },
@@ -94,7 +105,10 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
       : wind && mode === 'half-left' ? { left: wind.left + GAP, top: wind.top + GAP, width: wind.width / 2 - GAP * 1.5, height: wind.height - GAP * 2 }
         : wind && mode === 'half-right' ? { left: wind.left + wind.width / 2 + GAP / 2, top: wind.top + GAP, width: wind.width / 2 - GAP * 1.5, height: wind.height - GAP * 2 }
           : expanded ? { left: '2vw', top: '2vh', width: '96vw', height: '96vh' }
-            : { left: widget.position.x, top: widget.position.y, width: size ? size.w : 'clamp(320px, 28vw, 420px)', height: size?.h };
+            : onStage
+              // Floating on the stage: top-right corner, a comfortable readable size.
+              ? { left: stageSize.w - Math.min(440, stageSize.w * 0.36) - 16, top: 16, width: Math.min(440, stageSize.w * 0.36) }
+              : { left: widget.position.x, top: widget.position.y, width: size ? size.w : 'clamp(320px, 28vw, 420px)', height: size?.h };
   const pxWidth = typeof box.width === 'number' ? box.width : expanded ? window.innerWidth * 0.96 : PANEL_W();
   // Content grows with the widget (gently: a bigger board also fits more).
   const zoom = Math.min(1.45, Math.max(0.85, Math.pow(pxWidth / 380, 0.45)));
@@ -107,7 +121,7 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
   };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (expanded) return; // no dragging while maximized
+    if (expanded || onStage) return; // no dragging while maximized or on the stage
     if (mode !== 'free') toFree();
     e.currentTarget.setPointerCapture(e.pointerId);
     bringToFront(id);
@@ -188,7 +202,7 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
       ref={shellRef}
       data-widget-id={id}
       style={{
-        position: 'fixed',
+        position: onStage ? 'absolute' : 'fixed',
         left: box.left,
         top: box.top,
         zIndex: expanded || mode !== 'free' ? zIndex + 1000 : zIndex,
@@ -221,6 +235,15 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
           <span className="font-semibold text-sm">{label}</span>
         </div>
         <div className="flex items-center gap-1" onPointerDown={(e) => e.stopPropagation()}>
+          {stageEl && (
+            <button
+              onClick={() => setOnStage(id, !onStage)}
+              className={onStage ? 'p-1 text-sky-300' : btn}
+              title={onStage ? 'Take off the stage (back to your window)' : 'Show on the Stage window'}
+            >
+              <MonitorUp className="w-3.5 h-3.5" />
+            </button>
+          )}
           {/* See-through: keep the view outside visible */}
           <button onClick={() => setLayout(id, { glass: !glass })} className={glass ? 'p-1 text-sky-300' : btn} title={glass ? 'Solid' : 'Glass (see-through)'}>
             <Blend className="w-3.5 h-3.5" />
@@ -313,5 +336,5 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
     </div>
   );
 
-  return createPortal(content, document.body);
+  return createPortal(content, onStage && stageEl ? stageEl : document.body);
 }

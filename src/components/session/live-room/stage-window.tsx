@@ -1,6 +1,20 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useStageStore } from '@/stores/stage-store';
+
+// Audience view: the scene's teacher controls (buttons, inputs, forms) never show on
+// the stage — the teacher has them in the main window. Games and widgets keep theirs.
+const AUDIENCE_CSS = `
+#lc-stage-root [data-scene] button:not([data-keep]),
+#lc-stage-root [data-scene] input,
+#lc-stage-root [data-scene] select,
+#lc-stage-root [data-scene] form,
+#lc-stage-root [data-scene] label:has(select),
+#lc-stage-root [data-scene] [data-teacher] { display: none !important; }
+#lc-stage-root [data-scene] textarea { pointer-events: none; }
+#lc-stage-root [data-scene] textarea::placeholder { color: transparent; }
+`;
 
 /**
  * The Stage window: a separate 16:9 browser window that shows only the
@@ -15,6 +29,8 @@ export function useStageWindow({ title }: { title: string }) {
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const winRef = useRef<Window | null>(null);
   const cleanup = useRef<() => void>(() => {});
+  const setStageContainer = useStageStore((st) => st.setContainer);
+  const setStageSize = useStageStore((st) => st.setSize);
 
   const close = useCallback(() => {
     cleanup.current();
@@ -22,8 +38,9 @@ export function useStageWindow({ title }: { title: string }) {
     const w = winRef.current;
     winRef.current = null;
     setContainer(null);
+    setStageContainer(null);
     try { if (w && !w.closed) w.close(); } catch { /* already gone */ }
-  }, []);
+  }, [setStageContainer]);
 
   const open = useCallback((): boolean => {
     if (winRef.current && !winRef.current.closed) {
@@ -57,9 +74,15 @@ export function useStageWindow({ title }: { title: string }) {
     root.style.cssText = 'position:relative;width:100vw;height:100vh;overflow:hidden;';
     doc.body.innerHTML = '';
     doc.body.appendChild(root);
+    const audience = doc.createElement('style');
+    audience.textContent = AUDIENCE_CSS;
+    doc.head.appendChild(audience);
 
     // Anything that sizes itself on window resize listens to THIS window.
-    const onResize = () => window.dispatchEvent(new Event('resize'));
+    const onResize = () => {
+      setStageSize({ w: w.innerWidth, h: w.innerHeight });
+      window.dispatchEvent(new Event('resize'));
+    };
     w.addEventListener('resize', onResize);
     // Teacher closed the pop-up (or it navigated away): bring the stage home.
     const onGone = () => { if (winRef.current === w) close(); };
@@ -75,9 +98,11 @@ export function useStageWindow({ title }: { title: string }) {
       } catch { /* window gone */ }
     };
     setContainer(root);
+    setStageContainer(root);
+    setStageSize({ w: w.innerWidth || 1280, h: w.innerHeight || 720 });
     window.setTimeout(onResize, 50);
     return true;
-  }, [title, close]);
+  }, [title, close, setStageContainer, setStageSize]);
 
   const focus = useCallback(() => { try { winRef.current?.focus(); } catch { /* gone */ } }, []);
 
