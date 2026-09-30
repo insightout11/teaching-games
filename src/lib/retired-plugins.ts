@@ -20,6 +20,8 @@ export const RETIRED_PLUGIN_KEYS: ReadonlySet<string> = new Set([
   'two-truths',
   'password', // replaced by Hot Seat (everyone gives clues, not one team)
   'defend-it', // now Hot Take Arena's "Wild card" mode
+  'radar-fix', // merged into Mystery Flight (text clues)
+  'world-lens', // merged into Mystery Flight (photo clues)
 ]);
 
 export const isRetired = (key: string) => RETIRED_PLUGIN_KEYS.has(key);

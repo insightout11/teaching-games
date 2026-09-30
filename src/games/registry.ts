@@ -20,6 +20,7 @@ import { defendItPlugin } from './defend-it';
 import { sectorStrikePlugin } from './sector-strike';
 import { radarFixPlugin } from './radar-fix';
 import { worldLensPlugin } from './world-lens';
+import { mysteryFlightPlugin } from './mystery-flight';
 
 const games: GamePlugin[] = [
   flashQuizPlugin,
@@ -40,6 +41,7 @@ const games: GamePlugin[] = [
   sectorStrikePlugin,
   radarFixPlugin,
   worldLensPlugin,
+  mysteryFlightPlugin,
 ];
 
 export function getGame(key: string): GamePlugin | undefined {
