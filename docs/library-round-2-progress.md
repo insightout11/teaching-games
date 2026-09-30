@@ -25,4 +25,7 @@ No round 2 batches committed yet.
 - Batch 1 of 23: 20 metadata backfills (`bbc-ideas` 10, `bbc` 10); validator passes at 1,033 records.
 - CEFR values use the existing `difficultyLevel`; age bands use source audience and intended class fit. None of these 20 lacked enough title/description evidence to require a new review flag.
 - `npx tsc --noEmit -p .` passes after the owner-approved local install of already-declared `@mozilla/readability@0.6.0`; package.json and lockfile are unchanged.
-- Both required checks pass. Commit: pending.
+- Both required checks pass. Commit: `cb094c00` (`Backfill library metadata batch 1`).
+
+- 2026-09-30 · metadata batch 2 · +20 (bbc-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
+px tsc --noEmit -p . pass · needsReview added only where source text is too limited · commit pending.

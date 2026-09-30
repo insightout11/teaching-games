@@ -196,7 +196,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan shares a collection of the most useful phrases for natural English conversation — from agreeing and disagreeing to hedging, softening, and changing the subject.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_masterclass_inversion_1",
@@ -213,7 +215,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan introduces inversion after negative adverbs like 'never', 'rarely', and 'not only' — a formal structure used for emphasis in written and spoken English.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_masterclass_inversion_2",
@@ -230,7 +234,9 @@
     ],
     "difficultyLevel": "Expert",
     "description": "Dan covers reduced conditionals ('Had I known...', 'Were I to...') and other advanced inversions — formal structures found in literary, academic, and professional English.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_masterclass_choose_tense",
@@ -247,7 +253,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan tackles one of the most confusing areas for English learners — when to use the present perfect vs. past simple, and other key tense distinctions in context.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_masterclass_linking_words",
@@ -264,7 +272,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan explains how to use discourse markers and linking words to structure arguments, add information, show cause and effect, and improve coherence in writing and speaking.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_verb_patterns",
@@ -281,7 +291,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan explains the difference between gerunds and infinitives after verbs like 'stop', 'remember', 'try', and 'regret' — verbs that change meaning depending on which form follows.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_street_food",
@@ -303,7 +315,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English discussion of why street food has become popular, with vocabulary for vendors, markets, taste, convenience, and food trends.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_new_food_culture",
@@ -325,7 +339,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about adapting to a new food culture, useful for discussing migration, identity, taste, customs, and culture shock.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_waste",
@@ -347,7 +363,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on food waste and the people trying to reduce it, with vocabulary for sustainability, leftovers, resources, and consumer habits.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_fast_food",
@@ -369,7 +387,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English discussion of fast food's global popularity, connecting convenience, consumer culture, restaurant chains, and health debates.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_future_food",
@@ -391,7 +411,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on future food and food security, useful for discussing farming, climate, population growth, and food technology.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_comfort_food",
@@ -413,7 +435,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about comfort food, snacks, emotions, and memory, useful for personal-opinion speaking lessons about food and wellbeing.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_sleep",
@@ -434,7 +458,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on why sleep matters, with useful vocabulary for sleep habits, routines, rest, health, and the brain.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_stress",
@@ -456,7 +482,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about modern stress, useful for discussing work, exams, anxiety, coping strategies, and mental wellbeing.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_sitting",
@@ -478,7 +506,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on the health risks of too much sitting, with vocabulary for movement, exercise, workplace health, habits, and lifestyle.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_flourishing",
@@ -500,7 +530,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about flourishing and wellbeing, useful for discussing happiness, life satisfaction, positive psychology, and mental health.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_workplace_mental_health",
@@ -522,7 +554,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on mental health at work, with vocabulary for workplace wellbeing, stress, support, stigma, and professional life.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_kindness",
@@ -544,7 +578,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on whether kindness benefits wellbeing, useful for speaking lessons about empathy, happiness, relationships, and community.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_training_ai",
@@ -566,7 +602,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about how artificial intelligence is trained, with vocabulary for machine learning, algorithms, data, computers, and automation.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_robot_companion",
@@ -588,7 +626,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about robot companions, useful for discussing robotics, AI, social relationships, and the future of human-machine interaction.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_future_of_work",
