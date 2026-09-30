@@ -827,7 +827,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Clay Routledge explores the psychology of nostalgia — why it is bittersweet, what function it serves, and why it matters more than its sentimental reputation suggests.",
     "summary": "The word *nostalgia* was coined in the 17th century by a Swiss physician who believed it was a serious — possibly fatal — illness affecting soldiers fighting far from home. Today it is used more loosely to describe a wistful longing for the past. But psychology research, led by Clay Routledge, reveals that nostalgia is far more psychologically complex and useful than its sentimental reputation suggests.\n\nNostalgia is uniquely *bittersweet*: it involves both warm, positive feelings about the past and an underlying *awareness* that those moments are gone. It is triggered reliably by certain stimuli — old songs, familiar smells, photographs — and is remarkably *universal* across cultures.\n\nRoutledge's research identifies several psychological functions nostalgia performs. It *counteracts loneliness* by bringing to mind meaningful relationships and social connections. It *strengthens self-continuity* — the sense that you are the same person over time — which is important for *psychological stability*. And it *increases feelings of meaning*: nostalgic memories typically involve warm relationships, belonging, and purposeful activity, and recalling them makes life feel more worthwhile.\n\nThe research finds that nostalgia tends to increase under conditions of *loneliness*, *boredom*, and *social disconnection* — which may be why it is more prevalent in old age, in winter, and during times of cultural disruption. Rather than being escapism, it appears to be a *coping mechanism* that helps people reconnect with what matters most to them.\n\nKey vocabulary: *nostalgia, bittersweet, sentimental, longing, continuity, psychological, coping, belonging, meaning, trigger*. Ideal for personal storytelling activities and discussions about memory, identity, and what we value.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_science_of_attraction",
@@ -844,7 +846,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Dawn Maslar explores the biological and psychological factors that drive physical and romantic attraction — from dopamine to symmetry to the role of scent.",
     "summary": "What makes us attracted to one person and not another? This TED-Ed lesson by Dawn Maslar looks at the biology and psychology behind *attraction* — what drives the overwhelming feeling of being drawn to someone.\n\nThe video covers several key factors. *Physical symmetry* is reliably associated with attractiveness across cultures — it is a signal of developmental health and good genes. *Scent* plays a surprisingly important unconscious role: studies show people are more attracted to the body odour of those with sufficiently *different immune profiles* (*MHC genes*), potentially driving *genetic diversity* in offspring.\n\n*Similarity* is another strong predictor of attraction: we tend to be drawn to people who share our values, background, and sense of humour — a principle called *homophily*. But novelty and *complementarity* can also be attractive: the excitement of difference and the appeal of qualities we admire in ourselves.\n\nAt the neurochemical level, attraction is driven by a cocktail of hormones and neurotransmitters. *Dopamine* creates the desire and excitement of *reward anticipation*. *Norepinephrine* causes elevated heart rate and heightened alertness. *Serotonin* dips — which is why early-stage attraction can resemble *obsessive thinking*. These chemicals together create the experience of being 'in love.'\n\nResearch also suggests that attraction is *amplified* by physiological arousal: people who meet in exciting or fear-inducing situations (the *misattribution of arousal* effect) often rate each other as more attractive.\n\nKey vocabulary: *attraction, symmetry, pheromone, dopamine, serotonin, homophily, arousal, neurochemical, reciprocity, compatibility*. A high-interest lesson for adult learners, opening discussions about relationships, science, and human behaviour.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_what_causes_insomnia",
@@ -861,7 +865,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Dan Kwartler explains the mechanisms behind insomnia — why it starts, why it persists, and what evidence-based treatments actually work.",
     "summary": "Around one third of adults report *insomnia* symptoms at some point — difficulty falling asleep, staying asleep, or waking too early — with significant consequences for health, mood, and cognitive performance. This TED-Ed lesson by Dan Kwartler explains how insomnia works and why it can become *chronic*.\n\nThe sleep system involves two overlapping processes. *Process S* (sleep pressure) is the build-up of the chemical *adenosine* in the brain during wakefulness — the longer you're awake, the more adenosine accumulates, and the sleepier you feel. *Process C* (the *circadian rhythm*) is the body's 24-hour internal clock, regulated by *light exposure* and controlling the release of *melatonin* to signal nighttime.\n\nInsomnia typically begins with a *triggering event* — stress, illness, disrupted schedule — that temporarily prevents sleep. The body's stress response then enters the picture: *cortisol* and *adrenaline* are released to compensate for missed sleep, which creates *hyperarousal* — a state of heightened alertness that itself prevents sleep. What was acute becomes *chronic* through a vicious cycle.\n\nThe video explains why common behaviours (lying in bed awake, watching the clock, sleeping in to compensate) actually *worsen* insomnia by breaking the association between bed and sleep, and by reducing *sleep pressure* through oversleeping.\n\nThe most evidence-based treatment is *Cognitive Behavioural Therapy for Insomnia* (CBT-I) — which addresses the thoughts and behaviours that maintain the cycle — rather than sleeping pills, which treat the *symptom* without breaking the cycle.\n\nKey vocabulary: *insomnia, circadian rhythm, melatonin, cortisol, sleep pressure, adenosine, hyperarousal, chronic, cognitive, deprivation*. A practical, high-relevance lesson that most adult learners find immediately applicable to their lives.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_myth_prometheus",
@@ -882,7 +888,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A TED-Ed animated Greek myth about Prometheus, fire, rebellion, punishment, and the consequences of helping humanity.",
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_myth_orpheus_eurydice",
@@ -904,7 +912,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A TED-Ed animated myth about Orpheus and Eurydice, useful for discussing tragedy, trust, temptation, and irreversible choices.",
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_myth_sisyphus",
@@ -926,7 +936,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A TED-Ed animated myth about Sisyphus, trickery, punishment, and the meaning people find in repeated struggle.",
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_myth_king_midas",
@@ -949,7 +961,9 @@
     "difficultyLevel": "Intermediate",
     "description": "A TED-Ed animated myth about King Midas, greed, wishes, and the unintended consequences of getting exactly what you ask for.",
     "summary": "This TED-Ed myth follows King Midas after he receives the power to turn everything he touches into gold. The story is a strong anchor for lessons on myths, morals, greed, wishes, consequences, and how traditional stories teach values through memorable characters and dramatic mistakes.",
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_myth_arachne",
@@ -971,7 +985,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A TED-Ed animated myth about Arachne, creativity, pride, competition, and transformation, useful for retelling and character-perspective activities.",
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_fairy_tale_origins",
@@ -993,7 +1009,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A TED-Ed lesson on how fairy tales have changed across versions and cultures, useful for comparing adaptations, original stories, and modern retellings.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "teded_video_games_babies_learning",
