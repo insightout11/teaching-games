@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, Plane, QrCode, Search, Shuffle, Vote, X } from 'lucide-react';
+import { Crosshair, ExternalLink, Hand, Maximize2, Menu, Minimize2, Package, Plane, QrCode, Search, Shuffle, Users, Video, Vote, X } from 'lucide-react';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
@@ -370,6 +370,30 @@ export function FlightDeck({
   const [huds, setHuds] = useState<Instrument[]>([]);
   const [hudPos, setHudPos] = useState<Record<string, { x: number; y: number }>>({});
   const [presenting, setPresenting] = useState(false);
+  // Zoom layout: the whole window is shared, so the windscreen takes the space;
+  // cargo + cabin fold into edge rails that slide open over it. Remembered.
+  const [zoomLayout, setZoomLayout] = useState(false);
+  useEffect(() => {
+    try { setZoomLayout(localStorage.getItem('lc-zoom-layout') === '1'); } catch { /* storage blocked */ }
+  }, []);
+  const toggleZoomLayout = () => setZoomLayout((v) => {
+    try { localStorage.setItem('lc-zoom-layout', v ? '0' : '1'); } catch { /* storage blocked */ }
+    return !v;
+  });
+  const [railOpen, setRailOpen] = useState<null | 'cargo' | 'cabin'>(null);
+  const [railPinned, setRailPinned] = useState(false);
+  const railTimer = useRef<number | null>(null);
+  const windWidth = useSnapZones((st) => st.windRect?.width ?? 0);
+  const sceneZoom = zoomLayout && windWidth > 0 ? Math.min(1.6, Math.max(1, windWidth / 1050)) : 1;
+  const openRail = (which: 'cargo' | 'cabin') => {
+    if (railTimer.current) window.clearTimeout(railTimer.current);
+    setRailOpen(which);
+  };
+  const leaveRail = () => {
+    if (railPinned) return;
+    if (railTimer.current) window.clearTimeout(railTimer.current);
+    railTimer.current = window.setTimeout(() => setRailOpen(null), 450);
+  };
   const [panel, setPanel] = useState<'catalogue' | 'sources' | 'menu' | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
   const [spotlight, setSpotlightId] = useState<string | null>(null);
@@ -1308,6 +1332,8 @@ export function FlightDeck({
             exit={reduce ? undefined : { opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
             className="absolute inset-0 flex items-center justify-center p-6"
+            // Zoom layout: grow the content with the (much bigger) windscreen so it reads on a phone in Zoom.
+            style={sceneZoom !== 1 ? { zoom: sceneZoom } : undefined}
           >
             {scene}
           </motion.div>
@@ -1376,7 +1402,7 @@ export function FlightDeck({
   );
 
   return (
-    <div className="grid h-[100dvh] grid-cols-[220px_minmax(0,1fr)_240px] grid-rows-[52px_minmax(0,1fr)_176px] gap-2.5 bg-[radial-gradient(ellipse_120%_70%_at_50%_120%,#1b2438_0%,#0b1120_55%,#05070D_100%)] p-2.5 text-white">
+    <div className={`relative grid h-[100dvh] ${zoomLayout ? 'grid-cols-[48px_minmax(0,1fr)_48px] grid-rows-[46px_minmax(0,1fr)_56px] gap-2' : 'grid-cols-[220px_minmax(0,1fr)_240px] grid-rows-[52px_minmax(0,1fr)_176px] gap-2.5'} bg-[radial-gradient(ellipse_120%_70%_at_50%_120%,#1b2438_0%,#0b1120_55%,#05070D_100%)] p-2.5 text-white`}>
       <SnapGuides hosts={snapHosts} />
       <WidgetShell id={QR_WIDGET} label={`Board ${className}`} icon={<QrCode className="h-4 w-4" />} defaultOpen={false}>
         <div className="flex items-center gap-3 p-3">
@@ -1400,7 +1426,7 @@ export function FlightDeck({
       <style>{'@keyframes deck-drift{from{transform:translateX(110vw)}to{transform:translateX(-120%)}} [data-deck-drag] img{-webkit-user-drag:none;user-select:none;pointer-events:none}'}</style>
 
       {/* Glareshield */}
-      <header className="col-span-3 flex items-center gap-3 rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#141d30] to-[#0c1322] px-3">
+      <header className="col-span-3 row-start-1 flex items-center gap-3 rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#141d30] to-[#0c1322] px-3">
         <span className="font-mono text-xs font-semibold tracking-[0.14em] text-white/70">FLIGHT <b className="font-semibold text-amber-300">{className.toUpperCase()}</b></span>
         <span className="flex min-w-0 items-center gap-2 rounded-full border border-amber-300/45 bg-amber-300/10 px-3 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-amber-300" aria-live="polite">
           <i className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-rose-400 shadow-[0_0_10px_#fb7185]" />
@@ -1426,6 +1452,9 @@ export function FlightDeck({
             );
           })}
         </nav>
+        <button type="button" onClick={toggleZoomLayout} title="Big windscreen for sharing this window in Zoom" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${zoomLayout ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
+          <Video className="h-3.5 w-3.5" /> Zoom layout
+        </button>
         <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Maximize2 className="h-3.5 w-3.5" /> Present
         </button>
@@ -1459,7 +1488,27 @@ export function FlightDeck({
       </header>
 
       {/* Cargo hold (room material) */}
-      <aside ref={cargoRef} className="flex min-h-0 flex-col gap-2 overflow-hidden rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#0e1524] to-[#0a101c] p-3">
+      {zoomLayout && (
+        <button
+          type="button"
+          onMouseEnter={() => openRail('cargo')}
+          onMouseLeave={leaveRail}
+          onClick={() => { if (railOpen === 'cargo' && railPinned) { setRailPinned(false); setRailOpen(null); } else { setRailPinned(true); openRail('cargo'); } }}
+          className={`col-start-1 row-start-2 flex flex-col items-center gap-2 rounded-2xl border py-3 ${railOpen === 'cargo' ? 'border-sky-300/50 bg-sky-300/10' : 'border-[#2A3854] bg-[#0c1322] hover:border-[#3d5176]'}`}
+          aria-label="Cargo"
+          title="Cargo"
+        >
+          <Package className="h-4 w-4 text-white/70" />
+          <span className="font-mono text-[11px] font-semibold text-white/80">{material.length}</span>
+          <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-white/40 [writing-mode:vertical-rl]">Cargo</span>
+        </button>
+      )}
+      <aside
+        ref={cargoRef}
+        onMouseEnter={() => { if (zoomLayout) openRail('cargo'); }}
+        onMouseLeave={() => { if (zoomLayout && !dragging) leaveRail(); }}
+        className={`flex min-h-0 flex-col gap-2 overflow-hidden rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#0e1524] to-[#0a101c] p-3 ${zoomLayout ? (railOpen === 'cargo' ? 'absolute top-[62px] bottom-[74px] left-2.5 z-40 w-[260px] shadow-2xl' : 'hidden') : 'col-start-1 row-start-2'}`}
+      >
         <p className="flex justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">Cargo <span>{material.length}</span></p>
         <div className="-mr-1 flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto pr-1">
           {material.length === 0 && <p className="text-xs text-white/45">Things you find with Sources land here. Drag one onto the windscreen to show it.</p>}
@@ -1511,7 +1560,7 @@ export function FlightDeck({
       </aside>
 
       {/* Windscreen */}
-      <div className="relative min-h-0">
+      <div className="relative col-start-2 row-start-2 min-h-0">
         {windscreen}
         <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[30px_30px_18px_18px] shadow-[inset_0_0_0_6px_#121a2a,inset_0_0_40px_rgba(0,0,0,.35)]" />
         {panel === 'catalogue' && (
@@ -1550,7 +1599,27 @@ export function FlightDeck({
       </div>
 
       {/* Cabin */}
-      <aside ref={cabinRef} className="flex min-h-0 flex-col gap-2 overflow-hidden rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#0e1524] to-[#0a101c] p-3">
+      {zoomLayout && (
+        <button
+          type="button"
+          onMouseEnter={() => openRail('cabin')}
+          onMouseLeave={leaveRail}
+          onClick={() => { if (railOpen === 'cabin' && railPinned) { setRailPinned(false); setRailOpen(null); } else { setRailPinned(true); openRail('cabin'); } }}
+          className={`col-start-3 row-start-2 flex flex-col items-center gap-2 rounded-2xl border py-3 ${railOpen === 'cabin' ? 'border-sky-300/50 bg-sky-300/10' : 'border-[#2A3854] bg-[#0c1322] hover:border-[#3d5176]'}`}
+          aria-label="Cabin"
+          title="Cabin"
+        >
+          <Users className="h-4 w-4 text-white/70" />
+          <span className="font-mono text-[11px] font-semibold text-white/80">{seated.length}</span>
+          <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-white/40 [writing-mode:vertical-rl]">Cabin</span>
+        </button>
+      )}
+      <aside
+        ref={cabinRef}
+        onMouseEnter={() => { if (zoomLayout) openRail('cabin'); }}
+        onMouseLeave={() => { if (zoomLayout && !dragging) leaveRail(); }}
+        className={`flex min-h-0 flex-col gap-2 overflow-hidden rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#0e1524] to-[#0a101c] p-3 ${zoomLayout ? (railOpen === 'cabin' ? 'absolute top-[62px] bottom-[74px] right-2.5 z-40 w-[260px] shadow-2xl' : 'hidden') : 'col-start-3 row-start-2'}`}
+      >
         <p className="flex justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">Cabin <span>{seated.length}{rosterCount ? ` / ${rosterCount}` : ''}</span></p>
         <button type="button" onClick={spinRoulette} disabled={seated.length === 0 || !!roulette} className="flex items-center justify-center gap-1.5 rounded-xl border border-amber-300/50 bg-amber-300/10 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-amber-300 hover:bg-amber-300/20 disabled:opacity-40">
           <Shuffle className="h-3.5 w-3.5" /> Pick a student
@@ -1630,8 +1699,8 @@ export function FlightDeck({
       </aside>
 
       {/* Instrument panel */}
-      <section className="col-span-3 grid min-h-0 grid-cols-[auto_minmax(0,1fr)] gap-4 rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#141c2d] to-[#0b111d] px-3.5 py-3">
-        <div className="flex gap-2.5">
+      <section className={`col-span-3 row-start-3 min-h-0 rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#141c2d] to-[#0b111d] ${zoomLayout ? 'flex items-center overflow-x-auto px-2.5' : 'grid grid-cols-[auto_minmax(0,1fr)] gap-4 px-3.5 py-3'}`}>
+        <div className={zoomLayout ? 'hidden' : 'flex gap-2.5'}>
           {(Object.keys(INSTRUMENT_LABEL) as Instrument[]).map((k) => {
             const r = readings[k];
             const on = huds.includes(k);
@@ -1651,11 +1720,11 @@ export function FlightDeck({
             );
           })}
         </div>
-        <div className="flex min-w-0 flex-col gap-2">
-          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
+        <div className={zoomLayout ? 'flex min-w-0 items-center gap-2' : 'flex min-w-0 flex-col gap-2'}>
+          <p className={zoomLayout ? 'hidden' : 'font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45'}>
             Activities · drag onto the windscreen{focused ? ` (built from "${focused.title}")` : ''} or onto a cargo item
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className={zoomLayout ? 'flex shrink-0 gap-1.5' : 'flex flex-wrap gap-2'}>
             {stamps.map((s, i) => (
               <button
                 key={s.key}
@@ -1673,7 +1742,8 @@ export function FlightDeck({
               All {catalogue.length}…
             </button>
           </div>
-          <p className="mt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
+          {zoomLayout && <span className="mx-1 h-6 w-px shrink-0 bg-white/15" aria-hidden />}
+          <p className={zoomLayout ? 'hidden' : 'mt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45'}>
             Tools · open where you click, drag to a windscreen corner to snap
             <span className="ml-3 inline-flex gap-1 normal-case tracking-normal">
               {SCREEN_TEMPLATES.map((t) => (
@@ -1683,7 +1753,7 @@ export function FlightDeck({
               ))}
             </span>
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className={zoomLayout ? 'flex shrink-0 gap-1.5' : 'flex flex-wrap gap-2'}>
             {WIDGET_REGISTRY.filter((w) => w.id !== 'random-picker').map((w) => {
               const waitingCount = w.id === 'class-questions' ? waitingMessages : w.id === 'class-board' ? waitingCards : 0;
               const calling = waitingCount > 0;
