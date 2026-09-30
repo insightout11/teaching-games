@@ -1,0 +1,152 @@
+{
+  "bangkok": {
+    "id": "bangkok",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm air lasts through much of the year, and a rainy season brings sudden tropical showers." },
+      { "order": 2, "kind": "food", "text": "A wok sizzles with rice noodles, egg, tofu, peanuts, and a sweet-sour tamarind sauce." },
+      { "order": 3, "kind": "culture", "text": "A polite greeting may include palms pressed together in a small wai." },
+      { "order": 4, "kind": "nature", "text": "A wide river crosses the city, and boats carry passengers between busy piers." },
+      { "order": 5, "kind": "landmark", "text": "A riverside temple has a tall central spire decorated with colorful porcelain." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Thailand." }
+    ],
+    "souvenirs": [
+      { "id": "bangkok-tuk-tuk", "name": "Tuk-tuk model", "description": "This three-wheeled vehicle can weave through busy streets and is a familiar local ride.", "earn": { "type": "land" }, "icon": "car", "artPrompt": "sticker-style bright three-wheeled tuk-tuk, no text, no people's faces" },
+      { "id": "bangkok-river-boat", "name": "River boat token", "description": "Passenger boats cross the Chao Phraya River and stop at piers along the banks.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "ship", "artPrompt": "sticker-style long-tail river boat with colorful ribbons, no text, no people's faces" },
+      { "id": "bangkok-noodle-bowl", "name": "Noodle bowl", "description": "Pad Thai is a stir-fried noodle dish often made with tamarind, egg, tofu, and peanuts.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "utensils", "artPrompt": "sticker-style bowl of rice noodles with lime and peanuts, no text, no people's faces" },
+      { "id": "bangkok-market-tote", "name": "Market tote", "description": "Chatuchak Weekend Market has stalls selling food, clothes, plants, and souvenirs.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shopping-bag", "artPrompt": "sticker-style woven market tote with colorful produce peeking out, no text, no people's faces" },
+      { "id": "bangkok-temple-spire", "name": "Porcelain temple spire", "description": "Wat Arun's central tower is decorated with colorful pieces of porcelain.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style miniature porcelain-covered temple spire, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Bangkok market or temple would you most like to visit, and what would you look for there?",
+      "What would you ask a vendor at Chatuchak Weekend Market?",
+      "Describe what you imagine seeing from a boat in Bangkok."
+    ],
+    "localWords": [
+      { "word": "sawasdee", "language": "Thai", "meaning": "hello", "say": "sa-wat-DEE" },
+      { "word": "khop khun", "language": "Thai", "meaning": "thank you", "say": "khawp-KHOON" },
+      { "word": "aroi", "language": "Thai", "meaning": "delicious", "say": "a-ROY" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the simple English pronunciations of the Thai words with a fluent Thai speaker."
+  },
+  "tokyo": {
+    "id": "tokyo",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Hot, humid summers and mild winters shape a city that stretches from a busy bay toward wooded hills." },
+      { "order": 2, "kind": "food", "text": "At a counter, chefs shape vinegared rice with fresh seafood into small bites." },
+      { "order": 3, "kind": "nature", "text": "A forested shrine path can feel quiet even though tall buildings stand nearby." },
+      { "order": 4, "kind": "culture", "text": "At a famous scramble crossing, crowds move in many directions, then pause for the next signal." },
+      { "order": 5, "kind": "landmark", "text": "An old temple in Asakusa is reached through a lively street of stalls and lanterns." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Japan." }
+    ],
+    "souvenirs": [
+      { "id": "tokyo-train-pass", "name": "Train pass case", "description": "Trains and subway lines connect neighborhoods across this very large city.", "earn": { "type": "land" }, "icon": "train", "artPrompt": "sticker-style colorful commuter train with a tiny ticket case, no text, no people's faces" },
+      { "id": "tokyo-sushi-set", "name": "Sushi plate", "description": "Edomae sushi pairs seafood with small portions of vinegared rice.", "earn": { "type": "mode", "mode": "topic" }, "icon": "utensils", "artPrompt": "sticker-style neat plate of nigiri sushi, no text, no people's faces" },
+      { "id": "tokyo-lantern", "name": "Temple lantern", "description": "A large red lantern hangs at the Kaminarimon gate near Senso-ji Temple.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "lamp", "artPrompt": "sticker-style red paper temple lantern with simple trim, no text, no people's faces" },
+      { "id": "tokyo-nakamise-snack", "name": "Nakamise snack bag", "description": "Stalls along Nakamise Street sell snacks and small souvenirs near Senso-ji Temple.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shopping-bag", "artPrompt": "sticker-style paper snack bag with a few round rice crackers, no text, no people's faces" },
+      { "id": "tokyo-folding-fan", "name": "Folding fan", "description": "Traditional fans are sold among the craft and snack stalls of Asakusa.", "earn": { "type": "rare" }, "icon": "fan", "artPrompt": "sticker-style open folding fan with a blue wave pattern, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "In Tokyo, what would you notice first near the lively stalls by Senso-ji Temple?",
+      "Which Tokyo train or food detail would you tell a friend about?",
+      "In Tokyo, what would you see and hear at Shibuya Crossing?"
+    ],
+    "localWords": [
+      { "word": "konnichiwa", "language": "Japanese", "meaning": "hello", "say": "kohn-nee-chee-WAH" },
+      { "word": "arigatou", "language": "Japanese", "meaning": "thank you", "say": "ah-ree-gah-TOH" },
+      { "word": "oishii", "language": "Japanese", "meaning": "delicious", "say": "oh-ee-SHEE" }
+    ],
+    "needsReview": false,
+    "reviewNotes": ""
+  },
+  "paris": {
+    "id": "paris",
+    "mysteryClues": [
+      { "order": 1, "kind": "nature", "text": "A broad river curves through the city, passing islands, quays, and many bridges." },
+      { "order": 2, "kind": "food", "text": "A flaky crescent-shaped pastry is often enjoyed with breakfast or a warm drink." },
+      { "order": 3, "kind": "culture", "text": "Art-filled galleries share the streets with bookshops, cafés, and outdoor markets." },
+      { "order": 4, "kind": "culture", "text": "People pause at sidewalk cafés, browse bookstalls, and stroll through leafy public gardens." },
+      { "order": 5, "kind": "landmark", "text": "A glass pyramid marks the entrance courtyard of a famous art museum." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of France." }
+    ],
+    "souvenirs": [
+      { "id": "paris-croissant", "name": "Butter croissant", "description": "A croissant is a flaky pastry shaped like a crescent and baked in layers.", "earn": { "type": "land" }, "icon": "croissant", "artPrompt": "sticker-style golden crescent croissant on a small plate, no text, no people's faces" },
+      { "id": "paris-river-boat", "name": "Seine boat", "description": "Sightseeing boats travel along the Seine beneath many of the city's bridges.", "earn": { "type": "mode", "mode": "world" }, "icon": "ship", "artPrompt": "sticker-style small sightseeing boat on a blue river, no text, no people's faces" },
+      { "id": "paris-glass-pyramid", "name": "Glass pyramid model", "description": "The Louvre's glass pyramid stands in the courtyard of a former royal palace.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "landmark", "artPrompt": "sticker-style miniature glass pyramid with a subtle museum arch, no text, no people's faces" },
+      { "id": "paris-bridge-tile", "name": "River bridge tile", "description": "Historic bridges cross the Seine and connect walks along both riverbanks.", "earn": { "type": "challenge", "challenge": "vote-reasons" }, "icon": "landmark", "artPrompt": "sticker-style miniature stone arch bridge above a blue river, no text, no people's faces" },
+      { "id": "paris-cafe-cup", "name": "Café cup", "description": "Small café tables often sit outdoors along busy sidewalks.", "earn": { "type": "rare" }, "icon": "coffee", "artPrompt": "sticker-style tiny white café cup and saucer, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which place beside the Seine in Paris would your class explore first?",
+      "What kind of art would you hope to see inside the Louvre in Paris?",
+      "What would you say to a friend while looking up at the Eiffel Tower in Paris?"
+    ],
+    "localWords": [
+      { "word": "bonjour", "language": "French", "meaning": "hello", "say": "bohn-ZHOOR" },
+      { "word": "merci", "language": "French", "meaning": "thank you", "say": "mehr-SEE" },
+      { "word": "délicieux", "language": "French", "meaning": "delicious", "say": "day-lee-SYUH" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the simplified English pronunciations of the French words with a fluent French speaker."
+  },
+  "cairo": {
+    "id": "cairo",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "This large city sits where green riverbanks meet the dry edge of a broad desert." },
+      { "order": 2, "kind": "food", "text": "A filling street-food bowl layers rice, lentils, pasta, chickpeas, and tangy tomato sauce." },
+      { "order": 3, "kind": "nature", "text": "Green river islands and leafy banks make open spaces beside dense city streets." },
+      { "order": 4, "kind": "culture", "text": "A historic covered market has narrow lanes filled with shops, cafés, and crafts." },
+      { "order": 5, "kind": "landmark", "text": "Nearby, ancient stone pyramids rise from the desert beside the Great Sphinx." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Egypt." }
+    ],
+    "souvenirs": [
+      { "id": "cairo-papyrus-bookmark", "name": "Papyrus bookmark", "description": "Papyrus is a plant that ancient Egyptians processed into a writing material.", "earn": { "type": "land" }, "icon": "scroll", "artPrompt": "sticker-style papyrus reed bookmark with a tiny blank scroll, no text, no people's faces" },
+      { "id": "cairo-koshari-bowl", "name": "Koshari bowl", "description": "Koshari combines rice, lentils, pasta, chickpeas, and a spiced tomato sauce.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "utensils", "artPrompt": "sticker-style colorful bowl of koshari with chickpeas and tomato sauce, no text, no people's faces" },
+      { "id": "cairo-nile-felucca", "name": "Nile felucca", "description": "Feluccas are traditional sailboats seen on the Nile near the city.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "sailboat", "artPrompt": "sticker-style simple felucca sailboat on a blue river, no text, no people's faces" },
+      { "id": "cairo-market-lantern", "name": "Market lantern", "description": "Khan el-Khalili is a historic market area with narrow lanes, shops, and cafés.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "store", "artPrompt": "sticker-style brass market lantern with geometric cutouts, no text, no people's faces" },
+      { "id": "cairo-pyramid-model", "name": "Pyramid model", "description": "The Giza pyramids stand on the desert edge of greater Cairo.", "earn": { "type": "rare" }, "icon": "triangle", "artPrompt": "sticker-style small golden stone pyramid in a sandy landscape, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would your class like to ask a shopkeeper in Khan el-Khalili?",
+      "Which ingredients would you put into a bowl of koshari in Cairo?",
+      "What might you notice from a boat on the Nile near Cairo?"
+    ],
+    "localWords": [
+      { "word": "ahlan", "language": "Egyptian Arabic", "meaning": "hello", "say": "AH-lan" },
+      { "word": "shukran", "language": "Egyptian Arabic", "meaning": "thank you", "say": "SHOOK-ran" },
+      { "word": "tamam", "language": "Egyptian Arabic", "meaning": "okay", "say": "ta-MAAM" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Egyptian Arabic word choices and simplified pronunciations with a fluent local speaker."
+  },
+  "rio-de-janeiro": {
+    "id": "rio-de-janeiro",
+    "mysteryClues": [
+      { "order": 1, "kind": "nature", "text": "A large tropical forest with trails and waterfalls grows among the city's busy neighborhoods." },
+      { "order": 2, "kind": "food", "text": "A hearty black-bean stew is served with rice and other sides." },
+      { "order": 3, "kind": "culture", "text": "Samba music and dance are part of the city's lively cultural scene." },
+      { "order": 4, "kind": "nature", "text": "Curved beaches meet steep green hills along a bay on the Atlantic coast." },
+      { "order": 5, "kind": "landmark", "text": "A cable car carries visitors to a rounded granite peak above the bay." },
+      { "order": 6, "kind": "giveaway", "text": "This city is in Brazil." }
+    ],
+    "souvenirs": [
+      { "id": "rio-de-janeiro-biscoito-globo", "name": "Beach snack ring", "description": "Biscoito Globo is a light, ring-shaped manioc snack sold on local beaches.", "earn": { "type": "land" }, "icon": "cookie", "artPrompt": "sticker-style airy ring-shaped manioc biscuit with a paper snack bag, no text, no people's faces" },
+      { "id": "rio-de-janeiro-sugarloaf-cable-car", "name": "Cable car model", "description": "A cable car climbs above Guanabara Bay toward the granite peak called Sugarloaf Mountain.", "earn": { "type": "mode", "mode": "free" }, "icon": "cable-car", "artPrompt": "sticker-style red cable car above a blue bay and rounded granite peak, no text, no people's faces" },
+      { "id": "rio-de-janeiro-feijoada-pot", "name": "Feijoada pot", "description": "Feijoada is a black-bean stew commonly served with rice and sides.", "earn": { "type": "challenge", "challenge": "debate-win" }, "icon": "cooking-pot", "artPrompt": "sticker-style little pot of black-bean stew with a bowl of rice, no text, no people's faces" },
+      { "id": "rio-de-janeiro-copacabana-shell", "name": "Copacabana shell", "description": "Copacabana Beach has a curved promenade beside the Atlantic shore.", "earn": { "type": "challenge", "challenge": "return-visit" }, "icon": "shell", "artPrompt": "sticker-style small seashell resting on a curved wave-pattern tile, no text, no people's faces" },
+      { "id": "rio-de-janeiro-tijuca-leaf", "name": "Tijuca forest leaf", "description": "Tijuca National Park protects a large forest inside the urban area.", "earn": { "type": "rare" }, "icon": "leaf", "artPrompt": "sticker-style glossy tropical leaf with a tiny waterfall, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would your class want to see from the top of Sugarloaf Mountain?",
+      "Which Rio beach or forest would you explore, and what would you bring?",
+      "Describe the music or food you would tell a friend about from Rio."
+    ],
+    "localWords": [
+      { "word": "oi", "language": "Brazilian Portuguese", "meaning": "hi", "say": "OY" },
+      { "word": "valeu", "language": "Brazilian Portuguese", "meaning": "thanks", "say": "vah-LEH-oo" },
+      { "word": "bom dia", "language": "Brazilian Portuguese", "meaning": "good morning", "say": "bohn JEE-ah" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the simplified pronunciations against Rio Portuguese, where sounds can differ from other regions."
+  }
+}
