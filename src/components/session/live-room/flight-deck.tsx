@@ -6,6 +6,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Blend, Crosshair, ExternalLink, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, QrCode, Search, Shuffle, Users, Video, Vote, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
+import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
@@ -1010,7 +1011,7 @@ export function FlightDeck({
         <div className="flex max-w-md flex-col gap-3 text-left">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">Now boarding</p>
           <p className="font-display text-4xl leading-tight text-white">Scan to board<br />{className}</p>
-          <p className="break-all font-mono text-sm text-white/70">{joinUrl.replace(/^https?:\/\//, '')}</p>
+          <CopyLinkText url={joinUrl} className="font-mono text-sm text-white/70" />
           <AnimatePresence mode="popLayout">
             <motion.p
               key={newest?.id ?? 'none'}
@@ -1435,7 +1436,7 @@ export function FlightDeck({
           <span className="shrink-0 rounded-xl bg-white p-2"><QRCodeSVG value={joinUrl} size={132} level="M" includeMargin={false} /></span>
           <div className="min-w-0">
             <p className="font-display text-lg leading-tight text-white">Scan to board</p>
-            <p className="mt-1 break-all font-mono text-[11px] text-white/60">{joinUrl.replace(/^https?:\/\//, '')}</p>
+            <CopyLinkText url={joinUrl} className="mt-1 font-mono text-[11px] text-white/60" />
             <p className="mt-2 font-mono text-xs font-semibold text-emerald-300">{seated.length} aboard</p>
             {newest && <p className="truncate text-xs text-white/70">{newest.display_name} just boarded</p>}
           </div>
@@ -1827,6 +1828,7 @@ export function FlightDeck({
             <button type="button" onClick={(e) => openTool(QR_WIDGET, e.clientX, e.clientY)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] bg-[#111A2B] px-2.5 py-1.5 text-xs text-white/70 hover:border-[#3d5176] hover:text-white">
               <QrCode className="h-3.5 w-3.5" /> Boarding QR
             </button>
+            <CopyLinkButton url={joinUrl} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] bg-[#111A2B] px-2.5 py-1.5 text-xs text-white/70 hover:border-[#3d5176] hover:text-white" />
             <button type="button" onClick={(e) => openTool(FLIGHT_WIDGET, e.clientX, e.clientY)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] bg-[#111A2B] px-2.5 py-1.5 text-xs text-white/70 hover:border-[#3d5176] hover:text-white">
               <Plane className="h-3.5 w-3.5" /> Flight map
             </button>
