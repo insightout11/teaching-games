@@ -1,6 +1,5 @@
 import { fetchPublicText, publicUrl } from './public-fetch';
 import type { ReaderResponse } from './types';
-import { extractArticle } from './extractor';
 /** Readability/jsdom adapter: never execute scripts or load subresources. */
 
 export type ArticleExtractor = (html: string, finalUrl: string) => Promise<{
@@ -10,7 +9,16 @@ export type ArticleExtractor = (html: string, finalUrl: string) => Promise<{
   publishedAt: string | null;
 } | null>;
 
-export async function readSource(url: string, fetcher = fetchPublicText, extractor: ArticleExtractor | null = extractArticle): Promise<ReaderResponse> {
+/**
+ * jsdom is heavy and has broken module loading on the server before, so it loads
+ * only when an article is actually read: search must never depend on it.
+ */
+const lazyExtractArticle: ArticleExtractor = async (html, finalUrl) => {
+  const { extractArticle } = await import('./extractor');
+  return extractArticle(html, finalUrl);
+};
+
+export async function readSource(url: string, fetcher = fetchPublicText, extractor: ArticleExtractor | null = lazyExtractArticle): Promise<ReaderResponse> {
   const originalUrl = publicUrl(url).href;
   const document = await fetcher(originalUrl);
   const base = {
