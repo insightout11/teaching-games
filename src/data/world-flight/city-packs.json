@@ -898,5 +898,155 @@
     ],
     "needsReview": true,
     "reviewNotes": "Please check the Spanish and Cuban coffee terms for natural local usage in Miami."
+  },
+  "bogota": {
+    "id": "bogota",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Cool breezes and quick showers are common because this huge city sits high above sea level." },
+      { "order": 2, "kind": "food", "text": "A hearty chicken soup includes several kinds of potato, corn, and a fragrant herb." },
+      { "order": 3, "kind": "culture", "text": "Commuters board long red buses that travel in special lanes through the city." },
+      { "order": 4, "kind": "nature", "text": "Green slopes rise along one side of the broad highland city." },
+      { "order": 5, "kind": "landmark", "text": "A cable car climbs to a hilltop church above a valley full of city lights." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Colombia." }
+    ],
+    "souvenirs": [
+      { "id": "bogota-ajiaco-bowl", "name": "Ajiaco soup bowl", "description": "Ajiaco is a chicken soup with potatoes, corn, and the herb guascas.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style bowl of creamy potato soup with corn and avocado, no text, no people's faces" },
+      { "id": "bogota-bus-pass", "name": "Red bus pass", "description": "The TransMilenio bus rapid transit system uses dedicated lanes across the city.", "earn": { "type": "mode", "mode": "world" }, "icon": "bus", "artPrompt": "sticker-style long red articulated city bus, no text, no people's faces" },
+      { "id": "bogota-changua-cup", "name": "Changua breakfast cup", "description": "Changua is a warm breakfast soup made with milk, water, egg, and herbs.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "coffee", "artPrompt": "sticker-style steaming breakfast bowl with egg and fresh herbs, no text, no people's faces" },
+      { "id": "bogota-tamal-leaf", "name": "Tamal leaf parcel", "description": "A tamal wraps corn dough and filling in a leaf before it is cooked.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "leaf", "artPrompt": "sticker-style green leaf parcel opened to reveal a corn tamal, no text, no people's faces" },
+      { "id": "bogota-hilltop-view", "name": "Hilltop view token", "description": "Monserrate offers wide views over the high-altitude city and its mountain edges.", "earn": { "type": "rare" }, "icon": "mountain", "artPrompt": "sticker-style hilltop viewpoint above a spread of city rooftops, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Bogota soup would your class try on a cool afternoon?",
+      "What might you see from a bus ride across Bogota?",
+      "What would you hope to spot from Monserrate?"
+    ],
+    "localWords": [
+      { "word": "hola", "language": "Colombian Spanish", "meaning": "hello", "say": "OH-lah" },
+      { "word": "gracias", "language": "Colombian Spanish", "meaning": "thank you", "say": "GRAH-syahs" },
+      { "word": "rico", "language": "Colombian Spanish", "meaning": "tasty", "say": "REE-koh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check the Colombian Spanish meanings and simple pronunciations with a fluent Bogotá speaker."
+  },
+  "reykjavik": {
+    "id": "reykjavik",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Cool ocean breezes and fast-changing skies make a warm waterproof layer useful in every season." },
+      { "order": 2, "kind": "food", "text": "A thick cultured dairy snack is often served plain or with berries and sugar." },
+      { "order": 3, "kind": "culture", "text": "People visit outdoor swimming pools year-round, even when the air is cold." },
+      { "order": 4, "kind": "nature", "text": "Warm water from underground heats pools while steam rises into the cool air." },
+      { "order": 5, "kind": "landmark", "text": "A tall church tower shaped like stepped basalt columns overlooks the city center." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Iceland." }
+    ],
+    "souvenirs": [
+      { "id": "reykjavik-skyr-cup", "name": "Skyr cup", "description": "Skyr is a thick Icelandic dairy food with a mild, tangy taste.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style cup of skyr topped with blueberries, no text, no people's faces" },
+      { "id": "reykjavik-wool-mitten", "name": "Wool mitten", "description": "A warm wool layer helps in the city's cool, windy weather.", "earn": { "type": "mode", "mode": "mystery" }, "icon": "snowflake", "artPrompt": "sticker-style knitted wool mitten with a simple Nordic pattern, no text, no people's faces" },
+      { "id": "reykjavik-hot-pool-token", "name": "Hot pool token", "description": "Geothermal energy keeps many outdoor swimming pools warm throughout the year.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "waves", "artPrompt": "sticker-style steaming blue outdoor pool with snowy hills, no text, no people's faces" },
+      { "id": "reykjavik-rugbraud-loaf", "name": "Rúgbrauð loaf", "description": "Rúgbrauð is a dense, dark rye bread traditionally baked slowly with geothermal heat.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "cookie", "artPrompt": "sticker-style round dark rye loaf with a slice beside it, no text, no people's faces" },
+      { "id": "reykjavik-church-tower", "name": "Basalt tower model", "description": "Hallgrímskirkja's tower design was inspired by Iceland's basalt columns.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style pale stepped church tower against a cool blue sky, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Would your class visit a warm pool on a cool day in Reykjavik?",
+      "What toppings would you add to skyr in Reykjavik?",
+      "What would you draw beside Hallgrimskirkja in Reykjavik?"
+    ],
+    "localWords": [
+      { "word": "halló", "language": "Icelandic", "meaning": "hello", "say": "HAH-loh" },
+      { "word": "takk", "language": "Icelandic", "meaning": "thanks", "say": "TAHK" },
+      { "word": "gott", "language": "Icelandic", "meaning": "good or tasty", "say": "GOHT" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Icelandic word meanings and simplified pronunciation with a fluent speaker."
+  },
+  "nairobi": {
+    "id": "nairobi",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Warm sunny days alternate with cooler evenings in this highland city near the equator." },
+      { "order": 2, "kind": "food", "text": "Chunks of meat are grilled over charcoal and served with a simple side dish." },
+      { "order": 3, "kind": "culture", "text": "Friends often meet over shared meals at open-air cafés and local markets." },
+      { "order": 4, "kind": "nature", "text": "Open grassland begins surprisingly close to busy roads and modern buildings." },
+      { "order": 5, "kind": "animal", "text": "Giraffes and zebras graze on grass with the city skyline behind them." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Kenya." }
+    ],
+    "souvenirs": [
+      { "id": "nairobi-nyama-choma-skewer", "name": "Nyama choma skewer", "description": "Nyama choma is meat grilled over a fire and shared with friends.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style grilled meat skewer with a lemon wedge, no text, no people's faces" },
+      { "id": "nairobi-matatu-model", "name": "Matatu model", "description": "Matatus are shared minibuses used for everyday trips around Nairobi.", "earn": { "type": "mode", "mode": "topic" }, "icon": "bus", "artPrompt": "sticker-style colorful Nairobi minibus with abstract painted patterns, no text, no people's faces" },
+      { "id": "nairobi-ugali-bowl", "name": "Ugali serving bowl", "description": "Ugali is a firm maize meal often served alongside vegetables or stew.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "utensils", "artPrompt": "sticker-style mound of ugali beside a small vegetable stew, no text, no people's faces" },
+      { "id": "nairobi-giraffe-badge", "name": "Giraffe park badge", "description": "Wild giraffes can be seen in protected grassland close to the city center.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "award", "artPrompt": "sticker-style giraffe silhouette with a small city skyline in the distance, no text, no people's faces" },
+      { "id": "nairobi-acacia-tree", "name": "Acacia tree charm", "description": "Acacia trees dot the open landscapes around the city's wildlife areas.", "earn": { "type": "rare" }, "icon": "tree-palm", "artPrompt": "sticker-style flat-topped acacia tree against a golden grassland, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "What would you ask a cook about nyama choma in Nairobi?",
+      "Which animals would your class hope to see near Nairobi?",
+      "What colors would you paint on a Nairobi matatu?"
+    ],
+    "localWords": [
+      { "word": "habari", "language": "Swahili", "meaning": "hello; how are things?", "say": "hah-BAH-ree" },
+      { "word": "asante", "language": "Swahili", "meaning": "thank you", "say": "ah-SAHN-teh" },
+      { "word": "tamu", "language": "Swahili", "meaning": "tasty or sweet", "say": "TAH-moo" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Swahili phrase choices and pronunciation with a fluent speaker familiar with Nairobi usage."
+  },
+  "lima": {
+    "id": "lima",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Summer days are brighter and warmer, while winter can bring cool mist and cloudy skies." },
+      { "order": 2, "kind": "food", "text": "Fresh fish is mixed with lime juice, onion, and chili for a bright, tangy dish." },
+      { "order": 3, "kind": "culture", "text": "Markets and small family restaurants serve recipes influenced by many communities." },
+      { "order": 4, "kind": "nature", "text": "High cliffs and walking paths follow the edge of the sea." },
+      { "order": 5, "kind": "landmark", "text": "An ancient stepped adobe temple stands among modern homes and streets." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Peru." }
+    ],
+    "souvenirs": [
+      { "id": "lima-ceviche-bowl", "name": "Ceviche bowl", "description": "Peruvian ceviche combines fresh fish with lime, onion, and chili.", "earn": { "type": "land" }, "icon": "utensils", "artPrompt": "sticker-style ceviche bowl with fish, lime, onion, and corn, no text, no people's faces" },
+      { "id": "lima-coastal-bike", "name": "Coastal bike token", "description": "Walking and cycling paths run along tall cliffs above the sea.", "earn": { "type": "mode", "mode": "free" }, "icon": "bike", "artPrompt": "sticker-style bicycle beside a coastal path and blue water, no text, no people's faces" },
+      { "id": "lima-causa-limena", "name": "Causa limeña mold", "description": "Causa limeña layers seasoned mashed potato with fillings such as chicken or tuna.", "earn": { "type": "challenge", "challenge": "words-3" }, "icon": "utensils", "artPrompt": "sticker-style layered yellow potato causa with avocado and herbs, no text, no people's faces" },
+      { "id": "lima-chicha-morada", "name": "Chicha morada cup", "description": "Chicha morada is a purple drink made from purple corn and fruit.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "cup-soda", "artPrompt": "sticker-style glass of deep purple corn drink with a lime wedge, no text, no people's faces" },
+      { "id": "lima-adobe-temple", "name": "Adobe temple model", "description": "Huaca Pucllana is an ancient adobe-and-clay pyramid in the city.", "earn": { "type": "rare" }, "icon": "landmark", "artPrompt": "sticker-style stepped earth-colored adobe pyramid with tiny bricks, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which fresh ingredients would you add to ceviche in Lima?",
+      "What would your class notice on a walk above Lima's seaside cliffs?",
+      "What would you ask about the old temple at Huaca Pucllana?"
+    ],
+    "localWords": [
+      { "word": "hola", "language": "Peruvian Spanish", "meaning": "hello", "say": "OH-lah" },
+      { "word": "gracias", "language": "Peruvian Spanish", "meaning": "thank you", "say": "GRAH-syahs" },
+      { "word": "rico", "language": "Peruvian Spanish", "meaning": "tasty", "say": "REE-koh" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check Peruvian Spanish word choices and simplified pronunciations with a fluent Lima speaker."
+  },
+  "perth": {
+    "id": "perth",
+    "mysteryClues": [
+      { "order": 1, "kind": "weather", "text": "Long sunny summers and mild, wetter winters shape this coastal city's seasons." },
+      { "order": 2, "kind": "food", "text": "Local shellfish can be cooked with tomato, garlic, and a little chili." },
+      { "order": 3, "kind": "culture", "text": "People cycle, picnic, and watch the sunset beside a broad river after work." },
+      { "order": 4, "kind": "nature", "text": "White-sand beaches and green parks are close to the downtown streets." },
+      { "order": 5, "kind": "landmark", "text": "A huge hillside park looks down over the river and the city center." },
+      { "order": 6, "kind": "giveaway", "text": "This city is the capital of Western Australia." }
+    ],
+    "souvenirs": [
+      { "id": "perth-rock-lobster", "name": "Rock lobster shell", "description": "Western rock lobster is harvested off the coast of Western Australia.", "earn": { "type": "land" }, "icon": "shell", "artPrompt": "sticker-style red rock lobster beside a blue ocean wave, no text, no people's faces" },
+      { "id": "perth-river-ferry", "name": "River ferry token", "description": "Ferries carry passengers between riverside stops in the city.", "earn": { "type": "mode", "mode": "world" }, "icon": "ship", "artPrompt": "sticker-style small passenger ferry on a wide blue river, no text, no people's faces" },
+      { "id": "perth-marron-pot", "name": "Marron serving pot", "description": "Marron are freshwater crayfish native to Western Australia.", "earn": { "type": "challenge", "challenge": "quiz-perfect" }, "icon": "cooking-pot", "artPrompt": "sticker-style freshwater crayfish on a small serving dish, no text, no people's faces" },
+      { "id": "perth-beach-shell", "name": "Beach shell charm", "description": "The city has many sandy beaches along the Indian Ocean coast.", "earn": { "type": "challenge", "challenge": "postcard" }, "icon": "shell", "artPrompt": "sticker-style spiral shell resting on a pale sandy beach, no text, no people's faces" },
+      { "id": "perth-park-wildflower", "name": "Park wildflower pin", "description": "Kings Park has walking trails and views over the city and river.", "earn": { "type": "rare" }, "icon": "flower", "artPrompt": "sticker-style bright Western Australian wildflower above a city view, no text, no people's faces" }
+    ],
+    "postcardPrompts": [
+      "Which Perth beach would your class visit on a sunny afternoon?",
+      "What would you pack for a sunset picnic beside Perth's river?",
+      "Which Perth seafood dish would you like to taste?"
+    ],
+    "localWords": [
+      { "word": "arvo", "language": "Australian English", "meaning": "afternoon", "say": "AR-voh" },
+      { "word": "brekkie", "language": "Australian English", "meaning": "breakfast", "say": "BREK-ee" },
+      { "word": "ta", "language": "Australian English", "meaning": "thanks", "say": "TAH" }
+    ],
+    "needsReview": true,
+    "reviewNotes": "Please check that these Australian English expressions and simple pronunciations sound natural in Perth."
   }
 }
