@@ -100,9 +100,10 @@ export interface FlightDeckProps {
   onLaunchGame: (game: GamePlugin) => void;
   onLaunchActivity: (activity: ActivityPlugin) => void;
   onReturn: () => void;
-  onEndSession: () => void;
+  /** `arrivalId` = where the class is when the lesson ends (the end screen shows that city). */
+  onEndSession: (arrivalId?: string) => void;
   /** End as a completed flight (World Flight records the landing and moves the class). */
-  onCompleteSession: () => void;
+  onCompleteSession: (arrivalId?: string) => void;
   /** Prepare an activity in the background for the item in focus. */
   onPrefetch?: (activity: ActivityPlugin, source: SourceMaterial) => void;
   flightHref: string;
@@ -1247,7 +1248,7 @@ export function FlightDeck({
         onCinematic={setCinematic}
         onLanded={() => {
           setLanded(true);
-          window.setTimeout(onCompleteSession, 9000);
+          window.setTimeout(() => onCompleteSession(destination.id), 9000);
         }}
       />
       {focused && !cinematic && !landed && view !== 'boarding' && view !== 'map' && (
@@ -1408,7 +1409,8 @@ export function FlightDeck({
                     setFlightStage('landing');
                     flash(`Beginning our descent into ${destination.city}`);
                   } else {
-                    onEndSession();
+                    // Never took off: the class is still at its departure city.
+                    onEndSession(origin.id);
                   }
                 }}
                 className="w-full rounded-lg px-3 py-2 text-left text-sm text-rose-300 hover:bg-rose-400/10"

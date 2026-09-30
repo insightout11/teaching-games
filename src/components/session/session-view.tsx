@@ -1312,11 +1312,16 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     }
   };
 
-  const handleEndSession = () => {
+  // Live Room: where the class actually is at the end (landed city, or departure
+  // city if it never took off) so the end screen doesn't fall back to home base.
+  const [roomArrivalId, setRoomArrivalId] = useState<string | null>(null);
+  const handleEndSession = (arrivalId?: string) => {
+    if (arrivalId) setRoomArrivalId(arrivalId);
     void finishSession(false);
   };
 
-  const handleCompleteSession = () => {
+  const handleCompleteSession = (arrivalId?: string) => {
+    if (arrivalId) setRoomArrivalId(arrivalId);
     void finishSession(true);
   };
 
@@ -1718,17 +1723,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [pacingTick, lesson.currentSlotIndex, slotBudgets]);
 
   if (ended) {
+    // Flight Plan destination first; otherwise the Live Room's own landing city.
+    const roomArrival = !wfDestination && roomArrivalId ? getDestinationById(roomArrivalId) : undefined;
+    const arrival = wfDestination ?? roomArrival;
     return (
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
-        {wfDestination ? (
+        {arrival ? (
           /* World Flight: the destination's city composited over the shared sky —
              same backdrop + scale as the descent transition and in-session ground. */
           <WorldFlightArrivalBackdrop
-            destinationId={wfDestination.id}
-            scene={wfDestination.scene}
+            destinationId={arrival.id}
+            scene={arrival.scene}
             weatherState="landing"
             altitude={0}
-            timeOfDay={wfArrivalTimeOfDay}
+            timeOfDay={wfDestination ? wfArrivalTimeOfDay : homeBaseTod}
             planeKey={selectedPlaneKey}
             isFullScreen={isFullScreen}
           />
@@ -1764,8 +1772,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 ? 'border-red-300/30 bg-red-950/60 text-red-100'
                 : 'border-cyan-300/25 bg-slate-950/60 text-cyan-100'
             }`}>
-              {journeySaveStatus === 'saving' && `Saving ${cls.name}'s arrival in ${wfDestination?.city ?? 'the destination'}...`}
-              {journeySaveStatus === 'saved' && `${cls.name}'s journey is saved. ${wfDestination?.city ?? 'This destination'} is now the class's current city.`}
+              {journeySaveStatus === 'saving' && `Saving ${cls.name}'s arrival in ${arrival?.city ?? 'the destination'}...`}
+              {journeySaveStatus === 'saved' && `${cls.name}'s journey is saved. ${arrival?.city ?? 'This destination'} is now the class's current city.`}
               {journeySaveStatus === 'error' && 'The lesson ended, but the class journey could not be saved. Reopen World Flight before planning the next route.'}
             </div>
           )}
@@ -1995,7 +2003,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     </span>
                   </button>
                   <div className="text-center">
-                    <button onClick={handleEndSession} className="text-xs text-red-400/60 hover:text-red-400 transition-colors">
+                    <button onClick={() => handleEndSession()} className="text-xs text-red-400/60 hover:text-red-400 transition-colors">
                       End Session
                     </button>
                   </div>
@@ -2258,7 +2266,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <Button
               variant="ghost"
               size="sm"
-              onClick={handleEndSession}
+              onClick={() => handleEndSession()}
               className="border border-red-400/30 text-red-300 hover:bg-red-500/10 hover:text-red-200"
             >
               End Session
@@ -2298,7 +2306,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 </div>
                 <div className="flex flex-wrap items-center gap-3 mt-4 pl-[46px]">
                   <button
-                    onClick={handleEndSession}
+                    onClick={() => handleEndSession()}
                     className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold text-sm text-white shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-95 transition-all"
                   >
                     <PlaneLanding className="h-4 w-4" strokeWidth={2} />
