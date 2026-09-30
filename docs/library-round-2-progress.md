@@ -29,3 +29,5 @@ No round 2 batches committed yet.
 
 - 2026-09-30 · metadata batch 2 · +20 (bbc-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
 px tsc --noEmit -p . pass · needsReview added only where source text is too limited · commit pending.
+
+- 2026-09-30 · metadata batch 3 · +20 (bbc-library.json, bigthink-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.

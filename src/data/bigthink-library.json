@@ -14,7 +14,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Michio Kaku argues that quantum mechanics undermines the concept of free will — and what that means for how we think about consciousness, choice, and human identity.",
-    "genre": "opinion"
+    "genre": "opinion",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bigthink_fermi_paradox",
@@ -31,7 +33,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Kaku explains the Fermi Paradox — if aliens exist, why haven't we heard from them? — and why broadcasting our location into space might be a dangerous idea.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bigthink_unconscious_decisions",
@@ -48,7 +52,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Nobel laureate Eric Kandel explains how the unconscious brain processes information and makes decisions before our conscious mind is even aware — with surprising implications for creativity.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bigthink_free_will_pinker",
@@ -65,7 +71,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Cognitive scientist Steven Pinker tackles the age-old question of free will — exploring what neuroscience says about conscious choice and why the debate matters for morality and law.",
-    "genre": "discussion"
+    "genre": "discussion",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bigthink_psychology_happiness",

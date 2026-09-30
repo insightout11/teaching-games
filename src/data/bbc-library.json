@@ -651,7 +651,9 @@
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on the future of work, connecting jobs, automation, AI, skills, and how workplaces may change.",
     "summary": "This BBC 6 Minute English source introduces the future of work through jobs, automation, artificial intelligence, workplace change, and the skills people may need next. It works as a short discussion anchor for learners comparing today's workplaces with possible future careers.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_ai_call_centres",
@@ -673,7 +675,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about AI in call centres, useful for discussing customer service, chatbots, automation, and workplace technology.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_better_web",
@@ -695,7 +699,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about improving the web, useful for discussing the internet, digital communities, online behaviour, access, and technology's role in society.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_era_of_distrust",
@@ -717,7 +723,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about distrust and fake news, useful for media literacy lessons on misinformation, trust, digital media, and critical thinking.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_mental_health",
@@ -739,7 +747,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about climate change and mental health, useful for discussing climate anxiety, wellbeing, adaptation, and emotional responses to environmental change.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_without_plastic",
@@ -761,7 +771,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about plastic use and plastic-free living, with vocabulary for pollution, waste, sustainability, recycling, and consumer habits.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_saving_water",
@@ -783,7 +795,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about saving water in extreme dry conditions, useful for lessons on drought, water scarcity, climate adaptation, and resource use.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_recycling_system",
@@ -805,7 +819,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about recycling systems, waste, and sustainability, useful for debating whether individual habits or larger systems need to change.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_animal_migration",
@@ -827,7 +843,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on how climate change affects animal migration, connecting wildlife, biodiversity, ecosystems, conservation, and changing habitats.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_population",
@@ -849,7 +867,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about climate change, population, consumption, resources, and carbon footprints, useful for careful debate about responsibility and sustainability.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_zoos",
@@ -871,7 +891,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode debating whether animals should be kept in zoos, useful for discussing conservation, animal welfare, biodiversity, habitats, and ethics.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_love_of_pets",
@@ -893,7 +915,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about why people keep and love pets, useful for discussing pet care, dogs, cats, wellbeing, and human-animal relationships.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_octopus_intelligence",
@@ -915,7 +939,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about octopus intelligence, useful for discussing animal brains, marine life, adaptations, senses, and how scientists study intelligence.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_ecotourism",
@@ -937,7 +963,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about ecotourism and wildlife tourism, useful for debating conservation, habitats, tourism, sustainability, and local communities.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_black_and_white",
@@ -959,7 +987,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about why some animals are black and white, useful for discussing adaptations, camouflage, animal patterns, zebras, penguins, and orcas.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_man_vs_beast",
@@ -981,7 +1011,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode comparing human and animal efficiency, useful for lessons on adaptations, movement, evolution, and comparing humans with other animals.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_6me_social_media_dead",
