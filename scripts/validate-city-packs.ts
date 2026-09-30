@@ -44,7 +44,7 @@ function isRecord(value: unknown): value is Record<string, any> {
 }
 
 function wordCount(value: string): number {
-  return value.trim().split(/\s+/u).filter(Boolean).length;
+  return value.trim().split(/\s+/).filter(Boolean).length;
 }
 
 function containsPhrase(text: string, phrase: unknown): boolean {
@@ -55,7 +55,7 @@ function containsPhrase(text: string, phrase: unknown): boolean {
 }
 
 function lucideExportName(icon: string): string {
-  return icon.replace(/(^|[-_\s]+)([a-z])/gu, (_match, _separator: string, letter: string) => letter.toUpperCase());
+  return icon.replace(/(^|[-_\s]+)([a-z])/g, (_match, _separator: string, letter: string) => letter.toUpperCase());
 }
 
 function checkText(text: unknown, label: string, maxWords: number): text is string {
@@ -142,7 +142,7 @@ for (const id of checkIds) {
       if (checkText(clue.text, label, 28)) {
         if (index === 5 && clue.kind !== 'giveaway') fail(`${label}: clue 6 must be giveaway`);
         if (index < 5) {
-          for (const cityName of cityNames) {
+          for (const cityName of Array.from(cityNames)) {
             if (cityName && containsPhrase(clue.text, cityName)) fail(`${label}: names the city (${cityName})`);
           }
           if (index < 4) {
@@ -169,7 +169,7 @@ for (const id of checkIds) {
   } else {
     souvenirCount += pack.souvenirs.length;
     const earnTypes = new Map<string, number>();
-    for (const [index, souvenir] of pack.souvenirs.entries()) {
+    for (const [index, souvenir] of Array.from(pack.souvenirs.entries())) {
       const label = `${id} souvenir ${index + 1}`;
       if (!isRecord(souvenir)) {
         fail(`${label}: expected an object`);
@@ -217,11 +217,11 @@ for (const id of checkIds) {
     pack.postcardPrompts.forEach((prompt: unknown, index: number) => {
       const label = `${id} postcard prompt ${index + 1}`;
       if (checkText(prompt, label, 18) && destination) {
-        const referencesCity = [...cityNames].some((cityName) => cityName && containsPhrase(prompt, cityName));
+        const referencesCity = Array.from(cityNames).some((cityName) => cityName && containsPhrase(prompt, cityName));
         const anchors = [
           ...(destination.travelAnchors?.attractions ?? []).map((item) => item.name),
           ...(destination.travelAnchors?.dishes ?? []).map((item) => item.name),
-          ...(destination.travelAnchors?.transport ?? []).map((item) => item.name),
+          ...(destination.travelAnchors?.transport ?? []).map((item) => item.mode),
         ];
         if (!referencesCity && !anchors.some((anchor) => containsPhrase(prompt, anchor))) {
           fail(`${label}: must mention the city or a travel anchor`);
