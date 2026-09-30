@@ -70,11 +70,11 @@ describe('live voting activity recovery', () => {
       }}
     />);
 
-    expect(html).toContain('Prompt 2 of 3');
+    expect(html).toContain('Question 2 of 3');
     expect(html).toContain('Second prompt');
     expect(html).not.toContain('Regenerated prompt 2');
-    expect(html).toContain('NEXT PROMPT');
-    expect(html).not.toContain('>START<');
+    expect(html).toContain('Next question');
+    expect(html).not.toContain('>Start<');
   });
 
   it('reopens Prediction Round on the exact revealed question with its answer', () => {
