@@ -4514,7 +4514,9 @@
       "name": "Manila, Philippines",
       "lat": 14.5995,
       "lng": 120.9842
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-manila-filipino-identity-video",
@@ -4542,7 +4544,9 @@
       "name": "Manila, Philippines",
       "lat": 14.5995,
       "lng": 120.9842
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-manila-philippines-history-video",
@@ -4571,7 +4575,9 @@
       "name": "Manila, Philippines",
       "lat": 14.5995,
       "lng": 120.9842
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ho-chi-minh-city-tet-for-kids-video",
@@ -4601,7 +4607,9 @@
       "name": "Ho Chi Minh City, Vietnam",
       "lat": 10.8231,
       "lng": 106.6297
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ho-chi-minh-city-vietnam-culture-video",
@@ -4631,7 +4639,9 @@
       "name": "Ho Chi Minh City, Vietnam",
       "lat": 10.8231,
       "lng": 106.6297
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ho-chi-minh-city-vietnam-history-video",
@@ -4660,6 +4670,8 @@
       "name": "Ho Chi Minh City, Vietnam",
       "lat": 10.8231,
       "lng": 106.6297
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   }
 ]
