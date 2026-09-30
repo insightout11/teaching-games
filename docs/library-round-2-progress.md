@@ -5,13 +5,13 @@ Branch: `codex/library-round-2`, created from fetched `origin/main` (`c405b115`)
 | Task | Target | Baseline | Complete |
 |---|---:|---:|---:|
 | Metadata backfill | 446 | 446 missing `cefr` or `ageBand` | 446 / 446 |
-| Grammar videos | +60 | 17 | 32 / 60 |
+| Grammar videos | +60 | 17 | 50 / 60 |
 | Short hooks under 180 seconds | +60 | 43 | 0 / 60 |
 | Opinion/discussion texts | +40 | 10 | 0 / 40 |
 
 ## Batch log
 
-Metadata backfill: 446 / 446 complete across 23 validated commits. Grammar videos, short hooks, and opinion/discussion texts are next.
+Metadata backfill: 446 / 446 complete across 23 validated commits. Grammar videos are in progress; short hooks and opinion/discussion texts follow.
 
 ## Notes
 
@@ -79,3 +79,6 @@ Metadata backfill: 446 / 446 complete across 23 validated commits. Grammar video
 - BBC transcript extraction now reads the nested rich-text widget with JSDOM so nested markup does not truncate the transcript.
 
 - Batch 2: +14 BBC Learning English grammar clips. Four candidates were dropped because the linked BBC pages returned no transcript; all 14 retained transcripts were prefetched and verified in Supabase.
+
+- Batch 3: +18 captioned grammar videos: 14 BBC Learning English Grammar Gameshow clips and 4 British Council Grammar Snacks. All English transcripts were prefetched and verified in Supabase.
+- VOA Everyday Grammar candidates were rejected because their YouTube videos have captions disabled; none were counted.

@@ -224,8 +224,7 @@ async function fetchTranscript(
       return 'skip';
     }
 
-    const transcriptModulePath = 'youtube-transcript/dist/youtube-transcript.esm.js';
-    const { YoutubeTranscript } = await import(transcriptModulePath) as typeof import('youtube-transcript');
+    const { YoutubeTranscript } = await import('youtube-transcript');
     let segments: Array<{ text: string }> | undefined;
     let lastTranscriptError: unknown;
     for (const lang of ['en', 'en-GB', 'en-US']) {
@@ -432,6 +431,7 @@ async function main() {
     ...loadLibrary('ted-library.json').map((e) => ({ ...e, sourceType: 'ted' as const })),
     ...loadLibrary('teded-library.json').map((e) => ({ ...e, sourceType: 'teded' as const })),
     ...loadLibrary('bbc-library.json').map((e) => ({ ...e, sourceType: 'bbc' as const })),
+    ...loadLibrary('grammar-library.json').map((e) => ({ ...e, sourceType: 'grammar' as const })),
     ...loadLibrary('kurzgesagt-library.json').map((e) => ({ ...e, sourceType: 'kurzgesagt' as const })),
     ...loadLibrary('bbc-ideas-library.json').map((e) => ({ ...e, sourceType: 'bbc-ideas' as const })),
     ...loadLibrary('bigthink-library.json').map((e) => ({ ...e, sourceType: 'bigthink' as const })),
