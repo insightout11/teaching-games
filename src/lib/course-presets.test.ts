@@ -27,7 +27,7 @@ type PresetLibraryEntry = {
   id: string;
   title: string;
   youtubeId?: string | null;
-  durationSecs?: number;
+  durationSecs?: number | null;
   wordCount?: number;
   topicTags?: string[];
   description?: string;

@@ -41,3 +41,5 @@ px tsc --noEmit -p . pass · needsReview added only where source text is too lim
 - 2026-09-30 · metadata batch 7 · +20 (kurzgesagt-library.json, minecraft-library.json, natgeo-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
 
 - 2026-09-30 · metadata batch 8 · +20 (natgeo-library.json, picture-books-library.json, sports-library.json, stories-library.json) · validator and tsc pass · needsReview added only where source text is too limited · commit pending.
+
+- 2026-09-30 · metadata batch 9 · +20 (stories-library.json, ted-library.json) · validator and tsc pass after correcting a test type to allow the schema's null duration for text records · needsReview added only where source text is too limited · commit pending.
