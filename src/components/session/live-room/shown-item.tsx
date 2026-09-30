@@ -1,9 +1,67 @@
 'use client';
 
 import { DeckMap } from '@/components/live-room/flight/deck-map';
-import { ExternalLink, MapPin } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ExternalLink, Layers, MapPin } from 'lucide-react';
 import type { RoomItem } from '@/stores/live-room-store';
 import { hostOf } from '@/components/session/live-room/sources-drawer';
+
+/**
+ * A shown place always opens on our own map (never an outside tab). Search
+ * results without coordinates get looked up from their name + address.
+ */
+function ShownPlace({ item }: { item: RoomItem }) {
+  const given = item.coordinates ? { lat: item.coordinates.latitude, lng: item.coordinates.longitude } : null;
+  const [point, setPoint] = useState<{ lat: number; lng: number } | null>(given);
+  const [looking, setLooking] = useState(!given);
+  const [detailed, setDetailed] = useState(true);
+
+  useEffect(() => {
+    if (given) return;
+    let cancelled = false;
+    const q = [item.title, item.address].filter(Boolean).join(', ');
+    fetch(`/api/live-room/geocode?q=${encodeURIComponent(q)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (!cancelled) setPoint(d?.point ?? null); })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setLooking(false); });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item.id]);
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="flex items-center gap-2 font-display text-3xl text-white">
+            <MapPin className="h-7 w-7 shrink-0 text-rose-300" aria-hidden />
+            {item.title}
+          </p>
+          {item.address && <p className="mt-1 text-lg text-white/75">{item.address}</p>}
+        </div>
+        {point && (
+          <button
+            type="button"
+            onClick={() => setDetailed((v) => !v)}
+            className="flex shrink-0 items-center gap-1.5 rounded-lg border border-white/15 px-3 py-2 text-sm text-white hover:bg-white/10"
+          >
+            <Layers className="h-4 w-4" aria-hidden /> {detailed ? 'Simple map' : 'Detailed map'}
+          </button>
+        )}
+      </div>
+      {point ? (
+        <DeckMap
+          className="h-[48vh] min-h-[260px] w-full rounded-2xl border border-white/15"
+          pins={[{ id: item.id, lat: point.lat, lng: point.lng, label: item.title }]}
+          focusZoom={detailed ? 11 : 5}
+          detailed={detailed}
+        />
+      ) : (
+        <p className="text-sm text-white/55">{looking ? 'Finding it on the map…' : 'Couldn’t place this one on the map.'}</p>
+      )}
+    </div>
+  );
+}
 
 /** What the class sees on the stage for a shown source. Always attributed. */
 export function ShownItem({ item }: { item: RoomItem }) {
@@ -54,31 +112,7 @@ export function ShownItem({ item }: { item: RoomItem }) {
     );
   }
 
-  if (item.kind === 'place') {
-    const c = item.coordinates;
-    const mapUrl = c
-      ? `https://www.openstreetmap.org/?mlat=${c.latitude}&mlon=${c.longitude}#map=13/${c.latitude}/${c.longitude}`
-      : item.url;
-    return (
-      <div className="flex flex-col gap-3">
-        <p className="flex items-center gap-2 font-display text-3xl text-white">
-          <MapPin className="h-7 w-7 text-rose-300" aria-hidden />
-          {item.title}
-        </p>
-        {item.address && <p className="text-lg text-white/75">{item.address}</p>}
-        {c && (
-          <DeckMap
-            className="h-[48vh] min-h-[260px] w-full rounded-2xl border border-white/15"
-            pins={[{ id: item.id, lat: c.latitude, lng: c.longitude, label: item.title }]}
-            focusZoom={11}
-          />
-        )}
-        <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="inline-flex w-max items-center gap-1.5 rounded-lg border border-white/15 px-3 py-2 text-sm text-white hover:bg-white/10">
-          <ExternalLink className="h-4 w-4" aria-hidden /> Open map
-        </a>
-      </div>
-    );
-  }
+  if (item.kind === 'place') return <ShownPlace item={item} />;
 
   // Article / web / news
   return (

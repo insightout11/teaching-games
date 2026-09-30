@@ -5,7 +5,10 @@ import type { Student } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ComprehensionQuestion } from '@/types/source-material';
 import type { ActivityProps, RemoteVote } from '../types';
-import { CheckCircle2, ChevronRight, ListChecks, MessageCircle, Quote, RotateCcw } from 'lucide-react';
+import { CheckCircle2, ChevronRight, Eye, Quote, RotateCcw } from 'lucide-react';
+import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+
+const LETTER_TONES = ['text-amber-300', 'text-cyan-300', 'text-violet-300', 'text-rose-300', 'text-emerald-300', 'text-sky-300'];
 
 type QuizPhase = 'voting' | 'revealed' | 'discussion';
 
@@ -151,22 +154,15 @@ export function ComprehensionQuiz({
   // ── DISCUSSION (closing speaking prompt) ──────────────────────────────────
   if (phase === 'discussion' && discussionPrompt) {
     return (
-      <div className="space-y-4 max-w-2xl mx-auto">
-        <div className="flex items-center gap-2 text-sm">
-          <MessageCircle className="w-4 h-4 text-amber-400" />
-          <span className="font-semibold text-amber-400">Talk About It</span>
+      <div className="mx-auto max-w-2xl space-y-4">
+        <KitLabel tone="amber">Talk about it</KitLabel>
+        <div className="rounded-2xl border border-amber-300/30 bg-slate-950/60 p-6 backdrop-blur-md">
+          <p className="font-display text-3xl leading-snug text-white">{discussionPrompt}</p>
+          <p className="mt-3 text-sm text-white/55">Discuss as a class or in pairs. There&apos;s no single right answer.</p>
         </div>
-        <div className="glass rounded-2xl border-2 border-amber-500/30 p-6">
-          <p className="text-lg font-medium leading-snug">{discussionPrompt}</p>
-          <p className="text-xs opacity-50 mt-3">Discuss as a class or in pairs — no single right answer.</p>
-        </div>
-        <button
-          onClick={handleFinish}
-          className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-game text-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-1.5"
-        >
-          Finish Briefing
-          <ChevronRight className="w-4 h-4" />
-        </button>
+        <KitButton tone="amber" solid onClick={handleFinish} className="w-full justify-center !py-3 !text-base" icon={<ChevronRight className="h-4 w-4" />}>
+          Finish
+        </KitButton>
       </div>
     );
   }
@@ -180,75 +176,66 @@ export function ComprehensionQuiz({
   const pending = students.filter((s) => !answeredNames.has(s.name));
 
   return (
-    <div className="space-y-4 max-w-2xl mx-auto">
+    <div className="mx-auto max-w-2xl space-y-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm">
-          <ListChecks className="w-4 h-4 text-sky-400" />
-          <span className="font-semibold text-sky-400">Comprehension Check</span>
-        </div>
-        <span className="text-xs opacity-50">
-          Question {index + 1} / {questions.length}
-        </span>
+        <KitLabel tone="cyan">Check your understanding</KitLabel>
+        <KitReadout>{index + 1} / {questions.length}</KitReadout>
       </div>
 
-      <div className="glass rounded-2xl p-5 space-y-4">
-        <div className="flex items-start justify-between gap-3">
-          <p className="text-lg font-semibold leading-snug">{question.question}</p>
-          <span className="text-xs opacity-50 shrink-0 mt-1.5">
+      <div className="space-y-4 rounded-2xl border border-white/10 bg-slate-950/65 p-5 backdrop-blur-md">
+        <div className="flex items-start justify-between gap-4">
+          <p className="font-display text-[26px] leading-snug text-white">{question.question}</p>
+          <span className="mt-2 shrink-0 font-mono text-[11px] uppercase tracking-[0.14em] text-emerald-300">
             {voteCount}/{students.length} answered
           </span>
         </div>
 
-        <div className="space-y-2.5">
+        <div className="space-y-2">
           {question.options.map((opt, oi) => {
             const count = Object.values(qVotes).filter((v) => v.choice === opt).length;
             const pct = voteCount > 0 ? Math.round((count / voteCount) * 100) : 0;
             const isCorrect = oi === question.correctIndex;
             const showCorrect = revealed && isCorrect;
+            const faded = revealed && !isCorrect;
             return (
-              <div key={oi} className="flex items-center gap-3">
-                <span className={`text-xs font-bold w-5 shrink-0 ${showCorrect ? 'text-emerald-400' : 'opacity-40'}`}>
-                  {String.fromCharCode(65 + oi)}
-                </span>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between text-sm mb-1">
-                    <span className={`flex items-center gap-1.5 ${showCorrect ? 'text-emerald-400 font-bold' : 'opacity-80'}`}>
-                      {opt}
-                      {showCorrect && <CheckCircle2 className="w-4 h-4" />}
-                    </span>
-                    {/* Tally is held back until reveal so the class can't herd toward the popular vote. */}
-                    {revealed && <span className="opacity-50 shrink-0 ml-2">{count} ({pct}%)</span>}
-                  </div>
-                  {revealed && (
-                    <div className="h-2.5 rounded-full bg-white/10 overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-500 ${showCorrect ? 'bg-emerald-400' : 'bg-sky-400'}`}
-                        style={{ width: `${pct}%` }}
-                      />
-                    </div>
-                  )}
+              <div
+                key={oi}
+                className={`relative overflow-hidden rounded-xl border px-4 py-3 transition-colors ${
+                  showCorrect ? 'border-emerald-300/70 bg-emerald-400/10' : 'border-white/10 bg-white/[0.03]'
+                } ${faded ? 'opacity-60' : ''}`}
+              >
+                {/* Tally bar sits behind the text, only after the reveal (no herding). */}
+                {revealed && (
+                  <div
+                    className={`absolute inset-y-0 left-0 transition-all duration-700 ${showCorrect ? 'bg-emerald-400/20' : 'bg-white/[0.06]'}`}
+                    style={{ width: `${pct}%` }}
+                  />
+                )}
+                <div className="relative flex items-center gap-3">
+                  <span className={`w-5 shrink-0 font-mono text-xs font-semibold ${showCorrect ? 'text-emerald-300' : LETTER_TONES[oi % LETTER_TONES.length]}`}>
+                    {String.fromCharCode(65 + oi)}
+                  </span>
+                  <span className={`flex-1 text-base ${showCorrect ? 'font-semibold text-emerald-100' : 'text-white/90'}`}>{opt}</span>
+                  {showCorrect && <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-300" />}
+                  {revealed && <span className="shrink-0 font-mono text-xs text-white/60">{count} · {pct}%</span>}
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Pending students (while voting, small class nudge) */}
         {!revealed && pending.length > 0 && pending.length <= 8 && (
-          <p className="text-xs opacity-50">
-            Waiting on: <span className="opacity-90">{pending.map((s) => s.name).join(', ')}</span>
+          <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-white/45">
+            Waiting on <span className="text-white/75">{pending.map((s) => s.name).join(', ')}</span>
           </p>
         )}
 
-        {/* Reveal extras: rationale + evidence */}
         {revealed && (question.explanation || question.evidence) && (
-          <div className="space-y-2 pt-1 border-t border-white/10">
-            {question.explanation && (
-              <p className="text-sm opacity-80 pt-2">{question.explanation}</p>
-            )}
+          <div className="space-y-2 border-t border-white/10 pt-3">
+            {question.explanation && <p className="text-base text-white/85">{question.explanation}</p>}
             {question.evidence && (
-              <p className="flex items-start gap-2 text-xs opacity-60 italic">
-                <Quote className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+              <p className="flex items-start gap-2 text-sm italic text-white/60">
+                <Quote className="mt-0.5 h-4 w-4 shrink-0 text-cyan-300" />
                 <span>&ldquo;{question.evidence}&rdquo;</span>
               </p>
             )}
@@ -257,33 +244,28 @@ export function ComprehensionQuiz({
       </div>
 
       {!revealed ? (
-        <button
+        <KitButton
+          tone="emerald"
+          solid
           onClick={() => {
             scoreCurrentQuestion();
             setPhase('revealed');
           }}
-          className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-game text-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all"
+          className="w-full justify-center !py-3 !text-base"
+          icon={<Eye className="h-4 w-4" />}
         >
-          Reveal Answer
-        </button>
+          Reveal the answer
+        </KitButton>
       ) : (
-        <div className="space-y-2">
+        <div className="flex gap-2">
           {onRewatch && typeof question.timestamp === 'number' && question.timestamp > 0 && (
-            <button
-              onClick={() => onRewatch(question.timestamp!)}
-              className="w-full py-2.5 rounded-xl border border-white/15 bg-white/5 text-sm font-semibold opacity-80 hover:opacity-100 hover:bg-white/10 transition-all flex items-center justify-center gap-1.5"
-            >
-              <RotateCcw className="w-4 h-4" />
+            <KitButton tone="cyan" onClick={() => onRewatch(question.timestamp!)} className="justify-center !py-3" icon={<RotateCcw className="h-4 w-4" />}>
               Rewatch from {question.timestampLabel}
-            </button>
+            </KitButton>
           )}
-          <button
-            onClick={handleNext}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-game text-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-1.5"
-          >
-            {isLast ? (discussionPrompt ? 'Next: Discussion' : 'Finish Briefing') : 'Next Question'}
-            <ChevronRight className="w-4 h-4" />
-          </button>
+          <KitButton tone="amber" solid onClick={handleNext} className="flex-1 justify-center !py-3 !text-base" icon={<ChevronRight className="h-4 w-4" />}>
+            {isLast ? (discussionPrompt ? 'Next: talk about it' : 'Finish') : 'Next question'}
+          </KitButton>
         </div>
       )}
     </div>
