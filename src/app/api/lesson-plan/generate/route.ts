@@ -1851,7 +1851,7 @@ Return JSON with a "characters" array of exactly 9 objects.`;
 }
 
 async function generateImposter(topic: string, difficulty: Difficulty, sourceContext = '', variant?: string): Promise<ImposterContent> {
-  const cached = await getCachedContent('imposter', topic, difficulty, [], variant, 1);
+  const cached = await getCachedContent('imposter', topic, difficulty, [], variant, 2);
   if (cached) {
     const c = cached.content_json as { rounds: ImposterRound[] };
     return { activityKey: 'imposter', topicContext: topic, rounds: c.rounds ?? [], topic };
@@ -1867,15 +1867,18 @@ async function generateImposter(topic: string, difficulty: Difficulty, sourceCon
           properties: {
             word: { type: 'string' },
             description: { type: 'string' },
+            hint: { type: 'string' },
+            crewQuestion: { type: 'string' },
+            imposterQuestion: { type: 'string' },
           },
-          required: ['word', 'description'],
+          required: ['word', 'description', 'hint', 'crewQuestion', 'imposterQuestion'],
         },
       },
     },
     required: ['rounds'],
   };
 
-  const prompt = `Generate 3 secret words for an ESL classroom Imposter game on the topic: ${topic}
+  const prompt = `Generate 3 rounds for an ESL classroom Imposter game on the topic: ${topic}
 ${languageRule(difficulty)}
 ${sourceContext}
 Rules:
@@ -1885,19 +1888,21 @@ Rules:
 - The description (1 sentence, max 20 words) is revealed to the class after the round — it explains the word simply
 - Words must be distinct from each other and appropriately challenging for ${difficultyDescriptions[difficulty]} level
 - Avoid proper nouns, brand names, or anything culturally specific to one region
+- "hint": 2-4 words that point at the word's category without giving it away (e.g. "by the sea" for lighthouse). Shown only to the imposter in Easy mode.
+- "crewQuestion" and "imposterQuestion": a pair of short personal questions about the topic for Question mode. Everyone answers out loud. The two questions must be DIFFERENT but have OVERLAPPING answers, so the imposter can blend in (e.g. crew: "What food would you take on a long trip?" / imposter: "What food do you eat when you're sick?"). Max 12 words each, classroom-safe.
 
-Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "description".`;
+Return JSON with a "rounds" array of exactly 3 objects, each with "word", "description", "hint", "crewQuestion" and "imposterQuestion".`;
 
   try {
     const data = await generateJSON<{ rounds: ImposterRound[] }>(prompt, schema);
     const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3) : [];
-    void storeCachedContent('imposter', topic, difficulty, { rounds }, 1, variant);
+    void storeCachedContent('imposter', topic, difficulty, { rounds }, 2, variant);
     return { activityKey: 'imposter', topicContext: topic, rounds, topic };
   } catch {
     const fallback: ImposterRound[] = [
-      { word: 'classroom', description: 'A room in a school where students gather to learn.' },
-      { word: 'notebook', description: 'A small book with blank or lined pages used for writing notes.' },
-      { word: 'dictionary', description: 'A book that lists words and explains what they mean.' },
+      { word: 'classroom', description: 'A room in a school where students gather to learn.', hint: 'at school', crewQuestion: 'What do you like to do at the weekend?', imposterQuestion: 'What do you do after school?' },
+      { word: 'notebook', description: 'A small book with blank or lined pages used for writing notes.', hint: 'in your bag', crewQuestion: 'What would you take to a desert island?', imposterQuestion: 'What do you always carry with you?' },
+      { word: 'dictionary', description: 'A book that lists words and explains what they mean.', hint: 'helps with words', crewQuestion: 'What is a good present for a friend?', imposterQuestion: 'What would you buy with ten dollars?' },
     ];
     return { activityKey: 'imposter', topicContext: topic, rounds: fallback, topic };
   }

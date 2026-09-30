@@ -5,7 +5,7 @@ import { UserX } from 'lucide-react';
 export const imposterPlugin: ActivityPlugin = {
   key: 'imposter',
   name: 'Imposter',
-  description: 'One student gets ???. Everyone else knows the secret word. Can the class find the imposter?',
+  description: 'Secret cards on phones: everyone shares a word or question except the imposter. Clues in a new order every round, then the class votes. Modes: secret word, secret question, today’s words; Easy hint; two imposters.',
   category: 'icebreaker',
   pppStage: 'presentation',
   skills: ['Speaking', 'Critical Thinking', 'Listening'],

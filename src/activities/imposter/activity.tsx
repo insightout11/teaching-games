@@ -1,32 +1,29 @@
 'use client';
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import type { ActivityProps } from '../types';
-import type { ImposterContent } from '../types';
-import type { Student } from '@/lib/supabase/types';
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { Drama, HelpCircle, Lightbulb, BookOpen, Users } from 'lucide-react';
+import type { ActivityProps, ImposterContent, ImposterRound } from '../types';
+import { useFocusBus } from '@/stores/focus-bus-store';
+import { accusedFrom, clueOrder, pickImposters, tallyVotes, type ImposterVote } from './logic';
 
 type Phase = 'idle' | 'briefing' | 'clues' | 'voting' | 'redemption' | 'reveal' | 'done';
+/** What the crew shares: a secret word, a secret question, or one of today's topic words. */
+export type ImposterSecret = 'word' | 'question' | 'vocab';
 
-type ImposterAssignment = { role: 'insider'; word: string; definition: string } | { role: 'imposter' };
+export type ImposterAssignment =
+  | { role: 'insider'; secret: ImposterSecret; word?: string; definition?: string; question?: string }
+  | { role: 'imposter'; secret: ImposterSecret; hint?: string; question?: string; partners?: number };
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
+const MONO = 'font-[family-name:var(--font-instrument)] uppercase tracking-[0.14em]';
+const PRIMARY = 'rounded-xl bg-amber-400 px-6 py-3 font-semibold text-lc-bg hover:bg-amber-300 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed';
+const GHOST = 'rounded-xl border border-lc-border px-4 py-3 text-sm text-lc-text2 hover:border-lc-text3 hover:text-lc-text';
 
-function buildAssignments(students: Student[], imposterName: string, word: string, definition: string): Record<string, ImposterAssignment> {
-  const result: Record<string, ImposterAssignment> = {};
-  for (const student of students) {
-    result[student.name] = student.name === imposterName
-      ? { role: 'imposter' }
-      : { role: 'insider', word, definition };
-  }
-  return result;
-}
+const SECRETS: { key: ImposterSecret; label: string; blurb: string; icon: React.ElementType }[] = [
+  { key: 'word', label: 'Secret word', blurb: 'Crew know the word. Give one clue each.', icon: Drama },
+  { key: 'question', label: 'Secret question', blurb: 'The imposter gets a different question. Everyone answers out loud.', icon: HelpCircle },
+  { key: 'vocab', label: "Today's words", blurb: 'The secret word comes from today’s topic words.', icon: BookOpen },
+];
 
 export function ImposterActivity({
   students,
@@ -37,55 +34,70 @@ export function ImposterActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as ImposterContent;
+  const reduce = useReducedMotion();
+  const topicWords = useFocusBus((s) => s.vocab);
 
   const [phase, setPhase] = useState<Phase>('idle');
+  const [secret, setSecret] = useState<ImposterSecret>('word');
+  const [easyHint, setEasyHint] = useState(false);
+  const [twoImposters, setTwoImposters] = useState(false);
   const [roundIndex, setRoundIndex] = useState(0);
-  const [imposterName, setImposterName] = useState<string>('');
+  const [imposters, setImposters] = useState<string[]>([]);
   const [assignments, setAssignments] = useState<Record<string, ImposterAssignment>>({});
+  const [order, setOrder] = useState<string[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
+  const [clueDone, setClueDone] = useState<Set<number>>(new Set());
   const [confirmedClientIds, setConfirmedClientIds] = useState<Set<string>>(new Set());
-  const [voteCounts, setVoteCounts] = useState<Record<string, number>>({});
-  const [votedClientIds, setVotedClientIds] = useState<Set<string>>(new Set());
-  const [scoredVoterClientIds, setScoredVoterClientIds] = useState<Set<string>>(new Set());
-  const [imposterGuessResult, setImposterGuessResult] = useState<'correct' | 'incorrect' | null>(null);
-  const [clueScored, setClueScored] = useState<Set<number>>(new Set());
-  const [shuffledStudents, setShuffledStudents] = useState<Student[]>([]);
-  const [imposterCaught, setImposterCaught] = useState(false);
+  const [votes, setVotes] = useState<ImposterVote[]>([]);
+  const [accused, setAccused] = useState<string[]>([]);
+  const [guessResult, setGuessResult] = useState<'correct' | 'incorrect' | null>(null);
 
-  // Refs for vote handler (same pattern as character-cards)
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
-  const votedClientIdsRef = useRef(votedClientIds);
-  votedClientIdsRef.current = votedClientIds;
-  const voteCountsRef = useRef(voteCounts);
-  voteCountsRef.current = voteCounts;
-  const confirmedClientIdsRef = useRef(confirmedClientIds);
-  confirmedClientIdsRef.current = confirmedClientIds;
-  const scoredVoterClientIdsRef = useRef(scoredVoterClientIds);
-  scoredVoterClientIdsRef.current = scoredVoterClientIds;
-  const usedImposterNamesRef = useRef<string[]>([]);
+  const votesRef = useRef(votes);
+  votesRef.current = votes;
+  const confirmedRef = useRef(confirmedClientIds);
+  confirmedRef.current = confirmedClientIds;
+  const usedImpostersRef = useRef<string[]>([]);
+  const lastOrderRef = useRef<string[] | null>(null);
 
-  const currentRound = content.rounds?.[roundIndex] ?? content.rounds?.[0];
-  const hasNextRound = roundIndex + 1 < (content.rounds?.length ?? 0);
-
+  const names = useMemo(() => students.map((s) => s.name), [students]);
+  const canTwo = students.length >= 6;
+  const imposterCount = twoImposters && canTwo ? 2 : 1;
   const enoughStudents = students.length >= 3;
 
-  // ─── Input spec by phase ───────────────────────────────────────────────────
+  // Rounds for the chosen secret type.
+  const rounds: ImposterRound[] = useMemo(() => {
+    if (secret === 'vocab') {
+      return topicWords
+        .filter((w) => w.word.trim())
+        .slice(0, 6)
+        .map((w) => ({ word: w.word, description: w.definition }));
+    }
+    const base = content.rounds ?? [];
+    return secret === 'question' ? base.filter((r) => r.crewQuestion && r.imposterQuestion) : base;
+  }, [secret, topicWords, content.rounds]);
+  const questionReady = (content.rounds ?? []).some((r) => r.crewQuestion && r.imposterQuestion);
+  const vocabReady = topicWords.length >= 3;
+  const currentRound = rounds[roundIndex] ?? rounds[0];
+  const hasNextRound = roundIndex + 1 < rounds.length;
+
+  // ─── What phones see ──────────────────────────────────────────────────────
   useEffect(() => {
     if (phase === 'briefing' || phase === 'clues') {
       onSetInputSpec?.({
         type: 'confirm',
         gameKey: 'imposter',
-        prompt: phase === 'briefing' ? 'Read your card carefully.' : 'Listen to the clues.',
-        buttonLabel: phase === 'briefing' ? 'Got it!' : 'Ready!',
+        prompt: phase === 'briefing' ? 'Hold to peek at your secret card.' : secret === 'question' ? 'Answer your question out loud when it’s your turn.' : 'Give one clue when it’s your turn.',
+        buttonLabel: phase === 'briefing' ? 'Got it' : 'Ready',
         perStudentData: assignments as Record<string, unknown>,
       });
     } else if (phase === 'voting') {
       onSetInputSpec?.({
         type: 'choice',
         gameKey: 'imposter',
-        prompt: 'Who is the imposter?',
-        options: students.map((s) => s.name),
+        prompt: imposterCount > 1 ? 'Who is an imposter?' : 'Who is the imposter?',
+        options: names,
       });
     } else {
       onSetInputSpec?.(null);
@@ -93,466 +105,335 @@ export function ImposterActivity({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
 
-  // ─── Remote vote handler ───────────────────────────────────────────────────
+  // ─── Phone replies ────────────────────────────────────────────────────────
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
       if (phaseRef.current === 'briefing' || phaseRef.current === 'clues') {
-        if (confirmedClientIdsRef.current.has(vote.clientId)) return;
+        if (confirmedRef.current.has(vote.clientId)) return;
         setConfirmedClientIds((prev) => new Set(Array.from(prev).concat([vote.clientId])));
-      } else if (phaseRef.current === 'voting') {
-        if (votedClientIdsRef.current.has(vote.clientId)) return;
-        setVotedClientIds((prev) => new Set(Array.from(prev).concat([vote.clientId])));
-        const picked = vote.choice;
-        if (picked) {
-          setVoteCounts((prev) => ({ ...prev, [picked]: (prev[picked] ?? 0) + 1 }));
-        }
-        // Participation score for voting
-        if (!scoredVoterClientIdsRef.current.has(vote.clientId)) {
-          setScoredVoterClientIds((prev) => new Set(Array.from(prev).concat([vote.clientId])));
-          void onScore?.({
-            studentId: vote.studentId ?? null,
-            clientId: vote.clientId,
-            displayName: vote.displayName,
-            promptIndex: students.length + 1,
-            points: 1,
-            isCorrect: null,
-          });
-        }
+      } else if (phaseRef.current === 'voting' && vote.choice) {
+        // Latest vote per phone counts (students can change their mind before the reveal).
+        const next = votesRef.current.filter((v) => v.clientId !== vote.clientId);
+        next.push({ clientId: vote.clientId, choice: vote.choice, studentId: vote.studentId ?? null, displayName: vote.displayName });
+        setVotes(next);
       }
     });
     return () => onRegisterRemoteVoteHandler?.(null);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onRegisterRemoteVoteHandler, onScore, students.length]);
+  }, [onRegisterRemoteVoteHandler]);
 
-  // ─── Handlers ─────────────────────────────────────────────────────────────
-  const handleStart = useCallback(() => {
+  // Scores save in the background: a failed save must never stall the round.
+  const score = useCallback((args: Parameters<NonNullable<typeof onScore>>[0]) => {
+    try {
+      void Promise.resolve(onScore?.(args)).catch(() => {});
+    } catch {
+      // ignore — the game goes on
+    }
+  }, [onScore]);
+
+  // ─── Round flow ───────────────────────────────────────────────────────────
+  const deal = useCallback(() => {
     if (!currentRound) return;
-    const usedNames = usedImposterNamesRef.current;
-    const available = students.filter(s => !usedNames.includes(s.name));
-    const pool = available.length > 0 ? available : students;
-    const newImposter = pool[Math.floor(Math.random() * pool.length)].name;
-    usedImposterNamesRef.current = [...usedNames, newImposter];
-    const newAssignments = buildAssignments(students, newImposter, currentRound.word, currentRound.description);
-    setImposterName(newImposter);
-    setAssignments(newAssignments);
+    const picked = pickImposters(names, usedImpostersRef.current, imposterCount);
+    usedImpostersRef.current = [...usedImpostersRef.current, ...picked];
+    const next: Record<string, ImposterAssignment> = {};
+    for (const n of names) {
+      next[n] = picked.includes(n)
+        ? {
+            role: 'imposter',
+            secret,
+            ...(secret === 'question' ? { question: currentRound.imposterQuestion } : {}),
+            ...(easyHint && secret !== 'question' && currentRound.hint ? { hint: currentRound.hint } : {}),
+            ...(picked.length > 1 ? { partners: picked.length } : {}),
+          }
+        : secret === 'question'
+          ? { role: 'insider', secret, question: currentRound.crewQuestion }
+          : { role: 'insider', secret, word: currentRound.word, definition: currentRound.description };
+    }
+    // The order must change every round (see logic.ts).
+    const nextOrder = clueOrder(names, picked, lastOrderRef.current);
+    lastOrderRef.current = nextOrder;
+    setImposters(picked);
+    setAssignments(next);
+    setOrder(nextOrder);
     setCurrentIdx(0);
+    setClueDone(new Set());
     setConfirmedClientIds(new Set());
-    setVoteCounts({});
-    setVotedClientIds(new Set());
-    setScoredVoterClientIds(new Set());
-    setImposterGuessResult(null);
-    setImposterCaught(false);
-    setClueScored(new Set());
-    setShuffledStudents(shuffle(students));
+    setVotes([]);
+    setAccused([]);
+    setGuessResult(null);
     setPhase('briefing');
     onPhaseChange?.('briefing');
-  }, [currentRound, students, onPhaseChange]);
+  }, [currentRound, names, imposterCount, secret, easyHint, onPhaseChange]);
 
-  const handleStartClues = useCallback(() => {
+  const startClues = useCallback(() => {
     setCurrentIdx(0);
     setPhase('clues');
     onPhaseChange?.('clues');
   }, [onPhaseChange]);
 
-  const handleNextClue = useCallback(async () => {
-    const student = shuffledStudents[currentIdx];
-    if (student && !clueScored.has(currentIdx)) {
-      setClueScored((prev) => new Set(Array.from(prev).concat([currentIdx])));
-      await onScore?.({
-        studentId: student.id ?? null,
-        clientId: student.id ?? null,
-        displayName: student.name,
-        promptIndex: currentIdx + 1,
-        points: 1,
-        isCorrect: null,
-      });
+  const advance = useCallback((scored: boolean) => {
+    const name = order[currentIdx];
+    const student = students.find((s) => s.name === name);
+    if (scored && student && !clueDone.has(currentIdx)) {
+      setClueDone((prev) => new Set(Array.from(prev).concat([currentIdx])));
+      score({ studentId: student.id ?? null, clientId: student.id ?? null, displayName: student.name, promptIndex: currentIdx + 1, points: 1, isCorrect: null });
     }
-    const next = currentIdx + 1;
-    if (next >= shuffledStudents.length) {
+    if (currentIdx + 1 >= order.length) {
       setPhase('voting');
       onPhaseChange?.('voting');
     } else {
-      setCurrentIdx(next);
+      setCurrentIdx(currentIdx + 1);
     }
-  }, [currentIdx, shuffledStudents, clueScored, onScore, onPhaseChange]);
+  }, [order, currentIdx, students, clueDone, score, onPhaseChange]);
 
-  const handleSkipClue = useCallback(() => {
-    const next = currentIdx + 1;
-    if (next >= shuffledStudents.length) {
-      setPhase('voting');
-      onPhaseChange?.('voting');
-    } else {
-      setCurrentIdx(next);
+  const revealVote = useCallback(() => {
+    const who = accusedFrom(votes, imposterCount);
+    setAccused(who);
+    // Crew who voted for an imposter earn 2.
+    for (const v of votes) {
+      if (!imposters.includes(v.choice)) continue;
+      score({ studentId: v.studentId ?? null, clientId: v.clientId, displayName: v.displayName ?? '', promptIndex: students.length + 1, points: 2, isCorrect: true });
     }
-  }, [currentIdx, shuffledStudents.length, onPhaseChange]);
-
-  const handleEndVoting = useCallback(() => {
-    // Find most-voted student
-    const entries = Object.entries(voteCounts);
-    if (entries.length === 0) {
-      setImposterCaught(false);
-      setPhase('redemption');
-      onPhaseChange?.('redemption');
-      return;
+    // Imposters who escaped earn 3.
+    for (const name of imposters) {
+      if (who.includes(name)) continue;
+      const s = students.find((x) => x.name === name);
+      if (s) score({ studentId: s.id ?? null, clientId: s.id ?? null, displayName: s.name, promptIndex: students.length + 2, points: 3, isCorrect: null });
     }
-    const maxVotes = Math.max(...entries.map(([, c]) => c));
-    const topNames = entries.filter(([, c]) => c === maxVotes).map(([n]) => n);
-    const accused = topNames.length === 1 ? topNames[0] : null; // null = tie
-
-    setImposterCaught(!!(accused && accused === imposterName));
     setPhase('redemption');
     onPhaseChange?.('redemption');
-  }, [voteCounts, imposterName, onPhaseChange]);
+  }, [votes, imposterCount, imposters, students, score, onPhaseChange]);
 
-  const handleRedemption = useCallback(async (result: 'correct' | 'incorrect') => {
-    setImposterGuessResult(result);
-    // Award bonus to imposter for correct guess
+  const judgeGuess = useCallback((result: 'correct' | 'incorrect') => {
+    setGuessResult(result);
     if (result === 'correct') {
-      const imposterStudent = students.find((s) => s.name === imposterName);
-      if (imposterStudent) {
-        await onScore?.({
-          studentId: imposterStudent.id ?? null,
-          clientId: imposterStudent.id ?? null,
-          displayName: imposterStudent.name,
-          promptIndex: students.length + 2,
-          points: 3,
-          isCorrect: null,
-        });
+      for (const name of imposters) {
+        const s = students.find((x) => x.name === name);
+        if (s) score({ studentId: s.id ?? null, clientId: s.id ?? null, displayName: s.name, promptIndex: students.length + 3, points: 3, isCorrect: null });
       }
     }
     setPhase('reveal');
     onPhaseChange?.('reveal');
-  }, [students, imposterName, onScore, onPhaseChange]);
+  }, [imposters, students, score, onPhaseChange]);
 
-  const handleNextRound = useCallback(() => {
+  const nextRound = useCallback(() => {
     setRoundIndex((i) => i + 1);
     setPhase('idle');
     onPhaseChange?.('idle');
   }, [onPhaseChange]);
 
-  const handleEnd = useCallback(() => {
+  const end = useCallback(() => {
     setPhase('done');
     onPhaseChange?.('finished');
   }, [onPhaseChange]);
 
-  // ─── Derived state for reveal ──────────────────────────────────────────────
-  const voteEntries = Object.entries(voteCounts).sort((a, b) => b[1] - a[1]);
-  const totalVotes = votedClientIds.size;
-  const maxVotes = voteEntries.length > 0 ? voteEntries[0][1] : 0;
-  const topNames = voteEntries.filter(([, c]) => c === maxVotes).map(([n]) => n);
-  const accused = topNames.length === 1 ? topNames[0] : null;
-  const classWon = accused === imposterName;
-  const imposterWon = !classWon || imposterGuessResult === 'correct';
+  // ─── Derived ──────────────────────────────────────────────────────────────
+  const tally = tallyVotes(votes);
+  const caughtAll = imposters.length > 0 && imposters.every((n) => accused.includes(n));
+  const caughtSome = imposters.some((n) => accused.includes(n));
+  const imposterLabel = imposters.join(' and ');
+  const secretText = secret === 'question' ? currentRound?.crewQuestion : currentRound?.word;
 
-  // ─── IDLE ──────────────────────────────────────────────────────────────────
+  // ─── Setup ────────────────────────────────────────────────────────────────
   if (phase === 'idle') {
     return (
-      <div className="space-y-6">
-        <div className="text-center space-y-2">
-          <p className="text-2xl font-bold opacity-90">Imposter</p>
-          <p className="text-sm opacity-50 leading-relaxed">
-            Everyone gets the secret word — except one student who gets ???.<br />
-            Give clues, then vote to find the imposter.
-          </p>
+      <div className="mx-auto max-w-3xl space-y-6 pb-16 text-lc-text">
+        <div className="text-center">
+          <p className={`${MONO} text-xs text-rose-300`}>Imposter · round {roundIndex + 1}{rounds.length ? ` of ${rounds.length}` : ''}</p>
+          <p className="mt-1 font-display text-4xl">Who&apos;s the imposter?</p>
         </div>
-
-        {currentRound && (
-          <div className="glass p-4 rounded-2xl border border-white/10 text-center">
-            <p className="text-sm opacity-40">Round {roundIndex + 1} of {content.rounds?.length ?? 1}</p>
-          </div>
-        )}
-
-        {!enoughStudents && (
-          <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 text-sm text-amber-300 text-center">
-            Need at least 3 students to play. ({students.length} joined)
-          </div>
-        )}
-
-        <div className="flex justify-center pt-2">
-          <button
-            onClick={handleStart}
-            disabled={!enoughStudents || !currentRound}
-            className="px-12 py-6 bg-gradient-to-br from-rose-500 to-red-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-          >
-            DEAL CARDS
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── BRIEFING ──────────────────────────────────────────────────────────────
-  if (phase === 'briefing') {
-    const confirmedCount = confirmedClientIds.size;
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-rose-400">Reading Cards…</h3>
-          <span className="text-sm opacity-60">{confirmedCount} / {students.length} ready</span>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          {students.map((student) => {
-            // Approximate readiness by count (we track clientIds, not names)
-            const readyCount = confirmedClientIds.size;
-            const studentIdx = students.indexOf(student);
-            const isReady = studentIdx < readyCount;
+        <div className="grid gap-3 sm:grid-cols-3">
+          {SECRETS.map((m) => {
+            const disabled = (m.key === 'question' && !questionReady) || (m.key === 'vocab' && !vocabReady);
+            const active = secret === m.key;
+            const Icon = m.icon;
             return (
-              <span
-                key={student.id}
-                className={`text-xs px-3 py-1 rounded-full transition-colors ${
-                  isReady
-                    ? 'bg-emerald-500/20 text-emerald-400'
-                    : 'bg-white/10 opacity-40'
-                }`}
+              <button
+                key={m.key}
+                type="button"
+                disabled={disabled || roundIndex > 0}
+                onClick={() => { setSecret(m.key); setRoundIndex(0); }}
+                className={`rounded-2xl border p-4 text-left transition-colors disabled:opacity-40 ${active ? 'border-amber-400 bg-amber-400/10' : 'border-lc-border bg-lc-card hover:border-lc-text3'}`}
               >
-                {student.name}
-              </span>
+                <Icon className={`h-5 w-5 ${active ? 'text-amber-300' : 'text-lc-text3'}`} />
+                <p className="mt-2 font-display text-xl">{m.label}</p>
+                <p className="mt-1 text-sm text-lc-text2">{disabled ? (m.key === 'vocab' ? 'Set a topic first so the class has words.' : 'Not ready for this topic yet.') : m.blurb}</p>
+              </button>
             );
           })}
         </div>
-
-        <div className="flex justify-end">
-          <button
-            onClick={handleStartClues}
-            className="px-8 py-3 bg-gradient-to-r from-rose-500 to-red-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            START CLUES ▶
+        <div className="flex flex-wrap justify-center gap-2">
+          {secret !== 'question' && (
+            <button type="button" onClick={() => setEasyHint((v) => !v)} aria-pressed={easyHint} className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm ${easyHint ? 'border-amber-400 text-amber-200' : 'border-lc-border text-lc-text2'}`}>
+              <Lightbulb className="h-4 w-4" /> Easy: imposter gets a hint
+            </button>
+          )}
+          <button type="button" disabled={!canTwo} onClick={() => setTwoImposters((v) => !v)} aria-pressed={twoImposters && canTwo} className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm disabled:opacity-40 ${twoImposters && canTwo ? 'border-rose-400 text-rose-200' : 'border-lc-border text-lc-text2'}`}>
+            <Users className="h-4 w-4" /> Two imposters{canTwo ? '' : ' (6+ players)'}
+          </button>
+        </div>
+        {!enoughStudents && (
+          <p className="text-center text-sm text-amber-300">Imposter needs at least 3 players ({students.length} aboard).</p>
+        )}
+        <div className="flex justify-center">
+          <button type="button" onClick={deal} disabled={!enoughStudents || !currentRound} className={`${PRIMARY} px-10 py-4 font-display text-xl`}>
+            Deal the secret cards
           </button>
         </div>
       </div>
     );
   }
 
-  // ─── CLUES ─────────────────────────────────────────────────────────────────
-  if (phase === 'clues') {
-    const currentStudent = shuffledStudents[currentIdx];
-    const isLastStudent = currentIdx + 1 >= shuffledStudents.length;
-
+  // ─── Briefing ─────────────────────────────────────────────────────────────
+  if (phase === 'briefing') {
     return (
-      <div className="space-y-6">
+      <div className="mx-auto max-w-3xl space-y-6 text-center text-lc-text">
+        <p className={`${MONO} text-xs text-amber-300`}>Secret cards dealt</p>
+        <p className="font-display text-4xl">Hold your phone close and peek</p>
+        <p className="text-lc-text2">{imposterCount > 1 ? 'Two of you' : 'One of you'} didn&apos;t get the {secret === 'question' ? 'same question' : 'word'}.</p>
+        <p className={`${MONO} text-sm text-emerald-300`}>{confirmedClientIds.size} / {students.length} ready</p>
+        <button type="button" onClick={startClues} className={PRIMARY}>
+          {secret === 'question' ? 'Start answering' : 'Start the clues'}
+        </button>
+      </div>
+    );
+  }
+
+  // ─── Clues / answers (order shuffled every round) ─────────────────────────
+  if (phase === 'clues') {
+    const speaker = order[currentIdx];
+    return (
+      <div className="mx-auto max-w-3xl space-y-6 text-lc-text">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-rose-400">Clue Round</h3>
-          <span className="text-sm opacity-60">{currentIdx + 1} / {shuffledStudents.length}</span>
+          <p className={`${MONO} text-xs text-amber-300`}>{secret === 'question' ? 'Answers' : 'Clue round'} · {currentIdx + 1} of {order.length}</p>
+          <p className={`${MONO} text-xs text-lc-text3`}>New order every round</p>
         </div>
-
-        {/* Current speaker */}
-        {currentStudent && (
-          <div className="glass p-6 rounded-2xl border-2 border-rose-500/30 text-center space-y-2">
-            <p className="text-xs opacity-40 uppercase tracking-widest">Now giving a clue</p>
-            <p className="text-2xl font-bold">{currentStudent.name}</p>
-            <p className="text-xs opacity-40">Say one word or phrase that hints at the secret word — without saying it</p>
-          </div>
-        )}
-
-        {/* Upcoming speakers */}
+        <motion.div
+          key={speaker}
+          initial={reduce ? false : { y: 12, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="rounded-3xl border-2 border-amber-400/50 bg-lc-card p-8 text-center"
+        >
+          <p className={`${MONO} text-xs text-lc-text3`}>{secret === 'question' ? 'Answer your question' : 'One clue, don’t say it'}</p>
+          <p className="mt-2 font-display text-5xl">{speaker}</p>
+        </motion.div>
         <div className="flex flex-wrap gap-2">
-          {shuffledStudents.map((student, i) => (
+          {order.map((n, i) => (
             <span
-              key={student.id}
-              className={`text-xs px-3 py-1 rounded-full ${
-                clueScored.has(i)
-                  ? 'bg-emerald-500/20 text-emerald-400'
-                  : i === currentIdx
-                  ? 'bg-rose-500/30 text-rose-300 ring-1 ring-rose-400'
-                  : 'bg-white/10 opacity-40'
+              key={n}
+              className={`rounded-lg border px-3 py-1.5 text-sm ${
+                clueDone.has(i) ? 'border-emerald-400/60 text-emerald-300'
+                  : i === currentIdx ? 'border-amber-400 bg-amber-400/10 text-amber-200'
+                    : 'border-lc-border text-lc-text3'
               }`}
             >
-              {student.name}
+              <span className={`${MONO} mr-1.5 text-[10px] opacity-70`}>{i + 1}</span>{n}
             </span>
           ))}
         </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleSkipClue}
-            className="px-4 py-2.5 bg-white/10 hover:bg-white/15 rounded-xl transition-colors text-sm font-medium"
-          >
-            Skip
-          </button>
-          <button
-            onClick={handleNextClue}
-            className="flex-1 py-2.5 bg-gradient-to-r from-rose-500 to-red-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            {isLastStudent ? 'Go to Vote ▶' : 'Next ▶'}
+        <div className="flex gap-2">
+          <button type="button" onClick={() => advance(false)} className={GHOST}>Skip</button>
+          <button type="button" onClick={() => advance(true)} className={`${PRIMARY} flex-1`}>
+            {currentIdx + 1 >= order.length ? 'Everyone vote' : 'Next'}
           </button>
         </div>
       </div>
     );
   }
 
-  // ─── VOTING ────────────────────────────────────────────────────────────────
+  // ─── Voting ───────────────────────────────────────────────────────────────
   if (phase === 'voting') {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-rose-400">Vote!</h3>
-          <span className="text-sm opacity-60">{totalVotes} / {students.length} voted</span>
-        </div>
+      <div className="mx-auto max-w-3xl space-y-6 text-center text-lc-text">
+        <p className={`${MONO} text-xs text-rose-300`}>Vote on your phones</p>
+        <p className="font-display text-4xl">{imposterCount > 1 ? 'Who are the imposters?' : 'Who is the imposter?'}</p>
+        <p className={`${MONO} text-sm text-lc-text2`}>{votes.length} / {students.length} voted</p>
+        <p className="text-sm text-lc-text3">Votes stay hidden until the reveal.</p>
+        <button type="button" onClick={revealVote} className={PRIMARY}>Reveal the vote</button>
+      </div>
+    );
+  }
 
-        <p className="text-sm opacity-50 text-center">Students are voting on their devices…</p>
-
-        <div className="space-y-3">
-          {students.map((student) => {
-            const count = voteCounts[student.name] ?? 0;
-            const pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+  // ─── Vote reveal + last chance ────────────────────────────────────────────
+  if (phase === 'redemption') {
+    const max = Math.max(1, ...Object.values(tally));
+    const bars = names.filter((n) => tally[n]).sort((a, b) => (tally[b] ?? 0) - (tally[a] ?? 0)).slice(0, 6);
+    return (
+      <div className="mx-auto max-w-3xl space-y-6 text-lc-text">
+        <div className="flex items-end justify-center gap-4">
+          {bars.map((n, i) => {
+            const isImp = imposters.includes(n);
+            const isAccused = accused.includes(n);
             return (
-              <div key={student.id} className="space-y-1">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium">{student.name}</span>
-                  <span className="opacity-50">{count} vote{count !== 1 ? 's' : ''} · {pct}%</span>
-                </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-rose-500 to-red-600 rounded-full transition-all duration-500"
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
+              <div key={n} className="relative flex flex-col items-center">
+                {isAccused && (
+                  <motion.span
+                    initial={reduce ? false : { scale: 2, opacity: 0, rotate: -12 }}
+                    animate={{ scale: 1, opacity: 1, rotate: -12 }}
+                    transition={{ delay: 0.6 + i * 0.15, type: 'spring', stiffness: 300, damping: 14 }}
+                    className={`${MONO} absolute -top-8 z-10 rounded-md border-2 bg-lc-bg px-2 py-0.5 text-xs ${isImp ? 'border-red-400 text-red-300' : 'border-lc-text3 text-lc-text2'}`}
+                  >
+                    {isImp ? 'Caught' : 'Crew!'}
+                  </motion.span>
+                )}
+                <motion.div
+                  initial={reduce ? false : { height: 0 }}
+                  animate={{ height: 24 + ((tally[n] ?? 0) / max) * 120 }}
+                  transition={{ delay: i * 0.12, type: 'spring', stiffness: 160, damping: 20 }}
+                  className={`w-16 rounded-t-lg ${isAccused ? 'bg-rose-400' : 'bg-lc-border'}`}
+                />
+                <p className="mt-2 text-sm">{n}</p>
+                <p className={`${MONO} text-xs text-lc-text3`}>{tally[n]} vote{tally[n] === 1 ? '' : 's'}</p>
               </div>
             );
           })}
+          {bars.length === 0 && <p className="text-lc-text2">No votes came in.</p>}
         </div>
-
-        <div className="flex justify-end">
-          <button
-            onClick={handleEndVoting}
-            className="px-8 py-3 bg-gradient-to-r from-rose-500 to-red-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            REVEAL VOTE
-          </button>
+        <div className="text-center">
+          <p className="font-display text-4xl">{caughtAll ? 'Imposter caught!' : caughtSome ? 'One imposter caught!' : 'The imposter escaped!'}</p>
+          <p className="mt-1 text-lc-text2">It was <span className="text-rose-300">{imposterLabel}</span>.</p>
         </div>
-      </div>
-    );
-  }
-
-  // ─── REDEMPTION ────────────────────────────────────────────────────────────
-  if (phase === 'redemption') {
-    return (
-      <div className="space-y-6">
-        <div className="text-center space-y-2">
-          <p className="text-2xl font-bold text-rose-400">
-            {imposterCaught ? 'Imposter Caught!' : 'Imposter Wins!'}
-          </p>
-          <p className="text-sm opacity-60">
-            {imposterCaught
-              ? <>The class voted for <strong>{imposterName}</strong>.</>
-              : <><strong>{imposterName}</strong> got away — but can they still guess the word?</>}
-          </p>
-        </div>
-
-        <div className="glass p-6 rounded-2xl border border-amber-500/30 bg-amber-500/5 text-center space-y-3">
-          <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">
-            {imposterCaught ? 'Last Chance' : 'Bonus Round'}
-          </p>
-          <p className="text-base leading-snug opacity-90">
-            <strong>{imposterName}</strong>, what was the secret word?
-          </p>
-          <p className="text-xs opacity-40">Ask them to guess aloud — then confirm below</p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <button
-            onClick={() => handleRedemption('incorrect')}
-            className="py-4 bg-white/10 hover:bg-white/15 rounded-xl font-medium text-sm transition-colors"
-          >
-            ✗ Wrong guess
-          </button>
-          <button
-            onClick={() => handleRedemption('correct')}
-            className="py-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            ✓ Correct!
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── REVEAL ────────────────────────────────────────────────────────────────
-  if (phase === 'reveal') {
-    const isTie = topNames.length > 1;
-
-    return (
-      <div className="space-y-6">
-        {/* Outcome banner */}
-        <div className={`text-center py-4 space-y-1 ${imposterWon ? 'text-rose-400' : 'text-emerald-400'}`}>
-          <p className="text-3xl font-bold">
-            {imposterGuessResult === 'correct'
-              ? '🕵️ Imposter wins — correct guess!'
-              : imposterWon
-              ? '🕵️ Imposter wins!'
-              : '🎉 Class wins!'}
-          </p>
-          {isTie && <p className="text-sm opacity-60">Tie vote — imposter escaped</p>}
-        </div>
-
-        {/* Word reveal */}
-        <div className="glass p-5 rounded-2xl border border-rose-500/20 bg-rose-500/5 text-center space-y-2">
-          <p className="text-xs opacity-40 uppercase tracking-widest">The secret word was</p>
-          <p className="text-4xl font-bold text-rose-400">{currentRound?.word}</p>
-          <p className="text-sm opacity-60 leading-relaxed">{currentRound?.description}</p>
-        </div>
-
-        {/* Imposter reveal */}
-        <div className="glass px-4 py-3 rounded-xl flex items-center justify-between">
-          <span className="text-sm opacity-60">The imposter was</span>
-          <span className="font-bold text-rose-400">{imposterName}</span>
-        </div>
-
-        {/* Vote breakdown */}
-        {voteEntries.length > 0 && (
-          <div className="space-y-2">
-            <p className="text-xs opacity-40 uppercase tracking-wide">Final vote</p>
-            {voteEntries.map(([name, count]) => {
-              const isActualImposter = name === imposterName;
-              const wasAccused = name === accused;
-              return (
-                <div
-                  key={name}
-                  className={`flex items-center justify-between glass px-4 py-2.5 rounded-xl ${
-                    isActualImposter ? 'border border-rose-500/30' : ''
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    {isActualImposter && <span className="text-rose-400 text-sm">🕵️</span>}
-                    <span className={`text-sm font-medium ${isActualImposter ? 'text-rose-400' : ''}`}>{name}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm opacity-50">{count} vote{count !== 1 ? 's' : ''}</span>
-                    {wasAccused && isActualImposter && <span className="text-xs text-emerald-400">✓ caught</span>}
-                    {wasAccused && !isActualImposter && <span className="text-xs text-rose-400">✗ wrong</span>}
-                  </div>
-                </div>
-              );
-            })}
+        <div className="rounded-2xl border border-amber-400/40 bg-lc-card p-5 text-center">
+          <p className={`${MONO} text-xs text-amber-300`}>{caughtAll ? 'Last chance to steal the win' : 'Bonus'}</p>
+          <p className="mt-1 font-display text-2xl">{imposterLabel}, {secret === 'question' ? 'what was the crew’s question?' : 'what was the secret word?'}</p>
+          <p className="text-sm text-lc-text3">They say it out loud, you judge.</p>
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <button type="button" onClick={() => judgeGuess('incorrect')} className={GHOST}>Wrong</button>
+            <button type="button" onClick={() => judgeGuess('correct')} className={PRIMARY}>Got it right</button>
           </div>
-        )}
-
-        <div className="flex items-center justify-end gap-3 pt-2">
-          {hasNextRound && (
-            <button
-              onClick={handleNextRound}
-              className="px-6 py-3 bg-gradient-to-r from-rose-500 to-red-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              Next Word ✨
-            </button>
-          )}
-          <button
-            onClick={handleEnd}
-            className="px-8 py-3 bg-white/10 hover:bg-white/15 rounded-xl text-sm font-medium transition-colors"
-          >
-            End Activity
-          </button>
         </div>
       </div>
     );
   }
 
-  // ─── DONE ──────────────────────────────────────────────────────────────────
+  // ─── Final reveal ─────────────────────────────────────────────────────────
+  if (phase === 'reveal') {
+    const imposterWins = !caughtAll || guessResult === 'correct';
+    return (
+      <div className="mx-auto max-w-3xl space-y-6 text-center text-lc-text">
+        <p className={`font-display text-5xl ${imposterWins ? 'text-rose-300' : 'text-emerald-300'}`}>
+          {guessResult === 'correct' ? 'The imposter stole the win!' : imposterWins ? 'The imposter wins!' : 'The crew wins!'}
+        </p>
+        <div className="mx-auto max-w-xl rounded-2xl p-6" style={{ background: '#f4efe3', color: '#1b2233' }}>
+          <p className={`${MONO} text-xs`} style={{ color: '#7a6f5a' }}>{secret === 'question' ? 'The crew’s question was' : 'The secret word was'}</p>
+          <p className="mt-1 font-display text-4xl">{secretText}</p>
+          {secret === 'question' ? (
+            <p className="mt-2 text-sm" style={{ color: '#5b5446' }}>The imposter&apos;s question: &ldquo;{currentRound?.imposterQuestion}&rdquo;</p>
+          ) : currentRound?.description ? (
+            <p className="mt-2 text-sm" style={{ color: '#5b5446' }}>{currentRound.description}</p>
+          ) : null}
+        </div>
+        <div className="flex justify-center gap-3">
+          {hasNextRound && <button type="button" onClick={nextRound} className={PRIMARY}>Next round</button>}
+          <button type="button" onClick={end} className={GHOST}>End Imposter</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="text-center py-12 space-y-3">
-      <p className="text-2xl font-bold text-rose-400">Game Over</p>
-      <p className="text-sm opacity-50">Thanks for playing Imposter!</p>
+    <div className="py-12 text-center text-lc-text">
+      <p className="font-display text-4xl">Thanks for playing Imposter</p>
     </div>
   );
 }

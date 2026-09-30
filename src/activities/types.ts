@@ -868,6 +868,12 @@ export interface CharacterCardsContent extends ActivityGeneratedContent {
 export interface ImposterRound {
   word: string;
   description: string;
+  /** Easy mode: a 2-4 word category hint shown only to the imposter ("by the sea"). */
+  hint?: string;
+  /** Question mode: the crew's question… */
+  crewQuestion?: string;
+  /** …and the imposter's slightly different one (answers must overlap so they can blend in). */
+  imposterQuestion?: string;
 }
 
 export interface ImposterContent extends ActivityGeneratedContent {

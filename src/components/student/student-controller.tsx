@@ -225,6 +225,7 @@ const OUTCOME_LABELS: Record<string, string> = {
 function getInputActionLabel(spec: InputSpec): string {
   if (spec.gameKey === 'wonder-board') return 'Wonder Board';
   if (spec.gameKey === 'language-toolkit') return 'Use a Term';
+  if (spec.gameKey === 'imposter') return spec.type === 'choice' ? 'Vote' : 'Secret card';
   if (spec.type === 'board') return spec.boardTitle ?? 'Class Board';
   if (spec.type === 'binary') return 'Cast Vote';
   if (spec.type === 'choice') return 'Choose';
