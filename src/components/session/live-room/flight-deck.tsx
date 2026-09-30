@@ -1569,7 +1569,7 @@ export function FlightDeck({
                         className="touch-none"
                         title={`${p.display_name} · Seat ${cabinSeatLabel(r * 4 + c)}`}
                       >
-                        <CrewAvatar seed={p.avatar_seed ?? p.display_name} name={p.display_name} size={30} className="rounded-full" />
+                        <CrewAvatar seed={p.avatar_seed ?? p.display_name} name={p.display_name} size={40} />
                       </motion.button>
                     ) : (
                       <span className="h-2.5 w-2.5 rounded-full border border-dashed border-[#2b3855]" />

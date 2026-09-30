@@ -1,3 +1,5 @@
+import { isCrewLookSeed } from '@/lib/crew-look';
+
 export const HELMET_AVATAR_SEEDS = [
   'teal',
   'amber',
@@ -65,6 +67,8 @@ function hashString(value: string): number {
 }
 
 export function resolveAvatarSeed(seed: string | null | undefined, name = ''): string {
+  // Crew character look codes ("c1-…") are the current format — keep them as-is.
+  if (seed && isCrewLookSeed(seed) && seed.length <= 32) return seed;
   if (seed && VALID_AVATAR_SEEDS.has(seed)) return seed;
 
   // Retired crew badge on an existing roster → deterministically remap to a helmet, so the

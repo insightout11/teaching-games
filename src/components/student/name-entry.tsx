@@ -5,7 +5,8 @@ import { Plane, PlaneTakeoff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
-import { HELMET_AVATAR_SEEDS, CAPTAIN_AVATAR_SEEDS, DEFAULT_AVATAR_SEED, avatarUrl, resolveAvatarSeed } from '@/lib/avatar-options';
+import { CrewBuilder } from '@/components/student/crew-builder';
+import { encodeLook, lookFromName, resolveLook } from '@/lib/crew-look';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import type { Team } from '@/lib/supabase/types';
 import { registerStudentAttendance, type StudentJoinPayload } from '@/lib/student-attendance';
@@ -31,42 +32,6 @@ interface StudentSession {
 interface NameEntryProps {
   sessionId: string;
   onJoin: (data: StudentSession) => void;
-}
-
-// Grouped avatar picker — on-theme flight helmets + captain's caps, shown in labeled rows.
-function AvatarPicker({ value, onChange }: { value: string; onChange: (seed: string) => void }) {
-  const groups: Array<{ label: string; seeds: readonly string[] }> = [
-    { label: 'Flight Helmets', seeds: HELMET_AVATAR_SEEDS },
-    { label: "Captain's Caps", seeds: CAPTAIN_AVATAR_SEEDS },
-  ];
-  return (
-    <div className="space-y-3">
-      {groups.map((group) => (
-        <div key={group.label}>
-          <p className="font-instrument mb-1.5 text-[10px] uppercase tracking-[0.18em] text-lc-text3/70">
-            {group.label}
-          </p>
-          <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
-            {group.seeds.map((seed) => (
-              <button
-                key={seed}
-                type="button"
-                onClick={() => onChange(seed)}
-                className={`relative rounded-xl p-1.5 transition-all ${
-                  value === seed
-                    ? 'scale-105 bg-white/10 ring-2 ring-cyan-400'
-                    : 'opacity-50 hover:bg-white/5 hover:opacity-80'
-                }`}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={avatarUrl(seed)} alt={seed} width={64} height={64} className="h-auto w-full rounded-lg" />
-              </button>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
 }
 
 function generateUUID(): string {
@@ -97,7 +62,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
   const [rosterLoaded, setRosterLoaded] = useState(false);
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<RosterStudent | null>(null);
-  const [avatarSeed, setAvatarSeed] = useState<string>(DEFAULT_AVATAR_SEED);
+  const [avatarSeed, setAvatarSeed] = useState<string>(() => encodeLook(lookFromName(String(Math.random()))));
   const [freeTextMode, setFreeTextMode] = useState(false);
   const [freeName, setFreeName] = useState('');
   const [isJoining, setIsJoining] = useState(false);
@@ -130,7 +95,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
     // Older rosters may still contain UUID-style DiceBear seeds. The UI already
     // renders those as a deterministic flight avatar; send that resolved seed
     // too so the join API never rejects an otherwise valid roster student.
-    setAvatarSeed(resolveAvatarSeed(student.avatar_seed, student.name));
+    setAvatarSeed(encodeLook(resolveLook(student.avatar_seed, student.name)));
   };
 
   const handleJoin = async () => {
@@ -270,6 +235,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
                     >
                       <CrewAvatar
                         seed={selected?.id === student.id ? avatarSeed : student.avatar_seed}
+                        name={student.name}
                         captain={!!student.is_captain_of_the_day}
                         size={40}
                       />
@@ -301,7 +267,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
                   <label className="font-instrument mb-2 block text-[10px] uppercase tracking-[0.22em] text-lc-text3">
                     Passport photo
                   </label>
-                  <AvatarPicker value={avatarSeed} onChange={setAvatarSeed} />
+                  <CrewBuilder seed={avatarSeed} name={selected.name} onChange={setAvatarSeed} />
                 </div>
               )}
 
@@ -340,7 +306,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
                 <label className="font-instrument mb-2 block text-[10px] uppercase tracking-[0.22em] text-lc-text3">
                   Passport photo
                 </label>
-                <AvatarPicker value={avatarSeed} onChange={setAvatarSeed} />
+                <CrewBuilder seed={avatarSeed} name={freeName} onChange={setAvatarSeed} />
               </div>
 
               {/* Back to roster if roster was available */}
