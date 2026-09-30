@@ -44,6 +44,8 @@ import listeningGapFillJson from '@/content/activities/listening-gap-fill.json';
 import conversationRoundsJson from '@/content/activities/conversation-rounds.json';
 import decisionCouncilJson from '@/content/activities/decision-council.json';
 import cabinMysteryJson from '@/content/activities/cabin-mystery.json';
+import hotSeatJson from '@/content/activities/hot-seat.json';
+import twoTruthsAndALieJson from '@/content/activities/two-truths-and-a-lie.json';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -131,6 +133,7 @@ const GAME_CONTENT: Record<string, LandingContent> = {
 const ACTIVITY_CONTENT: Record<string, LandingContent> = {
   'would-you-rather': wouldYouRatherJson as LandingContent,
   'two-truths': twoTruthsJson as LandingContent,
+  'two-truths-and-a-lie': twoTruthsAndALieJson as LandingContent,
   'rank-it': rankItJson as LandingContent,
   'fact-detective': factDetectiveJson as LandingContent,
   'expert-panel': expertPanelJson as LandingContent,
@@ -139,6 +142,7 @@ const ACTIVITY_CONTENT: Record<string, LandingContent> = {
   'hot-take-arena': hotTakeArenaJson as LandingContent,
   'bluff-definition': bluffDefinitionJson as LandingContent,
   'taboo-sprint': tabooSprintJson as LandingContent,
+  'hot-seat': hotSeatJson as LandingContent,
   'wonder-board': wonderBoardJson as LandingContent,
   'password': passwordJson as LandingContent,
   'in-your-words': inYourWordsJson as LandingContent,
