@@ -19,6 +19,8 @@ const VIDEO_SOURCE_TYPES = new Set<SourceType>([
   'internet-memes',
   'minecraft',
   'sports',
+  'grammar',
+  'hooks',
 ]);
 
 export interface CourseBriefingPreview {

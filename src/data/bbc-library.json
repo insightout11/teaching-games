@@ -13,7 +13,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan explains the most common grammar mistakes made by advanced English learners — misuse of articles, prepositions, and complex tenses — and how to fix them.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_present_past",
@@ -29,7 +31,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan explores the 'historical present' — how English speakers use present tenses to tell past stories, narrate sports, and create dramatic effects.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_formal_informal",
@@ -46,7 +50,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan breaks down the key differences between formal and informal English — vocabulary choices, grammatical structures, and when to use each register.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_giving_emphasis",
@@ -62,7 +68,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan teaches advanced emphasis structures — cleft sentences, fronting, and do-support — to make English more expressive and persuasive.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_native_speaker_mistakes",
@@ -78,7 +86,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan reveals common grammatical 'mistakes' that native English speakers make — and explains which ones are now considered acceptable in modern usage.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_mixing_conditionals",
@@ -94,7 +104,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan teaches mixed conditionals — combining different conditional forms to talk about unreal situations with complex time relationships between past and present.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_question_tags",
@@ -110,7 +122,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan explains how to form and use question tags in British English — including the difference between falling and rising intonation and how tags function in natural conversation.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_linking_words_contrast",
@@ -127,7 +141,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan presents four key ways to express contrast in English — although, despite, however, and while — with clear examples of when and how to use each.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_more_advanced_mistakes",
@@ -143,7 +159,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan continues the advanced learner mistakes series — covering more subtle errors in grammar and usage that prevent advanced speakers from sounding fully natural.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_what_emphasis",
@@ -159,7 +177,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan dives into 'what' as a focus marker in cleft sentences — a powerful structure that adds emphasis and contrast, often misused by even advanced learners.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_masterclass_conversation_phrases",
@@ -176,7 +196,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan shares a collection of the most useful phrases for natural English conversation — from agreeing and disagreeing to hedging, softening, and changing the subject.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_masterclass_inversion_1",
@@ -193,7 +215,9 @@
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan introduces inversion after negative adverbs like 'never', 'rarely', and 'not only' — a formal structure used for emphasis in written and spoken English.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_masterclass_inversion_2",
@@ -210,7 +234,9 @@
     ],
     "difficultyLevel": "Expert",
     "description": "Dan covers reduced conditionals ('Had I known...', 'Were I to...') and other advanced inversions — formal structures found in literary, academic, and professional English.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B2",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_masterclass_choose_tense",
@@ -227,7 +253,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan tackles one of the most confusing areas for English learners — when to use the present perfect vs. past simple, and other key tense distinctions in context.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_masterclass_linking_words",
@@ -244,7 +272,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan explains how to use discourse markers and linking words to structure arguments, add information, show cause and effect, and improve coherence in writing and speaking.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_grammar_verb_patterns",
@@ -261,7 +291,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan explains the difference between gerunds and infinitives after verbs like 'stop', 'remember', 'try', and 'regret' — verbs that change meaning depending on which form follows.",
-    "genre": "how-to"
+    "genre": "how-to",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_street_food",
@@ -283,7 +315,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English discussion of why street food has become popular, with vocabulary for vendors, markets, taste, convenience, and food trends.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_new_food_culture",
@@ -305,7 +339,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about adapting to a new food culture, useful for discussing migration, identity, taste, customs, and culture shock.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_waste",
@@ -327,7 +363,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on food waste and the people trying to reduce it, with vocabulary for sustainability, leftovers, resources, and consumer habits.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_fast_food",
@@ -349,7 +387,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English discussion of fast food's global popularity, connecting convenience, consumer culture, restaurant chains, and health debates.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_future_food",
@@ -371,7 +411,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on future food and food security, useful for discussing farming, climate, population growth, and food technology.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_food_comfort_food",
@@ -393,7 +435,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about comfort food, snacks, emotions, and memory, useful for personal-opinion speaking lessons about food and wellbeing.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_sleep",
@@ -414,7 +458,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on why sleep matters, with useful vocabulary for sleep habits, routines, rest, health, and the brain.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_stress",
@@ -436,7 +482,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about modern stress, useful for discussing work, exams, anxiety, coping strategies, and mental wellbeing.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_sitting",
@@ -458,7 +506,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on the health risks of too much sitting, with vocabulary for movement, exercise, workplace health, habits, and lifestyle.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_flourishing",
@@ -480,7 +530,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about flourishing and wellbeing, useful for discussing happiness, life satisfaction, positive psychology, and mental health.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_workplace_mental_health",
@@ -502,7 +554,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on mental health at work, with vocabulary for workplace wellbeing, stress, support, stigma, and professional life.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_health_kindness",
@@ -524,7 +578,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on whether kindness benefits wellbeing, useful for speaking lessons about empathy, happiness, relationships, and community.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_training_ai",
@@ -546,7 +602,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about how artificial intelligence is trained, with vocabulary for machine learning, algorithms, data, computers, and automation.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_robot_companion",
@@ -568,7 +626,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about robot companions, useful for discussing robotics, AI, social relationships, and the future of human-machine interaction.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_future_of_work",
@@ -591,7 +651,9 @@
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on the future of work, connecting jobs, automation, AI, skills, and how workplaces may change.",
     "summary": "This BBC 6 Minute English source introduces the future of work through jobs, automation, artificial intelligence, workplace change, and the skills people may need next. It works as a short discussion anchor for learners comparing today's workplaces with possible future careers.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_ai_call_centres",
@@ -613,7 +675,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about AI in call centres, useful for discussing customer service, chatbots, automation, and workplace technology.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_better_web",
@@ -635,7 +699,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about improving the web, useful for discussing the internet, digital communities, online behaviour, access, and technology's role in society.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_era_of_distrust",
@@ -657,7 +723,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about distrust and fake news, useful for media literacy lessons on misinformation, trust, digital media, and critical thinking.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_mental_health",
@@ -679,7 +747,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about climate change and mental health, useful for discussing climate anxiety, wellbeing, adaptation, and emotional responses to environmental change.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_without_plastic",
@@ -701,7 +771,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about plastic use and plastic-free living, with vocabulary for pollution, waste, sustainability, recycling, and consumer habits.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_saving_water",
@@ -723,7 +795,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about saving water in extreme dry conditions, useful for lessons on drought, water scarcity, climate adaptation, and resource use.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_recycling_system",
@@ -745,7 +819,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about recycling systems, waste, and sustainability, useful for debating whether individual habits or larger systems need to change.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_animal_migration",
@@ -767,7 +843,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on how climate change affects animal migration, connecting wildlife, biodiversity, ecosystems, conservation, and changing habitats.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_climate_population",
@@ -789,7 +867,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about climate change, population, consumption, resources, and carbon footprints, useful for careful debate about responsibility and sustainability.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_zoos",
@@ -811,7 +891,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode debating whether animals should be kept in zoos, useful for discussing conservation, animal welfare, biodiversity, habitats, and ethics.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_love_of_pets",
@@ -833,7 +915,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about why people keep and love pets, useful for discussing pet care, dogs, cats, wellbeing, and human-animal relationships.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_octopus_intelligence",
@@ -855,7 +939,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about octopus intelligence, useful for discussing animal brains, marine life, adaptations, senses, and how scientists study intelligence.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_ecotourism",
@@ -877,7 +963,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about ecotourism and wildlife tourism, useful for debating conservation, habitats, tourism, sustainability, and local communities.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_black_and_white",
@@ -899,7 +987,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about why some animals are black and white, useful for discussing adaptations, camouflage, animal patterns, zebras, penguins, and orcas.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_animals_man_vs_beast",
@@ -921,7 +1011,9 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode comparing human and animal efficiency, useful for lessons on adaptations, movement, evolution, and comparing humans with other animals.",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "teens"
   },
   {
     "id": "bbc_6me_social_media_dead",
@@ -2037,5 +2129,714 @@
     "place": null,
     "needsReview": true,
     "kind": "video"
+  },
+  {
+    "id": "bbc-grammar-r2-X6LuWwb9whM",
+    "title": "How to use present tenses — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=X6LuWwb9whM",
+    "youtubeId": "X6LuWwb9whM",
+    "durationSecs": 374,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-1/session-2/activity-1",
+    "topicTags": [
+      "grammar",
+      "grammar:present-simple",
+      "grammar:present-continuous",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining how to use present tenses with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-uTB5I8V9Eog",
+    "title": "Past simple and past continuous — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=uTB5I8V9Eog",
+    "youtubeId": "uTB5I8V9Eog",
+    "durationSecs": 378,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-7/session-2/activity-1",
+    "topicTags": [
+      "grammar",
+      "grammar:past-simple",
+      "grammar:past-continuous",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining past simple and past continuous with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-xFsYrTIndhI",
+    "title": "Present simple and present continuous — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=xFsYrTIndhI",
+    "youtubeId": "xFsYrTIndhI",
+    "durationSecs": 361,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-2/session-2/activity-3",
+    "topicTags": [
+      "grammar",
+      "grammar:present-simple",
+      "grammar:present-continuous",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining present simple and present continuous with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-tbru3bW2kVE",
+    "title": "Using can, could, be able to and manage to — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=tbru3bW2kVE",
+    "youtubeId": "tbru3bW2kVE",
+    "durationSecs": 374,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-30/session-2/activity-2",
+    "topicTags": [
+      "grammar",
+      "grammar:modals",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining using can, could, be able to and manage to with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-jwmKjgwlMk8",
+    "title": "Present perfect and past simple — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=jwmKjgwlMk8",
+    "youtubeId": "jwmKjgwlMk8",
+    "durationSecs": 361,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-26/session-2/activity-2",
+    "topicTags": [
+      "grammar",
+      "grammar:present-perfect",
+      "grammar:past-simple",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining present perfect and past simple with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-jcAX1RtKq3U",
+    "title": "Talking about the future — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=jcAX1RtKq3U",
+    "youtubeId": "jcAX1RtKq3U",
+    "durationSecs": 366,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-28/session-2/activity-2",
+    "topicTags": [
+      "grammar",
+      "grammar:future-will-going-to",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining talking about the future with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-PgsG98vByiw",
+    "title": "The past simple tense — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=PgsG98vByiw",
+    "youtubeId": "PgsG98vByiw",
+    "durationSecs": 372,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-6/session-2/activity-1",
+    "topicTags": [
+      "grammar",
+      "grammar:past-simple",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining the past simple tense with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-elPHkXNxi2g",
+    "title": "How to talk about the future — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=elPHkXNxi2g",
+    "youtubeId": "elPHkXNxi2g",
+    "durationSecs": 372,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-17/session-2",
+    "topicTags": [
+      "grammar",
+      "grammar:future-will-going-to",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining how to talk about the future with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-3aQOLTfnAOc",
+    "title": "State verbs — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=3aQOLTfnAOc",
+    "youtubeId": "3aQOLTfnAOc",
+    "durationSecs": 379,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-25/session-2/activity-2",
+    "topicTags": [
+      "grammar",
+      "grammar:present-simple",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining state verbs with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-8_nhtAwI0dA",
+    "title": "The present perfect with just, already and yet — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=8_nhtAwI0dA",
+    "youtubeId": "8_nhtAwI0dA",
+    "durationSecs": 367,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-14/session-2/activity-2",
+    "topicTags": [
+      "grammar",
+      "grammar:present-perfect",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining the present perfect with just, already and yet with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-8VETylIxyhw",
+    "title": "The first conditional — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=8VETylIxyhw",
+    "youtubeId": "8VETylIxyhw",
+    "durationSecs": 369,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-23/session-2/activity-1",
+    "topicTags": [
+      "grammar",
+      "grammar:conditionals",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining the first conditional with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-HUXXgVElADg",
+    "title": "Have to and must — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=HUXXgVElADg",
+    "youtubeId": "HUXXgVElADg",
+    "durationSecs": 359,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-5/session-2",
+    "topicTags": [
+      "grammar",
+      "grammar:modals",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining have to and must with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-FBmjH6nh5-k",
+    "title": "Phrasal verbs: types 1–4 — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=FBmjH6nh5-k",
+    "youtubeId": "FBmjH6nh5-k",
+    "durationSecs": 374,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-21/session-2",
+    "topicTags": [
+      "grammar",
+      "grammar:phrasal-verbs",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining phrasal verbs: types 1–4 with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-3OuqzHxlrHc",
+    "title": "The second conditional — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=3OuqzHxlrHc",
+    "youtubeId": "3OuqzHxlrHc",
+    "durationSecs": 367,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-24/session-2/activity-1",
+    "topicTags": [
+      "grammar",
+      "grammar:conditionals",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining the second conditional with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-P4_kqBsj2sE",
+    "title": "The third conditional — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=P4_kqBsj2sE",
+    "youtubeId": "P4_kqBsj2sE",
+    "durationSecs": 374,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-9/session-2/activity-1",
+    "topicTags": [
+      "grammar",
+      "grammar:conditionals",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining the third conditional with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-o-GWYDA4IQY",
+    "title": "Present perfect with ever and never — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=o-GWYDA4IQY",
+    "youtubeId": "o-GWYDA4IQY",
+    "durationSecs": 368,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-11/session-2/activity-4",
+    "topicTags": [
+      "grammar",
+      "grammar:present-perfect",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining present perfect with ever and never with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-nI5zaB6QL-o",
+    "title": "Present and past passive — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=nI5zaB6QL-o",
+    "youtubeId": "nI5zaB6QL-o",
+    "durationSecs": 369,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-22/session-2/activity-2",
+    "topicTags": [
+      "grammar",
+      "grammar:passive",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining present and past passive with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-ryRu8zFCKZE",
+    "title": "Articles — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=ryRu8zFCKZE",
+    "youtubeId": "ryRu8zFCKZE",
+    "durationSecs": 364,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-8/session-2/activity-1",
+    "topicTags": [
+      "grammar",
+      "grammar:articles",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining articles with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-5UxMyCxQThE",
+    "title": "'Too', 'very' and 'enough' — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=5UxMyCxQThE",
+    "youtubeId": "5UxMyCxQThE",
+    "durationSecs": 361,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-19/tab/grammar",
+    "topicTags": [
+      "grammar",
+      "grammar:comparatives-superlatives",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining 'too', 'very' and 'enough' with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-B5hDy53iGNA",
+    "title": "Future continuous and 'be' with the infinitive — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=B5hDy53iGNA",
+    "youtubeId": "B5hDy53iGNA",
+    "durationSecs": 363,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-22/session-2",
+    "topicTags": [
+      "grammar",
+      "grammar:future-will-going-to",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining future continuous and 'be' with the infinitive with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-U2DxNgQqDgQ",
+    "title": "Comparatives and superlatives — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=U2DxNgQqDgQ",
+    "youtubeId": "U2DxNgQqDgQ",
+    "durationSecs": 375,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-13/session-2/activity-3",
+    "topicTags": [
+      "grammar",
+      "grammar:comparatives-superlatives",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining comparatives and superlatives with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-3dA7P5arkyc",
+    "title": "Used to — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=3dA7P5arkyc",
+    "youtubeId": "3dA7P5arkyc",
+    "durationSecs": 364,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-17/session-2/activity-2",
+    "topicTags": [
+      "grammar",
+      "grammar:past-simple",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining used to with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-V2quIYo41Ig",
+    "title": "Used to and would — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=V2quIYo41Ig",
+    "youtubeId": "V2quIYo41Ig",
+    "durationSecs": 360,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-29/session-2/activity-2",
+    "topicTags": [
+      "grammar",
+      "grammar:past-simple",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining used to and would with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-j9b1CNN_rFU",
+    "title": "Asking questions — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=j9b1CNN_rFU",
+    "youtubeId": "j9b1CNN_rFU",
+    "durationSecs": 359,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-1/session-2",
+    "topicTags": [
+      "grammar",
+      "grammar:questions",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining asking questions with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-K-MKAjvvcsw",
+    "title": "Zero and first conditional — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=K-MKAjvvcsw",
+    "youtubeId": "K-MKAjvvcsw",
+    "durationSecs": 359,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-5/tab/grammar",
+    "topicTags": [
+      "grammar",
+      "grammar:conditionals",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining zero and first conditional with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-38QqDrckyxM",
+    "title": "Active and passive voice — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=38QqDrckyxM",
+    "youtubeId": "38QqDrckyxM",
+    "durationSecs": 370,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-12/session-2",
+    "topicTags": [
+      "grammar",
+      "grammar:passive",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining active and passive voice with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-Gqu-bgwML00",
+    "title": "Phrasal verbs — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=Gqu-bgwML00",
+    "youtubeId": "Gqu-bgwML00",
+    "durationSecs": 376,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-4/session-2/activity-3",
+    "topicTags": [
+      "grammar",
+      "grammar:phrasal-verbs",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining phrasal verbs with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-r6XpFWmA7Gk",
+    "title": "Quantifiers — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=r6XpFWmA7Gk",
+    "youtubeId": "r6XpFWmA7Gk",
+    "durationSecs": 378,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-3/session-2",
+    "topicTags": [
+      "grammar",
+      "grammar:countable-uncountable",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining quantifiers with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-foyWhOHhTT0",
+    "title": "Question tags — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=foyWhOHhTT0",
+    "youtubeId": "foyWhOHhTT0",
+    "durationSecs": 364,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-27/session-2/activity-1",
+    "topicTags": [
+      "grammar",
+      "grammar:questions",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining question tags with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-voQLMgJE-QE",
+    "title": "Adverbs of frequency — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=voQLMgJE-QE",
+    "youtubeId": "voQLMgJE-QE",
+    "durationSecs": 358,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-4/session-2/activity-1",
+    "topicTags": [
+      "grammar",
+      "grammar:present-simple",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining adverbs of frequency with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-tzEt4iwsIdo",
+    "title": "Using like for preference and description — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=tzEt4iwsIdo",
+    "youtubeId": "tzEt4iwsIdo",
+    "durationSecs": 359,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-3/session-2/activity-1",
+    "topicTags": [
+      "grammar",
+      "grammar:present-simple",
+      "english-learning"
+    ],
+    "difficultyLevel": "Pre-Intermediate",
+    "description": "A short BBC lesson explaining using like for preference and description with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-q-Jkx670rT8",
+    "title": "The definite article with abstract uncountable nouns — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=q-Jkx670rT8",
+    "youtubeId": "q-Jkx670rT8",
+    "durationSecs": 360,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/course/intermediate/unit-16/session-2",
+    "topicTags": [
+      "grammar",
+      "grammar:articles",
+      "grammar:countable-uncountable",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining the definite article with abstract uncountable nouns with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
   }
 ]

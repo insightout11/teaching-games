@@ -7,7 +7,7 @@ import type { LessonSlot } from '@/lib/course';
 
 type CourseSourceKind = 'video' | 'text' | null;
 
-const TEXT_SOURCE_TYPES = new Set<SourceType>(['text', 'pdf', 'image', 'lyrics', 'stories', 'voa', 'picture-books']);
+const TEXT_SOURCE_TYPES = new Set<SourceType>(['text', 'pdf', 'image', 'lyrics', 'stories', 'voa', 'picture-books', 'discussion']);
 
 const COURSE_GOAL_PRESET_IDS: Record<GoalTag, string> = {
   'speaking-fluency': 'speak-60',

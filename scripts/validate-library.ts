@@ -35,7 +35,7 @@ const ids = new Map<string, string>();
 const urls = new Map<string, string>();
 const cefrValues = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const ageBandValues = new Set(['kids', 'teens', 'all']);
-const genres = new Set(['expository', 'narrative', 'news', 'opinion', 'poem', 'dialogue']);
+const genres = new Set(['expository', 'narrative', 'news', 'opinion', 'discussion', 'poem', 'dialogue']);
 const youtubeIdPattern = /^[A-Za-z0-9_-]{11}$/;
 
 function fail(where: string, message: string) {
@@ -93,7 +93,7 @@ function validateExpandedItem(item: Item, where: string) {
   } else {
     fail(where, `kind must be text, video, or picture-book (found ${String(item.kind)})`);
   }
-  if (!nonEmpty(item.genre) || !genres.has(item.genre)) fail(where, 'genre must be expository, narrative, news, opinion, poem, or dialogue');
+  if (!nonEmpty(item.genre) || !genres.has(item.genre)) fail(where, 'genre must be expository, narrative, news, opinion, discussion, poem, or dialogue');
 }
 
 for (const file of files) {
@@ -126,7 +126,9 @@ for (const file of files) {
     // The current library contains legacy records. Apply the complete contract
     // to records explicitly migrated to the new schema; keep legacy records
     // participating in global ID/URL collision checks.
-    if (item.kind !== undefined || item.cefr !== undefined || item.ageBand !== undefined || item.license !== undefined) {
+    // Metadata-only backfills on legacy records should not force unrelated schema migration.
+    // New-schema records declare kind or license; cefr/ageBand alone are valid legacy additions.
+    if (item.kind !== undefined || item.license !== undefined) {
       validateExpandedItem(item, where);
     }
   }

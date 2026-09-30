@@ -14,7 +14,9 @@
     "difficultyLevel": "Easy",
     "description": "Why do all living things need to eat? Sabrina explores what organisms eat to get energy and how plants, animals, and people fit into the big picture of life on Earth.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_here_comes_the_sun",
@@ -31,7 +33,9 @@
     "difficultyLevel": "Easy",
     "description": "Sabrina explains what the Sun is, how it works, and how its energy travels 93 million miles to reach us and power almost all life on Earth.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_fabulous_food_chains",
@@ -48,7 +52,9 @@
     "difficultyLevel": "Easy",
     "description": "Sabrina breaks down how energy moves through an ecosystem — from the Sun to plants to animals — and why every link in a food chain matters.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_defining_gravity",
@@ -65,7 +71,9 @@
     "difficultyLevel": "Easy",
     "description": "What is gravity, and why does everything fall down? Sabrina explains the invisible force that holds the universe together — from falling apples to orbiting planets.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_weathering_erosion",
@@ -82,7 +90,9 @@
     "difficultyLevel": "Easy",
     "description": "How do rivers carve canyons and rain wear down mountains? Sabrina explores weathering and erosion — the slow, powerful forces that reshape the surface of our planet.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_science_of_lunch",
@@ -99,7 +109,9 @@
     "difficultyLevel": "Easy",
     "description": "What actually happens when you eat your lunch? Sabrina investigates the science behind food — from where ingredients come from to how your body uses energy.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_home_sweet_habitat",
@@ -117,7 +129,9 @@
     "difficultyLevel": "Easy",
     "description": "What makes a habitat perfect for an animal? Sabrina explores the five things every habitat must provide — air, water, food, shelter, and space — and why animals need specific environments to survive.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_food_webs",
@@ -135,7 +149,9 @@
     "difficultyLevel": "Easy",
     "description": "Sabrina shows how food chains connect to create food webs — complex networks of who eats whom — and what happens to an ecosystem when one piece is removed.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_everything_revolves",
@@ -153,7 +169,9 @@
     "difficultyLevel": "Easy",
     "description": "Why does the Moon orbit the Earth? Why does the Earth orbit the Sun? Sabrina explains orbits, gravity, and why planets and moons don't just fly off into space.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_dinosaur_pee",
@@ -170,7 +188,9 @@
     "difficultyLevel": "Easy",
     "description": "Did you know the water you drink might once have been dinosaur pee? Sabrina explains the water cycle — how Earth's water is constantly recycled through evaporation, clouds, and rain.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_climate_change",
@@ -188,7 +208,9 @@
     "difficultyLevel": "Intermediate",
     "description": "Sabrina explains what climate change is, why it's happening, and what it means for ecosystems and living things around the world — including us.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "B1",
+    "ageBand": "kids"
   },
   {
     "id": "kids_living_things_change",
@@ -206,7 +228,9 @@
     "difficultyLevel": "Easy",
     "description": "How do animals adapt when their environment changes? Sabrina explores how living things evolve and change over time — from polar bears to tiny bacteria.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "kids_every_kind_of_volcano",
@@ -224,7 +248,9 @@
     "difficultyLevel": "Beginner",
     "description": "Jessi and friends explore the different types of volcanoes — from shield volcanoes that ooze lava slowly to cinder cones that explode dramatically. Why do some erupt gently and others violently?",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "kids_busy_bees",
@@ -242,7 +268,9 @@
     "difficultyLevel": "Beginner",
     "description": "Jessi and Squeaks investigate bees — what makes bumblebees and honeybees different, how they make honey, why they're so important for plants, and how to spot them in the wild.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "kids_dont_fear_spiders",
@@ -260,7 +288,9 @@
     "difficultyLevel": "Beginner",
     "description": "Jessi makes the case that spiders are amazing, not scary — explaining how they spin silk, catch prey, and play a vital role in keeping insect populations under control.",
     "audience": "kids",
-    "genre": "opinion"
+    "genre": "opinion",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "kids_cave_animals",
@@ -278,7 +308,9 @@
     "difficultyLevel": "Beginner",
     "description": "Deep in caves with no light, strange animals have evolved incredible abilities. Jessi explores cave fish with no eyes, glowing worms, and other weird creatures that have adapted to life underground.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "kids_diamond_super_crystal",
@@ -296,7 +328,9 @@
     "difficultyLevel": "Beginner",
     "description": "Why are diamonds so hard? Jessi explains how carbon atoms arrange themselves under extreme heat and pressure deep underground — and why the same material that makes diamonds also makes pencil lead.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "kids_whats_inside_rocks",
@@ -314,7 +348,9 @@
     "difficultyLevel": "Beginner",
     "description": "Jessi and Squeaks crack open some rocks and discover the crystals, fossils, and minerals hidden inside — explaining how different types of rocks form over millions of years.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "kids_stalactites_stalagmites",
@@ -332,7 +368,9 @@
     "difficultyLevel": "Beginner",
     "description": "How do those giant rock spikes grow inside caves? Jessi explores how water slowly builds stalactites and stalagmites drop by drop over thousands of years — and why caves are basically living, growing places.",
     "audience": "kids",
-    "genre": "expository"
+    "genre": "expository",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "kids_antarctica",
@@ -350,7 +388,9 @@
     "difficultyLevel": "Beginner",
     "description": "Jessi visits the world's coldest, windiest, and most remote continent — discovering the penguins, seals, and microorganisms that survive in Antarctica's extreme environment.",
     "audience": "kids",
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "kids_four_spheres_geo_bio",

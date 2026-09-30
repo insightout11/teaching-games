@@ -22,10 +22,10 @@ const VIDEO_SOURCE_TYPES = new Set<SourceType>([
   'youtube', 'ted', 'teded', 'bbc', 'kurzgesagt',
   'bbc-ideas', 'bigthink', 'vox', 'kids',
   'natgeo', 'crash-course',
-  'travel-english', 'business-english', 'internet-memes', 'minecraft', 'sports',
+  'travel-english', 'business-english', 'internet-memes', 'minecraft', 'sports', 'grammar', 'hooks',
 ]);
 
-const TEXT_SOURCE_TYPES = new Set<SourceType>(['text', 'pdf', 'image', 'lyrics', 'stories', 'voa', 'picture-books']);
+const TEXT_SOURCE_TYPES = new Set<SourceType>(['text', 'pdf', 'image', 'lyrics', 'stories', 'voa', 'picture-books', 'discussion']);
 
 type PlannerSourceKind = 'video' | 'text' | null;
 

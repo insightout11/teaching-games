@@ -12,12 +12,14 @@ import {
 
 // ── Library source config ─────────────────────────────────────────────────────
 
-type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'world-flight' | 'business-english' | 'internet-memes' | 'minecraft' | 'sports';
+type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'grammar' | 'hooks' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'world-flight' | 'business-english' | 'internet-memes' | 'minecraft' | 'sports';
 
 const SOURCE_CONFIG: { key: LibrarySourceKey; label: string; activeClass: string; inactiveClass: string }[] = [
   { key: 'teded',            label: 'TED-Ed',        activeClass: 'bg-red-600 text-white',          inactiveClass: 'bg-red-900/20 text-red-400 border border-red-800/40'          },
   { key: 'ted',              label: 'TED',          activeClass: 'bg-red-600 text-white',          inactiveClass: 'bg-red-900/20 text-red-400 border border-red-800/40'          },
   { key: 'bbc',              label: 'BBC',           activeClass: 'bg-amber-500 text-white',        inactiveClass: 'bg-amber-900/20 text-amber-400 border border-amber-800/40'    },
+  { key: 'grammar',          label: 'Grammar',       activeClass: 'bg-indigo-600 text-white',       inactiveClass: 'bg-indigo-900/20 text-indigo-400 border border-indigo-800/40' },
+  { key: 'hooks',            label: 'Short Hooks',   activeClass: 'bg-teal-600 text-white',         inactiveClass: 'bg-teal-900/20 text-teal-400 border border-teal-800/40'       },
   { key: 'kurzgesagt',       label: 'Kurzgesagt',    activeClass: 'bg-orange-500 text-white',       inactiveClass: 'bg-orange-900/20 text-orange-400 border border-orange-800/40' },
   { key: 'bbc-ideas',        label: 'BBC Ideas',     activeClass: 'bg-cyan-500 text-white',         inactiveClass: 'bg-cyan-900/20 text-cyan-400 border border-cyan-800/40'        },
   { key: 'bigthink',         label: 'Big Think',     activeClass: 'bg-purple-600 text-white',       inactiveClass: 'bg-purple-900/20 text-purple-400 border border-purple-800/40' },
@@ -37,6 +39,8 @@ const SOURCE_BADGE: Record<LibrarySourceKey, string> = {
   ted:               'bg-red-900/40 text-red-400',
   teded:             'bg-red-900/40 text-red-400',
   bbc:               'bg-amber-900/40 text-amber-400',
+  grammar:           'bg-indigo-900/40 text-indigo-400',
+  hooks:             'bg-teal-900/40 text-teal-400',
   kurzgesagt:        'bg-orange-900/40 text-orange-400',
   'bbc-ideas':       'bg-cyan-900/40 text-cyan-400',
   bigthink:          'bg-purple-900/40 text-purple-400',
@@ -105,6 +109,8 @@ import businessEnglishRaw from '@/data/business-english-library.json';
 import internetMemesRaw from '@/data/internet-memes-library.json';
 import minecraftRaw from '@/data/minecraft-library.json';
 import sportsRaw from '@/data/sports-library.json';
+import grammarRaw from '@/data/grammar-library.json';
+import hooksRaw from '@/data/hooks-library.json';
 
 function tag<K extends LibrarySourceKey>(raw: unknown[], key: K): LibraryEntry[] {
   return (raw as LibraryEntry[]).map((e) => ({ ...e, sourceType: key }));
@@ -114,6 +120,8 @@ const ALL_ENTRIES: LibraryEntry[] = [
   ...tag(tededRaw, 'teded'),
   ...tag(tedRaw, 'ted'),
   ...tag(bbcRaw, 'bbc'),
+  ...tag(grammarRaw, 'grammar'),
+  ...tag(hooksRaw, 'hooks'),
   ...tag(kurzgesagtRaw, 'kurzgesagt'),
   ...tag(bbcIdeasRaw, 'bbc-ideas'),
   ...tag(bigthinkRaw, 'bigthink'),

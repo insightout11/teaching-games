@@ -12,6 +12,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { JSDOM, VirtualConsole } from 'jsdom';
 import { createServiceClient } from '../src/lib/supabase/service';
 import { generateJSON } from '../src/lib/ai';
 import type { AISchema } from '../src/lib/ai';
@@ -180,6 +181,15 @@ async function scrapeBBCTranscript(transcriptUrl: string): Promise<string> {
   if (!res.ok) throw new Error(`BBC_FETCH_FAILED:${res.status}`);
   const html = await res.text();
 
+  // Course pages place the actual programme transcript inside a hideable
+  // rich-text widget. Parse the DOM so nested divs do not truncate the script.
+  const document = new JSDOM(html, { url: transcriptUrl, contentType: 'text/html', virtualConsole: new VirtualConsole() }).window.document;
+  const transcriptWidgets = Array.from(document.querySelectorAll('.widget-richtext-hideable .widget-richtext'));
+  for (const widget of transcriptWidgets) {
+    const text = (widget.textContent ?? '').replace(/\s+/g, ' ').trim();
+    if (text.length > 200) return text.slice(0, 60000);
+  }
+
   for (const selector of BBC_SELECTORS) {
     const match = html.match(selector);
     if (match?.[1]) {
@@ -214,8 +224,7 @@ async function fetchTranscript(
       return 'skip';
     }
 
-    const transcriptModulePath = 'youtube-transcript/dist/youtube-transcript.esm.js';
-    const { YoutubeTranscript } = await import(transcriptModulePath) as typeof import('youtube-transcript');
+    const { YoutubeTranscript } = await import('youtube-transcript');
     let segments: Array<{ text: string }> | undefined;
     let lastTranscriptError: unknown;
     for (const lang of ['en', 'en-GB', 'en-US']) {
@@ -422,6 +431,8 @@ async function main() {
     ...loadLibrary('ted-library.json').map((e) => ({ ...e, sourceType: 'ted' as const })),
     ...loadLibrary('teded-library.json').map((e) => ({ ...e, sourceType: 'teded' as const })),
     ...loadLibrary('bbc-library.json').map((e) => ({ ...e, sourceType: 'bbc' as const })),
+    ...loadLibrary('grammar-library.json').map((e) => ({ ...e, sourceType: 'grammar' as const })),
+    ...loadLibrary('hooks-library.json').map((e) => ({ ...e, sourceType: 'hooks' as const })),
     ...loadLibrary('kurzgesagt-library.json').map((e) => ({ ...e, sourceType: 'kurzgesagt' as const })),
     ...loadLibrary('bbc-ideas-library.json').map((e) => ({ ...e, sourceType: 'bbc-ideas' as const })),
     ...loadLibrary('bigthink-library.json').map((e) => ({ ...e, sourceType: 'bigthink' as const })),

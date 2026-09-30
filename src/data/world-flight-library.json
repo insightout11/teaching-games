@@ -27,7 +27,9 @@
       "name": "Bangkok, Thailand",
       "lat": 13.7563,
       "lng": 100.5018
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-bangkok-food-identity-video",
@@ -57,7 +59,9 @@
       "name": "Bangkok, Thailand",
       "lat": 13.7563,
       "lng": 100.5018
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-bangkok-river-boats-video",
@@ -87,7 +91,9 @@
       "name": "Bangkok, Thailand",
       "lat": 13.7563,
       "lng": 100.5018
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-tokyo-metro-economics-video",
@@ -117,7 +123,9 @@
       "name": "Tokyo, Japan",
       "lat": 35.6762,
       "lng": 139.6503
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-tokyo-vending-machines-video",
@@ -145,7 +153,9 @@
       "name": "Tokyo, Japan",
       "lat": 35.6762,
       "lng": 139.6503
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-tokyo-urban-history-video",
@@ -175,7 +185,9 @@
       "name": "Tokyo, Japan",
       "lat": 35.6762,
       "lng": 139.6503
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-seoul-subway-system-video",
@@ -205,7 +217,9 @@
       "name": "Seoul, South Korea",
       "lat": 37.5665,
       "lng": 126.978
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-seoul-gyeongbokgung-video",
@@ -233,7 +247,9 @@
       "name": "Seoul, South Korea",
       "lat": 37.5665,
       "lng": 126.978
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-seoul-korea-history-video",
@@ -262,7 +278,9 @@
       "name": "Seoul, South Korea",
       "lat": 37.5665,
       "lng": 126.978
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-singapore-urban-design-video",
@@ -289,7 +307,9 @@
       "name": "Singapore, Singapore",
       "lat": 1.3521,
       "lng": 103.8198
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-singapore-hawker-culture-video",
@@ -319,7 +339,9 @@
       "name": "Singapore, Singapore",
       "lat": 1.3521,
       "lng": 103.8198
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-singapore-changi-jewel-video",
@@ -347,7 +369,9 @@
       "name": "Singapore, Singapore",
       "lat": 1.3521,
       "lng": 103.8198
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-paris-city-history-video",
@@ -376,7 +400,9 @@
       "name": "Paris, France",
       "lat": 48.8566,
       "lng": 2.3522
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-paris-cafe-culture-video",
@@ -404,7 +430,9 @@
       "name": "Paris, France",
       "lat": 48.8566,
       "lng": 2.3522
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-paris-louvre-history-video",
@@ -434,7 +462,9 @@
       "name": "Paris, France",
       "lat": 48.8566,
       "lng": 2.3522
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-london-sightseeing-english-video",
@@ -462,7 +492,9 @@
       "name": "London, United Kingdom",
       "lat": 51.5072,
       "lng": -0.1276
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-london-tube-engineering-video",
@@ -492,7 +524,9 @@
       "name": "London, United Kingdom",
       "lat": 51.5072,
       "lng": -0.1276
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-london-chinatown-restaurant-video",
@@ -522,7 +556,9 @@
       "name": "London, United Kingdom",
       "lat": 51.5072,
       "lng": -0.1276
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-new-york-ellis-island-video",
@@ -551,7 +587,9 @@
       "name": "New York, United States",
       "lat": 40.7128,
       "lng": -74.006
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-new-york-subway-building-video",
@@ -581,7 +619,9 @@
       "name": "New York, United States",
       "lat": 40.7128,
       "lng": -74.006
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-new-york-street-vendors-video",
@@ -609,7 +649,9 @@
       "name": "New York, United States",
       "lat": 40.7128,
       "lng": -74.006
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cairo-ancient-egypt-video",
@@ -638,7 +680,9 @@
       "name": "Cairo, Egypt",
       "lat": 30.0444,
       "lng": 31.2357
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cairo-nile-explainer-video",
@@ -665,7 +709,9 @@
       "name": "Cairo, Egypt",
       "lat": 30.0444,
       "lng": 31.2357
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cairo-food-tour-video",
@@ -695,7 +741,9 @@
       "name": "Cairo, Egypt",
       "lat": 30.0444,
       "lng": 31.2357
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dubai-airport-history-video",
@@ -724,7 +772,9 @@
       "name": "Dubai, United Arab Emirates",
       "lat": 25.2048,
       "lng": 55.2708
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dubai-metro-route-2020-video",
@@ -754,7 +804,9 @@
       "name": "Dubai, United Arab Emirates",
       "lat": 25.2048,
       "lng": 55.2708
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dubai-dubai-history-video",
@@ -783,7 +835,9 @@
       "name": "Dubai, United Arab Emirates",
       "lat": 25.2048,
       "lng": 55.2708
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-sydney-harbour-ecology-video",
@@ -811,7 +865,9 @@
       "name": "Sydney, Australia",
       "lat": -33.8688,
       "lng": 151.2093
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-sydney-opera-house-history-video",
@@ -840,7 +896,9 @@
       "name": "Sydney, Australia",
       "lat": -33.8688,
       "lng": 151.2093
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-sydney-city-growth-video",
@@ -870,7 +928,9 @@
       "name": "Sydney, Australia",
       "lat": -33.8688,
       "lng": 151.2093
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-beijing-city-history-video",
@@ -899,7 +959,9 @@
       "name": "Beijing, China",
       "lat": 39.9042,
       "lng": 116.4074
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-beijing-hutong-culture-video",
@@ -928,7 +990,9 @@
       "name": "Beijing, China",
       "lat": 39.9042,
       "lng": 116.4074
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-beijing-subway-system-video",
@@ -958,7 +1022,9 @@
       "name": "Beijing, China",
       "lat": 39.9042,
       "lng": 116.4074
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-shanghai-towers-temples-food-video",
@@ -988,7 +1054,9 @@
       "name": "Shanghai, China",
       "lat": 31.2304,
       "lng": 121.4737
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-shanghai-food-culture-shock-video",
@@ -1018,7 +1086,9 @@
       "name": "Shanghai, China",
       "lat": 31.2304,
       "lng": 121.4737
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-shanghai-journey-to-the-west-video",
@@ -1048,7 +1118,9 @@
       "name": "Shanghai, China",
       "lat": 31.2304,
       "lng": 121.4737
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-berlin-berlin-wall-video",
@@ -1077,7 +1149,9 @@
       "name": "Berlin, Germany",
       "lat": 52.52,
       "lng": 13.405
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-berlin-public-transport-video",
@@ -1107,7 +1181,9 @@
       "name": "Berlin, Germany",
       "lat": 52.52,
       "lng": 13.405
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-berlin-berlin-blockade-video",
@@ -1136,7 +1212,9 @@
       "name": "Berlin, Germany",
       "lat": 52.52,
       "lng": 13.405
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-moscow-city-history-video",
@@ -1165,7 +1243,9 @@
       "name": "Moscow, Russia",
       "lat": 55.7558,
       "lng": 37.6173
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-moscow-metro-video",
@@ -1195,7 +1275,9 @@
       "name": "Moscow, Russia",
       "lat": 55.7558,
       "lng": 37.6173
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-moscow-kremlin-red-square-video",
@@ -1223,7 +1305,9 @@
       "name": "Moscow, Russia",
       "lat": 55.7558,
       "lng": 37.6173
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-istanbul-constantinople-istanbul-video",
@@ -1252,7 +1336,9 @@
       "name": "Istanbul, Turkey",
       "lat": 41.0082,
       "lng": 28.9784
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-istanbul-mosques-architecture-video",
@@ -1281,7 +1367,9 @@
       "name": "Istanbul, Turkey",
       "lat": 41.0082,
       "lng": 28.9784
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-istanbul-two-continents-video",
@@ -1308,7 +1396,9 @@
       "name": "Istanbul, Turkey",
       "lat": 41.0082,
       "lng": 28.9784
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-vancouver-underground-streams-video",
@@ -1336,7 +1426,9 @@
       "name": "Vancouver, Canada",
       "lat": 49.2827,
       "lng": -123.1207
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-vancouver-skytrain-video",
@@ -1366,7 +1458,9 @@
       "name": "Vancouver, Canada",
       "lat": 49.2827,
       "lng": -123.1207
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-vancouver-city-in-nature-video",
@@ -1394,7 +1488,9 @@
       "name": "Vancouver, Canada",
       "lat": 49.2827,
       "lng": -123.1207
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-toronto-growth-video",
@@ -1424,7 +1520,9 @@
       "name": "Toronto, Canada",
       "lat": 43.6532,
       "lng": -79.3832
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-toronto-public-transit-video",
@@ -1454,7 +1552,9 @@
       "name": "Toronto, Canada",
       "lat": 43.6532,
       "lng": -79.3832
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-toronto-multicultural-video",
@@ -1482,7 +1582,9 @@
       "name": "Toronto, Canada",
       "lat": 43.6532,
       "lng": -79.3832
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mumbai-city-history-video",
@@ -1511,7 +1613,9 @@
       "name": "Mumbai, India",
       "lat": 19.076,
       "lng": 72.8777
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mumbai-dabbawalas-video",
@@ -1539,7 +1643,9 @@
       "name": "Mumbai, India",
       "lat": 19.076,
       "lng": 72.8777
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mumbai-street-food-video",
@@ -1569,7 +1675,9 @@
       "name": "Mumbai, India",
       "lat": 19.076,
       "lng": 72.8777
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cape-town-founded-video",
@@ -1597,7 +1705,9 @@
       "name": "Cape Town, South Africa",
       "lat": -33.9249,
       "lng": 18.4241
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cape-town-table-mountain-video",
@@ -1625,7 +1735,9 @@
       "name": "Cape Town, South Africa",
       "lat": -33.9249,
       "lng": 18.4241
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-cape-town-water-crisis-video",
@@ -1655,7 +1767,9 @@
       "name": "Cape Town, South Africa",
       "lat": -33.9249,
       "lng": 18.4241
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rome-ancient-rome-video",
@@ -1684,7 +1798,9 @@
       "name": "Rome, Italy",
       "lat": 41.9028,
       "lng": 12.4964
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rome-colosseum-video",
@@ -1713,7 +1829,9 @@
       "name": "Rome, Italy",
       "lat": 41.9028,
       "lng": 12.4964
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rome-food-market-video",
@@ -1743,7 +1861,9 @@
       "name": "Rome, Italy",
       "lat": 41.9028,
       "lng": 12.4964
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rio-de-janeiro-city-history-video",
@@ -1772,7 +1892,9 @@
       "name": "Rio de Janeiro, Brazil",
       "lat": -22.9068,
       "lng": -43.1729
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rio-de-janeiro-favela-history-video",
@@ -1800,7 +1922,9 @@
       "name": "Rio de Janeiro, Brazil",
       "lat": -22.9068,
       "lng": -43.1729
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-rio-de-janeiro-carnival-video",
@@ -1830,7 +1954,9 @@
       "name": "Rio de Janeiro, Brazil",
       "lat": -22.9068,
       "lng": -43.1729
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mexico-city-complex-history-video",
@@ -1859,7 +1985,9 @@
       "name": "Mexico City, Mexico",
       "lat": 19.4326,
       "lng": -99.1332
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mexico-city-metro-tips-video",
@@ -1889,7 +2017,9 @@
       "name": "Mexico City, Mexico",
       "lat": 19.4326,
       "lng": -99.1332
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-mexico-city-street-food-video",
@@ -1919,7 +2049,9 @@
       "name": "Mexico City, Mexico",
       "lat": 19.4326,
       "lng": -99.1332
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-buenos-aires-city-history-video",
@@ -1948,7 +2080,9 @@
       "name": "Buenos Aires, Argentina",
       "lat": -34.6037,
       "lng": -58.3816
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-buenos-aires-tango-video",
@@ -1977,7 +2111,9 @@
       "name": "Buenos Aires, Argentina",
       "lat": -34.6037,
       "lng": -58.3816
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-buenos-aires-landmarks-video",
@@ -2005,7 +2141,9 @@
       "name": "Buenos Aires, Argentina",
       "lat": -34.6037,
       "lng": -58.3816
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-los-angeles-hollywood-history-video",
@@ -2034,7 +2172,9 @@
       "name": "Los Angeles, United States",
       "lat": 34.0522,
       "lng": -118.2437
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-los-angeles-metro-rail-video",
@@ -2064,7 +2204,9 @@
       "name": "Los Angeles, United States",
       "lat": 34.0522,
       "lng": -118.2437
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-los-angeles-smog-history-video",
@@ -2093,7 +2235,9 @@
       "name": "Los Angeles, United States",
       "lat": 34.0522,
       "lng": -118.2437
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-jakarta-historical-places-video",
@@ -2122,7 +2266,9 @@
       "name": "Jakarta, Indonesia",
       "lat": -6.2088,
       "lng": 106.8456
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-jakarta-flood-control-video",
@@ -2150,7 +2296,9 @@
       "name": "Jakarta, Indonesia",
       "lat": -6.2088,
       "lng": 106.8456
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-jakarta-transport-video",
@@ -2180,7 +2328,9 @@
       "name": "Jakarta, Indonesia",
       "lat": -6.2088,
       "lng": 106.8456
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lagos-local-city-video",
@@ -2209,7 +2359,9 @@
       "name": "Lagos, Nigeria",
       "lat": 6.5244,
       "lng": 3.3792
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lagos-mass-transit-video",
@@ -2239,7 +2391,9 @@
       "name": "Lagos, Nigeria",
       "lat": 6.5244,
       "lng": 3.3792
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lagos-market-video",
@@ -2267,7 +2421,9 @@
       "name": "Lagos, Nigeria",
       "lat": 6.5244,
       "lng": 3.3792
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-hong-kong-animated-history-video",
@@ -2296,7 +2452,9 @@
       "name": "Hong Kong, China",
       "lat": 22.3193,
       "lng": 114.1694
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-hong-kong-transport-system-video",
@@ -2326,7 +2484,9 @@
       "name": "Hong Kong, China",
       "lat": 22.3193,
       "lng": 114.1694
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-hong-kong-housing-video",
@@ -2354,7 +2514,9 @@
       "name": "Hong Kong, China",
       "lat": 22.3193,
       "lng": 114.1694
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-amsterdam-city-history-video",
@@ -2383,7 +2545,9 @@
       "name": "Amsterdam, Netherlands",
       "lat": 52.3676,
       "lng": 4.9041
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-amsterdam-cycling-video",
@@ -2413,7 +2577,9 @@
       "name": "Amsterdam, Netherlands",
       "lat": 52.3676,
       "lng": 4.9041
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-amsterdam-canals-video",
@@ -2442,7 +2608,9 @@
       "name": "Amsterdam, Netherlands",
       "lat": 52.3676,
       "lng": 4.9041
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-honolulu-hula-story-video",
@@ -2471,7 +2639,9 @@
       "name": "Honolulu, United States",
       "lat": 21.3069,
       "lng": -157.8583
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-honolulu-spam-musubi-video",
@@ -2501,7 +2671,9 @@
       "name": "Honolulu, United States",
       "lat": 21.3069,
       "lng": -157.8583
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-honolulu-city-history-video",
@@ -2530,7 +2702,9 @@
       "name": "Honolulu, United States",
       "lat": 21.3069,
       "lng": -157.8583
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-miami-little-havana-video",
@@ -2559,7 +2733,9 @@
       "name": "Miami, United States",
       "lat": 25.7617,
       "lng": -80.1918
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-miami-everglades-video",
@@ -2588,7 +2764,9 @@
       "name": "Miami, United States",
       "lat": 25.7617,
       "lng": -80.1918
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-miami-rapid-transit-video",
@@ -2618,7 +2796,9 @@
       "name": "Miami, United States",
       "lat": 25.7617,
       "lng": -80.1918
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-bogota-my-city-video",
@@ -2646,7 +2826,9 @@
       "name": "Bogota, Colombia",
       "lat": 4.711,
       "lng": -74.0721
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-bogota-gold-museum-video",
@@ -2676,7 +2858,9 @@
       "name": "Bogota, Colombia",
       "lat": 4.711,
       "lng": -74.0721
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-bogota-graffiti-projects-video",
@@ -2706,7 +2890,9 @@
       "name": "Bogota, Colombia",
       "lat": 4.711,
       "lng": -74.0721
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-reykjavik-city-landmarks-video",
@@ -2735,7 +2921,9 @@
       "name": "Reykjavik, Iceland",
       "lat": 64.1466,
       "lng": -21.9426
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-reykjavik-iceland-history-video",
@@ -2764,7 +2952,9 @@
       "name": "Reykjavik, Iceland",
       "lat": 64.1466,
       "lng": -21.9426
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-reykjavik-culture-night-video",
@@ -2792,7 +2982,9 @@
       "name": "Reykjavik, Iceland",
       "lat": 64.1466,
       "lng": -21.9426
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-nairobi-capital-history-video",
@@ -2822,7 +3014,9 @@
       "name": "Nairobi, Kenya",
       "lat": -1.2921,
       "lng": 36.8219
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-nairobi-railway-city-video",
@@ -2852,7 +3046,9 @@
       "name": "Nairobi, Kenya",
       "lat": -1.2921,
       "lng": 36.8219
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-nairobi-un-hub-video",
@@ -2880,7 +3076,9 @@
       "name": "Nairobi, Kenya",
       "lat": -1.2921,
       "lng": 36.8219
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lima-city-history-video",
@@ -2909,7 +3107,9 @@
       "name": "Lima, Peru",
       "lat": -12.0464,
       "lng": -77.0428
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lima-ancient-ruins-video",
@@ -2937,7 +3137,9 @@
       "name": "Lima, Peru",
       "lat": -12.0464,
       "lng": -77.0428
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lima-transport-strike-video",
@@ -2967,7 +3169,9 @@
       "name": "Lima, Peru",
       "lat": -12.0464,
       "lng": -77.0428
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-perth-quokkas-video",
@@ -2996,7 +3200,9 @@
       "name": "Perth, Australia",
       "lat": -31.9523,
       "lng": 115.8613
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-perth-transperth-video",
@@ -3026,7 +3232,9 @@
       "name": "Perth, Australia",
       "lat": -31.9523,
       "lng": 115.8613
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-perth-fremantle-video",
@@ -3054,7 +3262,9 @@
       "name": "Perth, Australia",
       "lat": -31.9523,
       "lng": 115.8613
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-auckland-volcanic-field-video",
@@ -3082,7 +3292,9 @@
       "name": "Auckland, New Zealand",
       "lat": -36.8509,
       "lng": 174.7645
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-auckland-electric-bus-video",
@@ -3112,7 +3324,9 @@
       "name": "Auckland, New Zealand",
       "lat": -36.8509,
       "lng": 174.7645
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-auckland-new-zealand-history-video",
@@ -3141,7 +3355,9 @@
       "name": "Auckland, New Zealand",
       "lat": -36.8509,
       "lng": 174.7645
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-suva-city-geography-video",
@@ -3168,7 +3384,9 @@
       "name": "Suva, Fiji",
       "lat": -18.1416,
       "lng": 178.4419
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-suva-city-history-video",
@@ -3197,7 +3415,9 @@
       "name": "Suva, Fiji",
       "lat": -18.1416,
       "lng": 178.4419
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-suva-rugby-climate-video",
@@ -3225,7 +3445,9 @@
       "name": "Suva, Fiji",
       "lat": -18.1416,
       "lng": 178.4419
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ulaanbaatar-changing-capital-video",
@@ -3254,7 +3476,9 @@
       "name": "Ulaanbaatar, Mongolia",
       "lat": 47.8864,
       "lng": 106.9057
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ulaanbaatar-ger-area-transport-video",
@@ -3284,7 +3508,9 @@
       "name": "Ulaanbaatar, Mongolia",
       "lat": 47.8864,
       "lng": 106.9057
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ulaanbaatar-sustainable-gers-video",
@@ -3313,7 +3539,9 @@
       "name": "Ulaanbaatar, Mongolia",
       "lat": 47.8864,
       "lng": 106.9057
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-almaty-garden-city-video",
@@ -3340,7 +3568,9 @@
       "name": "Almaty, Kazakhstan",
       "lat": 43.222,
       "lng": 76.8512
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-almaty-apple-origin-video",
@@ -3370,7 +3600,9 @@
       "name": "Almaty, Kazakhstan",
       "lat": 43.222,
       "lng": 76.8512
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-almaty-metro-video",
@@ -3400,7 +3632,9 @@
       "name": "Almaty, Kazakhstan",
       "lat": 43.222,
       "lng": 76.8512
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-madrid-city-exploration-video",
@@ -3430,7 +3664,9 @@
       "name": "Madrid, Spain",
       "lat": 40.4168,
       "lng": -3.7038
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-madrid-flamenco-video",
@@ -3460,7 +3696,9 @@
       "name": "Madrid, Spain",
       "lat": 40.4168,
       "lng": -3.7038
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-madrid-prado-collections-video",
@@ -3489,7 +3727,9 @@
       "name": "Madrid, Spain",
       "lat": 40.4168,
       "lng": -3.7038
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lisbon-city-guide-video",
@@ -3519,7 +3759,9 @@
       "name": "Lisbon, Portugal",
       "lat": 38.7223,
       "lng": -9.1393
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lisbon-azulejos-video",
@@ -3549,7 +3791,9 @@
       "name": "Lisbon, Portugal",
       "lat": 38.7223,
       "lng": -9.1393
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-lisbon-fado-video",
@@ -3578,7 +3822,9 @@
       "name": "Lisbon, Portugal",
       "lat": 38.7223,
       "lng": -9.1393
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dublin-irish-dance-video",
@@ -3608,7 +3854,9 @@
       "name": "Dublin, Ireland",
       "lat": 53.3498,
       "lng": -6.2603
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dublin-book-of-kells-video",
@@ -3638,7 +3886,9 @@
       "name": "Dublin, Ireland",
       "lat": 53.3498,
       "lng": -6.2603
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dublin-oscar-wilde-video",
@@ -3666,7 +3916,9 @@
       "name": "Dublin, Ireland",
       "lat": 53.3498,
       "lng": -6.2603
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dakar-ladoum-sheep-video",
@@ -3696,7 +3948,9 @@
       "name": "Dakar, Senegal",
       "lat": 14.7167,
       "lng": -17.4677
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dakar-biennale-video",
@@ -3725,7 +3979,9 @@
       "name": "Dakar, Senegal",
       "lat": 14.7167,
       "lng": -17.4677
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dakar-goree-electricity-video",
@@ -3753,7 +4009,9 @@
       "name": "Dakar, Senegal",
       "lat": 14.7167,
       "lng": -17.4677
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-recife-brazil-for-kids-video",
@@ -3783,7 +4041,9 @@
       "name": "Recife, Brazil",
       "lat": -8.0476,
       "lng": -34.877
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-recife-frevo-video",
@@ -3812,7 +4072,9 @@
       "name": "Recife, Brazil",
       "lat": -8.0476,
       "lng": -34.877
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-recife-silent-drums-video",
@@ -3842,7 +4104,9 @@
       "name": "Recife, Brazil",
       "lat": -8.0476,
       "lng": -34.877
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-panama-city-mola-art-video",
@@ -3872,7 +4136,9 @@
       "name": "Panama City, Panama",
       "lat": 8.9824,
       "lng": -79.5199
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-panama-city-canal-for-kids-video",
@@ -3902,7 +4168,9 @@
       "name": "Panama City, Panama",
       "lat": 8.9824,
       "lng": -79.5199
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-panama-city-amphibian-conservation-video",
@@ -3931,7 +4199,9 @@
       "name": "Panama City, Panama",
       "lat": 8.9824,
       "lng": -79.5199
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-santiago-chile-for-kids-video",
@@ -3961,7 +4231,9 @@
       "name": "Santiago, Chile",
       "lat": -33.4489,
       "lng": -70.6693
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-santiago-marraqueta-video",
@@ -3991,7 +4263,9 @@
       "name": "Santiago, Chile",
       "lat": -33.4489,
       "lng": -70.6693
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-santiago-moai-video",
@@ -4019,7 +4293,9 @@
       "name": "Santiago, Chile",
       "lat": -33.4489,
       "lng": -70.6693
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-addis-ababa-ethiopia-culture-video",
@@ -4049,7 +4325,9 @@
       "name": "Addis Ababa, Ethiopia",
       "lat": 8.9806,
       "lng": 38.7578
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-addis-ababa-coffee-traditions-video",
@@ -4079,7 +4357,9 @@
       "name": "Addis Ababa, Ethiopia",
       "lat": 8.9806,
       "lng": 38.7578
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-addis-ababa-lucy-fossil-video",
@@ -4107,7 +4387,9 @@
       "name": "Addis Ababa, Ethiopia",
       "lat": 8.9806,
       "lng": 38.7578
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-delhi-indian-food-video",
@@ -4137,7 +4419,9 @@
       "name": "Delhi, India",
       "lat": 28.6139,
       "lng": 77.209
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-delhi-red-fort-video",
@@ -4167,7 +4451,9 @@
       "name": "Delhi, India",
       "lat": 28.6139,
       "lng": 77.209
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-delhi-qutub-minar-video",
@@ -4196,7 +4482,9 @@
       "name": "Delhi, India",
       "lat": 28.6139,
       "lng": 77.209
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-manila-philippines-for-kids-video",
@@ -4226,7 +4514,9 @@
       "name": "Manila, Philippines",
       "lat": 14.5995,
       "lng": 120.9842
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-manila-filipino-identity-video",
@@ -4254,7 +4544,9 @@
       "name": "Manila, Philippines",
       "lat": 14.5995,
       "lng": 120.9842
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-manila-philippines-history-video",
@@ -4283,7 +4575,9 @@
       "name": "Manila, Philippines",
       "lat": 14.5995,
       "lng": 120.9842
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ho-chi-minh-city-tet-for-kids-video",
@@ -4313,7 +4607,9 @@
       "name": "Ho Chi Minh City, Vietnam",
       "lat": 10.8231,
       "lng": 106.6297
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ho-chi-minh-city-vietnam-culture-video",
@@ -4343,7 +4639,9 @@
       "name": "Ho Chi Minh City, Vietnam",
       "lat": 10.8231,
       "lng": 106.6297
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-ho-chi-minh-city-vietnam-history-video",
@@ -4372,6 +4670,8 @@
       "name": "Ho Chi Minh City, Vietnam",
       "lat": 10.8231,
       "lng": 106.6297
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   }
 ]

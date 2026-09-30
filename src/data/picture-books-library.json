@@ -17,7 +17,9 @@
       "https://upload.wikimedia.org/wikipedia/commons/e/e2/Norske_folke-_og_huldre-eventyr_-_De_tre_bukkerne_Bruse.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/9/99/Norske_folke-_og_huldre-eventyr_-_De_tre_bukkerne_Bruse_2.jpg"
     ],
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "goldilocks-three-bears",
@@ -38,7 +40,9 @@
       "https://upload.wikimedia.org/wikipedia/commons/4/42/And_Next_She_Saw_Three_Chairs.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/b/b0/And_As_the_Door_Stood_Open.jpg"
     ],
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "little-red-riding-hood",
@@ -58,7 +62,9 @@
       "https://upload.wikimedia.org/wikipedia/commons/0/0a/Dore_ridinghood.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/9/9e/Arthur_Rackham_Little_Red_Riding_Hood.jpg"
     ],
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "hansel-gretel",
@@ -79,7 +85,9 @@
       "https://upload.wikimedia.org/wikipedia/commons/1/17/Hansel_and_gretel_by_Harbour.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/5/58/Otto_Ubbelohde_-_H%C3%A4nsel_und_Gretel_2.jpg"
     ],
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "jack-beanstalk",
@@ -99,7 +107,9 @@
       "https://upload.wikimedia.org/wikipedia/commons/4/40/Cormoran_-_Project_Gutenberg_eText_17034.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/7/7e/Galligantus_-_Project_Gutenberg_eText_17034.jpg"
     ],
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "A2",
+    "ageBand": "kids"
   },
   {
     "id": "tortoise-hare",
@@ -117,7 +127,9 @@
     "slides": [
       "https://upload.wikimedia.org/wikipedia/commons/e/ea/The_Tortoise_and_the_Hare_-_Project_Gutenberg_etext_19994.jpg"
     ],
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "town-mouse-country-mouse",
@@ -137,7 +149,9 @@
       "https://upload.wikimedia.org/wikipedia/commons/b/b2/Rackham_town_mouse_and_country_mouse.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/d/d6/Wenceslas_Hollar_-_Town_and_country_mouse.jpg"
     ],
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "A1",
+    "ageBand": "kids"
   },
   {
     "id": "goose-golden-eggs",
@@ -156,6 +170,8 @@
       "https://upload.wikimedia.org/wikipedia/commons/8/80/The_Goose_That_Laid_the_Golden_Eggs_-_Project_Gutenberg_etext_19994.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/e/e1/The_Fox_and_the_Grapes_-_Project_Gutenberg_etext_19994.jpg"
     ],
-    "genre": "narrative"
+    "genre": "narrative",
+    "cefr": "A1",
+    "ageBand": "kids"
   }
 ]

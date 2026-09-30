@@ -29,6 +29,9 @@ import bbcIdeasLibrary from '@/data/bbc-ideas-library.json';
 import bigthinkLibrary from '@/data/bigthink-library.json';
 import voxLibrary from '@/data/vox-library.json';
 import kidsLibrary from '@/data/kids-library.json';
+import grammarLibrary from '@/data/grammar-library.json';
+import hooksLibrary from '@/data/hooks-library.json';
+import discussionLibrary from '@/data/discussion-library.json';
 import { preparePastedSource } from '@/lib/pasted-source';
 
 export const maxDuration = 60;
@@ -219,6 +222,8 @@ export async function POST(request: NextRequest) {
 
       // ── Generic video library handler (BBC, Kurzgesagt, BBC Ideas, Big Think, Vox, Kids) ──
       case 'bbc':
+      case 'grammar':
+      case 'hooks':
       case 'kurzgesagt':
       case 'bbc-ideas':
       case 'bigthink':
@@ -233,6 +238,8 @@ export async function POST(request: NextRequest) {
       case 'sports': {
         const libraryMap: Record<string, TedTalk[]> = {
           bbc: bbcLibrary as unknown as TedTalk[],
+          grammar: grammarLibrary as unknown as TedTalk[],
+          hooks: hooksLibrary as unknown as TedTalk[],
           kurzgesagt: kurzgesagtLibrary as unknown as TedTalk[],
           'bbc-ideas': bbcIdeasLibrary as unknown as TedTalk[],
           bigthink: bigthinkLibrary as unknown as TedTalk[],
@@ -341,6 +348,13 @@ export async function POST(request: NextRequest) {
         const entry = (pictureBookLibrary as PictureBookEntry[]).find((e) => e.id === payload.trim());
         if (!entry) return NextResponse.json({ error: 'Picture book not found' }, { status: 404 });
         return NextResponse.json({ title: entry.title, summary: entry.summary, rawText: entry.summary, sourceKey: entry.id, sourceType: 'picture-books', wordCount: entry.wordCount, slides: entry.slides });
+      }
+
+      case 'discussion': {
+        type DiscussionEntry = { id: string; title: string; author: string; wordCount: number; topicTags: string[]; difficultyLevel: string; description: string; summary: string; };
+        const entry = (discussionLibrary as DiscussionEntry[]).find((e) => e.id === payload.trim());
+        if (!entry) return NextResponse.json({ error: 'Discussion text not found' }, { status: 404 });
+        return NextResponse.json({ title: entry.title, summary: entry.summary, rawText: entry.summary, sourceKey: entry.id, sourceType: 'discussion', wordCount: entry.wordCount });
       }
 
       default:

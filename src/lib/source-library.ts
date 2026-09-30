@@ -21,6 +21,9 @@ import storiesRaw from '@/data/stories-library.json';
 import voaRaw from '@/data/voa-library.json';
 import pictureBookRaw from '@/data/picture-books-library.json';
 import sportsRaw from '@/data/sports-library.json';
+import grammarRaw from '@/data/grammar-library.json';
+import hooksRaw from '@/data/hooks-library.json';
+import discussionRaw from '@/data/discussion-library.json';
 
 export type LibraryItemKind = 'video' | 'reading';
 
@@ -77,9 +80,12 @@ const ALL_ITEMS: LibraryItem[] = [
   take(internetMemesRaw, 'internet-memes', 'video'),
   take(minecraftRaw, 'minecraft', 'video'),
   take(sportsRaw, 'sports', 'video'),
+  take(grammarRaw, 'grammar', 'video'),
+  take(hooksRaw, 'hooks', 'video'),
   take(storiesRaw, 'stories', 'reading'),
   take(voaRaw, 'voa', 'reading'),
   take(pictureBookRaw, 'picture-books', 'reading'),
+  take(discussionRaw, 'discussion', 'reading'),
 ].flat();
 
 const STOPWORDS = new Set([

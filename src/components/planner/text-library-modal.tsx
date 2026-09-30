@@ -15,18 +15,20 @@ import {
   compareByTitle, compareByDifficulty, recentRank,
 } from './library-shared';
 
-type TextSourceKey = 'stories' | 'voa' | 'picture-books';
+type TextSourceKey = 'stories' | 'voa' | 'picture-books' | 'discussion';
 
 const SOURCE_CONFIG: { key: TextSourceKey; label: string; activeClass: string; inactiveClass: string }[] = [
   { key: 'picture-books', label: 'Picture Books', activeClass: 'bg-rose-500 text-white',  inactiveClass: 'bg-rose-900/20 text-rose-400 border border-rose-800/40'  },
   { key: 'stories',       label: 'Stories',       activeClass: 'bg-amber-500 text-white', inactiveClass: 'bg-amber-900/20 text-amber-400 border border-amber-800/40' },
   { key: 'voa',           label: 'VOA',           activeClass: 'bg-blue-600 text-white',  inactiveClass: 'bg-blue-900/20 text-blue-400 border border-blue-800/40'   },
+  { key: 'discussion',    label: 'Debate Texts',  activeClass: 'bg-emerald-600 text-white', inactiveClass: 'bg-emerald-900/20 text-emerald-400 border border-emerald-800/40' },
 ];
 
 const SOURCE_BADGE: Record<TextSourceKey, string> = {
   'picture-books': 'bg-rose-900/40 text-rose-400',
   stories:         'bg-amber-900/40 text-amber-400',
   voa:             'bg-blue-900/40 text-blue-400',
+  discussion:      'bg-emerald-900/40 text-emerald-400',
 };
 
 const TOPIC_COLORS: Record<string, string> = {
@@ -98,6 +100,7 @@ type ViewMode = 'grid' | 'list';
 import storiesRaw from '@/data/stories-library.json';
 import voaRaw from '@/data/voa-library.json';
 import pictureBookRaw from '@/data/picture-books-library.json';
+import discussionRaw from '@/data/discussion-library.json';
 
 function tag<K extends TextSourceKey>(raw: unknown[], key: K): TextEntry[] {
   return (raw as TextEntry[]).map((e) => ({ ...e, sourceType: key }));
@@ -107,6 +110,7 @@ const ALL_ENTRIES: TextEntry[] = [
   ...tag(pictureBookRaw as unknown[], 'picture-books'),
   ...tag(storiesRaw, 'stories'),
   ...tag(voaRaw as unknown[], 'voa'),
+  ...tag(discussionRaw as unknown[], 'discussion'),
 ];
 
 // Stable per-entry key for favorites / recent / React keys (ids can repeat across sources).
