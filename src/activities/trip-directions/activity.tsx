@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Compass, Eye, Flag, Mic, RefreshCw, Repeat, Route, Users } from 'lucide-react';
+import { Compass, Eye, Flag, Mic, RefreshCw, Repeat, Users } from 'lucide-react';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import { distanceBetweenCoordsKm } from '@/lib/world-flight/geo';
 import { parseGeoGuess } from '@/games/radar-fix/scoring';
@@ -48,7 +48,6 @@ export function TripDirectionsActivity({
   // via the check-in beat before round 1; the role rotates each round.
   const [guideDevice, setGuideDevice] = useState<{ clientId: string; name: string } | null>(null);
   const [readyNames, setReadyNames] = useState<string[]>([]);
-  const [replayKey, setReplayKey] = useState(0);
 
   const phaseRef = useRef<Phase>('idle');
   const roundIndexRef = useRef(0);
@@ -236,7 +235,7 @@ export function TripDirectionsActivity({
   const STEPS: Array<[typeof Users, string, string]> = [
     [Users, 'Check in', 'Phones tap ready. A guide is picked at random.'],
     [Mic, 'Guide talks', 'Only the guide sees the destination. They describe the route.'],
-    [Flag, 'Pin + reveal', 'Everyone pins; the route draws itself; closest wins.'],
+    [Flag, 'Pin + reveal', 'Everyone pins, then the guide retraces the route.'],
   ];
 
   // No coordinates for this city yet — show a graceful state rather than a broken map.
@@ -341,7 +340,6 @@ export function TripDirectionsActivity({
         target={revealed ? target : null}
         guesses={ranked}
         revealed={revealed}
-        replayKey={replayKey}
       />
 
       {!revealed ? (
@@ -354,7 +352,6 @@ export function TripDirectionsActivity({
         </>
       ) : (
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <KitButton tone="amber" onClick={() => setReplayKey((k) => k + 1)} icon={<Route className="h-3.5 w-3.5" />}>Replay route</KitButton>
           <p className="text-sm text-white/55">{guideDevice?.name}, walk us through it again.</p>
           <div className="flex gap-2">
             <KitButton tone="plain" onClick={anotherRound} icon={<Repeat className="h-3.5 w-3.5" />}>Another round</KitButton>

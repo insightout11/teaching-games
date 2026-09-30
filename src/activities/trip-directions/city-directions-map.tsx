@@ -22,11 +22,7 @@ interface CityDirectionsMapProps {
   /** Revealed pins, closest first. Only the top 3 are named (low scores stay private). */
   guesses: DirectionsGuessPin[];
   revealed: boolean;
-  /** Bump to replay the Start → destination route line. */
-  replayKey?: number;
 }
-
-const ROUTE_SOURCE = 'fyw-route';
 
 function escapeHtml(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -46,7 +42,7 @@ function labelledMarker(map: MapLibreMap, lat: number, lng: number, color: strin
   return marker;
 }
 
-export function CityDirectionsMap({ center, start, landmarks, target, guesses, revealed, replayKey = 0 }: CityDirectionsMapProps) {
+export function CityDirectionsMap({ center, start, landmarks, target, guesses, revealed }: CityDirectionsMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const markersRef = useRef<MapLibreMarker[]>([]);
@@ -104,34 +100,6 @@ export function CityDirectionsMap({ center, start, landmarks, target, guesses, r
     if (map.isStyleLoaded()) draw();
     else map.once('load', draw);
   }, [start, target, guesses, revealed]);
-
-  // Route replay: an amber line draws itself from Start to the destination.
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-    let raf = 0;
-    const clear = () => {
-      if (map.getLayer(ROUTE_SOURCE)) map.removeLayer(ROUTE_SOURCE);
-      if (map.getSource(ROUTE_SOURCE)) map.removeSource(ROUTE_SOURCE);
-    };
-    const run = () => {
-      clear();
-      if (!revealed || !target) return;
-      const line = (t: number) => ({ type: 'Feature' as const, properties: {}, geometry: { type: 'LineString' as const, coordinates: [[start.lng, start.lat], [start.lng + (target.lng - start.lng) * t, start.lat + (target.lat - start.lat) * t]] } });
-      map.addSource(ROUTE_SOURCE, { type: 'geojson', data: line(0) });
-      map.addLayer({ id: ROUTE_SOURCE, type: 'line', source: ROUTE_SOURCE, layout: { 'line-cap': 'round' }, paint: { 'line-color': '#fbbf24', 'line-width': 5, 'line-dasharray': [1.5, 1.2] } });
-      const t0 = performance.now();
-      const step = (now: number) => {
-        const t = Math.min(1, (now - t0) / 1800);
-        (map.getSource(ROUTE_SOURCE) as maplibregl.GeoJSONSource | undefined)?.setData(line(1 - Math.pow(1 - t, 3)));
-        if (t < 1) raf = requestAnimationFrame(step);
-      };
-      raf = requestAnimationFrame(step);
-    };
-    if (map.isStyleLoaded()) run();
-    else map.once('load', run);
-    return () => { cancelAnimationFrame(raf); if (mapRef.current && map.isStyleLoaded()) clear(); };
-  }, [start, target, revealed, replayKey]);
 
   return (
     <div className="space-y-2">
