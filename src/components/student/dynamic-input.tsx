@@ -21,6 +21,7 @@ import { GridRushPanel } from './grid-rush-panel';
 import { SynonymPanel } from './synonym-panel';
 import { HotSeatPanel } from './hot-seat-panel';
 import { StoryChainPanel } from './story-chain-panel';
+import { TravellerCard, type TravellerCardData } from './traveller-card';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -79,6 +80,13 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
     case 'shuffleboard':
       return <ShuffleboardInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
     case 'geo-point':
+      {
+        // Mystery Flight traveller: this phone describes the secret place instead of pinning.
+        const tcard = spec.gameKey === 'mystery-flight'
+          ? [studentId, clientId, displayName].map((k) => (k ? (spec.perStudentData?.[k] as TravellerCardData | undefined) : undefined)).find((c) => c?.role === 'traveller')
+          : undefined;
+        if (tcard) return <TravellerCard card={tcard} />;
+      }
       return <GeoPointInput key={spec.roundId ?? spec.prompt} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} clientId={clientId} />;
     case 'board':
       return <BoardInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;

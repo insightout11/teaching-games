@@ -20,6 +20,8 @@ interface Scored extends Pin { km: number; base: number; bonus: number; total: n
 const PACKS = cityPacks as unknown as Record<string, { id: string; mysteryClues?: PackClue[] }>;
 const RECENT_KEY = 'lc-mystery-flight-recent-v1';
 const STARTERS = ['It might be…', 'It can’t be … because…', 'I think it’s in … because…', 'It sounds like…'];
+const TRAVELLER_PROMPTS = ['The weather', 'The food', 'What you can see', 'What people do there', 'Which part of the world'];
+type Mode = 'clues' | 'traveller';
 const CLUE_ICON: Record<string, typeof Cloud> = { weather: Cloud, food: Utensils, culture: Users, nature: Trees, landmark: Landmark, giveaway: MapPin };
 
 function readRecent(): string[] {
@@ -39,6 +41,9 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
   const easy = sessionSettings.difficulty === 'Beginner' || sessionSettings.difficulty === 'Easy';
   const [phase, setPhase] = useState<Phase>('idle');
   const [style, setStyle] = useState<ClueStyle>('mixed');
+  const [mode, setMode] = useState<Mode>('clues');
+  const [traveller, setTraveller] = useState<{ id: string; name: string } | null>(null);
+  const turnsRef = useRef<Record<string, number>>({});
   const [roundCount, setRoundCount] = useState(Number(config.roundCount ?? 3) || 3);
   const [queue, setQueue] = useState<string[]>([]);
   const [round, setRound] = useState(0);
@@ -70,10 +75,16 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
     if (phase !== 'flying' || !roundId) { onSetInputSpec?.(null); return; }
     const locked: Record<string, unknown> = {};
     pins.forEach((p) => { locked[p.clientId] = { locked: true }; });
+    if (mode === 'traveller' && traveller && dest) {
+      const photo = getRevealMediaForDestination(dest.id);
+      const card = { role: 'traveller', city: dest.city, country: dest.country, photo: photo?.url ?? photo?.thumbnailUrl ?? dest.heroImage?.url ?? null, prompts: TRAVELLER_PROMPTS };
+      locked[traveller.id] = card;
+      locked[traveller.name] = card;
+    }
     onSetInputSpec?.({
       type: 'geo-point',
       gameKey: 'mystery-flight',
-      prompt: 'Where are we flying? Pin it when you’re sure: earlier (and close) = bonus points!',
+      prompt: mode === 'traveller' ? 'Listen to the traveller. Where are they? Pin it: earlier (and close) = bonus points!' : 'Where are we flying? Pin it when you’re sure: earlier (and close) = bonus points!',
       roundId,
       mapCenter: [10, 18],
       mapZoom: 0.8,
@@ -81,16 +92,17 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
       allowMultiple: true,
       perStudentData: locked,
     } as InputSpec);
-  }, [phase, roundId, pins, onSetInputSpec]);
+  }, [phase, roundId, pins, onSetInputSpec, mode, traveller, dest]);
 
   const handleVote = useCallback((vote: GameRemoteVote) => {
     if (phaseRef.current !== 'flying') return;
     const g = parseWorldLensGuess(vote.choice);
     if (!g || g.roundId !== roundId) return;
     const key = vote.studentId || vote.clientId;
+    if (traveller && (vote.studentId === traveller.id || vote.displayName === traveller.name)) return;
     if (!key || pinsRef.current.some((p) => p.key === key)) return;
     setPins((prev) => [...prev, { key, clientId: vote.clientId, studentId: vote.studentId ?? null, name: vote.displayName, lat: g.lat, lng: g.lng, cluesSeen: shownRef.current }]);
-  }, [roundId]);
+  }, [roundId, traveller]);
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.(handleVote);
@@ -107,9 +119,18 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
     setRound(0);
     setTotals({});
     scoredRef.current = new Set();
+    turnsRef.current = {};
     beginRound();
   };
   const beginRound = () => {
+    if (mode === 'traveller' && students.length) {
+      // Fewest turns first, random among ties.
+      const min = Math.min(...students.map((s) => turnsRef.current[s.id] ?? 0));
+      const pool = students.filter((s) => (turnsRef.current[s.id] ?? 0) === min);
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      turnsRef.current[pick.id] = min + 1;
+      setTraveller({ id: pick.id, name: pick.name });
+    } else setTraveller(null);
     setShown(1);
     setPins([]);
     setVoices(null);
@@ -137,6 +158,12 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
       onScore(s.key, { isCorrect: s.base >= 3, points, ...(s.base === 5 ? { outcome: 'standout' as const } : {}), responseData: { clientId: s.clientId, destinationId: destId, distanceKm: Math.round(s.km), cluesSeen: s.cluesSeen } });
       setTotals((t) => ({ ...t, [s.key]: { name: s.name, points: (t[s.key]?.points ?? 0) + points } }));
     });
+    if (traveller && scored.length) {
+      // The traveller scores for a clear description: class's average closeness x2.
+      const points = Math.min(10, Math.round((scored.reduce((n, s) => n + s.base, 0) / scored.length) * 2));
+      onScore(traveller.id, { isCorrect: points >= 6, points, responseData: { role: 'traveller', destinationId: destId } });
+      setTotals((t) => ({ ...t, [traveller.id]: { name: traveller.name, points: (t[traveller.id]?.points ?? 0) + points } }));
+    }
   };
 
   const next = () => {
@@ -191,11 +218,19 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
         <p className="font-display text-5xl">Mystery Flight.</p>
         <p className="mx-auto max-w-xl text-lg text-white/70">We&apos;re flying somewhere secret. Clues arrive as we fly: the weather, the food, a photo, the culture… Talk it through, then pin the city on your phone. Pin early and close for bonus points!</p>
         <div className="flex flex-wrap items-center justify-center gap-2">
+          <KitLabel>Who gives clues</KitLabel>
+          {([['clues', 'The flight deck'], ['traveller', 'A classmate describes it']] as const).map(([k, label]) => (
+            <button key={k} type="button" onClick={() => setMode(k)} className={`rounded-full border px-3 py-1 text-sm ${mode === k ? 'border-amber-300 bg-amber-300/15 text-white' : 'border-white/15 text-white/60'}`}>{label}</button>
+          ))}
+        </div>
+        {mode === 'traveller' && <p className="mx-auto max-w-xl text-white/60">Each flight, one student sees the secret place on their phone and describes it out loud (no names!). Everyone else pins it.</p>}
+        <div className={`flex flex-wrap items-center justify-center gap-2 ${mode === 'traveller' ? 'hidden' : ''}`}>
           <KitLabel>Clues</KitLabel>
           {([['mixed', 'Words + photo'], ['text', 'Words only'], ['photo-first', 'Photo first']] as const).map(([k, label]) => (
             <button key={k} type="button" onClick={() => setStyle(k)} className={`rounded-full border px-3 py-1 text-sm ${style === k ? 'border-amber-300 bg-amber-300/15 text-white' : 'border-white/15 text-white/60'}`}>{label}</button>
           ))}
-          <span className="mx-1 h-4 w-px bg-white/15" />
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-2">
           <KitLabel>Flights</KitLabel>
           {[3, 5].map((n) => <button key={n} type="button" onClick={() => setRoundCount(n)} className={`rounded-full border px-3 py-1 text-sm ${roundCount === n ? 'border-amber-300 bg-amber-300/15 text-white' : 'border-white/15 text-white/60'}`}>{n}</button>)}
         </div>
@@ -207,6 +242,37 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
   }
 
   // ─── FLYING ───
+  if (phase === 'flying' && dest && mode === 'traveller' && traveller) {
+    return (
+      <div className="mx-auto max-w-4xl space-y-5 text-white">
+        <div className="flex items-center justify-between">
+          <KitLabel tone="amber">Mystery Traveller {round + 1} of {queue.length}</KitLabel>
+          <KitReadout>{pins.length} / {Math.max(0, students.length - 1)} pinned</KitReadout>
+        </div>
+        <div className="rounded-3xl border border-amber-300/40 bg-amber-300/[0.06] p-6 text-center">
+          <Mic className="mx-auto h-8 w-8 text-amber-300" />
+          <p className="mt-2 font-display text-5xl">{traveller.name}</p>
+          <p className="mt-1 text-xl text-amber-100">is somewhere secret. Listen, ask questions, then pin it!</p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="space-y-2">
+            <KitLabel>{traveller.name}, talk about</KitLabel>
+            <div className="flex flex-wrap gap-2">{TRAVELLER_PROMPTS.map((p) => <span key={p} className="rounded-full border border-white/15 px-3 py-1 text-lg">{p}</span>)}</div>
+            <p className="text-sm text-rose-200">Don&apos;t say the city or country!</p>
+          </div>
+          <div className="space-y-2">
+            <KitLabel>Class, ask</KitLabel>
+            <div className="flex flex-wrap gap-2">{['Is it hot or cold?', 'What do people eat?', 'Is it near the sea?', 'What can you see?'].map((p) => <span key={p} className="rounded-full border border-white/15 px-3 py-1 text-lg text-white/80">{p}</span>)}</div>
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <span className="flex flex-wrap items-center gap-1.5">{pins.map((p) => <span key={p.key} className="flex items-center gap-1 rounded-full border border-emerald-300/40 bg-emerald-400/10 px-2.5 py-0.5 text-sm text-emerald-100"><MapPin className="h-3 w-3" />{p.name}</span>)}</span>
+          <KitButton tone="emerald" solid onClick={land} className="!px-5 !py-2 !text-sm" icon={<PlaneLanding className="h-4 w-4" />}>Land</KitButton>
+        </div>
+      </div>
+    );
+  }
+
   if (phase === 'flying' && dest) {
     const visible = deck.slice(0, shown);
     const latest = visible[visible.length - 1];
