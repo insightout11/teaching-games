@@ -953,6 +953,20 @@ export interface StaticContent extends ActivityGeneratedContent {
   rounds: StaticRound[];
 }
 
+/** Black Box: a passage read aloud; key words hidden; the class rebuilds it by ear. */
+export interface BlackBoxPassage {
+  text: string;
+  /** Hidden words (each appears once in text). */
+  gaps: string[];
+  /** Sound-alike words NOT in the text, mixed into the phone word cloud. */
+  decoys: string[];
+}
+
+export interface BlackBoxContent extends ActivityGeneratedContent {
+  activityKey: 'black-box';
+  passages: BlackBoxPassage[];
+}
+
 /** Hot Seat reuses Taboo's topic cards (word + short definition). */
 export interface HotSeatContent extends ActivityGeneratedContent {
   activityKey: 'hot-seat';

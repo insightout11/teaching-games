@@ -3,7 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 import { RadioCheckActivity } from '@/activities/radio-check';
 import { StaticActivity } from '@/activities/static';
-import type { ActivityProps, RadioCheckContent, StaticContent } from '@/activities/types';
+import { BlackBoxActivity } from '@/activities/black-box';
+import type { ActivityProps, RadioCheckContent, StaticContent, BlackBoxContent } from '@/activities/types';
 
 const VOICE: RadioCheckContent = {
   activityKey: 'radio-check',
@@ -36,13 +37,21 @@ const STATIC: StaticContent = {
   ],
 };
 
+const BLACK_BOX: BlackBoxContent = {
+  activityKey: 'black-box',
+  topicContext: 'Travel',
+  passages: [
+    { text: 'Our ferry leaves the harbour at thirteen minutes past eight. Please bring warm coats, because the coast is windy and the island has no shops.', gaps: ['ferry', 'harbour', 'thirteen', 'coats', 'coast', 'island'], decoys: ['thirty', 'hotel', 'cost', 'highland'] },
+  ],
+};
+
 export function RadioCheckDevClient() {
   const mode = useSearchParams().get('mode');
   const video = mode === 'video';
-  const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: () => {}, onPhaseChange: () => {} } as unknown as ActivityProps;
+  const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'static' ? <StaticActivity {...props} generatedContent={STATIC} /> : <RadioCheckActivity {...props} />}
+      {mode === 'static' ? <StaticActivity {...props} generatedContent={STATIC} /> : mode === 'black-box' ? <BlackBoxActivity {...props} generatedContent={BLACK_BOX} /> : <RadioCheckActivity {...props} />}
     </div>
   );
 }

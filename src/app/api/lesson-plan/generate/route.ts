@@ -74,6 +74,8 @@ import type {
   RadioCheckSegment,
   StaticContent,
   StaticRound,
+  BlackBoxContent,
+  BlackBoxPassage,
   DecisionCouncilContent,
   TeamDebateContent,
   SourceVocabItem,
@@ -1476,6 +1478,52 @@ Vary where the target sits in the sentence (start, middle, end). Return JSON: { 
     rounds.push({ sentence: r.sentence, spoken, target, swap, options, correctIndex });
   }
   return { activityKey: 'static', topicContext: topic, rounds };
+}
+
+
+// ─── Black Box (listening: rebuild a passage from what you heard) ───
+
+async function generateBlackBox(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<BlackBoxContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      passages: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            text: { type: 'string' },
+            gaps: { type: 'array', items: { type: 'string' } },
+            decoys: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['text', 'gaps', 'decoys'],
+        },
+      },
+    },
+    required: ['passages'],
+  };
+  const prompt = `You are making a LISTENING activity for an ESL class on the topic "${topic}". A computer voice reads a short passage twice. Some key words are hidden on screen; students tap the words they heard, and the class rebuilds the passage together.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${sourceCtx ? `\nBase the passages on this source material where possible:\n${sourceCtx.slice(0, 4000)}\n` : ''}
+Write exactly 3 passages. For each:
+- text: 2–3 natural spoken sentences, 25–45 words in total, about the topic (like a line from a podcast, a guide, or a news report).
+- gaps: exactly 6 KEY content words that appear exactly in the text (nouns, verbs, adjectives, numbers written as words). Each gap word appears only once in the text.
+- decoys: exactly 4 words that are NOT in the text but sound similar to or could plausibly fit (e.g. a gap is "thirteen", a decoy is "thirty"; a gap is "coast", a decoy is "coats").
+
+Return JSON: { "passages": [...] }.`;
+  const parsed = await generateJSON<{ passages: Array<{ text: string; gaps: string[]; decoys: string[] }> }>(prompt, schema);
+  const clean = (w: string) => w.toLowerCase().replace(/[^a-z0-9']/g, '');
+  const passages: BlackBoxPassage[] = [];
+  for (const p of parsed.passages ?? []) {
+    const text = (p.text ?? '').trim();
+    if (!text) continue;
+    const tokens = text.split(/\s+/).map(clean);
+    const gaps = (p.gaps ?? []).map((g) => g.trim()).filter((g, i, a) => g && tokens.includes(clean(g)) && a.findIndex((x) => clean(x) === clean(g)) === i).slice(0, 6);
+    const decoys = (p.decoys ?? []).map((d) => d.trim()).filter((d) => d && !tokens.includes(clean(d)) && !gaps.some((g) => clean(g) === clean(d))).slice(0, 4);
+    if (gaps.length >= 3) passages.push({ text, gaps, decoys });
+  }
+  return { activityKey: 'black-box', topicContext: topic, passages };
 }
 
 async function generateSingleScene(
@@ -3178,6 +3226,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'static':
             generators.push(generateStatic(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'black-box':
+            generators.push(generateBlackBox(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'radio-check':
             generators.push(generateRadioCheck(customTopic, diff, sourceMaterial, sourceRawTranscript, sourceCtx).then((r) => { content[activityKey] = r; }));

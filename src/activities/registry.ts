@@ -31,6 +31,7 @@ import { tabooSprintPlugin } from './taboo-sprint';
 import { hotSeatPlugin } from './hot-seat';
 import { radioCheckPlugin } from './radio-check';
 import { staticPlugin } from './static';
+import { blackBoxPlugin } from './black-box';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarClarifyPlugin } from './grammar-clarify';
 import { vocabMicroPlugin } from './vocab-micro';
@@ -70,6 +71,7 @@ const activities: ActivityPlugin[] = [
   hotSeatPlugin,
   radioCheckPlugin,
   staticPlugin,
+  blackBoxPlugin,
   grammarCheckInPlugin,
   grammarClarifyPlugin,
   vocabMicroPlugin,
