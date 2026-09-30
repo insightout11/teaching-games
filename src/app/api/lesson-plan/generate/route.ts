@@ -72,6 +72,8 @@ import type {
   VideoPlayerContent,
   RadioCheckContent,
   RadioCheckSegment,
+  StaticContent,
+  StaticRound,
   DecisionCouncilContent,
   TeamDebateContent,
   SourceVocabItem,
@@ -1416,6 +1418,64 @@ Return JSON: { "segments": [...] }.`;
       return { question: s.question, options, correctIndex, keyLine: s.keyLine ?? '', script: s.script };
     });
   return { activityKey: 'radio-check', topicContext: topic, title: topic, mode: 'voice', segments };
+}
+
+
+// ─── Static (listening break: one swapped word) ───
+
+function staticWords(sentence: string): string[] {
+  return sentence.split(/\s+/).map((w) => w.replace(/^[^A-Za-z0-9']+|[^A-Za-z0-9']+$/g, '')).filter(Boolean);
+}
+
+async function generateStatic(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<StaticContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      rounds: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            sentence: { type: 'string' },
+            target: { type: 'string' },
+            swap: { type: 'string' },
+            decoys: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['sentence', 'target', 'swap', 'decoys'],
+        },
+      },
+    },
+    required: ['rounds'],
+  };
+  const prompt = `You are making a quick LISTENING game for an ESL class on the topic "${topic}". The screen shows a sentence, but a computer voice reads it with ONE word swapped. Students spot which word changed.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${sourceCtx ? `\nUse this source material for ideas and vocabulary where possible:\n${sourceCtx.slice(0, 3000)}\n` : ''}
+Write exactly 8 rounds. For each:
+- sentence: a natural sentence of 7–14 words about the topic (what is shown on screen).
+- target: ONE word that appears exactly in the sentence (a content word: noun, verb, adjective or number).
+- swap: the word the voice says instead. Make it SOUND similar or be easy to confuse by ear (ship/sheep, fifteen/fifty, walk/work, left/right, cold/called), and still grammatical in the sentence. Some rounds can be funny.
+- decoys: 3 OTHER content words that also appear exactly in the sentence (not the target).
+
+Vary where the target sits in the sentence (start, middle, end). Return JSON: { "rounds": [...] }.`;
+  const parsed = await generateJSON<{ rounds: Array<{ sentence: string; target: string; swap: string; decoys: string[] }> }>(prompt, schema);
+  const rounds: StaticRound[] = [];
+  for (const r of parsed.rounds ?? []) {
+    const words = staticWords(r.sentence ?? '');
+    const lower = words.map((w) => w.toLowerCase());
+    const target = (r.target ?? '').trim();
+    const swap = (r.swap ?? '').trim();
+    if (!target || !swap || target.toLowerCase() === swap.toLowerCase() || !lower.includes(target.toLowerCase())) continue;
+    const decoys = (r.decoys ?? []).map((d) => d.trim()).filter((d, i, a) => d && lower.includes(d.toLowerCase()) && d.toLowerCase() !== target.toLowerCase() && a.findIndex((x) => x.toLowerCase() === d.toLowerCase()) === i).slice(0, 3);
+    if (decoys.length < 2) continue;
+    // Spoken version: first whole-word occurrence of the target replaced by the swap.
+    const re = new RegExp(`\\b${target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+    const spoken = r.sentence.replace(re, swap);
+    if (spoken === r.sentence) continue;
+    const { options, correctIndex } = shuffleOptions([target, ...decoys], 0);
+    rounds.push({ sentence: r.sentence, spoken, target, swap, options, correctIndex });
+  }
+  return { activityKey: 'static', topicContext: topic, rounds };
 }
 
 async function generateSingleScene(
@@ -3115,6 +3175,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'taboo-sprint':
             generators.push(generateTabooSprint(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'static':
+            generators.push(generateStatic(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'radio-check':
             generators.push(generateRadioCheck(customTopic, diff, sourceMaterial, sourceRawTranscript, sourceCtx).then((r) => { content[activityKey] = r; }));

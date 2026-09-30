@@ -2,7 +2,8 @@
 
 import { useSearchParams } from 'next/navigation';
 import { RadioCheckActivity } from '@/activities/radio-check';
-import type { ActivityProps, RadioCheckContent } from '@/activities/types';
+import { StaticActivity } from '@/activities/static';
+import type { ActivityProps, RadioCheckContent, StaticContent } from '@/activities/types';
 
 const VOICE: RadioCheckContent = {
   activityKey: 'radio-check',
@@ -26,12 +27,22 @@ const VIDEO: RadioCheckContent = {
   ],
 };
 
+const STATIC: StaticContent = {
+  activityKey: 'static',
+  topicContext: 'Travel',
+  rounds: [
+    { sentence: 'The ship to the island leaves at fifteen minutes past ten.', spoken: 'The sheep to the island leaves at fifteen minutes past ten.', target: 'ship', swap: 'sheep', options: ['island', 'ship', 'minutes', 'leaves'], correctIndex: 1 },
+    { sentence: 'Turn left at the big hotel and walk to the beach.', spoken: 'Turn left at the big hotel and work to the beach.', target: 'walk', swap: 'work', options: ['hotel', 'beach', 'walk', 'Turn'], correctIndex: 2 },
+  ],
+};
+
 export function RadioCheckDevClient() {
-  const video = useSearchParams().get('mode') === 'video';
+  const mode = useSearchParams().get('mode');
+  const video = mode === 'video';
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: () => {}, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      <RadioCheckActivity {...props} />
+      {mode === 'static' ? <StaticActivity {...props} generatedContent={STATIC} /> : <RadioCheckActivity {...props} />}
     </div>
   );
 }

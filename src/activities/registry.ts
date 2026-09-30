@@ -30,6 +30,7 @@ import { cargoHoldPlugin } from './cargo-hold';
 import { tabooSprintPlugin } from './taboo-sprint';
 import { hotSeatPlugin } from './hot-seat';
 import { radioCheckPlugin } from './radio-check';
+import { staticPlugin } from './static';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarClarifyPlugin } from './grammar-clarify';
 import { vocabMicroPlugin } from './vocab-micro';
@@ -68,6 +69,7 @@ const activities: ActivityPlugin[] = [
   tabooSprintPlugin,
   hotSeatPlugin,
   radioCheckPlugin,
+  staticPlugin,
   grammarCheckInPlugin,
   grammarClarifyPlugin,
   vocabMicroPlugin,

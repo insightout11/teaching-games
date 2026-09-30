@@ -935,6 +935,24 @@ export interface RadioCheckContent extends ActivityGeneratedContent {
   segments: RadioCheckSegment[];
 }
 
+/** Static: the screen shows a sentence, the voice says it with one word swapped. */
+export interface StaticRound {
+  /** Shown on screen. */
+  sentence: string;
+  /** Read aloud (the sentence with target -> swap). */
+  spoken: string;
+  target: string;
+  swap: string;
+  /** Words from the sentence offered on phones (target + decoys, shuffled). */
+  options: string[];
+  correctIndex: number;
+}
+
+export interface StaticContent extends ActivityGeneratedContent {
+  activityKey: 'static';
+  rounds: StaticRound[];
+}
+
 /** Hot Seat reuses Taboo's topic cards (word + short definition). */
 export interface HotSeatContent extends ActivityGeneratedContent {
   activityKey: 'hot-seat';
