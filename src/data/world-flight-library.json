@@ -772,7 +772,9 @@
       "name": "Dubai, United Arab Emirates",
       "lat": 25.2048,
       "lng": 55.2708
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dubai-metro-route-2020-video",
@@ -802,7 +804,9 @@
       "name": "Dubai, United Arab Emirates",
       "lat": 25.2048,
       "lng": 55.2708
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-dubai-dubai-history-video",
@@ -831,7 +835,9 @@
       "name": "Dubai, United Arab Emirates",
       "lat": 25.2048,
       "lng": 55.2708
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-sydney-harbour-ecology-video",
@@ -859,7 +865,9 @@
       "name": "Sydney, Australia",
       "lat": -33.8688,
       "lng": 151.2093
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-sydney-opera-house-history-video",
@@ -888,7 +896,9 @@
       "name": "Sydney, Australia",
       "lat": -33.8688,
       "lng": 151.2093
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-sydney-city-growth-video",
@@ -918,7 +928,9 @@
       "name": "Sydney, Australia",
       "lat": -33.8688,
       "lng": 151.2093
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-beijing-city-history-video",
@@ -947,7 +959,9 @@
       "name": "Beijing, China",
       "lat": 39.9042,
       "lng": 116.4074
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-beijing-hutong-culture-video",
@@ -976,7 +990,9 @@
       "name": "Beijing, China",
       "lat": 39.9042,
       "lng": 116.4074
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-beijing-subway-system-video",
@@ -1006,7 +1022,9 @@
       "name": "Beijing, China",
       "lat": 39.9042,
       "lng": 116.4074
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-shanghai-towers-temples-food-video",
@@ -1036,7 +1054,9 @@
       "name": "Shanghai, China",
       "lat": 31.2304,
       "lng": 121.4737
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-shanghai-food-culture-shock-video",
@@ -1066,7 +1086,9 @@
       "name": "Shanghai, China",
       "lat": 31.2304,
       "lng": 121.4737
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-shanghai-journey-to-the-west-video",
@@ -1096,7 +1118,9 @@
       "name": "Shanghai, China",
       "lat": 31.2304,
       "lng": 121.4737
-    }
+    },
+    "cefr": "B2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-berlin-berlin-wall-video",
@@ -1125,7 +1149,9 @@
       "name": "Berlin, Germany",
       "lat": 52.52,
       "lng": 13.405
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-berlin-public-transport-video",
@@ -1155,7 +1181,9 @@
       "name": "Berlin, Germany",
       "lat": 52.52,
       "lng": 13.405
-    }
+    },
+    "cefr": "A2",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-berlin-berlin-blockade-video",
@@ -1184,7 +1212,9 @@
       "name": "Berlin, Germany",
       "lat": 52.52,
       "lng": 13.405
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-moscow-city-history-video",
@@ -1213,7 +1243,9 @@
       "name": "Moscow, Russia",
       "lat": 55.7558,
       "lng": 37.6173
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-moscow-metro-video",
@@ -1243,7 +1275,9 @@
       "name": "Moscow, Russia",
       "lat": 55.7558,
       "lng": 37.6173
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-moscow-kremlin-red-square-video",
@@ -1271,7 +1305,9 @@
       "name": "Moscow, Russia",
       "lat": 55.7558,
       "lng": 37.6173
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-istanbul-constantinople-istanbul-video",
@@ -1300,7 +1336,9 @@
       "name": "Istanbul, Turkey",
       "lat": 41.0082,
       "lng": 28.9784
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-istanbul-mosques-architecture-video",
@@ -1329,7 +1367,9 @@
       "name": "Istanbul, Turkey",
       "lat": 41.0082,
       "lng": 28.9784
-    }
+    },
+    "cefr": "B1",
+    "ageBand": "all"
   },
   {
     "id": "world-flight-istanbul-two-continents-video",
