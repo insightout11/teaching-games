@@ -65,7 +65,10 @@ function ShownPlace({ item }: { item: RoomItem }) {
 
 /** What the class sees on the stage for a shown source. Always attributed. */
 export function ShownItem({ item }: { item: RoomItem }) {
-  const source = (
+  // Library texts have no web page: attribute by publisher only.
+  const source = !/^https?:/.test(item.url) ? (
+    <span className="text-xs text-white/55">{item.publisher}</span>
+  ) : (
     <a
       href={item.url}
       target="_blank"

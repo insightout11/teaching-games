@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { BookOpen, ExternalLink, Image as ImageIcon, Link2, MapPin, Newspaper, Plus, Search, Tv, X, Globe } from 'lucide-react';
+import { BookOpen, ExternalLink, Image as ImageIcon, Library, Link2, MapPin, Newspaper, Plus, Search, Tv, X, Globe } from 'lucide-react';
 import type { RoomItem } from '@/stores/live-room-store';
 import { readSource, searchSources, sourcesMessage, SourcesError, type Surface } from '@/components/session/live-room/sources-client';
+import { LibraryPanel } from '@/components/session/live-room/library-panel';
 
 /**
  * Sources drawer: the teacher's five Google tabs in one place. Results are a
@@ -38,6 +39,7 @@ interface SourcesDrawerProps {
 }
 
 export function SourcesDrawer({ sessionId, onShow, onAdd, onClose, fill = false, visibleWarning = false }: SourcesDrawerProps) {
+  const [mode, setMode] = useState<'web' | 'library'>('web');
   const [surface, setSurface] = useState<Surface>('web');
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<RoomItem[] | null>(null);
@@ -107,6 +109,15 @@ export function SourcesDrawer({ sessionId, onShow, onAdd, onClose, fill = false,
         </p>
       )}
 
+      <div className="grid grid-cols-2 gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-1" role="tablist" aria-label="Source">
+        {([['web', 'Web search', Globe], ['library', 'Our library', Library]] as const).map(([key, label, Icon]) => (
+          <button key={key} type="button" role="tab" aria-selected={mode === key} onClick={() => setMode(key)} className={['flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-semibold', mode === key ? 'bg-cyan-400/15 text-white' : 'text-white/55 hover:text-white'].join(' ')}>
+            <Icon className="h-3.5 w-3.5" aria-hidden />{label}
+          </button>
+        ))}
+      </div>
+
+      {mode === 'library' ? <LibraryPanel sessionId={sessionId} onShow={onShow} onAdd={onAdd} /> : (<>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -223,6 +234,7 @@ export function SourcesDrawer({ sessionId, onShow, onAdd, onClose, fill = false,
           {reading && reading === link.trim() ? 'Reading…' : 'Read'}
         </button>
       </form>
+      </>)}
     </aside>
   );
 }
