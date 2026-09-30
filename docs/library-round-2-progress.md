@@ -6,7 +6,7 @@ Branch: `codex/library-round-2`, created from fetched `origin/main` (`c405b115`)
 |---|---:|---:|---:|
 | Metadata backfill | 446 | 446 missing `cefr` or `ageBand` | 446 / 446 |
 | Grammar videos | +60 | 17 | 60 / 60 |
-| Short hooks under 180 seconds | +60 | 43 | 20 / 60 |
+| Short hooks under 180 seconds | +60 | 43 | 40 / 60 |
 | Opinion/discussion texts | +40 | 10 | 0 / 40 |
 
 ## Batch log
@@ -89,3 +89,5 @@ Metadata backfill: 446 / 446 complete across 23 validated commits. Grammar video
 ## Task 3 — short hooks
 
 - Batch 1: +20 captioned clips under 180 seconds from Nat Geo Kids, National Geographic, and NASA. Topics include animals, Earth science, space, and destinations; all 20 transcripts were prefetched and verified in Supabase.
+
+- Batch 2: +20 captioned clips under 180 seconds from Nat Geo Kids and NASA, covering wildlife, simple experiments, animal communication, Earth observation, and space. All 20 transcripts were prefetched and verified in Supabase.
