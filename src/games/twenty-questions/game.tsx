@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Bot, Eye, EyeOff, Lightbulb, X, KeyRound, HelpCircle, Trophy, ArrowRight } from 'lucide-react';
+import { Users, Bot, Eye, EyeOff, Lightbulb, X, KeyRound, Mic, Send, HelpCircle, Trophy, ArrowRight } from 'lucide-react';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import type { TwentyQCard, TwentyQRoom } from '@/components/student/twenty-questions-panel';
 import type { GameProps, GameRemoteVote } from '../types';
@@ -118,6 +118,11 @@ export function TwentyQuestionsGame({
   const [hintLoading, setHintLoading] = useState(false);
   // Why a phone's question was not accepted (shown on that phone only).
   const [rejections, setRejections] = useState<Record<string, { reason: string; n: number }>>({});
+  // Speak it: raised hands (queue order) and who is asking right now.
+  const [hands, setHands] = useState<Array<{ clientId: string; name: string; studentId: string }>>([]);
+  const [called, setCalled] = useState<{ clientId: string; name: string; questionId: string } | null>(null);
+  const calledRef = useRef(called);
+  calledRef.current = called;
   const reject = (clientId: string, reason: string) =>
     setRejections((prev) => ({ ...prev, [clientId]: { reason, n: (prev[clientId]?.n ?? 0) + 1 } }));
   const clearRejection = (clientId: string) =>
@@ -131,9 +136,14 @@ export function TwentyQuestionsGame({
     questionStyle: 'any',
     questionLimit: 20,
     turnTimerSeconds: 30,
+    askMode: 'speak',
   });
 
   const isSimultaneous = students.length >= 2;
+  // Speak it needs a person to hear the question: the AI keeper always uses typed questions.
+  const speakMode = constraints.askMode === 'speak' && !aiMode;
+  const aiModeRef = useRef(aiMode);
+  aiModeRef.current = aiMode;
   const answeredQuestions = questions.filter((q) => q.answer !== null);
   const unansweredQuestions = questions.filter((q) => q.answer === null);
   const totalQuestionsAsked = answeredQuestions.length;
@@ -174,6 +184,8 @@ export function TwentyQuestionsGame({
         remaining: Math.max(0, constraints.questionLimit - totalQuestionsAsked),
         style: constraints.questionStyle,
         pending: pending ? { id: pending.id, text: pending.text, asker: pending.askerName } : null,
+        askMode: speakMode ? 'speak' : 'type',
+        keeper: aiMode ? 'the AI' : hostName,
       } satisfies TwentyQRoom,
     };
     if (hostId) {
@@ -182,6 +194,10 @@ export function TwentyQuestionsGame({
       if (hostName) data[hostName] = keeper;
     }
     Object.keys(rejections).forEach((clientId) => { data[clientId] = { role: 'asker', rejected: rejections[clientId] } satisfies TwentyQCard; });
+    if (speakMode) {
+      hands.forEach((h) => { data[h.clientId] = { role: 'asker', handUp: true } satisfies TwentyQCard; });
+      if (called) data[called.clientId] = { role: 'asker', yourTurn: true } satisfies TwentyQCard;
+    }
     onSetInputSpec?.({
       type: 'confirm',
       gameKey: 'twenty-questions',
@@ -191,7 +207,7 @@ export function TwentyQuestionsGame({
       stableInput: true,
       perStudentData: data,
     });
-  }, [status, hostId, hostName, secret, questions, constraints, totalQuestionsAsked, rejections, onSetInputSpec]);
+  }, [status, hostId, hostName, secret, questions, constraints, totalQuestionsAsked, rejections, hands, called, speakMode, aiMode, onSetInputSpec]);
 
   // A correct guess ends the round. Shared by the guessing phase AND the questioning phase — a
   // question that already names the secret ("Is it the great wall?") is really a guess, so it
@@ -218,7 +234,7 @@ export function TwentyQuestionsGame({
     if (!studentId) return;
     const raw = vote.choice?.trim();
     if (!raw) return;
-    const m = /^(secret|ask|guess|answer):([\s\S]*)$/.exec(raw);
+    const m = /^(secret|ask|guess|answer|hand):([\s\S]*)$/.exec(raw);
     const kind = m?.[1] ?? null;
     const text = (m ? m[2] : raw).trim();
     if (!text) return;
@@ -240,6 +256,21 @@ export function TwentyQuestionsGame({
       const sep = text.indexOf(':');
       if (sep < 0) return;
       handleAnswerQuestion(text.slice(0, sep), text.slice(sep + 1));
+      return;
+    }
+
+    if (currentStatus === GameStatus.COLLECTING_QUESTIONS && kind === 'hand') {
+      if (isKeeper) return;
+      setHands((prev) => (prev.some((h) => h.clientId === vote.clientId) || calledRef.current?.clientId === vote.clientId ? prev : [...prev, { clientId: vote.clientId, name: vote.displayName, studentId }]));
+      return;
+    }
+
+    // Speak it: the called student may type their spoken question onto the board.
+    if (currentStatus === GameStatus.COLLECTING_QUESTIONS && kind === 'ask' && constraintsRef.current.askMode === 'speak' && !aiModeRef.current) {
+      const c = calledRef.current;
+      if (!c || c.clientId !== vote.clientId) return;
+      if (questionNamesSecret(text, secretRef.current)) { registerCorrectGuess(text, vote.displayName, studentId); return; }
+      setQuestions((prev) => prev.map((q) => (q.id === c.questionId ? { ...q, text: /[?]$/.test(text) ? text : `${text}?` } : q)));
       return;
     }
 
@@ -381,6 +412,7 @@ export function TwentyQuestionsGame({
   };
 
   const handleAnswerQuestion = (questionId: string, answer: string) => {
+    if (calledRef.current?.questionId === questionId) setCalled(null);
     setQuestions((prev) => {
       const updated = prev.map((q) => (q.id === questionId ? { ...q, answer } : q));
       const answeredCount = updated.filter((q) => q.answer !== null).length;
@@ -451,6 +483,8 @@ export function TwentyQuestionsGame({
     setHints([]);
     setHintLoading(false);
     setRejections({});
+    setHands([]);
+    setCalled(null);
   };
 
   // ─── Hint Panel (teacher-triggered, shown to the class) ───
@@ -518,6 +552,15 @@ export function TwentyQuestionsGame({
               >
                 <p className="text-sm font-bold">{opt.label}</p>
                 <p className="text-xs opacity-60 mt-0.5">{opt.desc}</p>
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            {([['speak', 'Speak it', 'Raise hand, ask out loud (best for speaking)'], ['type', 'Type it', 'Questions typed on phones']] as const).map(([k, label, desc]) => (
+              <button key={k} type="button" onClick={() => setConstraints((prev) => ({ ...prev, askMode: k }))} className={`rounded-xl border p-3 text-left ${constraints.askMode === k ? 'border-emerald-400/40 bg-emerald-500/15 text-emerald-100' : 'border-white/10 bg-white/5 text-slate-400 hover:bg-white/10'}`}>
+                <span className="flex items-center gap-1.5 text-sm font-bold">{k === 'speak' ? <Mic className="h-4 w-4" /> : <Send className="h-4 w-4" />}{label}</span>
+                <span className="mt-0.5 block text-xs opacity-60">{desc}{k === 'speak' ? ' · the AI keeper uses typed questions' : ''}</span>
               </button>
             ))}
           </div>
@@ -697,6 +740,16 @@ export function TwentyQuestionsGame({
     </button>
   );
 
+  // Speak it: call the next raised hand; their question is logged for the keeper to answer.
+  const callNext = (h?: { clientId: string; name: string; studentId: string }) => {
+    const next = h ?? hands[0];
+    if (!next || calledRef.current) return;
+    const id = `q-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+    setQuestions((prev) => [...prev, { id, text: `${next.name} asks… (listen)`, askerName: next.name, askerId: next.studentId, answer: null, roundNumber: 1 }]);
+    setHands((prev) => prev.filter((x) => x.clientId !== next.clientId));
+    setCalled({ clientId: next.clientId, name: next.name, questionId: id });
+  };
+
   // ===== COLLECTING_QUESTIONS =====
   if (status === GameStatus.COLLECTING_QUESTIONS) {
     const nextQ = unansweredQuestions[0] ?? null;
@@ -743,6 +796,19 @@ export function TwentyQuestionsGame({
           {unansweredQuestions.length > 1 && <p className="mt-3 font-mono text-xs text-white/45">+{unansweredQuestions.length - 1} waiting</p>}
         </div>
 
+        {speakMode && (
+          <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-white/10 bg-slate-950/40 p-3">
+            <KitLabel tone="emerald">Hands up · {hands.length}</KitLabel>
+            {hands.map((h) => (
+              <button key={h.clientId} type="button" disabled={!!called} onClick={() => callNext(h)} className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1 text-sm hover:bg-white/10 disabled:opacity-40">{h.name}</button>
+            ))}
+            {hands.length === 0 && !called && <span className="text-sm text-white/45">Raise your hand on your phone to ask</span>}
+            <span className="ml-auto" />
+            {called
+              ? <KitReadout>{called.name} is asking</KitReadout>
+              : <KitButton tone="emerald" solid disabled={hands.length === 0} onClick={() => callNext()} icon={<Mic className="h-3.5 w-3.5" />}>{hands[0] ? `Call ${hands[0].name}` : 'Call next'}</KitButton>}
+          </div>
+        )}
         {answeredQuestions.length > 0 && clueBoard()}
         {renderHintPanel()}
       </div>

@@ -32,4 +32,6 @@ export interface GameConstraints {
   questionStyle: QuestionStyle;
   questionLimit: number;
   turnTimerSeconds: number;
+  /** 'speak': raise hand, ask out loud (default with a student keeper); 'type': questions typed on phones. */
+  askMode?: 'speak' | 'type';
 }
