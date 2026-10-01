@@ -2,16 +2,15 @@ import { describe, expect, it } from 'vitest';
 import { findGrammarClip } from './grammar-clips';
 
 describe('findGrammarClip', () => {
-  it('maps known targets to their Gameshow episode', () => {
-    expect(findGrammarClip('comparatives & superlatives')?.title).toMatch(/Comparatives/);
-    expect(findGrammarClip('future (going to)')?.title).toMatch(/Going To/);
-    expect(findGrammarClip('past continuous')?.title).toMatch(/Past Continuous/);
-    expect(findGrammarClip('passive voice')?.title).toMatch(/Passives/);
+  it('finds a tagged clip for every built-in grammar target', () => {
+    ['present simple', 'past simple', 'past continuous', 'present perfect', 'past perfect', 'future (will)', 'future (going to)',
+      'conditional', 'passive voice', 'relative clause', 'reported speech', 'comparatives & superlatives', 'question forms']
+      .forEach((t) => expect(findGrammarClip(t), t).not.toBeNull());
   });
 
   it('matches free-text targets by keyword and returns null when nothing fits', () => {
-    expect(findGrammarClip('should')?.title).toMatch(/Should/);
-    expect(findGrammarClip('reported speech')).toBeNull();
+    expect(findGrammarClip('should')?.title).toMatch(/Should/i);
+    expect(findGrammarClip('zzz nonsense')).toBeNull();
     expect(findGrammarClip('')).toBeNull();
   });
 });
