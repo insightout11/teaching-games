@@ -29,7 +29,7 @@ const TEXT_SOURCE_TYPES = new Set<SourceType>(['text', 'pdf', 'image', 'lyrics',
 
 type PlannerSourceKind = 'video' | 'text' | null;
 
-function getSourceKind(sourceMaterial: SourceMaterial | null | undefined): PlannerSourceKind {
+export function getSourceKind(sourceMaterial: SourceMaterial | null | undefined): PlannerSourceKind {
   if (!sourceMaterial) return null;
   if (VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType)) return 'video';
   if (TEXT_SOURCE_TYPES.has(sourceMaterial.sourceType)) return 'text';
@@ -112,7 +112,7 @@ function applyAllAroundSourceRouting(
   );
 }
 
-function buildFlightConfigForSlots(
+export function buildFlightConfigForSlots(
   flightConfig: FlightPresetConfig | undefined,
   slots: LessonSlot[],
 ): FlightPresetConfig | undefined {
@@ -138,7 +138,7 @@ function buildFlightConfigForSlots(
   };
 }
 
-function buildModulesFromPreset(
+export function buildModulesFromPreset(
   preset: FlightPlanPreset,
   sourceKind: PlannerSourceKind,
 ): PlanModule[] {

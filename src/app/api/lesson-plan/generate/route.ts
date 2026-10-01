@@ -1841,7 +1841,14 @@ Return:
   - optionA, optionB: two short, plausible options
   - correctAnswer: "A" or "B"
   - revealFact: one sentence explaining the real answer${hasSource ? ' (from the source)' : ''}`;
-  const parsed = await generateJSON<{ question?: string; questionType?: string; prediction?: { text?: string; optionA?: string; optionB?: string; correctAnswer?: string; revealFact?: string } }>(prompt, schema);
+  let parsed: { question?: string; questionType?: string; prediction?: { text?: string; optionA?: string; optionB?: string; correctAnswer?: string; revealFact?: string } } = {};
+  try {
+    parsed = await generateJSON<typeof parsed>(prompt, schema);
+  } catch {
+    // The takeoff must never block on AI: fall back to a question from the topic itself.
+    const t = topic.trim();
+    parsed = { question: t.endsWith('?') ? t : `What do you think about ${t}?`, questionType: 'opinion' };
+  }
   const type = parsed.questionType === 'problem' || parsed.questionType === 'personal' ? parsed.questionType : 'opinion';
   const p = parsed.prediction ?? {};
   const prediction = p.text && p.optionA && p.optionB

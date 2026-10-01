@@ -112,6 +112,8 @@ export interface LessonSession {
   advanceSlot: () => void;
   /** Bail out of the current activity and immediately start a different one. */
   insertAndPivotSlot: (key: string, type: 'game' | 'activity', name: string) => void;
+  /** Live Room: fly a plan in this running session right away (students are already on board). */
+  loadPlan: (content: LessonPlanPayload) => void;
   /** Turbulence: put a short break (a micro-event) next; the caller then advances into it. */
   insertTurbulence: () => void;
   /** Replace the next slot in place, preserving stageId/stageLabel/isMicroEvent. */
@@ -677,6 +679,25 @@ export function useLessonSession(
     }
   }, [currentSlotIndex, lessonSlots]);
 
+  const loadPlan = useCallback((content: LessonPlanPayload) => {
+    if (!content.slots?.length) return;
+    // Same as the mount loader, but starts at once: the class is already in the room.
+    prefetchedContentRef.current = {};
+    sourceVocabRef.current = [];
+    sceneKitRef.current = null;
+    setLessonPlanContent(content);
+    setCustomTopic(content.customTopic);
+    setSourceMaterial(content.sourceMaterial ?? null);
+    setFlightPresetId(content.flightPresetId ?? null);
+    setSettings({ scoringMode: content.scoringMode ?? goalToScoringMode(content.goal), ...(content.difficulty ? { difficulty: content.difficulty } : {}) });
+    if (content.grammarTarget) setGrammarTarget(content.grammarTarget as GrammarTarget);
+    setLessonSlots(content.slots);
+    setCurrentSlotIndex(0);
+    setPhase(LANDING_ACTIVITY_KEYS.has(content.slots[0].key) ? 'landing' : 'live');
+    pendingAutoStartRef.current = 0;
+    setSlotTrigger((c) => c + 1);
+  }, [setCustomTopic, setSourceMaterial, setFlightPresetId, setSettings, setGrammarTarget]);
+
   const insertTurbulence = useCallback(() => {
     // Alternate the break so repeated turbulence doesn't feel the same.
     const turbulenceCount = lessonSlots.filter((sl) => sl.stageId === 'turbulence').length;
@@ -825,6 +846,7 @@ export function useLessonSession(
     advanceSlot,
     insertAndPivotSlot,
     insertTurbulence,
+    loadPlan,
     replaceNextSlot,
     resolveCurrentSlot,
     goToSlot,

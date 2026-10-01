@@ -5,7 +5,8 @@ import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/
 import type { Difficulty, Tone, ScoringMode } from '@/stores/session-store';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { useLessonSession } from '@/hooks/use-lesson-session';
-import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
+import { lessonPlanStorageKey, type LessonPlanPayload } from '@/lib/lesson-plan-payload';
+import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { clearLessonRuntimeSnapshot } from '@/lib/lesson-runtime-state';
 import { clearActivityRuntimeState } from '@/lib/activity-runtime-state';
 import { GameShell } from './game-shell';
@@ -1688,6 +1689,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     sessionStorage.removeItem('lessonPlanContent');
     void fetch(`/api/session/${encodeURIComponent(session.id)}/attach-plan`, { method: 'DELETE' }).catch(() => {});
   };
+  // Live Room: start a flight plan built in the room's panel, in this session (no planner detour,
+  // no reload; the room keeps its journey). Saved on the session row so a refresh restores it.
+  const handleLaunchRoomPlan = (plan: LessonPlanPayload) => {
+    const serialized = JSON.stringify(plan);
+    sessionStorage.setItem(lessonPlanStorageKey(session.id), serialized);
+    sessionStorage.setItem('lessonPlanContent', serialized);
+    void fetch(`/api/session/${encodeURIComponent(session.id)}/attach-plan`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lessonPlanContent: plan }) }).catch(() => {});
+    lesson.loadPlan(plan);
+  };
   const leaveRoomFlightRef = useRef(leaveRoomFlight);
   leaveRoomFlightRef.current = leaveRoomFlight;
 
@@ -2132,8 +2142,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // ─── MAIN SESSION VIEW ───────────────────────────────────────────────────
   // Live Room: plan-free sessions (and room sessions between flights) teach
   // from the cockpit, which covers the page; running modules portal into it.
-  const roomActive = (LIVE_ROOM_ENV || liveRoomOptIn) && !lesson.isLessonActive
+  // A flight plan launched inside the room keeps flying IN the room (one journey).
+  const roomActive = (LIVE_ROOM_ENV || liveRoomOptIn) && (!lesson.isLessonActive || isRoomSession)
     && (!lesson.lessonPlanContent || isRoomSession) && !!roomModuleEl;
+  const roomFlightPlan = isRoomSession && lesson.isLessonActive && lesson.lessonSlots.length > 0 ? {
+    name: FLIGHT_PLAN_PRESETS.find((p) => p.id === lesson.lessonPlanContent?.flightPresetId)?.name ?? 'Flight plan',
+    index: lesson.currentSlotIndex,
+    total: lesson.lessonSlots.length,
+    stage: lesson.currentSlot?.stageLabel ?? lesson.currentSlot?.name ?? '',
+    nextLabel: (() => { const n = lesson.lessonSlots[lesson.currentSlotIndex + 1]; return n ? n.stageLabel ?? n.name : null; })(),
+    inBreak: !!lesson.currentSlot?.isMicroEvent,
+    onNext: handleNextWithRouteChoice,
+    onTurbulence: handleTurbulence,
+    onEnd: leaveRoomFlight,
+  } : null;
   const roomRunningKey = viewMode === 'game' ? selectedGame?.key ?? null
     : viewMode === 'activity' ? selectedActivity?.key ?? null : null;
   const roomPortal = (node: ReactNode) => (roomActive && roomModuleEl
@@ -2161,7 +2183,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             onEndSession={handleEndSession}
             onCompleteSession={handleCompleteSession}
             onPrefetch={lesson.prefetchForRoom}
-            flightHref={`/lesson-planner?attach=${encodeURIComponent(session.id)}&classId=${encodeURIComponent(cls.id)}`}
+            onLaunchPlan={handleLaunchRoomPlan}
+            flightPlan={roomFlightPlan}
           />
         </div>
       )}

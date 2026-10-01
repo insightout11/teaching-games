@@ -4,12 +4,14 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Blend, Crosshair, ExternalLink, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, QrCode, Search, Shuffle, Users, Video, Vote, X } from 'lucide-react';
+import { Blend, Crosshair, ExternalLink, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, QrCode, Search, Shuffle, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
+import { FlightPlanPanel } from '@/components/session/live-room/flight-plan-panel';
+import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
 import { parseWouldYouRather } from '@/lib/live-room/talk-vote';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
@@ -109,7 +111,22 @@ export interface FlightDeckProps {
   onCompleteSession: (arrivalId?: string) => void;
   /** Prepare an activity in the background for the item in focus. */
   onPrefetch?: (activity: ActivityPlugin, source: SourceMaterial) => void;
-  flightHref: string;
+  /** Fly a flight plan in this session (built in the room's Flight plan panel). */
+  onLaunchPlan: (plan: LessonPlanPayload) => void;
+  /** The running flight plan, if any: the room shows its stage bar instead of "End activity". */
+  flightPlan?: RoomFlightPlanStatus | null;
+}
+
+export interface RoomFlightPlanStatus {
+  name: string;
+  index: number;
+  total: number;
+  stage: string;
+  nextLabel: string | null;
+  inBreak: boolean;
+  onNext: () => void;
+  onTurbulence: () => void;
+  onEnd: () => void;
 }
 
 function keyOf(p: DeckParticipant) {
@@ -138,8 +155,10 @@ export function FlightDeck({
   onEndSession,
   onCompleteSession,
   onPrefetch,
-  flightHref,
+  onLaunchPlan,
+  flightPlan,
 }: FlightDeckProps) {
+  const [planOpen, setPlanOpen] = useState(false);
   const reduce = useReducedMotion();
   const scores = useSessionStore((s) => s.scores);
   const setSourceMaterial = useSessionStore((s) => s.setSourceMaterial);
@@ -182,6 +201,17 @@ export function FlightDeck({
     return list.slice(0, 24);
   }, [origin, position]);
   const [chosenId, setChosenId] = useState<string | null>(null);
+  const flightKey = `lc-room-flight-${sessionId}`;
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string } | null;
+      if (saved?.chosenId) setChosenId(saved.chosenId);
+      if (saved?.stage === 'flying' && saved.takeoffAt) { setFlightStage('flying'); setTakeoffAt(saved.takeoffAt); }
+    } catch { /* storage blocked */ }
+  }, [flightKey]);
+  useEffect(() => {
+    try { localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId })); } catch { /* storage blocked */ }
+  }, [flightKey, flightStage, takeoffAt, chosenId]);
   const destination = useMemo<RouteCity>(
     () => reachable.find((c) => c.id === chosenId) ?? reachable[hashOf(sessionId) % Math.max(1, reachable.length)] ?? HOME,
     [reachable, chosenId, sessionId],
@@ -1341,6 +1371,10 @@ export function FlightDeck({
         </p>
       )}
 
+      {planOpen && (
+        <FlightPlanPanel destinationCity={destination.city} onClose={() => setPlanOpen(false)} onLaunch={(plan) => { setPlanOpen(false); onLaunchPlan(plan); }} />
+      )}
+
       {/* The running module lives here in the Game view; elsewhere it stays mounted off-screen. */}
       {/* pb-16 keeps the floating "End activity" pill clear of the game's last buttons */}
       <div
@@ -1492,7 +1526,7 @@ export function FlightDeck({
           </button>
           {panel === 'menu' && (
             <div className="absolute right-0 top-10 z-50 w-56 rounded-xl border border-[#2A3854] bg-[#0c1322] p-1.5 shadow-2xl">
-              <a href={flightHref} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-white/5"><Plane className="h-4 w-4" /> Launch a flight</a>
+              <button type="button" onClick={() => { setPanel(null); setPlanOpen(true); }} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-white/5"><Plane className="h-4 w-4" /> Launch a flight</button>
               <button
                 type="button"
                 onClick={() => {
@@ -1626,9 +1660,24 @@ export function FlightDeck({
         )}
         {view === 'game' && runningKey && !presenting && (
           <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-            <button type="button" onClick={onReturn} className="rounded-full border border-white/25 bg-slate-950/75 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur-md hover:bg-slate-900">
-              End activity · back to the room
-            </button>
+            {flightPlan ? (
+              <>
+                <span className="rounded-full border border-amber-300/40 bg-slate-950/80 px-3 py-1.5 text-xs text-amber-100 backdrop-blur-md">{flightPlan.name} · {flightPlan.index + 1}/{flightPlan.total} {flightPlan.stage}</span>
+                {!flightPlan.inBreak && (
+                  <button type="button" onClick={flightPlan.onTurbulence} title="Turbulence: a quick fun break" className="flex items-center gap-1.5 rounded-full border border-violet-300/40 bg-slate-950/75 px-3 py-1.5 text-xs text-violet-100 backdrop-blur-md hover:bg-slate-900">
+                    <Wind className="h-3.5 w-3.5" /> Turbulence
+                  </button>
+                )}
+                <button type="button" onClick={flightPlan.onNext} className="rounded-full border border-amber-300/60 bg-amber-300/90 px-4 py-1.5 text-xs font-semibold text-slate-950 hover:bg-amber-300">
+                  {flightPlan.nextLabel ? `Next: ${flightPlan.nextLabel} →` : 'Final stage done →'}
+                </button>
+                <button type="button" onClick={flightPlan.onEnd} className="rounded-full border border-white/25 bg-slate-950/75 px-3 py-1.5 text-xs text-white/70 backdrop-blur-md hover:bg-slate-900">End flight plan</button>
+              </>
+            ) : (
+              <button type="button" onClick={onReturn} className="rounded-full border border-white/25 bg-slate-950/75 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur-md hover:bg-slate-900">
+                End activity · back to the room
+              </button>
+            )}
             <button
               type="button"
               onClick={toggleGameGlass}
@@ -1832,9 +1881,9 @@ export function FlightDeck({
             <button type="button" onClick={(e) => openTool(FLIGHT_WIDGET, e.clientX, e.clientY)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] bg-[#111A2B] px-2.5 py-1.5 text-xs text-white/70 hover:border-[#3d5176] hover:text-white">
               <Plane className="h-3.5 w-3.5" /> Flight map
             </button>
-            <a href={flightHref} className="flex items-center gap-1.5 rounded-lg border border-amber-300/40 px-2.5 py-1.5 text-xs text-amber-200 hover:bg-amber-300/10">
+            <button type="button" onClick={() => setPlanOpen(true)} className="flex items-center gap-1.5 rounded-lg border border-amber-300/40 px-2.5 py-1.5 text-xs text-amber-200 hover:bg-amber-300/10">
               <Plane className="h-3.5 w-3.5" /> Launch a flight
-            </a>
+            </button>
             <button type="button" onClick={openPopout} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/70 hover:text-white">
               <ExternalLink className="h-3.5 w-3.5" /> Sources
             </button>

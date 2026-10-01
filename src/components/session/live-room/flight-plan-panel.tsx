@@ -1,0 +1,82 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
+import { FileText, Plane, X } from 'lucide-react';
+import { useSessionStore } from '@/stores/session-store';
+import { GRAMMAR_TARGET_GROUPS, type GrammarTarget } from '@/lib/grammar';
+import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
+import { buildRoomFlightPlan, roomFlightPresets } from '@/lib/live-room/room-flight-plan';
+
+/**
+ * Launch a flight from inside the Live Room: preset cards, prefilled from the room (the topic,
+ * the source on screen, the level, the grammar focus). Only what a preset genuinely needs is
+ * asked (the grammar point for Grammar). Flies in this session; the room keeps the journey.
+ */
+export function FlightPlanPanel({ destinationCity, onLaunch, onClose }: { destinationCity: string; onLaunch: (plan: LessonPlanPayload) => void; onClose: () => void }) {
+  const settings = useSessionStore((s) => s.settings);
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const presets = useMemo(() => roomFlightPresets(), []);
+  const [presetId, setPresetId] = useState(presets[0]?.id ?? '');
+  const [topic, setTopic] = useState(settings.customTopic || sourceMaterial?.title || '');
+  const [grammar, setGrammar] = useState<string>(settings.grammarTarget ?? '');
+  const preset = presets.find((p) => p.id === presetId);
+  const needsGrammar = presetId === 'grammar-60';
+  const ready = !!preset && (topic.trim().length > 0 || !!sourceMaterial) && (!needsGrammar || !!grammar);
+
+  const launch = () => {
+    if (!preset || !ready) return;
+    onLaunch(buildRoomFlightPlan({ preset, topic, difficulty: settings.difficulty, sourceMaterial, grammarTarget: (grammar || null) as GrammarTarget | null }));
+  };
+
+  return (
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} onClick={(e) => e.stopPropagation()} className="w-full max-w-3xl space-y-5 rounded-3xl border border-white/10 bg-slate-950/95 p-6 text-white shadow-2xl">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.25em] text-amber-300">Flight plan · to {destinationCity}</p>
+            <p className="mt-1 font-display text-3xl">What kind of flight today?</p>
+          </div>
+          <button type="button" onClick={onClose} className="rounded-full p-2 text-white/60 hover:bg-white/10" aria-label="Close"><X className="h-5 w-5" /></button>
+        </div>
+
+        <div className="grid gap-2 sm:grid-cols-2">
+          {presets.map((p) => (
+            <button key={p.id} type="button" onClick={() => setPresetId(p.id)} className={`rounded-2xl border p-4 text-left transition ${p.id === presetId ? 'border-amber-300 bg-amber-300/10' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
+              <p className="font-display text-xl">{p.name}</p>
+              <p className="text-sm text-white/60">{p.tagline ?? p.description}</p>
+            </button>
+          ))}
+        </div>
+
+        <div className="space-y-3">
+          <label className="block">
+            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Topic</span>
+            <input value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="What's today's flight about?" className="mt-1 w-full rounded-xl border border-white/15 bg-slate-900 px-4 py-2.5 text-lg text-white outline-none focus:border-amber-300/60" />
+          </label>
+          {sourceMaterial && (
+            <p className="flex items-center gap-2 rounded-xl border border-cyan-300/30 bg-cyan-400/[0.06] px-3 py-2 text-sm text-cyan-100"><FileText className="h-4 w-4 shrink-0" />Built from the source in focus: <span className="truncate text-white">{sourceMaterial.title}</span></p>
+          )}
+          {needsGrammar && (
+            <label className="block">
+              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Grammar point</span>
+              <select value={grammar} onChange={(e) => setGrammar(e.target.value)} className="mt-1 w-full rounded-xl border border-white/15 bg-slate-900 px-4 py-2.5 text-lg text-white outline-none">
+                <option value="">Choose…</option>
+                {Object.entries(GRAMMAR_TARGET_GROUPS).map(([group, targets]) => (
+                  <optgroup key={group} label={group}>{targets.map((t) => <option key={t} value={t}>{t}</option>)}</optgroup>
+                ))}
+              </select>
+            </label>
+          )}
+        </div>
+
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-sm text-white/50">Level: {settings.difficulty}. Students stay on board.</p>
+          <button type="button" disabled={!ready} onClick={launch} className="flex items-center gap-2 rounded-full bg-amber-300 px-6 py-3 font-semibold text-slate-950 disabled:opacity-40">
+            <Plane className="h-4 w-4" />Start the flight plan
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}

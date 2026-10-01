@@ -356,7 +356,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     id: 'all-around-flight-60',
     name: "Captain's Flight",
     description: 'One big question, investigated: take a stance, explore the source, learn the words, argue it out, play a review game, and land with the Verdict.',
-    tagline: 'The all-rounder — comprehend a source, then discuss',
+    tagline: 'One big question, investigated: source, words, discussion, verdict',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
     lessonType: 'skill-builder',
