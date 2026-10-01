@@ -165,6 +165,18 @@ export function useLessonSession(
   // What later stages should build on: the key phrases (sourceVocabRef, above) and the scene
   // once Scene Igniter has played, so Conversation Rounds can continue it.
   const sceneKitRef = useRef<{ title: string; context: string; characters?: string[]; keyLines?: string[] } | null>(null);
+  const setLessonKitInStore = useSessionStore((s) => s.setLessonKit);
+  const publishKit = useCallback(() => {
+    if (lessonSlots.length <= 1) return; // flight plans only
+    const phrases = sourceVocabRef.current.map((v) => v.term).filter(Boolean).slice(0, 8);
+    const scene = sceneKitRef.current ? { title: sceneKitRef.current.title, context: sceneKitRef.current.context, ...(sceneKitRef.current.characters ? { characters: sceneKitRef.current.characters } : {}) } : undefined;
+    const grammarTarget = useSessionStore.getState().settings.grammarTarget ?? undefined;
+    setLessonKitInStore(phrases.length || scene || grammarTarget ? { ...(phrases.length ? { phrases } : {}), ...(scene ? { scene } : {}), ...(grammarTarget ? { grammarTarget } : {}) } : null);
+  }, [lessonSlots.length, setLessonKitInStore]);
+  const publishKitRef = useRef(publishKit);
+  publishKitRef.current = publishKit;
+  // The grammar target is confirmed mid-lesson (Check-in), so re-publish when it changes.
+  useEffect(() => { publishKit(); }, [publishKit, settings.grammarTarget]);
   const captureKit = useCallback((key: string, content: unknown) => {
     if (key !== 'scene-igniter' || !content) return;
     const scene = (content as { scenes?: Array<{ title?: string; context?: string; cast?: Array<{ name?: string; role?: string }>; lines?: Array<{ text?: string }> }> }).scenes?.[0];
@@ -172,11 +184,13 @@ export function useLessonSession(
     const characters = (scene.cast ?? []).map((c) => (c?.name ? `${c.name}${c.role ? ` (${c.role})` : ''}` : '')).filter(Boolean);
     const keyLines = (scene.lines ?? []).map((l) => l.text ?? '').filter(Boolean).slice(0, 4);
     sceneKitRef.current = { title: scene.title, context: scene.context, ...(characters.length ? { characters } : {}), ...(keyLines.length ? { keyLines } : {}) };
+    publishKitRef.current();
   }, []);
 
   const captureSourceVocab = useCallback((data: Pick<LessonPlanGenerateResponse, 'sourceVocab'>) => {
     if (data.sourceVocab?.length && sourceVocabRef.current.length === 0) {
       sourceVocabRef.current = data.sourceVocab;
+      publishKitRef.current();
       if (sessionId) {
         fetch('/api/session/reference-materials', {
           method: 'POST',

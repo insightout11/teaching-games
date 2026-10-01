@@ -50,6 +50,7 @@ interface RacePlayer {
 
 export function ConnectionsGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<ConnectionsChallenge | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
@@ -317,7 +318,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
         body: JSON.stringify({
           topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty,
-          ...(sourceMaterial ? { sourceMaterial } : {}),
+          ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}),
         }),
         cache: 'no-store',
       });

@@ -5,7 +5,7 @@ import type { Difficulty } from '@/stores/session-store';
 import type { Topic } from '@/stores/session-store';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { difficultyDescriptions } from '@/lib/difficulty';
-import { resolveSourceContext } from '@/lib/source-context';
+import { resolveSourceContext, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 export const dynamic = 'force-dynamic';
@@ -97,15 +97,15 @@ export async function POST(request: NextRequest) {
   const limited = await checkAndRecordAiUsage(teacher);
   if (limited) return limited;
 
-  const { topic, difficulty, qType, sourceMaterial } = await request.json() as {
+  const { topic, difficulty, qType, sourceMaterial, lessonKit } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     qType: 'speaking' | 'written';
-    sourceMaterial?: SourceMaterial;
+    sourceMaterial?: SourceMaterial; lessonKit?: LessonKit;
   };
 
   // Ground questions in the lesson's source material when one is attached.
-  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const sourceContext = await resolveSourceContext(sourceMaterial, lessonKit);
 
   try {
     const randomSeed = Math.random().toString(36).substring(7);

@@ -27,6 +27,7 @@ interface RaceSolver {
 
 export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, config, isMicroEvent }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
 
@@ -306,7 +307,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           tone: sessionSettings.tone,
           seenItems: seenItemsRef.current,
           excludeCacheIds: seenCacheIdsRef.current,
-          ...(sourceMaterial ? { sourceMaterial } : {}),
+          ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}),
         })
       });
 
@@ -375,7 +376,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
             tone: sessionSettings.tone,
             seenItems: seenItemsRef.current,
             excludeCacheIds: seenCacheIdsRef.current,
-            ...(sourceMaterial ? { sourceMaterial } : {}),
+            ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}),
           })
         });
 

@@ -5,7 +5,7 @@ import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { sentenceScrambleFallback } from '@/lib/fallback-content';
-import { resolveSourceContext } from '@/lib/source-context';
+import { resolveSourceContext, hasLessonKit, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 export const dynamic = 'force-dynamic';
@@ -37,18 +37,18 @@ export async function POST(request: NextRequest) {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
 
-  const { topic, difficulty, excludeCacheIds = [], grammarTarget, sourceMaterial } = await request.json() as {
+  const { topic, difficulty, excludeCacheIds = [], grammarTarget, sourceMaterial, lessonKit } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
     grammarTarget?: string;
-    sourceMaterial?: SourceMaterial;
+    sourceMaterial?: SourceMaterial; lessonKit?: LessonKit;
   };
 
   // Ground the sentences in the lesson's source material when one is attached.
-  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const sourceContext = await resolveSourceContext(sourceMaterial, lessonKit);
   // Skip cache when targeting a specific grammar feature — live, focused content needed.
-  const skipCache = !!sourceMaterial || !!grammarTarget;
+  const skipCache = !!sourceMaterial || hasLessonKit(lessonKit) || !!grammarTarget;
 
   try {
     // 1. Check cache first (skipped when grounding in source material)

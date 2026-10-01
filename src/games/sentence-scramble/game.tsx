@@ -53,6 +53,7 @@ interface RaceSolver {
 
 export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, isMicroEvent }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
   const [sentences, setSentences] = useState<string[]>(FALLBACK_SENTENCES);
   const [sentenceAlternatives, setSentenceAlternatives] = useState<Record<string, string[]>>({});
   const [loadingSentences, setLoadingSentences] = useState(true);
@@ -75,7 +76,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
         topic: effectiveTopic,
         difficulty: sessionSettings.difficulty,
         ...(sessionSettings.grammarTarget ? { grammarTarget: sessionSettings.grammarTarget } : {}),
-        ...(sourceMaterial ? { sourceMaterial } : {}),
+        ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}),
       }),
     })
       .then(res => res.json())

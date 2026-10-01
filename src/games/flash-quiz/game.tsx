@@ -166,6 +166,7 @@ export function FlashQuizGame({
   const seenCacheIds = useSessionStore((s) => s.seenCacheIds);
   const addSeenCacheId = useSessionStore((s) => s.addSeenCacheId);
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
   const tripLog = useSessionStore((s) => s.tripLog);
   const isTrip = tripLog.length > 0;
   const { material } = useRoom(sessionId ?? '');
@@ -316,6 +317,7 @@ export function FlashQuizGame({
           count,
           excludeCacheIds: seenCacheIds,
           ...(source ? { sourceMaterial: source } : {}),
+          ...(lessonKit ? { lessonKit } : {}),
           ...(isTrip ? { trip: { stops: tripLog } } : {}),
         }),
       });
@@ -329,7 +331,7 @@ export function FlashQuizGame({
       setError('Could not write the quiz right now. Try again.');
       setPhase('setup');
     }
-  }, [addSeenCacheId, classSource, difficulty, isTrip, mode, questionCount, seenCacheIds, sourceMaterial, topic, tripLog]);
+  }, [addSeenCacheId, classSource, difficulty, isTrip, mode, questionCount, seenCacheIds, sourceMaterial, lessonKit, topic, tripLog]);
 
   const openQuestion = useCallback((index: number) => {
     const question = questionsRef.current[index];

@@ -5,7 +5,7 @@ import type { Difficulty } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { difficultyDescriptions } from '@/lib/difficulty';
-import { resolveSourceContext } from '@/lib/source-context';
+import { resolveSourceContext, hasLessonKit, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 export const dynamic = 'force-dynamic';
@@ -169,12 +169,12 @@ export async function POST(request: NextRequest) {
   const limited = await checkAndRecordAiUsage(teacher);
   if (limited) return limited;
 
-  const { topic, difficulty, count = 10, excludeCacheIds = [], sourceMaterial, trip } = await request.json() as {
+  const { topic, difficulty, count = 10, excludeCacheIds = [], sourceMaterial, lessonKit, trip } = await request.json() as {
     topic: string;
     difficulty: Difficulty;
     count?: number;
     excludeCacheIds?: string[];
-    sourceMaterial?: SourceMaterial;
+    sourceMaterial?: SourceMaterial; lessonKit?: LessonKit;
     trip?: { stops: TripStop[] };
   };
 
@@ -188,8 +188,8 @@ export async function POST(request: NextRequest) {
   // When a lesson has source material (an article/video) OR is a trip review, ground the quiz
   // in it. Generic topic-only content is never served for grounded lessons — so skip the shared
   // topic cache for both reads and writes (mirrors lesson-plan/generate).
-  const sourceContext = await resolveSourceContext(sourceMaterial);
-  const skipCache = !!sourceMaterial || isTrip;
+  const sourceContext = await resolveSourceContext(sourceMaterial, lessonKit);
+  const skipCache = !!sourceMaterial || hasLessonKit(lessonKit) || isTrip;
 
   try {
     // 1. Check cache first (skipped when grounding in source material)

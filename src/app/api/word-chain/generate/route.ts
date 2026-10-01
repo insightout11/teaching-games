@@ -5,7 +5,7 @@ import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { wordChainFallback } from '@/lib/fallback-content';
-import { resolveSourceContext } from '@/lib/source-context';
+import { resolveSourceContext, hasLessonKit, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 export const maxDuration = 60;
@@ -34,16 +34,16 @@ export async function POST(request: NextRequest) {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
 
-  const { topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {
+  const { topic, difficulty, excludeCacheIds = [], sourceMaterial, lessonKit } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
-    sourceMaterial?: SourceMaterial;
+    sourceMaterial?: SourceMaterial; lessonKit?: LessonKit;
   };
 
   // Ground the starting word in the lesson's source material when one is attached.
-  const sourceContext = await resolveSourceContext(sourceMaterial);
-  const skipCache = !!sourceMaterial;
+  const sourceContext = await resolveSourceContext(sourceMaterial, lessonKit);
+  const skipCache = !!sourceMaterial || hasLessonKit(lessonKit);
 
   try {
     // 1. Check cache first (skipped when grounding in source material)

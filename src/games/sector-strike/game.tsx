@@ -211,6 +211,7 @@ export function SectorStrikeGame({
   const topic = getEffectiveTopic(sessionSettings);
   const { difficulty } = sessionSettings;
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
   // Human-facing theme for fallback question text — prefers the source title over a bare 'General'.
   const displayTopic = getDisplayTopic(sessionSettings, sourceMaterial);
   const questionMode = (config.questionMode as string) ?? 'both';
@@ -319,7 +320,7 @@ export function SectorStrikeGame({
       const res = await fetch('/api/sector-strike/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, difficulty, qType, ...(sourceMaterial ? { sourceMaterial } : {}) }),
+        body: JSON.stringify({ topic, difficulty, qType, ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}) }),
       });
       if (!res.ok) return null;
       return await res.json() as { question: string; options?: string[]; correctIndex?: number };
@@ -604,7 +605,7 @@ export function SectorStrikeGame({
       const res = await fetch('/api/sector-strike/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, difficulty, qType: cell.qType, ...(sourceMaterial ? { sourceMaterial } : {}) }),
+        body: JSON.stringify({ topic, difficulty, qType: cell.qType, ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}) }),
         signal: fetchControllerRef.current.signal,
       });
       if (livePhase() !== 'loading') return;

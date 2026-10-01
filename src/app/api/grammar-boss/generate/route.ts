@@ -6,7 +6,7 @@ import { GrammarTarget } from '@/games/grammar-boss/types';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuthForGeneration } from '@/lib/auth-credits';
 import { grammarBossFallback } from '@/lib/fallback-content';
-import { resolveSourceContext } from '@/lib/source-context';
+import { resolveSourceContext, hasLessonKit, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 export const maxDuration = 60;
@@ -36,17 +36,17 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuthForGeneration();
   if (authError) return authError;
 
-  const { grammarTarget, topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {
+  const { grammarTarget, topic, difficulty, excludeCacheIds = [], sourceMaterial, lessonKit } = await request.json() as {
     grammarTarget: GrammarTarget;
     topic: Topic;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
-    sourceMaterial?: SourceMaterial;
+    sourceMaterial?: SourceMaterial; lessonKit?: LessonKit;
   };
 
   // Ground the speaking task in the lesson's source material when one is attached.
-  const sourceContext = await resolveSourceContext(sourceMaterial);
-  const skipCache = !!sourceMaterial;
+  const sourceContext = await resolveSourceContext(sourceMaterial, lessonKit);
+  const skipCache = !!sourceMaterial || hasLessonKit(lessonKit);
 
   try {
     // 1. Check cache first — variant = grammarTarget to scope cache per grammar structure

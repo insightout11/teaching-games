@@ -4,7 +4,7 @@ import type { AISchema } from '@/lib/ai';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
-import { resolveSourceContext } from '@/lib/source-context';
+import { resolveSourceContext, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 export const maxDuration = 60;
@@ -27,10 +27,10 @@ export async function POST(request: NextRequest) {
   if (limited) return limited;
 
   try {
-    const { topic, difficulty, sourceMaterial, avoid } = await request.json() as { topic: string; difficulty: Difficulty; sourceMaterial?: SourceMaterial; avoid?: string[] };
+    const { topic, difficulty, sourceMaterial, lessonKit, avoid } = await request.json() as { topic: string; difficulty: Difficulty; sourceMaterial?: SourceMaterial; lessonKit?: LessonKit; avoid?: string[] };
 
     // Draw the secret from the lesson's source material when one is attached.
-    const sourceContext = await resolveSourceContext(sourceMaterial);
+    const sourceContext = await resolveSourceContext(sourceMaterial, lessonKit);
 
     const avoidList = Array.isArray(avoid) ? avoid.filter(Boolean) : [];
     const avoidText = avoidList.length

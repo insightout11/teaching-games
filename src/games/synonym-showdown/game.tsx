@@ -58,6 +58,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   const storeSeenItems = useSessionStore((s) => s.seenItemsByGame['synonym-showdown']) ?? EMPTY_SEEN;
   const storeSeenCacheIds = useSessionStore((s) => s.seenCacheIds);
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
   const seenItemsRef = useRef<string[]>([]);
   const seenCacheIdsRef = useRef<string[]>([]);
   const accumulatedValidSynonymsRef = useRef<string[]>([]);
@@ -331,7 +332,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
           seenItems: seenItemsRef.current,
           excludeCacheIds: seenCacheIdsRef.current,
           seenSynonyms: accumulatedValidSynonymsRef.current,
-          ...(sourceMaterial ? { sourceMaterial } : {}),
+          ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}),
         }),
         cache: 'no-store',
       });

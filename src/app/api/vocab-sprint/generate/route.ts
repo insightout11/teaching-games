@@ -5,7 +5,7 @@ import type { Difficulty, Topic, Tone } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { vocabSprintFallback } from '@/lib/fallback-content';
-import { resolveSourceContext } from '@/lib/source-context';
+import { resolveSourceContext, hasLessonKit, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 export const maxDuration = 60;
@@ -57,20 +57,20 @@ export async function POST(request: NextRequest) {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
 
-  const { difficulty, topic, tone, seenItems = [], excludeCacheIds = [], keyVocabWords, sourceMaterial } = await request.json() as {
+  const { difficulty, topic, tone, seenItems = [], excludeCacheIds = [], keyVocabWords, sourceMaterial, lessonKit } = await request.json() as {
     difficulty: Difficulty;
     topic: Topic;
     tone: Tone;
     seenItems?: string[];
     excludeCacheIds?: string[];
     keyVocabWords?: string[]; // Vocab Radar output — feeds hard round targets
-    sourceMaterial?: SourceMaterial;
+    sourceMaterial?: SourceMaterial; lessonKit?: LessonKit;
   };
 
   // Ground the sentences in the lesson's source material when attached.
-  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const sourceContext = await resolveSourceContext(sourceMaterial, lessonKit);
   // Source-grounded content is lesson-specific — never serve or store it from the shared cache.
-  const skipCache = !!sourceMaterial;
+  const skipCache = !!sourceMaterial || hasLessonKit(lessonKit);
 
   try {
     // When vocab words are provided the hard rounds are session-specific — skip cache

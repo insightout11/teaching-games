@@ -13,6 +13,7 @@ import type { CharacterCard } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
 import { countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 import { logRealtimeDiagnostic } from '@/lib/realtime-health';
+import type { LessonKit } from '@/lib/source-context';
 
 
 export type PickerMode = 'fair' | 'random';
@@ -210,6 +211,8 @@ interface SessionState {
   // Lesson Thread — what happened earlier in THIS lesson, for later stages to build on
   // (e.g. Quick Pulse at takeoff is Opinion Shift's "before" at landing). Clears per session.
   lessonThread: LessonThread;
+  // Lesson Kit (key phrases, scene, grammar target) sent by self-generating games to their routes.
+  lessonKit: LessonKit | null;
 
   // Actions
   initSession: (sessionId: string, classId: string, students: Student[]) => void;
@@ -243,6 +246,7 @@ interface SessionState {
   setPredictionResults: (results: PredictionResult[]) => void;
   addFlightLogEntry: (entry: FlightLogEntry) => void;
   recordPulse: (entry: ThreadPulse) => void;
+  setLessonKit: (kit: LessonKit | null) => void;
   recordGrammarCheck: (entry: ThreadGrammarCheck) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
@@ -348,6 +352,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   predictionResults: [],
   flightLog: [],
   lessonThread: { pulse: [] },
+  lessonKit: null,
   flightPresetId: null,
 
   initSession: (sessionId, classId, students) => {
@@ -389,6 +394,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       // flightLog clears per session; flightPresetId is set separately on lesson load.
       flightLog: [],
       lessonThread: { pulse: [] },
+      lessonKit: null,
     });
   },
 
@@ -399,6 +405,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   },
 
   setPredictionResults: (results) => set({ predictionResults: results }),
+
+  setLessonKit: (kit) => set({ lessonKit: kit }),
 
   recordGrammarCheck: (entry) => set({ lessonThread: { ...get().lessonThread, grammarCheck: entry } }),
 
@@ -697,6 +705,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       predictionResults: [],
       flightLog: [],
       lessonThread: { pulse: [] },
+      lessonKit: null,
       flightPresetId: null,
     });
   },

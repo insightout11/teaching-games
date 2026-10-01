@@ -26,6 +26,7 @@ interface RaceSolver {
 
 export function DialogueDetectiveGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [response, setResponse] = useState('');
@@ -222,7 +223,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
           topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty,
           excludeCacheIds: seenCacheIdsRef.current,
-          ...(sourceMaterial ? { sourceMaterial } : {}),
+          ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}),
         })
       });
 

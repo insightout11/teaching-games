@@ -76,6 +76,10 @@ The teacher's grammar point maps to a family. Each family has a **speaking frame
 6. **Grammar Hunt** (phone mission + stamps; landing count).
 7. **Struggles record → review game**, and the new Grammar flight order.
 
-## Open questions
+## Decisions (Oct 1 2026)
+- Grammar Hunt runs in **every** preset that has a grammar target (e.g. a Speak lesson with a target).
+- **Fix the Captain replaces Error Hunter** in the Grammar flight; Error Hunter stays in the catalogue and can be swapped in.
+
+## Open questions (resolved above)
 - Should Grammar Hunt run in **every** preset when a grammar target is set (e.g. a Speak lesson with a target), or only in the Grammar flight?
 - Should **Error Hunter** stay as an option alongside Fix the Captain, or be replaced by it in this flight?

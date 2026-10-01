@@ -4,7 +4,7 @@ import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
-import { resolveSourceContext } from '@/lib/source-context';
+import { resolveSourceContext, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 export const dynamic = 'force-dynamic';
@@ -29,16 +29,16 @@ export async function POST(request: NextRequest) {
   const limited = await checkAndRecordAiUsage(teacher);
   if (limited) return limited;
 
-  const { topic, difficulty, count = 3, sourceMaterial, avoid } = await request.json() as {
+  const { topic, difficulty, count = 3, sourceMaterial, lessonKit, avoid } = await request.json() as {
     topic: string;
     difficulty: Difficulty;
     count?: number;
-    sourceMaterial?: SourceMaterial;
+    sourceMaterial?: SourceMaterial; lessonKit?: LessonKit;
     avoid?: string[];
   };
 
   // Springboard the statements off the lesson's source material when one is attached.
-  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const sourceContext = await resolveSourceContext(sourceMaterial, lessonKit);
 
   const avoidList = Array.isArray(avoid) ? avoid.filter(Boolean) : [];
   const avoidText = avoidList.length

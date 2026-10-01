@@ -23,6 +23,7 @@ interface TeamState {
 
 export function WordChainGame({ currentStudentId, students, onScore, onPickStudent, onPickSpecificStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [startingWord, setStartingWord] = useState('');
   const [hint, setHint] = useState('');
@@ -462,7 +463,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
         body: JSON.stringify({
           topic: themeTopic,
           difficulty: sessionSettings.difficulty,
-          ...(sourceMaterial ? { sourceMaterial } : {}),
+          ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}),
         })
       });
 

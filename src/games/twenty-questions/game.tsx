@@ -101,6 +101,7 @@ export function TwentyQuestionsGame({
   onRegisterRemoteVoteHandler,
 }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
   // ─── State ───
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [hostId, setHostId] = useState<string | null>(null);
@@ -372,7 +373,7 @@ export function TwentyQuestionsGame({
       const res = await fetch('/api/twenty-questions/pick-secret', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic: sessionSettings.customTopic || sessionSettings.topic, difficulty: sessionSettings.difficulty, avoid: usedSecretsRef.current, ...(sourceMaterial ? { sourceMaterial } : {}) }),
+        body: JSON.stringify({ topic: sessionSettings.customTopic || sessionSettings.topic, difficulty: sessionSettings.difficulty, avoid: usedSecretsRef.current, ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}) }),
       });
       if (!res.ok) throw new Error('Failed');
       const data: { secret: string } = await res.json();

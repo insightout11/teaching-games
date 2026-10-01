@@ -5,7 +5,7 @@ import type { Difficulty, Topic } from '@/stores/session-store';
 import type { GridContent } from '@/games/grid-rush/types';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { gridRushFallback } from '@/lib/fallback-content';
-import { resolveSourceContext } from '@/lib/source-context';
+import { resolveSourceContext, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 export const maxDuration = 60;
@@ -37,14 +37,14 @@ export async function POST(request: NextRequest) {
   const limited = await checkAndRecordAiUsage(teacher);
   if (limited) return limited;
 
-  const { topic, difficulty, sourceMaterial } = await request.json() as {
+  const { topic, difficulty, sourceMaterial, lessonKit } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
-    sourceMaterial?: SourceMaterial;
+    sourceMaterial?: SourceMaterial; lessonKit?: LessonKit;
   };
 
   // Ground the topic words (and letter bias) in the lesson's source material when attached.
-  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const sourceContext = await resolveSourceContext(sourceMaterial, lessonKit);
 
   try {
     // Always generate fresh — no cache. Grid-rush needs variety every game.

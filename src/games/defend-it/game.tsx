@@ -43,6 +43,7 @@ export function DefendItGame({
   const roundCount = Number(config.roundCount ?? 3);
   const classMission = useSessionStore((s) => s.classMission);
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
   const topic = classMission || getEffectiveTopic(sessionSettings);
 
   // ─── State ───
@@ -156,7 +157,7 @@ export function DefendItGame({
       const res = await fetch('/api/defend-it/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, difficulty: sessionSettings.difficulty, count: roundCount, avoid: usedStatementsRef.current, ...(sourceMaterial ? { sourceMaterial } : {}) }),
+        body: JSON.stringify({ topic, difficulty: sessionSettings.difficulty, count: roundCount, avoid: usedStatementsRef.current, ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}) }),
         cache: 'no-store',
       });
       if (!res.ok) throw new Error('Failed to generate');

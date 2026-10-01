@@ -62,6 +62,7 @@ function getLessonGrammarTarget(): GrammarTarget | null {
 
 export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(
     sessionSettings.grammarTarget ?? getLessonGrammarTarget() ?? GrammarTarget.PresentSimple
@@ -342,7 +343,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty,
           excludeCacheIds: seenCacheIdsRef.current,
-          ...(sourceMaterial ? { sourceMaterial } : {}),
+          ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}),
         })
       });
 

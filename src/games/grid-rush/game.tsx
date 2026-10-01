@@ -85,6 +85,7 @@ export function GridRushGame({
   const topicRef = useRef(getEffectiveTopic(sessionSettings));
   topicRef.current = getEffectiveTopic(sessionSettings);
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const lessonKit = useSessionStore((s) => s.lessonKit);
 
   // Maps internal studentId key → clientId (localStorage UUID) so perStudentData can be keyed by clientId
   const studentIdToClientIdRef = useRef<Record<string, string>>({});
@@ -201,7 +202,7 @@ export function GridRushGame({
         body: JSON.stringify({
           topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty,
-          ...(sourceMaterial ? { sourceMaterial } : {}),
+          ...(sourceMaterial ? { sourceMaterial } : {}), ...(lessonKit ? { lessonKit } : {}),
         }),
       });
 

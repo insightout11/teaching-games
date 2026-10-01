@@ -95,8 +95,32 @@ export async function fetchSourceTranscript(source?: SourceMaterial): Promise<st
  * block in one call. Used by standalone generate routes that receive a
  * SourceMaterial directly.
  */
-export async function resolveSourceContext(source?: SourceMaterial): Promise<string> {
-  if (!source) return '';
+export async function resolveSourceContext(source?: SourceMaterial, kit?: LessonKit | null): Promise<string> {
+  const kitCtx = buildKitContext(kit);
+  if (!source) return kitCtx;
   const transcript = await fetchSourceTranscript(source);
-  return buildSourceContext(source, transcript);
+  return `${buildSourceContext(source, transcript)}${kitCtx}`;
+}
+
+/**
+ * Lesson Kit: what earlier stages of THIS lesson established, sent by every stage so later
+ * games reuse the lesson's language instead of only knowing the topic.
+ */
+export interface LessonKit {
+  phrases?: string[];
+  scene?: { title: string; context: string; characters?: string[] };
+  grammarTarget?: string;
+}
+
+export function hasLessonKit(kit?: LessonKit | null): boolean {
+  return !!(kit && (kit.phrases?.length || kit.scene || kit.grammarTarget));
+}
+
+export function buildKitContext(kit?: LessonKit | null): string {
+  if (!hasLessonKit(kit)) return '';
+  const parts: string[] = [];
+  if (kit!.phrases?.length) parts.push(`LESSON KEY PHRASES (taught earlier in this lesson; reuse several of them naturally): ${kit!.phrases.slice(0, 8).join(', ')}`);
+  if (kit!.scene) parts.push(`SCENE ALREADY PLAYED IN THIS LESSON: "${kit!.scene.title}". ${kit!.scene.context}${kit!.scene.characters?.length ? ` Characters: ${kit!.scene.characters.join(', ')}.` : ''}`);
+  if (kit!.grammarTarget) parts.push(`LESSON GRAMMAR TARGET: ${kit!.grammarTarget} (use it naturally where it fits).`);
+  return `\n\n${parts.join('\n')}`;
 }

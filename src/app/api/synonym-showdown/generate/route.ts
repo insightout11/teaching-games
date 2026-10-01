@@ -5,7 +5,7 @@ import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { synonymShowdownFallback } from '@/lib/fallback-content';
-import { resolveSourceContext } from '@/lib/source-context';
+import { resolveSourceContext, hasLessonKit, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 // Prevent Next.js from caching this route
@@ -37,20 +37,20 @@ export async function POST(request: NextRequest) {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
 
-  const { topic, difficulty, seenItems = [], excludeCacheIds = [], seenSynonyms = [], sourceMaterial } = await request.json() as {
+  const { topic, difficulty, seenItems = [], excludeCacheIds = [], seenSynonyms = [], sourceMaterial, lessonKit } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     seenItems?: string[];       // targetWords seen this session — AI avoids repeating them
     excludeCacheIds?: string[]; // cache entry IDs already served this session
     seenSynonyms?: string[];    // valid synonyms students already used — AI avoids same cluster
-    sourceMaterial?: SourceMaterial;
+    sourceMaterial?: SourceMaterial; lessonKit?: LessonKit;
   };
 
   // Ground the challenge in the lesson's source material when one is attached.
   // Source-grounded content is never served from (or written to) the shared
   // topic cache, so it can't leak into non-source sessions on the same topic.
-  const sourceContext = await resolveSourceContext(sourceMaterial);
-  const skipCache = !!sourceMaterial;
+  const sourceContext = await resolveSourceContext(sourceMaterial, lessonKit);
+  const skipCache = !!sourceMaterial || hasLessonKit(lessonKit);
 
   try {
     // 1. Check cache first (zero AI latency when hit)
