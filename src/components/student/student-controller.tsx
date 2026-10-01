@@ -27,7 +27,7 @@ import { DebatePrepPanel } from './debate-prep-panel';
 import { VALIDATION } from '@/lib/config/rate-limits';
 import { buildStandbyTipPool } from '@/lib/standby-tips';
 import { grammarReference } from '@/lib/grammar';
-import { Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, RadioTower, ClipboardCheck, Check, ChevronRight } from 'lucide-react';
+import { Plane, PlaneLanding, Send, Zap, Award, Wind, RadioTower, ClipboardCheck, Check, ChevronRight } from 'lucide-react';
 import { openHandChannel, HAND_HEARTBEAT_MS } from '@/lib/live-room/hands';
 import { openWordBankChannel } from '@/lib/live-room/word-bank';
 import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
