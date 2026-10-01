@@ -1,5 +1,6 @@
 'use client';
 
+import { GrammarHuntStrip } from './grammar-hunt-strip';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, useAnimationControls, useReducedMotion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -1449,6 +1450,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         aside={studentSession.captain ? <CrewAvatar seed={studentSession.avatarSeed} name={studentSession.displayName} captain size={32} /> : undefined}
         onLeave={onLeave}
       />
+
+      {grammarTarget && <GrammarHuntStrip sessionId={sessionId} clientId={studentSession.clientId} name={studentSession.displayName} target={grammarTarget} />}
 
       {/* Active Poll — side-channel polls render inside Crew Radio instead */}
       {activePoll && !hiddenPollIds.has(activePoll.pollId) && activePoll.metadata?.channel !== 'side' && (

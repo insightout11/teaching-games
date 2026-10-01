@@ -5,6 +5,7 @@ import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/
 import type { SessionSettings, ScoringMode } from '@/stores/session-store';
 import type { Difficulty } from '@/stores/session-store';
 import { grammarFamily, type GrammarTarget } from '@/lib/grammar';
+import { openHuntChannel } from '@/lib/live-room/hunt';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent, SourceVocabItem, LessonPlanGenerateResponse } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
@@ -191,6 +192,25 @@ export function useLessonSession(
       return next;
     });
   }, [settings.grammarTarget, lessonPlanContent?.flightPresetId]);
+
+  // Phones learn the grammar target from the session row (reference card, Grammar Hunt), but
+  // targets set by a flight plan or the Check-in only lived in this store. Save them.
+  const savedTargetRef = useRef<string | null | undefined>(undefined);
+  useEffect(() => {
+    const target = settings.grammarTarget ?? null;
+    if (!sessionId || savedTargetRef.current === target) return;
+    if (savedTargetRef.current === undefined && target === null) { savedTargetRef.current = null; return; }
+    savedTargetRef.current = target;
+    void fetch('/api/session/settings', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId, grammarTarget: target }) }).catch(() => {});
+  }, [sessionId, settings.grammarTarget]);
+
+  // Grammar Hunt: tally every phone's stamps into the lesson thread.
+  const recordHuntStamps = useSessionStore((s) => s.recordHuntStamps);
+  useEffect(() => {
+    if (!sessionId) return;
+    const ch = openHuntChannel(sessionId, (m) => { if (m.type === 'stamps') recordHuntStamps(m.clientId, m.name, m.count); });
+    return () => ch.close();
+  }, [sessionId, recordHuntStamps]);
 
   // The grammar target is confirmed mid-lesson (Check-in), so re-publish when it changes.
   useEffect(() => { publishKit(); }, [publishKit, settings.grammarTarget]);

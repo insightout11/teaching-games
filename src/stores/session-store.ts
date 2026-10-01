@@ -67,6 +67,8 @@ export interface LessonThread {
   pulse: ThreadPulse[];
   grammarCheck?: ThreadGrammarCheck;
   struggles?: ThreadStruggle[];
+  /** Grammar Hunt stamps per phone (clientId → name + stamps), from the hunt channel. */
+  hunt?: Record<string, { name: string; count: number }>;
 }
 
 export interface SessionSettings {
@@ -257,6 +259,7 @@ interface SessionState {
   setLessonKit: (kit: LessonKit | null) => void;
   recordGrammarCheck: (entry: ThreadGrammarCheck) => void;
   recordStruggle: (entry: ThreadStruggle) => void;
+  recordHuntStamps: (clientId: string, name: string, count: number) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
@@ -416,6 +419,13 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setPredictionResults: (results) => set({ predictionResults: results }),
 
   setLessonKit: (kit) => set({ lessonKit: kit }),
+
+  recordHuntStamps: (clientId, name, count) => {
+    const { lessonThread } = get();
+    const cur = lessonThread.hunt?.[clientId];
+    if (cur && cur.count === count && cur.name === name) return;
+    set({ lessonThread: { ...lessonThread, hunt: { ...(lessonThread.hunt ?? {}), [clientId]: { name, count } } } });
+  },
 
   recordStruggle: (entry) => {
     const { lessonThread } = get();

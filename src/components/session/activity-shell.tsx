@@ -59,6 +59,7 @@ export function ActivityShell({ sessionId, activity, generatedContent, timerSeco
   const studentMissions = useSessionStore((s) => s.studentMissions);
   const classMission = useSessionStore((s) => s.classMission);
   const openingStances = useSessionStore((s) => s.openingStances);
+  const huntTotal = useSessionStore((s) => Object.values(s.lessonThread.hunt ?? {}).reduce((n, h) => n + h.count, 0));
   const characterAssignments = useSessionStore((s) => s.characterAssignments);
   const landingAnswers = useSessionStore((s) => s.landingAnswers);
   const addLandingAnswer = useSessionStore((s) => s.addLandingAnswer);
@@ -455,6 +456,7 @@ export function ActivityShell({ sessionId, activity, generatedContent, timerSeco
               </span>
             </div>
             <div className="flex items-center gap-2">
+              {huntTotal > 0 && <span className="flex items-center gap-1 rounded-full bg-violet-400/15 px-2 py-0.5 text-xs text-violet-200" title="Grammar Hunt: secret-mission stamps from phones">Grammar Hunt · {huntTotal}</span>}
               <span className="text-xs opacity-50">Activity status:</span>
               <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">
                 {formatActivityStatus(currentPhase)}

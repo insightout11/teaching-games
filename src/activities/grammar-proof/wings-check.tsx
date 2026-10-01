@@ -4,7 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, Eye, Plane, X } from 'lucide-react';
 import type { ActivityProps, GrammarCheckInSentence } from '../types';
-import type { ThreadGrammarCheck } from '@/stores/session-store';
+import { useSessionStore, type ThreadGrammarCheck } from '@/stores/session-store';
+import { HUNT_GOAL } from '@/lib/live-room/hunt';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 
 // Wings check: the landing half of the Grammar before/after. Three NEW sentences on the target,
@@ -24,6 +25,7 @@ type Props = Pick<ActivityProps, 'onSetInputSpec' | 'onRegisterRemoteVoteHandler
 
 export function WingsCheck({ sentences, target, before, onDone, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange }: Props) {
   const [idx, setIdx] = useState(0);
+  const hunt = useSessionStore((st) => st.lessonThread.hunt);
   const [revealed, setRevealed] = useState(false);
   // votes[sentence][clientId] = choice
   const [votes, setVotes] = useState<Record<number, Record<string, { name: string; studentId: string | null; choice: string }>>>({});
@@ -103,6 +105,9 @@ export function WingsCheck({ sentences, target, before, onDone, onSetInputSpec, 
           <div><p className="font-mono text-xs uppercase tracking-[0.15em] text-emerald-200">now</p><motion.p initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.3, type: 'spring' }} className="font-display text-7xl text-emerald-200">{nowFlying.length}<span className="text-3xl"> of {nowList.length}</span></motion.p></div>
         </div>
         <p className="mt-2 text-xl text-white/70">{nowList.length ? 'students are flying it' : 'No answers yet'}</p>
+        {hunt && Object.keys(hunt).length > 0 && (
+          <p className="mt-2 text-lg text-violet-200">Grammar Hunt: {Object.values(hunt).reduce((n, h) => n + h.count, 0)} stamps · {Object.values(hunt).filter((h) => h.count >= HUNT_GOAL).length} completed the secret mission</p>
+        )}
       </div>
 
       {nowFlying.length > 0 && (
