@@ -462,9 +462,8 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": true,
-    "reviewNotes": "Longer than the preferred 2–6 minute grammar clip length; teacher review recommended for class pacing.",
-    "reviewNote": "Review needed: the exact grammar taxonomy does not currently describe this clip accurately; keep untagged until reviewed."
+    "needsReview": false,
+    "reviewNotes": "Longer than the preferred 2–6 minute grammar clip length; teacher review recommended for class pacing."
   },
   {
     "id": "grammar-r2-mAFd4jjo0YU",
@@ -486,9 +485,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": true,
-    "reviewNotes": "Longer than the preferred 2–6 minute grammar clip length; teacher review recommended for class pacing.",
-    "reviewNote": "Review needed: the exact grammar taxonomy does not currently describe this clip accurately; keep untagged until reviewed."
+    "needsReview": false,
+    "reviewNotes": "Longer than the preferred 2–6 minute grammar clip length; teacher review recommended for class pacing."
   },
   {
     "id": "grammar-r2-zfQh-Dg2Ggo",
@@ -510,9 +508,8 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": true,
-    "reviewNotes": "Longer than the preferred 2–6 minute grammar clip length; teacher review recommended for class pacing.",
-    "reviewNote": "Review needed: the exact grammar taxonomy does not currently describe this clip accurately; keep untagged until reviewed."
+    "needsReview": false,
+    "reviewNotes": "Longer than the preferred 2–6 minute grammar clip length; teacher review recommended for class pacing."
   },
   {
     "id": "grammar-r2-hCaU3qHbGQU",
@@ -600,9 +597,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": true,
-    "reviewNotes": "Longer than the preferred 2–6 minute grammar clip length; teacher review recommended for class pacing.",
-    "reviewNote": "Review needed: the exact grammar taxonomy does not currently describe this clip accurately; keep untagged until reviewed."
+    "needsReview": false,
+    "reviewNotes": "Longer than the preferred 2–6 minute grammar clip length; teacher review recommended for class pacing."
   },
   {
     "id": "grammar-r2-9fgQaoDNU2k",
@@ -624,9 +620,8 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": true,
-    "reviewNotes": "Longer than the preferred 2–6 minute grammar clip length; teacher review recommended for class pacing.",
-    "reviewNote": "Review needed: the exact grammar taxonomy does not currently describe this clip accurately; keep untagged until reviewed."
+    "needsReview": false,
+    "reviewNotes": "Longer than the preferred 2–6 minute grammar clip length; teacher review recommended for class pacing."
   },
   {
     "id": "bbc-grammar-r2-HUXXgVElADg",
