@@ -173,6 +173,14 @@ export interface DestinationHotelPrice {
   note?: string;
 }
 
+export interface DestinationAnnouncement {
+  place: string;
+  line: string;
+  destination: string;
+  platform: string;
+  time: string;
+}
+
 /** An authentic traveler-should-know note. Feeds the weighted travel moment deck. */
 export interface TravelLocalColorNote {
   id: string;
@@ -202,4 +210,5 @@ export interface DestinationPack {
   travelAnchors?: TravelAnchors;
   currency?: DestinationCurrency;
   hotels?: DestinationHotelPrice[];
+  announcement?: DestinationAnnouncement;
 }

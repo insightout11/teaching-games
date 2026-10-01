@@ -8,6 +8,7 @@ import type {
   TravelDish,
   TravelLocalColorNote,
   TravelTransportOption,
+  DestinationAnnouncement,
 } from '@/lib/world-flight/types';
 import {
   assessWorldFlightReadingQuality,
@@ -4085,6 +4086,59 @@ const TRAVEL_PRICE_PROFILES: Record<string, DestinationPriceProfile> = {
   'ho-chi-minh-city': { currency: { code: 'VND', symbol: '₫ ', name: 'Vietnamese đồng' }, dishPrices: ['₫ 35,000', '₫ 60,000', '₫ 55,000'], hotelPrices: ['₫ 400,000', '₫ 1,500,000', '₫ 8,000,000'] },
 };
 
+const TRAVEL_ANNOUNCEMENTS_BY_DESTINATION: Record<string, DestinationAnnouncement> = {
+  bangkok: { place: 'Suvarnabhumi Airport station', line: 'Airport Rail Link City Line', destination: 'Phaya Thai', platform: '1', time: '10:15' },
+  tokyo: { place: 'Narita Airport Terminal 1 station', line: 'Narita Express', destination: 'Shinjuku', platform: '2', time: '10:45' },
+  seoul: { place: 'Incheon Airport Terminal 1 station', line: 'AREX Express Train', destination: 'Seoul Station', platform: '2', time: '11:05' },
+  singapore: { place: 'Changi Airport station', line: 'MRT East West Line', destination: 'Tanah Merah', platform: 'A', time: '09:30' },
+  paris: { place: 'Aéroport Charles de Gaulle 2 TGV', line: 'RER B', destination: 'Gare du Nord', platform: '11', time: '10:20' },
+  london: { place: 'Heathrow Terminals 2 and 3 station', line: 'Elizabeth line', destination: 'Bond Street', platform: '3', time: '09:42' },
+  'new-york': { place: 'JFK Terminal 4 AirTrain station', line: 'AirTrain JFK', destination: 'Jamaica Station', platform: 'A', time: '08:25' },
+  cairo: { place: 'Cairo Airport bus terminal', line: 'Airport Shuttle Bus', destination: 'Tahrir Square', platform: '4', time: '12:10' },
+  dubai: { place: 'Airport Terminal 1 Metro station', line: 'Dubai Metro Red Line', destination: 'Burj Khalifa Dubai Mall', platform: '1', time: '14:05' },
+  sydney: { place: 'Sydney Airport station', line: 'Airport Link', destination: 'Central Station', platform: '2', time: '08:50' },
+  beijing: { place: 'Beijing Capital Airport Terminal 3 station', line: 'Capital Airport Express', destination: 'Dongzhimen', platform: '1', time: '09:35' },
+  shanghai: { place: 'Pudong Airport Terminal 1 station', line: 'Metro Line 2', destination: "People's Square", platform: '2', time: '10:05' },
+  berlin: { place: 'Berlin Brandenburg Airport station', line: 'Airport Express FEX', destination: 'Berlin Hauptbahnhof', platform: '3', time: '11:20' },
+  moscow: { place: 'Sheremetyevo Airport station', line: 'Aeroexpress', destination: 'Belorussky Station', platform: '2', time: '09:10' },
+  istanbul: { place: 'Istanbul Airport station', line: 'M11 metro', destination: 'Gayrettepe', platform: '1', time: '13:25' },
+  vancouver: { place: 'YVR Airport station', line: 'Canada Line', destination: 'Waterfront', platform: '2', time: '10:30' },
+  toronto: { place: 'Pearson Terminal 1 station', line: 'UP Express', destination: 'Union Station', platform: '3', time: '08:40' },
+  mumbai: { place: 'Mumbai Airport Metro station', line: 'Metro Line 3', destination: 'Bandra Kurla Complex', platform: '1', time: '12:00' },
+  'cape-town': { place: 'Cape Town Airport MyCiTi stop', line: 'A01 Airport service', destination: 'Civic Centre', platform: 'A', time: '07:55' },
+  rome: { place: 'Fiumicino Airport station', line: 'Leonardo Express', destination: 'Roma Termini', platform: '2', time: '10:00' },
+  'rio-de-janeiro': { place: 'Galeão Airport BRT terminal', line: 'TransCarioca BRT', destination: 'Vicente de Carvalho', platform: '5', time: '15:15' },
+  'mexico-city': { place: 'Terminal Aérea Metro station', line: 'Metro Line 5', destination: 'Pantitlán', platform: '1', time: '11:35' },
+  'buenos-aires': { place: 'Ezeiza Airport coach terminal', line: 'Tienda León Airport Bus', destination: 'Terminal Madero', platform: '6', time: '09:55' },
+  'los-angeles': { place: 'LAX Metro Transit Center', line: 'Metro K Line', destination: 'Expo Crenshaw', platform: '1', time: '16:20' },
+  jakarta: { place: 'Soekarno Hatta Airport station', line: 'Airport Rail Link', destination: 'BNI City', platform: '2', time: '08:15' },
+  lagos: { place: 'Lagos Airport bus terminal', line: 'Airport shuttle', destination: 'Ikeja Bus Terminal', platform: '3', time: '14:40' },
+  'hong-kong': { place: 'Hong Kong International Airport station', line: 'Airport Express', destination: 'Hong Kong Station', platform: '1', time: '10:50' },
+  amsterdam: { place: 'Schiphol Airport station', line: 'NS Intercity', destination: 'Amsterdam Centraal', platform: '3', time: '09:18' },
+  honolulu: { place: 'HNL Skyline station', line: 'Skyline', destination: 'Middle Street Transit Center', platform: '1', time: '13:10' },
+  miami: { place: 'Miami International Airport station', line: 'Metrorail Orange Line', destination: 'Government Center', platform: '2', time: '12:35' },
+  bogota: { place: 'El Dorado Airport bus stop', line: 'TransMilenio K86', destination: 'Museo Nacional', platform: 'A', time: '10:25' },
+  reykjavik: { place: 'Keflavík Airport bus terminal', line: 'Flybus', destination: 'BSÍ Bus Terminal', platform: '2', time: '11:50' },
+  nairobi: { place: 'Jomo Kenyatta Airport bus stop', line: 'Airport shuttle', destination: 'Nairobi Railway Station', platform: '4', time: '15:05' },
+  lima: { place: 'Jorge Chávez Airport bus stop', line: 'Airport Express Lima', destination: 'Miraflores', platform: '1', time: '09:40' },
+  perth: { place: 'Perth Airport station', line: 'Transperth Airport Line', destination: 'Perth Station', platform: '2', time: '08:32' },
+  auckland: { place: 'Auckland Airport bus interchange', line: 'AirportLink', destination: 'Puhinui Station', platform: 'B', time: '10:12' },
+  suva: { place: 'Nausori Airport bus stop', line: 'Nausori Suva local bus', destination: 'Suva Bus Station', platform: '1', time: '13:45' },
+  ulaanbaatar: { place: 'Chinggis Khaan Airport bus terminal', line: 'X19 Airport Bus', destination: 'Sukhbaatar Square', platform: '2', time: '07:40' },
+  almaty: { place: 'Almaty Airport bus stop', line: 'Bus 92', destination: 'Almaty-2 Railway Station', platform: 'C', time: '14:15' },
+  madrid: { place: 'Adolfo Suárez Madrid Barajas Airport station', line: 'Metro Line 8', destination: 'Nuevos Ministerios', platform: '1', time: '09:05' },
+  lisbon: { place: 'Aeroporto Metro station', line: 'Red Line', destination: 'Saldanha', platform: '1', time: '10:55' },
+  dublin: { place: 'Dublin Airport coach zone', line: 'Dublin Express', destination: 'Dublin City Centre', platform: '7', time: '08:05' },
+  dakar: { place: 'Blaise Diagne Airport bus terminal', line: 'AIBD Dem Dikk Express', destination: 'Dakar Petersen Terminal', platform: '2', time: '12:25' },
+  recife: { place: 'Aeroporto Metro station', line: 'Metrorec South Line', destination: 'Recife Station', platform: '1', time: '11:15' },
+  'panama-city': { place: 'Tocumen Airport Metro station', line: 'Metro Line 2', destination: 'San Miguelito', platform: '2', time: '13:35' },
+  santiago: { place: 'Santiago Airport bus terminal', line: 'Centropuerto', destination: 'Pajaritos Metro Station', platform: '5', time: '09:48' },
+  'addis-ababa': { place: 'Bole Airport shuttle stop', line: 'Airport city shuttle', destination: 'Meskel Square', platform: 'A', time: '16:05' },
+  delhi: { place: 'Indira Gandhi Airport Metro station', line: 'Airport Express', destination: 'New Delhi Station', platform: '1', time: '07:50' },
+  manila: { place: 'Ninoy Aquino Airport Terminal 3 bus bay', line: 'UBE Express', destination: 'PITX', platform: '12', time: '10:38' },
+  'ho-chi-minh-city': { place: 'Tan Son Nhat Airport bus stop', line: 'Bus 109', destination: 'September 23 Park', platform: 'A', time: '14:50' },
+};
+
 function priceNumber(value: string | undefined): number | undefined {
   if (!value) return undefined;
   if (/free/i.test(value)) return 0;
@@ -4127,11 +4181,13 @@ function withTravelAnchors(destinations: DestinationPack[]): DestinationPack[] {
     const transport = TRAVEL_TRANSPORT_BY_DESTINATION[destination.id];
     const localColor = TRAVEL_LOCAL_COLOR_BY_DESTINATION[destination.id];
     const priceProfile = TRAVEL_PRICE_PROFILES[destination.id];
-    const optionalPricingData = priceProfile
-      ? { currency: priceProfile.currency, hotels: destinationHotels(destination, priceProfile) }
-      : {};
+    const announcement = TRAVEL_ANNOUNCEMENTS_BY_DESTINATION[destination.id];
+    const optionalDestinationData = {
+      ...(priceProfile ? { currency: priceProfile.currency, hotels: destinationHotels(destination, priceProfile) } : {}),
+      ...(announcement ? { announcement } : {}),
+    };
     if (!travelAnchors) {
-      return { ...destination, ...optionalPricingData };
+      return { ...destination, ...optionalDestinationData };
     }
     const anchorsWithImages = withTravelAnchorImages(destination.id, travelAnchors);
     const anchorsWithCoordinates = withTravelAttractionCoordinates(destination.id, anchorsWithImages);
@@ -4155,7 +4211,7 @@ function withTravelAnchors(destinations: DestinationPack[]): DestinationPack[] {
 
     return {
       ...destination,
-      ...optionalPricingData,
+      ...optionalDestinationData,
       travelAnchors: {
         ...anchorsWithCoordinates,
         dishes,
