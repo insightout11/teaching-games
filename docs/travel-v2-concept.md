@@ -76,3 +76,18 @@ The room already knows the destination, so Travel is offered in the Flight plan 
 3. **Take 2 problem cards:** right level of challenge? (A fallback could be a gentler "change one detail" Take 2.)
 4. **Hotel:** keep it as Conversation Rounds, or bring it onto the same performed-script engine as the others?
 5. **The postcard:** spoken only, or spoken plus a one-line written version for the logbook?
+
+## Decisions (owner, Oct 2 2026)
+1. **Traveller Cards: yes.** Budget = price tiers ($ tight · $$ comfortable · $$$ splurge), because the city data has no currency/prices yet (transport has cost text only). Cards also carry a food need (vegetarian / allergy / adventurous) for the meal stop. Real local prices = a later Codex data task.
+2. **3 of 5 stops: both.** The teacher shortlists, then the class votes.
+3. **Take 2 problem cards: yes.**
+4. **Hotel moves to the performed-script engine** (like Arrival / Getting There / Local Table).
+5. **Postcard home: spoken only.**
+
+## Build order
+1. Traveller Cards at boarding (deal, phone card, say who you are; stored for the trip).
+2. Take 2 problem cards in the performed stops (engine change) + Hotel on the performed engine.
+3. Choose the stops (teacher shortlist → class vote).
+4. The Announcement listening break.
+5. Postcard Home + can-do check (boarding before / landing stamps).
+6. Travel in the Live Room flight panel (trip pack for the room's destination).
