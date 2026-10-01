@@ -32,6 +32,7 @@ import { hotSeatPlugin } from './hot-seat';
 import { radioCheckPlugin } from './radio-check';
 import { staticPlugin } from './static';
 import { blackBoxPlugin } from './black-box';
+import { fixTheCaptainPlugin } from './fix-the-captain';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarClarifyPlugin } from './grammar-clarify';
 import { vocabMicroPlugin } from './vocab-micro';
@@ -72,6 +73,7 @@ const activities: ActivityPlugin[] = [
   radioCheckPlugin,
   staticPlugin,
   blackBoxPlugin,
+  fixTheCaptainPlugin,
   grammarCheckInPlugin,
   grammarClarifyPlugin,
   vocabMicroPlugin,

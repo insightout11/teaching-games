@@ -56,9 +56,17 @@ export interface ThreadGrammarCheck {
   results: Record<string, { name: string; right: number }>;
 }
 
+/** Something the class couldn't do (a missed mistake, a wrong answer): later stages bring it back. */
+export interface ThreadStruggle {
+  stage: string;
+  text: string;
+  fix?: string;
+}
+
 export interface LessonThread {
   pulse: ThreadPulse[];
   grammarCheck?: ThreadGrammarCheck;
+  struggles?: ThreadStruggle[];
 }
 
 export interface SessionSettings {
@@ -248,6 +256,7 @@ interface SessionState {
   recordPulse: (entry: ThreadPulse) => void;
   setLessonKit: (kit: LessonKit | null) => void;
   recordGrammarCheck: (entry: ThreadGrammarCheck) => void;
+  recordStruggle: (entry: ThreadStruggle) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
@@ -407,6 +416,12 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setPredictionResults: (results) => set({ predictionResults: results }),
 
   setLessonKit: (kit) => set({ lessonKit: kit }),
+
+  recordStruggle: (entry) => {
+    const { lessonThread } = get();
+    const list = (lessonThread.struggles ?? []).filter((x) => x.text !== entry.text);
+    set({ lessonThread: { ...lessonThread, struggles: [...list, entry].slice(-12) } });
+  },
 
   recordGrammarCheck: (entry) => set({ lessonThread: { ...get().lessonThread, grammarCheck: entry } }),
 

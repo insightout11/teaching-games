@@ -76,6 +76,8 @@ import type {
   StaticRound,
   BlackBoxContent,
   BlackBoxPassage,
+  FixTheCaptainContent,
+  FixTheCaptainItem,
   DecisionCouncilContent,
   TeamDebateContent,
   SourceVocabItem,
@@ -1524,6 +1526,52 @@ Return JSON: { "passages": [...] }.`;
     if (gaps.length >= 3) passages.push({ text, gaps, decoys });
   }
   return { activityKey: 'black-box', topicContext: topic, passages };
+}
+
+
+// ─── Fix the Captain (notice the mistake) ───
+
+async function generateFixTheCaptain(topic: string, difficulty: Difficulty, grammarTarget: string | undefined, sourceCtx: string): Promise<FixTheCaptainContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      announcements: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            text: { type: 'string' },
+            error: { type: 'string' },
+            fix: { type: 'string' },
+            explanation: { type: 'string' },
+          },
+          required: ['text', 'error', 'fix', 'explanation'],
+        },
+      },
+    },
+    required: ['announcements'],
+  };
+  const focus = grammarTarget
+    ? `Every mistake must be a typical learner mistake with ${grammarTarget}.`
+    : 'Mistakes should be typical learner grammar mistakes at this level (verb forms, tenses, articles, prepositions, word order).';
+  const prompt = `You are writing a funny listening-and-grammar game for an ESL class on the topic "${topic}". The airline CAPTAIN makes cabin announcements over the speaker, but each announcement has exactly ONE grammar mistake. Students catch it and say the fix.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${focus}
+${sourceCtx ? `\nConnect the announcements to this lesson material where possible:\n${sourceCtx.slice(0, 3000)}\n` : ''}
+Write exactly 6 announcements. For each:
+- text: a captain's announcement, 1–2 sentences, 15–35 words, in a warm/funny captain voice ("Ladies and gentlemen, this is your captain speaking…" only on the first one), connected to the topic. Exactly ONE mistake.
+- error: the exact wrong words as they appear in text (1–4 words).
+- fix: the corrected words that replace "error".
+- explanation: one short sentence on why (student-friendly).
+
+Vary where the mistake sits. Do not make the rest of the sentence awkward. Return JSON: { "announcements": [...] }.`;
+  const parsed = await generateJSON<{ announcements: Array<{ text: string; error: string; fix: string; explanation: string }> }>(prompt, schema);
+  const announcements: FixTheCaptainItem[] = (parsed.announcements ?? [])
+    .map((a) => ({ text: (a.text ?? '').trim(), error: (a.error ?? '').trim(), fix: (a.fix ?? '').trim(), explanation: (a.explanation ?? '').trim() }))
+    .filter((a) => a.text && a.error && a.fix && a.error.toLowerCase() !== a.fix.toLowerCase() && a.text.includes(a.error))
+    .slice(0, 6);
+  return { activityKey: 'fix-the-captain', topicContext: topic, grammarTarget: grammarTarget ?? null, announcements };
 }
 
 async function generateSingleScene(
@@ -3275,6 +3323,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'black-box':
             generators.push(generateBlackBox(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'fix-the-captain':
+            generators.push(generateFixTheCaptain(customTopic, diff, grammarTarget ?? undefined, kitSourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'radio-check':
             generators.push(generateRadioCheck(customTopic, diff, sourceMaterial, sourceRawTranscript, sourceCtx).then((r) => { content[activityKey] = r; }));

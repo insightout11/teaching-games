@@ -494,7 +494,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     // The target structure threads through the drills; goal derives accuracy scoring.
     moduleSequence: [
       { slotType: 'presentation', key: 'grammar-clarify', stageId: 'clarify' },
-      { slotType: 'practice', key: 'error-hunter', stageId: 'notice' },
+      { slotType: 'practice', key: 'fix-the-captain', stageId: 'notice' },
       { slotType: 'practice', key: 'sentence-scramble', stageId: 'build' },
       { slotType: 'practice', key: 'grammar-boss', stageId: 'produce' },
       { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['grid-rush', 'flash-quiz', 'connections', 'synonym-showdown', 'vocab-sprint'] },
@@ -512,6 +512,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       stageByKey: {
         'grammar-check-in': 'icebreaker',
         'grammar-clarify': 'clarify',
+        'fix-the-captain': 'notice',
         'error-hunter': 'notice',
         'sentence-scramble': 'build',
         'grammar-boss': 'produce',

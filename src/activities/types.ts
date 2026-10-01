@@ -967,6 +967,22 @@ export interface BlackBoxContent extends ActivityGeneratedContent {
   passages: BlackBoxPassage[];
 }
 
+/** Fix the Captain: cabin announcements with ONE grammar mistake each. */
+export interface FixTheCaptainItem {
+  text: string;
+  /** The exact wrong words in text. */
+  error: string;
+  /** What replaces them. */
+  fix: string;
+  explanation: string;
+}
+
+export interface FixTheCaptainContent extends ActivityGeneratedContent {
+  activityKey: 'fix-the-captain';
+  grammarTarget: string | null;
+  announcements: FixTheCaptainItem[];
+}
+
 /** Hot Seat reuses Taboo's topic cards (word + short definition). */
 export interface HotSeatContent extends ActivityGeneratedContent {
   activityKey: 'hot-seat';

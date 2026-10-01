@@ -338,7 +338,7 @@ export function useLessonSession(
     if (lessonPlanContent?.generatedContent[activity.key]) {
       const pregen = lessonPlanContent.generatedContent[activity.key] as ActivityGeneratedContent & { grammarTarget?: string };
       const currentTarget = settings.grammarTarget;
-      const targetDependent = activity.key === 'grammar-check-in' || activity.key === 'grammar-clarify' || activity.key === 'grammar-proof';
+      const targetDependent = activity.key === 'grammar-check-in' || activity.key === 'grammar-clarify' || activity.key === 'grammar-proof' || activity.key === 'fix-the-captain';
       if (!targetDependent || !currentTarget || pregen.grammarTarget === currentTarget) {
         return pregen;
       }
