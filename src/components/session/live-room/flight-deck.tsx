@@ -11,6 +11,7 @@ import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
 import { FlightPlanPanel } from '@/components/session/live-room/flight-plan-panel';
+import { findPlanCity } from '@/lib/live-room/plan-city';
 import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
 import { parseWouldYouRather } from '@/lib/live-room/talk-vote';
 import type { GamePlugin } from '@/games/types';
@@ -117,6 +118,8 @@ export interface FlightDeckProps {
   flightPlan?: RoomFlightPlanStatus | null;
   /** A plan that arrived with the session (course page / planner): ready, waiting to start. */
   pendingPlan?: { name: string; topic: string; onStart: () => void } | null;
+  /** Words of the loaded plan (topic, source, course theme): a city named there is suggested as the destination. */
+  planText?: string | null;
 }
 
 export interface RoomFlightPlanStatus {
@@ -160,6 +163,7 @@ export function FlightDeck({
   onLaunchPlan,
   flightPlan,
   pendingPlan,
+  planText,
 }: FlightDeckProps) {
   const [planOpen, setPlanOpen] = useState(false);
   const reduce = useReducedMotion();
@@ -240,6 +244,19 @@ export function FlightDeck({
     stops.set(destination.id, { id: destination.id, lat: destination.lat, lng: destination.lng, label: destination.city, color: '#f59e0b' });
     return Array.from(stops.values());
   }, [position, destination]);
+
+  // The plan is set somewhere (e.g. a Tokyo travel course lesson): suggest flying there, or to
+  // the nearest city in range on the way when it's too far for today's plane.
+  const citySuggestion = useMemo(() => {
+    const target = planText ? findPlanCity(planText, SCENE_CITIES) : null;
+    if (!target || target.id === destination.id || target.id === origin.id) return null;
+    const there = reachable.find((c) => c.id === target.id);
+    if (there) return { text: `This lesson is set in ${target.city}: fly there?`, fly: there };
+    const t = toRouteCity(target);
+    const near = [...reachable].sort((a, b) => distanceBetweenCoordsKm(a, t) - distanceBetweenCoordsKm(b, t))[0];
+    if (!near || near.id === destination.id) return null;
+    return { text: `${target.city} is out of range today: fly to ${near.city}, on the way?`, fly: near };
+  }, [planText, destination.id, origin.id, reachable]);
 
   // "Where should we fly next, and why?": a poll of up to four cities in range
   // (the picked one first). The Poll widget's "Fly to …" sets the winner.
@@ -1389,6 +1406,15 @@ export function FlightDeck({
         <p className="pointer-events-none absolute bottom-3 left-4 z-[5] rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/80 backdrop-blur-sm">
           {holding ? `Holding over ${destination.city}` : `Below us: ${place.label}`} · {liveWx?.utcOffsetSeconds !== undefined ? offsetClock(liveWx.utcOffsetSeconds, new Date(now)) : skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
         </p>
+      )}
+
+      {citySuggestion && flightStage === 'gate' && !cinematic && (
+        <div className="absolute inset-x-0 top-16 z-20 flex justify-center">
+          <div className="flex items-center gap-3 rounded-full border border-cyan-300/40 bg-slate-950/85 py-1.5 pl-4 pr-1.5 text-sm text-cyan-50 shadow-xl backdrop-blur-md">
+            <span>{citySuggestion.text}</span>
+            <button type="button" onClick={() => setChosenId(citySuggestion.fly.id)} className="rounded-full bg-cyan-300 px-4 py-1.5 text-xs font-semibold text-slate-950">Fly to {citySuggestion.fly.city}</button>
+          </div>
+        </div>
       )}
 
       {pendingPlan && !runningKey && !cinematic && !landed && (

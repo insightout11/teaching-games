@@ -2197,6 +2197,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             onLaunchPlan={handleLaunchRoomPlan}
             flightPlan={roomFlightPlan}
             pendingPlan={roomPendingPlan}
+            planText={lesson.lessonPlanContent ? [lesson.lessonPlanContent.customTopic, lesson.lessonPlanContent.sourceMaterial?.title, lesson.lessonPlanContent.courseContext?.courseTheme, lesson.lessonPlanContent.courseContext?.courseTitle].filter(Boolean).join(' · ') : null}
           />
         </div>
       )}
