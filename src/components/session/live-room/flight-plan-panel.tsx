@@ -1,8 +1,10 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Plane, X } from 'lucide-react';
+import { FileText, Layers, Plane, X } from 'lucide-react';
+import type { Course, CourseLesson } from '@/lib/course';
+import { withCarryOver } from '@/lib/launch-course-lesson';
 import { useSessionStore } from '@/stores/session-store';
 import { GRAMMAR_TARGET_GROUPS, type GrammarTarget } from '@/lib/grammar';
 import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
@@ -13,7 +15,7 @@ import { buildRoomFlightPlan, estimatePlanMinutes, roomFlightPresets } from '@/l
  * the source on screen, the level, the grammar focus). Only what a preset genuinely needs is
  * asked (the grammar point for Grammar). Flies in this session; the room keeps the journey.
  */
-export function FlightPlanPanel({ destinationCity, minutesLeft, onLaunch, onClose }: { destinationCity: string; /** Set while flying: the plan is sized to the time left. */ minutesLeft?: number | null; onLaunch: (plan: LessonPlanPayload) => void; onClose: () => void }) {
+export function FlightPlanPanel({ sessionId, destinationCity, minutesLeft, onLaunch, onClose }: { sessionId: string; destinationCity: string; /** Set while flying: the plan is sized to the time left. */ minutesLeft?: number | null; onLaunch: (plan: LessonPlanPayload) => void; onClose: () => void }) {
   const settings = useSessionStore((s) => s.settings);
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const presets = useMemo(() => roomFlightPresets(), []);
@@ -21,6 +23,29 @@ export function FlightPlanPanel({ destinationCity, minutesLeft, onLaunch, onClos
   const [topic, setTopic] = useState(settings.customTopic || sourceMaterial?.title || '');
   const [grammar, setGrammar] = useState<string>(settings.grammarTarget ?? '');
   const preset = presets.find((p) => p.id === presetId);
+
+  // Continue a course: the teacher's own courses and the next lesson of each (one tap).
+  const [courseNext, setCourseNext] = useState<Array<{ course: Course; lesson: CourseLesson }>>([]);
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const list = await fetch('/api/course', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : { courses: [] })) as { courses: Course[] };
+        const own = (list.courses ?? []).filter((c) => !c.isTemplate).slice(0, 4);
+        const details = await Promise.all(own.map((c) => fetch(`/api/course/${c.id}`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null))) as Array<Course | null>;
+        const rows = details.flatMap((c) => {
+          const next = c?.lessons.find((l) => l.status === 'planned');
+          return c && next ? [{ course: c, lesson: next }] : [];
+        });
+        if (!cancelled) setCourseNext(rows);
+      } catch { /* courses are optional */ }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+  const flyCourseLesson = (course: Course, lesson: CourseLesson) => {
+    void fetch(`/api/course/lesson/${lesson.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'launched', sessionId }) }).catch(() => {});
+    onLaunch(withCarryOver(lesson, course.lessons) as unknown as LessonPlanPayload);
+  };
   const needsGrammar = presetId === 'grammar-60';
   const ready = !!preset && (topic.trim().length > 0 || !!sourceMaterial) && (!needsGrammar || !!grammar);
 
@@ -43,6 +68,20 @@ export function FlightPlanPanel({ destinationCity, minutesLeft, onLaunch, onClos
           </div>
           <button type="button" onClick={onClose} className="rounded-full p-2 text-white/60 hover:bg-white/10" aria-label="Close"><X className="h-5 w-5" /></button>
         </div>
+
+        {courseNext.length > 0 && (
+          <div className="space-y-1.5">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Continue a course</p>
+            {courseNext.map(({ course, lesson }) => (
+              <button key={lesson.id} type="button" onClick={() => flyCourseLesson(course, lesson)} className="flex w-full items-center gap-3 rounded-2xl border border-emerald-300/30 bg-emerald-400/[0.06] px-4 py-3 text-left hover:border-emerald-300/60">
+                <Layers className="h-5 w-5 shrink-0 text-emerald-300" />
+                <span className="min-w-0 flex-1"><span className="block truncate text-white">{course.title}</span><span className="block truncate text-sm text-white/60">Lesson {lesson.orderIndex + 1}: {lesson.title}</span></span>
+                <span className="shrink-0 rounded-full bg-emerald-300 px-3 py-1 text-xs font-semibold text-slate-950">Fly this lesson</span>
+              </button>
+            ))}
+            <p className="pt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Or pick a flight</p>
+          </div>
+        )}
 
         <div className="grid gap-2 sm:grid-cols-2">
           {presets.map((p) => (

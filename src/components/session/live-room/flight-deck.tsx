@@ -115,6 +115,8 @@ export interface FlightDeckProps {
   onLaunchPlan: (plan: LessonPlanPayload) => void;
   /** The running flight plan, if any: the room shows its stage bar instead of "End activity". */
   flightPlan?: RoomFlightPlanStatus | null;
+  /** A plan that arrived with the session (course page / planner): ready, waiting to start. */
+  pendingPlan?: { name: string; topic: string; onStart: () => void } | null;
 }
 
 export interface RoomFlightPlanStatus {
@@ -157,6 +159,7 @@ export function FlightDeck({
   onPrefetch,
   onLaunchPlan,
   flightPlan,
+  pendingPlan,
 }: FlightDeckProps) {
   const [planOpen, setPlanOpen] = useState(false);
   const reduce = useReducedMotion();
@@ -1388,8 +1391,18 @@ export function FlightDeck({
         </p>
       )}
 
+      {pendingPlan && !runningKey && !cinematic && !landed && (
+        <div className="absolute inset-x-0 top-3 z-20 flex justify-center">
+          <div className="flex items-center gap-3 rounded-full border border-amber-300/50 bg-slate-950/85 py-1.5 pl-4 pr-1.5 text-sm text-amber-50 shadow-xl backdrop-blur-md">
+            <span><b className="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-300">Ready</b>&nbsp; {pendingPlan.name} · {pendingPlan.topic} → {destination.city}</span>
+            <button type="button" onClick={pendingPlan.onStart} className="rounded-full bg-amber-300 px-4 py-1.5 text-xs font-semibold text-slate-950">Start flight plan</button>
+          </div>
+        </div>
+      )}
+
       {planOpen && (
         <FlightPlanPanel
+          sessionId={sessionId}
           destinationCity={destination.city}
           minutesLeft={flightStage === 'flying' ? minutesLeft : null}
           onClose={() => setPlanOpen(false)}

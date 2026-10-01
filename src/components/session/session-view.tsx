@@ -1842,7 +1842,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }
 
   // ─── LOBBY VIEW ──────────────────────────────────────────────────────────
-  if (lesson.phase === 'lobby') {
+  // Live Room: a session that arrives with a plan (course page / planner launch) boards IN the
+  // room, with the plan ready to start. World Flight map launches keep their own route + lobby.
+  const roomLobby = (LIVE_ROOM_ENV || liveRoomOptIn) && lesson.phase === 'lobby'
+    && !lesson.lessonPlanContent?.worldFlightContext && !lesson.lessonPlanContent?.destinationId;
+  if (lesson.phase === 'lobby' && !roomLobby) {
 
     return (
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
@@ -2145,9 +2149,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // Live Room: plan-free sessions (and room sessions between flights) teach
   // from the cockpit, which covers the page; running modules portal into it.
   // A flight plan launched inside the room keeps flying IN the room (one journey).
-  const roomActive = (LIVE_ROOM_ENV || liveRoomOptIn) && (!lesson.isLessonActive || isRoomSession)
-    && (!lesson.lessonPlanContent || isRoomSession) && !!roomModuleEl;
-  const roomFlightPlan = isRoomSession && lesson.isLessonActive && lesson.lessonSlots.length > 0 ? {
+  const roomActive = (LIVE_ROOM_ENV || liveRoomOptIn) && (!lesson.isLessonActive || isRoomSession || roomLobby)
+    && (!lesson.lessonPlanContent || isRoomSession || roomLobby) && !!roomModuleEl;
+  const roomPendingPlan = roomLobby && lesson.lessonPlanContent ? {
+    name: FLIGHT_PLAN_PRESETS.find((p) => p.id === lesson.lessonPlanContent?.flightPresetId)?.name ?? lesson.lessonPlanContent.courseContext?.courseTitle ?? 'Flight plan',
+    topic: lesson.lessonPlanContent.customTopic,
+    onStart: lesson.beginLesson,
+  } : null;
+  const roomFlightPlan = isRoomSession && lesson.isLessonActive && lesson.phase !== 'lobby' && lesson.lessonSlots.length > 0 ? {
     name: FLIGHT_PLAN_PRESETS.find((p) => p.id === lesson.lessonPlanContent?.flightPresetId)?.name ?? 'Flight plan',
     index: lesson.currentSlotIndex,
     total: lesson.lessonSlots.length,
@@ -2187,6 +2196,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             onPrefetch={lesson.prefetchForRoom}
             onLaunchPlan={handleLaunchRoomPlan}
             flightPlan={roomFlightPlan}
+            pendingPlan={roomPendingPlan}
           />
         </div>
       )}
