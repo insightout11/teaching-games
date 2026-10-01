@@ -48,7 +48,7 @@ export function relevance(e: LibraryEntry, phrase: string, weight: (w: string) =
   const qs = Array.from(new Set(words(phrase).map(stem)));
   if (!qs.length) return 0;
   const title = new Set(words(e.title).map(stem));
-  const tags = new Set(e.tags.flatMap((t) => words(t)).map(stem));
+  const tags = new Set(e.tags.filter((t) => !t.includes(":")).flatMap((t) => words(t)).map(stem));
   const blurb = new Set(words(e.blurb).map(stem));
   let score = 0;
   let hits = 0;
@@ -71,7 +71,7 @@ function idf(entries: LibraryEntry[], phrase: string): (w: string) => number {
   const qs = Array.from(new Set(words(phrase).map(stem)));
   const df = new Map<string, number>(qs.map((q) => [q, 0]));
   for (const e of entries) {
-    const bag = new Set([...words(e.title), ...e.tags.flatMap((t) => words(t)), ...words(e.blurb)].map(stem));
+    const bag = new Set([...words(e.title), ...e.tags.filter((t) => !t.includes(":")).flatMap((t) => words(t)), ...words(e.blurb)].map(stem));
     qs.forEach((q) => { if (bag.has(q)) df.set(q, (df.get(q) ?? 0) + 1); });
   }
   const n = entries.length + 1;

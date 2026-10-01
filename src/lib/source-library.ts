@@ -206,7 +206,9 @@ export function recommendSources(input: RecommendInput, options: RecommendOption
     // Audience: young-learner content only when the teacher teaches kids.
     if (!options.allowKids && item.sourceType === 'kids') continue;
 
-    const tags = item.topicTags.map((t) => t.toLowerCase());
+    // Namespaced tags (grammar:*, listening:*) describe FORMAT, not topic: "listening:interview"
+    // is an interview-style clip, not a source about job interviews.
+    const tags = item.topicTags.map((t) => t.toLowerCase()).filter((t) => !t.includes(':'));
     const titleTokens = tokenSet(item.title);
     const bodyTokens = tokenSet(`${item.description} ${item.summary ?? ''}`);
     const contextScore = contextTokens.reduce((total, q) => {
