@@ -9,7 +9,7 @@
       "balance",
       "opinion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "A2",
     "ageBand": "teens",
     "summary": "Weekend homework can help students remember what they learned during the week. A short reading or a few practice questions may make Monday’s lesson easier. Some students also like finishing work at their own pace instead of rushing through it after school. Teachers can use homework to see which ideas need more explanation.\n\nHowever, weekends are important for sleep, sports, hobbies, chores and time with family. Students who have many assignments may feel that school never stops. Some families also have limited internet access or share one quiet place to study, so the same task can be much harder for them.\n\nA middle plan could be to avoid required weekend work except for longer projects that students can plan ahead. Schools might also set a maximum amount of homework for the whole week. Would a homework-free weekend help students learn better, or would a small amount of practice be useful? What rule would feel fair to students with different schedules?",
@@ -21,7 +21,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Should students have homework on weekends?"
   },
   {
     "id": "discussion-r2-school-uniforms",
@@ -33,7 +34,7 @@
       "identity",
       "opinion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "A2",
     "ageBand": "teens",
     "summary": "Some people support school uniforms because they make mornings easier. Students do not need to spend as much time choosing clothes, and families may find it simpler to buy a small set of school outfits. Uniforms can also make students feel that they belong to one community. Supporters say they reduce pressure to wear expensive brands.\n\nOther students want to choose their own clothes. Clothing can show a person’s style, culture or interests, and a uniform may feel uncomfortable or too strict. Uniforms also cost money, especially when schools require special items from one shop. Even when everyone wears the same clothes, students may still compare shoes, bags or phones.\n\nSchools could offer a few acceptable choices, such as different colors or styles, and provide help for families who need it. They could also ask students what feels comfortable and practical. Should schools choose one uniform for everyone, allow a simple dress code, or let students decide? Which choice would be fairest?",
@@ -45,7 +46,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Should schools require uniforms?"
   },
   {
     "id": "discussion-r2-phones-in-class",
@@ -57,7 +59,7 @@
       "phones",
       "opinion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "A2",
     "ageBand": "teens",
     "summary": "Phones can support learning when teachers plan how to use them. Students may look up a word, photograph homework instructions or answer a quick class poll. A phone can also help a student contact family after school. If a lesson uses a map, timer or language app, one device may make the activity easier.\n\nPhones can also interrupt learning. Messages, games and videos compete for attention, even when students mean to focus. A phone on a desk may distract nearby classmates too. Not every student has the same device or data plan, so a phone-based activity can leave some people out. Teachers may spend time solving technical problems instead of teaching.\n\nOne option is to keep phones away unless a teacher asks the class to use them. Another is to allow phones for specific learning tasks and set clear rules for other times. Schools can provide shared devices when possible. Should students keep phones in their bags, use them only with permission, or have more freedom? What rule would help everyone learn?",
@@ -69,7 +71,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Should students keep phones in class?"
   },
   {
     "id": "discussion-r2-school-start-time",
@@ -81,7 +84,7 @@
       "schedules",
       "opinion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "A later school start could give teenagers more time to sleep. Students who arrive tired may find it difficult to listen, remember new information or stay patient with classmates. A calmer morning could also make the trip to school safer for students who currently leave home before sunrise. Supporters say a schedule should match the needs of the people learning in it.\n\nChanging the start time can create problems for families. Parents may need to begin work early, and younger children might still attend school at the usual time. Sports, music lessons and part-time jobs could finish later in the evening. Bus routes may also need to change, which can be expensive and complicated.\n\nA school could try a later start for one term and ask students, families and staff how it affects sleep, travel and activities. It might also adjust the length of lunch or after-school programs. Should schools begin later, keep their current schedules, or test a change first? Which people should have a voice in the decision?",
@@ -93,7 +96,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should the school day start later?"
   },
   {
     "id": "discussion-r2-ai-study-tools",
@@ -105,7 +109,7 @@
       "ai",
       "opinion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "AI study tools can explain a difficult idea in simpler words, suggest practice questions or help students organize notes. A learner can ask for another example when a textbook explanation does not make sense. Used carefully, these tools may help students practice at their own speed and prepare better questions for a teacher.\n\nThere are risks too. A tool can give a wrong answer in a confident voice, and students may not notice the mistake. If someone asks AI to write an entire assignment, the student may finish quickly but learn very little. Some tools collect information, so students need to know what happens to their work and personal details.\n\nSchools could teach students to check AI answers against trusted lessons and to explain their own reasoning. Teachers might allow AI for brainstorming but require students to show drafts or discuss their choices. Should students be allowed to use AI for schoolwork? Which tasks are helpful uses, and which tasks should remain the student’s responsibility?",
@@ -117,7 +121,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should students use AI study tools?"
   },
   {
     "id": "discussion-r2-zoos",
@@ -129,7 +134,7 @@
       "zoos",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Some zoos care for animals that need help and support breeding programs for species at risk. Visitors can see animals closely and learn why habitats matter. A zoo may also help people feel connected to wildlife they would never meet in the wild. These experiences can encourage support for conservation work.\n\nCritics argue that even a well-managed enclosure cannot offer the space and choices an animal has in its natural habitat. Some animals may feel stress when visitors watch them all day. They also ask whether money spent on zoos would do more good if it protected forests, oceans and wildlife in the wild. The quality of care can differ between places.\n\nA useful discussion can compare different kinds of animal care, not just ask whether every zoo is the same. Students might look at enclosure size, enrichment, rescue work and conservation goals. Are zoos helpful places for animals and people, or should society focus on wildlife protection outside zoos? What evidence would you want before deciding?",
@@ -141,7 +146,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Are zoos good for animals?"
   },
   {
     "id": "discussion-r2-community-gardens",
@@ -153,7 +159,7 @@
       "nature",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "A2",
     "ageBand": "teens",
     "summary": "A community garden gives neighbors a place to grow vegetables, herbs and flowers together. People can learn how plants grow and share fresh food. A garden can turn an unused space into somewhere pleasant to meet. Children may enjoy caring for a small plot, while older residents can share gardening skills with others.\n\nA garden needs land, water, tools and regular care. If only a few people do the work, they may feel tired or resentful. Some neighborhoods have little open space, and not every resident wants to garden. Organizers also need clear rules about who can use the harvest and how to handle broken tools or empty plots.\n\nA small pilot garden could help a neighborhood see what works. The group might choose a few shared crops, make a watering schedule and set aside some food for anyone who needs it. Should local governments or residents create more community gardens? How could a garden welcome people who have different amounts of time and experience?",
@@ -165,7 +171,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Should every neighborhood have a community garden?"
   },
   {
     "id": "discussion-r2-public-transport",
@@ -177,7 +184,7 @@
       "access",
       "opinion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Free public transport could make it easier for students to get to school, sports and clubs. Families would save money, and students might have more independence if they could travel safely without asking for a ride. If more people used buses and trains, roads could also feel less crowded during busy times.\n\nTransport still costs money to run. If students do not pay fares, a city must find that money elsewhere or reduce other services. Some students live far from a bus route, so a free pass would not solve their travel problem. Crowded vehicles may also need more staff or more frequent trips.\n\nA city could start with free travel during school hours or offer a student pass at a reduced price. It could ask students which routes they use and whether transport feels safe and reliable. Should students ride for free, receive a discount, or get help only when their families need it? What information would help a community choose?",
@@ -189,7 +196,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should public transport be free for students?"
   },
   {
     "id": "discussion-r2-reusable-bottles",
@@ -213,7 +221,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Should schools stop selling bottled water?"
   },
   {
     "id": "discussion-r2-team-sports",
@@ -225,7 +234,7 @@
       "health",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "A2",
     "ageBand": "teens",
     "summary": "Team sports can teach players to communicate, cooperate and trust one another. A team shares wins and losses, so students learn that success often depends on many people doing their part. Practices can also help classmates meet friends outside their usual groups. For some students, belonging to a team makes exercise more enjoyable.\n\nIndividual sports can build focus and self-discipline. A runner or swimmer can set personal goals and see progress without comparing every result to a team score. Students may also find more flexible ways to practice, especially if they cannot attend a team’s regular schedule. Individual sports still involve coaches, training partners and supporters.\n\nDifferent students enjoy different kinds of challenge. Schools can offer both team and individual activities when space and staff allow. Should a school spend more money on team sports or individual sports? What matters most: cooperation, personal progress, competition, health or access for beginners?",
@@ -237,7 +246,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Are team sports better than individual sports?"
   },
   {
     "id": "discussion-r2-vegetarian-cafeteria",
@@ -249,7 +259,7 @@
       "environment",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "A vegetarian menu day could introduce students to meals made with beans, lentils, vegetables and grains. These foods can be tasty and filling when the menu is planned well. Offering a meat-free day may also help a school use fewer ingredients with a large environmental footprint. Students could learn about food traditions from different cultures.\n\nSome students may dislike the menu or worry that it will not keep them full. Others have allergies, health needs or family food traditions that the school should respect. A poorly planned menu might leave students with few choices, even if the goal is positive.\n\nA cafeteria could ask students to taste several meals before choosing a weekly menu. It could keep an alternative available and clearly label ingredients. Should schools have one vegetarian day each week, offer vegetarian meals every day, or let students choose from a balanced menu? How can a school respect different needs while encouraging students to try new foods?",
@@ -261,7 +271,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should school cafeterias offer a vegetarian day?"
   },
   {
     "id": "discussion-r2-classroom-pets",
@@ -273,7 +284,7 @@
       "responsibility",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "A2",
     "ageBand": "teens",
     "summary": "A classroom pet can help students learn about animal needs and routines. Students may enjoy observing how an animal eats, moves and rests. A shared care schedule can teach responsibility, and a pet may make the room feel welcoming. Teachers can connect daily care to science lessons about living things.\n\nAnimals need attention every day, including weekends and school holidays. A classroom may be noisy or stressful for some pets. Students can have allergies or feel afraid, and the school must make sure the animal is handled safely. If no adult can take responsibility, the pet may not receive consistent care.\n\nA school should consider the animal’s needs before its own excitement. It might invite a trained guest to teach about animals instead, or choose a classroom project that does not involve keeping a pet. Should classrooms have animals, or are other ways of learning safer and kinder? What questions must a school answer before bringing any animal into a classroom?",
@@ -285,7 +296,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Should classrooms have pets?"
   },
   {
     "id": "discussion-r2-student-course-choice",
@@ -297,7 +309,7 @@
       "curriculum",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "When students choose some subjects, they can spend time on interests and strengths. A student who enjoys art, technology or languages may work harder when the timetable includes those subjects. Choice can also help students explore possible careers and feel more responsible for their learning.\n\nA common program ensures that everyone studies important skills. Students may not yet know which subjects they will need later, so a choice made early could close useful options. Schools also have limited teachers and rooms. If many students choose the same popular class, the school may not be able to offer it to everyone.\n\nOne plan is to keep a shared set of core subjects while allowing choices for part of the week. Schools could ask students to review their choices each term and explain what each course helps them learn. Should teenagers choose more classes, or should schools decide most subjects for them? Which skills should every student study together?",
@@ -309,7 +321,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should students choose more of their school subjects?"
   },
   {
     "id": "discussion-r2-digital-or-paper-books",
@@ -321,7 +334,7 @@
       "reading",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "A2",
     "ageBand": "teens",
     "summary": "Digital books are easy to carry and can include search tools, audio or adjustable text size. A student can keep several books on one device and look up a word quickly. Schools may also update digital materials without printing a new copy for every class. For some learners, a screen reader makes reading more accessible.\n\nPrinted books do not need a battery or internet connection. Some students find it easier to focus on paper, and they can write notes in the margins. A screen may bring notifications and other distractions. Devices also cost money, can break and may not be equally available to every student.\n\nSchools could offer both formats and let students choose when possible. They might use printed books for longer reading and digital copies for quick reference. Are e-books better for learning, or do printed books still have an important place? Which format helps you concentrate, remember ideas and access the text?",
@@ -333,7 +346,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Are digital books better than printed books for school?"
   },
   {
     "id": "discussion-r2-longer-recess",
@@ -345,7 +359,7 @@
       "schedules",
       "opinion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "A2",
     "ageBand": "teens",
     "summary": "Longer breaks give students time to eat slowly, move around and talk with friends. A short walk or game can help people return to class with more energy. Students who need extra time to reach the cafeteria or use the bathroom may feel less rushed. Breaks can also help classmates build friendships.\n\nLonger breaks can make the school day end later. Families may have work schedules, and students may need time for sports, jobs or caring for siblings. A longer break is not helpful if there is nowhere comfortable to go or if students must wait in a crowded area. Teachers also need enough time to cover lessons.\n\nA school might add a few minutes to lunch or create short movement breaks between difficult lessons. It can ask students where the schedule feels rushed. Should schools make breaks longer, keep them as they are, or add more short breaks? What kind of break helps students return to learning?",
@@ -357,7 +371,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Should students have longer breaks during the school day?"
   },
   {
     "id": "discussion-r2-volunteering-requirement",
@@ -369,7 +384,7 @@
       "education",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Volunteer work can connect students with people and places outside school. Helping at a library, park or community event may teach practical skills and show how local groups solve problems. Students can discover interests they did not know they had. A shared service project can also bring classmates together around a useful goal.\n\nA requirement can feel unfair if students have family responsibilities, paid work or health needs. Some communities have fewer volunteer opportunities nearby, and transport can be a barrier. If students only work to collect hours, they may not feel personally connected to the service. Community groups need volunteers who are prepared, not simply present.\n\nSchools could offer several ways to contribute and allow students to complete service during the school day. They could recognize caring actions without turning every act into a score. Should volunteer hours be required for graduation, encouraged but optional, or built into class projects? How can a school make service accessible and meaningful?",
@@ -381,7 +396,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should every student complete volunteer hours?"
   },
   {
     "id": "discussion-r2-group-projects",
@@ -393,7 +409,7 @@
       "assessment",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Group projects let students practice planning, explaining ideas and solving disagreements. A team can produce something more creative than one person could make alone. Students may also learn from classmates who have different strengths. In many jobs, people need to share tasks, so group work can provide useful practice.\n\nA shared grade can be frustrating when some students do much more work than others. Confident speakers may lead every decision, while quieter students contribute less visibly. A group can also lose time if members cannot agree or if one person misses meetings. A good project needs clear roles and a fair way to notice each student’s learning.\n\nTeachers can combine a group score with a short individual reflection, peer feedback or a personal task. Students can agree on roles before work begins and check progress together. Are group projects fair? What should count in a grade: the final product, each person’s contribution, teamwork, or all three?",
@@ -405,7 +421,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Are group projects a fair way to grade students?"
   },
   {
     "id": "discussion-r2-city-trees",
@@ -417,7 +434,7 @@
       "nature",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Street trees can give shade on hot days and make a walk feel more pleasant. Trees provide places for birds and insects, and they can make a neighborhood greener. A row of trees may also encourage people to walk instead of driving short distances. Residents often enjoy streets that feel welcoming and cared for.\n\nTrees need space, water and regular maintenance. Roots can damage sidewalks or pipes if the wrong species is planted in the wrong place. Fallen leaves need to be cleared, and young trees may not survive without care. Some streets have narrow sidewalks or underground services that limit where trees can grow.\n\nCities can choose suitable native trees, plant them with community input and plan who will care for them. They can start with a few blocks and learn from the results. Should cities plant more street trees? Which places should come first, and how can residents help keep the trees healthy?",
@@ -429,7 +446,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should cities plant more trees along streets?"
   },
   {
     "id": "discussion-r2-social-media-age",
@@ -441,7 +459,7 @@
       "media",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "A higher minimum age for social media could give younger children more time to build confidence before facing online pressure. Some platforms show upsetting material or encourage people to compare themselves with carefully edited images. A clear age rule may also remind companies that young users need strong privacy and safety protections.\n\nAge limits are difficult to enforce. Children may use a family member’s account or enter a false birthday. Social media can also help young people stay in touch with friends, share creative work and find supportive groups. A strict rule may remove those benefits without teaching students how to make safe choices.\n\nFamilies, schools and technology companies can all help by teaching privacy, kindness and screen balance. Platforms could offer safer settings by default and make it easy to report harmful content. Should the minimum age be raised, kept the same, or supported by stronger safety rules? What responsibility should belong to the platform?",
@@ -453,7 +471,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should social media have a higher minimum age?"
   },
   {
     "id": "discussion-r2-school-club-funding",
@@ -465,7 +484,7 @@
       "sports",
       "discussion"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "A2",
     "ageBand": "teens",
     "summary": "After-school clubs give students a place to explore interests beyond regular lessons. A science group, music club, drama team or chess club can help students meet friends and practice new skills. Sports teams are also important: they give students a chance to exercise, cooperate and represent their school. These activities can make school feel more connected.\n\nSchools have limited budgets. Equipment, coaches, instruments, room space and transport all cost money. If one activity receives much more support, students in other groups may feel ignored. Some clubs need only a small room, while a sports team may need a field and travel costs. Fairness does not always mean spending the same amount on every group.\n\nStudents and teachers could list what each activity needs and how many people it serves. A school might set a basic amount for every club, then fund extra requests based on clear reasons. How should schools divide activity budgets? Which opportunities should every student be able to try?",
@@ -477,7 +496,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Should schools spend more money on clubs than sports?"
   },
   {
     "id": "discussion-r2-financial-literacy",
@@ -488,7 +508,7 @@
       "money",
       "life-skills"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Students make money choices long before they have full-time jobs. They may receive pocket money, buy snacks or save for something important. A school lesson could explain how to make a simple budget, compare prices and understand that borrowing money creates a responsibility. Students could practice with pretend examples before making real decisions.\n\nFamilies have different ways of handling money, and some people may feel uncomfortable discussing their finances in class. A short course cannot prepare students for every situation. Schools also have limited time, so adding a new subject could mean less time for another important skill.\n\nA practical course could focus on everyday choices and avoid asking students to share private details. Teachers might use fictional budgets and invite local experts to explain common terms. Should every student take a money-skills class? Which topics would be most useful, and who should decide what the class includes?\n\nStudents could practice comparing two fictional phone plans or saving toward a goal. They can discuss how a budget changes when prices or needs change.",
@@ -500,7 +520,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should schools teach students how to manage money?"
   },
   {
     "id": "discussion-r2-exams-or-projects",
@@ -511,7 +532,7 @@
       "assessment",
       "projects"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Projects give students time to research a question, make a product and explain what they learned. They can show skills that a short test may miss, such as planning, creativity and teamwork. Students who feel nervous during timed exams may be able to share their knowledge more clearly through a presentation or report.\n\nProjects can be difficult to grade fairly. Some students have more help, devices or quiet study time at home. In a group project, one student may do most of the work. Exams let teachers check what each student can remember independently, although a test may not show every kind of understanding.\n\nSchools could combine short individual checks with projects completed during class, where everyone has similar support. Teachers can explain grading rules before work begins. Should projects replace some exams, or should exams remain the main way to measure progress? What kind of assessment helps students learn rather than only earn a score?",
@@ -523,7 +544,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should schools replace some exams with projects?"
   },
   {
     "id": "discussion-r2-free-school-lunch",
@@ -534,7 +556,7 @@
       "food",
       "fairness"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "A2",
     "ageBand": "teens",
     "summary": "A free lunch for every student would mean no one has to explain why they cannot pay. Students could sit together and choose a meal without worrying about different rules. Schools might also spend less time collecting payments and more time supporting students. If everyone receives the same service, there may be less embarrassment around asking for help.\n\nProviding food for every student costs money. A school could use that money for books, staff or building repairs. Some students bring lunch from home and may not want a cafeteria meal. A targeted program may cost less and still help families who need support.\n\nA school could ask families what they prefer and compare the cost of different plans. It might offer free meals to everyone, or provide help quietly through a simple system. Should school lunch be free for all students? How could a school make sure every student has access to food without wasting resources?",
@@ -546,7 +568,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Should school lunch be free for every student?"
   },
   {
     "id": "discussion-r2-bike-lanes",
@@ -557,7 +580,7 @@
       "transport",
       "environment"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Bike lanes can give cyclists a clearer place on busy streets. Students might feel safer riding to school, and adults could use bikes for short trips. If more people cycle, some car journeys may disappear, which can reduce traffic and make streets quieter. Bike lanes can also connect neighborhoods to parks and shops.\n\nBuilding lanes can remove parking or reduce the space available to cars. A lane that starts and stops suddenly may confuse everyone. Some roads are too narrow, and people with disabilities or delivery needs may depend on vehicle access. Cities need to plan safe crossings and maintain the lanes.\n\nA city could test a bike lane on one route and collect feedback from cyclists, drivers, businesses and people walking. It could then change the design before expanding it. Should cities create more bike lanes? Which streets would benefit, and how should planners consider people who travel in different ways?",
@@ -569,7 +592,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should cities build more bike lanes?"
   },
   {
     "id": "discussion-r2-cooking-classes",
@@ -592,7 +616,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Should every student learn basic cooking at school?"
   },
   {
     "id": "discussion-r2-arts-class-time",
@@ -603,7 +628,7 @@
       "arts",
       "curriculum"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Art and music let students express ideas in ways that are different from essays and tests. A student may discover a talent, build confidence or learn to work patiently through a difficult piece. Creative classes can also connect to history, language and culture. Some students who struggle in other lessons may find a subject where they feel successful.\n\nSchool days have limited hours. More time for art and music could mean less time for science, languages or sports. Schools also need instruments, materials and trained teachers. If a program is not planned well, students may spend time waiting for equipment rather than learning.\n\nA school could offer short weekly lessons, after-school clubs or projects that combine arts with other subjects. It can ask students which opportunities they actually use. Should art and music receive more time? What should schools protect when they decide how to divide the timetable?\n\nStudents could also use creative work to explain a science idea or tell a local story. A shared exhibit or performance can make learning visible to families.",
@@ -615,7 +640,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should art and music get more time in school?"
   },
   {
     "id": "discussion-r2-outdoor-learning",
@@ -626,7 +652,7 @@
       "nature",
       "learning"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "A2",
     "ageBand": "teens",
     "summary": "An outdoor lesson can help students notice nature instead of only reading about it. A science class could observe plants or clouds, while an art class could sketch shapes and colors. Moving outside may also help students feel more awake after sitting for a long time. A nearby park or school yard can provide useful examples.\n\nOutdoor lessons depend on weather, safe spaces and clear planning. Noise can make it hard to hear instructions, and some students may have allergies or mobility needs. A teacher cannot always bring books and equipment outside. If the class goes outdoors without a goal, students may find it difficult to focus.\n\nSchools could start with one planned outdoor lesson each month and make sure every student can take part. Teachers can prepare a backup plan for rain. Should classes study outside more often? Which subjects would benefit, and what would make an outdoor lesson comfortable and safe?",
@@ -638,7 +664,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Easy"
+    "difficultyLevel": "Easy",
+    "flightQuestion": "Should classes study outdoors once a week?"
   },
   {
     "id": "discussion-r2-free-museum-entry",
@@ -649,7 +676,7 @@
       "culture",
       "museums"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Museums can bring history, art and science to life. Students may understand an idea better when they can see an object, experiment or artwork in person. Free entry could help families visit on their own, not only during a school trip. It may also make museums feel open to more people in the community.\n\nMuseums need money to care for collections, pay staff and create exhibits. If every student visit is free, they may need public funding or donations to cover costs. A free ticket does not solve the cost of transport, and some students live far from a museum.\n\nA museum could offer free student days, discounted tickets or free entry when a teacher books a lesson. Local governments might help pay for visits that support school learning. Should students enter museums for free? Who should cover the cost, and what kinds of visits would be most valuable?\n\nA school might also arrange a virtual visit when travel is impossible. Museums can provide learning materials before and after a visit so the experience continues in class.",
@@ -661,7 +688,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should museums offer free entry to students?"
   },
   {
     "id": "discussion-r2-video-games-sport",
@@ -672,7 +700,7 @@
       "gaming",
       "competition"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Competitive video games can require quick decisions, practice and teamwork. Players may train for hours, study strategies and communicate with teammates during a match. Organized competitions have rules, coaches and audiences. Supporters say a sport is an activity where people develop skill and compete, so gaming should be included.\n\nOther people think sports should involve more physical movement. Sitting at a screen for a long time can affect health, and not every game encourages respectful behavior. Some competitions depend on expensive computers or fast internet, which makes it harder for all students to join.\n\nSchools can recognize gaming clubs while also encouraging movement and healthy breaks. A team might combine strategy practice with exercise and clear screen-time limits. Should competitive gaming be called a sport? What qualities make an activity a sport, and do those qualities apply to esports?\n\nPlayers need to follow rules and respect opponents, just as athletes do. A school club could discuss healthy practice habits and responsible online behavior.",
@@ -684,7 +712,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Can competitive video games count as a sport?"
   },
   {
     "id": "discussion-r2-tourism-limits",
@@ -695,7 +724,7 @@
       "environment",
       "community"
     ],
-    "genre": "discussion",
+    "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
     "summary": "Popular destinations can become crowded. Too many visitors may create litter, noise or damage to fragile places. Local residents may find it harder to travel through their own town, and nature areas may not have time to recover. A visitor limit can help protect a place and make each visit calmer.\n\nTourism also supports jobs in hotels, restaurants, transport and guiding. A strict limit could reduce income for local families. Some people may feel that a public beach, park or historic site should be open to everyone. If tickets are expensive, limits might favor visitors who can pay more.\n\nA destination could use timed entry, seasonal limits or different routes to spread visitors out. Local residents should help decide which places need protection. Should popular destinations limit visitors? How can a community protect its home while welcoming people who want to learn about it?\n\nA community can share visitor information in several languages and explain why certain places need extra care. Visitors may accept limits more easily when local residents help design them.",
@@ -707,7 +736,8 @@
     "attribution": "LessonCaptain — original discussion text",
     "place": null,
     "needsReview": false,
-    "difficultyLevel": "Intermediate"
+    "difficultyLevel": "Intermediate",
+    "flightQuestion": "Should popular tourist places limit visitor numbers?"
   },
   {
     "id": "discussion-r2-historic-buildings",
