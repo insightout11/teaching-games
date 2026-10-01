@@ -561,9 +561,8 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     skipSourceBriefing: true,
     takeoff: 'boarding-call',
     landing: 'trip-recap',
-    // The fixed trip spine. trip-arrival / trip-getting-there / trip-meal are purpose-built on the
-    // line-by-line PerformedExchange engine (AI-varied lines, deterministic fallback); only
-    // trip-hotel still uses ConversationRounds. trip-attractions is seeded from the city's real
+    // The fixed trip spine. trip-arrival / trip-getting-there / trip-hotel / trip-meal run on the
+    // line-by-line PerformedExchange engine, each with a Take 2 problem card. trip-attractions is seeded from the city's real
     // attractions (no AI). See docs/travel-trip-anchors-codex-brief.md.
     moduleSequence: [
       { slotType: 'production', key: 'trip-arrival', stageId: 'arrival' },

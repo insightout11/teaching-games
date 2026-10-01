@@ -2,7 +2,8 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ComponentType } from 'react';
-import { ChevronRight, Users } from 'lucide-react';
+import { ChevronRight, Users, Zap, Check } from 'lucide-react';
+import { pickTripProblem, type ProblemStop } from '@/lib/world-flight/trip-problems';
 import type { Difficulty } from '@/lib/difficulty';
 import type { Student } from '@/lib/supabase/types';
 import { useSessionStore } from '@/stores/session-store';
@@ -62,6 +63,8 @@ interface PerformedExchangeProps {
   onSetInputSpec?: ActivityProps['onSetInputSpec'];
   onScore?: ActivityProps['onScore'];
   onFinished: () => void;
+  /** Travel v2: after the scripted Take 1, offer a Take 2 with a problem card, in own words. */
+  problemStop?: ProblemStop;
 }
 
 function renderWithBlanks(text: string): React.ReactNode {
@@ -92,6 +95,7 @@ export function PerformedExchange({
   onSetInputSpec,
   onScore,
   onFinished,
+  problemStop,
 }: PerformedExchangeProps) {
   const { service, others, swap, canSwap } = useTravelRoles(students);
   const recordFeature = useSessionStore((s) => s.recordFeature);
@@ -99,24 +103,39 @@ export function PerformedExchange({
   // session callCounts) go first, so featured turns spread over the whole trip instead of always
   // starting with the top of the roster. Snapshotted once at mount so the order doesn't reshuffle
   // mid-stop as we record features. With no roster, one unnamed "class" turn so the scene still runs.
+  // Keyed on the ids (not the array, which is new every render) so recording a turn doesn't
+  // re-sort the queue mid-stop and repeat one traveller while skipping another.
+  const othersKey = others.map((o) => o.id).join(',');
+  const othersRef = useRef(others); othersRef.current = others;
   const travellers = useMemo<Array<Student | null>>(() => {
-    if (others.length === 0) return [null];
+    const list = othersRef.current;
+    if (list.length === 0) return [null];
     const counts = useSessionStore.getState().callCounts;
-    return [...others].sort((a, b) => (counts[a.id] ?? 0) - (counts[b.id] ?? 0));
-  }, [others]);
+    return [...list].sort((a, b) => (counts[a.id] ?? 0) - (counts[b.id] ?? 0));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: re-snapshot only when the roster ids change
+  }, [othersKey]);
 
   // Soft wrap suggestion, scaled down for small classes so everyone goes before "WRAP UP" appears.
   const wrapThreshold = Math.min(travellers.length, WRAP_SUGGESTION);
 
   const [turnIndex, setTurnIndex] = useState(0);
   const [lineIndex, setLineIndex] = useState(0);
+  // Take 2: 'off' (scripted Take 1), 'on' (problem being played), 'done' (solved).
+  const [take2, setTake2] = useState<'off' | 'on' | 'done'>('off');
+  const travellerCards = useSessionStore((s) => s.lessonThread.travellers);
   const scoredTurnsRef = useRef<Set<number>>(new Set());
   const serviceScoredRef = useRef(false);
   const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const traveller = travellers[Math.min(turnIndex, travellers.length - 1)] ?? null;
   const script = useMemo(() => scriptFor(traveller), [scriptFor, traveller]);
-  const turnDone = lineIndex >= script.length;
+  const take1Done = lineIndex >= script.length;
+  const problem = useMemo(
+    () => (problemStop ? pickTripProblem(problemStop, traveller ? travellerCards?.[traveller.id] : undefined, turnIndex) : null),
+    [problemStop, traveller, travellerCards, turnIndex],
+  );
+  // With a problem stop, a turn is done once Take 2 is solved (or skipped).
+  const turnDone = take1Done && (!problem || take2 === 'done');
   const isLastTurn = turnIndex >= travellers.length - 1;
   // Once the current turn completes we'll have featured turnIndex + 1 travellers; at/past the
   // soft threshold the primary action becomes "WRAP UP" (but NEXT TRAVELLER stays available).
@@ -124,6 +143,17 @@ export function PerformedExchange({
 
   // Scaffolding on student devices: both roles' key phrases, spoken-first (confirm only).
   useEffect(() => {
+    if (problem && take2 === 'on') {
+      onSetInputSpec?.({
+        type: 'confirm',
+        gameKey,
+        prompt: `Take 2: ${problem.title}`,
+        instruction: problem.goal,
+        buttonLabel: 'Ready',
+        keywordGroups: [{ label: 'Useful phrases', phrases: problem.phrases }],
+      });
+      return;
+    }
     onSetInputSpec?.({
       type: 'confirm',
       gameKey,
@@ -134,8 +164,8 @@ export function PerformedExchange({
         { label: travellerRole, phrases: travellerPhrases },
       ],
     });
-    return () => onSetInputSpec?.(null);
-  }, [onSetInputSpec, gameKey, context, serviceRole, travellerRole, servicePhrases, travellerPhrases]);
+  }, [onSetInputSpec, gameKey, context, serviceRole, travellerRole, servicePhrases, travellerPhrases, problem, take2]);
+  useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
   // Keep the current line in view.
   useEffect(() => {
@@ -168,7 +198,16 @@ export function PerformedExchange({
     await scoreCurrentTraveller();
     setTurnIndex((i) => i + 1);
     setLineIndex(0);
+    setTake2('off');
   }, [scoreCurrentTraveller]);
+
+  // Take 2 solved: an extra +2 for handling it in their own words.
+  const solveTake2 = useCallback(async () => {
+    setTake2('done');
+    if (traveller) {
+      await onScore?.({ studentId: traveller.id, clientId: null, displayName: traveller.name, promptIndex: turnIndex + 1, points: 2, isCorrect: null });
+    }
+  }, [traveller, turnIndex, onScore]);
 
   // End the stop. The current traveller performed, so score them; the service student held the
   // scene the whole time — score them once too.
@@ -217,6 +256,26 @@ export function PerformedExchange({
         accent={accent}
       />
 
+      {problem && take2 === 'on' ? (
+        <div className="rounded-2xl border-2 border-rose-400/40 bg-rose-500/[0.08] p-5">
+          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.24em] text-rose-300">
+            <Zap className="h-4 w-4" aria-hidden />Take 2 · Problem
+          </p>
+          <h4 className="mt-2 text-2xl font-game text-white">{problem.title}</h4>
+          <p className="mt-3 text-sm text-slate-200">
+            <span className={`font-semibold ${accentText}`}>{service ? service.name : 'Teacher'} starts:</span> “{problem.serviceOpener}”
+          </p>
+          <p className="mt-2 text-sm text-slate-200">
+            <span className="font-semibold text-slate-300">{traveller ? traveller.name : 'The class'}’s goal:</span> {problem.goal}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {problem.phrases.map((ph) => (
+              <span key={ph} className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-slate-200">{ph}</span>
+            ))}
+          </div>
+          <p className="mt-3 text-xs text-slate-400">No script this time. Say it your own way.</p>
+        </div>
+      ) : (
       <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
           The exchange — line by line
@@ -247,14 +306,32 @@ export function PerformedExchange({
           })}
         </div>
       </div>
+      )}
 
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs text-slate-400">
-          {turnDone
-            ? `${traveller ? traveller.name : 'The class'} made it through!`
-            : 'Students speak the highlighted line, then advance.'}
+          {take2 === 'on'
+            ? 'Play the scene again with the problem. Solve it in your own words.'
+            : take1Done && problem && take2 === 'off'
+              ? 'Take 1 done. Now the same scene with a problem.'
+              : turnDone
+                ? `${traveller ? traveller.name : 'The class'} made it through!`
+                : 'Students speak the highlighted line, then advance.'}
         </p>
-        {turnDone ? (
+        {take1Done && problem && take2 === 'off' ? (
+          <div className="flex items-center gap-2">
+            <button onClick={() => setTake2('done')} className="rounded-xl border border-white/15 bg-white/5 px-4 py-3 font-game text-sm text-slate-300 transition hover:bg-white/10">
+              SKIP TAKE 2
+            </button>
+            <button onClick={() => setTake2('on')} className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]">
+              <Zap className="h-4 w-4" aria-hidden />TAKE 2 · PROBLEM
+            </button>
+          </div>
+        ) : take2 === 'on' ? (
+          <button onClick={() => void solveTake2()} className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]">
+            <Check className="h-4 w-4" aria-hidden />SOLVED · +2
+          </button>
+        ) : turnDone ? (
           isLastTurn ? (
             <button
               onClick={() => void finish()}

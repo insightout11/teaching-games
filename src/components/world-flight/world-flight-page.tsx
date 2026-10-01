@@ -14,6 +14,7 @@ import { inferSourceGenre, bestPresetForGenre } from '@/lib/preset-fit';
 import { buildTripItinerary } from '@/lib/world-flight/travel-context';
 import { buildTripAttractionsContent } from '@/activities/trip-attractions';
 import { buildTripMealContent } from '@/activities/trip-meal';
+import { buildTripHotelContent } from '@/activities/trip-hotel/content';
 import { buildTripGettingThereContent } from '@/activities/trip-getting-there';
 import { buildTripDirectionsContent } from '@/activities/trip-directions';
 import { buildTripArrivalContent } from '@/activities/trip-arrival';
@@ -2480,16 +2481,15 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
       store.setTopic(`Trip to ${selectedDestination.city}`);
       store.setSourceMaterial(itinerary.arrival);
       store.setTripPack({
+        stageSources: {},
         // Boarding Call (takeoff) and Trip Recap (landing) are data-seeded and need no source.
-        stageSources: {
-          'trip-hotel': itinerary.hotel,
-        },
         preGenerated: {
           'boarding-call': buildBoardingCallContent(selectedDestination),
           'trip-arrival': buildTripArrivalContent(selectedDestination),
           'trip-getting-there': buildTripGettingThereContent(selectedDestination),
           'trip-directions': buildTripDirectionsContent(selectedDestination),
           'trip-attractions': buildTripAttractionsContent(selectedDestination),
+          'trip-hotel': buildTripHotelContent(selectedDestination),
           'trip-meal': buildTripMealContent(selectedDestination),
         },
       });

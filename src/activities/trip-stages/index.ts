@@ -1,34 +1,27 @@
 import { ConciergeBell } from 'lucide-react';
-import { ConversationRoundsActivity } from '../conversation-rounds/activity';
+import { TripHotelActivity } from '../trip-hotel/activity';
 import type { ActivityPlugin } from '../types';
 
-// Travel-arc roleplay stage(s) that reuse the ConversationRounds engine but are SEPARATE
-// activity keys, so each gets its own content slot + source grounding (from buildTripItinerary).
-// (Arrival is an adaptive Scene Igniter; Getting There, Attractions, and the Meal are
-// purpose-built — see ../trip-getting-there, ../trip-attractions, ../trip-meal.)
-
-const base: Omit<ActivityPlugin, 'key' | 'name' | 'description' | 'icon'> = {
+// Travel-arc Hotel stop. Since Travel v2 it runs on the line-by-line PerformedExchange engine
+// (like Arrival / Getting There / Local Table), with a Take 2 problem card. Content is data-seeded
+// (buildTripHotelContent), injected at launch via the trip pack.
+export const tripHotelPlugin: ActivityPlugin = {
+  key: 'trip-hotel',
+  name: 'Hotel Check-In',
+  description: 'Check in at the front desk line by line, then handle a problem in your own words.',
+  icon: ConciergeBell,
   category: 'learning',
   pppStage: 'production',
   skills: ['Speaking', 'Role-play', 'Listening'],
-  component: ConversationRoundsActivity,
+  component: TripHotelActivity,
   supportsCustomTopic: false,
-  estimatedMinutes: 12,
+  estimatedMinutes: 10,
   defaultTimerSeconds: 0,
-  // Only meaningful inside the Travel arc (needs a per-stage travel source).
+  // Only meaningful inside the Travel arc.
   flightPlanOnly: true,
-  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
-  // Reuses ConversationRounds' two-role engine — both roles collapse onto the same
-  // student when solo, so this needs a real second student to be meaningful.
-  minStudents: 2,
-  idealStudents: { min: 2, max: null },
-  deviceFree: false,
-};
-
-export const tripHotelPlugin: ActivityPlugin = {
-  ...base,
-  key: 'trip-hotel',
-  name: 'Hotel Check-In',
-  description: 'Roleplay the hotel front desk — check in, ask about the room, report a problem.',
-  icon: ConciergeBell,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
+  // Adapts to class size (receptionist + guests); works solo (teacher is the receptionist).
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: true,
 };

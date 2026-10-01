@@ -287,6 +287,7 @@ export function TripGettingThereActivity({
           onSetInputSpec={onSetInputSpec}
           onScore={onScore}
           onFinished={finish}
+          problemStop="getting-there"
         />
       </div>
     );

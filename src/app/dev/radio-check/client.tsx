@@ -22,6 +22,9 @@ import { useSessionStore } from '@/stores/session-store';
 import { SceneScriptPanel } from '@/components/student/scene-script-panel';
 import type { InputSpec } from '@/lib/input-spec';
 import { RadioCheckActivity } from '@/activities/radio-check';
+import { BoardingCallActivity } from '@/activities/boarding-call/activity';
+import { TripHotelActivity } from '@/activities/trip-hotel/activity';
+import { TripTravellerCardPanel } from '@/components/student/trip-traveller-card';
 import { StaticActivity } from '@/activities/static';
 import { BlackBoxActivity } from '@/activities/black-box';
 import type { ActivityProps, RadioCheckContent, StaticContent, BlackBoxContent, SceneIgniterContent, RankItContent } from '@/activities/types';
@@ -104,6 +107,8 @@ const RANK: RankItContent = {
   }],
 };
 
+const TRIP_CREW = [{ id: 's1', name: 'Ana' }, { id: 's2', name: 'Ben' }, { id: 's3', name: 'Chloe' }] as unknown as ActivityProps['students'];
+
 export function RadioCheckDevClient() {
   const [spec, setSpec] = useState<InputSpec | null>(null);
   const [landed, setLanded] = useState(false);
@@ -119,7 +124,16 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'mission' ? (
+      {mode === 'trip' || mode === 'hotel' ? (
+        <div className="flex gap-4">
+          <div className="flex-1">{mode === 'trip'
+            ? <BoardingCallActivity {...props} students={TRIP_CREW} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} generatedContent={{ activityKey: 'boarding-call', topicContext: 'Tokyo', city: 'Tokyo', prompts: ['What are you packing?', 'What do you want to see?', 'One worry?'], packingHint: 'Rain jacket' } as unknown as ActivityProps['generatedContent']} />
+            : <TripHotelActivity {...props} sessionSettings={{ difficulty: 'Intermediate' } as unknown as ActivityProps['sessionSettings']} students={TRIP_CREW} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} generatedContent={{ activityKey: 'trip-hotel', topicContext: 'Tokyo', city: 'Tokyo', framingPrompt: 'Check in at your hotel in Tokyo.' } as unknown as ActivityProps['generatedContent']} />}</div>
+          <div className="w-80 rounded-3xl bg-slate-900 p-4 text-sm text-slate-200">{spec?.gameKey === 'boarding-call' && spec.perStudentData?.__room
+            ? <TripTravellerCardPanel spec={spec} studentId="s2" onSubmit={() => {}} />
+            : <pre className="whitespace-pre-wrap text-xs">{JSON.stringify(spec, null, 1)}</pre>}</div>
+        </div>
+      ) : mode === 'mission' ? (
         <div className="flex gap-6">
           <div className="flex-1"><VideoPlayerActivity {...props} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} generatedContent={{ activityKey: 'video-player', topicContext: 'Food', videoUrl: 'https://www.youtube.com/watch?v=Z9TIlM96lT8', videoTitle: 'Gotta Eat!', comprehensionQuestions: [{ question: 'Why do animals need food?', options: ['For energy', 'To sleep', 'To swim', 'To see'], correctIndex: 0, evidence: 'Food gives animals the energy they need.', timestampLabel: '0:30', timestamp: 30 }, { question: 'What do pandas eat?', options: ['Fish', 'Bamboo', 'Grass', 'Fruit'], correctIndex: 1, explanation: 'Pandas eat bamboo.' }] } as unknown as ActivityProps['generatedContent']} /></div>
           <div className="w-80 shrink-0 rounded-3xl border border-white/10 bg-slate-900 p-4">{spec ? <BriefingMissionPanel spec={spec} onSubmit={() => {}} /> : <p className="text-white/40">phone</p>}</div>

@@ -207,6 +207,13 @@ export interface TripDishOption {
   imageCredit?: string; // creator · license (shown on the expanded view)
 }
 
+// Trip Hotel content (Travel arc). Data-seeded; the performed check-in script is in the component.
+export interface TripHotelContent extends ActivityGeneratedContent {
+  activityKey: 'trip-hotel';
+  city: string;
+  framingPrompt: string;
+}
+
 export interface TripMealContent extends ActivityGeneratedContent {
   activityKey: 'trip-meal';
   city: string;

@@ -3693,10 +3693,12 @@ export async function POST(request: NextRequest) {
             generators.push(generateConversationRounds(customTopic, diff, sceneFromKit, kitSourceCtx, taskRoleplay).then((r) => { content[activityKey] = r; }));
             break;
           case 'trip-hotel':
-            // Travel-arc roleplay stage: ConversationRounds task-roleplay grounded on its own
-            // per-stage source. (Getting There, Attractions, and the Meal are data-seeded from
-            // real anchors and injected at launch — not generated here.)
-            generators.push(generateConversationRounds(customTopic, diff, undefined, sourceCtx, true).then((r) => { content[activityKey] = r; }));
+            // Travel-arc Hotel stop: performed check-in, normally injected at launch (trip pack).
+            // Fallback when it wasn't: the city from the topic ("Trip to Tokyo").
+            generators.push(Promise.resolve().then(() => {
+              const city = customTopic.replace(/^Trip to /, '');
+              content[activityKey] = { activityKey: 'trip-hotel', topicContext: customTopic, city, framingPrompt: `Check in at your hotel in ${city}.` };
+            }));
             break;
           case 'cabin-mystery':
             // V1 is a static hand-authored case. No AI generation required.

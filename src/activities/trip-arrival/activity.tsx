@@ -167,6 +167,7 @@ export function TripArrivalActivity({
         onSetInputSpec={onSetInputSpec}
         onScore={onScore}
         onFinished={finish}
+          problemStop="arrival"
       />
     </div>
   );

@@ -221,6 +221,7 @@ export function TripMealActivity({
           onSetInputSpec={onSetInputSpec}
           onScore={onScore}
           onFinished={finish}
+          problemStop="meal"
         />
       </div>
     );
