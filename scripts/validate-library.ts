@@ -13,6 +13,7 @@ type Item = {
   durationSecs?: unknown;
   wordCount?: unknown;
   summary?: unknown;
+  shortSummary?: unknown;
   images?: unknown;
   description?: unknown;
   topicTags?: unknown;
@@ -27,6 +28,8 @@ type Item = {
   reviewNote?: unknown;
   flightQuestion?: unknown;
   series?: unknown;
+  source?: unknown;
+  retellings?: unknown;
 };
 
 const dataDir = path.resolve('src/data');
@@ -52,6 +55,7 @@ const listeningTags = new Set([
   'listening:podcast', 'listening:interview', 'listening:announcement', 'listening:dialogue',
 ]);
 const seriesGroups: Record<string, Item[]> = {};
+let bookCourseItemCount = 0;
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -74,7 +78,12 @@ function validateExpandedItem(item: Item, where: string) {
     if (!nonEmpty(item.flightQuestion)) fail(where, 'flightQuestion must be a non-empty question');
     else if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
     else if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
-    if (item.genre !== 'opinion' && item.genre !== 'expository') fail(where, 'flightQuestion requires opinion or expository genre');
+    const youngNarrative = item.ageBand === 'kids'
+      && (item.kind === 'text' || item.kind === 'picture-book');
+    if (item.genre !== 'opinion' && item.genre !== 'expository'
+      && where.indexOf('book-library.json[') !== 0 && !youngNarrative) {
+      fail(where, 'flightQuestion requires opinion or expository genre, except narrative text for young learners');
+    }
     if (item.kind === 'video'
       && (typeof item.durationSecs !== 'number' || item.durationSecs < 180 || item.durationSecs > 480)) {
       fail(where, 'Flight Question videos must be 3–8 minutes long');
@@ -136,6 +145,36 @@ function validateExpandedItem(item: Item, where: string) {
         fail(where, `unsupported grammar tag ${tag}`);
       }
     }
+  }
+  if (where.indexOf('book-library.json[') === 0) {
+    bookCourseItemCount += 1;
+    const source = item.source as { title?: unknown; url?: unknown } | undefined;
+    if (!source || !nonEmpty(source.title) || !nonEmpty(source.url)
+      || !/^https:\/\/(www\.)?gutenberg\.org\//i.test(String(source.url))) {
+      fail(where, 'book item source must link to a Project Gutenberg original');
+    }
+    if (item.genre !== 'narrative') fail(where, 'book course items must use narrative genre');
+    if (!nonEmpty(item.shortSummary)) fail(where, 'book course items require a shortSummary synopsis');
+    if (!nonEmpty(item.flightQuestion)) fail(where, 'book course items require a flightQuestion');
+    const versions = item.retellings as Record<string, unknown> | undefined;
+    let a2WordCount: number | undefined;
+    for (const level of ['A2', 'B1']) {
+      const version = versions?.[level] as { cefr?: unknown; ageBand?: unknown; text?: unknown; wordCount?: unknown } | undefined;
+      if (!version || version.cefr !== level || !nonEmpty(version.ageBand) || !nonEmpty(version.text)) {
+        fail(where, `${level} retelling requires matching cefr, ageBand, and text`);
+        continue;
+      }
+      const words = version.text.trim().split(/\s+/).filter(Boolean).length;
+      if (words < 250 || words > 450) fail(where, `${level} retelling must contain 250–450 words (found ${words})`);
+      if (version.wordCount !== words) fail(where, `${level} wordCount must match its retelling (${words})`);
+      if (level === 'A2') a2WordCount = words;
+    }
+    if (item.cefr !== 'A2') fail(where, 'book item default cefr must be A2');
+    if (typeof item.wordCount !== 'number' || item.wordCount !== a2WordCount) {
+      fail(where, 'book item wordCount must match the A2 version word count');
+    }
+    const a2 = versions?.A2 as { text?: unknown } | undefined;
+    if (nonEmpty(a2?.text) && item.summary !== a2.text) fail(where, 'summary must contain the full A2 retelling for existing reading tools');
   }
 }
 
@@ -213,6 +252,12 @@ for (const seriesId of Object.keys(seriesGroups)) {
   }
   if (Math.max(...ranks) - Math.min(...ranks) > 1) fail(`series ${seriesId}`, 'CEFR levels may span no more than one step');
 }
+
+const seriesIds = Object.keys(seriesGroups);
+if (seriesIds.length !== 25) fail('series catalog', `expected 25 course series after round 5 (found ${seriesIds.length})`);
+const bookSeriesIds = seriesIds.filter((seriesId) => seriesId.indexOf('book-course-') === 0);
+if (bookSeriesIds.length !== 6) fail('book-library.json', `expected 6 public-domain book courses (found ${bookSeriesIds.length})`);
+if (bookCourseItemCount !== 24) fail('book-library.json', `expected 24 book lesson items (found ${bookCourseItemCount})`);
 
 if (errors.length) {
   console.error(`Library validation failed with ${errors.length} error(s):`);
