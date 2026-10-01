@@ -962,7 +962,8 @@
     "genre": "expository",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
   },
   {
     "id": "kids_cye4_d6fb_w",
@@ -1754,7 +1755,8 @@
     "genre": "expository",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
   },
   {
     "id": "kids_jyu966aonzi",
@@ -1850,7 +1852,8 @@
     "genre": "expository",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
   },
   {
     "id": "kids_optical_illusions",

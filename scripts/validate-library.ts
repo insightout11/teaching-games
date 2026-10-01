@@ -24,6 +24,8 @@ type Item = {
   license?: unknown;
   attribution?: unknown;
   needsReview?: unknown;
+  reviewNote?: unknown;
+  flightQuestion?: unknown;
 };
 
 const dataDir = path.resolve('src/data');
@@ -37,6 +39,17 @@ const cefrValues = new Set(['A1', 'A2', 'B1', 'B2', 'C1']);
 const ageBandValues = new Set(['kids', 'teens', 'all']);
 const genres = new Set(['expository', 'narrative', 'news', 'opinion', 'discussion', 'poem', 'dialogue']);
 const youtubeIdPattern = /^[A-Za-z0-9_-]{11}$/;
+const grammarTags = new Set([
+  'grammar:present-simple', 'grammar:present-continuous', 'grammar:past-simple',
+  'grammar:past-continuous', 'grammar:present-perfect', 'grammar:past-perfect',
+  'grammar:future-will', 'grammar:future-going-to', 'grammar:questions',
+  'grammar:comparatives-superlatives', 'grammar:modals', 'grammar:conditionals',
+  'grammar:passive', 'grammar:reported-speech', 'grammar:relative-clauses',
+  'grammar:prepositions', 'grammar:articles',
+]);
+const listeningTags = new Set([
+  'listening:podcast', 'listening:interview', 'listening:announcement', 'listening:dialogue',
+]);
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -54,6 +67,13 @@ function validateExpandedItem(item: Item, where: string) {
   if (!cefrValues.has(String(item.cefr))) fail(where, 'cefr must be A1, A2, B1, B2, or C1');
   if (!ageBandValues.has(String(item.ageBand))) fail(where, 'ageBand must be kids, teens, or all');
   if (typeof item.needsReview !== 'boolean') fail(where, 'needsReview must be a boolean');
+  if (item.reviewNote !== undefined && !nonEmpty(item.reviewNote)) fail(where, 'reviewNote, when present, must be non-empty');
+  if (item.flightQuestion !== undefined) {
+    if (!nonEmpty(item.flightQuestion)) fail(where, 'flightQuestion must be a non-empty question');
+    else if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
+    else if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
+    if (item.genre !== 'opinion' && item.genre !== 'expository') fail(where, 'flightQuestion requires opinion or expository genre');
+  }
   if (item.place !== null && item.place !== undefined) {
     const place = item.place as { name?: unknown; lat?: unknown; lng?: unknown };
     if (!nonEmpty(place.name) || typeof place.lat !== 'number' || typeof place.lng !== 'number') {
@@ -94,6 +114,13 @@ function validateExpandedItem(item: Item, where: string) {
     fail(where, `kind must be text, video, or picture-book (found ${String(item.kind)})`);
   }
   if (!nonEmpty(item.genre) || !genres.has(item.genre)) fail(where, 'genre must be expository, narrative, news, opinion, discussion, poem, or dialogue');
+  if (where.indexOf('grammar-library.json[') === 0 && Array.isArray(item.topicTags)) {
+    for (const tag of item.topicTags) {
+      if (typeof tag === 'string' && tag.indexOf('grammar:') === 0 && !grammarTags.has(tag)) {
+        fail(where, `unsupported grammar tag ${tag}`);
+      }
+    }
+  }
 }
 
 for (const file of files) {
@@ -121,6 +148,25 @@ for (const file of files) {
       const normalized = item.url.trim().replace(/\/$/, '').toLowerCase();
       if (urls.has(normalized)) fail(where, `duplicate URL also found in ${urls.get(normalized)}`);
       else urls.set(normalized, where);
+    }
+
+    if (file === 'grammar-library.json') {
+      const tagged = Array.isArray(item.topicTags)
+        && item.topicTags.some((tag) => typeof tag === 'string' && grammarTags.has(tag));
+      if (!tagged && !(item.needsReview === true && nonEmpty(item.reviewNote))) {
+        fail(where, 'grammar clips require an exact grammar:* tag or needsReview with an explanatory reviewNote');
+      }
+    }
+    if (Array.isArray(item.topicTags)) {
+      for (const tag of item.topicTags) {
+        if (typeof tag === 'string' && tag.indexOf('listening:') === 0 && !listeningTags.has(tag)) {
+          fail(where, `unsupported listening format tag ${tag}`);
+        }
+      }
+    }
+    if (file === 'listening-library.json'
+      && (!Array.isArray(item.topicTags) || !item.topicTags.some((tag) => typeof tag === 'string' && tag.indexOf('listening:') === 0))) {
+      fail(where, 'listening sources require a listening:* format tag');
     }
 
     // The current library contains legacy records. Apply the complete contract

@@ -1808,7 +1808,8 @@
     "genre": "expository",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: screen the full lesson and confirm whether its health, identity, or psychology topic needs classroom framing."
   },
   {
     "id": "teded_qwg2f9dwwpy",
@@ -1907,7 +1908,8 @@
     "genre": "expository",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: screen the full lesson and confirm whether its health, identity, or psychology topic needs classroom framing."
   },
   {
     "id": "teded_zkh6z0x6krw",
@@ -1931,7 +1933,8 @@
     "genre": "expository",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: screen the full lesson and confirm whether its health, identity, or psychology topic needs classroom framing."
   },
   {
     "id": "teded_blk23yzqxom",
@@ -2184,7 +2187,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: screen the full lesson and confirm whether its health, identity, or psychology topic needs classroom framing."
   },
   {
     "id": "teded_cqgmozfr_gm",

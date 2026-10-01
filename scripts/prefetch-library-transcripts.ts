@@ -43,6 +43,7 @@ type LibraryEntry = {
   youtubeId?: string | null;
   transcriptUrl?: string | null;
   durationSecs: number;
+  transcriptSourceType?: string;
 };
 
 type EnrichmentResult = {
@@ -431,7 +432,7 @@ async function main() {
     ...loadLibrary('ted-library.json').map((e) => ({ ...e, sourceType: 'ted' as const })),
     ...loadLibrary('teded-library.json').map((e) => ({ ...e, sourceType: 'teded' as const })),
     ...loadLibrary('bbc-library.json').map((e) => ({ ...e, sourceType: 'bbc' as const })),
-    ...loadLibrary('grammar-library.json').map((e) => ({ ...e, sourceType: 'grammar' as const })),
+    ...loadLibrary('grammar-library.json').map((e) => ({ ...e, sourceType: (e.transcriptSourceType || 'grammar') as string })),
     ...loadLibrary('hooks-library.json').map((e) => ({ ...e, sourceType: 'hooks' as const })),
     ...loadLibrary('kurzgesagt-library.json').map((e) => ({ ...e, sourceType: 'kurzgesagt' as const })),
     ...loadLibrary('bbc-ideas-library.json').map((e) => ({ ...e, sourceType: 'bbc-ideas' as const })),

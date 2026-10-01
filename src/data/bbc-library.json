@@ -18,24 +18,6 @@
     "ageBand": "teens"
   },
   {
-    "id": "bbc_grammar_present_past",
-    "title": "Grammar: Present to Talk About the Past",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=WbtrD-As0Nw",
-    "youtubeId": "WbtrD-As0Nw",
-    "durationSecs": 270,
-    "topicTags": [
-      "grammar",
-      "tense",
-      "narrative"
-    ],
-    "difficultyLevel": "Advanced",
-    "description": "Dan explores the 'historical present' — how English speakers use present tenses to tell past stories, narrate sports, and create dramatic effects.",
-    "genre": "expository",
-    "cefr": "B2",
-    "ageBand": "teens"
-  },
-  {
     "id": "bbc_grammar_formal_informal",
     "title": "Grammar: Formal English and Informal English",
     "speaker": "BBC Learning English",
@@ -88,42 +70,6 @@
     "description": "Dan reveals common grammatical 'mistakes' that native English speakers make — and explains which ones are now considered acceptable in modern usage.",
     "genre": "how-to",
     "cefr": "B2",
-    "ageBand": "teens"
-  },
-  {
-    "id": "bbc_grammar_mixing_conditionals",
-    "title": "Grammar: Mixing Conditionals",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=_Mv7fBqauvc",
-    "youtubeId": "_Mv7fBqauvc",
-    "durationSecs": 390,
-    "topicTags": [
-      "grammar",
-      "conditionals",
-      "mixed conditionals"
-    ],
-    "difficultyLevel": "Advanced",
-    "description": "Dan teaches mixed conditionals — combining different conditional forms to talk about unreal situations with complex time relationships between past and present.",
-    "genre": "expository",
-    "cefr": "B2",
-    "ageBand": "teens"
-  },
-  {
-    "id": "bbc_grammar_question_tags",
-    "title": "Grammar: Question Tags",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=plvBNpPKkTc",
-    "youtubeId": "plvBNpPKkTc",
-    "durationSecs": 345,
-    "topicTags": [
-      "grammar",
-      "question tags",
-      "spoken english"
-    ],
-    "difficultyLevel": "Intermediate",
-    "description": "Dan explains how to form and use question tags in British English — including the difference between falling and rising intonation and how tags function in natural conversation.",
-    "genre": "expository",
-    "cefr": "B1",
     "ageBand": "teens"
   },
   {
@@ -239,25 +185,6 @@
     "ageBand": "teens"
   },
   {
-    "id": "bbc_masterclass_choose_tense",
-    "title": "How to Choose the Correct Tense in English",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=GiI3wjFWSXQ",
-    "youtubeId": "GiI3wjFWSXQ",
-    "durationSecs": 315,
-    "topicTags": [
-      "grammar",
-      "tense",
-      "present perfect",
-      "past simple"
-    ],
-    "difficultyLevel": "Intermediate",
-    "description": "Dan tackles one of the most confusing areas for English learners — when to use the present perfect vs. past simple, and other key tense distinctions in context.",
-    "genre": "how-to",
-    "cefr": "B1",
-    "ageBand": "teens"
-  },
-  {
     "id": "bbc_masterclass_linking_words",
     "title": "How to Use Linking Words in English",
     "speaker": "BBC Learning English",
@@ -311,7 +238,9 @@
       "city-life",
       "restaurants",
       "consumer-trends",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English discussion of why street food has become popular, with vocabulary for vendors, markets, taste, convenience, and food trends.",
@@ -335,7 +264,9 @@
       "taste",
       "customs",
       "adaptation",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about adapting to a new food culture, useful for discussing migration, identity, taste, customs, and culture shock.",
@@ -359,7 +290,9 @@
       "leftovers",
       "resources",
       "consumer-habits",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on food waste and the people trying to reduce it, with vocabulary for sustainability, leftovers, resources, and consumer habits.",
@@ -383,7 +316,9 @@
       "convenience",
       "food-industry",
       "health",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English discussion of fast food's global popularity, connecting convenience, consumer culture, restaurant chains, and health debates.",
@@ -407,7 +342,9 @@
       "climate",
       "population",
       "innovation",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on future food and food security, useful for discussing farming, climate, population growth, and food technology.",
@@ -431,7 +368,9 @@
       "taste",
       "wellbeing",
       "habits",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about comfort food, snacks, emotions, and memory, useful for personal-opinion speaking lessons about food and wellbeing.",
@@ -454,7 +393,9 @@
       "habits",
       "rest",
       "routine",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on why sleep matters, with useful vocabulary for sleep habits, routines, rest, health, and the brain.",
@@ -478,7 +419,9 @@
       "work",
       "exams",
       "coping",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about modern stress, useful for discussing work, exams, anxiety, coping strategies, and mental wellbeing.",
@@ -502,7 +445,9 @@
       "workplace-health",
       "habits",
       "lifestyle",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on the health risks of too much sitting, with vocabulary for movement, exercise, workplace health, habits, and lifestyle.",
@@ -526,7 +471,9 @@
       "life-satisfaction",
       "mental-health",
       "positive-psychology",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about flourishing and wellbeing, useful for discussing happiness, life satisfaction, positive psychology, and mental health.",
@@ -574,7 +521,9 @@
       "relationships",
       "mental-health",
       "community",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on whether kindness benefits wellbeing, useful for speaking lessons about empathy, happiness, relationships, and community.",
@@ -598,7 +547,9 @@
       "algorithms",
       "computers",
       "automation",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about how artificial intelligence is trained, with vocabulary for machine learning, algorithms, data, computers, and automation.",
@@ -622,7 +573,9 @@
       "ai",
       "relationships",
       "future",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about robot companions, useful for discussing robotics, AI, social relationships, and the future of human-machine interaction.",
@@ -646,7 +599,9 @@
       "artificial-intelligence",
       "ai",
       "skills",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on the future of work, connecting jobs, automation, AI, skills, and how workplaces may change.",
@@ -671,7 +626,9 @@
       "automation",
       "chatbots",
       "workplace",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about AI in call centres, useful for discussing customer service, chatbots, automation, and workplace technology.",
@@ -695,7 +652,9 @@
       "web-science",
       "technology-access",
       "society",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about improving the web, useful for discussing the internet, digital communities, online behaviour, access, and technology's role in society.",
@@ -767,7 +726,9 @@
       "consumer-habits",
       "sustainability",
       "recycling",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about plastic use and plastic-free living, with vocabulary for pollution, waste, sustainability, recycling, and consumer habits.",
@@ -791,7 +752,9 @@
       "desert",
       "climate",
       "adaptation",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about saving water in extreme dry conditions, useful for lessons on drought, water scarcity, climate adaptation, and resource use.",
@@ -815,7 +778,9 @@
       "sustainability",
       "systems",
       "consumer-habits",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about recycling systems, waste, and sustainability, useful for debating whether individual habits or larger systems need to change.",
@@ -839,7 +804,9 @@
       "biodiversity",
       "ecosystems",
       "conservation",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode on how climate change affects animal migration, connecting wildlife, biodiversity, ecosystems, conservation, and changing habitats.",
@@ -887,7 +854,9 @@
       "biodiversity",
       "ethics",
       "habitats",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode debating whether animals should be kept in zoos, useful for discussing conservation, animal welfare, biodiversity, habitats, and ethics.",
@@ -911,7 +880,9 @@
       "relationships",
       "wellbeing",
       "human-animal-bond",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about why people keep and love pets, useful for discussing pet care, dogs, cats, wellbeing, and human-animal relationships.",
@@ -935,7 +906,9 @@
       "adaptations",
       "senses",
       "science",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about octopus intelligence, useful for discussing animal brains, marine life, adaptations, senses, and how scientists study intelligence.",
@@ -959,7 +932,9 @@
       "tourism",
       "sustainability",
       "environment",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about ecotourism and wildlife tourism, useful for debating conservation, habitats, tourism, sustainability, and local communities.",
@@ -983,7 +958,9 @@
       "orcas",
       "patterns",
       "wildlife",
-      "6-minute-english"
+      "6-minute-english",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A BBC 6 Minute English episode about why some animals are black and white, useful for discussing adaptations, camouflage, animal patterns, zebras, penguins, and orcas.",
@@ -1028,7 +1005,9 @@
       "technology",
       "online-communities",
       "digital-life",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1053,7 +1032,9 @@
       "work",
       "money",
       "entrepreneurship",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1078,7 +1059,9 @@
       "careers",
       "innovation",
       "education",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1103,7 +1086,9 @@
       "creativity",
       "performance",
       "ambition",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1139,7 +1124,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_real_easy_social_media_influencer",
@@ -1154,7 +1140,9 @@
       "internet-culture",
       "marketing",
       "careers",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:dialogue"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1178,7 +1166,9 @@
       "technology",
       "society",
       "opinions",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1202,7 +1192,9 @@
       "health",
       "conversation",
       "vocabulary",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:dialogue"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "A2",
@@ -1226,7 +1218,9 @@
       "learning",
       "development",
       "society",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1250,7 +1244,9 @@
       "work",
       "applications",
       "writing",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1274,7 +1270,9 @@
       "sports",
       "psychology",
       "pressure",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1298,7 +1296,9 @@
       "astronomy",
       "navigation",
       "technology",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1332,7 +1332,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_uoujhpvjse8",
@@ -1346,7 +1347,9 @@
       "communication",
       "artificial-intelligence",
       "language",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1370,7 +1373,9 @@
       "languages",
       "translation",
       "communication",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1394,7 +1399,9 @@
       "climate",
       "energy",
       "environment",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Advanced",
     "cefr": "B2",
@@ -1418,7 +1425,9 @@
       "environment",
       "climate",
       "diets",
-      "teen-interests"
+      "teen-interests",
+      "listening",
+      "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
     "cefr": "B1",
@@ -1476,7 +1485,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_y3vhuw97aia",
@@ -1549,7 +1559,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_fun_ltwaogu",
@@ -1595,7 +1606,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_dxr2waii1ck",
@@ -1618,7 +1630,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_5zq65rbsab8",
@@ -1641,7 +1654,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_klz5u2ph_ym",
@@ -1664,7 +1678,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_0uodakvdbmo",
@@ -1691,7 +1706,8 @@
       "lng": 104.1954
     },
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_xghbhwuql_w",
@@ -1760,7 +1776,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_o3tp5y9lh88",
@@ -1806,7 +1823,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_c5ppkvg7xhi",
@@ -1829,7 +1847,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_a66gx6c_zee",
@@ -1852,7 +1871,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_fwzd45xdqdo",
@@ -1875,7 +1895,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_eoxv4jgwjem",
@@ -1898,7 +1919,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_fkg0nlaqzn4",
@@ -1921,7 +1943,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_xf2rf9vx_g4",
@@ -1967,7 +1990,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_acg6qr4wawu",
@@ -1990,7 +2014,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_ag7_u4ga9ma",
@@ -2082,7 +2107,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_ueh3orsgvxq",
@@ -2105,7 +2131,8 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
   },
   {
     "id": "bbc_wunqz9sf4hu",
@@ -2128,7 +2155,74 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: this record is flagged for a potentially sensitive topic; screen its full transcript/video and confirm classroom framing."
+  },
+  {
+    "id": "bbc-grammar-r2-FBmjH6nh5-k",
+    "title": "Phrasal verbs: types 1–4 — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=FBmjH6nh5-k",
+    "youtubeId": "FBmjH6nh5-k",
+    "durationSecs": 374,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-21/session-2",
+    "topicTags": [
+      "grammar",
+      "grammar:phrasal-verbs",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining phrasal verbs: types 1–4 with examples and a practice focus.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-Gqu-bgwML00",
+    "title": "Phrasal verbs — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=Gqu-bgwML00",
+    "youtubeId": "Gqu-bgwML00",
+    "durationSecs": 376,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-4/session-2/activity-3",
+    "topicTags": [
+      "grammar",
+      "grammar:phrasal-verbs",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining phrasal verbs with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
+  },
+  {
+    "id": "bbc-grammar-r2-r6XpFWmA7Gk",
+    "title": "Quantifiers — 6 Minute Grammar",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=r6XpFWmA7Gk",
+    "youtubeId": "r6XpFWmA7Gk",
+    "durationSecs": 378,
+    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-3/session-2",
+    "topicTags": [
+      "grammar",
+      "grammar:countable-uncountable",
+      "english-learning"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A short BBC lesson explaining quantifiers with examples.",
+    "genre": "expository",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "needsReview": false
   },
   {
     "id": "bbc-grammar-r2-X6LuWwb9whM",
@@ -2377,50 +2471,6 @@
     "needsReview": false
   },
   {
-    "id": "bbc-grammar-r2-HUXXgVElADg",
-    "title": "Have to and must — 6 Minute Grammar",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=HUXXgVElADg",
-    "youtubeId": "HUXXgVElADg",
-    "durationSecs": 359,
-    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-5/session-2",
-    "topicTags": [
-      "grammar",
-      "grammar:modals",
-      "english-learning"
-    ],
-    "difficultyLevel": "Pre-Intermediate",
-    "description": "A short BBC lesson explaining have to and must with examples and a practice focus.",
-    "genre": "expository",
-    "kind": "video",
-    "cefr": "A2",
-    "ageBand": "teens",
-    "place": null,
-    "needsReview": false
-  },
-  {
-    "id": "bbc-grammar-r2-FBmjH6nh5-k",
-    "title": "Phrasal verbs: types 1–4 — 6 Minute Grammar",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=FBmjH6nh5-k",
-    "youtubeId": "FBmjH6nh5-k",
-    "durationSecs": 374,
-    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-21/session-2",
-    "topicTags": [
-      "grammar",
-      "grammar:phrasal-verbs",
-      "english-learning"
-    ],
-    "difficultyLevel": "Intermediate",
-    "description": "A short BBC lesson explaining phrasal verbs: types 1–4 with examples and a practice focus.",
-    "genre": "expository",
-    "kind": "video",
-    "cefr": "B1",
-    "ageBand": "teens",
-    "place": null,
-    "needsReview": false
-  },
-  {
     "id": "bbc-grammar-r2-3OuqzHxlrHc",
     "title": "The second conditional — 6 Minute Grammar",
     "speaker": "BBC Learning English",
@@ -2619,72 +2669,6 @@
     "needsReview": false
   },
   {
-    "id": "bbc-grammar-r2-V2quIYo41Ig",
-    "title": "Used to and would — 6 Minute Grammar",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=V2quIYo41Ig",
-    "youtubeId": "V2quIYo41Ig",
-    "durationSecs": 360,
-    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-29/session-2/activity-2",
-    "topicTags": [
-      "grammar",
-      "grammar:past-simple",
-      "english-learning"
-    ],
-    "difficultyLevel": "Pre-Intermediate",
-    "description": "A short BBC lesson explaining used to and would with examples.",
-    "genre": "expository",
-    "kind": "video",
-    "cefr": "A2",
-    "ageBand": "teens",
-    "place": null,
-    "needsReview": false
-  },
-  {
-    "id": "bbc-grammar-r2-j9b1CNN_rFU",
-    "title": "Asking questions — 6 Minute Grammar",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=j9b1CNN_rFU",
-    "youtubeId": "j9b1CNN_rFU",
-    "durationSecs": 359,
-    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-1/session-2",
-    "topicTags": [
-      "grammar",
-      "grammar:questions",
-      "english-learning"
-    ],
-    "difficultyLevel": "Pre-Intermediate",
-    "description": "A short BBC lesson explaining asking questions with examples.",
-    "genre": "expository",
-    "kind": "video",
-    "cefr": "A2",
-    "ageBand": "teens",
-    "place": null,
-    "needsReview": false
-  },
-  {
-    "id": "bbc-grammar-r2-K-MKAjvvcsw",
-    "title": "Zero and first conditional — 6 Minute Grammar",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=K-MKAjvvcsw",
-    "youtubeId": "K-MKAjvvcsw",
-    "durationSecs": 359,
-    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-5/tab/grammar",
-    "topicTags": [
-      "grammar",
-      "grammar:conditionals",
-      "english-learning"
-    ],
-    "difficultyLevel": "Intermediate",
-    "description": "A short BBC lesson explaining zero and first conditional with examples.",
-    "genre": "expository",
-    "kind": "video",
-    "cefr": "B1",
-    "ageBand": "teens",
-    "place": null,
-    "needsReview": false
-  },
-  {
     "id": "bbc-grammar-r2-38QqDrckyxM",
     "title": "Active and passive voice — 6 Minute Grammar",
     "speaker": "BBC Learning English",
@@ -2699,50 +2683,6 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A short BBC lesson explaining active and passive voice with examples.",
-    "genre": "expository",
-    "kind": "video",
-    "cefr": "B1",
-    "ageBand": "teens",
-    "place": null,
-    "needsReview": false
-  },
-  {
-    "id": "bbc-grammar-r2-Gqu-bgwML00",
-    "title": "Phrasal verbs — 6 Minute Grammar",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=Gqu-bgwML00",
-    "youtubeId": "Gqu-bgwML00",
-    "durationSecs": 376,
-    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-4/session-2/activity-3",
-    "topicTags": [
-      "grammar",
-      "grammar:phrasal-verbs",
-      "english-learning"
-    ],
-    "difficultyLevel": "Intermediate",
-    "description": "A short BBC lesson explaining phrasal verbs with examples.",
-    "genre": "expository",
-    "kind": "video",
-    "cefr": "B1",
-    "ageBand": "teens",
-    "place": null,
-    "needsReview": false
-  },
-  {
-    "id": "bbc-grammar-r2-r6XpFWmA7Gk",
-    "title": "Quantifiers — 6 Minute Grammar",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=r6XpFWmA7Gk",
-    "youtubeId": "r6XpFWmA7Gk",
-    "durationSecs": 378,
-    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/intermediate/unit-3/session-2",
-    "topicTags": [
-      "grammar",
-      "grammar:countable-uncountable",
-      "english-learning"
-    ],
-    "difficultyLevel": "Intermediate",
-    "description": "A short BBC lesson explaining quantifiers with examples.",
     "genre": "expository",
     "kind": "video",
     "cefr": "B1",
@@ -2773,70 +2713,21 @@
     "needsReview": false
   },
   {
-    "id": "bbc-grammar-r2-voQLMgJE-QE",
-    "title": "Adverbs of frequency — 6 Minute Grammar",
+    "id": "bbc_grammar_mixing_conditionals",
+    "title": "Grammar: Mixing Conditionals",
     "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=voQLMgJE-QE",
-    "youtubeId": "voQLMgJE-QE",
-    "durationSecs": 358,
-    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-4/session-2/activity-1",
+    "url": "https://www.youtube.com/watch?v=_Mv7fBqauvc",
+    "youtubeId": "_Mv7fBqauvc",
+    "durationSecs": 390,
     "topicTags": [
       "grammar",
-      "grammar:present-simple",
-      "english-learning"
+      "conditionals",
+      "mixed conditionals"
     ],
-    "difficultyLevel": "Pre-Intermediate",
-    "description": "A short BBC lesson explaining adverbs of frequency with examples.",
+    "difficultyLevel": "Advanced",
+    "description": "Dan teaches mixed conditionals — combining different conditional forms to talk about unreal situations with complex time relationships between past and present.",
     "genre": "expository",
-    "kind": "video",
-    "cefr": "A2",
-    "ageBand": "teens",
-    "place": null,
-    "needsReview": false
-  },
-  {
-    "id": "bbc-grammar-r2-tzEt4iwsIdo",
-    "title": "Using like for preference and description — 6 Minute Grammar",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=tzEt4iwsIdo",
-    "youtubeId": "tzEt4iwsIdo",
-    "durationSecs": 359,
-    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/english/course/lower-intermediate/unit-3/session-2/activity-1",
-    "topicTags": [
-      "grammar",
-      "grammar:present-simple",
-      "english-learning"
-    ],
-    "difficultyLevel": "Pre-Intermediate",
-    "description": "A short BBC lesson explaining using like for preference and description with examples.",
-    "genre": "expository",
-    "kind": "video",
-    "cefr": "A2",
-    "ageBand": "teens",
-    "place": null,
-    "needsReview": false
-  },
-  {
-    "id": "bbc-grammar-r2-q-Jkx670rT8",
-    "title": "The definite article with abstract uncountable nouns — 6 Minute Grammar",
-    "speaker": "BBC Learning English",
-    "url": "https://www.youtube.com/watch?v=q-Jkx670rT8",
-    "youtubeId": "q-Jkx670rT8",
-    "durationSecs": 360,
-    "transcriptUrl": "https://www.bbc.co.uk/learningenglish/course/intermediate/unit-16/session-2",
-    "topicTags": [
-      "grammar",
-      "grammar:articles",
-      "grammar:countable-uncountable",
-      "english-learning"
-    ],
-    "difficultyLevel": "Intermediate",
-    "description": "A short BBC lesson explaining the definite article with abstract uncountable nouns with examples.",
-    "genre": "expository",
-    "kind": "video",
-    "cefr": "B1",
-    "ageBand": "teens",
-    "place": null,
-    "needsReview": false
+    "cefr": "B2",
+    "ageBand": "teens"
   }
 ]
