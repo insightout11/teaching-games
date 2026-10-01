@@ -4022,22 +4022,144 @@ const TRAVEL_LOCAL_COLOR_BY_DESTINATION: Partial<Record<string, TravelLocalColor
   ],
 };
 
+type TravelPriceTier = '$' | '$$' | '$$$';
+
+interface DestinationPriceProfile {
+  currency: { code: string; symbol: string; name: string };
+  dishPrices: [string, string, string];
+  hotelPrices: [string, string, string];
+}
+
+// Rounded local-currency estimates for a typical serving and one room-night. All prices are
+// deliberately approximate; exact costs vary by season, neighborhood, and venue.
+const TRAVEL_PRICE_PROFILES: Record<string, DestinationPriceProfile> = {
+  bangkok: { currency: { code: 'THB', symbol: '฿', name: 'Thai baht' }, dishPrices: ['฿60', '฿180', '฿80'], hotelPrices: ['฿500', '฿3,000', '฿12,000'] },
+  tokyo: { currency: { code: 'JPY', symbol: '¥', name: 'Japanese yen' }, dishPrices: ['¥3,500', '¥1,400', '¥1,200'], hotelPrices: ['¥4,000', '¥14,000', '¥45,000'] },
+  seoul: { currency: { code: 'KRW', symbol: '₩', name: 'South Korean won' }, dishPrices: ['₩15,000', '₩6,000', '₩9,000'], hotelPrices: ['₩30,000', '₩130,000', '₩500,000'] },
+  singapore: { currency: { code: 'SGD', symbol: 'S$', name: 'Singapore dollar' }, dishPrices: ['S$7', 'S$12', 'S$75'], hotelPrices: ['S$60', 'S$220', 'S$900'] },
+  paris: { currency: { code: 'EUR', symbol: '€', name: 'euro' }, dishPrices: ['€3', '€13', '€14'], hotelPrices: ['€45', '€180', '€700'] },
+  london: { currency: { code: 'GBP', symbol: '£', name: 'pound sterling' }, dishPrices: ['£16', '£13', '£14'], hotelPrices: ['£45', '£180', '£750'] },
+  'new-york': { currency: { code: 'USD', symbol: '$', name: 'US dollar' }, dishPrices: ['$6', '$4', '$10'], hotelPrices: ['$60', '$220', '$800'] },
+  cairo: { currency: { code: 'EGP', symbol: 'EGP ', name: 'Egyptian pound' }, dishPrices: ['EGP 120', 'EGP 180', 'EGP 80'], hotelPrices: ['EGP 700', 'EGP 3,500', 'EGP 18,000'] },
+  dubai: { currency: { code: 'AED', symbol: 'AED ', name: 'UAE dirham' }, dishPrices: ['AED 55', 'AED 40', 'AED 25'], hotelPrices: ['AED 100', 'AED 500', 'AED 2,500'] },
+  sydney: { currency: { code: 'AUD', symbol: 'A$', name: 'Australian dollar' }, dishPrices: ['A$8', 'A$6', 'A$28'], hotelPrices: ['A$60', 'A$230', 'A$900'] },
+  beijing: { currency: { code: 'CNY', symbol: 'CNY ', name: 'Chinese yuan' }, dishPrices: ['CNY 300', 'CNY 15', 'CNY 35'], hotelPrices: ['CNY 300', 'CNY 800', 'CNY 4,000'] },
+  shanghai: { currency: { code: 'CNY', symbol: 'CNY ', name: 'Chinese yuan' }, dishPrices: ['CNY 35', 'CNY 20', 'CNY 220'], hotelPrices: ['CNY 250', 'CNY 900', 'CNY 5,000'] },
+  berlin: { currency: { code: 'EUR', symbol: '€', name: 'euro' }, dishPrices: ['€8', '€9', '€4'], hotelPrices: ['€45', '€150', '€600'] },
+  moscow: { currency: { code: 'RUB', symbol: '₽', name: 'Russian ruble' }, dishPrices: ['₽700', '₽500', '₽800'], hotelPrices: ['₽3,500', '₽12,000', '₽50,000'] },
+  istanbul: { currency: { code: 'TRY', symbol: '₺', name: 'Turkish lira' }, dishPrices: ['₺300', '₺250', '₺250'], hotelPrices: ['₺800', '₺4,500', '₺25,000'] },
+  vancouver: { currency: { code: 'CAD', symbol: 'C$', name: 'Canadian dollar' }, dishPrices: ['C$15', 'C$5', 'C$28'], hotelPrices: ['C$70', 'C$250', 'C$900'] },
+  toronto: { currency: { code: 'CAD', symbol: 'C$', name: 'Canadian dollar' }, dishPrices: ['C$18', 'C$5', 'C$6'], hotelPrices: ['C$60', 'C$220', 'C$800'] },
+  mumbai: { currency: { code: 'INR', symbol: '₹', name: 'Indian rupee' }, dishPrices: ['₹40', '₹180', '₹80'], hotelPrices: ['₹1,000', '₹6,000', '₹35,000'] },
+  'cape-town': { currency: { code: 'ZAR', symbol: 'R', name: 'South African rand' }, dishPrices: ['R120', 'R180', 'R30'], hotelPrices: ['R600', 'R2,200', 'R12,000'] },
+  rome: { currency: { code: 'EUR', symbol: '€', name: 'euro' }, dishPrices: ['€16', '€15', '€4'], hotelPrices: ['€45', '€180', '€750'] },
+  'rio-de-janeiro': { currency: { code: 'BRL', symbol: 'R$', name: 'Brazilian real' }, dishPrices: ['R$45', 'R$15', 'R$30'], hotelPrices: ['R$150', 'R$600', 'R$3,500'] },
+  'mexico-city': { currency: { code: 'MXN', symbol: 'MX$ ', name: 'Mexican peso' }, dishPrices: ['MX$ 35', 'MX$ 50', 'MX$ 40'], hotelPrices: ['MX$ 700', 'MX$ 2,500', 'MX$ 12,000'] },
+  'buenos-aires': { currency: { code: 'ARS', symbol: 'AR$ ', name: 'Argentine peso' }, dishPrices: ['AR$ 18,000', 'AR$ 2,500', 'AR$ 5,000'], hotelPrices: ['AR$ 45,000', 'AR$ 180,000', 'AR$ 800,000'] },
+  'los-angeles': { currency: { code: 'USD', symbol: '$', name: 'US dollar' }, dishPrices: ['$22', '$6', '$20'], hotelPrices: ['$70', '$250', '$900'] },
+  jakarta: { currency: { code: 'IDR', symbol: 'Rp ', name: 'Indonesian rupiah' }, dishPrices: ['Rp 35,000', 'Rp 45,000', 'Rp 30,000'], hotelPrices: ['Rp 250,000', 'Rp 1,200,000', 'Rp 6,000,000'] },
+  lagos: { currency: { code: 'NGN', symbol: '₦', name: 'Nigerian naira' }, dishPrices: ['₦3,500', '₦5,000', '₦8,000'], hotelPrices: ['₦25,000', '₦150,000', '₦1,000,000'] },
+  'hong-kong': { currency: { code: 'HKD', symbol: 'HK$', name: 'Hong Kong dollar' }, dishPrices: ['HK$150', 'HK$70', 'HK$15'], hotelPrices: ['HK$350', 'HK$1,400', 'HK$7,000'] },
+  amsterdam: { currency: { code: 'EUR', symbol: '€', name: 'euro' }, dishPrices: ['€9', '€3', '€10'], hotelPrices: ['€60', '€220', '€900'] },
+  honolulu: { currency: { code: 'USD', symbol: '$', name: 'US dollar' }, dishPrices: ['$18', '$16', '$4'], hotelPrices: ['$100', '$350', '$1,500'] },
+  miami: { currency: { code: 'USD', symbol: '$', name: 'US dollar' }, dishPrices: ['$14', '$45', '$8'], hotelPrices: ['$70', '$250', '$1,000'] },
+  bogota: { currency: { code: 'COP', symbol: 'COP ', name: 'Colombian peso' }, dishPrices: ['COP 35,000', 'COP 20,000', 'COP 18,000'], hotelPrices: ['COP 100,000', 'COP 400,000', 'COP 2,000,000'] },
+  reykjavik: { currency: { code: 'ISK', symbol: 'ISK ', name: 'Icelandic króna' }, dishPrices: ['ISK 1,500', 'ISK 1,000', 'ISK 2,000'], hotelPrices: ['ISK 12,000', 'ISK 40,000', 'ISK 180,000'] },
+  nairobi: { currency: { code: 'KES', symbol: 'KSh ', name: 'Kenyan shilling' }, dishPrices: ['KSh 900', 'KSh 300', 'KSh 250'], hotelPrices: ['KSh 3,000', 'KSh 12,000', 'KSh 60,000'] },
+  lima: { currency: { code: 'PEN', symbol: 'S/ ', name: 'Peruvian sol' }, dishPrices: ['S/ 45', 'S/ 36', 'S/ 22'], hotelPrices: ['S/ 120', 'S/ 400', 'S/ 1,800'] },
+  perth: { currency: { code: 'AUD', symbol: 'A$', name: 'Australian dollar' }, dishPrices: ['A$45', 'A$55', 'A$30'], hotelPrices: ['A$80', 'A$260', 'A$1,000'] },
+  auckland: { currency: { code: 'NZD', symbol: 'NZ$', name: 'New Zealand dollar' }, dishPrices: ['NZ$30', 'NZ$12', 'NZ$28'], hotelPrices: ['NZ$90', 'NZ$250', 'NZ$1,000'] },
+  suva: { currency: { code: 'FJD', symbol: 'FJ$', name: 'Fijian dollar' }, dishPrices: ['FJ$18', 'FJ$25', 'FJ$12'], hotelPrices: ['FJ$60', 'FJ$250', 'FJ$1,000'] },
+  ulaanbaatar: { currency: { code: 'MNT', symbol: '₮ ', name: 'Mongolian tögrög' }, dishPrices: ['₮ 25,000', '₮ 15,000', '₮ 30,000'], hotelPrices: ['₮ 80,000', '₮ 250,000', '₮ 1,200,000'] },
+  almaty: { currency: { code: 'KZT', symbol: '₸ ', name: 'Kazakhstani tenge' }, dishPrices: ['₸ 5,000', '₸ 3,500', '₸ 1,000'], hotelPrices: ['₸ 20,000', '₸ 70,000', '₸ 300,000'] },
+  madrid: { currency: { code: 'EUR', symbol: '€', name: 'euro' }, dishPrices: ['€9', '€18', '€5'], hotelPrices: ['€45', '€160', '€600'] },
+  lisbon: { currency: { code: 'EUR', symbol: '€', name: 'euro' }, dishPrices: ['€2', '€20', '€8'], hotelPrices: ['€45', '€150', '€650'] },
+  dublin: { currency: { code: 'EUR', symbol: '€', name: 'euro' }, dishPrices: ['€18', '€15', '€12'], hotelPrices: ['€60', '€220', '€850'] },
+  dakar: { currency: { code: 'XOF', symbol: 'CFA ', name: 'West African CFA franc' }, dishPrices: ['CFA 3,000', 'CFA 4,000', 'CFA 3,500'], hotelPrices: ['CFA 15,000', 'CFA 60,000', 'CFA 300,000'] },
+  recife: { currency: { code: 'BRL', symbol: 'R$', name: 'Brazilian real' }, dishPrices: ['R$12', 'R$18', 'R$55'], hotelPrices: ['R$120', 'R$450', 'R$2,500'] },
+  'panama-city': { currency: { code: 'USD', symbol: '$', name: 'US dollar' }, dishPrices: ['$8', '$12', '$4'], hotelPrices: ['$40', '$130', '$500'] },
+  santiago: { currency: { code: 'CLP', symbol: 'CLP ', name: 'Chilean peso' }, dishPrices: ['CLP 4,000', 'CLP 11,000', 'CLP 3,000'], hotelPrices: ['CLP 30,000', 'CLP 100,000', 'CLP 500,000'] },
+  'addis-ababa': { currency: { code: 'ETB', symbol: 'Br ', name: 'Ethiopian birr' }, dishPrices: ['Br 120', 'Br 350', 'Br 600'], hotelPrices: ['Br 2,000', 'Br 8,000', 'Br 40,000'] },
+  delhi: { currency: { code: 'INR', symbol: '₹', name: 'Indian rupee' }, dishPrices: ['₹450', '₹140', '₹80'], hotelPrices: ['₹1,000', '₹6,000', '₹35,000'] },
+  manila: { currency: { code: 'PHP', symbol: '₱', name: 'Philippine peso' }, dishPrices: ['₱250', '₱150', '₱200'], hotelPrices: ['₱1,500', '₱6,000', '₱35,000'] },
+  'ho-chi-minh-city': { currency: { code: 'VND', symbol: '₫ ', name: 'Vietnamese đồng' }, dishPrices: ['₫ 35,000', '₫ 60,000', '₫ 55,000'], hotelPrices: ['₫ 400,000', '₫ 1,500,000', '₫ 8,000,000'] },
+};
+
+function priceNumber(value: string | undefined): number | undefined {
+  if (!value) return undefined;
+  if (/free/i.test(value)) return 0;
+  const match = value.replace(/,/g, '').match(/[0-9]+(?:\.[0-9]+)?/);
+  return match ? Number(match[0]) : undefined;
+}
+
+function assignPriceTiers(prices: Array<string | undefined>): Array<TravelPriceTier | undefined> {
+  const amounts = prices.map((price) => priceNumber(price));
+  const unique = Array.from(new Set(amounts.filter((amount): amount is number => amount !== undefined))).sort((a, b) => a - b);
+  const tiers: TravelPriceTier[] = ['$','$$','$$$'];
+  return amounts.map((amount) => {
+    if (amount === undefined || unique.length === 0) return undefined;
+    const rank = unique.indexOf(amount);
+    const tierIndex = unique.length === 1 ? 0 : Math.round((rank / (unique.length - 1)) * 2);
+    return tiers[tierIndex];
+  });
+}
+
+function localTransportPrice(approxCost: string | undefined, profile: DestinationPriceProfile): string | undefined {
+  if (!approxCost || /varies|free/i.test(approxCost) && !/[0-9]/.test(approxCost)) return undefined;
+  const local = approxCost.split('(')[0].trim().replace(new RegExp(`^${profile.currency.code}\\s+`), profile.currency.symbol);
+  return /[0-9]/.test(local) ? `about ${local}` : undefined;
+}
+
+function destinationHotels(destination: DestinationPack, profile: DestinationPriceProfile) {
+  const tiers: TravelPriceTier[] = ['$','$$','$$$'];
+  const hotelNames = [`Hostel near ${destination.city} station`, `Mid-range hotel in ${destination.city}`, `Luxury hotel in central ${destination.city}`];
+  return profile.hotelPrices.map((price, index) => ({
+    name: hotelNames[index],
+    tier: tiers[index],
+    price: `about ${price} per night`,
+    note: 'Generic estimate for one room; dates and exact locations change the price.',
+  }));
+}
+
 function withTravelAnchors(destinations: DestinationPack[]): DestinationPack[] {
   return destinations.map((destination) => {
     const travelAnchors = TRAVEL_ANCHORS_BY_DESTINATION[destination.id];
     const transport = TRAVEL_TRANSPORT_BY_DESTINATION[destination.id];
     const localColor = TRAVEL_LOCAL_COLOR_BY_DESTINATION[destination.id];
+    const priceProfile = TRAVEL_PRICE_PROFILES[destination.id];
+    const optionalPricingData = priceProfile
+      ? { currency: priceProfile.currency, hotels: destinationHotels(destination, priceProfile) }
+      : {};
     if (!travelAnchors) {
-      return destination;
+      return { ...destination, ...optionalPricingData };
     }
     const anchorsWithImages = withTravelAnchorImages(destination.id, travelAnchors);
     const anchorsWithCoordinates = withTravelAttractionCoordinates(destination.id, anchorsWithImages);
+    const dishTiers = priceProfile ? assignPriceTiers(priceProfile.dishPrices) : [];
+    const dishes = anchorsWithCoordinates.dishes.map((dish, index) => {
+      const amount = priceProfile?.dishPrices[index];
+      return amount ? { ...dish, tier: dishTiers[index], price: `about ${amount}` } : dish;
+    });
+    const transportPrices = priceProfile
+      ? (transport ?? []).map((option) => localTransportPrice(option.approxCost, priceProfile))
+      : [];
+    const transportTierCosts = priceProfile
+      ? (transport ?? []).map((option, index) => transportPrices[index] ?? option.approxCost)
+      : [];
+    const transportTiers = priceProfile ? assignPriceTiers(transportTierCosts) : [];
+    const pricedTransport = (transport ?? []).map((option, index) => ({
+      ...option,
+      ...(priceProfile && transportTiers[index] ? { tier: transportTiers[index] } : {}),
+      ...(transportPrices[index] ? { price: transportPrices[index] } : {}),
+    }));
 
     return {
       ...destination,
+      ...optionalPricingData,
       travelAnchors: {
         ...anchorsWithCoordinates,
-        ...(transport ? { transport } : {}),
+        dishes,
+        ...(transport ? { transport: pricedTransport } : {}),
         ...(localColor ? { localColor } : {}),
       },
     };

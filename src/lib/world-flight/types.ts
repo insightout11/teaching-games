@@ -131,6 +131,8 @@ export interface TravelDish {
   note?: string;
   sourceUrl?: string;
   image?: DestinationImage;
+  tier?: '$' | '$$' | '$$$';
+  price?: string;
   review: TravelAnchorReview;
 }
 
@@ -153,6 +155,21 @@ export interface TravelTransportOption {
   fromAirport: string;
   approxTimeMin?: number;
   approxCost?: string;
+  tier?: '$' | '$$' | '$$$';
+  price?: string;
+  note?: string;
+}
+
+export interface DestinationCurrency {
+  code: string;
+  symbol: string;
+  name: string;
+}
+
+export interface DestinationHotelPrice {
+  name: string;
+  tier: '$' | '$$' | '$$$';
+  price: string;
   note?: string;
 }
 
@@ -183,4 +200,6 @@ export interface DestinationPack {
   heroImage: DestinationImage;
   focusOptions: DestinationFocus[];
   travelAnchors?: TravelAnchors;
+  currency?: DestinationCurrency;
+  hotels?: DestinationHotelPrice[];
 }
