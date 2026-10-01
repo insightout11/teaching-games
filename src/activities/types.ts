@@ -1041,6 +1041,21 @@ export interface GrammarSpotlightContent extends ActivityGeneratedContent {
   clip: { id: string; title: string; youtubeId: string } | null;
 }
 
+/** Captain's Flight: the one big question the whole lesson investigates (takeoff). */
+export interface FlightQuestionContent extends ActivityGeneratedContent {
+  activityKey: 'flight-question';
+  question: string;
+  questionType: 'opinion' | 'problem' | 'personal';
+  /** "What will the source say?" A/B, revealed after the briefing. */
+  prediction: { text: string; optionA: string; optionB: string; correctAnswer: 'A' | 'B'; revealFact: string } | null;
+}
+
+/** Captain's Flight landing: the Verdict (Shift + prediction vs reality + Final Words + logbook card). */
+export interface FlightVerdictContent extends ActivityGeneratedContent {
+  activityKey: 'flight-verdict';
+  starters: string[];
+}
+
 /** Hot Seat reuses Taboo's topic cards (word + short definition). */
 export interface HotSeatContent extends ActivityGeneratedContent {
   activityKey: 'hot-seat';

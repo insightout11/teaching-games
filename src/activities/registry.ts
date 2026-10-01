@@ -37,6 +37,8 @@ import { tenseTimeMachinePlugin } from './tense-time-machine';
 import { compareItPlugin } from './compare-it';
 import { answerFirstPlugin } from './answer-first';
 import { grammarSpotlightPlugin } from './grammar-spotlight';
+import { flightQuestionPlugin } from './flight-question';
+import { flightVerdictPlugin } from './flight-verdict';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarClarifyPlugin } from './grammar-clarify';
 import { vocabMicroPlugin } from './vocab-micro';
@@ -82,6 +84,8 @@ const activities: ActivityPlugin[] = [
   compareItPlugin,
   answerFirstPlugin,
   grammarSpotlightPlugin,
+  flightQuestionPlugin,
+  flightVerdictPlugin,
   grammarCheckInPlugin,
   grammarClarifyPlugin,
   vocabMicroPlugin,

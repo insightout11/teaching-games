@@ -9,7 +9,7 @@ import { useSessionStore, type FlightLogEntry } from '@/stores/session-store';
 type Phase = 'idle' | 'speaking' | 'done';
 
 // Order the debrief callbacks so predictions land before the opinion split.
-const BEAT_ORDER: Record<FlightLogEntry['beat'], number> = { prediction: 0, 'opinion-pulse': 1, council: 2, toolkit: 3 };
+const BEAT_ORDER: Record<FlightLogEntry['beat'], number> = { prediction: 0, 'opinion-pulse': 1, council: 2, toolkit: 3, verdict: 4 };
 
 /**
  * Flight Log debrief (Captain's Flight, Stage 2). When the flight log has entries, the Final Word

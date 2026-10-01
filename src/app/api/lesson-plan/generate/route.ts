@@ -85,6 +85,8 @@ import type {
   AnswerFirstContent,
   AnswerFirstRound,
   GrammarSpotlightContent,
+  FlightQuestionContent,
+  FlightVerdictContent,
   DecisionCouncilContent,
   TeamDebateContent,
   SourceVocabItem,
@@ -1801,6 +1803,74 @@ ${sourceCtx ? `\nSOURCE / LESSON MATERIAL:\n${sourceCtx.slice(0, 5000)}\n` : ''}
     discover: { sentences, fromSource: hasSource && !!parsed.fromSource && sentences.length >= 3 },
     clip,
   };
+}
+
+
+// ─── Captain's Flight: the Flight Question (takeoff) + the Verdict (landing) ───
+
+async function generateFlightQuestion(topic: string, difficulty: Difficulty, hasSource: boolean, sourceCtx: string): Promise<FlightQuestionContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      question: { type: 'string' },
+      questionType: { type: 'string' },
+      prediction: {
+        type: 'object',
+        properties: {
+          text: { type: 'string' },
+          optionA: { type: 'string' },
+          optionB: { type: 'string' },
+          correctAnswer: { type: 'string' },
+          revealFact: { type: 'string' },
+        },
+        required: ['text', 'optionA', 'optionB', 'correctAnswer', 'revealFact'],
+      },
+    },
+    required: ['question', 'questionType', 'prediction'],
+  };
+  const prompt = `You are designing the FLIGHT QUESTION for a lesson: one big, open question that the whole lesson investigates. The class answers it at the start, explores it through the ${hasSource ? 'source' : 'topic'}, discusses it, and answers it again at the end.
+
+Topic: "${topic}"
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${sourceCtx ? `\n${hasSource ? 'SOURCE' : 'LESSON MATERIAL'}:\n${sourceCtx.slice(0, 5000)}\n` : ''}
+Return:
+- question: ONE short, interesting question (max 12 words) that people can disagree about and that the ${hasSource ? 'source gives evidence for' : 'topic opens up'}. Kids/teens should want to answer it. Good: "Should cities ban cars?", "Is it ever OK to lie?", "Would you live on Mars?". Avoid yes/no trivia.
+- questionType: "opinion" (should/is it/agree?), "problem" (how could we…?), or "personal" (what would you…?)
+- prediction: a "what will the ${hasSource ? 'source' : 'lesson'} say?" guess with two options, A and B, where only one is ${hasSource ? 'what the source actually says' : 'true'}:
+  - text: the prediction question (e.g. "What does the video say about cars in cities?")
+  - optionA, optionB: two short, plausible options
+  - correctAnswer: "A" or "B"
+  - revealFact: one sentence explaining the real answer${hasSource ? ' (from the source)' : ''}`;
+  const parsed = await generateJSON<{ question?: string; questionType?: string; prediction?: { text?: string; optionA?: string; optionB?: string; correctAnswer?: string; revealFact?: string } }>(prompt, schema);
+  const type = parsed.questionType === 'problem' || parsed.questionType === 'personal' ? parsed.questionType : 'opinion';
+  const p = parsed.prediction ?? {};
+  const prediction = p.text && p.optionA && p.optionB
+    ? { text: p.text, optionA: p.optionA, optionB: p.optionB, correctAnswer: (p.correctAnswer === 'B' ? 'B' : 'A') as 'A' | 'B', revealFact: p.revealFact ?? '' }
+    : null;
+  return {
+    activityKey: 'flight-question',
+    topicContext: topic,
+    question: parsed.question?.trim() || `What do you think about ${topic}?`,
+    questionType: type,
+    prediction,
+  };
+}
+
+async function generateFlightVerdict(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<FlightVerdictContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: { starters: { type: 'array', items: { type: 'string' } } },
+    required: ['starters'],
+  };
+  const prompt = `Write 4 short sentence starters (max 8 words each) that students can use to say one final reflective sentence at the end of a lesson about "${topic}". Mix: changing your mind, the most surprising thing, something you learned, a question you still have. Example: "I used to think…, but now…".
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${sourceCtx ? `\nLesson material:\n${sourceCtx.slice(0, 1500)}\n` : ''}`;
+  try {
+    const parsed = await generateJSON<{ starters?: string[] }>(prompt, schema);
+    const starters = (parsed.starters ?? []).filter(Boolean).slice(0, 4);
+    if (starters.length >= 2) return { activityKey: 'flight-verdict', topicContext: topic, starters };
+  } catch { /* fall through */ }
+  return { activityKey: 'flight-verdict', topicContext: topic, starters: ['I used to think…, but now…', 'The most surprising thing was…', 'Today I learned that…', 'I still wonder…'] };
 }
 
 async function generateSingleScene(
@@ -3571,6 +3641,12 @@ export async function POST(request: NextRequest) {
             break;
           case 'grammar-spotlight':
             generators.push(generateGrammarSpotlight(customTopic, diff, grammarTarget ?? undefined, !!sourceMaterial, kitSourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'flight-question':
+            generators.push(generateFlightQuestion(customTopic, diff, !!sourceMaterial, kitSourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'flight-verdict':
+            generators.push(generateFlightVerdict(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'radio-check':
             generators.push(generateRadioCheck(customTopic, diff, sourceMaterial, sourceRawTranscript, sourceCtx).then((r) => { content[activityKey] = r; }));

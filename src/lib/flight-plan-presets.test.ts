@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { isRetired } from './retired-plugins';
 import { FLIGHT_PLAN_PRESETS } from './flight-plan-presets';
 
 describe("Captain's Flight micro-events", () => {
@@ -8,10 +9,14 @@ describe("Captain's Flight micro-events", () => {
     expect(preset).toBeDefined();
   });
 
-  it('flags Navigation Check as World-Flight-only', () => {
-    // radar-fix (geography) only belongs in World Flight; the launch filter drops it at home.
-    const nav = preset!.moduleSequence.find((slot) => slot.stageId === 'navigation-check');
-    expect(nav).toMatchObject({ key: 'radar-fix', isMicroEvent: true, worldFlightOnly: true });
+  it('is built around the Flight Question (v2): question at takeoff, Verdict at landing', () => {
+    expect(preset!.takeoff).toBe('flight-question');
+    expect(preset!.landing).toBe('flight-verdict');
+  });
+
+  it('schedules no retired modules', () => {
+    const keys = preset!.moduleSequence.flatMap((slot) => [slot.key, ...(slot.pool ?? [])]);
+    keys.forEach((key) => expect(isRetired(key)).toBe(false));
   });
 
   it('never schedules two micro-event checks back-to-back (full route or home-filtered)', () => {

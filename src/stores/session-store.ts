@@ -69,6 +69,8 @@ export interface LessonThread {
   struggles?: ThreadStruggle[];
   /** Grammar Hunt stamps per phone (clientId → name + stamps), from the hunt channel. */
   hunt?: Record<string, { name: string; count: number }>;
+  /** Captain's Flight: the question the lesson investigates (set at boarding). */
+  flightQuestion?: { question: string; type: 'opinion' | 'problem' | 'personal' };
 }
 
 export interface SessionSettings {
@@ -136,7 +138,7 @@ export interface PredictionResult {
 // debrief the class on what actually happened. Deliberately SEPARATE from tripLog so it never trips
 // the flash-quiz trip-mode gate (which keys off tripLog, Travel-only).
 export interface FlightLogEntry {
-  beat: 'prediction' | 'opinion-pulse' | 'toolkit' | 'council';
+  beat: 'prediction' | 'opinion-pulse' | 'toolkit' | 'council' | 'verdict';
   /** One-line recap for the end-session flight log. */
   text: string;
   /** Toolkit words — rendered as chips in the Final Word debrief. */
@@ -260,6 +262,7 @@ interface SessionState {
   recordGrammarCheck: (entry: ThreadGrammarCheck) => void;
   recordStruggle: (entry: ThreadStruggle) => void;
   recordHuntStamps: (clientId: string, name: string, count: number) => void;
+  setFlightQuestion: (q: { question: string; type: 'opinion' | 'problem' | 'personal' }) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
@@ -419,6 +422,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setPredictionResults: (results) => set({ predictionResults: results }),
 
   setLessonKit: (kit) => set({ lessonKit: kit }),
+
+  setFlightQuestion: (q) => set({ lessonThread: { ...get().lessonThread, flightQuestion: q } }),
 
   recordHuntStamps: (clientId, name, count) => {
     const { lessonThread } = get();

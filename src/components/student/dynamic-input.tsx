@@ -1271,7 +1271,7 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
   if (spec.gameKey === 'grammar-spotlight') {
     return <HeardItPanel spec={spec} onSubmit={onSubmit} />;
   }
-  if ((spec.gameKey === 'compare-it' || spec.gameKey === 'answer-first') && spec.perStudentData?.__room) {
+  if ((spec.gameKey === 'compare-it' || spec.gameKey === 'answer-first' || spec.gameKey === 'flight-verdict') && spec.perStudentData?.__room) {
     return <SpeakingFramePanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} />;
   }
   if (spec.gameKey === 'tense-time-machine' && spec.perStudentData?.__room) {

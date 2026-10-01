@@ -16,7 +16,10 @@ type Phase = 'idle' | 'asking' | 'shift';
 const LIKERT = ['1', '2', '3', '4', '5'];
 const LIKERT_LABELS = ['Strongly disagree', 'Disagree', 'Not sure', 'Agree', 'Strongly agree'];
 
-export function ShiftFromPulse({ baseline, onPhaseChange, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onLandingAnswer }: Pick<ActivityProps, 'onPhaseChange' | 'onSetInputSpec' | 'onRegisterRemoteVoteHandler' | 'onScore' | 'onLandingAnswer'> & { baseline: ThreadPulse }) {
+/** What the Shift found, for callers that build on it (e.g. the Captain's Flight Verdict). */
+export interface ShiftSummary { changed: number; compared: number; agreeBefore: number; agreeNow: number; total: number }
+
+export function ShiftFromPulse({ baseline, onPhaseChange, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onLandingAnswer, onDone, title }: Pick<ActivityProps, 'onPhaseChange' | 'onSetInputSpec' | 'onRegisterRemoteVoteHandler' | 'onScore' | 'onLandingAnswer'> & { baseline: ThreadPulse; onDone?: (summary: ShiftSummary) => void; title?: string }) {
   const likert = baseline.type === 'likert';
   const options = useMemo(() => (likert ? LIKERT : ['Yes', 'No']), [likert]);
   const label = (o: string) => (likert ? LIKERT_LABELS[Number(o) - 1] ?? o : o);
@@ -76,7 +79,7 @@ export function ShiftFromPulse({ baseline, onPhaseChange, onSetInputSpec, onRegi
       <div className="mx-auto max-w-3xl space-y-6 py-4 text-center text-white">
         <Scale className="mx-auto h-10 w-10 text-amber-300" />
         <div>
-          <KitLabel tone="amber">Opinion Shift</KitLabel>
+          <KitLabel tone="amber">{title ?? 'Opinion Shift'}</KitLabel>
           <p className="mt-2 font-display text-5xl">Did anything change?</p>
         </div>
         <p className="mx-auto max-w-xl text-lg text-white/70">At the start of the lesson you answered this question. Answer it again now. It&apos;s fine if your view didn&apos;t change!</p>
@@ -135,7 +138,12 @@ export function ShiftFromPulse({ baseline, onPhaseChange, onSetInputSpec, onRegi
 
       <div className="flex flex-wrap items-center justify-between gap-2">
         <KitButton tone="amber" disabled={both.length === 0} onClick={hearWhy} icon={<MessageCircleQuestion className="h-3.5 w-3.5" />}>{voices ? 'Hear two others' : 'Hear why'}</KitButton>
-        <KitButton tone="plain" onClick={() => onPhaseChange?.('finished')} icon={<ArrowRight className="h-3.5 w-3.5" />}>Done</KitButton>
+        <KitButton tone="plain" onClick={() => {
+          if (onDone) {
+            const agree = (votes: Array<{ choice: string }>) => (likert ? votes.filter((v) => Number(v.choice) >= 4).length : votes.filter((v) => v.choice === 'Yes').length);
+            onDone({ changed: changers.length, compared: both.length, agreeBefore: agree(beforeVotes), agreeNow: agree(nowVotes), total: nowVotes.length });
+          } else onPhaseChange?.('finished');
+        }} icon={<ArrowRight className="h-3.5 w-3.5" />}>{onDone ? 'Next' : 'Done'}</KitButton>
       </div>
     </div>
   );
