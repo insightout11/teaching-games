@@ -29,3 +29,4 @@ Pending; flagged records will remain flagged with their review notes unless thei
 - 2026-10-01 · task 2 · +10 ordered course series × 5 items (50 memberships), all internally level-consistent and single-age-band; validator now enforces 4–6 members, shared title/ageBand, unique positive order, and CEFR span of at most one step.
 
 Series: Earth and Weather for Young Learners; How Engineers Solve Problems; Animals and Their Habitats; Space for Beginners; Everyday Science: Materials and Measurement; Space and Exploration; Technology, Games and Human Choices; Food, Health and the Environment; Music, Learning and Performance; Animals in a Changing World.
+- 2026-10-01 · task 3 batch 1 · +30 non-BBC, 2–8-minute spoken sources (27 World Flight features, 1 LinguaTV hotel dialogue, 1 British Council competency-interview dialogue, 1 TED-Ed musician interview montage) · all 30 reported `VERIFIED` by the local transcript prefetch script; no transcript failures.

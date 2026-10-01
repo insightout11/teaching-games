@@ -18,7 +18,8 @@
       "urban-culture",
       "culture",
       "traditions",
-      "discussion"
+      "discussion",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "See how artists and businesses reuse old spaces instead of flattening local character.",
@@ -50,7 +51,8 @@
       "culture",
       "traditions",
       "opinion",
-      "airports"
+      "airports",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use street food to discuss pride, regulation, tourism, and daily convenience.",
@@ -144,7 +146,8 @@
       "japan",
       "listening",
       "business",
-      "daily-life"
+      "daily-life",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "See why millions of machines fit Japan’s labor market, public spaces, and daily routines.",
@@ -640,7 +643,8 @@
       "united-states",
       "listening",
       "work",
-      "discussion"
+      "discussion",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Hear vendors explain work, flavor, permits, and belonging on city sidewalks.",
@@ -856,7 +860,8 @@
       "australia",
       "listening",
       "nature",
-      "science"
+      "science",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use an ABC News short to discuss hidden marine life below a famous view.",
@@ -1077,7 +1082,8 @@
       "food-culture",
       "food",
       "cuisine",
-      "restaurants"
+      "restaurants",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Hear a youth perspective on food, belonging, and cultural adjustment in Shanghai.",
@@ -1634,7 +1640,8 @@
       "india",
       "listening",
       "systems-thinking",
-      "work"
+      "work",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Study a famous lunchbox network built on trust, timing, and codes.",
@@ -1666,7 +1673,8 @@
       "food-culture",
       "food",
       "cuisine",
-      "restaurants"
+      "restaurants",
+      "listening:interview"
     ],
     "difficultyLevel": "Easy",
     "description": "Use food to discuss city routines, vendors, taste, and public space.",
@@ -1913,7 +1921,8 @@
       "brazil",
       "listening",
       "urban-life",
-      "media-literacy"
+      "media-literacy",
+      "listening:interview"
     ],
     "difficultyLevel": "Advanced",
     "description": "Use a city history topic to discuss housing, inequality, and community.",
@@ -2040,7 +2049,8 @@
       "food-culture",
       "food",
       "cuisine",
-      "restaurants"
+      "restaurants",
+      "listening:interview"
     ],
     "difficultyLevel": "Easy",
     "description": "Use street food to discuss taste, vendors, history, routine, and cultural pride.",
@@ -2226,7 +2236,8 @@
       "listening",
       "environment",
       "climate",
-      "cause-and-effect"
+      "cause-and-effect",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use environmental history to discuss cars, air, science, and regulation.",
@@ -2350,7 +2361,8 @@
       "listening",
       "culture",
       "traditions",
-      "description"
+      "description",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a local travel segment to discuss pace, creativity, and city identity.",
@@ -2382,7 +2394,8 @@
       "transport",
       "transportation",
       "public-transport",
-      "getting-around"
+      "getting-around",
+      "listening:interview"
     ],
     "difficultyLevel": "Advanced",
     "description": "Examine transit efforts in a rapidly growing city.",
@@ -2568,7 +2581,8 @@
       "transport",
       "transportation",
       "public-transport",
-      "getting-around"
+      "getting-around",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use cycling to discuss safety, design, habits, and policy.",
@@ -2630,7 +2644,8 @@
       "listening",
       "culture",
       "traditions",
-      "storytelling"
+      "storytelling",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "See how hula carries stories, language, and cultural responsibility.",
@@ -2662,7 +2677,8 @@
       "food-culture",
       "food",
       "cuisine",
-      "restaurants"
+      "restaurants",
+      "listening:interview"
     ],
     "difficultyLevel": "Easy",
     "description": "Use a familiar snack to explore migration, adaptation, convenience, and local identity.",
@@ -2724,7 +2740,8 @@
       "listening",
       "culture",
       "traditions",
-      "identity"
+      "identity",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Explore Cuban culture through music, coffee, food, cigars, and neighborhood life.",
@@ -2755,7 +2772,8 @@
       "listening",
       "environment",
       "climate",
-      "systems-thinking"
+      "systems-thinking",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Connect South Florida wetlands with water, wildlife, restoration, and the nearby city.",
@@ -3499,7 +3517,8 @@
       "transport",
       "transportation",
       "public-transport",
-      "getting-around"
+      "getting-around",
+      "listening:interview"
     ],
     "difficultyLevel": "Advanced",
     "description": "Examine how transport planning can begin with residents and daily journeys.",
@@ -3845,7 +3864,8 @@
       "dance",
       "performance",
       "younger-learners",
-      "kids"
+      "kids",
+      "listening:interview"
     ],
     "difficultyLevel": "Easy",
     "description": "Learn basic Irish dance movements through a child-friendly cultural lesson.",
@@ -3939,7 +3959,8 @@
       "animals",
       "wildlife",
       "younger-learners",
-      "kids"
+      "kids",
+      "listening:interview"
     ],
     "difficultyLevel": "Easy",
     "description": "Meet a celebrated Senegalese sheep breed through care, competition, and community pride.",
@@ -4127,7 +4148,8 @@
       "art",
       "museums",
       "younger-learners",
-      "kids"
+      "kids",
+      "listening:interview"
     ],
     "difficultyLevel": "Easy",
     "description": "Learn how Guna artists build colorful designs through layered fabric.",
@@ -4254,7 +4276,8 @@
       "food-culture",
       "food",
       "cuisine",
-      "restaurants"
+      "restaurants",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Follow a common bread through ingredients, technique, and everyday food culture.",
@@ -4348,7 +4371,8 @@
       "food-culture",
       "food",
       "cuisine",
-      "restaurants"
+      "restaurants",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Follow coffee preparation as a practice of hospitality and shared time.",
@@ -4410,7 +4434,8 @@
       "food-culture",
       "food",
       "cuisine",
-      "restaurants"
+      "restaurants",
+      "listening:interview"
     ],
     "difficultyLevel": "Easy",
     "description": "Use a child-friendly food guide to build vocabulary and curiosity.",
@@ -4535,7 +4560,8 @@
       "philippines",
       "listening",
       "identity",
-      "animation"
+      "animation",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use an animated story to explore family, values, culture, and belonging.",
@@ -4630,7 +4656,8 @@
       "food-culture",
       "food",
       "cuisine",
-      "restaurants"
+      "restaurants",
+      "listening:interview"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Use a five-minute journey to connect food, places, and everyday cultural details.",
