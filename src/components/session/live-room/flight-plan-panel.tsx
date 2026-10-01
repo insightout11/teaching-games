@@ -6,14 +6,14 @@ import { FileText, Plane, X } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import { GRAMMAR_TARGET_GROUPS, type GrammarTarget } from '@/lib/grammar';
 import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
-import { buildRoomFlightPlan, roomFlightPresets } from '@/lib/live-room/room-flight-plan';
+import { buildRoomFlightPlan, estimatePlanMinutes, roomFlightPresets } from '@/lib/live-room/room-flight-plan';
 
 /**
  * Launch a flight from inside the Live Room: preset cards, prefilled from the room (the topic,
  * the source on screen, the level, the grammar focus). Only what a preset genuinely needs is
  * asked (the grammar point for Grammar). Flies in this session; the room keeps the journey.
  */
-export function FlightPlanPanel({ destinationCity, onLaunch, onClose }: { destinationCity: string; onLaunch: (plan: LessonPlanPayload) => void; onClose: () => void }) {
+export function FlightPlanPanel({ destinationCity, minutesLeft, onLaunch, onClose }: { destinationCity: string; /** Set while flying: the plan is sized to the time left. */ minutesLeft?: number | null; onLaunch: (plan: LessonPlanPayload) => void; onClose: () => void }) {
   const settings = useSessionStore((s) => s.settings);
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const presets = useMemo(() => roomFlightPresets(), []);
@@ -24,9 +24,13 @@ export function FlightPlanPanel({ destinationCity, onLaunch, onClose }: { destin
   const needsGrammar = presetId === 'grammar-60';
   const ready = !!preset && (topic.trim().length > 0 || !!sourceMaterial) && (!needsGrammar || !!grammar);
 
+  const build = () => (preset ? buildRoomFlightPlan({ preset, topic, difficulty: settings.difficulty, sourceMaterial, grammarTarget: (grammar || null) as GrammarTarget | null, minutesLeft: minutesLeft ?? null }) : null);
+  // Mid-air: show how the plan fits the time left (stages are trimmed to fit).
+  const preview = useMemo(() => (preset && minutesLeft != null ? build() : null), [presetId, minutesLeft, sourceMaterial]); // eslint-disable-line react-hooks/exhaustive-deps
   const launch = () => {
-    if (!preset || !ready) return;
-    onLaunch(buildRoomFlightPlan({ preset, topic, difficulty: settings.difficulty, sourceMaterial, grammarTarget: (grammar || null) as GrammarTarget | null }));
+    const plan = build();
+    if (!plan || !ready) return;
+    onLaunch(plan);
   };
 
   return (
@@ -71,7 +75,10 @@ export function FlightPlanPanel({ destinationCity, onLaunch, onClose }: { destin
         </div>
 
         <div className="flex items-center justify-between gap-3">
-          <p className="text-sm text-white/50">Level: {settings.difficulty}. Students stay on board.</p>
+          <p className="text-sm text-white/50">
+            {preview ? `Fits the ${Math.round(minutesLeft ?? 0)} minutes left: ${preview.slots.length} stages (~${estimatePlanMinutes(preview.slots)} min). ` : ''}
+            Level: {settings.difficulty}. Students stay on board.
+          </p>
           <button type="button" disabled={!ready} onClick={launch} className="flex items-center gap-2 rounded-full bg-amber-300 px-6 py-3 font-semibold text-slate-950 disabled:opacity-40">
             <Plane className="h-4 w-4" />Start the flight plan
           </button>

@@ -1389,7 +1389,17 @@ export function FlightDeck({
       )}
 
       {planOpen && (
-        <FlightPlanPanel destinationCity={destination.city} onClose={() => setPlanOpen(false)} onLaunch={(plan) => { setPlanOpen(false); onLaunchPlan(plan); }} />
+        <FlightPlanPanel
+          destinationCity={destination.city}
+          minutesLeft={flightStage === 'flying' ? minutesLeft : null}
+          onClose={() => setPlanOpen(false)}
+          onLaunch={(plan) => {
+            setPlanOpen(false);
+            // Mid-air: a new flight plan, not a new take-off.
+            flash(flightStage === 'flying' ? `Captain's announcement: new flight plan, ${plan.customTopic}` : `Flight plan ready: ${plan.customTopic}`);
+            onLaunchPlan(plan);
+          }}
+        />
       )}
 
       {/* The running module lives here in the Game view; elsewhere it stays mounted off-screen. */}
