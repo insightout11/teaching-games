@@ -101,3 +101,26 @@ export const GRAMMAR_TARGET_GROUPS: Record<string, GrammarTarget[]> = {
     GrammarTarget.ReportedSpeech,
   ],
 };
+
+/**
+ * Grammar families (Grammar Flight v2): each grammar point belongs to a family, and the family
+ * decides the speaking game, the board template and the presentation frame. Targets outside the
+ * enum (free text from teachers) are matched by keyword.
+ */
+export type GrammarFamily = 'tenses' | 'comparisons' | 'questions' | 'modals' | 'conditionals' | 'passive' | 'reported' | 'prepositions' | 'other';
+
+const TENSE_TARGETS = new Set<string>(GRAMMAR_TARGET_GROUPS.Tenses);
+
+export function grammarFamily(target?: string | null): GrammarFamily {
+  const t = (target ?? '').toLowerCase().trim();
+  if (!t) return 'other';
+  if (TENSE_TARGETS.has(t) || /\b(tense|present|past|future|perfect|continuous|will|going to|used to)\b/.test(t)) return 'tenses';
+  if (/\b(compar|superlative|than|as \.\.\. as)\b/.test(t)) return 'comparisons';
+  if (/\b(question|wh-|tag)\b/.test(t)) return 'questions';
+  if (/\b(modal|must|should|can|could|have to|might|may)\b/.test(t)) return 'modals';
+  if (/\b(conditional|if)\b/.test(t)) return 'conditionals';
+  if (/\bpassive\b/.test(t)) return 'passive';
+  if (/\breported\b/.test(t)) return 'reported';
+  if (/\bpreposition/.test(t)) return 'prepositions';
+  return 'other';
+}

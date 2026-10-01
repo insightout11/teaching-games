@@ -78,6 +78,8 @@ import type {
   BlackBoxPassage,
   FixTheCaptainContent,
   FixTheCaptainItem,
+  TenseTimeMachineContent,
+  TenseTimeMachineStop,
   DecisionCouncilContent,
   TeamDebateContent,
   SourceVocabItem,
@@ -1572,6 +1574,98 @@ Vary where the mistake sits. Do not make the rest of the sentence awkward. Retur
     .filter((a) => a.text && a.error && a.fix && a.error.toLowerCase() !== a.fix.toLowerCase() && a.text.includes(a.error))
     .slice(0, 6);
   return { activityKey: 'fix-the-captain', topicContext: topic, grammarTarget: grammarTarget ?? null, announcements };
+}
+
+
+// ─── Tense Time Machine (tenses family: spoken production) ───
+
+async function generateTenseTimeMachine(
+  topic: string,
+  difficulty: Difficulty,
+  grammarTarget: string | undefined,
+  scene: { title: string; context: string } | undefined,
+  sourceCtx: string,
+): Promise<TenseTimeMachineContent> {
+  const stopSchema: AISchema = {
+    type: 'object',
+    properties: {
+      era: { type: 'string' },
+      tense: { type: 'string' },
+      timeLabel: { type: 'string' },
+      timeWords: { type: 'array', items: { type: 'string' } },
+      starters: { type: 'array', items: { type: 'string' } },
+      models: { type: 'array', items: { type: 'string' } },
+    },
+    required: ['era', 'tense', 'timeLabel', 'timeWords', 'starters', 'models'],
+  };
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      sceneTitle: { type: 'string' },
+      scene: { type: 'string' },
+      stops: { type: 'array', items: stopSchema },
+      verbs: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: { base: { type: 'string' }, past: { type: 'string' }, ing: { type: 'string' } },
+          required: ['base', 'past', 'ing'],
+        },
+      },
+    },
+    required: ['sceneTitle', 'scene', 'stops', 'verbs'],
+  };
+  const sceneLine = scene
+    ? `Use THIS scene the class already played: "${scene.title}". ${scene.context}`
+    : 'Invent a simple, vivid scene connected to the topic (people doing things in a place), something kids/teens can picture.';
+  const targetLine = grammarTarget
+    ? `One of the three stops MUST use exactly "${grammarTarget}". Pick the other two tenses to contrast with it naturally (e.g. past simple / present continuous / future with going to).`
+    : 'Use past simple, present continuous, and future with "going to" (or "will" for predictions).';
+  const prompt = `You are making "Tense Time Machine", a SPEAKING game for an ESL class on the topic "${topic}". The class retells the same scene at three points in time; each student says one sentence in the tense of that time.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${sceneLine}
+${targetLine}
+${sourceCtx ? `\nLesson material for ideas and vocabulary:\n${sourceCtx.slice(0, 2500)}\n` : ''}
+Return:
+- sceneTitle: short title (2–5 words)
+- scene: 2 sentences describing the scene in a neutral way (who, where, what's happening)
+- stops: exactly 3, in order past → present → future. For each:
+  - era: "past" | "present" | "future"
+  - tense: the tense name (e.g. "past simple")
+  - timeLabel: a short dial label for that moment (e.g. "Yesterday", "Right now", "Next summer")
+  - timeWords: 3 time expressions that fit (e.g. "yesterday", "last week", "two days ago")
+  - starters: 3 sentence starters in that tense about the scene, unfinished (e.g. "Yesterday the family…", "They visited…")
+  - models: 2 complete example sentences in that tense about the scene (teacher-only)
+- verbs: 6 useful verbs for this scene with base, past (simple past form), ing (the -ing form)`;
+  const parsed = await generateJSON<{
+    sceneTitle?: string;
+    scene?: string;
+    stops?: Array<{ era?: string; tense?: string; timeLabel?: string; timeWords?: string[]; starters?: string[]; models?: string[] }>;
+    verbs?: Array<{ base?: string; past?: string; ing?: string }>;
+  }>(prompt, schema);
+  const eras: Array<'past' | 'present' | 'future'> = ['past', 'present', 'future'];
+  const stops: TenseTimeMachineStop[] = eras.map((era, i) => {
+    const s = (parsed.stops ?? []).find((x) => x?.era === era) ?? parsed.stops?.[i] ?? {};
+    return {
+      era,
+      tense: s.tense?.trim() || (era === 'past' ? 'past simple' : era === 'present' ? 'present continuous' : 'future (going to)'),
+      timeLabel: s.timeLabel?.trim() || (era === 'past' ? 'Yesterday' : era === 'present' ? 'Right now' : 'Next week'),
+      timeWords: (s.timeWords ?? []).filter(Boolean).slice(0, 3),
+      starters: (s.starters ?? []).filter(Boolean).slice(0, 3),
+      models: (s.models ?? []).filter(Boolean).slice(0, 2),
+    };
+  });
+  const verbs = (parsed.verbs ?? []).filter((v) => v?.base && v.past && v.ing).map((v) => ({ base: v.base!, past: v.past!, ing: v.ing! })).slice(0, 6);
+  return {
+    activityKey: 'tense-time-machine',
+    topicContext: topic,
+    grammarTarget: grammarTarget ?? null,
+    sceneTitle: parsed.sceneTitle?.trim() || scene?.title || topic,
+    scene: parsed.scene?.trim() || scene?.context || `A scene about ${topic}.`,
+    stops,
+    verbs,
+  };
 }
 
 async function generateSingleScene(
@@ -3326,6 +3420,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'fix-the-captain':
             generators.push(generateFixTheCaptain(customTopic, diff, grammarTarget ?? undefined, kitSourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'tense-time-machine':
+            generators.push(generateTenseTimeMachine(customTopic, diff, grammarTarget ?? undefined, sceneFromKit, kitSourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'radio-check':
             generators.push(generateRadioCheck(customTopic, diff, sourceMaterial, sourceRawTranscript, sourceCtx).then((r) => { content[activityKey] = r; }));

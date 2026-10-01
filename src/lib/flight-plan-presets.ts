@@ -496,7 +496,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'presentation', key: 'grammar-clarify', stageId: 'clarify' },
       { slotType: 'practice', key: 'fix-the-captain', stageId: 'notice' },
       { slotType: 'practice', key: 'sentence-scramble', stageId: 'build' },
-      { slotType: 'practice', key: 'grammar-boss', stageId: 'produce' },
+      { slotType: 'production', key: 'tense-time-machine', stageId: 'produce', pool: ['tense-time-machine', 'grammar-boss'] },
       { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['grid-rush', 'flash-quiz', 'connections', 'synonym-showdown', 'vocab-sprint'] },
     ],
     flightConfig: {
@@ -515,6 +515,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'fix-the-captain': 'notice',
         'error-hunter': 'notice',
         'sentence-scramble': 'build',
+        'tense-time-machine': 'produce',
         'grammar-boss': 'produce',
         'grid-rush': 'end-game',
         'flash-quiz': 'end-game',

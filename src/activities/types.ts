@@ -983,6 +983,26 @@ export interface FixTheCaptainContent extends ActivityGeneratedContent {
   announcements: FixTheCaptainItem[];
 }
 
+/** Tense Time Machine: one scene retold at three points in time. */
+export interface TenseTimeMachineStop {
+  era: 'past' | 'present' | 'future';
+  tense: string;
+  timeLabel: string;
+  timeWords: string[];
+  starters: string[];
+  /** Teacher-only example sentences (shown on "Show a model"). */
+  models: string[];
+}
+
+export interface TenseTimeMachineContent extends ActivityGeneratedContent {
+  activityKey: 'tense-time-machine';
+  grammarTarget: string | null;
+  sceneTitle: string;
+  scene: string;
+  stops: TenseTimeMachineStop[];
+  verbs: Array<{ base: string; past: string; ing: string }>;
+}
+
 /** Hot Seat reuses Taboo's topic cards (word + short definition). */
 export interface HotSeatContent extends ActivityGeneratedContent {
   activityKey: 'hot-seat';
