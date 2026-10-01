@@ -1,5 +1,6 @@
 'use client';
 
+import { TripTravellerCardPanel } from './trip-traveller-card';
 import { ImposterSecretCard } from './imposter-card';
 import type { ImposterAssignment } from '@/activities/imposter/activity';
 import { OptionLetter, PHONE_PRIMARY, PhoneLocked, PhonePrompt, PhoneSubmitStatus, PhoneTimer, phoneOption } from './phone-kit';
@@ -1269,6 +1270,9 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
     return <StoryChainPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} onSubmit={onSubmit} />;
   }
 
+  if (spec.gameKey === 'boarding-call' && spec.perStudentData?.__room) {
+    return <TripTravellerCardPanel spec={spec} displayName={displayName ?? undefined} studentId={studentId ?? undefined} clientId={clientId} onSubmit={onSubmit} />;
+  }
   if (spec.gameKey === 'briefing-mission') {
     return <BriefingMissionPanel spec={spec} onSubmit={onSubmit} />;
   }

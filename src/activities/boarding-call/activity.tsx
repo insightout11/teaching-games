@@ -1,7 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { PlaneTakeoff, Luggage, Check } from 'lucide-react';
+import { PlaneTakeoff, Luggage, Check, User } from 'lucide-react';
+import { useSessionStore } from '@/stores/session-store';
+import { dealTravellerCards, type TravellerCard } from '@/lib/world-flight/traveller-cards';
 import type { ActivityProps, BoardingCallContent } from '../types';
 
 // Boarding Call — the Travel takeoff. The whole class flies together from a shared origin, so the
@@ -9,7 +11,9 @@ import type { ActivityProps, BoardingCallContent } from '../types';
 // their devices only show the prompt (with a packing hint) and a "Ready" tap that registers
 // participation. No answers are typed, stored, or fed anywhere — reflection stays oral.
 
-type Phase = 'idle' | 'prompting' | 'done';
+// Travel v2: boarding opens with Traveller Cards. Each phone gets a persona + budget tier + food
+// need + a want; students introduce themselves aloud as it. Cards are stored for the later stops.
+type Phase = 'idle' | 'cards' | 'prompting' | 'done';
 
 const FALLBACK_PROMPTS = [
   'What are you packing for the trip?',
@@ -19,6 +23,7 @@ const FALLBACK_PROMPTS = [
 
 export function BoardingCallActivity({
   generatedContent,
+  students,
   onPhaseChange,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
@@ -27,6 +32,11 @@ export function BoardingCallActivity({
   const content = generatedContent as BoardingCallContent;
   const prompts = content.prompts?.length ? content.prompts : FALLBACK_PROMPTS;
   const city = content.city || 'your destination';
+
+  const setTravellers = useSessionStore((st) => st.setTravellers);
+  const [cards] = useState<Record<string, TravellerCard>>(() => dealTravellerCards(students, `${city}:${students.map((x) => x.id).join(',')}`));
+  const [introduced, setIntroduced] = useState<string[]>([]);
+  useEffect(() => { setTravellers(cards); }, [cards, setTravellers]);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [index, setIndex] = useState(0);
@@ -40,6 +50,12 @@ export function BoardingCallActivity({
 
   // Device scaffolding — spoken-first: the prompt + (on prompt 1) the packing hint, plus a tap.
   useEffect(() => {
+    if (phase === 'cards') {
+      const per: Record<string, unknown> = { __room: true };
+      students.forEach((st) => { per[st.id] = cards[st.id]; per[st.name] = cards[st.id]; });
+      onSetInputSpec?.({ type: 'confirm', gameKey: 'boarding-call', prompt: `Your Traveller Card for ${city}`, perStudentData: per, stableInput: true });
+      return;
+    }
     if (phase !== 'prompting') { onSetInputSpec?.(null); return; }
     onSetInputSpec?.({
       type: 'confirm',
@@ -48,12 +64,16 @@ export function BoardingCallActivity({
       ...(index === 0 && content.packingHint ? { instruction: content.packingHint } : {}),
       buttonLabel,
     });
-  }, [phase, index, prompts, content.packingHint, buttonLabel, onSetInputSpec]);
+  }, [phase, index, prompts, content.packingHint, buttonLabel, onSetInputSpec, students, cards, city]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
   // A tap registers participation (once per student per prompt) — the answer itself is spoken.
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
+      if (phaseRef.current === 'cards') {
+        setIntroduced((prev) => (prev.includes(vote.displayName) ? prev : [...prev, vote.displayName]));
+        return;
+      }
       if (phaseRef.current !== 'prompting') return;
       const idx = indexRef.current;
       const key = `${idx}:${vote.clientId}`;
@@ -66,6 +86,13 @@ export function BoardingCallActivity({
   }, [onRegisterRemoteVoteHandler, onScore]);
 
   const start = useCallback(() => {
+    if (students.length) { setPhase('cards'); onPhaseChange?.('cards'); return; }
+    setIndex(0);
+    setPhase('prompting');
+    onPhaseChange?.('prompting');
+  }, [onPhaseChange, students.length]);
+
+  const toPrompts = useCallback(() => {
     setIndex(0);
     setPhase('prompting');
     onPhaseChange?.('prompting');
@@ -98,6 +125,36 @@ export function BoardingCallActivity({
           </p>
         </div>
         <button onClick={start} className="rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600 px-12 py-5 font-game text-xl text-white shadow-xl transition hover:scale-105 active:scale-95">BEGIN BOARDING</button>
+      </div>
+    );
+  }
+
+  if (phase === 'cards') {
+    return (
+      <div className="space-y-5">
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-cyan-300/70">Boarding Call · Traveller Cards</p>
+          <span className="text-sm text-slate-400">{introduced.length} of {students.length} introduced</span>
+        </div>
+        <div className="rounded-2xl border-2 border-cyan-500/30 bg-cyan-500/[0.08] p-6 text-center">
+          <h3 className="text-2xl font-game text-white">Who are you on this trip?</h3>
+          <p className="mx-auto mt-2 max-w-lg text-sm text-slate-300">Check your phone for your Traveller Card. Say who you are, your budget, and what you want to do in {city}.</p>
+        </div>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {students.map((st) => {
+            const done = introduced.includes(st.name);
+            return (
+              <div key={st.id} className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm ${done ? 'border-emerald-400/30 bg-emerald-500/10 text-emerald-50' : 'border-white/10 bg-white/[0.03] text-slate-300'}`}>
+                {done ? <Check className="h-4 w-4 shrink-0 text-emerald-300" aria-hidden /> : <User className="h-4 w-4 shrink-0 text-slate-500" aria-hidden />}
+                <span className="font-semibold">{st.name}</span>
+                {done && cards[st.id] && <span className="truncate text-emerald-100/80">· {cards[st.id].persona} · {cards[st.id].budget}</span>}
+              </div>
+            );
+          })}
+        </div>
+        <div className="flex justify-end">
+          <button onClick={toPrompts} className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]">PACKING QUESTIONS</button>
+        </div>
       </div>
     );
   }

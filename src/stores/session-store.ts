@@ -1,3 +1,4 @@
+import type { TravellerCard } from '@/lib/world-flight/traveller-cards';
 import { create } from 'zustand';
 import type { Student, Score } from '@/lib/supabase/types';
 import {
@@ -71,6 +72,8 @@ export interface LessonThread {
   hunt?: Record<string, { name: string; count: number }>;
   /** Captain's Flight: the question the lesson investigates (set at boarding). */
   flightQuestion?: { question: string; type: 'opinion' | 'problem' | 'personal' };
+  /** Travel: each student's Traveller Card (student id → card), dealt at boarding. */
+  travellers?: Record<string, TravellerCard>;
 }
 
 export interface SessionSettings {
@@ -263,6 +266,7 @@ interface SessionState {
   recordStruggle: (entry: ThreadStruggle) => void;
   recordHuntStamps: (clientId: string, name: string, count: number) => void;
   setFlightQuestion: (q: { question: string; type: 'opinion' | 'problem' | 'personal' }) => void;
+  setTravellers: (cards: Record<string, TravellerCard>) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
@@ -424,6 +428,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setLessonKit: (kit) => set({ lessonKit: kit }),
 
   setFlightQuestion: (q) => set({ lessonThread: { ...get().lessonThread, flightQuestion: q } }),
+  setTravellers: (cards) => set({ lessonThread: { ...get().lessonThread, travellers: cards } }),
 
   recordHuntStamps: (clientId, name, count) => {
     const { lessonThread } = get();
