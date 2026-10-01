@@ -83,3 +83,16 @@ The teacher's grammar point maps to a family. Each family has a **speaking frame
 ## Open questions (resolved above)
 - Should Grammar Hunt run in **every** preset when a grammar target is set (e.g. a Speak lesson with a target), or only in the Grammar flight?
 - Should **Error Hunter** stay as an option alongside Fix the Captain, or be replaced by it in this flight?
+
+## Built (Oct 1 2026)
+All seven build steps are on main:
+1. Kit everywhere (f4dd8883)
+2. Families: `grammarFamily()` + new targets (comparatives & superlatives, question forms)
+3. Fix the Captain (7b254c7c), replaces Error Hunter in the Grammar flight
+4. Speaking engine: Tense Time Machine (23e50860), Compare It + Answer First (0fe2b788); Produce stage follows the family
+5. Grammar Spotlight: Discover / Watch / Explain (cc1e1985) + Class Board anchor chart per family (02da63e9)
+6. Grammar Hunt (0f504fb8), in every lesson with a grammar target
+7. Struggles → review (aa4be668): the kit carries the class's misses to the review game and the Wings check
+
+Grammar flight now: Check-in → Grammar Spotlight → Fix the Captain → Sentence Scramble → family speaking game → review game → Wings + Proof.
+Not yet built: speaking frames for modals, conditionals, passive, reported speech, prepositions (they fall back to Grammar Boss).
