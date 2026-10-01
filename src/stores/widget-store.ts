@@ -26,6 +26,9 @@ interface WidgetStoreState {
   setDefaultPosition: (id: string, pos: { x: number; y: number }, defaultOpen?: boolean) => void;
   resetLayout: (positions: Record<string, { x: number; y: number }>) => void;
   setLayout: (id: string, patch: Partial<Pick<WidgetEntry, 'size' | 'mode' | 'glass' | 'position'>>) => void;
+  /** One-shot request for the Class Board to switch to a template (e.g. a grammar anchor). */
+  classBoardPresetRequest: string | null;
+  requestClassBoardPreset: (key: string | null) => void;
 }
 
 const DEFAULT_Z = 100;
@@ -35,6 +38,8 @@ export const useWidgetStore = create<WidgetStoreState>()(
     (set, get) => ({
       widgets: {},
       zCounter: DEFAULT_Z,
+      classBoardPresetRequest: null,
+      requestClassBoardPreset: (key) => set({ classBoardPresetRequest: key }),
 
       getWidget: (id) => {
         const w = get().widgets[id];

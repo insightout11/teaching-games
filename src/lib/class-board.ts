@@ -32,6 +32,7 @@ export const DEFAULT_CLASS_BOARD_KEY = 'class-board';
 export const DEFAULT_CLASS_BOARD_PRESET_KEY = 'open-board';
 
 export const CLASS_BOARD_PRESETS: Record<string, ClassBoardPreset> = {
+
   'open-board': {
     key: 'open-board',
     title: 'Class Board',
@@ -292,6 +293,94 @@ export const CLASS_BOARD_PRESETS: Record<string, ClassBoardPreset> = {
     ],
     defaultCategory: 'fact',
     defaultZone: 'who',
+    allowVotes: true,
+    rankable: false,
+    studentVisibility: 'pending',
+  },
+
+  // ─── Grammar anchor charts (Grammar Flight v2): one template per grammar family. The rule
+  // and examples are pinned by Grammar Spotlight; students add their own sentences.
+  'grammar-tenses': {
+    key: 'grammar-tenses',
+    title: 'Grammar: tenses',
+    prompt: 'Write your own sentence in the right time.',
+    layout: 'columns',
+    categories: [
+      { key: 'rule', label: 'Rule', tone: 'amber' },
+      { key: 'example', label: 'Example', tone: 'emerald' },
+      { key: 'sentence', label: 'My sentence', tone: 'cyan' },
+    ],
+    zones: [
+      { key: 'rule', label: 'The rule' },
+      { key: 'past', label: 'Past' },
+      { key: 'present', label: 'Present' },
+      { key: 'future', label: 'Future' },
+    ],
+    defaultCategory: 'sentence',
+    defaultZone: 'present',
+    allowVotes: true,
+    rankable: false,
+    studentVisibility: 'pending',
+  },
+  'grammar-comparisons': {
+    key: 'grammar-comparisons',
+    title: 'Grammar: comparisons',
+    prompt: 'Compare two things, or find the most…',
+    layout: 'columns',
+    categories: [
+      { key: 'rule', label: 'Rule', tone: 'amber' },
+      { key: 'example', label: 'Example', tone: 'emerald' },
+      { key: 'sentence', label: 'My sentence', tone: 'cyan' },
+    ],
+    zones: [
+      { key: 'rule', label: 'The rule' },
+      { key: 'comparative', label: '…er than / more … than' },
+      { key: 'superlative', label: 'the …est / the most …' },
+    ],
+    defaultCategory: 'sentence',
+    defaultZone: 'comparative',
+    allowVotes: true,
+    rankable: false,
+    studentVisibility: 'pending',
+  },
+  'grammar-questions': {
+    key: 'grammar-questions',
+    title: 'Grammar: questions',
+    prompt: 'Write a question you would really ask.',
+    layout: 'columns',
+    categories: [
+      { key: 'rule', label: 'Rule', tone: 'amber' },
+      { key: 'example', label: 'Example', tone: 'emerald' },
+      { key: 'sentence', label: 'My question', tone: 'cyan' },
+    ],
+    zones: [
+      { key: 'rule', label: 'The rule' },
+      { key: 'wh', label: 'Wh- questions' },
+      { key: 'yesno', label: 'Yes / No questions' },
+    ],
+    defaultCategory: 'sentence',
+    defaultZone: 'wh',
+    allowVotes: true,
+    rankable: false,
+    studentVisibility: 'pending',
+  },
+  'grammar-anchor': {
+    key: 'grammar-anchor',
+    title: 'Grammar',
+    prompt: 'Write your own sentence using today\'s grammar.',
+    layout: 'columns',
+    categories: [
+      { key: 'rule', label: 'Rule', tone: 'amber' },
+      { key: 'example', label: 'Example', tone: 'emerald' },
+      { key: 'sentence', label: 'My sentence', tone: 'cyan' },
+    ],
+    zones: [
+      { key: 'rule', label: 'The rule' },
+      { key: 'examples', label: 'Examples' },
+      { key: 'ours', label: 'Our sentences' },
+    ],
+    defaultCategory: 'sentence',
+    defaultZone: 'ours',
     allowVotes: true,
     rankable: false,
     studentVisibility: 'pending',

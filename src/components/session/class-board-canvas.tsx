@@ -21,6 +21,7 @@ import {
   type ClassBoardZone,
 } from '@/lib/class-board';
 import type { InputSpec } from '@/lib/input-spec';
+import { useWidgetStore } from '@/stores/widget-store';
 
 interface ClassBoardCanvasProps {
   sessionId: string;
@@ -179,6 +180,16 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   useEffect(() => {
     if (presetKey) setSelectedPresetKey(presetKey);
   }, [presetKey]);
+
+  // Another surface (e.g. Grammar Spotlight pinning its anchor chart) asked for a template.
+  const presetRequest = useWidgetStore((s) => s.classBoardPresetRequest);
+  const clearPresetRequest = useWidgetStore((s) => s.requestClassBoardPreset);
+  useEffect(() => {
+    if (!presetRequest || templateLocked) return;
+    setAiPreset(null);
+    setSelectedPresetKey(presetRequest);
+    clearPresetRequest(null);
+  }, [presetRequest, templateLocked, clearPresetRequest]);
 
   const loadItems = useCallback(async () => {
     if (isMockMode()) return;

@@ -130,10 +130,11 @@ export function grammarFamily(target?: string | null): GrammarFamily {
   const t = (target ?? '').toLowerCase().trim();
   if (!t) return 'other';
   if (TENSE_TARGETS.has(t) || /\b(tense|present|past|future|perfect|continuous|will|going to|used to)\b/.test(t)) return 'tenses';
-  if (/\b(compar|superlative|than|as \.\.\. as)\b/.test(t)) return 'comparisons';
-  if (/\b(question|wh-|tag)\b/.test(t)) return 'questions';
+  // Prefix matches (no trailing \b): "comparatives", "superlatives", "questions", "conditionals".
+  if (/\b(compar|superlativ)|\bthan\b/.test(t)) return 'comparisons';
+  if (/\bquestion|\bwh-|\btags?\b/.test(t)) return 'questions';
   if (/\b(modal|must|should|can|could|have to|might|may)\b/.test(t)) return 'modals';
-  if (/\b(conditional|if)\b/.test(t)) return 'conditionals';
+  if (/\bconditional|\bif\b/.test(t)) return 'conditionals';
   if (/\bpassive\b/.test(t)) return 'passive';
   if (/\breported\b/.test(t)) return 'reported';
   if (/\bpreposition/.test(t)) return 'prepositions';

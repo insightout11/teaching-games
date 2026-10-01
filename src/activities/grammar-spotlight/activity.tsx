@@ -2,9 +2,11 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, BookOpen, Ear, Highlighter, Lightbulb, MessageCircleQuestion, Play, Search, X } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, Ear, Highlighter, LayoutGrid, Lightbulb, MessageCircleQuestion, Play, Search, X } from 'lucide-react';
 import type { ActivityProps, GrammarSpotlightContent } from '../types';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { useWidgetStore } from '@/stores/widget-store';
+import { grammarAnchorItems, grammarBoardKey } from '@/lib/grammar-board';
 
 // Grammar Spotlight: how the structure is presented. The teacher picks Discover / Watch / Explain
 // (smart default: the lesson's source has the structure -> Discover; a matching grammar clip ->
@@ -23,7 +25,7 @@ function Lit({ text, highlight, on }: { text: string; highlight: string; on: boo
   return <>{text.slice(0, i)}<motion.mark initial={{ backgroundColor: 'rgba(252,211,77,0)' }} animate={{ backgroundColor: 'rgba(252,211,77,0.35)' }} className="rounded px-1 text-amber-50">{highlight}</motion.mark>{text.slice(i + highlight.length)}</>;
 }
 
-export function GrammarSpotlightActivity({ generatedContent, onSetInputSpec, onRegisterRemoteVoteHandler, onPhaseChange }: ActivityProps) {
+export function GrammarSpotlightActivity({ sessionId, generatedContent, onSetInputSpec, onRegisterRemoteVoteHandler, onPhaseChange }: ActivityProps) {
   const content = generatedContent as GrammarSpotlightContent;
   const { rule, discover, clip } = content;
   const canDiscover = discover.sentences.length >= 3;
@@ -33,6 +35,33 @@ export function GrammarSpotlightActivity({ generatedContent, onSetInputSpec, onR
   const [step, setStep] = useState<Step>('choose');
   const [taps, setTaps] = useState(0);
   const [tappers, setTappers] = useState<Set<string>>(new Set());
+  const [pin, setPin] = useState<'idle' | 'busy' | 'done'>('idle');
+  const openWidget = useWidgetStore((s) => s.openWidget);
+  const requestPreset = useWidgetStore((s) => s.requestClassBoardPreset);
+
+  // Anchor chart: the rule + examples go onto the Class Board in this grammar family's template,
+  // where they stay for the whole lesson and students add their own sentences.
+  const pinToBoard = async () => {
+    if (!sessionId || pin !== 'idle') return;
+    setPin('busy');
+    const { presetKey, items } = grammarAnchorItems(content.grammarTarget, rule);
+    const boardKey = grammarBoardKey(presetKey);
+    try {
+      for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        await fetch('/api/class-board/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId, boardKey, authorType: 'teacher', displayName: 'Teacher', content: it.content, category: it.category, zoneKey: it.zoneKey, visibility: 'visible', position: 0 }),
+        });
+      }
+      requestPreset(presetKey);
+      openWidget('class-board');
+      setPin('done');
+    } catch {
+      setPin('idle');
+    }
+  };
 
   const go = (s: Step) => { setStep(s); onPhaseChange?.(s); };
   const begin = () => go(mode === 'discover' ? 'see' : mode === 'watch' ? 'watch' : 'rule');
@@ -142,7 +171,11 @@ export function GrammarSpotlightActivity({ generatedContent, onSetInputSpec, onR
           </div>
         )}
       </div>
-      <div className="flex justify-end"><KitButton tone="amber" onClick={() => onPhaseChange?.('done')} icon={<ArrowRight className="h-4 w-4" />}>Got it</KitButton></div>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <KitButton tone="cyan" disabled={!sessionId || pin !== 'idle'} onClick={() => void pinToBoard()} icon={pin === 'done' ? <Check className="h-4 w-4" /> : <LayoutGrid className="h-4 w-4" />}>{pin === 'done' ? 'On the Class Board' : pin === 'busy' ? 'Pinning…' : 'Pin to the Class Board'}</KitButton>
+        <KitButton tone="amber" onClick={() => onPhaseChange?.('done')} icon={<ArrowRight className="h-4 w-4" />}>Got it</KitButton>
+      </div>
+      {pin === 'done' && <p className="text-right text-sm text-white/55">Open the board to let students add their own sentences. It stays up all lesson.</p>}
     </div>
   );
 }
