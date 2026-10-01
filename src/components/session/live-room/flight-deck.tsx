@@ -175,6 +175,8 @@ export function FlightDeck({
   const [flightStage, setFlightStage] = useState<FlightStage>('gate');
   const [cinematic, setCinematic] = useState(false);
   const [landed, setLanded] = useState(false);
+  // After landing the room stays open as the arrivals hall until the teacher ends class.
+  const [hall, setHall] = useState(false);
   const [takeoffAt, setTakeoffAt] = useState<number | null>(null);
   // The class journey is World Flight's: depart from the class's current city,
   // within the plane's range (LC International before its first flight).
@@ -254,6 +256,24 @@ export function FlightDeck({
     if (error) { flash('Could not start the vote.'); return; }
     openTool('poll', window.innerWidth / 2, window.innerHeight / 2);
     flash('Vote open on phones: where next, and why?');
+  };
+
+  // One journey: the flight plan rides on the room's flight. Leaving the first stage at the gate is
+  // the take-off; the last stage's button is the landing (the room's landing + arrival).
+  const beginLanding = () => {
+    if (runningKey) onReturn();
+    setFlightStage('landing');
+    flash(`Beginning our descent into ${destination.city}`);
+  };
+  const planNext = () => {
+    if (!flightPlan) return;
+    if (!flightPlan.nextLabel) {
+      flightPlan.onEnd();
+      if (flightStage === 'flying') beginLanding();
+      return;
+    }
+    if (flightStage === 'gate' && flightPlan.index === 0) takeOff();
+    flightPlan.onNext();
   };
 
   const takeOff = () => {
@@ -1353,12 +1373,9 @@ export function FlightDeck({
         region={place.overCity ? `city:${place.overCity}` : below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : null}
         calm={view !== 'boarding' && view !== 'talk'}
         onCinematic={setCinematic}
-        onLanded={() => {
-          setLanded(true);
-          window.setTimeout(() => onCompleteSession(destination.id), 9000);
-        }}
+        onLanded={() => setLanded(true)}
       />
-      {focused && !cinematic && !landed && view !== 'boarding' && view !== 'map' && (
+      {focused && !cinematic && !(landed && !hall) && view !== 'boarding' && view !== 'map' && (
         <div className="pointer-events-none absolute inset-x-0 top-3 z-10 flex justify-center">
           <span className="max-w-[70%] truncate rounded-full border border-white/20 bg-slate-950/65 px-3 py-1 text-xs text-white/90 backdrop-blur-md">
             <b className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-300">Now talking about</b>&nbsp; {focused.title}
@@ -1384,7 +1401,7 @@ export function FlightDeck({
         {runningKey ? moduleHost : null}
       </div>
 
-      {scene !== null && !cinematic && !landed && flightStage !== 'landing' && (
+      {scene !== null && !cinematic && !(landed && !hall) && flightStage !== 'landing' && (
         <AnimatePresence mode="wait">
           <motion.div
             key={view + (shown?.id ?? '')}
@@ -1440,14 +1457,24 @@ export function FlightDeck({
         </div>
       )}
 
-      {landed && (
+      {landed && !hall && (
         <div className="absolute inset-x-0 top-10 z-20 flex justify-center">
           <motion.div initial={reduce ? false : { y: -20, rotate: -6, opacity: 0 }} animate={{ y: 0, rotate: -2, opacity: 1 }} className="rounded-2xl bg-[#f4efe3] px-7 py-5 text-[#1b2233] shadow-2xl">
             <p className="font-display text-3xl">Welcome to {destination.city}</p>
             <p className="mt-1 text-sm">Passport stamped. Thanks for flying with {className}!</p>
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our journey · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'}</p>
             <DeckMap className="mt-1 h-44 w-[min(420px,70vw)] rounded-xl" pins={journeyPins} paths={journeyPaths} labels={false} />
+            <div className="mt-4 flex justify-end gap-2">
+              <button type="button" onClick={() => setHall(true)} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Arrivals hall</button>
+              <button type="button" onClick={() => onCompleteSession(destination.id)} className="rounded-full bg-[#1b2233] px-4 py-1.5 text-sm text-[#f4efe3] hover:bg-[#1b2233]/85">End class</button>
+            </div>
           </motion.div>
+        </div>
+      )}
+      {landed && hall && (
+        <div className="absolute right-3 top-3 z-20 flex items-center gap-2 rounded-full border border-amber-200/40 bg-slate-950/80 px-3 py-1.5 text-xs text-amber-100 backdrop-blur-md">
+          <span>Arrivals hall · {destination.city}</span>
+          <button type="button" onClick={() => onCompleteSession(destination.id)} className="rounded-full bg-amber-300 px-3 py-1 font-semibold text-slate-950">End class</button>
         </div>
       )}
 
@@ -1532,9 +1559,8 @@ export function FlightDeck({
                 onClick={() => {
                   setPanel(null);
                   if (flightStage === 'flying') {
-                    if (runningKey) onReturn();
-                    setFlightStage('landing');
-                    flash(`Beginning our descent into ${destination.city}`);
+                    if (flightPlan) flightPlan.onEnd();
+                    beginLanding();
                   } else {
                     // Never took off: the class is still at its departure city.
                     onEndSession(origin.id);
@@ -1542,7 +1568,7 @@ export function FlightDeck({
                 }}
                 className="w-full rounded-lg px-3 py-2 text-left text-sm text-rose-300 hover:bg-rose-400/10"
               >
-                {flightStage === 'flying' ? `Land in ${destination.city} and end` : 'End the session'}
+                {flightStage === 'flying' ? `Land in ${destination.city}` : 'End the session'}
               </button>
             </div>
           )}
@@ -1668,8 +1694,8 @@ export function FlightDeck({
                     <Wind className="h-3.5 w-3.5" /> Turbulence
                   </button>
                 )}
-                <button type="button" onClick={flightPlan.onNext} className="rounded-full border border-amber-300/60 bg-amber-300/90 px-4 py-1.5 text-xs font-semibold text-slate-950 hover:bg-amber-300">
-                  {flightPlan.nextLabel ? `Next: ${flightPlan.nextLabel} →` : 'Final stage done →'}
+                <button type="button" onClick={planNext} className="rounded-full border border-amber-300/60 bg-amber-300/90 px-4 py-1.5 text-xs font-semibold text-slate-950 hover:bg-amber-300">
+                  {!flightPlan.nextLabel ? `Land in ${destination.city}` : flightStage === 'gate' && flightPlan.index === 0 ? `Take off: ${flightPlan.nextLabel} →` : `Next: ${flightPlan.nextLabel} →`}
                 </button>
                 <button type="button" onClick={flightPlan.onEnd} className="rounded-full border border-white/25 bg-slate-950/75 px-3 py-1.5 text-xs text-white/70 backdrop-blur-md hover:bg-slate-900">End flight plan</button>
               </>

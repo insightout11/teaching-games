@@ -1571,7 +1571,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       // Altitude animates from current slot to destination slot
       const altFrom = totalSlots > 2 ? computeAltitude(currentIndex, totalSlots) : 0;
       const altTo   = totalSlots > 2 ? computeAltitude(nextIndex,    totalSlots) : 0;
-      setModuleTransition({
+      // In the Live Room the room's own flight is the flight: no preset take-off/cruise/descent
+      // overlays between stages (only the turbulence beat for breaks).
+      if (!isRoomSessionRef.current || nextSlot?.isMicroEvent) setModuleTransition({
         from: fromName,
         to: toName,
         weatherState: toWeather,
