@@ -46,8 +46,20 @@ After choosing the destination, the setup panel shows:
 - **The destination comes from the room** (World Flight current city → chosen destination) for every launch path; course and planner launches carry their lesson but not a departure city.
 - **Entry gate:** on entering the room with no leg chosen, ask "Where are we flying today?" first.
 
-## Questions for you
+## Decisions (owner, Oct 1 2026)
 
-1. **Destination for non-map lessons:** every class picks a destination, even a grammar lesson? (It gives every lesson a place to land, and the journey grows. Or is "skip, stay local" allowed?)
-2. **Arrivals hall:** after landing, the room stays open in the new city for wrap-up. Agree, or end straight after the arrival postcard?
-3. **Course lessons with their own city** (e.g. a Travel course about Tokyo): should the course's city override the destination choice?
+- **Every class has a destination. Everything is a flight**, including grammar lessons and free talk.
+- **The arrivals hall stays open** after landing (wrap-up, board, logbook) until the teacher ends class.
+- **A course lesson's city is suggested, not forced.** It's offered first ("Lesson 4 is set in Tokyo: fly there?"). If it's out of the plane's range, the panel offers the nearest in-range city on the way. The lesson works anywhere; only the arrival scene changes.
+- **Free flight can become a flight plan mid-air, with no second takeoff.**
+  - "Launch a flight" while cruising is a *new flight plan*: a captain's announcement, then the stages start in cruise, prefilled with the topic you were discussing and the source on screen.
+  - The plan is sized to the minutes left (the composer's duration resize).
+  - The destination and the single landing stay the same, with the plan's last stage on approach.
+- **One rule:** exactly one takeoff and one landing per class, whenever the flight plan is chosen (on the ground or in the air).
+
+## Build order (proposed)
+1. The destination gate on room entry + the in-room setup panel (Pick a flight, prefilled) launching in place: no more planner detour.
+2. One flight: room takeoff starts the plan; plan stages in the windscreen; the last stage then the room landing; preset takeoff/landing overlays suppressed in the room.
+3. Mid-air flight plans (from free flight), sized to the time left.
+4. Fast paths: Continue the course + planned lessons in the panel; outside launches open the room with "Ready: … → city".
+5. Course city suggestion + out-of-range handling.
