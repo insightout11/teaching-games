@@ -157,24 +157,33 @@ function validateExpandedItem(item: Item, where: string) {
     if (!nonEmpty(item.shortSummary)) fail(where, 'book course items require a shortSummary synopsis');
     if (!nonEmpty(item.flightQuestion)) fail(where, 'book course items require a flightQuestion');
     const versions = item.retellings as Record<string, unknown> | undefined;
-    let a2WordCount: number | undefined;
-    for (const level of ['A2', 'B1']) {
+    const series = item.series as { id?: string } | undefined;
+    // Round 5's Sherlock course is teen-labelled but follows the A2/B1 schema;
+    // Round 6 teen courses are identified by their added B2 version.
+    const teenCourse = !!versions?.B2 && item.ageBand === 'teens' && !!series?.id && series.id.indexOf('book-course-') === 0;
+    const levels = teenCourse ? ['B1', 'B2'] : ['A2', 'B1'];
+    const minimumWords = teenCourse ? 300 : 250;
+    const defaultLevel = teenCourse ? 'B1' : 'A2';
+    let defaultWordCount: number | undefined;
+    for (const level of levels) {
       const version = versions?.[level] as { cefr?: unknown; ageBand?: unknown; text?: unknown; wordCount?: unknown } | undefined;
-      if (!version || version.cefr !== level || !nonEmpty(version.ageBand) || !nonEmpty(version.text)) {
+      if (!version || version.cefr !== level || version.ageBand !== item.ageBand || !nonEmpty(version.text)) {
         fail(where, `${level} retelling requires matching cefr, ageBand, and text`);
         continue;
       }
       const words = version.text.trim().split(/\s+/).filter(Boolean).length;
-      if (words < 250 || words > 450) fail(where, `${level} retelling must contain 250–450 words (found ${words})`);
+      if (words < minimumWords || words > 500) fail(where, `${level} retelling must contain ${minimumWords}–500 words (found ${words})`);
       if (version.wordCount !== words) fail(where, `${level} wordCount must match its retelling (${words})`);
-      if (level === 'A2') a2WordCount = words;
+      if (level === defaultLevel) defaultWordCount = words;
     }
-    if (item.cefr !== 'A2') fail(where, 'book item default cefr must be A2');
-    if (typeof item.wordCount !== 'number' || item.wordCount !== a2WordCount) {
-      fail(where, 'book item wordCount must match the A2 version word count');
+    if (item.cefr !== defaultLevel) fail(where, `book item default cefr must be ${defaultLevel}`);
+    if (typeof item.wordCount !== 'number' || item.wordCount !== defaultWordCount) {
+      fail(where, `book item wordCount must match the ${defaultLevel} version word count`);
     }
-    const a2 = versions?.A2 as { text?: unknown } | undefined;
-    if (nonEmpty(a2?.text) && item.summary !== a2.text) fail(where, 'summary must contain the full A2 retelling for existing reading tools');
+    const defaultVersion = versions?.[defaultLevel] as { text?: unknown } | undefined;
+    if (nonEmpty(defaultVersion?.text) && item.summary !== defaultVersion.text) {
+      fail(where, `summary must contain the full ${defaultLevel} retelling for existing reading tools`);
+    }
   }
 }
 
@@ -254,10 +263,10 @@ for (const seriesId of Object.keys(seriesGroups)) {
 }
 
 const seriesIds = Object.keys(seriesGroups);
-if (seriesIds.length !== 25) fail('series catalog', `expected 25 course series after round 5 (found ${seriesIds.length})`);
+if (seriesIds.length !== 31) fail('series catalog', `expected 31 course series after round 6 (found ${seriesIds.length})`);
 const bookSeriesIds = seriesIds.filter((seriesId) => seriesId.indexOf('book-course-') === 0);
-if (bookSeriesIds.length !== 6) fail('book-library.json', `expected 6 public-domain book courses (found ${bookSeriesIds.length})`);
-if (bookCourseItemCount !== 24) fail('book-library.json', `expected 24 book lesson items (found ${bookCourseItemCount})`);
+if (bookSeriesIds.length !== 12) fail('book-library.json', `expected 12 public-domain book courses after round 6 (found ${bookSeriesIds.length})`);
+if (bookCourseItemCount !== 48) fail('book-library.json', `expected 48 book lesson items after round 6 (found ${bookCourseItemCount})`);
 
 if (errors.length) {
   console.error(`Library validation failed with ${errors.length} error(s):`);
