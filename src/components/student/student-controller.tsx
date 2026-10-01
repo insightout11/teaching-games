@@ -1451,7 +1451,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         onLeave={onLeave}
       />
 
-      {grammarTarget && <GrammarHuntStrip sessionId={sessionId} clientId={studentSession.clientId} name={studentSession.displayName} target={grammarTarget} />}
+      {grammarTarget
+        ? <GrammarHuntStrip sessionId={sessionId} clientId={studentSession.clientId} name={studentSession.displayName} target={grammarTarget} />
+        : (referenceVocab?.length ?? 0) >= 2 && <GrammarHuntStrip sessionId={sessionId} clientId={studentSession.clientId} name={studentSession.displayName} phrases={(referenceVocab ?? []).map((v) => v.word)} />}
 
       {/* Active Poll — side-channel polls render inside Crew Radio instead */}
       {activePoll && !hiddenPollIds.has(activePoll.pollId) && activePoll.metadata?.channel !== 'side' && (

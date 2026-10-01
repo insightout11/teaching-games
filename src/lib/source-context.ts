@@ -112,15 +112,18 @@ export interface LessonKit {
   grammarTarget?: string;
   /** What the class got wrong earlier (missed mistakes, needed models): review stages bring these back. */
   struggles?: Array<{ text: string; fix?: string }>;
+  /** Captain's Flight: the question the whole lesson investigates. */
+  flightQuestion?: string;
 }
 
 export function hasLessonKit(kit?: LessonKit | null): boolean {
-  return !!(kit && (kit.phrases?.length || kit.scene || kit.grammarTarget || kit.struggles?.length));
+  return !!(kit && (kit.phrases?.length || kit.scene || kit.grammarTarget || kit.struggles?.length || kit.flightQuestion));
 }
 
 export function buildKitContext(kit?: LessonKit | null): string {
   if (!hasLessonKit(kit)) return '';
   const parts: string[] = [];
+  if (kit!.flightQuestion) parts.push(`THE LESSON'S FLIGHT QUESTION (the whole lesson investigates it; build this activity around it): "${kit!.flightQuestion}"`);
   if (kit!.phrases?.length) parts.push(`LESSON KEY PHRASES (taught earlier in this lesson; reuse several of them naturally): ${kit!.phrases.slice(0, 8).join(', ')}`);
   if (kit!.scene) parts.push(`SCENE ALREADY PLAYED IN THIS LESSON: "${kit!.scene.title}". ${kit!.scene.context}${kit!.scene.characters?.length ? ` Characters: ${kit!.scene.characters.join(', ')}.` : ''}`);
   if (kit!.grammarTarget) parts.push(`LESSON GRAMMAR TARGET: ${kit!.grammarTarget} (use it naturally where it fits).`);

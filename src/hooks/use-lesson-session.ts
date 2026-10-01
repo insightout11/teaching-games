@@ -173,7 +173,8 @@ export function useLessonSession(
     const scene = sceneKitRef.current ? { title: sceneKitRef.current.title, context: sceneKitRef.current.context, ...(sceneKitRef.current.characters ? { characters: sceneKitRef.current.characters } : {}) } : undefined;
     const grammarTarget = useSessionStore.getState().settings.grammarTarget ?? undefined;
     const struggles = (useSessionStore.getState().lessonThread.struggles ?? []).slice(-4).map((x) => ({ text: x.text, ...(x.fix ? { fix: x.fix } : {}) }));
-    setLessonKitInStore(phrases.length || scene || grammarTarget || struggles.length ? { ...(phrases.length ? { phrases } : {}), ...(scene ? { scene } : {}), ...(grammarTarget ? { grammarTarget } : {}), ...(struggles.length ? { struggles } : {}) } : null);
+    const flightQuestion = useSessionStore.getState().lessonThread.flightQuestion?.question;
+    setLessonKitInStore(phrases.length || scene || grammarTarget || struggles.length || flightQuestion ? { ...(phrases.length ? { phrases } : {}), ...(scene ? { scene } : {}), ...(grammarTarget ? { grammarTarget } : {}), ...(struggles.length ? { struggles } : {}), ...(flightQuestion ? { flightQuestion } : {}) } : null);
   }, [lessonSlots.length, setLessonKitInStore]);
   const publishKitRef = useRef(publishKit);
   publishKitRef.current = publishKit;
@@ -212,6 +213,24 @@ export function useLessonSession(
     const ch = openHuntChannel(sessionId, (m) => { if (m.type === 'stamps') recordHuntStamps(m.clientId, m.name, m.count); });
     return () => ch.close();
   }, [sessionId, recordHuntStamps]);
+
+  // Captain's Flight: the Big Discussion plays the format that fits the Flight Question
+  // (opinion → Hot Take Arena, problem → Decision Council, personal → Conversation Rounds).
+  const flightQ = useSessionStore((s) => s.lessonThread.flightQuestion);
+  useEffect(() => {
+    if (!flightQ) return;
+    publishKit();
+    if (lessonPlanContent?.flightPresetId !== 'all-around-flight-60') return;
+    const key = flightQ.type === 'problem' ? 'decision-council' : flightQ.type === 'personal' ? 'conversation-rounds' : 'hot-take-arena';
+    const names: Record<string, string> = { 'hot-take-arena': 'Hot Take Arena', 'decision-council': 'Decision Council', 'conversation-rounds': 'Conversation Rounds' };
+    setLessonSlots((prev) => {
+      const i = prev.findIndex((sl) => sl.stageId === 'production');
+      if (i < 0 || i <= currentSlotIndexRef.current || prev[i].key === key) return prev;
+      const next = [...prev];
+      next[i] = { ...next[i], key, type: 'activity', name: names[key] };
+      return next;
+    });
+  }, [flightQ, lessonPlanContent?.flightPresetId, publishKit]);
 
   // Struggles arrive mid-lesson (Fix the Captain, speaking games): re-publish so review stages get them.
   const struggleCount = useSessionStore((s) => s.lessonThread.struggles?.length ?? 0);
@@ -287,7 +306,9 @@ export function useLessonSession(
     const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
     const courseContextPayload = lessonPlanContent?.courseContext ? { courseContext: lessonPlanContent.courseContext } : {};
     const kitStruggles = useSessionStore.getState().lessonKit?.struggles;
+    const kitFlightQuestion = useSessionStore.getState().lessonKit?.flightQuestion;
     const kitPayload = {
+      ...(kitFlightQuestion ? { flightQuestion: kitFlightQuestion } : {}),
       ...(sceneKitRef.current ? { sceneContext: sceneKitRef.current } : {}),
       ...(kitStruggles?.length ? { struggles: kitStruggles } : {}),
       ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),

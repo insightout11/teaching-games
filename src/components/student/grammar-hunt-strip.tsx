@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Check, Crosshair } from 'lucide-react';
-import { HUNT_GOAL, HUNT_HEARTBEAT_MS, HUNT_MAX, huntMission, openHuntChannel } from '@/lib/live-room/hunt';
+import { HUNT_GOAL, HUNT_HEARTBEAT_MS, HUNT_MAX, huntMission, openHuntChannel, phraseMission } from '@/lib/live-room/hunt';
 import { buzz, BUZZ } from './phone-shell';
 
 /**
@@ -10,8 +10,8 @@ import { buzz, BUZZ } from './phone-shell';
  * lesson has a grammar target. "I did it!" stamps a slot (2 + a bonus). Self-reported, like the
  * phrasebook's "I used it!"; the total is broadcast to the teacher (re-announced periodically).
  */
-export function GrammarHuntStrip({ sessionId, clientId, name, target }: { sessionId: string; clientId: string; name: string; target: string }) {
-  const storageKey = `lc-hunt-${sessionId}-${target}`;
+export function GrammarHuntStrip({ sessionId, clientId, name, target, phrases }: { sessionId: string; clientId: string; name: string; target?: string | null; phrases?: string[] }) {
+  const storageKey = `lc-hunt-${sessionId}-${target ?? 'phrases'}`;
   const [count, setCount] = useState(0);
   const [fresh, setFresh] = useState(false);
   const channel = useRef<ReturnType<typeof openHuntChannel> | null>(null);
@@ -50,7 +50,7 @@ export function GrammarHuntStrip({ sessionId, clientId, name, target }: { sessio
       <Crosshair className={`h-5 w-5 shrink-0 ${done ? 'text-emerald-300' : 'text-violet-300'}`} />
       <div className="min-w-0 flex-1">
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-lc-text3">Secret mission{done ? ' · complete!' : ''}</p>
-        <p className="text-[14px] leading-snug text-lc-text">{huntMission(target)}</p>
+        <p className="text-[14px] leading-snug text-lc-text">{target ? huntMission(target) : phraseMission(phrases ?? [])}</p>
       </div>
       <div className="flex items-center gap-1">
         {Array.from({ length: HUNT_MAX }).map((_, i) => (

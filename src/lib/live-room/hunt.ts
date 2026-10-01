@@ -23,6 +23,11 @@ export function openHuntChannel(sessionId: string, onMessage: (m: HuntMessage) =
   };
 }
 
+/** Phrase Hunt (no grammar target): use the lesson's key phrases. */
+export function phraseMission(phrases: string[]): string {
+  return `Use 2 of today's phrases when you speak: ${phrases.slice(0, 3).join(', ')}`;
+}
+
 /** The mission text for a grammar target (family-aware, spoken). */
 export function huntMission(target: string): string {
   switch (grammarFamily(target)) {

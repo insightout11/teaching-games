@@ -456,7 +456,7 @@ export function ActivityShell({ sessionId, activity, generatedContent, timerSeco
               </span>
             </div>
             <div className="flex items-center gap-2">
-              {huntTotal > 0 && <span className="flex items-center gap-1 rounded-full bg-violet-400/15 px-2 py-0.5 text-xs text-violet-200" title="Grammar Hunt: secret-mission stamps from phones">Grammar Hunt · {huntTotal}</span>}
+              {huntTotal > 0 && <span className="flex items-center gap-1 rounded-full bg-violet-400/15 px-2 py-0.5 text-xs text-violet-200" title="Secret-mission stamps from phones (Grammar or Phrase Hunt)">Mission stamps · {huntTotal}</span>}
               <span className="text-xs opacity-50">Activity status:</span>
               <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">
                 {formatActivityStatus(currentPhase)}

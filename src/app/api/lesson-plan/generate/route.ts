@@ -3261,6 +3261,8 @@ export async function POST(request: NextRequest) {
       sceneContext?: { title: string; context: string; characters?: string[]; keyLines?: string[] };
       /** Lesson Kit: what the class got wrong earlier in this lesson. */
       struggles?: Array<{ text: string; fix?: string }>;
+      /** Captain's Flight: the question the lesson investigates. */
+      flightQuestion?: string;
     };
 
     const {
@@ -3333,7 +3335,9 @@ export async function POST(request: NextRequest) {
     const kitPhrases = sourceVocab.map((v) => v.term).filter(Boolean).slice(0, 8);
     const sceneFromKit = body.sceneContext?.title && body.sceneContext?.context ? body.sceneContext : undefined;
     const kitStruggles = Array.isArray(body.struggles) ? body.struggles.filter((x) => x && typeof x.text === 'string').slice(0, 4) : [];
+    const kitFlightQuestion = typeof body.flightQuestion === 'string' ? body.flightQuestion.slice(0, 160) : '';
     const kitCtx = [
+      kitFlightQuestion ? `\n\nTHE LESSON'S FLIGHT QUESTION (the whole lesson investigates it; build this activity around it): "${kitFlightQuestion}"` : '',
       kitPhrases.length ? `\n\nLESSON KEY PHRASES (taught earlier in this lesson; reuse several of them naturally): ${kitPhrases.join(', ')}` : '',
       sceneFromKit ? `\n\nSCENE ALREADY PLAYED IN THIS LESSON: "${sceneFromKit.title}". ${sceneFromKit.context}${sceneFromKit.characters?.length ? ` Characters: ${sceneFromKit.characters.join(', ')}.` : ''}` : '',
       kitStruggles.length ? `\n\nTHE CLASS STRUGGLED WITH THESE EARLIER IN THIS LESSON (bring them back: build several items around them first, as a second chance): ${kitStruggles.map((x) => (x.fix ? `"${x.text}" (correct: ${x.fix})` : `"${x.text}"`)).join('; ')}` : '',
