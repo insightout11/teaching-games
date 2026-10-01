@@ -935,7 +935,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "weather-and-water",
+      "title": "Earth systems: water, weather and sunlight",
+      "order": 4
+    }
   },
   {
     "id": "kids_glow_on",
@@ -1009,7 +1014,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "inventions-and-design",
+      "title": "Inventions and design",
+      "order": 1
+    }
   },
   {
     "id": "kids_skahb_8ctzg",
@@ -1033,7 +1043,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "weather-and-water",
+      "title": "Earth systems: water, weather and sunlight",
+      "order": 1
+    }
   },
   {
     "id": "kids_4b2kdceuwr4",
@@ -1082,7 +1097,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "habitats-and-ecosystems",
+      "title": "Cities and natural habitats",
+      "order": 1
+    }
   },
   {
     "id": "kids_1fkgqo0xk94",
@@ -1106,7 +1126,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "habitats-and-ecosystems",
+      "title": "Cities and natural habitats",
+      "order": 2
+    }
   },
   {
     "id": "kids_durjvjc5xx0",
@@ -1159,7 +1184,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "inventions-and-design",
+      "title": "Inventions and design",
+      "order": 2
+    }
   },
   {
     "id": "kids_eb7gtjafae4",
@@ -1183,7 +1213,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "inventions-and-design",
+      "title": "Inventions and design",
+      "order": 3
+    }
   },
   {
     "id": "kids_zfk0xhqt5fq",
@@ -1236,7 +1271,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "animal-adaptations",
+      "title": "Animal adaptations",
+      "order": 1
+    }
   },
   {
     "id": "kids_kmdd6ttdz_g",
@@ -1260,7 +1300,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "habitats-and-ecosystems",
+      "title": "Cities and natural habitats",
+      "order": 3
+    }
   },
   {
     "id": "kids_fxyp76jwxsu",
@@ -1313,7 +1358,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "human-body-and-health",
+      "title": "The human body and health",
+      "order": 1
+    }
   },
   {
     "id": "kids_3gy_gts86jm",
@@ -1337,7 +1387,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "human-body-and-health",
+      "title": "The human body and health",
+      "order": 2
+    }
   },
   {
     "id": "kids_ibj2xmsjuhq",
@@ -1361,7 +1416,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "human-body-and-health",
+      "title": "The human body and health",
+      "order": 3
+    }
   },
   {
     "id": "kids_djdbtnbawoe",
@@ -1438,7 +1498,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "animal-adaptations",
+      "title": "Animal adaptations",
+      "order": 2
+    }
   },
   {
     "id": "kids_syawnjolnv8",
@@ -1510,7 +1575,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "animal-adaptations",
+      "title": "Animal adaptations",
+      "order": 3
+    }
   },
   {
     "id": "kids_ghfboypqqx0",
@@ -1534,7 +1604,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "animal-adaptations",
+      "title": "Animal adaptations",
+      "order": 4
+    }
   },
   {
     "id": "kids_yoirci0ckzg",
@@ -1587,7 +1662,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "habitats-and-ecosystems",
+      "title": "Cities and natural habitats",
+      "order": 4
+    }
   },
   {
     "id": "kids_jqqleh172ho",
@@ -1611,7 +1691,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "animal-adaptations",
+      "title": "Animal adaptations",
+      "order": 5
+    }
   },
   {
     "id": "kids_ueroeqyjxfo",
@@ -1736,7 +1821,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "weather-and-water",
+      "title": "Earth systems: water, weather and sunlight",
+      "order": 5
+    }
   },
   {
     "id": "kids_mc3auuuj9_i",
@@ -1915,7 +2005,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "human-body-and-health",
+      "title": "The human body and health",
+      "order": 4
+    }
   },
   {
     "id": "kids_8cqmky_wqao",
@@ -1963,7 +2058,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "inventions-and-design",
+      "title": "Inventions and design",
+      "order": 4
+    }
   },
   {
     "id": "kids_aoebfggcjvw",
@@ -2035,7 +2135,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "inventions-and-design",
+      "title": "Inventions and design",
+      "order": 5
+    }
   },
   {
     "id": "kids_bxfu86gnmrg",
@@ -2104,7 +2209,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "habitats-and-ecosystems",
+      "title": "Cities and natural habitats",
+      "order": 5
+    }
   },
   {
     "id": "kids_8lfd_ekze2m",
@@ -2150,7 +2260,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "weather-and-water",
+      "title": "Earth systems: water, weather and sunlight",
+      "order": 2
+    }
   },
   {
     "id": "kids_7vtfyamu6g4",
@@ -2173,7 +2288,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "weather-and-water",
+      "title": "Earth systems: water, weather and sunlight",
+      "order": 3
+    }
   },
   {
     "id": "kids_ahcozc143ec",
@@ -2242,7 +2362,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "matter-and-materials",
+      "title": "Matter and materials",
+      "order": 1
+    }
   },
   {
     "id": "kids_zzynerze3cg",
@@ -2265,7 +2390,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "matter-and-materials",
+      "title": "Matter and materials",
+      "order": 2
+    }
   },
   {
     "id": "kids_3lhhoitdmk4",
@@ -2288,7 +2418,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "matter-and-materials",
+      "title": "Matter and materials",
+      "order": 3
+    }
   },
   {
     "id": "kids_rrj1_yofcaa",
@@ -2311,7 +2446,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "space-for-young-scientists",
+      "title": "Space and science curiosities",
+      "order": 1
+    }
   },
   {
     "id": "kids_zd7w5o0bh7g",
@@ -2334,7 +2474,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "matter-and-materials",
+      "title": "Matter and materials",
+      "order": 4
+    }
   },
   {
     "id": "kids_tgflhpslejq",
@@ -2357,7 +2502,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "matter-and-materials",
+      "title": "Matter and materials",
+      "order": 5
+    }
   },
   {
     "id": "kids_mrahoi_yik4",
@@ -2380,7 +2530,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "space-for-young-scientists",
+      "title": "Space and science curiosities",
+      "order": 5
+    }
   },
   {
     "id": "kids_fnd_2jett1w",
@@ -2426,7 +2581,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "space-for-young-scientists",
+      "title": "Space and science curiosities",
+      "order": 4
+    }
   },
   {
     "id": "kids_agvxycrpun8",
@@ -2449,7 +2609,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "space-for-young-scientists",
+      "title": "Space and science curiosities",
+      "order": 2
+    }
   },
   {
     "id": "kids_8ghdcosi5es",
@@ -2472,6 +2637,11 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "space-for-young-scientists",
+      "title": "Space and science curiosities",
+      "order": 3
+    }
   }
 ]

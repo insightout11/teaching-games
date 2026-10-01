@@ -2112,7 +2112,12 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "music-making-and-performance",
+      "title": "Music-making and performance",
+      "order": 1
+    }
   },
   {
     "id": "teded_2x3rjmbvb28",
@@ -2158,7 +2163,12 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "music-making-and-performance",
+      "title": "Music-making and performance",
+      "order": 2
+    }
   },
   {
     "id": "teded_yypnos84ndy",
@@ -2181,7 +2191,12 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "music-making-and-performance",
+      "title": "Music-making and performance",
+      "order": 3
+    }
   },
   {
     "id": "teded_ytcpznbhwz0",
@@ -2204,7 +2219,12 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "music-making-and-performance",
+      "title": "Music-making and performance",
+      "order": 4
+    }
   },
   {
     "id": "teded_zrjhayc_9pg",
@@ -2229,7 +2249,12 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "music-making-and-performance",
+      "title": "Music-making and performance",
+      "order": 5
+    }
   },
   {
     "id": "teded_ybfth3xsd0q",
