@@ -73,6 +73,10 @@ function validateExpandedItem(item: Item, where: string) {
     else if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
     else if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
     if (item.genre !== 'opinion' && item.genre !== 'expository') fail(where, 'flightQuestion requires opinion or expository genre');
+    if (item.kind === 'video'
+      && (typeof item.durationSecs !== 'number' || item.durationSecs < 180 || item.durationSecs > 480)) {
+      fail(where, 'Flight Question videos must be 3–8 minutes long');
+    }
   }
   if (item.place !== null && item.place !== undefined) {
     const place = item.place as { name?: unknown; lat?: unknown; lng?: unknown };

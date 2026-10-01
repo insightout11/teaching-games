@@ -412,10 +412,11 @@
     "ageBand": "kids",
     "description": "Sabrina introduces Earth’s geosphere and biosphere, showing how rocks, landforms, plants, animals, and biomes form connected parts of our planet.",
     "summary": "Sabrina introduces Earth’s geosphere and biosphere, showing how rocks, landforms, plants, animals, and biomes form connected parts of our planet.",
-    "genre": "expository",
+    "genre": "opinion",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "Should children learn how Earth’s systems connect?"
   },
   {
     "id": "kids_what_on_earth",
@@ -437,10 +438,11 @@
     "ageBand": "kids",
     "description": "A lively introduction to the materials and landforms that make up Earth, with examples that help young learners describe the ground beneath them.",
     "summary": "A lively introduction to the materials and landforms that make up Earth, with examples that help young learners describe the ground beneath them.",
-    "genre": "expository",
+    "genre": "opinion",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "Should schools teach more about local landforms?"
   },
   {
     "id": "kids_up_up_away",
@@ -462,10 +464,11 @@
     "ageBand": "kids",
     "description": "An elementary science lesson about the atmosphere and the air surrounding Earth, using clear examples to connect air with daily life.",
     "summary": "An elementary science lesson about the atmosphere and the air surrounding Earth, using clear examples to connect air with daily life.",
-    "genre": "expository",
+    "genre": "opinion",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "Should schools teach children more about the air around them?"
   },
   {
     "id": "kids_landforms_hey",
@@ -487,10 +490,11 @@
     "ageBand": "kids",
     "description": "Sabrina explores familiar landforms and explains how features such as mountains, valleys, and plains shape the surface of Earth.",
     "summary": "Sabrina explores familiar landforms and explains how features such as mountains, valleys, and plains shape the surface of Earth.",
-    "genre": "expository",
+    "genre": "opinion",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "Should children learn how landforms shape communities?"
   },
   {
     "id": "kids_engineer",
@@ -512,10 +516,11 @@
     "ageBand": "kids",
     "description": "A child-friendly look at what engineers do and how they design and build solutions to everyday problems.",
     "summary": "A child-friendly look at what engineers do and how they design and build solutions to everyday problems.",
-    "genre": "expository",
+    "genre": "opinion",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "Should every school teach engineering?"
   },
   {
     "id": "kids_defining_problem",
@@ -537,10 +542,11 @@
     "ageBand": "kids",
     "description": "Young learners practice identifying the real problem before trying to design a solution.",
     "summary": "Young learners practice identifying the real problem before trying to design a solution.",
-    "genre": "expository",
+    "genre": "opinion",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "Should teams define problems before choosing solutions?"
   },
   {
     "id": "kids_solutions",
@@ -562,10 +568,11 @@
     "ageBand": "kids",
     "description": "This episode explores how engineers imagine and compare possible solutions to a design challenge.",
     "summary": "This episode explores how engineers imagine and compare possible solutions to a design challenge.",
-    "genre": "expository",
+    "genre": "opinion",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "Should students test several solutions before choosing one?"
   },
   {
     "id": "kids_what_ifs",
@@ -587,10 +594,11 @@
     "ageBand": "kids",
     "description": "A playful lesson about asking what-if questions to predict how a design might work and what could be improved.",
     "summary": "A playful lesson about asking what-if questions to predict how a design might work and what could be improved.",
-    "genre": "expository",
+    "genre": "opinion",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "Should students use what-if questions to test ideas?"
   },
   {
     "id": "kids_succeed_failing",
@@ -612,10 +620,11 @@
     "ageBand": "kids",
     "description": "An encouraging introduction to testing ideas, learning from a result that does not work, and making a better design.",
     "summary": "An encouraging introduction to testing ideas, learning from a result that does not work, and making a better design.",
-    "genre": "expository",
+    "genre": "opinion",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "Should mistakes count as part of learning?"
   },
   {
     "id": "kids_picky_pineapples",
@@ -637,10 +646,11 @@
     "ageBand": "kids",
     "description": "Pineapples help explain how organisms find and use resources they need to live and grow.",
     "summary": "Pineapples help explain how organisms find and use resources they need to live and grow.",
-    "genre": "expository",
+    "genre": "opinion",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "Should people protect the resources plants need?"
   },
   {
     "id": "kids_look_whos_talking",
