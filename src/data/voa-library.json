@@ -1343,7 +1343,8 @@
     "place": null,
     "license": "Public domain (VOA Learning English)",
     "attribution": "VOA Learning English, lesson dialogue",
-    "needsReview": true
+    "needsReview": true,
+    "reviewNote": "Review needed: check the full dialogue for health, relationships, or other sensitive context before using with children."
   },
   {
     "id": "voa-level2-lesson-8-the-best-barbecue",
@@ -1761,7 +1762,8 @@
     "place": null,
     "license": "Public domain (VOA Learning English)",
     "attribution": "VOA Learning English, lesson dialogue",
-    "needsReview": true
+    "needsReview": true,
+    "reviewNote": "Review needed: check the full dialogue for health, relationships, or other sensitive context before using with children."
   },
   {
     "id": "voa-level2-lesson-17-flour-baby-part-1",
@@ -1819,7 +1821,8 @@
     "place": null,
     "license": "Public domain (VOA Learning English)",
     "attribution": "VOA Learning English, lesson dialogue",
-    "needsReview": true
+    "needsReview": true,
+    "reviewNote": "Review needed: check the full dialogue for health, relationships, or other sensitive context before using with children."
   },
   {
     "id": "voa-level1-lesson-3-i-m-here",
@@ -4460,7 +4463,8 @@
     "place": null,
     "license": "Public domain (VOA Learning English original text)",
     "attribution": "VOA Learning English; original article text, excluding third-party media and glossary.",
-    "needsReview": true
+    "needsReview": true,
+    "reviewNote": "Review needed: check the full dialogue for health, relationships, or other sensitive context before using with children."
   },
   {
     "id": "voa-article-bees-dogs-cancer",
@@ -4489,7 +4493,8 @@
     "place": null,
     "license": "Public domain (VOA Learning English original text)",
     "attribution": "VOA Learning English; original article text, excluding third-party media and glossary.",
-    "needsReview": true
+    "needsReview": true,
+    "reviewNote": "Review needed: check the full dialogue for health, relationships, or other sensitive context before using with children."
   },
   {
     "id": "voa-article-adverb-adjective-conversation",

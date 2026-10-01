@@ -988,7 +988,8 @@
     "ageBand": "teens",
     "place": null,
     "needsReview": true,
-    "reviewNotes": "Review the local historical and political context before presenting this destination clip."
+    "reviewNotes": "Review the local historical and political context before presenting this destination clip.",
+    "reviewNote": "Review needed: verify the full video context and age suitability; the short description alone is not enough to clear the flag."
   },
   {
     "id": "hook-r2-QOz6w7d9f94",

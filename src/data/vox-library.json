@@ -193,6 +193,7 @@
     "genre": "expository",
     "place": null,
     "needsReview": true,
-    "kind": "video"
+    "kind": "video",
+    "reviewNote": "Review needed: screen the full current-affairs video for imagery and context, then confirm classroom suitability."
   }
 ]
