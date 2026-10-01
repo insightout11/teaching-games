@@ -5,6 +5,7 @@ import type { ActivityProps } from '../types';
 import type { VideoPlayerContent } from '../types';
 import { ComprehensionQuiz } from '../shared/comprehension-quiz';
 import { PredictionReveal } from '../shared/prediction-reveal';
+import { MissionDebrief, applyMissionVote, missionSpec, type MissionAnswers } from '../shared/briefing-mission';
 import { ListChecks, CheckCircle2, Maximize, Minimize, Clapperboard } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 
@@ -45,7 +46,7 @@ function fsElement() {
     ?? null;
 }
 
-type Phase = 'watching' | 'quiz' | 'done';
+type Phase = 'watching' | 'quiz' | 'debrief' | 'done';
 
 export function VideoPlayerActivity({
   generatedContent,
@@ -83,6 +84,18 @@ export function VideoPlayerActivity({
   const playerRef = useRef<InstanceType<Window['YT']['Player']> | null>(null);
 
   const hasQuestions = comprehensionQuestions.length > 0;
+
+  // Briefing with a mission: phones get the questions WHILE the video plays; the debrief replaces
+  // the quiz afterwards (the quiz stays as a fallback if nobody answered during the video).
+  const [missionAnswers, setMissionAnswers] = useState<MissionAnswers>({});
+  const missionCount = Object.keys(missionAnswers).length;
+  useEffect(() => {
+    if (phase !== 'watching' || rewatching || !hasQuestions) return;
+    onSetInputSpec?.(missionSpec(comprehensionQuestions));
+    onRegisterRemoteVoteHandler?.((vote) => setMissionAnswers((prev) => applyMissionVote(prev, vote, comprehensionQuestions.length)));
+    return () => { onRegisterRemoteVoteHandler?.(null); };
+  }, [phase, rewatching, hasQuestions, comprehensionQuestions, onSetInputSpec, onRegisterRemoteVoteHandler]);
+  useEffect(() => { if (phase === 'debrief' || phase === 'done') onSetInputSpec?.(null); }, [phase, onSetInputSpec]);
   // "Listen for it" payoff: takeoff predictions held back until after the briefing (Captain's Flight).
   const predictionResults = useSessionStore((s) => s.predictionResults);
 
@@ -215,18 +228,33 @@ export function VideoPlayerActivity({
           </button>
         ) : hasQuestions ? (
           <>
-            <button
-              onClick={() => setPhase('quiz')}
-              className={`w-full py-3 rounded-xl font-game text-sm transition-all flex items-center justify-center gap-2 ${
-                videoEnded
-                  ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg hover:scale-[1.01] active:scale-95'
-                  : 'border-2 border-sky-400/60 bg-sky-400/10 text-sky-300 hover:bg-sky-400/20'
-              }`}
-            >
-              <ListChecks className="w-4 h-4" />
-              Start Comprehension Questions
-              <span className="text-xs font-normal opacity-80">({comprehensionQuestions.length})</span>
-            </button>
+            {missionCount > 0 ? (
+              <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
+                <button
+                  onClick={() => setPhase('debrief')}
+                  className={`w-full py-3 rounded-xl font-game text-sm transition-all flex items-center justify-center gap-2 ${videoEnded ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 shadow-lg hover:scale-[1.01] active:scale-95' : 'border-2 border-amber-400/60 bg-amber-400/10 text-amber-200 hover:bg-amber-400/20'}`}
+                >
+                  <ListChecks className="w-4 h-4" />
+                  Mission debrief
+                  <span className="text-xs font-normal opacity-80">({missionCount} on the mission)</span>
+                </button>
+                <button onClick={() => setPhase('quiz')} className="rounded-xl border border-white/15 px-4 py-3 text-xs text-white/70 hover:bg-white/10">Quiz instead</button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setPhase('quiz')}
+                className={`w-full py-3 rounded-xl font-game text-sm transition-all flex items-center justify-center gap-2 ${
+                  videoEnded
+                    ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg hover:scale-[1.01] active:scale-95'
+                    : 'border-2 border-sky-400/60 bg-sky-400/10 text-sky-300 hover:bg-sky-400/20'
+                }`}
+              >
+                <ListChecks className="w-4 h-4" />
+                Start Comprehension Questions
+                <span className="text-xs font-normal opacity-80">({comprehensionQuestions.length})</span>
+              </button>
+            )}
+            {phase === 'watching' && !rewatching && <p className="text-center text-xs text-amber-200/80">Phones have a mission: {comprehensionQuestions.length} things to catch while you watch.</p>}
             {isTed && !videoEnded && (
               <p className="text-xs text-center text-lc-text3">
                 Play the TED talk above, then start the questions when it finishes.
@@ -239,6 +267,11 @@ export function VideoPlayerActivity({
           </p>
         )}
       </div>
+
+      {/* ── Mission debrief (replaces the quiz when phones did the mission) ── */}
+      {phase === 'debrief' && !rewatching && (
+        <MissionDebrief questions={comprehensionQuestions} answers={missionAnswers} onRewatch={isYouTube ? handleRewatch : undefined} onScore={onScore} onDone={() => setPhase('done')} />
+      )}
 
       {/* ── Quiz — takes the video's place once it's done ── */}
       {phase === 'quiz' && !rewatching && (

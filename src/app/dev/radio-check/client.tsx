@@ -15,6 +15,8 @@ import { GrammarSpotlightActivity } from '@/activities/grammar-spotlight';
 import { GrammarHuntStrip } from '@/components/student/grammar-hunt-strip';
 import { FlightQuestionActivity } from '@/activities/flight-question';
 import { FlightVerdictActivity } from '@/activities/flight-verdict';
+import { VideoPlayerActivity } from '@/activities/video-player/activity';
+import { BriefingMissionPanel } from '@/components/student/briefing-mission-panel';
 import { SpeakingFramePanel } from '@/components/student/speaking-frame-panel';
 import { useSessionStore } from '@/stores/session-store';
 import { SceneScriptPanel } from '@/components/student/scene-script-panel';
@@ -117,7 +119,12 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'captain-flight' ? (
+      {mode === 'mission' ? (
+        <div className="flex gap-6">
+          <div className="flex-1"><VideoPlayerActivity {...props} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} generatedContent={{ activityKey: 'video-player', topicContext: 'Food', videoUrl: 'https://www.youtube.com/watch?v=Z9TIlM96lT8', videoTitle: 'Gotta Eat!', comprehensionQuestions: [{ question: 'Why do animals need food?', options: ['For energy', 'To sleep', 'To swim', 'To see'], correctIndex: 0, evidence: 'Food gives animals the energy they need.', timestampLabel: '0:30', timestamp: 30 }, { question: 'What do pandas eat?', options: ['Fish', 'Bamboo', 'Grass', 'Fruit'], correctIndex: 1, explanation: 'Pandas eat bamboo.' }] } as unknown as ActivityProps['generatedContent']} /></div>
+          <div className="w-80 shrink-0 rounded-3xl border border-white/10 bg-slate-900 p-4">{spec ? <BriefingMissionPanel spec={spec} onSubmit={() => {}} /> : <p className="text-white/40">phone</p>}</div>
+        </div>
+      ) : mode === 'captain-flight' ? (
         <div className="space-y-4">
           <button type="button" className="rounded bg-white/10 px-3 py-1 text-white" onClick={() => setLanded((v) => !v)}>{landed ? 'Back to takeoff' : 'Jump to landing'}</button>
           {landed

@@ -27,6 +27,7 @@ import { SceneScriptPanel } from './scene-script-panel';
 import { TimeMachinePanel } from './time-machine-panel';
 import { SpeakingFramePanel } from './speaking-frame-panel';
 import { HeardItPanel } from './heard-it-panel';
+import { BriefingMissionPanel } from './briefing-mission-panel';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -1268,6 +1269,9 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
     return <StoryChainPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} onSubmit={onSubmit} />;
   }
 
+  if (spec.gameKey === 'briefing-mission') {
+    return <BriefingMissionPanel spec={spec} onSubmit={onSubmit} />;
+  }
   if (spec.gameKey === 'grammar-spotlight') {
     return <HeardItPanel spec={spec} onSubmit={onSubmit} />;
   }
