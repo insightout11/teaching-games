@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/session-store';
 import type { SessionSettings, ScoringMode } from '@/stores/session-store';
 import type { Difficulty } from '@/stores/session-store';
-import type { GrammarTarget } from '@/lib/grammar';
+import { grammarFamily, type GrammarTarget } from '@/lib/grammar';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent, SourceVocabItem, LessonPlanGenerateResponse } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
@@ -175,6 +175,23 @@ export function useLessonSession(
   }, [lessonSlots.length, setLessonKitInStore]);
   const publishKitRef = useRef(publishKit);
   publishKitRef.current = publishKit;
+  // Grammar flight: the Produce stage plays the speaking game for the target's FAMILY
+  // (tenses → Tense Time Machine, comparisons → Compare It, questions → Answer First;
+  // families without a game yet keep Grammar Boss). Only stages not yet played change.
+  useEffect(() => {
+    if (lessonPlanContent?.flightPresetId !== 'grammar-60') return;
+    const family = grammarFamily(settings.grammarTarget);
+    const key = family === 'tenses' ? 'tense-time-machine' : family === 'comparisons' ? 'compare-it' : family === 'questions' ? 'answer-first' : 'grammar-boss';
+    setLessonSlots((prev) => {
+      const i = prev.findIndex((sl) => sl.stageId === 'produce');
+      if (i < 0 || i <= currentSlotIndexRef.current || prev[i].key === key) return prev;
+      const names: Record<string, string> = { 'tense-time-machine': 'Tense Time Machine', 'compare-it': 'Compare It', 'answer-first': 'Answer First', 'grammar-boss': 'Grammar Boss' };
+      const next = [...prev];
+      next[i] = { ...next[i], key, type: key === 'grammar-boss' ? 'game' : 'activity', name: names[key] };
+      return next;
+    });
+  }, [settings.grammarTarget, lessonPlanContent?.flightPresetId]);
+
   // The grammar target is confirmed mid-lesson (Check-in), so re-publish when it changes.
   useEffect(() => { publishKit(); }, [publishKit, settings.grammarTarget]);
   const captureKit = useCallback((key: string, content: unknown) => {

@@ -1003,6 +1003,33 @@ export interface TenseTimeMachineContent extends ActivityGeneratedContent {
   verbs: Array<{ base: string; past: string; ing: string }>;
 }
 
+/** Compare It (comparisons): 2 things (comparative) or 3 (superlative) per round. */
+export interface CompareItRound {
+  items: Array<{ name: string; fact: string }>;
+  adjectives: string[];
+  /** Teacher-only example sentences. */
+  models: string[];
+}
+
+export interface CompareItContent extends ActivityGeneratedContent {
+  activityKey: 'compare-it';
+  rounds: CompareItRound[];
+  bank: Array<{ adj: string; comparative: string; superlative: string }>;
+}
+
+/** Answer First (questions): the screen shows an answer; the class asks the question. */
+export interface AnswerFirstRound {
+  answer: string;
+  questionWord: string;
+  /** Teacher-only example question. */
+  model: string;
+}
+
+export interface AnswerFirstContent extends ActivityGeneratedContent {
+  activityKey: 'answer-first';
+  rounds: AnswerFirstRound[];
+}
+
 /** Hot Seat reuses Taboo's topic cards (word + short definition). */
 export interface HotSeatContent extends ActivityGeneratedContent {
   activityKey: 'hot-seat';

@@ -34,6 +34,8 @@ import { staticPlugin } from './static';
 import { blackBoxPlugin } from './black-box';
 import { fixTheCaptainPlugin } from './fix-the-captain';
 import { tenseTimeMachinePlugin } from './tense-time-machine';
+import { compareItPlugin } from './compare-it';
+import { answerFirstPlugin } from './answer-first';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarClarifyPlugin } from './grammar-clarify';
 import { vocabMicroPlugin } from './vocab-micro';
@@ -76,6 +78,8 @@ const activities: ActivityPlugin[] = [
   blackBoxPlugin,
   fixTheCaptainPlugin,
   tenseTimeMachinePlugin,
+  compareItPlugin,
+  answerFirstPlugin,
   grammarCheckInPlugin,
   grammarClarifyPlugin,
   vocabMicroPlugin,

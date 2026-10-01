@@ -9,6 +9,9 @@ import { GrammarProofActivity } from '@/activities/grammar-proof/activity';
 import { FixTheCaptainActivity } from '@/activities/fix-the-captain';
 import { TenseTimeMachineActivity } from '@/activities/tense-time-machine';
 import { TimeMachinePanel } from '@/components/student/time-machine-panel';
+import { CompareItActivity } from '@/activities/compare-it';
+import { AnswerFirstActivity } from '@/activities/answer-first';
+import { SpeakingFramePanel } from '@/components/student/speaking-frame-panel';
 import { useSessionStore } from '@/stores/session-store';
 import { SceneScriptPanel } from '@/components/student/scene-script-panel';
 import type { InputSpec } from '@/lib/input-spec';
@@ -109,7 +112,14 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'time' ? (
+      {mode === 'cmp' || mode === 'ans' ? (
+        <div className="flex gap-6">
+          <div className="flex-1">{mode === 'cmp'
+            ? <CompareItActivity {...props} students={[{ id: 's1', name: 'Ana' }, { id: 's2', name: 'Ben' }] as unknown as ActivityProps['students']} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} generatedContent={{ activityKey: 'compare-it', topicContext: 'Travel', rounds: [{ items: [{ name: 'Eiffel Tower', fact: '330 m tall' }, { name: 'Big Ben', fact: '96 m tall' }], adjectives: ['tall', 'old', 'famous'], models: ['The Eiffel Tower is taller than Big Ben.'] }, { items: [{ name: 'Cheetah', fact: '110 km/h' }, { name: 'Horse', fact: '70 km/h' }, { name: 'Rabbit', fact: '55 km/h' }], adjectives: ['fast', 'big', 'cute'], models: ['The cheetah is the fastest.'] }], bank: [{ adj: 'tall', comparative: 'taller', superlative: 'the tallest' }, { adj: 'expensive', comparative: 'more expensive', superlative: 'the most expensive' }, { adj: 'good', comparative: 'better', superlative: 'the best' }] } as unknown as ActivityProps['generatedContent']} />
+            : <AnswerFirstActivity {...props} students={[{ id: 's1', name: 'Ana' }, { id: 's2', name: 'Ben' }] as unknown as ActivityProps['students']} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} generatedContent={{ activityKey: 'answer-first', topicContext: 'Travel', rounds: [{ answer: 'At 7 in the morning.', questionWord: 'When', model: 'When does the flight leave?' }, { answer: 'Yes, I have.', questionWord: 'Yes/No', model: 'Have you ever been to Japan?' }] } as unknown as ActivityProps['generatedContent']} />}</div>
+          <div className="w-80 shrink-0 rounded-3xl border border-white/10 bg-slate-900 p-4">{spec ? <SpeakingFramePanel spec={spec} displayName="Ana" studentId="s1" /> : <p className="text-white/40">phone</p>}</div>
+        </div>
+      ) : mode === 'time' ? (
         <div className="flex gap-6">
           <div className="flex-1"><TenseTimeMachineActivity {...props} students={[{ id: 's1', name: 'Ana' }, { id: 's2', name: 'Ben' }, { id: 's3', name: 'Cleo' }] as unknown as ActivityProps['students']} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} generatedContent={{ activityKey: 'tense-time-machine', topicContext: 'Travel', grammarTarget: 'past simple', sceneTitle: 'A Day in Tokyo', scene: 'A family explores Tokyo. They ride the train, eat sushi and visit a temple.', stops: [{ era: 'past', tense: 'past simple', timeLabel: 'Yesterday', timeWords: ['yesterday', 'last week', 'two days ago'], starters: ['Yesterday the family…', 'They rode…', 'In the morning they…'], models: ['Yesterday they rode the fast train.', 'They ate sushi at a small market.'] }, { era: 'present', tense: 'present continuous', timeLabel: 'Right now', timeWords: ['now', 'right now', 'at the moment'], starters: ['Right now they are…', 'The kids are…'], models: ['They are visiting a temple.'] }, { era: 'future', tense: 'future (going to)', timeLabel: 'Tomorrow', timeWords: ['tomorrow', 'next week'], starters: ['Tomorrow they are going to…'], models: ['They are going to climb a tower.'] }], verbs: [{ base: 'ride', past: 'rode', ing: 'riding' }, { base: 'eat', past: 'ate', ing: 'eating' }, { base: 'visit', past: 'visited', ing: 'visiting' }] } as unknown as ActivityProps['generatedContent']} /></div>
           <div className="w-80 shrink-0 rounded-3xl border border-white/10 bg-slate-900 p-4">{spec ? <TimeMachinePanel spec={spec} displayName="Ana" studentId="s1" /> : <p className="text-white/40">phone</p>}</div>

@@ -77,4 +77,14 @@ export const GRAMMAR_RULES: Record<GrammarTarget, GrammarRule> = {
     example: 'She said that she was feeling tired.',
     mistakes: ['NOT: He said he is → He said he was (tense shift)', 'NOT: She told that → She said that / She told me that'],
   },
+  [GrammarTarget.Comparatives]: {
+    rule: 'Adjective-er + than / more + adjective + than; the + adjective-est / the most + adjective',
+    example: 'The train is faster than the bus, but the plane is the fastest.',
+    mistakes: ['NOT: more bigger → bigger', 'NOT: the most fast → the fastest', 'NOT: gooder → better'],
+  },
+  [GrammarTarget.QuestionForms]: {
+    rule: 'Question word + do/does/did (or be/can) + subject + base verb',
+    example: 'Where did you go on holiday?',
+    mistakes: ['NOT: Where you went? → Where did you go?', 'NOT: What time it is? → What time is it?'],
+  },
 };

@@ -14,7 +14,10 @@ export enum GrammarTarget {
   Conditional = 'conditional',
   Passive = 'passive voice',
   RelativeClause = 'relative clause',
-  ReportedSpeech = 'reported speech'
+  ReportedSpeech = 'reported speech',
+  // Comparisons & questions (Grammar Flight v2 families)
+  Comparatives = 'comparatives & superlatives',
+  QuestionForms = 'question forms',
 }
 
 export interface GrammarReferenceEntry {
@@ -79,6 +82,14 @@ export const grammarReference: Record<GrammarTarget, GrammarReferenceEntry> = {
     rule: "Shift tenses back when reporting what someone said (present → past, will → would, etc.).",
     examples: ["She said she was tired. (was = reported from 'I am tired')", "He told me he would call later."],
   },
+  [GrammarTarget.Comparatives]: {
+    rule: "Short adjectives: -er than / the -est. Long adjectives: more ... than / the most .... Irregular: good → better → the best.",
+    examples: ["Tokyo is bigger than Paris.", "This is the most beautiful beach in the country."],
+  },
+  [GrammarTarget.QuestionForms]: {
+    rule: "Question word + auxiliary (do/does/did, be, can...) + subject + verb. With 'be', swap subject and verb.",
+    examples: ["Where do you live?", "What time did the train leave?"],
+  },
 };
 
 export const GRAMMAR_TARGET_GROUPS: Record<string, GrammarTarget[]> = {
@@ -99,6 +110,10 @@ export const GRAMMAR_TARGET_GROUPS: Record<string, GrammarTarget[]> = {
     GrammarTarget.Passive,
     GrammarTarget.RelativeClause,
     GrammarTarget.ReportedSpeech,
+  ],
+  'Comparisons & questions': [
+    GrammarTarget.Comparatives,
+    GrammarTarget.QuestionForms,
   ],
 };
 

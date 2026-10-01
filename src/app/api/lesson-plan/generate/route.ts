@@ -80,6 +80,10 @@ import type {
   FixTheCaptainItem,
   TenseTimeMachineContent,
   TenseTimeMachineStop,
+  CompareItContent,
+  CompareItRound,
+  AnswerFirstContent,
+  AnswerFirstRound,
   DecisionCouncilContent,
   TeamDebateContent,
   SourceVocabItem,
@@ -1666,6 +1670,82 @@ Return:
     stops,
     verbs,
   };
+}
+
+
+// ─── Compare It (comparisons family) + Answer First (questions family) ───
+
+async function generateCompareIt(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<CompareItContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      rounds: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            items: { type: 'array', items: { type: 'object', properties: { name: { type: 'string' }, fact: { type: 'string' } }, required: ['name', 'fact'] } },
+            adjectives: { type: 'array', items: { type: 'string' } },
+            models: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['items', 'adjectives', 'models'],
+        },
+      },
+      bank: {
+        type: 'array',
+        items: { type: 'object', properties: { adj: { type: 'string' }, comparative: { type: 'string' }, superlative: { type: 'string' } }, required: ['adj', 'comparative', 'superlative'] },
+      },
+    },
+    required: ['rounds', 'bank'],
+  };
+  const prompt = `You are making "Compare It", a SPEAKING game for comparatives and superlatives in an ESL class on the topic "${topic}". The screen shows two (or three) things; a student says one comparison sentence out loud.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${sourceCtx ? `\nUse things from this lesson material where possible:\n${sourceCtx.slice(0, 2500)}\n` : ''}
+Write exactly 6 rounds. Rounds 1–4 have exactly 2 items (comparatives); rounds 5–6 have exactly 3 items (superlatives). For each round:
+- items: real, concrete things connected to the topic that kids/teens can picture (places, animals, foods, vehicles, famous things). Each has a name (1–3 words) and a short fact that helps compare (e.g. "330 m tall", "about 25 km/h").
+- adjectives: 3 adjectives that make sense for comparing these items (e.g. tall, old, fast, expensive, beautiful).
+- models: 2 example sentences (teacher-only), e.g. "The Eiffel Tower is taller than Big Ben." / "The cheetah is the fastest of the three."
+Also return bank: 8 useful adjectives with their comparative and superlative forms (include one long adjective like "expensive" and one irregular like "good").`;
+  const parsed = await generateJSON<{ rounds?: Array<{ items?: Array<{ name?: string; fact?: string }>; adjectives?: string[]; models?: string[] }>; bank?: Array<{ adj?: string; comparative?: string; superlative?: string }> }>(prompt, schema);
+  const rounds: CompareItRound[] = (parsed.rounds ?? [])
+    .map((r) => ({
+      items: (r.items ?? []).filter((i) => i?.name).map((i) => ({ name: i.name!.trim(), fact: (i.fact ?? '').trim() })).slice(0, 3),
+      adjectives: (r.adjectives ?? []).filter(Boolean).slice(0, 3),
+      models: (r.models ?? []).filter(Boolean).slice(0, 2),
+    }))
+    .filter((r) => r.items.length >= 2)
+    .slice(0, 6);
+  const bank = (parsed.bank ?? []).filter((b) => b?.adj && b.comparative && b.superlative).map((b) => ({ adj: b.adj!, comparative: b.comparative!, superlative: b.superlative! })).slice(0, 8);
+  return { activityKey: 'compare-it', topicContext: topic, rounds, bank };
+}
+
+async function generateAnswerFirst(topic: string, difficulty: Difficulty, scene: { title: string; context: string } | undefined, sourceCtx: string): Promise<AnswerFirstContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      rounds: {
+        type: 'array',
+        items: { type: 'object', properties: { answer: { type: 'string' }, questionWord: { type: 'string' }, model: { type: 'string' } }, required: ['answer', 'questionWord', 'model'] },
+      },
+    },
+    required: ['rounds'],
+  };
+  const prompt = `You are making "Answer First", a SPEAKING game for question forms in an ESL class on the topic "${topic}". The screen shows an ANSWER; a student asks the question that fits, out loud.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${scene ? `\nThe answers can be about this scene the class played: "${scene.title}". ${scene.context}\n` : ''}${sourceCtx ? `\nLesson material for ideas:\n${sourceCtx.slice(0, 2500)}\n` : ''}
+Write exactly 8 rounds, mixing question words (What, Where, When, Who, Why, How, How much/many, How long) and including at least 2 yes/no questions (questionWord "Yes/No"). For each:
+- answer: a short natural answer (2–8 words) connected to the topic, e.g. "At 7 o'clock in the morning." / "Because the train was late." / "Yes, I have."
+- questionWord: the question word the question should start with (or "Yes/No")
+- model: one natural question that fits (teacher-only), e.g. "What time do you get up?"
+Answers must make the right question guessable (not too vague). Mix tenses naturally (present, past, future).`;
+  const parsed = await generateJSON<{ rounds?: Array<{ answer?: string; questionWord?: string; model?: string }> }>(prompt, schema);
+  const rounds: AnswerFirstRound[] = (parsed.rounds ?? [])
+    .filter((r) => r?.answer && r.questionWord && r.model)
+    .map((r) => ({ answer: r.answer!.trim(), questionWord: r.questionWord!.trim(), model: r.model!.trim() }))
+    .slice(0, 8);
+  return { activityKey: 'answer-first', topicContext: topic, rounds };
 }
 
 async function generateSingleScene(
@@ -3423,6 +3503,12 @@ export async function POST(request: NextRequest) {
             break;
           case 'tense-time-machine':
             generators.push(generateTenseTimeMachine(customTopic, diff, grammarTarget ?? undefined, sceneFromKit, kitSourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'compare-it':
+            generators.push(generateCompareIt(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'answer-first':
+            generators.push(generateAnswerFirst(customTopic, diff, sceneFromKit, kitSourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'radio-check':
             generators.push(generateRadioCheck(customTopic, diff, sourceMaterial, sourceRawTranscript, sourceCtx).then((r) => { content[activityKey] = r; }));
