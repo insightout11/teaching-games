@@ -36,6 +36,7 @@ import { fixTheCaptainPlugin } from './fix-the-captain';
 import { tenseTimeMachinePlugin } from './tense-time-machine';
 import { compareItPlugin } from './compare-it';
 import { answerFirstPlugin } from './answer-first';
+import { grammarSpotlightPlugin } from './grammar-spotlight';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarClarifyPlugin } from './grammar-clarify';
 import { vocabMicroPlugin } from './vocab-micro';
@@ -80,6 +81,7 @@ const activities: ActivityPlugin[] = [
   tenseTimeMachinePlugin,
   compareItPlugin,
   answerFirstPlugin,
+  grammarSpotlightPlugin,
   grammarCheckInPlugin,
   grammarClarifyPlugin,
   vocabMicroPlugin,

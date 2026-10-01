@@ -84,6 +84,7 @@ import type {
   CompareItRound,
   AnswerFirstContent,
   AnswerFirstRound,
+  GrammarSpotlightContent,
   DecisionCouncilContent,
   TeamDebateContent,
   SourceVocabItem,
@@ -100,6 +101,7 @@ import { validateDeck, lessonGroundedRatio } from '@/activities/cargo-hold/conte
 import { buildFallbackDeck } from '@/activities/cargo-hold/fallback-deck';
 import type { SourceMaterial } from '@/types/source-material';
 import { buildSourceContext, getGapFillMode, fetchSourceTranscript } from '@/lib/source-context';
+import { findGrammarClip } from '@/lib/grammar-clips';
 import { normalizePastedSourceMaterial } from '@/lib/pasted-source';
 import { buildSourceGroundingContract, type SourceGroundingContract } from '@/lib/source-grounding';
 import { generateGroundedRankIt } from '@/lib/rank-it-generation';
@@ -1746,6 +1748,59 @@ Answers must make the right question guessable (not too vague). Mix tenses natur
     .map((r) => ({ answer: r.answer!.trim(), questionWord: r.questionWord!.trim(), model: r.model!.trim() }))
     .slice(0, 8);
   return { activityKey: 'answer-first', topicContext: topic, rounds };
+}
+
+
+// ─── Grammar Spotlight (presentation: Discover / Watch / Explain) ───
+
+async function generateGrammarSpotlight(topic: string, difficulty: Difficulty, grammarTarget: string | undefined, hasSource: boolean, sourceCtx: string): Promise<GrammarSpotlightContent> {
+  const target = grammarTarget || 'past simple';
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      form: { type: 'string' },
+      whenToUse: { type: 'string' },
+      pitfall: { type: 'string' },
+      examples: { type: 'array', items: { type: 'string' } },
+      fromSource: { type: 'boolean' },
+      sentences: { type: 'array', items: { type: 'object', properties: { text: { type: 'string' }, highlight: { type: 'string' } }, required: ['text', 'highlight'] } },
+    },
+    required: ['form', 'whenToUse', 'pitfall', 'examples', 'fromSource', 'sentences'],
+  };
+  const sourceRule = hasSource
+    ? `From the SOURCE below, copy 4–6 sentences that use "${target}", EXACTLY as written (shorten long ones by cutting clauses, never rewriting). Set fromSource true. If the source has fewer than 3 such sentences, instead write 5 natural sentences about the topic and set fromSource false.`
+    : `Write 5 natural sentences about the topic that use "${target}". Set fromSource false.`;
+  const prompt = `You are preparing the PRESENTATION step of a grammar lesson for an ESL class. Grammar point: "${target}". Topic: "${topic}".
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+
+1. Discovery sentences. ${sourceRule}
+   For each sentence give "highlight": the exact words in that sentence that show "${target}" (e.g. "has visited", "bigger than"). It must appear exactly in the sentence.
+2. The rule card (student-friendly, short):
+   - form: how it's built, as a pattern (e.g. "have/has + past participle")
+   - whenToUse: one or two sentences on meaning/use
+   - pitfall: the most common learner mistake, shown as wrong → right
+   - examples: 3 example sentences about the topic
+${sourceCtx ? `\nSOURCE / LESSON MATERIAL:\n${sourceCtx.slice(0, 5000)}\n` : ''}`;
+  const parsed = await generateJSON<{ form?: string; whenToUse?: string; pitfall?: string; examples?: string[]; fromSource?: boolean; sentences?: Array<{ text?: string; highlight?: string }> }>(prompt, schema);
+  const sentences = (parsed.sentences ?? [])
+    .filter((x) => x?.text && x.highlight && x.text.includes(x.highlight))
+    .map((x) => ({ text: x.text!.trim(), highlight: x.highlight!.trim() }))
+    .slice(0, 6);
+  const clip = findGrammarClip(target);
+  return {
+    activityKey: 'grammar-spotlight',
+    topicContext: topic,
+    grammarTarget: target,
+    rule: {
+      form: parsed.form?.trim() || target,
+      whenToUse: parsed.whenToUse?.trim() || '',
+      pitfall: parsed.pitfall?.trim() || '',
+      examples: (parsed.examples ?? []).filter(Boolean).slice(0, 3),
+    },
+    discover: { sentences, fromSource: hasSource && !!parsed.fromSource && sentences.length >= 3 },
+    clip,
+  };
 }
 
 async function generateSingleScene(
@@ -3509,6 +3564,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'answer-first':
             generators.push(generateAnswerFirst(customTopic, diff, sceneFromKit, kitSourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'grammar-spotlight':
+            generators.push(generateGrammarSpotlight(customTopic, diff, grammarTarget ?? undefined, !!sourceMaterial, kitSourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'radio-check':
             generators.push(generateRadioCheck(customTopic, diff, sourceMaterial, sourceRawTranscript, sourceCtx).then((r) => { content[activityKey] = r; }));

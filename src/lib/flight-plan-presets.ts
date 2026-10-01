@@ -493,7 +493,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     landing: 'grammar-proof',
     // The target structure threads through the drills; goal derives accuracy scoring.
     moduleSequence: [
-      { slotType: 'presentation', key: 'grammar-clarify', stageId: 'clarify' },
+      { slotType: 'presentation', key: 'grammar-spotlight', stageId: 'clarify' },
       { slotType: 'practice', key: 'fix-the-captain', stageId: 'notice' },
       { slotType: 'practice', key: 'sentence-scramble', stageId: 'build' },
       { slotType: 'production', key: 'tense-time-machine', stageId: 'produce', pool: ['tense-time-machine', 'compare-it', 'answer-first', 'grammar-boss'] },
@@ -511,6 +511,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       ],
       stageByKey: {
         'grammar-check-in': 'icebreaker',
+        'grammar-spotlight': 'clarify',
         'grammar-clarify': 'clarify',
         'fix-the-captain': 'notice',
         'error-hunter': 'notice',

@@ -1030,6 +1030,17 @@ export interface AnswerFirstContent extends ActivityGeneratedContent {
   rounds: AnswerFirstRound[];
 }
 
+/** Grammar Spotlight: the presentation step (Discover it / Watch it / Explain it). */
+export interface GrammarSpotlightContent extends ActivityGeneratedContent {
+  activityKey: 'grammar-spotlight';
+  grammarTarget: string;
+  rule: { form: string; whenToUse: string; pitfall: string; examples: string[] };
+  /** Discover it: sentences using the structure (from the lesson's source when possible). */
+  discover: { sentences: Array<{ text: string; highlight: string }>; fromSource: boolean };
+  /** Watch it: the matching grammar library clip, if any. */
+  clip: { id: string; title: string; youtubeId: string } | null;
+}
+
 /** Hot Seat reuses Taboo's topic cards (word + short definition). */
 export interface HotSeatContent extends ActivityGeneratedContent {
   activityKey: 'hot-seat';
