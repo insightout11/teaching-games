@@ -2566,10 +2566,10 @@ Return JSON with:
 }
 
 async function generateGrammarProof(topic: string, difficulty: Difficulty, grammarTarget: string, skipCache = false): Promise<GrammarProofContent> {
-  const cached = skipCache ? null : await getCachedContent('grammar-proof', topic, difficulty, [], grammarTarget, 1);
+  const cached = skipCache ? null : await getCachedContent('grammar-proof', topic, difficulty, [], grammarTarget, 2);
   if (cached) {
-    const c = cached.content_json as { prompt: string; exampleSentences: string[] };
-    return { activityKey: 'grammar-proof', topicContext: topic, grammarTarget, prompt: c.prompt ?? '', exampleSentences: c.exampleSentences ?? [] };
+    const c = cached.content_json as { prompt: string; exampleSentences: string[]; wingsSentences?: GrammarProofContent['wingsSentences'] };
+    return { activityKey: 'grammar-proof', topicContext: topic, grammarTarget, prompt: c.prompt ?? '', exampleSentences: c.exampleSentences ?? [], ...(c.wingsSentences?.length ? { wingsSentences: c.wingsSentences } : {}) };
   }
 
   const schema: AISchema = {
@@ -2577,8 +2577,16 @@ async function generateGrammarProof(topic: string, difficulty: Difficulty, gramm
     properties: {
       prompt: { type: 'string' },
       exampleSentences: { type: 'array', items: { type: 'string' } },
+      wingsSentences: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: { text: { type: 'string' }, isCorrect: { type: 'boolean' }, explanation: { type: 'string' } },
+          required: ['text', 'isCorrect', 'explanation'],
+        },
+      },
     },
-    required: ['prompt', 'exampleSentences'],
+    required: ['prompt', 'exampleSentences', 'wingsSentences'],
   };
 
   const aiPrompt = `Generate a grammar writing task for an ESL class.
@@ -2589,15 +2597,18 @@ Grammar target: ${grammarTarget}
 Create:
 1. A writing prompt asking students to write 2 sentences about the topic using ${grammarTarget}. The prompt should be open-ended and natural — not a grammar drill instruction.
 2. Two example sentences (teacher-only model answers) that correctly use ${grammarTarget} in the context of ${topic}.
+3. "wingsSentences": a final check. Exactly 3 NEW sentences about the topic using ${grammarTarget} (different from any earlier check), mixing correct and incorrect (2+1 or 1+2). Incorrect ones contain ONE typical learner mistake with ${grammarTarget}. Each has isCorrect and a one-sentence explanation shown after students judge it.
 
 Return JSON with:
 - prompt: the writing instruction (max 20 words, natural and topic-relevant)
-- exampleSentences: array of 2 model answer strings`;
+- exampleSentences: array of 2 model answer strings
+- wingsSentences: array of 3 { text, isCorrect, explanation }`;
 
   try {
-    const data = await generateJSON<{ prompt: string; exampleSentences: string[] }>(aiPrompt, schema);
-    const result = { prompt: data.prompt ?? '', exampleSentences: Array.isArray(data.exampleSentences) ? data.exampleSentences.slice(0, 2) : [] };
-    if (!skipCache) void storeCachedContent('grammar-proof', topic, difficulty, result, 1, grammarTarget);
+    const data = await generateJSON<{ prompt: string; exampleSentences: string[]; wingsSentences?: GrammarProofContent['wingsSentences'] }>(aiPrompt, schema);
+    const wings = (Array.isArray(data.wingsSentences) ? data.wingsSentences : []).filter((w) => w?.text && typeof w.isCorrect === 'boolean').slice(0, 3);
+    const result = { prompt: data.prompt ?? '', exampleSentences: Array.isArray(data.exampleSentences) ? data.exampleSentences.slice(0, 2) : [], ...(wings.length === 3 ? { wingsSentences: wings } : {}) };
+    if (!skipCache) void storeCachedContent('grammar-proof', topic, difficulty, result, 2, grammarTarget);
     return { activityKey: 'grammar-proof', topicContext: topic, grammarTarget, ...result };
   } catch {
     return {

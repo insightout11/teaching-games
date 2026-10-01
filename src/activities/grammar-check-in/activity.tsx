@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { ActivityProps } from '../types';
 import type { GrammarCheckInContent } from '../types';
 import { GrammarTarget, GRAMMAR_TARGET_GROUPS } from '@/lib/grammar';
@@ -36,7 +36,7 @@ export function GrammarCheckInActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as GrammarCheckInContent;
-  const sentences = content.sentences ?? [];
+  const sentences = useMemo(() => content.sentences ?? [], [content.sentences]);
   const setGrammarTarget = useSessionStore((s) => s.setGrammarTarget);
   const sessionGrammarTarget = useSessionStore((s) => s.settings.grammarTarget);
 
@@ -96,6 +96,7 @@ export function GrammarCheckInActivity({
       if (phaseRef.current !== 'rating') return;
       const idx = currentIndexRef.current;
       if (votesRef.current[idx]?.[vote.clientId]) return;
+      namesRef.current[vote.clientId] = vote.displayName;
       setVotes((prev) => ({
         ...prev,
         [idx]: { ...prev[idx], [vote.clientId]: vote.choice },
@@ -113,20 +114,37 @@ export function GrammarCheckInActivity({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onRegisterRemoteVoteHandler, onScore]);
 
+  // Lesson Thread: each student's judgement score is the "before" for Grammar Proof's Wings check.
+  const recordGrammarCheck = useSessionStore((st) => st.recordGrammarCheck);
+  const namesRef = useRef<Record<string, string>>({});
+  const recordBefore = useCallback(() => {
+    const results: Record<string, { name: string; right: number }> = {};
+    sentences.forEach((sentence, i) => {
+      Object.entries(votesRef.current[i] ?? {}).forEach(([cid, choice]) => {
+        const ok = (sentence.isCorrect && choice === 'Sounds correct') || (!sentence.isCorrect && choice === 'Sounds wrong');
+        const cur = results[cid] ?? { name: namesRef.current[cid] ?? 'Someone', right: 0 };
+        results[cid] = { ...cur, right: cur.right + (ok ? 1 : 0) };
+      });
+    });
+    if (Object.keys(results).length) recordGrammarCheck({ target: confirmedTarget || content.grammarTarget, total: sentences.length, results });
+  }, [sentences, recordGrammarCheck, confirmedTarget, content.grammarTarget]);
+
   const handleReveal = useCallback(() => {
+    recordBefore();
     setPhase('revealing');
     onPhaseChange?.('revealing');
-  }, [onPhaseChange]);
+  }, [onPhaseChange, recordBefore]);
 
   const handleNextSentence = useCallback(() => {
     const next = currentIndex + 1;
     if (next >= sentences.length) {
+      recordBefore();
       setPhase('revealing');
       onPhaseChange?.('revealing');
     } else {
       setCurrentIndex(next);
     }
-  }, [currentIndex, sentences.length, onPhaseChange]);
+  }, [currentIndex, sentences.length, onPhaseChange, recordBefore]);
 
   const handleConfirmTarget = useCallback(() => {
     setGrammarTarget(confirmedTarget as GrammarTarget);

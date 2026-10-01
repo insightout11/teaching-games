@@ -5,8 +5,10 @@ import type { ActivityProps } from '../types';
 import type { GrammarProofContent } from '../types';
 import { scoreAllHeuristic } from '@/lib/landing-scorer';
 import type { LandingScore } from '@/lib/landing-scorer';
+import { useSessionStore } from '@/stores/session-store';
+import { WingsCheck } from './wings-check';
 
-type Phase = 'idle' | 'writing' | 'scoring' | 'results';
+type Phase = 'idle' | 'wings' | 'writing' | 'scoring' | 'results';
 
 interface Submission {
   text: string;
@@ -28,14 +30,19 @@ export function GrammarProofActivity({
   const grammarTarget = (sessionSettings as { grammarTarget?: string }).grammarTarget ?? content.grammarTarget ?? 'grammar';
 
   const [phase, setPhase] = useState<Phase>('idle');
+  const [peek, setPeek] = useState(false);
+  const grammarBefore = useSessionStore((st) => st.lessonThread.grammarCheck);
+  const hasWings = (content.wingsSentences?.length ?? 0) === 3;
   const [submissions, setSubmissions] = useState<Record<string, Submission>>({});
   const [scores, setScores] = useState<LandingScore[]>([]);
   const scoredResultsRef = useRef<Set<string>>(new Set());
 
   const submissionsRef = useRef(submissions);
   submissionsRef.current = submissions;
+  const phaseRef = useRef(phase);
+  phaseRef.current = phase;
 
-  const handleStart = useCallback(() => {
+  const startWriting = useCallback(() => {
     setSubmissions({});
     setScores([]);
     scoredResultsRef.current = new Set();
@@ -43,8 +50,15 @@ export function GrammarProofActivity({
     onPhaseChange?.('writing');
   }, [onPhaseChange]);
 
+  // With a Wings check (the matched "after" for the Check-in) it comes first, then the writing.
+  const handleStart = useCallback(() => {
+    if (hasWings) { setPhase('wings'); onPhaseChange?.('wings'); }
+    else startWriting();
+  }, [hasWings, onPhaseChange, startWriting]);
+
   // Set input spec
   useEffect(() => {
+    if (phase === 'wings') return;
     if (phase !== 'writing') {
       onSetInputSpec?.(null);
       return;
@@ -61,7 +75,9 @@ export function GrammarProofActivity({
 
   // Collect textarea submissions via remote vote handler (vote.choice carries the text)
   useEffect(() => {
+    if (phase === 'wings') return;
     onRegisterRemoteVoteHandler?.((vote) => {
+      if (phaseRef.current !== 'writing') return;
       if (!vote.choice) return;
       if (submissionsRef.current[vote.clientId]) return;
       setSubmissions((prev) => ({
@@ -84,7 +100,7 @@ export function GrammarProofActivity({
     });
     return () => onRegisterRemoteVoteHandler?.(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onRegisterRemoteVoteHandler, onScore]);
+  }, [onRegisterRemoteVoteHandler, onScore, phase]);
 
   const handleScore = useCallback(async () => {
     setPhase('scoring');
@@ -158,10 +174,6 @@ export function GrammarProofActivity({
 
   const submissionCount = Object.keys(submissions).length;
   const sortedScores = [...scores].sort((a, b) => b.finalScore - a.finalScore);
-  const submittedClientIds = new Set(Object.keys(submissions));
-  const nonSubmitters = students.filter((s) => !Array.from(submittedClientIds).some(
-    (cid) => submissions[cid]?.displayName === s.name || submissions[cid]?.studentId === s.id
-  ));
 
   return (
     <div className="space-y-6">
@@ -179,12 +191,25 @@ export function GrammarProofActivity({
         <div className="text-center py-12 space-y-4">
           <p className="text-xl opacity-90">Time to prove it.</p>
           <p className="text-sm opacity-50">Students write 2 sentences using {grammarTarget}.</p>
+          {hasWings && <p className="text-sm opacity-60">First a quick Wings check (3 sentences, like the Check-in), then students write their own.</p>}
           {content.exampleSentences?.length > 0 && (
-            <div className="glass p-4 rounded-xl text-left space-y-2">
-              <p className="text-xs opacity-50 uppercase tracking-widest">Model answers (teacher only)</p>
-              {content.exampleSentences.map((ex, i) => (
-                <p key={i} className="text-sm opacity-70 italic">&ldquo;{ex}&rdquo;</p>
-              ))}
+            <div className="text-left">
+              <button
+                type="button"
+                onPointerDown={() => setPeek(true)}
+                onPointerUp={() => setPeek(false)}
+                onPointerLeave={() => setPeek(false)}
+                className="mx-auto block rounded-full border border-white/15 px-4 py-1.5 text-xs opacity-60 hover:opacity-90"
+              >
+                Hold to peek at model answers
+              </button>
+              {peek && (
+                <div className="glass mt-2 space-y-2 rounded-xl p-4">
+                  {content.exampleSentences.map((ex, i) => (
+                    <p key={i} className="text-sm italic opacity-70">&ldquo;{ex}&rdquo;</p>
+                  ))}
+                </div>
+              )}
             </div>
           )}
           <button
@@ -194,6 +219,20 @@ export function GrammarProofActivity({
             START
           </button>
         </div>
+      )}
+
+      {/* WINGS CHECK */}
+      {phase === 'wings' && content.wingsSentences && (
+        <WingsCheck
+          sentences={content.wingsSentences}
+          target={grammarTarget}
+          before={grammarBefore}
+          onDone={startWriting}
+          onSetInputSpec={onSetInputSpec}
+          onRegisterRemoteVoteHandler={onRegisterRemoteVoteHandler}
+          onScore={onScore}
+          onPhaseChange={onPhaseChange}
+        />
       )}
 
       {/* WRITING */}
@@ -225,66 +264,27 @@ export function GrammarProofActivity({
         </div>
       )}
 
-      {/* RESULTS */}
+      {/* RESULTS: positive and anonymous on the shared screen */}
       {phase === 'results' && (
         <div className="space-y-4">
-          <p className="text-xs opacity-50 uppercase tracking-widest">{submissionCount} response{submissionCount !== 1 ? 's' : ''} evaluated</p>
-
-          {/* Scored submissions */}
-          <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
-            {sortedScores.map((score) => {
+          <p className="text-center text-2xl">
+            <strong className="text-emerald-300">{scores.filter((sc) => sc.targetLanguage >= 0.4 || sc.reasonTags?.includes('used_target_vocab')).length}</strong> of {submissionCount} used <strong>{grammarTarget}</strong>
+          </p>
+          <div className="space-y-3">
+            {sortedScores.filter((sc) => sc.suggestedLabel || sc.finalScore >= 70).slice(0, 3).map((score) => {
               const sub = submissions[score.clientId];
               if (!sub) return null;
-              const usedGrammar = score.targetLanguage >= 0.4 || score.reasonTags?.includes('used_target_vocab');
-              const pct = score.finalScore;
-              const scoreColor = pct >= 70 ? 'text-emerald-400' : pct >= 45 ? 'text-yellow-400' : 'text-rose-400';
-              const barColor = pct >= 70 ? 'bg-emerald-500' : pct >= 45 ? 'bg-yellow-500' : 'bg-rose-500';
               return (
-                <div key={score.clientId} className="glass p-4 rounded-xl space-y-2">
+                <div key={score.clientId} className="glass space-y-1 rounded-xl p-4">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-semibold text-sm">{sub.displayName}</span>
-                    <div className="flex items-center gap-2 shrink-0">
-                      {usedGrammar ? (
-                        <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">Grammar ✓</span>
-                      ) : (
-                        <span className="text-xs px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded-full">Grammar?</span>
-                      )}
-                      {score.suggestedLabel && (
-                        <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-full">{score.suggestedLabel}</span>
-                      )}
-                      <span className={`text-sm font-bold tabular-nums ${scoreColor}`}>{pct}/100</span>
-                    </div>
+                    <span className="text-sm font-semibold">{sub.displayName}</span>
+                    {score.suggestedLabel && <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs text-emerald-300">{score.suggestedLabel}</span>}
                   </div>
-                  <div className="w-full bg-white/10 rounded-full h-1.5">
-                    <div className={`h-full rounded-full transition-all duration-500 ${barColor}`} style={{ width: `${pct}%` }} />
-                  </div>
-                  <p className="text-sm opacity-80 italic">&ldquo;{sub.text}&rdquo;</p>
+                  <p className="text-lg italic opacity-90">&ldquo;{sub.text}&rdquo;</p>
                 </div>
               );
             })}
-
-            {/* Submissions with no AI score (fallback display) */}
-            {Object.entries(submissions)
-              .filter(([cid]) => !scores.find((s) => s.clientId === cid))
-              .map(([cid, sub]) => (
-                <div key={cid} className="glass p-4 rounded-xl space-y-2 opacity-70">
-                  <span className="font-semibold text-sm">{sub.displayName}</span>
-                  <p className="text-sm italic">&ldquo;{sub.text}&rdquo;</p>
-                </div>
-              ))}
           </div>
-
-          {/* Did not submit */}
-          {nonSubmitters.length > 0 && (
-            <div className="glass p-3 rounded-xl">
-              <p className="text-xs opacity-40 uppercase tracking-widest mb-2">Did not submit</p>
-              <div className="flex flex-wrap gap-2">
-                {nonSubmitters.map((s) => (
-                  <span key={s.id} className="text-xs px-2 py-1 bg-white/5 rounded-full opacity-50">{s.name}</span>
-                ))}
-              </div>
-            </div>
-          )}
 
           <div className="flex justify-end">
             <button

@@ -998,6 +998,8 @@ export interface GrammarProofContent extends ActivityGeneratedContent {
   grammarTarget: string;
   prompt: string;
   exampleSentences: string[];
+  /** Wings check: 3 new judge-it sentences on the target, matched to the Check-in (the "after"). */
+  wingsSentences?: GrammarCheckInSentence[];
 }
 
 // Grammar Clarify content — the "teach the rule" step before the drills.

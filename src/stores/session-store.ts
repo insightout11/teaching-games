@@ -48,8 +48,16 @@ export interface ThreadPulse {
   votes: Record<string, { name: string; choice: string }>;
 }
 
+/** Grammar check: per student, how many sentences they judged right (Check-in = before). */
+export interface ThreadGrammarCheck {
+  target: string;
+  total: number;
+  results: Record<string, { name: string; right: number }>;
+}
+
 export interface LessonThread {
   pulse: ThreadPulse[];
+  grammarCheck?: ThreadGrammarCheck;
 }
 
 export interface SessionSettings {
@@ -235,6 +243,7 @@ interface SessionState {
   setPredictionResults: (results: PredictionResult[]) => void;
   addFlightLogEntry: (entry: FlightLogEntry) => void;
   recordPulse: (entry: ThreadPulse) => void;
+  recordGrammarCheck: (entry: ThreadGrammarCheck) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
@@ -390,6 +399,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   },
 
   setPredictionResults: (results) => set({ predictionResults: results }),
+
+  recordGrammarCheck: (entry) => set({ lessonThread: { ...get().lessonThread, grammarCheck: entry } }),
 
   recordPulse: (entry) => {
     const { lessonThread } = get();

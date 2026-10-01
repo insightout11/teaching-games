@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { SceneIgniterActivity } from '@/activities/scene-igniter';
 import { RankItActivity } from '@/activities/rank-it';
 import { OpinionShiftActivity } from '@/activities/opinion-shift/activity';
+import { GrammarProofActivity } from '@/activities/grammar-proof/activity';
 import { useSessionStore } from '@/stores/session-store';
 import { SceneScriptPanel } from '@/components/student/scene-script-panel';
 import type { InputSpec } from '@/lib/input-spec';
@@ -95,6 +96,7 @@ export function RadioCheckDevClient() {
   const [spec, setSpec] = useState<InputSpec | null>(null);
   const [seeded] = useState(() => {
     if (typeof window !== 'undefined') {
+      useSessionStore.getState().recordGrammarCheck({ target: 'past simple', total: 3, results: { Mia: { name: 'Mia', right: 1 }, Sam: { name: 'Sam', right: 2 }, Kai: { name: 'Kai', right: 0 } } });
       useSessionStore.getState().recordPulse({ text: 'Homework should be banned.', type: 'likert', votes: { Mia: { name: 'Mia', choice: '2' }, Sam: { name: 'Sam', choice: '4' }, Kai: { name: 'Kai', choice: '1' } } });
     }
     return true;
@@ -104,7 +106,7 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'shift' && seeded ? <OpinionShiftActivity {...props} generatedContent={{ activityKey: 'opinion-shift', topicContext: 'x', beforePrompt: 'Before', nowPrompt: 'Now' } as unknown as ActivityProps['generatedContent']} /> : mode === 'rank' ? <RankItActivity {...props} generatedContent={RANK} /> : mode === 'scene' ? (
+      {mode === 'wings' ? <GrammarProofActivity {...props} sessionSettings={{} as ActivityProps['sessionSettings']} generatedContent={{ activityKey: 'grammar-proof', topicContext: 'Travel', grammarTarget: 'past simple', prompt: 'Write 2 sentences about your last trip.', exampleSentences: ['I flew to Rome.', 'We ate pasta.'], wingsSentences: [{ text: 'Yesterday we goed to the beach.', isCorrect: false, explanation: '"go" is irregular: went.' }, { text: 'Last summer I visited my aunt.', isCorrect: true, explanation: 'Regular past simple: visited.' }, { text: 'She buyed a ticket at the station.', isCorrect: false, explanation: '"buy" is irregular: bought.' }] } as unknown as ActivityProps['generatedContent']} /> : mode === 'shift' && seeded ? <OpinionShiftActivity {...props} generatedContent={{ activityKey: 'opinion-shift', topicContext: 'x', beforePrompt: 'Before', nowPrompt: 'Now' } as unknown as ActivityProps['generatedContent']} /> : mode === 'rank' ? <RankItActivity {...props} generatedContent={RANK} /> : mode === 'scene' ? (
         <div className="flex gap-6">
           <div className="flex-1"><SceneIgniterActivity {...props} generatedContent={SCENE} students={[{ id: 's1', name: 'Ana' }, { id: 's2', name: 'Ben' }] as unknown as ActivityProps['students']} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} /></div>
           <div className="w-80 shrink-0 rounded-3xl border border-white/10 bg-slate-900 p-4">{spec ? <SceneScriptPanel spec={spec} displayName="Ana" studentId="s1" /> : <p className="text-white/40">phone</p>}</div>
