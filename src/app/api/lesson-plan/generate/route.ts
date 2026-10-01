@@ -2842,7 +2842,7 @@ Return JSON with:
   }
 }
 
-async function generateGrammarProof(topic: string, difficulty: Difficulty, grammarTarget: string, skipCache = false): Promise<GrammarProofContent> {
+async function generateGrammarProof(topic: string, difficulty: Difficulty, grammarTarget: string, skipCache = false, struggles: Array<{ text: string; fix?: string }> = []): Promise<GrammarProofContent> {
   const cached = skipCache ? null : await getCachedContent('grammar-proof', topic, difficulty, [], grammarTarget, 2);
   if (cached) {
     const c = cached.content_json as { prompt: string; exampleSentences: string[]; wingsSentences?: GrammarProofContent['wingsSentences'] };
@@ -2874,7 +2874,7 @@ Grammar target: ${grammarTarget}
 Create:
 1. A writing prompt asking students to write 2 sentences about the topic using ${grammarTarget}. The prompt should be open-ended and natural — not a grammar drill instruction.
 2. Two example sentences (teacher-only model answers) that correctly use ${grammarTarget} in the context of ${topic}.
-3. "wingsSentences": a final check. Exactly 3 NEW sentences about the topic using ${grammarTarget} (different from any earlier check), mixing correct and incorrect (2+1 or 1+2). Incorrect ones contain ONE typical learner mistake with ${grammarTarget}. Each has isCorrect and a one-sentence explanation shown after students judge it.
+3. "wingsSentences": a final check. Exactly 3 NEW sentences about the topic using ${grammarTarget} (different from any earlier check), mixing correct and incorrect (2+1 or 1+2). Incorrect ones contain ONE typical learner mistake with ${grammarTarget}. Each has isCorrect and a one-sentence explanation shown after students judge it.${struggles.length ? ` The class struggled with these earlier, so base at least one wings sentence on the same kind of mistake (new wording): ${struggles.map((x) => (x.fix ? `"${x.text}" -> ${x.fix}` : `"${x.text}"`)).join('; ')}.` : ''}
 
 Return JSON with:
 - prompt: the writing instruction (max 20 words, natural and topic-relevant)
@@ -3189,6 +3189,8 @@ export async function POST(request: NextRequest) {
       taskRoleplay?: boolean;
       /** Lesson Kit: the scene this lesson already played (Scene Igniter), so later stages continue it. */
       sceneContext?: { title: string; context: string; characters?: string[]; keyLines?: string[] };
+      /** Lesson Kit: what the class got wrong earlier in this lesson. */
+      struggles?: Array<{ text: string; fix?: string }>;
     };
 
     const {
@@ -3260,9 +3262,11 @@ export async function POST(request: NextRequest) {
     // lesson threads end to end instead of each stage only knowing the topic.
     const kitPhrases = sourceVocab.map((v) => v.term).filter(Boolean).slice(0, 8);
     const sceneFromKit = body.sceneContext?.title && body.sceneContext?.context ? body.sceneContext : undefined;
+    const kitStruggles = Array.isArray(body.struggles) ? body.struggles.filter((x) => x && typeof x.text === 'string').slice(0, 4) : [];
     const kitCtx = [
       kitPhrases.length ? `\n\nLESSON KEY PHRASES (taught earlier in this lesson; reuse several of them naturally): ${kitPhrases.join(', ')}` : '',
       sceneFromKit ? `\n\nSCENE ALREADY PLAYED IN THIS LESSON: "${sceneFromKit.title}". ${sceneFromKit.context}${sceneFromKit.characters?.length ? ` Characters: ${sceneFromKit.characters.join(', ')}.` : ''}` : '',
+      kitStruggles.length ? `\n\nTHE CLASS STRUGGLED WITH THESE EARLIER IN THIS LESSON (bring them back: build several items around them first, as a second chance): ${kitStruggles.map((x) => (x.fix ? `"${x.text}" (correct: ${x.fix})` : `"${x.text}"`)).join('; ')}` : '',
     ].join('');
     const kitSourceCtx = `${sourceCtx}${kitCtx}`;
     const kitGrounding = kitCtx ? groundingVariant(kitSourceCtx, missionContext && missionContext.length > 0 ? missionContext.join('') : undefined) : grounding;
@@ -3581,7 +3585,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateGrammarCheckIn(customTopic, diff, grammarTarget, skipCache).then((r) => { content[activityKey] = r; }));
             break;
           case 'grammar-proof':
-            generators.push(generateGrammarProof(customTopic, diff, grammarTarget ?? 'grammar', skipCache).then((r) => { content[activityKey] = r; }));
+            generators.push(generateGrammarProof(customTopic, diff, grammarTarget ?? 'grammar', skipCache || kitStruggles.length > 0, kitStruggles).then((r) => { content[activityKey] = r; }));
             break;
           case 'grammar-clarify':
             generators.push(generateGrammarClarify(customTopic, diff, grammarTarget ?? 'grammar', sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));

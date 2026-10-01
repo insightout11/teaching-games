@@ -172,7 +172,8 @@ export function useLessonSession(
     const phrases = sourceVocabRef.current.map((v) => v.term).filter(Boolean).slice(0, 8);
     const scene = sceneKitRef.current ? { title: sceneKitRef.current.title, context: sceneKitRef.current.context, ...(sceneKitRef.current.characters ? { characters: sceneKitRef.current.characters } : {}) } : undefined;
     const grammarTarget = useSessionStore.getState().settings.grammarTarget ?? undefined;
-    setLessonKitInStore(phrases.length || scene || grammarTarget ? { ...(phrases.length ? { phrases } : {}), ...(scene ? { scene } : {}), ...(grammarTarget ? { grammarTarget } : {}) } : null);
+    const struggles = (useSessionStore.getState().lessonThread.struggles ?? []).slice(-4).map((x) => ({ text: x.text, ...(x.fix ? { fix: x.fix } : {}) }));
+    setLessonKitInStore(phrases.length || scene || grammarTarget || struggles.length ? { ...(phrases.length ? { phrases } : {}), ...(scene ? { scene } : {}), ...(grammarTarget ? { grammarTarget } : {}), ...(struggles.length ? { struggles } : {}) } : null);
   }, [lessonSlots.length, setLessonKitInStore]);
   const publishKitRef = useRef(publishKit);
   publishKitRef.current = publishKit;
@@ -212,6 +213,9 @@ export function useLessonSession(
     return () => ch.close();
   }, [sessionId, recordHuntStamps]);
 
+  // Struggles arrive mid-lesson (Fix the Captain, speaking games): re-publish so review stages get them.
+  const struggleCount = useSessionStore((s) => s.lessonThread.struggles?.length ?? 0);
+  useEffect(() => { if (struggleCount) publishKit(); }, [publishKit, struggleCount]);
   // The grammar target is confirmed mid-lesson (Check-in), so re-publish when it changes.
   useEffect(() => { publishKit(); }, [publishKit, settings.grammarTarget]);
   const captureKit = useCallback((key: string, content: unknown) => {
@@ -282,8 +286,10 @@ export function useLessonSession(
     const sourceMaterial = lessonPlanContent?.stageSources?.[key] ?? lessonPlanContent?.sourceMaterial;
     const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
     const courseContextPayload = lessonPlanContent?.courseContext ? { courseContext: lessonPlanContent.courseContext } : {};
+    const kitStruggles = useSessionStore.getState().lessonKit?.struggles;
     const kitPayload = {
       ...(sceneKitRef.current ? { sceneContext: sceneKitRef.current } : {}),
+      ...(kitStruggles?.length ? { struggles: kitStruggles } : {}),
       ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
     };
     const body = isLanding
@@ -417,6 +423,7 @@ export function useLessonSession(
             ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
             ...(sourceMaterial ? { sourceMaterial } : {}),
             ...(sceneKitRef.current ? { sceneContext: sceneKitRef.current } : {}),
+            ...(useSessionStore.getState().lessonKit?.struggles?.length ? { struggles: useSessionStore.getState().lessonKit!.struggles } : {}),
             ...courseContextPayload,
             ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}),
           });

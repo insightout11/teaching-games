@@ -110,10 +110,12 @@ export interface LessonKit {
   phrases?: string[];
   scene?: { title: string; context: string; characters?: string[] };
   grammarTarget?: string;
+  /** What the class got wrong earlier (missed mistakes, needed models): review stages bring these back. */
+  struggles?: Array<{ text: string; fix?: string }>;
 }
 
 export function hasLessonKit(kit?: LessonKit | null): boolean {
-  return !!(kit && (kit.phrases?.length || kit.scene || kit.grammarTarget));
+  return !!(kit && (kit.phrases?.length || kit.scene || kit.grammarTarget || kit.struggles?.length));
 }
 
 export function buildKitContext(kit?: LessonKit | null): string {
@@ -122,5 +124,6 @@ export function buildKitContext(kit?: LessonKit | null): string {
   if (kit!.phrases?.length) parts.push(`LESSON KEY PHRASES (taught earlier in this lesson; reuse several of them naturally): ${kit!.phrases.slice(0, 8).join(', ')}`);
   if (kit!.scene) parts.push(`SCENE ALREADY PLAYED IN THIS LESSON: "${kit!.scene.title}". ${kit!.scene.context}${kit!.scene.characters?.length ? ` Characters: ${kit!.scene.characters.join(', ')}.` : ''}`);
   if (kit!.grammarTarget) parts.push(`LESSON GRAMMAR TARGET: ${kit!.grammarTarget} (use it naturally where it fits).`);
+  if (kit!.struggles?.length) parts.push(`THE CLASS STRUGGLED WITH THESE EARLIER IN THIS LESSON (bring them back: build several items around them first, as a second chance): ${kit!.struggles.slice(0, 4).map((x) => (x.fix ? `"${x.text}" (correct: ${x.fix})` : `"${x.text}"`)).join('; ')}`);
   return `\n\n${parts.join('\n')}`;
 }

@@ -6,6 +6,7 @@ import { ArrowRight, Eye, EyeOff, Headphones, Play, Radio, RotateCcw, Snail, Vol
 import type { ActivityProps, RadioCheckContent, RadioCheckSegment } from '../types';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import { speak, warmUpSpeech } from '@/lib/speech';
+import { useSessionStore } from '@/stores/session-store';
 
 // Radio Check: the class hears a short segment (a clip of the source video, or a passage
 // read by the voice), answers one question on their phones, then the answer is revealed with
@@ -64,6 +65,7 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
   const stopTimer = useRef<number | null>(null);
   const playToken = useRef(0);
   const scoredRef = useRef<Set<number>>(new Set());
+  const recordStruggle = useSessionStore((s) => s.recordStruggle);
 
   const seg: RadioCheckSegment | undefined = segments[idx];
 
@@ -143,6 +145,8 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
     if (!scoredRef.current.has(idx)) {
       scoredRef.current.add(idx);
       setResults((r) => { const n = [...r]; n[idx] = { caught, answered: ballots.length }; return n; });
+      // Lesson thread: a clip most of the class missed comes back in the review.
+      if (ballots.length && caught / ballots.length < 0.5) recordStruggle({ stage: 'radio-check', text: seg.question, fix: seg.keyLine || seg.options[seg.correctIndex] });
       ballots.forEach((b) => {
         const ok = b.pick === seg.correctIndex;
         void onScore?.({ studentId: b.studentId, clientId: b.clientId, displayName: b.name, promptIndex: idx + 1, points: ok ? 3 : 1, isCorrect: ok });

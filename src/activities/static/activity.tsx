@@ -6,6 +6,7 @@ import { ArrowRight, Eye, Flame, Headphones, RotateCcw, Snail, Volume2, Zap } fr
 import type { ActivityProps, StaticContent } from '../types';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import { speak, warmUpSpeech } from '@/lib/speech';
+import { useSessionStore } from '@/stores/session-store';
 
 // Static: a fast listening break. The screen shows a sentence; the voice reads it with ONE
 // word swapped (ship/sheep, fifteen/fifty). Phones tap which word changed. Streaks for
@@ -43,6 +44,7 @@ export function StaticActivity({ generatedContent, onSetInputSpec, onRegisterRem
   const [results, setResults] = useState<Array<{ caught: number; answered: number }>>([]);
   const [streaks, setStreaks] = useState<Record<string, { name: string; now: number; best: number }>>({});
   const scoredRef = useRef<Set<number>>(new Set());
+  const recordStruggle = useSessionStore((s) => s.recordStruggle);
   const token = useRef(0);
 
   const round = rounds[idx];
@@ -100,6 +102,7 @@ export function StaticActivity({ generatedContent, onSetInputSpec, onRegisterRem
       scoredRef.current.add(idx);
       const caught = ballots.filter((b) => b.pick === round.correctIndex).length;
       setResults((r) => { const n = [...r]; n[idx] = { caught, answered: ballots.length }; return n; });
+      if (ballots.length && caught / ballots.length < 0.5) recordStruggle({ stage: 'static', text: `${round.target} / ${round.swap} (heard in: "${round.sentence}")`, fix: round.target });
       setStreaks((prev) => {
         const next = { ...prev };
         ballots.forEach((b) => {
