@@ -416,7 +416,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should children learn how Earth’s systems connect?"
+    "flightQuestion": "Should children learn how Earth’s systems connect?",
+    "series": {
+      "id": "earth-and-weather",
+      "title": "Earth and Weather for Young Learners",
+      "order": 1
+    }
   },
   {
     "id": "kids_what_on_earth",
@@ -442,7 +447,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should schools teach more about local landforms?"
+    "flightQuestion": "Should schools teach more about local landforms?",
+    "series": {
+      "id": "earth-and-weather",
+      "title": "Earth and Weather for Young Learners",
+      "order": 2
+    }
   },
   {
     "id": "kids_up_up_away",
@@ -468,7 +478,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should schools teach children more about the air around them?"
+    "flightQuestion": "Should schools teach children more about the air around them?",
+    "series": {
+      "id": "earth-and-weather",
+      "title": "Earth and Weather for Young Learners",
+      "order": 3
+    }
   },
   {
     "id": "kids_landforms_hey",
@@ -494,7 +509,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should children learn how landforms shape communities?"
+    "flightQuestion": "Should children learn how landforms shape communities?",
+    "series": {
+      "id": "earth-and-weather",
+      "title": "Earth and Weather for Young Learners",
+      "order": 4
+    }
   },
   {
     "id": "kids_engineer",
@@ -520,7 +540,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should every school teach engineering?"
+    "flightQuestion": "Should every school teach engineering?",
+    "series": {
+      "id": "engineering-design-process",
+      "title": "How Engineers Solve Problems",
+      "order": 1
+    }
   },
   {
     "id": "kids_defining_problem",
@@ -546,7 +571,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should teams define problems before choosing solutions?"
+    "flightQuestion": "Should teams define problems before choosing solutions?",
+    "series": {
+      "id": "engineering-design-process",
+      "title": "How Engineers Solve Problems",
+      "order": 2
+    }
   },
   {
     "id": "kids_solutions",
@@ -572,7 +602,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should students test several solutions before choosing one?"
+    "flightQuestion": "Should students test several solutions before choosing one?",
+    "series": {
+      "id": "engineering-design-process",
+      "title": "How Engineers Solve Problems",
+      "order": 3
+    }
   },
   {
     "id": "kids_what_ifs",
@@ -598,7 +633,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should students use what-if questions to test ideas?"
+    "flightQuestion": "Should students use what-if questions to test ideas?",
+    "series": {
+      "id": "engineering-design-process",
+      "title": "How Engineers Solve Problems",
+      "order": 4
+    }
   },
   {
     "id": "kids_succeed_failing",
@@ -624,7 +664,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should mistakes count as part of learning?"
+    "flightQuestion": "Should mistakes count as part of learning?",
+    "series": {
+      "id": "engineering-design-process",
+      "title": "How Engineers Solve Problems",
+      "order": 5
+    }
   },
   {
     "id": "kids_picky_pineapples",
@@ -650,7 +695,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should people protect the resources plants need?"
+    "flightQuestion": "Should people protect the resources plants need?",
+    "series": {
+      "id": "animals-and-habitats",
+      "title": "Animals and Their Habitats",
+      "order": 2
+    }
   },
   {
     "id": "kids_look_whos_talking",
@@ -675,7 +725,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "animals-and-habitats",
+      "title": "Animals and Their Habitats",
+      "order": 1
+    }
   },
   {
     "id": "kids_particles_world",
@@ -700,7 +755,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "everyday-science",
+      "title": "Everyday Science: Materials and Measurement",
+      "order": 1
+    }
   },
   {
     "id": "kids_measurement_mystery",
@@ -725,7 +785,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "everyday-science",
+      "title": "Everyday Science: Materials and Measurement",
+      "order": 2
+    }
   },
   {
     "id": "kids_over_to_moon",
@@ -750,7 +815,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "space-for-beginners",
+      "title": "Space for Beginners",
+      "order": 1
+    }
   },
   {
     "id": "kids_chemical_changes",
@@ -775,7 +845,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "everyday-science",
+      "title": "Everyday Science: Materials and Measurement",
+      "order": 3
+    }
   },
   {
     "id": "kids_earth_rotation_revolution",
@@ -800,7 +875,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "space-for-beginners",
+      "title": "Space for Beginners",
+      "order": 2
+    }
   },
   {
     "id": "kids_seasons_sun",
@@ -825,7 +905,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "space-for-beginners",
+      "title": "Space for Beginners",
+      "order": 3
+    }
   },
   {
     "id": "kids_polar_pineapples",
@@ -1045,7 +1130,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "space-for-beginners",
+      "title": "Space for Beginners",
+      "order": 4
+    }
   },
   {
     "id": "kids_lsdaf8_mr8e",
@@ -1117,7 +1207,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "animals-and-habitats",
+      "title": "Animals and Their Habitats",
+      "order": 3
+    }
   },
   {
     "id": "kids_2zjzs19myik",
@@ -1189,7 +1284,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "animals-and-habitats",
+      "title": "Animals and Their Habitats",
+      "order": 4
+    }
   },
   {
     "id": "kids_b79xio8qgiy",
@@ -1285,7 +1385,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "everyday-science",
+      "title": "Everyday Science: Materials and Measurement",
+      "order": 4
+    }
   },
   {
     "id": "kids_zojlcdmvwai",
@@ -1453,7 +1558,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "animals-and-habitats",
+      "title": "Animals and Their Habitats",
+      "order": 5
+    }
   },
   {
     "id": "kids_gazkec59g1w",
@@ -1597,7 +1707,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "earth-and-weather",
+      "title": "Earth and Weather for Young Learners",
+      "order": 5
+    }
   },
   {
     "id": "kids_0qmgdz9e47s",
@@ -1669,7 +1784,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "everyday-science",
+      "title": "Everyday Science: Materials and Measurement",
+      "order": 5
+    }
   },
   {
     "id": "kids_8whjjlmniku",
@@ -1717,7 +1837,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "space-for-beginners",
+      "title": "Space for Beginners",
+      "order": 5
+    }
   },
   {
     "id": "kids_cjbmsssxf_a",

@@ -26,3 +26,6 @@ Pending. Non-BBC candidates must match their actual format and have timestamped 
 ## Review queue
 
 Pending; flagged records will remain flagged with their review notes unless their own metadata or content supports a correction.
+- 2026-10-01 · task 2 · +10 ordered course series × 5 items (50 memberships), all internally level-consistent and single-age-band; validator now enforces 4–6 members, shared title/ageBand, unique positive order, and CEFR span of at most one step.
+
+Series: Earth and Weather for Young Learners; How Engineers Solve Problems; Animals and Their Habitats; Space for Beginners; Everyday Science: Materials and Measurement; Space and Exploration; Technology, Games and Human Choices; Food, Health and the Environment; Music, Learning and Performance; Animals in a Changing World.

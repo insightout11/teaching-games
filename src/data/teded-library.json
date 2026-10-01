@@ -1037,7 +1037,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should games reward exploration more than quick success?"
+    "flightQuestion": "Should games reward exploration more than quick success?",
+    "series": {
+      "id": "technology-and-choice",
+      "title": "Technology, Games and Human Choices",
+      "order": 2
+    }
   },
   {
     "id": "teded_brief_history_video_games_part_1",
@@ -1063,7 +1068,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should schools teach the history of video games?"
+    "flightQuestion": "Should schools teach the history of video games?",
+    "series": {
+      "id": "technology-and-choice",
+      "title": "Technology, Games and Human Choices",
+      "order": 3
+    }
   },
   {
     "id": "teded_african_american_social_dance_history",
@@ -1093,7 +1103,12 @@
     },
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should schools teach social dance history?"
+    "flightQuestion": "Should schools teach social dance history?",
+    "series": {
+      "id": "music-and-performance",
+      "title": "Music, Learning and Performance",
+      "order": 1
+    }
   },
   {
     "id": "teded_instrument_music_brain_benefits",
@@ -1119,7 +1134,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should every student learn to play an instrument?"
+    "flightQuestion": "Should every student learn to play an instrument?",
+    "series": {
+      "id": "music-and-performance",
+      "title": "Music, Learning and Performance",
+      "order": 2
+    }
   },
   {
     "id": "teded_earth_in_2125",
@@ -1171,7 +1191,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should schools use AI for everyday learning?"
+    "flightQuestion": "Should schools use AI for everyday learning?",
+    "series": {
+      "id": "technology-and-choice",
+      "title": "Technology, Games and Human Choices",
+      "order": 1
+    }
   },
   {
     "id": "teded_food_brain_effects",
@@ -1197,7 +1222,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should schools offer more brain-healthy food choices?"
+    "flightQuestion": "Should schools offer more brain-healthy food choices?",
+    "series": {
+      "id": "food-and-environment",
+      "title": "Food, Health and the Environment",
+      "order": 1
+    }
   },
   {
     "id": "teded_perfect_cookies_science",
@@ -1223,7 +1253,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should school cafeterias serve more freshly prepared food?"
+    "flightQuestion": "Should school cafeterias serve more freshly prepared food?",
+    "series": {
+      "id": "food-and-environment",
+      "title": "Food, Health and the Environment",
+      "order": 2
+    }
   },
   {
     "id": "teded_food_expiration_dates",
@@ -1249,7 +1284,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should stores sell food past best-before dates?"
+    "flightQuestion": "Should stores sell food past best-before dates?",
+    "series": {
+      "id": "food-and-environment",
+      "title": "Food, Health and the Environment",
+      "order": 3
+    }
   },
   {
     "id": "teded_prolonged_space_travel",
@@ -1275,7 +1315,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should governments fund long space missions?"
+    "flightQuestion": "Should governments fund long space missions?",
+    "series": {
+      "id": "space-and-exploration",
+      "title": "Space and Exploration",
+      "order": 1
+    }
   },
   {
     "id": "teded_hibernation",
@@ -1301,7 +1346,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should wildlife parks protect natural hibernation sites?"
+    "flightQuestion": "Should wildlife parks protect natural hibernation sites?",
+    "series": {
+      "id": "animals-and-changing-world",
+      "title": "Animals in a Changing World",
+      "order": 1
+    }
   },
   {
     "id": "teded_tardigrade_survival",
@@ -1327,7 +1377,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should scientists prioritize research on tiny organisms?"
+    "flightQuestion": "Should scientists prioritize research on tiny organisms?",
+    "series": {
+      "id": "animals-and-changing-world",
+      "title": "Animals in a Changing World",
+      "order": 2
+    }
   },
   {
     "id": "teded_wildlife_climate_adaptation",
@@ -1353,7 +1408,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should people help wildlife adapt to climate change?"
+    "flightQuestion": "Should people help wildlife adapt to climate change?",
+    "series": {
+      "id": "animals-and-changing-world",
+      "title": "Animals in a Changing World",
+      "order": 3
+    }
   },
   {
     "id": "teded_savanna_mystery",
@@ -1379,7 +1439,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should people protect habitats even when few animals live there?"
+    "flightQuestion": "Should people protect habitats even when few animals live there?",
+    "series": {
+      "id": "animals-and-changing-world",
+      "title": "Animals in a Changing World",
+      "order": 4
+    }
   },
   {
     "id": "teded_fwtnmzk9vg4",
@@ -1429,7 +1494,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should phones include tools to protect attention?"
+    "flightQuestion": "Should phones include tools to protect attention?",
+    "series": {
+      "id": "technology-and-choice",
+      "title": "Technology, Games and Human Choices",
+      "order": 4
+    }
   },
   {
     "id": "teded_1jxq9779zwu",
@@ -1455,7 +1525,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should people build homes on other planets?"
+    "flightQuestion": "Should people build homes on other planets?",
+    "series": {
+      "id": "space-and-exploration",
+      "title": "Space and Exploration",
+      "order": 2
+    }
   },
   {
     "id": "teded_fxpc_8f__xo",
@@ -1481,7 +1556,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should countries compete in space exploration?"
+    "flightQuestion": "Should countries compete in space exploration?",
+    "series": {
+      "id": "space-and-exploration",
+      "title": "Space and Exploration",
+      "order": 3
+    }
   },
   {
     "id": "teded_dmmpykrrd4o",
@@ -1507,7 +1587,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should humans try to live on Mars?"
+    "flightQuestion": "Should humans try to live on Mars?",
+    "series": {
+      "id": "space-and-exploration",
+      "title": "Space and Exploration",
+      "order": 4
+    }
   },
   {
     "id": "teded_lkgogzpbrck",
@@ -1584,7 +1669,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should schools require more daily physical activity?"
+    "flightQuestion": "Should schools require more daily physical activity?",
+    "series": {
+      "id": "music-and-performance",
+      "title": "Music, Learning and Performance",
+      "order": 5
+    }
   },
   {
     "id": "teded_2tm1lffxekg",
@@ -1661,7 +1751,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should people cooperate even when competition pays?"
+    "flightQuestion": "Should people cooperate even when competition pays?",
+    "series": {
+      "id": "technology-and-choice",
+      "title": "Technology, Games and Human Choices",
+      "order": 5
+    }
   },
   {
     "id": "teded_0rijfcnay2q",
@@ -1711,7 +1806,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should underwater farms receive more investment?"
+    "flightQuestion": "Should underwater farms receive more investment?",
+    "series": {
+      "id": "food-and-environment",
+      "title": "Food, Health and the Environment",
+      "order": 4
+    }
   },
   {
     "id": "teded_2uphazryvpy",
@@ -1736,7 +1836,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should schools teach rhythm alongside mathematics?"
+    "flightQuestion": "Should schools teach rhythm alongside mathematics?",
+    "series": {
+      "id": "music-and-performance",
+      "title": "Music, Learning and Performance",
+      "order": 3
+    }
   },
   {
     "id": "teded_wyq3o8u6smy",
@@ -1762,7 +1867,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should schools spend more time teaching astronomy?"
+    "flightQuestion": "Should schools spend more time teaching astronomy?",
+    "series": {
+      "id": "space-and-exploration",
+      "title": "Space and Exploration",
+      "order": 5
+    }
   },
   {
     "id": "teded__6xlnywppb8",
@@ -1787,7 +1897,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should cities ban single-use plastics?"
+    "flightQuestion": "Should cities ban single-use plastics?",
+    "series": {
+      "id": "food-and-environment",
+      "title": "Food, Health and the Environment",
+      "order": 5
+    }
   },
   {
     "id": "teded_k93fmnfkwfi",
@@ -1812,7 +1927,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should schools teach students to manage stage fright?"
+    "flightQuestion": "Should schools teach students to manage stage fright?",
+    "series": {
+      "id": "music-and-performance",
+      "title": "Music, Learning and Performance",
+      "order": 4
+    }
   },
   {
     "id": "teded__r4c2nt4naq",
@@ -1864,7 +1984,12 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should conservation protect helpful animal partnerships?"
+    "flightQuestion": "Should conservation protect helpful animal partnerships?",
+    "series": {
+      "id": "animals-and-changing-world",
+      "title": "Animals in a Changing World",
+      "order": 5
+    }
   },
   {
     "id": "teded_i7930fj3t54",

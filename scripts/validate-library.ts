@@ -26,6 +26,7 @@ type Item = {
   needsReview?: unknown;
   reviewNote?: unknown;
   flightQuestion?: unknown;
+  series?: unknown;
 };
 
 const dataDir = path.resolve('src/data');
@@ -50,6 +51,7 @@ const grammarTags = new Set([
 const listeningTags = new Set([
   'listening:podcast', 'listening:interview', 'listening:announcement', 'listening:dialogue',
 ]);
+const seriesGroups: Record<string, Item[]> = {};
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -76,6 +78,16 @@ function validateExpandedItem(item: Item, where: string) {
     if (item.kind === 'video'
       && (typeof item.durationSecs !== 'number' || item.durationSecs < 180 || item.durationSecs > 480)) {
       fail(where, 'Flight Question videos must be 3–8 minutes long');
+    }
+  }
+  if (item.series !== undefined) {
+    const series = item.series as { id?: unknown; title?: unknown; order?: unknown };
+    if (!nonEmpty(series.id) || !nonEmpty(series.title)
+      || typeof series.order !== 'number' || Math.floor(series.order) !== series.order || series.order < 1) {
+      fail(where, 'series requires a non-empty id/title and positive integer order');
+    } else {
+      if (!seriesGroups[series.id]) seriesGroups[series.id] = [];
+      seriesGroups[series.id].push(item);
     }
   }
   if (item.place !== null && item.place !== undefined) {
@@ -182,6 +194,24 @@ for (const file of files) {
       validateExpandedItem(item, where);
     }
   }
+}
+
+const cefrRank: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5 };
+for (const seriesId of Object.keys(seriesGroups)) {
+  const members = seriesGroups[seriesId];
+  if (members.length < 4 || members.length > 6) fail(`series ${seriesId}`, 'series must contain 4–6 items');
+  const first = members[0].series as { title: string; order: number };
+  const orders = new Set<number>();
+  const ranks: number[] = [];
+  for (const member of members) {
+    const series = member.series as { title: string; order: number };
+    if (series.title !== first.title) fail(`series ${seriesId}`, 'all members must use the same title');
+    if (orders.has(series.order)) fail(`series ${seriesId}`, `duplicate order ${series.order}`);
+    orders.add(series.order);
+    ranks.push(cefrRank[String(member.cefr)] || 0);
+    if (member.ageBand !== members[0].ageBand) fail(`series ${seriesId}`, 'all members must use one ageBand');
+  }
+  if (Math.max(...ranks) - Math.min(...ranks) > 1) fail(`series ${seriesId}`, 'CEFR levels may span no more than one step');
 }
 
 if (errors.length) {
