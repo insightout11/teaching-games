@@ -103,3 +103,15 @@ The generator classifies the question (we already classify sources by genre). Th
 3. **Discussion format:** should it be auto-picked by question type (teacher can switch), or should the teacher always choose?
 4. **Turbulence breaks:** one fixed break, or a teacher-placed "turbulence" button they can hit any time?
 5. **Anything from today's version you'd fight to keep?** (For example, Decision Council always, or the accuracy micro.)
+
+## Decisions (Oct 1 2026)
+All five questions answered yes; turbulence = both (one default break + a button any time); nothing from v1 kept for its own sake.
+
+## Built (Oct 1 2026)
+1. **Backbone** (824e8944): Flight Question takeoff (stance + A/B prediction, editable) and the Verdict landing (Shift → prediction vs reality → spoken Final Words → flight-log card).
+2. **Briefing with a mission** (b79dbbc6): video briefings send the comprehension questions to phones while the video plays; a Mission debrief replaces the quiz ("Quiz instead" kept). Reading briefings keep their quiz (phones are busy with reading turns).
+3. **Discussion follows the question + Phrase Hunt** (0bafea73): opinion → Hot Take Arena, problem → Decision Council, personal → Conversation Rounds; the Flight Question is in the Lesson Kit for every stage; Phrase Hunt when there's no grammar target.
+4. **Turbulence** (4d3bfff7): the default break between the Words and the Discussion, plus a Turbulence button beside Swap.
+5. **Review vote**: already existed (end-game pool vote); struggles reach the winning game via the kit.
+
+Captain's Flight now: Flight Question → Briefing (mission) → Language Toolkit → Turbulence → the Big Discussion → review game (class vote) → the Verdict.
