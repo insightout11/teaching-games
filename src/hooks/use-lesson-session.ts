@@ -112,6 +112,8 @@ export interface LessonSession {
   advanceSlot: () => void;
   /** Bail out of the current activity and immediately start a different one. */
   insertAndPivotSlot: (key: string, type: 'game' | 'activity', name: string) => void;
+  /** Turbulence: put a short break (a micro-event) next; the caller then advances into it. */
+  insertTurbulence: () => void;
   /** Replace the next slot in place, preserving stageId/stageLabel/isMicroEvent. */
   replaceNextSlot: (key: string, type: 'game' | 'activity', name: string) => void;
   /** Resolve the CURRENT slot to a concrete module after a pool spin (clears the pool). */
@@ -675,6 +677,19 @@ export function useLessonSession(
     }
   }, [currentSlotIndex, lessonSlots]);
 
+  const insertTurbulence = useCallback(() => {
+    // Alternate the break so repeated turbulence doesn't feel the same.
+    const turbulenceCount = lessonSlots.filter((sl) => sl.stageId === 'turbulence').length;
+    const key = turbulenceCount % 2 === 0 ? 'static' : 'would-you-rather';
+    const newSlot: LessonSlot = { key, type: 'activity', name: key === 'static' ? 'Static' : 'Would You Rather', isMicroEvent: true, stageId: 'turbulence', stageLabel: 'Turbulence' };
+    setLessonSlots((prev) => {
+      if (prev[currentSlotIndex + 1]?.stageId === 'turbulence') return prev;
+      const next = [...prev];
+      next.splice(currentSlotIndex + 1, 0, newSlot);
+      return next;
+    });
+  }, [currentSlotIndex, lessonSlots]);
+
   const insertAndPivotSlot = useCallback((key: string, type: 'game' | 'activity', name: string) => {
     const newSlot: LessonSlot = { key, type, name };
     const insertAt = currentSlotIndex + 1;
@@ -809,6 +824,7 @@ export function useLessonSession(
     beginLesson,
     advanceSlot,
     insertAndPivotSlot,
+    insertTurbulence,
     replaceNextSlot,
     resolveCurrentSlot,
     goToSlot,

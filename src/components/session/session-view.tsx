@@ -75,7 +75,7 @@ import {
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
-import { AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Lock, Maximize2, Minimize2, PlaneLanding, PlaneTakeoff, QrCode, Settings, Smartphone, Star } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Lock, Maximize2, Minimize2, PlaneLanding, PlaneTakeoff, QrCode, Settings, Smartphone, Star, Wind } from 'lucide-react';
 
 // Map a flight-clock hour to a SkyBackground weather palette. Thresholds are
 // tuned so a sunset departure -> overnight -> sunrise arrival reproduces the
@@ -1519,6 +1519,21 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Turbulence: insert a short break next, then fly into it once the slot exists (the turbulence
+  // transition plays because the break is a micro-event).
+  const turbulencePendingRef = useRef(false);
+  const handleTurbulence = useCallback(() => {
+    turbulencePendingRef.current = true;
+    lesson.insertTurbulence();
+  }, [lesson]);
+  useEffect(() => {
+    if (!turbulencePendingRef.current) return;
+    if (lesson.lessonSlots[lesson.currentSlotIndex + 1]?.stageId !== 'turbulence') return;
+    turbulencePendingRef.current = false;
+    handleNextSlotWithTransitionRef.current?.();
+  }, [lesson.lessonSlots, lesson.currentSlotIndex]);
+  const handleNextSlotWithTransitionRef = useRef<(() => void) | null>(null);
+
   const handleNextSlotWithTransition = useCallback(() => {
     const currentIndex = lesson.currentSlotIndex;
     const nextIndex = currentIndex + 1;
@@ -1583,6 +1598,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     lesson.advanceSlot();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson, selectedGame, selectedActivity]);
+  handleNextSlotWithTransitionRef.current = handleNextSlotWithTransition;
 
   // Reset module phase when slot advances so the pulse clears on the new module
   useEffect(() => {
@@ -2695,6 +2711,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 >
                   ⚡ Swap
                 </button>
+                {lesson.isLessonActive && !lesson.currentSlot?.isMicroEvent && (
+                  <button
+                    onClick={handleTurbulence}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-lc-text3 hover:text-violet-300 hover:bg-violet-500/10 border border-lc-border hover:border-violet-400/30 rounded-lg transition-all"
+                    title="Turbulence: a quick fun break, right now"
+                  >
+                    <Wind className="h-3.5 w-3.5" /> Turbulence
+                  </button>
+                )}
                 {lesson.isLessonActive && (
                   <Button
                     variant="primary"
@@ -2830,6 +2855,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 >
                   ⚡ Swap
                 </button>
+                {lesson.isLessonActive && !lesson.currentSlot?.isMicroEvent && (
+                  <button
+                    onClick={handleTurbulence}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-lc-text3 hover:text-violet-300 hover:bg-violet-500/10 border border-lc-border hover:border-violet-400/30 rounded-lg transition-all"
+                    title="Turbulence: a quick fun break, right now"
+                  >
+                    <Wind className="h-3.5 w-3.5" /> Turbulence
+                  </button>
+                )}
                 {lesson.isLessonActive && (
                   <Button
                     variant="primary"
