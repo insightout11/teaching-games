@@ -2474,7 +2474,12 @@
     "place": null,
     "license": "Public domain (VOA Learning English)",
     "attribution": "VOA Learning English, lesson dialogue",
-    "needsReview": false
+    "needsReview": false,
+    "series": {
+      "id": "human-body-and-health",
+      "title": "The human body and health",
+      "order": 5
+    }
   },
   {
     "id": "voa-level1-lesson-46-may-i-borrow-that",

@@ -21,6 +21,8 @@ import voaLibrary from '@/data/voa-library.json';
 import storiesLibrary from '@/data/stories-library.json';
 import pictureBookLibrary from '@/data/picture-books-library.json';
 import discussionLibrary from '@/data/discussion-library.json';
+import bookLibrary from '@/data/book-library.json';
+import storyweaverLibrary from '@/data/storyweaver-library.json';
 import { rankLibrary, type LibraryEntry, type LibraryKind } from './library-search';
 
 type Raw = {
@@ -35,6 +37,8 @@ const PUBLISHER: Record<string, string> = {
   'world-flight': 'World Flight', 'business-english': 'Business English', 'internet-memes': 'Internet', minecraft: 'Minecraft',
   sports: 'Sports', grammar: 'Grammar', hooks: 'Short hook', voa: 'VOA Learning English', stories: 'Story',
   'picture-books': 'Picture book', discussion: 'LessonCaptain',
+  books: 'Public-domain book course',
+  storyweaver: 'Pratham Books / StoryWeaver',
 };
 
 const SOURCES: Array<{ source: string; kind: LibraryKind; data: unknown }> = [
@@ -60,6 +64,8 @@ const SOURCES: Array<{ source: string; kind: LibraryKind; data: unknown }> = [
   { source: 'stories', kind: 'text', data: storiesLibrary },
   { source: 'picture-books', kind: 'text', data: pictureBookLibrary },
   { source: 'discussion', kind: 'debate', data: discussionLibrary },
+  { source: 'books', kind: 'text', data: bookLibrary },
+  { source: 'storyweaver', kind: 'text', data: storyweaverLibrary },
 ];
 
 // Some imported texts carry mis-encoded non-breaking spaces ("SheÂ needs").

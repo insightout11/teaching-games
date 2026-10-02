@@ -131,6 +131,8 @@ export interface TravelDish {
   note?: string;
   sourceUrl?: string;
   image?: DestinationImage;
+  tier?: '$' | '$$' | '$$$';
+  price?: string;
   review: TravelAnchorReview;
 }
 
@@ -153,7 +155,36 @@ export interface TravelTransportOption {
   fromAirport: string;
   approxTimeMin?: number;
   approxCost?: string;
+  tier?: '$' | '$$' | '$$$';
+  price?: string;
   note?: string;
+}
+
+export interface DestinationCurrency {
+  code: string;
+  symbol: string;
+  name: string;
+}
+
+export interface DestinationHotelPrice {
+  name: string;
+  tier: '$' | '$$' | '$$$';
+  price: string;
+  note?: string;
+}
+
+export interface DestinationAnnouncement {
+  place: string;
+  line: string;
+  destination: string;
+  platform: string;
+  time: string;
+}
+
+export interface DestinationLocalPhrase {
+  phrase: string;
+  meaning: string;
+  sayIt: string;
 }
 
 /** An authentic traveler-should-know note. Feeds the weighted travel moment deck. */
@@ -183,4 +214,8 @@ export interface DestinationPack {
   heroImage: DestinationImage;
   focusOptions: DestinationFocus[];
   travelAnchors?: TravelAnchors;
+  currency?: DestinationCurrency;
+  hotels?: DestinationHotelPrice[];
+  announcement?: DestinationAnnouncement;
+  localPhrases?: DestinationLocalPhrase[];
 }

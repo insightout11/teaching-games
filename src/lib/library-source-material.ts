@@ -22,6 +22,8 @@ import pictureBookRaw from '@/data/picture-books-library.json';
 import grammarRaw from '@/data/grammar-library.json';
 import hooksRaw from '@/data/hooks-library.json';
 import discussionRaw from '@/data/discussion-library.json';
+import bookRaw from '@/data/book-library.json';
+import storyweaverRaw from '@/data/storyweaver-library.json';
 
 interface LibraryEntry {
   id: string;
@@ -30,9 +32,10 @@ interface LibraryEntry {
   author?: string;
   summary?: string;
   description?: string;
-  durationSecs?: number;
+  durationSecs?: number | null;
   wordCount?: number;
   slides?: string[];
+  images?: Array<{ url: string; alt?: string }>;
 }
 
 const LIBRARIES: Record<string, LibraryEntry[]> = {
@@ -58,6 +61,8 @@ const LIBRARIES: Record<string, LibraryEntry[]> = {
   grammar: grammarRaw as LibraryEntry[],
   hooks: hooksRaw as LibraryEntry[],
   discussion: discussionRaw as LibraryEntry[],
+  books: bookRaw as LibraryEntry[],
+  storyweaver: storyweaverRaw as LibraryEntry[],
 };
 
 function displayTitle(entry: LibraryEntry): string {
@@ -77,6 +82,8 @@ export function getLibrarySourceMaterial(ref: CourseSourceRef): SourceMaterial |
     summary,
     ...(entry.durationSecs ? { duration: entry.durationSecs } : {}),
     ...(entry.wordCount ? { wordCount: entry.wordCount } : {}),
-    ...(entry.slides ? { slides: entry.slides } : {}),
+    ...(entry.slides?.length
+      ? { slides: entry.slides }
+      : entry.images?.length ? { slides: entry.images.map((image) => image.url) } : {}),
   };
 }

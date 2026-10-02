@@ -24,6 +24,8 @@ import sportsRaw from '@/data/sports-library.json';
 import grammarRaw from '@/data/grammar-library.json';
 import hooksRaw from '@/data/hooks-library.json';
 import discussionRaw from '@/data/discussion-library.json';
+import bookRaw from '@/data/book-library.json';
+import storyweaverRaw from '@/data/storyweaver-library.json';
 
 export type LibraryItemKind = 'video' | 'reading';
 
@@ -86,6 +88,8 @@ const ALL_ITEMS: LibraryItem[] = [
   take(voaRaw, 'voa', 'reading'),
   take(pictureBookRaw, 'picture-books', 'reading'),
   take(discussionRaw, 'discussion', 'reading'),
+  take(bookRaw, 'books', 'reading'),
+  take(storyweaverRaw, 'storyweaver', 'reading'),
 ].flat();
 
 const STOPWORDS = new Set([

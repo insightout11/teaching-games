@@ -1017,7 +1017,12 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "digital-life-and-communication",
+      "title": "Digital life and communication",
+      "order": 1
+    }
   },
   {
     "id": "bbc_6me_second_job",
@@ -1152,7 +1157,12 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "digital-life-and-communication",
+      "title": "Digital life and communication",
+      "order": 2
+    }
   },
   {
     "id": "bbc_fxh3hejvrhw",
@@ -1178,7 +1188,12 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "digital-life-and-communication",
+      "title": "Digital life and communication",
+      "order": 3
+    }
   },
   {
     "id": "bbc_r3ovou_sxhe",
@@ -1359,7 +1374,12 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "digital-life-and-communication",
+      "title": "Digital life and communication",
+      "order": 4
+    }
   },
   {
     "id": "bbc_9g5x11dh_lc",
@@ -1385,7 +1405,12 @@
     "genre": "dialogue",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "series": {
+      "id": "digital-life-and-communication",
+      "title": "Digital life and communication",
+      "order": 5
+    }
   },
   {
     "id": "bbc_p2uoo6l8rio",

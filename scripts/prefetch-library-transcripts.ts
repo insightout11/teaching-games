@@ -433,6 +433,9 @@ async function main() {
     ...loadLibrary('teded-library.json').map((e) => ({ ...e, sourceType: 'teded' as const })),
     ...loadLibrary('bbc-library.json').map((e) => ({ ...e, sourceType: 'bbc' as const })),
     ...loadLibrary('grammar-library.json').map((e) => ({ ...e, sourceType: (e.transcriptSourceType || 'grammar') as string })),
+    ...(fs.existsSync(path.join(dataDir, 'listening-library.json'))
+      ? loadLibrary('listening-library.json').map((e) => ({ ...e, sourceType: (e.transcriptSourceType || 'listening') as string }))
+      : []),
     ...loadLibrary('hooks-library.json').map((e) => ({ ...e, sourceType: 'hooks' as const })),
     ...loadLibrary('kurzgesagt-library.json').map((e) => ({ ...e, sourceType: 'kurzgesagt' as const })),
     ...loadLibrary('bbc-ideas-library.json').map((e) => ({ ...e, sourceType: 'bbc-ideas' as const })),
