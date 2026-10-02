@@ -19,6 +19,7 @@ import {
 import { buildDestinationReadingPack } from './reading-packs';
 import { VANCOUVER_READINGS } from './reading-content';
 import { MILESTONE_50_READINGS } from './milestone-50-reading-content';
+import { LOCAL_PHRASES_BY_DESTINATION } from './local-phrases';
 
 function unsplashPhoto(photoId: string, city: string, caption: string): DestinationImage {
   return {
@@ -4183,6 +4184,9 @@ function withTravelAnchors(destinations: DestinationPack[]): DestinationPack[] {
     const priceProfile = TRAVEL_PRICE_PROFILES[destination.id];
     const announcement = TRAVEL_ANNOUNCEMENTS_BY_DESTINATION[destination.id];
     const optionalDestinationData = {
+      ...(LOCAL_PHRASES_BY_DESTINATION[destination.id]
+        ? { localPhrases: LOCAL_PHRASES_BY_DESTINATION[destination.id] }
+        : {}),
       ...(priceProfile ? { currency: priceProfile.currency, hotels: destinationHotels(destination, priceProfile) } : {}),
       ...(announcement ? { announcement } : {}),
     };

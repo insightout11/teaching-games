@@ -181,6 +181,12 @@ export interface DestinationAnnouncement {
   time: string;
 }
 
+export interface DestinationLocalPhrase {
+  phrase: string;
+  meaning: string;
+  sayIt: string;
+}
+
 /** An authentic traveler-should-know note. Feeds the weighted travel moment deck. */
 export interface TravelLocalColorNote {
   id: string;
@@ -211,4 +217,5 @@ export interface DestinationPack {
   currency?: DestinationCurrency;
   hotels?: DestinationHotelPrice[];
   announcement?: DestinationAnnouncement;
+  localPhrases?: DestinationLocalPhrase[];
 }
