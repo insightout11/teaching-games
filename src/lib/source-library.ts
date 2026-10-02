@@ -22,6 +22,7 @@ import voaRaw from '@/data/voa-library.json';
 import pictureBookRaw from '@/data/picture-books-library.json';
 import sportsRaw from '@/data/sports-library.json';
 import grammarRaw from '@/data/grammar-library.json';
+import listeningRaw from '@/data/listening-library.json';
 import hooksRaw from '@/data/hooks-library.json';
 import discussionRaw from '@/data/discussion-library.json';
 import bookRaw from '@/data/book-library.json';
@@ -83,6 +84,7 @@ const ALL_ITEMS: LibraryItem[] = [
   take(minecraftRaw, 'minecraft', 'video'),
   take(sportsRaw, 'sports', 'video'),
   take(grammarRaw, 'grammar', 'video'),
+  take(listeningRaw, 'listening', 'video'),
   take(hooksRaw, 'hooks', 'video'),
   take(storiesRaw, 'stories', 'reading'),
   take(voaRaw, 'voa', 'reading'),

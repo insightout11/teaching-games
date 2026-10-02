@@ -20,6 +20,7 @@ import storiesRaw from '@/data/stories-library.json';
 import voaRaw from '@/data/voa-library.json';
 import pictureBookRaw from '@/data/picture-books-library.json';
 import grammarRaw from '@/data/grammar-library.json';
+import listeningRaw from '@/data/listening-library.json';
 import hooksRaw from '@/data/hooks-library.json';
 import discussionRaw from '@/data/discussion-library.json';
 import bookRaw from '@/data/book-library.json';
@@ -59,6 +60,7 @@ const LIBRARIES: Record<string, LibraryEntry[]> = {
   voa: voaRaw as LibraryEntry[],
   'picture-books': pictureBookRaw as LibraryEntry[],
   grammar: grammarRaw as LibraryEntry[],
+  listening: listeningRaw as LibraryEntry[],
   hooks: hooksRaw as LibraryEntry[],
   discussion: discussionRaw as LibraryEntry[],
   books: bookRaw as LibraryEntry[],

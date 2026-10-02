@@ -16,6 +16,7 @@ import internetMemesLibrary from '@/data/internet-memes-library.json';
 import minecraftLibrary from '@/data/minecraft-library.json';
 import sportsLibrary from '@/data/sports-library.json';
 import grammarLibrary from '@/data/grammar-library.json';
+import listeningLibrary from '@/data/listening-library.json';
 import hooksLibrary from '@/data/hooks-library.json';
 import voaLibrary from '@/data/voa-library.json';
 import storiesLibrary from '@/data/stories-library.json';
@@ -35,7 +36,7 @@ const PUBLISHER: Record<string, string> = {
   ted: 'TED', teded: 'TED-Ed', bbc: 'BBC', kurzgesagt: 'Kurzgesagt', 'bbc-ideas': 'BBC Ideas', bigthink: 'Big Think',
   vox: 'Vox', kids: 'Kids', natgeo: 'National Geographic', 'crash-course': 'Crash Course', 'travel-english': 'Travel English',
   'world-flight': 'World Flight', 'business-english': 'Business English', 'internet-memes': 'Internet', minecraft: 'Minecraft',
-  sports: 'Sports', grammar: 'Grammar', hooks: 'Short hook', voa: 'VOA Learning English', stories: 'Story',
+  sports: 'Sports', grammar: 'Grammar', listening: 'Listening clip', hooks: 'Short hook', voa: 'VOA Learning English', stories: 'Story',
   'picture-books': 'Picture book', discussion: 'LessonCaptain',
   books: 'Public-domain book course',
   storyweaver: 'Pratham Books / StoryWeaver',
@@ -58,6 +59,7 @@ const SOURCES: Array<{ source: string; kind: LibraryKind; data: unknown }> = [
   { source: 'internet-memes', kind: 'video', data: internetMemesLibrary },
   { source: 'minecraft', kind: 'video', data: minecraftLibrary },
   { source: 'sports', kind: 'video', data: sportsLibrary },
+  { source: 'listening', kind: 'video', data: listeningLibrary },
   { source: 'hooks', kind: 'hook', data: hooksLibrary },
   { source: 'grammar', kind: 'grammar', data: grammarLibrary },
   { source: 'voa', kind: 'text', data: voaLibrary },

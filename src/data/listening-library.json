@@ -638,28 +638,5 @@
     "needsReview": true,
     "reviewNote": "Quick classroom content review recommended for dramatic or satirical context.",
     "transcriptVerified": true
-  },
-  {
-    "id": "listening-r7-greatest-invention-yet-that-mitchell-and-webb-look",
-    "title": "Greatest Invention Yet! (That Mitchell and Webb Look)",
-    "speaker": "That Mitchell and Webb Look",
-    "url": "https://www.youtube.com/watch?v=rLSgQoUB-rM",
-    "youtubeId": "rLSgQoUB-rM",
-    "durationSecs": 139,
-    "summary": "A short British comedy sketch in which an inventor presents an unusual design to his patron. The site identifies the clip as B2–C1.",
-    "description": "A short British comedy sketch in which an inventor presents an unusual design to his patron. The site identifies the clip as B2–C1.",
-    "topicTags": [
-      "listening:dialogue",
-      "everyday-conversation"
-    ],
-    "genre": "dialogue",
-    "kind": "video",
-    "cefr": "B2",
-    "ageBand": "teens",
-    "place": null,
-    "difficultyLevel": "Advanced",
-    "needsReview": true,
-    "reviewNote": "Quick classroom content review recommended for dramatic or satirical context.",
-    "transcriptVerified": true
   }
 ]
