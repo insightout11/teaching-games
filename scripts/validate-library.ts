@@ -30,6 +30,7 @@ type Item = {
   series?: unknown;
   source?: unknown;
   retellings?: unknown;
+  transcriptVerified?: unknown;
 };
 
 const dataDir = path.resolve('src/data');
@@ -56,6 +57,9 @@ const listeningTags = new Set([
 ]);
 const seriesGroups: Record<string, Item[]> = {};
 let bookCourseItemCount = 0;
+const grammarCoverage: Record<string, { total: number; kids: number }> = {};
+const listeningCoverage: Record<string, number> = { A1: 0, A2: 0, B1: 0, B2: 0, kids: 0, dialogue: 0, announcement: 0 };
+let listeningItemCount = 0;
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -144,8 +148,15 @@ function validateExpandedItem(item: Item, where: string) {
       if (typeof tag === 'string' && tag.indexOf('grammar:') === 0 && !grammarTags.has(tag)) {
         fail(where, `unsupported grammar tag ${tag}`);
       }
+      if (typeof tag === 'string' && grammarTags.has(tag)) {
+        if (!grammarCoverage[tag]) grammarCoverage[tag] = { total: 0, kids: 0 };
+        grammarCoverage[tag].total += 1;
+        if (item.ageBand === 'kids' && (item.cefr === 'A1' || item.cefr === 'A2')) grammarCoverage[tag].kids += 1;
+      }
     }
   }
+  if (where.indexOf('grammar-library.json[') === 0 && String(item.id || '').indexOf('grammar-r7-') === 0
+    && item.transcriptVerified !== true) fail(where, 'Round 7 grammar clips require a locally verified transcript');
   if (where.indexOf('book-library.json[') === 0) {
     bookCourseItemCount += 1;
     const source = item.source as { title?: unknown; url?: unknown } | undefined;
@@ -232,6 +243,19 @@ for (const file of files) {
       && (!Array.isArray(item.topicTags) || !item.topicTags.some((tag) => typeof tag === 'string' && tag.indexOf('listening:') === 0))) {
       fail(where, 'listening sources require a listening:* format tag');
     }
+    if (file === 'listening-library.json') {
+      listeningItemCount += 1;
+      if (item.transcriptVerified !== true) fail(where, 'listening clips require a locally verified transcript');
+      if (typeof item.durationSecs !== 'number' || item.durationSecs < 60 || item.durationSecs > 180) {
+        fail(where, 'Round 7 listening clips must be 1–3 minutes');
+      }
+      if (typeof item.cefr === 'string' && listeningCoverage[item.cefr] !== undefined) listeningCoverage[item.cefr] += 1;
+      if (item.ageBand === 'kids' && (item.cefr === 'A1' || item.cefr === 'A2')) listeningCoverage.kids += 1;
+      if (Array.isArray(item.topicTags)) for (const tag of item.topicTags) {
+        if (tag === 'listening:dialogue') listeningCoverage.dialogue += 1;
+        if (tag === 'listening:announcement') listeningCoverage.announcement += 1;
+      }
+    }
 
     // The current library contains legacy records. Apply the complete contract
     // to records explicitly migrated to the new schema; keep legacy records
@@ -242,6 +266,19 @@ for (const file of files) {
       validateExpandedItem(item, where);
     }
   }
+}
+
+for (const tag of Array.from(grammarTags)) {
+  const coverage = grammarCoverage[tag] || { total: 0, kids: 0 };
+  if (coverage.total < 5) fail('grammar coverage', `${tag} requires at least 5 clips (found ${coverage.total})`);
+  if (coverage.kids < 2) fail('grammar coverage', `${tag} requires at least 2 A1–A2 kids clips (found ${coverage.kids})`);
+}
+if (files.indexOf('listening-library.json') !== -1) {
+  if (listeningItemCount !== 30) fail('listening-library.json', `expected 30 Round 7 listening clips (found ${listeningItemCount})`);
+  if (listeningCoverage.A1 + listeningCoverage.A2 !== 10) fail('listening-library.json', `expected 10 A1–A2 clips (found ${listeningCoverage.A1 + listeningCoverage.A2})`);
+  if (listeningCoverage.B1 !== 12) fail('listening-library.json', `expected 12 B1 clips (found ${listeningCoverage.B1})`);
+  if (listeningCoverage.B2 !== 8) fail('listening-library.json', `expected 8 B2 clips (found ${listeningCoverage.B2})`);
+  if (listeningCoverage.kids < 10) fail('listening-library.json', `expected at least 10 kids clips (found ${listeningCoverage.kids})`);
 }
 
 const cefrRank: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5 };
