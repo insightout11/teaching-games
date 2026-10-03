@@ -643,9 +643,10 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false,
     "summary": "A short BBC lesson explaining have to and must with examples and a practice focus.",
-    "transcriptSourceType": "bbc"
+    "transcriptSourceType": "bbc",
+    "needsReview": false,
+    "flightQuestion": "Should language classes focus more on speaking or writing?"
   },
   {
     "id": "bbc-grammar-r2-V2quIYo41Ig",
@@ -667,9 +668,10 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false,
     "summary": "A short BBC lesson explaining used to and would with examples.",
-    "transcriptSourceType": "bbc"
+    "transcriptSourceType": "bbc",
+    "needsReview": false,
+    "flightQuestion": "Should students learn grammar through examples or rules?"
   },
   {
     "id": "bbc-grammar-r2-j9b1CNN_rFU",
@@ -691,9 +693,10 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false,
     "summary": "A short BBC lesson explaining asking questions with examples.",
-    "transcriptSourceType": "bbc"
+    "transcriptSourceType": "bbc",
+    "needsReview": false,
+    "flightQuestion": "Should language classes focus more on speaking or writing?"
   },
   {
     "id": "bbc-grammar-r2-K-MKAjvvcsw",
@@ -715,9 +718,10 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false,
     "summary": "A short BBC lesson explaining zero and first conditional with examples.",
-    "transcriptSourceType": "bbc"
+    "transcriptSourceType": "bbc",
+    "needsReview": false,
+    "flightQuestion": "Should students learn grammar through examples or rules?"
   },
   {
     "id": "bbc-grammar-r2-voQLMgJE-QE",
@@ -739,9 +743,10 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false,
     "summary": "A short BBC lesson explaining adverbs of frequency with examples.",
-    "transcriptSourceType": "bbc"
+    "transcriptSourceType": "bbc",
+    "needsReview": false,
+    "flightQuestion": "Should students learn grammar through examples or rules?"
   },
   {
     "id": "bbc-grammar-r2-tzEt4iwsIdo",
@@ -763,9 +768,10 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false,
     "summary": "A short BBC lesson explaining using like for preference and description with examples.",
-    "transcriptSourceType": "bbc"
+    "transcriptSourceType": "bbc",
+    "needsReview": false,
+    "flightQuestion": "Should students learn grammar through examples or rules?"
   },
   {
     "id": "bbc-grammar-r2-q-Jkx670rT8",
@@ -787,9 +793,10 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false,
     "summary": "A short BBC lesson explaining the definite article with abstract uncountable nouns with examples.",
-    "transcriptSourceType": "bbc"
+    "transcriptSourceType": "bbc",
+    "needsReview": false,
+    "flightQuestion": "Should students learn grammar through examples or rules?"
   },
   {
     "id": "bbc_grammar_question_tags",
@@ -800,8 +807,8 @@
     "durationSecs": 345,
     "topicTags": [
       "grammar",
-      "question tags",
-      "spoken english",
+      "question-tags",
+      "spoken-english",
       "grammar:questions"
     ],
     "difficultyLevel": "Intermediate",
@@ -813,7 +820,8 @@
     "place": null,
     "summary": "Dan explains how to form and use question tags in British English — including the difference between falling and rising intonation and how tags function in natural conversation.",
     "transcriptSourceType": "bbc",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should students learn about forces through examples or experiments?"
   },
   {
     "id": "bbc_masterclass_choose_tense",
@@ -825,8 +833,8 @@
     "topicTags": [
       "grammar",
       "tense",
-      "present perfect",
-      "past simple",
+      "present-perfect",
+      "past-simple",
       "grammar:past-simple",
       "grammar:present-perfect"
     ],
@@ -863,7 +871,8 @@
     "place": null,
     "summary": "Dan explores the 'historical present' — how English speakers use present tenses to tell past stories, narrate sports, and create dramatic effects.",
     "transcriptSourceType": "bbc",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people choose local food even when it costs more?"
   },
   {
     "id": "grammar-r3-mOQ_VnC6dtU",
@@ -1592,8 +1601,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
+    "transcriptVerified": true,
     "needsReview": false,
-    "transcriptVerified": true
+    "flightQuestion": "Should people follow rules when they seem unfair?"
   },
   {
     "id": "grammar-r7-K7jtbc8jYGc",
@@ -1616,8 +1626,9 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
+    "transcriptVerified": true,
     "needsReview": false,
-    "transcriptVerified": true
+    "flightQuestion": "Should cities make more room for people than cars?"
   },
   {
     "id": "grammar-r7-a6Eozn55Lqs",
@@ -1662,8 +1673,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
+    "transcriptVerified": true,
     "needsReview": false,
-    "transcriptVerified": true
+    "flightQuestion": "Should people risk comfort to help a friend?"
   },
   {
     "id": "grammar-r7-eZpp7ifDR2E",
@@ -1685,8 +1697,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
+    "transcriptVerified": true,
     "needsReview": false,
-    "transcriptVerified": true
+    "flightQuestion": "Should students practice English by speaking or writing?"
   },
   {
     "id": "grammar-r7-XFKNvYWX9ZU",
@@ -1731,8 +1744,9 @@
     "cefr": "A1",
     "ageBand": "kids",
     "place": null,
+    "transcriptVerified": true,
     "needsReview": false,
-    "transcriptVerified": true
+    "flightQuestion": "Should communities preserve old traditions or welcome new ideas?"
   },
   {
     "id": "grammar-r7-YX3jO0gkU-M",
@@ -1777,8 +1791,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
+    "transcriptVerified": true,
     "needsReview": false,
-    "transcriptVerified": true
+    "flightQuestion": "Should students practice English by speaking or writing?"
   },
   {
     "id": "grammar-r7-BeLNpyXztX8",
@@ -1823,8 +1838,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
+    "transcriptVerified": true,
     "needsReview": false,
-    "transcriptVerified": true
+    "flightQuestion": "Should people risk comfort to help a friend?"
   },
   {
     "id": "grammar-r7-5aHYdssQh9g",
@@ -1846,8 +1862,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
+    "transcriptVerified": true,
     "needsReview": false,
-    "transcriptVerified": true
+    "flightQuestion": "Should students practice English by speaking or writing?"
   },
   {
     "id": "grammar-r7-60RsFyoaOxg",
@@ -1869,31 +1886,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
+    "transcriptVerified": true,
     "needsReview": false,
-    "transcriptVerified": true
-  },
-  {
-    "id": "grammar-r7-zHbB07BNbVY",
-    "title": "Past Perfect Tense #2",
-    "speaker": "Wordsmith English Academy",
-    "url": "https://www.youtube.com/watch?v=zHbB07BNbVY",
-    "youtubeId": "zHbB07BNbVY",
-    "durationSecs": 143,
-    "summary": "A short follow-up lesson gives additional past perfect examples and practice.",
-    "topicTags": [
-      "grammar",
-      "english-learning",
-      "grammar:past-perfect"
-    ],
-    "difficultyLevel": "Intermediate",
-    "description": "A short follow-up lesson gives additional past perfect examples and practice.",
-    "genre": "expository",
-    "kind": "video",
-    "cefr": "B1",
-    "ageBand": "teens",
-    "place": null,
-    "needsReview": false,
-    "transcriptVerified": true
+    "flightQuestion": "Should students practice English by speaking or writing?"
   },
   {
     "id": "grammar-r7-1EhE-kJV2Zw",
@@ -1938,8 +1933,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
+    "transcriptVerified": true,
     "needsReview": false,
-    "transcriptVerified": true
+    "flightQuestion": "Should schools make daily exercise part of every student’s routine?"
   },
   {
     "id": "grammar-r7-ZWfYIqY8BsU",
@@ -1984,8 +1980,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
+    "transcriptVerified": true,
     "needsReview": false,
-    "transcriptVerified": true
+    "flightQuestion": "Should students learn by doing projects or reading books?"
   },
   {
     "id": "grammar-r7-KAIvcMDC684",

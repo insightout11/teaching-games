@@ -29,13 +29,16 @@
       "philosophy",
       "meaning",
       "existentialism",
-      "Camus"
+      "camus"
     ],
     "difficultyLevel": "Advanced",
     "description": "What do you do when life feels meaningless? This video explores absurdism — the philosophy of Albert Camus — and his argument that we must imagine Sisyphus happy, embracing life despite its lack of meaning.",
     "genre": "expository",
     "cefr": "B2",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should people use new technology more, or set clearer limits?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbcideas_sports_psychology",
@@ -46,7 +49,7 @@
     "durationSecs": 330,
     "topicTags": [
       "psychology",
-      "sport",
+      "sports",
       "self-improvement",
       "motivation"
     ],
@@ -54,7 +57,10 @@
     "description": "Elite athletes use specific psychological techniques to perform under pressure — and researchers say they work for everyone. This video reveals four evidence-based strategies for focus, confidence, and resilience.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should every child have more time to play sports?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbcideas_critical_thinking",
@@ -64,7 +70,7 @@
     "youtubeId": "NHjgKe7JMNE",
     "durationSecs": 330,
     "topicTags": [
-      "critical thinking",
+      "critical-thinking",
       "logic",
       "reasoning",
       "self-improvement"
@@ -73,7 +79,10 @@
     "description": "Why do smart people believe nonsense? This animated explainer breaks down five practical tools for thinking more clearly — from spotting logical fallacies to questioning your own assumptions.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools spend more time on arts and culture?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbcideas_social_media_emotions",
@@ -84,7 +93,7 @@
     "durationSecs": 300,
     "topicTags": [
       "psychology",
-      "social media",
+      "social-media",
       "technology",
       "emotions"
     ],
@@ -111,7 +120,10 @@
     "description": "Stories do more than entertain — they physically change our brains. This animated short explores the neuroscience of storytelling: why narrative is how humans make sense of the world, build empathy, and form identity.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should students make more choices about their own health?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbcideas_power_of_kindness",
@@ -130,7 +142,10 @@
     "description": "Being kind doesn't just feel good — it rewires your brain. This video unpacks what neuroscience has discovered about acts of kindness: how they boost health, reduce stress, and create ripple effects through communities.",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should students make more choices about their own health?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbcideas_experience_world_differently",
@@ -149,7 +164,10 @@
     "description": "Two people can stand in the same room and have completely different experiences. This video explores how the brain constructs reality — and why our perception of the world is always a personal, filtered version of what's really there.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools spend more time teaching healthy habits?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbcideas_hidden_clues_personality",
@@ -168,7 +186,10 @@
     "description": "Your music taste, bedroom tidiness, and even how you walk reveal more about your personality than you might think. This video digs into the psychology of personality cues — the unconscious signals we broadcast about who we are.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools spend more time on arts and culture?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbcideas_psychology_seduction",
@@ -180,7 +201,7 @@
     "topicTags": [
       "psychology",
       "relationships",
-      "social influence",
+      "social-influence",
       "persuasion"
     ],
     "difficultyLevel": "Advanced",

@@ -34,7 +34,10 @@
     "description": "Dan breaks down the key differences between formal and informal English — vocabulary choices, grammatical structures, and when to use each register.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should language classes focus more on speaking or writing?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_grammar_giving_emphasis",
@@ -46,7 +49,7 @@
     "topicTags": [
       "grammar",
       "emphasis",
-      "cleft sentences"
+      "cleft-sentences"
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan teaches advanced emphasis structures — cleft sentences, fronting, and do-support — to make English more expressive and persuasive.",
@@ -64,7 +67,7 @@
     "topicTags": [
       "grammar",
       "mistakes",
-      "native speakers"
+      "native-speakers"
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan reveals common grammatical 'mistakes' that native English speakers make — and explains which ones are now considered acceptable in modern usage.",
@@ -81,7 +84,7 @@
     "durationSecs": 270,
     "topicTags": [
       "grammar",
-      "linking words",
+      "linking-words",
       "contrast",
       "writing"
     ],
@@ -119,7 +122,7 @@
     "topicTags": [
       "grammar",
       "emphasis",
-      "cleft sentences"
+      "cleft-sentences"
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan dives into 'what' as a focus marker in cleft sentences — a powerful structure that adds emphasis and contrast, often misused by even advanced learners.",
@@ -137,14 +140,17 @@
     "topicTags": [
       "conversation",
       "phrases",
-      "spoken english",
+      "spoken-english",
       "vocabulary"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Dan shares a collection of the most useful phrases for natural English conversation — from agreeing and disagreeing to hedging, softening, and changing the subject.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should students learn grammar through examples or rules?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_masterclass_inversion_1",
@@ -193,7 +199,7 @@
     "durationSecs": 360,
     "topicTags": [
       "grammar",
-      "linking words",
+      "linking-words",
       "discourse",
       "writing"
     ],
@@ -212,7 +218,7 @@
     "durationSecs": 315,
     "topicTags": [
       "grammar",
-      "verb patterns",
+      "verb-patterns",
       "gerunds",
       "infinitives"
     ],
@@ -246,7 +252,10 @@
     "description": "A BBC 6 Minute English discussion of why street food has become popular, with vocabulary for vendors, markets, taste, convenience, and food trends.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should cities make street food safer even if prices rise?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_food_new_food_culture",
@@ -272,7 +281,10 @@
     "description": "A BBC 6 Minute English episode about adapting to a new food culture, useful for discussing migration, identity, taste, customs, and culture shock.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should people protect migration routes even when it costs more?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_food_waste",
@@ -298,7 +310,10 @@
     "description": "A BBC 6 Minute English episode on food waste and the people trying to reduce it, with vocabulary for sustainability, leftovers, resources, and consumer habits.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools offer more plant-based meals?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_food_fast_food",
@@ -324,7 +339,10 @@
     "description": "A BBC 6 Minute English discussion of fast food's global popularity, connecting convenience, consumer culture, restaurant chains, and health debates.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools spend more time teaching healthy habits?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_food_future_food",
@@ -350,7 +368,10 @@
     "description": "A BBC 6 Minute English episode on future food and food security, useful for discussing farming, climate, population growth, and food technology.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should communities change daily habits to protect the environment?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_food_comfort_food",
@@ -376,7 +397,10 @@
     "description": "A BBC 6 Minute English episode about comfort food, snacks, emotions, and memory, useful for personal-opinion speaking lessons about food and wellbeing.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools spend more time teaching healthy habits?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_health_sleep",
@@ -401,7 +425,10 @@
     "description": "A BBC 6 Minute English episode on why sleep matters, with useful vocabulary for sleep habits, routines, rest, health, and the brain.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools teach students how much sleep they need?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_health_stress",
@@ -427,7 +454,10 @@
     "description": "A BBC 6 Minute English episode about modern stress, useful for discussing work, exams, anxiety, coping strategies, and mental wellbeing.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should students make more choices about their own health?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_health_sitting",
@@ -453,7 +483,10 @@
     "description": "A BBC 6 Minute English episode on the health risks of too much sitting, with vocabulary for movement, exercise, workplace health, habits, and lifestyle.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should students make more choices about their own health?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_health_flourishing",
@@ -479,7 +512,10 @@
     "description": "A BBC 6 Minute English episode about flourishing and wellbeing, useful for discussing happiness, life satisfaction, positive psychology, and mental health.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should students make more choices about their own health?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_health_workplace_mental_health",
@@ -503,7 +539,10 @@
     "description": "A BBC 6 Minute English episode on mental health at work, with vocabulary for workplace wellbeing, stress, support, stigma, and professional life.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools teach mental health as carefully as physical health?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_health_kindness",
@@ -529,7 +568,10 @@
     "description": "A BBC 6 Minute English episode on whether kindness benefits wellbeing, useful for speaking lessons about empathy, happiness, relationships, and community.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools spend more time teaching healthy habits?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_tech_training_ai",
@@ -555,7 +597,10 @@
     "description": "A BBC 6 Minute English episode about how artificial intelligence is trained, with vocabulary for machine learning, algorithms, data, computers, and automation.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should people let AI make important everyday decisions?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_tech_robot_companion",
@@ -581,7 +626,10 @@
     "description": "A BBC 6 Minute English episode about robot companions, useful for discussing robotics, AI, social relationships, and the future of human-machine interaction.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should language classes focus more on speaking or writing?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_tech_future_of_work",
@@ -608,7 +656,8 @@
     "summary": "This BBC 6 Minute English source introduces the future of work through jobs, automation, artificial intelligence, workplace change, and the skills people may need next. It works as a short discussion anchor for learners comparing today's workplaces with possible future careers.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should language classes focus more on speaking or writing?"
   },
   {
     "id": "bbc_tech_ai_call_centres",
@@ -634,7 +683,10 @@
     "description": "A BBC 6 Minute English episode about AI in call centres, useful for discussing customer service, chatbots, automation, and workplace technology.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should people let AI make important everyday decisions?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_tech_better_web",
@@ -660,7 +712,10 @@
     "description": "A BBC 6 Minute English episode about improving the web, useful for discussing the internet, digital communities, online behaviour, access, and technology's role in society.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should teens have limits on social media time?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_tech_era_of_distrust",
@@ -684,7 +739,10 @@
     "description": "A BBC 6 Minute English episode about distrust and fake news, useful for media literacy lessons on misinformation, trust, digital media, and critical thinking.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should language classes focus more on speaking or writing?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_climate_mental_health",
@@ -708,7 +766,10 @@
     "description": "A BBC 6 Minute English episode about climate change and mental health, useful for discussing climate anxiety, wellbeing, adaptation, and emotional responses to environmental change.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools teach mental health as carefully as physical health?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_climate_without_plastic",
@@ -734,7 +795,10 @@
     "description": "A BBC 6 Minute English episode about plastic use and plastic-free living, with vocabulary for pollution, waste, sustainability, recycling, and consumer habits.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should communities change daily habits to protect the environment?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_climate_saving_water",
@@ -760,7 +824,10 @@
     "description": "A BBC 6 Minute English episode about saving water in extreme dry conditions, useful for lessons on drought, water scarcity, climate adaptation, and resource use.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Who should act first on climate change: people or governments?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_climate_recycling_system",
@@ -786,7 +853,10 @@
     "description": "A BBC 6 Minute English episode about recycling systems, waste, and sustainability, useful for debating whether individual habits or larger systems need to change.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Who should act first on climate change: people or governments?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_climate_animal_migration",
@@ -812,7 +882,10 @@
     "description": "A BBC 6 Minute English episode on how climate change affects animal migration, connecting wildlife, biodiversity, ecosystems, conservation, and changing habitats.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should communities change daily habits to protect the environment?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_climate_population",
@@ -836,7 +909,10 @@
     "description": "A BBC 6 Minute English episode about climate change, population, consumption, resources, and carbon footprints, useful for careful debate about responsibility and sustainability.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should communities change daily habits to protect the environment?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_animals_zoos",
@@ -847,7 +923,7 @@
     "durationSecs": 360,
     "topicTags": [
       "animals",
-      "zoos",
+      "zoo",
       "wildlife",
       "conservation",
       "animal-welfare",
@@ -862,7 +938,10 @@
     "description": "A BBC 6 Minute English episode debating whether animals should be kept in zoos, useful for discussing conservation, animal welfare, biodiversity, habitats, and ethics.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should communities change daily habits to protect the environment?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_animals_love_of_pets",
@@ -888,7 +967,10 @@
     "description": "A BBC 6 Minute English episode about why people keep and love pets, useful for discussing pet care, dogs, cats, wellbeing, and human-animal relationships.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should students make more choices about their own health?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_animals_octopus_intelligence",
@@ -901,9 +983,9 @@
       "animals",
       "octopus",
       "animal-intelligence",
-      "brains",
+      "brain",
       "marine-life",
-      "adaptations",
+      "adaptation",
       "senses",
       "science",
       "6-minute-english",
@@ -914,7 +996,10 @@
     "description": "A BBC 6 Minute English episode about octopus intelligence, useful for discussing animal brains, marine life, adaptations, senses, and how scientists study intelligence.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should students make more choices about their own health?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_animals_ecotourism",
@@ -940,7 +1025,10 @@
     "description": "A BBC 6 Minute English episode about ecotourism and wildlife tourism, useful for debating conservation, habitats, tourism, sustainability, and local communities.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Who should act first on climate change: people or governments?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_animals_black_and_white",
@@ -951,7 +1039,7 @@
     "durationSecs": 360,
     "topicTags": [
       "animals",
-      "adaptations",
+      "adaptation",
       "camouflage",
       "zebras",
       "penguins",
@@ -966,7 +1054,10 @@
     "description": "A BBC 6 Minute English episode about why some animals are black and white, useful for discussing adaptations, camouflage, animal patterns, zebras, penguins, and orcas.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should people protect wild animals even when it costs more?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_animals_man_vs_beast",
@@ -990,7 +1081,10 @@
     "description": "A BBC 6 Minute English episode comparing human and animal efficiency, useful for lessons on adaptations, movement, evolution, and comparing humans with other animals.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should communities limit development to protect wild animals?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc_6me_social_media_dead",
@@ -1032,7 +1126,7 @@
     "youtubeId": "TVHePsQLa3w",
     "durationSecs": 392,
     "topicTags": [
-      "careers",
+      "career",
       "side-hustles",
       "work",
       "money",
@@ -1061,7 +1155,7 @@
     "topicTags": [
       "creativity",
       "skills",
-      "careers",
+      "career",
       "innovation",
       "education",
       "teen-interests",
@@ -1087,7 +1181,7 @@
     "durationSecs": 388,
     "topicTags": [
       "music",
-      "careers",
+      "career",
       "creativity",
       "performance",
       "ambition",
@@ -1144,7 +1238,7 @@
       "influencers",
       "internet-culture",
       "marketing",
-      "careers",
+      "career",
       "teen-interests",
       "listening",
       "listening:dialogue"
@@ -1156,13 +1250,14 @@
     "summary": "This episode introduces social-media influencers and the role they play in online culture. It gives students a focused prompt for discussing digital careers and how people build an audience.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "digital-life-and-communication",
       "title": "Digital life and communication",
       "order": 2
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should teens have limits on social media time?"
   },
   {
     "id": "bbc_fxh3hejvrhw",
@@ -1175,7 +1270,7 @@
       "internet",
       "technology",
       "society",
-      "opinions",
+      "opinion",
       "teen-interests",
       "listening",
       "listening:podcast"
@@ -1255,7 +1350,7 @@
     "youtubeId": "qSBsYcvy-t8",
     "durationSecs": 396,
     "topicTags": [
-      "careers",
+      "career",
       "work",
       "applications",
       "writing",
@@ -1390,7 +1485,7 @@
     "durationSecs": 379,
     "topicTags": [
       "technology",
-      "languages",
+      "language",
       "translation",
       "communication",
       "teen-interests",
@@ -1571,7 +1666,7 @@
     "youtubeId": "YAsDeXcYyTg",
     "durationSecs": 408,
     "topicTags": [
-      "language learning",
+      "language-learning",
       "confidence",
       "communication",
       "teen-interests"
@@ -1595,7 +1690,7 @@
     "youtubeId": "fUn_LTwaogU",
     "durationSecs": 377,
     "topicTags": [
-      "careers",
+      "career",
       "work",
       "entrepreneurship",
       "teen-interests"
@@ -1619,7 +1714,7 @@
     "durationSecs": 380,
     "topicTags": [
       "technology",
-      "artificial intelligence",
+      "artificial-intelligence",
       "ethics",
       "teen-interests"
     ],
@@ -1643,8 +1738,8 @@
     "durationSecs": 377,
     "topicTags": [
       "technology",
-      "artificial intelligence",
-      "media literacy",
+      "artificial-intelligence",
+      "media-literacy",
       "teen-interests"
     ],
     "difficultyLevel": "Intermediate",
@@ -1666,7 +1761,7 @@
     "youtubeId": "5ZQ65RbsAB8",
     "durationSecs": 371,
     "topicTags": [
-      "social media",
+      "social-media",
       "wellbeing",
       "society",
       "teen-interests"
@@ -1716,7 +1811,7 @@
     "topicTags": [
       "climate",
       "environment",
-      "international relations",
+      "international-relations",
       "teen-interests"
     ],
     "difficultyLevel": "Intermediate",
@@ -1744,7 +1839,7 @@
     "topicTags": [
       "communication",
       "conversation",
-      "social skills",
+      "social-skills",
       "teen-interests"
     ],
     "difficultyLevel": "Intermediate",
@@ -1789,7 +1884,7 @@
     "durationSecs": 381,
     "topicTags": [
       "psychology",
-      "social media",
+      "social-media",
       "wellbeing",
       "teen-interests"
     ],
@@ -1931,7 +2026,7 @@
     "youtubeId": "eoXv4JgwjeM",
     "durationSecs": 384,
     "topicTags": [
-      "languages",
+      "language",
       "culture",
       "preservation",
       "teen-interests"
@@ -2316,7 +2411,9 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": true,
+    "flightQuestion": "Should students learn grammar through examples or rules?",
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc-grammar-r2-tbru3bW2kVE",
@@ -2338,7 +2435,9 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": true,
+    "flightQuestion": "Should language classes focus more on speaking or writing?",
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc-grammar-r2-jwmKjgwlMk8",
@@ -2471,7 +2570,9 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": true,
+    "flightQuestion": "Should language classes focus more on speaking or writing?",
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc-grammar-r2-8VETylIxyhw",
@@ -2559,7 +2660,9 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": true,
+    "flightQuestion": "Should language classes focus more on speaking or writing?",
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bbc-grammar-r2-nI5zaB6QL-o",
@@ -2747,12 +2850,15 @@
     "topicTags": [
       "grammar",
       "conditionals",
-      "mixed conditionals"
+      "mixed-conditionals"
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan teaches mixed conditionals — combining different conditional forms to talk about unreal situations with complex time relationships between past and present.",
     "genre": "expository",
     "cefr": "B2",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should language classes focus more on speaking or writing?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   }
 ]

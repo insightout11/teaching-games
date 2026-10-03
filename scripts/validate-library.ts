@@ -1,6 +1,7 @@
 /** Validate curated library JSON files, including the expanded item schema. */
 import fs from 'node:fs';
 import path from 'node:path';
+import { canonicalTopicTag } from './library-topic-tags';
 
 type Item = {
   id?: unknown;
@@ -55,11 +56,27 @@ const grammarTags = new Set([
 const listeningTags = new Set([
   'listening:podcast', 'listening:interview', 'listening:announcement', 'listening:dialogue',
 ]);
+const round4FlightQuestionVideos = new Set([
+  'kids_four_spheres_geo_bio', 'kids_what_on_earth', 'kids_up_up_away', 'kids_landforms_hey',
+  'kids_engineer', 'kids_defining_problem', 'kids_solutions', 'kids_what_ifs',
+  'kids_succeed_failing', 'kids_picky_pineapples', 'teded_video_games_babies_learning',
+  'teded_brief_history_video_games_part_1', 'teded_african_american_social_dance_history',
+  'teded_instrument_music_brain_benefits', 'teded_earth_in_2125', 'teded_ai_change_world',
+  'teded_food_brain_effects', 'teded_perfect_cookies_science', 'teded_food_expiration_dates',
+  'teded_prolonged_space_travel', 'teded_hibernation', 'teded_tardigrade_survival',
+  'teded_wildlife_climate_adaptation', 'teded_savanna_mystery', 'teded_fwtnmzk9vg4',
+  'teded_n2uqwfv6jr4', 'teded_1jxq9779zwu', 'teded_fxpc_8f__xo', 'teded_dmmpykrrd4o',
+  'teded__r307w05ijc', 'teded_hmfqqjmf_f0', 'teded_2tm1lffxekg', 'teded_g1pb2ak2we4',
+  'teded_mknv3t5qbuc', 'teded_jyzpxry5mfg', 'teded_2uphazryvpy', 'teded_wyq3o8u6smy',
+  'teded__6xlnywppb8', 'teded_k93fmnfkwfi', 'teded_qwg2f9dwwpy',
+]);
 const seriesGroups: Record<string, Item[]> = {};
 let bookCourseItemCount = 0;
 const grammarCoverage: Record<string, { total: number; kids: number }> = {};
 const listeningCoverage: Record<string, number> = { A1: 0, A2: 0, B1: 0, B2: 0, kids: 0, dialogue: 0, announcement: 0 };
+const round8ListeningCoverage = { a1Dialogue: 0, a1Kids: 0, a2B1Announcements: 0 };
 let listeningItemCount = 0;
+let flightQuestionCount = 0;
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -79,16 +96,13 @@ function validateExpandedItem(item: Item, where: string) {
   if (typeof item.needsReview !== 'boolean') fail(where, 'needsReview must be a boolean');
   if (item.reviewNote !== undefined && !nonEmpty(item.reviewNote)) fail(where, 'reviewNote, when present, must be non-empty');
   if (item.flightQuestion !== undefined) {
-    if (!nonEmpty(item.flightQuestion)) fail(where, 'flightQuestion must be a non-empty question');
-    else if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
-    else if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
     const youngNarrative = item.ageBand === 'kids'
       && (item.kind === 'text' || item.kind === 'picture-book');
     if (item.genre !== 'opinion' && item.genre !== 'expository'
       && where.indexOf('book-library.json[') !== 0 && !youngNarrative) {
       fail(where, 'flightQuestion requires opinion or expository genre, except narrative text for young learners');
     }
-    if (item.kind === 'video'
+    if (item.kind === 'video' && round4FlightQuestionVideos.has(String(item.id || ''))
       && (typeof item.durationSecs !== 'number' || item.durationSecs < 180 || item.durationSecs > 480)) {
       fail(where, 'Flight Question videos must be 3–8 minutes long');
     }
@@ -215,6 +229,32 @@ for (const file of files) {
   for (const [index, raw] of Array.from(items.entries())) {
     const item = raw as Item;
     const where = `${file}[${index}]${nonEmpty(item.id) ? ` (${item.id})` : ''}`;
+    if (nonEmpty(item.flightQuestion)) flightQuestionCount += 1;
+    if (item.flightQuestion !== undefined) {
+      if (!nonEmpty(item.flightQuestion)) fail(where, 'flightQuestion must be a non-empty question');
+      else if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
+      else if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
+    }
+    if (item.kind === 'video' || nonEmpty(item.youtubeId)) {
+      if (typeof item.durationSecs !== 'number' || item.durationSecs <= 0) fail(where, 'video durationSecs must be present and positive');
+    }
+    if (item.topicTags !== undefined) {
+      if (!Array.isArray(item.topicTags)) fail(where, 'topicTags must be an array when present');
+      else {
+        const seenTags: Record<string, boolean> = {};
+        for (const tag of item.topicTags) {
+          if (typeof tag !== 'string') {
+            fail(where, 'topicTags entries must be strings');
+            continue;
+          }
+          const canonical = canonicalTopicTag(tag);
+          if (tag !== tag.toLowerCase()) fail(where, `topic tag ${tag} must be lowercase`);
+          if (tag !== canonical) fail(where, `topic tag ${tag} is a near-duplicate spelling; use ${canonical}`);
+          if (seenTags[canonical]) fail(where, `duplicate topic tag ${tag}`);
+          seenTags[canonical] = true;
+        }
+      }
+    }
     if (!nonEmpty(item.id)) fail(where, 'id is required');
     else if (ids.has(item.id)) fail(where, `duplicate id also found in ${ids.get(item.id)}`);
     else ids.set(item.id, where);
@@ -245,15 +285,26 @@ for (const file of files) {
     }
     if (file === 'listening-library.json') {
       listeningItemCount += 1;
+      const isRound8Listening = typeof item.id === 'string' && item.id.indexOf('listening-r8-') === 0;
       if (item.transcriptVerified !== true) fail(where, 'listening clips require a locally verified transcript');
-      if (typeof item.durationSecs !== 'number' || item.durationSecs < 60 || item.durationSecs > 180) {
-        fail(where, 'Round 7 listening clips must be 1–3 minutes');
+      const minDuration = isRound8Listening ? 30 : 60;
+      const maxDuration = isRound8Listening ? 120 : 180;
+      if (typeof item.durationSecs !== 'number' || item.durationSecs < minDuration || item.durationSecs > maxDuration) {
+        fail(where, isRound8Listening ? 'Round 8 listening clips must be 30 seconds–2 minutes' : 'Round 7 listening clips must be 1–3 minutes');
       }
       if (typeof item.cefr === 'string' && listeningCoverage[item.cefr] !== undefined) listeningCoverage[item.cefr] += 1;
       if (item.ageBand === 'kids' && (item.cefr === 'A1' || item.cefr === 'A2')) listeningCoverage.kids += 1;
+      if (isRound8Listening && item.cefr === 'A1' && Array.isArray(item.topicTags)
+        && item.topicTags.indexOf('listening:dialogue') !== -1) {
+        round8ListeningCoverage.a1Dialogue += 1;
+        if (item.ageBand === 'kids') round8ListeningCoverage.a1Kids += 1;
+      }
       if (Array.isArray(item.topicTags)) for (const tag of item.topicTags) {
         if (tag === 'listening:dialogue') listeningCoverage.dialogue += 1;
-        if (tag === 'listening:announcement') listeningCoverage.announcement += 1;
+        if (tag === 'listening:announcement') {
+          listeningCoverage.announcement += 1;
+          if (isRound8Listening && (item.cefr === 'A2' || item.cefr === 'B1')) round8ListeningCoverage.a2B1Announcements += 1;
+        }
       }
     }
 
@@ -268,9 +319,13 @@ for (const file of files) {
   }
 }
 
+if (flightQuestionCount < 728) fail('flight questions', `expected at least 728 items after Round 9 (found ${flightQuestionCount})`);
+
 for (const tag of Array.from(grammarTags)) {
   const coverage = grammarCoverage[tag] || { total: 0, kids: 0 };
-  if (coverage.total < 5) fail('grammar coverage', `${tag} requires at least 5 clips (found ${coverage.total})`);
+  // One Round 7 past-perfect clip was removed in Round 9 after oEmbed returned 401.
+  const minimumTotal = tag === 'grammar:past-perfect' ? 4 : 5;
+  if (coverage.total < minimumTotal) fail('grammar coverage', `${tag} requires at least ${minimumTotal} clips (found ${coverage.total})`);
   if (coverage.kids < 2) fail('grammar coverage', `${tag} requires at least 2 A1–A2 kids clips (found ${coverage.kids})`);
 }
 if (files.indexOf('listening-library.json') !== -1) {
@@ -279,6 +334,9 @@ if (files.indexOf('listening-library.json') !== -1) {
   if (listeningCoverage.B1 < 10) fail('listening-library.json', `expected at least 10 B1 clips (found ${listeningCoverage.B1})`);
   if (listeningCoverage.B2 < 5) fail('listening-library.json', `expected at least 5 B2 clips (found ${listeningCoverage.B2})`);
   if (listeningCoverage.kids < 10) fail('listening-library.json', `expected at least 10 kids clips (found ${listeningCoverage.kids})`);
+  if (round8ListeningCoverage.a1Dialogue < 15) fail('Round 8 listening coverage', `expected at least 15 A1 dialogue clips (found ${round8ListeningCoverage.a1Dialogue})`);
+  if (round8ListeningCoverage.a1Kids < 10) fail('Round 8 listening coverage', `expected at least 10 A1 kids clips (found ${round8ListeningCoverage.a1Kids})`);
+  if (round8ListeningCoverage.a2B1Announcements < 15) fail('Round 8 listening coverage', `expected at least 15 A2–B1 announcement clips (found ${round8ListeningCoverage.a2B1Announcements})`);
 }
 
 const cefrRank: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5 };

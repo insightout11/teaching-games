@@ -146,6 +146,8 @@ export interface TravelAttraction {
   lng?: number;
   sourceUrl?: string;
   image?: DestinationImage;
+  tier?: '$' | '$$' | '$$$';
+  price?: string;
   review: TravelAnchorReview;
 }
 

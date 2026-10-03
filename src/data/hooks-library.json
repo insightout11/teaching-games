@@ -19,7 +19,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "hook-r2-ImUgAzHSyIc",
@@ -41,7 +42,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Who should act first on climate change: people or governments?"
   },
   {
     "id": "hook-r2-J20eXhZTHEo",
@@ -85,7 +87,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should communities change daily habits to protect local nature?"
   },
   {
     "id": "hook-r2-eT89nvkYNDM",
@@ -107,7 +110,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should schools serve local foods alongside familiar meals?"
   },
   {
     "id": "hook-r2--nQzs_4WhO0",
@@ -129,7 +133,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "hook-r2-XdCaBF8NJ00",
@@ -151,7 +156,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "hook-r2-Og0OKvMmnAc",
@@ -173,7 +179,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "hook-r2-VjMn_dVCJyA",
@@ -217,7 +224,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should schools serve local foods alongside familiar meals?"
   },
   {
     "id": "hook-r2-O2FInaOCqoo",
@@ -239,7 +247,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should communities change daily habits to protect the environment?"
   },
   {
     "id": "hook-r2-W4og8g_X22o",
@@ -261,7 +270,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people protect wild animals even when it costs more?"
   },
   {
     "id": "hook-r2-_hRJJdSg8Hw",
@@ -283,7 +293,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should schools spend more time on arts and culture?"
   },
   {
     "id": "hook-r2-8DQeFmWUyd8",
@@ -327,7 +338,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "hook-r2-f9F7yDjSdNA",
@@ -348,8 +360,9 @@
     "kind": "video",
     "cefr": "B1",
     "place": null,
+    "ageBand": "teens",
     "needsReview": false,
-    "ageBand": "teens"
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "hook-r2-GUQAa1nRC7U",
@@ -371,7 +384,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should schools spend more time on arts and culture?"
   },
   {
     "id": "hook-r2-3ynnrrXz_9I",
@@ -393,7 +407,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should schools spend more time on arts and culture?"
   },
   {
     "id": "hook-r2-f0PvMmTAUAQ",
@@ -415,7 +430,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "hook-r2-R35URiT_fm8",
@@ -437,7 +453,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should cities make more room for people than cars?"
   },
   {
     "id": "hook-r2-xnu5htZpruE",
@@ -459,7 +476,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should communities change daily habits to protect the environment?"
   },
   {
     "id": "hook-r2-1b87rwtXGzA",
@@ -503,7 +521,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should schools serve local foods alongside familiar meals?"
   },
   {
     "id": "hook-r2-7rOvmN-qfaA",
@@ -525,7 +544,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people protect wild animals even when it costs more?"
   },
   {
     "id": "hook-r2-jI6aFbBUqkY",
@@ -547,7 +567,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should children try new foods at school?"
   },
   {
     "id": "hook-r2-xB74swq2LlI",
@@ -591,7 +612,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "hook-r2-TQgRIJdp2c0",
@@ -613,7 +635,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should students learn science by experiments or explanations?"
   },
   {
     "id": "hook-r2-i7zpS4RkK2o",
@@ -635,7 +658,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "hook-r2-xlXtt3IRckY",
@@ -701,7 +725,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people protect wild animals even when it costs more?"
   },
   {
     "id": "hook-r2-NYQl9-5FpQM",
@@ -723,7 +748,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should students learn science by experiments or explanations?"
   },
   {
     "id": "hook-r2-kgrV3_g9rYY",
@@ -767,7 +793,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "hook-r2-iTHUUjTA-LI",
@@ -789,7 +816,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "hook-r2-fshNptg_BxY",
@@ -811,7 +839,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should schools spend more time on arts and culture?"
   },
   {
     "id": "hook-r2-_aDeRFqZVgA",
@@ -833,7 +862,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should schools spend more time on arts and culture?"
   },
   {
     "id": "hook-r2-WeA7edXsU40",
@@ -855,7 +885,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "hook-r2-PPQ29WRT-rU",
@@ -877,7 +908,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "hook-r2-ezDiSkOU0wc",
@@ -943,7 +975,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should schools offer more plant-based meals?"
   },
   {
     "id": "hook-r2-kkYuOR8K1FU",
@@ -965,7 +998,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "hook-r2-LYa9VPVAJI8",
@@ -1011,7 +1045,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should students learn science by experiments or explanations?"
   },
   {
     "id": "hook-r2-Yge-2uR8j5g",
@@ -1033,7 +1068,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should cities make more room for people than cars?"
   },
   {
     "id": "hook-r2-o2FFtPPM3iY",
@@ -1055,7 +1091,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "hook-r2-GBMpeBXCRkk",
@@ -1099,7 +1136,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people protect wild animals even when it costs more?"
   },
   {
     "id": "hook-r2-hvyvVL95ukY",
@@ -1121,7 +1159,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "hook-r2-E-njRqPqr3Y",
@@ -1143,7 +1182,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Who should do more to protect nature: people or leaders?"
   },
   {
     "id": "hook-r2-6oNoZb5Tzzg",
@@ -1231,7 +1271,8 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "hook-r2-sBZFKRsd2L4",
@@ -1275,7 +1316,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should communities change daily habits to protect the environment?"
   },
   {
     "id": "hook-r2-bnG1WQOBSzA",
@@ -1297,7 +1339,8 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should people protect wild animals even when it costs more?"
   },
   {
     "id": "hook-r2-1wkPMUZ9vX4",

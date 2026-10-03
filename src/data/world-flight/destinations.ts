@@ -4147,6 +4147,48 @@ function priceNumber(value: string | undefined): number | undefined {
   return match ? Number(match[0]) : undefined;
 }
 
+// Rounded units of local currency per USD, used to apply the same absolute
+// dish price bands in every city. Displayed prices remain in local currency.
+const LOCAL_UNITS_PER_USD: Record<string, number> = {
+  THB: 35, JPY: 150, KRW: 1400, SGD: 1.3, EUR: 0.9, GBP: 0.78, USD: 1,
+  EGP: 50, AED: 3.7, AUD: 1.5, CNY: 7.1, RUB: 90, TRY: 35, CAD: 1.35,
+  INR: 85, ZAR: 18, BRL: 5.5, MXN: 18, ARS: 1250, IDR: 16000, NGN: 1500,
+  HKD: 7.8, NZD: 1.7, FJD: 2.25, MNT: 3500, KZT: 500, XOF: 600, CLP: 900,
+  ETB: 150, PHP: 58, VND: 25000, COP: 4200, ISK: 140, KES: 130, PEN: 3.7,
+};
+
+function absoluteDishTier(price: string | undefined, currencyCode: string): TravelPriceTier | undefined {
+  const localAmount = priceNumber(price);
+  const localUnitsPerUsd = LOCAL_UNITS_PER_USD[currencyCode];
+  if (localAmount === undefined || !localUnitsPerUsd) return undefined;
+  const usdAmount = localAmount / localUnitsPerUsd;
+  if (usdAmount <= 10) return '$';
+  if (usdAmount <= 40) return '$$';
+  return '$$$';
+}
+
+function roundedPriceAmount(amount: number): number {
+  const magnitude = Math.pow(10, Math.max(0, Math.floor(Math.log10(Math.max(1, amount))) - 1));
+  return Math.max(1, Math.round(amount / magnitude) * magnitude);
+}
+
+function attractionPricing(attraction: TravelAttraction, profile: DestinationPriceProfile): Pick<TravelAttraction, 'tier' | 'price'> {
+  const text = `${attraction.name} ${attraction.whatItIs}`.toLowerCase();
+  if (/public park|park in|street market|weekend market|market square|public square|city beach|open beach|crossing|neighborhood|neighbourhood|waterfront walk|promenade/.test(text)) {
+    return { tier: '$', price: 'Free' };
+  }
+
+  const tier: TravelPriceTier = /observation|view deck|skydeck|cable car|guided tour|cruise|show|aquarium|theme park|tower/.test(text)
+    ? '$$$'
+    : /museum|palace|temple|shrine|cathedral|mosque|fortress|castle|heritage site/.test(text)
+      ? '$$'
+      : '$';
+  const base = priceNumber(profile.hotelPrices[0]) ?? 50;
+  const multiplier = tier === '$$$' ? 1 : tier === '$$' ? 0.2 : 0.06;
+  const amount = roundedPriceAmount(base * multiplier);
+  return { tier, price: `about ${profile.currency.symbol}${amount}` };
+}
+
 function assignPriceTiers(prices: Array<string | undefined>): Array<TravelPriceTier | undefined> {
   const amounts = prices.map((price) => priceNumber(price));
   const unique = Array.from(new Set(amounts.filter((amount): amount is number => amount !== undefined))).sort((a, b) => a - b);
@@ -4195,11 +4237,15 @@ function withTravelAnchors(destinations: DestinationPack[]): DestinationPack[] {
     }
     const anchorsWithImages = withTravelAnchorImages(destination.id, travelAnchors);
     const anchorsWithCoordinates = withTravelAttractionCoordinates(destination.id, anchorsWithImages);
-    const dishTiers = priceProfile ? assignPriceTiers(priceProfile.dishPrices) : [];
     const dishes = anchorsWithCoordinates.dishes.map((dish, index) => {
       const amount = priceProfile?.dishPrices[index];
-      return amount ? { ...dish, tier: dishTiers[index], price: `about ${amount}` } : dish;
+      const tier = priceProfile ? absoluteDishTier(amount, priceProfile.currency.code) : undefined;
+      return amount ? { ...dish, ...(tier ? { tier } : {}), price: `about ${amount}` } : dish;
     });
+    const attractions = anchorsWithCoordinates.attractions.map((attraction) => ({
+      ...attraction,
+      ...(priceProfile ? attractionPricing(attraction, priceProfile) : {}),
+    }));
     const transportPrices = priceProfile
       ? (transport ?? []).map((option) => localTransportPrice(option.approxCost, priceProfile))
       : [];
@@ -4219,6 +4265,7 @@ function withTravelAnchors(destinations: DestinationPack[]): DestinationPack[] {
       travelAnchors: {
         ...anchorsWithCoordinates,
         dishes,
+        attractions,
         ...(transport ? { transport: pricedTransport } : {}),
         ...(localColor ? { localColor } : {}),
       },
