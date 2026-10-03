@@ -1,3 +1,4 @@
+import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-announcement/content';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON as _generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
@@ -3691,6 +3692,12 @@ export async function POST(request: NextRequest) {
             if (sceneChainMode) break; // already generated sequentially above
             // Continues the lesson's scene when one was played (same characters, now unscripted).
             generators.push(generateConversationRounds(customTopic, diff, sceneFromKit, kitSourceCtx, taskRoleplay).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'trip-announcement':
+            generators.push(Promise.resolve().then(() => {
+              const city = customTopic.replace(/^Trip to /, '');
+              content[activityKey] = buildAnnouncementFor(city, genericAnnouncement(city));
+            }));
             break;
           case 'trip-plan':
             generators.push(Promise.resolve().then(() => {

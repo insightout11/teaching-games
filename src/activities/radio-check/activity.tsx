@@ -50,7 +50,8 @@ function useYouTubePlayer(youtubeId: string | undefined, iframe: HTMLIFrameEleme
 export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange, isMicroEvent }: ActivityProps) {
   const content = generatedContent as RadioCheckContent;
   const allSegments = content.segments ?? [];
-  const segments = isMicroEvent ? allSegments.slice(0, 1) : allSegments;
+  // As a short break, one clip, unless a branded reuse (Travel's Announcement asks all its questions).
+  const segments = isMicroEvent && !content.brand ? allSegments.slice(0, 1) : allSegments;
   const video = content.mode === 'video' && !!content.youtubeId;
 
   const [phase, setPhase] = useState<Phase>('idle');
@@ -68,6 +69,8 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
   const recordStruggle = useSessionStore((s) => s.recordStruggle);
 
   const seg: RadioCheckSegment | undefined = segments[idx];
+  const inputKey = content.inputKey ?? 'radio-check';
+  const label = content.brand?.label ?? 'Radio Check';
 
   useEffect(() => { warmUpSpeech(); }, []);
 
@@ -113,9 +116,9 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
 
   // ─── Phones ───
   useEffect(() => {
-    if (phase === 'segment' && seg) onSetInputSpec?.({ type: 'choice', gameKey: 'radio-check', prompt: seg.question, options: seg.options });
+    if (phase === 'segment' && seg) onSetInputSpec?.({ type: 'choice', gameKey: inputKey, prompt: seg.question, options: seg.options });
     else onSetInputSpec?.(null);
-  }, [phase, seg, onSetInputSpec]);
+  }, [phase, seg, onSetInputSpec, inputKey]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
   useEffect(() => {
@@ -146,7 +149,7 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
       scoredRef.current.add(idx);
       setResults((r) => { const n = [...r]; n[idx] = { caught, answered: ballots.length }; return n; });
       // Lesson thread: a clip most of the class missed comes back in the review.
-      if (ballots.length && caught / ballots.length < 0.5) recordStruggle({ stage: 'radio-check', text: seg.question, fix: seg.keyLine || seg.options[seg.correctIndex] });
+      if (ballots.length && caught / ballots.length < 0.5) recordStruggle({ stage: inputKey, text: seg.question, fix: seg.keyLine || seg.options[seg.correctIndex] });
       ballots.forEach((b) => {
         const ok = b.pick === seg.correctIndex;
         void onScore?.({ studentId: b.studentId, clientId: b.clientId, displayName: b.name, promptIndex: idx + 1, points: ok ? 3 : 1, isCorrect: ok });
@@ -195,7 +198,7 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
     return (
       <div className="mx-auto max-w-xl space-y-3 py-10 text-center text-white">
         <Radio className="mx-auto h-12 w-12 text-white/40" />
-        <p className="font-display text-3xl">Radio Check</p>
+        <p className="font-display text-3xl">{label}</p>
         <p className="text-white/60">No listening segments came through for this topic. Try launching it again.</p>
       </div>
     );
@@ -208,11 +211,11 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
         {slot(false)}
         <Radio className="mx-auto h-10 w-10 text-amber-300" />
         <div>
-          <KitLabel tone="amber">Radio Check</KitLabel>
-          <p className="mt-2 font-display text-5xl">Can you catch it?</p>
+          <KitLabel tone="amber">{label}</KitLabel>
+          <p className="mt-2 font-display text-5xl">{content.brand?.heading ?? 'Can you catch it?'}</p>
         </div>
         <p className="mx-auto max-w-xl text-lg text-white/70">
-          {segments.length} short {video ? 'clips from the video' : 'recordings'}. Read the question, listen, then answer on your phone. You can ask to hear it again!
+          {content.brand?.intro ?? `${segments.length} short ${video ? 'clips from the video' : 'recordings'}. Read the question, listen, then answer on your phone. You can ask to hear it again!`}
         </p>
         <div className="mx-auto flex max-w-xl items-start gap-3 rounded-2xl border border-cyan-300/30 bg-cyan-400/[0.07] px-4 py-3 text-left">
           <Volume2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan-300" />
@@ -233,7 +236,7 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
     return (
       <div className="mx-auto max-w-3xl space-y-6 py-6 text-center text-white">
         {slot(false)}
-        <KitLabel tone="amber">Radio Check · signal report</KitLabel>
+        <KitLabel tone="amber">{label} · signal report</KitLabel>
         <p className="font-display text-5xl">{answered ? `The class caught ${caught} of ${answered}` : 'Transmission complete'}</p>
         {answered > 0 && <p className="text-xl text-white/65">{Math.round((caught / answered) * 100)}% of answers were right.</p>}
         <div className="mx-auto grid max-w-xl gap-2">
@@ -261,7 +264,7 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
     <div className="mx-auto flex max-w-5xl flex-col gap-4 text-white">
       {slot(true)}
       <div className="order-first flex items-center justify-between">
-        <KitLabel tone="amber">Radio Check · clip {idx + 1} of {segments.length}</KitLabel>
+        <KitLabel tone="amber">{label} · {content.brand ? 'question' : 'clip'} {idx + 1} of {segments.length}</KitLabel>
         <KitReadout>{revealed ? `${caughtNow} of ${ballots.length} caught it` : `${ballots.length} answered`}</KitReadout>
       </div>
 
@@ -295,7 +298,7 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
           {plays > 0 && <span className="self-center font-mono text-xs uppercase tracking-[0.12em] text-white/45">played {plays}×</span>}
         </div>
         {revealed
-          ? <KitButton tone="amber" solid onClick={next} className="!px-5 !py-2 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>{idx + 1 < segments.length ? 'Next clip' : 'Signal report'}</KitButton>
+          ? <KitButton tone="amber" solid onClick={next} className="!px-5 !py-2 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>{idx + 1 < segments.length ? (content.brand ? 'Next question' : 'Next clip') : 'Signal report'}</KitButton>
           : <KitButton tone="emerald" solid disabled={plays === 0} onClick={reveal} className="!px-5 !py-2 !text-sm" icon={<Eye className="h-4 w-4" />}>Reveal</KitButton>}
       </div>
     </div>

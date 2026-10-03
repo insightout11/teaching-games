@@ -935,7 +935,11 @@ export interface RadioCheckSegment {
 }
 
 export interface RadioCheckContent extends ActivityGeneratedContent {
-  activityKey: 'radio-check';
+  activityKey: 'radio-check' | 'trip-announcement';
+  /** Phone input key when another activity reuses this engine (votes are matched by key). */
+  inputKey?: string;
+  /** Labels when reused (e.g. Travel's Announcement break). */
+  brand?: { label: string; heading: string; intro: string };
   title: string;
   mode: 'video' | 'voice';
   youtubeId?: string;

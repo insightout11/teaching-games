@@ -15,6 +15,7 @@ import { buildTripItinerary } from '@/lib/world-flight/travel-context';
 import { buildTripAttractionsContent } from '@/activities/trip-attractions';
 import { buildTripMealContent } from '@/activities/trip-meal';
 import { buildTripHotelContent } from '@/activities/trip-hotel/content';
+import { buildTripAnnouncementContent } from '@/activities/trip-announcement/content';
 import { buildTripGettingThereContent } from '@/activities/trip-getting-there';
 import { buildTripDirectionsContent } from '@/activities/trip-directions';
 import { buildTripArrivalContent } from '@/activities/trip-arrival';
@@ -2486,6 +2487,7 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
         preGenerated: {
           'boarding-call': buildBoardingCallContent(selectedDestination),
           'trip-arrival': buildTripArrivalContent(selectedDestination),
+          'trip-announcement': buildTripAnnouncementContent(selectedDestination),
           'trip-plan': { activityKey: 'trip-plan', topicContext: selectedDestination.city, city: selectedDestination.city },
           'trip-getting-there': buildTripGettingThereContent(selectedDestination),
           'trip-directions': buildTripDirectionsContent(selectedDestination),
