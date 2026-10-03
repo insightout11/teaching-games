@@ -473,7 +473,7 @@
       "predators",
       "hunting",
       "territorial-behaviour",
-      "animal-behaviour"
+      "animal-behavior"
     ],
     "difficultyLevel": "Advanced",
     "description": "Jeff Phillips explains entropy — one of the most fundamental and counterintuitive concepts in physics — and why the universe is always moving toward disorder.",
@@ -951,7 +951,7 @@
       "eurydice",
       "tragedy",
       "trust",
-      "choices",
+      "choice",
       "love"
     ],
     "difficultyLevel": "Intermediate",
@@ -999,7 +999,7 @@
       "greed",
       "wishes",
       "consequences",
-      "folktales",
+      "folktale",
       "culture"
     ],
     "difficultyLevel": "Intermediate",
@@ -1042,8 +1042,8 @@
     "durationSecs": 308,
     "topicTags": [
       "stories",
-      "fairy-tales",
-      "folktales",
+      "fairy-tale",
+      "folktale",
       "retelling",
       "adaptation",
       "disney",
@@ -1133,7 +1133,7 @@
       "dance",
       "music",
       "culture",
-      "African-American-history",
+      "african-american-history",
       "movement",
       "teen-interests"
     ],
@@ -1225,7 +1225,7 @@
       "artificial-intelligence",
       "technology",
       "society",
-      "careers",
+      "career",
       "future-of-work",
       "teen-interests"
     ],
@@ -1840,7 +1840,7 @@
     "durationSecs": 271,
     "topicTags": [
       "climate",
-      "oceans",
+      "ocean",
       "food",
       "environment",
       "science",

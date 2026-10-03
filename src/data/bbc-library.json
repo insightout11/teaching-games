@@ -49,7 +49,7 @@
     "topicTags": [
       "grammar",
       "emphasis",
-      "cleft sentences"
+      "cleft-sentences"
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan teaches advanced emphasis structures — cleft sentences, fronting, and do-support — to make English more expressive and persuasive.",
@@ -67,7 +67,7 @@
     "topicTags": [
       "grammar",
       "mistakes",
-      "native speakers"
+      "native-speakers"
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan reveals common grammatical 'mistakes' that native English speakers make — and explains which ones are now considered acceptable in modern usage.",
@@ -84,7 +84,7 @@
     "durationSecs": 270,
     "topicTags": [
       "grammar",
-      "linking words",
+      "linking-words",
       "contrast",
       "writing"
     ],
@@ -122,7 +122,7 @@
     "topicTags": [
       "grammar",
       "emphasis",
-      "cleft sentences"
+      "cleft-sentences"
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan dives into 'what' as a focus marker in cleft sentences — a powerful structure that adds emphasis and contrast, often misused by even advanced learners.",
@@ -140,7 +140,7 @@
     "topicTags": [
       "conversation",
       "phrases",
-      "spoken english",
+      "spoken-english",
       "vocabulary"
     ],
     "difficultyLevel": "Intermediate",
@@ -199,7 +199,7 @@
     "durationSecs": 360,
     "topicTags": [
       "grammar",
-      "linking words",
+      "linking-words",
       "discourse",
       "writing"
     ],
@@ -218,7 +218,7 @@
     "durationSecs": 315,
     "topicTags": [
       "grammar",
-      "verb patterns",
+      "verb-patterns",
       "gerunds",
       "infinitives"
     ],
@@ -923,7 +923,7 @@
     "durationSecs": 360,
     "topicTags": [
       "animals",
-      "zoos",
+      "zoo",
       "wildlife",
       "conservation",
       "animal-welfare",
@@ -983,9 +983,9 @@
       "animals",
       "octopus",
       "animal-intelligence",
-      "brains",
+      "brain",
       "marine-life",
-      "adaptations",
+      "adaptation",
       "senses",
       "science",
       "6-minute-english",
@@ -1039,7 +1039,7 @@
     "durationSecs": 360,
     "topicTags": [
       "animals",
-      "adaptations",
+      "adaptation",
       "camouflage",
       "zebras",
       "penguins",
@@ -1126,7 +1126,7 @@
     "youtubeId": "TVHePsQLa3w",
     "durationSecs": 392,
     "topicTags": [
-      "careers",
+      "career",
       "side-hustles",
       "work",
       "money",
@@ -1155,7 +1155,7 @@
     "topicTags": [
       "creativity",
       "skills",
-      "careers",
+      "career",
       "innovation",
       "education",
       "teen-interests",
@@ -1181,7 +1181,7 @@
     "durationSecs": 388,
     "topicTags": [
       "music",
-      "careers",
+      "career",
       "creativity",
       "performance",
       "ambition",
@@ -1238,7 +1238,7 @@
       "influencers",
       "internet-culture",
       "marketing",
-      "careers",
+      "career",
       "teen-interests",
       "listening",
       "listening:dialogue"
@@ -1270,7 +1270,7 @@
       "internet",
       "technology",
       "society",
-      "opinions",
+      "opinion",
       "teen-interests",
       "listening",
       "listening:podcast"
@@ -1350,7 +1350,7 @@
     "youtubeId": "qSBsYcvy-t8",
     "durationSecs": 396,
     "topicTags": [
-      "careers",
+      "career",
       "work",
       "applications",
       "writing",
@@ -1485,7 +1485,7 @@
     "durationSecs": 379,
     "topicTags": [
       "technology",
-      "languages",
+      "language",
       "translation",
       "communication",
       "teen-interests",
@@ -1666,7 +1666,7 @@
     "youtubeId": "YAsDeXcYyTg",
     "durationSecs": 408,
     "topicTags": [
-      "language learning",
+      "language-learning",
       "confidence",
       "communication",
       "teen-interests"
@@ -1690,7 +1690,7 @@
     "youtubeId": "fUn_LTwaogU",
     "durationSecs": 377,
     "topicTags": [
-      "careers",
+      "career",
       "work",
       "entrepreneurship",
       "teen-interests"
@@ -1714,7 +1714,7 @@
     "durationSecs": 380,
     "topicTags": [
       "technology",
-      "artificial intelligence",
+      "artificial-intelligence",
       "ethics",
       "teen-interests"
     ],
@@ -1738,8 +1738,8 @@
     "durationSecs": 377,
     "topicTags": [
       "technology",
-      "artificial intelligence",
-      "media literacy",
+      "artificial-intelligence",
+      "media-literacy",
       "teen-interests"
     ],
     "difficultyLevel": "Intermediate",
@@ -1761,7 +1761,7 @@
     "youtubeId": "5ZQ65RbsAB8",
     "durationSecs": 371,
     "topicTags": [
-      "social media",
+      "social-media",
       "wellbeing",
       "society",
       "teen-interests"
@@ -1811,7 +1811,7 @@
     "topicTags": [
       "climate",
       "environment",
-      "international relations",
+      "international-relations",
       "teen-interests"
     ],
     "difficultyLevel": "Intermediate",
@@ -1839,7 +1839,7 @@
     "topicTags": [
       "communication",
       "conversation",
-      "social skills",
+      "social-skills",
       "teen-interests"
     ],
     "difficultyLevel": "Intermediate",
@@ -1884,7 +1884,7 @@
     "durationSecs": 381,
     "topicTags": [
       "psychology",
-      "social media",
+      "social-media",
       "wellbeing",
       "teen-interests"
     ],
@@ -2026,7 +2026,7 @@
     "youtubeId": "eoXv4JgwjeM",
     "durationSecs": 384,
     "topicTags": [
-      "languages",
+      "language",
       "culture",
       "preservation",
       "teen-interests"
@@ -2850,7 +2850,7 @@
     "topicTags": [
       "grammar",
       "conditionals",
-      "mixed conditionals"
+      "mixed-conditionals"
     ],
     "difficultyLevel": "Advanced",
     "description": "Dan teaches mixed conditionals — combining different conditional forms to talk about unreal situations with complex time relationships between past and present.",

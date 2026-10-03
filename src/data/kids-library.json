@@ -53,7 +53,7 @@
     "topicTags": [
       "science",
       "ecology",
-      "food chains"
+      "food-chain"
     ],
     "difficultyLevel": "Easy",
     "description": "Sabrina breaks down how energy moves through an ecosystem — from the Sun to plants to animals — and why every link in a food chain matters.",
@@ -97,7 +97,7 @@
     "topicTags": [
       "science",
       "geology",
-      "earth science"
+      "earth-science"
     ],
     "difficultyLevel": "Easy",
     "description": "How do rivers carve canyons and rain wear down mountains? Sabrina explores weathering and erosion — the slow, powerful forces that reshape the surface of our planet.",
@@ -164,7 +164,7 @@
     "topicTags": [
       "science",
       "ecology",
-      "food chains",
+      "food-chain",
       "animals"
     ],
     "difficultyLevel": "Easy",
@@ -209,8 +209,8 @@
     "durationSecs": 330,
     "topicTags": [
       "science",
-      "water cycle",
-      "earth science"
+      "water-cycle",
+      "earth-science"
     ],
     "difficultyLevel": "Easy",
     "description": "Did you know the water you drink might once have been dinosaur pee? Sabrina explains the water cycle — how Earth's water is constantly recycled through evaporation, clouds, and rain.",
@@ -278,7 +278,7 @@
     "topicTags": [
       "science",
       "geology",
-      "earth science",
+      "earth-science",
       "volcanoes"
     ],
     "difficultyLevel": "Beginner",
@@ -371,7 +371,7 @@
       "science",
       "geology",
       "minerals",
-      "earth science"
+      "earth-science"
     ],
     "difficultyLevel": "Beginner",
     "description": "Why are diamonds so hard? Jessi explains how carbon atoms arrange themselves under extreme heat and pressure deep underground — and why the same material that makes diamonds also makes pencil lead.",
@@ -394,7 +394,7 @@
       "science",
       "geology",
       "minerals",
-      "earth science"
+      "earth-science"
     ],
     "difficultyLevel": "Beginner",
     "description": "Jessi and Squeaks crack open some rocks and discover the crystals, fossils, and minerals hidden inside — explaining how different types of rocks form over millions of years.",
@@ -414,7 +414,7 @@
       "science",
       "geology",
       "caves",
-      "earth science"
+      "earth-science"
     ],
     "difficultyLevel": "Beginner",
     "description": "How do those giant rock spikes grow inside caves? Jessi explores how water slowly builds stalactites and stalagmites drop by drop over thousands of years — and why caves are basically living, growing places.",
@@ -549,7 +549,7 @@
       "geography",
       "landforms",
       "mountains",
-      "rivers"
+      "river"
     ],
     "difficultyLevel": "Easy",
     "cefr": "A2",
@@ -576,7 +576,7 @@
     "durationSecs": 270,
     "topicTags": [
       "engineering",
-      "careers",
+      "career",
       "design",
       "problem-solving",
       "technology",
@@ -641,7 +641,7 @@
       "design",
       "problem-solving",
       "creativity",
-      "inventions",
+      "invention",
       "stem"
     ],
     "difficultyLevel": "Easy",
@@ -1038,7 +1038,7 @@
       "engineering",
       "design",
       "problem-solving",
-      "inventions",
+      "invention",
       "testing",
       "stem"
     ],
@@ -1537,8 +1537,8 @@
       "archaeology",
       "history",
       "science",
-      "mysteries",
-      "careers"
+      "mystery",
+      "career"
     ],
     "difficultyLevel": "Easy",
     "cefr": "A2",
@@ -1728,7 +1728,7 @@
     "youtubeId": "gaZKEc59g1w",
     "durationSecs": 280,
     "topicTags": [
-      "deserts",
+      "desert",
       "animals",
       "plants",
       "adaptation",
@@ -1790,7 +1790,7 @@
     "topicTags": [
       "plants",
       "trees",
-      "forests",
+      "forest",
       "biology",
       "nature"
     ],
@@ -1815,7 +1815,7 @@
     "topicTags": [
       "plants",
       "trees",
-      "forests",
+      "forest",
       "seasons",
       "biology"
     ],
@@ -1839,7 +1839,7 @@
     "durationSecs": 241,
     "topicTags": [
       "plants",
-      "inventions",
+      "invention",
       "biomimicry",
       "design",
       "nature"
@@ -2323,8 +2323,8 @@
     "youtubeId": "8LfD_EKze2M",
     "durationSecs": 195,
     "topicTags": [
-      "communities",
-      "natural resources",
+      "community",
+      "natural-resources",
       "environment",
       "stem"
     ],
@@ -2346,7 +2346,7 @@
     "youtubeId": "UXh_7wbnS3A",
     "durationSecs": 211,
     "topicTags": [
-      "Earth science",
+      "earth-science",
       "water",
       "atmosphere",
       "stem"
@@ -2375,7 +2375,7 @@
     "youtubeId": "7vTfyAMu6G4",
     "durationSecs": 213,
     "topicTags": [
-      "Earth science",
+      "earth-science",
       "landforms",
       "water",
       "stem"
@@ -2404,7 +2404,7 @@
     "durationSecs": 194,
     "topicTags": [
       "biology",
-      "food chains",
+      "food-chain",
       "animals",
       "stem"
     ],
@@ -2451,9 +2451,9 @@
     "youtubeId": "ELchwUIlWa8",
     "durationSecs": 211,
     "topicTags": [
-      "physical science",
+      "physical-science",
       "matter",
-      "states of matter",
+      "states-of-matter",
       "stem"
     ],
     "difficultyLevel": "Easy",
@@ -2479,7 +2479,7 @@
     "youtubeId": "ZZYnERZe3Cg",
     "durationSecs": 240,
     "topicTags": [
-      "physical science",
+      "physical-science",
       "materials",
       "observation",
       "stem"
@@ -2507,7 +2507,7 @@
     "youtubeId": "3lHHOiTdmK4",
     "durationSecs": 249,
     "topicTags": [
-      "physical science",
+      "physical-science",
       "matter",
       "conservation",
       "stem"
@@ -2565,7 +2565,7 @@
     "youtubeId": "zD7W5O0BH7g",
     "durationSecs": 272,
     "topicTags": [
-      "physical science",
+      "physical-science",
       "materials",
       "classification",
       "stem"
@@ -2594,7 +2594,7 @@
     "youtubeId": "tGfLhPslEjQ",
     "durationSecs": 277,
     "topicTags": [
-      "physical science",
+      "physical-science",
       "materials",
       "matter",
       "stem"
@@ -2650,7 +2650,7 @@
     "youtubeId": "Fnd-2jetT1w",
     "durationSecs": 260,
     "topicTags": [
-      "physical science",
+      "physical-science",
       "fluids",
       "experiments",
       "stem"
@@ -2674,8 +2674,8 @@
     "youtubeId": "T7hK6OMpvbE",
     "durationSecs": 286,
     "topicTags": [
-      "physical science",
-      "states of matter",
+      "physical-science",
+      "states-of-matter",
       "space",
       "stem"
     ],

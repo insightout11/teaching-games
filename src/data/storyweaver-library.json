@@ -21,8 +21,8 @@
       "reading-level-2",
       "seasons",
       "plants",
-      "festivals",
-      "India"
+      "festival",
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -61,7 +61,7 @@
       "seasons",
       "weather",
       "family",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -98,9 +98,9 @@
       "storyweaver",
       "reading-level-2",
       "food",
-      "festivals",
+      "festival",
       "seasons",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -139,7 +139,7 @@
       "animals",
       "food",
       "family",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -213,7 +213,7 @@
       "cricket",
       "mystery",
       "family",
-      "Kashmir"
+      "kashmir"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 3",
@@ -253,7 +253,7 @@
       "family",
       "weddings",
       "celebrations",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -397,7 +397,7 @@
       "farming",
       "food",
       "problem-solving",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -471,7 +471,7 @@
       "humor",
       "animals",
       "family",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -509,8 +509,8 @@
       "reading-level-2",
       "food",
       "family",
-      "Delhi",
-      "India"
+      "delhi",
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -688,7 +688,7 @@
       "storyweaver",
       "reading-level-3",
       "animals",
-      "rivers",
+      "river",
       "pollution",
       "environment"
     ],
@@ -759,7 +759,7 @@
     "topicTags": [
       "storyweaver",
       "reading-level-2",
-      "colours",
+      "color",
       "birds",
       "family",
       "art"
@@ -1256,10 +1256,10 @@
     "topicTags": [
       "storyweaver",
       "reading-level-1",
-      "festivals",
+      "festival",
       "culture",
       "family",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 1",
@@ -1403,7 +1403,7 @@
       "birds",
       "leadership",
       "folktale",
-      "Africa"
+      "africa"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -1475,7 +1475,7 @@
       "weather",
       "wind",
       "nature",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -1551,7 +1551,7 @@
       "art",
       "patterns",
       "family",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 1",
@@ -1591,7 +1591,7 @@
       "school",
       "education",
       "friendship",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 1",
@@ -1631,7 +1631,7 @@
       "family",
       "travel",
       "home",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -1671,7 +1671,7 @@
       "animals",
       "pets",
       "friendship",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 1",
@@ -1711,7 +1711,7 @@
       "farming",
       "animals",
       "community",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 1",
@@ -1751,7 +1751,7 @@
       "observation",
       "nature",
       "animals",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -1791,7 +1791,7 @@
       "animals",
       "sleep",
       "humor",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 1",
@@ -1831,7 +1831,7 @@
       "folktale",
       "birds",
       "kindness",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 3",
@@ -1977,7 +1977,7 @@
       "storyweaver",
       "reading-level-1",
       "family",
-      "choices",
+      "choice",
       "patience",
       "everyday-life"
     ],
@@ -2197,7 +2197,7 @@
       "storyweaver",
       "reading-level-1",
       "poetry",
-      "colours",
+      "color",
       "animals",
       "nature"
     ],
@@ -2844,7 +2844,7 @@
       "storyweaver",
       "reading-level-3",
       "folktale",
-      "homes",
+      "home",
       "architecture",
       "friendship"
     ],
@@ -3066,7 +3066,7 @@
       "music",
       "weather",
       "celebrations",
-      "Rajasthan"
+      "rajasthan"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",
@@ -3250,7 +3250,7 @@
       "birthday",
       "family",
       "celebrations",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 3",
@@ -3432,7 +3432,7 @@
       "storyweaver",
       "reading-level-3",
       "folktale",
-      "China",
+      "china",
       "humor",
       "community"
     ],
@@ -3905,7 +3905,7 @@
       "reading-level-3",
       "pets",
       "animals",
-      "Chennai",
+      "chennai",
       "family"
     ],
     "genre": "narrative",
@@ -3943,7 +3943,7 @@
     "topicTags": [
       "storyweaver",
       "reading-level-1",
-      "rivers",
+      "river",
       "nature",
       "water",
       "riddles"
@@ -4157,7 +4157,7 @@
       "reading-level-3",
       "riddles",
       "geography",
-      "Tamil Nadu",
+      "tamil-nadu",
       "history"
     ],
     "genre": "narrative",
@@ -4198,7 +4198,7 @@
       "nature",
       "environment",
       "family",
-      "India"
+      "india"
     ],
     "genre": "narrative",
     "difficultyLevel": "StoryWeaver Level 2",

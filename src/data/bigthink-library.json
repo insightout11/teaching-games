@@ -9,7 +9,7 @@
     "topicTags": [
       "philosophy",
       "physics",
-      "free will",
+      "free-will",
       "science"
     ],
     "difficultyLevel": "Advanced",
@@ -53,7 +53,7 @@
     "topicTags": [
       "psychology",
       "neuroscience",
-      "decision making",
+      "decision-making",
       "science"
     ],
     "difficultyLevel": "Advanced",
@@ -76,7 +76,7 @@
       "philosophy",
       "psychology",
       "science",
-      "free will"
+      "free-will"
     ],
     "difficultyLevel": "Advanced",
     "description": "Cognitive scientist Steven Pinker tackles the age-old question of free will — exploring what neuroscience says about conscious choice and why the debate matters for morality and law.",

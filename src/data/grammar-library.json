@@ -807,8 +807,8 @@
     "durationSecs": 345,
     "topicTags": [
       "grammar",
-      "question tags",
-      "spoken english",
+      "question-tags",
+      "spoken-english",
       "grammar:questions"
     ],
     "difficultyLevel": "Intermediate",
@@ -833,8 +833,8 @@
     "topicTags": [
       "grammar",
       "tense",
-      "present perfect",
-      "past simple",
+      "present-perfect",
+      "past-simple",
       "grammar:past-simple",
       "grammar:present-perfect"
     ],

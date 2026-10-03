@@ -1,6 +1,7 @@
 /** Validate curated library JSON files, including the expanded item schema. */
 import fs from 'node:fs';
 import path from 'node:path';
+import { canonicalTopicTag } from './library-topic-tags';
 
 type Item = {
   id?: unknown;
@@ -95,9 +96,6 @@ function validateExpandedItem(item: Item, where: string) {
   if (typeof item.needsReview !== 'boolean') fail(where, 'needsReview must be a boolean');
   if (item.reviewNote !== undefined && !nonEmpty(item.reviewNote)) fail(where, 'reviewNote, when present, must be non-empty');
   if (item.flightQuestion !== undefined) {
-    if (!nonEmpty(item.flightQuestion)) fail(where, 'flightQuestion must be a non-empty question');
-    else if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
-    else if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
     const youngNarrative = item.ageBand === 'kids'
       && (item.kind === 'text' || item.kind === 'picture-book');
     if (item.genre !== 'opinion' && item.genre !== 'expository'
@@ -232,6 +230,31 @@ for (const file of files) {
     const item = raw as Item;
     const where = `${file}[${index}]${nonEmpty(item.id) ? ` (${item.id})` : ''}`;
     if (nonEmpty(item.flightQuestion)) flightQuestionCount += 1;
+    if (item.flightQuestion !== undefined) {
+      if (!nonEmpty(item.flightQuestion)) fail(where, 'flightQuestion must be a non-empty question');
+      else if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
+      else if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
+    }
+    if (item.kind === 'video' || nonEmpty(item.youtubeId)) {
+      if (typeof item.durationSecs !== 'number' || item.durationSecs <= 0) fail(where, 'video durationSecs must be present and positive');
+    }
+    if (item.topicTags !== undefined) {
+      if (!Array.isArray(item.topicTags)) fail(where, 'topicTags must be an array when present');
+      else {
+        const seenTags: Record<string, boolean> = {};
+        for (const tag of item.topicTags) {
+          if (typeof tag !== 'string') {
+            fail(where, 'topicTags entries must be strings');
+            continue;
+          }
+          const canonical = canonicalTopicTag(tag);
+          if (tag !== tag.toLowerCase()) fail(where, `topic tag ${tag} must be lowercase`);
+          if (tag !== canonical) fail(where, `topic tag ${tag} is a near-duplicate spelling; use ${canonical}`);
+          if (seenTags[canonical]) fail(where, `duplicate topic tag ${tag}`);
+          seenTags[canonical] = true;
+        }
+      }
+    }
     if (!nonEmpty(item.id)) fail(where, 'id is required');
     else if (ids.has(item.id)) fail(where, `duplicate id also found in ${ids.get(item.id)}`);
     else ids.set(item.id, where);

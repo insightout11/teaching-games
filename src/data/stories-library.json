@@ -74,7 +74,7 @@
     "wordCount": 243,
     "topicTags": [
       "animals",
-      "hard work",
+      "hard-work",
       "planning"
     ],
     "difficultyLevel": "Easy",
@@ -91,7 +91,7 @@
     "wordCount": 191,
     "topicTags": [
       "animals",
-      "problem solving",
+      "problem-solving",
       "cleverness"
     ],
     "difficultyLevel": "Easy",
@@ -142,7 +142,7 @@
     "wordCount": 398,
     "topicTags": [
       "animals",
-      "hard work",
+      "hard-work",
       "planning"
     ],
     "difficultyLevel": "Easy",
@@ -158,7 +158,7 @@
     "author": "Brothers Grimm",
     "wordCount": 452,
     "topicTags": [
-      "fairy tale",
+      "fairy-tale",
       "danger",
       "trust"
     ],
@@ -192,7 +192,7 @@
     "author": "Charles Perrault",
     "wordCount": 478,
     "topicTags": [
-      "fairy tale",
+      "fairy-tale",
       "kindness",
       "justice"
     ],
@@ -296,7 +296,7 @@
     "topicTags": [
       "nature",
       "perseverance",
-      "problem solving"
+      "problem-solving"
     ],
     "difficultyLevel": "Easy",
     "description": "A mighty oak laughs at a bending reed — until the storm comes.",
@@ -311,9 +311,9 @@
     "author": "Aesop",
     "wordCount": 221,
     "topicTags": [
-      "hard work",
+      "hard-work",
       "greed",
-      "problem solving"
+      "problem-solving"
     ],
     "difficultyLevel": "Easy",
     "description": "A milkmaid daydreams about her future riches — and loses everything with one careless toss of her head.",
@@ -330,7 +330,7 @@
     "topicTags": [
       "identity",
       "honesty",
-      "fairy tale"
+      "fairy-tale"
     ],
     "difficultyLevel": "Easy",
     "description": "Two swindlers convince an emperor he is wearing magical clothes — until a small child speaks the truth.",
@@ -346,8 +346,8 @@
     "wordCount": 278,
     "topicTags": [
       "kindness",
-      "fairy tale",
-      "hard work"
+      "fairy-tale",
+      "hard-work"
     ],
     "difficultyLevel": "Easy",
     "description": "A poor shoemaker receives mysterious help at night — and finds a way to say thank you.",
@@ -362,9 +362,9 @@
     "author": "Charles Perrault",
     "wordCount": 362,
     "topicTags": [
-      "fairy tale",
+      "fairy-tale",
       "animals",
-      "problem solving"
+      "problem-solving"
     ],
     "difficultyLevel": "Intermediate",
     "description": "A clever cat helps his poor young master win a fortune and a princess through wit and daring.",
@@ -379,7 +379,7 @@
     "author": "Brothers Grimm",
     "wordCount": 432,
     "topicTags": [
-      "fairy tale",
+      "fairy-tale",
       "kindness",
       "greed"
     ],
@@ -396,7 +396,7 @@
     "author": "Traditional",
     "wordCount": 418,
     "topicTags": [
-      "fairy tale",
+      "fairy-tale",
       "kindness",
       "identity"
     ],
