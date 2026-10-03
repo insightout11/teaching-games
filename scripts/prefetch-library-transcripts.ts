@@ -225,7 +225,9 @@ async function fetchTranscript(
       return 'skip';
     }
 
-    const { YoutubeTranscript } = await import('youtube-transcript');
+    // youtube-transcript 1.3.0 declares type:module but its main is CommonJS; load the ESM build.
+    const esmPath = 'youtube-transcript/dist/youtube-transcript.esm.js';
+    const { YoutubeTranscript } = (await import(esmPath)) as typeof import('youtube-transcript');
     let segments: Array<{ text: string }> | undefined;
     let lastTranscriptError: unknown;
     for (const lang of ['en', 'en-GB', 'en-US']) {
