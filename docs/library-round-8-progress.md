@@ -8,9 +8,9 @@ Confirmed all 51 Round 7 transcripts in Supabase: 22 grammar items and 29 listen
 
 ## Task 1 — Beginner listening
 
-Added 15 A1 YouTube dialogue clips (all 30–120 seconds; at least 10 tagged for kids) and 10 A2 announcement clips from the Sinjhuang Elementary School public-address playlist. All 25 were fetched or verified through `scripts/prefetch-library-transcripts.ts` and have clean stored transcripts. The playlist has 13 videos, but three run longer than two minutes; after checking additional YouTube sources, only 10 qualifying short announcements were available. Five of the requested 15 announcement entries remain outstanding under the YouTube-only, 30–120-second, verified-transcript constraints. No duration or transcript was guessed.
+Added 15 A1 YouTube dialogue clips (30–120 seconds; 14 tagged for kids) and 15 A2–B1 YouTube announcement clips (30–120 seconds). One additional A2 announcement-related dialogue is included as `listening:dialogue`, not counted toward the announcement total. All 31 Round 8 entries have locally fetched or verified transcripts in Supabase. Items with time-sensitive forecast details, an undated event date, or gender-specific uniform guidance have `needsReview` notes. The validator now checks the Round 8 minimum counts, age band, transcript flag, and duration range.
 
-Updated the library validator to apply the Round 8 30–120-second range to `listening-r8-*` entries while retaining Round 7’s existing range. `npx tsx scripts/validate-library.ts` passes with 1,347 items across 28 files. `npx tsc --noEmit -p .` passes.
+`npx tsx scripts/validate-library.ts` passes with 1,353 items across 28 files. `npx tsc --noEmit -p .` passes.
 
 ## Task 2 — Attraction tiers and prices
 

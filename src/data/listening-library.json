@@ -1198,5 +1198,143 @@
     "needsReview": false,
     "transcriptVerified": true,
     "url": "https://www.youtube.com/watch?v=H2AUOzWnL_k"
+  },
+  {
+    "id": "listening-r8-weather-report",
+    "title": "Weather Report",
+    "speaker": "Pui Tak Center's ESL Program",
+    "youtubeId": "gzPA-YKJmVk",
+    "durationSecs": 114,
+    "summary": "A short spoken weather report.",
+    "description": "A short spoken weather report.",
+    "topicTags": [
+      "listening:announcement",
+      "weather"
+    ],
+    "genre": "dialogue",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "kids",
+    "place": null,
+    "difficultyLevel": "Beginner",
+    "needsReview": true,
+    "transcriptVerified": true,
+    "url": "https://www.youtube.com/watch?v=gzPA-YKJmVk",
+    "reviewNote": "The forecast gives time-sensitive temperatures and conditions; use it for listening and weather vocabulary, not as current weather information."
+  },
+  {
+    "id": "listening-r8-school-listening-announcement",
+    "title": "Listening: An Announcement at School",
+    "speaker": "Madam English YouTube Channel",
+    "youtubeId": "SPWiP-k-t7M",
+    "durationSecs": 119,
+    "summary": "Two students discuss a school competition announcement, dates, and registration.",
+    "description": "Two students discuss a school competition announcement, dates, and registration.",
+    "topicTags": [
+      "listening:dialogue",
+      "school",
+      "events"
+    ],
+    "genre": "dialogue",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "kids",
+    "place": null,
+    "difficultyLevel": "Beginner",
+    "needsReview": false,
+    "transcriptVerified": true,
+    "url": "https://www.youtube.com/watch?v=SPWiP-k-t7M"
+  },
+  {
+    "id": "listening-r8-school-announcement",
+    "title": "School Announcement",
+    "speaker": "Fara Okta",
+    "youtubeId": "RP9zmsK98FQ",
+    "durationSecs": 50,
+    "summary": "A short spoken school announcement.",
+    "description": "A short spoken school announcement.",
+    "topicTags": [
+      "listening:announcement",
+      "school"
+    ],
+    "genre": "dialogue",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "kids",
+    "place": null,
+    "difficultyLevel": "Beginner",
+    "needsReview": true,
+    "transcriptVerified": true,
+    "url": "https://www.youtube.com/watch?v=RP9zmsK98FQ",
+    "reviewNote": "The example gives gender-specific school-uniform instructions; review for classroom suitability."
+  },
+  {
+    "id": "listening-r8-school-radio-announcement",
+    "title": "School Radio Announcement",
+    "speaker": "Hercacia Yulye",
+    "youtubeId": "X99gA3qgZ6M",
+    "durationSecs": 44,
+    "summary": "A short spoken announcement from a school radio.",
+    "description": "A short spoken announcement from a school radio.",
+    "topicTags": [
+      "listening:announcement",
+      "school"
+    ],
+    "genre": "dialogue",
+    "kind": "video",
+    "cefr": "A2",
+    "ageBand": "kids",
+    "place": null,
+    "difficultyLevel": "Beginner",
+    "needsReview": true,
+    "transcriptVerified": true,
+    "url": "https://www.youtube.com/watch?v=X99gA3qgZ6M",
+    "reviewNote": "The announcement names an October 3 meeting date without a year; review before presenting it as current."
+  },
+  {
+    "id": "listening-r8-weather-intermediate",
+    "title": "Weather Forecast — Intermediate Listening Practice",
+    "speaker": "Easy English with Alicia",
+    "youtubeId": "AZgW3Y1eHFU",
+    "durationSecs": 80,
+    "summary": "A short spoken forecast using weather vocabulary.",
+    "description": "A short spoken forecast using weather vocabulary.",
+    "topicTags": [
+      "listening:announcement",
+      "weather"
+    ],
+    "genre": "dialogue",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "difficultyLevel": "Beginner",
+    "needsReview": true,
+    "transcriptVerified": true,
+    "url": "https://www.youtube.com/watch?v=AZgW3Y1eHFU",
+    "reviewNote": "The forecast is time-sensitive; use for listening and weather vocabulary, not as current weather information."
+  },
+  {
+    "id": "listening-r8-one-minute-weather-forecast",
+    "title": "One Minute Weather Forecast",
+    "speaker": "Erin O'Brien",
+    "youtubeId": "Qn1bC7-ANps",
+    "durationSecs": 63,
+    "summary": "A short spoken weather forecast.",
+    "description": "A short spoken weather forecast.",
+    "topicTags": [
+      "listening:announcement",
+      "weather"
+    ],
+    "genre": "dialogue",
+    "kind": "video",
+    "cefr": "B1",
+    "ageBand": "teens",
+    "place": null,
+    "difficultyLevel": "Beginner",
+    "needsReview": true,
+    "transcriptVerified": true,
+    "url": "https://www.youtube.com/watch?v=Qn1bC7-ANps",
+    "reviewNote": "The forecast includes a time-sensitive flood-warning update and weather conditions; use it for listening only."
   }
 ]

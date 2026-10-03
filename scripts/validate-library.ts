@@ -59,6 +59,7 @@ const seriesGroups: Record<string, Item[]> = {};
 let bookCourseItemCount = 0;
 const grammarCoverage: Record<string, { total: number; kids: number }> = {};
 const listeningCoverage: Record<string, number> = { A1: 0, A2: 0, B1: 0, B2: 0, kids: 0, dialogue: 0, announcement: 0 };
+const round8ListeningCoverage = { a1Dialogue: 0, a1Kids: 0, a2B1Announcements: 0 };
 let listeningItemCount = 0;
 
 function fail(where: string, message: string) {
@@ -245,8 +246,8 @@ for (const file of files) {
     }
     if (file === 'listening-library.json') {
       listeningItemCount += 1;
-      if (item.transcriptVerified !== true) fail(where, 'listening clips require a locally verified transcript');
       const isRound8Listening = typeof item.id === 'string' && item.id.indexOf('listening-r8-') === 0;
+      if (item.transcriptVerified !== true) fail(where, 'listening clips require a locally verified transcript');
       const minDuration = isRound8Listening ? 30 : 60;
       const maxDuration = isRound8Listening ? 120 : 180;
       if (typeof item.durationSecs !== 'number' || item.durationSecs < minDuration || item.durationSecs > maxDuration) {
@@ -254,9 +255,17 @@ for (const file of files) {
       }
       if (typeof item.cefr === 'string' && listeningCoverage[item.cefr] !== undefined) listeningCoverage[item.cefr] += 1;
       if (item.ageBand === 'kids' && (item.cefr === 'A1' || item.cefr === 'A2')) listeningCoverage.kids += 1;
+      if (isRound8Listening && item.cefr === 'A1' && Array.isArray(item.topicTags)
+        && item.topicTags.indexOf('listening:dialogue') !== -1) {
+        round8ListeningCoverage.a1Dialogue += 1;
+        if (item.ageBand === 'kids') round8ListeningCoverage.a1Kids += 1;
+      }
       if (Array.isArray(item.topicTags)) for (const tag of item.topicTags) {
         if (tag === 'listening:dialogue') listeningCoverage.dialogue += 1;
-        if (tag === 'listening:announcement') listeningCoverage.announcement += 1;
+        if (tag === 'listening:announcement') {
+          listeningCoverage.announcement += 1;
+          if (isRound8Listening && (item.cefr === 'A2' || item.cefr === 'B1')) round8ListeningCoverage.a2B1Announcements += 1;
+        }
       }
     }
 
@@ -282,6 +291,9 @@ if (files.indexOf('listening-library.json') !== -1) {
   if (listeningCoverage.B1 < 10) fail('listening-library.json', `expected at least 10 B1 clips (found ${listeningCoverage.B1})`);
   if (listeningCoverage.B2 < 5) fail('listening-library.json', `expected at least 5 B2 clips (found ${listeningCoverage.B2})`);
   if (listeningCoverage.kids < 10) fail('listening-library.json', `expected at least 10 kids clips (found ${listeningCoverage.kids})`);
+  if (round8ListeningCoverage.a1Dialogue < 15) fail('Round 8 listening coverage', `expected at least 15 A1 dialogue clips (found ${round8ListeningCoverage.a1Dialogue})`);
+  if (round8ListeningCoverage.a1Kids < 10) fail('Round 8 listening coverage', `expected at least 10 A1 kids clips (found ${round8ListeningCoverage.a1Kids})`);
+  if (round8ListeningCoverage.a2B1Announcements < 15) fail('Round 8 listening coverage', `expected at least 15 A2–B1 announcement clips (found ${round8ListeningCoverage.a2B1Announcements})`);
 }
 
 const cefrRank: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5 };
