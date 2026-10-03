@@ -246,8 +246,11 @@ for (const file of files) {
     if (file === 'listening-library.json') {
       listeningItemCount += 1;
       if (item.transcriptVerified !== true) fail(where, 'listening clips require a locally verified transcript');
-      if (typeof item.durationSecs !== 'number' || item.durationSecs < 60 || item.durationSecs > 180) {
-        fail(where, 'Round 7 listening clips must be 1–3 minutes');
+      const isRound8Listening = typeof item.id === 'string' && item.id.indexOf('listening-r8-') === 0;
+      const minDuration = isRound8Listening ? 30 : 60;
+      const maxDuration = isRound8Listening ? 120 : 180;
+      if (typeof item.durationSecs !== 'number' || item.durationSecs < minDuration || item.durationSecs > maxDuration) {
+        fail(where, isRound8Listening ? 'Round 8 listening clips must be 30 seconds–2 minutes' : 'Round 7 listening clips must be 1–3 minutes');
       }
       if (typeof item.cefr === 'string' && listeningCoverage[item.cefr] !== undefined) listeningCoverage[item.cefr] += 1;
       if (item.ageBand === 'kids' && (item.cefr === 'A1' || item.cefr === 'A2')) listeningCoverage.kids += 1;
