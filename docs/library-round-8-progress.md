@@ -18,4 +18,4 @@ Complete. Added optional `tier` and `price` fields and populated all 150 attract
 
 ## Task 3 — Absolute dish tiers
 
-In progress. Replaced per-city rank tiers with absolute price bands normalized across currencies. Next: run World Flight checks, review all city/dish counts, and commit.
+Complete. Re-tiered all 150 dishes in 50 cities by absolute approximate USD value using rounded local-currency conversion: `$` at up to about US$10, `$$` above US$10 through US$40, and `$$$` above US$40. Result: 107 `$`, 40 `$$`, 3 `$$$`; no dishes are missing a price or tier. `pnpm test src/lib/world-flight` passes (14 files, 79 tests); `npx tsc --noEmit -p .` and `npx tsx scripts/validate-library.ts` pass.
