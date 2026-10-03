@@ -14,7 +14,7 @@ Updated the library validator to apply the Round 8 30–120-second range to `lis
 
 ## Task 2 — Attraction tiers and prices
 
-In progress. Added optional tier and price fields to attractions in the runtime destination data. Next: run World Flight checks, count all cities/attractions, and review uncertain estimates.
+Complete. Added optional `tier` and `price` fields and populated all 150 attractions across 50 cities. Tiers use broad absolute categories; displayed prices are generated local-currency estimates from the existing city price profiles, so treat them as approximate. `pnpm test src/lib/world-flight` passes (14 files, 79 tests); `npx tsc --noEmit -p .` passes.
 
 ## Task 3 — Absolute dish tiers
 

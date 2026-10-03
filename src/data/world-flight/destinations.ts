@@ -4147,6 +4147,28 @@ function priceNumber(value: string | undefined): number | undefined {
   return match ? Number(match[0]) : undefined;
 }
 
+function roundedPriceAmount(amount: number): number {
+  const magnitude = Math.pow(10, Math.max(0, Math.floor(Math.log10(Math.max(1, amount))) - 1));
+  return Math.max(1, Math.round(amount / magnitude) * magnitude);
+}
+
+function attractionPricing(attraction: TravelAttraction, profile: DestinationPriceProfile): Pick<TravelAttraction, 'tier' | 'price'> {
+  const text = `${attraction.name} ${attraction.whatItIs}`.toLowerCase();
+  if (/public park|park in|street market|weekend market|market square|public square|city beach|open beach|crossing|neighborhood|neighbourhood|waterfront walk|promenade/.test(text)) {
+    return { tier: '$', price: 'Free' };
+  }
+
+  const tier: TravelPriceTier = /observation|view deck|skydeck|cable car|guided tour|cruise|show|aquarium|theme park|tower/.test(text)
+    ? '$$$'
+    : /museum|palace|temple|shrine|cathedral|mosque|fortress|castle|heritage site/.test(text)
+      ? '$$'
+      : '$';
+  const base = priceNumber(profile.hotelPrices[0]) ?? 50;
+  const multiplier = tier === '$$$' ? 1 : tier === '$$' ? 0.2 : 0.06;
+  const amount = roundedPriceAmount(base * multiplier);
+  return { tier, price: `about ${profile.currency.symbol}${amount}` };
+}
+
 function assignPriceTiers(prices: Array<string | undefined>): Array<TravelPriceTier | undefined> {
   const amounts = prices.map((price) => priceNumber(price));
   const unique = Array.from(new Set(amounts.filter((amount): amount is number => amount !== undefined))).sort((a, b) => a - b);
@@ -4200,6 +4222,10 @@ function withTravelAnchors(destinations: DestinationPack[]): DestinationPack[] {
       const amount = priceProfile?.dishPrices[index];
       return amount ? { ...dish, tier: dishTiers[index], price: `about ${amount}` } : dish;
     });
+    const attractions = anchorsWithCoordinates.attractions.map((attraction) => ({
+      ...attraction,
+      ...(priceProfile ? attractionPricing(attraction, priceProfile) : {}),
+    }));
     const transportPrices = priceProfile
       ? (transport ?? []).map((option) => localTransportPrice(option.approxCost, priceProfile))
       : [];
@@ -4219,6 +4245,7 @@ function withTravelAnchors(destinations: DestinationPack[]): DestinationPack[] {
       travelAnchors: {
         ...anchorsWithCoordinates,
         dishes,
+        attractions,
         ...(transport ? { transport: pricedTransport } : {}),
         ...(localColor ? { localColor } : {}),
       },
