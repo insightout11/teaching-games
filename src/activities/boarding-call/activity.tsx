@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { PlaneTakeoff, Luggage, Check, User } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import { dealTravellerCards, type TravellerCard } from '@/lib/world-flight/traveller-cards';
+import { TRIP_CAN_DOS, countTicks } from '@/lib/world-flight/trip-can-do';
 import type { ActivityProps, BoardingCallContent } from '../types';
 
 // Boarding Call — the Travel takeoff. The whole class flies together from a shared origin, so the
@@ -13,7 +14,8 @@ import type { ActivityProps, BoardingCallContent } from '../types';
 
 // Travel v2: boarding opens with Traveller Cards. Each phone gets a persona + budget tier + food
 // need + a want; students introduce themselves aloud as it. Cards are stored for the later stops.
-type Phase = 'idle' | 'cards' | 'prompting' | 'done';
+// Then the can-do check (the trip's BEFORE): phones tick what they could do in the city today.
+type Phase = 'idle' | 'cards' | 'cando' | 'prompting' | 'done';
 
 const FALLBACK_PROMPTS = [
   'What are you packing for the trip?',
@@ -36,6 +38,9 @@ export function BoardingCallActivity({
   const setTravellers = useSessionStore((st) => st.setTravellers);
   const [cards] = useState<Record<string, TravellerCard>>(() => dealTravellerCards(students, `${city}:${students.map((x) => x.id).join(',')}`));
   const [introduced, setIntroduced] = useState<string[]>([]);
+  const recordCanDo = useSessionStore((st) => st.recordCanDo);
+  const before = useSessionStore((st) => st.lessonThread.canDo?.before);
+  const beforeCounts = countTicks(before ?? {});
   useEffect(() => { setTravellers(cards); }, [cards, setTravellers]);
 
   const [phase, setPhase] = useState<Phase>('idle');
@@ -56,6 +61,10 @@ export function BoardingCallActivity({
       onSetInputSpec?.({ type: 'confirm', gameKey: 'boarding-call', prompt: `Your Traveller Card for ${city}`, perStudentData: per, stableInput: true });
       return;
     }
+    if (phase === 'cando') {
+      onSetInputSpec?.({ type: 'confirm', gameKey: 'boarding-call', prompt: `Could you do this in ${city} today?`, instruction: 'Tick the ones you could do now. It’s fine to tick none: that’s what the trip is for.', perStudentData: { __cando: TRIP_CAN_DOS.map((c) => ({ id: c.id, text: c.text })) }, stableInput: true });
+      return;
+    }
     if (phase !== 'prompting') { onSetInputSpec?.(null); return; }
     onSetInputSpec?.({
       type: 'confirm',
@@ -74,6 +83,10 @@ export function BoardingCallActivity({
         setIntroduced((prev) => (prev.includes(vote.displayName) ? prev : [...prev, vote.displayName]));
         return;
       }
+      if (phaseRef.current === 'cando') {
+        try { recordCanDo('before', vote.clientId, JSON.parse(vote.choice) as string[]); } catch { /* not a can-do list */ }
+        return;
+      }
       if (phaseRef.current !== 'prompting') return;
       const idx = indexRef.current;
       const key = `${idx}:${vote.clientId}`;
@@ -83,7 +96,7 @@ export function BoardingCallActivity({
       void onScore?.({ studentId: vote.studentId ?? null, clientId: vote.clientId, displayName: vote.displayName, promptIndex: idx + 1, points: 1, isCorrect: null });
     });
     return () => onRegisterRemoteVoteHandler?.(null);
-  }, [onRegisterRemoteVoteHandler, onScore]);
+  }, [onRegisterRemoteVoteHandler, onScore, recordCanDo]);
 
   const start = useCallback(() => {
     if (students.length) { setPhase('cards'); onPhaseChange?.('cards'); return; }
@@ -151,6 +164,33 @@ export function BoardingCallActivity({
               </div>
             );
           })}
+        </div>
+        <div className="flex justify-end">
+          <button onClick={() => { setPhase('cando'); onPhaseChange?.('cando'); }} className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]">CAN-DO CHECK</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (phase === 'cando') {
+    const answered = Object.keys(before ?? {}).length;
+    return (
+      <div className="space-y-5">
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-cyan-300/70">Boarding Call · Before the trip</p>
+          <span className="text-sm text-slate-400">{answered} answered</span>
+        </div>
+        <div className="rounded-2xl border-2 border-cyan-500/30 bg-cyan-500/[0.08] p-6 text-center">
+          <h3 className="text-2xl font-game text-white">Could you do this in {city} today?</h3>
+          <p className="mx-auto mt-2 max-w-lg text-sm text-slate-300">Be honest: tick what you could do now on your phone. We’ll check again when we land.</p>
+        </div>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {TRIP_CAN_DOS.map((c) => (
+            <div key={c.id} className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-slate-200">
+              <span>{c.text}</span>
+              {answered > 0 && <span className="shrink-0 text-xs text-slate-400">{beforeCounts[c.id] ?? 0} of {answered}</span>}
+            </div>
+          ))}
         </div>
         <div className="flex justify-end">
           <button onClick={toPrompts} className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]">PACKING QUESTIONS</button>

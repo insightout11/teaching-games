@@ -76,6 +76,8 @@ export interface LessonThread {
   travellers?: Record<string, TravellerCard>;
   /** Travel: the stops the class chose in Plan the Day (stageIds); the rest are dropped. */
   tripStops?: string[];
+  /** Travel can-do check per phone (clientId → ticked can-do ids), at boarding and at landing. */
+  canDo?: { before: Record<string, string[]>; after: Record<string, string[]> };
 }
 
 export interface SessionSettings {
@@ -270,6 +272,7 @@ interface SessionState {
   setFlightQuestion: (q: { question: string; type: 'opinion' | 'problem' | 'personal' }) => void;
   setTravellers: (cards: Record<string, TravellerCard>) => void;
   setTripStops: (stops: string[]) => void;
+  recordCanDo: (when: 'before' | 'after', clientId: string, ids: string[]) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
@@ -433,6 +436,11 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setFlightQuestion: (q) => set({ lessonThread: { ...get().lessonThread, flightQuestion: q } }),
   setTravellers: (cards) => set({ lessonThread: { ...get().lessonThread, travellers: cards } }),
   setTripStops: (stops) => set({ lessonThread: { ...get().lessonThread, tripStops: stops } }),
+  recordCanDo: (when, clientId, ids) => {
+    const { lessonThread } = get();
+    const cur = lessonThread.canDo ?? { before: {}, after: {} };
+    set({ lessonThread: { ...lessonThread, canDo: { ...cur, [when]: { ...cur[when], [clientId]: ids } } } });
+  },
 
   recordHuntStamps: (clientId, name, count) => {
     const { lessonThread } = get();

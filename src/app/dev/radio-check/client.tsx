@@ -25,6 +25,8 @@ import { RadioCheckActivity } from '@/activities/radio-check';
 import { BoardingCallActivity } from '@/activities/boarding-call/activity';
 import { TripHotelActivity } from '@/activities/trip-hotel/activity';
 import { TripPlanActivity } from '@/activities/trip-plan/activity';
+import { TripRecapActivity } from '@/activities/trip-recap/activity';
+import { CanDoPanel } from '@/components/student/can-do-panel';
 import { buildTripAnnouncementContent } from '@/activities/trip-announcement/content';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { TripTravellerCardPanel } from '@/components/student/trip-traveller-card';
@@ -123,11 +125,27 @@ export function RadioCheckDevClient() {
     return true;
   });
   const mode = useSearchParams().get('mode');
+  if (mode === 'recap' && !useSessionStore.getState().lessonThread.canDo) {
+    const st = useSessionStore.getState();
+    st.setCustomTopic('Trip to Tokyo');
+    st.setTravellers({ s1: { persona: 'a food blogger', budget: '$$$', food: 'adventurous', want: 'x' }, s2: { persona: 'a student backpacker', budget: '$', food: 'vegetarian', want: 'y' }, s3: { persona: 'a retired couple', budget: '$$', food: 'nut allergy', want: 'z' } });
+    st.setTripStops(['getting-there', 'hotel', 'local-table']);
+    st.recordCanDo('before', 'a', ['passport']);
+    st.recordCanDo('before', 'b', []);
+    st.recordCanDo('before', 'c', ['order']);
+  }
   const video = mode === 'video';
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'announce' ? (
+      {mode === 'recap' ? (
+        <div className="flex gap-4">
+          <div className="flex-1"><TripRecapActivity {...props} sessionSettings={{ difficulty: 'Advanced' } as unknown as ActivityProps['sessionSettings']} students={TRIP_CREW} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={{ activityKey: 'trip-recap', topicContext: 'Tokyo' } as unknown as ActivityProps['generatedContent']} /></div>
+          <div className="w-72 rounded-3xl bg-slate-900 p-4 text-sm text-slate-200">{spec?.perStudentData?.__cando
+            ? <CanDoPanel spec={spec} onSubmit={() => {}} />
+            : <pre className="whitespace-pre-wrap text-xs">{JSON.stringify(spec, null, 1)}</pre>}</div>
+        </div>
+      ) : mode === 'announce' ? (
         <div className="flex gap-4">
           <div className="flex-1"><RadioCheckActivity {...props} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} generatedContent={buildTripAnnouncementContent(WORLD_DESTINATIONS.find((d) => d.city === 'Tokyo') ?? WORLD_DESTINATIONS[0]) as unknown as ActivityProps['generatedContent']} /></div>
           <pre className="w-72 whitespace-pre-wrap rounded-3xl bg-slate-900 p-4 text-xs text-slate-200">{JSON.stringify(spec, null, 1)}</pre>
