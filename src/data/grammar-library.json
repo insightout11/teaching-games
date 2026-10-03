@@ -645,8 +645,7 @@
     "place": null,
     "summary": "A short BBC lesson explaining have to and must with examples and a practice focus.",
     "transcriptSourceType": "bbc",
-    "needsReview": false,
-    "flightQuestion": "Should language classes focus more on speaking or writing?"
+    "needsReview": false
   },
   {
     "id": "bbc-grammar-r2-V2quIYo41Ig",
@@ -670,8 +669,7 @@
     "place": null,
     "summary": "A short BBC lesson explaining used to and would with examples.",
     "transcriptSourceType": "bbc",
-    "needsReview": false,
-    "flightQuestion": "Should students learn grammar through examples or rules?"
+    "needsReview": false
   },
   {
     "id": "bbc-grammar-r2-j9b1CNN_rFU",
@@ -695,8 +693,7 @@
     "place": null,
     "summary": "A short BBC lesson explaining asking questions with examples.",
     "transcriptSourceType": "bbc",
-    "needsReview": false,
-    "flightQuestion": "Should language classes focus more on speaking or writing?"
+    "needsReview": false
   },
   {
     "id": "bbc-grammar-r2-K-MKAjvvcsw",
@@ -720,8 +717,7 @@
     "place": null,
     "summary": "A short BBC lesson explaining zero and first conditional with examples.",
     "transcriptSourceType": "bbc",
-    "needsReview": false,
-    "flightQuestion": "Should students learn grammar through examples or rules?"
+    "needsReview": false
   },
   {
     "id": "bbc-grammar-r2-voQLMgJE-QE",
@@ -745,8 +741,7 @@
     "place": null,
     "summary": "A short BBC lesson explaining adverbs of frequency with examples.",
     "transcriptSourceType": "bbc",
-    "needsReview": false,
-    "flightQuestion": "Should students learn grammar through examples or rules?"
+    "needsReview": false
   },
   {
     "id": "bbc-grammar-r2-tzEt4iwsIdo",
@@ -770,8 +765,7 @@
     "place": null,
     "summary": "A short BBC lesson explaining using like for preference and description with examples.",
     "transcriptSourceType": "bbc",
-    "needsReview": false,
-    "flightQuestion": "Should students learn grammar through examples or rules?"
+    "needsReview": false
   },
   {
     "id": "bbc-grammar-r2-q-Jkx670rT8",
@@ -795,8 +789,7 @@
     "place": null,
     "summary": "A short BBC lesson explaining the definite article with abstract uncountable nouns with examples.",
     "transcriptSourceType": "bbc",
-    "needsReview": false,
-    "flightQuestion": "Should students learn grammar through examples or rules?"
+    "needsReview": false
   },
   {
     "id": "bbc_grammar_question_tags",
@@ -820,8 +813,7 @@
     "place": null,
     "summary": "Dan explains how to form and use question tags in British English — including the difference between falling and rising intonation and how tags function in natural conversation.",
     "transcriptSourceType": "bbc",
-    "needsReview": false,
-    "flightQuestion": "Should students learn about forces through examples or experiments?"
+    "needsReview": false
   },
   {
     "id": "bbc_masterclass_choose_tense",
@@ -871,8 +863,7 @@
     "place": null,
     "summary": "Dan explores the 'historical present' — how English speakers use present tenses to tell past stories, narrate sports, and create dramatic effects.",
     "transcriptSourceType": "bbc",
-    "needsReview": false,
-    "flightQuestion": "Should people choose local food even when it costs more?"
+    "needsReview": false
   },
   {
     "id": "grammar-r3-mOQ_VnC6dtU",
@@ -1602,8 +1593,7 @@
     "ageBand": "kids",
     "place": null,
     "transcriptVerified": true,
-    "needsReview": false,
-    "flightQuestion": "Should people follow rules when they seem unfair?"
+    "needsReview": false
   },
   {
     "id": "grammar-r7-K7jtbc8jYGc",
@@ -1627,8 +1617,7 @@
     "ageBand": "teens",
     "place": null,
     "transcriptVerified": true,
-    "needsReview": false,
-    "flightQuestion": "Should cities make more room for people than cars?"
+    "needsReview": false
   },
   {
     "id": "grammar-r7-a6Eozn55Lqs",
@@ -1674,8 +1663,7 @@
     "ageBand": "kids",
     "place": null,
     "transcriptVerified": true,
-    "needsReview": false,
-    "flightQuestion": "Should people risk comfort to help a friend?"
+    "needsReview": false
   },
   {
     "id": "grammar-r7-eZpp7ifDR2E",
@@ -1698,8 +1686,7 @@
     "ageBand": "kids",
     "place": null,
     "transcriptVerified": true,
-    "needsReview": false,
-    "flightQuestion": "Should students practice English by speaking or writing?"
+    "needsReview": false
   },
   {
     "id": "grammar-r7-XFKNvYWX9ZU",
@@ -1792,8 +1779,7 @@
     "ageBand": "kids",
     "place": null,
     "transcriptVerified": true,
-    "needsReview": false,
-    "flightQuestion": "Should students practice English by speaking or writing?"
+    "needsReview": false
   },
   {
     "id": "grammar-r7-BeLNpyXztX8",
@@ -1839,8 +1825,7 @@
     "ageBand": "kids",
     "place": null,
     "transcriptVerified": true,
-    "needsReview": false,
-    "flightQuestion": "Should people risk comfort to help a friend?"
+    "needsReview": false
   },
   {
     "id": "grammar-r7-5aHYdssQh9g",
@@ -1863,8 +1848,7 @@
     "ageBand": "kids",
     "place": null,
     "transcriptVerified": true,
-    "needsReview": false,
-    "flightQuestion": "Should students practice English by speaking or writing?"
+    "needsReview": false
   },
   {
     "id": "grammar-r7-60RsFyoaOxg",
@@ -1887,8 +1871,7 @@
     "ageBand": "kids",
     "place": null,
     "transcriptVerified": true,
-    "needsReview": false,
-    "flightQuestion": "Should students practice English by speaking or writing?"
+    "needsReview": false
   },
   {
     "id": "grammar-r7-1EhE-kJV2Zw",
@@ -1934,8 +1917,7 @@
     "ageBand": "kids",
     "place": null,
     "transcriptVerified": true,
-    "needsReview": false,
-    "flightQuestion": "Should schools make daily exercise part of every student’s routine?"
+    "needsReview": false
   },
   {
     "id": "grammar-r7-ZWfYIqY8BsU",

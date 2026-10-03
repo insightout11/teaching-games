@@ -16,8 +16,7 @@
     "youtubeId": "iG9CE55wbtY",
     "genre": "opinion",
     "cefr": "B1",
-    "ageBand": "teens",
-    "flightQuestion": "Should communities change daily habits to protect the environment?"
+    "ageBand": "teens"
   },
   {
     "id": "brene_brown_power_of_vulnerability",
@@ -55,8 +54,7 @@
     "youtubeId": "H14bBuluwB8",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "teens",
-    "flightQuestion": "Should cities make more room for people than cars?"
+    "ageBand": "teens"
   },
   {
     "id": "carol_dweck_power_of_believing",
@@ -75,8 +73,7 @@
     "youtubeId": "_X0mgOOSpLU",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "teens",
-    "flightQuestion": "Should schools spend more time teaching healthy habits?"
+    "ageBand": "teens"
   },
   {
     "id": "shawn_achor_happy_secret",
@@ -114,8 +111,7 @@
     "youtubeId": "8KkKuTCFvzI",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens",
-    "flightQuestion": "Should students make more choices about their own health?"
+    "ageBand": "teens"
   },
   {
     "id": "chimamanda_adichie_danger_single_story",
@@ -158,8 +154,7 @@
     "youtubeId": "rrkrvAUbU9Y",
     "genre": "expository",
     "cefr": "B2",
-    "ageBand": "teens",
-    "flightQuestion": "Should people choose local food even when it costs more?"
+    "ageBand": "teens"
   },
   {
     "id": "tim_urban_procrastinator",
@@ -216,8 +211,7 @@
     "youtubeId": "Ks-_Mh1QhMc",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens",
-    "flightQuestion": "Should students make more choices about their own health?"
+    "ageBand": "teens"
   },
   {
     "id": "adam_grant_originals",
@@ -236,8 +230,7 @@
     "youtubeId": "fxbCHn6gE3U",
     "genre": "expository",
     "cefr": "B2",
-    "ageBand": "teens",
-    "flightQuestion": "Should schools offer more plant-based meals?"
+    "ageBand": "teens"
   },
   {
     "id": "hans_rosling_best_stats",
@@ -256,8 +249,7 @@
     "youtubeId": "hVimVzgtD6w",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens",
-    "flightQuestion": "Should schools spend more time teaching healthy habits?"
+    "ageBand": "teens"
   },
   {
     "id": "jill_bolte_taylor_stroke",
@@ -295,8 +287,7 @@
     "youtubeId": "nzj7Wg4DAbs",
     "genre": "expository",
     "cefr": "B2",
-    "ageBand": "teens",
-    "flightQuestion": "Should schools spend more time teaching healthy habits?"
+    "ageBand": "teens"
   },
   {
     "id": "elizabeth_gilbert_creative_genius",
@@ -315,8 +306,7 @@
     "youtubeId": "86x-u-tz0MA",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens",
-    "flightQuestion": "Should schools spend more time teaching healthy habits?"
+    "ageBand": "teens"
   },
   {
     "id": "bill_gates_teachers_need_feedback",
@@ -335,8 +325,7 @@
     "youtubeId": "81Ub0SMxZQo",
     "genre": "opinion",
     "cefr": "B1",
-    "ageBand": "teens",
-    "flightQuestion": "Should schools offer more plant-based meals?"
+    "ageBand": "teens"
   },
   {
     "id": "sal_khan_reinvent_education",
@@ -374,8 +363,7 @@
     "youtubeId": "fn_9f5x0f1Q",
     "genre": "opinion",
     "cefr": "B1",
-    "ageBand": "teens",
-    "flightQuestion": "Should people protect wild animals even when it costs more?"
+    "ageBand": "teens"
   },
   {
     "id": "steven_johnson_where_good_ideas_come",
@@ -399,7 +387,6 @@
     "youtubeId": "NugRZGDbPFU",
     "genre": "expository",
     "cefr": "B2",
-    "ageBand": "teens",
-    "flightQuestion": "Should teens choose their own screen-time rules?"
+    "ageBand": "teens"
   }
 ]

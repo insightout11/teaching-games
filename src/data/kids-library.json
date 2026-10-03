@@ -17,7 +17,6 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Should schools teach healthy habits every day?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -39,7 +38,6 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Should communities invest more in clean energy?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -61,7 +59,6 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Should people protect every link in a food chain?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -83,7 +80,6 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Should students learn about forces through examples or experiments?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -127,7 +123,6 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Should students have more choice in school meals?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -173,7 +168,6 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Should people protect every link in a food chain?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -196,7 +190,6 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Should students learn about forces through examples or experiments?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -218,7 +211,6 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Who should act first on climate change: people or governments?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -241,7 +233,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "kids",
-    "flightQuestion": "Who should act first on climate change: people or governments?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -264,7 +255,6 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Who should act first on climate change: people or governments?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -287,7 +277,6 @@
     "genre": "expository",
     "cefr": "A1",
     "ageBand": "kids",
-    "flightQuestion": "Should people risk comfort to help a friend?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -310,7 +299,6 @@
     "genre": "expository",
     "cefr": "A1",
     "ageBand": "kids",
-    "flightQuestion": "Who should do more to protect nature: people or leaders?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -333,7 +321,6 @@
     "genre": "opinion",
     "cefr": "A1",
     "ageBand": "kids",
-    "flightQuestion": "Should wild animals live near towns or far away?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -356,7 +343,6 @@
     "genre": "expository",
     "cefr": "A1",
     "ageBand": "kids",
-    "flightQuestion": "Should wild animals live near towns or far away?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -379,7 +365,6 @@
     "genre": "expository",
     "cefr": "A1",
     "ageBand": "kids",
-    "flightQuestion": "Should communities change daily habits to protect the environment?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -781,8 +766,7 @@
       "title": "Animals and Their Habitats",
       "order": 1
     },
-    "needsReview": false,
-    "flightQuestion": "Should people protect wild animals even when it costs more?"
+    "needsReview": false
   },
   {
     "id": "kids_particles_world",
@@ -812,8 +796,7 @@
       "title": "Everyday Science: Materials and Measurement",
       "order": 1
     },
-    "needsReview": false,
-    "flightQuestion": "Should schools spend more time on arts and culture?"
+    "needsReview": false
   },
   {
     "id": "kids_measurement_mystery",
@@ -843,8 +826,7 @@
       "title": "Everyday Science: Materials and Measurement",
       "order": 2
     },
-    "needsReview": false,
-    "flightQuestion": "Should students learn science by experiments or explanations?"
+    "needsReview": false
   },
   {
     "id": "kids_over_to_moon",
@@ -874,8 +856,7 @@
       "title": "Space for Beginners",
       "order": 1
     },
-    "needsReview": false,
-    "flightQuestion": "Should people explore space despite the risks and costs?"
+    "needsReview": false
   },
   {
     "id": "kids_chemical_changes",
@@ -905,8 +886,7 @@
       "title": "Everyday Science: Materials and Measurement",
       "order": 3
     },
-    "needsReview": false,
-    "flightQuestion": "Should schools serve local foods alongside familiar meals?"
+    "needsReview": false
   },
   {
     "id": "kids_earth_rotation_revolution",
@@ -936,8 +916,7 @@
       "title": "Space for Beginners",
       "order": 2
     },
-    "needsReview": false,
-    "flightQuestion": "Should schools spend more time on arts and culture?"
+    "needsReview": false
   },
   {
     "id": "kids_seasons_sun",
@@ -967,8 +946,7 @@
       "title": "Space for Beginners",
       "order": 3
     },
-    "needsReview": false,
-    "flightQuestion": "Should communities invest more in clean energy?"
+    "needsReview": false
   },
   {
     "id": "kids_polar_pineapples",
@@ -998,8 +976,7 @@
       "title": "Earth systems: water, weather and sunlight",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "Who should act first on climate change: people or governments?"
+    "needsReview": false
   },
   {
     "id": "kids_glow_on",
@@ -1024,8 +1001,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Who should do more to protect nature: people or leaders?"
+    "needsReview": false
   },
   {
     "id": "kids_engineering_process",
@@ -1050,8 +1026,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Should students learn science by experiments or explanations?"
+    "needsReview": false
   },
   {
     "id": "kids_0gmbjfqghfc",
@@ -1080,8 +1055,7 @@
       "title": "Inventions and design",
       "order": 1
     },
-    "needsReview": false,
-    "flightQuestion": "Should children use phones to learn or mostly to play?"
+    "needsReview": false
   },
   {
     "id": "kids_skahb_8ctzg",
@@ -1110,8 +1084,7 @@
       "title": "Earth systems: water, weather and sunlight",
       "order": 1
     },
-    "needsReview": false,
-    "flightQuestion": "Who should act first on climate change: people or governments?"
+    "needsReview": false
   },
   {
     "id": "kids_4b2kdceuwr4",
@@ -1136,8 +1109,7 @@
     "place": null,
     "needsReview": true,
     "kind": "video",
-    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context.",
-    "flightQuestion": "Should children try new foods at school?"
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
   },
   {
     "id": "kids_cye4_d6fb_w",
@@ -1166,8 +1138,7 @@
       "title": "Cities and natural habitats",
       "order": 1
     },
-    "needsReview": false,
-    "flightQuestion": "Who should act first on climate change: people or governments?"
+    "needsReview": false
   },
   {
     "id": "kids_1fkgqo0xk94",
@@ -1196,8 +1167,7 @@
       "title": "Cities and natural habitats",
       "order": 2
     },
-    "needsReview": false,
-    "flightQuestion": "Should wild animals live near towns or far away?"
+    "needsReview": false
   },
   {
     "id": "kids_durjvjc5xx0",
@@ -1226,8 +1196,7 @@
       "title": "Space for Beginners",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "Who should do more to protect nature: people or leaders?"
+    "needsReview": false
   },
   {
     "id": "kids_lsdaf8_mr8e",
@@ -1285,8 +1254,7 @@
       "title": "Inventions and design",
       "order": 3
     },
-    "needsReview": false,
-    "flightQuestion": "Should students learn science by experiments or explanations?"
+    "needsReview": false
   },
   {
     "id": "kids_zfk0xhqt5fq",
@@ -1315,8 +1283,7 @@
       "title": "Animals and Their Habitats",
       "order": 3
     },
-    "needsReview": false,
-    "flightQuestion": "Should people protect wild animals even when it costs more?"
+    "needsReview": false
   },
   {
     "id": "kids_2zjzs19myik",
@@ -1345,8 +1312,7 @@
       "title": "Animal adaptations",
       "order": 1
     },
-    "needsReview": false,
-    "flightQuestion": "Should wild animals live near towns or far away?"
+    "needsReview": false
   },
   {
     "id": "kids_kmdd6ttdz_g",
@@ -1375,8 +1341,7 @@
       "title": "Cities and natural habitats",
       "order": 3
     },
-    "needsReview": false,
-    "flightQuestion": "Who should act first on climate change: people or governments?"
+    "needsReview": false
   },
   {
     "id": "kids_fxyp76jwxsu",
@@ -1405,8 +1370,7 @@
       "title": "Animals and Their Habitats",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "Should wild animals live near towns or far away?"
+    "needsReview": false
   },
   {
     "id": "kids_b79xio8qgiy",
@@ -1435,8 +1399,7 @@
       "title": "The human body and health",
       "order": 1
     },
-    "needsReview": false,
-    "flightQuestion": "Should schools teach healthy habits every day?"
+    "needsReview": false
   },
   {
     "id": "kids_3gy_gts86jm",
@@ -1523,8 +1486,7 @@
       "title": "Everyday Science: Materials and Measurement",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "Should schools teach healthy habits every day?"
+    "needsReview": false
   },
   {
     "id": "kids_zojlcdmvwai",
@@ -1577,8 +1539,7 @@
       "title": "Animal adaptations",
       "order": 2
     },
-    "needsReview": false,
-    "flightQuestion": "Who should act first on climate change: people or governments?"
+    "needsReview": false
   },
   {
     "id": "kids_syawnjolnv8",
@@ -1602,8 +1563,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Should wild animals live near towns or far away?"
+    "needsReview": false
   },
   {
     "id": "kids_dtk_uwx_vqo",
@@ -1627,8 +1587,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Who should do more to protect nature: people or leaders?"
+    "needsReview": false
   },
   {
     "id": "kids_tjcukcfz8qy",
@@ -1657,8 +1616,7 @@
       "title": "Animal adaptations",
       "order": 3
     },
-    "needsReview": false,
-    "flightQuestion": "Should people protect wild animals even when it costs more?"
+    "needsReview": false
   },
   {
     "id": "kids_ghfboypqqx0",
@@ -1687,8 +1645,7 @@
       "title": "Animal adaptations",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "Should wild animals live near towns or far away?"
+    "needsReview": false
   },
   {
     "id": "kids_yoirci0ckzg",
@@ -1717,8 +1674,7 @@
       "title": "Animals and Their Habitats",
       "order": 5
     },
-    "needsReview": false,
-    "flightQuestion": "Should people protect wild animals even when it costs more?"
+    "needsReview": false
   },
   {
     "id": "kids_gazkec59g1w",
@@ -1747,8 +1703,7 @@
       "title": "Cities and natural habitats",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "Should schools serve local foods alongside familiar meals?"
+    "needsReview": false
   },
   {
     "id": "kids_jqqleh172ho",
@@ -1777,8 +1732,7 @@
       "title": "Animal adaptations",
       "order": 5
     },
-    "needsReview": false,
-    "flightQuestion": "Who should act first on climate change: people or governments?"
+    "needsReview": false
   },
   {
     "id": "kids_ueroeqyjxfo",
@@ -1802,8 +1756,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Should wild animals live near towns or far away?"
+    "needsReview": false
   },
   {
     "id": "kids_hwfqek29wrg",
@@ -1827,8 +1780,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Who should do more to protect nature: people or leaders?"
+    "needsReview": false
   },
   {
     "id": "kids_x7_t_9wzjga",
@@ -1852,8 +1804,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Who should do more to protect nature: people or leaders?"
+    "needsReview": false
   },
   {
     "id": "kids_dlq0lhpyzd8",
@@ -1882,8 +1833,7 @@
       "title": "Earth and Weather for Young Learners",
       "order": 5
     },
-    "needsReview": false,
-    "flightQuestion": "Should schools serve local foods alongside familiar meals?"
+    "needsReview": false
   },
   {
     "id": "kids_0qmgdz9e47s",
@@ -1912,8 +1862,7 @@
       "title": "Earth systems: water, weather and sunlight",
       "order": 5
     },
-    "needsReview": false,
-    "flightQuestion": "Should communities invest more in clean energy?"
+    "needsReview": false
   },
   {
     "id": "kids_mc3auuuj9_i",
@@ -1937,8 +1886,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Should students learn science by experiments or explanations?"
+    "needsReview": false
   },
   {
     "id": "kids_3yqb2kfwjco",
@@ -1967,8 +1915,7 @@
       "title": "Everyday Science: Materials and Measurement",
       "order": 5
     },
-    "needsReview": false,
-    "flightQuestion": "Should children use phones to learn or mostly to play?"
+    "needsReview": false
   },
   {
     "id": "kids_8whjjlmniku",
@@ -1992,8 +1939,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Should children use phones to learn or mostly to play?"
+    "needsReview": false
   },
   {
     "id": "kids_02wrls_ue1q",
@@ -2071,8 +2017,7 @@
     "place": null,
     "needsReview": true,
     "kind": "video",
-    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context.",
-    "flightQuestion": "Should children learn how sleep and food affect health?"
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
   },
   {
     "id": "kids_jyu966aonzi",
@@ -2101,8 +2046,7 @@
       "title": "The human body and health",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "Are dreams useful, or just random brain activity?"
+    "needsReview": false
   },
   {
     "id": "kids_8cqmky_wqao",
@@ -2126,8 +2070,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Should people protect wild animals even when it costs more?"
+    "needsReview": false
   },
   {
     "id": "kids_0otbv8_mdr4",
@@ -2156,8 +2099,7 @@
       "title": "Inventions and design",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "Should students learn science by experiments or explanations?"
+    "needsReview": false
   },
   {
     "id": "kids_aoebfggcjvw",
@@ -2182,8 +2124,7 @@
     "place": null,
     "needsReview": true,
     "kind": "video",
-    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context.",
-    "flightQuestion": "Should children learn how sleep and food affect health?"
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
   },
   {
     "id": "kids_optical_illusions",
@@ -2207,8 +2148,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Should students make more choices about their own health?"
+    "needsReview": false
   },
   {
     "id": "kids_xyfuqfqfl30",
@@ -2259,8 +2199,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Should students learn science by experiments or explanations?"
+    "needsReview": false
   },
   {
     "id": "kids_dkjlbcci6zs",
@@ -2283,8 +2222,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Should people follow rules when they seem unfair?"
+    "needsReview": false
   },
   {
     "id": "kids_gnnuid8hof0",
@@ -2312,8 +2250,7 @@
       "title": "Cities and natural habitats",
       "order": 5
     },
-    "needsReview": false,
-    "flightQuestion": "Should cities make more room for people than cars?"
+    "needsReview": false
   },
   {
     "id": "kids_8lfd_ekze2m",
@@ -2364,8 +2301,7 @@
       "title": "Earth systems: water, weather and sunlight",
       "order": 2
     },
-    "needsReview": false,
-    "flightQuestion": "Should people explore space despite the risks and costs?"
+    "needsReview": false
   },
   {
     "id": "kids_7vtfyamu6g4",
@@ -2416,8 +2352,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Should people protect wild animals even when it costs more?"
+    "needsReview": false
   },
   {
     "id": "kids_ecsirlk0gts",
@@ -2440,8 +2375,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Who should do more to protect nature: people or leaders?"
+    "needsReview": false
   },
   {
     "id": "kids_elchwuilwa8",
@@ -2525,8 +2459,7 @@
       "title": "Matter and materials",
       "order": 3
     },
-    "needsReview": false,
-    "flightQuestion": "Should communities change daily habits to protect the environment?"
+    "needsReview": false
   },
   {
     "id": "kids_rrj1_yofcaa",
@@ -2554,8 +2487,7 @@
       "title": "Space and science curiosities",
       "order": 1
     },
-    "needsReview": false,
-    "flightQuestion": "Should people explore space despite the risks and costs?"
+    "needsReview": false
   },
   {
     "id": "kids_zd7w5o0bh7g",
@@ -2583,8 +2515,7 @@
       "title": "Matter and materials",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "Should students learn science by experiments or explanations?"
+    "needsReview": false
   },
   {
     "id": "kids_tgflhpslejq",
@@ -2663,8 +2594,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "Should students learn about forces through examples or experiments?"
+    "needsReview": false
   },
   {
     "id": "kids_t7hk6ompvbe",
@@ -2692,8 +2622,7 @@
       "title": "Space and science curiosities",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "Should people explore space despite the risks and costs?"
+    "needsReview": false
   },
   {
     "id": "kids_agvxycrpun8",
@@ -2721,8 +2650,7 @@
       "title": "Space and science curiosities",
       "order": 2
     },
-    "needsReview": false,
-    "flightQuestion": "Should people explore space despite the risks and costs?"
+    "needsReview": false
   },
   {
     "id": "kids_8ghdcosi5es",
@@ -2750,7 +2678,6 @@
       "title": "Space and science curiosities",
       "order": 3
     },
-    "needsReview": false,
-    "flightQuestion": "Should people explore space despite the risks and costs?"
+    "needsReview": false
   }
 ]

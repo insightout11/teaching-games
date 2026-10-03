@@ -319,7 +319,8 @@ for (const file of files) {
   }
 }
 
-if (flightQuestionCount < 728) fail('flight questions', `expected at least 728 items after Round 9 (found ${flightQuestionCount})`);
+// Round 9's templated Flight Questions were removed in review (Oct 3); round 10 redoes them grounded.
+if (flightQuestionCount < 128) fail('flight questions', `expected at least 128 items (found ${flightQuestionCount})`);
 
 for (const tag of Array.from(grammarTags)) {
   const coverage = grammarCoverage[tag] || { total: 0, kids: 0 };

@@ -11,13 +11,29 @@ teacher with beginners or young B1 learners finds no course to fly.
 
 ## Tasks, in this order
 
-### 0. Round 9 loose ends
-- **Bangkok:** the World Flight test expects 150 entries; round 9 removed the dead Bangkok video and left 149. Add an
-  equivalent replacement (Bangkok, same level band, < 7 min, embeddable, clean captions) with `transcriptVerified: false`
-  and list its `youtubeId` in the progress log under "needs prefetch". The owner will run the prefetch with the service
-  key. Don't edit the test.
-- **75 flagged Flight Questions** (`needsReview`, description-based): where the item has a transcript or full text
-  locally, rewrite the question from the content and clear the flag. Report how many stay flagged.
+### 0. Round 9 review: fix first
+**Supabase keys.** Your worktree has no `.env.local` (it's gitignored, so new worktrees never get it), which is why the
+prefetch couldn't reach Supabase. Load the env from the owner's main checkout when running scripts, without copying or
+committing it: e.g. `node --env-file=C:/Users/insig/Documents/teaching-games/.env.local …`, or `dotenv -e <that path>`.
+Never print, log or commit key values.
+
+**Flight Questions were templated.** Round 9 added 600, but only 146 were distinct: "Should people risk comfort to help a
+friend?" was on 59 items. Claude removed the 585 that repeated across items (the 128 originals + 15 unique ones stay).
+Redo them properly:
+- **Every question unique to its item** and specific to its content: names a thing, place, character or idea from the
+  material ("Should Mowgli stay with the wolves?", not "Should people risk comfort to help a friend?").
+- Read the transcript/text for each item. If there's no transcript or text, skip the item.
+- Validator: add a hard rule that no `flightQuestion` text appears on more than one item.
+- Target: 500+ items, same priority as round 9 (series, kids/teens, then main sources).
+
+**Bangkok.** Round 9 removed the dead Bangkok video (149 World Flight entries; `course-presets.test.ts` now expects
+149). Add an equivalent replacement (Bangkok, same level band, < 7 min, embeddable, clean captions), prefetch its
+transcript with the env above, and set the test back to 150.
+
+**75 flagged Flight Questions** (`needsReview`): any that survived are covered by the redo above; clear the flags you fix.
+
+**Renamed tags.** The tag normalisation hyphenated tags (`fairy tale` → `fairy-tale`). Code that keys on tag strings
+must keep working: search `src/` for any tag you rename and report it, don't change code.
 
 ### 1. Series to fill the level gaps (+20 series)
 Group existing items (or add a few, verified like before) into ordered series of 4–6:

@@ -126,7 +126,8 @@ const SORT_OPTIONS = [
 ];
 
 function TextThumbnail({ entry }: { entry: TextEntry }) {
-  const primaryTag = entry.topicTags[0] ?? '';
+  // Tags are hyphenated since the round 9 normalisation (fairy-tale); the maps use spaces.
+  const primaryTag = (entry.topicTags[0] ?? '').replace(/-/g, ' ');
   const gradient = TOPIC_COLORS[primaryTag] ?? 'from-slate-800/50 to-slate-900/70';
   const Icon = TOPIC_ICONS[primaryTag] ?? BookOpen;
   const readMins = Math.ceil(entry.wordCount / 150);
@@ -157,7 +158,8 @@ function TextThumbnail({ entry }: { entry: TextEntry }) {
 }
 
 function TextThumbnailSmall({ entry }: { entry: TextEntry }) {
-  const primaryTag = entry.topicTags[0] ?? '';
+  // Tags are hyphenated since the round 9 normalisation (fairy-tale); the maps use spaces.
+  const primaryTag = (entry.topicTags[0] ?? '').replace(/-/g, ' ');
   const gradient = TOPIC_COLORS[primaryTag] ?? 'from-slate-800/50 to-slate-900/70';
   const Icon = TOPIC_ICONS[primaryTag] ?? BookOpen;
   const coverSlide = entry.slides?.[0];

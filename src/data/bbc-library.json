@@ -35,7 +35,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should language classes focus more on speaking or writing?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -148,7 +147,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should students learn grammar through examples or rules?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -311,7 +309,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should schools offer more plant-based meals?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -340,7 +337,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should schools spend more time teaching healthy habits?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -369,7 +365,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should communities change daily habits to protect the environment?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -398,7 +393,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should schools spend more time teaching healthy habits?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -426,7 +420,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should schools teach students how much sleep they need?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -455,7 +448,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should students make more choices about their own health?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -484,7 +476,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should students make more choices about their own health?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -513,7 +504,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should students make more choices about their own health?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -540,7 +530,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should schools teach mental health as carefully as physical health?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -569,7 +558,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should schools spend more time teaching healthy habits?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -598,7 +586,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should people let AI make important everyday decisions?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -627,7 +614,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should language classes focus more on speaking or writing?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -656,8 +642,7 @@
     "summary": "This BBC 6 Minute English source introduces the future of work through jobs, automation, artificial intelligence, workplace change, and the skills people may need next. It works as a short discussion anchor for learners comparing today's workplaces with possible future careers.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens",
-    "flightQuestion": "Should language classes focus more on speaking or writing?"
+    "ageBand": "teens"
   },
   {
     "id": "bbc_tech_ai_call_centres",
@@ -684,7 +669,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should people let AI make important everyday decisions?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -713,7 +697,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should teens have limits on social media time?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -740,7 +723,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should language classes focus more on speaking or writing?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -767,7 +749,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should schools teach mental health as carefully as physical health?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -796,7 +777,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should communities change daily habits to protect the environment?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -825,7 +805,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Who should act first on climate change: people or governments?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -854,7 +833,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Who should act first on climate change: people or governments?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -883,7 +861,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should communities change daily habits to protect the environment?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -910,7 +887,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should communities change daily habits to protect the environment?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -939,7 +915,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should communities change daily habits to protect the environment?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -968,7 +943,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should students make more choices about their own health?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -997,7 +971,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should students make more choices about their own health?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -1026,7 +999,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Who should act first on climate change: people or governments?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -1055,7 +1027,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should people protect wild animals even when it costs more?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -1082,7 +1053,6 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should communities limit development to protect wild animals?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
@@ -1256,8 +1226,7 @@
       "title": "Digital life and communication",
       "order": 2
     },
-    "needsReview": false,
-    "flightQuestion": "Should teens have limits on social media time?"
+    "needsReview": false
   },
   {
     "id": "bbc_fxh3hejvrhw",
@@ -2412,7 +2381,6 @@
     "ageBand": "teens",
     "place": null,
     "needsReview": true,
-    "flightQuestion": "Should students learn grammar through examples or rules?",
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
@@ -2436,7 +2404,6 @@
     "ageBand": "teens",
     "place": null,
     "needsReview": true,
-    "flightQuestion": "Should language classes focus more on speaking or writing?",
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
@@ -2571,7 +2538,6 @@
     "ageBand": "teens",
     "place": null,
     "needsReview": true,
-    "flightQuestion": "Should language classes focus more on speaking or writing?",
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
@@ -2661,7 +2627,6 @@
     "ageBand": "teens",
     "place": null,
     "needsReview": true,
-    "flightQuestion": "Should language classes focus more on speaking or writing?",
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
@@ -2857,7 +2822,6 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Should language classes focus more on speaking or writing?",
     "needsReview": true,
     "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   }
