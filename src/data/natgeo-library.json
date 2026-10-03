@@ -50,31 +50,6 @@
     "ageBand": "teens"
   },
   {
-    "id": "natgeo-migration-patterns",
-    "title": "Epic Animal Migrations",
-    "speaker": "National Geographic",
-    "url": "https://www.youtube.com/watch?v=VTEi-m0d3Fw",
-    "youtubeId": "VTEi-m0d3Fw",
-    "durationSecs": 298,
-    "topicTags": [
-      "animals",
-      "wildlife",
-      "migration",
-      "animal-migration",
-      "wildebeest",
-      "caribou",
-      "whales",
-      "monarch-butterflies",
-      "navigation"
-    ],
-    "difficultyLevel": "Easy",
-    "description": "Every year, billions of animals undertake extraordinary journeys across continents and oceans. Here are some of the most remarkable migrations on Earth.",
-    "summary": "Every year, billions of animals make extraordinary journeys. These migrations are among the most dramatic events in the natural world.\n\nThe wildebeest migration in East Africa is the largest land migration on Earth. More than 1.5 million wildebeest travel in a great circle through Tanzania and Kenya, following the rains and the fresh grass they bring. They must cross the crocodile-filled Mara River — a journey that kills thousands every year.\n\nIn the Arctic, caribou travel up to 4,800 kilometres annually — the longest land migration of any terrestrial mammal. They move north to summer feeding grounds, then south again before winter, following ancient routes their ancestors have used for thousands of years.\n\nIn the ocean, humpback whales travel between cold polar feeding grounds in summer and warm tropical breeding waters in winter — a round trip of up to 16,000 kilometres. Scientists track individual whales across ocean basins using photos of their unique tail patterns.\n\nPerhaps the most astonishing journey belongs to the monarch butterfly. Each autumn, millions of monarchs fly from Canada and the northern United States to specific mountain forests in central Mexico — a journey of up to 4,500 kilometres. No individual butterfly makes the round trip. The return journey is completed by their grandchildren or great-grandchildren, who somehow find the same forests their ancestors left months before.\n\nHow animals navigate across such vast distances is still not fully understood. Many use the position of the sun, the stars, Earth's magnetic field, and even smell to guide them. Migration is one of the great wonders of the animal world — a testament to the extraordinary capabilities that evolution can produce.",
-    "genre": "expository",
-    "cefr": "A2",
-    "ageBand": "teens"
-  },
-  {
     "id": "natgeo-deep-ocean",
     "title": "What's Hiding at the Most Solitary Place on Earth? The Deep Sea",
     "speaker": "Kurzgesagt",
@@ -273,25 +248,6 @@
     "summary": "We spend about a third of our lives asleep. For most of human history, sleep was considered a passive state — a simple shutdown of the body and mind. Modern science has revealed a very different picture. Sleep is an active and essential biological process, during which some of the most important work of the brain and body takes place.\n\nSleep occurs in cycles of about 90 minutes, each containing different stages. During slow-wave sleep, the body does much of its physical repair work — releasing growth hormone, repairing tissues, and strengthening the immune system. During REM sleep — characterised by rapid eye movement and vivid dreams — the brain is highly active, consolidating memories and processing emotional experiences.\n\nMemory and learning are strongly linked to sleep. Studies show that people who sleep after learning new information remember it significantly better than those who stay awake. The sleeping brain replays and strengthens memories, moving information from short-term to long-term storage. This is why 'sleeping on a problem' often results in new insights in the morning.\n\nLack of sleep has serious consequences. After just one night of poor sleep, reaction times slow, concentration falls, and emotional regulation deteriorates. Chronic sleep deprivation is linked to increased risk of obesity, heart disease, diabetes, and mental health problems. People who regularly sleep less than seven hours a night have significantly higher rates of illness.\n\nDespite this, modern life consistently works against good sleep. Artificial light — particularly the blue light from screens — suppresses the production of melatonin, the hormone that signals sleep. Work schedules, social pressures, and digital technology keep people awake longer than their biology recommends.\n\nScientists increasingly view sleep not as a luxury but as a biological necessity — as essential to health as food and exercise.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
-  },
-  {
-    "id": "natgeo-great-barrier-reef",
-    "title": "The Great Barrier Reef: A Living Wonder",
-    "speaker": "National Geographic",
-    "url": "https://www.youtube.com/watch?v=jYRmNCkYZf8",
-    "youtubeId": "jYRmNCkYZf8",
-    "durationSecs": 258,
-    "topicTags": [
-      "nature",
-      "environment",
-      "science"
-    ],
-    "difficultyLevel": "Easy",
-    "description": "The Great Barrier Reef is the largest living structure on Earth — visible from space and home to thousands of species. It is also in serious danger.",
-    "summary": "The Great Barrier Reef stretches for more than 2,300 kilometres along the northeastern coast of Australia. It is the largest coral reef system in the world and the largest living structure on Earth — so large it can be seen from space. It contains more than 2,900 individual reefs, 900 islands, and is home to more than 1,500 species of fish, 4,000 types of mollusc, and six of the world's seven species of sea turtle.\n\nThe reef has existed for approximately 20,000 years. It is not a single coral structure but an ecosystem of extraordinary complexity — a network of living organisms that has built up over thousands of generations. The corals that form the reef are tiny animals called polyps. They secrete calcium carbonate to build their hard skeletons, and over millennia these skeletons accumulate to form the massive reef structures we see today.\n\nThe Great Barrier Reef is recognised as one of the world's greatest natural wonders and is listed as a UNESCO World Heritage Site. It generates approximately six billion Australian dollars per year for the economy through tourism and fishing, and supports around 64,000 jobs.\n\nBut the reef is under severe stress. Rising ocean temperatures caused by climate change have triggered repeated mass bleaching events. In 2016 and 2017, back-to-back bleaching events killed approximately half the coral in the shallow-water areas of the northern reef. Scientists have recorded bleaching events in 1998, 2002, 2016, 2017, 2020, 2022, and 2024 — a frequency that gives the reef little time to recover.\n\nAustralia's government and research institutions are investing in reef restoration and science, but most scientists agree that the reef's survival depends above all on reducing global carbon emissions.",
-    "genre": "expository",
-    "cefr": "A2",
     "ageBand": "teens"
   },
   {

@@ -66,38 +66,6 @@
     "ageBand": "all"
   },
   {
-    "id": "world-flight-bangkok-river-boats-video",
-    "title": "Bangkok - River Boats and City Movement",
-    "speaker": "GoingToBangkok",
-    "url": "https://www.youtube.com/watch?v=xySazPTPriM",
-    "youtubeId": "xySazPTPriM",
-    "durationSecs": 196,
-    "topicTags": [
-      "world-flight",
-      "travel",
-      "cities",
-      "city-life",
-      "geography",
-      "bangkok",
-      "thailand",
-      "listening",
-      "travel-english",
-      "directions",
-      "water",
-      "infrastructure"
-    ],
-    "difficultyLevel": "Easy",
-    "description": "Learn how Sathorn Pier connects boats, trains, shuttles, landmarks, and commuters.",
-    "summary": "This practical guide uses Sathorn Pier to show how Bangkok's river transport connects with BTS trains, tourist routes, hotel shuttles, and major riverside landmarks. Students can practice giving directions, comparing transport choices, and explaining why water transport is useful in a crowded city.",
-    "place": {
-      "name": "Bangkok, Thailand",
-      "lat": 13.7563,
-      "lng": 100.5018
-    },
-    "cefr": "A2",
-    "ageBand": "all"
-  },
-  {
     "id": "world-flight-tokyo-metro-economics-video",
     "title": "Why Tokyo's Metro Is Profitable",
     "speaker": "The Wall Street Journal",
