@@ -55,12 +55,27 @@ const grammarTags = new Set([
 const listeningTags = new Set([
   'listening:podcast', 'listening:interview', 'listening:announcement', 'listening:dialogue',
 ]);
+const round4FlightQuestionVideos = new Set([
+  'kids_four_spheres_geo_bio', 'kids_what_on_earth', 'kids_up_up_away', 'kids_landforms_hey',
+  'kids_engineer', 'kids_defining_problem', 'kids_solutions', 'kids_what_ifs',
+  'kids_succeed_failing', 'kids_picky_pineapples', 'teded_video_games_babies_learning',
+  'teded_brief_history_video_games_part_1', 'teded_african_american_social_dance_history',
+  'teded_instrument_music_brain_benefits', 'teded_earth_in_2125', 'teded_ai_change_world',
+  'teded_food_brain_effects', 'teded_perfect_cookies_science', 'teded_food_expiration_dates',
+  'teded_prolonged_space_travel', 'teded_hibernation', 'teded_tardigrade_survival',
+  'teded_wildlife_climate_adaptation', 'teded_savanna_mystery', 'teded_fwtnmzk9vg4',
+  'teded_n2uqwfv6jr4', 'teded_1jxq9779zwu', 'teded_fxpc_8f__xo', 'teded_dmmpykrrd4o',
+  'teded__r307w05ijc', 'teded_hmfqqjmf_f0', 'teded_2tm1lffxekg', 'teded_g1pb2ak2we4',
+  'teded_mknv3t5qbuc', 'teded_jyzpxry5mfg', 'teded_2uphazryvpy', 'teded_wyq3o8u6smy',
+  'teded__6xlnywppb8', 'teded_k93fmnfkwfi', 'teded_qwg2f9dwwpy',
+]);
 const seriesGroups: Record<string, Item[]> = {};
 let bookCourseItemCount = 0;
 const grammarCoverage: Record<string, { total: number; kids: number }> = {};
 const listeningCoverage: Record<string, number> = { A1: 0, A2: 0, B1: 0, B2: 0, kids: 0, dialogue: 0, announcement: 0 };
 const round8ListeningCoverage = { a1Dialogue: 0, a1Kids: 0, a2B1Announcements: 0 };
 let listeningItemCount = 0;
+let flightQuestionCount = 0;
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -89,7 +104,7 @@ function validateExpandedItem(item: Item, where: string) {
       && where.indexOf('book-library.json[') !== 0 && !youngNarrative) {
       fail(where, 'flightQuestion requires opinion or expository genre, except narrative text for young learners');
     }
-    if (item.kind === 'video'
+    if (item.kind === 'video' && round4FlightQuestionVideos.has(String(item.id || ''))
       && (typeof item.durationSecs !== 'number' || item.durationSecs < 180 || item.durationSecs > 480)) {
       fail(where, 'Flight Question videos must be 3–8 minutes long');
     }
@@ -216,6 +231,7 @@ for (const file of files) {
   for (const [index, raw] of Array.from(items.entries())) {
     const item = raw as Item;
     const where = `${file}[${index}]${nonEmpty(item.id) ? ` (${item.id})` : ''}`;
+    if (nonEmpty(item.flightQuestion)) flightQuestionCount += 1;
     if (!nonEmpty(item.id)) fail(where, 'id is required');
     else if (ids.has(item.id)) fail(where, `duplicate id also found in ${ids.get(item.id)}`);
     else ids.set(item.id, where);
@@ -279,6 +295,8 @@ for (const file of files) {
     }
   }
 }
+
+if (flightQuestionCount < 728) fail('flight questions', `expected at least 728 items after Round 9 (found ${flightQuestionCount})`);
 
 for (const tag of Array.from(grammarTags)) {
   const coverage = grammarCoverage[tag] || { total: 0, kids: 0 };

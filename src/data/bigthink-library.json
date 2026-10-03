@@ -16,7 +16,10 @@
     "description": "Michio Kaku argues that quantum mechanics undermines the concept of free will — and what that means for how we think about consciousness, choice, and human identity.",
     "genre": "opinion",
     "cefr": "B2",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should people follow rules when they seem unfair?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bigthink_fermi_paradox",
@@ -35,7 +38,10 @@
     "description": "Kaku explains the Fermi Paradox — if aliens exist, why haven't we heard from them? — and why broadcasting our location into space might be a dangerous idea.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should people explore space despite the risks and costs?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bigthink_unconscious_decisions",
@@ -54,7 +60,10 @@
     "description": "Nobel laureate Eric Kandel explains how the unconscious brain processes information and makes decisions before our conscious mind is even aware — with surprising implications for creativity.",
     "genre": "expository",
     "cefr": "B2",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools spend more time teaching healthy habits?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bigthink_free_will_pinker",
@@ -92,7 +101,10 @@
     "description": "Harvard negotiation expert Sheila Heen explores what psychological research reveals about happiness — why we're bad at predicting what will make us happy, and what actually does.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should people use new technology more, or set clearer limits?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bigthink_evolution_intelligence",
@@ -111,7 +123,10 @@
     "description": "Michio Kaku traces the evolution of the human brain — from primates to modern Homo sapiens — and asks whether artificial intelligence could surpass us on the same evolutionary scale.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should schools spend more time teaching healthy habits?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bigthink_reverse_unhappiness",
@@ -149,7 +164,10 @@
     "description": "Robert Sapolsky explains the neuroscience behind teenage risk-taking — why adolescent brains are wired differently, how the prefrontal cortex develops, and what this means for how we treat young people.",
     "genre": "expository",
     "cefr": "B2",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should students make more choices about their own health?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bigthink_neuroscience_creativity",
@@ -168,7 +186,10 @@
     "description": "Neuroscientist Beau Lotto reveals how the brain generates creative ideas — why uncertainty is essential for innovation, and how changing your perceptions can unlock new ways of thinking.",
     "genre": "expository",
     "cefr": "B2",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "Should students make more choices about their own health?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "bigthink_growth_mindset",

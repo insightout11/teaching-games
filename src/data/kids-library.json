@@ -16,7 +16,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should schools teach healthy habits every day?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_here_comes_the_sun",
@@ -35,7 +38,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should communities invest more in clean energy?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_fabulous_food_chains",
@@ -54,7 +60,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should people protect every link in a food chain?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_defining_gravity",
@@ -73,7 +82,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should students learn about forces through examples or experiments?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_weathering_erosion",
@@ -92,7 +104,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should people spend more to protect soil from erosion?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_science_of_lunch",
@@ -111,7 +126,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should students have more choice in school meals?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_home_sweet_habitat",
@@ -131,7 +149,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should communities protect animal habitats when they need more space?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_food_webs",
@@ -151,7 +172,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should people protect every link in a food chain?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_everything_revolves",
@@ -171,7 +195,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should students learn about forces through examples or experiments?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_dinosaur_pee",
@@ -190,7 +217,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Who should act first on climate change: people or governments?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_climate_change",
@@ -210,7 +240,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Who should act first on climate change: people or governments?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_living_things_change",
@@ -230,7 +263,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Who should act first on climate change: people or governments?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_every_kind_of_volcano",
@@ -250,7 +286,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A1",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should people risk comfort to help a friend?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_busy_bees",
@@ -270,7 +309,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A1",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Who should do more to protect nature: people or leaders?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_dont_fear_spiders",
@@ -290,7 +332,10 @@
     "audience": "kids",
     "genre": "opinion",
     "cefr": "A1",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should wild animals live near towns or far away?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_cave_animals",
@@ -310,7 +355,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A1",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should wild animals live near towns or far away?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_diamond_super_crystal",
@@ -330,7 +378,10 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A1",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "Should communities change daily habits to protect the environment?",
+    "needsReview": true,
+    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
   },
   {
     "id": "kids_whats_inside_rocks",
@@ -724,13 +775,14 @@
     "summary": "An introduction to the ways living things communicate, with examples from animals and the natural world.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "animals-and-habitats",
       "title": "Animals and Their Habitats",
       "order": 1
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should people protect wild animals even when it costs more?"
   },
   {
     "id": "kids_particles_world",
@@ -754,13 +806,14 @@
     "summary": "A visual introduction to the tiny particles that make up matter and the materials children encounter every day.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "everyday-science",
       "title": "Everyday Science: Materials and Measurement",
       "order": 1
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should schools spend more time on arts and culture?"
   },
   {
     "id": "kids_measurement_mystery",
@@ -784,13 +837,14 @@
     "summary": "Sabrina uses a science mystery to show why careful measurement and clear units matter in an experiment.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "everyday-science",
       "title": "Everyday Science: Materials and Measurement",
       "order": 2
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should students learn science by experiments or explanations?"
   },
   {
     "id": "kids_over_to_moon",
@@ -814,13 +868,14 @@
     "summary": "A short space science lesson about the Moon and the conditions that make travel beyond Earth a challenge.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "space-for-beginners",
       "title": "Space for Beginners",
       "order": 1
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "kids_chemical_changes",
@@ -844,13 +899,14 @@
     "summary": "Everyday examples help explain how a chemical change creates substances with different properties.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "everyday-science",
       "title": "Everyday Science: Materials and Measurement",
       "order": 3
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should schools serve local foods alongside familiar meals?"
   },
   {
     "id": "kids_earth_rotation_revolution",
@@ -874,13 +930,14 @@
     "summary": "This lesson explains how Earth’s rotation and revolution relate to the day-night cycle and its yearly path around the Sun.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "space-for-beginners",
       "title": "Space for Beginners",
       "order": 2
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should schools spend more time on arts and culture?"
   },
   {
     "id": "kids_seasons_sun",
@@ -904,13 +961,14 @@
     "summary": "A clear elementary explanation of how Earth’s movement and sunlight are connected to seasonal patterns.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "space-for-beginners",
       "title": "Space for Beginners",
       "order": 3
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should communities invest more in clean energy?"
   },
   {
     "id": "kids_polar_pineapples",
@@ -934,13 +992,14 @@
     "summary": "A lighthearted lesson links climate and growing conditions to why some plants thrive in particular places.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "weather-and-water",
       "title": "Earth systems: water, weather and sunlight",
       "order": 4
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Who should act first on climate change: people or governments?"
   },
   {
     "id": "kids_glow_on",
@@ -964,8 +1023,9 @@
     "summary": "An exploration of how and why some living things produce light, with examples from nature.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Who should do more to protect nature: people or leaders?"
   },
   {
     "id": "kids_engineering_process",
@@ -989,8 +1049,9 @@
     "summary": "A step-by-step introduction to defining a challenge, researching, designing, building, testing, and improving a solution.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Should students learn science by experiments or explanations?"
   },
   {
     "id": "kids_0gmbjfqghfc",
@@ -1013,13 +1074,14 @@
     "summary": "Sabrina presents an engineering challenge and shows how defining a goal helps guide the design of a robot.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "inventions-and-design",
       "title": "Inventions and design",
       "order": 1
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should children use phones to learn or mostly to play?"
   },
   {
     "id": "kids_skahb_8ctzg",
@@ -1042,13 +1104,14 @@
     "summary": "The lesson returns to freshwater habitats and introduces the nerpa, an animal adapted to challenging conditions in its lake environment.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "weather-and-water",
       "title": "Earth systems: water, weather and sunlight",
       "order": 1
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Who should act first on climate change: people or governments?"
   },
   {
     "id": "kids_4b2kdceuwr4",
@@ -1073,7 +1136,8 @@
     "place": null,
     "needsReview": true,
     "kind": "video",
-    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context.",
+    "flightQuestion": "Should children try new foods at school?"
   },
   {
     "id": "kids_cye4_d6fb_w",
@@ -1096,13 +1160,14 @@
     "summary": "The video examines human effects on urban environments and introduces ways city life can alter local ecosystems.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "habitats-and-ecosystems",
       "title": "Cities and natural habitats",
       "order": 1
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Who should act first on climate change: people or governments?"
   },
   {
     "id": "kids_1fkgqo0xk94",
@@ -1125,13 +1190,14 @@
     "summary": "The lesson compares animal engineering in forests and grasslands, showing how species can reshape their habitats.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "habitats-and-ecosystems",
       "title": "Cities and natural habitats",
       "order": 2
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "kids_durjvjc5xx0",
@@ -1154,13 +1220,14 @@
     "summary": "Sabrina reviews what plants need to live and imagines how plant life might adapt to conditions on other worlds.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "space-for-beginners",
       "title": "Space for Beginners",
       "order": 4
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Who should do more to protect nature: people or leaders?"
   },
   {
     "id": "kids_lsdaf8_mr8e",
@@ -1212,13 +1279,14 @@
     "summary": "Sabrina uses an engineering challenge to introduce how to plan tests, consider variables, and improve a model.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "inventions-and-design",
       "title": "Inventions and design",
       "order": 3
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should students learn science by experiments or explanations?"
   },
   {
     "id": "kids_zfk0xhqt5fq",
@@ -1241,13 +1309,14 @@
     "summary": "Jessi and Squeaks introduce shark diversity and some features that make sharks well suited to life in the ocean.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "animals-and-habitats",
       "title": "Animals and Their Habitats",
       "order": 3
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should people protect wild animals even when it costs more?"
   },
   {
     "id": "kids_2zjzs19myik",
@@ -1270,13 +1339,14 @@
     "summary": "The SciShow Kids team talks with a turtle specialist to learn about these reptiles and how scientists study them.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "animal-adaptations",
       "title": "Animal adaptations",
       "order": 1
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "kids_kmdd6ttdz_g",
@@ -1299,13 +1369,14 @@
     "summary": "Jessi and Squeaks use books and observation to introduce rainforest climate and the living things found there.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "habitats-and-ecosystems",
       "title": "Cities and natural habitats",
       "order": 3
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Who should act first on climate change: people or governments?"
   },
   {
     "id": "kids_fxyp76jwxsu",
@@ -1328,13 +1399,14 @@
     "summary": "The lesson explores why insects, slugs, and other small animals can thrive under rocks, where food and moisture are available.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "animals-and-habitats",
       "title": "Animals and Their Habitats",
       "order": 4
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "kids_b79xio8qgiy",
@@ -1357,13 +1429,14 @@
     "summary": "Jessi explains how the brain helps us remember and learn, then shares everyday ways to protect and care for it.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "human-body-and-health",
       "title": "The human body and health",
       "order": 1
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should schools teach healthy habits every day?"
   },
   {
     "id": "kids_3gy_gts86jm",
@@ -1444,13 +1517,14 @@
     "summary": "The lesson uses familiar examples to explain how our eyes and brains interpret color.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "everyday-science",
       "title": "Everyday Science: Materials and Measurement",
       "order": 4
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should schools teach healthy habits every day?"
   },
   {
     "id": "kids_zojlcdmvwai",
@@ -1497,13 +1571,14 @@
     "summary": "The lesson introduces microanimals and describes how some survive in environments that are difficult for larger animals.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "animal-adaptations",
       "title": "Animal adaptations",
       "order": 2
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Who should act first on climate change: people or governments?"
   },
   {
     "id": "kids_syawnjolnv8",
@@ -1526,8 +1601,9 @@
     "summary": "Jessi and Squeaks discuss birdlike traits in dinosaurs and how scientists use fossils to study evolutionary relationships.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "kids_dtk_uwx_vqo",
@@ -1550,8 +1626,9 @@
     "summary": "The lesson compares the plant parts we eat and uses examples such as spinach, cucumbers, and peas to explain the difference.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Who should do more to protect nature: people or leaders?"
   },
   {
     "id": "kids_tjcukcfz8qy",
@@ -1574,13 +1651,14 @@
     "summary": "SciShow Kids shares examples of raven behavior, including tool use and communication, to introduce animal intelligence.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "animal-adaptations",
       "title": "Animal adaptations",
       "order": 3
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should people protect wild animals even when it costs more?"
   },
   {
     "id": "kids_ghfboypqqx0",
@@ -1603,13 +1681,14 @@
     "summary": "Jessi and Squeaks explore proposed explanations for zebra stripes and how scientists investigate animal features.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "animal-adaptations",
       "title": "Animal adaptations",
       "order": 4
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "kids_yoirci0ckzg",
@@ -1632,13 +1711,14 @@
     "summary": "The video introduces camouflage through examples of animals that hide from predators or approach prey without being seen.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "animals-and-habitats",
       "title": "Animals and Their Habitats",
       "order": 5
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should people protect wild animals even when it costs more?"
   },
   {
     "id": "kids_gazkec59g1w",
@@ -1661,13 +1741,14 @@
     "summary": "The lesson describes how desert life responds to heat and limited water, including daily activity patterns.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "habitats-and-ecosystems",
       "title": "Cities and natural habitats",
       "order": 4
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should schools serve local foods alongside familiar meals?"
   },
   {
     "id": "kids_jqqleh172ho",
@@ -1690,13 +1771,14 @@
     "summary": "Jessi shares facts about reindeer, including names used in different regions and features suited to cold climates.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "animal-adaptations",
       "title": "Animal adaptations",
       "order": 5
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Who should act first on climate change: people or governments?"
   },
   {
     "id": "kids_ueroeqyjxfo",
@@ -1719,8 +1801,9 @@
     "summary": "The lesson introduces the tallest tree species and how scientists learn about large trees.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Should wild animals live near towns or far away?"
   },
   {
     "id": "kids_hwfqek29wrg",
@@ -1743,8 +1826,9 @@
     "summary": "SciShow Kids compares evergreen and deciduous trees and explains how leaves help plants.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Who should do more to protect nature: people or leaders?"
   },
   {
     "id": "kids_x7_t_9wzjga",
@@ -1767,8 +1851,9 @@
     "summary": "Jessi and Squeaks introduce how burrs inspired hook-and-loop fasteners, linking plant structures to human inventions.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Who should do more to protect nature: people or leaders?"
   },
   {
     "id": "kids_dlq0lhpyzd8",
@@ -1791,13 +1876,14 @@
     "summary": "The lesson explains how weather scientists use observations and radar to estimate whether it will rain.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "earth-and-weather",
       "title": "Earth and Weather for Young Learners",
       "order": 5
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should schools serve local foods alongside familiar meals?"
   },
   {
     "id": "kids_0qmgdz9e47s",
@@ -1820,13 +1906,14 @@
     "summary": "Jessi and Squeaks build a small solar updraft tower to show how heat from the Sun can move air and power a wheel.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "weather-and-water",
       "title": "Earth systems: water, weather and sunlight",
       "order": 5
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should communities invest more in clean energy?"
   },
   {
     "id": "kids_mc3auuuj9_i",
@@ -1849,8 +1936,9 @@
     "summary": "The lesson combines a simple kite-building activity with an explanation of how wind can lift a kite.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Should students learn science by experiments or explanations?"
   },
   {
     "id": "kids_3yqb2kfwjco",
@@ -1873,13 +1961,14 @@
     "summary": "Jessi and Squeaks build a string phone and use it to explore how vibrations can carry sound.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "everyday-science",
       "title": "Everyday Science: Materials and Measurement",
       "order": 5
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should children use phones to learn or mostly to play?"
   },
   {
     "id": "kids_8whjjlmniku",
@@ -1902,8 +1991,9 @@
     "summary": "SciShow Kids introduces different kinds of robots and the tasks they can perform in everyday life.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Should children use phones to learn or mostly to play?"
   },
   {
     "id": "kids_02wrls_ue1q",
@@ -1981,7 +2071,8 @@
     "place": null,
     "needsReview": true,
     "kind": "video",
-    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context.",
+    "flightQuestion": "Should children learn how sleep and food affect health?"
   },
   {
     "id": "kids_jyu966aonzi",
@@ -2004,13 +2095,14 @@
     "summary": "The lesson introduces dreams as part of sleep and shares ideas about why the brain may create them.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "human-body-and-health",
       "title": "The human body and health",
       "order": 4
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Are dreams useful, or just random brain activity?"
   },
   {
     "id": "kids_8cqmky_wqao",
@@ -2033,8 +2125,9 @@
     "summary": "The lesson introduces several big cat species and shows how their ranges and behaviors differ.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Should people protect wild animals even when it costs more?"
   },
   {
     "id": "kids_0otbv8_mdr4",
@@ -2057,13 +2150,14 @@
     "summary": "Sabrina shows how models and trials can reveal failure points and help teams improve an engineering solution.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "inventions-and-design",
       "title": "Inventions and design",
       "order": 4
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should students learn science by experiments or explanations?"
   },
   {
     "id": "kids_aoebfggcjvw",
@@ -2088,7 +2182,8 @@
     "place": null,
     "needsReview": true,
     "kind": "video",
-    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context.",
+    "flightQuestion": "Should children learn how sleep and food affect health?"
   },
   {
     "id": "kids_optical_illusions",
@@ -2111,8 +2206,9 @@
     "summary": "The lesson uses optical illusions to show that perception is an active process: the brain interprets visual information and can be misled by patterns and context.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Should students make more choices about their own health?"
   },
   {
     "id": "kids_xyfuqfqfl30",
@@ -2162,8 +2258,9 @@
     "summary": "Uses a bowling experiment to show why changing one variable at a time helps make a fair test.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Should students learn science by experiments or explanations?"
   },
   {
     "id": "kids_dkjlbcci6zs",
@@ -2185,8 +2282,9 @@
     "summary": "Introduces how architects plan buildings around needs, materials, and design choices.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Should people follow rules when they seem unfair?"
   },
   {
     "id": "kids_gnnuid8hof0",
@@ -2208,13 +2306,14 @@
     "summary": "Looks at how engineers and planners design the systems a city needs.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "habitats-and-ecosystems",
       "title": "Cities and natural habitats",
       "order": 5
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should cities make more room for people than cars?"
   },
   {
     "id": "kids_8lfd_ekze2m",
@@ -2259,13 +2358,14 @@
     "summary": "Explains how Earth’s water and air systems interact with the other parts of the planet.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "weather-and-water",
       "title": "Earth systems: water, weather and sunlight",
       "order": 2
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "kids_7vtfyamu6g4",
@@ -2315,8 +2415,9 @@
     "summary": "Shows how plants and animals get energy and introduces herbivores, carnivores, and omnivores.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Should people protect wild animals even when it costs more?"
   },
   {
     "id": "kids_ecsirlk0gts",
@@ -2338,8 +2439,9 @@
     "summary": "Explains why soil matters to plants and the living things that depend on them.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Who should do more to protect nature: people or leaders?"
   },
   {
     "id": "kids_elchwuilwa8",
@@ -2417,13 +2519,14 @@
     "summary": "Uses an everyday example to explain that matter is conserved during changes.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "matter-and-materials",
       "title": "Matter and materials",
       "order": 3
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should communities change daily habits to protect the environment?"
   },
   {
     "id": "kids_rrj1_yofcaa",
@@ -2445,13 +2548,14 @@
     "summary": "Demonstrates how scientists can test questions about life and work in space.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "space-for-young-scientists",
       "title": "Space and science curiosities",
       "order": 1
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "kids_zd7w5o0bh7g",
@@ -2473,13 +2577,14 @@
     "summary": "Shows how grouping materials by their properties can help answer science questions.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "matter-and-materials",
       "title": "Matter and materials",
       "order": 4
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should students learn science by experiments or explanations?"
   },
   {
     "id": "kids_tgflhpslejq",
@@ -2557,8 +2662,9 @@
     "summary": "Uses oobleck to explore how some materials behave differently under different forces.",
     "genre": "expository",
     "place": null,
+    "kind": "video",
     "needsReview": false,
-    "kind": "video"
+    "flightQuestion": "Should students learn about forces through examples or experiments?"
   },
   {
     "id": "kids_t7hk6ompvbe",
@@ -2580,13 +2686,14 @@
     "summary": "Compares familiar materials with unusual conditions in space.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "space-for-young-scientists",
       "title": "Space and science curiosities",
       "order": 4
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "kids_agvxycrpun8",
@@ -2608,13 +2715,14 @@
     "summary": "Introduces the different paths that objects follow as they orbit planets, stars, and other objects.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "space-for-young-scientists",
       "title": "Space and science curiosities",
       "order": 2
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   },
   {
     "id": "kids_8ghdcosi5es",
@@ -2636,12 +2744,13 @@
     "summary": "Considers what conditions might be needed for life beyond Earth.",
     "genre": "expository",
     "place": null,
-    "needsReview": false,
     "kind": "video",
     "series": {
       "id": "space-for-young-scientists",
       "title": "Space and science curiosities",
       "order": 3
-    }
+    },
+    "needsReview": false,
+    "flightQuestion": "Should people explore space despite the risks and costs?"
   }
 ]

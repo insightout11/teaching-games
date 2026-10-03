@@ -30,7 +30,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Bangkok,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Bangkok?oldid=1377561940",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people follow rules when they seem unfair?"
   },
   {
     "id": "destination-reading-seoul",
@@ -63,7 +64,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Seoul,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Seoul?oldid=1376569508",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-buenos-aires",
@@ -96,7 +98,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Buenos Aires,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Buenos_Aires?oldid=1374990569",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-jakarta",
@@ -129,7 +132,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Jakarta,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Jakarta?oldid=1377084641",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people risk comfort to help a friend?"
   },
   {
     "id": "destination-reading-bogota",
@@ -162,7 +166,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Bogotá,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Bogot%C3%A1?oldid=1376249729",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should communities keep local food fairs for children?"
   },
   {
     "id": "destination-reading-reykjavik",
@@ -195,7 +200,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Reykjavík,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Reykjav%C3%ADk?oldid=1375634623",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people risk comfort to help a friend?"
   },
   {
     "id": "destination-reading-auckland",
@@ -228,7 +234,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Auckland,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Auckland?oldid=1377302700",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-suva",
@@ -261,7 +268,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Suva,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Suva?oldid=1374942465",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-ulaanbaatar",
@@ -294,7 +302,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Ulaanbaatar,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Ulaanbaatar?oldid=1376378075",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should families keep traditions linked to the seasons?"
   },
   {
     "id": "destination-reading-almaty",
@@ -327,7 +336,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Almaty,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Almaty?oldid=1375621927",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should families keep traditions linked to the seasons?"
   },
   {
     "id": "destination-reading-lisbon",
@@ -360,7 +370,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Lisbon,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Lisbon?oldid=1376923634",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people follow rules when they seem unfair?"
   },
   {
     "id": "destination-reading-panama-city",
@@ -393,7 +404,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Panama City,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Panama_City?oldid=1377350538",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-addis-ababa",
@@ -426,7 +438,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Addis Ababa,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Addis_Ababa?oldid=1376072738",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should families keep traditions linked to the seasons?"
   },
   {
     "id": "destination-reading-ho-chi-minh-city",
@@ -459,7 +472,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Ho Chi Minh City,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Ho_Chi_Minh_City?oldid=1376251474",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-singapore",
@@ -492,7 +506,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Singapore,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Singapore?oldid=1377348770",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should teens have limits on social media time?"
   },
   {
     "id": "destination-reading-paris",
@@ -525,7 +540,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Paris,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Paris?oldid=1377460894",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should communities keep local food fairs for children?"
   },
   {
     "id": "destination-reading-london",
@@ -558,7 +574,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “London,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/London?oldid=1377100156",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-cairo",
@@ -591,7 +608,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Cairo,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Cairo?oldid=1377333242",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should communities keep local food fairs for children?"
   },
   {
     "id": "destination-reading-dubai",
@@ -624,7 +642,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Dubai,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Dubai?oldid=1375991424",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people risk comfort to help a friend?"
   },
   {
     "id": "destination-reading-sydney",
@@ -657,7 +676,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Sydney,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Sydney?oldid=1376399713",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should families keep traditions linked to the seasons?"
   },
   {
     "id": "destination-reading-berlin",
@@ -690,7 +710,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Berlin,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Berlin?oldid=1376294941",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-moscow",
@@ -723,7 +744,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Moscow,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Moscow?oldid=1376842757",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-istanbul",
@@ -756,7 +778,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Istanbul,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Istanbul?oldid=1375721162",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people risk comfort to help a friend?"
   },
   {
     "id": "destination-reading-vancouver",
@@ -789,7 +812,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Vancouver,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Vancouver?oldid=1377552439",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should families keep traditions linked to the seasons?"
   },
   {
     "id": "destination-reading-toronto",
@@ -822,7 +846,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Toronto,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Toronto?oldid=1377263732",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-rome",
@@ -855,7 +880,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Rome,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Rome?oldid=1376612745",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-rio-de-janeiro",
@@ -888,7 +914,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Rio de Janeiro,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Rio_de_Janeiro?oldid=1376682244",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-mexico-city",
@@ -921,7 +948,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Mexico City,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Mexico_City?oldid=1377557178",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-lagos",
@@ -954,7 +982,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Lagos,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Lagos?oldid=1377329660",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people follow rules when they seem unfair?"
   },
   {
     "id": "destination-reading-amsterdam",
@@ -987,7 +1016,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Amsterdam,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Amsterdam?oldid=1376334485",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should communities keep local food fairs for children?"
   },
   {
     "id": "destination-reading-perth",
@@ -1020,7 +1050,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Perth,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Perth?oldid=1377205207",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-madrid",
@@ -1053,7 +1084,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Madrid,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Madrid?oldid=1377038269",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should communities keep local food fairs for children?"
   },
   {
     "id": "destination-reading-dublin",
@@ -1086,7 +1118,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Dublin,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Dublin?oldid=1377501337",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-dakar",
@@ -1119,7 +1152,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Dakar,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Dakar?oldid=1375729818",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-recife",
@@ -1152,7 +1186,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Recife,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Recife?oldid=1376594400",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should families keep traditions linked to the seasons?"
   },
   {
     "id": "destination-reading-santiago",
@@ -1185,7 +1220,8 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Santiago,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Santiago?oldid=1377486520",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people take risks to discover something new?"
   },
   {
     "id": "destination-reading-manila",
@@ -1218,6 +1254,7 @@
     "license": "CC BY-SA 4.0",
     "attribution": "Wikipedia contributors, “Manila,” Wikipedia, CC BY-SA 4.0. This text is reproduced under the same license; source revision: https://en.wikipedia.org/wiki/Manila?oldid=1377448756",
     "needsReview": true,
-    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use."
+    "reviewNote": "Review needed: this place profile may contain dated facts or source wording; verify accuracy, attribution, and level before classroom use.",
+    "flightQuestion": "Should people follow rules when they seem unfair?"
   }
 ]
