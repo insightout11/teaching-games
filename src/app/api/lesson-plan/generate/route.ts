@@ -3692,6 +3692,11 @@ export async function POST(request: NextRequest) {
             // Continues the lesson's scene when one was played (same characters, now unscripted).
             generators.push(generateConversationRounds(customTopic, diff, sceneFromKit, kitSourceCtx, taskRoleplay).then((r) => { content[activityKey] = r; }));
             break;
+          case 'trip-plan':
+            generators.push(Promise.resolve().then(() => {
+              content[activityKey] = { activityKey: 'trip-plan', topicContext: customTopic, city: customTopic.replace(/^Trip to /, '') };
+            }));
+            break;
           case 'trip-hotel':
             // Travel-arc Hotel stop: performed check-in, normally injected at launch (trip pack).
             // Fallback when it wasn't: the city from the topic ("Trip to Tokyo").

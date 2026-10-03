@@ -2486,6 +2486,7 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
         preGenerated: {
           'boarding-call': buildBoardingCallContent(selectedDestination),
           'trip-arrival': buildTripArrivalContent(selectedDestination),
+          'trip-plan': { activityKey: 'trip-plan', topicContext: selectedDestination.city, city: selectedDestination.city },
           'trip-getting-there': buildTripGettingThereContent(selectedDestination),
           'trip-directions': buildTripDirectionsContent(selectedDestination),
           'trip-attractions': buildTripAttractionsContent(selectedDestination),

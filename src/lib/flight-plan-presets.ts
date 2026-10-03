@@ -566,6 +566,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     // attractions (no AI). See docs/travel-trip-anchors-codex-brief.md.
     moduleSequence: [
       { slotType: 'production', key: 'trip-arrival', stageId: 'arrival' },
+      { slotType: 'practice', key: 'trip-plan', stageId: 'plan-day', isMicroEvent: true },
       { slotType: 'production', key: 'trip-getting-there', stageId: 'getting-there' },
       { slotType: 'practice', key: 'trip-directions', stageId: 'find-your-way', isMicroEvent: true },
       { slotType: 'production', key: 'trip-hotel', stageId: 'hotel' },
@@ -577,6 +578,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       stages: [
         { stageId: 'departures', label: 'Departures', kind: 'stage', phase: 'takeoff' },
         { stageId: 'arrival', label: 'Arrival', kind: 'stage', phase: 'climb' },
+        { stageId: 'plan-day', label: 'Plan the Day', kind: 'micro-event', phase: 'climb' },
         { stageId: 'getting-there', label: 'Getting There', kind: 'stage', phase: 'climb' },
         { stageId: 'find-your-way', label: 'Find Your Way', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'hotel', label: 'Hotel', kind: 'stage', phase: 'cruise' },
@@ -588,6 +590,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       stageByKey: {
         'boarding-call': 'departures',
         'trip-arrival': 'arrival',
+        'trip-plan': 'plan-day',
         'trip-getting-there': 'getting-there',
         'trip-directions': 'find-your-way',
         'trip-hotel': 'hotel',

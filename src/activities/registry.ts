@@ -54,6 +54,7 @@ import { tripGettingTherePlugin } from './trip-getting-there';
 import { tripDirectionsPlugin } from './trip-directions';
 import { tripArrivalPlugin } from './trip-arrival';
 import { tripHotelPlugin } from './trip-stages';
+import { tripPlanPlugin } from './trip-plan';
 import { videoPlayerPlugin } from './video-player';
 import { readAloudPlugin } from './read-aloud';
 import { listeningGapFillPlugin } from './listening-gap-fill';
@@ -96,6 +97,7 @@ const activities: ActivityPlugin[] = [
   tripGettingTherePlugin,
   tripDirectionsPlugin,
   tripHotelPlugin,
+  tripPlanPlugin,
   tripMealPlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,

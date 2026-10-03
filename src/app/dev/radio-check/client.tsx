@@ -24,6 +24,7 @@ import type { InputSpec } from '@/lib/input-spec';
 import { RadioCheckActivity } from '@/activities/radio-check';
 import { BoardingCallActivity } from '@/activities/boarding-call/activity';
 import { TripHotelActivity } from '@/activities/trip-hotel/activity';
+import { TripPlanActivity } from '@/activities/trip-plan/activity';
 import { TripTravellerCardPanel } from '@/components/student/trip-traveller-card';
 import { StaticActivity } from '@/activities/static';
 import { BlackBoxActivity } from '@/activities/black-box';
@@ -124,7 +125,12 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'trip' || mode === 'hotel' ? (
+      {mode === 'plan' ? (
+        <div className="flex gap-4">
+          <div className="flex-1"><TripPlanActivity {...props} students={TRIP_CREW} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} generatedContent={{ activityKey: 'trip-plan', topicContext: 'Tokyo', city: 'Tokyo' } as unknown as ActivityProps['generatedContent']} /></div>
+          <pre className="w-80 whitespace-pre-wrap rounded-3xl bg-slate-900 p-4 text-xs text-slate-200">{JSON.stringify({ spec, stops: useSessionStore.getState().lessonThread.tripStops }, null, 1)}</pre>
+        </div>
+      ) : mode === 'trip' || mode === 'hotel' ? (
         <div className="flex gap-4">
           <div className="flex-1">{mode === 'trip'
             ? <BoardingCallActivity {...props} students={TRIP_CREW} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} generatedContent={{ activityKey: 'boarding-call', topicContext: 'Tokyo', city: 'Tokyo', prompts: ['What are you packing?', 'What do you want to see?', 'One worry?'], packingHint: 'Rain jacket' } as unknown as ActivityProps['generatedContent']} />

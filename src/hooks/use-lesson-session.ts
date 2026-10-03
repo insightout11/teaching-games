@@ -1,5 +1,6 @@
 'use client';
 
+import { filterTripSlots } from '@/lib/world-flight/trip-stops';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/session-store';
 import type { SessionSettings, ScoringMode } from '@/stores/session-store';
@@ -235,6 +236,16 @@ export function useLessonSession(
       return next;
     });
   }, [flightQ, lessonPlanContent?.flightPresetId, publishKit]);
+
+  // Travel: Plan the Day keeps the stops the class voted for; drop the others not yet played.
+  const tripStops = useSessionStore((s) => s.lessonThread.tripStops);
+  useEffect(() => {
+    if (!tripStops || lessonPlanContent?.flightPresetId !== 'travel-60') return;
+    setLessonSlots((prev) => {
+      const next = filterTripSlots(prev, tripStops, currentSlotIndexRef.current);
+      return next.length === prev.length ? prev : next;
+    });
+  }, [tripStops, lessonPlanContent?.flightPresetId]);
 
   // Struggles arrive mid-lesson (Fix the Captain, speaking games): re-publish so review stages get them.
   const struggleCount = useSessionStore((s) => s.lessonThread.struggles?.length ?? 0);

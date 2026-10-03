@@ -74,6 +74,8 @@ export interface LessonThread {
   flightQuestion?: { question: string; type: 'opinion' | 'problem' | 'personal' };
   /** Travel: each student's Traveller Card (student id → card), dealt at boarding. */
   travellers?: Record<string, TravellerCard>;
+  /** Travel: the stops the class chose in Plan the Day (stageIds); the rest are dropped. */
+  tripStops?: string[];
 }
 
 export interface SessionSettings {
@@ -267,6 +269,7 @@ interface SessionState {
   recordHuntStamps: (clientId: string, name: string, count: number) => void;
   setFlightQuestion: (q: { question: string; type: 'opinion' | 'problem' | 'personal' }) => void;
   setTravellers: (cards: Record<string, TravellerCard>) => void;
+  setTripStops: (stops: string[]) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
@@ -429,6 +432,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
 
   setFlightQuestion: (q) => set({ lessonThread: { ...get().lessonThread, flightQuestion: q } }),
   setTravellers: (cards) => set({ lessonThread: { ...get().lessonThread, travellers: cards } }),
+  setTripStops: (stops) => set({ lessonThread: { ...get().lessonThread, tripStops: stops } }),
 
   recordHuntStamps: (clientId, name, count) => {
     const { lessonThread } = get();
