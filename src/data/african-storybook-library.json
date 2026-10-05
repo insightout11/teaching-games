@@ -579,7 +579,7 @@
     "attribution": "Author: Jacinta Recha; illustrator: Rob Owen",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
-    "flightQuestion": "Guilty conscience?"
+    "flightQuestion": "Should feeling guilty lead someone to tell the truth?"
   },
   {
     "id": "african-storybook-16535",
@@ -618,7 +618,7 @@
       "title": "B1 Clever Ideas and Choices",
       "order": 1
     },
-    "flightQuestion": "Why does Nita hang upside down near the trees?"
+    "flightQuestion": "Would Nita be safer sleeping upside down or in a nest?"
   },
   {
     "id": "african-storybook-9809",
@@ -943,7 +943,7 @@
     "attribution": "Author: Jacqueline  Jacobs; illustrator: Jacqueline  Jacobs",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
-    "flightQuestion": "How can Lizzy cross her busy road safely?"
+    "flightQuestion": "Should Lizzy cross alone or ask an adult for help?"
   },
   {
     "id": "african-storybook-21728",
@@ -1084,7 +1084,7 @@
     "attribution": "Author: Nathi  Ngubane; illustrator: Nathi  Ngubane; adaptation: African Storybook",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
-    "flightQuestion": "How can Duma protect Wandile by washing his hands?"
+    "flightQuestion": "Should Duma remind everyone to wash before eating?"
   },
   {
     "id": "african-storybook-36998",
@@ -1118,7 +1118,7 @@
     "attribution": "Author: Book Bus Zambia, Caroline Chimba, Lorraine  Nkhoma, M  Mwamba, Monica C Mulenga, Mrs  Constance, Mrs Charity Mwansa, Mrs Kalela Kalela, Mrs Mwansa Mwansa, T  Masumbuko; illustrator: Rob Owen, Jesse Breytenbach, Edwin  Irabor",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
-    "flightQuestion": "How does Lindiwe’s grandmother care for her in Kasupa?"
+    "flightQuestion": "Should grandparents play a larger role in raising children?"
   },
   {
     "id": "african-storybook-12169",
@@ -1191,7 +1191,7 @@
       "title": "B1 Clever Ideas and Choices",
       "order": 3
     },
-    "flightQuestion": "Which steps does Omotola use to install a game?"
+    "flightQuestion": "Should Omotola teach her friend to install the game herself?"
   },
   {
     "id": "african-storybook-20771",
@@ -1449,6 +1449,6 @@
     "attribution": "Author: Mulualem  Daba; illustrator: Salim Kasamba; translation: Elizabeth  Laird",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
-    "flightQuestion": "How could you quarrel with this small and miserable monkey?"
+    "flightQuestion": "Was the monkey right to answer the hyena's insult?"
   }
 ]

@@ -119,7 +119,7 @@
     "cefr": "B2",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Why does American health care cost so much?"
+    "flightQuestion": "Should expensive healthcare be paid for by everyone?"
   },
   {
     "id": "vox_future_of_work",
@@ -161,7 +161,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Which historical choice helped America become a superpower?"
+    "flightQuestion": "Should powerful countries have a duty to solve global problems?"
   },
   {
     "id": "vox_democracy_problem",
@@ -182,7 +182,7 @@
     "cefr": "B2",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "How can a party win power with fewer votes?"
+    "flightQuestion": "Should election rules favor fairness over simplicity?"
   },
   {
     "id": "vox_super_el_nino_global_climate",

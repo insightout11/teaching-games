@@ -37,7 +37,7 @@
     "cefr": "B2",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "The Philosophy of Absurdism: What Is the Point of Life?"
+    "flightQuestion": "Can a life be meaningful without a clear purpose?"
   },
   {
     "id": "bbcideas_sports_psychology",
@@ -166,7 +166,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Why might two people experience the same room differently?"
+    "flightQuestion": "Should we trust another person's view of the same event?"
   },
   {
     "id": "bbcideas_hidden_clues_personality",

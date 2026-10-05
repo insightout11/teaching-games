@@ -225,6 +225,9 @@ for (const file of files) {
       if (!nonEmpty(item.flightQuestion)) fail(where, 'flightQuestion must be a non-empty question');
       else {
         const normalizedQuestion = item.flightQuestion.trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ');
+        const normalizedTitle = String(item.title || '').trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ');
+        if (normalizedQuestion === normalizedTitle) fail(where, 'flightQuestion must not copy the item title');
+        if (/^(but|so|and)\b/i.test(item.flightQuestion.trim())) fail(where, 'flightQuestion must not start with But, So, or And');
         if (flightQuestionOwners[normalizedQuestion]) fail(where, `flightQuestion duplicates ${flightQuestionOwners[normalizedQuestion]}`);
         else flightQuestionOwners[normalizedQuestion] = where;
         if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');

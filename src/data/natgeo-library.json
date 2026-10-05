@@ -49,7 +49,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "How might nine brains shape an octopus’s intelligence?"
+    "flightQuestion": "Should clever sea animals be protected from captivity?"
   },
   {
     "id": "natgeo-deep-ocean",
@@ -95,7 +95,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "How can an elephant’s memory help its herd survive?"
+    "flightQuestion": "Should people protect elephant families from being separated?"
   },
   {
     "id": "natgeo-how-volcanoes-work",
@@ -140,7 +140,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "How does a brain with billions of neurons learn?"
+    "flightQuestion": "Should children learn more about how their brains change?"
   },
   {
     "id": "natgeo-amazon-rainforest",
@@ -160,7 +160,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Is the Amazon Rainforest Disappearing?"
+    "flightQuestion": "Should protecting forests take priority over new farmland?"
   },
   {
     "id": "natgeo-coral-reef-crisis",

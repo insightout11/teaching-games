@@ -129,7 +129,7 @@
       "title": "A1 StoryWeaver Readers 3",
       "order": 3
     },
-    "flightQuestion": "Why does the family make kheer on a full moon night?"
+    "flightQuestion": "Should families keep food traditions even when tastes change?"
   },
   {
     "id": "storyweaver-89-peacocks-and-pakodas",
@@ -579,7 +579,7 @@
       "title": "A1 StoryWeaver Readers 3",
       "order": 4
     },
-    "flightQuestion": "Which mango flavor does the family choose for lassi?"
+    "flightQuestion": "Would you choose lassi, ice cream, or falooda with mango?"
   },
   {
     "id": "storyweaver-486-gulli-s-box-of-things",
@@ -659,7 +659,7 @@
       "title": "A1 StoryWeaver Readers 1",
       "order": 2
     },
-    "flightQuestion": "What gift does Cheenu choose for her friend?"
+    "flightQuestion": "Is a handmade gift better than one bought in a shop?"
   },
   {
     "id": "storyweaver-678-the-day-the-vegetables-came-to-school",
@@ -1289,7 +1289,7 @@
     "license": "CC BY 4.0",
     "attribution": "Shruti's secret to winning (en), text by Anushka and Preeti Praveen, illustration by Deepa Balsavar, Greystroke, Henu, Rajiv Eipe, Sheetal Thapa, Soumya Menon, Suvidha Mistry.., published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "What might Shruti’s teacher learn about her winning secret?"
+    "flightQuestion": "Should Shruti share her secret to winning with others?"
   },
   {
     "id": "storyweaver-2909-windy-s-adventure",
@@ -1771,7 +1771,7 @@
     "attribution": "Going Home (en), text by Rukmini Banerji, illustration by Ketan Raut, Santosh Pujari, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "Why is the little girl in a hurry to get home?"
+    "flightQuestion": "Should the girl tell someone why she needs to hurry?"
   },
   {
     "id": "storyweaver-149-timmy-and-pepe",
@@ -1896,7 +1896,7 @@
     "attribution": "What Does Anu See? (en), text by Lavanya Karthik, illustration by Lavanya Karthik, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "What Does Anu See?"
+    "flightQuestion": "Would you rather see the world through Anu's eyes or your own?"
   },
   {
     "id": "storyweaver-332-bheema-the-sleepyhead",
@@ -2084,7 +2084,7 @@
     "attribution": "Aunty Jui's Baby (en), text by Madhuri Purandare, illustration by Madhuri Purandare, translated by Pratham Books Team, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "Is it a teeny-tiny baby?"
+    "flightQuestion": "Should children help care for a new baby?"
   },
   {
     "id": "storyweaver-82-i-want-that-one",
@@ -2494,7 +2494,7 @@
     "attribution": "Samira Goes Shopping (en), text by Bharati Jagannathan, illustration by Preeti Krishnamurthy, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "What makes Samira and Mouchak’s shopping trip unusual?"
+    "flightQuestion": "Would you rather shop with Samira or Mouchak?"
   },
   {
     "id": "storyweaver-167682-the-hare-and-the-tortoise-again",
@@ -2530,7 +2530,7 @@
     "attribution": "The Hare & the Tortoise (Again!) (en), text by Venkatramana Gowda, illustration by Padmanabh, translated by Divaspathy Hegde, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "Do you remember the Great Race between the hare and the tortoise?"
+    "flightQuestion": "Should the hare race the tortoise again?"
   },
   {
     "id": "storyweaver-821-here-comes-the-camel-and-other-poems",
@@ -2637,7 +2637,7 @@
     "attribution": "What If? (en), text by Hari Kumar Nair, illustration by Hari Kumar Nair, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "What If?"
+    "flightQuestion": "Should we try a new idea even if it might fail?"
   },
   {
     "id": "storyweaver-927-the-royal-toothache",
@@ -2966,7 +2966,7 @@
     "attribution": "Saboo and Jojo (en), text by Herminder Ohri, illustration by Herminder Ohri, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "What makes Saboo and Jojo a good pair?"
+    "flightQuestion": "Should friends need similar interests to work well together?"
   },
   {
     "id": "storyweaver-1024-first-house",
@@ -3078,7 +3078,7 @@
     "attribution": "Busy Ants (en), text by Kanchan Bannerjee, illustration by Deepa Balsavar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "What work keeps the ants so busy?"
+    "flightQuestion": "Should everyone in a group do the same job?"
   },
   {
     "id": "storyweaver-1057-clean-cat",
@@ -3114,7 +3114,7 @@
     "attribution": "Clean Cat (en), text by Kanchan Bannerjee, illustration by Deepa Balsavar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "How do cats stay clean without taking a bath?"
+    "flightQuestion": "Should a pet cat be bathed if it cleans itself?"
   },
   {
     "id": "storyweaver-1062-noisy-crows",
@@ -3191,7 +3191,7 @@
     "attribution": "We Are All Animals (en), text by Madhav Chavan, Meera Tendolkar, illustration by Santosh Pujari, translated by Rohini Nilekani, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "What can children and other animals do alike?"
+    "flightQuestion": "Should people treat other animals more like themselves?"
   },
   {
     "id": "storyweaver-1208-singing-in-the-rain",
@@ -3308,7 +3308,7 @@
     "attribution": "My Juggling Granny (en), text by Mala Kumar, Manisha Chaudhry, illustration by Niloufer Wadia, translated by Mala Kumar, Manisha Chaudhry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "Did you know my granny juggles?"
+    "flightQuestion": "Should grandparents teach children their special skills?"
   },
   {
     "id": "storyweaver-1591-where-is-gogo",
@@ -3344,7 +3344,7 @@
     "attribution": "Where is Gogo? (en), text by Mala Kumar, Manisha Chaudhry, illustration by Soumya Menon, translated by Mala Kumar, Manisha Chaudhry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "Where is Gogo?"
+    "flightQuestion": "Should Gogo's friends search together or separately?"
   },
   {
     "id": "storyweaver-1791-my-musical-adventure",
@@ -3528,7 +3528,7 @@
     "attribution": "Samira's Awful Lunch (en), text by Bharati Jagannathan, illustration by Preeti Krishnamurthy, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "Why aren't you eating your lunch like all the other children?"
+    "flightQuestion": "Should Samira tell her friends why she dislikes her lunch?"
   },
   {
     "id": "storyweaver-957-topsy-turvy",
@@ -3784,7 +3784,7 @@
     "attribution": "Tara Finds Her Stars (en), text by Mala Kumar, Manisha Chaudhry, illustration by Shikha Nambiar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "How many stars do you think you can count?"
+    "flightQuestion": "Is watching stars more fun alone or with friends?"
   },
   {
     "id": "storyweaver-1583-booboo-sings-for-vihaan",
@@ -4293,7 +4293,7 @@
     "attribution": "Rumniya (en), text by Rukmini Banerji, illustration by Henu, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "How does Nani help Rumniya expect a good ending?"
+    "flightQuestion": "Should Nani promise a happy ending when she cannot know?"
   },
   {
     "id": "storyweaver-2976-guess-this-place-ghost-town",
@@ -4373,7 +4373,7 @@
     "attribution": "Prakruti (en), text by Prakruti & Shruti Bhat, illustration by Priya Kuriyan, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
-    "flightQuestion": "How does Prakruti’s name connect her to nature?"
+    "flightQuestion": "Should a name tell a story about a person?"
   },
   {
     "id": "storyweaver-2138-happy-world",
