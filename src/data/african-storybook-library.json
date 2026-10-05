@@ -30,7 +30,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Ghanaian folktale; illustrator: Wiehan de Jager; adaptation: African Storybook, Jane Taylor",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Should Anansi help Rabbit stir the vegetables before eating?"
   },
   {
     "id": "african-storybook-38954",
@@ -67,7 +68,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Diana  Tebeila; illustrator: Diana  Tebeila",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "\"Granny, where are you?"
   },
   {
     "id": "african-storybook-1881",
@@ -100,7 +102,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Judith Baker, Lorato Trok; illustrator: Wiehan de Jager",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Should the baby elephant keep asking every animal questions?"
   },
   {
     "id": "african-storybook-36489",
@@ -167,7 +170,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Edith Kavoo; illustrator: Edith Kavoo",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Should Sisi visit the maize farm with Kibo and Jengo?"
   },
   {
     "id": "african-storybook-8979",
@@ -268,7 +272,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Venkatramana Gowda, Divaspathy Hegde; illustrator: Padmanabha",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-animals",
+      "title": "B1 Animal Stories for Curious Readers",
+      "order": 1
+    },
+    "flightQuestion": "Should Hare challenge Tortoise to another race?"
   },
   {
     "id": "african-storybook-17648",
@@ -301,7 +311,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Merga Debelo, Elizabeth Laird; illustrator: Salim Kasamba",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Is the rat king right to call rats the best animals?"
   },
   {
     "id": "african-storybook-50056",
@@ -338,7 +349,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Peter K. Amoabil; illustrator: ",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-games",
+      "title": "B1 Games and Friendship",
+      "order": 1
+    },
+    "flightQuestion": "Should the two villages play their first football match?"
   },
   {
     "id": "african-storybook-2205",
@@ -371,7 +388,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Kholeka Mabeta; illustrator: Benjamin Mitchley",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-animals",
+      "title": "B1 Animal Stories for Curious Readers",
+      "order": 2
+    },
+    "flightQuestion": "Should Crow trust Jackal with the cheese?"
   },
   {
     "id": "african-storybook-15291",
@@ -404,7 +427,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Buhle Vilakazi; illustrator: Abraham Muzee",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-nature",
+      "title": "B1 Trees, Seeds, and Rivers",
+      "order": 1
+    },
+    "flightQuestion": "Should Pontshibobo’s friends climb his tree?"
   },
   {
     "id": "african-storybook-36820",
@@ -437,7 +466,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Gianna  Ambrosano, Laila  Wermelinger, Selina Buschor; illustrator: Gianna  Ambrosano, Laila  Wermelinger, Selina Buschor",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-clever",
+      "title": "B1 Clever Ideas and Choices",
+      "order": 4
+    },
+    "flightQuestion": "How can Bohlale help siblings get along?"
   },
   {
     "id": "african-storybook-2112",
@@ -470,7 +505,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Caroline Lentupuru; illustrator: Wiehan de Jager",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-clever",
+      "title": "B1 Clever Ideas and Choices",
+      "order": 2
+    },
+    "flightQuestion": "Which girl should the giant trust with the talking bag?"
   },
   {
     "id": "african-storybook-2651",
@@ -503,7 +544,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: South African Folktale; illustrator: Jemma Kahn",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Should Demane and Demazane leave their cruel uncle?"
   },
   {
     "id": "african-storybook-13542",
@@ -536,7 +578,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Jacinta Recha; illustrator: Rob Owen",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Guilty conscience?"
   },
   {
     "id": "african-storybook-16535",
@@ -569,7 +612,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Roxana Bouwer; illustrator: Sarah Bouwer",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-clever",
+      "title": "B1 Clever Ideas and Choices",
+      "order": 1
+    },
+    "flightQuestion": "Why does Nita hang upside down near the trees?"
   },
   {
     "id": "african-storybook-9809",
@@ -606,7 +655,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Nicola Rijsdijk; illustrator: Maya Marshak",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-nature",
+      "title": "B1 Trees, Seeds, and Rivers",
+      "order": 2
+    },
+    "flightQuestion": "Should Wangari’s village plant more trees together?"
   },
   {
     "id": "african-storybook-36715",
@@ -639,7 +694,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Mezemir Girma; illustrator: ",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-games",
+      "title": "B1 Games and Friendship",
+      "order": 2
+    },
+    "flightQuestion": "Can a coin make Kisara fun for every child?"
   },
   {
     "id": "african-storybook-15028",
@@ -672,7 +733,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Lindiwe Matshikiza; illustrator: Meghan Judge",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Should the girl’s people welcome the pregnant stranger?"
   },
   {
     "id": "african-storybook-50308",
@@ -705,7 +767,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Victoria Yeboah; illustrator: ",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Can Princess Kela win friends without helping anyone?"
   },
   {
     "id": "african-storybook-36914",
@@ -738,7 +801,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Shumaila  Davids; illustrator: Nina Wiggins, Sarah Miesler, Storyboard  That, Rijuta Ghate, Mango Tree, Melany Pietersen, Catherine Groenewald",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Should Nido let his friends choose a game?"
   },
   {
     "id": "african-storybook-34111",
@@ -771,7 +835,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Yvette Bezuidenhout; illustrator: Fabianus  Bayu; adaptation: African Storybook, Yvette Bezuidenhout",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-animals",
+      "title": "B1 Animal Stories for Curious Readers",
+      "order": 3
+    },
+    "flightQuestion": "Should Wayan protect the turtles near his village?"
   },
   {
     "id": "african-storybook-23861",
@@ -804,7 +874,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Agnes  Gyening-Asiedu; illustrator: Offei Tettey Eugene; translation: Agnes  Gyening-Asiedu",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Should Aku finish her fufu before asking for ice cream?"
   },
   {
     "id": "african-storybook-17985",
@@ -837,7 +908,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Mesfin Habte-Mariam, Elizabeth Laird; illustrator: Marleen Visser",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "He said to Wardit, \"Who is this foolish old donkey?"
   },
   {
     "id": "african-storybook-34756",
@@ -870,7 +942,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Jacqueline  Jacobs; illustrator: Jacqueline  Jacobs",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "How can Lizzy cross her busy road safely?"
   },
   {
     "id": "african-storybook-21728",
@@ -903,7 +976,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Sibongile Mnkandla; illustrator: Sibongile Mnkandla",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "A book would be lovely, but can Grandma read?"
   },
   {
     "id": "african-storybook-13636",
@@ -936,7 +1010,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Violet Otieno; illustrator: Catherine Groenewald; adaptation: African Storybook",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Should Mondli and Mbali visit their grandmother by the lake?"
   },
   {
     "id": "african-storybook-39472",
@@ -969,7 +1044,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Blessmore Chikwakwa; illustrator: Awwalu  Sakiwa, Carol Liddiment, Idowu Abayomi Oluwasegun, Ketan Raut, Rob Owen, Siyavuya Nqezo",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-games",
+      "title": "B1 Games and Friendship",
+      "order": 4
+    },
+    "flightQuestion": "Should friends stay together after a race?"
   },
   {
     "id": "african-storybook-35268",
@@ -1002,7 +1083,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Nathi  Ngubane; illustrator: Nathi  Ngubane; adaptation: African Storybook",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "How can Duma protect Wandile by washing his hands?"
   },
   {
     "id": "african-storybook-36998",
@@ -1035,7 +1117,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Book Bus Zambia, Caroline Chimba, Lorraine  Nkhoma, M  Mwamba, Monica C Mulenga, Mrs  Constance, Mrs Charity Mwansa, Mrs Kalela Kalela, Mrs Mwansa Mwansa, T  Masumbuko; illustrator: Rob Owen, Jesse Breytenbach, Edwin  Irabor",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "How does Lindiwe’s grandmother care for her in Kasupa?"
   },
   {
     "id": "african-storybook-12169",
@@ -1068,7 +1151,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Kennedy Amandu; illustrator: Rob Owen; translation: Nelson Acadri",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Should Hare take food from hardworking Hyena?"
   },
   {
     "id": "african-storybook-39123",
@@ -1101,7 +1185,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Omotola Ogunmuyiwa; illustrator: Wiehan de Jager",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-clever",
+      "title": "B1 Clever Ideas and Choices",
+      "order": 3
+    },
+    "flightQuestion": "Which steps does Omotola use to install a game?"
   },
   {
     "id": "african-storybook-20771",
@@ -1134,7 +1224,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Bethelihem Waltenegus; illustrator: Brian Wambi",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-animals",
+      "title": "B1 Animal Stories for Curious Readers",
+      "order": 4
+    },
+    "flightQuestion": "Should Petros get a dog to feel less lonely?"
   },
   {
     "id": "african-storybook-19876",
@@ -1167,7 +1263,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Nina Orange, Ursula  Nafula; illustrator: Brian Wambi",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-games",
+      "title": "B1 Games and Friendship",
+      "order": 3
+    },
+    "flightQuestion": "Should runners from different countries join Juma’s race?"
   },
   {
     "id": "african-storybook-22166",
@@ -1200,7 +1302,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Divine  Apedo, Elizabeth  Nkrumah, Georgina  Abbey; illustrator: Brian Wambi; translation: Divine  Apedo, Elizabeth  Nkrumah, Georgina  Abbey",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-nature",
+      "title": "B1 Trees, Seeds, and Rivers",
+      "order": 4
+    },
+    "flightQuestion": "How should Cassava and Palm respond to the drought?"
   },
   {
     "id": "african-storybook-47814",
@@ -1233,7 +1341,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Mduduzi Innocent Mtswene; illustrator: Offei Tettey Eugene, mduduzi innocent mtswene",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Can Spoti protect Lili and Lihle from the naughty monkey?"
   },
   {
     "id": "african-storybook-22542",
@@ -1266,7 +1375,13 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Mimi  Werna; illustrator: Edwin  Irabor; translation: Mimi  Werna",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-nature",
+      "title": "B1 Trees, Seeds, and Rivers",
+      "order": 3
+    },
+    "flightQuestion": "Should the children listen when their mother says no?"
   },
   {
     "id": "african-storybook-36114",
@@ -1299,7 +1414,8 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Nathi  Ngubane; illustrator: Nathi  Ngubane; adaptation: Doma DEDF",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "Mama smiled, \"And what do we wear when we go out?"
   },
   {
     "id": "african-storybook-20155",
@@ -1332,6 +1448,7 @@
     "license": "CC BY 4.0",
     "attribution": "Author: Mulualem  Daba; illustrator: Salim Kasamba; translation: Elizabeth  Laird",
     "needsReview": true,
-    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context."
+    "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "flightQuestion": "How could you quarrel with this small and miserable monkey?"
   }
 ]

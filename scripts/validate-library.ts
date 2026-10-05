@@ -77,6 +77,7 @@ const listeningCoverage: Record<string, number> = { A1: 0, A2: 0, B1: 0, B2: 0, 
 const round8ListeningCoverage = { a1Dialogue: 0, a1Kids: 0, a2B1Announcements: 0 };
 let listeningItemCount = 0;
 let flightQuestionCount = 0;
+const flightQuestionOwners: Record<string, string> = {};
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -105,16 +106,6 @@ function validateExpandedItem(item: Item, where: string) {
     if (item.kind === 'video' && round4FlightQuestionVideos.has(String(item.id || ''))
       && (typeof item.durationSecs !== 'number' || item.durationSecs < 180 || item.durationSecs > 480)) {
       fail(where, 'Flight Question videos must be 3–8 minutes long');
-    }
-  }
-  if (item.series !== undefined) {
-    const series = item.series as { id?: unknown; title?: unknown; order?: unknown };
-    if (!nonEmpty(series.id) || !nonEmpty(series.title)
-      || typeof series.order !== 'number' || Math.floor(series.order) !== series.order || series.order < 1) {
-      fail(where, 'series requires a non-empty id/title and positive integer order');
-    } else {
-      if (!seriesGroups[series.id]) seriesGroups[series.id] = [];
-      seriesGroups[series.id].push(item);
     }
   }
   if (item.place !== null && item.place !== undefined) {
@@ -232,8 +223,13 @@ for (const file of files) {
     if (nonEmpty(item.flightQuestion)) flightQuestionCount += 1;
     if (item.flightQuestion !== undefined) {
       if (!nonEmpty(item.flightQuestion)) fail(where, 'flightQuestion must be a non-empty question');
-      else if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
-      else if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
+      else {
+        const normalizedQuestion = item.flightQuestion.trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ');
+        if (flightQuestionOwners[normalizedQuestion]) fail(where, `flightQuestion duplicates ${flightQuestionOwners[normalizedQuestion]}`);
+        else flightQuestionOwners[normalizedQuestion] = where;
+        if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
+        if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
+      }
     }
     if (item.kind === 'video' || nonEmpty(item.youtubeId)) {
       if (typeof item.durationSecs !== 'number' || item.durationSecs <= 0) fail(where, 'video durationSecs must be present and positive');
@@ -263,6 +259,18 @@ for (const file of files) {
       const normalized = item.url.trim().replace(/\/$/, '').toLowerCase();
       if (urls.has(normalized)) fail(where, `duplicate URL also found in ${urls.get(normalized)}`);
       else urls.set(normalized, where);
+    }
+
+    // Course metadata also appears on legacy library records.
+    if (item.series !== undefined) {
+      const series = item.series as { id?: unknown; title?: unknown; order?: unknown };
+      if (!nonEmpty(series.id) || !nonEmpty(series.title)
+        || typeof series.order !== 'number' || Math.floor(series.order) !== series.order || series.order < 1) {
+        fail(where, 'series requires a non-empty id/title and positive integer order');
+      } else {
+        if (!seriesGroups[series.id]) seriesGroups[series.id] = [];
+        seriesGroups[series.id].push(item);
+      }
     }
 
     if (file === 'grammar-library.json') {
@@ -320,7 +328,7 @@ for (const file of files) {
 }
 
 // Round 9's templated Flight Questions were removed in review (Oct 3); round 10 redoes them grounded.
-if (flightQuestionCount < 128) fail('flight questions', `expected at least 128 items (found ${flightQuestionCount})`);
+if (flightQuestionCount < 500) fail('flight questions', `expected at least 500 items after Round 10 (found ${flightQuestionCount})`);
 
 for (const tag of Array.from(grammarTags)) {
   const coverage = grammarCoverage[tag] || { total: 0, kids: 0 };
@@ -354,12 +362,30 @@ for (const seriesId of Object.keys(seriesGroups)) {
     orders.add(series.order);
     ranks.push(cefrRank[String(member.cefr)] || 0);
     if (member.ageBand !== members[0].ageBand) fail(`series ${seriesId}`, 'all members must use one ageBand');
+    if (seriesId.indexOf('round10-') === 0 && member.cefr !== members[0].cefr) fail(`series ${seriesId}`, 'Round 10 series must use one exact CEFR level');
+    if (seriesId.indexOf('round10-') === 0 && !nonEmpty(member.flightQuestion)) fail(`series ${seriesId}`, 'every Round 10 course item requires a Flight Question');
   }
   if (Math.max(...ranks) - Math.min(...ranks) > 1) fail(`series ${seriesId}`, 'CEFR levels may span no more than one step');
 }
 
 const seriesIds = Object.keys(seriesGroups);
-if (seriesIds.length < 31) fail('series catalog', `expected at least 31 course series after round 6 (found ${seriesIds.length})`);
+if (seriesIds.length < 51) fail('series catalog', `expected at least 51 course series after round 10 (found ${seriesIds.length})`);
+const round10SeriesIds = seriesIds.filter((seriesId) => seriesId.indexOf('round10-') === 0);
+if (round10SeriesIds.length !== 20) fail('Round 10 series', `expected exactly 20 new course series (found ${round10SeriesIds.length})`);
+const round10Cohorts = [
+  { prefix: 'round10-kids-a1-', count: 8, cefr: 'A1', ageBand: 'kids' },
+  { prefix: 'round10-kids-b1-', count: 4, cefr: 'B1', ageBand: 'kids' },
+  { prefix: 'round10-teens-a2-', count: 6, cefr: 'A2', ageBand: 'teens' },
+  { prefix: 'round10-teens-b1-', count: 2, cefr: 'B1', ageBand: 'teens' },
+];
+for (const cohort of round10Cohorts) {
+  const ids = round10SeriesIds.filter((seriesId) => seriesId.indexOf(cohort.prefix) === 0);
+  if (ids.length !== cohort.count) fail('Round 10 series', `expected ${cohort.count} ${cohort.cefr} ${cohort.ageBand} series (found ${ids.length})`);
+  for (const id of ids) {
+    const members = seriesGroups[id] || [];
+    if (members.some((member) => member.cefr !== cohort.cefr || member.ageBand !== cohort.ageBand)) fail(`series ${id}`, `all items must be ${cohort.cefr} and ${cohort.ageBand}`);
+  }
+}
 const bookSeriesIds = seriesIds.filter((seriesId) => seriesId.indexOf('book-course-') === 0);
 if (bookSeriesIds.length < 12) fail('book-library.json', `expected at least 12 public-domain book courses after round 6 (found ${bookSeriesIds.length})`);
 if (bookCourseItemCount < 48) fail('book-library.json', `expected at least 48 book lesson items after round 6 (found ${bookCourseItemCount})`);

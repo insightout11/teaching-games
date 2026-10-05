@@ -16,7 +16,13 @@
     "summary": "World War I, fought between 1914 and 1918, was one of the deadliest conflicts in human history. It killed approximately 17 million people and wounded another 20 million. It reshaped the map of Europe, brought down four empires, and set in motion events that would lead to World War II just two decades later.\n\nThe war began in the summer of 1914 following the assassination of Archduke Franz Ferdinand of Austria-Hungary in Sarajevo. This triggered a series of alliances that drew the major European powers into conflict. On one side were the Allied Powers — primarily Britain, France, Russia, and later the United States and Italy. On the other were the Central Powers — Germany, Austria-Hungary, and the Ottoman Empire.\n\nThe war introduced industrial-scale warfare. Machine guns, poison gas, artillery barrages, and barbed wire created a new kind of conflict in which soldiers faced each other from trenches that stretched for hundreds of kilometres. The Western Front in France and Belgium saw years of horrific stalemate, with millions of casualties for gains of just a few kilometres.\n\nThe war changed the world's political map dramatically. The Russian Revolution of 1917 brought the Bolsheviks to power and took Russia out of the war. The Ottoman Empire collapsed, leading to the creation of modern Turkey and shaping the borders of the modern Middle East. The Austro-Hungarian Empire dissolved into multiple new nations.\n\nThe Treaty of Versailles, signed in 1919, officially ended the war. It imposed harsh penalties on Germany — reparations, territorial losses, and military restrictions. Many historians argue that these conditions created the economic hardship and national humiliation that helped fuel the rise of Adolf Hitler and the outbreak of World War II.\n\nWorld War I marked the end of one world order and the beginning of another — an era of mass politics, global conflict, and the decline of European imperial power.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-b1-society",
+      "title": "B1 Teen Society and Culture",
+      "order": 3
+    },
+    "flightQuestion": "Could the Treaty of Versailles prevent another war?"
   },
   {
     "id": "cc-ww2-overview",
@@ -35,7 +41,13 @@
     "summary": "World War II, fought between 1939 and 1945, was the deadliest conflict in human history — killing an estimated 70 to 85 million people, the majority of them civilians. It reshaped the political map of the world and gave rise to the institutions, conflicts, and technologies that define the modern era.\n\nThe war grew from the unresolved tensions of World War I. In Germany, the economic devastation of the Great Depression and the humiliation of the Versailles Treaty provided the conditions for Adolf Hitler and the Nazi Party to seize power in 1933. Hitler rapidly rearmed Germany and pursued an aggressive expansionist policy — annexing Austria, seizing Czechoslovakia, and finally invading Poland in September 1939. Britain and France responded with declarations of war.\n\nGermany's early military campaign was astonishingly fast. France fell in six weeks. Much of Western Europe came under Nazi control. In June 1941, Germany launched Operation Barbarossa — a massive invasion of the Soviet Union — opening the largest and most costly land campaign in history. Japan's attack on the US naval base at Pearl Harbor in December 1941 brought the United States into the war on both the European and Pacific fronts.\n\nThe Holocaust — the systematic murder of six million Jewish people and millions of others, including Roma, disabled people, and political opponents — was carried out using modern industrial methods and bureaucratic organisation. It was the defining crime of the 20th century and directly prompted the development of international human rights law and the concept of genocide.\n\nThe war ended in Europe with Germany's unconditional surrender in May 1945. In the Pacific, the United States dropped atomic bombs on Hiroshima and Nagasaki in August 1945, killing around 200,000 people. Japan surrendered shortly after. The post-war world was defined by the Cold War, the founding of the United Nations, decolonisation, and the nuclear arms race.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-b1-society",
+      "title": "B1 Teen Society and Culture",
+      "order": 4
+    },
+    "flightQuestion": "Should countries use force to stop an invasion?"
   },
   {
     "id": "cc-psychology-intro",
@@ -92,7 +104,13 @@
     "summary": "Natural selection is the mechanism that drives evolution — the process by which living things change over time. It was first described by Charles Darwin in his 1859 book On the Origin of Species, and it remains one of the most important ideas in the history of science.\n\nThe idea is elegantly simple. Individuals within a population vary — some are faster, some more resistant to disease, some better camouflaged. These differences are often inherited. Individuals that are better suited to their environment are more likely to survive and reproduce, passing on their advantageous traits to their offspring. Over many generations, these traits become more common in the population. This is natural selection.\n\nDarwin arrived at his theory after years of observation, including a voyage to the Galapagos Islands, where he noticed that finches on different islands had differently shaped beaks — each adapted to the food sources available on that island. He realised that the birds had diverged from a common ancestor, with different populations adapting to different environments over time.\n\nThe evidence for evolution by natural selection is overwhelming and comes from multiple independent sources: the fossil record, comparative anatomy, genetics, and direct observation of evolution happening in real time. Bacteria evolving antibiotic resistance is natural selection in action, happening over years rather than millennia.\n\nOne common misunderstanding is that evolution has a direction or goal. It does not. Natural selection simply favours whatever traits help organisms survive and reproduce in their current environment. As environments change, what is selected for changes too.\n\nEvolution by natural selection is the unifying theory of biology — it explains the diversity of life, the similarities between species, the structure of ecosystems, and the ongoing arms race between predators and prey, parasites and hosts, pathogens and immune systems.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-b1-science",
+      "title": "B1 Teen Science and Discovery",
+      "order": 2
+    },
+    "flightQuestion": "How does natural selection change a population over time?"
   },
   {
     "id": "cc-climate-science",
@@ -206,7 +224,13 @@
     "summary": "Our solar system formed about 4.6 billion years ago from a cloud of gas and dust. Gravity caused the cloud to collapse, and most of the material fell to the centre to form the Sun. The remaining material formed a flat disc around the Sun, and within this disc, clumps of material began to stick together — eventually forming the planets, moons, asteroids, and comets that make up the solar system today.\n\nAt the centre is the Sun — a medium-sized star that accounts for 99.86 percent of all the mass in the solar system. The Sun is so large that about 1.3 million Earths could fit inside it. It produces energy through nuclear fusion, converting hydrogen into helium at its core.\n\nThe inner solar system contains four rocky planets: Mercury, Venus, Earth, and Mars. Mercury is the smallest and fastest-orbiting planet. Venus is the hottest — its thick atmosphere traps heat, raising surface temperatures to nearly 470 degrees Celsius. Earth is the only planet known to support life. Mars has the solar system's largest volcano and a canyon that dwarfs the Grand Canyon.\n\nBeyond Mars lies the asteroid belt — a region of rocky debris left over from the formation of the solar system. Then come the gas giants: Jupiter, the largest planet; Saturn, famous for its spectacular ring system; Uranus and Neptune, the 'ice giants' — cold, windswept worlds at the edge of the solar system.\n\nBeyond Neptune lies the Kuiper Belt, a region of icy objects including Pluto — reclassified as a dwarf planet in 2006 — and many other small bodies. Further still is the Oort Cloud, a vast spherical shell of icy objects that is thought to be the source of long-period comets.\n\nOur solar system is just one of hundreds of billions in the Milky Way galaxy, which is itself one of hundreds of billions of galaxies in the observable universe.",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-science",
+      "title": "A2 Teens: Everyday Science",
+      "order": 2
+    },
+    "flightQuestion": "Should students use models to understand the solar system?"
   },
   {
     "id": "cc-media-literacy",
@@ -263,6 +287,12 @@
     "summary": "All living things on Earth — from bacteria to blue whales, from oak trees to humans — are made of cells. The cell is the basic unit of life. Understanding cells is understanding the foundation of biology.\n\nThe cell theory, developed in the 19th century, states three things: all living organisms are made of cells; the cell is the basic unit of structure and function in living organisms; and all cells come from pre-existing cells. This last point — that life only comes from life — was revolutionary, finally disproving the ancient idea of spontaneous generation.\n\nThere are two fundamental types of cells. Prokaryotic cells are simpler and older — they have no nucleus or other membrane-bound organelles. Bacteria and archaea are prokaryotes. Eukaryotic cells are more complex. They contain a nucleus — a membrane-enclosed compartment that houses the cell's DNA — as well as a variety of specialised organelles. Animals, plants, fungi, and protists are all made of eukaryotic cells.\n\nWithin a eukaryotic cell, different organelles perform specific functions. The nucleus is the control centre — it contains the cell's genetic information (DNA) and directs all cell activities. The mitochondria are the powerhouses of the cell — they produce ATP, the energy currency that powers almost all cellular processes. The ribosomes are the protein-building machines. The endoplasmic reticulum and Golgi apparatus are involved in producing and shipping proteins and other molecules.\n\nPlant cells differ from animal cells in important ways. They have a rigid cell wall made of cellulose, a large central vacuole for storing water, and chloroplasts — the organelles where photosynthesis takes place. Photosynthesis is the process by which plants convert light energy from the sun into chemical energy stored in sugar.\n\nStudying cells has led to breakthroughs in medicine, agriculture, and biotechnology. Understanding how cancer cells divide differently from healthy cells, how viruses hijack cellular machinery, and how genes are expressed — all begin with understanding the cell.",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-science",
+      "title": "A2 Teens: Everyday Science",
+      "order": 3
+    },
+    "flightQuestion": "How do cells use DNA to pass on instructions?"
   }
 ]

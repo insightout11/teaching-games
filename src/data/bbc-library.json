@@ -35,8 +35,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "When should a speaker choose formal English over informal English?"
   },
   {
     "id": "bbc_grammar_giving_emphasis",
@@ -147,8 +147,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "When should speakers hedge a disagreement in conversation?"
   },
   {
     "id": "bbc_masterclass_inversion_1",
@@ -251,9 +251,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should cities make street food safer even if prices rise?",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Street Food: Why Is It Becoming Popular?"
   },
   {
     "id": "bbc_food_new_food_culture",
@@ -280,9 +279,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should people protect migration routes even when it costs more?",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should newcomers adapt to every part of a new food culture?"
   },
   {
     "id": "bbc_food_waste",
@@ -309,8 +307,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Who should take responsibility for reducing food waste?"
   },
   {
     "id": "bbc_food_fast_food",
@@ -337,8 +335,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Are you a fast food fan, Beth?"
   },
   {
     "id": "bbc_food_future_food",
@@ -365,8 +363,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Which future foods could help with food security?"
   },
   {
     "id": "bbc_food_comfort_food",
@@ -393,8 +391,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Can comfort food bring back a memory?"
   },
   {
     "id": "bbc_health_sleep",
@@ -420,8 +418,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Sleeping at work?"
   },
   {
     "id": "bbc_health_stress",
@@ -448,8 +446,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Why Are We All So Stressed?"
   },
   {
     "id": "bbc_health_sitting",
@@ -476,8 +474,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should workers take regular breaks from sitting?"
   },
   {
     "id": "bbc_health_flourishing",
@@ -504,8 +502,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Are You Flourishing?"
   },
   {
     "id": "bbc_health_workplace_mental_health",
@@ -530,8 +528,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How should employers support mental health at work?"
   },
   {
     "id": "bbc_health_kindness",
@@ -558,8 +556,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Is Being Kind Good for You?"
   },
   {
     "id": "bbc_tech_training_ai",
@@ -586,8 +584,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "So, just how intelligent is artificial intelligence?"
   },
   {
     "id": "bbc_tech_robot_companion",
@@ -614,8 +612,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Would You Like a Robot Companion?"
   },
   {
     "id": "bbc_tech_future_of_work",
@@ -642,7 +640,8 @@
     "summary": "This BBC 6 Minute English source introduces the future of work through jobs, automation, artificial intelligence, workplace change, and the skills people may need next. It works as a short discussion anchor for learners comparing today's workplaces with possible future careers.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "flightQuestion": "What Is the Future of Work?"
   },
   {
     "id": "bbc_tech_ai_call_centres",
@@ -669,8 +668,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Call Centres: Are You Talking to AI?"
   },
   {
     "id": "bbc_tech_better_web",
@@ -697,8 +696,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How Can We Make the Web a Better Place?"
   },
   {
     "id": "bbc_tech_era_of_distrust",
@@ -723,8 +722,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Is This the Era of Distrust?"
   },
   {
     "id": "bbc_climate_mental_health",
@@ -749,8 +748,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Can Climate Change Affect Our Mental Health?"
   },
   {
     "id": "bbc_climate_without_plastic",
@@ -777,8 +776,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Can We Live Without Plastic?"
   },
   {
     "id": "bbc_climate_saving_water",
@@ -805,8 +804,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How should people save water in an extremely dry place?"
   },
   {
     "id": "bbc_climate_recycling_system",
@@ -833,8 +832,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Is the Recycling System Broken?"
   },
   {
     "id": "bbc_climate_animal_migration",
@@ -861,8 +860,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should people protect routes used by migrating animals?"
   },
   {
     "id": "bbc_climate_population",
@@ -887,8 +886,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Climate Change: Are There Too Many People?"
   },
   {
     "id": "bbc_animals_zoos",
@@ -915,8 +914,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should Animals Be Kept in Zoos?"
   },
   {
     "id": "bbc_animals_love_of_pets",
@@ -943,8 +942,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Why do people care so deeply about their pets?"
   },
   {
     "id": "bbc_animals_octopus_intelligence",
@@ -971,8 +970,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How Intelligent Is the Octopus?"
   },
   {
     "id": "bbc_animals_ecotourism",
@@ -999,8 +998,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Ecotourism: Good or Bad?"
   },
   {
     "id": "bbc_animals_black_and_white",
@@ -1027,8 +1026,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Why Are Some Animals Black and White?"
   },
   {
     "id": "bbc_animals_man_vs_beast",
@@ -1053,8 +1052,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Man vs Beast: Who Is More Efficient?"
   },
   {
     "id": "bbc_6me_social_media_dead",
@@ -1226,7 +1225,8 @@
       "title": "Digital life and communication",
       "order": 2
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "What is a social media influencer?"
   },
   {
     "id": "bbc_fxh3hejvrhw",
@@ -2380,8 +2380,8 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "When should a speaker use present continuous instead of present simple?"
   },
   {
     "id": "bbc-grammar-r2-tbru3bW2kVE",
@@ -2403,8 +2403,8 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How is “manage to” different from “can”?"
   },
   {
     "id": "bbc-grammar-r2-jwmKjgwlMk8",
@@ -2537,8 +2537,8 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How does “yet” change a present perfect sentence?"
   },
   {
     "id": "bbc-grammar-r2-8VETylIxyhw",
@@ -2626,8 +2626,8 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "When do “ever” and “never” belong in present perfect?"
   },
   {
     "id": "bbc-grammar-r2-nI5zaB6QL-o",
@@ -2822,7 +2822,7 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How can mixed conditionals connect an imagined past and present?"
   }
 ]

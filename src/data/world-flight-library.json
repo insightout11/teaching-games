@@ -4668,5 +4668,38 @@
     },
     "cefr": "B2",
     "ageBand": "all"
+  },
+  {
+    "id": "world-flight-bangkok-river-transport-video",
+    "title": "How to Use the Chao Phraya Express Boat in Bangkok",
+    "speaker": "Co van Kessel Bangkok - Bike and Boat tours",
+    "url": "https://www.youtube.com/watch?v=O5rygyX5wJ0",
+    "youtubeId": "O5rygyX5wJ0",
+    "durationSecs": 447,
+    "topicTags": [
+      "world-flight",
+      "travel",
+      "cities",
+      "city-life",
+      "geography",
+      "bangkok",
+      "thailand",
+      "listening",
+      "transport",
+      "public-transport",
+      "boats"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A Bangkok travel guide demonstrates how to use the Chao Phraya Express Boat.",
+    "summary": "Nina from Co van Kessel Bangkok Tours explains that the Chao Phraya Express Boat can help people travel around Bangkok when road traffic is heavy. She describes the river as an important route used by local people and visitors, and points out that boat travel offers a view of everyday river life. The video introduces the orange and blue flag services and explains that river transport reaches places not served by the SkyTrain or subway.",
+    "place": {
+      "name": "Bangkok, Thailand",
+      "lat": 13.7563,
+      "lng": 100.5018
+    },
+    "cefr": "A2",
+    "ageBand": "all",
+    "needsReview": false,
+    "transcriptVerified": true
   }
 ]

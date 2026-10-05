@@ -17,8 +17,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Which distortion would you accept on a world map?"
   },
   {
     "id": "vox_gerrymandering_overview",
@@ -38,8 +38,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should politicians be allowed to draw their own districts?"
   },
   {
     "id": "vox_hostile_architecture",
@@ -59,8 +59,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should cities use uncomfortable benches to shape public behavior?"
   },
   {
     "id": "vox_gerrymandering_thomas",
@@ -118,8 +118,8 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Why does American health care cost so much?"
   },
   {
     "id": "vox_future_of_work",
@@ -139,8 +139,8 @@
     "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should workers prepare for jobs reshaped by automation?"
   },
   {
     "id": "vox_america_superpower",
@@ -160,8 +160,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Which historical choice helped America become a superpower?"
   },
   {
     "id": "vox_democracy_problem",
@@ -181,8 +181,8 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How can a party win power with fewer votes?"
   },
   {
     "id": "vox_super_el_nino_global_climate",
