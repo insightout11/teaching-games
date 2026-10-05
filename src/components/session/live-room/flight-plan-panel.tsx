@@ -2,7 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Layers, MapPin, Plane, X } from 'lucide-react';
+import { FileText, Headphones, Layers, MapPin, Plane, X } from 'lucide-react';
+import { listeningClipsFor } from '@/lib/listening-pack';
+import { getLibrarySourceMaterial, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
+import type { SourceType } from '@/types/source-material';
 import type { Course, CourseLesson } from '@/lib/course';
 import { withCarryOver } from '@/lib/launch-course-lesson';
 import { useSessionStore } from '@/stores/session-store';
@@ -51,9 +54,15 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
   };
   const needsGrammar = presetId === 'grammar-60';
   const isTravel = presetId === 'travel-60';
-  const ready = !!preset && (isTravel ? !!tripDestination : (topic.trim().length > 0 || !!sourceMaterial)) && (!needsGrammar || !!grammar);
+  const isListening = presetId === 'listening-60';
+  // Listening flies on a library clip with a listening pack, picked here (nearest the class level first).
+  const clips = useMemo(() => (isListening ? listeningClipsFor(listLibraryEntriesWithListeningPack(), settings.difficulty) : []), [isListening, settings.difficulty]);
+  const [clipId, setClipId] = useState('');
+  const clip = clips.find((c) => c.id === clipId) ?? null;
+  const clipSource = useMemo(() => (clip ? getLibrarySourceMaterial({ kind: 'library', sourceType: clip.sourceType as SourceType, id: clip.id, title: clip.title }) : null), [clip]);
+  const ready = !!preset && (isTravel ? !!tripDestination : isListening ? !!clipSource : (topic.trim().length > 0 || !!sourceMaterial)) && (!needsGrammar || !!grammar);
 
-  const build = () => (preset ? buildRoomFlightPlan({ preset, topic, difficulty: settings.difficulty, sourceMaterial, grammarTarget: (grammar || null) as GrammarTarget | null, minutesLeft: minutesLeft ?? null, tripPack: isTravel && tripDestination ? buildTripPack(tripDestination) : null }) : null);
+  const build = () => (preset ? buildRoomFlightPlan({ preset, topic: isListening && clip ? clip.title : topic, difficulty: settings.difficulty, sourceMaterial: isListening ? clipSource : sourceMaterial, grammarTarget: (grammar || null) as GrammarTarget | null, minutesLeft: minutesLeft ?? null, tripPack: isTravel && tripDestination ? buildTripPack(tripDestination) : null }) : null);
   // Mid-air: show how the plan fits the time left (stages are trimmed to fit).
   const preview = useMemo(() => (preset && minutesLeft != null ? build() : null), [presetId, minutesLeft, sourceMaterial]); // eslint-disable-line react-hooks/exhaustive-deps
   const launch = () => {
@@ -96,7 +105,20 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
           ))}
         </div>
 
-        {isTravel && tripDestination ? (
+        {isListening ? (
+          <div className="space-y-1.5">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Choose a listening clip ({settings.difficulty})</p>
+            <div className="grid max-h-56 gap-1.5 overflow-y-auto pr-1 sm:grid-cols-2">
+              {clips.map((c) => (
+                <button key={`${c.sourceType}-${c.id}`} type="button" onClick={() => setClipId(c.id)} className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm ${c.id === clipId ? 'border-amber-300 bg-amber-300/10' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
+                  <Headphones className="h-4 w-4 shrink-0 text-cyan-300" />
+                  <span className="min-w-0 flex-1 truncate text-white">{c.title}</span>
+                  <span className="shrink-0 text-xs text-white/50">{c.cefr} · {c.minutes} min</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : isTravel && tripDestination ? (
           <p className="flex items-center gap-2 rounded-xl border border-cyan-300/30 bg-cyan-400/[0.06] px-3 py-2 text-sm text-cyan-100">
             <MapPin className="h-4 w-4 shrink-0" /><span>A trip to <span className="text-white">{tripDestination.city}</span>: immigration, the station announcement, the stops the class votes for, and a postcard home.</span>
           </p>

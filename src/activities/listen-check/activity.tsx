@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Headphones, Play, RotateCcw, TrendingUp, Captions, Volume2, Radio } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
@@ -31,7 +31,10 @@ type Phase = 'idle' | 'listen' | 'questions' | 'reveal' | 'transcript' | 'done';
 export function ListenCheckActivity({ generatedContent, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange }: ActivityProps) {
   const c = generatedContent as unknown as ListenContent;
   const final = c.activityKey === 'final-listen';
-  const questions = final && c.harder ? [...c.questions, c.harder] : c.questions;
+  const baseQuestions = useMemo(() => c?.questions ?? [], [c]);
+  // Memoised: a new array each render would re-send the phone screen every render.
+  const questions = useMemo(() => (final && c?.harder ? [...baseQuestions, c.harder] : baseQuestions), [final, c, baseQuestions]);
+  const missing = !c?.youtubeId || baseQuestions.length === 0;
   const recordListenAnswer = useSessionStore((s) => s.recordListenAnswer);
   const listen = useSessionStore((s) => s.lessonThread.listenCheck);
   const sessionId = useSessionStore((s) => s.sessionId);
@@ -100,9 +103,9 @@ export function ListenCheckActivity({ generatedContent, onSetInputSpec, onRegist
   const go = (p: Phase) => { setPhase(p); onPhaseChange?.(p === 'done' ? 'finished' : p); };
 
   // The before → after (3 gist questions both times; the harder one is extra).
-  const before = caughtGist(listen?.before ?? {}, c.questions, c.questions.length);
-  const after = caughtGist(listen?.after ?? {}, c.questions, c.questions.length);
-  const harderRight = c.harder ? Object.keys(listen?.after ?? {}).filter((id) => listen!.after[id][c.questions.length] === c.harder!.correctIndex).length : 0;
+  const before = caughtGist(listen?.before ?? {}, baseQuestions, baseQuestions.length);
+  const after = caughtGist(listen?.after ?? {}, baseQuestions, baseQuestions.length);
+  const harderRight = c?.harder ? Object.keys(listen?.after ?? {}).filter((id) => listen!.after[id][baseQuestions.length] === c.harder!.correctIndex).length : 0;
 
   const reveal = () => {
     stop();
@@ -135,6 +138,15 @@ export function ListenCheckActivity({ generatedContent, onSetInputSpec, onRegist
       )}
     </div>
   );
+  if (missing) {
+    return (
+      <div className="mx-auto max-w-xl space-y-3 py-10 text-center text-white">
+        <Headphones className="mx-auto h-12 w-12 text-white/40" />
+        <p className="font-display text-3xl">Pick a listening clip</p>
+        <p className="text-white/60">This stage needs a library clip with a listening pack. Choose one in the Listening flight plan.</p>
+      </div>
+    );
+  }
   const showPlayer = phase === 'listen' || phase === 'transcript';
   const minutes = Math.max(1, Math.round((c.end - c.start) / 60));
 
@@ -180,7 +192,7 @@ export function ListenCheckActivity({ generatedContent, onSetInputSpec, onRegist
           </div>
           <ol className="space-y-2">
             {questions.map((g, i) => (
-              <li key={g.q} className="rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-3 text-lg">{i + 1}. {g.q}{final && i === c.questions.length ? <span className="ml-2 text-xs uppercase tracking-wider text-amber-300">harder</span> : null}</li>
+              <li key={g.q} className="rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-3 text-lg">{i + 1}. {g.q}{final && i === baseQuestions.length ? <span className="ml-2 text-xs uppercase tracking-wider text-amber-300">harder</span> : null}</li>
             ))}
           </ol>
           <div className="flex justify-end">

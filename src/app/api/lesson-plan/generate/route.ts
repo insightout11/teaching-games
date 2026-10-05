@@ -1,3 +1,5 @@
+import { getLibraryEntry, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
+import { fallbackGist, isKidsLevel, listeningWindow, packToRadioCheck, validGist, validPack, windowTranscript, type GistQuestion, type ListeningPack } from '@/lib/listening-pack';
 import { fallbackSayItAgain } from '@/lib/say-it-again';
 import { fallbackPassTheLine, validPassTheLine } from '@/lib/pass-the-line';
 import { fallbackQuickFire } from '@/lib/quick-fire';
@@ -1343,6 +1345,51 @@ const RADIO_SEGMENT_SCHEMA = {
   keyLine: { type: 'string' },
 } as const;
 
+/** The clip's listening pack (library sources only), with its YouTube id. */
+function packForSource(source: SourceMaterial | null | undefined): { pack: ListeningPack; youtubeId: string; title: string } | null {
+  if (!source?.sourceKey) return null;
+  const entry = getLibraryEntry(source.sourceType as string, source.sourceKey);
+  const pack = validPack(entry?.listeningPack);
+  const youtubeId = (entry?.youtubeId as string | undefined) ?? youtubeIdForSource(source);
+  return pack && youtubeId ? { pack, youtubeId, title: source.title } : null;
+}
+
+/** First/Final Listen content: the window, its transcript, and 3 gist questions (+1 harder). */
+async function generateListenContent(topic: string, difficulty: Difficulty, source: SourceMaterial | null | undefined, rawTranscript: string | undefined): Promise<Record<string, unknown> | null> {
+  const found = packForSource(source);
+  if (!found) return null;
+  const { pack, youtubeId, title } = found;
+  const { start, end } = listeningWindow(pack, isKidsLevel(difficulty));
+  const transcript = windowTranscript(rawTranscript, start, end);
+  let questions: GistQuestion[] = pack.gist ?? [];
+  let harder: GistQuestion | undefined = pack.harder;
+  if (questions.length < 3 && transcript.length > 0) {
+    try {
+      const q: AISchema = { type: 'object', properties: { q: { type: 'string' }, options: { type: 'array', items: { type: 'string' } }, correctIndex: { type: 'number' } }, required: ['q', 'options', 'correctIndex'] };
+      const schema: AISchema = { type: 'object', properties: { gist: { type: 'array', items: q }, harder: q }, required: ['gist', 'harder'] };
+      const avoid = pack.segments.map((s) => s.question).join(' | ');
+      const prompt = `Write GIST listening questions for an ESL class. The class hears this part of "${title}" once, then answers.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+TRANSCRIPT OF WHAT THEY HEAR:
+${transcript.join(' ').slice(0, 6000)}
+
+Return:
+- gist: exactly 3 questions about the BIG PICTURE (the topic, the main point, the speaker's feeling or purpose). Not answerable from one detail. Not the same as these detail questions: ${avoid}
+- harder: 1 question needing inference across the whole part (why, what next, what they really mean).
+Each: { q, options: 3 short plausible options, correctIndex }. Only one option correct, answerable from the transcript.`;
+      const parsed = await generateJSON<{ gist?: unknown[]; harder?: unknown }>(prompt, schema);
+      const g = (parsed.gist ?? []).filter(validGist).slice(0, 3);
+      if (g.length === 3) { questions = g; if (validGist(parsed.harder)) harder = parsed.harder; }
+    } catch { /* fall back below */ }
+  }
+  if (questions.length === 0) {
+    const decoys = listLibraryEntriesWithListeningPack().map((x) => x.entry.title).filter((t) => t !== title);
+    questions = fallbackGist(title, [decoys[title.length % decoys.length], decoys[(title.length + 7) % decoys.length]]);
+  }
+  return { activityKey: 'first-listen', topicContext: topic, title, youtubeId, start, end, questions, ...(harder ? { harder } : {}), transcript };
+}
+
 async function generateRadioCheck(
   topic: string,
   difficulty: Difficulty,
@@ -1350,6 +1397,8 @@ async function generateRadioCheck(
   rawTranscript: string | undefined,
   sourceCtx: string,
 ): Promise<RadioCheckContent> {
+  const packed = packForSource(source);
+  if (packed) return packToRadioCheck(packed.pack, packed.youtubeId, packed.title, topic) as RadioCheckContent;
   const youtubeId = youtubeIdForSource(source);
   const timed = rawTranscript ? formatTranscriptForAI(rawTranscript) : '';
 
@@ -3492,6 +3541,7 @@ export async function POST(request: NextRequest) {
     // Generate activity content
     if (hasActivities) {
       let speakCheckP: Promise<Record<string, unknown>> | null = null;
+      let listenP: Promise<Record<string, unknown> | null> | null = null;
       for (const activityKey of activities) {
         if (vocabBlitzMode && activityKey === 'vocab-radar') continue; // already generated above
         switch (activityKey) {
@@ -3771,6 +3821,15 @@ export async function POST(request: NextRequest) {
           case 'flight-verdict':
             generators.push(generateFlightVerdict(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r; }));
             break;
+          case 'first-listen':
+          case 'final-listen': {
+            listenP = listenP ?? generateListenContent(customTopic, diff, sourceMaterial, sourceRawTranscript);
+            const key = activityKey;
+            generators.push(listenP.then((r) => {
+              if (r) content[key] = { ...r, activityKey: key } as unknown as ActivityGeneratedContent;
+            }));
+            break;
+          }
           case 'radio-check':
             generators.push(generateRadioCheck(customTopic, diff, sourceMaterial, sourceRawTranscript, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;

@@ -5,7 +5,7 @@
  * Check plays the segments themselves (detail questions).
  */
 export interface PackSegment { start: number; end: number; question: string; options: string[]; correctIndex: number; keyLine: string }
-export interface ListeningPack { segments: PackSegment[]; gist?: GistQuestion[] }
+export interface ListeningPack { segments: PackSegment[]; gist?: GistQuestion[]; harder?: GistQuestion; words?: Array<{ word: string; meaning: string; at?: number }> }
 export interface GistQuestion { q: string; options: string[]; correctIndex: number }
 
 /** Window caps (owner decision): ~90s for kids, ~3 min for teens/adults. */
@@ -22,7 +22,8 @@ export function validPack(raw: unknown): ListeningPack | null {
     && typeof s.correctIndex === 'number' && s.correctIndex >= 0 && s.correctIndex < s.options.length);
   if (segments.length === 0) return null;
   const gist = (Array.isArray(p.gist) ? p.gist : []).filter(validGist);
-  return { segments, ...(gist.length ? { gist } : {}) };
+  const words = (Array.isArray(p.words) ? p.words : []).filter((w) => w && typeof w.word === 'string' && typeof w.meaning === 'string');
+  return { segments, ...(gist.length >= 3 ? { gist: gist.slice(0, 3) } : {}), ...(validGist(p.harder) ? { harder: p.harder } : {}), ...(words.length ? { words } : {}) };
 }
 
 export function validGist(g: unknown): g is GistQuestion {
@@ -94,4 +95,28 @@ export function caughtGist(answers: Record<string, Record<number, number>>, ques
     return right >= need;
   }).length;
   return { caught, of: ids.length };
+}
+
+export interface ListeningClipOption { sourceType: string; id: string; title: string; cefr: string; ageBand: string; minutes: number }
+
+const LEVEL_CEFR: Record<string, string[]> = { Beginner: ['A1', 'A2'], Easy: ['A1', 'A2'], Intermediate: ['A2', 'B1'], Advanced: ['B1', 'B2'], Expert: ['B2', 'C1'] };
+
+/** Clips for the Listening flight, nearest the class level first. */
+export function listeningClipsFor(entries: Array<{ sourceType: string; entry: Record<string, unknown> }>, difficulty: string): ListeningClipOption[] {
+  const want = LEVEL_CEFR[difficulty] ?? [];
+  return entries
+    .map(({ sourceType, entry }) => {
+      const pack = validPack(entry.listeningPack);
+      const win = pack ? listeningWindow(pack, isKidsLevel(difficulty)) : null;
+      return {
+        sourceType,
+        id: String(entry.id),
+        title: String(entry.title),
+        cefr: String(entry.cefr ?? ''),
+        ageBand: String(entry.ageBand ?? ''),
+        minutes: win ? Math.max(1, Math.round((win.end - win.start) / 60)) : 0,
+      };
+    })
+    .filter((c) => c.minutes > 0)
+    .sort((a, b) => Number(want.indexOf(b.cefr) >= 0) - Number(want.indexOf(a.cefr) >= 0) || a.title.localeCompare(b.title));
 }

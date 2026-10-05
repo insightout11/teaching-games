@@ -672,6 +672,52 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     },
   },
   {
+    id: 'listening-60',
+    name: 'Listening',
+    description: 'How much can you catch? Hear a real clip once, learn its words, catch the details segment by segment, rebuild a key passage, talk about it, then hear it again and see how much more the class caught.',
+    tagline: 'First listen, final listen: how much more did you catch?',
+    lessonDurationMinutes: 60,
+    goal: 'vocabulary-building',
+    lessonType: 'skill-builder',
+    scoringMode: 'participation',
+    // Listening flight (docs/listening-flight-concept.md). Needs a library clip with a listening pack:
+    // first-listen (gist, the before) -> toolkit -> Static -> Radio Check (the pack's timed segments)
+    // -> turbulence -> Black Box -> Quick-fire (talk about it) -> final-listen (gist + harder, reveal, transcript).
+    takeoff: 'first-listen',
+    landing: 'final-listen',
+    moduleSequence: [
+      { slotType: 'practice', key: 'language-toolkit', stageId: 'words' },
+      { slotType: 'practice', key: 'static', stageId: 'static', isMicroEvent: true },
+      { slotType: 'presentation', key: 'radio-check', stageId: 'radio-check' },
+      { slotType: 'practice', key: 'would-you-rather', stageId: 'turbulence', isMicroEvent: true, pool: ['would-you-rather', 'vocab-micro'] },
+      { slotType: 'production', key: 'black-box', stageId: 'black-box' },
+      { slotType: 'production', key: 'quick-fire', stageId: 'talk' },
+    ],
+    flightConfig: {
+      stages: [
+        { stageId: 'icebreaker', label: 'First listen', kind: 'stage', phase: 'takeoff' },
+        { stageId: 'words', label: "Words you'll hear", kind: 'stage', phase: 'climb' },
+        { stageId: 'static', label: 'Static', kind: 'micro-event', phase: 'climb' },
+        { stageId: 'radio-check', label: 'Radio Check', kind: 'stage', phase: 'cruise' },
+        { stageId: 'turbulence', label: 'Turbulence', kind: 'micro-event', phase: 'cruise' },
+        { stageId: 'black-box', label: 'Black Box', kind: 'stage', phase: 'cruise' },
+        { stageId: 'talk', label: 'Talk about it', kind: 'stage', phase: 'descent' },
+        { stageId: 'landing', label: 'Final listen', kind: 'landing', phase: 'landing' },
+      ],
+      stageByKey: {
+        'first-listen': 'icebreaker',
+        'language-toolkit': 'words',
+        'static': 'static',
+        'radio-check': 'radio-check',
+        'would-you-rather': 'turbulence',
+        'vocab-micro': 'turbulence',
+        'black-box': 'black-box',
+        'quick-fire': 'talk',
+        'final-listen': 'landing',
+      },
+    },
+  },
+  {
     id: 'design-studio-60',
     name: 'Design Studio',
     description: 'Build one class-created design through contextual questions, debate, and progressive votes',

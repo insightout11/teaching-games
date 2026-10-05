@@ -61,6 +61,8 @@ import { speakRevealPlugin } from './speak-reveal';
 import { quickFirePlugin } from './quick-fire';
 import { passTheLinePlugin } from './pass-the-line';
 import { sayItAgainPlugin } from './say-it-again';
+import { firstListenPlugin } from './first-listen';
+import { finalListenPlugin } from './final-listen';
 import { videoPlayerPlugin } from './video-player';
 import { readAloudPlugin } from './read-aloud';
 import { listeningGapFillPlugin } from './listening-gap-fill';
@@ -110,6 +112,8 @@ const activities: ActivityPlugin[] = [
   quickFirePlugin,
   passTheLinePlugin,
   sayItAgainPlugin,
+  firstListenPlugin,
+  finalListenPlugin,
   tripMealPlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,
