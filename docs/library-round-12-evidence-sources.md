@@ -33,3 +33,25 @@ The `source` strings in `src/data/debate-motions.json` refer to these primary-so
 | UNICEF Innocenti, Debunking Four Myths About Children’s Safety Online | [Online safety and social connection](https://www.unicef.org/innocenti/stories/debunking-four-myths-about-childrens-safety-online) |
 | UNESCO, Language Matters: The Role and Power of Multilingualism | [Multilingual education](https://www.unesco.org/en/articles/language-matters-role-and-power-multilingualism) |
 | UNESCO, State of the Education Report for India 2024 | [Culture and arts education](https://www.unesco.org/en/articles/state-education-report-india-2024) |
+| CDC, Classroom Physical Activity Breaks | [Classroom activity guidance](https://www.cdc.gov/physical-activity-education/media/pdfs/PA_breaks_508.pdf) |
+| CDC, Everyday Actions for Schools to Prevent Infections | [School infection prevention](https://www.cdc.gov/children-and-school-preparedness/infection-prevention/actions.html) |
+| CDC, School Start Times MMWR | [Later start times and barriers](https://www.cdc.gov/mmwr/preview/mmwrhtml/mm6430a1.htm) |
+| Smithsonian, Zoo Exhibition Visitor Study | [National Zoo visitor study](https://repository.si.edu/bitstreams/fb07bbfb-759f-463e-8068-74d4de8965ef/download) |
+| Smithsonian, Zoo Visitor Effects on Gorillas | [Gorilla visitor-effects study](https://repository.si.edu/items/3e1a3eb8-5218-4e5f-a8c5-8efb5e58c9f8/full) |
+| UNESCO, Guidance for Generative AI in Education | [Generative AI guidance](https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research) |
+| UNICEF Innocenti, RITEC Digital Play Report | [Digital play research](https://www.unicef.org/innocenti/reports/responsible-innovation-technology-children) |
+| UNICEF Innocenti, Predictive Analytics for Children | [Interpretability of algorithms](https://www.unicef.org/innocenti/reports/predictive-analytics-children) |
+| UNICEF Innocenti, Worlds of Influence Report Card | [Work pressure and family time](https://www.unicef.org/innocenti/media/1816/file/UNICEF-Report-Card-16-Worlds-of-Influence-EN.pdf) |
+| UNICEF, Child-Responsive Urban Policies Guidance | [Child-responsive urban planning](https://www.unicef.org/documents/child-responsive-urban-guidance) |
+| UNICEF, Guidance on AI and Children 3.0 | [Child-centred transparency](https://www.unicef.org/india/media/18016/file/Guidance%20on%20AI%20and%20children%20%28Version%203%29%3A%20Recommendations%20for%20AI%20policies%20and%20systems%20that%20uphold%20child%20rights.pdf) |
+| UNICEF, Guidance on Consultations with Young People | [Inclusive participation requirements](https://www.unicef.org/youthledaction/media/791/file/UNICEF-Guidance-on-Consultations-with-Young-People.pdf.pdf) |
+| UNICEF, Is Social Media Bad for Teens? | [Social-media benefits and risks](https://www.unicef.org/stories/social-media-bad-teens-mental-health) |
+| UNICEF, Teen Mental Health and Social Media | [Sleep and social-media use](https://www.unicef.org/parenting/mental-health/social-media-teens) |
+| US EPA, Composting at Home | [Composting requirements](https://www.epa.gov/recycle/composting-home) |
+| US EPA, EnviroAtlas Educational Materials | [Outdoor ecosystem lessons](https://www.epa.gov/enviroatlas/enviroatlas-educational-materials) |
+| US EPA, Lithium-Ion Battery Recycling FAQ | [Battery safety](https://www.epa.gov/hw/lithium-ion-battery-recycling-frequently-asked-questions) |
+| US EPA, School Environmental Health Guidelines | [School grounds and water](https://www.epa.gov/schools/appendix-model-program-state-school-environmental-health-guidelines) |
+| US EPA, Student Food Waste Audit Guide | [Student food-waste audits](https://www.epa.gov/sustainable-management-food/guide-conducting-student-food-waste-audits-resource-schools) |
+| USDA, Plate Waste in School Nutrition Programs | [School plate-waste report](https://www.ers.usda.gov/publications/43132) |
+| USDA, School Meal Patterns | [School meal components](https://foodbuyingguide.fns.usda.gov/FoodComponents/ResourceMeat) |
+| WHO Europe, Valuing Urban Green and Blue Spaces | [Urban land and investment trade-offs](https://www.who.int/europe/publications/i/item/WHO-EURO-2023-7508-47275-69347) |

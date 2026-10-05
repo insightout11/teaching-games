@@ -56,6 +56,71 @@
           "correctIndex": 2,
           "keyLine": "It means in some sense we do have some kind\nof free will."
         }
+      ],
+      "gist": [
+        {
+          "q": "What question drives this explanation?",
+          "options": [
+            "Can physics leave room for free will?",
+            "Can clocks measure time perfectly?",
+            "Can people live on other planets?"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the speaker develop the idea?",
+          "options": [
+            "He tells a story about a physicist’s childhood.",
+            "He gives instructions for an experiment.",
+            "He contrasts fixed laws with uncertainty."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "Which view does the speaker end up favouring?",
+          "options": [
+            "Electron movement has no bearing on the debate.",
+            "The future cannot be fully predicted from the past.",
+            "Every future act is already certain."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why does the speaker reject a fully fixed future?",
+        "options": [
+          "Uncertainty remains even when earlier events are known.",
+          "Newton did not believe the universe had laws.",
+          "People can see every electron at once."
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "clock",
+          "meaning": "a tool that shows time",
+          "at": 0.6
+        },
+        {
+          "word": "fixed",
+          "meaning": "already decided",
+          "at": 10.6
+        },
+        {
+          "word": "predetermined",
+          "meaning": "decided before it happens",
+          "at": 33.2
+        },
+        {
+          "word": "electron",
+          "meaning": "a tiny part of an atom",
+          "at": 50.2
+        },
+        {
+          "word": "uncertainty",
+          "meaning": "not knowing exactly what will happen",
+          "at": 69.3
+        }
       ]
     },
     "transcriptVerified": true

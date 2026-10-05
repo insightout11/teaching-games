@@ -88,9 +88,9 @@
         "source": "OECD, PISA 2018 Results Volume V"
       },
       {
-        "fact": "In PISA 2022, more than two hours of daily homework was negatively associated with mathematics performance on average.",
+        "fact": "OECD says keeping a homework room open after school depends on available space, while staff help also requires money and people.",
         "side": "against",
-        "source": "OECD, PISA 2022 Results Volume II"
+        "source": "OECD, PISA 2018 Results Volume V"
       }
     ],
     "pulse": "Do you think schools should open homework rooms after class?"
@@ -120,9 +120,9 @@
         "source": "CDC and SHAPE America, Strategies for Recess in Schools"
       },
       {
-        "fact": "CDC says recess should not replace physical education classes.",
+        "fact": "CDC recess guidance calls for trained adult supervisors and plans for equipment, space and safety, which a second daily break would also need.",
         "side": "against",
-        "source": "CDC, Comprehensive School Physical Activity Programs guide"
+        "source": "CDC and SHAPE America, Strategies for Recess in Schools"
       }
     ],
     "pulse": "Do you think schools should have two play breaks each day?"
@@ -152,9 +152,9 @@
         "source": "CDC and SHAPE America, Strategies for Recess in Schools"
       },
       {
-        "fact": "CDC says recess should not replace physical education classes.",
+        "fact": "CDC says recess needs active supervision and procedures for bullying and safety; a temporary restriction may sometimes protect other children.",
         "side": "against",
-        "source": "CDC, Comprehensive School Physical Activity Programs guide"
+        "source": "CDC and SHAPE America, Strategies for Recess in Schools"
       }
     ],
     "pulse": "Do you think play break should never be taken away?"
@@ -184,9 +184,9 @@
         "source": "CDC, Strategies for School and Youth Programs"
       },
       {
-        "fact": "CDC says recess should not replace physical education classes.",
+        "fact": "CDC says classroom activity breaks need teacher planning and must be adapted for students with different abilities.",
         "side": "against",
-        "source": "CDC, Comprehensive School Physical Activity Programs guide"
+        "source": "CDC, Classroom Physical Activity Breaks"
       }
     ],
     "pulse": "Do you think classrooms should have a movement break?"
@@ -248,7 +248,7 @@
         "source": "WHO, Guidelines on Physical Activity and Sedentary Behaviour"
       },
       {
-        "fact": "UNICEF reports that play supports young children’s language, social, physical and thinking skills.",
+        "fact": "UNICEF includes books and drawing materials among simple play resources that support learning, even though these games are usually played sitting down.",
         "side": "against",
         "source": "UNICEF Data, The Power of Play"
       }
@@ -280,7 +280,7 @@
         "source": "WHO, Guidelines on Physical Activity and Sedentary Behaviour"
       },
       {
-        "fact": "CDC says school activity programmes can combine PE, recess, classroom movement and family engagement.",
+        "fact": "CDC says physical education should use a planned, sequential curriculum; more choices should not replace time spent building key movement skills.",
         "side": "against",
         "source": "CDC, Strategies for School and Youth Programs"
       }
@@ -312,9 +312,9 @@
         "source": "WHO, Healthy Diet fact sheet"
       },
       {
-        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "fact": "USDA research identifies fruit among school meal foods that students often leave uneaten, so daily servings can increase waste if pupils do not want them.",
         "side": "against",
-        "source": "UNEP, Food Waste Index Report 2024"
+        "source": "USDA, Plate Waste in School Nutrition Programs"
       }
     ],
     "pulse": "Do you think schools should serve fruit every day?"
@@ -371,9 +371,9 @@
     ],
     "evidence": [
       {
-        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "fact": "USDA says student advisory groups can help schools make menus pupils accept and may reduce plate waste.",
         "side": "for",
-        "source": "UNEP, Food Waste Index Report 2024"
+        "source": "USDA, Plate Waste in School Nutrition Programs"
       },
       {
         "fact": "WHO says school food rules should increase access to healthy choices and reduce foods high in sugar, salt and unhealthy fats.",
@@ -403,14 +403,14 @@
     ],
     "evidence": [
       {
-        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "fact": "EPA's student food-waste audit guide uses measured leftovers to show what and how much food pupils discard, helping a school choose changes.",
         "side": "for",
-        "source": "UNEP, Food Waste Index Report 2024"
+        "source": "US EPA, Student Food Waste Audit Guide"
       },
       {
-        "fact": "WHO says school food rules should increase access to healthy choices and reduce foods high in sugar, salt and unhealthy fats.",
+        "fact": "EPA's food-waste audit guide calls for staff or volunteers, sorting containers, weighing equipment and a plan to handle collected food.",
         "side": "against",
-        "source": "WHO, Policies and Interventions to Create Healthy School Food Environments"
+        "source": "US EPA, Student Food Waste Audit Guide"
       }
     ],
     "pulse": "Do you think schools should weigh their lunch waste?"
@@ -440,9 +440,9 @@
         "source": "US EPA, Benefits of Using Compost"
       },
       {
-        "fact": "EPA says different compost feedstocks have different benefits and challenges; nutrient transport must be considered.",
+        "fact": "EPA says compost piles need space and regular attention to air, moisture and food types to avoid odors and pests; some schools may lack capacity.",
         "side": "against",
-        "source": "US EPA, Benefits of Using Compost"
+        "source": "US EPA, Composting at Home"
       }
     ],
     "pulse": "Do you think every school should compost food scraps?"
@@ -472,9 +472,9 @@
         "source": "UNEP, Food Waste Index Report 2024"
       },
       {
-        "fact": "WHO says a healthy diet includes varied whole grains, vegetables, fruit and pulses.",
+        "fact": "USDA school meal rules require minimum amounts of meal components; starting with a smaller portion must still leave enough food available to meet those needs.",
         "side": "against",
-        "source": "WHO, Healthy Diet fact sheet"
+        "source": "USDA, School Meal Patterns"
       }
     ],
     "pulse": "Do you think schools should give smaller lunch portions first?"
@@ -504,9 +504,9 @@
         "source": "US EPA, Sustainable Materials Management Hierarchy"
       },
       {
-        "fact": "UNEP says plastic is cheap, light and easy to manufacture.",
+        "fact": "CDC notes that shared objects can spread infections in schools and that frequently touched items need routine cleaning; loaned bottles need a cleaning system.",
         "side": "against",
-        "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
+        "source": "CDC, Everyday Actions for Schools to Prevent Infections"
       }
     ],
     "pulse": "Do you think schools should lend reusable water bottles?"
@@ -568,9 +568,9 @@
         "source": "US EPA, Sustainable Materials Management Hierarchy"
       },
       {
-        "fact": "UNEP says plastic is cheap, light and easy to manufacture.",
+        "fact": "CDC says school toys and other hands-on items need regular cleaning; repaired toys must also be safe and clean before children reuse them.",
         "side": "against",
-        "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
+        "source": "CDC, Everyday Actions for Schools to Prevent Infections"
       }
     ],
     "pulse": "Do you think schools should repair toys before buying new ones?"
@@ -600,9 +600,9 @@
         "source": "WHO Europe, Urban Green Spaces and Health"
       },
       {
-        "fact": "EPA says different compost feedstocks have different benefits and challenges; nutrient transport must be considered.",
+        "fact": "EPA school environmental guidance says landscaping needs upkeep and water planning; a garden would add work for schools without those resources.",
         "side": "against",
-        "source": "US EPA, Benefits of Using Compost"
+        "source": "US EPA, School Environmental Health Guidelines"
       }
     ],
     "pulse": "Do you think every school should have a small garden?"
@@ -632,9 +632,9 @@
         "source": "WHO, Guide to Creating Urban Public Spaces for Children"
       },
       {
-        "fact": "WHO says community engagement and cross-sector planning are important for successful green-space projects.",
+        "fact": "WHO says scarce urban land has competing uses and that green-space plans must weigh land and financial costs, including upkeep.",
         "side": "against",
-        "source": "WHO Europe, Urban Green Space Interventions and Health"
+        "source": "WHO Europe, Valuing Urban Green and Blue Spaces"
       }
     ],
     "pulse": "Do you think cities should build more playgrounds?"
@@ -664,9 +664,9 @@
         "source": "WHO Europe, Urban Green Spaces and Health"
       },
       {
-        "fact": "WHO says community engagement and cross-sector planning are important for successful green-space projects.",
+        "fact": "EPA guidance recommends low-water landscaping and watering only when needed; extra schoolyard trees require suitable space and ongoing care.",
         "side": "against",
-        "source": "WHO Europe, Urban Green Space Interventions and Health"
+        "source": "US EPA, School Environmental Health Guidelines"
       }
     ],
     "pulse": "Do you think schoolyards should have more trees?"
@@ -691,9 +691,9 @@
     ],
     "evidence": [
       {
-        "fact": "UK modern zoo standards cover animal welfare as well as conservation, public safety and education.",
+        "fact": "A Smithsonian study found some zoo gorillas rested less during a late-night visitor event; the zoo later closed animal buildings for future events.",
         "side": "for",
-        "source": "UK Department for Environment, Standards of Modern Zoo Practice"
+        "source": "Smithsonian, Zoo Visitor Effects on Gorillas"
       },
       {
         "fact": "Smithsonian scientists use conservation breeding to help preserve cheetah genetic diversity.",
@@ -728,7 +728,7 @@
         "source": "Smithsonian National Zoo, Oryx Recovery"
       },
       {
-        "fact": "UK modern zoo standards cover animal welfare as well as conservation, public safety and education.",
+        "fact": "UK zoo standards require zoos to provide conservation and education, not just endangered-species breeding; other animals can serve that education role.",
         "side": "against",
         "source": "UK Department for Environment, Standards of Modern Zoo Practice"
       }
@@ -755,14 +755,14 @@
     ],
     "evidence": [
       {
-        "fact": "Smithsonian scientists use conservation breeding to help preserve cheetah genetic diversity.",
+        "fact": "A Smithsonian zoo exhibition study found some visitors reported learning new information about animals after seeing the exhibition.",
         "side": "for",
-        "source": "Smithsonian National Zoo, Cheetah Breeding Program"
+        "source": "Smithsonian, Zoo Exhibition Visitor Study"
       },
       {
-        "fact": "UK modern zoo standards cover animal welfare as well as conservation, public safety and education.",
+        "fact": "A Smithsonian study observed reduced rest in some zoo gorillas during a late-night visitor event, showing that visitor experiences can create welfare costs.",
         "side": "against",
-        "source": "UK Department for Environment, Standards of Modern Zoo Practice"
+        "source": "Smithsonian, Zoo Visitor Effects on Gorillas"
       }
     ],
     "pulse": "Do you think children should visit zoos to learn about animals?"
@@ -792,9 +792,9 @@
         "source": "UNESCO, 2023 Global Education Monitoring Report"
       },
       {
-        "fact": "UNICEF Innocenti reports that keeping children offline can undermine their digital skills development.",
+        "fact": "UNESCO's education technology report says appropriate digital tools can support learning, so an all-lesson bag rule removes some useful phone activities.",
         "side": "against",
-        "source": "UNICEF Innocenti, Childhood in a Digital World"
+        "source": "UNESCO, 2023 Global Education Monitoring Report"
       }
     ],
     "pulse": "Do you think phones should stay in school bags?"
@@ -856,7 +856,7 @@
         "source": "UNICEF, Child Protection in Digital Education"
       },
       {
-        "fact": "UNICEF says online spaces can support learning and socialising but can also expose children to bullying and harmful content.",
+        "fact": "UNICEF reports that evidence for scalable, effective online-safety lessons is still limited; schools should check what early lessons actually achieve.",
         "side": "against",
         "source": "UNICEF Innocenti, Childhood in a Digital World"
       }
@@ -883,14 +883,14 @@
     ],
     "evidence": [
       {
-        "fact": "UNICEF reports that play supports young children’s language, social, physical and thinking skills.",
+        "fact": "UNICEF research on play says children gain agency when they can make choices in play, supporting some student choice of classroom games.",
         "side": "for",
-        "source": "UNICEF Data, The Power of Play"
+        "source": "UNICEF Innocenti, RITEC Digital Play Report"
       },
       {
-        "fact": "CDC says school activity programmes can combine PE, recess, classroom movement and family engagement.",
+        "fact": "CDC recess guidance says adults should prevent exclusion and unsafe play; leaving every game choice to children can make participation less fair.",
         "side": "against",
-        "source": "CDC, Strategies for School and Youth Programs"
+        "source": "CDC and SHAPE America, Strategies for Recess in Schools"
       }
     ],
     "pulse": "Do you think children should choose some classroom games?"
@@ -920,9 +920,9 @@
         "source": "UNICEF Data, The Power of Play"
       },
       {
-        "fact": "WHO reports that urban green spaces can support physical activity, social ties and mental health.",
+        "fact": "UNICEF says children can play and learn with ordinary household objects and natural items, so schools need not always buy a separate box of materials.",
         "side": "against",
-        "source": "WHO Europe, Urban Green Spaces and Health"
+        "source": "UNICEF Data, The Power of Play"
       }
     ],
     "pulse": "Do you think schools should keep a box of simple play materials?"
@@ -952,9 +952,9 @@
         "source": "UNICEF Data, The Power of Play"
       },
       {
-        "fact": "UNICEF reports that many young children lack playful interactions or playthings at home.",
+        "fact": "UNICEF reports that long working hours can limit caregivers' time and energy with children, making a fixed family play routine hard for some homes.",
         "side": "against",
-        "source": "UNICEF Data, The Power of Play"
+        "source": "UNICEF Innocenti, Worlds of Influence Report Card"
       }
     ],
     "pulse": "Do you think families should make time to play together?"
@@ -984,9 +984,9 @@
         "source": "CDC, Sleep and Health"
       },
       {
-        "fact": "CDC also lists sleep education as an action schools can take to support student sleep.",
+        "fact": "CDC lists higher transport costs, bus scheduling and conflicts with after-school sports as common barriers to later school start times.",
         "side": "against",
-        "source": "CDC, Sleep and Health"
+        "source": "CDC, School Start Times MMWR"
       }
     ],
     "pulse": "Do you think high schools should start later?"
@@ -1011,7 +1011,7 @@
     ],
     "evidence": [
       {
-        "fact": "In PISA 2022, more than two hours of daily homework was negatively associated with mathematics performance on average.",
+        "fact": "OECD PISA 2022 found pupils with one to two homework hours scored only two mathematics points above those with half an hour to one hour, after socioeconomic adjustment.",
         "side": "for",
         "source": "OECD, PISA 2022 Results Volume II"
       },
@@ -1048,9 +1048,9 @@
         "source": "OECD, PISA 2018 Results Volume V"
       },
       {
-        "fact": "In PISA 2022, up to two hours of daily homework was positively associated with mathematics performance on average.",
+        "fact": "OECD says staffed after-school homework help needs human and financial resources; replacing most home assignments with clubs would depend on those resources.",
         "side": "against",
-        "source": "OECD, PISA 2022 Results Volume II"
+        "source": "OECD, PISA 2018 Results Volume V"
       }
     ],
     "pulse": "Do you think homework clubs should replace most home assignments?"
@@ -1075,14 +1075,14 @@
     ],
     "evidence": [
       {
-        "fact": "UNESCO’s student AI framework sets out twelve competencies including critical judgement and responsible use.",
+        "fact": "UNESCO's generative-AI guidance describes possible uses in planning teaching and learning, alongside age-appropriate safeguards.",
         "side": "for",
-        "source": "UNESCO, AI Competency Framework for Students"
+        "source": "UNESCO, Guidance for Generative AI in Education"
       },
       {
-        "fact": "UNESCO guidance asks education systems to assess both the opportunities and risks of AI in learning.",
+        "fact": "UNESCO warns that generative-AI tools can produce inaccurate information and expose users' data, risks that also apply to homework planning.",
         "side": "against",
-        "source": "UNESCO, AI and Education: Guidance for Policy-makers"
+        "source": "UNESCO, Guidance for Generative AI in Education"
       }
     ],
     "pulse": "Do you think schools should allow AI for homework planning?"
@@ -1107,14 +1107,14 @@
     ],
     "evidence": [
       {
-        "fact": "UNESCO’s student AI framework sets out twelve competencies including critical judgement and responsible use.",
+        "fact": "UNESCO's generative-AI guidance asks schools to set clear rules for responsible use and assessment, making disclosure of AI help a way to clarify authorship.",
         "side": "for",
-        "source": "UNESCO, AI Competency Framework for Students"
+        "source": "UNESCO, Guidance for Generative AI in Education"
       },
       {
-        "fact": "UNESCO guidance asks education systems to assess both the opportunities and risks of AI in learning.",
+        "fact": "UNESCO warns that learners' private data need protection when using generative AI; disclosure rules must not require students to reveal sensitive prompts or personal information.",
         "side": "against",
-        "source": "UNESCO, AI and Education: Guidance for Policy-makers"
+        "source": "UNESCO, Guidance for Generative AI in Education"
       }
     ],
     "pulse": "Do you think students should disclose AI help on assignments?"
@@ -1144,9 +1144,9 @@
         "source": "UNESCO, AI Competency Framework for Students"
       },
       {
-        "fact": "UNESCO guidance asks education systems to assess both the opportunities and risks of AI in learning.",
+        "fact": "UNESCO's AI competency framework allows AI learning to be taught within existing subjects, an alternative to a separate required subject.",
         "side": "against",
-        "source": "UNESCO, AI and Education: Guidance for Policy-makers"
+        "source": "UNESCO, AI Competency Framework for Students"
       }
     ],
     "pulse": "Do you think aI literacy should be a required subject?"
@@ -1267,14 +1267,14 @@
     ],
     "evidence": [
       {
-        "fact": "CDC says teenagers aged 13–18 need 8–10 hours of sleep per day.",
+        "fact": "UNICEF advises families to keep social media from interfering with teenagers' sleep, supporting a limit when use displaces rest.",
         "side": "for",
-        "source": "CDC, Sleep and Health"
+        "source": "UNICEF, Teen Mental Health and Social Media"
       },
       {
-        "fact": "UNICEF Innocenti says online play can provide social connection for some children.",
+        "fact": "UNICEF says moderate social-media use can help teens keep in touch with friends and relatives; content and activity can matter more than total minutes.",
         "side": "against",
-        "source": "UNICEF Innocenti, Debunking Four Myths About Children’s Safety Online"
+        "source": "UNICEF, Is Social Media Bad for Teens?"
       }
     ],
     "pulse": "Do you think social media should have a teen time limit?"
@@ -1299,14 +1299,14 @@
     ],
     "evidence": [
       {
-        "fact": "UNICEF says online spaces can support learning and socialising but can also expose children to bullying and harmful content.",
+        "fact": "UNICEF guidance calls for child-appropriate explanations of AI systems so young users can understand their purpose and effects.",
         "side": "for",
-        "source": "UNICEF Innocenti, Childhood in a Digital World"
+        "source": "UNICEF, Guidance on AI and Children 3.0"
       },
       {
-        "fact": "UNICEF says digital learning brings opportunities but can also introduce risks that schools must manage.",
+        "fact": "UNICEF says some machine-learning models are difficult even for developers to interpret, so a simple teen-facing explanation can misrepresent how recommendations work.",
         "side": "against",
-        "source": "UNICEF, Child Protection in Digital Education"
+        "source": "UNICEF Innocenti, Predictive Analytics for Children"
       }
     ],
     "pulse": "Do you think platforms should explain recommendation algorithms to teens?"
@@ -1336,7 +1336,7 @@
         "source": "UNICEF, Child Protection in Digital Education"
       },
       {
-        "fact": "UNICEF says online spaces can support learning and socialising but can also expose children to bullying and harmful content.",
+        "fact": "UNICEF reports limited evidence that existing online-safety education programmes work at scale, so earlier lessons need careful design and evaluation.",
         "side": "against",
         "source": "UNICEF Innocenti, Childhood in a Digital World"
       }
@@ -1368,9 +1368,9 @@
         "source": "WHO, Healthy Diet fact sheet"
       },
       {
-        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "fact": "USDA school meal rules require enough meat or meat alternate and other meal components; a daily plant-based option must be nutritionally planned, not just offered.",
         "side": "against",
-        "source": "UNEP, Food Waste Index Report 2024"
+        "source": "USDA, School Meal Patterns"
       }
     ],
     "pulse": "Do you think school meals should offer a plant-based choice daily?"
@@ -1427,9 +1427,9 @@
     ],
     "evidence": [
       {
-        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "fact": "USDA says student advisory groups can help design acceptable school menus and may reduce the food pupils leave uneaten.",
         "side": "for",
-        "source": "UNEP, Food Waste Index Report 2024"
+        "source": "USDA, Plate Waste in School Nutrition Programs"
       },
       {
         "fact": "WHO says school food rules should increase access to healthy choices and reduce foods high in sugar, salt and unhealthy fats.",
@@ -1459,14 +1459,14 @@
     ],
     "evidence": [
       {
-        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "fact": "EPA recommends student waste audits so schools can track discarded food and share results before choosing ways to prevent it.",
         "side": "for",
-        "source": "UNEP, Food Waste Index Report 2024"
+        "source": "US EPA, Student Food Waste Audit Guide"
       },
       {
-        "fact": "EPA ranks source reduction and reuse above recycling in its waste-management hierarchy.",
+        "fact": "EPA's audit guide describes staff, volunteers, containers and scales needed to measure leftovers; publishing frequent totals may divert limited cafeteria time.",
         "side": "against",
-        "source": "US EPA, Sustainable Materials Management Hierarchy"
+        "source": "US EPA, Student Food Waste Audit Guide"
       }
     ],
     "pulse": "Do you think schools should publish food waste totals?"
@@ -1496,9 +1496,9 @@
         "source": "US EPA, Benefits of Using Compost"
       },
       {
-        "fact": "EPA says different compost feedstocks have different benefits and challenges; nutrient transport must be considered.",
+        "fact": "EPA says compost piles need space, the right mix of materials and regular upkeep to prevent pests and odors; not every cafeteria can manage that.",
         "side": "against",
-        "source": "US EPA, Benefits of Using Compost"
+        "source": "US EPA, Composting at Home"
       }
     ],
     "pulse": "Do you think cafeterias should compost leftover food?"
@@ -1624,9 +1624,9 @@
         "source": "US EPA, Sustainable Materials Management Hierarchy"
       },
       {
-        "fact": "UNEP says plastic is cheap, light and easy to manufacture.",
+        "fact": "EPA warns that lithium-ion batteries can cause fires when damaged or mishandled; a repair club would need to exclude or carefully supervise risky devices.",
         "side": "against",
-        "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
+        "source": "US EPA, Lithium-Ion Battery Recycling FAQ"
       }
     ],
     "pulse": "Do you think schools should run a repair club?"
@@ -1656,9 +1656,9 @@
         "source": "WHO Europe, Urban Green Spaces and Health"
       },
       {
-        "fact": "WHO says community engagement and cross-sector planning are important for successful green-space projects.",
+        "fact": "WHO says urban land has competing uses and scarce space; removing parking should account for people who rely on vehicle access.",
         "side": "against",
-        "source": "WHO Europe, Urban Green Space Interventions and Health"
+        "source": "WHO Europe, Valuing Urban Green and Blue Spaces"
       }
     ],
     "pulse": "Do you think cities should replace some parking with parks?"
@@ -1688,9 +1688,9 @@
         "source": "WHO, Guide to Creating Urban Public Spaces for Children"
       },
       {
-        "fact": "WHO says community engagement and cross-sector planning are important for successful green-space projects.",
+        "fact": "WHO says scarce land and limited budgets create trade-offs when allocating urban green space; a play space in every neighbourhood may be hard to fund and maintain.",
         "side": "against",
-        "source": "WHO Europe, Urban Green Space Interventions and Health"
+        "source": "WHO Europe, Valuing Urban Green and Blue Spaces"
       }
     ],
     "pulse": "Do you think every neighbourhood should have a public play space?"
@@ -1715,14 +1715,14 @@
     ],
     "evidence": [
       {
-        "fact": "WHO finds that better urban green space can bring health, social and environmental benefits, especially for lower-income groups.",
+        "fact": "UNICEF and UN-Habitat guidance says children's voices should be heard in urban decisions, including the public spaces where they play.",
         "side": "for",
-        "source": "WHO Europe, Urban Green Space Interventions and Health"
+        "source": "UNICEF, Child-Responsive Urban Policies Guidance"
       },
       {
-        "fact": "WHO says community engagement and cross-sector planning are important for successful green-space projects.",
+        "fact": "UNICEF says child consultations require time, accessible methods and support for marginalized children; a token group of students could exclude others.",
         "side": "against",
-        "source": "WHO Europe, Urban Green Space Interventions and Health"
+        "source": "UNICEF, Guidance on Consultations with Young People"
       }
     ],
     "pulse": "Do you think students should help plan local parks?"
@@ -1784,7 +1784,7 @@
         "source": "Smithsonian National Zoo, Cheetah Breeding Program"
       },
       {
-        "fact": "UK modern zoo standards cover animal welfare as well as conservation, public safety and education.",
+        "fact": "UK zoo standards require conservation, education, research and animal welfare; making breeding the top priority could crowd out other duties.",
         "side": "against",
         "source": "UK Department for Environment, Standards of Modern Zoo Practice"
       }
@@ -1811,14 +1811,14 @@
     ],
     "evidence": [
       {
-        "fact": "UK modern zoo standards cover animal welfare as well as conservation, public safety and education.",
+        "fact": "EPA has outdoor ecosystem lessons in which pupils explore local watersheds and habitats, showing wildlife topics can be taught beyond a zoo.",
         "side": "for",
-        "source": "UK Department for Environment, Standards of Modern Zoo Practice"
+        "source": "US EPA, EnviroAtlas Educational Materials"
       },
       {
-        "fact": "Smithsonian scientists use conservation breeding to help preserve cheetah genetic diversity.",
+        "fact": "A Smithsonian zoo exhibition study found visitors reported learning new facts about animals, a benefit outdoor lessons may not always provide.",
         "side": "against",
-        "source": "Smithsonian National Zoo, Cheetah Breeding Program"
+        "source": "Smithsonian, Zoo Exhibition Visitor Study"
       }
     ],
     "pulse": "Do you think wildlife lessons should happen outside zoos when possible?"
@@ -1875,7 +1875,7 @@
     ],
     "evidence": [
       {
-        "fact": "UNESCO reports that learning in a familiar home language improves literacy and confidence.",
+        "fact": "UNESCO says multilingual education can support inclusion and learning; allowing more languages gives students access to those benefits.",
         "side": "for",
         "source": "UNESCO, Language Matters: The Role and Power of Multilingualism"
       },

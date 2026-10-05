@@ -1775,6 +1775,71 @@
           "correctIndex": 2,
           "keyLine": "The experience of coming to terms\nwith defeat can build the resilience"
         }
+      ],
+      "gist": [
+        {
+          "q": "What is the explanation mostly about?",
+          "options": [
+            "Physical and social benefits of playing sports",
+            "How to win every match",
+            "Rules of one particular sport"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the speaker compare exercise and team sport?",
+          "options": [
+            "Team sport removes all need for exercise.",
+            "Exercise has no effect on the mind.",
+            "Team sport can add benefits beyond exercise alone."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What attitude does the speaker take to losing?",
+          "options": [
+            "It should never happen.",
+            "It can teach useful resilience.",
+            "It means sport was a waste of time."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why might a team help someone keep exercising?",
+        "options": [
+          "Enjoyment and commitment can build a regular habit.",
+          "A team guarantees victory.",
+          "Team members never feel tired."
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "cholesterol",
+          "meaning": "fat-like substance in the blood",
+          "at": 48.1
+        },
+        {
+          "word": "endorphins",
+          "meaning": "body chemicals linked to pleasure",
+          "at": 58.9
+        },
+        {
+          "word": "focus",
+          "meaning": "attention on one thing",
+          "at": 74.2
+        },
+        {
+          "word": "team",
+          "meaning": "group working or playing together",
+          "at": 104.1
+        },
+        {
+          "word": "resilience",
+          "meaning": "ability to recover after difficulty",
+          "at": 164.9
+        }
       ]
     },
     "transcriptVerified": true
