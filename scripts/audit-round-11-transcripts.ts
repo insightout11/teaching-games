@@ -9,6 +9,7 @@ const groups = [
   { file: 'kids-library.json', sourceType: 'kids' },
   { file: 'teded-library.json', sourceType: 'teded' },
   { file: 'world-flight-library.json', sourceType: 'world-flight' },
+  { file: 'bigthink-library.json', sourceType: 'bigthink' },
 ];
 const selected = process.argv[2];
 const selectedIds = selected ? new Set(selected.split(',')) : null;

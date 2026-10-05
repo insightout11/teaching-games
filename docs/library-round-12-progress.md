@@ -2,4 +2,6 @@
 
 2026-10-05 · Task 1 · Added 40 hand-authored Speak situations: 20 kids A1–A2 and 20 teens B1–B2, including 10 new B2 teen situations. Reordered replies in all 80 situations without changing existing reply text, placing exactly 20 natural replies at each index in both before and after sets. Expanded the validator to require 80, the cohort mix, and no position over 35%. Library validator: 1,380 items across 28 library files; 519 Flight Questions; 80 Speak situations (kids 40, teens 40; before 20/20/20/20, after 20/20/20/20); 30 listening packs and 90 segments.
 
-Tasks 2 and 3 pending.
+2026-10-05 · Task 2 · Added 30 hand-authored packs, each with three 10–30-second caption-grounded questions, to 60 total. New cohort: 12 kids A1–A2, 10 B1, 8 B2; 14 of the new sources are dialogues. The local stored-caption verifier checked all 180 exact keyLines and playback windows against Supabase caption rows. Rounded one source duration to 72 seconds because its final stored caption ends at 71.2 seconds. Library validator: 1,380 items across 28 library files; 519 Flight Questions; 80 Speak situations (kids 40, teens 40; before 20/20/20/20, after 20/20/20/20); 60 listening packs and 180 segments (kids A1–A2 22, B1 22, B2 16).
+
+Task 3 pending.

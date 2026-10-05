@@ -373,8 +373,8 @@ for (const file of files) {
 
 // Round 9's templated Flight Questions were removed in review (Oct 3); round 10 redoes them grounded.
 if (flightQuestionCount < 500) fail('flight questions', `expected at least 500 items after Round 10 (found ${flightQuestionCount})`);
-if (listeningPackCount !== 30 || listeningSegmentCount !== 90) fail('listening packs', `expected 30 packs and 90 segments (found ${listeningPackCount} and ${listeningSegmentCount})`);
-if (packCohorts.kids !== 10 || packCohorts.B1 !== 12 || packCohorts.B2 !== 8) fail('listening packs', `expected kids/B1/B2 = 10/12/8 (found ${packCohorts.kids}/${packCohorts.B1}/${packCohorts.B2})`);
+if (listeningPackCount !== 60 || listeningSegmentCount !== 180) fail('listening packs', `expected 60 packs and 180 segments (found ${listeningPackCount} and ${listeningSegmentCount})`);
+if (packCohorts.kids !== 22 || packCohorts.B1 !== 22 || packCohorts.B2 !== 16) fail('listening packs', `expected kids/B1/B2 = 22/22/16 (found ${packCohorts.kids}/${packCohorts.B1}/${packCohorts.B2})`);
 
 const speakPath = path.join(dataDir, 'speak-situations.json');
 if (!fs.existsSync(speakPath)) fail('speak-situations.json', 'required Speak situations bank is missing');

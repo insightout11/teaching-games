@@ -342,7 +342,48 @@
       "lng": 103.8198
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 16,
+          "end": 32,
+          "question": "In what year did Jewel open?",
+          "options": [
+            "2019",
+            "2009",
+            "2022"
+          ],
+          "correctIndex": 0,
+          "keyLine": "in april 2019 changi opened up jewel a"
+        },
+        {
+          "start": 70,
+          "end": 87,
+          "question": "What is the Rain Vortex?",
+          "options": [
+            "A train platform",
+            "A roof garden",
+            "An indoor waterfall"
+          ],
+          "correctIndex": 2,
+          "keyLine": "indoor waterfall in the world"
+        },
+        {
+          "start": 104,
+          "end": 119,
+          "question": "About how many trees are in the gardens?",
+          "options": [
+            "About 9,000",
+            "More than 900",
+            "About 90"
+          ],
+          "correctIndex": 1,
+          "keyLine": "more than 900 trees and 60 thousand"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-paris-city-history-video",
@@ -497,7 +538,48 @@
       "lng": -0.1276
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 16,
+          "end": 31,
+          "question": "When did the Underground first open?",
+          "options": [
+            "1880",
+            "1963",
+            "1863"
+          ],
+          "correctIndex": 2,
+          "keyLine": "1863 it was the first underground system"
+        },
+        {
+          "start": 31,
+          "end": 48,
+          "question": "How much of today’s network is above ground?",
+          "options": [
+            "90%",
+            "55%",
+            "20%"
+          ],
+          "correctIndex": 1,
+          "keyLine": "The Underground 55% of today's network"
+        },
+        {
+          "start": 64,
+          "end": 80,
+          "question": "What is the simulator usually used for?",
+          "options": [
+            "Training drivers",
+            "Selling tickets",
+            "Planning routes"
+          ],
+          "correctIndex": 0,
+          "keyLine": "used to train London underground's"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-london-chinatown-restaurant-video",
@@ -787,7 +869,48 @@
       "lng": 55.2708
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 46,
+          "end": 62,
+          "question": "What did Dubai International begin as?",
+          "options": [
+            "A train station",
+            "A small airstrip",
+            "A seaport"
+          ],
+          "correctIndex": 1,
+          "keyLine": "from a small airirstrip serving a few"
+        },
+        {
+          "start": 54,
+          "end": 70,
+          "question": "How many airlines does the gateway serve?",
+          "options": [
+            "130",
+            "30",
+            "230"
+          ],
+          "correctIndex": 0,
+          "keyLine": "airlines to a global gateway for 130"
+        },
+        {
+          "start": 94,
+          "end": 112,
+          "question": "Which airlines does the speaker name?",
+          "options": [
+            "Qantas and Jetstar",
+            "Air France and KLM",
+            "Emirates and Fly Dubai"
+          ],
+          "correctIndex": 2,
+          "keyLine": "expansion of Emirates and Fly Dubai."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-dubai-metro-route-2020-video",
@@ -1661,7 +1784,48 @@
       "lng": 72.8777
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 19,
+          "end": 34,
+          "question": "What do dabbawalas bring to workplaces?",
+          "options": [
+            "Home-cooked meals",
+            "Newspapers",
+            "School books"
+          ],
+          "correctIndex": 0,
+          "keyLine": "home-cooked meals to people at work"
+        },
+        {
+          "start": 41,
+          "end": 56,
+          "question": "When do they collect homemade lunches?",
+          "options": [
+            "At noon",
+            "After sunset",
+            "Around 9 a.m."
+          ],
+          "correctIndex": 2,
+          "keyLine": "around 9am and pick up homemade lunches"
+        },
+        {
+          "start": 73,
+          "end": 87,
+          "question": "What marks the lunchbox lids?",
+          "options": [
+            "Prices",
+            "Letters",
+            "Photographs"
+          ],
+          "correctIndex": 1,
+          "keyLine": "so the lids are labeled with letters"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-mumbai-street-food-video",
@@ -1942,7 +2106,48 @@
       "lng": -43.1729
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 8,
+          "end": 25,
+          "question": "Which conflict appears in a favela origin story?",
+          "options": [
+            "The Canudos War",
+            "The Cold War",
+            "The Crimean War"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Perhaps the most common origin story goes\nback to the Canudos War of the 1890s."
+        },
+        {
+          "start": 35,
+          "end": 52,
+          "question": "What payment problem affected the soldiers?",
+          "options": [
+            "High rent",
+            "Lost taxes",
+            "Unpaid wages"
+          ],
+          "correctIndex": 2,
+          "keyLine": "the government wasn't entirely ready\nto pay the wages of those soldiers."
+        },
+        {
+          "start": 131,
+          "end": 147,
+          "question": "What is the fourth way to view favelas?",
+          "options": [
+            "Technology",
+            "Inequality",
+            "Tourism"
+          ],
+          "correctIndex": 1,
+          "keyLine": "The fourth lens through which\nwe view favelas is inequality."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-rio-de-janeiro-carnival-video",
@@ -2415,7 +2620,48 @@
       "lng": 3.3792
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 94,
+          "end": 109,
+          "question": "What transport does a commuter take daily?",
+          "options": [
+            "A train",
+            "A bicycle",
+            "A boat"
+          ],
+          "correctIndex": 2,
+          "keyLine": "so I normally take boats every day in"
+        },
+        {
+          "start": 103,
+          "end": 119,
+          "question": "How long does the boat journey take?",
+          "options": [
+            "Two hours",
+            "20 to 35 minutes",
+            "Five minutes"
+          ],
+          "correctIndex": 1,
+          "keyLine": "boat takes an average of 20 to 35"
+        },
+        {
+          "start": 134,
+          "end": 149,
+          "question": "Which land mode is named alongside roads?",
+          "options": [
+            "Rail",
+            "Air",
+            "Cycling"
+          ],
+          "correctIndex": 0,
+          "keyLine": "transport and also the rail transport"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-lagos-market-video",
@@ -2508,7 +2754,48 @@
       "lng": 114.1694
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 24,
+          "end": 39,
+          "question": "What does the MTR create around stations?",
+          "options": [
+            "Malls",
+            "Farms",
+            "Factories"
+          ],
+          "correctIndex": 0,
+          "keyLine": "creates malls which include residential"
+        },
+        {
+          "start": 77,
+          "end": 91,
+          "question": "Where are some profits reinvested?",
+          "options": [
+            "Airport food",
+            "School uniforms",
+            "Expanding the network"
+          ],
+          "correctIndex": 2,
+          "keyLine": "is then reinvested to expand and"
+        },
+        {
+          "start": 85,
+          "end": 101,
+          "question": "What fare is mentioned?",
+          "options": [
+            "Over fifty dollars",
+            "Less than one dollar",
+            "About ten dollars"
+          ],
+          "correctIndex": 1,
+          "keyLine": "fairs being less than $1 which is low"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-hong-kong-housing-video",
@@ -2643,7 +2930,48 @@
       "lng": 4.9041
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 12,
+          "end": 28,
+          "question": "How long is the dedicated cycle-path network mentioned?",
+          "options": [
+            "About 50 km",
+            "Over 5,000 km",
+            "Over 500 km"
+          ],
+          "correctIndex": 2,
+          "keyLine": "commutes daily on over 500 km of dedicated\ncycle paths."
+        },
+        {
+          "start": 56,
+          "end": 70,
+          "question": "What happened to car numbers from 1960 to 1970?",
+          "options": [
+            "They stayed level",
+            "They quadrupled",
+            "They halved"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Between 1960 and 1970 the number of cars in\nthe country quadrupled,"
+        },
+        {
+          "start": 113,
+          "end": 125,
+          "question": "What was banned for one day each week?",
+          "options": [
+            "Motor vehicles",
+            "Bicycles",
+            "Public buses"
+          ],
+          "correctIndex": 0,
+          "keyLine": "to ban motor vehicles for one day a week."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-amsterdam-canals-video",
@@ -3321,7 +3649,48 @@
       "lng": -77.0428
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 8,
+          "end": 23,
+          "question": "Who called for a strike?",
+          "options": [
+            "Shop owners",
+            "Transport unions",
+            "School principals"
+          ],
+          "correctIndex": 1,
+          "keyLine": "transport unions have called for a"
+        },
+        {
+          "start": 38,
+          "end": 53,
+          "question": "How do about half of Lima’s workers commute?",
+          "options": [
+            "By bus",
+            "By ferry",
+            "By bicycle"
+          ],
+          "correctIndex": 0,
+          "keyLine": "by bus in response to the strike public"
+        },
+        {
+          "start": 42,
+          "end": 57,
+          "question": "What public service closes during the strike?",
+          "options": [
+            "Hospitals",
+            "Libraries",
+            "Schools"
+          ],
+          "correctIndex": 2,
+          "keyLine": "schools are shut and the government has"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-perth-quokkas-video",
@@ -3384,7 +3753,48 @@
       "lng": 115.8613
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 43,
+          "end": 56,
+          "question": "What technology did Transperth adopt first in Australia?",
+          "options": [
+            "Digital maps",
+            "Smart cards",
+            "Driverless trains"
+          ],
+          "correctIndex": 1,
+          "keyLine": "to use smart card technology it's also"
+        },
+        {
+          "start": 51,
+          "end": 66,
+          "question": "Which service joins buses and trains?",
+          "options": [
+            "Ferries",
+            "Trams",
+            "Planes"
+          ],
+          "correctIndex": 0,
+          "keyLine": "ferry services"
+        },
+        {
+          "start": 62,
+          "end": 77,
+          "question": "What satisfaction level do surveys report?",
+          "options": [
+            "50%",
+            "30%",
+            "90%"
+          ],
+          "correctIndex": 2,
+          "keyLine": "to be consistently at 90 percent"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-perth-fremantle-video",
@@ -4111,7 +4521,48 @@
       "lng": -6.2603
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 14,
+          "end": 30,
+          "question": "Which college did Oscar Wilde attend?",
+          "options": [
+            "Trinity College Dublin",
+            "Oxford College",
+            "Harvard College"
+          ],
+          "correctIndex": 0,
+          "keyLine": "illustrious graduates at Trinity College"
+        },
+        {
+          "start": 42,
+          "end": 57,
+          "question": "When was the Wilde collection acquired?",
+          "options": [
+            "1895",
+            "1975",
+            "2011"
+          ],
+          "correctIndex": 2,
+          "keyLine": "was acquired in 2011 from Julia"
+        },
+        {
+          "start": 109,
+          "end": 125,
+          "question": "What kind of cards showed Wilde’s face?",
+          "options": [
+            "Travel tickets",
+            "Advertising trade cards",
+            "Playing cards"
+          ],
+          "correctIndex": 1,
+          "keyLine": "advertising trade cards he was so"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-dakar-ladoum-sheep-video",
@@ -4491,7 +4942,48 @@
       "lng": -70.6693
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 21,
+          "end": 38,
+          "question": "What protected area covers part of the island?",
+          "options": [
+            "A marine reserve",
+            "A city garden",
+            "A national park"
+          ],
+          "correctIndex": 2,
+          "keyLine": "National Park a world heritage property"
+        },
+        {
+          "start": 42,
+          "end": 57,
+          "question": "What large objects dot the landscape?",
+          "options": [
+            "Wooden ships",
+            "Moai statues",
+            "Glass towers"
+          ],
+          "correctIndex": 1,
+          "keyLine": "artistic culture moai the enormous heads"
+        },
+        {
+          "start": 94,
+          "end": 109,
+          "question": "Which water activity is mentioned?",
+          "options": [
+            "Surfing",
+            "Kayaking",
+            "Sailing"
+          ],
+          "correctIndex": 0,
+          "keyLine": "surfing and enticing beaches"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-addis-ababa-ethiopia-culture-video",
