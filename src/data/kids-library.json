@@ -18,7 +18,7 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "How do plants and animals get the energy they need?"
+    "flightQuestion": "Is sunshine or food more important to a plant?"
   },
   {
     "id": "kids_here_comes_the_sun",
@@ -39,7 +39,7 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "What changes when sunlight reaches Earth?"
+    "flightQuestion": "Would you rather play outside at sunrise or sunset?"
   },
   {
     "id": "kids_fabulous_food_chains",
@@ -60,7 +60,7 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "[Music] Not everybody likes the same kind of food, right?"
+    "flightQuestion": "Should people help when a food chain loses an animal?"
   },
   {
     "id": "kids_defining_gravity",
@@ -102,7 +102,7 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "How can rain and rivers change a mountain?"
+    "flightQuestion": "Would you rather explore a river valley or a mountain?"
   },
   {
     "id": "kids_science_of_lunch",
@@ -123,7 +123,7 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "What happens to food after we eat lunch?"
+    "flightQuestion": "Should children choose lunch for taste or for energy?"
   },
   {
     "id": "kids_home_sweet_habitat",
@@ -145,7 +145,7 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Which habitat needs must people protect for wild animals?"
+    "flightQuestion": "Should people protect animal homes even when cities need space?"
   },
   {
     "id": "kids_food_webs",
@@ -167,7 +167,7 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "What happens to a food web when one animal disappears?"
+    "flightQuestion": "Should people protect predators as well as their prey?"
   },
   {
     "id": "kids_everything_revolves",
@@ -189,7 +189,7 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Why does the Moon keep orbiting Earth?"
+    "flightQuestion": "Would you rather visit the Moon or watch it from Earth?"
   },
   {
     "id": "kids_dinosaur_pee",
@@ -232,7 +232,7 @@
     "cefr": "B1",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "How might climate change affect an animal’s habitat?"
+    "flightQuestion": "Should people move animals when their habitats become warmer?"
   },
   {
     "id": "kids_living_things_change",
@@ -276,7 +276,7 @@
     "cefr": "A1",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Sam: What KIND?"
+    "flightQuestion": "Would you rather study a quiet volcano or an active one?"
   },
   {
     "id": "kids_busy_bees",
@@ -342,7 +342,7 @@
     "cefr": "A1",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "How can cave fish survive without light or eyes?"
+    "flightQuestion": "Would you rather explore a bright forest or a dark cave?"
   },
   {
     "id": "kids_diamond_super_crystal",
@@ -364,7 +364,7 @@
     "cefr": "A1",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Why does a diamond’s carbon structure make it hard?"
+    "flightQuestion": "Is a diamond more useful as a tool or as jewelry?"
   },
   {
     "id": "kids_whats_inside_rocks",
@@ -385,7 +385,7 @@
     "genre": "expository",
     "cefr": "A1",
     "ageBand": "kids",
-    "flightQuestion": "What's Inside These Rocks?"
+    "flightQuestion": "Would you rather find a crystal or a fossil inside rock?"
   },
   {
     "id": "kids_stalactites_stalagmites",
@@ -406,7 +406,7 @@
     "genre": "expository",
     "cefr": "A1",
     "ageBand": "kids",
-    "flightQuestion": "What Are Stalactites and Stalagmites?"
+    "flightQuestion": "Should visitors be allowed to touch cave formations?"
   },
   {
     "id": "kids_antarctica",
@@ -736,7 +736,48 @@
       "id": "animals-and-habitats",
       "title": "Animals and Their Habitats",
       "order": 2
-    }
+    },
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 17,
+          "end": 30,
+          "question": "What climate do pineapples need?",
+          "options": [
+            "Dry and windy",
+            "Warm and tropical",
+            "Cold and snowy"
+          ],
+          "correctIndex": 1,
+          "keyLine": "in warm, lush tropical climates."
+        },
+        {
+          "start": 35,
+          "end": 51,
+          "question": "What can people do if pineapples do not grow nearby?",
+          "options": [
+            "Get them from other communities",
+            "Grow them under snow",
+            "Stop eating all fruit"
+          ],
+          "correctIndex": 0,
+          "keyLine": "from communities that do grow them, even if\nthose places were very far away."
+        },
+        {
+          "start": 105,
+          "end": 120,
+          "question": "What stores water near Las Vegas?",
+          "options": [
+            "A glacier",
+            "A rainforest",
+            "A reservoir"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Because they live close to a reservoir."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "kids_look_whos_talking",
@@ -767,7 +808,7 @@
       "order": 1
     },
     "needsReview": false,
-    "flightQuestion": "How do animals communicate without human words?"
+    "flightQuestion": "Would you rather talk by sound or by movement?"
   },
   {
     "id": "kids_particles_world",
@@ -798,7 +839,7 @@
       "order": 1
     },
     "needsReview": false,
-    "flightQuestion": "How do tiny particles make up everyday materials?"
+    "flightQuestion": "Is learning about tiny particles useful in everyday life?"
   },
   {
     "id": "kids_measurement_mystery",
@@ -829,7 +870,7 @@
       "order": 2
     },
     "needsReview": false,
-    "flightQuestion": "Why do scientists need clear units when measuring?"
+    "flightQuestion": "Should every country use the same measuring units?"
   },
   {
     "id": "kids_over_to_moon",
@@ -860,7 +901,7 @@
       "order": 1
     },
     "needsReview": false,
-    "flightQuestion": "What makes a journey to the Moon difficult?"
+    "flightQuestion": "Would you rather travel to the Moon or the ocean floor?"
   },
   {
     "id": "kids_chemical_changes",
@@ -921,7 +962,7 @@
       "order": 2
     },
     "needsReview": false,
-    "flightQuestion": "How does Earth’s rotation create day and night?"
+    "flightQuestion": "Would you rather have longer days or longer nights?"
   },
   {
     "id": "kids_seasons_sun",
@@ -952,7 +993,7 @@
       "order": 3
     },
     "needsReview": false,
-    "flightQuestion": "How does changing sunlight help make the seasons?"
+    "flightQuestion": "Which season would be hardest without enough sunshine?"
   },
   {
     "id": "kids_polar_pineapples",
@@ -983,7 +1024,7 @@
       "order": 4
     },
     "needsReview": false,
-    "flightQuestion": "Why would pineapples struggle to grow near a pole?"
+    "flightQuestion": "Should people grow tropical fruit in cold places?"
   },
   {
     "id": "kids_glow_on",
@@ -1034,7 +1075,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "Why do engineers test a design before improving it?"
+    "flightQuestion": "Should an inventor test an idea before making it look beautiful?"
   },
   {
     "id": "kids_0gmbjfqghfc",
@@ -1064,7 +1105,7 @@
       "order": 1
     },
     "needsReview": false,
-    "flightQuestion": "What would your robot look like?"
+    "flightQuestion": "Should a robot help with chores or with homework?"
   },
   {
     "id": "kids_skahb_8ctzg",
@@ -1094,7 +1135,7 @@
       "order": 1
     },
     "needsReview": false,
-    "flightQuestion": "[Music] What would we do without water?"
+    "flightQuestion": "Should people save rainwater for dry days?"
   },
   {
     "id": "kids_4b2kdceuwr4",
@@ -1150,7 +1191,7 @@
       "order": 1
     },
     "needsReview": false,
-    "flightQuestion": "How can people change a city ecosystem?"
+    "flightQuestion": "Should people build more parks when cities grow?"
   },
   {
     "id": "kids_1fkgqo0xk94",
@@ -1180,7 +1221,7 @@
       "order": 2
     },
     "needsReview": false,
-    "flightQuestion": "How do beavers change the place where they live?"
+    "flightQuestion": "Should beavers be allowed to change a river near homes?"
   },
   {
     "id": "kids_durjvjc5xx0",
@@ -1239,7 +1280,7 @@
       "title": "Inventions and design",
       "order": 2
     },
-    "flightQuestion": "Which design ideas help an object fly?"
+    "flightQuestion": "Would you rather build wings or a balloon to fly?"
   },
   {
     "id": "kids_eb7gtjafae4",
@@ -1269,7 +1310,7 @@
       "order": 3
     },
     "needsReview": false,
-    "flightQuestion": "What makes an engineering trial fair?"
+    "flightQuestion": "Should everyone get the same chance to test a design?"
   },
   {
     "id": "kids_zfk0xhqt5fq",
@@ -1299,7 +1340,7 @@
       "order": 3
     },
     "needsReview": false,
-    "flightQuestion": "Why do sharks have so many different features?"
+    "flightQuestion": "Should people fear sharks or work to protect them?"
   },
   {
     "id": "kids_2zjzs19myik",
@@ -1329,7 +1370,7 @@
       "order": 1
     },
     "needsReview": false,
-    "flightQuestion": "Did you know there are over 200 types of turtle?"
+    "flightQuestion": "Would you rather meet a sea turtle or a land turtle?"
   },
   {
     "id": "kids_kmdd6ttdz_g",
@@ -1359,7 +1400,7 @@
       "order": 3
     },
     "needsReview": false,
-    "flightQuestion": "How does heavy rain support rainforest life?"
+    "flightQuestion": "Should rainforests be protected even far from our homes?"
   },
   {
     "id": "kids_fxyp76jwxsu",
@@ -1448,7 +1489,7 @@
       "title": "The human body and health",
       "order": 2
     },
-    "flightQuestion": "Why Do We Have Baby Teeth?"
+    "flightQuestion": "Would you rather keep baby teeth or grow new ones?"
   },
   {
     "id": "kids_ibj2xmsjuhq",
@@ -1478,7 +1519,7 @@
       "title": "The human body and health",
       "order": 3
     },
-    "flightQuestion": "How Do We Sing?"
+    "flightQuestion": "Is singing together more fun than singing alone?"
   },
   {
     "id": "kids_djdbtnbawoe",
@@ -1508,7 +1549,7 @@
       "order": 4
     },
     "needsReview": false,
-    "flightQuestion": "How Do We See Color?"
+    "flightQuestion": "Would you rather see more colors or hear more sounds?"
   },
   {
     "id": "kids_zojlcdmvwai",
@@ -1533,7 +1574,7 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "What clues help archaeologists understand the past?"
+    "flightQuestion": "Would you rather study an old building or an old tool?"
   },
   {
     "id": "kids_tsaveexeznw",
@@ -1563,7 +1604,7 @@
       "order": 2
     },
     "needsReview": false,
-    "flightQuestion": "How can microanimals survive in surprising places?"
+    "flightQuestion": "Should tiny animals receive the same protection as large ones?"
   },
   {
     "id": "kids_syawnjolnv8",
@@ -1588,7 +1629,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "Which features link modern birds to dinosaurs?"
+    "flightQuestion": "Would you rather study a bird or a dinosaur?"
   },
   {
     "id": "kids_dtk_uwx_vqo",
@@ -1613,7 +1654,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "What's the Difference Between Fruits and Vegetables?"
+    "flightQuestion": "Should a tomato be called a fruit in the kitchen?"
   },
   {
     "id": "kids_tjcukcfz8qy",
@@ -1672,7 +1713,7 @@
       "order": 4
     },
     "needsReview": false,
-    "flightQuestion": "Why Do Zebras Have Stripes?"
+    "flightQuestion": "Would stripes help a zebra hide better alone or together?"
   },
   {
     "id": "kids_yoirci0ckzg",
@@ -1702,7 +1743,7 @@
       "order": 5
     },
     "needsReview": false,
-    "flightQuestion": "When does camouflage help an animal hide?"
+    "flightQuestion": "Would camouflage help more in a forest or a desert?"
   },
   {
     "id": "kids_gazkec59g1w",
@@ -1732,7 +1773,7 @@
       "order": 4
     },
     "needsReview": false,
-    "flightQuestion": "How do desert plants save water in dry places?"
+    "flightQuestion": "Would you rather live in a desert or a rainforest?"
   },
   {
     "id": "kids_jqqleh172ho",
@@ -1762,7 +1803,7 @@
       "order": 5
     },
     "needsReview": false,
-    "flightQuestion": "Who’s ready for winter?"
+    "flightQuestion": "Would you rather spend winter like a reindeer or a bear?"
   },
   {
     "id": "kids_ueroeqyjxfo",
@@ -1787,7 +1828,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "What helps the world’s tallest tree keep growing?"
+    "flightQuestion": "Should people be allowed to visit the tallest trees?"
   },
   {
     "id": "kids_hwfqek29wrg",
@@ -1812,7 +1853,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "Why do evergreen trees keep leaves through the seasons?"
+    "flightQuestion": "Would you rather plant a tree that stays green all year?"
   },
   {
     "id": "kids_x7_t_9wzjga",
@@ -1867,7 +1908,7 @@
       "order": 5
     },
     "needsReview": false,
-    "flightQuestion": "How Do We Know When It Will Rain?"
+    "flightQuestion": "Would you rather trust clouds or a forecast for rain?"
   },
   {
     "id": "kids_0qmgdz9e47s",
@@ -1897,7 +1938,7 @@
       "order": 5
     },
     "needsReview": false,
-    "flightQuestion": "How can sunlight warm air enough to move it?"
+    "flightQuestion": "Should people use sunlight for more everyday jobs?"
   },
   {
     "id": "kids_mc3auuuj9_i",
@@ -1922,7 +1963,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "[Squeaks squeaks] How do kites fly?"
+    "flightQuestion": "Would you rather fly a paper kite or build one?"
   },
   {
     "id": "kids_3yqb2kfwjco",
@@ -1977,7 +2018,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "What makes a real machine a robot?"
+    "flightQuestion": "Should a machine that follows instructions count as a robot?"
   },
   {
     "id": "kids_02wrls_ue1q",
@@ -2007,7 +2048,7 @@
       "title": "Space for Beginners",
       "order": 5
     },
-    "flightQuestion": "How are comets different from asteroids?"
+    "flightQuestion": "Would you rather see a comet or an asteroid up close?"
   },
   {
     "id": "kids_cjbmsssxf_a",
@@ -2032,7 +2073,7 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "What does a narwhal use its tusk for?"
+    "flightQuestion": "Should narwhals be protected from boats in their waters?"
   },
   {
     "id": "kids_c2_an98p0rm",
@@ -2058,7 +2099,7 @@
     "needsReview": true,
     "kind": "video",
     "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context.",
-    "flightQuestion": "Why Do We Sweat?"
+    "flightQuestion": "Is sweating helpful even when it feels uncomfortable?"
   },
   {
     "id": "kids_jyu966aonzi",
@@ -2088,7 +2129,7 @@
       "order": 4
     },
     "needsReview": false,
-    "flightQuestion": "Why Do We Dream?"
+    "flightQuestion": "Would you rather remember every dream or none?"
   },
   {
     "id": "kids_8cqmky_wqao",
@@ -2113,7 +2154,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "How do lions and leopards differ in their habitats?"
+    "flightQuestion": "Would you rather protect lions or leopards first?"
   },
   {
     "id": "kids_0otbv8_mdr4",
@@ -2143,7 +2184,7 @@
       "order": 4
     },
     "needsReview": false,
-    "flightQuestion": "How can a failed test improve an engineering design?"
+    "flightQuestion": "Should an inventor show a failed test to other people?"
   },
   {
     "id": "kids_aoebfggcjvw",
@@ -2169,7 +2210,7 @@
     "needsReview": true,
     "kind": "video",
     "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context.",
-    "flightQuestion": "Why do We Brush Our Teeth?"
+    "flightQuestion": "Should brushing teeth be a morning or bedtime habit?"
   },
   {
     "id": "kids_optical_illusions",
@@ -2194,7 +2235,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "How do optical illusions trick us?"
+    "flightQuestion": "Should we always trust what our eyes tell us?"
   },
   {
     "id": "kids_xyfuqfqfl30",
@@ -2223,7 +2264,48 @@
       "title": "Inventions and design",
       "order": 5
     },
-    "flightQuestion": "Who decides whether an engineering solution succeeds?"
+    "flightQuestion": "Who decides whether an engineering solution succeeds?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 59,
+          "end": 75,
+          "question": "What does an engineer design to solve a problem?",
+          "options": [
+            "A solution",
+            "A question",
+            "A prize"
+          ],
+          "correctIndex": 0,
+          "keyLine": "A solution is something an engineer designs\nor builds to solve a problem he or she has."
+        },
+        {
+          "start": 118,
+          "end": 133,
+          "question": "What must the canyon plan do first?",
+          "options": [
+            "Look colorful",
+            "Win a prize",
+            "Get the person across alive"
+          ],
+          "correctIndex": 2,
+          "keyLine": "and let me be more specific, it should\nget me to the other side alive."
+        },
+        {
+          "start": 150,
+          "end": 168,
+          "question": "What does the speaker propose making from a tent?",
+          "options": [
+            "A ladder",
+            "A hang glider",
+            "A boat"
+          ],
+          "correctIndex": 1,
+          "keyLine": "I could make a hang glider out of my tent!"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "kids_bxfu86gnmrg",
@@ -2247,7 +2329,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "Why change just one variable in the bowling experiment?"
+    "flightQuestion": "Should children learn science through experiments or stories?"
   },
   {
     "id": "kids_dkjlbcci6zs",
@@ -2324,7 +2406,48 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Which natural resources does a neighborhood depend on?"
+    "flightQuestion": "Should a neighborhood protect water or trees first?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 29,
+          "end": 41,
+          "question": "Which resource can people drink?",
+          "options": [
+            "Wood",
+            "Stone",
+            "Fresh water"
+          ],
+          "correctIndex": 2,
+          "keyLine": "There’s fresh water to drink, fruit on trees,\nand wood to build our houses."
+        },
+        {
+          "start": 49,
+          "end": 65,
+          "question": "Why are big cities uncommon in deserts?",
+          "options": [
+            "There are too many trees",
+            "There is little water",
+            "There is too much rain"
+          ],
+          "correctIndex": 1,
+          "keyLine": "no water -- or at the tops of freezing mountains\n--where there’s no food."
+        },
+        {
+          "start": 111,
+          "end": 126,
+          "question": "Which ingredient is mentioned for the cake?",
+          "options": [
+            "Flour",
+            "Pepper",
+            "Rice"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Flour, eggs, sugar and milk."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "kids_uxh_7wbns3a",
@@ -2353,7 +2476,48 @@
       "order": 2
     },
     "needsReview": false,
-    "flightQuestion": "How do Earth’s water and air systems interact?"
+    "flightQuestion": "Should clean air or clean water come first in a town?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 37,
+          "end": 54,
+          "question": "What does “hydro” mean?",
+          "options": [
+            "Land",
+            "Water",
+            "Air"
+          ],
+          "correctIndex": 1,
+          "keyLine": "\"Hydro\" comes from the \nGreek word for \"water,\""
+        },
+        {
+          "start": 94,
+          "end": 107,
+          "question": "Which atmospheric layer is lowest?",
+          "options": [
+            "Troposphere",
+            "Mesosphere",
+            "Exosphere"
+          ],
+          "correctIndex": 0,
+          "keyLine": "The troposphere is the lowest layer."
+        },
+        {
+          "start": 168,
+          "end": 182,
+          "question": "What sphere do clouds belong to?",
+          "options": [
+            "Geosphere",
+            "Biosphere",
+            "Atmosphere"
+          ],
+          "correctIndex": 2,
+          "keyLine": "the clouds it came from are \nactually part of the atmosphere."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "kids_7vtfyamu6g4",
@@ -2382,7 +2546,48 @@
       "title": "Earth systems: water, weather and sunlight",
       "order": 3
     },
-    "flightQuestion": "How do land and water support different living things?"
+    "flightQuestion": "Would you rather live near a river or on a hill?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 13,
+          "end": 27,
+          "question": "What does the Sun give Earth?",
+          "options": [
+            "Warmth",
+            "Rain",
+            "Soil"
+          ],
+          "correctIndex": 0,
+          "keyLine": "You remember that the Sun provides\nthe Earth with energy, or warmth."
+        },
+        {
+          "start": 68,
+          "end": 82,
+          "question": "Where does Earth’s warming energy come from?",
+          "options": [
+            "The Moon",
+            "The ocean",
+            "The Sun"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Essentially, 100% of the energy that\nwarms the Earth comes from the Sun."
+        },
+        {
+          "start": 127,
+          "end": 144,
+          "question": "What happens when sunlight hits sand?",
+          "options": [
+            "The sand disappears",
+            "The sand gets warm",
+            "The sand gets wet"
+          ],
+          "correctIndex": 1,
+          "keyLine": "making the sand warm or even hot to the touch."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "kids_ahcozc143ec",
@@ -2406,7 +2611,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "How do herbivores and carnivores get energy differently?"
+    "flightQuestion": "Would you rather watch a plant eater or a meat eater?"
   },
   {
     "id": "kids_ecsirlk0gts",
@@ -2430,7 +2635,7 @@
     "place": null,
     "kind": "video",
     "needsReview": false,
-    "flightQuestion": "Why does soil matter to plants and animals?"
+    "flightQuestion": "Should a school garden protect its soil from heavy rain?"
   },
   {
     "id": "kids_elchwuilwa8",
@@ -2459,7 +2664,7 @@
       "title": "Matter and materials",
       "order": 1
     },
-    "flightQuestion": "What's matter?"
+    "flightQuestion": "Would you rather build with wood or stone?"
   },
   {
     "id": "kids_zzynerze3cg",
@@ -2517,7 +2722,7 @@
       "order": 3
     },
     "needsReview": false,
-    "flightQuestion": "Where does matter go when materials change?"
+    "flightQuestion": "Should people reuse materials instead of throwing them away?"
   },
   {
     "id": "kids_rrj1_yofcaa",
@@ -2575,7 +2780,7 @@
       "order": 4
     },
     "needsReview": false,
-    "flightQuestion": "How can sorting material properties help answer a question?"
+    "flightQuestion": "Should we sort objects by color or by what they do?"
   },
   {
     "id": "kids_tgflhpslejq",
@@ -2633,7 +2838,7 @@
       "title": "Space and science curiosities",
       "order": 5
     },
-    "flightQuestion": "How do a diamond’s properties affect how people use it?"
+    "flightQuestion": "Would you use a diamond for beauty or for cutting?"
   },
   {
     "id": "kids_fnd_2jett1w",

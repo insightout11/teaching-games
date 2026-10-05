@@ -17,7 +17,7 @@
     "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Do Schools Kill Creativity?"
+    "flightQuestion": "Should schools give creative work the same weight as exams?"
   },
   {
     "id": "brene_brown_power_of_vulnerability",
@@ -296,7 +296,7 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "What Explains the Rise of Humans?"
+    "flightQuestion": "Could humans cooperate at scale without shared stories?"
   },
   {
     "id": "elizabeth_gilbert_creative_genius",

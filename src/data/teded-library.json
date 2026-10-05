@@ -21,7 +21,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "How does sugar affect the brain’s reward system?"
+    "flightQuestion": "Should sugary foods be limited in school cafeterias?"
   },
   {
     "id": "teded_why_do_we_dream",
@@ -157,7 +157,7 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Can you solve the prisoner hat riddle?"
+    "flightQuestion": "Should prisoners share clues even if only one can escape?"
   },
   {
     "id": "teded_psychology_of_narcissism",
@@ -177,7 +177,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "How is narcissism different from healthy self-esteem?"
+    "flightQuestion": "Should confidence be encouraged even when it looks selfish?"
   },
   {
     "id": "teded_antibiotic_resistance",
@@ -196,7 +196,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "What causes antibiotic resistance?"
+    "flightQuestion": "Should doctors refuse antibiotics when patients request them unnecessarily?"
   },
   {
     "id": "teded_how_to_practice_effectively",
@@ -235,7 +235,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "How does the immune system work?"
+    "flightQuestion": "Should people take more care to support their immune systems?"
   },
   {
     "id": "teded_what_is_kafkaesque",
@@ -255,7 +255,7 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "What makes something 'Kafkaesque'?"
+    "flightQuestion": "Can confusing rules ever make a story more interesting?"
   },
   {
     "id": "teded_philosophy_of_stoicism",
@@ -295,7 +295,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Why do some memories last while others fade?"
+    "flightQuestion": "Would forgetting some memories make life easier?"
   },
   {
     "id": "teded_plato_allegory_cave",
@@ -367,7 +367,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "How do food choices affect gut microbes?"
+    "flightQuestion": "Should people choose food for gut health over taste?"
   },
   {
     "id": "teded_what_is_dna",
@@ -387,7 +387,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "What is DNA and how does it work?"
+    "flightQuestion": "Should children learn about DNA before they learn about inheritance?"
   },
   {
     "id": "teded_how_did_hitler_rise_to_power",
@@ -407,7 +407,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "How did Hitler rise to power?"
+    "flightQuestion": "Should schools teach more about how propaganda gains power?"
   },
   {
     "id": "teded_bridge_riddle",
@@ -426,7 +426,7 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Can you solve the bridge riddle?"
+    "flightQuestion": "Should a team choose the fastest or fairest way across?"
   },
   {
     "id": "teded_why_hard_to_cure_cancer",
@@ -445,7 +445,7 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Why is it so hard to cure cancer?"
+    "flightQuestion": "Should cancer research focus on prevention or treatment first?"
   },
   {
     "id": "teded_is_light_particle_or_wave",
@@ -470,7 +470,7 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Is light a particle or a wave?"
+    "flightQuestion": "Is a useful model more important than a perfect description?"
   },
   {
     "id": "teded_what_is_entropy",
@@ -496,7 +496,7 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "What is entropy?"
+    "flightQuestion": "Can disorder ever be useful when making something new?"
   },
   {
     "id": "teded_how_memories_can_be_manipulated",
@@ -555,7 +555,7 @@
     "genre": "expository",
     "cefr": "A1",
     "ageBand": "teens",
-    "flightQuestion": "Why do cats act so weird?"
+    "flightQuestion": "Should cats be allowed to roam outdoors?"
   },
   {
     "id": "teded_what_makes_a_poem",
@@ -575,7 +575,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "What makes a poem … a poem?"
+    "flightQuestion": "Can a poem exist without rhyming words?"
   },
   {
     "id": "teded_why_is_glass_transparent",
@@ -807,7 +807,7 @@
       "title": "B1 Teen Science and Discovery",
       "order": 4
     },
-    "flightQuestion": "What evidence links the human eye to evolution?"
+    "flightQuestion": "Should scientific explanations begin with evidence or theory?"
   },
   {
     "id": "teded_how_do_solar_panels_work",
@@ -1736,7 +1736,48 @@
       "id": "music-and-performance",
       "title": "Music, Learning and Performance",
       "order": 5
-    }
+    },
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 40,
+          "end": 56,
+          "question": "Which part of the body can exercise strengthen?",
+          "options": [
+            "Hair",
+            "Bones",
+            "Teeth"
+          ],
+          "correctIndex": 1,
+          "keyLine": "like strengthening our bones,"
+        },
+        {
+          "start": 101,
+          "end": 117,
+          "question": "What does playing on a team teach?",
+          "options": [
+            "Trusting other people",
+            "Avoiding all help",
+            "Winning alone"
+          ],
+          "correctIndex": 0,
+          "keyLine": "for instance, learning to trust\nand depend on others,"
+        },
+        {
+          "start": 157,
+          "end": 175,
+          "question": "What can learning through defeat build?",
+          "options": [
+            "Perfect scores",
+            "Faster running",
+            "Resilience"
+          ],
+          "correctIndex": 2,
+          "keyLine": "The experience of coming to terms\nwith defeat can build the resilience"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "teded_2tm1lffxekg",

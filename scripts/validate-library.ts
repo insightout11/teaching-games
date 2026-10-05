@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { canonicalTopicTag } from './library-topic-tags';
+import { validSpeakSituation } from '../src/lib/speak-check';
 
 type Item = {
   id?: unknown;
@@ -32,6 +33,7 @@ type Item = {
   source?: unknown;
   retellings?: unknown;
   transcriptVerified?: unknown;
+  listeningPack?: unknown;
 };
 
 const dataDir = path.resolve('src/data');
@@ -78,6 +80,14 @@ const round8ListeningCoverage = { a1Dialogue: 0, a1Kids: 0, a2B1Announcements: 0
 let listeningItemCount = 0;
 let flightQuestionCount = 0;
 const flightQuestionOwners: Record<string, string> = {};
+let speakSituationCount = 0;
+const speakAgeCounts: Record<string, number> = { kids: 0, teens: 0 };
+const speakCanDoVerbs = new Set(['Accept', 'Ask', 'Borrow', 'Cancel', 'Correct', 'Decline',
+  'Describe', 'Explain', 'Give', 'Introduce', 'Invite', 'Order', 'Propose', 'Request',
+  'Respond', 'State', 'Suggest', 'Tell']);
+let listeningPackCount = 0;
+let listeningSegmentCount = 0;
+const packCohorts: Record<string, number> = { kids: 0, B1: 0, B2: 0 };
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -225,10 +235,41 @@ for (const file of files) {
       if (!nonEmpty(item.flightQuestion)) fail(where, 'flightQuestion must be a non-empty question');
       else {
         const normalizedQuestion = item.flightQuestion.trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ');
+        const normalizedTitle = String(item.title || '').trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ');
+        if (normalizedQuestion === normalizedTitle) fail(where, 'flightQuestion must not copy the item title');
+        if (/^(but|so|and)\b/i.test(item.flightQuestion.trim())) fail(where, 'flightQuestion must not start with But, So, or And');
         if (flightQuestionOwners[normalizedQuestion]) fail(where, `flightQuestion duplicates ${flightQuestionOwners[normalizedQuestion]}`);
         else flightQuestionOwners[normalizedQuestion] = where;
         if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
         if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
+      }
+    }
+    if (item.listeningPack !== undefined) {
+      listeningPackCount += 1;
+      if (item.ageBand === 'kids' && (item.cefr === 'A1' || item.cefr === 'A2')) packCohorts.kids += 1;
+      else if (item.cefr === 'B1') packCohorts.B1 += 1;
+      else if (item.cefr === 'B2') packCohorts.B2 += 1;
+      else fail(where, 'listening pack must be kids A1–A2, B1, or B2');
+      if (!nonEmpty(item.youtubeId) || item.transcriptVerified !== true) fail(where, 'listening pack requires a verified YouTube transcript');
+      const pack = item.listeningPack as { segments?: unknown };
+      if (!pack || !Array.isArray(pack.segments) || pack.segments.length !== 3) fail(where, 'listeningPack requires exactly three segments');
+      else for (const [segmentIndex, rawSegment] of Array.from(pack.segments.entries())) {
+        listeningSegmentCount += 1;
+        const segment = rawSegment as { start?: unknown; end?: unknown; question?: unknown;
+          options?: unknown; correctIndex?: unknown; keyLine?: unknown };
+        const at = `${where}.listeningPack.segments[${segmentIndex}]`;
+        if (!Number.isInteger(segment.start) || !Number.isInteger(segment.end)
+          || Number(segment.end) - Number(segment.start) < 10 || Number(segment.end) - Number(segment.start) > 30
+          || Number(segment.start) < 0 || Number(segment.end) > Number(item.durationSecs)) {
+          fail(at, 'start/end must be a 10–30 second window within the video');
+        }
+        if (!nonEmpty(segment.question) || !segment.question.trim().endsWith('?')) fail(at, 'question must end with ?');
+        if (!Array.isArray(segment.options) || segment.options.length < 3 || segment.options.length > 4
+          || segment.options.some((option) => !nonEmpty(option))
+          || new Set(segment.options).size !== segment.options.length) fail(at, 'options must be 3–4 distinct non-empty strings');
+        if (!Number.isInteger(segment.correctIndex) || Number(segment.correctIndex) < 0
+          || !Array.isArray(segment.options) || Number(segment.correctIndex) >= segment.options.length) fail(at, 'correctIndex must identify one option');
+        if (!nonEmpty(segment.keyLine)) fail(at, 'keyLine must be a non-empty exact caption line');
       }
     }
     if (item.kind === 'video' || nonEmpty(item.youtubeId)) {
@@ -329,6 +370,46 @@ for (const file of files) {
 
 // Round 9's templated Flight Questions were removed in review (Oct 3); round 10 redoes them grounded.
 if (flightQuestionCount < 500) fail('flight questions', `expected at least 500 items after Round 10 (found ${flightQuestionCount})`);
+if (listeningPackCount !== 30 || listeningSegmentCount !== 90) fail('listening packs', `expected 30 packs and 90 segments (found ${listeningPackCount} and ${listeningSegmentCount})`);
+if (packCohorts.kids !== 10 || packCohorts.B1 !== 12 || packCohorts.B2 !== 8) fail('listening packs', `expected kids/B1/B2 = 10/12/8 (found ${packCohorts.kids}/${packCohorts.B1}/${packCohorts.B2})`);
+
+const speakPath = path.join(dataDir, 'speak-situations.json');
+if (!fs.existsSync(speakPath)) fail('speak-situations.json', 'required Speak situations bank is missing');
+else {
+  let situations: unknown;
+  try { situations = JSON.parse(fs.readFileSync(speakPath, 'utf8')); }
+  catch (error) { fail('speak-situations.json', `invalid JSON: ${String(error)}`); }
+  if (!Array.isArray(situations)) fail('speak-situations.json', 'top-level value must be an array');
+  else {
+    speakSituationCount = situations.length;
+    const speakIds = new Set<string>();
+    const speakTopics = new Set<string>();
+    for (const [index, raw] of Array.from(situations.entries())) {
+      const where = `speak-situations.json[${index}]`;
+      const situation = raw as Record<string, unknown>;
+      if (!nonEmpty(situation.id) || speakIds.has(String(situation.id))) fail(where, 'id must be non-empty and unique');
+      else speakIds.add(situation.id);
+      if (!Array.isArray(situation.topics) || situation.topics.length === 0
+        || situation.topics.some((tag) => !nonEmpty(tag))) fail(where, 'topics must be non-empty strings');
+      else for (const tag of situation.topics) speakTopics.add(String(tag).toLowerCase());
+      if (situation.ageBand !== 'kids' && situation.ageBand !== 'teens') fail(where, 'ageBand must be kids or teens');
+      else speakAgeCounts[situation.ageBand] += 1;
+      if (situation.ageBand === 'kids' && situation.cefr !== 'A1' && situation.cefr !== 'A2') fail(where, 'kids cefr must be A1 or A2');
+      if (situation.ageBand === 'teens' && situation.cefr !== 'A2' && situation.cefr !== 'B1' && situation.cefr !== 'B2') fail(where, 'teens cefr must be A2, B1, or B2');
+      if (!validSpeakSituation(raw)) fail(where, 'must satisfy validSpeakSituation');
+      if (!nonEmpty(situation.canDo) || !speakCanDoVerbs.has(situation.canDo.split(/\s+/)[0]) || situation.canDo.includes('?')) fail(where, 'canDo must start with a verb and contain no question mark');
+      const before = situation.before as { replies?: unknown; natural?: unknown } | undefined;
+      const after = situation.after as { replies?: unknown; natural?: unknown } | undefined;
+      if (!Array.isArray(before?.replies) || before.replies.length !== 4
+        || !Array.isArray(after?.replies) || after.replies.length !== 4) fail(where, 'before and after each require exactly four replies');
+      if (before?.natural === after?.natural) fail(where, 'after natural reply must use a different index');
+      if (!Number.isInteger(before?.natural) || !Number.isInteger(after?.natural)) fail(where, 'natural indexes must be integers');
+    }
+    if (speakSituationCount !== 40) fail('speak-situations.json', `expected 40 situations (found ${speakSituationCount})`);
+    if (speakAgeCounts.kids !== 20 || speakAgeCounts.teens !== 20) fail('speak-situations.json', 'expected 20 kids and 20 teens situations');
+    if (speakTopics.size < 16) fail('speak-situations.json', `expected at least 16 topics (found ${speakTopics.size})`);
+  }
+}
 
 for (const tag of Array.from(grammarTags)) {
   const coverage = grammarCoverage[tag] || { total: 0, kids: 0 };
@@ -396,4 +477,6 @@ if (errors.length) {
   process.exitCode = 1;
 } else {
   console.log(`Library validation passed: ${ids.size} items across ${files.length} files.`);
+  console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}).`);
+  console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
 }

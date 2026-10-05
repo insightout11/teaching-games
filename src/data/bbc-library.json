@@ -252,7 +252,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Street Food: Why Is It Becoming Popular?"
+    "flightQuestion": "Should cities give street food sellers more space?"
   },
   {
     "id": "bbc_food_new_food_culture",
@@ -364,7 +364,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Which future foods could help with food security?"
+    "flightQuestion": "Should people try unfamiliar foods to protect the planet?"
   },
   {
     "id": "bbc_food_comfort_food",
@@ -447,7 +447,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Why Are We All So Stressed?"
+    "flightQuestion": "Should schools teach stress management as a subject?"
   },
   {
     "id": "bbc_health_sitting",
@@ -503,7 +503,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Are You Flourishing?"
+    "flightQuestion": "Can a person flourish without being happy every day?"
   },
   {
     "id": "bbc_health_workplace_mental_health",
@@ -557,7 +557,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Is Being Kind Good for You?"
+    "flightQuestion": "Should people be kind even when nobody notices?"
   },
   {
     "id": "bbc_tech_training_ai",
@@ -612,7 +612,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Would You Like a Robot Companion?"
+    "flightQuestion": "Could a robot be as comforting as a human friend?"
   },
   {
     "id": "bbc_tech_future_of_work",
@@ -640,7 +640,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "What Is the Future of Work?"
+    "flightQuestion": "Should workers retrain when technology changes their jobs?"
   },
   {
     "id": "bbc_tech_ai_call_centres",
@@ -668,7 +668,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Call Centres: Are You Talking to AI?"
+    "flightQuestion": "Should callers always be told when they are speaking to AI?"
   },
   {
     "id": "bbc_tech_better_web",
@@ -696,7 +696,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "How Can We Make the Web a Better Place?"
+    "flightQuestion": "Should websites be responsible for the quality of online conversations?"
   },
   {
     "id": "bbc_tech_era_of_distrust",
@@ -722,7 +722,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Is This the Era of Distrust?"
+    "flightQuestion": "Should we trust strangers online until given reason not to?"
   },
   {
     "id": "bbc_climate_mental_health",
@@ -748,7 +748,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Can Climate Change Affect Our Mental Health?"
+    "flightQuestion": "Should climate worries be discussed openly in schools?"
   },
   {
     "id": "bbc_climate_without_plastic",
@@ -776,7 +776,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Can We Live Without Plastic?"
+    "flightQuestion": "Should convenience outweigh the environmental cost of plastic?"
   },
   {
     "id": "bbc_climate_saving_water",
@@ -832,7 +832,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Is the Recycling System Broken?"
+    "flightQuestion": "Should companies pay more to make packaging easier to recycle?"
   },
   {
     "id": "bbc_climate_animal_migration",
@@ -886,7 +886,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Climate Change: Are There Too Many People?"
+    "flightQuestion": "Should population growth be central to climate discussions?"
   },
   {
     "id": "bbc_animals_zoos",
@@ -914,7 +914,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Should Animals Be Kept in Zoos?"
+    "flightQuestion": "Can zoos protect wildlife while keeping animals in captivity?"
   },
   {
     "id": "bbc_animals_love_of_pets",
@@ -942,7 +942,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Why do people care so deeply about their pets?"
+    "flightQuestion": "Can caring for pets teach people to care for wildlife?"
   },
   {
     "id": "bbc_animals_octopus_intelligence",
@@ -970,7 +970,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "How Intelligent Is the Octopus?"
+    "flightQuestion": "Should octopuses receive stronger protection because of their intelligence?"
   },
   {
     "id": "bbc_animals_ecotourism",
@@ -998,7 +998,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Ecotourism: Good or Bad?"
+    "flightQuestion": "Can tourism help wildlife more than it harms it?"
   },
   {
     "id": "bbc_animals_black_and_white",
@@ -1026,7 +1026,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Why Are Some Animals Black and White?"
+    "flightQuestion": "Is camouflage more useful than warning colors to animals?"
   },
   {
     "id": "bbc_animals_man_vs_beast",
@@ -1052,7 +1052,7 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Man vs Beast: Who Is More Efficient?"
+    "flightQuestion": "Should humans copy animal strategies to use energy more efficiently?"
   },
   {
     "id": "bbc_6me_social_media_dead",
@@ -1225,7 +1225,7 @@
       "order": 2
     },
     "needsReview": false,
-    "flightQuestion": "What is a social media influencer?"
+    "flightQuestion": "Should young people trust advice from social media influencers?"
   },
   {
     "id": "bbc_fxh3hejvrhw",
@@ -2403,7 +2403,7 @@
     "ageBand": "teens",
     "place": null,
     "needsReview": false,
-    "flightQuestion": "How is “manage to” different from “can”?"
+    "flightQuestion": "Is saying 'I can' enough when a task was difficult?"
   },
   {
     "id": "bbc-grammar-r2-jwmKjgwlMk8",
@@ -2537,7 +2537,7 @@
     "ageBand": "teens",
     "place": null,
     "needsReview": false,
-    "flightQuestion": "How does “yet” change a present perfect sentence?"
+    "flightQuestion": "Should learners use 'yet' when giving someone hopeful news?"
   },
   {
     "id": "bbc-grammar-r2-8VETylIxyhw",
@@ -2626,7 +2626,7 @@
     "ageBand": "teens",
     "place": null,
     "needsReview": false,
-    "flightQuestion": "When do “ever” and “never” belong in present perfect?"
+    "flightQuestion": "Is asking about life experience better than asking about yesterday?"
   },
   {
     "id": "bbc-grammar-r2-nI5zaB6QL-o",
@@ -2822,6 +2822,6 @@
     "cefr": "B2",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "How can mixed conditionals connect an imagined past and present?"
+    "flightQuestion": "Should grammar lessons use imaginary past choices or real ones?"
   }
 ]

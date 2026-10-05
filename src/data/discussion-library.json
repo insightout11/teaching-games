@@ -22,7 +22,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should students have homework on weekends?",
+    "flightQuestion": "Should students have homework on Saturdays as well as weekdays?",
     "series": {
       "id": "round10-teens-a2-daily-life",
       "title": "A2 Teens: School Life Decisions",
@@ -52,7 +52,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should schools require uniforms?",
+    "flightQuestion": "Do uniforms help students feel included at school?",
     "series": {
       "id": "round10-teens-a2-daily-life",
       "title": "A2 Teens: School Life Decisions",
@@ -82,7 +82,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should students keep phones in class?",
+    "flightQuestion": "Should phones be available for learning during lessons?",
     "series": {
       "id": "round10-teens-a2-daily-life",
       "title": "A2 Teens: School Life Decisions",
@@ -113,7 +113,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should the school day start later?"
+    "flightQuestion": "Would a later school start help more students than it hurts?"
   },
   {
     "id": "discussion-r2-ai-study-tools",
@@ -138,7 +138,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should students use AI study tools?"
+    "flightQuestion": "Should students explain when AI helped with their homework?"
   },
   {
     "id": "discussion-r2-zoos",
@@ -163,7 +163,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Are zoos good for animals?"
+    "flightQuestion": "Are wildlife sanctuaries a better choice than zoos?"
   },
   {
     "id": "discussion-r2-community-gardens",
@@ -188,7 +188,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should every neighborhood have a community garden?"
+    "flightQuestion": "Should neighborhoods share garden space instead of private lawns?"
   },
   {
     "id": "discussion-r2-public-transport",
@@ -213,7 +213,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should public transport be free for students?"
+    "flightQuestion": "Should students ride buses free even during school holidays?"
   },
   {
     "id": "discussion-r2-reusable-bottles",
@@ -238,7 +238,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should schools stop selling bottled water?"
+    "flightQuestion": "Should schools provide refill stations before banning bottled water?"
   },
   {
     "id": "discussion-r2-team-sports",
@@ -263,7 +263,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Are team sports better than individual sports?",
+    "flightQuestion": "Do individual sports teach teamwork in different ways?",
     "series": {
       "id": "round10-teens-a2-wellbeing",
       "title": "A2 Teens: Wellbeing and Choices",
@@ -293,7 +293,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should school cafeterias offer a vegetarian day?"
+    "flightQuestion": "Should vegetarian lunches be the default at school?"
   },
   {
     "id": "discussion-r2-classroom-pets",
@@ -318,7 +318,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should classrooms have pets?",
+    "flightQuestion": "Should students care for a class pet during holidays?",
     "series": {
       "id": "round10-teens-a2-daily-life",
       "title": "A2 Teens: School Life Decisions",
@@ -348,7 +348,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should students choose more of their school subjects?"
+    "flightQuestion": "Should teenagers choose all their subjects after age fourteen?"
   },
   {
     "id": "discussion-r2-digital-or-paper-books",
@@ -373,7 +373,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Are digital books better than printed books for school?"
+    "flightQuestion": "Should schools keep paper books when digital copies are cheaper?"
   },
   {
     "id": "discussion-r2-longer-recess",
@@ -398,7 +398,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should students have longer breaks during the school day?"
+    "flightQuestion": "Would shorter lessons make longer school breaks worthwhile?"
   },
   {
     "id": "discussion-r2-volunteering-requirement",
@@ -423,7 +423,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should every student complete volunteer hours?"
+    "flightQuestion": "Does required volunteering still count as helping others?"
   },
   {
     "id": "discussion-r2-group-projects",
@@ -448,7 +448,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Are group projects a fair way to grade students?"
+    "flightQuestion": "Should every group member receive the same project grade?"
   },
   {
     "id": "discussion-r2-city-trees",
@@ -473,7 +473,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should cities plant more trees along streets?"
+    "flightQuestion": "Should cities prioritize trees over extra parking spaces?"
   },
   {
     "id": "discussion-r2-social-media-age",
@@ -498,7 +498,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should social media have a higher minimum age?"
+    "flightQuestion": "Should parents or platforms decide when children join social media?"
   },
   {
     "id": "discussion-r2-school-club-funding",
@@ -523,7 +523,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should schools spend more money on clubs than sports?"
+    "flightQuestion": "Should small school clubs receive the same funding as sports teams?"
   },
   {
     "id": "discussion-r2-financial-literacy",
@@ -547,7 +547,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should schools teach students how to manage money?"
+    "flightQuestion": "Should money lessons begin before secondary school?"
   },
   {
     "id": "discussion-r2-exams-or-projects",
@@ -571,7 +571,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should schools replace some exams with projects?"
+    "flightQuestion": "Can projects show learning more fairly than timed exams?"
   },
   {
     "id": "discussion-r2-free-school-lunch",
@@ -595,7 +595,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should school lunch be free for every student?",
+    "flightQuestion": "Should every child receive lunch even when families can pay?",
     "series": {
       "id": "round10-teens-a2-food",
       "title": "A2 Teens: Food and Health",
@@ -624,7 +624,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should cities build more bike lanes?"
+    "flightQuestion": "Should bike lanes replace some city parking spaces?"
   },
   {
     "id": "discussion-r2-cooking-classes",
@@ -648,7 +648,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should every student learn basic cooking at school?",
+    "flightQuestion": "Should cooking be a required school subject?",
     "series": {
       "id": "round10-teens-a2-food",
       "title": "A2 Teens: Food and Health",
@@ -677,7 +677,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should art and music get more time in school?"
+    "flightQuestion": "Should schools protect arts classes when budgets shrink?"
   },
   {
     "id": "discussion-r2-outdoor-learning",
@@ -701,7 +701,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should classes study outdoors once a week?"
+    "flightQuestion": "Could outdoor lessons help students learn difficult subjects?"
   },
   {
     "id": "discussion-r2-free-museum-entry",
@@ -725,7 +725,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should museums offer free entry to students?"
+    "flightQuestion": "Should museums be free for families as well as students?"
   },
   {
     "id": "discussion-r2-video-games-sport",
@@ -749,7 +749,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Can competitive video games count as a sport?"
+    "flightQuestion": "Should competitive gaming receive school sports funding?"
   },
   {
     "id": "discussion-r2-tourism-limits",
@@ -773,7 +773,7 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Intermediate",
-    "flightQuestion": "Should popular tourist places limit visitor numbers?"
+    "flightQuestion": "Should residents decide how many tourists can visit their town?"
   },
   {
     "id": "discussion-r2-historic-buildings",

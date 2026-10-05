@@ -683,7 +683,48 @@
       "lng": 31.2357
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 29,
+          "end": 47,
+          "question": "Which lake was long considered the Nile’s source?",
+          "options": [
+            "Lake Mead",
+            "Lake Victoria",
+            "Lake Nasser"
+          ],
+          "correctIndex": 1,
+          "keyLine": "For the longest time, Lake Victoria was considered\nthe source of the Nile."
+        },
+        {
+          "start": 88,
+          "end": 104,
+          "question": "How often does the White Nile flow?",
+          "options": [
+            "Year-round",
+            "Only in summer",
+            "Only after storms"
+          ],
+          "correctIndex": 0,
+          "keyLine": "of water year-round."
+        },
+        {
+          "start": 146,
+          "end": 164,
+          "question": "What material makes flooded farmland fertile?",
+          "options": [
+            "Salt",
+            "Gravel",
+            "Silt"
+          ],
+          "correctIndex": 2,
+          "keyLine": "hundreds of thousands of tons of fertile silt,\nwhich has been the backbone of Egyptian agriculture"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-cairo-food-tour-video",
@@ -2497,7 +2538,48 @@
       "lng": 114.1694
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 17,
+          "end": 33,
+          "question": "What minimum floor area does the proposed law require?",
+          "options": [
+            "Eight square meters",
+            "Five square meters",
+            "Twenty square meters"
+          ],
+          "correctIndex": 0,
+          "keyLine": "ensuring spaces like this are at least 8"
+        },
+        {
+          "start": 49,
+          "end": 65,
+          "question": "What do tenants fear renovations could raise?",
+          "options": [
+            "Wages",
+            "Transport fares",
+            "Rent"
+          ],
+          "correctIndex": 2,
+          "keyLine": "of rents making the lives of people"
+        },
+        {
+          "start": 121,
+          "end": 139,
+          "question": "How many public housing units are planned?",
+          "options": [
+            "500,000",
+            "50,000",
+            "5,000"
+          ],
+          "correctIndex": 1,
+          "keyLine": "accommodation with 50,000 units to come"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-amsterdam-city-history-video",
@@ -2720,7 +2802,48 @@
       "lng": -80.1918
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 8,
+          "end": 25,
+          "question": "Which US city has Little Havana?",
+          "options": [
+            "Miami",
+            "Chicago",
+            "Boston"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Miami's Little Havana Cuban uh culture"
+        },
+        {
+          "start": 30,
+          "end": 49,
+          "question": "When did many Cuban refugees begin arriving?",
+          "options": [
+            "1971",
+            "2008",
+            "1959"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Cubans and then in 1959 this a very"
+        },
+        {
+          "start": 112,
+          "end": 130,
+          "question": "What game do people play in the park?",
+          "options": [
+            "Cards",
+            "Dominoes",
+            "Chess"
+          ],
+          "correctIndex": 1,
+          "keyLine": "play dominoes as they discuss politics"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-miami-everglades-video",
@@ -2878,7 +3001,48 @@
       "lng": -74.0721
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 23,
+          "end": 39,
+          "question": "How many large mural spaces were set aside?",
+          "options": [
+            "Three",
+            "Ten",
+            "Five"
+          ],
+          "correctIndex": 2,
+          "keyLine": "the mayor of bogota have set aside five"
+        },
+        {
+          "start": 57,
+          "end": 73,
+          "question": "How long can a graffiti painter be detained?",
+          "options": [
+            "Six months",
+            "24 hours",
+            "One week"
+          ],
+          "correctIndex": 1,
+          "keyLine": "for 24 hours so it's you know that that"
+        },
+        {
+          "start": 108,
+          "end": 123,
+          "question": "What do scholarships help artists buy?",
+          "options": [
+            "Supplies",
+            "Tickets",
+            "Uniforms"
+          ],
+          "correctIndex": 0,
+          "keyLine": "for delivery fees and supplies the"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-reykjavik-city-landmarks-video",
@@ -3716,7 +3880,48 @@
       "lng": -3.7038
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 19,
+          "end": 34,
+          "question": "Whose collection formed the museum’s original holdings?",
+          "options": [
+            "Local schools",
+            "Spanish kings",
+            "French artists"
+          ],
+          "correctIndex": 1,
+          "keyLine": "of the kings of Spain a collection"
+        },
+        {
+          "start": 39,
+          "end": 56,
+          "question": "Which former museum added works to the collection?",
+          "options": [
+            "Museum of the Trinity",
+            "Museum of Science",
+            "Maritime Museum"
+          ],
+          "correctIndex": 0,
+          "keyLine": "the Museum of the Trinity which brought"
+        },
+        {
+          "start": 63,
+          "end": 78,
+          "question": "How did the museum receive some later works?",
+          "options": [
+            "Excavations",
+            "Competitions",
+            "Donations"
+          ],
+          "correctIndex": 2,
+          "keyLine": "donations and all of this is what forms"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "world-flight-lisbon-city-guide-video",

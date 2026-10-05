@@ -110,7 +110,7 @@
       "title": "B1 Teen Science and Discovery",
       "order": 2
     },
-    "flightQuestion": "How does natural selection change a population over time?"
+    "flightQuestion": "Should schools teach evolution through living examples or fossils first?"
   },
   {
     "id": "cc-climate-science",
@@ -293,6 +293,6 @@
       "title": "A2 Teens: Everyday Science",
       "order": 3
     },
-    "flightQuestion": "How do cells use DNA to pass on instructions?"
+    "flightQuestion": "Would learning about cells change how you care for your body?"
   }
 ]
