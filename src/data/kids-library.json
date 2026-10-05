@@ -736,7 +736,48 @@
       "id": "animals-and-habitats",
       "title": "Animals and Their Habitats",
       "order": 2
-    }
+    },
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 17,
+          "end": 30,
+          "question": "What climate do pineapples need?",
+          "options": [
+            "Dry and windy",
+            "Warm and tropical",
+            "Cold and snowy"
+          ],
+          "correctIndex": 1,
+          "keyLine": "in warm, lush tropical climates."
+        },
+        {
+          "start": 35,
+          "end": 51,
+          "question": "What can people do if pineapples do not grow nearby?",
+          "options": [
+            "Get them from other communities",
+            "Grow them under snow",
+            "Stop eating all fruit"
+          ],
+          "correctIndex": 0,
+          "keyLine": "from communities that do grow them, even if\nthose places were very far away."
+        },
+        {
+          "start": 105,
+          "end": 120,
+          "question": "What stores water near Las Vegas?",
+          "options": [
+            "A glacier",
+            "A rainforest",
+            "A reservoir"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Because they live close to a reservoir."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "kids_look_whos_talking",
@@ -2223,7 +2264,48 @@
       "title": "Inventions and design",
       "order": 5
     },
-    "flightQuestion": "Who decides whether an engineering solution succeeds?"
+    "flightQuestion": "Who decides whether an engineering solution succeeds?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 59,
+          "end": 75,
+          "question": "What does an engineer design to solve a problem?",
+          "options": [
+            "A solution",
+            "A question",
+            "A prize"
+          ],
+          "correctIndex": 0,
+          "keyLine": "A solution is something an engineer designs\nor builds to solve a problem he or she has."
+        },
+        {
+          "start": 118,
+          "end": 133,
+          "question": "What must the canyon plan do first?",
+          "options": [
+            "Look colorful",
+            "Win a prize",
+            "Get the person across alive"
+          ],
+          "correctIndex": 2,
+          "keyLine": "and let me be more specific, it should\nget me to the other side alive."
+        },
+        {
+          "start": 150,
+          "end": 168,
+          "question": "What does the speaker propose making from a tent?",
+          "options": [
+            "A ladder",
+            "A hang glider",
+            "A boat"
+          ],
+          "correctIndex": 1,
+          "keyLine": "I could make a hang glider out of my tent!"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "kids_bxfu86gnmrg",
@@ -2324,7 +2406,48 @@
     "place": null,
     "needsReview": false,
     "kind": "video",
-    "flightQuestion": "Should a neighborhood protect water or trees first?"
+    "flightQuestion": "Should a neighborhood protect water or trees first?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 29,
+          "end": 41,
+          "question": "Which resource can people drink?",
+          "options": [
+            "Wood",
+            "Stone",
+            "Fresh water"
+          ],
+          "correctIndex": 2,
+          "keyLine": "There’s fresh water to drink, fruit on trees,\nand wood to build our houses."
+        },
+        {
+          "start": 49,
+          "end": 65,
+          "question": "Why are big cities uncommon in deserts?",
+          "options": [
+            "There are too many trees",
+            "There is little water",
+            "There is too much rain"
+          ],
+          "correctIndex": 1,
+          "keyLine": "no water -- or at the tops of freezing mountains\n--where there’s no food."
+        },
+        {
+          "start": 111,
+          "end": 126,
+          "question": "Which ingredient is mentioned for the cake?",
+          "options": [
+            "Flour",
+            "Pepper",
+            "Rice"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Flour, eggs, sugar and milk."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "kids_uxh_7wbns3a",
@@ -2353,7 +2476,48 @@
       "order": 2
     },
     "needsReview": false,
-    "flightQuestion": "Should clean air or clean water come first in a town?"
+    "flightQuestion": "Should clean air or clean water come first in a town?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 37,
+          "end": 54,
+          "question": "What does “hydro” mean?",
+          "options": [
+            "Land",
+            "Water",
+            "Air"
+          ],
+          "correctIndex": 1,
+          "keyLine": "\"Hydro\" comes from the \nGreek word for \"water,\""
+        },
+        {
+          "start": 94,
+          "end": 107,
+          "question": "Which atmospheric layer is lowest?",
+          "options": [
+            "Troposphere",
+            "Mesosphere",
+            "Exosphere"
+          ],
+          "correctIndex": 0,
+          "keyLine": "The troposphere is the lowest layer."
+        },
+        {
+          "start": 168,
+          "end": 182,
+          "question": "What sphere do clouds belong to?",
+          "options": [
+            "Geosphere",
+            "Biosphere",
+            "Atmosphere"
+          ],
+          "correctIndex": 2,
+          "keyLine": "the clouds it came from are \nactually part of the atmosphere."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "kids_7vtfyamu6g4",
@@ -2382,7 +2546,48 @@
       "title": "Earth systems: water, weather and sunlight",
       "order": 3
     },
-    "flightQuestion": "Would you rather live near a river or on a hill?"
+    "flightQuestion": "Would you rather live near a river or on a hill?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 13,
+          "end": 27,
+          "question": "What does the Sun give Earth?",
+          "options": [
+            "Warmth",
+            "Rain",
+            "Soil"
+          ],
+          "correctIndex": 0,
+          "keyLine": "You remember that the Sun provides\nthe Earth with energy, or warmth."
+        },
+        {
+          "start": 68,
+          "end": 82,
+          "question": "Where does Earth’s warming energy come from?",
+          "options": [
+            "The Moon",
+            "The ocean",
+            "The Sun"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Essentially, 100% of the energy that\nwarms the Earth comes from the Sun."
+        },
+        {
+          "start": 127,
+          "end": 144,
+          "question": "What happens when sunlight hits sand?",
+          "options": [
+            "The sand disappears",
+            "The sand gets warm",
+            "The sand gets wet"
+          ],
+          "correctIndex": 1,
+          "keyLine": "making the sand warm or even hot to the touch."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "kids_ahcozc143ec",

@@ -261,7 +261,47 @@
     "place": null,
     "difficultyLevel": "Intermediate",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 20,
+          "end": 37,
+          "question": "Which city does the speaker call most beautiful?",
+          "options": [
+            "Paris",
+            "London",
+            "Rome"
+          ],
+          "correctIndex": 2,
+          "keyLine": "been to is Rome in Italy."
+        },
+        {
+          "start": 55,
+          "end": 72,
+          "question": "Which ancient site did the speaker visit?",
+          "options": [
+            "The Colosseum",
+            "Pompeii",
+            "Stonehenge"
+          ],
+          "correctIndex": 1,
+          "keyLine": "uh Pompei. Um I walked up Mount Vuvius"
+        },
+        {
+          "start": 131,
+          "end": 151,
+          "question": "What spoiled the family holiday?",
+          "options": [
+            "Rain every day",
+            "A missed flight",
+            "A lost bag"
+          ],
+          "correctIndex": 0,
+          "keyLine": "rained every day. It was freezing cold."
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-english-file-annoyances",
@@ -283,7 +323,47 @@
     "place": null,
     "difficultyLevel": "Intermediate",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 24,
+          "end": 40,
+          "question": "What do some shop assistants do that annoys the speaker?",
+          "options": [
+            "Hide the prices",
+            "Ignore customers while talking",
+            "Close early"
+          ],
+          "correctIndex": 1,
+          "keyLine": "tend to talk and ignore you"
+        },
+        {
+          "start": 48,
+          "end": 65,
+          "question": "What habit involving phones bothers the speaker?",
+          "options": [
+            "Keeping phones out all the time",
+            "Leaving phones at home",
+            "Calling before dinner"
+          ],
+          "correctIndex": 0,
+          "keyLine": "have to have their phones out with them"
+        },
+        {
+          "start": 64,
+          "end": 81,
+          "question": "Where does the speaker see people using phones socially?",
+          "options": [
+            "In a classroom exam",
+            "At a train station",
+            "At someone’s house for dinner"
+          ],
+          "correctIndex": 2,
+          "keyLine": "or at someone's house for dinner and"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-jenny-s-and-rob-s-story",
@@ -305,7 +385,47 @@
     "place": null,
     "difficultyLevel": "Intermediate",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 47,
+          "end": 62,
+          "question": "What is Rob’s job at the magazine?",
+          "options": [
+            "Photographer",
+            "Accountant",
+            "Writer"
+          ],
+          "correctIndex": 2,
+          "keyLine": "i'm a writer on new york 24 7. you can"
+        },
+        {
+          "start": 83,
+          "end": 99,
+          "question": "Why did Rob first come to New York?",
+          "options": [
+            "Because of a holiday",
+            "Because of Jenny",
+            "Because of family"
+          ],
+          "correctIndex": 1,
+          "keyLine": "because of jenny of course tomorrow i'm"
+        },
+        {
+          "start": 148,
+          "end": 164,
+          "question": "Who will Rob meet for the first time?",
+          "options": [
+            "Jenny’s parents",
+            "His new boss",
+            "A school friend"
+          ],
+          "correctIndex": 0,
+          "keyLine": "i'm taking rob to meet my parents for"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-meeting-jenny-s-parents",
@@ -327,7 +447,47 @@
     "place": null,
     "difficultyLevel": "Intermediate",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 29,
+          "end": 45,
+          "question": "Where did Rob leave the chocolates?",
+          "options": [
+            "On his desk",
+            "On the train",
+            "At a shop"
+          ],
+          "correctIndex": 0,
+          "keyLine": "desk you're kidding you know what my"
+        },
+        {
+          "start": 57,
+          "end": 73,
+          "question": "What are Jenny’s parents called?",
+          "options": [
+            "Rob and Sally",
+            "Harry and Kerri",
+            "Harry and Sally"
+          ],
+          "correctIndex": 2,
+          "keyLine": "and dad harry and sally and this of"
+        },
+        {
+          "start": 101,
+          "end": 117,
+          "question": "Where does Jenny now work as an editor?",
+          "options": [
+            "A restaurant",
+            "A magazine",
+            "A school"
+          ],
+          "correctIndex": 1,
+          "keyLine": "editor of the magazine so you've got a"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-harry-questions-rob",
@@ -371,7 +531,47 @@
     "place": null,
     "difficultyLevel": "Intermediate",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 49,
+          "end": 65,
+          "question": "Why does Kerri prefer playing solo?",
+          "options": [
+            "She dislikes music",
+            "Her parents asked her",
+            "She has more freedom"
+          ],
+          "correctIndex": 2,
+          "keyLine": "freedom this way i can play and say what"
+        },
+        {
+          "start": 73,
+          "end": 88,
+          "question": "What does Kerri’s mother do?",
+          "options": [
+            "Write magazines",
+            "Play classical piano",
+            "Sing punk songs"
+          ],
+          "correctIndex": 1,
+          "keyLine": "your mum's a classical pianist"
+        },
+        {
+          "start": 127,
+          "end": 143,
+          "question": "Where will Kerri play some clubs?",
+          "options": [
+            "New York",
+            "London",
+            "Oxford"
+          ],
+          "correctIndex": 0,
+          "keyLine": "new york then i'm doing some small gigs"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-lunch-with-kerri",
@@ -393,7 +593,47 @@
     "place": null,
     "difficultyLevel": "Intermediate",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 29,
+          "end": 47,
+          "question": "What does Kerri dislike about New York waiters?",
+          "options": [
+            "They bring cold food",
+            "They interrupt too often",
+            "They never smile"
+          ],
+          "correctIndex": 1,
+          "keyLine": "new york waiters never leave you alone i"
+        },
+        {
+          "start": 68,
+          "end": 84,
+          "question": "Which city does one speaker call the greatest?",
+          "options": [
+            "New York",
+            "London",
+            "Rome"
+          ],
+          "correctIndex": 0,
+          "keyLine": "no it's definitely the greatest city in"
+        },
+        {
+          "start": 88,
+          "end": 104,
+          "question": "Which London activity does Rob mention?",
+          "options": [
+            "Skiing",
+            "Surfing",
+            "Cycling"
+          ],
+          "correctIndex": 2,
+          "keyLine": "and and you can cycle everywhere"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-friendly-new-yorkers",
@@ -415,7 +655,47 @@
     "place": null,
     "difficultyLevel": "Intermediate",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 28,
+          "end": 40,
+          "question": "What may explain the friendly service?",
+          "options": [
+            "A large tip",
+            "Free dessert",
+            "A famous guest"
+          ],
+          "correctIndex": 0,
+          "keyLine": "but i think she saw the big tip you left"
+        },
+        {
+          "start": 65,
+          "end": 79,
+          "question": "Which activity does Rob miss from London?",
+          "options": [
+            "Swimming",
+            "Dancing",
+            "Cycling"
+          ],
+          "correctIndex": 2,
+          "keyLine": "for the parks cycling"
+        },
+        {
+          "start": 80,
+          "end": 96,
+          "question": "What did the taxi driver return?",
+          "options": [
+            "A coat",
+            "A cell phone",
+            "A wallet"
+          ],
+          "correctIndex": 1,
+          "keyLine": "cell phone you left it in my cab what"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-coffee-with-monica",
@@ -437,7 +717,47 @@
     "place": null,
     "difficultyLevel": "Intermediate",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 43,
+          "end": 58,
+          "question": "What news does Monica share?",
+          "options": [
+            "She is moving house",
+            "She has a new job",
+            "She is getting married"
+          ],
+          "correctIndex": 2,
+          "keyLine": "we're getting married you're what oh"
+        },
+        {
+          "start": 73,
+          "end": 88,
+          "question": "Who else wants to organize Monica’s wedding?",
+          "options": [
+            "Her neighbors",
+            "Scott’s mother",
+            "Her coworkers"
+          ],
+          "correctIndex": 1,
+          "keyLine": "scott's mom want to organize the whole"
+        },
+        {
+          "start": 99,
+          "end": 114,
+          "question": "Where did Rob move from?",
+          "options": [
+            "London",
+            "Paris",
+            "New York"
+          ],
+          "correctIndex": 0,
+          "keyLine": "few months ago from london what he's"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-old-friends",
@@ -459,7 +779,47 @@
     "place": null,
     "difficultyLevel": "Intermediate",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 23,
+          "end": 38,
+          "question": "What drink does Monica order?",
+          "options": [
+            "A small lemonade",
+            "A large latte",
+            "A green tea"
+          ],
+          "correctIndex": 1,
+          "keyLine": "could i have a large latte please of"
+        },
+        {
+          "start": 71,
+          "end": 88,
+          "question": "Why is Monica especially happy?",
+          "options": [
+            "She is getting married",
+            "She won a prize",
+            "She finished exams"
+          ],
+          "correctIndex": 0,
+          "keyLine": "married that's fantastic news yeah it is"
+        },
+        {
+          "start": 100,
+          "end": 116,
+          "question": "How long will Paul stay?",
+          "options": [
+            "A day",
+            "A month",
+            "A week"
+          ],
+          "correctIndex": 2,
+          "keyLine": "the week cool it'll be fun to meet one"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-playing-pool-with-paul",
@@ -481,7 +841,47 @@
     "place": null,
     "difficultyLevel": "Intermediate",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 35,
+          "end": 49,
+          "question": "Where did the friends play pool before?",
+          "options": [
+            "At university",
+            "At school",
+            "At a hotel"
+          ],
+          "correctIndex": 0,
+          "keyLine": "university"
+        },
+        {
+          "start": 113,
+          "end": 129,
+          "question": "Who gave Rob his shirt?",
+          "options": [
+            "Paul",
+            "Kerri",
+            "Jenny"
+          ],
+          "correctIndex": 2,
+          "keyLine": "present from jenny"
+        },
+        {
+          "start": 147,
+          "end": 161,
+          "question": "Why must Rob leave the game?",
+          "options": [
+            "He has a train",
+            "Jenny is waiting",
+            "The club is closing"
+          ],
+          "correctIndex": 1,
+          "keyLine": "the game another time jenny's waiting"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-reporting-lost-luggage",
@@ -503,7 +903,47 @@
     "place": null,
     "difficultyLevel": "Advanced",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 26,
+          "end": 41,
+          "question": "Which flight was Jenny on?",
+          "options": [
+            "RT136",
+            "RT613",
+            "RT163"
+          ],
+          "correctIndex": 2,
+          "keyLine": "which flight were you on flight rt163"
+        },
+        {
+          "start": 50,
+          "end": 65,
+          "question": "How long will Jenny stay in the UK?",
+          "options": [
+            "One month",
+            "Ten days",
+            "Two weeks"
+          ],
+          "correctIndex": 1,
+          "keyLine": "how long are you staying for 10 days"
+        },
+        {
+          "start": 143,
+          "end": 160,
+          "question": "How can Jenny track her suitcase?",
+          "options": [
+            "Online",
+            "At the gate",
+            "Through a newspaper"
+          ],
+          "correctIndex": 0,
+          "keyLine": "online or just give us a call but we"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-renting-a-car",
@@ -525,7 +965,47 @@
     "place": null,
     "difficultyLevel": "Advanced",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 47,
+          "end": 60,
+          "question": "What size car does the customer need?",
+          "options": [
+            "A seven-seat car",
+            "A compact car",
+            "A large van"
+          ],
+          "correctIndex": 1,
+          "keyLine": "so a compact three-door yeah that'll be"
+        },
+        {
+          "start": 60,
+          "end": 75,
+          "question": "Which transmission does the customer choose?",
+          "options": [
+            "Automatic",
+            "Manual",
+            "Electric"
+          ],
+          "correctIndex": 0,
+          "keyLine": "an automatic please"
+        },
+        {
+          "start": 95,
+          "end": 110,
+          "question": "What is the extra airport return charge?",
+          "options": [
+            "15 pounds",
+            "65 pounds",
+            "50 pounds"
+          ],
+          "correctIndex": 2,
+          "keyLine": "charge of 50 pounds okay"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-jenny-calls-rob",
@@ -547,7 +1027,47 @@
     "place": null,
     "difficultyLevel": "Advanced",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 27,
+          "end": 42,
+          "question": "What is Andrew Page’s profession?",
+          "options": [
+            "Scientist",
+            "Journalist",
+            "Doctor"
+          ],
+          "correctIndex": 0,
+          "keyLine": "andrew page and he's a scientist and you"
+        },
+        {
+          "start": 51,
+          "end": 65,
+          "question": "Who has not come home for dinner?",
+          "options": [
+            "Luke",
+            "Jenny’s mother",
+            "Rob’s dad"
+          ],
+          "correctIndex": 2,
+          "keyLine": "your dad hasn't come home"
+        },
+        {
+          "start": 101,
+          "end": 117,
+          "question": "Who does Rob suggest Jenny call?",
+          "options": [
+            "Andrew",
+            "Luke",
+            "The taxi driver"
+          ],
+          "correctIndex": 1,
+          "keyLine": "why don't you ring luke"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-a-threatening-message",
@@ -592,7 +1112,47 @@
     "place": null,
     "difficultyLevel": "Advanced",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 35,
+          "end": 49,
+          "question": "What food may not be cooked in the house?",
+          "options": [
+            "Rice",
+            "Soup",
+            "Meat"
+          ],
+          "correctIndex": 2,
+          "keyLine": "can't cook meat or leave meat products"
+        },
+        {
+          "start": 74,
+          "end": 89,
+          "question": "What kind of washing detergent does Simon prefer?",
+          "options": [
+            "Powder only",
+            "Eco-friendly",
+            "Scented"
+          ],
+          "correctIndex": 1,
+          "keyLine": "eco-friendly detergents there's some in"
+        },
+        {
+          "start": 89,
+          "end": 104,
+          "question": "Why should they avoid hot water washes?",
+          "options": [
+            "To save energy",
+            "To save soap",
+            "To protect the machine"
+          ],
+          "correctIndex": 0,
+          "keyLine": "he's very keen on saving energy"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-making-a-plan",
@@ -660,7 +1220,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=AFMAUAySU7s"
+    "url": "https://www.youtube.com/watch?v=AFMAUAySU7s",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 25,
+          "end": 39,
+          "question": "Which city is Rob from?",
+          "options": [
+            "London",
+            "Poland",
+            "New York"
+          ],
+          "correctIndex": 0,
+          "keyLine": "hello I'm Rob I'm from London"
+        },
+        {
+          "start": 51,
+          "end": 64,
+          "question": "What does Rob say he has?",
+          "options": [
+            "A reservation",
+            "A letter",
+            "A ticket"
+          ],
+          "correctIndex": 0,
+          "keyLine": "reservation"
+        },
+        {
+          "start": 84,
+          "end": 97,
+          "question": "Which room is Rob given?",
+          "options": [
+            "231",
+            "321",
+            "312"
+          ],
+          "correctIndex": 1,
+          "keyLine": "you okay Mr Walker you're in room 3 2 1"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-aef-rob-buys-lunch",
@@ -706,7 +1306,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=EiuOmby41UI"
+    "url": "https://www.youtube.com/watch?v=EiuOmby41UI",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 30,
+          "end": 41,
+          "question": "How much is the tuna salad?",
+          "options": [
+            "9.70",
+            "5.20",
+            "7.20"
+          ],
+          "correctIndex": 2,
+          "keyLine": "this tuna salad it's 7 20. okay fine"
+        },
+        {
+          "start": 41,
+          "end": 54,
+          "question": "What drink does Jenny request?",
+          "options": [
+            "Tea",
+            "Mineral water",
+            "Orange juice"
+          ],
+          "correctIndex": 1,
+          "keyLine": "and a mineral water please"
+        },
+        {
+          "start": 62,
+          "end": 76,
+          "question": "Where do they plan to eat lunch?",
+          "options": [
+            "In the park",
+            "At school",
+            "At the café"
+          ],
+          "correctIndex": 0,
+          "keyLine": "can have lunch together in the park sure"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-aef-jennys-night-out",
@@ -752,7 +1392,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=Su9R885btz0"
+    "url": "https://www.youtube.com/watch?v=Su9R885btz0",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 33,
+          "end": 49,
+          "question": "What date do they think it is?",
+          "options": [
+            "The first of May",
+            "The second of June",
+            "The second of July"
+          ],
+          "correctIndex": 1,
+          "keyLine": "2nd of June are you sure isn't it the"
+        },
+        {
+          "start": 69,
+          "end": 82,
+          "question": "What does Rob bring as a gift?",
+          "options": [
+            "Wine",
+            "Flowers",
+            "Chocolate"
+          ],
+          "correctIndex": 0,
+          "keyLine": "me it's my favorite wine thanks Rob but"
+        },
+        {
+          "start": 79,
+          "end": 91,
+          "question": "When is Dad’s birthday really?",
+          "options": [
+            "The second of June",
+            "The first of July",
+            "The second of July"
+          ],
+          "correctIndex": 2,
+          "keyLine": "my birthday is on the 2nd of July today"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-aef-looking-for-atm",
@@ -798,7 +1478,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=rgT3pSBIjEY"
+    "url": "https://www.youtube.com/watch?v=rgT3pSBIjEY",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 22,
+          "end": 33,
+          "question": "Who is president of Top Notch Travel?",
+          "options": [
+            "James Evans",
+            "Paul",
+            "Bob"
+          ],
+          "correctIndex": 0,
+          "keyLine": "pleasure to meet you i'm james evans"
+        },
+        {
+          "start": 31,
+          "end": 42,
+          "question": "What is Paul’s job?",
+          "options": [
+            "Chef",
+            "Doctor",
+            "Tour guide"
+          ],
+          "correctIndex": 2,
+          "keyLine": "tour guide glad to meet you hi i'm"
+        },
+        {
+          "start": 63,
+          "end": 73,
+          "question": "What job does Bob say he does?",
+          "options": [
+            "Singer",
+            "Mailman",
+            "Architect"
+          ],
+          "correctIndex": 1,
+          "keyLine": "i'm the mailman"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-top-notch-whos-that",
@@ -844,7 +1564,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=eHR7HpB8pBg"
+    "url": "https://www.youtube.com/watch?v=eHR7HpB8pBg",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 33,
+          "end": 43,
+          "question": "Which way do they turn at the corner?",
+          "options": [
+            "Right",
+            "Straight ahead",
+            "Left"
+          ],
+          "correctIndex": 2,
+          "keyLine": "go to the corner and turn left left"
+        },
+        {
+          "start": 47,
+          "end": 60,
+          "question": "What is across the street?",
+          "options": [
+            "A hotel",
+            "A bookstore",
+            "A park"
+          ],
+          "correctIndex": 1,
+          "keyLine": "across the street to the bookstore"
+        },
+        {
+          "start": 67,
+          "end": 80,
+          "question": "What should they avoid taking?",
+          "options": [
+            "The train",
+            "The bus",
+            "A taxi"
+          ],
+          "correctIndex": 0,
+          "keyLine": "around the corner don't take the train"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-top-notch-youre-late",

@@ -33,6 +33,7 @@ type Item = {
   source?: unknown;
   retellings?: unknown;
   transcriptVerified?: unknown;
+  listeningPack?: unknown;
 };
 
 const dataDir = path.resolve('src/data');
@@ -84,6 +85,9 @@ const speakAgeCounts: Record<string, number> = { kids: 0, teens: 0 };
 const speakCanDoVerbs = new Set(['Accept', 'Ask', 'Borrow', 'Cancel', 'Correct', 'Decline',
   'Describe', 'Explain', 'Give', 'Introduce', 'Invite', 'Order', 'Propose', 'Request',
   'Respond', 'State', 'Suggest', 'Tell']);
+let listeningPackCount = 0;
+let listeningSegmentCount = 0;
+const packCohorts: Record<string, number> = { kids: 0, B1: 0, B2: 0 };
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -240,6 +244,34 @@ for (const file of files) {
         if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
       }
     }
+    if (item.listeningPack !== undefined) {
+      listeningPackCount += 1;
+      if (item.ageBand === 'kids' && (item.cefr === 'A1' || item.cefr === 'A2')) packCohorts.kids += 1;
+      else if (item.cefr === 'B1') packCohorts.B1 += 1;
+      else if (item.cefr === 'B2') packCohorts.B2 += 1;
+      else fail(where, 'listening pack must be kids A1–A2, B1, or B2');
+      if (!nonEmpty(item.youtubeId) || item.transcriptVerified !== true) fail(where, 'listening pack requires a verified YouTube transcript');
+      const pack = item.listeningPack as { segments?: unknown };
+      if (!pack || !Array.isArray(pack.segments) || pack.segments.length !== 3) fail(where, 'listeningPack requires exactly three segments');
+      else for (const [segmentIndex, rawSegment] of Array.from(pack.segments.entries())) {
+        listeningSegmentCount += 1;
+        const segment = rawSegment as { start?: unknown; end?: unknown; question?: unknown;
+          options?: unknown; correctIndex?: unknown; keyLine?: unknown };
+        const at = `${where}.listeningPack.segments[${segmentIndex}]`;
+        if (!Number.isInteger(segment.start) || !Number.isInteger(segment.end)
+          || Number(segment.end) - Number(segment.start) < 10 || Number(segment.end) - Number(segment.start) > 30
+          || Number(segment.start) < 0 || Number(segment.end) > Number(item.durationSecs)) {
+          fail(at, 'start/end must be a 10–30 second window within the video');
+        }
+        if (!nonEmpty(segment.question) || !segment.question.trim().endsWith('?')) fail(at, 'question must end with ?');
+        if (!Array.isArray(segment.options) || segment.options.length < 3 || segment.options.length > 4
+          || segment.options.some((option) => !nonEmpty(option))
+          || new Set(segment.options).size !== segment.options.length) fail(at, 'options must be 3–4 distinct non-empty strings');
+        if (!Number.isInteger(segment.correctIndex) || Number(segment.correctIndex) < 0
+          || !Array.isArray(segment.options) || Number(segment.correctIndex) >= segment.options.length) fail(at, 'correctIndex must identify one option');
+        if (!nonEmpty(segment.keyLine)) fail(at, 'keyLine must be a non-empty exact caption line');
+      }
+    }
     if (item.kind === 'video' || nonEmpty(item.youtubeId)) {
       if (typeof item.durationSecs !== 'number' || item.durationSecs <= 0) fail(where, 'video durationSecs must be present and positive');
     }
@@ -338,9 +370,12 @@ for (const file of files) {
 
 // Round 9's templated Flight Questions were removed in review (Oct 3); round 10 redoes them grounded.
 if (flightQuestionCount < 500) fail('flight questions', `expected at least 500 items after Round 10 (found ${flightQuestionCount})`);
+if (listeningPackCount !== 30 || listeningSegmentCount !== 90) fail('listening packs', `expected 30 packs and 90 segments (found ${listeningPackCount} and ${listeningSegmentCount})`);
+if (packCohorts.kids !== 10 || packCohorts.B1 !== 12 || packCohorts.B2 !== 8) fail('listening packs', `expected kids/B1/B2 = 10/12/8 (found ${packCohorts.kids}/${packCohorts.B1}/${packCohorts.B2})`);
 
 const speakPath = path.join(dataDir, 'speak-situations.json');
-if (fs.existsSync(speakPath)) {
+if (!fs.existsSync(speakPath)) fail('speak-situations.json', 'required Speak situations bank is missing');
+else {
   let situations: unknown;
   try { situations = JSON.parse(fs.readFileSync(speakPath, 'utf8')); }
   catch (error) { fail('speak-situations.json', `invalid JSON: ${String(error)}`); }
@@ -443,4 +478,5 @@ if (errors.length) {
 } else {
   console.log(`Library validation passed: ${ids.size} items across ${files.length} files.`);
   console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}).`);
+  console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
 }

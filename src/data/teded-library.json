@@ -1736,7 +1736,48 @@
       "id": "music-and-performance",
       "title": "Music, Learning and Performance",
       "order": 5
-    }
+    },
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 40,
+          "end": 56,
+          "question": "Which part of the body can exercise strengthen?",
+          "options": [
+            "Hair",
+            "Bones",
+            "Teeth"
+          ],
+          "correctIndex": 1,
+          "keyLine": "like strengthening our bones,"
+        },
+        {
+          "start": 101,
+          "end": 117,
+          "question": "What does playing on a team teach?",
+          "options": [
+            "Trusting other people",
+            "Avoiding all help",
+            "Winning alone"
+          ],
+          "correctIndex": 0,
+          "keyLine": "for instance, learning to trust\nand depend on others,"
+        },
+        {
+          "start": 157,
+          "end": 175,
+          "question": "What can learning through defeat build?",
+          "options": [
+            "Perfect scores",
+            "Faster running",
+            "Resilience"
+          ],
+          "correctIndex": 2,
+          "keyLine": "The experience of coming to terms\nwith defeat can build the resilience"
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "teded_2tm1lffxekg",
