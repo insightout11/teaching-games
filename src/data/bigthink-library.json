@@ -17,8 +17,8 @@
     "genre": "opinion",
     "cefr": "B2",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "So what does that mean for free will?"
   },
   {
     "id": "bigthink_fermi_paradox",
@@ -38,8 +38,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should scientists send messages to a possible alien civilization?"
   },
   {
     "id": "bigthink_unconscious_decisions",
@@ -59,8 +59,8 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should we trust decisions made before conscious thought?"
   },
   {
     "id": "bigthink_free_will_pinker",
@@ -99,8 +99,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Why are people poor at predicting what makes them happy?"
   },
   {
     "id": "bigthink_evolution_intelligence",
@@ -120,8 +120,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Could artificial intelligence develop like human intelligence?"
   },
   {
     "id": "bigthink_reverse_unhappiness",
@@ -160,8 +160,8 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should adults judge teenage risk differently after understanding brain development?"
   },
   {
     "id": "bigthink_neuroscience_creativity",
@@ -181,8 +181,8 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Can uncertainty help the brain produce creative ideas?"
   },
   {
     "id": "bigthink_growth_mindset",

@@ -36,8 +36,8 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "The Philosophy of Absurdism: What Is the Point of Life?"
   },
   {
     "id": "bbcideas_sports_psychology",
@@ -57,8 +57,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Can athletes’ focus techniques help students face pressure?"
   },
   {
     "id": "bbcideas_critical_thinking",
@@ -78,8 +78,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Which thinking habit could stop someone believing a false claim?"
   },
   {
     "id": "bbcideas_social_media_emotions",
@@ -118,8 +118,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Can stories change how our brains understand other people?"
   },
   {
     "id": "bbcideas_power_of_kindness",
@@ -139,8 +139,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Can one kind act change someone’s day?"
   },
   {
     "id": "bbcideas_experience_world_differently",
@@ -160,8 +160,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Why might two people experience the same room differently?"
   },
   {
     "id": "bbcideas_hidden_clues_personality",
@@ -181,8 +181,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Can music taste reveal much about someone’s personality?"
   },
   {
     "id": "bbcideas_psychology_seduction",

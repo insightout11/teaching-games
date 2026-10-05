@@ -36,7 +36,7 @@
     "license": "CC BY 4.0",
     "attribution": "Everything looks new! (en), text by Mala Kumar, Manisha Chaudhry, illustration by Priya Kuriyan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Should children plant trees they can watch grow?"
+    "flightQuestion": "Should children plant seeds they can watch grow?"
   },
   {
     "id": "storyweaver-86-hot-tea-and-warm-rugs",
@@ -74,7 +74,8 @@
     },
     "license": "CC BY 4.0",
     "attribution": "Hot Tea and Warm Rugs (en), text by Mala Kumar, Manisha Chaudhry, illustration by Priya Kuriyan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should the family use warm rugs on a cold day?"
   },
   {
     "id": "storyweaver-88-kheer-on-a-full-moon-night",
@@ -112,7 +113,8 @@
     },
     "license": "CC BY 4.0",
     "attribution": "Kheer on a Full Moon Night (en), text by Mala Kumar, Manisha Chaudhry, illustration by Priya Kuriyan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Why does the family make kheer on a full moon night?"
   },
   {
     "id": "storyweaver-89-peacocks-and-pakodas",
@@ -150,7 +152,8 @@
     },
     "license": "CC BY 4.0",
     "attribution": "Peacocks and Pakodas! (en), text by Mala Kumar, Manisha Chaudhry, illustration by Priya Kuriyan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should the children share pakodas with their guests?"
   },
   {
     "id": "storyweaver-111-little-by-little",
@@ -264,7 +267,7 @@
     "license": "CC BY 4.0",
     "attribution": "Going to a Wedding (en), text by Rukmini Banerji, illustration by Santosh Pujari, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Should relatives travel together for important family celebrations?"
+    "flightQuestion": "Should relatives travel together for a wedding?"
   },
   {
     "id": "storyweaver-156-paper-play",
@@ -299,7 +302,7 @@
     "license": "CC BY 4.0",
     "attribution": "Paper Play (en), text by Mala Kumar, illustration by Ruchi Shah, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Can old paper become a new toy?"
+    "flightQuestion": "Can old paper become a new toy for the children?"
   },
   {
     "id": "storyweaver-173-the-jungle-school",
@@ -334,7 +337,7 @@
     "license": "CC BY 4.0",
     "attribution": "The Jungle School (en), text by Madhav Chavan, Meera Tendolkar, illustration by Ketan Raut, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Should different animals learn together?"
+    "flightQuestion": "Should different animals learn together at jungle school?"
   },
   {
     "id": "storyweaver-189-ramya-s-stars",
@@ -408,7 +411,7 @@
     "license": "CC BY 4.0",
     "attribution": "Too Many Bananas (en), text by Rohini Nilekani, illustration by Angie & Upesh, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Should people share extra food?"
+    "flightQuestion": "Should the family share extra bananas?"
   },
   {
     "id": "storyweaver-258-goodnight-tinku",
@@ -443,7 +446,7 @@
     "license": "CC BY 4.0",
     "attribution": "Goodnight, Tinku! (en), text by Preethi Nambiar, illustration by Sonal Goyal, Sumit Sakhuja, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Is bedtime better with a routine?"
+    "flightQuestion": "Does Tinku need a bedtime routine to feel safe?"
   },
   {
     "id": "storyweaver-283-annual-haircut-day",
@@ -481,7 +484,8 @@
     },
     "license": "CC BY 4.0",
     "attribution": "Annual Haircut Day (en), text by Rohini Nilekani, illustration by Angie & Upesh, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Who should help Sringeri Srinivas cut his long hair?"
   },
   {
     "id": "storyweaver-296-lassi-ice-cream-or-falooda",
@@ -519,7 +523,8 @@
     },
     "license": "CC BY 4.0",
     "attribution": "Lassi, Ice-cream or Falooda? (en), text by Mala Kumar, Manisha Chaudhry, illustration by Priya Kuriyan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Which mango flavor does the family choose for lassi?"
   },
   {
     "id": "storyweaver-486-gulli-s-box-of-things",
@@ -553,7 +558,8 @@
     "place": null,
     "license": "CC BY 4.0",
     "attribution": "Gulli's Box of Things (en), text by Anupama Ajinkya Apte, illustration by Anupama Ajinkya Apte, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should Gulli share the things in her box?"
   },
   {
     "id": "storyweaver-633-cheenu-s-gift",
@@ -587,7 +593,8 @@
     "place": null,
     "license": "CC BY 4.0",
     "attribution": "Cheenu's Gift (en), text by Sridala Swami, illustration by Suvidha Mistry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "What gift does Cheenu choose for her friend?"
   },
   {
     "id": "storyweaver-678-the-day-the-vegetables-came-to-school",
@@ -622,7 +629,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Day the Vegetables Came to School (en), text by Venkatramana Gowda, illustration by Padmanabh, translated by Divaspathy Hegde, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Raju follow the vegetables to school?"
   },
   {
     "id": "storyweaver-684-when-amma-went-to-school",
@@ -656,7 +664,8 @@
     "place": null,
     "license": "CC BY 4.0",
     "attribution": "When Amma Went to School (en), text by Nandini Nayar, illustration by Ruchi Shah, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should children and parents share a school day?"
   },
   {
     "id": "storyweaver-691-grandpa-fish-and-the-radio",
@@ -691,7 +700,8 @@
     "license": "CC BY 4.0",
     "attribution": "Grandpa Fish and the Radio (en), text by Venkatramana Gowda, illustration by Srikrishna Kedilaya, translated by Divaspathy Hegde, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should young fish let Grandpa Fish use the radio?"
   },
   {
     "id": "storyweaver-839-flying-high",
@@ -726,7 +736,8 @@
     "license": "CC BY 4.0",
     "attribution": "Flying High (en), text by Vidya Tiware, illustration by Rijuta Ghate, translated by Rohini Nilekani, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How could Chandu turn his flying dream into a plan?"
   },
   {
     "id": "storyweaver-2057-the-rainbow-story",
@@ -764,7 +775,8 @@
     },
     "license": "CC BY 4.0",
     "attribution": "The Rainbow Story (en), text by Prakruti & Shruti Bhat, illustration by Ajit Narayan, Bulbul Sharma, Deepa Balsavar, Greystroke, Lavanya Karthik, Niloufer Wadia, Nimret Handa, Priya Kuriyan, Sanjay Sarkar, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should the children follow the rainbow together?"
   },
   {
     "id": "storyweaver-2083-animals-are-kind",
@@ -799,7 +811,8 @@
     "license": "CC BY 4.0",
     "attribution": "Animals Are Kind (en), text by Preksha Pc, illustration by Ajit Narayan, Padmanabh, Rijuta Ghate, Sanjay Sarkar, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Can a kind son change the rude farmer?"
   },
   {
     "id": "storyweaver-2093-the-boy-who-hated-vegetables",
@@ -834,7 +847,7 @@
     "license": "CC BY 4.0",
     "attribution": "The boy who hated vegetables (en), text by Prakruti & Shruti Bhat, illustration by Angie & Upesh, Deepa Balsavar, Padmanabh, Rijuta Ghate, Suvidha Mistry, Tanvi Choudhury, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Should children try a new food?"
+    "flightQuestion": "Should children try a vegetable they dislike?"
   },
   {
     "id": "storyweaver-639293-the-surprise",
@@ -868,7 +881,8 @@
     "place": null,
     "license": "CC BY 4.0",
     "attribution": "The Surprise (en), text by Ad Sarin, illustration by Ad Sarin, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "What could the girl do with her new guitar?"
   },
   {
     "id": "storyweaver-47971-where-is-my-mother",
@@ -973,7 +987,7 @@
     "license": "CC BY 4.0",
     "attribution": "The party (en), text by Rachita Uday Kumar, illustration by Greystroke, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Can a party be fun with friends?"
+    "flightQuestion": "Can a party be fun when friends help plan it?"
   },
   {
     "id": "storyweaver-2325-the-unusual-rainmaking-duet",
@@ -1008,7 +1022,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Unusual Rainmaking Duet (en), text by Srividya Suryanarayanan, illustration by Rajiv Eipe, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should the folklore singer perform the rainmaking duet with a friend?"
   },
   {
     "id": "storyweaver-2352-sheela-learns-to-make-friends",
@@ -1043,7 +1058,8 @@
     "license": "CC BY 4.0",
     "attribution": "Sheela Learns to make friends (en), text by Srividya Suryanarayanan, illustration by Sanjay Sarkar, Suvidha Mistry, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Sheela meekly asked, “Wwwho are you?"
   },
   {
     "id": "storyweaver-2380-the-story-of-stories",
@@ -1077,7 +1093,8 @@
     "place": null,
     "license": "CC BY 4.0",
     "attribution": "The Story of Stories (en), text by Roopa Pai, illustration by Prashant Miranda, published by StoryWeaver under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should the storyteller share the story with everyone?"
   },
   {
     "id": "storyweaver-2433-no-tricking-kutti",
@@ -1181,7 +1198,8 @@
     "place": null,
     "license": "CC BY 4.0",
     "attribution": "Shruti's secret to winning (en), text by Anushka and Preeti Praveen, illustration by Deepa Balsavar, Greystroke, Henu, Rajiv Eipe, Sheetal Thapa, Soumya Menon, Suvidha Mistry.., published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "What might Shruti’s teacher learn about her winning secret?"
   },
   {
     "id": "storyweaver-2909-windy-s-adventure",
@@ -1215,7 +1233,8 @@
     "place": null,
     "license": "CC BY 4.0",
     "attribution": "Windy's adventure (en), text by Rachita Uday Kumar, illustration by Rijuta Ghate, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Can Windy change the weather during her adventure?"
   },
   {
     "id": "storyweaver-2914-dia-s-favourite-festivals",
@@ -1253,7 +1272,8 @@
     },
     "license": "CC BY 4.0",
     "attribution": "Dia's favourite festivals (en), text by Rachita Uday Kumar, illustration by Priya Kuriyan, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How can Dia help classmates understand different festivals?"
   },
   {
     "id": "storyweaver-2942-the-love-of-art",
@@ -1287,7 +1307,8 @@
     "place": null,
     "license": "CC BY 4.0",
     "attribution": "The love of art (en), text by Rachita Uday Kumar, illustration by Tanvi Choudhury, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should Rohan keep painting when others choose differently?"
   },
   {
     "id": "storyweaver-2953-nina-plays-with-the-butterflies",
@@ -1321,7 +1342,8 @@
     "place": null,
     "license": "CC BY 4.0",
     "attribution": "Nina Plays With the Butterflies (en), text by Adhvika Deepak, illustration by Herminder Ohri, Preeti Krishnamurthy, Priya Kuriyan, Sanjay Sarkar, Sorit Gupto, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should Nina protect the butterflies she finds?"
   },
   {
     "id": "storyweaver-2985-aditi-s-trip-to-moon",
@@ -1355,7 +1377,8 @@
     "place": null,
     "license": "CC BY 4.0",
     "attribution": "Aditi's Trip To Moon (en), text by Rajalakshmi Paramasivam, illustration by Ajit Narayan, Greystroke, Helga Parekh, Rijuta Ghate, Sorit Gupto, Suvidha Mistry, Taposhi Ghoshal, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Should Aditi continue her trip to the moon?"
   },
   {
     "id": "storyweaver-3266-king-of-birds",
@@ -1390,7 +1413,8 @@
     "license": "CC BY 4.0",
     "attribution": "King of Birds (en), text by African Storybook Initiative, illustration by Wiehan de Jager, published by African Storybook Initiative under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Which bird should be king?"
   },
   {
     "id": "storyweaver-3291-croaky-the-frog",
@@ -1425,7 +1449,8 @@
     "license": "CC BY 4.0",
     "attribution": "Croaky the Frog (en), text by Aahan Sarin, illustration by Ajit Narayan, Greystroke, Ketan Raut, Santosh Pujari, Srikrishna Kedilaya, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "My name is Croaky?"
   },
   {
     "id": "storyweaver-16-vayu-the-wind",
@@ -1464,7 +1489,8 @@
     "license": "CC BY 4.0",
     "attribution": "Vayu, the Wind (en), text by Madhuri Pai, illustration by Rijuta Ghate, translated by Rohini Nilekani, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should the children wait for the storm to pass?"
   },
   {
     "id": "storyweaver-40-listen-to-my-body",
@@ -1499,7 +1525,8 @@
     "license": "CC BY 4.0",
     "attribution": "Listen to My Body (en), text by Rohini Nilekani, illustration by Angie & Upesh, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "When should we listen to what our bodies tell us?"
   },
   {
     "id": "storyweaver-54-susheela-s-kolams",
@@ -1538,7 +1565,8 @@
     "license": "CC BY 4.0",
     "attribution": "Susheela's Kolams (en), text by Sridala Swami, illustration by Priya Kuriyan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Where do you think Susheela will make her next kolam?"
   },
   {
     "id": "storyweaver-98-rani-s-first-day-at-school",
@@ -1577,7 +1605,8 @@
     "license": "CC BY 4.0",
     "attribution": "Rani's First Day at School (en), text by Cheryl Rao, illustration by Mayur Mistry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How can Rani feel brave on her first day at school?"
   },
   {
     "id": "storyweaver-144-going-home",
@@ -1616,7 +1645,8 @@
     "license": "CC BY 4.0",
     "attribution": "Going Home (en), text by Rukmini Banerji, illustration by Ketan Raut, Santosh Pujari, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Why is the little girl in a hurry to get home?"
   },
   {
     "id": "storyweaver-149-timmy-and-pepe",
@@ -1655,7 +1685,8 @@
     "license": "CC BY 4.0",
     "attribution": "Timmy and Pepe (en), text by Madhav Chavan, illustration by Santosh Pujari, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Timmy forgive Pepe after the noisy mistake?"
   },
   {
     "id": "storyweaver-7759-the-scarecrows-on-parade",
@@ -1694,7 +1725,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Scarecrows on Parade (en), text by Shamim Padamsee, illustration by Tanaya Vyas, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "\"Please Ma, may I help you make scarecrows?"
   },
   {
     "id": "storyweaver-169-what-does-anu-see",
@@ -1733,7 +1765,8 @@
     "license": "CC BY 4.0",
     "attribution": "What Does Anu See? (en), text by Lavanya Karthik, illustration by Lavanya Karthik, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What Does Anu See?"
   },
   {
     "id": "storyweaver-332-bheema-the-sleepyhead",
@@ -1772,7 +1805,8 @@
     "license": "CC BY 4.0",
     "attribution": "Bheema, the Sleepyhead (en), text by Kiran Kasturia, illustration by Shweta Mohapatra, translated by Rajesh Khar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How can Bheema’s friend help him wake on time?"
   },
   {
     "id": "storyweaver-652-the-generous-crow",
@@ -1811,7 +1845,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Generous Crow (en), text by Venkatramana Gowda, illustration by Padmanabh, translated by Divaspathy Hegde, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Can Crow’s generosity matter more than beautiful singing?"
   },
   {
     "id": "storyweaver-33-not-now-not-now",
@@ -1846,7 +1881,8 @@
     "license": "CC BY 4.0",
     "attribution": "Not Now, Not Now! (en), text by Rohini Nilekani, illustration by Ruchi Shah, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should the elders keep telling the boy “not now”?"
   },
   {
     "id": "storyweaver-49-my-fish-no-my-fish",
@@ -1881,7 +1917,8 @@
     "license": "CC BY 4.0",
     "attribution": "\"My fish!\" \"No, my fish!\" (en), text by Suraj J Menon, illustration by Soumya Menon, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How should three friends settle a disagreement about fish?"
   },
   {
     "id": "storyweaver-80-aunty-jui-s-baby",
@@ -1916,7 +1953,8 @@
     "license": "CC BY 4.0",
     "attribution": "Aunty Jui's Baby (en), text by Madhuri Purandare, illustration by Madhuri Purandare, translated by Pratham Books Team, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Is it a teeny-tiny baby?"
   },
   {
     "id": "storyweaver-82-i-want-that-one",
@@ -1951,7 +1989,8 @@
     "license": "CC BY 4.0",
     "attribution": "I Want That One! (en), text by Mala Kumar, illustration by Soumya Menon, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Anil accept what his mother and shopkeepers choose?"
   },
   {
     "id": "storyweaver-90-goloo-the-circle",
@@ -1986,7 +2025,8 @@
     "license": "CC BY 4.0",
     "attribution": "Goloo the Circle (en), text by Jagdish Joshi, illustration by Jagdish Joshi, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Where could Goloo find circles in everyday life?"
   },
   {
     "id": "storyweaver-269-my-balwadi",
@@ -2021,7 +2061,8 @@
     "license": "CC BY 4.0",
     "attribution": "My Balwadi (en), text by Rukmini Banerji, illustration by Sheetal Thapa, translated by Madhav Chavan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What would make the children’s Balwadi enjoyable?"
   },
   {
     "id": "storyweaver-209-the-timid-train",
@@ -2060,7 +2101,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Timid Train (en), text by Bharati Jagannathan, illustration by Preeti Krishnamurthy, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Babu’s train travel through the tunnel?"
   },
   {
     "id": "storyweaver-270-ritu-s-letter-gets-longer",
@@ -2095,7 +2137,8 @@
     "license": "CC BY 4.0",
     "attribution": "Ritu's Letter Gets Longer! (en), text by Mala Kumar, illustration by Henu, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "“Would you like to post this letter yourself?"
   },
   {
     "id": "storyweaver-369-the-red-raincoat",
@@ -2130,7 +2173,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Red Raincoat (en), text by Kiran Kasturia, illustration by Zainab Tambawalla, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Manu wait for rain before wearing his new coat?"
   },
   {
     "id": "storyweaver-409-colours-of-nature",
@@ -2165,7 +2209,8 @@
     "license": "CC BY 4.0",
     "attribution": "Colours of Nature (en), text by Bulbul Sharma, illustration by Bulbul Sharma, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Which colours of nature might the artist choose?"
   },
   {
     "id": "storyweaver-723-the-boat-ride",
@@ -2200,7 +2245,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Boat Ride (en), text by Herminder Ohri, illustration by Herminder Ohri, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Vikki choose the boat route for the trip?"
   },
   {
     "id": "storyweaver-749-the-sparrow-and-the-fruit",
@@ -2235,7 +2281,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Sparrow and The Fruit (en), text by Venkatramana Gowda, illustration by Padmanabh, translated by Divaspathy Hegde, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How should Gubbi rescue her guava from the thorns?"
   },
   {
     "id": "storyweaver-758-going-to-buy-a-book",
@@ -2270,7 +2317,8 @@
     "license": "CC BY 4.0",
     "attribution": "Going to Buy a Book (en), text by Rukmini Banerji, illustration by Santosh Pujari, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should I buy a book with a lot of pictures?"
   },
   {
     "id": "storyweaver-776-samira-goes-shopping",
@@ -2305,7 +2353,8 @@
     "license": "CC BY 4.0",
     "attribution": "Samira Goes Shopping (en), text by Bharati Jagannathan, illustration by Preeti Krishnamurthy, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What makes Samira and Mouchak’s shopping trip unusual?"
   },
   {
     "id": "storyweaver-167682-the-hare-and-the-tortoise-again",
@@ -2340,7 +2389,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Hare & the Tortoise (Again!) (en), text by Venkatramana Gowda, illustration by Padmanabh, translated by Divaspathy Hegde, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Do you remember the Great Race between the hare and the tortoise?"
   },
   {
     "id": "storyweaver-821-here-comes-the-camel-and-other-poems",
@@ -2410,7 +2460,8 @@
     "license": "CC BY 4.0",
     "attribution": "Mouse in the House (en), text by Sowmya Rajendran, illustration by Tanaya Vyas, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How should the family respond to a mouse indoors?"
   },
   {
     "id": "storyweaver-880-what-if",
@@ -2445,7 +2496,8 @@
     "license": "CC BY 4.0",
     "attribution": "What If? (en), text by Hari Kumar Nair, illustration by Hari Kumar Nair, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What If?"
   },
   {
     "id": "storyweaver-927-the-royal-toothache",
@@ -2480,7 +2532,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Royal Toothache (en), text by Sanjiv Jaiswal 'Sanjay', illustration by Ajit Narayan, translated by Manisha Chaudhry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Who should teach the jungle king to clean his teeth?"
   },
   {
     "id": "storyweaver-944-smart-sona-helps-her-mother",
@@ -2515,7 +2568,8 @@
     "license": "CC BY 4.0",
     "attribution": "Smart Sona Helps Her Mother (en), text by Vinita Krishna, illustration by Suvidha Mistry, translated by Manisha Chaudhry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Sona help her mother with a difficult job?"
   },
   {
     "id": "storyweaver-163-veeru-goes-to-the-circus",
@@ -2550,7 +2604,8 @@
     "license": "CC BY 4.0",
     "attribution": "Veeru Goes to the Circus (en), text by Richa Ingle Deo, illustration by Reshma Barve, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Which circus idea should Veeru try after returning home?"
   },
   {
     "id": "storyweaver-396-bani",
@@ -2585,7 +2640,8 @@
     "license": "CC BY 4.0",
     "attribution": "Bani (en), text by Herminder Ohri, illustration by Taposhi Ghoshal, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "“I am tired,” said Bani, “Can we rest?"
   },
   {
     "id": "storyweaver-790-sniffles-the-crocodile-and-punch-the-butterfly",
@@ -2620,7 +2676,8 @@
     "license": "CC BY 4.0",
     "attribution": "Sniffles, the Crocodile and Punch, the Butterfly (en), text by Herminder Ohri, illustration by Herminder Ohri, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How can Punch help Sniffles despite their different sizes?"
   },
   {
     "id": "storyweaver-946-too-much-noise",
@@ -2655,7 +2712,8 @@
     "license": "CC BY 4.0",
     "attribution": "Too Much Noise (en), text by Rohini Nilekani, illustration by Angie & Upesh, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How could Sringeri Srinivas protect his cows from highway noise?"
   },
   {
     "id": "storyweaver-952-phani-s-funny-chappals",
@@ -2690,7 +2748,8 @@
     "license": "CC BY 4.0",
     "attribution": "Phani's Funny Chappals (en), text by Sridala Swami, illustration by Sanjay Sarkar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "“Why does your teacher say you're always late for school, Phani?"
   },
   {
     "id": "storyweaver-997-pehelwaan-ji-plays-cricket",
@@ -2725,7 +2784,8 @@
     "license": "CC BY 4.0",
     "attribution": "Pehelwaan ji Plays Cricket (en), text by Sanjiv Jaiswal 'Sanjay', illustration by Ajit Narayan, translated by Manisha Chaudhry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should the children invite Pehelwaan ji to play cricket?"
   },
   {
     "id": "storyweaver-1017-saboo-and-jojo",
@@ -2760,7 +2820,8 @@
     "license": "CC BY 4.0",
     "attribution": "Saboo and Jojo (en), text by Herminder Ohri, illustration by Herminder Ohri, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What makes Saboo and Jojo a good pair?"
   },
   {
     "id": "storyweaver-1024-first-house",
@@ -2799,7 +2860,8 @@
     "license": "CC BY 4.0",
     "attribution": "First House (en), text by Nabanita Deshmukh, illustration by Phidi Pulu, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Why don't we build a house in the forest?"
   },
   {
     "id": "storyweaver-1034-grandma-s-glasses",
@@ -2834,7 +2896,8 @@
     "license": "CC BY 4.0",
     "attribution": "Grandma's Glasses (en), text by Rohini Nilekani, illustration by Tanaya Vyas, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How can Grandma’s young detective find her glasses?"
   },
   {
     "id": "storyweaver-1052-busy-ants",
@@ -2869,7 +2932,8 @@
     "license": "CC BY 4.0",
     "attribution": "Busy Ants (en), text by Kanchan Bannerjee, illustration by Deepa Balsavar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What work keeps the ants so busy?"
   },
   {
     "id": "storyweaver-1057-clean-cat",
@@ -2904,7 +2968,8 @@
     "license": "CC BY 4.0",
     "attribution": "Clean Cat (en), text by Kanchan Bannerjee, illustration by Deepa Balsavar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How do cats stay clean without taking a bath?"
   },
   {
     "id": "storyweaver-1062-noisy-crows",
@@ -2939,7 +3004,8 @@
     "license": "CC BY 4.0",
     "attribution": "Noisy Crows (en), text by Kanchan Bannerjee, illustration by Deepa Balsavar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Could the crows solve their problem by working together?"
   },
   {
     "id": "storyweaver-1112-we-are-all-animals",
@@ -2974,7 +3040,8 @@
     "license": "CC BY 4.0",
     "attribution": "We Are All Animals (en), text by Madhav Chavan, Meera Tendolkar, illustration by Santosh Pujari, translated by Rohini Nilekani, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What can children and other animals do alike?"
   },
   {
     "id": "storyweaver-1208-singing-in-the-rain",
@@ -3013,7 +3080,8 @@
     "license": "CC BY 4.0",
     "attribution": "Singing in the Rain (en), text by Mala Kumar, Manisha Chaudhry, illustration by Rajiv Eipe, translated by Mala Kumar, Manisha Chaudhry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should the children wait for Sukhiya before singing?"
   },
   {
     "id": "storyweaver-1261-thangwang-and-bhalluka",
@@ -3048,7 +3116,8 @@
     "license": "CC BY 4.0",
     "attribution": "Thangwang and Bhalluka (en), text by Mala Kumar, illustration by Jithin Jacob, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Can baby Thangwang and Bhalluka understand each other?"
   },
   {
     "id": "storyweaver-1278-my-juggling-granny",
@@ -3083,7 +3152,8 @@
     "license": "CC BY 4.0",
     "attribution": "My Juggling Granny (en), text by Mala Kumar, Manisha Chaudhry, illustration by Niloufer Wadia, translated by Mala Kumar, Manisha Chaudhry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Did you know my granny juggles?"
   },
   {
     "id": "storyweaver-1591-where-is-gogo",
@@ -3118,7 +3188,8 @@
     "license": "CC BY 4.0",
     "attribution": "Where is Gogo? (en), text by Mala Kumar, Manisha Chaudhry, illustration by Soumya Menon, translated by Mala Kumar, Manisha Chaudhry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Where is Gogo?"
   },
   {
     "id": "storyweaver-1791-my-musical-adventure",
@@ -3153,7 +3224,8 @@
     "license": "CC BY 4.0",
     "attribution": "My Musical Adventure (en), text by Anush-Adi Navaneeth, illustration by Ajit Narayan, Madhuri Purandare, Preeti Krishnamurthy, Priya Kuriyan, Rijuta Ghate, Vibhash Pandey, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Which sounds could change the girl’s musical journey?"
   },
   {
     "id": "storyweaver-1531-mili-s-birthday-celebration",
@@ -3192,7 +3264,8 @@
     "license": "CC BY 4.0",
     "attribution": "Mili's birthday celebration (en), text by Reshma Krishnamurthy Sharma, illustration by Priya Kuriyan, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How should Mili make her eighth birthday different?"
   },
   {
     "id": "storyweaver-1658-ammu-s-puppy",
@@ -3227,7 +3300,8 @@
     "license": "CC BY 4.0",
     "attribution": "Ammu's Puppy (en), text by Sowmya Rajendran, illustration by Soumya Menon, published by StoryWeaver under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Ammu tell her friends the truth about Shankar?"
   },
   {
     "id": "storyweaver-122-no-smiles-today",
@@ -3262,7 +3336,8 @@
     "license": "CC BY 4.0",
     "attribution": "No Smiles Today (en), text by Cheryl Rao, illustration by Saurabh Pandey, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How should Shanti’s friends respond when she becomes quiet?"
   },
   {
     "id": "storyweaver-921-samira-s-awful-lunch",
@@ -3297,7 +3372,8 @@
     "license": "CC BY 4.0",
     "attribution": "Samira's Awful Lunch (en), text by Bharati Jagannathan, illustration by Preeti Krishnamurthy, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Why aren't you eating your lunch like all the other children?"
   },
   {
     "id": "storyweaver-957-topsy-turvy",
@@ -3332,7 +3408,8 @@
     "license": "CC BY 4.0",
     "attribution": "Topsy Turvy (en), text by Rohini Nilekani, illustration by Angie & Upesh, translated by Rohini Nilekani, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What could turn a little boy’s house upside down?"
   },
   {
     "id": "storyweaver-981-wailers-three-a-folktale-from-china",
@@ -3371,7 +3448,8 @@
     "license": "CC BY 4.0",
     "attribution": "Wailers Three - A Folktale From China (en), text by Greystroke, illustration by Greystroke, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Warrior Wen read Mrs Chang’s letter aloud?"
   },
   {
     "id": "storyweaver-986-tok-tok",
@@ -3406,7 +3484,8 @@
     "license": "CC BY 4.0",
     "attribution": "Tok Tok (en), text by Vidya Pradhan, illustration by Reshma Barve, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What could make the mysterious sound in Sonapur’s king’s chambers?"
   },
   {
     "id": "storyweaver-1002-anaya-s-thumb",
@@ -3441,7 +3520,8 @@
     "license": "CC BY 4.0",
     "attribution": "Anaya's Thumb (en), text by Natasha Sharma, illustration by Ruchi Shah, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Could she put her thumb to better use?"
   },
   {
     "id": "storyweaver-1067-naughty-dog",
@@ -3476,7 +3556,8 @@
     "license": "CC BY 4.0",
     "attribution": "Naughty Dog (en), text by Kanchan Bannerjee, illustration by Deepa Balsavar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should the naughty dog listen to its owner?"
   },
   {
     "id": "storyweaver-1205-pishi-caught-in-a-storm",
@@ -3511,7 +3592,8 @@
     "license": "CC BY 4.0",
     "attribution": "Pishi Caught in a Storm (en), text by Mala Kumar, Manisha Chaudhry, illustration by Sangeeta Das, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Who could rescue Pishi during the Indian Ocean storm?"
   },
   {
     "id": "storyweaver-1219-tara-finds-her-stars",
@@ -3546,7 +3628,8 @@
     "license": "CC BY 4.0",
     "attribution": "Tara Finds Her Stars (en), text by Mala Kumar, Manisha Chaudhry, illustration by Shikha Nambiar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How many stars do you think you can count?"
   },
   {
     "id": "storyweaver-1583-booboo-sings-for-vihaan",
@@ -3581,7 +3664,8 @@
     "license": "CC BY 4.0",
     "attribution": "BooBoo sings for Vihaan (en), text by Surekha Pillai, illustration by Jithin Jacob, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Can BooBoo’s song comfort crying Vihaan?"
   },
   {
     "id": "storyweaver-1685-mangoes-for-moidootty",
@@ -3616,7 +3700,8 @@
     "license": "CC BY 4.0",
     "attribution": "Mangoes For Moidootty (en), text by Sreedevi Gopakumar, illustration by Greystroke, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Malu and Moidootty use magic to get mangoes?"
   },
   {
     "id": "storyweaver-1687-the-woman-with-no-soul",
@@ -3651,7 +3736,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Woman With No Soul (en), text by Shikha Gupta, illustration by Shikha Gupta, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Can't you see this woman is crying?"
   },
   {
     "id": "storyweaver-1722-the-princess-and-the-veggy-lion",
@@ -3686,7 +3772,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Princess and the Veggy Lion (en), text by Uma Balamurali, illustration by Ajit Narayan, Ketan Raut, Padmanabh, Preeti Krishnamurthy, Rayika Sen, Sanjay Sarkar, Tapas Guha.., published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should the lost princess approach the lion in the forest?"
   },
   {
     "id": "storyweaver-1804-asha-gives-up-a-bad-habit",
@@ -3721,7 +3808,8 @@
     "license": "CC BY 4.0",
     "attribution": "Asha gives up a bad habit! (en), text by Geetha Ravi, illustration by Sonal Goyal, Sumit Sakhuja, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How can Asha stop chewing pencils?"
   },
   {
     "id": "storyweaver-1933-jaggee-s-mornings",
@@ -3756,7 +3844,8 @@
     "license": "CC BY 4.0",
     "attribution": "Jaggee's mornings (en), text by Sandhya Sridhar, illustration by Angie & Upesh, Hari Kumar Nair, Rajiv Eipe, Rijuta Ghate, Shailja Jain Chougule, Suvidha Mistry, Tapas Guha, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How could Jaggee make mornings easier?"
   },
   {
     "id": "storyweaver-1974-my-friend-trace-roger-the-robot",
@@ -3791,7 +3880,8 @@
     "license": "CC BY 4.0",
     "attribution": "My Friend Trace Roger the robot! (en), text by Baani Pahwa, illustration by Greystroke, Nirvaan Pahwa, Ruchi Shah, Vibhash Pandey, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should the narrator wish for Trace Roger to be real?"
   },
   {
     "id": "storyweaver-1983-nadir-s-pet",
@@ -3830,7 +3920,8 @@
     "license": "CC BY 4.0",
     "attribution": "Nadir's Pet (en), text by Kushagra Agarwal, illustration by Rajiv Eipe, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Where should Nadir look for his missing pet?"
   },
   {
     "id": "storyweaver-2011-long-water",
@@ -3865,7 +3956,8 @@
     "license": "CC BY 4.0",
     "attribution": "Long Water (en), text by Madhuri Pai, illustration by Herminder Ohri, Sanjay Sarkar, Santosh Pujari, Sonal Goyal, Sumit Sakhuja, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Which river clues help solve the Long Water riddle?"
   },
   {
     "id": "storyweaver-2711-the-day-it-rained-fish",
@@ -3900,7 +3992,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Day It Rained Fish (en), text by Ramendra Kumar, illustration by Delwyn Remedios, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What should Ballu and Avanti do when fish fall like rain?"
   },
   {
     "id": "storyweaver-1828-the-cave-party",
@@ -3931,7 +4024,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Cave Party (en), text by Shrey Dave, illustration by Angie & Upesh, Muniza Shariq, Padmanabh, Santosh Pujari, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Tiger invite every friend to the cave party?"
   },
   {
     "id": "storyweaver-218-little-painters",
@@ -3966,7 +4060,8 @@
     "license": "CC BY 4.0",
     "attribution": "Little Painters (en), text by Cheryl Rao, illustration by Tanvi Choudhury, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Veena paint what she sees or imagine something new?"
   },
   {
     "id": "storyweaver-702-the-flyaway-cradle",
@@ -4001,7 +4096,8 @@
     "license": "CC BY 4.0",
     "attribution": "The Flyaway Cradle (en), text by Sridala Swami, illustration by Sanjay Sarkar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What should the children do with a flying cradle?"
   },
   {
     "id": "storyweaver-847-rumniya",
@@ -4036,7 +4132,8 @@
     "license": "CC BY 4.0",
     "attribution": "Rumniya (en), text by Rukmini Banerji, illustration by Henu, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How does Nani help Rumniya expect a good ending?"
   },
   {
     "id": "storyweaver-2976-guess-this-place-ghost-town",
@@ -4075,7 +4172,8 @@
     "license": "CC BY 4.0",
     "attribution": "Guess this place? Ghost Town! (en), text by Divena & Navika Bharadwaj, illustration by Greystroke, Rijuta Ghate, Sunita Venkatachalam, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "What history might the South Indian ghost town reveal?"
   },
   {
     "id": "storyweaver-2064-prakruti",
@@ -4114,7 +4212,8 @@
     "license": "CC BY 4.0",
     "attribution": "Prakruti (en), text by Prakruti & Shruti Bhat, illustration by Priya Kuriyan, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How does Prakruti’s name connect her to nature?"
   },
   {
     "id": "storyweaver-2138-happy-world",
@@ -4149,7 +4248,8 @@
     "license": "CC BY 4.0",
     "attribution": "Happy world (en), text by Reshma Krishnamurthy Sharma, illustration by Angie & Upesh, Greystroke, Zainab Tambawalla, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Can Aloke’s smile help someone having a sad day?"
   },
   {
     "id": "storyweaver-2166-tina-and-the-crazy-animal",
@@ -4184,7 +4284,8 @@
     "license": "CC BY 4.0",
     "attribution": "Tina and the crazy animal (en), text by Rachita Uday Kumar, illustration by Sonal Goyal, Sumit Sakhuja, Sumit Sakhuja, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How should Tina protect her animal from the villagers?"
   },
   {
     "id": "storyweaver-2198-richard-s-unlucky-day",
@@ -4219,7 +4320,8 @@
     "license": "CC BY 4.0",
     "attribution": "Richard's unlucky day (en), text by Lotte Van Oijen, illustration by Angie & Upesh, Deepa Balsavar, Greystroke, Lavanya Karthik, Rijuta Ghate, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "How could Richard turn his unlucky day around?"
   },
   {
     "id": "storyweaver-2962-gargi-and-soapy",
@@ -4254,7 +4356,8 @@
     "license": "CC BY 4.0",
     "attribution": "Gargi and Soapy (en), text by Preethi Unnithan, illustration by Sorit Gupto, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Can Soapy’s dream change Gargi’s feelings about cleanliness?"
   },
   {
     "id": "storyweaver-3234-wonders-of-martina-s-adventure",
@@ -4289,6 +4392,7 @@
     "license": "CC BY 4.0",
     "attribution": "Wonders of Martina's Adventure (en), text by Anusri, illustration by Prashant Miranda, Sangeeta Das, Sanjay Sarkar, Sonal Goyal, Sumit Sakhuja, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
-    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context."
+    "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "flightQuestion": "Should Martina follow the map to the Pacific island?"
   }
 ]

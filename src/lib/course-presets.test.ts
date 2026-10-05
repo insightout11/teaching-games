@@ -303,8 +303,8 @@ describe('COURSE_PRESETS', () => {
 
 describe('world-flight course library', () => {
   it('imports every reviewed World Flight video as a unique library entry', () => {
-    expect(worldFlightLibrary).toHaveLength(149);
-    expect(new Set(worldFlightLibrary.map((entry) => entry.youtubeId)).size).toBe(149);
+    expect(worldFlightLibrary).toHaveLength(150);
+    expect(new Set(worldFlightLibrary.map((entry) => entry.youtubeId)).size).toBe(150);
     expect(worldFlightLibrary.every((entry) => entry.topicTags.includes('world-flight'))).toBe(true);
   });
 });

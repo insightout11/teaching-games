@@ -77,6 +77,7 @@ const listeningCoverage: Record<string, number> = { A1: 0, A2: 0, B1: 0, B2: 0, 
 const round8ListeningCoverage = { a1Dialogue: 0, a1Kids: 0, a2B1Announcements: 0 };
 let listeningItemCount = 0;
 let flightQuestionCount = 0;
+const flightQuestionOwners: Record<string, string> = {};
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -232,8 +233,13 @@ for (const file of files) {
     if (nonEmpty(item.flightQuestion)) flightQuestionCount += 1;
     if (item.flightQuestion !== undefined) {
       if (!nonEmpty(item.flightQuestion)) fail(where, 'flightQuestion must be a non-empty question');
-      else if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
-      else if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
+      else {
+        const normalizedQuestion = item.flightQuestion.trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ');
+        if (flightQuestionOwners[normalizedQuestion]) fail(where, `flightQuestion duplicates ${flightQuestionOwners[normalizedQuestion]}`);
+        else flightQuestionOwners[normalizedQuestion] = where;
+        if (item.flightQuestion.trim().split(/\s+/).length > 12) fail(where, 'flightQuestion must be 12 words or fewer');
+        if (!item.flightQuestion.trim().endsWith('?')) fail(where, 'flightQuestion must end with a question mark');
+      }
     }
     if (item.kind === 'video' || nonEmpty(item.youtubeId)) {
       if (typeof item.durationSecs !== 'number' || item.durationSecs <= 0) fail(where, 'video durationSecs must be present and positive');
@@ -320,7 +326,7 @@ for (const file of files) {
 }
 
 // Round 9's templated Flight Questions were removed in review (Oct 3); round 10 redoes them grounded.
-if (flightQuestionCount < 128) fail('flight questions', `expected at least 128 items (found ${flightQuestionCount})`);
+if (flightQuestionCount < 500) fail('flight questions', `expected at least 500 items after Round 10 (found ${flightQuestionCount})`);
 
 for (const tag of Array.from(grammarTags)) {
   const coverage = grammarCoverage[tag] || { total: 0, kids: 0 };

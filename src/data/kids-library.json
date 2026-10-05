@@ -17,8 +17,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How do plants and animals get the energy they need?"
   },
   {
     "id": "kids_here_comes_the_sun",
@@ -38,8 +38,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "What changes when sunlight reaches Earth?"
   },
   {
     "id": "kids_fabulous_food_chains",
@@ -59,8 +59,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "[Music] Not everybody likes the same kind of food, right?"
   },
   {
     "id": "kids_defining_gravity",
@@ -80,8 +80,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Could anything stay on Earth without gravity?"
   },
   {
     "id": "kids_weathering_erosion",
@@ -101,9 +101,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Should people spend more to protect soil from erosion?",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How can rain and rivers change a mountain?"
   },
   {
     "id": "kids_science_of_lunch",
@@ -123,8 +122,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "What happens to food after we eat lunch?"
   },
   {
     "id": "kids_home_sweet_habitat",
@@ -145,9 +144,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Should communities protect animal habitats when they need more space?",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Which habitat needs must people protect for wild animals?"
   },
   {
     "id": "kids_food_webs",
@@ -168,8 +166,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "What happens to a food web when one animal disappears?"
   },
   {
     "id": "kids_everything_revolves",
@@ -190,8 +188,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Why does the Moon keep orbiting Earth?"
   },
   {
     "id": "kids_dinosaur_pee",
@@ -211,8 +209,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Dinosaur Pee?"
   },
   {
     "id": "kids_climate_change",
@@ -233,8 +231,8 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How might climate change affect an animal’s habitat?"
   },
   {
     "id": "kids_living_things_change",
@@ -255,8 +253,8 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Can animals adapt quickly enough when their environment changes?"
   },
   {
     "id": "kids_every_kind_of_volcano",
@@ -277,8 +275,8 @@
     "genre": "expository",
     "cefr": "A1",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Sam: What KIND?"
   },
   {
     "id": "kids_busy_bees",
@@ -299,8 +297,8 @@
     "genre": "expository",
     "cefr": "A1",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should people protect both bumblebees and honeybees?"
   },
   {
     "id": "kids_dont_fear_spiders",
@@ -321,8 +319,8 @@
     "genre": "opinion",
     "cefr": "A1",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Should children be afraid of spiders that catch insects?"
   },
   {
     "id": "kids_cave_animals",
@@ -343,8 +341,8 @@
     "genre": "expository",
     "cefr": "A1",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "How can cave fish survive without light or eyes?"
   },
   {
     "id": "kids_diamond_super_crystal",
@@ -365,8 +363,8 @@
     "genre": "expository",
     "cefr": "A1",
     "ageBand": "kids",
-    "needsReview": true,
-    "reviewNote": "Round 9 question is grounded in the item description because no full summary is available; review before classroom use."
+    "needsReview": false,
+    "flightQuestion": "Why does a diamond’s carbon structure make it hard?"
   },
   {
     "id": "kids_whats_inside_rocks",
@@ -386,7 +384,8 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A1",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "What's Inside These Rocks?"
   },
   {
     "id": "kids_stalactites_stalagmites",
@@ -406,7 +405,8 @@
     "audience": "kids",
     "genre": "expository",
     "cefr": "A1",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "flightQuestion": "What Are Stalactites and Stalagmites?"
   },
   {
     "id": "kids_antarctica",
@@ -766,7 +766,8 @@
       "title": "Animals and Their Habitats",
       "order": 1
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How do animals communicate without human words?"
   },
   {
     "id": "kids_particles_world",
@@ -796,7 +797,8 @@
       "title": "Everyday Science: Materials and Measurement",
       "order": 1
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How do tiny particles make up everyday materials?"
   },
   {
     "id": "kids_measurement_mystery",
@@ -826,7 +828,8 @@
       "title": "Everyday Science: Materials and Measurement",
       "order": 2
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Why do scientists need clear units when measuring?"
   },
   {
     "id": "kids_over_to_moon",
@@ -856,7 +859,8 @@
       "title": "Space for Beginners",
       "order": 1
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "What makes a journey to the Moon difficult?"
   },
   {
     "id": "kids_chemical_changes",
@@ -886,7 +890,8 @@
       "title": "Everyday Science: Materials and Measurement",
       "order": 3
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "But, what is a chemical change?"
   },
   {
     "id": "kids_earth_rotation_revolution",
@@ -916,7 +921,8 @@
       "title": "Space for Beginners",
       "order": 2
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How does Earth’s rotation create day and night?"
   },
   {
     "id": "kids_seasons_sun",
@@ -946,7 +952,8 @@
       "title": "Space for Beginners",
       "order": 3
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How does changing sunlight help make the seasons?"
   },
   {
     "id": "kids_polar_pineapples",
@@ -976,7 +983,8 @@
       "title": "Earth systems: water, weather and sunlight",
       "order": 4
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Why would pineapples struggle to grow near a pole?"
   },
   {
     "id": "kids_glow_on",
@@ -1001,7 +1009,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "But how do they glow?"
   },
   {
     "id": "kids_engineering_process",
@@ -1026,7 +1035,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Why do engineers test a design before improving it?"
   },
   {
     "id": "kids_0gmbjfqghfc",
@@ -1055,7 +1065,8 @@
       "title": "Inventions and design",
       "order": 1
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "What would your robot look like?"
   },
   {
     "id": "kids_skahb_8ctzg",
@@ -1084,7 +1095,8 @@
       "title": "Earth systems: water, weather and sunlight",
       "order": 1
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "[Music] What would we do without water?"
   },
   {
     "id": "kids_4b2kdceuwr4",
@@ -1109,7 +1121,8 @@
     "place": null,
     "needsReview": true,
     "kind": "video",
-    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context.",
+    "flightQuestion": "How should communities share water when supplies are limited?"
   },
   {
     "id": "kids_cye4_d6fb_w",
@@ -1138,7 +1151,8 @@
       "title": "Cities and natural habitats",
       "order": 1
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How can people change a city ecosystem?"
   },
   {
     "id": "kids_1fkgqo0xk94",
@@ -1167,7 +1181,8 @@
       "title": "Cities and natural habitats",
       "order": 2
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How do beavers change the place where they live?"
   },
   {
     "id": "kids_durjvjc5xx0",
@@ -1196,7 +1211,8 @@
       "title": "Space for Beginners",
       "order": 4
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "But, what about plants?"
   },
   {
     "id": "kids_lsdaf8_mr8e",
@@ -1225,7 +1241,8 @@
       "id": "inventions-and-design",
       "title": "Inventions and design",
       "order": 2
-    }
+    },
+    "flightQuestion": "Which design ideas help an object fly?"
   },
   {
     "id": "kids_eb7gtjafae4",
@@ -1254,7 +1271,8 @@
       "title": "Inventions and design",
       "order": 3
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "What makes an engineering trial fair?"
   },
   {
     "id": "kids_zfk0xhqt5fq",
@@ -1283,7 +1301,8 @@
       "title": "Animals and Their Habitats",
       "order": 3
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Why do sharks have so many different features?"
   },
   {
     "id": "kids_2zjzs19myik",
@@ -1312,7 +1331,8 @@
       "title": "Animal adaptations",
       "order": 1
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Did you know there are over 200 types of turtle?"
   },
   {
     "id": "kids_kmdd6ttdz_g",
@@ -1341,7 +1361,8 @@
       "title": "Cities and natural habitats",
       "order": 3
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How does heavy rain support rainforest life?"
   },
   {
     "id": "kids_fxyp76jwxsu",
@@ -1370,7 +1391,8 @@
       "title": "Animals and Their Habitats",
       "order": 4
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Another reason that life's so good under a rock?"
   },
   {
     "id": "kids_b79xio8qgiy",
@@ -1399,7 +1421,8 @@
       "title": "The human body and health",
       "order": 1
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "But what does your brain look like?"
   },
   {
     "id": "kids_3gy_gts86jm",
@@ -1428,7 +1451,8 @@
       "id": "human-body-and-health",
       "title": "The human body and health",
       "order": 2
-    }
+    },
+    "flightQuestion": "Why Do We Have Baby Teeth?"
   },
   {
     "id": "kids_ibj2xmsjuhq",
@@ -1457,7 +1481,8 @@
       "id": "human-body-and-health",
       "title": "The human body and health",
       "order": 3
-    }
+    },
+    "flightQuestion": "How Do We Sing?"
   },
   {
     "id": "kids_djdbtnbawoe",
@@ -1486,7 +1511,8 @@
       "title": "Everyday Science: Materials and Measurement",
       "order": 4
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How Do We See Color?"
   },
   {
     "id": "kids_zojlcdmvwai",
@@ -1510,7 +1536,8 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "What clues help archaeologists understand the past?"
   },
   {
     "id": "kids_tsaveexeznw",
@@ -1539,7 +1566,8 @@
       "title": "Animal adaptations",
       "order": 2
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How can microanimals survive in surprising places?"
   },
   {
     "id": "kids_syawnjolnv8",
@@ -1563,7 +1591,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Which features link modern birds to dinosaurs?"
   },
   {
     "id": "kids_dtk_uwx_vqo",
@@ -1587,7 +1616,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "What's the Difference Between Fruits and Vegetables?"
   },
   {
     "id": "kids_tjcukcfz8qy",
@@ -1616,7 +1646,8 @@
       "title": "Animal adaptations",
       "order": 3
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "And another thing that I learned about ravens?"
   },
   {
     "id": "kids_ghfboypqqx0",
@@ -1645,7 +1676,8 @@
       "title": "Animal adaptations",
       "order": 4
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Why Do Zebras Have Stripes?"
   },
   {
     "id": "kids_yoirci0ckzg",
@@ -1674,7 +1706,8 @@
       "title": "Animals and Their Habitats",
       "order": 5
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "When does camouflage help an animal hide?"
   },
   {
     "id": "kids_gazkec59g1w",
@@ -1703,7 +1736,8 @@
       "title": "Cities and natural habitats",
       "order": 4
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How do desert plants save water in dry places?"
   },
   {
     "id": "kids_jqqleh172ho",
@@ -1732,7 +1766,8 @@
       "title": "Animal adaptations",
       "order": 5
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Who’s ready for winter?"
   },
   {
     "id": "kids_ueroeqyjxfo",
@@ -1756,7 +1791,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "What helps the world’s tallest tree keep growing?"
   },
   {
     "id": "kids_hwfqek29wrg",
@@ -1780,7 +1816,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Why do evergreen trees keep leaves through the seasons?"
   },
   {
     "id": "kids_x7_t_9wzjga",
@@ -1804,7 +1841,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How could a plant seed inspire an invention?"
   },
   {
     "id": "kids_dlq0lhpyzd8",
@@ -1833,7 +1871,8 @@
       "title": "Earth and Weather for Young Learners",
       "order": 5
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How Do We Know When It Will Rain?"
   },
   {
     "id": "kids_0qmgdz9e47s",
@@ -1862,7 +1901,8 @@
       "title": "Earth systems: water, weather and sunlight",
       "order": 5
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How can sunlight warm air enough to move it?"
   },
   {
     "id": "kids_mc3auuuj9_i",
@@ -1886,7 +1926,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "[Squeaks squeaks] How do kites fly?"
   },
   {
     "id": "kids_3yqb2kfwjco",
@@ -1915,7 +1956,8 @@
       "title": "Everyday Science: Materials and Measurement",
       "order": 5
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Are the cup and string helping us hear?"
   },
   {
     "id": "kids_8whjjlmniku",
@@ -1939,7 +1981,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "What makes a real machine a robot?"
   },
   {
     "id": "kids_02wrls_ue1q",
@@ -1968,7 +2011,8 @@
       "id": "space-for-beginners",
       "title": "Space for Beginners",
       "order": 5
-    }
+    },
+    "flightQuestion": "How are comets different from asteroids?"
   },
   {
     "id": "kids_cjbmsssxf_a",
@@ -1992,7 +2036,8 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "What does a narwhal use its tusk for?"
   },
   {
     "id": "kids_c2_an98p0rm",
@@ -2017,7 +2062,8 @@
     "place": null,
     "needsReview": true,
     "kind": "video",
-    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context.",
+    "flightQuestion": "Why Do We Sweat?"
   },
   {
     "id": "kids_jyu966aonzi",
@@ -2046,7 +2092,8 @@
       "title": "The human body and health",
       "order": 4
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Why Do We Dream?"
   },
   {
     "id": "kids_8cqmky_wqao",
@@ -2070,7 +2117,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How do lions and leopards differ in their habitats?"
   },
   {
     "id": "kids_0otbv8_mdr4",
@@ -2099,7 +2147,8 @@
       "title": "Inventions and design",
       "order": 4
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How can a failed test improve an engineering design?"
   },
   {
     "id": "kids_aoebfggcjvw",
@@ -2124,7 +2173,8 @@
     "place": null,
     "needsReview": true,
     "kind": "video",
-    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context."
+    "reviewNote": "Review needed: confirm the complete video and age fit; the catalogue summary may omit scenes or context.",
+    "flightQuestion": "Why do We Brush Our Teeth?"
   },
   {
     "id": "kids_optical_illusions",
@@ -2148,7 +2198,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How do optical illusions trick us?"
   },
   {
     "id": "kids_xyfuqfqfl30",
@@ -2176,7 +2227,8 @@
       "id": "inventions-and-design",
       "title": "Inventions and design",
       "order": 5
-    }
+    },
+    "flightQuestion": "Who decides whether an engineering solution succeeds?"
   },
   {
     "id": "kids_bxfu86gnmrg",
@@ -2199,7 +2251,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Why change just one variable in the bowling experiment?"
   },
   {
     "id": "kids_dkjlbcci6zs",
@@ -2222,7 +2275,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How should architects balance building materials and people’s needs?"
   },
   {
     "id": "kids_gnnuid8hof0",
@@ -2250,7 +2304,8 @@
       "title": "Cities and natural habitats",
       "order": 5
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How will people move around the city?"
   },
   {
     "id": "kids_8lfd_ekze2m",
@@ -2273,7 +2328,8 @@
     "genre": "expository",
     "place": null,
     "needsReview": false,
-    "kind": "video"
+    "kind": "video",
+    "flightQuestion": "Which natural resources does a neighborhood depend on?"
   },
   {
     "id": "kids_uxh_7wbns3a",
@@ -2301,7 +2357,8 @@
       "title": "Earth systems: water, weather and sunlight",
       "order": 2
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How do Earth’s water and air systems interact?"
   },
   {
     "id": "kids_7vtfyamu6g4",
@@ -2329,7 +2386,8 @@
       "id": "weather-and-water",
       "title": "Earth systems: water, weather and sunlight",
       "order": 3
-    }
+    },
+    "flightQuestion": "How do land and water support different living things?"
   },
   {
     "id": "kids_ahcozc143ec",
@@ -2352,7 +2410,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How do herbivores and carnivores get energy differently?"
   },
   {
     "id": "kids_ecsirlk0gts",
@@ -2375,7 +2434,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Why does soil matter to plants and animals?"
   },
   {
     "id": "kids_elchwuilwa8",
@@ -2403,7 +2463,8 @@
       "id": "matter-and-materials",
       "title": "Matter and materials",
       "order": 1
-    }
+    },
+    "flightQuestion": "What's matter?"
   },
   {
     "id": "kids_zzynerze3cg",
@@ -2431,7 +2492,8 @@
       "id": "matter-and-materials",
       "title": "Matter and materials",
       "order": 2
-    }
+    },
+    "flightQuestion": "Which material properties should scientists compare first?"
   },
   {
     "id": "kids_3lhhoitdmk4",
@@ -2459,7 +2521,8 @@
       "title": "Matter and materials",
       "order": 3
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Where does matter go when materials change?"
   },
   {
     "id": "kids_rrj1_yofcaa",
@@ -2487,7 +2550,8 @@
       "title": "Space and science curiosities",
       "order": 1
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "Which questions could astronauts test in space?"
   },
   {
     "id": "kids_zd7w5o0bh7g",
@@ -2515,7 +2579,8 @@
       "title": "Matter and materials",
       "order": 4
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "How can sorting material properties help answer a question?"
   },
   {
     "id": "kids_tgflhpslejq",
@@ -2543,7 +2608,8 @@
       "id": "matter-and-materials",
       "title": "Matter and materials",
       "order": 5
-    }
+    },
+    "flightQuestion": "Which material would you choose for a useful everyday object?"
   },
   {
     "id": "kids_mrahoi_yik4",
@@ -2571,7 +2637,8 @@
       "id": "space-for-young-scientists",
       "title": "Space and science curiosities",
       "order": 5
-    }
+    },
+    "flightQuestion": "How do a diamond’s properties affect how people use it?"
   },
   {
     "id": "kids_fnd_2jett1w",
@@ -2594,7 +2661,8 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "So, what makes a substance non-Newtonian?"
   },
   {
     "id": "kids_t7hk6ompvbe",
@@ -2622,7 +2690,8 @@
       "title": "Space and science curiosities",
       "order": 4
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "But what about in not-so-normal environments?"
   },
   {
     "id": "kids_agvxycrpun8",
@@ -2650,7 +2719,8 @@
       "title": "Space and science curiosities",
       "order": 2
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "So, how do those orbits in space work?"
   },
   {
     "id": "kids_8ghdcosi5es",
@@ -2678,6 +2748,7 @@
       "title": "Space and science curiosities",
       "order": 3
     },
-    "needsReview": false
+    "needsReview": false,
+    "flightQuestion": "So, what does life need?"
   }
 ]
