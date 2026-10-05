@@ -1,6 +1,6 @@
 # Flight Results in the Logbook: Proposal
 
-> Status: **proposal for discussion.** Oct 5 2026.
+> Status: **built (Oct 5 2026), all 5 steps.** Kept as the design record.
 > From Flight Presets v2 (`docs/flight-presets-concept-v2.md`): "the before → after goes into the class logbook with the
 > city (Lisbon · Past simple · 55% → 86%)". That step was never built.
 
@@ -90,3 +90,11 @@ key **`flight-result`**:
 2. **Counts** everywhere ("3 of 4").
 3. **Lead with the main measure**; the rest in the detail view.
 4. **Courses after the logbook** (step 5 comes last).
+
+## Built (Oct 5 2026)
+1. `src/lib/flight-result.ts` + `/api/session/flight-result` (POST/GET, teacher-owned, `session_private_state`); Speak and Travel save.
+2. Grammar (wings-check), Debate + Captain's (shared `ShiftFromPulse`) save.
+3. Lesson thread backup (`src/lib/thread-backup.ts`, names stripped, plan-scoped) restored once after a refresh.
+4. Class logbook card + end-of-lesson debrief show the lines (`FlightResultLines`); public share page untouched.
+5. Session end copies the result into `course_lessons.lesson_memory.result`; the course page shows it per lesson.
+Untested against the live database locally (mock mode); verify on the deployed build after a real lesson.

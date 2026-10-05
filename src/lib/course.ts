@@ -1,6 +1,7 @@
 // Course Builder types (v1). Pure — no registry/React imports, safe on server + client.
 // The slot/payload builders live in planner-utils (registry-aware); these are just the shapes.
 
+import type { FlightResult } from '@/lib/flight-result';
 import type { SourceMaterial, SourceType } from '@/types/source-material';
 import type { Difficulty } from '@/lib/difficulty';
 import type { GoalTag } from '@/lib/flight-plan-config';
@@ -65,6 +66,8 @@ export interface CourseLesson {
 export interface CourseLessonMemory {
   /** The lesson's key phrases (its canonical vocab), reviewed in the next lessons. */
   phrases?: string[];
+  /** The lesson's flight result (before → after), copied at session end: the course's progress row. */
+  result?: FlightResult;
   completedAt?: string;
 }
 

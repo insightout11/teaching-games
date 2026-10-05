@@ -1,3 +1,4 @@
+import { FLIGHT_RESULT_KEY, sanitizeFlightResult } from '@/lib/flight-result';
 import { NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-credits';
 import { createServerSupabase } from '@/lib/supabase/server';
@@ -301,9 +302,20 @@ export async function POST(request: Request) {
       // next course lessons can bring them back.
       const { data: vocabRow } = await supabase.from('sessions').select('reference_vocab').eq('id', sessionId).maybeSingle();
       const phrases = ((vocabRow?.reference_vocab ?? []) as Array<{ word?: string }>).map((v) => v.word ?? '').filter(Boolean).slice(0, 8);
+      // ...and the lesson's flight result (before → after), so the course shows its progress row.
+      const { data: resultRow } = await supabase
+        .from('session_private_state')
+        .select('payload')
+        .eq('session_id', sessionId)
+        .eq('key', FLIGHT_RESULT_KEY)
+        .maybeSingle();
+      const result = sanitizeFlightResult(resultRow?.payload ?? null);
+      const memory = phrases.length || result
+        ? { ...(phrases.length ? { phrases } : {}), ...(result ? { result } : {}), completedAt: new Date().toISOString() }
+        : null;
       await supabase
         .from('course_lessons')
-        .update({ status: 'completed', ...(phrases.length ? { lesson_memory: { phrases, completedAt: new Date().toISOString() } } : {}) })
+        .update({ status: 'completed', ...(memory ? { lesson_memory: memory } : {}) })
         .eq('session_id', sessionId);
       courseContext = await getCompletedCourseContext(sessionId);
     } catch (courseError) {

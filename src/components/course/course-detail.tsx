@@ -6,7 +6,8 @@ import { createClient } from '@/lib/supabase/client';
 import { launchCourseLesson } from '@/lib/launch-course-lesson';
 import { getCourseBriefingPreview } from '@/lib/course-briefing';
 import type { Course, CourseLesson } from '@/lib/course';
-import { ArrowLeft, CheckCircle2, Film, FileText, Loader2, PlayCircle, Plane, Rocket, Trash2, Users } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Film, FileText, Loader2, PlayCircle, Plane, Rocket, Trash2, TrendingUp, Users } from 'lucide-react';
+import { flightResultLine } from '@/lib/flight-result';
 
 type TeacherClass = { id: string; name: string };
 
@@ -172,6 +173,11 @@ export function CourseDetail({ courseId }: { courseId: string }) {
                     <span className="truncate">{briefing.title}</span>
                   </div>
                   <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-lc-text3">{briefing.preview}</p>
+                  {l.lessonMemory?.result && (
+                    <p className="mt-1 flex items-center gap-1 text-[11px] text-lc-success">
+                      <TrendingUp className="h-3 w-3 shrink-0" />{flightResultLine(l.lessonMemory.result)}
+                    </p>
+                  )}
                   {briefing.reviewTerms.length > 0 && (
                     <p className="mt-1 text-[11px] text-lc-text3">
                       Reviews: <span className="text-lc-text2">{briefing.reviewTerms.join(', ')}</span>
