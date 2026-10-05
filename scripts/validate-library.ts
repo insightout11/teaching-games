@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { canonicalTopicTag } from './library-topic-tags';
 import { validSpeakSituation } from '../src/lib/speak-check';
+import { listeningWindow, type ListeningPack } from '../src/lib/listening-pack';
 
 type Item = {
   id?: unknown;
@@ -92,6 +93,7 @@ let listeningPackCount = 0;
 let listeningSegmentCount = 0;
 let listeningGistCount = 0;
 let listeningHarderCount = 0;
+let listeningWordCount = 0;
 const packCohorts: Record<string, number> = { kids: 0, B1: 0, B2: 0 };
 let debateMotionCount = 0;
 const debateCohorts: Record<string, number> = { kids: 0, teens: 0 };
@@ -272,7 +274,7 @@ for (const file of files) {
       else if (item.cefr === 'B2') packCohorts.B2 += 1;
       else fail(where, 'listening pack must be kids A1–A2, B1, or B2');
       if (!nonEmpty(item.youtubeId) || item.transcriptVerified !== true) fail(where, 'listening pack requires a verified YouTube transcript');
-      const pack = item.listeningPack as { segments?: unknown; gist?: unknown; harder?: unknown };
+      const pack = item.listeningPack as { segments?: unknown; gist?: unknown; harder?: unknown; words?: unknown };
       if (!pack || !Array.isArray(pack.segments) || pack.segments.length !== 3) fail(where, 'listeningPack requires exactly three segments');
       else for (const [segmentIndex, rawSegment] of Array.from(pack.segments.entries())) {
         listeningSegmentCount += 1;
@@ -308,6 +310,25 @@ for (const file of files) {
       else {
         listeningHarderCount += 1;
         validatePackQuestion(pack.harder, `${where}.listeningPack.harder`, 3, 4);
+      }
+      if (!Array.isArray(pack?.words) || pack.words.length !== 5) fail(where, 'listeningPack.words requires exactly five timed words');
+      else if (Array.isArray(pack.segments) && pack.segments.length === 3) {
+        const window = listeningWindow(pack as ListeningPack, item.ageBand === 'kids' && (item.cefr === 'A1' || item.cefr === 'A2'));
+        const seenWords = new Set<string>();
+        for (const [wordIndex, rawWord] of Array.from(pack.words.entries())) {
+          listeningWordCount += 1;
+          const at = `${where}.listeningPack.words[${wordIndex}]`;
+          if (!rawWord || typeof rawWord !== 'object' || Array.isArray(rawWord)) { fail(at, 'must be a word object'); continue; }
+          const word = rawWord as { word?: unknown; meaning?: unknown; at?: unknown };
+          if (!nonEmpty(word.word) || !nonEmpty(word.meaning)) fail(at, 'word and short meaning are required');
+          if (nonEmpty(word.word)) {
+            const normalized = word.word.trim().toLowerCase();
+            if (seenWords.has(normalized)) fail(at, 'word must be unique within its pack');
+            seenWords.add(normalized);
+          }
+          if (typeof word.at !== 'number' || !Number.isFinite(word.at)
+            || word.at < window.start || word.at >= window.end) fail(at, `at must be inside the ${window.start}-${window.end}s listening window`);
+        }
       }
     }
     if (item.kind === 'video' || nonEmpty(item.youtubeId)) {
@@ -410,6 +431,7 @@ for (const file of files) {
 if (flightQuestionCount < 500) fail('flight questions', `expected at least 500 items after Round 10 (found ${flightQuestionCount})`);
 if (listeningPackCount !== 60 || listeningSegmentCount !== 180) fail('listening packs', `expected 60 packs and 180 segments (found ${listeningPackCount} and ${listeningSegmentCount})`);
 if (listeningGistCount !== 180 || listeningHarderCount !== 60) fail('listening packs', `expected 180 gist and 60 harder questions (found ${listeningGistCount} and ${listeningHarderCount})`);
+if (listeningWordCount !== 300) fail('listening packs', `expected 300 timed words (found ${listeningWordCount})`);
 if (packCohorts.kids !== 22 || packCohorts.B1 !== 22 || packCohorts.B2 !== 16) fail('listening packs', `expected kids/B1/B2 = 22/22/16 (found ${packCohorts.kids}/${packCohorts.B1}/${packCohorts.B2})`);
 
 const speakPath = path.join(dataDir, 'speak-situations.json');
@@ -588,6 +610,6 @@ if (errors.length) {
 } else {
   console.log(`Library validation passed: ${ids.size} items across ${files.length} files.`);
   console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}; before ${speakPositions.before.join('/')}, after ${speakPositions.after.join('/')}).`);
-  console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount}, gist: ${listeningGistCount}, harder: ${listeningHarderCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
+  console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount}, gist: ${listeningGistCount}, harder: ${listeningHarderCount}, words: ${listeningWordCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
   console.log(`Debate motions: ${debateMotionCount} (kids ${debateCohorts.kids}, teens ${debateCohorts.teens}; A2 ${debateLevels.A2}, B1 ${debateLevels.B1}, B2 ${debateLevels.B2}; evidence ${debateEvidenceCount}).`);
 }

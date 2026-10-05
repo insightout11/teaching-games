@@ -94,7 +94,34 @@
           "People can see every electron at once."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "clock",
+          "meaning": "a tool that shows time",
+          "at": 0.6
+        },
+        {
+          "word": "fixed",
+          "meaning": "already decided",
+          "at": 10.6
+        },
+        {
+          "word": "predetermined",
+          "meaning": "decided before it happens",
+          "at": 33.2
+        },
+        {
+          "word": "electron",
+          "meaning": "a tiny part of an atom",
+          "at": 50.2
+        },
+        {
+          "word": "uncertainty",
+          "meaning": "not knowing exactly what will happen",
+          "at": 69.3
+        }
+      ]
     },
     "transcriptVerified": true
   },

@@ -96,7 +96,34 @@
           "They already know every detail."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "born",
+          "meaning": "came into the world",
+          "at": 15.3
+        },
+        {
+          "word": "family",
+          "meaning": "parents and other close relatives",
+          "at": 19.1
+        },
+        {
+          "word": "live",
+          "meaning": "have your home",
+          "at": 22.2
+        },
+        {
+          "word": "gardener",
+          "meaning": "person who works with plants",
+          "at": 50.4
+        },
+        {
+          "word": "pet",
+          "meaning": "animal you keep at home",
+          "at": 66.2
+        }
+      ]
     }
   },
   {
@@ -196,7 +223,34 @@
           "Cooking is something they enjoy."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "beautiful",
+          "meaning": "nice to look at",
+          "at": 14.1
+        },
+        {
+          "word": "architecture",
+          "meaning": "the design of buildings",
+          "at": 21.2
+        },
+        {
+          "word": "favorite",
+          "meaning": "liked best",
+          "at": 36.2
+        },
+        {
+          "word": "cooking",
+          "meaning": "making food",
+          "at": 42.5
+        },
+        {
+          "word": "curries",
+          "meaning": "spicy dishes with sauce",
+          "at": 72.1
+        }
+      ]
     }
   },
   {
@@ -318,7 +372,34 @@
           "To match a famous singer"
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "myth",
+          "meaning": "an old traditional story",
+          "at": 30.6
+        },
+        {
+          "word": "chose",
+          "meaning": "picked",
+          "at": 33.0
+        },
+        {
+          "word": "heritage",
+          "meaning": "culture from your family’s past",
+          "at": 44.2
+        },
+        {
+          "word": "named",
+          "meaning": "given a name after someone",
+          "at": 64.6
+        },
+        {
+          "word": "middle names",
+          "meaning": "names between first and last",
+          "at": 81.1
+        }
+      ]
     }
   },
   {
@@ -572,7 +653,34 @@
           "They climbed a sunny mountain."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "culture",
+          "meaning": "arts and ways of life",
+          "at": 31.7
+        },
+        {
+          "word": "ruins",
+          "meaning": "old broken buildings",
+          "at": 67.3
+        },
+        {
+          "word": "civilization",
+          "meaning": "a society from history",
+          "at": 78.4
+        },
+        {
+          "word": "recommend",
+          "meaning": "say something is worth trying",
+          "at": 87.4
+        },
+        {
+          "word": "appalling",
+          "meaning": "very bad",
+          "at": 134.8
+        }
+      ]
     }
   },
   {
@@ -672,7 +780,34 @@
           "They expect people to focus on those around them."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "annoy",
+          "meaning": "make someone feel bothered",
+          "at": 26.4
+        },
+        {
+          "word": "ignore",
+          "meaning": "not pay attention to",
+          "at": 29.0
+        },
+        {
+          "word": "browse",
+          "meaning": "look around without buying yet",
+          "at": 35.2
+        },
+        {
+          "word": "assistance",
+          "meaning": "help",
+          "at": 37.5
+        },
+        {
+          "word": "social",
+          "meaning": "with other people",
+          "at": 61.3
+        }
+      ]
     }
   },
   {
@@ -772,7 +907,34 @@
           "Rob is applying to university."
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "accent",
+          "meaning": "the way a person sounds when speaking",
+          "at": 52.6
+        },
+        {
+          "word": "work trip",
+          "meaning": "journey made for a job",
+          "at": 63.4
+        },
+        {
+          "word": "opportunity",
+          "meaning": "a chance",
+          "at": 90.9
+        },
+        {
+          "word": "permanent",
+          "meaning": "lasting rather than temporary",
+          "at": 99.8
+        },
+        {
+          "word": "parents",
+          "meaning": "a mother and father",
+          "at": 158.4
+        }
+      ]
     }
   },
   {
@@ -872,7 +1034,34 @@
           "The shop is still open."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "forgot",
+          "meaning": "did not remember",
+          "at": 32.8
+        },
+        {
+          "word": "late",
+          "meaning": "after the expected time",
+          "at": 53.5
+        },
+        {
+          "word": "introduce",
+          "meaning": "help two people meet",
+          "at": 68.4
+        },
+        {
+          "word": "promotion",
+          "meaning": "a move to a higher job",
+          "at": 113.3
+        },
+        {
+          "word": "boss",
+          "meaning": "person in charge at work",
+          "at": 121.9
+        }
+      ]
     }
   },
   {
@@ -972,7 +1161,34 @@
           "Harry asks about his future and the money in creative work."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "ambitious",
+          "meaning": "wanting to achieve a lot",
+          "at": 24.1
+        },
+        {
+          "word": "career",
+          "meaning": "your working life",
+          "at": 31.3
+        },
+        {
+          "word": "management",
+          "meaning": "leading work and people",
+          "at": 33.4
+        },
+        {
+          "word": "creative",
+          "meaning": "good at making new ideas",
+          "at": 51.8
+        },
+        {
+          "word": "photography",
+          "meaning": "taking pictures",
+          "at": 69.5
+        }
+      ]
     }
   },
   {
@@ -1072,7 +1288,34 @@
           "She has forgotten the band."
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "solo",
+          "meaning": "alone rather than in a group",
+          "at": 46.7
+        },
+        {
+          "word": "private",
+          "meaning": "not for everyone to know",
+          "at": 49.7
+        },
+        {
+          "word": "influenced",
+          "meaning": "changed by something",
+          "at": 80.2
+        },
+        {
+          "word": "experimental",
+          "meaning": "trying new ideas",
+          "at": 108.4
+        },
+        {
+          "word": "gigs",
+          "meaning": "live music shows",
+          "at": 132.3
+        }
+      ]
     }
   },
   {
@@ -1172,7 +1415,34 @@
           "He is choosing a meal instead."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "waiters",
+          "meaning": "people who serve food",
+          "at": 29.7
+        },
+        {
+          "word": "friendly",
+          "meaning": "kind and welcoming",
+          "at": 36.8
+        },
+        {
+          "word": "hectic",
+          "meaning": "very busy",
+          "at": 63.0
+        },
+        {
+          "word": "prefer",
+          "meaning": "like more",
+          "at": 75.3
+        },
+        {
+          "word": "relaxed",
+          "meaning": "calm and at ease",
+          "at": 90.0
+        }
+      ]
     }
   },
   {
@@ -1272,7 +1542,34 @@
           "His helpful act supports her view that people are friendly."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "service",
+          "meaning": "help given to customers",
+          "at": 29.0
+        },
+        {
+          "word": "tip",
+          "meaning": "extra money for service",
+          "at": 33.4
+        },
+        {
+          "word": "homesick",
+          "meaning": "sad because you miss home",
+          "at": 65.7
+        },
+        {
+          "word": "regret",
+          "meaning": "wish you had not done something",
+          "at": 59.4
+        },
+        {
+          "word": "kind",
+          "meaning": "helpful and caring",
+          "at": 92.9
+        }
+      ]
     }
   },
   {
@@ -1372,7 +1669,34 @@
           "He has booked a flight tonight."
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "getting married",
+          "meaning": "planning to become a married couple",
+          "at": 46.5
+        },
+        {
+          "word": "engaged",
+          "meaning": "promised to marry",
+          "at": 54.2
+        },
+        {
+          "word": "wedding",
+          "meaning": "marriage celebration",
+          "at": 71.9
+        },
+        {
+          "word": "serious",
+          "meaning": "important and lasting",
+          "at": 94.3
+        },
+        {
+          "word": "persuade",
+          "meaning": "talk someone into doing something",
+          "at": 108.6
+        }
+      ]
     }
   },
   {
@@ -1472,7 +1796,34 @@
           "He has lost his passport."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "college photos",
+          "meaning": "pictures from university days",
+          "at": 36.8
+        },
+        {
+          "word": "interrupted",
+          "meaning": "stopped something for a moment",
+          "at": 58.9
+        },
+        {
+          "word": "settling",
+          "meaning": "starting a more settled life",
+          "at": 83.8
+        },
+        {
+          "word": "favor",
+          "meaning": "something helpful asked of someone",
+          "at": 92.5
+        },
+        {
+          "word": "invited",
+          "meaning": "asked someone to come",
+          "at": 108.2
+        }
+      ]
     }
   },
   {
@@ -1572,7 +1923,34 @@
           "He thinks Rob has become more conventional."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "practice",
+          "meaning": "doing something often to improve",
+          "at": 33.0
+        },
+        {
+          "word": "free time",
+          "meaning": "time away from work",
+          "at": 52.2
+        },
+        {
+          "word": "uni",
+          "meaning": "university",
+          "at": 79.3
+        },
+        {
+          "word": "girlfriend",
+          "meaning": "a person someone is dating",
+          "at": 95.2
+        },
+        {
+          "word": "businessman",
+          "meaning": "a person who works in business",
+          "at": 113.4
+        }
+      ]
     }
   },
   {
@@ -1672,7 +2050,34 @@
           "To book Jenny a later flight"
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "suitcase",
+          "meaning": "a bag for travel",
+          "at": 27.4
+        },
+        {
+          "word": "details",
+          "meaning": "small pieces of information",
+          "at": 36.6
+        },
+        {
+          "word": "reference number",
+          "meaning": "number used to find a report",
+          "at": 38.3
+        },
+        {
+          "word": "belongings",
+          "meaning": "things someone owns",
+          "at": 101.3
+        },
+        {
+          "word": "track",
+          "meaning": "follow where something is",
+          "at": 151.3
+        }
+      ]
     }
   },
   {
@@ -1772,7 +2177,34 @@
           "The customer chose a manual car."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "compact",
+          "meaning": "small",
+          "at": 53.0
+        },
+        {
+          "word": "automatic",
+          "meaning": "a car that changes gears itself",
+          "at": 61.0
+        },
+        {
+          "word": "insurance",
+          "meaning": "protection against certain costs",
+          "at": 76.2
+        },
+        {
+          "word": "parking tickets",
+          "meaning": "fines for parking wrongly",
+          "at": 90.9
+        },
+        {
+          "word": "one-way rental",
+          "meaning": "a hire returned in another place",
+          "at": 101.4
+        }
+      ]
     }
   },
   {
@@ -1872,7 +2304,34 @@
           "She feels unsafe alone while they contact the police."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "attacked",
+          "meaning": "hurt by someone",
+          "at": 21.7
+        },
+        {
+          "word": "police",
+          "meaning": "people who protect the public",
+          "at": 23.9
+        },
+        {
+          "word": "punctual",
+          "meaning": "usually on time",
+          "at": 68.6
+        },
+        {
+          "word": "worrying",
+          "meaning": "making people concerned",
+          "at": 65.9
+        },
+        {
+          "word": "alone",
+          "meaning": "without another person",
+          "at": 93.1
+        }
+      ]
     }
   },
   {
@@ -1973,7 +2432,34 @@
           "The screen has no files."
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "security code",
+          "meaning": "secret numbers or letters for access",
+          "at": 57.4
+        },
+        {
+          "word": "encrypted",
+          "meaning": "locked in a coded form",
+          "at": 72.0
+        },
+        {
+          "word": "formula",
+          "meaning": "a rule written with numbers or symbols",
+          "at": 87.4
+        },
+        {
+          "word": "documents",
+          "meaning": "written files",
+          "at": 118.4
+        },
+        {
+          "word": "prove",
+          "meaning": "show that something is true",
+          "at": 128.0
+        }
+      ]
     }
   },
   {
@@ -2073,7 +2559,34 @@
           "The guest has no clothes."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "rules",
+          "meaning": "things people must follow",
+          "at": 32.3
+        },
+        {
+          "word": "vegetarian",
+          "meaning": "person who does not eat meat",
+          "at": 39.9
+        },
+        {
+          "word": "password",
+          "meaning": "secret word for access",
+          "at": 61.0
+        },
+        {
+          "word": "detergents",
+          "meaning": "soap for washing clothes",
+          "at": 84.0
+        },
+        {
+          "word": "saving energy",
+          "meaning": "using less power",
+          "at": 92.7
+        }
+      ]
     }
   },
   {
@@ -2173,7 +2686,34 @@
           "They think someone may be watching the house."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "flights",
+          "meaning": "journeys by plane",
+          "at": 56.2
+        },
+        {
+          "word": "message",
+          "meaning": "information sent to someone",
+          "at": 71.1
+        },
+        {
+          "word": "study",
+          "meaning": "room for reading or working",
+          "at": 87.4
+        },
+        {
+          "word": "sneak in",
+          "meaning": "enter quietly without being seen",
+          "at": 144.5
+        },
+        {
+          "word": "flashlights",
+          "meaning": "small lights carried in the hand",
+          "at": 153.0
+        }
+      ]
     }
   },
   {
@@ -2297,7 +2837,34 @@
           "To teach him English"
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "journalist",
+          "meaning": "person who reports news",
+          "at": 32.7
+        },
+        {
+          "word": "work",
+          "meaning": "your job",
+          "at": 51.8
+        },
+        {
+          "word": "reservation",
+          "meaning": "a booking",
+          "at": 58.9
+        },
+        {
+          "word": "surname",
+          "meaning": "family name",
+          "at": 62.4
+        },
+        {
+          "word": "room",
+          "meaning": "space to sleep in a hotel",
+          "at": 86.7
+        }
+      ]
     }
   },
   {
@@ -2421,7 +2988,34 @@
           "She dislikes the park."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "salad",
+          "meaning": "cold dish with vegetables",
+          "at": 33.8
+        },
+        {
+          "word": "mineral water",
+          "meaning": "bottled drinking water",
+          "at": 41.0
+        },
+        {
+          "word": "lunch",
+          "meaning": "meal in the middle of the day",
+          "at": 69.7
+        },
+        {
+          "word": "park",
+          "meaning": "green public place",
+          "at": 69.7
+        },
+        {
+          "word": "sandwich",
+          "meaning": "food between pieces of bread",
+          "at": 75.4
+        }
+      ]
     }
   },
   {
@@ -2545,7 +3139,34 @@
           "He has confused June with July."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "date",
+          "meaning": "day of the month",
+          "at": 33.2
+        },
+        {
+          "word": "birthday",
+          "meaning": "day you were born each year",
+          "at": 58.9
+        },
+        {
+          "word": "favorite",
+          "meaning": "liked best",
+          "at": 74.4
+        },
+        {
+          "word": "wine",
+          "meaning": "drink made from grapes",
+          "at": 74.4
+        },
+        {
+          "word": "worry",
+          "meaning": "feel troubled",
+          "at": 90.5
+        }
+      ]
     }
   },
   {
@@ -2646,7 +3267,34 @@
           "Return to the broken machine"
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "cash machine",
+          "meaning": "machine for taking out money",
+          "at": 21.4
+        },
+        {
+          "word": "near",
+          "meaning": "not far away",
+          "at": 24.4
+        },
+        {
+          "word": "turn left",
+          "meaning": "change direction to the left",
+          "at": 30.3
+        },
+        {
+          "word": "working",
+          "meaning": "able to do its job",
+          "at": 64.0
+        },
+        {
+          "word": "another",
+          "meaning": "one more",
+          "at": 64.0
+        }
+      ]
     }
   },
   {
@@ -2747,7 +3395,34 @@
           "The office is closing."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "president",
+          "meaning": "person in charge of an organization",
+          "at": 26.5
+        },
+        {
+          "word": "receptionist",
+          "meaning": "person who welcomes visitors",
+          "at": 28.8
+        },
+        {
+          "word": "tour guide",
+          "meaning": "person who shows visitors places",
+          "at": 34.2
+        },
+        {
+          "word": "mailman",
+          "meaning": "person who brings letters",
+          "at": 66.2
+        },
+        {
+          "word": "actor",
+          "meaning": "person who plays a role in a show",
+          "at": 69.2
+        }
+      ]
     }
   },
   {
@@ -2848,7 +3523,34 @@
           "Earlier confident guesses were repeatedly wrong."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "writer",
+          "meaning": "person who writes books or stories",
+          "at": 31.4
+        },
+        {
+          "word": "neighbor",
+          "meaning": "person who lives nearby",
+          "at": 39.0
+        },
+        {
+          "word": "doctor",
+          "meaning": "person who helps sick people",
+          "at": 41.1
+        },
+        {
+          "word": "artist",
+          "meaning": "person who makes art",
+          "at": 48.0
+        },
+        {
+          "word": "musician",
+          "meaning": "person who makes music",
+          "at": 59.9
+        }
+      ]
     }
   },
   {
@@ -2949,7 +3651,34 @@
           "The café has closed."
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "corner",
+          "meaning": "place where two streets meet",
+          "at": 35.3
+        },
+        {
+          "word": "blocks",
+          "meaning": "short sections of a street",
+          "at": 38.7
+        },
+        {
+          "word": "station",
+          "meaning": "place to get on a train",
+          "at": 42.5
+        },
+        {
+          "word": "bookstore",
+          "meaning": "shop that sells books",
+          "at": 49.9
+        },
+        {
+          "word": "pharmacy",
+          "meaning": "shop for medicine",
+          "at": 53.2
+        }
+      ]
     }
   },
   {
@@ -3050,7 +3779,34 @@
           "The birthday is next month."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "late",
+          "meaning": "after the agreed time",
+          "at": 27.5
+        },
+        {
+          "word": "early",
+          "meaning": "before the agreed time",
+          "at": 44.1
+        },
+        {
+          "word": "birthday",
+          "meaning": "day you were born each year",
+          "at": 53.4
+        },
+        {
+          "word": "concert",
+          "meaning": "live music show",
+          "at": 73.3
+        },
+        {
+          "word": "writer",
+          "meaning": "person who writes books",
+          "at": 84.5
+        }
+      ]
     }
   },
   {
@@ -3150,7 +3906,34 @@
           "Earlier times are filled with other plans."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "shopping",
+          "meaning": "buying things",
+          "at": 26.6
+        },
+        {
+          "word": "laundry",
+          "meaning": "clothes that need washing",
+          "at": 40.0
+        },
+        {
+          "word": "art class",
+          "meaning": "lesson about making art",
+          "at": 47.4
+        },
+        {
+          "word": "exercising",
+          "meaning": "moving to stay fit",
+          "at": 55.8
+        },
+        {
+          "word": "museum",
+          "meaning": "place that shows art or history",
+          "at": 72.8
+        }
+      ]
     }
   },
   {
@@ -3250,7 +4033,34 @@
           "The city was closed."
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "trip",
+          "meaning": "journey",
+          "at": 28.5
+        },
+        {
+          "word": "museums",
+          "meaning": "places showing art or history",
+          "at": 33.5
+        },
+        {
+          "word": "hotel",
+          "meaning": "place to stay when travelling",
+          "at": 53.9
+        },
+        {
+          "word": "business",
+          "meaning": "work",
+          "at": 75.1
+        },
+        {
+          "word": "speeches",
+          "meaning": "talks given to a group",
+          "at": 83.6
+        }
+      ]
     }
   },
   {
@@ -3350,7 +4160,34 @@
           "He needs a doctor for himself."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "sister",
+          "meaning": "female sibling",
+          "at": 17.8
+        },
+        {
+          "word": "doctor",
+          "meaning": "person who helps sick people",
+          "at": 31.0
+        },
+        {
+          "word": "fever",
+          "meaning": "high body temperature when sick",
+          "at": 49.4
+        },
+        {
+          "word": "headache",
+          "meaning": "pain in the head",
+          "at": 51.1
+        },
+        {
+          "word": "toothache",
+          "meaning": "pain in a tooth",
+          "at": 75.9
+        }
+      ]
     }
   },
   {
@@ -3450,7 +4287,34 @@
           "They think the comment about their mother is unkind."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "family",
+          "meaning": "close relatives",
+          "at": 21.7
+        },
+        {
+          "word": "brother",
+          "meaning": "male sibling",
+          "at": 29.8
+        },
+        {
+          "word": "mother",
+          "meaning": "female parent",
+          "at": 51.4
+        },
+        {
+          "word": "architect",
+          "meaning": "person who designs buildings",
+          "at": 69.5
+        },
+        {
+          "word": "student",
+          "meaning": "person who studies",
+          "at": 79.2
+        }
+      ]
     }
   },
   {
@@ -3550,7 +4414,34 @@
           "They work all night."
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "get up",
+          "meaning": "leave your bed",
+          "at": 32.9
+        },
+        {
+          "word": "breakfast",
+          "meaning": "first meal of the day",
+          "at": 42.8
+        },
+        {
+          "word": "laundry",
+          "meaning": "clothes that need washing",
+          "at": 46.0
+        },
+        {
+          "word": "exercise",
+          "meaning": "move to stay fit",
+          "at": 60.0
+        },
+        {
+          "word": "weekends",
+          "meaning": "Saturday and Sunday",
+          "at": 71.3
+        }
+      ]
     }
   },
   {
@@ -3650,7 +4541,34 @@
           "Nothing needs to be done today."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "signed slips",
+          "meaning": "small papers with signatures",
+          "at": 21.1
+        },
+        {
+          "word": "fees",
+          "meaning": "money paid for a service",
+          "at": 27.8
+        },
+        {
+          "word": "scholarship",
+          "meaning": "money to help pay for study",
+          "at": 39.1
+        },
+        {
+          "word": "session",
+          "meaning": "scheduled meeting",
+          "at": 56.1
+        },
+        {
+          "word": "classroom",
+          "meaning": "room where lessons happen",
+          "at": 73.4
+        }
+      ]
     }
   },
   {
@@ -4041,7 +4959,34 @@
           "Tomorrow may bring afternoon rain."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "clouds",
+          "meaning": "white or grey shapes in the sky",
+          "at": 49.6
+        },
+        {
+          "word": "temperatures",
+          "meaning": "how hot or cold it is",
+          "at": 13.4
+        },
+        {
+          "word": "light winds",
+          "meaning": "gentle moving air",
+          "at": 25.2
+        },
+        {
+          "word": "picnic",
+          "meaning": "meal eaten outside",
+          "at": 33.5
+        },
+        {
+          "word": "umbrella",
+          "meaning": "cover held over you in rain",
+          "at": 55.2
+        }
+      ]
     }
   },
   {
@@ -4142,7 +5087,34 @@
           "All weather warnings are permanently over."
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "flood warning",
+          "meaning": "notice that water may rise dangerously",
+          "at": 2.0
+        },
+        {
+          "word": "drizzle",
+          "meaning": "light rain",
+          "at": 9.9
+        },
+        {
+          "word": "fog",
+          "meaning": "cloud close to the ground",
+          "at": 11.8
+        },
+        {
+          "word": "thunderstorms",
+          "meaning": "storms with thunder",
+          "at": 16.0
+        },
+        {
+          "word": "cold front",
+          "meaning": "moving area of cooler air",
+          "at": 32.0
+        }
+      ]
     }
   }
 ]

@@ -1813,7 +1813,34 @@
           "Team members never feel tired."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "cholesterol",
+          "meaning": "fat-like substance in the blood",
+          "at": 48.1
+        },
+        {
+          "word": "endorphins",
+          "meaning": "body chemicals linked to pleasure",
+          "at": 58.9
+        },
+        {
+          "word": "focus",
+          "meaning": "attention on one thing",
+          "at": 74.2
+        },
+        {
+          "word": "team",
+          "meaning": "group working or playing together",
+          "at": 104.1
+        },
+        {
+          "word": "resilience",
+          "meaning": "ability to recover after difficulty",
+          "at": 164.9
+        }
+      ]
     },
     "transcriptVerified": true
   },

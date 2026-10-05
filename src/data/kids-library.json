@@ -813,7 +813,34 @@
           "People need water to survive."
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "climates",
+          "meaning": "kinds of weather in a place",
+          "at": 22.9
+        },
+        {
+          "word": "resource",
+          "meaning": "something people can use",
+          "at": 25.7
+        },
+        {
+          "word": "communities",
+          "meaning": "groups of people living together",
+          "at": 40.2
+        },
+        {
+          "word": "adapt",
+          "meaning": "change to fit a situation",
+          "at": 45.0
+        },
+        {
+          "word": "survive",
+          "meaning": "stay alive",
+          "at": 61.0
+        }
+      ]
     },
     "transcriptVerified": true
   },
@@ -2379,7 +2406,34 @@
           "To count people in the canyon"
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "solution",
+          "meaning": "an answer to a problem",
+          "at": 60.9
+        },
+        {
+          "word": "engineer",
+          "meaning": "a person who designs things",
+          "at": 60.9
+        },
+        {
+          "word": "brainstorm",
+          "meaning": "think of many ideas",
+          "at": 85.3
+        },
+        {
+          "word": "criteria",
+          "meaning": "rules for judging an idea",
+          "at": 110.1
+        },
+        {
+          "word": "checklist",
+          "meaning": "a list to check",
+          "at": 118.8
+        }
+      ]
     },
     "transcriptVerified": true
   },
@@ -2559,7 +2613,34 @@
           "Cake needs no water."
         ],
         "correctIndex": 0
-      }
+      },
+      "words": [
+        {
+          "word": "resources",
+          "meaning": "things people need and use",
+          "at": 36.5
+        },
+        {
+          "word": "communities",
+          "meaning": "groups of people living together",
+          "at": 38.8
+        },
+        {
+          "word": "deserts",
+          "meaning": "very dry places",
+          "at": 50.7
+        },
+        {
+          "word": "thrive",
+          "meaning": "grow and do well",
+          "at": 64.5
+        },
+        {
+          "word": "transform",
+          "meaning": "change into a useful form",
+          "at": 79.8
+        }
+      ]
     },
     "transcriptVerified": true
   },
@@ -2667,7 +2748,34 @@
           "To connect water with the air above us"
         ],
         "correctIndex": 2
-      }
+      },
+      "words": [
+        {
+          "word": "hydrosphere",
+          "meaning": "all the water on Earth",
+          "at": 35.3
+        },
+        {
+          "word": "freshwater",
+          "meaning": "water that is not salty",
+          "at": 48.3
+        },
+        {
+          "word": "glaciers",
+          "meaning": "large masses of ice",
+          "at": 52.8
+        },
+        {
+          "word": "atmosphere",
+          "meaning": "the air around Earth",
+          "at": 65.2
+        },
+        {
+          "word": "layers",
+          "meaning": "levels on top of one another",
+          "at": 92.9
+        }
+      ]
     },
     "transcriptVerified": true
   },
@@ -2775,7 +2883,34 @@
           "The Sun stops shining at noon."
         ],
         "correctIndex": 1
-      }
+      },
+      "words": [
+        {
+          "word": "landforms",
+          "meaning": "shapes of land",
+          "at": 20.9
+        },
+        {
+          "word": "absorb",
+          "meaning": "take in",
+          "at": 20.9
+        },
+        {
+          "word": "surface",
+          "meaning": "the outside or top part",
+          "at": 51.2
+        },
+        {
+          "word": "sunlight",
+          "meaning": "light from the Sun",
+          "at": 57.5
+        },
+        {
+          "word": "bounced back",
+          "meaning": "sent back",
+          "at": 79.8
+        }
+      ]
     },
     "transcriptVerified": true
   },
