@@ -1,3 +1,4 @@
+import { fallbackPassTheLine, validPassTheLine } from '@/lib/pass-the-line';
 import { fallbackQuickFire } from '@/lib/quick-fire';
 import { fallbackSpeakSituation, validSpeakSituation } from '@/lib/speak-check';
 import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-announcement/content';
@@ -1882,6 +1883,35 @@ Rules: max 12 words each; no yes/no questions; no facts to know; kids/teens must
   return { activityKey: 'quick-fire', topicContext: topic, questions: fallbackQuickFire(topic) };
 }
 
+async function generatePassTheLine(topic: string, difficulty: Difficulty, sourceCtx: string, situation?: string): Promise<Record<string, unknown>> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      setup: { type: 'string' },
+      roles: { type: 'array', items: { type: 'string' } },
+      cues: { type: 'array', items: { type: 'object', properties: { role: { type: 'number' }, cue: { type: 'string' } }, required: ['role', 'cue'] } },
+      twists: { type: 'array', items: { type: 'string' } },
+    },
+    required: ['setup', 'roles', 'cues', 'twists'],
+  };
+  const prompt = `Write a PASS THE LINE conversation for a speaking class: the whole class builds one conversation together, a different student says each line.
+
+Topic: "${topic}"
+${situation ? `The conversation MUST be this situation (the lesson's situation check): ${situation}\n` : ''}LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${sourceCtx ? `\nLESSON MATERIAL:\n${sourceCtx.slice(0, 2000)}\n` : ''}
+Return:
+- setup: one sentence: where we are and who is talking.
+- roles: exactly 2 short role names (e.g. "Customer", "Waiter").
+- cues: 8 lines in order, alternating roles mostly (role 0 or 1). Each cue says WHAT to do, not the words (e.g. "Ask what they recommend", "Order and ask about the price"). Max 8 words each.
+- twists: 3 short surprise cards that change the conversation (e.g. "They've sold out of it!", "You're in a big hurry."). Kid/teen friendly.`;
+  try {
+    const parsed = await generateJSON<Record<string, unknown>>(prompt, schema);
+    const valid = validPassTheLine(parsed);
+    if (valid) return { activityKey: 'pass-the-line', topicContext: topic, ...valid };
+  } catch { /* fall back below */ }
+  return { activityKey: 'pass-the-line', topicContext: topic, ...fallbackPassTheLine(topic) };
+}
+
 async function generateSpeakCheck(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<Record<string, unknown>> {
   const set: AISchema = { type: 'object', properties: { replies: { type: 'array', items: { type: 'string' } }, natural: { type: 'number' } }, required: ['replies', 'natural'] };
   const schema: AISchema = { type: 'object', properties: { situation: { type: 'string' }, canDo: { type: 'string' }, before: set, after: set }, required: ['situation', 'canDo', 'before', 'after'] };
@@ -3441,6 +3471,7 @@ export async function POST(request: NextRequest) {
 
     // Generate activity content
     if (hasActivities) {
+      let speakCheckP: Promise<Record<string, unknown>> | null = null;
       for (const activityKey of activities) {
         if (vocabBlitzMode && activityKey === 'vocab-radar') continue; // already generated above
         switch (activityKey) {
@@ -3699,8 +3730,17 @@ export async function POST(request: NextRequest) {
           case 'quick-fire':
             generators.push(generateQuickFire(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r as unknown as ActivityGeneratedContent; }));
             break;
-          case 'speak-check':
-            generators.push(generateSpeakCheck(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r as unknown as ActivityGeneratedContent; }));
+          case 'speak-check': {
+            const p = generateSpeakCheck(customTopic, diff, kitSourceCtx);
+            speakCheckP = p;
+            generators.push(p.then((r) => { content[activityKey] = r as unknown as ActivityGeneratedContent; }));
+            break;
+          }
+          case 'pass-the-line':
+            // Same conversation as the lesson's situation check when Speak generated one.
+            generators.push((speakCheckP ?? Promise.resolve(null))
+              .then((sc) => generatePassTheLine(customTopic, diff, kitSourceCtx, typeof sc?.situation === 'string' ? sc.situation : undefined))
+              .then((r) => { content[activityKey] = r as unknown as ActivityGeneratedContent; }));
             break;
           case 'speak-reveal':
             generators.push(Promise.resolve().then(() => { content[activityKey] = { activityKey: 'speak-reveal', topicContext: customTopic } as ActivityGeneratedContent; }));

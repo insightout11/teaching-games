@@ -433,7 +433,8 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     lessonType: 'performance',
     takeoff: 'speak-check',
     landing: 'speak-reveal',
-    // No new components — reuses the existing speaking engine (scene-igniter → conversation-rounds).
+    // Speak v2 (docs/speak-v2-concept.md): one conversation, three tries. Situation check (Try 1) ->
+    // quick-fire -> toolkit -> scene (model) -> Pass the Line (the class builds the conversation) -> Better answers (Try 3).
     // Micro defaults (Vocab) await the Vocab micro + toggle system; Opinion Pulse baked in for now.
     moduleSequence: [
       // Lesson thread: Toolkit phrases -> the scene uses them -> the conversation continues the scene.
@@ -441,7 +442,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
       { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it'] },
       { slotType: 'presentation', key: 'scene-igniter', stageId: 'scene' },
-      { slotType: 'production', key: 'conversation-rounds', stageId: 'conversation' },
+      { slotType: 'production', key: 'pass-the-line', stageId: 'conversation' },
       { slotType: 'practice', key: 'vocab-micro', stageId: 'vocab-check', isMicroEvent: true },
       { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['connections', 'synonym-showdown', 'vocab-sprint', 'taboo-sprint', 'imposter'] },
     ],
@@ -452,7 +453,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         { stageId: 'language-toolkit', label: 'Language Toolkit', kind: 'stage', phase: 'climb' },
         { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event', phase: 'climb' },
         { stageId: 'scene', label: 'Scene', kind: 'stage', phase: 'cruise' },
-        { stageId: 'conversation', label: 'Conversation', kind: 'stage', phase: 'cruise' },
+        { stageId: 'conversation', label: 'Pass the Line', kind: 'stage', phase: 'cruise' },
         { stageId: 'vocab-check', label: 'Comms Check', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
         { stageId: 'landing', label: 'Better answers', kind: 'landing', phase: 'landing' },
@@ -466,6 +467,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'would-you-rather': 'opinion-pulse',
         'rank-it': 'opinion-pulse',
         'conversation-rounds': 'conversation',
+        'pass-the-line': 'conversation',
         'vocab-micro': 'vocab-check',
         'word-chain': 'end-game',
         'connections': 'end-game',

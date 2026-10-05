@@ -59,6 +59,7 @@ import { tripAnnouncementPlugin } from './trip-announcement';
 import { speakCheckPlugin } from './speak-check';
 import { speakRevealPlugin } from './speak-reveal';
 import { quickFirePlugin } from './quick-fire';
+import { passTheLinePlugin } from './pass-the-line';
 import { videoPlayerPlugin } from './video-player';
 import { readAloudPlugin } from './read-aloud';
 import { listeningGapFillPlugin } from './listening-gap-fill';
@@ -106,6 +107,7 @@ const activities: ActivityPlugin[] = [
   speakCheckPlugin,
   speakRevealPlugin,
   quickFirePlugin,
+  passTheLinePlugin,
   tripMealPlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,
