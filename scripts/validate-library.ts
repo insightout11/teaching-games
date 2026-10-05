@@ -91,6 +91,10 @@ const speakCanDoVerbs = new Set(['Accept', 'Acknowledge', 'Answer', 'Apologize',
 let listeningPackCount = 0;
 let listeningSegmentCount = 0;
 const packCohorts: Record<string, number> = { kids: 0, B1: 0, B2: 0 };
+let debateMotionCount = 0;
+const debateCohorts: Record<string, number> = { kids: 0, teens: 0 };
+const debateLevels: Record<string, number> = { A2: 0, B1: 0, B2: 0 };
+let debateEvidenceCount = 0;
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -486,6 +490,65 @@ const bookSeriesIds = seriesIds.filter((seriesId) => seriesId.indexOf('book-cour
 if (bookSeriesIds.length < 12) fail('book-library.json', `expected at least 12 public-domain book courses after round 6 (found ${bookSeriesIds.length})`);
 if (bookCourseItemCount < 48) fail('book-library.json', `expected at least 48 book lesson items after round 6 (found ${bookCourseItemCount})`);
 
+const debatePath = path.join(dataDir, 'debate-motions.json');
+if (!fs.existsSync(debatePath)) fail('debate-motions.json', 'required debate motions bank is missing');
+else {
+  let bank: unknown;
+  try { bank = JSON.parse(fs.readFileSync(debatePath, 'utf8')); }
+  catch (error) { fail('debate-motions.json', `invalid JSON: ${String(error)}`); }
+  if (!Array.isArray(bank)) fail('debate-motions.json', 'top-level value must be an array');
+  else {
+    debateMotionCount = bank.length;
+    const seenMotionIds = new Set<string>();
+    const seenMotions = new Set<string>();
+    for (const [index, raw] of Array.from(bank.entries())) {
+      const where = `debate-motions.json[${index}]`;
+      if (!raw || typeof raw !== 'object' || Array.isArray(raw)) { fail(where, 'must be an object'); continue; }
+      const motion = raw as Record<string, unknown>;
+      if (!nonEmpty(motion.id) || seenMotionIds.has(String(motion.id))) fail(where, 'id must be non-empty and unique');
+      else seenMotionIds.add(motion.id);
+      if (!nonEmpty(motion.motion) || motion.motion.trim().split(/\s+/).length > 12
+        || motion.motion.endsWith('?')) fail(where, 'motion must be plain text of at most 12 words');
+      else {
+        const normalized = motion.motion.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+        if (seenMotions.has(normalized)) fail(where, 'duplicate motion');
+        seenMotions.add(normalized);
+      }
+      if (!Array.isArray(motion.topics) || motion.topics.length === 0
+        || motion.topics.some((tag) => !nonEmpty(tag))) fail(where, 'topics must be a non-empty string array');
+      if (motion.ageBand === 'kids' && (motion.cefr === 'A2' || motion.cefr === 'B1')) debateCohorts.kids += 1;
+      else if (motion.ageBand === 'teens' && (motion.cefr === 'B1' || motion.cefr === 'B2')) debateCohorts.teens += 1;
+      else fail(where, 'kids require A2–B1 and teens require B1–B2');
+      if (motion.cefr === 'A2' || motion.cefr === 'B1' || motion.cefr === 'B2') debateLevels[motion.cefr] += 1;
+      for (const side of ['forPoints', 'againstPoints']) {
+        const points = motion[side];
+        if (!Array.isArray(points) || points.length !== 3 || points.some((point) => !nonEmpty(point))) {
+          fail(where, `${side} must have exactly three non-empty arguments`);
+        }
+      }
+      if (!Array.isArray(motion.evidence) || motion.evidence.length < 2 || motion.evidence.length > 4) {
+        fail(where, 'evidence must have 2–4 items');
+      } else {
+        debateEvidenceCount += motion.evidence.length;
+        const sides = new Set<string>();
+        for (const [evidenceIndex, rawEvidence] of Array.from(motion.evidence.entries())) {
+          const at = `${where}.evidence[${evidenceIndex}]`;
+          if (!rawEvidence || typeof rawEvidence !== 'object' || Array.isArray(rawEvidence)) { fail(at, 'must be an object'); continue; }
+          const evidence = rawEvidence as Record<string, unknown>;
+          if (!nonEmpty(evidence.fact) || !nonEmpty(evidence.source)) fail(at, 'fact and named source are required');
+          if (evidence.side !== 'for' && evidence.side !== 'against') fail(at, 'side must be for or against');
+          else sides.add(evidence.side);
+        }
+        if (!sides.has('for') || !sides.has('against')) fail(where, 'evidence must support both sides');
+      }
+      if (!nonEmpty(motion.pulse) || !motion.pulse.trim().endsWith('?')) fail(where, 'pulse must be a question');
+    }
+    if (debateMotionCount !== 60 || debateCohorts.kids !== 30 || debateCohorts.teens !== 30) {
+      fail('debate-motions.json', `expected 60 motions, 30 kids and 30 teens (found ${debateMotionCount}/${debateCohorts.kids}/${debateCohorts.teens})`);
+    }
+  }
+}
+
 if (errors.length) {
   console.error(`Library validation failed with ${errors.length} error(s):`);
   for (const error of errors) console.error(`- ${error}`);
@@ -494,4 +557,5 @@ if (errors.length) {
   console.log(`Library validation passed: ${ids.size} items across ${files.length} files.`);
   console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}; before ${speakPositions.before.join('/')}, after ${speakPositions.after.join('/')}).`);
   console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
+  console.log(`Debate motions: ${debateMotionCount} (kids ${debateCohorts.kids}, teens ${debateCohorts.teens}; A2 ${debateLevels.A2}, B1 ${debateLevels.B1}, B2 ${debateLevels.B2}; evidence ${debateEvidenceCount}).`);
 }

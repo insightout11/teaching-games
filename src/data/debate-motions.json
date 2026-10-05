@@ -1,0 +1,1922 @@
+[
+  {
+    "id": "debate-r12-01",
+    "motion": "Homework should be optional",
+    "topics": [
+      "school"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Children need time to play.",
+      "Families have different evening schedules.",
+      "A choice can make practice feel fairer."
+    ],
+    "againstPoints": [
+      "Some practice helps ideas stick.",
+      "Teachers need to see who needs help.",
+      "A short task can build a routine."
+    ],
+    "evidence": [
+      {
+        "fact": "In PISA 2022, more than two hours of daily homework was negatively associated with mathematics performance on average.",
+        "side": "for",
+        "source": "OECD, PISA 2022 Results Volume II"
+      },
+      {
+        "fact": "In PISA 2022, up to two hours of daily homework was positively associated with mathematics performance on average.",
+        "side": "against",
+        "source": "OECD, PISA 2022 Results Volume II"
+      }
+    ],
+    "pulse": "Do you think homework should be optional?"
+  },
+  {
+    "id": "debate-r12-02",
+    "motion": "Schools should give less homework",
+    "topics": [
+      "school"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Long tasks can take away rest.",
+      "Short tasks are easier to finish well.",
+      "More free time helps family life."
+    ],
+    "againstPoints": [
+      "Practice can help with maths.",
+      "Some pupils need extra time.",
+      "A little homework teaches planning."
+    ],
+    "evidence": [
+      {
+        "fact": "In PISA 2022, more than two hours of daily homework was negatively associated with mathematics performance on average.",
+        "side": "for",
+        "source": "OECD, PISA 2022 Results Volume II"
+      },
+      {
+        "fact": "In PISA 2022, up to two hours of daily homework was positively associated with mathematics performance on average.",
+        "side": "against",
+        "source": "OECD, PISA 2022 Results Volume II"
+      }
+    ],
+    "pulse": "Do you think schools should give less homework?"
+  },
+  {
+    "id": "debate-r12-03",
+    "motion": "Schools should open homework rooms after class",
+    "topics": [
+      "school"
+    ],
+    "ageBand": "kids",
+    "cefr": "B1",
+    "forPoints": [
+      "A quiet place helps children focus.",
+      "Teachers can answer questions.",
+      "Home space is not equal for everyone."
+    ],
+    "againstPoints": [
+      "Some children need to go home early.",
+      "Staff and rooms cost money.",
+      "Homework could still take too much time."
+    ],
+    "evidence": [
+      {
+        "fact": "PISA 2018 found that access to a school homework room was associated with higher reading scores, even after accounting for socioeconomic factors.",
+        "side": "for",
+        "source": "OECD, PISA 2018 Results Volume V"
+      },
+      {
+        "fact": "In PISA 2022, more than two hours of daily homework was negatively associated with mathematics performance on average.",
+        "side": "against",
+        "source": "OECD, PISA 2022 Results Volume II"
+      }
+    ],
+    "pulse": "Do you think schools should open homework rooms after class?"
+  },
+  {
+    "id": "debate-r12-04",
+    "motion": "Schools should have two play breaks each day",
+    "topics": [
+      "school"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Play helps children focus again.",
+      "Friends can talk and move.",
+      "Two short breaks split up sitting."
+    ],
+    "againstPoints": [
+      "Lessons still need enough time.",
+      "Extra breaks need adult supervision.",
+      "PE also needs its own time."
+    ],
+    "evidence": [
+      {
+        "fact": "CDC reports that recess can improve attention, concentration and time on task in class.",
+        "side": "for",
+        "source": "CDC and SHAPE America, Strategies for Recess in Schools"
+      },
+      {
+        "fact": "CDC says recess should not replace physical education classes.",
+        "side": "against",
+        "source": "CDC, Comprehensive School Physical Activity Programs guide"
+      }
+    ],
+    "pulse": "Do you think schools should have two play breaks each day?"
+  },
+  {
+    "id": "debate-r12-05",
+    "motion": "Play break should never be taken away",
+    "topics": [
+      "school"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Children need movement even after mistakes.",
+      "A break can help a child calm down.",
+      "Everyone deserves time with friends."
+    ],
+    "againstPoints": [
+      "Schools need other fair consequences.",
+      "Some safety problems need a pause.",
+      "Teachers need a clear rule."
+    ],
+    "evidence": [
+      {
+        "fact": "CDC reports that recess can improve attention, concentration and time on task in class.",
+        "side": "for",
+        "source": "CDC and SHAPE America, Strategies for Recess in Schools"
+      },
+      {
+        "fact": "CDC says recess should not replace physical education classes.",
+        "side": "against",
+        "source": "CDC, Comprehensive School Physical Activity Programs guide"
+      }
+    ],
+    "pulse": "Do you think play break should never be taken away?"
+  },
+  {
+    "id": "debate-r12-06",
+    "motion": "Classrooms should have a movement break",
+    "topics": [
+      "school"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Moving can help attention.",
+      "It breaks up long sitting.",
+      "Everyone can join simple stretches."
+    ],
+    "againstPoints": [
+      "A break can interrupt a task.",
+      "Some rooms are very small.",
+      "PE and outdoor play matter too."
+    ],
+    "evidence": [
+      {
+        "fact": "CDC says school activity programmes can combine PE, recess, classroom movement and family engagement.",
+        "side": "for",
+        "source": "CDC, Strategies for School and Youth Programs"
+      },
+      {
+        "fact": "CDC says recess should not replace physical education classes.",
+        "side": "against",
+        "source": "CDC, Comprehensive School Physical Activity Programs guide"
+      }
+    ],
+    "pulse": "Do you think classrooms should have a movement break?"
+  },
+  {
+    "id": "debate-r12-07",
+    "motion": "Every child should try a school sport",
+    "topics": [
+      "sports"
+    ],
+    "ageBand": "kids",
+    "cefr": "B1",
+    "forPoints": [
+      "Sport can help children move daily.",
+      "A team can build friendships.",
+      "Trying teaches new skills."
+    ],
+    "againstPoints": [
+      "Not every child likes competition.",
+      "Games and walking count as movement too.",
+      "Teams need space and equipment."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO recommends an average of at least 60 minutes of moderate to vigorous activity daily for ages 5–17.",
+        "side": "for",
+        "source": "WHO, Guidelines on Physical Activity and Sedentary Behaviour"
+      },
+      {
+        "fact": "WHO counts play, games, sports, walking, cycling and chores as forms of physical activity for children.",
+        "side": "against",
+        "source": "WHO, Guidelines on Physical Activity and Sedentary Behaviour"
+      }
+    ],
+    "pulse": "Do you think every child should try a school sport?"
+  },
+  {
+    "id": "debate-r12-08",
+    "motion": "Walking games are better than sitting games at school",
+    "topics": [
+      "games"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "They help children move.",
+      "They can use the playground.",
+      "They offer a fun change from desks."
+    ],
+    "againstPoints": [
+      "Quiet games help children rest.",
+      "Some pupils cannot run easily.",
+      "Children should have choices."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO recommends an average of at least 60 minutes of moderate to vigorous activity daily for ages 5–17.",
+        "side": "for",
+        "source": "WHO, Guidelines on Physical Activity and Sedentary Behaviour"
+      },
+      {
+        "fact": "UNICEF reports that play supports young children’s language, social, physical and thinking skills.",
+        "side": "against",
+        "source": "UNICEF Data, The Power of Play"
+      }
+    ],
+    "pulse": "Do you think walking games are better than sitting games at school?"
+  },
+  {
+    "id": "debate-r12-09",
+    "motion": "Schools should offer more than one kind of PE",
+    "topics": [
+      "sports"
+    ],
+    "ageBand": "kids",
+    "cefr": "B1",
+    "forPoints": [
+      "More children may find a game they enjoy.",
+      "Dance and walking count too.",
+      "Variety teaches different skills."
+    ],
+    "againstPoints": [
+      "Equipment and teachers cost money.",
+      "A small school may lack space.",
+      "One sport can teach teamwork well."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO counts play, games, sports, walking, cycling and chores as forms of physical activity for children.",
+        "side": "for",
+        "source": "WHO, Guidelines on Physical Activity and Sedentary Behaviour"
+      },
+      {
+        "fact": "CDC says school activity programmes can combine PE, recess, classroom movement and family engagement.",
+        "side": "against",
+        "source": "CDC, Strategies for School and Youth Programs"
+      }
+    ],
+    "pulse": "Do you think schools should offer more than one kind of PE?"
+  },
+  {
+    "id": "debate-r12-10",
+    "motion": "Schools should serve fruit every day",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Fruit gives children a healthy choice.",
+      "Everyone can try different kinds.",
+      "It can replace a very sweet snack."
+    ],
+    "againstPoints": [
+      "Some children prefer other healthy foods.",
+      "Fresh food can spoil.",
+      "Schools must keep meals varied."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO says a healthy diet includes varied whole grains, vegetables, fruit and pulses.",
+        "side": "for",
+        "source": "WHO, Healthy Diet fact sheet"
+      },
+      {
+        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "side": "against",
+        "source": "UNEP, Food Waste Index Report 2024"
+      }
+    ],
+    "pulse": "Do you think schools should serve fruit every day?"
+  },
+  {
+    "id": "debate-r12-11",
+    "motion": "Schools should stop selling sugary drinks",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Water is an easy choice.",
+      "Less sugar helps teeth.",
+      "The school shop can support healthy habits."
+    ],
+    "againstPoints": [
+      "Older pupils may want a choice.",
+      "A rule alone cannot change every habit.",
+      "Schools should also offer good alternatives."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO recommends that free sugars stay below 10% of total daily energy intake for children and adults.",
+        "side": "for",
+        "source": "WHO, Healthy Diet fact sheet"
+      },
+      {
+        "fact": "WHO lists nudges and better food provision alongside nutrition standards as ways to improve school food.",
+        "side": "against",
+        "source": "WHO, Policies and Interventions to Create Healthy School Food Environments"
+      }
+    ],
+    "pulse": "Do you think schools should stop selling sugary drinks?"
+  },
+  {
+    "id": "debate-r12-12",
+    "motion": "Children should help choose school lunches",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "kids",
+    "cefr": "B1",
+    "forPoints": [
+      "They can suggest food they will eat.",
+      "A vote gives pupils a voice.",
+      "Better choices may mean less waste."
+    ],
+    "againstPoints": [
+      "Meals still need to be healthy.",
+      "The kitchen has a budget.",
+      "Not everyone likes the same food."
+    ],
+    "evidence": [
+      {
+        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "side": "for",
+        "source": "UNEP, Food Waste Index Report 2024"
+      },
+      {
+        "fact": "WHO says school food rules should increase access to healthy choices and reduce foods high in sugar, salt and unhealthy fats.",
+        "side": "against",
+        "source": "WHO, Policies and Interventions to Create Healthy School Food Environments"
+      }
+    ],
+    "pulse": "Do you think children should help choose school lunches?"
+  },
+  {
+    "id": "debate-r12-13",
+    "motion": "Schools should weigh their lunch waste",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "kids",
+    "cefr": "B1",
+    "forPoints": [
+      "Measuring shows what is thrown away.",
+      "Classes can test ways to waste less.",
+      "Children see why portions matter."
+    ],
+    "againstPoints": [
+      "Weighing takes time.",
+      "A number may embarrass pupils.",
+      "The school needs a clear use for the results."
+    ],
+    "evidence": [
+      {
+        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "side": "for",
+        "source": "UNEP, Food Waste Index Report 2024"
+      },
+      {
+        "fact": "WHO says school food rules should increase access to healthy choices and reduce foods high in sugar, salt and unhealthy fats.",
+        "side": "against",
+        "source": "WHO, Policies and Interventions to Create Healthy School Food Environments"
+      }
+    ],
+    "pulse": "Do you think schools should weigh their lunch waste?"
+  },
+  {
+    "id": "debate-r12-14",
+    "motion": "Every school should compost food scraps",
+    "topics": [
+      "environment"
+    ],
+    "ageBand": "kids",
+    "cefr": "B1",
+    "forPoints": [
+      "Scraps can help make soil.",
+      "It teaches a useful habit.",
+      "Less food goes in the rubbish bin."
+    ],
+    "againstPoints": [
+      "Compost needs care and space.",
+      "Some scraps cause problems.",
+      "Preventing waste first may help more."
+    ],
+    "evidence": [
+      {
+        "fact": "EPA says composting diverts food scraps from disposal and creates a useful soil amendment.",
+        "side": "for",
+        "source": "US EPA, Benefits of Using Compost"
+      },
+      {
+        "fact": "EPA says different compost feedstocks have different benefits and challenges; nutrient transport must be considered.",
+        "side": "against",
+        "source": "US EPA, Benefits of Using Compost"
+      }
+    ],
+    "pulse": "Do you think every school should compost food scraps?"
+  },
+  {
+    "id": "debate-r12-15",
+    "motion": "Schools should give smaller lunch portions first",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Pupils can ask for more.",
+      "Less food may be thrown away.",
+      "Small children get a suitable start."
+    ],
+    "againstPoints": [
+      "A hungry child needs enough food.",
+      "Serving twice may slow lunch.",
+      "The same portion will not suit everyone."
+    ],
+    "evidence": [
+      {
+        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "side": "for",
+        "source": "UNEP, Food Waste Index Report 2024"
+      },
+      {
+        "fact": "WHO says a healthy diet includes varied whole grains, vegetables, fruit and pulses.",
+        "side": "against",
+        "source": "WHO, Healthy Diet fact sheet"
+      }
+    ],
+    "pulse": "Do you think schools should give smaller lunch portions first?"
+  },
+  {
+    "id": "debate-r12-16",
+    "motion": "Schools should lend reusable water bottles",
+    "topics": [
+      "environment"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Fewer throwaway bottles are needed.",
+      "Children can refill water.",
+      "Borrowing helps anyone who forgot one."
+    ],
+    "againstPoints": [
+      "Bottles need washing.",
+      "They may get lost.",
+      "Safe drinking water must be available."
+    ],
+    "evidence": [
+      {
+        "fact": "EPA ranks source reduction and reuse above recycling in its waste-management hierarchy.",
+        "side": "for",
+        "source": "US EPA, Sustainable Materials Management Hierarchy"
+      },
+      {
+        "fact": "UNEP says plastic is cheap, light and easy to manufacture.",
+        "side": "against",
+        "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
+      }
+    ],
+    "pulse": "Do you think schools should lend reusable water bottles?"
+  },
+  {
+    "id": "debate-r12-17",
+    "motion": "Class parties should avoid throwaway plates",
+    "topics": [
+      "environment"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Reusable plates make less rubbish.",
+      "A class can share a set.",
+      "Children see reuse in action."
+    ],
+    "againstPoints": [
+      "Washing takes time and water.",
+      "A large party needs many plates.",
+      "Cheap light plates are easy to carry."
+    ],
+    "evidence": [
+      {
+        "fact": "UNEP reports that current systems struggle to cope with the plastic waste people generate.",
+        "side": "for",
+        "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
+      },
+      {
+        "fact": "UNEP says plastic is cheap, light and easy to manufacture.",
+        "side": "against",
+        "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
+      }
+    ],
+    "pulse": "Do you think class parties should avoid throwaway plates?"
+  },
+  {
+    "id": "debate-r12-18",
+    "motion": "Schools should repair toys before buying new ones",
+    "topics": [
+      "environment"
+    ],
+    "ageBand": "kids",
+    "cefr": "B1",
+    "forPoints": [
+      "Repairing can save materials.",
+      "Children can learn how things work.",
+      "The toy gets a longer life."
+    ],
+    "againstPoints": [
+      "A broken toy may be unsafe.",
+      "A repair may cost more than a new toy.",
+      "Some toys cannot be fixed."
+    ],
+    "evidence": [
+      {
+        "fact": "EPA ranks source reduction and reuse above recycling in its waste-management hierarchy.",
+        "side": "for",
+        "source": "US EPA, Sustainable Materials Management Hierarchy"
+      },
+      {
+        "fact": "UNEP says plastic is cheap, light and easy to manufacture.",
+        "side": "against",
+        "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
+      }
+    ],
+    "pulse": "Do you think schools should repair toys before buying new ones?"
+  },
+  {
+    "id": "debate-r12-19",
+    "motion": "Every school should have a small garden",
+    "topics": [
+      "nature"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Children can learn about plants.",
+      "A garden gives outdoor time.",
+      "Food scraps could become compost."
+    ],
+    "againstPoints": [
+      "Plants need care in holidays.",
+      "Some schools lack space.",
+      "Compost needs careful use."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO reports that urban green spaces can support physical activity, social ties and mental health.",
+        "side": "for",
+        "source": "WHO Europe, Urban Green Spaces and Health"
+      },
+      {
+        "fact": "EPA says different compost feedstocks have different benefits and challenges; nutrient transport must be considered.",
+        "side": "against",
+        "source": "US EPA, Benefits of Using Compost"
+      }
+    ],
+    "pulse": "Do you think every school should have a small garden?"
+  },
+  {
+    "id": "debate-r12-20",
+    "motion": "Cities should build more playgrounds",
+    "topics": [
+      "nature"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Children need safe places to play.",
+      "Families can meet there.",
+      "Play helps health and learning."
+    ],
+    "againstPoints": [
+      "Playgrounds need land and repairs.",
+      "Other public spaces also matter.",
+      "A poor design may not feel safe."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO, UNICEF and UN-Habitat report that only 44% of urban residents live near an open public space.",
+        "side": "for",
+        "source": "WHO, Guide to Creating Urban Public Spaces for Children"
+      },
+      {
+        "fact": "WHO says community engagement and cross-sector planning are important for successful green-space projects.",
+        "side": "against",
+        "source": "WHO Europe, Urban Green Space Interventions and Health"
+      }
+    ],
+    "pulse": "Do you think cities should build more playgrounds?"
+  },
+  {
+    "id": "debate-r12-21",
+    "motion": "Schoolyards should have more trees",
+    "topics": [
+      "nature"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Trees make a pleasant place to play.",
+      "Children can learn about nature.",
+      "Green space supports health."
+    ],
+    "againstPoints": [
+      "Trees need water and care.",
+      "Roots can affect play areas.",
+      "The yard must still have open space."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO reports that urban green spaces can support physical activity, social ties and mental health.",
+        "side": "for",
+        "source": "WHO Europe, Urban Green Spaces and Health"
+      },
+      {
+        "fact": "WHO says community engagement and cross-sector planning are important for successful green-space projects.",
+        "side": "against",
+        "source": "WHO Europe, Urban Green Space Interventions and Health"
+      }
+    ],
+    "pulse": "Do you think schoolyards should have more trees?"
+  },
+  {
+    "id": "debate-r12-22",
+    "motion": "Zoos should close",
+    "topics": [
+      "animals"
+    ],
+    "ageBand": "kids",
+    "cefr": "B1",
+    "forPoints": [
+      "Wild animals need careful welfare protection.",
+      "People can learn through films and nature visits.",
+      "Habitat protection matters in the wild."
+    ],
+    "againstPoints": [
+      "Some zoos help endangered animals breed.",
+      "Good zoos teach visitors.",
+      "Careful research can help conservation."
+    ],
+    "evidence": [
+      {
+        "fact": "UK modern zoo standards cover animal welfare as well as conservation, public safety and education.",
+        "side": "for",
+        "source": "UK Department for Environment, Standards of Modern Zoo Practice"
+      },
+      {
+        "fact": "Smithsonian scientists use conservation breeding to help preserve cheetah genetic diversity.",
+        "side": "against",
+        "source": "Smithsonian National Zoo, Cheetah Breeding Program"
+      }
+    ],
+    "pulse": "Do you think zoos should close?"
+  },
+  {
+    "id": "debate-r12-23",
+    "motion": "Zoos should focus only on endangered animals",
+    "topics": [
+      "animals"
+    ],
+    "ageBand": "kids",
+    "cefr": "B1",
+    "forPoints": [
+      "Space could help animals that need it most.",
+      "A clear goal helps conservation.",
+      "Visitors can learn about species at risk."
+    ],
+    "againstPoints": [
+      "All animals need good care.",
+      "Children learn from common animals too.",
+      "A mixed collection may support zoo work."
+    ],
+    "evidence": [
+      {
+        "fact": "Smithsonian reports that captive breeding and reintroduction helped the scimitar-horned oryx recover in the wild.",
+        "side": "for",
+        "source": "Smithsonian National Zoo, Oryx Recovery"
+      },
+      {
+        "fact": "UK modern zoo standards cover animal welfare as well as conservation, public safety and education.",
+        "side": "against",
+        "source": "UK Department for Environment, Standards of Modern Zoo Practice"
+      }
+    ],
+    "pulse": "Do you think zoos should focus only on endangered animals?"
+  },
+  {
+    "id": "debate-r12-24",
+    "motion": "Children should visit zoos to learn about animals",
+    "topics": [
+      "animals"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "They can see animals closely.",
+      "Keepers can explain conservation.",
+      "A visit may inspire care for wildlife."
+    ],
+    "againstPoints": [
+      "Animal welfare must come first.",
+      "Films and local parks can teach too.",
+      "Not every family can afford a trip."
+    ],
+    "evidence": [
+      {
+        "fact": "Smithsonian scientists use conservation breeding to help preserve cheetah genetic diversity.",
+        "side": "for",
+        "source": "Smithsonian National Zoo, Cheetah Breeding Program"
+      },
+      {
+        "fact": "UK modern zoo standards cover animal welfare as well as conservation, public safety and education.",
+        "side": "against",
+        "source": "UK Department for Environment, Standards of Modern Zoo Practice"
+      }
+    ],
+    "pulse": "Do you think children should visit zoos to learn about animals?"
+  },
+  {
+    "id": "debate-r12-25",
+    "motion": "Phones should stay in school bags",
+    "topics": [
+      "technology"
+    ],
+    "ageBand": "kids",
+    "cefr": "B1",
+    "forPoints": [
+      "Lessons can have fewer distractions.",
+      "Friends may talk face to face.",
+      "A simple rule is easy to remember."
+    ],
+    "againstPoints": [
+      "Phones can help with learning.",
+      "Children need digital skills.",
+      "Teachers can set careful times for use."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO reports that even a nearby phone can distract students from learning.",
+        "side": "for",
+        "source": "UNESCO, 2023 Global Education Monitoring Report"
+      },
+      {
+        "fact": "UNICEF Innocenti reports that keeping children offline can undermine their digital skills development.",
+        "side": "against",
+        "source": "UNICEF Innocenti, Childhood in a Digital World"
+      }
+    ],
+    "pulse": "Do you think phones should stay in school bags?"
+  },
+  {
+    "id": "debate-r12-26",
+    "motion": "Children should have some screen-free play time",
+    "topics": [
+      "games"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "They can move and make things.",
+      "Outdoor play can bring friends together.",
+      "A break gives eyes and minds a rest."
+    ],
+    "againstPoints": [
+      "Online games can connect friends.",
+      "Some children play creatively online.",
+      "A strict ban may be unfair."
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF reports that play supports young children’s language, social, physical and thinking skills.",
+        "side": "for",
+        "source": "UNICEF Data, The Power of Play"
+      },
+      {
+        "fact": "UNICEF Innocenti says online play can provide social connection for some children.",
+        "side": "against",
+        "source": "UNICEF Innocenti, Debunking Four Myths About Children’s Safety Online"
+      }
+    ],
+    "pulse": "Do you think children should have some screen-free play time?"
+  },
+  {
+    "id": "debate-r12-27",
+    "motion": "Schools should teach safe internet habits early",
+    "topics": [
+      "technology"
+    ],
+    "ageBand": "kids",
+    "cefr": "B1",
+    "forPoints": [
+      "Children can learn how to ask for help.",
+      "Safety lessons help them use useful tools.",
+      "Pupils can practise kind online talk."
+    ],
+    "againstPoints": [
+      "Lessons need trained adults.",
+      "One lesson cannot remove online risks.",
+      "Platforms also have responsibilities."
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF says digital learning brings opportunities but can also introduce risks that schools must manage.",
+        "side": "for",
+        "source": "UNICEF, Child Protection in Digital Education"
+      },
+      {
+        "fact": "UNICEF says online spaces can support learning and socialising but can also expose children to bullying and harmful content.",
+        "side": "against",
+        "source": "UNICEF Innocenti, Childhood in a Digital World"
+      }
+    ],
+    "pulse": "Do you think schools should teach safe internet habits early?"
+  },
+  {
+    "id": "debate-r12-28",
+    "motion": "Children should choose some classroom games",
+    "topics": [
+      "games"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Children know what they enjoy.",
+      "Choice can make play more exciting.",
+      "They can practise taking turns."
+    ],
+    "againstPoints": [
+      "The teacher must keep games safe.",
+      "Popular games may leave someone out.",
+      "Some games do not fit the lesson."
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF reports that play supports young children’s language, social, physical and thinking skills.",
+        "side": "for",
+        "source": "UNICEF Data, The Power of Play"
+      },
+      {
+        "fact": "CDC says school activity programmes can combine PE, recess, classroom movement and family engagement.",
+        "side": "against",
+        "source": "CDC, Strategies for School and Youth Programs"
+      }
+    ],
+    "pulse": "Do you think children should choose some classroom games?"
+  },
+  {
+    "id": "debate-r12-29",
+    "motion": "Schools should keep a box of simple play materials",
+    "topics": [
+      "games"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "A box can help creative play.",
+      "Simple things cost little.",
+      "Children can share and invent games."
+    ],
+    "againstPoints": [
+      "Things need storage and care.",
+      "Some materials break quickly.",
+      "Outdoor space matters too."
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF says books, drawing materials, natural items and simple household objects can support play and learning.",
+        "side": "for",
+        "source": "UNICEF Data, The Power of Play"
+      },
+      {
+        "fact": "WHO reports that urban green spaces can support physical activity, social ties and mental health.",
+        "side": "against",
+        "source": "WHO Europe, Urban Green Spaces and Health"
+      }
+    ],
+    "pulse": "Do you think schools should keep a box of simple play materials?"
+  },
+  {
+    "id": "debate-r12-30",
+    "motion": "Families should make time to play together",
+    "topics": [
+      "home"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Playing helps children learn words.",
+      "Families can enjoy time together.",
+      "Games help children practise sharing."
+    ],
+    "againstPoints": [
+      "Families have different schedules.",
+      "Children also need independent play.",
+      "Simple materials still need space and time."
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF reports that play supports young children’s language, social, physical and thinking skills.",
+        "side": "for",
+        "source": "UNICEF Data, The Power of Play"
+      },
+      {
+        "fact": "UNICEF reports that many young children lack playful interactions or playthings at home.",
+        "side": "against",
+        "source": "UNICEF Data, The Power of Play"
+      }
+    ],
+    "pulse": "Do you think families should make time to play together?"
+  },
+  {
+    "id": "debate-r12-31",
+    "motion": "High schools should start later",
+    "topics": [
+      "school"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Teenagers need enough sleep.",
+      "Rest can improve morning attention.",
+      "A later start fits adolescent sleep patterns."
+    ],
+    "againstPoints": [
+      "Families may have earlier work hours.",
+      "Transport timetables would change.",
+      "A later finish could squeeze activities."
+    ],
+    "evidence": [
+      {
+        "fact": "CDC says later school start times can help adolescents get enough sleep.",
+        "side": "for",
+        "source": "CDC, Sleep and Health"
+      },
+      {
+        "fact": "CDC also lists sleep education as an action schools can take to support student sleep.",
+        "side": "against",
+        "source": "CDC, Sleep and Health"
+      }
+    ],
+    "pulse": "Do you think high schools should start later?"
+  },
+  {
+    "id": "debate-r12-32",
+    "motion": "Schools should cap homework at one hour",
+    "topics": [
+      "school"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "A cap protects rest and hobbies.",
+      "Focused work may beat long tasks.",
+      "Pupils can plan evenings more easily."
+    ],
+    "againstPoints": [
+      "Some subjects need more practice.",
+      "Different pupils work at different speeds.",
+      "A single cap ignores busy weeks."
+    ],
+    "evidence": [
+      {
+        "fact": "In PISA 2022, more than two hours of daily homework was negatively associated with mathematics performance on average.",
+        "side": "for",
+        "source": "OECD, PISA 2022 Results Volume II"
+      },
+      {
+        "fact": "In PISA 2022, up to two hours of daily homework was positively associated with mathematics performance on average.",
+        "side": "against",
+        "source": "OECD, PISA 2022 Results Volume II"
+      }
+    ],
+    "pulse": "Do you think schools should cap homework at one hour?"
+  },
+  {
+    "id": "debate-r12-33",
+    "motion": "Homework clubs should replace most home assignments",
+    "topics": [
+      "school"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "A shared quiet space can reduce inequality.",
+      "Staff can help when pupils get stuck.",
+      "Work can finish before home time."
+    ],
+    "againstPoints": [
+      "Some pupils need flexible hours.",
+      "Clubs need staff and rooms.",
+      "Independent practice at home can be useful."
+    ],
+    "evidence": [
+      {
+        "fact": "PISA 2018 found that access to a school homework room was associated with higher reading scores, even after accounting for socioeconomic factors.",
+        "side": "for",
+        "source": "OECD, PISA 2018 Results Volume V"
+      },
+      {
+        "fact": "In PISA 2022, up to two hours of daily homework was positively associated with mathematics performance on average.",
+        "side": "against",
+        "source": "OECD, PISA 2022 Results Volume II"
+      }
+    ],
+    "pulse": "Do you think homework clubs should replace most home assignments?"
+  },
+  {
+    "id": "debate-r12-34",
+    "motion": "Schools should allow AI for homework planning",
+    "topics": [
+      "technology"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "A tool can break a task into steps.",
+      "Students should learn responsible AI use.",
+      "Planning help can support independent work."
+    ],
+    "againstPoints": [
+      "AI can give wrong advice.",
+      "Access differs between pupils.",
+      "Teachers need clear boundaries."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO’s student AI framework sets out twelve competencies including critical judgement and responsible use.",
+        "side": "for",
+        "source": "UNESCO, AI Competency Framework for Students"
+      },
+      {
+        "fact": "UNESCO guidance asks education systems to assess both the opportunities and risks of AI in learning.",
+        "side": "against",
+        "source": "UNESCO, AI and Education: Guidance for Policy-makers"
+      }
+    ],
+    "pulse": "Do you think schools should allow AI for homework planning?"
+  },
+  {
+    "id": "debate-r12-35",
+    "motion": "Students should disclose AI help on assignments",
+    "topics": [
+      "technology"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Disclosure makes assessment fairer.",
+      "Teachers can see a pupil’s own work.",
+      "It builds critical AI habits."
+    ],
+    "againstPoints": [
+      "A rule may be hard to define.",
+      "Checking every use takes time.",
+      "Some pupils use AI as an accessibility aid."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO’s student AI framework sets out twelve competencies including critical judgement and responsible use.",
+        "side": "for",
+        "source": "UNESCO, AI Competency Framework for Students"
+      },
+      {
+        "fact": "UNESCO guidance asks education systems to assess both the opportunities and risks of AI in learning.",
+        "side": "against",
+        "source": "UNESCO, AI and Education: Guidance for Policy-makers"
+      }
+    ],
+    "pulse": "Do you think students should disclose AI help on assignments?"
+  },
+  {
+    "id": "debate-r12-36",
+    "motion": "AI literacy should be a required subject",
+    "topics": [
+      "technology"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Young people need to judge AI outputs.",
+      "Schools can teach responsible use.",
+      "All pupils deserve basic AI skills."
+    ],
+    "againstPoints": [
+      "Timetables are already crowded.",
+      "The technology changes quickly.",
+      "AI could be taught inside existing subjects."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO’s student AI framework sets out twelve competencies including critical judgement and responsible use.",
+        "side": "for",
+        "source": "UNESCO, AI Competency Framework for Students"
+      },
+      {
+        "fact": "UNESCO guidance asks education systems to assess both the opportunities and risks of AI in learning.",
+        "side": "against",
+        "source": "UNESCO, AI and Education: Guidance for Policy-makers"
+      }
+    ],
+    "pulse": "Do you think aI literacy should be a required subject?"
+  },
+  {
+    "id": "debate-r12-37",
+    "motion": "Schools should ban phones during lessons",
+    "topics": [
+      "technology"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Notifications distract attention.",
+      "A clear rule supports teachers.",
+      "Classmates can focus together."
+    ],
+    "againstPoints": [
+      "Phones can support useful research.",
+      "Some pupils need a device for access.",
+      "Careful use teaches digital judgement."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO reports that even a nearby phone can distract students from learning.",
+        "side": "for",
+        "source": "UNESCO, 2023 Global Education Monitoring Report"
+      },
+      {
+        "fact": "UNESCO says digital technology can help disadvantaged learners when it supports human-centred teaching.",
+        "side": "against",
+        "source": "UNESCO, 2023 Global Education Monitoring Report"
+      }
+    ],
+    "pulse": "Do you think schools should ban phones during lessons?"
+  },
+  {
+    "id": "debate-r12-38",
+    "motion": "All school textbooks should be digital",
+    "topics": [
+      "technology"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Digital copies can travel easily.",
+      "Text can be updated quickly.",
+      "Useful tools can make reading accessible."
+    ],
+    "againstPoints": [
+      "Many schools lack reliable internet.",
+      "Screens can distract readers.",
+      "Devices need charging and repair."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO says digital technology can help disadvantaged learners when it supports human-centred teaching.",
+        "side": "for",
+        "source": "UNESCO, 2023 Global Education Monitoring Report"
+      },
+      {
+        "fact": "UNESCO reports that many schools still lack internet access, especially at primary level.",
+        "side": "against",
+        "source": "UNESCO, 2023 Global Education Monitoring Report"
+      }
+    ],
+    "pulse": "Do you think all school textbooks should be digital?"
+  },
+  {
+    "id": "debate-r12-39",
+    "motion": "Schools should teach with fewer screens",
+    "topics": [
+      "technology"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Human discussion deserves more time.",
+      "Phones can break concentration.",
+      "Pupils can practise reading on paper."
+    ],
+    "againstPoints": [
+      "Digital tools can widen access.",
+      "Skills for online life matter.",
+      "Some lessons work better with media."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO reports that even a nearby phone can distract students from learning.",
+        "side": "for",
+        "source": "UNESCO, 2023 Global Education Monitoring Report"
+      },
+      {
+        "fact": "UNESCO says digital technology can help disadvantaged learners when it supports human-centred teaching.",
+        "side": "against",
+        "source": "UNESCO, 2023 Global Education Monitoring Report"
+      }
+    ],
+    "pulse": "Do you think schools should teach with fewer screens?"
+  },
+  {
+    "id": "debate-r12-40",
+    "motion": "Social media should have a teen time limit",
+    "topics": [
+      "technology"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "A limit can protect time for sleep.",
+      "It may encourage offline friendships.",
+      "It can reduce endless scrolling."
+    ],
+    "againstPoints": [
+      "Online spaces also connect friends.",
+      "A fixed limit ignores different uses.",
+      "Safer design matters beyond time."
+    ],
+    "evidence": [
+      {
+        "fact": "CDC says teenagers aged 13–18 need 8–10 hours of sleep per day.",
+        "side": "for",
+        "source": "CDC, Sleep and Health"
+      },
+      {
+        "fact": "UNICEF Innocenti says online play can provide social connection for some children.",
+        "side": "against",
+        "source": "UNICEF Innocenti, Debunking Four Myths About Children’s Safety Online"
+      }
+    ],
+    "pulse": "Do you think social media should have a teen time limit?"
+  },
+  {
+    "id": "debate-r12-41",
+    "motion": "Platforms should explain recommendation algorithms to teens",
+    "topics": [
+      "technology"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Teens can better judge what they see.",
+      "Transparency may improve safety.",
+      "It supports informed digital choices."
+    ],
+    "againstPoints": [
+      "Technical explanations can be confusing.",
+      "Algorithms change often.",
+      "Transparency alone will not stop harm."
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF says online spaces can support learning and socialising but can also expose children to bullying and harmful content.",
+        "side": "for",
+        "source": "UNICEF Innocenti, Childhood in a Digital World"
+      },
+      {
+        "fact": "UNICEF says digital learning brings opportunities but can also introduce risks that schools must manage.",
+        "side": "against",
+        "source": "UNICEF, Child Protection in Digital Education"
+      }
+    ],
+    "pulse": "Do you think platforms should explain recommendation algorithms to teens?"
+  },
+  {
+    "id": "debate-r12-42",
+    "motion": "Online safety lessons should begin before secondary school",
+    "topics": [
+      "technology"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Younger pupils already meet online risks.",
+      "They can practise asking for help.",
+      "Early habits may carry forward."
+    ],
+    "againstPoints": [
+      "Teaching requires trained adults.",
+      "Poor lessons may frighten children.",
+      "Platforms must also make spaces safer."
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF says digital learning brings opportunities but can also introduce risks that schools must manage.",
+        "side": "for",
+        "source": "UNICEF, Child Protection in Digital Education"
+      },
+      {
+        "fact": "UNICEF says online spaces can support learning and socialising but can also expose children to bullying and harmful content.",
+        "side": "against",
+        "source": "UNICEF Innocenti, Childhood in a Digital World"
+      }
+    ],
+    "pulse": "Do you think online safety lessons should begin before secondary school?"
+  },
+  {
+    "id": "debate-r12-43",
+    "motion": "School meals should offer a plant-based choice daily",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "More pupils can find a meal they like.",
+      "Pulses are part of a healthy diet.",
+      "Choice can support different food needs."
+    ],
+    "againstPoints": [
+      "Meals must still be balanced.",
+      "Kitchens may need new recipes.",
+      "Food that pupils reject becomes waste."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO says a healthy diet includes varied whole grains, vegetables, fruit and pulses.",
+        "side": "for",
+        "source": "WHO, Healthy Diet fact sheet"
+      },
+      {
+        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "side": "against",
+        "source": "UNEP, Food Waste Index Report 2024"
+      }
+    ],
+    "pulse": "Do you think school meals should offer a plant-based choice daily?"
+  },
+  {
+    "id": "debate-r12-44",
+    "motion": "Schools should remove sugary drinks from vending machines",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Less sugar supports health.",
+      "Schools can offer water instead.",
+      "The vending machine shapes daily choices."
+    ],
+    "againstPoints": [
+      "Pupils may buy drinks elsewhere.",
+      "A ban does not teach moderation.",
+      "Schools need appealing alternatives."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO recommends that free sugars stay below 10% of total daily energy intake for children and adults.",
+        "side": "for",
+        "source": "WHO, Healthy Diet fact sheet"
+      },
+      {
+        "fact": "WHO lists nudges and better food provision alongside nutrition standards as ways to improve school food.",
+        "side": "against",
+        "source": "WHO, Policies and Interventions to Create Healthy School Food Environments"
+      }
+    ],
+    "pulse": "Do you think schools should remove sugary drinks from vending machines?"
+  },
+  {
+    "id": "debate-r12-45",
+    "motion": "Students should help design cafeteria menus",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Student input can reduce uneaten food.",
+      "It gives young people a voice.",
+      "Menus may include more varied dishes."
+    ],
+    "againstPoints": [
+      "Health standards must stay in place.",
+      "Cost limits the menu.",
+      "One group cannot represent every taste."
+    ],
+    "evidence": [
+      {
+        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "side": "for",
+        "source": "UNEP, Food Waste Index Report 2024"
+      },
+      {
+        "fact": "WHO says school food rules should increase access to healthy choices and reduce foods high in sugar, salt and unhealthy fats.",
+        "side": "against",
+        "source": "WHO, Policies and Interventions to Create Healthy School Food Environments"
+      }
+    ],
+    "pulse": "Do you think students should help design cafeteria menus?"
+  },
+  {
+    "id": "debate-r12-46",
+    "motion": "Schools should publish food waste totals",
+    "topics": [
+      "environment"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Visible data can prompt better choices.",
+      "It makes a problem concrete.",
+      "Classes can track improvement."
+    ],
+    "againstPoints": [
+      "Numbers without context can mislead.",
+      "Measuring costs staff time.",
+      "Prevention matters more than reports."
+    ],
+    "evidence": [
+      {
+        "fact": "UNEP documents substantial food waste from households as well as food service and retail.",
+        "side": "for",
+        "source": "UNEP, Food Waste Index Report 2024"
+      },
+      {
+        "fact": "EPA ranks source reduction and reuse above recycling in its waste-management hierarchy.",
+        "side": "against",
+        "source": "US EPA, Sustainable Materials Management Hierarchy"
+      }
+    ],
+    "pulse": "Do you think schools should publish food waste totals?"
+  },
+  {
+    "id": "debate-r12-47",
+    "motion": "Cafeterias should compost leftover food",
+    "topics": [
+      "environment"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Compost keeps scraps out of disposal.",
+      "It can support school gardens.",
+      "Students learn a practical process."
+    ],
+    "againstPoints": [
+      "Compost needs suitable space.",
+      "Wrong materials can cause problems.",
+      "Schools should prevent waste first."
+    ],
+    "evidence": [
+      {
+        "fact": "EPA says composting diverts food scraps from disposal and creates a useful soil amendment.",
+        "side": "for",
+        "source": "US EPA, Benefits of Using Compost"
+      },
+      {
+        "fact": "EPA says different compost feedstocks have different benefits and challenges; nutrient transport must be considered.",
+        "side": "against",
+        "source": "US EPA, Benefits of Using Compost"
+      }
+    ],
+    "pulse": "Do you think cafeterias should compost leftover food?"
+  },
+  {
+    "id": "debate-r12-48",
+    "motion": "Schools should prevent food waste before composting",
+    "topics": [
+      "environment"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Uneaten food uses resources needlessly.",
+      "Smaller portions can be adjusted.",
+      "Prevention comes before recycling."
+    ],
+    "againstPoints": [
+      "Some food scraps cannot be avoided.",
+      "Composting still has value.",
+      "Predicting what everyone eats is hard."
+    ],
+    "evidence": [
+      {
+        "fact": "EPA ranks source reduction and reuse above recycling in its waste-management hierarchy.",
+        "side": "for",
+        "source": "US EPA, Sustainable Materials Management Hierarchy"
+      },
+      {
+        "fact": "EPA says composting diverts food scraps from disposal and creates a useful soil amendment.",
+        "side": "against",
+        "source": "US EPA, Benefits of Using Compost"
+      }
+    ],
+    "pulse": "Do you think schools should prevent food waste before composting?"
+  },
+  {
+    "id": "debate-r12-49",
+    "motion": "School events should use reusable cups",
+    "topics": [
+      "environment"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Reuse cuts throwaway waste.",
+      "One set can serve many events.",
+      "Schools can model a simple change."
+    ],
+    "againstPoints": [
+      "Cups need washing and storage.",
+      "Large events need enough stock.",
+      "Disposable plastic is light and cheap."
+    ],
+    "evidence": [
+      {
+        "fact": "EPA ranks source reduction and reuse above recycling in its waste-management hierarchy.",
+        "side": "for",
+        "source": "US EPA, Sustainable Materials Management Hierarchy"
+      },
+      {
+        "fact": "UNEP says plastic is cheap, light and easy to manufacture.",
+        "side": "against",
+        "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
+      }
+    ],
+    "pulse": "Do you think school events should use reusable cups?"
+  },
+  {
+    "id": "debate-r12-50",
+    "motion": "School shops should avoid single-use plastic packaging",
+    "topics": [
+      "environment"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Less packaging means less waste.",
+      "Shops can try refill options.",
+      "Pupils can practise low-waste buying."
+    ],
+    "againstPoints": [
+      "Packaging can protect food.",
+      "Alternatives may cost more.",
+      "Plastic is light and easy to make."
+    ],
+    "evidence": [
+      {
+        "fact": "UNEP reports that current systems struggle to cope with the plastic waste people generate.",
+        "side": "for",
+        "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
+      },
+      {
+        "fact": "UNEP says plastic is cheap, light and easy to manufacture.",
+        "side": "against",
+        "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
+      }
+    ],
+    "pulse": "Do you think school shops should avoid single-use plastic packaging?"
+  },
+  {
+    "id": "debate-r12-51",
+    "motion": "Schools should run a repair club",
+    "topics": [
+      "environment"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Repair can extend product life.",
+      "Pupils learn practical skills.",
+      "The school may buy fewer replacements."
+    ],
+    "againstPoints": [
+      "Electrical repairs need expert safety.",
+      "Some items are beyond repair.",
+      "Tools and supervision cost money."
+    ],
+    "evidence": [
+      {
+        "fact": "EPA ranks source reduction and reuse above recycling in its waste-management hierarchy.",
+        "side": "for",
+        "source": "US EPA, Sustainable Materials Management Hierarchy"
+      },
+      {
+        "fact": "UNEP says plastic is cheap, light and easy to manufacture.",
+        "side": "against",
+        "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
+      }
+    ],
+    "pulse": "Do you think schools should run a repair club?"
+  },
+  {
+    "id": "debate-r12-52",
+    "motion": "Cities should replace some parking with parks",
+    "topics": [
+      "nature"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Green space supports health.",
+      "More families need places to meet.",
+      "A park can cool a street."
+    ],
+    "againstPoints": [
+      "Some visitors need car access.",
+      "New parks need maintenance.",
+      "A space should suit local residents."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO reports that urban green spaces can support physical activity, social ties and mental health.",
+        "side": "for",
+        "source": "WHO Europe, Urban Green Spaces and Health"
+      },
+      {
+        "fact": "WHO says community engagement and cross-sector planning are important for successful green-space projects.",
+        "side": "against",
+        "source": "WHO Europe, Urban Green Space Interventions and Health"
+      }
+    ],
+    "pulse": "Do you think cities should replace some parking with parks?"
+  },
+  {
+    "id": "debate-r12-53",
+    "motion": "Every neighbourhood should have a public play space",
+    "topics": [
+      "nature"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Children need places near home.",
+      "Shared spaces can build community.",
+      "Outdoor play supports activity."
+    ],
+    "againstPoints": [
+      "Land is scarce in some areas.",
+      "Safety and maintenance matter.",
+      "Different ages want different spaces."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO, UNICEF and UN-Habitat report that only 44% of urban residents live near an open public space.",
+        "side": "for",
+        "source": "WHO, Guide to Creating Urban Public Spaces for Children"
+      },
+      {
+        "fact": "WHO says community engagement and cross-sector planning are important for successful green-space projects.",
+        "side": "against",
+        "source": "WHO Europe, Urban Green Space Interventions and Health"
+      }
+    ],
+    "pulse": "Do you think every neighbourhood should have a public play space?"
+  },
+  {
+    "id": "debate-r12-54",
+    "motion": "Students should help plan local parks",
+    "topics": [
+      "nature"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Young users know what is missing.",
+      "Participation can build ownership.",
+      "Plans may better serve different ages."
+    ],
+    "againstPoints": [
+      "Planners need technical knowledge.",
+      "A few students cannot speak for everyone.",
+      "Decisions must fit the budget."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO finds that better urban green space can bring health, social and environmental benefits, especially for lower-income groups.",
+        "side": "for",
+        "source": "WHO Europe, Urban Green Space Interventions and Health"
+      },
+      {
+        "fact": "WHO says community engagement and cross-sector planning are important for successful green-space projects.",
+        "side": "against",
+        "source": "WHO Europe, Urban Green Space Interventions and Health"
+      }
+    ],
+    "pulse": "Do you think students should help plan local parks?"
+  },
+  {
+    "id": "debate-r12-55",
+    "motion": "Zoos should fund more habitat protection",
+    "topics": [
+      "animals"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Wild homes are central to conservation.",
+      "Funding can help animals beyond zoos.",
+      "Visitors can learn how to help."
+    ],
+    "againstPoints": [
+      "Captive breeding also matters.",
+      "Some species need urgent care.",
+      "Zoos have limited funds."
+    ],
+    "evidence": [
+      {
+        "fact": "UNEP identifies habitat loss among the pressures driving global biodiversity decline.",
+        "side": "for",
+        "source": "UNEP, Global Biodiversity Loss policy brief"
+      },
+      {
+        "fact": "Smithsonian reports that captive breeding and reintroduction helped the scimitar-horned oryx recover in the wild.",
+        "side": "against",
+        "source": "Smithsonian National Zoo, Oryx Recovery"
+      }
+    ],
+    "pulse": "Do you think zoos should fund more habitat protection?"
+  },
+  {
+    "id": "debate-r12-56",
+    "motion": "Conservation breeding should be a zoo priority",
+    "topics": [
+      "animals"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "It can protect genetic diversity.",
+      "It may support reintroduction.",
+      "Specialist keepers can study animals."
+    ],
+    "againstPoints": [
+      "Animal welfare needs close attention.",
+      "Breeding alone cannot protect habitats.",
+      "Not every species breeds well in captivity."
+    ],
+    "evidence": [
+      {
+        "fact": "Smithsonian scientists use conservation breeding to help preserve cheetah genetic diversity.",
+        "side": "for",
+        "source": "Smithsonian National Zoo, Cheetah Breeding Program"
+      },
+      {
+        "fact": "UK modern zoo standards cover animal welfare as well as conservation, public safety and education.",
+        "side": "against",
+        "source": "UK Department for Environment, Standards of Modern Zoo Practice"
+      }
+    ],
+    "pulse": "Do you think conservation breeding should be a zoo priority?"
+  },
+  {
+    "id": "debate-r12-57",
+    "motion": "Wildlife lessons should happen outside zoos when possible",
+    "topics": [
+      "animals"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Local nature makes learning real.",
+      "No captive animal is needed.",
+      "Pupils can see habitats directly."
+    ],
+    "againstPoints": [
+      "Zoos can show hard-to-see species.",
+      "Expert keepers can explain conservation.",
+      "Outdoor trips depend on local access."
+    ],
+    "evidence": [
+      {
+        "fact": "UK modern zoo standards cover animal welfare as well as conservation, public safety and education.",
+        "side": "for",
+        "source": "UK Department for Environment, Standards of Modern Zoo Practice"
+      },
+      {
+        "fact": "Smithsonian scientists use conservation breeding to help preserve cheetah genetic diversity.",
+        "side": "against",
+        "source": "Smithsonian National Zoo, Cheetah Breeding Program"
+      }
+    ],
+    "pulse": "Do you think wildlife lessons should happen outside zoos when possible?"
+  },
+  {
+    "id": "debate-r12-58",
+    "motion": "Schools should teach in students’ home languages when possible",
+    "topics": [
+      "language"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Familiar words can support understanding.",
+      "It respects pupils’ identities.",
+      "Confidence helps class participation."
+    ],
+    "againstPoints": [
+      "Schools may serve many languages.",
+      "Teachers need suitable materials.",
+      "Pupils also need the shared school language."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO reports that learning in a familiar home language improves literacy and confidence.",
+        "side": "for",
+        "source": "UNESCO, Language Matters: The Role and Power of Multilingualism"
+      },
+      {
+        "fact": "UNESCO notes that many governments see multilingual education as complex or expensive.",
+        "side": "against",
+        "source": "UNESCO, Language Matters: The Role and Power of Multilingualism"
+      }
+    ],
+    "pulse": "Do you think schools should teach in students’ home languages when possible?"
+  },
+  {
+    "id": "debate-r12-59",
+    "motion": "Students should be allowed to study more languages",
+    "topics": [
+      "language"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "More languages help people connect.",
+      "Choice can value family languages.",
+      "Learning can build confidence."
+    ],
+    "againstPoints": [
+      "Schools need specialist teachers.",
+      "Time for core subjects is limited.",
+      "Some pupils need deeper support in one language."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO reports that learning in a familiar home language improves literacy and confidence.",
+        "side": "for",
+        "source": "UNESCO, Language Matters: The Role and Power of Multilingualism"
+      },
+      {
+        "fact": "UNESCO notes that many governments see multilingual education as complex or expensive.",
+        "side": "against",
+        "source": "UNESCO, Language Matters: The Role and Power of Multilingualism"
+      }
+    ],
+    "pulse": "Do you think students should be allowed to study more languages?"
+  },
+  {
+    "id": "debate-r12-60",
+    "motion": "Arts should receive as much class time as science",
+    "topics": [
+      "school"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Art supports creativity.",
+      "More pupils can show their strengths.",
+      "Both subjects can enrich learning."
+    ],
+    "againstPoints": [
+      "Science needs hands-on class time.",
+      "A timetable has limited hours.",
+      "Arts clubs can add opportunities outside class."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO’s 2024 India education report describes arts education as supporting creativity and inclusive learning.",
+        "side": "for",
+        "source": "UNESCO, State of the Education Report for India 2024"
+      },
+      {
+        "fact": "OECD reports that schools offering more creative extracurricular activities tended to have higher reading performance, though this is an association.",
+        "side": "against",
+        "source": "OECD, PISA 2018 Results Volume V"
+      }
+    ],
+    "pulse": "Do you think arts should receive as much class time as science?"
+  }
+]
