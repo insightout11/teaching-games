@@ -89,3 +89,20 @@ export function getLibrarySourceMaterial(ref: CourseSourceRef): SourceMaterial |
       : entry.images?.length ? { slides: entry.images.map((image) => image.url) } : {}),
   };
 }
+
+/** The raw library entry (any extra fields, e.g. youtubeId, listeningPack) for a source. */
+export function getLibraryEntry(sourceType: string, id: string): (LibraryEntry & Record<string, unknown>) | null {
+  return (LIBRARIES[sourceType]?.find((e) => e.id === id) as (LibraryEntry & Record<string, unknown>) | undefined) ?? null;
+}
+
+/** Every library entry carrying a listening pack, with its source type (for the Listening flight picker). */
+export function listLibraryEntriesWithListeningPack(): Array<{ sourceType: string; entry: LibraryEntry & Record<string, unknown> }> {
+  const out: Array<{ sourceType: string; entry: LibraryEntry & Record<string, unknown> }> = [];
+  Object.keys(LIBRARIES).forEach((sourceType) => {
+    LIBRARIES[sourceType].forEach((e) => {
+      const x = e as LibraryEntry & Record<string, unknown>;
+      if (x.listeningPack) out.push({ sourceType, entry: x });
+    });
+  });
+  return out;
+}

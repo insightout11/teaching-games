@@ -81,6 +81,8 @@ export interface LessonThread {
   canDo?: { before: Record<string, string[]>; after: Record<string, string[]> };
   /** Speak: the situation check (Try 1 at takeoff, Try 3 at landing), answers per phone. */
   speakCheck?: { situation: SpeakSituation; before: Record<string, SpeakAnswer>; after: Record<string, SpeakAnswer> };
+  /** Listening: gist answers per phone (clientId → question index → option), first and final listen. */
+  listenCheck?: { before: Record<string, Record<number, number>>; after: Record<string, Record<number, number>> };
 }
 
 export interface SessionSettings {
@@ -279,6 +281,7 @@ interface SessionState {
   setSpeakCheck: (situation: SpeakSituation) => void;
   /** After a refresh: put back the lesson thread backed up for this plan. */
   restoreLessonThread: (thread: LessonThread) => void;
+  recordListenAnswer: (when: 'before' | 'after', clientId: string, question: number, option: number) => void;
   recordSpeakAnswer: (when: 'before' | 'after', clientId: string, answer: SpeakAnswer) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
@@ -444,6 +447,11 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setTravellers: (cards) => set({ lessonThread: { ...get().lessonThread, travellers: cards } }),
   setTripStops: (stops) => set({ lessonThread: { ...get().lessonThread, tripStops: stops } }),
   restoreLessonThread: (thread) => set({ lessonThread: thread }),
+  recordListenAnswer: (when, clientId, question, option) => {
+    const { lessonThread } = get();
+    const cur = lessonThread.listenCheck ?? { before: {}, after: {} };
+    set({ lessonThread: { ...lessonThread, listenCheck: { ...cur, [when]: { ...cur[when], [clientId]: { ...(cur[when][clientId] ?? {}), [question]: option } } } } });
+  },
   setSpeakCheck: (situation) => {
     const { lessonThread } = get();
     if (lessonThread.speakCheck?.situation.situation === situation.situation) return;

@@ -127,3 +127,8 @@ A single **Radio Check** stage can drop into Captain's Flight (video source) or 
 4. **Clip length:** cap the listening window at ~3 min (teens) / ~90s (kids)?
 5. **Transcript at the end:** keep the final play *with the transcript on screen* (the "oh, that's what they said!"
    moment)?
+
+## Decisions (owner, Oct 5 2026)
+All recommendations accepted: (1) before/after on **gist** questions; (2) **Quick-fire** for "Talk about it";
+(3) start with **listening-pack clips only**; (4) listening window cap **~3 min teens / ~90s kids**; (5) final play **with
+the transcript** on screen.
