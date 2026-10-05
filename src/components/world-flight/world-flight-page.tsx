@@ -11,15 +11,7 @@ import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/
 import { destinationCoord, destinationsWithinRange, distanceKm, formatDistance, greatCircleLine, rangeRing, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { inferSourceGenre, bestPresetForGenre } from '@/lib/preset-fit';
-import { buildTripItinerary } from '@/lib/world-flight/travel-context';
-import { buildTripAttractionsContent } from '@/activities/trip-attractions';
-import { buildTripMealContent } from '@/activities/trip-meal';
-import { buildTripHotelContent } from '@/activities/trip-hotel/content';
-import { buildTripAnnouncementContent } from '@/activities/trip-announcement/content';
-import { buildTripGettingThereContent } from '@/activities/trip-getting-there';
-import { buildTripDirectionsContent } from '@/activities/trip-directions';
-import { buildTripArrivalContent } from '@/activities/trip-arrival';
-import { buildBoardingCallContent } from '@/activities/boarding-call';
+import { buildTripPack } from '@/lib/world-flight/trip-pack';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, PLANE_TIERS, type PlaneEntry } from '@/lib/plane-progression';
@@ -2478,24 +2470,10 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
     if (selectedPresetId === 'travel-60') {
       // Whole-trip arc: each stage grounds on its own per-stage source, and the Attraction
       // board is seeded from the city's real attractions — both carried via the trip pack.
-      const itinerary = buildTripItinerary(selectedDestination);
-      store.setTopic(`Trip to ${selectedDestination.city}`);
-      store.setSourceMaterial(itinerary.arrival);
-      store.setTripPack({
-        stageSources: {},
-        // Boarding Call (takeoff) and Trip Recap (landing) are data-seeded and need no source.
-        preGenerated: {
-          'boarding-call': buildBoardingCallContent(selectedDestination),
-          'trip-arrival': buildTripArrivalContent(selectedDestination),
-          'trip-announcement': buildTripAnnouncementContent(selectedDestination),
-          'trip-plan': { activityKey: 'trip-plan', topicContext: selectedDestination.city, city: selectedDestination.city },
-          'trip-getting-there': buildTripGettingThereContent(selectedDestination),
-          'trip-directions': buildTripDirectionsContent(selectedDestination),
-          'trip-attractions': buildTripAttractionsContent(selectedDestination),
-          'trip-hotel': buildTripHotelContent(selectedDestination),
-          'trip-meal': buildTripMealContent(selectedDestination),
-        },
-      });
+      const pack = buildTripPack(selectedDestination);
+      store.setTopic(pack.topic);
+      store.setSourceMaterial(pack.sourceMaterial);
+      store.setTripPack({ stageSources: pack.stageSources, preGenerated: pack.preGenerated });
     } else {
       store.setTopic(selectedFocus.title);
       store.setSourceMaterial(selectedFocus.sourceMaterial);

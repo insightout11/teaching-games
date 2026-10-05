@@ -6,6 +6,7 @@ import type { LessonSlot } from '@/lib/course';
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { buildLessonSlots } from '@/lib/planner-utils';
 import { buildFlightConfigForSlots, buildModulesFromPreset, getSourceKind } from '@/stores/planner-store';
+import type { TripPack } from '@/lib/world-flight/trip-pack';
 
 /**
  * Flights launched from inside the Live Room: the same preset → slots building as the planner,
@@ -13,9 +14,10 @@ import { buildFlightConfigForSlots, buildModulesFromPreset, getSourceKind } from
  * running session. The room keeps the journey (origin/destination), so no route goes in here.
  */
 
-/** Presets offered in the room. Travel needs its city trip pack, and Design is World Flight's capstone. */
-export function roomFlightPresets(): FlightPlanPreset[] {
-  return FLIGHT_PLAN_PRESETS.filter((p) => p.id !== 'design-studio-60' && p.id !== 'travel-60');
+/** Presets offered in the room. Travel only when the room's destination has a trip pack (a
+ *  World Flight city); Design is World Flight's capstone. */
+export function roomFlightPresets(opts: { travel?: boolean } = {}): FlightPlanPreset[] {
+  return FLIGHT_PLAN_PRESETS.filter((p) => p.id !== 'design-studio-60' && (p.id !== 'travel-60' || !!opts.travel));
 }
 
 /** Rough minutes per stage, for sizing a plan to the time left in class. */
@@ -62,8 +64,12 @@ export function buildRoomFlightPlan(opts: {
   grammarTarget?: GrammarTarget | null;
   /** Mid-air: fit the plan into the minutes left in class. */
   minutesLeft?: number | null;
+  /** Travel: the trip pack for the room's destination (its stops' content + arrival source). */
+  tripPack?: TripPack | null;
 }): LessonPlanPayload {
-  const { preset, topic, difficulty, sourceMaterial, grammarTarget, minutesLeft } = opts;
+  const { preset, difficulty, grammarTarget, minutesLeft, tripPack } = opts;
+  const topic = tripPack ? tripPack.topic : opts.topic;
+  const sourceMaterial = tripPack ? tripPack.sourceMaterial : opts.sourceMaterial;
   const modules = buildModulesFromPreset(preset, getSourceKind(sourceMaterial ?? null)).filter((m) => !m.worldFlightOnly);
   const full = buildLessonSlots(modules);
   const slots = minutesLeft != null ? trimSlotsToMinutes(full, minutesLeft) : full;
@@ -79,7 +85,8 @@ export function buildRoomFlightPlan(opts: {
     ...(sourceMaterial ? { sourceMaterial } : {}),
     ...(flightConfig ? { flightPresetId: preset.id, flightConfig } : {}),
     slots,
-    generatedContent: {},
+    ...(tripPack ? { stageSources: tripPack.stageSources } : {}),
+    generatedContent: tripPack ? { ...tripPack.preGenerated } : {},
     generatedGameContent: {},
   };
 }

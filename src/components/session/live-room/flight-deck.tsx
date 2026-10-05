@@ -1430,6 +1430,7 @@ export function FlightDeck({
         <FlightPlanPanel
           sessionId={sessionId}
           destinationCity={destination.city}
+          destinationId={destination.id}
           minutesLeft={flightStage === 'flying' ? minutesLeft : null}
           onClose={() => setPlanOpen(false)}
           onLaunch={(plan) => {

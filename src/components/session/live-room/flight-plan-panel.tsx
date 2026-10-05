@@ -2,23 +2,26 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Layers, Plane, X } from 'lucide-react';
+import { FileText, Layers, MapPin, Plane, X } from 'lucide-react';
 import type { Course, CourseLesson } from '@/lib/course';
 import { withCarryOver } from '@/lib/launch-course-lesson';
 import { useSessionStore } from '@/stores/session-store';
 import { GRAMMAR_TARGET_GROUPS, type GrammarTarget } from '@/lib/grammar';
 import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
 import { buildRoomFlightPlan, estimatePlanMinutes, roomFlightPresets } from '@/lib/live-room/room-flight-plan';
+import { buildTripPack, findTripDestination } from '@/lib/world-flight/trip-pack';
 
 /**
  * Launch a flight from inside the Live Room: preset cards, prefilled from the room (the topic,
  * the source on screen, the level, the grammar focus). Only what a preset genuinely needs is
  * asked (the grammar point for Grammar). Flies in this session; the room keeps the journey.
  */
-export function FlightPlanPanel({ sessionId, destinationCity, minutesLeft, onLaunch, onClose }: { sessionId: string; destinationCity: string; /** Set while flying: the plan is sized to the time left. */ minutesLeft?: number | null; onLaunch: (plan: LessonPlanPayload) => void; onClose: () => void }) {
+export function FlightPlanPanel({ sessionId, destinationCity, destinationId, minutesLeft, onLaunch, onClose }: { sessionId: string; destinationCity: string; /** The room's destination (a World Flight city id) — Travel builds its trip there. */ destinationId?: string | null; /** Set while flying: the plan is sized to the time left. */ minutesLeft?: number | null; onLaunch: (plan: LessonPlanPayload) => void; onClose: () => void }) {
   const settings = useSessionStore((s) => s.settings);
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
-  const presets = useMemo(() => roomFlightPresets(), []);
+  // Travel flies to the room's destination with that city's trip pack (real stops, no AI).
+  const tripDestination = useMemo(() => findTripDestination(destinationId, destinationCity), [destinationId, destinationCity]);
+  const presets = useMemo(() => roomFlightPresets({ travel: !!tripDestination }), [tripDestination]);
   const [presetId, setPresetId] = useState(presets[0]?.id ?? '');
   const [topic, setTopic] = useState(settings.customTopic || sourceMaterial?.title || '');
   const [grammar, setGrammar] = useState<string>(settings.grammarTarget ?? '');
@@ -47,9 +50,10 @@ export function FlightPlanPanel({ sessionId, destinationCity, minutesLeft, onLau
     onLaunch(withCarryOver(lesson, course.lessons) as unknown as LessonPlanPayload);
   };
   const needsGrammar = presetId === 'grammar-60';
-  const ready = !!preset && (topic.trim().length > 0 || !!sourceMaterial) && (!needsGrammar || !!grammar);
+  const isTravel = presetId === 'travel-60';
+  const ready = !!preset && (isTravel ? !!tripDestination : (topic.trim().length > 0 || !!sourceMaterial)) && (!needsGrammar || !!grammar);
 
-  const build = () => (preset ? buildRoomFlightPlan({ preset, topic, difficulty: settings.difficulty, sourceMaterial, grammarTarget: (grammar || null) as GrammarTarget | null, minutesLeft: minutesLeft ?? null }) : null);
+  const build = () => (preset ? buildRoomFlightPlan({ preset, topic, difficulty: settings.difficulty, sourceMaterial, grammarTarget: (grammar || null) as GrammarTarget | null, minutesLeft: minutesLeft ?? null, tripPack: isTravel && tripDestination ? buildTripPack(tripDestination) : null }) : null);
   // Mid-air: show how the plan fits the time left (stages are trimmed to fit).
   const preview = useMemo(() => (preset && minutesLeft != null ? build() : null), [presetId, minutesLeft, sourceMaterial]); // eslint-disable-line react-hooks/exhaustive-deps
   const launch = () => {
@@ -92,6 +96,11 @@ export function FlightPlanPanel({ sessionId, destinationCity, minutesLeft, onLau
           ))}
         </div>
 
+        {isTravel && tripDestination ? (
+          <p className="flex items-center gap-2 rounded-xl border border-cyan-300/30 bg-cyan-400/[0.06] px-3 py-2 text-sm text-cyan-100">
+            <MapPin className="h-4 w-4 shrink-0" /><span>A trip to <span className="text-white">{tripDestination.city}</span>: immigration, the station announcement, the stops the class votes for, and a postcard home.</span>
+          </p>
+        ) : (
         <div className="space-y-3">
           <label className="block">
             <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Topic</span>
@@ -112,6 +121,7 @@ export function FlightPlanPanel({ sessionId, destinationCity, minutesLeft, onLau
             </label>
           )}
         </div>
+        )}
 
         <div className="flex items-center justify-between gap-3">
           <p className="text-sm text-white/50">
