@@ -1,3 +1,4 @@
+import { fallbackSayItAgain } from '@/lib/say-it-again';
 import { fallbackPassTheLine, validPassTheLine } from '@/lib/pass-the-line';
 import { fallbackQuickFire } from '@/lib/quick-fire';
 import { fallbackSpeakSituation, validSpeakSituation } from '@/lib/speak-check';
@@ -1912,6 +1913,22 @@ Return:
   return { activityKey: 'pass-the-line', topicContext: topic, ...fallbackPassTheLine(topic) };
 }
 
+async function generateSayItAgain(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<Record<string, unknown>> {
+  const schema: AISchema = { type: 'object', properties: { question: { type: 'string' } }, required: ['question'] };
+  const prompt = `Write ONE personal speaking question for a "say it again, better" fluency round: every student answers it three times (40, then 30, then 20 seconds), so it must invite a short personal story or explanation they can improve each time.
+
+Topic: "${topic}"
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${sourceCtx ? `\nLESSON MATERIAL:\n${sourceCtx.slice(0, 1500)}\n` : ''}
+Rules: max 18 words; about the student's own life or opinion; not yes/no; kids/teens must have something to say. It may give a mini-structure, e.g. "Tell us about a time you…: what happened, and how did you feel?". Return { question }.`;
+  try {
+    const parsed = await generateJSON<{ question?: string }>(prompt, schema);
+    const q = parsed.question?.trim();
+    if (q && q.length > 8 && q.split(/\s+/).length <= 24) return { activityKey: 'say-it-again', topicContext: topic, question: q };
+  } catch { /* fall back below */ }
+  return { activityKey: 'say-it-again', topicContext: topic, question: fallbackSayItAgain(topic) };
+}
+
 async function generateSpeakCheck(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<Record<string, unknown>> {
   const set: AISchema = { type: 'object', properties: { replies: { type: 'array', items: { type: 'string' } }, natural: { type: 'number' } }, required: ['replies', 'natural'] };
   const schema: AISchema = { type: 'object', properties: { situation: { type: 'string' }, canDo: { type: 'string' }, before: set, after: set }, required: ['situation', 'canDo', 'before', 'after'] };
@@ -3726,6 +3743,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'flight-question':
             generators.push(generateFlightQuestion(customTopic, diff, !!sourceMaterial, kitSourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'say-it-again':
+            generators.push(generateSayItAgain(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r as unknown as ActivityGeneratedContent; }));
             break;
           case 'quick-fire':
             generators.push(generateQuickFire(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r as unknown as ActivityGeneratedContent; }));

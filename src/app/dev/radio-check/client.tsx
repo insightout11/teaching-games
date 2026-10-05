@@ -29,6 +29,7 @@ import { TripRecapActivity } from '@/activities/trip-recap/activity';
 import { SpeakCheckActivity } from '@/activities/speak-check/activity';
 import { QuickFireActivity } from '@/activities/quick-fire/activity';
 import { PassTheLineActivity } from '@/activities/pass-the-line/activity';
+import { SayItAgainActivity } from '@/activities/say-it-again/activity';
 import { SpeakRevealActivity } from '@/activities/speak-reveal/activity';
 import { SpeakCheckPanel } from '@/components/student/speak-check-panel';
 import { TripGettingThereActivity } from '@/activities/trip-getting-there/activity';
@@ -146,7 +147,12 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'line' ? (
+      {mode === 'again' ? (
+        <div className="flex gap-4">
+          <div className="flex-1"><SayItAgainActivity {...props} students={TRIP_CREW} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={{ activityKey: 'say-it-again', topicContext: 'cafés' } as unknown as ActivityProps['generatedContent']} /></div>
+          <div className="w-80 rounded-3xl bg-slate-900 p-4 text-sm text-slate-200">{spec?.perStudentData?.__room ? <SpeakingFramePanel spec={spec} displayName="Ben" studentId="s2" /> : <pre className="text-xs">{JSON.stringify(spec)}</pre>}</div>
+        </div>
+      ) : mode === 'line' ? (
         <div className="flex gap-4">
           <div className="flex-1"><PassTheLineActivity {...props} students={TRIP_CREW} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={{ activityKey: 'pass-the-line', topicContext: 'cafés' } as unknown as ActivityProps['generatedContent']} /></div>
           <div className="w-80 rounded-3xl bg-slate-900 p-4 text-sm text-slate-200">{spec?.perStudentData?.__room ? <SpeakingFramePanel spec={spec} displayName="Ben" studentId="s2" /> : <pre className="text-xs">{JSON.stringify(spec)}</pre>}</div>
