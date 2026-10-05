@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { MessageCircle, Check } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
-import { fallbackSpeakSituation, validSpeakSituation, type SpeakAnswer } from '@/lib/speak-check';
+import { bankSituationFor, fallbackSpeakSituation, validSpeakSituation, type SpeakAnswer } from '@/lib/speak-check';
 
 // Speak v2 takeoff: the situation check (Try 1, cold). Phones pick the reply they'd use, how
 // confident they'd feel and the can-do; the screen shows only how many answered. The results stay
@@ -14,7 +14,7 @@ type Phase = 'idle' | 'check' | 'done';
 
 export function SpeakCheckActivity({ generatedContent, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange }: ActivityProps) {
   const raw = generatedContent as { situation?: unknown; topicContext?: string } | null;
-  const [situation] = useState(() => validSpeakSituation(raw) ?? fallbackSpeakSituation(raw?.topicContext ?? ''));
+  const [situation] = useState(() => validSpeakSituation(raw) ?? bankSituationFor(raw?.topicContext ?? '') ?? fallbackSpeakSituation(raw?.topicContext ?? ''));
   const setSpeakCheck = useSessionStore((s) => s.setSpeakCheck);
   const recordSpeakAnswer = useSessionStore((s) => s.recordSpeakAnswer);
   const answered = useSessionStore((s) => Object.keys(s.lessonThread.speakCheck?.before ?? {}).length);

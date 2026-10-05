@@ -1,3 +1,4 @@
+import situationsBank from '@/data/speak-situations.json';
 /**
  * Speak v2: the situation check, Speak's before → after. At takeoff each phone picks the reply
  * they'd use in a real situation from the topic, says how confident they'd feel, and answers a
@@ -70,3 +71,53 @@ export function fallbackSpeakSituation(topic: string): SpeakSituation {
 }
 
 export const CONFIDENCE_LABELS = ['Not yet', 'A bit', 'Confident'];
+
+// ─── The checked situations bank (src/data/speak-situations.json, library round 11) ──────────
+
+interface BankSituation extends SpeakSituation { id: string; topics: string[]; ageBand: 'kids' | 'teens'; cefr: string }
+
+const words = (s: string) => (s.toLowerCase().match(/[a-zé]{3,}/g) ?? []).map((w) => (w.length > 4 && w.endsWith('s') ? w.slice(0, -1) : w));
+const LEVEL_CEFR: Record<string, string[]> = { Beginner: ['A1'], Easy: ['A1', 'A2'], Intermediate: ['A2', 'B1'], Advanced: ['B1', 'B2'], Expert: ['B2'] };
+
+function hash(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(h, 31) + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+/** Shuffle a reply set by a seed (stable per topic) and keep `natural` pointing at the same reply. */
+export function shuffleReplySet(set: SpeakReplySet, seed: number): SpeakReplySet {
+  const order = set.replies.map((_, i) => i);
+  let s = seed || 1;
+  for (let i = order.length - 1; i > 0; i--) {
+    s = (Math.imul(s, 1103515245) + 12345) & 0x7fffffff;
+    const j = s % (i + 1);
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return { replies: order.map((i) => set.replies[i]), natural: order.indexOf(set.natural) };
+}
+
+/**
+ * A hand-checked situation for the topic, or null. Matches the topic's words against each
+ * situation's topic tags (strong) and text (weak); prefers the lesson's level. Reply order is
+ * shuffled per topic so the natural reply isn't always in the same place.
+ */
+export function bankSituationFor(topic: string, difficulty?: string): SpeakSituation | null {
+  const q = words(topic);
+  if (!q.length) return null;
+  const levels = (difficulty && LEVEL_CEFR[difficulty]) || [];
+  let best: { s: BankSituation; score: number } | null = null;
+  for (const s of situationsBank as BankSituation[]) {
+    const tags = s.topics.flatMap(words);
+    const text = words(`${s.situation} ${s.canDo}`);
+    let score = 0;
+    q.forEach((w) => { if (tags.indexOf(w) >= 0) score += 3; else if (text.indexOf(w) >= 0) score += 1; });
+    if (score < 3) continue;
+    if (levels.indexOf(s.cefr) >= 0) score += 2;
+    if (!best || score > best.score) best = { s, score };
+  }
+  if (!best) return null;
+  const seed = hash(topic.toLowerCase());
+  const { situation, canDo, before, after } = best.s;
+  return { situation, canDo, before: shuffleReplySet(before, seed), after: shuffleReplySet(after, seed + 7) };
+}

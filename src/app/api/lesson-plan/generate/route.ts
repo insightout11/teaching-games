@@ -1,7 +1,7 @@
 import { fallbackSayItAgain } from '@/lib/say-it-again';
 import { fallbackPassTheLine, validPassTheLine } from '@/lib/pass-the-line';
 import { fallbackQuickFire } from '@/lib/quick-fire';
-import { fallbackSpeakSituation, validSpeakSituation } from '@/lib/speak-check';
+import { bankSituationFor, fallbackSpeakSituation, validSpeakSituation } from '@/lib/speak-check';
 import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-announcement/content';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON as _generateJSON } from '@/lib/ai';
@@ -1930,6 +1930,9 @@ Rules: max 18 words; about the student's own life or opinion; not yes/no; kids/t
 }
 
 async function generateSpeakCheck(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<Record<string, unknown>> {
+  // No source material: a hand-checked situation for the topic beats a generated one.
+  const banked = sourceCtx ? null : bankSituationFor(topic, difficulty);
+  if (banked) return { activityKey: 'speak-check', topicContext: topic, ...banked };
   const set: AISchema = { type: 'object', properties: { replies: { type: 'array', items: { type: 'string' } }, natural: { type: 'number' } }, required: ['replies', 'natural'] };
   const schema: AISchema = { type: 'object', properties: { situation: { type: 'string' }, canDo: { type: 'string' }, before: set, after: set }, required: ['situation', 'canDo', 'before', 'after'] };
   const prompt = `You are writing the SITUATION CHECK for a speaking lesson: one real, everyday situation from the topic where a student must say something. Students see it at the start and again at the end of the lesson.
@@ -1947,7 +1950,7 @@ Return:
     const valid = validSpeakSituation(parsed);
     if (valid) return { activityKey: 'speak-check', topicContext: topic, ...valid };
   } catch { /* fall back below */ }
-  return { activityKey: 'speak-check', topicContext: topic, ...fallbackSpeakSituation(topic) };
+  return { activityKey: 'speak-check', topicContext: topic, ...(bankSituationFor(topic, difficulty) ?? fallbackSpeakSituation(topic)) };
 }
 
 async function generateFlightVerdict(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<FlightVerdictContent> {

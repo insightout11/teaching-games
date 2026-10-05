@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MessageCircle, TrendingUp, Mic, BookMarked } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
-import { fallbackSpeakSituation, summariseSpeak, type SpeakAnswer } from '@/lib/speak-check';
+import { bankSituationFor, fallbackSpeakSituation, summariseSpeak, type SpeakAnswer } from '@/lib/speak-check';
 import { saveFlightResult } from '@/lib/flight-result';
 
 // Speak v2 landing: Try 3. The same situation as takeoff with NEW reply options (so it isn't
@@ -21,7 +21,7 @@ export function SpeakRevealActivity({ students, onSetInputSpec, onRegisterRemote
   const kitPhrases = useSessionStore((s) => s.lessonKit?.phrases);
   const phrases = useMemo(() => kitPhrases ?? [], [kitPhrases]);
   const customTopic = useSessionStore((s) => s.settings.customTopic);
-  const situation = check?.situation ?? fallbackSpeakSituation(customTopic);
+  const situation = check?.situation ?? bankSituationFor(customTopic) ?? fallbackSpeakSituation(customTopic);
   const [phase, setPhase] = useState<Phase>('idle');
   const [turn, setTurn] = useState(0);
   const phaseRef = useRef(phase); phaseRef.current = phase;
