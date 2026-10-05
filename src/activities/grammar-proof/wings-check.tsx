@@ -1,5 +1,6 @@
 'use client';
 
+import { saveFlightResult } from '@/lib/flight-result';
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, Eye, Plane, X } from 'lucide-react';
@@ -70,6 +71,22 @@ export function WingsCheck({ sentences, target, before, onDone, onSetInputSpec, 
       });
       setRevealed(true);
       onPhaseChange?.('wings-reveal');
+      // The logbook: students "flying it", check-in → proof (class counts only).
+      const all = Object.values(results);
+      if (all.length > 0) {
+        const st = useSessionStore.getState();
+        saveFlightResult(st.sessionId, {
+          preset: st.flightPresetId ?? 'grammar-60',
+          flight: 'Grammar',
+          topic: st.settings.customTopic || target,
+          focus: target,
+          measures: [{
+            label: 'Flying it',
+            before: before && beforeList.length ? { count: beforeFlying, of: beforeList.length } : null,
+            after: { count: all.filter((r) => flying(r.right, sentences.length)).length, of: all.length },
+          }],
+        });
+      }
     }
   };
 

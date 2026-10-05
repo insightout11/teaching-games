@@ -1,5 +1,7 @@
 'use client';
 
+import { saveFlightResult } from '@/lib/flight-result';
+import { useSessionStore } from '@/stores/session-store';
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Anchor, ArrowRight, Eye, MessageCircleQuestion, Repeat, Scale } from 'lucide-react';
@@ -17,6 +19,8 @@ const LIKERT = ['1', '2', '3', '4', '5'];
 const LIKERT_LABELS = ['Strongly disagree', 'Disagree', 'Not sure', 'Agree', 'Strongly agree'];
 
 /** What the Shift found, for callers that build on it (e.g. the Captain's Flight Verdict). */
+const SHIFT_FLIGHT_NAMES: Record<string, string> = { 'debate-60': 'Debate', 'all-around-flight-60': "Captain's Flight" };
+
 export interface ShiftSummary { changed: number; compared: number; agreeBefore: number; agreeNow: number; total: number }
 
 export function ShiftFromPulse({ baseline, onPhaseChange, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onLandingAnswer, onDone, title }: Pick<ActivityProps, 'onPhaseChange' | 'onSetInputSpec' | 'onRegisterRemoteVoteHandler' | 'onScore' | 'onLandingAnswer'> & { baseline: ThreadPulse; onDone?: (summary: ShiftSummary) => void; title?: string }) {
@@ -139,8 +143,22 @@ export function ShiftFromPulse({ baseline, onPhaseChange, onSetInputSpec, onRegi
       <div className="flex flex-wrap items-center justify-between gap-2">
         <KitButton tone="amber" disabled={both.length === 0} onClick={hearWhy} icon={<MessageCircleQuestion className="h-3.5 w-3.5" />}>{voices ? 'Hear two others' : 'Hear why'}</KitButton>
         <KitButton tone="plain" onClick={() => {
+          const agree = (votes: Array<{ choice: string }>) => (likert ? votes.filter((v) => Number(v.choice) >= 4).length : votes.filter((v) => v.choice === 'Yes').length);
+          // The logbook: how the room moved (class counts only).
+          if (nowVotes.length > 0) {
+            const preset = useSessionStore.getState().flightPresetId ?? 'opinion-shift';
+            saveFlightResult(useSessionStore.getState().sessionId, {
+              preset,
+              flight: SHIFT_FLIGHT_NAMES[preset] ?? 'Opinion Shift',
+              topic: useSessionStore.getState().settings.customTopic || baseline.text,
+              focus: baseline.text,
+              measures: [
+                { label: 'Agree', before: beforeVotes.length ? { count: agree(beforeVotes), of: beforeVotes.length } : null, after: { count: agree(nowVotes), of: nowVotes.length } },
+                ...(both.length ? [{ label: 'Changed their mind', before: null, after: { count: changers.length, of: both.length } }] : []),
+              ],
+            });
+          }
           if (onDone) {
-            const agree = (votes: Array<{ choice: string }>) => (likert ? votes.filter((v) => Number(v.choice) >= 4).length : votes.filter((v) => v.choice === 'Yes').length);
             onDone({ changed: changers.length, compared: both.length, agreeBefore: agree(beforeVotes), agreeNow: agree(nowVotes), total: nowVotes.length });
           } else onPhaseChange?.('finished');
         }} icon={<ArrowRight className="h-3.5 w-3.5" />}>{onDone ? 'Next' : 'Done'}</KitButton>
