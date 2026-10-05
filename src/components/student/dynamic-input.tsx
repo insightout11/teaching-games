@@ -761,6 +761,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
       {spec.prompt && (
         <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
+      {spec.instruction && <p className="text-sm text-lc-text2">{spec.instruction}</p>}
       {!writeInMode && (
         <div className="space-y-2">
           {spec.options?.map((option, index) => (

@@ -6,6 +6,7 @@ import { useSessionStore } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripMealContent, TripDishOption } from '../types';
+import { TierBadge } from '../shared/tier-badge';
 import { PerformedExchange, scriptTierFor, type ExchangeLine } from '../shared/performed-exchange';
 import { useTripScript } from '../shared/use-trip-script';
 import { applyTripTokens } from '@/lib/trip-script';
@@ -64,7 +65,9 @@ export function TripMealActivity({
     type: 'choice',
     gameKey: 'trip-meal',
     prompt: `Pick a dish to try in ${content.city}`,
+    instruction: 'Check your Traveller Card: your budget and what you can eat.',
     options: dishes.map((dish) => dish.name),
+    optionLabels: dishes.map((dish) => [dish.name, dish.price, dish.tier].filter(Boolean).join(' · ')),
   }), [content.city, dishes]);
 
   useEffect(() => {
@@ -168,7 +171,11 @@ export function TripMealActivity({
             />
           )}
           <div className="min-w-0 flex-1">
-            <p className="font-game text-base text-amber-100">{dish.name}</p>
+            <p className="flex flex-wrap items-center gap-2 font-game text-base text-amber-100">
+              {dish.name}
+              {dish.price && <span className="font-sans text-xs font-normal text-slate-300">{dish.price}</span>}
+              {dish.tier && <TierBadge tier={dish.tier} />}
+            </p>
             <p className="mt-0.5 text-sm text-slate-300">{dish.whatItIs}</p>
             {dish.note && <p className="mt-1 text-xs text-slate-400">{dish.note}</p>}
           </div>

@@ -8,5 +8,6 @@ export function buildTripHotelContent(destination: DestinationPack): TripHotelCo
     topicContext: destination.city,
     city: destination.city,
     framingPrompt: `You've made it into ${destination.city}. Check in at your hotel.`,
+    ...(destination.hotels?.length ? { hotels: destination.hotels.map((h) => ({ name: h.name, tier: h.tier, price: h.price })) } : {}),
   };
 }

@@ -6,6 +6,7 @@ import { useSessionStore } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripTransportContent, TripTransportOption } from '../types';
+import { TierBadge } from '../shared/tier-badge';
 import { PerformedExchange, scriptTierFor, type ExchangeLine } from '../shared/performed-exchange';
 import { useTripScript } from '../shared/use-trip-script';
 import { applyTripTokens, transportKind } from '@/lib/trip-script';
@@ -91,7 +92,9 @@ export function TripGettingThereActivity({
     type: 'choice',
     gameKey: 'trip-getting-there',
     prompt: `How will you get into ${content.city}?`,
+    instruction: 'Check your Traveller Card: can you afford it?',
     options: options.map((o) => o.mode),
+    optionLabels: options.map((o) => [o.mode, o.price ?? o.approxCost, o.tier].filter(Boolean).join(' · ')),
   }), [content.city, options]);
 
   useEffect(() => {
@@ -132,7 +135,7 @@ export function TripGettingThereActivity({
   const scriptFor = useCallback((traveller: Student | null): ExchangeLine[] => {
     const option = optionFor(traveller);
     const mode = option?.mode ?? '___';
-    const cost = option?.approxCost ?? '___';
+    const cost = option?.price?.replace(/^about /i, '') ?? option?.approxCost ?? '___';
     const time = option?.approxTimeMin != null ? String(option.approxTimeMin) : '___';
     if (lockedLines) return applyTripTokens(lockedLines, { city: content.city, mode, cost, time, traveller: traveller?.name ?? 'the traveller' });
 
@@ -232,9 +235,10 @@ export function TripGettingThereActivity({
               {option.approxTimeMin != null && (
                 <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" aria-hidden />{option.approxTimeMin} min</span>
               )}
-              {option.approxCost && (
-                <span className="inline-flex items-center gap-1"><Wallet className="h-3.5 w-3.5" aria-hidden />{option.approxCost}</span>
+              {(option.price ?? option.approxCost) && (
+                <span className="inline-flex items-center gap-1"><Wallet className="h-3.5 w-3.5" aria-hidden />{option.price ?? option.approxCost}</span>
               )}
+              {option.tier && <TierBadge tier={option.tier} />}
             </div>
             {option.note && <p className="mt-1 text-sm text-slate-300">{option.note}</p>}
           </div>

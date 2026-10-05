@@ -18,6 +18,8 @@ export function buildTripGettingThereContent(destination: DestinationPack): Trip
     ...(option.approxTimeMin != null ? { approxTimeMin: option.approxTimeMin } : {}),
     ...(option.approxCost ? { approxCost: option.approxCost } : {}),
     ...(option.note ? { note: option.note } : {}),
+    ...(option.tier ? { tier: option.tier } : {}),
+    ...(option.price ? { price: option.price } : {}),
   }));
 
   return {

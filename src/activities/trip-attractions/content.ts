@@ -18,6 +18,8 @@ export function buildTripAttractionsContent(destination: DestinationPack): TripA
       ...(attraction.image?.url ? { imageUrl: attraction.image.url } : {}),
       ...(attraction.image?.caption ? { imageCaption: attraction.image.caption } : {}),
       ...(credit ? { imageCredit: credit } : {}),
+      ...(attraction.tier ? { tier: attraction.tier } : {}),
+      ...(attraction.price ? { price: attraction.price } : {}),
     };
   });
 

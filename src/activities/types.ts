@@ -184,6 +184,9 @@ export interface TripAttractionOption {
   imageUrl?: string;  // real photo of the place (travelAnchors)
   imageCaption?: string;
   imageCredit?: string; // creator · license (shown on the expanded view)
+  /** Travel v2 budgets: price tier + approximate local price (city data, round 6/8). */
+  tier?: '$' | '$$' | '$$$';
+  price?: string;
 }
 
 export interface TripAttractionsContent extends ActivityGeneratedContent {
@@ -205,6 +208,9 @@ export interface TripDishOption {
   imageUrl?: string; // real photo of the dish (travelAnchors)
   imageCaption?: string;
   imageCredit?: string; // creator · license (shown on the expanded view)
+  /** Travel v2 budgets: price tier + approximate local price. */
+  tier?: '$' | '$$' | '$$$';
+  price?: string;
 }
 
 // Trip Hotel content (Travel arc). Data-seeded; the performed check-in script is in the component.
@@ -212,6 +218,8 @@ export interface TripHotelContent extends ActivityGeneratedContent {
   activityKey: 'trip-hotel';
   city: string;
   framingPrompt: string;
+  /** The city's three stays (one per budget tier), from the city data. */
+  hotels?: Array<{ name: string; tier: '$' | '$$' | '$$$'; price: string }>;
 }
 
 export interface TripMealContent extends ActivityGeneratedContent {
@@ -250,6 +258,9 @@ export interface TripTransportOption {
   approxTimeMin?: number;
   approxCost?: string;
   note?: string;
+  /** Travel v2 budgets: price tier + approximate local price. */
+  tier?: '$' | '$$' | '$$$';
+  price?: string;
 }
 
 export interface TripTransportContent extends ActivityGeneratedContent {

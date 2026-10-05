@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { TierBadge } from '../shared/tier-badge';
 import { MapPin, Sparkles } from 'lucide-react';
 import { ClassBoardCanvas } from '@/components/session/class-board-canvas';
 import { boardSpecFields, getClassBoardPreset, type ClassBoardZone } from '@/lib/class-board';
@@ -42,7 +43,7 @@ export function TripAttractionsActivity({
 
   // One board zone per attraction — notes attach to the place they're about.
   const attractionZones = useMemo<ClassBoardZone[]>(
-    () => attractions.map((a) => ({ key: a.id, label: a.name, description: a.whatItIs })),
+    () => attractions.map((a) => ({ key: a.id, label: a.name, description: a.price ? `${a.whatItIs} (${a.price})` : a.whatItIs })),
     [attractions],
   );
 
@@ -152,7 +153,11 @@ export function TripAttractionsActivity({
                 />
               )}
               <div className="min-w-0 flex-1">
-                <p className="font-game text-base text-cyan-100">{a.name}</p>
+                <p className="flex flex-wrap items-center gap-2 font-game text-base text-cyan-100">
+                  {a.name}
+                  {a.price && <span className="font-sans text-xs font-normal text-slate-300">{a.price}</span>}
+                  {a.tier && <TierBadge tier={a.tier} />}
+                </p>
                 <p className="mt-0.5 text-sm text-slate-300">{a.whatItIs}</p>
                 {a.whyVisit && <p className="mt-1 text-xs text-slate-400">{a.whyVisit}</p>}
               </div>

@@ -26,6 +26,9 @@ import { BoardingCallActivity } from '@/activities/boarding-call/activity';
 import { TripHotelActivity } from '@/activities/trip-hotel/activity';
 import { TripPlanActivity } from '@/activities/trip-plan/activity';
 import { TripRecapActivity } from '@/activities/trip-recap/activity';
+import { TripGettingThereActivity } from '@/activities/trip-getting-there/activity';
+import { TripMealActivity } from '@/activities/trip-meal/activity';
+import { buildTripPack } from '@/lib/world-flight/trip-pack';
 import { CanDoPanel } from '@/components/student/can-do-panel';
 import { buildTripAnnouncementContent } from '@/activities/trip-announcement/content';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
@@ -138,7 +141,14 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'recap' ? (
+      {mode === 'transport' || mode === 'meal' ? (
+        <div className="flex gap-4">
+          <div className="flex-1">{mode === 'transport'
+            ? <TripGettingThereActivity {...props} sessionSettings={{ difficulty: 'Intermediate' } as unknown as ActivityProps['sessionSettings']} students={TRIP_CREW} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={buildTripPack(WORLD_DESTINATIONS.find((d) => d.city === 'Tokyo')!).preGenerated['trip-getting-there'] as unknown as ActivityProps['generatedContent']} />
+            : <TripMealActivity {...props} sessionSettings={{ difficulty: 'Intermediate' } as unknown as ActivityProps['sessionSettings']} students={TRIP_CREW} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={buildTripPack(WORLD_DESTINATIONS.find((d) => d.city === 'Tokyo')!).preGenerated['trip-meal'] as unknown as ActivityProps['generatedContent']} />}</div>
+          <pre className="w-72 whitespace-pre-wrap rounded-3xl bg-slate-900 p-4 text-xs text-slate-200">{JSON.stringify(spec, null, 1)}</pre>
+        </div>
+      ) : mode === 'recap' ? (
         <div className="flex gap-4">
           <div className="flex-1"><TripRecapActivity {...props} sessionSettings={{ difficulty: 'Advanced' } as unknown as ActivityProps['sessionSettings']} students={TRIP_CREW} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={{ activityKey: 'trip-recap', topicContext: 'Tokyo' } as unknown as ActivityProps['generatedContent']} /></div>
           <div className="w-72 rounded-3xl bg-slate-900 p-4 text-sm text-slate-200">{spec?.perStudentData?.__cando

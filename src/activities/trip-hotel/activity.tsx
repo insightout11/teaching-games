@@ -45,7 +45,10 @@ export function TripHotelActivity({ students, generatedContent, sessionSettings,
 
   const scriptFor = useCallback((traveller: Student | null): ExchangeLine[] => {
     const card = traveller ? cards?.[traveller.id] : undefined;
-    const room = card ? ROOM_BY_BUDGET[card.budget] : 'a double room';
+    const budget = card?.budget ?? '$$';
+    const stay = content.hotels?.find((h) => h.tier === budget);
+    const price = stay?.price.replace(/^about /i, '');
+    const room = price ? `${ROOM_BY_BUDGET[budget]} for ${price}` : ROOM_BY_BUDGET[budget];
     if (tier === 'basic') {
       return [
         { speaker: 'service', text: 'Hello! Do you have a booking?' },
@@ -78,7 +81,7 @@ export function TripHotelActivity({ students, generatedContent, sessionSettings,
       { speaker: 'service', text: '___', hint: 'recommend something real in the city, with one reason' },
       ...closing,
     ];
-  }, [city, tier, cards]);
+  }, [city, tier, cards, content.hotels]);
 
   const start = () => { setPhase('running'); onPhaseChange?.('running'); };
   const finish = useCallback(() => {

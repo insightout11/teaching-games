@@ -18,6 +18,8 @@ export function buildTripMealContent(destination: DestinationPack): TripMealCont
       ...(dish.image?.url ? { imageUrl: dish.image.url } : {}),
       ...(dish.image?.caption ? { imageCaption: dish.image.caption } : {}),
       ...(credit ? { imageCredit: credit } : {}),
+      ...(dish.tier ? { tier: dish.tier } : {}),
+      ...(dish.price ? { price: dish.price } : {}),
     };
   });
 
