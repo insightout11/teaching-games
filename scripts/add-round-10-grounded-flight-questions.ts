@@ -1,4 +1,3 @@
-import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createServiceClient } from '../src/lib/supabase/service';
@@ -464,30 +463,12 @@ async function loadTranscripts(items: LibraryItem[]): Promise<Record<string, str
   return transcripts;
 }
 
-function readMainLibrary(file: string): LibraryItem[] {
-  const json = execFileSync('git', ['show', `origin/main:src/data/${file}`], { encoding: 'utf8' });
-  return JSON.parse(json) as LibraryItem[];
-}
-
 async function main() {
   const files = fs.readdirSync(dataDir).filter((file) => file.endsWith('-library.json')).sort();
   const libraries: Record<string, LibraryItem[]> = {};
   const all: LibraryItem[] = [];
   for (const file of files) {
     const current = JSON.parse(fs.readFileSync(path.join(dataDir, file), 'utf8')) as LibraryItem[];
-    const mainById: Record<string, LibraryItem> = {};
-    for (const item of readMainLibrary(file)) mainById[item.id] = item;
-    for (const item of current) {
-      const baseline = mainById[item.id];
-      if (baseline) {
-        if (typeof baseline.flightQuestion === 'string') item.flightQuestion = baseline.flightQuestion;
-        else delete item.flightQuestion;
-        if (baseline.reviewNote?.indexOf('Round 9 question is grounded') === 0) {
-          item.needsReview = baseline.needsReview;
-          item.reviewNote = baseline.reviewNote;
-        }
-      }
-    }
     libraries[file] = current;
     all.push(...current);
   }
@@ -497,12 +478,11 @@ async function main() {
   let kept = 0;
   let rewrittenFlags = 0;
   for (const item of all) {
-    const isRound10Item = item.id.indexOf('round10-') === 0;
     const isFlaggedRound9 = item.reviewNote?.indexOf('Round 9 question is grounded') === 0;
     const current = item.flightQuestion;
     const key = current ? normalized(current) : '';
     const duplicate = !!key && !!seen[key];
-    if (current && !duplicate && !isRound10Item && !isFlaggedRound9) {
+    if (current && !duplicate && !isFlaggedRound9) {
       seen[key] = item.id;
       kept++;
     } else if (current) {
