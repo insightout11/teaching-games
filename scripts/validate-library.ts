@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { canonicalTopicTag } from './library-topic-tags';
+import { validSpeakSituation } from '../src/lib/speak-check';
 
 type Item = {
   id?: unknown;
@@ -78,6 +79,11 @@ const round8ListeningCoverage = { a1Dialogue: 0, a1Kids: 0, a2B1Announcements: 0
 let listeningItemCount = 0;
 let flightQuestionCount = 0;
 const flightQuestionOwners: Record<string, string> = {};
+let speakSituationCount = 0;
+const speakAgeCounts: Record<string, number> = { kids: 0, teens: 0 };
+const speakCanDoVerbs = new Set(['Accept', 'Ask', 'Borrow', 'Cancel', 'Correct', 'Decline',
+  'Describe', 'Explain', 'Give', 'Introduce', 'Invite', 'Order', 'Propose', 'Request',
+  'Respond', 'State', 'Suggest', 'Tell']);
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -333,6 +339,43 @@ for (const file of files) {
 // Round 9's templated Flight Questions were removed in review (Oct 3); round 10 redoes them grounded.
 if (flightQuestionCount < 500) fail('flight questions', `expected at least 500 items after Round 10 (found ${flightQuestionCount})`);
 
+const speakPath = path.join(dataDir, 'speak-situations.json');
+if (fs.existsSync(speakPath)) {
+  let situations: unknown;
+  try { situations = JSON.parse(fs.readFileSync(speakPath, 'utf8')); }
+  catch (error) { fail('speak-situations.json', `invalid JSON: ${String(error)}`); }
+  if (!Array.isArray(situations)) fail('speak-situations.json', 'top-level value must be an array');
+  else {
+    speakSituationCount = situations.length;
+    const speakIds = new Set<string>();
+    const speakTopics = new Set<string>();
+    for (const [index, raw] of Array.from(situations.entries())) {
+      const where = `speak-situations.json[${index}]`;
+      const situation = raw as Record<string, unknown>;
+      if (!nonEmpty(situation.id) || speakIds.has(String(situation.id))) fail(where, 'id must be non-empty and unique');
+      else speakIds.add(situation.id);
+      if (!Array.isArray(situation.topics) || situation.topics.length === 0
+        || situation.topics.some((tag) => !nonEmpty(tag))) fail(where, 'topics must be non-empty strings');
+      else for (const tag of situation.topics) speakTopics.add(String(tag).toLowerCase());
+      if (situation.ageBand !== 'kids' && situation.ageBand !== 'teens') fail(where, 'ageBand must be kids or teens');
+      else speakAgeCounts[situation.ageBand] += 1;
+      if (situation.ageBand === 'kids' && situation.cefr !== 'A1' && situation.cefr !== 'A2') fail(where, 'kids cefr must be A1 or A2');
+      if (situation.ageBand === 'teens' && situation.cefr !== 'A2' && situation.cefr !== 'B1' && situation.cefr !== 'B2') fail(where, 'teens cefr must be A2, B1, or B2');
+      if (!validSpeakSituation(raw)) fail(where, 'must satisfy validSpeakSituation');
+      if (!nonEmpty(situation.canDo) || !speakCanDoVerbs.has(situation.canDo.split(/\s+/)[0]) || situation.canDo.includes('?')) fail(where, 'canDo must start with a verb and contain no question mark');
+      const before = situation.before as { replies?: unknown; natural?: unknown } | undefined;
+      const after = situation.after as { replies?: unknown; natural?: unknown } | undefined;
+      if (!Array.isArray(before?.replies) || before.replies.length !== 4
+        || !Array.isArray(after?.replies) || after.replies.length !== 4) fail(where, 'before and after each require exactly four replies');
+      if (before?.natural === after?.natural) fail(where, 'after natural reply must use a different index');
+      if (!Number.isInteger(before?.natural) || !Number.isInteger(after?.natural)) fail(where, 'natural indexes must be integers');
+    }
+    if (speakSituationCount !== 40) fail('speak-situations.json', `expected 40 situations (found ${speakSituationCount})`);
+    if (speakAgeCounts.kids !== 20 || speakAgeCounts.teens !== 20) fail('speak-situations.json', 'expected 20 kids and 20 teens situations');
+    if (speakTopics.size < 16) fail('speak-situations.json', `expected at least 16 topics (found ${speakTopics.size})`);
+  }
+}
+
 for (const tag of Array.from(grammarTags)) {
   const coverage = grammarCoverage[tag] || { total: 0, kids: 0 };
   // One Round 7 past-perfect clip was removed in Round 9 after oEmbed returned 401.
@@ -399,4 +442,5 @@ if (errors.length) {
   process.exitCode = 1;
 } else {
   console.log(`Library validation passed: ${ids.size} items across ${files.length} files.`);
+  console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}).`);
 }

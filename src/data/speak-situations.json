@@ -1,0 +1,1162 @@
+[
+  {
+    "id": "speak-kids-cafe-order",
+    "topics": [
+      "food",
+      "café"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "At a café, the server asks what drink you would like.",
+    "canDo": "Order a drink politely in English",
+    "before": {
+      "replies": [
+        "Give juice.",
+        "Could I have an orange juice, please?",
+        "I am wanting juice one.",
+        "The beverage I desire is juice."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "One orange juice to me.",
+        "Juice. Now.",
+        "May I have a glass of orange juice, please?",
+        "I have orange juice wanting."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-kids-restaurant-allergy",
+    "topics": [
+      "food",
+      "restaurant"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At a restaurant, you need to tell the server that you cannot eat nuts.",
+    "canDo": "Explain a food allergy politely",
+    "before": {
+      "replies": [
+        "I cannot eat nuts. Does this have any?",
+        "Nuts bad.",
+        "My eating nuts is not possible for me.",
+        "I no can eat nuts, yes?"
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "I do not eat of the nuts.",
+        "Could you check whether this contains nuts?",
+        "Food nuts no.",
+        "It is with a nut by me?"
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-kids-shop-size",
+    "topics": [
+      "shopping",
+      "clothes"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "In a clothes shop, a shirt is too small and the assistant offers help.",
+    "canDo": "Ask for a larger shirt",
+    "before": {
+      "replies": [
+        "This small. Give.",
+        "I am desirous of a garment larger.",
+        "Do you have this in a bigger size?",
+        "It is needing big."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Could I try a larger size, please?",
+        "Big one now.",
+        "I want that you make big.",
+        "Might you provide an incremented garment?"
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-kids-school-pencil",
+    "topics": [
+      "school"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "In class, you have forgotten your pencil and a classmate has a spare.",
+    "canDo": "Borrow a pencil politely",
+    "before": {
+      "replies": [
+        "Pencil to me.",
+        "Could I borrow your spare pencil, please?",
+        "I am pencil forgetting.",
+        "I require the temporary use of your pencil."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Give me your pencil.",
+        "I can borrowing pencil?",
+        "May I use your extra pencil for a moment?",
+        "My pencil is not here with me existence."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-kids-friend-plan",
+    "topics": [
+      "friends",
+      "plans"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "A friend asks whether you can play after school, but you have homework.",
+    "canDo": "Suggest another time to a friend",
+    "before": {
+      "replies": [
+        "No.",
+        "The proposed play arrangement is unfeasible.",
+        "I no can because homework.",
+        "I have homework today. Could we play tomorrow?"
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "I must do homework, but are you free on Friday?",
+        "You play without me forever.",
+        "I have to making homework.",
+        "I regret that my academic obligations preclude play."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-kids-hobby-drawing",
+    "topics": [
+      "hobbies",
+      "art"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "A new classmate asks what you like doing after school.",
+    "canDo": "Describe a hobby and give a reason",
+    "before": {
+      "replies": [
+        "I like drawing animals because it is fun.",
+        "Yes.",
+        "I am liking to drawing.",
+        "My preferred extracurricular pursuit is illustration."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Drawing is what I do with the enjoyment.",
+        "My hobby is fun stuff.",
+        "I enjoy painting pictures at home.",
+        "I like paint pictures because they is fun."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-kids-sport-team",
+    "topics": [
+      "sport",
+      "friends"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "Your team needs one more player and a new student is watching.",
+    "canDo": "Invite someone to join a game",
+    "before": {
+      "replies": [
+        "You, play.",
+        "Would your participation in our athletic undertaking be possible?",
+        "Would you like to join our game?",
+        "You want join us game?"
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Come here and play now.",
+        "Do you want to play with us?",
+        "You are wanting play together?",
+        "Your inclusion would be advantageous to our team."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-kids-travel-directions",
+    "topics": [
+      "travel",
+      "directions"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At a station, you cannot find the bus stop and a staff member approaches.",
+    "canDo": "Ask for directions to a bus stop",
+    "before": {
+      "replies": [
+        "Bus where?",
+        "Could you tell me where the bus stop is?",
+        "Where is being the bus?",
+        "I seek the designated bus boarding location."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Excuse me, how do I get to the bus stop?",
+        "Tell bus place.",
+        "Where I can find bus station stop?",
+        "I would appreciate navigational guidance concerning transit."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-kids-weather-plan",
+    "topics": [
+      "weather",
+      "plans"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "Your friend wants to play outside, but dark clouds are coming.",
+    "canDo": "Suggest an indoor plan because of weather",
+    "before": {
+      "replies": [
+        "Outside no.",
+        "I am observing meteorological deterioration.",
+        "It rain. We inside go.",
+        "It might rain. Shall we play inside?"
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Let us stay inside and play a board game.",
+        "Rain is happening perhaps so no.",
+        "I request indoor recreational relocation.",
+        "We going play inside because raining."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-kids-family-introduce",
+    "topics": [
+      "family"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "A visitor asks who the person beside you is; she is your sister.",
+    "canDo": "Introduce a family member",
+    "before": {
+      "replies": [
+        "This is my sister, Maya.",
+        "Sister.",
+        "She my sister Maya.",
+        "Allow me to present my female sibling."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Here sister is mine.",
+        "I present my familial relation.",
+        "Meet Maya. She is my sister.",
+        "Maya she my sister be."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-kids-tech-help",
+    "topics": [
+      "technology",
+      "school"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "Your tablet will not open the class activity; the teacher offers help.",
+    "canDo": "Explain a simple technology problem",
+    "before": {
+      "replies": [
+        "Tablet broken.",
+        "The device is experiencing operational failure.",
+        "My tablet will not open the activity. Could you help?",
+        "It not opening by me."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "The activity will not load on my tablet.",
+        "Technology bad.",
+        "My tablet no open it can.",
+        "The platform presents an unresolved access impediment."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-kids-doctor-headache",
+    "topics": [
+      "health",
+      "doctor"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At a clinic, the doctor asks what is wrong and your head hurts.",
+    "canDo": "Describe a symptom to a doctor",
+    "before": {
+      "replies": [
+        "I have a headache, and it started this morning.",
+        "Head bad.",
+        "I am having head pain in this present circumstance.",
+        "My head is hurted today."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Pain in head.",
+        "My head has been hurting since breakfast.",
+        "I have headache from morning time was.",
+        "I wish to report cranial discomfort."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-kids-lost-pet",
+    "topics": [
+      "animals",
+      "pets"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "Your dog is missing and a neighbor asks how they can help.",
+    "canDo": "Describe a missing pet",
+    "before": {
+      "replies": [
+        "Dog gone.",
+        "My dog is small and brown. Have you seen him?",
+        "The canine is currently unaccounted for.",
+        "My dog he are brown and missing."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "He is a little brown dog with a red collar.",
+        "Brown dog. Find.",
+        "I am experiencing the loss of a canine.",
+        "My dog has brown and is little."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-kids-music-choice",
+    "topics": [
+      "music",
+      "school"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "The class is choosing a song and the teacher asks your preference.",
+    "canDo": "State a music preference politely",
+    "before": {
+      "replies": [
+        "That song. Now.",
+        "I am preferential toward this composition.",
+        "I like the fast song because we can dance.",
+        "I liking fast song because dance."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "The quick musical selection is my preference.",
+        "Could we choose the song with the strong beat?",
+        "Fast song is best, obviously.",
+        "I like the song fast because we dances."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-kids-festival-invite",
+    "topics": [
+      "holidays",
+      "festivals"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "Your friend has never been to your family festival and asks about it.",
+    "canDo": "Invite a friend to a celebration",
+    "before": {
+      "replies": [
+        "Would you like to come to our festival on Saturday?",
+        "Festival come.",
+        "I extend a ceremonial attendance invitation.",
+        "You coming festival Saturday yes?"
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "You must attend my event.",
+        "We invite that you are coming.",
+        "Could you join us for the celebration?",
+        "Your participation in the festivities is solicited."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-kids-recycle",
+    "topics": [
+      "environment",
+      "school"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "A classmate is about to throw a clean bottle into the wrong bin.",
+    "canDo": "Suggest recycling without sounding rude",
+    "before": {
+      "replies": [
+        "Wrong bin, silly.",
+        "Perhaps the bottle belongs in the recycling bin?",
+        "You must implement correct waste segregation.",
+        "It should putting in recycle bin."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "That bottle can go in the recycling bin.",
+        "Stop being bad at bins.",
+        "I advise appropriate disposal categorization.",
+        "Can you putting bottle there instead?"
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-kids-weekend-activity",
+    "topics": [
+      "weekend",
+      "plans"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "On Monday, a friend asks what you did at the weekend.",
+    "canDo": "Tell someone about one weekend activity",
+    "before": {
+      "replies": [
+        "I went swimming with my family.",
+        "Weekend good.",
+        "I go swimming yesterday with family.",
+        "My weekend comprised an aquatic excursion."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "It was nice.",
+        "My weekend involved family-based water recreation.",
+        "We visited the park on Sunday.",
+        "I am go to park in Sunday."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-kids-cafe-price",
+    "topics": [
+      "food",
+      "café",
+      "shopping"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At a café, you want a sandwich but cannot see its price.",
+    "canDo": "Ask the price before ordering",
+    "before": {
+      "replies": [
+        "How much is the cheese sandwich, please?",
+        "Price?",
+        "I require knowledge of the sandwich expenditure.",
+        "How many money cost this sandwich?"
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Tell me money now.",
+        "What is the monetary value of that item?",
+        "Could you tell me the price of that sandwich?",
+        "How much it costing?"
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-kids-animal-care",
+    "topics": [
+      "animals",
+      "pets"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "Your friend asks to feed your rabbit sweets.",
+    "canDo": "Explain a pet care rule kindly",
+    "before": {
+      "replies": [
+        "No, bad friend.",
+        "My rabbit should eat its usual food, not sweets.",
+        "The proposed confectionery is contraindicated.",
+        "Rabbit no can eating sweet."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Please give her some fresh vegetables instead.",
+        "Sweets are prohibited under dietary regulation.",
+        "You can no give candy, yes?",
+        "Never touch my rabbit food."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-kids-school-question",
+    "topics": [
+      "school",
+      "learning"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "In class, you do not understand an instruction and the teacher pauses.",
+    "canDo": "Ask a teacher to repeat an instruction",
+    "before": {
+      "replies": [
+        "What?",
+        "Would you be amenable to reiteration?",
+        "Could you say that again, please?",
+        "You can saying again?"
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Excuse me, could you repeat the last step?",
+        "Say it again.",
+        "Please undertaking a repetition.",
+        "I not understood what doing."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-teens-cafe-order-change",
+    "topics": [
+      "food",
+      "café"
+    ],
+    "ageBand": "teens",
+    "cefr": "A2",
+    "situation": "At a café, the server brings the wrong drink and asks if everything is fine.",
+    "canDo": "Correct an order politely",
+    "before": {
+      "replies": [
+        "This is wrong. Fix it.",
+        "I believe an ordering discrepancy has occurred.",
+        "I ordered tea, but this is coffee. Could you change it?",
+        "I ordered tea but you giving coffee."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Sorry, I asked for tea. Could I have that instead?",
+        "Your service is incompetent.",
+        "It appears that beverage fulfillment was erroneous.",
+        "I ask tea and this coffee is."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-teens-restaurant-split-bill",
+    "topics": [
+      "food",
+      "restaurant"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "After dinner with friends, the server brings one bill and you each paid for different meals.",
+    "canDo": "Ask to pay separately",
+    "before": {
+      "replies": [
+        "Could we pay separately for what we ordered?",
+        "Split now.",
+        "The financial settlement should be individually apportioned.",
+        "Can we paying separate for foods?"
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Money each own.",
+        "Could you make separate bills for us, please?",
+        "Separate billing would be optimally appropriate.",
+        "We want to pay each different meal was."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-teens-shop-return",
+    "topics": [
+      "shopping",
+      "clothes"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "A jacket you bought yesterday has a broken zip; the shop assistant asks what happened.",
+    "canDo": "Request an exchange with a reason",
+    "before": {
+      "replies": [
+        "The zip is broken. Could I exchange the jacket?",
+        "Bad jacket. Money.",
+        "I am desirous of redress for this defective apparel.",
+        "The zip breaked so you exchange."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Please replace this unacceptable thing immediately.",
+        "A garment defect necessitates transactional reversal.",
+        "I bought this yesterday, and the zip will not close. Could I swap it?",
+        "I did bought it yesterday and zip no works."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-teens-school-deadline",
+    "topics": [
+      "school",
+      "learning"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "You were ill and missed a project deadline; the teacher asks about your work.",
+    "canDo": "Ask for extra time and explain why",
+    "before": {
+      "replies": [
+        "I was ill this week. Could I hand it in on Monday?",
+        "I did nothing. Deal with it.",
+        "I seek a deferment of the deliverable completion date.",
+        "I sick was so can I handing Monday?"
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "My illness adversely impacted task delivery.",
+        "I could not finish while I was ill. May I have two more days?",
+        "Deadline no.",
+        "I was illness and need two days more for hand in."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-teens-friend-cancel",
+    "topics": [
+      "friends",
+      "plans"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "You agreed to meet a friend tonight but a family obligation has come up.",
+    "canDo": "Cancel plans and offer another time",
+    "before": {
+      "replies": [
+        "I cannot. Bye.",
+        "I regret the nonviability of our scheduled engagement.",
+        "I need to help my family tonight. Could we meet tomorrow?",
+        "I must helping family so we meet tomorrow maybe."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Sorry, something came up at home. Are you free on Saturday?",
+        "You should have planned another friend.",
+        "This social arrangement requires temporal relocation.",
+        "I have something comes and we meet other time."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-teens-hobby-invite",
+    "topics": [
+      "hobbies",
+      "friends"
+    ],
+    "ageBand": "teens",
+    "cefr": "A2",
+    "situation": "A classmate says they have never tried your photography club.",
+    "canDo": "Invite a classmate to try a hobby",
+    "before": {
+      "replies": [
+        "Join club.",
+        "Participation in the photographic association is encouraged.",
+        "You could come with me next week and try it.",
+        "You can coming with me next week."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Our extracurricular photographic endeavor welcomes novices.",
+        "Would you like to visit the club with me on Tuesday?",
+        "You would like visit club in Tuesday?",
+        "Why do you not already know it?"
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-teens-sport-injury",
+    "topics": [
+      "sport",
+      "health"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "Before a match, your coach asks why you are not warming up; your ankle hurts.",
+    "canDo": "Explain an injury and request a break",
+    "before": {
+      "replies": [
+        "My ankle hurts, so I need to sit out today.",
+        "I am broken. No game.",
+        "I must suspend athletic participation owing to discomfort.",
+        "My ankle is hurting so I cannot plays."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "It hurts. Whatever.",
+        "I am requesting exemption from scheduled competition.",
+        "I twisted my ankle yesterday. Could I rest this match?",
+        "My ankle twisted yesterday and I need resting."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-teens-travel-delay",
+    "topics": [
+      "travel",
+      "transport"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "At the station, your train is delayed and you may miss a connection.",
+    "canDo": "Ask staff about an alternative route",
+    "before": {
+      "replies": [
+        "Train late. Fix.",
+        "The delay may disrupt my onward itinerary.",
+        "I might miss my connection. Is there another route?",
+        "I missing connection because train late."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Could you help me find another way to get there?",
+        "Your trains are useless.",
+        "Please advise on intermodal alternatives.",
+        "Which other route I can to take?"
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-teens-weather-event",
+    "topics": [
+      "weather",
+      "plans"
+    ],
+    "ageBand": "teens",
+    "cefr": "A2",
+    "situation": "Heavy rain is forecast for your outdoor club meeting; a friend asks if the plan is still on.",
+    "canDo": "Suggest a weather backup plan",
+    "before": {
+      "replies": [
+        "Maybe we should meet in the library if it rains.",
+        "Rain. No.",
+        "A contingency venue would be advisable.",
+        "If rains we meeting library."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "The current meteorological forecast warrants relocation.",
+        "Could we move the meeting indoors?",
+        "Rain means you should stay home alone.",
+        "If rain will happen, we meet inside maybe."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-teens-family-rule",
+    "topics": [
+      "family",
+      "plans"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "A friend asks why you cannot stay out late; your family has agreed on a curfew.",
+    "canDo": "Explain a family rule without blaming anyone",
+    "before": {
+      "replies": [
+        "My family and I agreed that I should be home by nine.",
+        "Parents bad.",
+        "Our domestic policy stipulates evening arrival.",
+        "My family make me home by nine agreed."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "My parents are so unfair, obviously.",
+        "Our household imposes temporal restrictions.",
+        "I need to be home by nine, but we can meet earlier.",
+        "I needing home before nine because family rule was."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-teens-tech-privacy",
+    "topics": [
+      "technology",
+      "privacy"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "A friend wants to post a group photo that includes you; you are uncomfortable with it.",
+    "canDo": "Ask someone not to share your image",
+    "before": {
+      "replies": [
+        "Please do not post that photo of me. I would rather keep it private.",
+        "Delete it, idiot.",
+        "I hereby withhold authorization for image dissemination.",
+        "I prefer you not posting because privacy."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "My visual likeness is subject to personal data controls.",
+        "Could you leave me out of the post? I am not comfortable sharing it.",
+        "You never understand anything.",
+        "I not agree that you post me in internet."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-teens-doctor-symptom",
+    "topics": [
+      "health",
+      "doctor"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "At a clinic, the doctor asks how long you have had a sore throat.",
+    "canDo": "Describe a symptom and its duration",
+    "before": {
+      "replies": [
+        "Throat bad for time.",
+        "My throat has been sore for three days, especially at night.",
+        "I have experienced pharyngeal discomfort for 72 hours.",
+        "My throat is sore since three days."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "It has hurt since Monday, and swallowing is difficult.",
+        "My throat is not being good.",
+        "The symptoms are temporally persistent and nocturnally exacerbated.",
+        "It hurted from Monday and swallow hard."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-teens-pet-rescue",
+    "topics": [
+      "animals",
+      "pets"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "A neighbor found a stray dog and asks whether your family could care for it tonight.",
+    "canDo": "Accept or decline a request with a reason",
+    "before": {
+      "replies": [
+        "We can keep the dog safe tonight, but we should call the shelter tomorrow.",
+        "Dog here, fine.",
+        "Temporary canine custody is within our capacity.",
+        "We can taking dog but call shelter after."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "No. Your problem.",
+        "Animal accommodation is presently infeasible.",
+        "I cannot to take it but I help calling.",
+        "We cannot take the dog tonight, but I can help call a rescue group."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-teens-music-feedback",
+    "topics": [
+      "music",
+      "school"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "A friend plays a new song and asks for your honest opinion.",
+    "canDo": "Give supportive but honest feedback",
+    "before": {
+      "replies": [
+        "The chorus is catchy; perhaps the verse could be a little shorter.",
+        "It is terrible.",
+        "My evaluative assessment finds the refrain satisfactory.",
+        "Chorus good but verse too much long."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Your composition exhibits promise despite structural limitations.",
+        "I like the melody, though the ending feels a bit sudden.",
+        "Whatever, I have heard better.",
+        "Melody I like but end it suddenly feels."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-teens-festival-custom",
+    "topics": [
+      "holidays",
+      "festivals",
+      "culture"
+    ],
+    "ageBand": "teens",
+    "cefr": "A2",
+    "situation": "A visitor asks why your family shares food at a holiday celebration.",
+    "canDo": "Explain a holiday custom simply",
+    "before": {
+      "replies": [
+        "Food is there.",
+        "The communal meal symbolizes intergenerational cohesion.",
+        "We share food to welcome everyone and spend time together.",
+        "We share foods because everyone coming."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "It helps us make guests feel welcome.",
+        "It is just a thing. Do not ask.",
+        "This culinary tradition enacts communal solidarity.",
+        "We sharing food for all feels welcome."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-teens-environment-project",
+    "topics": [
+      "environment",
+      "school"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "The student council asks for one practical way to reduce waste at school.",
+    "canDo": "Propose an environmental change and justify it",
+    "before": {
+      "replies": [
+        "We could install refill stations so fewer students buy plastic bottles.",
+        "Just stop waste.",
+        "I propose the implementation of a comprehensive sustainability paradigm.",
+        "We install stations because bottles less will bought."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Nothing can help anyway.",
+        "A schoolwide circularity intervention is indicated.",
+        "Let us collect unused paper and use the blank sides for drafts.",
+        "We should collecting paper because use again it."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-teens-weekend-conflict",
+    "topics": [
+      "weekend",
+      "plans"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "Two friends invite you to different events on Saturday at the same time.",
+    "canDo": "Explain a scheduling conflict tactfully",
+    "before": {
+      "replies": [
+        "I already promised to go to Sam’s event, but could we meet later?",
+        "Yours sounds boring.",
+        "The overlap in social commitments is regrettable.",
+        "I promised Sam and cannot going yours."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "I am unavailable due to a prior engagement.",
+        "Your event loses.",
+        "I would love to come, but I have another plan. Is Sunday possible?",
+        "I have another plan so Sunday we meeting?"
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-teens-shop-budget",
+    "topics": [
+      "shopping",
+      "money"
+    ],
+    "ageBand": "teens",
+    "cefr": "A2",
+    "situation": "A friend points out expensive headphones, but you are saving money.",
+    "canDo": "Decline a purchase and explain your budget",
+    "before": {
+      "replies": [
+        "I am saving for a bike, so I will choose the cheaper ones.",
+        "Too much. No.",
+        "Their price exceeds my current expenditure ceiling.",
+        "I save for bike so cheaper I take."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Your suggestion is stupid.",
+        "This acquisition is fiscally inadvisable.",
+        "I am saving money, so I not buying these.",
+        "I would rather wait because I need the money for something else."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-teens-school-group",
+    "topics": [
+      "school",
+      "friends"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "In a group project, one person has not had a chance to speak.",
+    "canDo": "Invite a quieter group member to contribute",
+    "before": {
+      "replies": [
+        "We have not heard your view yet. What do you think?",
+        "Speak now.",
+        "Your contribution to the deliberation is hereby requested.",
+        "We not heard you; what you thinks?"
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "You are too quiet again.",
+        "Your input would facilitate equitable participation.",
+        "Tell us idea because we not hear yet.",
+        "We could pause and hear your idea before deciding."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-teens-travel-host",
+    "topics": [
+      "travel",
+      "culture"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "Your host family offers you a local dish you have never tried.",
+    "canDo": "Respond respectfully to unfamiliar food",
+    "before": {
+      "replies": [
+        "Thank you for making this. What is it called?",
+        "That looks strange.",
+        "I appreciate this gastronomic introduction.",
+        "Thanks, I never tasted this before what is?"
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "I refuse weird food.",
+        "Your culinary hospitality is gratefully acknowledged.",
+        "I would try, but what it contains?",
+        "I would love to try it. Could you tell me what is in it?"
+      ],
+      "natural": 3
+    }
+  }
+]

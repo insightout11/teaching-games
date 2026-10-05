@@ -2,4 +2,6 @@
 
 2026-10-05 · Task 1 · Rewrote 181 Flight Questions in two reviewed passes. The pass covered title copies, transcript fragments and one-answer comprehension prompts. Added validator rules for title equality after case and punctuation normalization and for leading But, So, or And. Existing uniqueness, length and question-mark checks remain in force. Questions left flagged for this pass: 0. Library validator: 1,380 items across 28 library files; 519 Flight Questions.
 
-Tasks 2 and 3 pending.
+2026-10-05 · Task 2 · Added 40 hand-authored Speak situation checks: 20 kids A1–A2 and 20 teens A2–B2. Each has a before and after set of four distinct replies, with a different natural-answer index. Validator checks the `validSpeakSituation` contract, ids, metadata, counts, topic breadth, exact reply counts, integer indexes, and `canDo` verb starts. Library validator: 1,380 items across 28 library files; 519 Flight Questions; 40 Speak situations (kids 20, teens 20).
+
+Task 3 pending.
