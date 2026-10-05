@@ -1,3 +1,4 @@
+import { fallbackSpeakSituation, validSpeakSituation } from '@/lib/speak-check';
 import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-announcement/content';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON as _generateJSON } from '@/lib/ai';
@@ -1864,6 +1865,27 @@ Return:
   };
 }
 
+async function generateSpeakCheck(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<Record<string, unknown>> {
+  const set: AISchema = { type: 'object', properties: { replies: { type: 'array', items: { type: 'string' } }, natural: { type: 'number' } }, required: ['replies', 'natural'] };
+  const schema: AISchema = { type: 'object', properties: { situation: { type: 'string' }, canDo: { type: 'string' }, before: set, after: set }, required: ['situation', 'canDo', 'before', 'after'] };
+  const prompt = `You are writing the SITUATION CHECK for a speaking lesson: one real, everyday situation from the topic where a student must say something. Students see it at the start and again at the end of the lesson.
+
+Topic: "${topic}"
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${sourceCtx ? `\nLESSON MATERIAL:\n${sourceCtx.slice(0, 4000)}\n` : ''}
+Return:
+- situation: 1-2 short sentences: where you are and what someone just said to you, in quotes. Kids/teens must recognise it. e.g. You're at a café. The waiter says: "Hi! What can I get you?"
+- canDo: what the student should be able to do, starting with a verb, no question mark. e.g. "Order food and drinks at a café in English"
+- before: 4 possible replies: exactly ONE natural, friendly reply a fluent speaker would say; the others are wrong in typical learner ways (too short or rude, too formal or stiff, a grammar mistake, or off-topic). natural = index of the natural one.
+- after: 4 DIFFERENT replies to the same situation (no reply repeated from before), same rules, natural at a different index.`;
+  try {
+    const parsed = await generateJSON<Record<string, unknown>>(prompt, schema);
+    const valid = validSpeakSituation(parsed);
+    if (valid) return { activityKey: 'speak-check', topicContext: topic, ...valid };
+  } catch { /* fall back below */ }
+  return { activityKey: 'speak-check', topicContext: topic, ...fallbackSpeakSituation(topic) };
+}
+
 async function generateFlightVerdict(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<FlightVerdictContent> {
   const schema: AISchema = {
     type: 'object',
@@ -3656,6 +3678,12 @@ export async function POST(request: NextRequest) {
             break;
           case 'flight-question':
             generators.push(generateFlightQuestion(customTopic, diff, !!sourceMaterial, kitSourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'speak-check':
+            generators.push(generateSpeakCheck(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r as unknown as ActivityGeneratedContent; }));
+            break;
+          case 'speak-reveal':
+            generators.push(Promise.resolve().then(() => { content[activityKey] = { activityKey: 'speak-reveal', topicContext: customTopic } as ActivityGeneratedContent; }));
             break;
           case 'flight-verdict':
             generators.push(generateFlightVerdict(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r; }));

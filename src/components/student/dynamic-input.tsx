@@ -2,6 +2,7 @@
 
 import { TripTravellerCardPanel } from './trip-traveller-card';
 import { CanDoPanel } from './can-do-panel';
+import { SpeakCheckPanel } from './speak-check-panel';
 import { ImposterSecretCard } from './imposter-card';
 import type { ImposterAssignment } from '@/activities/imposter/activity';
 import { OptionLetter, PHONE_PRIMARY, PhoneLocked, PhonePrompt, PhoneSubmitStatus, PhoneTimer, phoneOption } from './phone-kit';
@@ -1272,6 +1273,9 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
     return <StoryChainPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} onSubmit={onSubmit} />;
   }
 
+  if (spec.perStudentData?.__speakcheck) {
+    return <SpeakCheckPanel key={spec.prompt} spec={spec} onSubmit={onSubmit} />;
+  }
   if (spec.perStudentData?.__cando) {
     return <CanDoPanel key={spec.prompt} spec={spec} onSubmit={onSubmit} />;
   }

@@ -431,8 +431,8 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
     lessonType: 'performance',
-    takeoff: 'character-cards',
-    landing: 'final-word',
+    takeoff: 'speak-check',
+    landing: 'speak-reveal',
     // No new components — reuses the existing speaking engine (scene-igniter → conversation-rounds).
     // Micro defaults (Vocab) await the Vocab micro + toggle system; Opinion Pulse baked in for now.
     moduleSequence: [
@@ -446,17 +446,18 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     ],
     flightConfig: {
       stages: [
-        { stageId: 'icebreaker', label: 'Warm-up', kind: 'stage', phase: 'takeoff' },
+        { stageId: 'icebreaker', label: 'Try 1', kind: 'stage', phase: 'takeoff' },
         { stageId: 'language-toolkit', label: 'Language Toolkit', kind: 'stage', phase: 'climb' },
         { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event', phase: 'climb' },
         { stageId: 'scene', label: 'Scene', kind: 'stage', phase: 'cruise' },
         { stageId: 'conversation', label: 'Conversation', kind: 'stage', phase: 'cruise' },
         { stageId: 'vocab-check', label: 'Comms Check', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
-        { stageId: 'landing', label: 'Wrap-up', kind: 'landing', phase: 'landing' },
+        { stageId: 'landing', label: 'Better answers', kind: 'landing', phase: 'landing' },
       ],
       stageByKey: {
         'character-cards': 'icebreaker',
+        'speak-check': 'icebreaker',
         'language-toolkit': 'language-toolkit',
         'scene-igniter': 'scene',
         'would-you-rather': 'opinion-pulse',
@@ -470,6 +471,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'taboo-sprint': 'end-game',
         'imposter': 'end-game',
         'final-word': 'landing',
+        'speak-reveal': 'landing',
       },
     },
     scenarios: {

@@ -1,3 +1,4 @@
+import type { SpeakAnswer, SpeakSituation } from '@/lib/speak-check';
 import type { TravellerCard } from '@/lib/world-flight/traveller-cards';
 import { create } from 'zustand';
 import type { Student, Score } from '@/lib/supabase/types';
@@ -78,6 +79,8 @@ export interface LessonThread {
   tripStops?: string[];
   /** Travel can-do check per phone (clientId → ticked can-do ids), at boarding and at landing. */
   canDo?: { before: Record<string, string[]>; after: Record<string, string[]> };
+  /** Speak: the situation check (Try 1 at takeoff, Try 3 at landing), answers per phone. */
+  speakCheck?: { situation: SpeakSituation; before: Record<string, SpeakAnswer>; after: Record<string, SpeakAnswer> };
 }
 
 export interface SessionSettings {
@@ -273,6 +276,8 @@ interface SessionState {
   setTravellers: (cards: Record<string, TravellerCard>) => void;
   setTripStops: (stops: string[]) => void;
   recordCanDo: (when: 'before' | 'after', clientId: string, ids: string[]) => void;
+  setSpeakCheck: (situation: SpeakSituation) => void;
+  recordSpeakAnswer: (when: 'before' | 'after', clientId: string, answer: SpeakAnswer) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
@@ -436,6 +441,17 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setFlightQuestion: (q) => set({ lessonThread: { ...get().lessonThread, flightQuestion: q } }),
   setTravellers: (cards) => set({ lessonThread: { ...get().lessonThread, travellers: cards } }),
   setTripStops: (stops) => set({ lessonThread: { ...get().lessonThread, tripStops: stops } }),
+  setSpeakCheck: (situation) => {
+    const { lessonThread } = get();
+    if (lessonThread.speakCheck?.situation.situation === situation.situation) return;
+    set({ lessonThread: { ...lessonThread, speakCheck: { situation, before: {}, after: {} } } });
+  },
+  recordSpeakAnswer: (when, clientId, answer) => {
+    const { lessonThread } = get();
+    const cur = lessonThread.speakCheck;
+    if (!cur) return;
+    set({ lessonThread: { ...lessonThread, speakCheck: { ...cur, [when]: { ...cur[when], [clientId]: answer } } } });
+  },
   recordCanDo: (when, clientId, ids) => {
     const { lessonThread } = get();
     const cur = lessonThread.canDo ?? { before: {}, after: {} };

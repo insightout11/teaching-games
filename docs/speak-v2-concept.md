@@ -94,3 +94,17 @@ That's 6 main stages instead of 8, with far more talking per student.
 3. **Say it again, better (40s → 30s → 20s):** good fit for kids and teens, or too drill-like?
 4. **Character Cards:** keep as the warm-up (and carry the character into Pass the Line), or replace with the quick-fire chain?
 5. **Zoom breakout rooms:** do you ever use them? If yes, phones could run real pair work in parallel, which would multiply talk time. If not, the design above works in one room.
+
+## Decisions (owner, Oct 5 2026)
+1. **Before/after: both.** The situation check (which reply would you use + confidence) **and** a can-do statement ("Could you … in English?").
+2. **Main event: Pass the Line.** Conversation Rounds leaves Speak's main slot.
+3. **Say it again, better (40s → 30s → 20s): yes.**
+4. **Character Cards: replaced** by the quick-fire chain warm-up.
+5. **No Zoom breakout rooms.** Everything works in one room.
+
+## Build order
+1. **Situation check** at takeoff and landing (reply choice + confidence + can-do), with the **Better answers** reveal.
+2. **Quick-fire chain** warm-up.
+3. **Pass the Line** (whole-class conversation, passing mic, twist cards, role swap).
+4. **Say it again, better** (4-3-2 timer, fair queue, phone helpers).
+5. **Reshape the Speak preset** around the situation + logbook deposit.

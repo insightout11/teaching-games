@@ -41,7 +41,7 @@ const LANDING_ACTIVITY_KEYS = new Set(['final-answer', 'mic-drop', 'lightning-ro
 // in sync with games that read preGeneratedContent in their component.
 const GAMES_WITH_PREFETCHED_CONTENT = new Set(['vocab-sprint', 'story-sprint']);
 // Activities that seed their own content from the session store (no AI generation / prefetch).
-const SELF_SEEDED_ACTIVITIES = new Set(['trip-recap']);
+const SELF_SEEDED_ACTIVITIES = new Set(['trip-recap', 'speak-reveal']);
 
 // ─── sessionStorage reader ─────────────────────────────────────────────────
 
