@@ -84,3 +84,9 @@ key **`flight-result`**:
 3. **Which line leads** when a flight has several measures (Speak has three)? I'd lead with the main one (natural replies,
    accuracy, the shift, stamps) and keep the rest on the detail view.
 4. **Courses:** build the course row of before-and-afters in this pass, or after the logbook?
+
+## Decisions (owner, Oct 5 2026)
+1. **Teacher only.** Flight results show on the teacher's class page and end summary, **not** on the public share page.
+2. **Counts** everywhere ("3 of 4").
+3. **Lead with the main measure**; the rest in the detail view.
+4. **Courses after the logbook** (step 5 comes last).
