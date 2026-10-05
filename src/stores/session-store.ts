@@ -277,6 +277,8 @@ interface SessionState {
   setTripStops: (stops: string[]) => void;
   recordCanDo: (when: 'before' | 'after', clientId: string, ids: string[]) => void;
   setSpeakCheck: (situation: SpeakSituation) => void;
+  /** After a refresh: put back the lesson thread backed up for this plan. */
+  restoreLessonThread: (thread: LessonThread) => void;
   recordSpeakAnswer: (when: 'before' | 'after', clientId: string, answer: SpeakAnswer) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
@@ -441,6 +443,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setFlightQuestion: (q) => set({ lessonThread: { ...get().lessonThread, flightQuestion: q } }),
   setTravellers: (cards) => set({ lessonThread: { ...get().lessonThread, travellers: cards } }),
   setTripStops: (stops) => set({ lessonThread: { ...get().lessonThread, tripStops: stops } }),
+  restoreLessonThread: (thread) => set({ lessonThread: thread }),
   setSpeakCheck: (situation) => {
     const { lessonThread } = get();
     if (lessonThread.speakCheck?.situation.situation === situation.situation) return;

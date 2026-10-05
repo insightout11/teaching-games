@@ -1,5 +1,7 @@
 'use client';
 
+import { FLIGHT_BEFORE_KEY, saveSessionRecord } from '@/lib/flight-result';
+import { anonymiseThread, planKeyOf, restorableThread, threadHasContent } from '@/lib/thread-backup';
 import { filterTripSlots } from '@/lib/world-flight/trip-stops';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/session-store';
@@ -210,6 +212,32 @@ export function useLessonSession(
     savedTargetRef.current = target;
     void fetch('/api/session/settings', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId, grammarTarget: target }) }).catch(() => {});
   }, [sessionId, settings.grammarTarget]);
+
+  // Back up the lesson thread (the takeoff "before" above all) so a refresh can't break the landing
+  // reveal; restore it once if this plan's thread came back empty. Names stripped, plan-scoped.
+  const lessonThreadNow = useSessionStore((s) => s.lessonThread);
+  const restoreLessonThread = useSessionStore((s) => s.restoreLessonThread);
+  const planKey = planKeyOf(lessonPlanContent);
+  const restoredRef = useRef('');
+  useEffect(() => {
+    if (!sessionId || !planKey || restoredRef.current === planKey) return;
+    restoredRef.current = planKey;
+    if (threadHasContent(useSessionStore.getState().lessonThread)) return;
+    void fetch(`/api/session/flight-result?sessionId=${encodeURIComponent(sessionId)}&key=${FLIGHT_BEFORE_KEY}`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { payload?: unknown } | null) => {
+        const thread = restorableThread(d?.payload, planKey);
+        if (thread && !threadHasContent(useSessionStore.getState().lessonThread)) restoreLessonThread(thread);
+      })
+      .catch(() => {});
+  }, [sessionId, planKey, restoreLessonThread]);
+  useEffect(() => {
+    if (!sessionId || !planKey || !threadHasContent(lessonThreadNow)) return;
+    const id = window.setTimeout(() => {
+      saveSessionRecord(sessionId, FLIGHT_BEFORE_KEY, { planKey, thread: anonymiseThread(lessonThreadNow) });
+    }, 3000);
+    return () => window.clearTimeout(id);
+  }, [sessionId, planKey, lessonThreadNow]);
 
   // Grammar Hunt: tally every phone's stamps into the lesson thread.
   const recordHuntStamps = useSessionStore((s) => s.recordHuntStamps);

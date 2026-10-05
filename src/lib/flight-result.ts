@@ -72,12 +72,17 @@ export function flightResultLine(r: FlightResult): string {
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-/** Client: save the result (fire-and-forget; a failed save never blocks the lesson). */
-export function saveFlightResult(sessionId: string | null | undefined, result: Omit<FlightResult, 'savedAt'>, key: string = FLIGHT_RESULT_KEY): void {
+/** Client: save to the flight-result route (fire-and-forget; a failed save never blocks the lesson). */
+export function saveSessionRecord(sessionId: string | null | undefined, key: string, payload: unknown): void {
   if (!sessionId || !UUID_RE.test(sessionId)) return;
   void fetch('/api/session/flight-result', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ sessionId, key, result }),
+    body: JSON.stringify({ sessionId, key, result: payload }),
   }).catch(() => {});
+}
+
+/** Client: save this flight's before → after for the logbook. */
+export function saveFlightResult(sessionId: string | null | undefined, result: Omit<FlightResult, 'savedAt'>): void {
+  saveSessionRecord(sessionId, FLIGHT_RESULT_KEY, result);
 }
