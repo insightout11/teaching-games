@@ -625,7 +625,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     goal: 'discussion-debate',
     lessonType: 'performance',
     // discussion-debate derives to participation — no winner's vote; opinion-shift is the close.
-    takeoff: 'quick-pulse',
+    takeoff: 'motion-pulse',
     landing: 'opinion-shift',
     moduleSequence: [
       { slotType: 'presentation', key: 'fact-detective', stageId: 'evidence' },
@@ -635,7 +635,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     ],
     flightConfig: {
       stages: [
-        { stageId: 'icebreaker', label: 'Warm-up', kind: 'stage', phase: 'takeoff' },
+        { stageId: 'icebreaker', label: 'Motion', kind: 'stage', phase: 'takeoff' },
         { stageId: 'evidence', label: 'Evidence', kind: 'stage', phase: 'climb' },
         { stageId: 'take-side', label: 'Stance Check', kind: 'micro-event', phase: 'climb' },
         { stageId: 'debate', label: 'Debate', kind: 'stage', phase: 'cruise' },
@@ -644,6 +644,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       ],
       stageByKey: {
         'quick-pulse': 'icebreaker',
+        'motion-pulse': 'icebreaker',
         'fact-detective': 'evidence',
         'would-you-rather': 'take-side',
         'rank-it': 'take-side',

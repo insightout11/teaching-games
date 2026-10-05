@@ -31,6 +31,7 @@ import { QuickFireActivity } from '@/activities/quick-fire/activity';
 import { PassTheLineActivity } from '@/activities/pass-the-line/activity';
 import { SayItAgainActivity } from '@/activities/say-it-again/activity';
 import { ClassLogbookHubCard } from '@/components/class/class-logbook-hub-card';
+import { MotionPulseActivity } from '@/activities/motion-pulse/activity';
 import { SpeakRevealActivity } from '@/activities/speak-reveal/activity';
 import { SpeakCheckPanel } from '@/components/student/speak-check-panel';
 import { TripGettingThereActivity } from '@/activities/trip-getting-there/activity';
@@ -148,7 +149,12 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'logbook' ? (
+      {mode === 'motion' ? (
+        <div className="flex gap-4">
+          <div className="flex-1"><MotionPulseActivity {...props} sessionSettings={{ difficulty: 'Intermediate' } as unknown as ActivityProps['sessionSettings']} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={{ activityKey: 'motion-pulse', topicContext: 'phones at school' } as unknown as ActivityProps['generatedContent']} /></div>
+          <pre className="w-72 whitespace-pre-wrap rounded-3xl bg-slate-900 p-4 text-xs text-slate-200">{JSON.stringify({ spec, thread: useSessionStore.getState().lessonThread.pulse }, null, 1)}</pre>
+        </div>
+      ) : mode === 'logbook' ? (
         <div className="w-96">
           <ClassLogbookHubCard
             summary={{ classId: 'c1', className: 'Demo Class', completedFlights: 12, totalResponses: 340, totalPoints: 900, averageAccuracy: 78, bestStreak: 6, recentTopics: ['Cafés', 'Trip to Lisbon'], lastTopic: 'Cafés', lastFlightAt: null }}

@@ -85,3 +85,14 @@ and always as part of a team.
 3. **Switch Sides round:** yes, or too much for kids?
 4. **Prep:** tap to claim a point (no typing), 2 minutes. OK to remove the text box from the debate prep screen?
 5. **Motion:** use the 60 checked motions when the topic matches, generated otherwise, like Speak's situations?
+
+## Decisions (owner, Oct 6 2026)
+All recommendations accepted: (1) **tag-team** short turns for everyone, no 90s speeches; (2) **Evidence Cards** replace
+Fact Detective in Debate; (3) **Switch Sides** round yes; (4) **tap-to-claim prep**, 2 min, text box removed; (5) **checked
+motions** when the topic matches, generated otherwise.
+
+## Build order
+1. Motion source (bank match + generated fallback) and **Motion Pulse** takeoff.
+2. **Evidence Cards.**
+3. **Tap-to-claim prep + Tag-team Debate** (openings, answers, closing) + **Switch Sides**.
+4. **Strongest argument** vote in the Opinion Shift landing + reshape the Debate preset.

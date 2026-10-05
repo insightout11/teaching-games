@@ -1,3 +1,4 @@
+import { bankMotionFor, fallbackMotion, validMotion, type DebateMotion } from '@/lib/debate-motion';
 import { getLibraryEntry, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
 import { fallbackGist, isKidsLevel, listeningWindow, packToRadioCheck, validGist, validPack, windowTranscript, type GistQuestion, type ListeningPack } from '@/lib/listening-pack';
 import { fallbackSayItAgain } from '@/lib/say-it-again';
@@ -1344,6 +1345,30 @@ const RADIO_SEGMENT_SCHEMA = {
   correctIndex: { type: 'number' },
   keyLine: { type: 'string' },
 } as const;
+
+/** Debate v2: the lesson's motion — a checked one when the topic matches, else generated, else a fallback. */
+async function generateDebateMotion(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<DebateMotion> {
+  const banked = sourceCtx ? null : bankMotionFor(topic, difficulty);
+  if (banked) return banked;
+  try {
+    const ev: AISchema = { type: 'object', properties: { fact: { type: 'string' }, side: { type: 'string' }, source: { type: 'string' } }, required: ['fact', 'side', 'source'] };
+    const schema: AISchema = { type: 'object', properties: { motion: { type: 'string' }, pulse: { type: 'string' }, forPoints: { type: 'array', items: { type: 'string' } }, againstPoints: { type: 'array', items: { type: 'string' } }, evidence: { type: 'array', items: ev } }, required: ['motion', 'pulse', 'forPoints', 'againstPoints', 'evidence'] };
+    const prompt = `Write a DEBATE MOTION for an ESL class (kids/teens). Both sides must be winnable.
+
+Topic: "${topic}"
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${sourceCtx ? `\nLESSON MATERIAL (base the motion and evidence on it):\n${sourceCtx.slice(0, 4000)}\n` : ''}
+Return:
+- motion: a short, plain statement (max 12 words), e.g. "Schools should ban phones". No politics, religion, or topics targeting a group.
+- pulse: the same as a question, e.g. "Should schools ban phones?"
+- forPoints, againstPoints: 3 short arguments each, balanced.
+- evidence: 2-4 facts, each { fact, side: "for" | "against", source }. ONLY well-known, checkable facts with a named organisation or study${sourceCtx ? ', or facts from the lesson material (source: the material title)' : ''}. No invented numbers. If you are not sure, return fewer facts.`;
+    const parsed = await generateJSON<Record<string, unknown>>(prompt, schema);
+    const valid = validMotion(parsed);
+    if (valid) return valid;
+  } catch { /* fall back below */ }
+  return bankMotionFor(topic, difficulty) ?? fallbackMotion(topic);
+}
 
 /** The clip's listening pack (library sources only), with its YouTube id. */
 function packForSource(source: SourceMaterial | null | undefined): { pack: ListeningPack; youtubeId: string; title: string } | null {
@@ -3542,6 +3567,7 @@ export async function POST(request: NextRequest) {
     if (hasActivities) {
       let speakCheckP: Promise<Record<string, unknown>> | null = null;
       let listenP: Promise<Record<string, unknown> | null> | null = null;
+      let motionP: Promise<DebateMotion> | null = null;
       for (const activityKey of activities) {
         if (vocabBlitzMode && activityKey === 'vocab-radar') continue; // already generated above
         switch (activityKey) {
@@ -3821,6 +3847,11 @@ export async function POST(request: NextRequest) {
           case 'flight-verdict':
             generators.push(generateFlightVerdict(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r; }));
             break;
+          case 'motion-pulse': {
+            motionP = motionP ?? generateDebateMotion(customTopic, diff, kitSourceCtx);
+            generators.push(motionP.then((m) => { content[activityKey] = { activityKey, topicContext: customTopic, ...m } as unknown as ActivityGeneratedContent; }));
+            break;
+          }
           case 'first-listen':
           case 'final-listen': {
             listenP = listenP ?? generateListenContent(customTopic, diff, sourceMaterial, sourceRawTranscript);

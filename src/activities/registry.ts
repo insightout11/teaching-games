@@ -63,6 +63,7 @@ import { passTheLinePlugin } from './pass-the-line';
 import { sayItAgainPlugin } from './say-it-again';
 import { firstListenPlugin } from './first-listen';
 import { finalListenPlugin } from './final-listen';
+import { motionPulsePlugin } from './motion-pulse';
 import { videoPlayerPlugin } from './video-player';
 import { readAloudPlugin } from './read-aloud';
 import { listeningGapFillPlugin } from './listening-gap-fill';
@@ -114,6 +115,7 @@ const activities: ActivityPlugin[] = [
   sayItAgainPlugin,
   firstListenPlugin,
   finalListenPlugin,
+  motionPulsePlugin,
   tripMealPlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,
