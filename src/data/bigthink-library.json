@@ -17,7 +17,48 @@
     "genre": "opinion",
     "cefr": "B2",
     "ageBand": "teens",
-    "needsReview": false
+    "needsReview": false,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 0,
+          "end": 16,
+          "question": "What object does Newtonian determinism compare the universe to?",
+          "options": [
+            "A book",
+            "A clock",
+            "A river"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Newtonian Determinism says that the universe\nis a clock, a gigantic clock that’s wound"
+        },
+        {
+          "start": 42,
+          "end": 58,
+          "question": "Which scientific principle introduces uncertainty?",
+          "options": [
+            "Heisenberg Uncertainty Principle",
+            "Theory of Relativity",
+            "Natural Selection"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Heisenberg then comes along and proposes the\nHeisenberg Uncertainty Principle and says:"
+        },
+        {
+          "start": 72,
+          "end": 88,
+          "question": "What does the speaker say uncertainty allows?",
+          "options": [
+            "Perfect prediction",
+            "No choices",
+            "Some free will"
+          ],
+          "correctIndex": 2,
+          "keyLine": "It means in some sense we do have some kind\nof free will."
+        }
+      ]
+    },
+    "transcriptVerified": true
   },
   {
     "id": "bigthink_fermi_paradox",

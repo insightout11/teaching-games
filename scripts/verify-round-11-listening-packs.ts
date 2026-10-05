@@ -1,4 +1,4 @@
-/** Verify every Round 11 keyLine and playback window against locally stored caption rows. */
+/** Verify every listening-pack keyLine and playback window against locally stored caption rows. */
 import fs from 'node:fs';
 import path from 'node:path';
 import { createServiceClient } from '../src/lib/supabase/service';
@@ -10,6 +10,7 @@ const groups = [
   { file: 'kids-library.json', sourceType: 'kids' },
   { file: 'teded-library.json', sourceType: 'teded' },
   { file: 'world-flight-library.json', sourceType: 'world-flight' },
+  { file: 'bigthink-library.json', sourceType: 'bigthink' },
 ];
 
 async function main() {

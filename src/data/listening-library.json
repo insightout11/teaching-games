@@ -5,7 +5,7 @@
     "speaker": "American English File",
     "url": "https://www.youtube.com/watch?v=eYacVGeaGSc",
     "youtubeId": "eYacVGeaGSc",
-    "durationSecs": 71,
+    "durationSecs": 72,
     "summary": "From American English File, Street Interviews. Listen to some basic introduction questions.  ",
     "description": "From American English File, Street Interviews. Listen to some basic introduction questions.  ",
     "topicTags": [
@@ -19,7 +19,47 @@
     "place": null,
     "difficultyLevel": "Beginner",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 15,
+          "end": 30,
+          "question": "Where was the speaker born?",
+          "options": [
+            "London",
+            "Cairo",
+            "New York"
+          ],
+          "correctIndex": 1,
+          "keyLine": ">> I was born in Cairo, Egypt."
+        },
+        {
+          "start": 38,
+          "end": 56,
+          "question": "What does the speaker do for work?",
+          "options": [
+            "Gardening",
+            "Teaching",
+            "Cooking"
+          ],
+          "correctIndex": 0,
+          "keyLine": ">> I'm a gardener."
+        },
+        {
+          "start": 60,
+          "end": 72,
+          "question": "What pet does the speaker have?",
+          "options": [
+            "A dog",
+            "A bird",
+            "A cat"
+          ],
+          "correctIndex": 2,
+          "keyLine": ">> I do. I have a cat."
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-english-file-likes-dislikes-1",
@@ -41,7 +81,47 @@
     "place": null,
     "difficultyLevel": "Beginner",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 16,
+          "end": 32,
+          "question": "Which city does the speaker find most beautiful?",
+          "options": [
+            "Barcelona",
+            "Rome",
+            "Prague"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Barcelona."
+        },
+        {
+          "start": 36,
+          "end": 53,
+          "question": "Which room does the speaker like most?",
+          "options": [
+            "The bedroom",
+            "The garden",
+            "The kitchen"
+          ],
+          "correctIndex": 2,
+          "keyLine": "kitchen cuz I really like cooking."
+        },
+        {
+          "start": 63,
+          "end": 78,
+          "question": "What food is the speaker’s specialty?",
+          "options": [
+            "Thai food",
+            "Indian food",
+            "Italian food"
+          ],
+          "correctIndex": 1,
+          "keyLine": ">> My specialtity is Indian food. I like"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-english-file-likes-dislikes-2",
@@ -85,7 +165,47 @@
     "place": null,
     "difficultyLevel": "Beginner",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 23,
+          "end": 38,
+          "question": "What country does the first name come from?",
+          "options": [
+            "England",
+            "Scotland",
+            "Ireland"
+          ],
+          "correctIndex": 2,
+          "keyLine": ">> Uh, it's an Irish name. Um, and it comes"
+        },
+        {
+          "start": 34,
+          "end": 49,
+          "question": "Who chose the first speaker’s name?",
+          "options": [
+            "His teacher",
+            "His mother",
+            "His father"
+          ],
+          "correctIndex": 1,
+          "keyLine": ">> My mother chose my name."
+        },
+        {
+          "start": 63,
+          "end": 78,
+          "question": "Whose name inspired the second speaker’s name?",
+          "options": [
+            "Her dad’s",
+            "Her aunt’s",
+            "Her brother’s"
+          ],
+          "correctIndex": 0,
+          "keyLine": "for my dad. My dad's name is Edward. And"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-english-file-how-often",
@@ -509,7 +629,47 @@
     "place": null,
     "difficultyLevel": "Intermediate",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 17,
+          "end": 29,
+          "question": "Where did Jenny study?",
+          "options": [
+            "Harvard",
+            "Oxford",
+            "Cambridge"
+          ],
+          "correctIndex": 0,
+          "keyLine": "study at harvard she's a very capable"
+        },
+        {
+          "start": 29,
+          "end": 46,
+          "question": "What work does Rob prefer?",
+          "options": [
+            "Management",
+            "Photography",
+            "Writing"
+          ],
+          "correctIndex": 2,
+          "keyLine": "uh no not really i'm more of a a writer"
+        },
+        {
+          "start": 60,
+          "end": 76,
+          "question": "What hobby does Jenny’s dad enjoy?",
+          "options": [
+            "Cooking",
+            "Photography",
+            "Gardening"
+          ],
+          "correctIndex": 1,
+          "keyLine": "my dad's a very keen photographer he"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-rob-s-interview",
@@ -1090,7 +1250,47 @@
     "difficultyLevel": "Advanced",
     "needsReview": true,
     "reviewNote": "Quick classroom content review recommended for dramatic or satirical context.",
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 53,
+          "end": 67,
+          "question": "What does Luke say he has cracked?",
+          "options": [
+            "A window",
+            "A phone screen",
+            "A security code"
+          ],
+          "correctIndex": 2,
+          "keyLine": "i've cracked the security code on your"
+        },
+        {
+          "start": 68,
+          "end": 84,
+          "question": "What protects the files?",
+          "options": [
+            "A password note",
+            "Encryption",
+            "A paper lock"
+          ],
+          "correctIndex": 1,
+          "keyLine": "and all the files are encrypted a page"
+        },
+        {
+          "start": 113,
+          "end": 129,
+          "question": "What do the people in the message want?",
+          "options": [
+            "Documents",
+            "Jewelry",
+            "Tickets"
+          ],
+          "correctIndex": 0,
+          "keyLine": "want some documents"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-roommate-rules",
@@ -1174,7 +1374,47 @@
     "place": null,
     "difficultyLevel": "Advanced",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 51,
+          "end": 66,
+          "question": "What weather is disrupting flights?",
+          "options": [
+            "Strong wind",
+            "Heavy snow",
+            "Thick fog"
+          ],
+          "correctIndex": 1,
+          "keyLine": "hi jenny any news it's snowing really"
+        },
+        {
+          "start": 88,
+          "end": 103,
+          "question": "What might the “old man” clue refer to?",
+          "options": [
+            "A book",
+            "A bus",
+            "A restaurant"
+          ],
+          "correctIndex": 0,
+          "keyLine": "about an old man it's the name of a book"
+        },
+        {
+          "start": 139,
+          "end": 155,
+          "question": "Which route might let them enter unseen?",
+          "options": [
+            "The main gate",
+            "The roof",
+            "A back footpath"
+          ],
+          "correctIndex": 2,
+          "keyLine": "footpath ah good idea"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r7-american-english-file-esl-henry-rescued",
@@ -1455,7 +1695,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=dbyJNdS_V-s"
+    "url": "https://www.youtube.com/watch?v=dbyJNdS_V-s",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 20,
+          "end": 34,
+          "question": "What is the visitor looking for?",
+          "options": [
+            "A cash machine",
+            "A post office",
+            "A café"
+          ],
+          "correctIndex": 0,
+          "keyLine": "excuse me uh is there a cash machine"
+        },
+        {
+          "start": 27,
+          "end": 40,
+          "question": "Which way should the visitor first turn?",
+          "options": [
+            "Right",
+            "Back",
+            "Left"
+          ],
+          "correctIndex": 2,
+          "keyLine": "back sorry where is that turn left and"
+        },
+        {
+          "start": 61,
+          "end": 77,
+          "question": "Where is another cash machine?",
+          "options": [
+            "The train station",
+            "HSBC",
+            "The library"
+          ],
+          "correctIndex": 1,
+          "keyLine": "yeah there's one in HSBC go straight on"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-top-notch-nice-to-meet-you",
@@ -1541,7 +1821,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=25eycnocRKk"
+    "url": "https://www.youtube.com/watch?v=25eycnocRKk",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 28,
+          "end": 44,
+          "question": "Where is the writer David said to be from?",
+          "options": [
+            "Mexico",
+            "England",
+            "France"
+          ],
+          "correctIndex": 2,
+          "keyLine": "duquesne he's a writer from france"
+        },
+        {
+          "start": 41,
+          "end": 55,
+          "question": "What job does Jeff Davis have?",
+          "options": [
+            "Lawyer",
+            "Artist",
+            "Doctor"
+          ],
+          "correctIndex": 1,
+          "keyLine": "he's an artist"
+        },
+        {
+          "start": 57,
+          "end": 73,
+          "question": "Where is Clark Thomas from?",
+          "options": [
+            "England",
+            "France",
+            "Mexico"
+          ],
+          "correctIndex": 0,
+          "keyLine": "from england he's a musician"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-top-notch-get-there",
@@ -1627,7 +1947,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=jweEIv-nSfg"
+    "url": "https://www.youtube.com/watch?v=jweEIv-nSfg",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 27,
+          "end": 42,
+          "question": "What time is it when someone is called late?",
+          "options": [
+            "Half past seven",
+            "Two minutes after six",
+            "Five to six"
+          ],
+          "correctIndex": 1,
+          "keyLine": "two minutes after six i'm not late two"
+        },
+        {
+          "start": 52,
+          "end": 69,
+          "question": "What is showing at the Avalon?",
+          "options": [
+            "A French movie",
+            "A play",
+            "A baseball game"
+          ],
+          "correctIndex": 0,
+          "keyLine": "great french movie at the avalon"
+        },
+        {
+          "start": 72,
+          "end": 89,
+          "question": "Which composer has a concert on Saturday?",
+          "options": [
+            "Beethoven",
+            "Bach",
+            "Mozart"
+          ],
+          "correctIndex": 2,
+          "keyLine": "oh look there's a mozart concert on"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-top-notch-weekend-plan",
@@ -1649,7 +2009,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=zEkDC7gSRBE"
+    "url": "https://www.youtube.com/watch?v=zEkDC7gSRBE",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 23,
+          "end": 40,
+          "question": "When is breakfast planned for friends?",
+          "options": [
+            "Saturday morning",
+            "Saturday evening",
+            "Sunday afternoon"
+          ],
+          "correctIndex": 0,
+          "keyLine": "how about saturday morning"
+        },
+        {
+          "start": 45,
+          "end": 60,
+          "question": "What class is planned for Saturday afternoon?",
+          "options": [
+            "Music",
+            "Sport",
+            "Art"
+          ],
+          "correctIndex": 2,
+          "keyLine": "i'm taking an art class from one to"
+        },
+        {
+          "start": 76,
+          "end": 92,
+          "question": "What game is planned for Sunday?",
+          "options": [
+            "Tennis",
+            "Baseball",
+            "Basketball"
+          ],
+          "correctIndex": 1,
+          "keyLine": "i'm going to a baseball game with bob at"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-top-notch-trip",
@@ -1671,7 +2071,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=bxu4iJsQ55E"
+    "url": "https://www.youtube.com/watch?v=bxu4iJsQ55E",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 25,
+          "end": 40,
+          "question": "Which city did the doctor visit?",
+          "options": [
+            "Paris",
+            "Rome",
+            "London"
+          ],
+          "correctIndex": 2,
+          "keyLine": "london it was fine thank you did you"
+        },
+        {
+          "start": 36,
+          "end": 50,
+          "question": "Did the doctor visit any museums?",
+          "options": [
+            "Just one",
+            "No",
+            "Yes, many"
+          ],
+          "correctIndex": 1,
+          "keyLine": "no i didn't visit any"
+        },
+        {
+          "start": 73,
+          "end": 88,
+          "question": "Why did the doctor travel?",
+          "options": [
+            "For business",
+            "For a holiday",
+            "For a concert"
+          ],
+          "correctIndex": 0,
+          "keyLine": "i went to london for business not for"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-top-notch-fever",
@@ -1693,7 +2133,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=_ru1N6bodN8"
+    "url": "https://www.youtube.com/watch?v=_ru1N6bodN8",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 17,
+          "end": 33,
+          "question": "Who was Marie planning to meet for lunch?",
+          "options": [
+            "Her doctor",
+            "Her sister",
+            "Her teacher"
+          ],
+          "correctIndex": 1,
+          "keyLine": "i'm meeting my sister for lunch"
+        },
+        {
+          "start": 39,
+          "end": 55,
+          "question": "What illness does Marie supposedly have?",
+          "options": [
+            "A fever",
+            "A cough",
+            "A broken arm"
+          ],
+          "correctIndex": 0,
+          "keyLine": "she has a fever"
+        },
+        {
+          "start": 78,
+          "end": 94,
+          "question": "What does Mr Evans decide to do?",
+          "options": [
+            "Go to lunch",
+            "Take a bus",
+            "Call the doctor"
+          ],
+          "correctIndex": 2,
+          "keyLine": "here i'm calling the doctor yes thank"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-top-notch-whos-this",
@@ -1715,7 +2195,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=4d92nwAFtfI"
+    "url": "https://www.youtube.com/watch?v=4d92nwAFtfI",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 27,
+          "end": 44,
+          "question": "How old is the brother?",
+          "options": [
+            "34",
+            "24",
+            "44"
+          ],
+          "correctIndex": 0,
+          "keyLine": "he's so handsome how old is he he's 34."
+        },
+        {
+          "start": 63,
+          "end": 76,
+          "question": "What job does the sister’s husband do?",
+          "options": [
+            "Doctor",
+            "Lawyer",
+            "Architect"
+          ],
+          "correctIndex": 2,
+          "keyLine": "he's an architect"
+        },
+        {
+          "start": 75,
+          "end": 89,
+          "question": "What does the sister’s son do?",
+          "options": [
+            "Drive a taxi",
+            "Study at university",
+            "Work as a chef"
+          ],
+          "correctIndex": 1,
+          "keyLine": "he's a university student"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-top-notch-morning",
@@ -1737,7 +2257,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=Sjhg4j0VNns"
+    "url": "https://www.youtube.com/watch?v=Sjhg4j0VNns",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 25,
+          "end": 40,
+          "question": "When does Paul say he gets up?",
+          "options": [
+            "5:00",
+            "6:00",
+            "8:45"
+          ],
+          "correctIndex": 2,
+          "keyLine": "up before 8 45 8 45 that's late what"
+        },
+        {
+          "start": 39,
+          "end": 52,
+          "question": "Which chore is mentioned after breakfast?",
+          "options": [
+            "Cooking dinner",
+            "Taking out the garbage",
+            "Washing the car"
+          ],
+          "correctIndex": 1,
+          "keyLine": "breakfast take out the garbage"
+        },
+        {
+          "start": 56,
+          "end": 71,
+          "question": "On which days does she exercise?",
+          "options": [
+            "Monday, Wednesday and Friday",
+            "Saturday and Sunday",
+            "Every Tuesday"
+          ],
+          "correctIndex": 0,
+          "keyLine": "on monday wednesday and friday i"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-school-registration",
@@ -1759,7 +2319,47 @@
     "difficultyLevel": "Beginner",
     "needsReview": false,
     "transcriptVerified": true,
-    "url": "https://www.youtube.com/watch?v=-6hFyTA_p7A"
+    "url": "https://www.youtube.com/watch?v=-6hFyTA_p7A",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 20,
+          "end": 35,
+          "question": "What must students hand in before noon?",
+          "options": [
+            "Sports shoes",
+            "Signed slips",
+            "Library books"
+          ],
+          "correctIndex": 1,
+          "keyLine": "please hand in your class signed slips"
+        },
+        {
+          "start": 35,
+          "end": 50,
+          "question": "Where should scholarship applicants sign up?",
+          "options": [
+            "The registrar section",
+            "The library",
+            "The sports hall"
+          ],
+          "correctIndex": 0,
+          "keyLine": "please sign up at the registrar section"
+        },
+        {
+          "start": 63,
+          "end": 79,
+          "question": "What kind of room should interested students meet in?",
+          "options": [
+            "A library",
+            "A cafeteria",
+            "A classroom"
+          ],
+          "correctIndex": 2,
+          "keyLine": "classroom"
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-school-equipment",
@@ -2072,7 +2672,47 @@
     "needsReview": true,
     "transcriptVerified": true,
     "url": "https://www.youtube.com/watch?v=AZgW3Y1eHFU",
-    "reviewNote": "The forecast is time-sensitive; use for listening and weather vocabulary, not as current weather information."
+    "reviewNote": "The forecast is time-sensitive; use for listening and weather vocabulary, not as current weather information.",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 15,
+          "end": 29,
+          "question": "What high temperature is expected today?",
+          "options": [
+            "22°C",
+            "15°C",
+            "27°C"
+          ],
+          "correctIndex": 2,
+          "keyLine": "And we can expect a high of 27° later"
+        },
+        {
+          "start": 37,
+          "end": 52,
+          "question": "What will the sky be like tonight?",
+          "options": [
+            "Stormy",
+            "Clear",
+            "Cloudy"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Skies will remain clear, making it a"
+        },
+        {
+          "start": 49,
+          "end": 63,
+          "question": "What may happen tomorrow afternoon?",
+          "options": [
+            "Light rain",
+            "Snow",
+            "Strong winds"
+          ],
+          "correctIndex": 0,
+          "keyLine": "rain in the afternoon."
+        }
+      ]
+    }
   },
   {
     "id": "listening-r8-one-minute-weather-forecast",
@@ -2095,6 +2735,46 @@
     "needsReview": true,
     "transcriptVerified": true,
     "url": "https://www.youtube.com/watch?v=Qn1bC7-ANps",
-    "reviewNote": "The forecast includes a time-sensitive flood-warning update and weather conditions; use it for listening only."
+    "reviewNote": "The forecast includes a time-sensitive flood-warning update and weather conditions; use it for listening only.",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 0,
+          "end": 14,
+          "question": "What warning has ended?",
+          "options": [
+            "A snow warning",
+            "A flood warning",
+            "A heat warning"
+          ],
+          "correctIndex": 1,
+          "keyLine": "says that the flood warning is over for"
+        },
+        {
+          "start": 13,
+          "end": 28,
+          "question": "What high is forecast for tomorrow?",
+          "options": [
+            "75 degrees",
+            "63 degrees",
+            "50 degrees"
+          ],
+          "correctIndex": 0,
+          "keyLine": "see a high of 75 scattered thunderstorms"
+        },
+        {
+          "start": 31,
+          "end": 47,
+          "question": "What weather system arrives by Sunday?",
+          "options": [
+            "A heatwave",
+            "A hurricane",
+            "A cold front"
+          ],
+          "correctIndex": 2,
+          "keyLine": "cold front moving in that we will expect"
+        }
+      ]
+    }
   }
 ]

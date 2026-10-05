@@ -82,12 +82,19 @@ let flightQuestionCount = 0;
 const flightQuestionOwners: Record<string, string> = {};
 let speakSituationCount = 0;
 const speakAgeCounts: Record<string, number> = { kids: 0, teens: 0 };
-const speakCanDoVerbs = new Set(['Accept', 'Ask', 'Borrow', 'Cancel', 'Correct', 'Decline',
-  'Describe', 'Explain', 'Give', 'Introduce', 'Invite', 'Order', 'Propose', 'Request',
-  'Respond', 'State', 'Suggest', 'Tell']);
+const speakPositions = { before: [0, 0, 0, 0], after: [0, 0, 0, 0] };
+const round12Speak = { kids: 0, teens: 0, teenB2: 0 };
+const speakCanDoVerbs = new Set(['Accept', 'Acknowledge', 'Answer', 'Apologize', 'Ask',
+  'Borrow', 'Cancel', 'Comfort', 'Correct', 'Decline', 'Describe', 'Disagree', 'Explain',
+  'Express', 'Give', 'Introduce', 'Invite', 'Name', 'Negotiate', 'Offer', 'Order',
+  'Praise', 'Propose', 'Request', 'Respond', 'State', 'Suggest', 'Take', 'Tell', 'Volunteer']);
 let listeningPackCount = 0;
 let listeningSegmentCount = 0;
 const packCohorts: Record<string, number> = { kids: 0, B1: 0, B2: 0 };
+let debateMotionCount = 0;
+const debateCohorts: Record<string, number> = { kids: 0, teens: 0 };
+const debateLevels: Record<string, number> = { A2: 0, B1: 0, B2: 0 };
+let debateEvidenceCount = 0;
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -370,8 +377,8 @@ for (const file of files) {
 
 // Round 9's templated Flight Questions were removed in review (Oct 3); round 10 redoes them grounded.
 if (flightQuestionCount < 500) fail('flight questions', `expected at least 500 items after Round 10 (found ${flightQuestionCount})`);
-if (listeningPackCount !== 30 || listeningSegmentCount !== 90) fail('listening packs', `expected 30 packs and 90 segments (found ${listeningPackCount} and ${listeningSegmentCount})`);
-if (packCohorts.kids !== 10 || packCohorts.B1 !== 12 || packCohorts.B2 !== 8) fail('listening packs', `expected kids/B1/B2 = 10/12/8 (found ${packCohorts.kids}/${packCohorts.B1}/${packCohorts.B2})`);
+if (listeningPackCount !== 60 || listeningSegmentCount !== 180) fail('listening packs', `expected 60 packs and 180 segments (found ${listeningPackCount} and ${listeningSegmentCount})`);
+if (packCohorts.kids !== 22 || packCohorts.B1 !== 22 || packCohorts.B2 !== 16) fail('listening packs', `expected kids/B1/B2 = 22/22/16 (found ${packCohorts.kids}/${packCohorts.B1}/${packCohorts.B2})`);
 
 const speakPath = path.join(dataDir, 'speak-situations.json');
 if (!fs.existsSync(speakPath)) fail('speak-situations.json', 'required Speak situations bank is missing');
@@ -394,6 +401,13 @@ else {
       else for (const tag of situation.topics) speakTopics.add(String(tag).toLowerCase());
       if (situation.ageBand !== 'kids' && situation.ageBand !== 'teens') fail(where, 'ageBand must be kids or teens');
       else speakAgeCounts[situation.ageBand] += 1;
+      if (String(situation.id).indexOf('speak-r12-') === 0) {
+        if (situation.ageBand === 'kids') round12Speak.kids += 1;
+        if (situation.ageBand === 'teens') {
+          round12Speak.teens += 1;
+          if (situation.cefr === 'B2') round12Speak.teenB2 += 1;
+        }
+      }
       if (situation.ageBand === 'kids' && situation.cefr !== 'A1' && situation.cefr !== 'A2') fail(where, 'kids cefr must be A1 or A2');
       if (situation.ageBand === 'teens' && situation.cefr !== 'A2' && situation.cefr !== 'B1' && situation.cefr !== 'B2') fail(where, 'teens cefr must be A2, B1, or B2');
       if (!validSpeakSituation(raw)) fail(where, 'must satisfy validSpeakSituation');
@@ -404,9 +418,14 @@ else {
         || !Array.isArray(after?.replies) || after.replies.length !== 4) fail(where, 'before and after each require exactly four replies');
       if (before?.natural === after?.natural) fail(where, 'after natural reply must use a different index');
       if (!Number.isInteger(before?.natural) || !Number.isInteger(after?.natural)) fail(where, 'natural indexes must be integers');
+      if (Number.isInteger(before?.natural) && Number(before?.natural) >= 0 && Number(before?.natural) < 4) speakPositions.before[Number(before?.natural)] += 1;
+      if (Number.isInteger(after?.natural) && Number(after?.natural) >= 0 && Number(after?.natural) < 4) speakPositions.after[Number(after?.natural)] += 1;
     }
-    if (speakSituationCount !== 40) fail('speak-situations.json', `expected 40 situations (found ${speakSituationCount})`);
-    if (speakAgeCounts.kids !== 20 || speakAgeCounts.teens !== 20) fail('speak-situations.json', 'expected 20 kids and 20 teens situations');
+    if (speakSituationCount !== 80) fail('speak-situations.json', `expected 80 situations (found ${speakSituationCount})`);
+    if (speakAgeCounts.kids !== 40 || speakAgeCounts.teens !== 40) fail('speak-situations.json', 'expected 40 kids and 40 teens situations');
+    if (round12Speak.kids !== 20 || round12Speak.teens !== 20 || round12Speak.teenB2 < 8) fail('speak-situations.json', `Round 12 requires 20 kids, 20 teens and 8 B2 teens (found ${round12Speak.kids}/${round12Speak.teens}/${round12Speak.teenB2})`);
+    if (speakPositions.before.some((count) => count > speakSituationCount * 0.35)
+      || speakPositions.after.some((count) => count > speakSituationCount * 0.35)) fail('speak-situations.json', 'natural reply positions must each be at most 35% before and after');
     if (speakTopics.size < 16) fail('speak-situations.json', `expected at least 16 topics (found ${speakTopics.size})`);
   }
 }
@@ -471,12 +490,72 @@ const bookSeriesIds = seriesIds.filter((seriesId) => seriesId.indexOf('book-cour
 if (bookSeriesIds.length < 12) fail('book-library.json', `expected at least 12 public-domain book courses after round 6 (found ${bookSeriesIds.length})`);
 if (bookCourseItemCount < 48) fail('book-library.json', `expected at least 48 book lesson items after round 6 (found ${bookCourseItemCount})`);
 
+const debatePath = path.join(dataDir, 'debate-motions.json');
+if (!fs.existsSync(debatePath)) fail('debate-motions.json', 'required debate motions bank is missing');
+else {
+  let bank: unknown;
+  try { bank = JSON.parse(fs.readFileSync(debatePath, 'utf8')); }
+  catch (error) { fail('debate-motions.json', `invalid JSON: ${String(error)}`); }
+  if (!Array.isArray(bank)) fail('debate-motions.json', 'top-level value must be an array');
+  else {
+    debateMotionCount = bank.length;
+    const seenMotionIds = new Set<string>();
+    const seenMotions = new Set<string>();
+    for (const [index, raw] of Array.from(bank.entries())) {
+      const where = `debate-motions.json[${index}]`;
+      if (!raw || typeof raw !== 'object' || Array.isArray(raw)) { fail(where, 'must be an object'); continue; }
+      const motion = raw as Record<string, unknown>;
+      if (!nonEmpty(motion.id) || seenMotionIds.has(String(motion.id))) fail(where, 'id must be non-empty and unique');
+      else seenMotionIds.add(motion.id);
+      if (!nonEmpty(motion.motion) || motion.motion.trim().split(/\s+/).length > 12
+        || motion.motion.endsWith('?')) fail(where, 'motion must be plain text of at most 12 words');
+      else {
+        const normalized = motion.motion.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+        if (seenMotions.has(normalized)) fail(where, 'duplicate motion');
+        seenMotions.add(normalized);
+      }
+      if (!Array.isArray(motion.topics) || motion.topics.length === 0
+        || motion.topics.some((tag) => !nonEmpty(tag))) fail(where, 'topics must be a non-empty string array');
+      if (motion.ageBand === 'kids' && (motion.cefr === 'A2' || motion.cefr === 'B1')) debateCohorts.kids += 1;
+      else if (motion.ageBand === 'teens' && (motion.cefr === 'B1' || motion.cefr === 'B2')) debateCohorts.teens += 1;
+      else fail(where, 'kids require A2–B1 and teens require B1–B2');
+      if (motion.cefr === 'A2' || motion.cefr === 'B1' || motion.cefr === 'B2') debateLevels[motion.cefr] += 1;
+      for (const side of ['forPoints', 'againstPoints']) {
+        const points = motion[side];
+        if (!Array.isArray(points) || points.length !== 3 || points.some((point) => !nonEmpty(point))) {
+          fail(where, `${side} must have exactly three non-empty arguments`);
+        }
+      }
+      if (!Array.isArray(motion.evidence) || motion.evidence.length < 2 || motion.evidence.length > 4) {
+        fail(where, 'evidence must have 2–4 items');
+      } else {
+        debateEvidenceCount += motion.evidence.length;
+        const sides = new Set<string>();
+        for (const [evidenceIndex, rawEvidence] of Array.from(motion.evidence.entries())) {
+          const at = `${where}.evidence[${evidenceIndex}]`;
+          if (!rawEvidence || typeof rawEvidence !== 'object' || Array.isArray(rawEvidence)) { fail(at, 'must be an object'); continue; }
+          const evidence = rawEvidence as Record<string, unknown>;
+          if (!nonEmpty(evidence.fact) || !nonEmpty(evidence.source)) fail(at, 'fact and named source are required');
+          if (evidence.side !== 'for' && evidence.side !== 'against') fail(at, 'side must be for or against');
+          else sides.add(evidence.side);
+        }
+        if (!sides.has('for') || !sides.has('against')) fail(where, 'evidence must support both sides');
+      }
+      if (!nonEmpty(motion.pulse) || !motion.pulse.trim().endsWith('?')) fail(where, 'pulse must be a question');
+    }
+    if (debateMotionCount !== 60 || debateCohorts.kids !== 30 || debateCohorts.teens !== 30) {
+      fail('debate-motions.json', `expected 60 motions, 30 kids and 30 teens (found ${debateMotionCount}/${debateCohorts.kids}/${debateCohorts.teens})`);
+    }
+  }
+}
+
 if (errors.length) {
   console.error(`Library validation failed with ${errors.length} error(s):`);
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
   console.log(`Library validation passed: ${ids.size} items across ${files.length} files.`);
-  console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}).`);
+  console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}; before ${speakPositions.before.join('/')}, after ${speakPositions.after.join('/')}).`);
   console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
+  console.log(`Debate motions: ${debateMotionCount} (kids ${debateCohorts.kids}, teens ${debateCohorts.teens}; A2 ${debateLevels.A2}, B1 ${debateLevels.B1}, B2 ${debateLevels.B2}; evidence ${debateEvidenceCount}).`);
 }
