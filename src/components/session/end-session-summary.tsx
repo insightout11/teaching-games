@@ -13,6 +13,8 @@ import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/prog
 import { formatDistance } from '@/lib/world-flight/geo';
 import { getPlaneAsset, getPlaneTier, type PlaneEntry } from '@/lib/plane-progression';
 import { play } from '@/lib/audio/manager';
+import { FlightResultLines } from '@/components/class/flight-result-lines';
+import { sanitizeFlightResult, type FlightResult } from '@/lib/flight-result';
 import { ClassLogbookDepositCard } from '@/components/class/class-logbook-card';
 import type { ClassLogbookSummary } from '@/lib/class-logbook';
 import { trackEvent } from '@/lib/analytics/posthog';
@@ -68,6 +70,17 @@ export function EndSessionSummary({
 }) {
   const students = useSessionStore((s) => s.students);
   const scores = useSessionStore((s) => s.scores);
+  // This lesson's flight result (the landing saved it), for the debrief headline.
+  const [sessionResult, setSessionResult] = useState<FlightResult | null>(null);
+  useEffect(() => {
+    if (!teacherView || previewMode || !sessionId) return;
+    let cancelled = false;
+    void fetch(`/api/session/flight-result?sessionId=${encodeURIComponent(sessionId)}`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { payload?: unknown } | null) => { if (!cancelled) setSessionResult(sanitizeFlightResult(d?.payload ?? null)); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [teacherView, previewMode, sessionId]);
   const reset = useSessionStore((s) => s.reset);
   // Solo 1:1 session: skip the "class ceremony" framing (Captain of the Day
   // crown reveal over a field of one) in favor of a personal recap. Logic
@@ -403,6 +416,12 @@ export function EndSessionSummary({
           <p className="font-instrument text-[11px] uppercase tracking-[0.26em] text-cyan-300/80">Lesson debrief</p>
           <h1 className="mt-1 text-2xl font-bold tracking-tight text-lc-text">{className} · lesson complete</h1>
         </div>
+
+        {teacherView && sessionResult && (
+          <div className="mx-auto mb-6 max-w-xl rounded-2xl border border-emerald-400/25 bg-emerald-500/[0.06] p-4 text-left">
+            <FlightResultLines results={[sessionResult]} title="This lesson, before → after" />
+          </div>
+        )}
 
         {classLogbook && (
           <ClassLogbookDepositCard

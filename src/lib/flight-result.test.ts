@@ -17,6 +17,11 @@ describe('flight results', () => {
     expect(formatMeasure(r.measures[1])).toBe('6 of 8');
   });
 
+  it('drops a topic that only repeats the city', () => {
+    const r = sanitizeFlightResult({ preset: 'travel-60', flight: 'Travel', topic: 'Trip to Lisbon', city: 'Lisbon', measures: [{ label: 'Can-do stamps', before: { count: 1, of: 5 }, after: { count: 4, of: 5 } }] })!;
+    expect(flightResultLine(r)).toBe('Lisbon · Travel · can-do stamps 1 → 4 of 5');
+  });
+
   it('rejects junk and clamps counts', () => {
     expect(sanitizeFlightResult({ flight: 'Speak' })).toBeNull();
     expect(sanitizeFlightResult({ ...raw, measures: [] })).toBeNull();

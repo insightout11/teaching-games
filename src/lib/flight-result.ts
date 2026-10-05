@@ -54,7 +54,7 @@ export function sanitizeFlightResult(raw: unknown): FlightResult | null {
   const city = clean(r.city, 60);
   const focus = clean(r.focus, 160);
   const phrases = (Array.isArray(r.phrases) ? r.phrases : []).map((p) => clean(p, 60)).filter(Boolean).slice(0, 4);
-  return { preset, flight, topic, ...(city ? { city } : {}), ...(focus ? { focus } : {}), measures, ...(phrases.length ? { phrases } : {}), savedAt: new Date().toISOString() };
+  return { preset, flight, topic, ...(city ? { city } : {}), ...(focus ? { focus } : {}), measures, ...(phrases.length ? { phrases } : {}), savedAt: typeof r.savedAt === 'string' && !Number.isNaN(Date.parse(r.savedAt)) ? r.savedAt : new Date().toISOString() };
 }
 
 /** "3 → 7 of 8" (counts, owner decision), or "7 of 8" with no before. */
@@ -65,7 +65,9 @@ export function formatMeasure(m: FlightMeasure): string {
 /** The logbook line: "Lisbon · Speak · Café · natural replies 3 → 7 of 8". */
 export function flightResultLine(r: FlightResult): string {
   const lead = r.measures[0];
-  return [r.city, r.flight, r.topic, lead ? `${lead.label.charAt(0).toLowerCase()}${lead.label.slice(1)} ${formatMeasure(lead)}` : null]
+  // "Trip to Lisbon" only repeats the city: drop it.
+  const topic = r.city && r.topic.toLowerCase().includes(r.city.toLowerCase()) ? null : r.topic;
+  return [r.city, r.flight, topic, lead ? `${lead.label.charAt(0).toLowerCase()}${lead.label.slice(1)} ${formatMeasure(lead)}` : null]
     .filter(Boolean)
     .join(' · ');
 }

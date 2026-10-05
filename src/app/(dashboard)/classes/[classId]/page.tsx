@@ -1,3 +1,4 @@
+import { FLIGHT_RESULT_KEY, sanitizeFlightResult, type FlightResult } from '@/lib/flight-result';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { RosterEditor } from '@/components/class/roster-editor';
@@ -47,6 +48,22 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
 
   const logbookSessionRows = logbookSessions ?? [];
   const logbookSessionIds = logbookSessionRows.map((s) => s.id);
+
+  // Flight results (each flight's before → after), newest session first. Teacher-only.
+  let flightResults: FlightResult[] = [];
+  if (logbookSessionIds.length > 0) {
+    const recentIds = logbookSessionIds.slice(0, 40);
+    const { data: resultRows } = await supabase
+      .from('session_private_state')
+      .select('session_id, payload')
+      .eq('key', FLIGHT_RESULT_KEY)
+      .in('session_id', recentIds) as { data: Array<{ session_id: string; payload: unknown }> | null };
+    flightResults = (resultRows ?? [])
+      .sort((a, b) => recentIds.indexOf(a.session_id) - recentIds.indexOf(b.session_id))
+      .map((row) => sanitizeFlightResult(row.payload))
+      .filter((r): r is FlightResult => r !== null)
+      .slice(0, 4);
+  }
 
   let moduleCountBySession = new Map<string, number>();
   let accuracy: number | null = null;
@@ -110,6 +127,7 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
           summary={classLogbook}
           shareEnabled={cls.logbook_share_enabled}
           shareToken={cls.logbook_share_token}
+          flightResults={flightResults}
         />
         <ClassJourneyCard
           classId={cls.id}

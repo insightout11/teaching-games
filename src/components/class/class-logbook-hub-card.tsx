@@ -4,15 +4,20 @@ import { BookOpen, Flame, MessageSquareText, PlaneTakeoff, Target } from 'lucide
 import { Card } from '@/components/ui/card';
 import type { ClassLogbookSummary } from '@/lib/class-logbook';
 import { ClassLogbookShareControl } from '@/components/class/class-logbook-share-control';
+import { FlightResultLines } from '@/components/class/flight-result-lines';
+import type { FlightResult } from '@/lib/flight-result';
 
 export function ClassLogbookHubCard({
   summary,
   shareEnabled,
   shareToken,
+  flightResults = [],
 }: {
   summary: ClassLogbookSummary;
   shareEnabled: boolean;
   shareToken: string | null;
+  /** Recent flights' before → after (teacher-only; not on the public page). */
+  flightResults?: FlightResult[];
 }) {
   return (
     <Card className="flex flex-col p-5">
@@ -31,6 +36,8 @@ export function ClassLogbookHubCard({
         />
         <LogbookMetric icon={<Flame className="h-3.5 w-3.5" />} value={summary.bestStreak.toLocaleString()} label="best streak" />
       </div>
+
+      {flightResults.length > 0 && <div className="mt-3"><FlightResultLines results={flightResults} /></div>}
 
       {summary.recentTopics.length > 0 ? (
         <div className="mt-3 space-y-1.5">

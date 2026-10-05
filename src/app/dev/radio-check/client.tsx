@@ -30,6 +30,7 @@ import { SpeakCheckActivity } from '@/activities/speak-check/activity';
 import { QuickFireActivity } from '@/activities/quick-fire/activity';
 import { PassTheLineActivity } from '@/activities/pass-the-line/activity';
 import { SayItAgainActivity } from '@/activities/say-it-again/activity';
+import { ClassLogbookHubCard } from '@/components/class/class-logbook-hub-card';
 import { SpeakRevealActivity } from '@/activities/speak-reveal/activity';
 import { SpeakCheckPanel } from '@/components/student/speak-check-panel';
 import { TripGettingThereActivity } from '@/activities/trip-getting-there/activity';
@@ -147,7 +148,20 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'again' ? (
+      {mode === 'logbook' ? (
+        <div className="w-96">
+          <ClassLogbookHubCard
+            summary={{ classId: 'c1', className: 'Demo Class', completedFlights: 12, totalResponses: 340, totalPoints: 900, averageAccuracy: 78, bestStreak: 6, recentTopics: ['Cafés', 'Trip to Lisbon'], lastTopic: 'Cafés', lastFlightAt: null }}
+            shareEnabled={false}
+            shareToken={null}
+            flightResults={[
+              { preset: 'speak-60', flight: 'Speak', topic: 'Cafés', focus: 'At a café, the waiter asks what you would like.', measures: [{ label: 'Natural replies', before: { count: 3, of: 8 }, after: { count: 7, of: 8 } }, { label: 'Confident', before: { count: 2, of: 8 }, after: { count: 6, of: 8 } }], phrases: ['Could I have…', 'How much is…'], savedAt: '2026-10-05T10:00:00Z' },
+              { preset: 'travel-60', flight: 'Travel', topic: 'Trip to Lisbon', city: 'Lisbon', measures: [{ label: 'Can-do stamps', before: { count: 1, of: 5 }, after: { count: 4, of: 5 } }], savedAt: '2026-10-04T10:00:00Z' },
+              { preset: 'grammar-60', flight: 'Grammar', topic: 'Holidays', focus: 'past simple', measures: [{ label: 'Flying it', before: { count: 4, of: 8 }, after: { count: 7, of: 8 } }], savedAt: '2026-10-03T10:00:00Z' },
+            ]}
+          />
+        </div>
+      ) : mode === 'again' ? (
         <div className="flex gap-4">
           <div className="flex-1"><SayItAgainActivity {...props} students={TRIP_CREW} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={{ activityKey: 'say-it-again', topicContext: 'cafés' } as unknown as ActivityProps['generatedContent']} /></div>
           <div className="w-80 rounded-3xl bg-slate-900 p-4 text-sm text-slate-200">{spec?.perStudentData?.__room ? <SpeakingFramePanel spec={spec} displayName="Ben" studentId="s2" /> : <pre className="text-xs">{JSON.stringify(spec)}</pre>}</div>
