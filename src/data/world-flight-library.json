@@ -381,7 +381,45 @@
           "correctIndex": 1,
           "keyLine": "more than 900 trees and 60 thousand"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is this airport building trying to be?",
+          "options": [
+            "Only a place to park planes",
+            "A replacement for all Singapore parks",
+            "A place to enjoy during a stopover"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the report describe Jewel?",
+          "options": [
+            "A hotel without public spaces",
+            "A mix of shopping, gardens and attractions",
+            "A small outdoor market"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What impression does the speaker give?",
+          "options": [
+            "The design is large and striking.",
+            "The building is empty and dull.",
+            "The gardens are closed to visitors."
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why might a traveller allow extra time there?",
+        "options": [
+          "The trains never run.",
+          "The airport has no shops.",
+          "There are trails and attractions, and they may be crowded."
+        ],
+        "correctIndex": 2
+      }
     },
     "transcriptVerified": true
   },
@@ -577,7 +615,45 @@
           "correctIndex": 0,
           "keyLine": "used to train London underground's"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is this report mainly exploring?",
+          "options": [
+            "A new road through the city",
+            "The Underground’s history and how it operates",
+            "London’s airports"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What makes the Tube surprising?",
+          "options": [
+            "Much of it is above ground despite its name.",
+            "It has only one train.",
+            "Nobody uses it now."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the report move from past to present?",
+          "options": [
+            "It starts with a crash then ends at a museum.",
+            "It only gives directions to one stop.",
+            "It describes early growth then driver training."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is the presenter put in a simulator?",
+        "options": [
+          "The presenter is already a trained driver.",
+          "It offers a safer way to try a driver’s controls.",
+          "The real trains have stopped forever."
+        ],
+        "correctIndex": 1
+      }
     },
     "transcriptVerified": true
   },
@@ -804,7 +880,45 @@
           "correctIndex": 2,
           "keyLine": "hundreds of thousands of tons of fertile silt,\nwhich has been the backbone of Egyptian agriculture"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the explanation mainly about?",
+          "options": [
+            "The Nile’s sources, flows and role in farming",
+            "Only the animals beside the Nile",
+            "A modern train across Egypt"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why is naming one source difficult?",
+          "options": [
+            "The river has no tributaries.",
+            "No one has seen the river.",
+            "Several connected headwaters compete for the title."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How do the two Nile branches differ?",
+          "options": [
+            "Neither reaches Sudan.",
+            "One flows steadily; the other changes greatly with rain.",
+            "Both dry out for the whole year."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why did seasonal floods matter to farming?",
+        "options": [
+          "They left fertile material on the land.",
+          "They removed all water from fields.",
+          "They stopped any crops growing."
+        ],
+        "correctIndex": 0
+      }
     },
     "transcriptVerified": true
   },
@@ -908,7 +1022,45 @@
           "correctIndex": 2,
           "keyLine": "expansion of Emirates and Fly Dubai."
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What story does the speaker tell?",
+          "options": [
+            "A city closing its airport",
+            "A new kind of aircraft engine",
+            "An airport growing with its city"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the speaker talk about the future?",
+          "options": [
+            "With no plans at all",
+            "With confidence in more growth",
+            "With regret about all air travel"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What connects the airport and Dubai?",
+          "options": [
+            "Their development is closely linked.",
+            "They compete for land.",
+            "The airport serves only one airline."
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why does the speaker mention more infrastructure?",
+        "options": [
+          "The first airstrip will become a museum.",
+          "The city has stopped growing.",
+          "The airport expects more airlines and passengers."
+        ],
+        "correctIndex": 2
+      }
     },
     "transcriptVerified": true
   },
@@ -1823,7 +1975,45 @@
           "correctIndex": 1,
           "keyLine": "so the lids are labeled with letters"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What service is being explained?",
+          "options": [
+            "Shipping fruit abroad",
+            "Delivering homemade lunches across Mumbai",
+            "Selling food inside a supermarket"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How do the workers keep the service organized?",
+          "options": [
+            "They use a routine and coded labels.",
+            "They rely only on smartphones.",
+            "They send every lunch by car."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What is striking about the system?",
+          "options": [
+            "It operates only once a year.",
+            "Nobody needs to sort the boxes.",
+            "It moves many lunches without modern technology."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why are symbols useful on the boxes?",
+        "options": [
+          "They replace the need for trains.",
+          "They help workers route lunches even if reading is difficult.",
+          "They show which food tastes best."
+        ],
+        "correctIndex": 1
+      }
     },
     "transcriptVerified": true
   },
@@ -2145,7 +2335,45 @@
           "correctIndex": 1,
           "keyLine": "The fourth lens through which\nwe view favelas is inequality."
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the speaker mainly examining?",
+          "options": [
+            "Different explanations for Rio’s favelas",
+            "The best beaches in Rio",
+            "How to build a new house"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the speaker treat a single origin story?",
+          "options": [
+            "As the only possible explanation",
+            "As a story with no connection to history",
+            "As one account among several ways to understand them"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What broader issue runs through the explanation?",
+          "options": [
+            "The design of modern hotels",
+            "Housing, power and inequality in the city",
+            "A shortage of football players"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why does the speaker offer several lenses?",
+        "options": [
+          "No one story fully explains how favelas developed.",
+          "He has forgotten the first story.",
+          "Each lens describes a different country."
+        ],
+        "correctIndex": 0
+      }
     },
     "transcriptVerified": true
   },
@@ -2659,7 +2887,45 @@
           "correctIndex": 0,
           "keyLine": "transport and also the rail transport"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What challenge is the clip about?",
+          "options": [
+            "Finding a new airline",
+            "Repairing a beach hotel",
+            "Moving people through heavy city traffic"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How is the boat presented?",
+          "options": [
+            "As only a tourist activity",
+            "As a quicker commute than the road",
+            "As slower than every car"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What solution does the official discuss?",
+          "options": [
+            "Linking water transport with road and rail",
+            "Closing all rail lines",
+            "Using boats without any other service"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why does the official call for several transport modes?",
+        "options": [
+          "No one in Lagos travels by road.",
+          "The city has no waterways.",
+          "Congestion needs alternatives that work together."
+        ],
+        "correctIndex": 2
+      }
     },
     "transcriptVerified": true
   },
@@ -2793,7 +3059,45 @@
           "correctIndex": 1,
           "keyLine": "fairs being less than $1 which is low"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What transport model is the report about?",
+          "options": [
+            "A city without public transport",
+            "Rail stations linked with property development",
+            "Buses replacing all trains"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the MTR use its buildings?",
+          "options": [
+            "To support and expand the rail network",
+            "To stop residents using trains",
+            "To keep all shops outside stations"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why might this model fit Hong Kong?",
+          "options": [
+            "Land is plentiful and homes are far apart.",
+            "The city has no shopping malls.",
+            "Space is limited and many people live vertically."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How can low fares coexist with network investment?",
+        "options": [
+          "No one pays to use the buildings.",
+          "Property income helps maintain and expand the system.",
+          "The railway gives every ride away for free."
+        ],
+        "correctIndex": 1
+      }
     },
     "transcriptVerified": true
   },
@@ -2864,7 +3168,45 @@
           "correctIndex": 1,
           "keyLine": "accommodation with 50,000 units to come"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What problem does the report explore?",
+          "options": [
+            "Tiny homes and the shortage of affordable housing",
+            "Empty luxury hotels",
+            "Too many new public parks"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why is the proposed law complicated?",
+          "options": [
+            "Everyone can easily afford a larger flat.",
+            "The city has no housing shortage.",
+            "Better standards may also raise rents or displace tenants."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How do residents and officials differ?",
+          "options": [
+            "Residents want no windows and officials agree.",
+            "Officials seek minimum standards while tenants fear losing cheap homes.",
+            "Both say the flats are already spacious."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why might removing very small flats hurt some residents?",
+        "options": [
+          "They may have no affordable place to move.",
+          "They prefer to live in hotels.",
+          "The new flats will be free."
+        ],
+        "correctIndex": 0
+      }
     },
     "transcriptVerified": true
   },
@@ -2969,7 +3311,45 @@
           "correctIndex": 0,
           "keyLine": "to ban motor vehicles for one day a week."
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What change in Amsterdam is the clip about?",
+          "options": [
+            "Replacing canals with airports",
+            "Building the world’s largest car park",
+            "Making streets more friendly to bicycles"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "Why did people challenge car-focused plans?",
+          "options": [
+            "There was no traffic in the city.",
+            "Cars crowded streets and safety became a concern.",
+            "Bicycles had never existed there."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the speaker present today’s cycling?",
+          "options": [
+            "As the result of choices and public pressure",
+            "As something that happened without planning",
+            "As a new sport with no transport role"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why did the oil crisis help bikes gain ground?",
+        "options": [
+          "Bicycles became free for everyone.",
+          "Oil made bike tyres stronger.",
+          "Fuel prices rose and one day a week cars were banned."
+        ],
+        "correctIndex": 2
+      }
     },
     "transcriptVerified": true
   },
@@ -3169,7 +3549,45 @@
           "correctIndex": 1,
           "keyLine": "play dominoes as they discuss politics"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What place is the report exploring?",
+          "options": [
+            "A new theme park in Florida",
+            "A Cuban cultural neighbourhood in Miami",
+            "A city in Cuba"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How did the neighbourhood take shape?",
+          "options": [
+            "Cuban newcomers settled near work and transport.",
+            "It was built for tourists alone.",
+            "It began as an airport terminal."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What role do cafés and the park play?",
+          "options": [
+            "They are closed to local residents.",
+            "They only sell souvenirs.",
+            "They are places for community conversation."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is the restaurant described as a community centre?",
+        "options": [
+          "It replaced every other street.",
+          "People meet, share news and connect there.",
+          "It offers free housing."
+        ],
+        "correctIndex": 1
+      }
     },
     "transcriptVerified": true
   },
@@ -3368,7 +3786,45 @@
           "correctIndex": 0,
           "keyLine": "for delivery fees and supplies the"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What debate surrounds graffiti in the clip?",
+          "options": [
+            "Whether street painting is art or lawbreaking",
+            "Whether paint can dry in rain",
+            "Whether all walls should be new"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What is the city trying to do?",
+          "options": [
+            "Ban every mural",
+            "Turn the city into a museum",
+            "Make legal space and support for artists"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How do artists hope views will change?",
+          "options": [
+            "Every painter will work secretly.",
+            "People will see skill and opportunity in some graffiti.",
+            "People will stop visiting the city."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why might legal mural spaces matter?",
+        "options": [
+          "They give artists a place to work without the same legal risk.",
+          "They remove all need for paint.",
+          "They keep art away from the public."
+        ],
+        "correctIndex": 0
+      }
     },
     "transcriptVerified": true
   },
@@ -3688,7 +4144,45 @@
           "correctIndex": 2,
           "keyLine": "schools are shut and the government has"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What crisis is the report about?",
+          "options": [
+            "A city festival without buses",
+            "A plan for a new airport",
+            "A bus strike linked to fear of crime"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the strike affect daily life?",
+          "options": [
+            "Every road becomes empty for tourists.",
+            "Commuting, schools and businesses are disrupted.",
+            "Only bus drivers notice it."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What are the workers asking for?",
+          "options": [
+            "Protection and action against crime",
+            "Longer school holidays",
+            "Cheaper cinema tickets"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why can a bus strike shut schools and shops?",
+        "options": [
+          "The schools own all the buses.",
+          "The weather has closed every building.",
+          "Many people depend on buses to travel to work and class."
+        ],
+        "correctIndex": 2
+      }
     },
     "transcriptVerified": true
   },
@@ -3792,7 +4286,45 @@
           "correctIndex": 2,
           "keyLine": "to be consistently at 90 percent"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the clip mainly describing?",
+          "options": [
+            "A new airport shopping centre",
+            "A public transport network preparing for growth",
+            "A city without buses"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What is distinctive about the system?",
+          "options": [
+            "It joins several transport types and uses smart cards.",
+            "It runs only ferries.",
+            "It has no plans to improve."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the operator respond to positive surveys?",
+          "options": [
+            "It closes older routes.",
+            "It refuses new passengers.",
+            "It still explores future improvements."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why are new bus and rail projects being explored?",
+        "options": [
+          "The smart card no longer works.",
+          "The city expects growing demand for travel.",
+          "Passengers are all leaving Perth."
+        ],
+        "correctIndex": 1
+      }
     },
     "transcriptVerified": true
   },
@@ -4329,7 +4861,45 @@
           "correctIndex": 2,
           "keyLine": "donations and all of this is what forms"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the explanation mainly about?",
+          "options": [
+            "How a museum collection grew from several sources",
+            "How to paint one famous picture",
+            "How a museum sells tickets"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What does the speaker do with the collection’s history?",
+          "options": [
+            "Describes a single new purchase only",
+            "Explains why all paintings were destroyed",
+            "Traces additions from royal, institutional and private sources"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How has the collection changed since the museum opened?",
+          "options": [
+            "It now contains only modern art.",
+            "It has grown through transfers, purchases and gifts.",
+            "It has stayed exactly the same."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why is it wrong to call the collection only royal?",
+        "options": [
+          "Later institutions and donors added many works.",
+          "No kings ever collected art.",
+          "The museum opened before Spain had kings."
+        ],
+        "correctIndex": 0
+      }
     },
     "transcriptVerified": true
   },
@@ -4560,7 +5130,45 @@
           "correctIndex": 1,
           "keyLine": "advertising trade cards he was so"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the report mainly about?",
+          "options": [
+            "The design of a modern college",
+            "A lesson on Greek grammar",
+            "Oscar Wilde’s fame and an archive of his life"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the archive tell his story?",
+          "options": [
+            "It shows only his childhood toys.",
+            "Objects show his rise, reputation and later difficulties.",
+            "It contains only his exam marks."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why does the speaker call Wilde an early celebrity?",
+          "options": [
+            "His image and name circulated widely in public culture.",
+            "He acted in every film of his age.",
+            "He owned a modern social network."
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why are trade cards useful evidence of Wilde’s fame?",
+        "options": [
+          "They record every book he read.",
+          "They show he never toured abroad.",
+          "His face appeared on adverts for many products."
+        ],
+        "correctIndex": 2
+      }
     },
     "transcriptVerified": true
   },
@@ -4981,7 +5589,45 @@
           "correctIndex": 0,
           "keyLine": "surfing and enticing beaches"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the report mainly about?",
+          "options": [
+            "A modern shopping centre",
+            "The moai and the island’s cultural landscape",
+            "A new train line in Chile"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What remains uncertain?",
+          "options": [
+            "Why the islanders made and moved the statues",
+            "Whether any statues still exist",
+            "Whether the island has beaches"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How is the island presented to visitors?",
+          "options": [
+            "Only a city of office towers",
+            "A place with no protected land",
+            "A place of history and outdoor activities"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why do the restored statues still leave a mystery?",
+        "options": [
+          "No one knows where the island is.",
+          "Restoring them does not reveal the builders’ original purpose.",
+          "The stones were all made yesterday."
+        ],
+        "correctIndex": 1
+      }
     },
     "transcriptVerified": true
   },

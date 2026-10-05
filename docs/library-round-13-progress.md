@@ -1,0 +1,5 @@
+# Library round 13 progress
+
+2026-10-06 · Task 1 · Read the locally stored captions inside each `listeningWindow` for all 60 packs, including the 90-second cap for kids. Added 180 big-picture gist questions (three per pack) and 60 harder inference questions (one per pack), with plausible options and rotating answer positions. Expanded the library validator to require their shapes, exact counts, distinct options and no gist question identical to a segment question. Validator: 1,380 library items across 28 files; 519 Flight Questions; 80 Speak situations (kids 40, teens 40; before 20/20/20/20, after 20/20/20/20); 60 listening packs, 180 detail segments, 180 gist questions, 60 harder questions (kids A1–A2 22, B1 22, B2 16); 60 debate motions (kids 30, teens 30; A2 19, B1 28, B2 13; evidence 120).
+
+Tasks 2 and 3 pending.

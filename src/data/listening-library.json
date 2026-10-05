@@ -58,7 +58,45 @@
           "correctIndex": 2,
           "keyLine": ">> I do. I have a cat."
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is this conversation mainly about?",
+          "options": [
+            "Getting to know someone",
+            "Buying a house",
+            "Planning a trip"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What do the questions help the listener learn?",
+          "options": [
+            "The weather tomorrow",
+            "The price of food",
+            "The speaker’s life and family"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the speaker answer?",
+          "options": [
+            "By refusing every question",
+            "By sharing simple personal details",
+            "By giving directions"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why is this a first conversation?",
+        "options": [
+          "The interviewer asks basic questions about the person.",
+          "They are arguing about an old problem.",
+          "They already know every detail."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -120,7 +158,45 @@
           "correctIndex": 1,
           "keyLine": ">> My specialtity is Indian food. I like"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What do the interviews mostly ask about?",
+          "options": [
+            "A lost passport",
+            "A school rule",
+            "Things the speaker likes"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the speaker describe favourite things?",
+          "options": [
+            "By giving only yes or no answers",
+            "By giving reasons and examples",
+            "By reading a timetable"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Which feeling fits the answers?",
+          "options": [
+            "Interest and enjoyment",
+            "Fear of travelling",
+            "Anger about cooking"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why does the speaker talk about the kitchen and food?",
+        "options": [
+          "They are opening a restaurant today.",
+          "They have no place to cook.",
+          "Cooking is something they enjoy."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -204,7 +280,45 @@
           "correctIndex": 0,
           "keyLine": "for my dad. My dad's name is Edward. And"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the recording mainly about?",
+          "options": [
+            "Ordering at a café",
+            "Stories behind people’s names",
+            "Choosing a school subject"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why do the speakers explain their names?",
+          "options": [
+            "The names connect to family and heritage.",
+            "The names are secret passwords.",
+            "The names are places they visited."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What do both name stories have in common?",
+          "options": [
+            "Both speakers changed names yesterday.",
+            "Neither knows where the name came from.",
+            "Family members helped choose the names."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why did the first speaker’s mother choose an Irish name?",
+        "options": [
+          "To make school work easier",
+          "To keep a link with Irish heritage",
+          "To match a famous singer"
+        ],
+        "correctIndex": 1
+      }
     }
   },
   {
@@ -420,7 +534,45 @@
           "correctIndex": 0,
           "keyLine": "rained every day. It was freezing cold."
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What kinds of trips does the speaker describe?",
+          "options": [
+            "A loved place, a historic visit, and a bad holiday",
+            "Three work meetings",
+            "Only a beach holiday"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the speaker feel about the ancient site?",
+          "options": [
+            "Bored and unwilling to return",
+            "Unable to remember it",
+            "Interested and willing to recommend it"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What makes the holiday stories different?",
+          "options": [
+            "All trips happen in the same city.",
+            "One is interesting while another is spoiled by weather.",
+            "Every trip has perfect weather."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why does the speaker remember the rainy family trip so clearly?",
+        "options": [
+          "Bad weather kept everyone inside and arguing.",
+          "They won a prize there.",
+          "They climbed a sunny mountain."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -482,7 +634,45 @@
           "correctIndex": 2,
           "keyLine": "or at someone's house for dinner and"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the interview mainly about?",
+          "options": [
+            "Buying a new phone",
+            "Learning a new language",
+            "Everyday behaviour that irritates someone"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What does the speaker prefer in public places?",
+          "options": [
+            "Everyone using a phone at dinner",
+            "People giving space and attention when needed",
+            "People asking questions all the time"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the speaker feel about constant phone use?",
+          "options": [
+            "Annoyed in social situations",
+            "Pleased by it",
+            "Unaware of it"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why does the speaker mention a pub and dinner?",
+        "options": [
+          "They are reviewing two restaurants.",
+          "They lost a phone there.",
+          "They expect people to focus on those around them."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -544,7 +734,45 @@
           "correctIndex": 0,
           "keyLine": "i'm taking rob to meet my parents for"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What story are Jenny and Rob telling?",
+          "options": [
+            "How to book a holiday in London",
+            "How work and a relationship brought Rob to New York",
+            "How to start a new magazine"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How do the speakers feel about their life together?",
+          "options": [
+            "Mostly happy, with some worry about change",
+            "Angry about the magazine",
+            "Certain they will move tomorrow"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What is changing for them now?",
+          "options": [
+            "The weather and train routes",
+            "The name of their magazine",
+            "Jobs and family relationships"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might meeting Jenny’s parents feel important?",
+        "options": [
+          "Jenny’s parents own the magazine.",
+          "Their relationship is becoming more serious.",
+          "Rob is applying to university."
+        ],
+        "correctIndex": 1
+      }
     }
   },
   {
@@ -606,7 +834,45 @@
           "correctIndex": 1,
           "keyLine": "editor of the magazine so you've got a"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is this scene mainly about?",
+          "options": [
+            "A first family meeting with a small mishap",
+            "A medical appointment",
+            "A train journey"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How do Jenny’s parents react overall?",
+          "options": [
+            "They refuse to let him in.",
+            "They ask him to leave New York.",
+            "They welcome Rob and celebrate good news."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the mood change?",
+          "options": [
+            "A quiet dinner turns into an emergency.",
+            "Worry about a forgotten gift gives way to warm news.",
+            "Everyone becomes angry and leaves."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why is forgetting the gift not a disaster?",
+        "options": [
+          "The parents say not to worry and invite them in.",
+          "The gift was never meant for them.",
+          "The shop is still open."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -668,7 +934,45 @@
           "correctIndex": 1,
           "keyLine": "my dad's a very keen photographer he"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are Harry and Rob mostly discussing?",
+          "options": [
+            "A missing suitcase",
+            "A sports match",
+            "Rob’s career and interests"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What does Harry seem to care about?",
+          "options": [
+            "Whether Jenny likes jazz",
+            "Whether creative work can pay the bills",
+            "Whether Rob can drive"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does Rob present himself?",
+          "options": [
+            "As a writer who values creative work",
+            "As a manager who dislikes writing",
+            "As a professional photographer"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why might Rob feel tested by Harry?",
+        "options": [
+          "Harry asks him to cook dinner.",
+          "Harry cannot remember his name.",
+          "Harry asks about his future and the money in creative work."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -730,7 +1034,45 @@
           "correctIndex": 0,
           "keyLine": "new york then i'm doing some small gigs"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "Who is Rob interviewing?",
+          "options": [
+            "A school principal",
+            "A musician with a new solo career",
+            "An airport employee"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What is Kerri willing to talk about?",
+          "options": [
+            "Her music and future performances",
+            "Every detail of her private life",
+            "Only her favourite food"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What mood does Kerri show toward Rob’s private questions?",
+          "options": [
+            "Delighted and talkative",
+            "Confused about music",
+            "Guarded and firm"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does Kerri refuse to explain the band breakup?",
+        "options": [
+          "She cannot hear the question.",
+          "She wants to keep private matters private.",
+          "She has forgotten the band."
+        ],
+        "correctIndex": 1
+      }
     }
   },
   {
@@ -792,7 +1134,45 @@
           "correctIndex": 2,
           "keyLine": "and and you can cycle everywhere"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What do the diners mainly debate?",
+          "options": [
+            "London and New York",
+            "Which band is best",
+            "What to order for lunch"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How do their opinions compare?",
+          "options": [
+            "They all prefer London.",
+            "They all dislike both cities.",
+            "They disagree about which city they prefer."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What do they use to defend their views?",
+          "options": [
+            "A weather chart only",
+            "Everyday experiences in each city",
+            "Sports scores"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why does Rob hesitate when asked to choose?",
+        "options": [
+          "He has ties to both cities.",
+          "He has never visited either.",
+          "He is choosing a meal instead."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -854,7 +1234,45 @@
           "correctIndex": 1,
           "keyLine": "cell phone you left it in my cab what"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are Jenny and Rob talking about?",
+          "options": [
+            "Finding a new job in London",
+            "Planning a long holiday",
+            "Missing London while settling into New York"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does Rob feel about moving?",
+          "options": [
+            "He has forgotten London.",
+            "He misses some things but does not regret it.",
+            "He wants to leave immediately."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What overall view is tested and then supported?",
+          "options": [
+            "New Yorkers can be friendly even while Rob misses London.",
+            "Rob dislikes London and loves every part of New York.",
+            "Jenny decides the city is unsafe."
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why does Jenny mention the driver at the end?",
+        "options": [
+          "She wants to buy his taxi.",
+          "He knows where Rob lived in London.",
+          "His helpful act supports her view that people are friendly."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -916,7 +1334,45 @@
           "correctIndex": 0,
           "keyLine": "few months ago from london what he's"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What personal news do the friends share?",
+          "options": [
+            "A cancelled journey",
+            "A wedding plan and a new relationship",
+            "Two new jobs"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does Monica seem to feel?",
+          "options": [
+            "Excited about getting married",
+            "Unhappy about leaving school",
+            "Angry with Jenny"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What does their talk show about Jenny and Rob?",
+          "options": [
+            "They have already set a wedding date.",
+            "They have decided to move to London.",
+            "The relationship is new and Jenny is hopeful."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does Monica ask whether Rob will stay?",
+        "options": [
+          "He dislikes the wedding plans.",
+          "He recently moved from London and their future is uncertain.",
+          "He has booked a flight tonight."
+        ],
+        "correctIndex": 1
+      }
     }
   },
   {
@@ -978,7 +1434,45 @@
           "correctIndex": 2,
           "keyLine": "the week cool it'll be fun to meet one"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is this scene mainly about?",
+          "options": [
+            "Friends meeting and changing plans",
+            "Buying a new flat",
+            "A sports competition"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How do the speakers react to meeting and news?",
+          "options": [
+            "With fear and suspicion",
+            "Without talking",
+            "Warmly and with interest"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the scene link past and present friendships?",
+          "options": [
+            "College photos start an argument.",
+            "An old friend’s visit changes the couple’s plans.",
+            "The friends decide never to meet again."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why does Rob want to change the week’s plans?",
+        "options": [
+          "A university friend is coming to visit.",
+          "His job has ended.",
+          "He has lost his passport."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -1040,7 +1534,45 @@
           "correctIndex": 1,
           "keyLine": "the game another time jenny's waiting"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are Rob and Paul mostly doing?",
+          "options": [
+            "Looking for a missing suitcase",
+            "Planning a concert",
+            "Playing pool and comparing past with present"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does Paul view Rob’s new life?",
+          "options": [
+            "As a life without any work",
+            "As more settled than their university days",
+            "As exactly like their student days"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does Rob respond to Paul’s teasing?",
+          "options": [
+            "He defends Jenny and his choices.",
+            "He promises to leave Jenny.",
+            "He says he has no job."
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why does Paul mention Rob’s shirt and job?",
+        "options": [
+          "He wants to borrow the shirt.",
+          "He is interviewing Rob for work.",
+          "He thinks Rob has become more conventional."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -1102,7 +1634,45 @@
           "correctIndex": 0,
           "keyLine": "online or just give us a call but we"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What problem is the conversation about?",
+          "options": [
+            "A missed flight home",
+            "A suitcase that did not arrive",
+            "A cancelled hotel room"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What does the airport worker mainly do?",
+          "options": [
+            "Collect details and explain the next steps",
+            "Sell a new suitcase",
+            "Arrange a sightseeing trip"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the conversation end?",
+          "options": [
+            "With the suitcase found immediately",
+            "With Jenny buying another ticket",
+            "With a way to track the missing bag"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the worker ask for a description and contact details?",
+        "options": [
+          "To check what Jenny bought abroad",
+          "To identify the bag and return it to Jenny",
+          "To book Jenny a later flight"
+        ],
+        "correctIndex": 1
+      }
     }
   },
   {
@@ -1164,7 +1734,45 @@
           "correctIndex": 2,
           "keyLine": "charge of 50 pounds okay"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the speakers arranging?",
+          "options": [
+            "A short car rental",
+            "A permanent car purchase",
+            "A train season ticket"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What does the employee explain?",
+          "options": [
+            "How to repair an engine",
+            "How to pass a driving test",
+            "The car choice, costs, and return rules"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the customer seem?",
+          "options": [
+            "Angry that cars are unavailable",
+            "Ready to rent after checking the terms",
+            "Uninterested in any car"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why would returning the car at the airport cost more?",
+        "options": [
+          "It is a one-way rental.",
+          "The car has no fuel.",
+          "The customer chose a manual car."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -1226,7 +1834,45 @@
           "correctIndex": 1,
           "keyLine": "why don't you ring luke"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "Why does Jenny phone Rob?",
+          "options": [
+            "She needs a dinner recipe.",
+            "She has a new job offer.",
+            "She is worried about a missing person and an attack."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the conversation feel?",
+          "options": [
+            "Cheerful about a holiday",
+            "Tense and uncertain",
+            "Relaxed and funny"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What do they decide Jenny should do?",
+          "options": [
+            "Seek help and avoid staying alone",
+            "Wait alone without telling anyone",
+            "Go straight to the airport"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why does Rob suggest Jenny stay with Luke?",
+        "options": [
+          "Luke has a better dinner plan.",
+          "Rob wants her to miss work.",
+          "She feels unsafe alone while they contact the police."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -1289,7 +1935,45 @@
           "correctIndex": 0,
           "keyLine": "want some documents"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What mystery are Jenny and Luke trying to solve?",
+          "options": [
+            "A broken musical instrument",
+            "Strange files and a message about Henry",
+            "A lost holiday booking"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the mood change when they open the computer?",
+          "options": [
+            "A success turns into new worry.",
+            "Fear turns into a celebration.",
+            "Nothing important changes."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What does the message suggest?",
+          "options": [
+            "Henry has gone on holiday.",
+            "The computer belongs to Rob.",
+            "Henry is under pressure and needs them to leave documents."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does cracking the code not solve the problem?",
+        "options": [
+          "They already have Henry safely at home.",
+          "The files remain unclear and the message reveals a threat.",
+          "The screen has no files."
+        ],
+        "correctIndex": 1
+      }
     }
   },
   {
@@ -1351,7 +2035,45 @@
           "correctIndex": 0,
           "keyLine": "he's very keen on saving energy"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the conversation mainly about?",
+          "options": [
+            "Rules for staying in someone’s home",
+            "Opening a restaurant",
+            "Planning a road trip"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What kind of home does Simon want?",
+          "options": [
+            "One that serves meat every day",
+            "One with no rules at all",
+            "One that avoids meat and saves energy"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the guest respond to the rules?",
+          "options": [
+            "Changes every rule",
+            "Mostly accepts them and asks practical questions",
+            "Refuses to stay immediately"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why does the host explain the washing rules?",
+        "options": [
+          "Simon wants the household to use energy more carefully.",
+          "The machine is broken.",
+          "The guest has no clothes."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -1413,7 +2135,45 @@
           "correctIndex": 2,
           "keyLine": "footpath ah good idea"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the speakers trying to do?",
+          "options": [
+            "Choose a new school",
+            "Book a beach holiday",
+            "Find Henry while Rob is stuck away"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How do they respond to the obstacle?",
+          "options": [
+            "They wait for the snow to stop before talking.",
+            "They plan a careful visit to Henry’s house.",
+            "They give up looking."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What is the mood of the plan?",
+          "options": [
+            "Worried but determined",
+            "Carefree and playful",
+            "Bored and uninterested"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why do Jenny and Luke choose darkness and a back path?",
+        "options": [
+          "They want to surprise Henry for his birthday.",
+          "The front door is painted red.",
+          "They think someone may be watching the house."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -1499,7 +2259,45 @@
           "correctIndex": 1,
           "keyLine": "you okay Mr Walker you're in room 3 2 1"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is Rob doing?",
+          "options": [
+            "Meeting a doctor",
+            "Checking in at a hotel",
+            "Buying lunch"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What kind of visit do we hear about?",
+          "options": [
+            "A work trip with a hotel check-in",
+            "A holiday with lunch in a park",
+            "A family visit with a birthday gift"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What happens in the conversation?",
+          "options": [
+            "Rob loses his bag.",
+            "Rob orders a meal.",
+            "Rob gives his name and gets a room."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the receptionist ask Rob to spell his name?",
+        "options": [
+          "To call a taxi",
+          "To find the correct reservation",
+          "To teach him English"
+        ],
+        "correctIndex": 1
+      }
     }
   },
   {
@@ -1585,7 +2383,45 @@
           "correctIndex": 0,
           "keyLine": "can have lunch together in the park sure"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the speakers doing?",
+          "options": [
+            "Buying food and making a lunch plan",
+            "Booking a hotel room",
+            "Choosing a film"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Where does the talk move?",
+          "options": [
+            "From a classroom to a test",
+            "From a bus to a train",
+            "From a shop to a plan with a friend"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How do the friends feel about lunch together?",
+          "options": [
+            "Angry with each other",
+            "Happy to do it",
+            "Too busy to meet"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why does the friend order more food?",
+        "options": [
+          "She wants to join Jenny for lunch.",
+          "She is taking food home for dinner.",
+          "She dislikes the park."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -1671,7 +2507,45 @@
           "correctIndex": 2,
           "keyLine": "my birthday is on the 2nd of July today"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the scene about?",
+          "options": [
+            "A lost wine bottle",
+            "A late train",
+            "A birthday mix-up"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What does Rob think is happening?",
+          "options": [
+            "He is planning a holiday.",
+            "He is visiting Dad on his birthday.",
+            "He is attending a work meeting."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does Dad react to the mistake?",
+          "options": [
+            "Kindly invites Rob in",
+            "Gets very angry",
+            "Leaves without speaking"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why is Rob embarrassed?",
+        "options": [
+          "He has forgotten his own name.",
+          "He brought no gift.",
+          "He has confused June with July."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -1734,7 +2608,45 @@
           "correctIndex": 1,
           "keyLine": "yeah there's one in HSBC go straight on"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What problem does the visitor have?",
+          "options": [
+            "Finding a new hotel",
+            "Finding a working cash machine",
+            "Finding a hospital"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What do the helpers do?",
+          "options": [
+            "Give directions to cash machines",
+            "Sell a train ticket",
+            "Explain a school rule"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why does the visitor ask again?",
+          "options": [
+            "The first helper is absent.",
+            "The visitor wants a café.",
+            "The first machine does not work."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "What is the visitor likely to do next?",
+        "options": [
+          "Go home without trying again",
+          "Follow the new directions to another machine",
+          "Return to the broken machine"
+        ],
+        "correctIndex": 1
+      }
     }
   },
   {
@@ -1797,7 +2709,45 @@
           "correctIndex": 1,
           "keyLine": "i'm the mailman"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the people doing?",
+          "options": [
+            "Meeting people at a workplace",
+            "Choosing a holiday",
+            "Ordering dinner"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What do most people tell the visitor?",
+          "options": [
+            "Their birthdays",
+            "Their favourite sports",
+            "Their names and jobs"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How is Bob’s introduction different?",
+          "options": [
+            "He has just arrived from abroad.",
+            "People guess his job before he speaks.",
+            "He refuses to say his name."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why is the visitor confused about Bob?",
+        "options": [
+          "Several people guess different jobs for him.",
+          "Bob speaks a different language.",
+          "The office is closing."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -1860,7 +2810,45 @@
           "correctIndex": 0,
           "keyLine": "from england he's a musician"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the speakers trying to do?",
+          "options": [
+            "Find a missing suitcase",
+            "Choose a restaurant",
+            "Identify people they see"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the conversation go?",
+          "options": [
+            "They only talk about the weather.",
+            "They make and correct several guesses.",
+            "They agree on every name at once."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What is funny about their guesses?",
+          "options": [
+            "They keep naming the wrong person.",
+            "Everyone has the same job.",
+            "Nobody can see the people."
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why might a listener doubt the final identification?",
+        "options": [
+          "The final person is not visible.",
+          "The speakers have never met.",
+          "Earlier confident guesses were repeatedly wrong."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -1923,7 +2911,45 @@
           "correctIndex": 0,
           "keyLine": "around the corner don't take the train"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the conversation for?",
+          "options": [
+            "Choosing a book",
+            "Finding the way to a café",
+            "Buying a train ticket"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What does the helper give?",
+          "options": [
+            "A route past streets and shops",
+            "A menu and a price",
+            "A list of school classes"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What does the visitor do with the route?",
+          "options": [
+            "Ignores it and leaves",
+            "Calls a taxi immediately",
+            "Repeats it to check understanding"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the helper repeat the directions?",
+        "options": [
+          "The visitor cannot walk.",
+          "The route has several turns and landmarks.",
+          "The café has closed."
+        ],
+        "correctIndex": 1
+      }
     }
   },
   {
@@ -1986,7 +3012,45 @@
           "correctIndex": 2,
           "keyLine": "oh look there's a mozart concert on"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the speakers talking about?",
+          "options": [
+            "Time and plans for a birthday",
+            "A missed flight",
+            "A school timetable"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What makes their planning difficult?",
+          "options": [
+            "No events happen on Saturday.",
+            "They are in different countries.",
+            "They disagree about time and have many event choices."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What pattern appears in their talk?",
+          "options": [
+            "They decide to leave town for the weekend.",
+            "They have different ideas about timing and Saturday plans.",
+            "They agree immediately on every time and event."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why might they need to choose one Saturday event?",
+        "options": [
+          "Several events are offered for the same evening.",
+          "All the tickets are free.",
+          "The birthday is next month."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -2048,7 +3112,45 @@
           "correctIndex": 1,
           "keyLine": "i'm going to a baseball game with bob at"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the friends trying to plan?",
+          "options": [
+            "A birthday gift",
+            "A school trip",
+            "A time to meet at the weekend"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What makes it hard to meet?",
+          "options": [
+            "They live far apart.",
+            "One friend has many plans already.",
+            "The shops are closed."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the conversation end?",
+          "options": [
+            "They find a later time that works.",
+            "They stop speaking.",
+            "They cancel the weekend."
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why do they suggest late Sunday afternoon?",
+        "options": [
+          "The art class begins then.",
+          "The game finishes next week.",
+          "Earlier times are filled with other plans."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -2110,7 +3212,45 @@
           "correctIndex": 0,
           "keyLine": "i went to london for business not for"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the speakers discussing?",
+          "options": [
+            "A family birthday",
+            "A doctor’s trip to London",
+            "A new hospital"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why does one speaker expect a different trip story?",
+          "options": [
+            "They think London meant sightseeing and fun.",
+            "They know the doctor dislikes travel.",
+            "They were on the trip too."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What misunderstanding drives the conversation?",
+          "options": [
+            "The doctor cannot remember where he went.",
+            "They disagree about the name of the city.",
+            "One person expects sightseeing, but the doctor was working."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why did the doctor see so little of London?",
+        "options": [
+          "He lost his map.",
+          "Meetings and speeches kept him at the hotel.",
+          "The city was closed."
+        ],
+        "correctIndex": 1
+      }
     }
   },
   {
@@ -2172,7 +3312,45 @@
           "correctIndex": 2,
           "keyLine": "here i'm calling the doctor yes thank"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the scene mostly about?",
+          "options": [
+            "An excuse for missing lunch grows into a problem.",
+            "A real hospital visit",
+            "A plan to buy lunch"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does Marie react when the boss offers help?",
+          "options": [
+            "She says she is perfectly healthy.",
+            "She leaves for the airport.",
+            "She goes along with the invented illness."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "Why is the story funny?",
+          "options": [
+            "Nobody remembers lunch.",
+            "Each person adds another illness to the excuse.",
+            "The doctor forgets the appointment."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why does the boss call a doctor?",
+        "options": [
+          "He believes Marie has many symptoms.",
+          "He knows she wanted to meet her sister.",
+          "He needs a doctor for himself."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -2234,7 +3412,45 @@
           "correctIndex": 1,
           "keyLine": "he's a university student"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the speakers looking at?",
+          "options": [
+            "A new house",
+            "A school book",
+            "Photos of a family"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What does one speaker keep asking?",
+          "options": [
+            "What time a film starts",
+            "Who each person is",
+            "How to get to a shop"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How do the descriptions sound?",
+          "options": [
+            "Curious, with some awkward comments",
+            "Angry and silent",
+            "Like a news report"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why does the family member correct the word old?",
+        "options": [
+          "Their mother is a child.",
+          "The photo shows a stranger.",
+          "They think the comment about their mother is unkind."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -2296,7 +3512,45 @@
           "correctIndex": 0,
           "keyLine": "on monday wednesday and friday i"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the two people comparing?",
+          "options": [
+            "Their dinner plans",
+            "Their morning routines",
+            "Their holiday trips"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How are their mornings different?",
+          "options": [
+            "One starts late; the other does many things early.",
+            "Both sleep until noon.",
+            "Neither goes to work."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does Paul react to the other routine?",
+          "options": [
+            "Angry about the newspaper",
+            "Uninterested in it",
+            "Surprised by how much gets done"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the early riser sleep until six at weekends?",
+        "options": [
+          "They never sleep before then.",
+          "Six is later than their usual five o’clock start.",
+          "They work all night."
+        ],
+        "correctIndex": 1
+      }
     }
   },
   {
@@ -2358,7 +3612,45 @@
           "correctIndex": 2,
           "keyLine": "classroom"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is this announcement mainly for?",
+          "options": [
+            "Giving students school deadlines and meeting information",
+            "Advertising a concert",
+            "Explaining a weather forecast"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What should students do after hearing it?",
+          "options": [
+            "Leave school immediately",
+            "Buy a train ticket",
+            "Act on the notice that applies to them"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How is the information organized?",
+          "options": [
+            "A teacher asks for votes.",
+            "Several separate school notices are read aloud.",
+            "One student tells a personal story."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why should an interested student listen carefully?",
+        "options": [
+          "Different notices have different times and places.",
+          "Every notice is about the same room.",
+          "Nothing needs to be done today."
+        ],
+        "correctIndex": 0
+      }
     }
   },
   {
@@ -2711,7 +4003,45 @@
           "correctIndex": 0,
           "keyLine": "rain in the afternoon."
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What kind of report is this?",
+          "options": [
+            "A report about a sports game",
+            "A travel guide for spring",
+            "A weather forecast for today and tomorrow"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does the forecast change?",
+          "options": [
+            "The sky stays stormy every day.",
+            "Sunny weather gives way to some possible rain.",
+            "Rain ends and snow begins."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What does the speaker encourage today?",
+          "options": [
+            "Enjoying the sunshine outdoors",
+            "Staying indoors all day",
+            "Preparing for heavy snow"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why does the speaker mention an umbrella?",
+        "options": [
+          "Today has a flood warning.",
+          "It is needed for stargazing.",
+          "Tomorrow may bring afternoon rain."
+        ],
+        "correctIndex": 2
+      }
     }
   },
   {
@@ -2774,7 +4104,45 @@
           "correctIndex": 2,
           "keyLine": "cold front moving in that we will expect"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the forecast mainly about?",
+          "options": [
+            "A heatwave with no rain",
+            "Changeable wet weather over several days",
+            "A long period of clear skies"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What warning does the speaker give?",
+          "options": [
+            "Be careful of fog, storms and possible flooding.",
+            "Stay inside because of snow.",
+            "Avoid the beach because of heat."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the week seem overall?",
+          "options": [
+            "Dry and steadily warmer",
+            "Calm with no travel concerns",
+            "Rainy despite one warning ending"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why should people keep watching the forecast?",
+        "options": [
+          "Only one hour of weather matters.",
+          "Storms and a cold front could change conditions.",
+          "All weather warnings are permanently over."
+        ],
+        "correctIndex": 1
+      }
     }
   }
 ]

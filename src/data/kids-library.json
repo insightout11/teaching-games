@@ -775,7 +775,45 @@
           "correctIndex": 2,
           "keyLine": "Because they live close to a reservoir."
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is this explanation mostly about?",
+          "options": [
+            "Growing the biggest pineapple",
+            "Playing football with fruit",
+            "Getting resources a place does not have"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "Why does the speaker use pineapples?",
+          "options": [
+            "To compare different sports",
+            "To show that resources grow in some places only",
+            "To teach a recipe"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What problem do people face in the example?",
+          "options": [
+            "They need things that are not nearby.",
+            "They have too many pineapples.",
+            "They cannot choose where to live."
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why is water a more serious example than pineapple?",
+        "options": [
+          "Water grows in warm places.",
+          "Pineapples are always free.",
+          "People need water to survive."
+        ],
+        "correctIndex": 2
+      }
     },
     "transcriptVerified": true
   },
@@ -2303,7 +2341,45 @@
           "correctIndex": 1,
           "keyLine": "I could make a hang glider out of my tent!"
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the speaker mostly explaining?",
+          "options": [
+            "How to visit a canyon",
+            "How to judge a possible solution",
+            "How to build a refrigerator"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why does the speaker imagine a canyon?",
+          "options": [
+            "To test what a good solution must do",
+            "To describe a real holiday",
+            "To teach river names"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How should the engineer choose between possible ideas?",
+          "options": [
+            "Pick the funniest idea first",
+            "Choose the most expensive tool",
+            "Check them against what a good solution needs to do"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the engineer make a checklist?",
+        "options": [
+          "To remember a shopping trip",
+          "To compare ideas with the needs of the problem",
+          "To count people in the canyon"
+        ],
+        "correctIndex": 1
+      }
     },
     "transcriptVerified": true
   },
@@ -2445,7 +2521,45 @@
           "correctIndex": 0,
           "keyLine": "Flour, eggs, sugar and milk."
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the speakers mainly talking about?",
+          "options": [
+            "Resources people need from Earth",
+            "Different kinds of cake",
+            "The coldest mountain"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why do people often live near water and food?",
+          "options": [
+            "They never need to travel.",
+            "The weather is always warm.",
+            "It is easier to get what they need."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What do people sometimes do with natural resources?",
+          "options": [
+            "Find them only in deserts",
+            "Change them before using them",
+            "Leave all of them untouched"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "Why must water be cleaned before people drink it?",
+        "options": [
+          "A natural resource may not be ready to use.",
+          "Rivers are always too cold.",
+          "Cake needs no water."
+        ],
+        "correctIndex": 0
+      }
     },
     "transcriptVerified": true
   },
@@ -2515,7 +2629,45 @@
           "correctIndex": 2,
           "keyLine": "the clouds it came from are \nactually part of the atmosphere."
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What are the two big parts of Earth in this clip?",
+          "options": [
+            "Rocks and animals",
+            "Cities and roads",
+            "Water and air"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What does the speaker want us to understand?",
+          "options": [
+            "The air has no layers.",
+            "Water and air are found in many forms and places.",
+            "All water is in oceans."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the speaker describe the atmosphere?",
+          "options": [
+            "A blanket of gases around Earth",
+            "A lake under the ground",
+            "A kind of frozen river"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why does the speaker mention rain and clouds?",
+        "options": [
+          "To show that oceans are dry",
+          "To explain how to build a house",
+          "To connect water with the air above us"
+        ],
+        "correctIndex": 2
+      }
     },
     "transcriptVerified": true
   },
@@ -2585,7 +2737,45 @@
           "correctIndex": 1,
           "keyLine": "making the sand warm or even hot to the touch."
         }
-      ]
+      ],
+      "gist": [
+        {
+          "q": "What is the clip mostly about?",
+          "options": [
+            "Why clouds are made of sand",
+            "The Sun warming land and water",
+            "How to travel to the Sun"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What is the speaker trying to compare?",
+          "options": [
+            "How land and water take in heat",
+            "How many planets have water",
+            "How quickly people can run"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What happens to the Sun’s energy on its way to land and water?",
+          "options": [
+            "All of it reaches the ground unchanged.",
+            "The Moon turns it into rain.",
+            "Some is absorbed or reflected before the rest reaches the surface."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does some sunlight not warm Earth’s surface?",
+        "options": [
+          "Land sends all light to the Moon.",
+          "The atmosphere and clouds absorb or reflect some.",
+          "The Sun stops shining at noon."
+        ],
+        "correctIndex": 1
+      }
     },
     "transcriptVerified": true
   },
