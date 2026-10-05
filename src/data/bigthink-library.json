@@ -17,8 +17,7 @@
     "genre": "opinion",
     "cefr": "B2",
     "ageBand": "teens",
-    "needsReview": false,
-    "flightQuestion": "So what does that mean for free will?"
+    "needsReview": false
   },
   {
     "id": "bigthink_fermi_paradox",

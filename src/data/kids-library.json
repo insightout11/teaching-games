@@ -890,8 +890,7 @@
       "title": "Everyday Science: Materials and Measurement",
       "order": 3
     },
-    "needsReview": false,
-    "flightQuestion": "But, what is a chemical change?"
+    "needsReview": false
   },
   {
     "id": "kids_earth_rotation_revolution",
@@ -1009,8 +1008,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "But how do they glow?"
+    "needsReview": false
   },
   {
     "id": "kids_engineering_process",
@@ -1211,8 +1209,7 @@
       "title": "Space for Beginners",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "But, what about plants?"
+    "needsReview": false
   },
   {
     "id": "kids_lsdaf8_mr8e",
@@ -1421,8 +1418,7 @@
       "title": "The human body and health",
       "order": 1
     },
-    "needsReview": false,
-    "flightQuestion": "But what does your brain look like?"
+    "needsReview": false
   },
   {
     "id": "kids_3gy_gts86jm",
@@ -1646,8 +1642,7 @@
       "title": "Animal adaptations",
       "order": 3
     },
-    "needsReview": false,
-    "flightQuestion": "And another thing that I learned about ravens?"
+    "needsReview": false
   },
   {
     "id": "kids_ghfboypqqx0",
@@ -2661,8 +2656,7 @@
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "flightQuestion": "So, what makes a substance non-Newtonian?"
+    "needsReview": false
   },
   {
     "id": "kids_t7hk6ompvbe",
@@ -2690,8 +2684,7 @@
       "title": "Space and science curiosities",
       "order": 4
     },
-    "needsReview": false,
-    "flightQuestion": "But what about in not-so-normal environments?"
+    "needsReview": false
   },
   {
     "id": "kids_agvxycrpun8",
@@ -2719,8 +2712,7 @@
       "title": "Space and science curiosities",
       "order": 2
     },
-    "needsReview": false,
-    "flightQuestion": "So, how do those orbits in space work?"
+    "needsReview": false
   },
   {
     "id": "kids_8ghdcosi5es",
@@ -2748,7 +2740,6 @@
       "title": "Space and science curiosities",
       "order": 3
     },
-    "needsReview": false,
-    "flightQuestion": "So, what does life need?"
+    "needsReview": false
   }
 ]

@@ -584,8 +584,7 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "needsReview": false,
-    "flightQuestion": "So, just how intelligent is artificial intelligence?"
+    "needsReview": false
   },
   {
     "id": "bbc_tech_robot_companion",
