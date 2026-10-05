@@ -5,6 +5,7 @@ import { MessageCircle, TrendingUp, Mic, BookMarked } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
 import { fallbackSpeakSituation, summariseSpeak, type SpeakAnswer } from '@/lib/speak-check';
+import { saveFlightResult } from '@/lib/flight-result';
 
 // Speak v2 landing: Try 3. The same situation as takeoff with NEW reply options (so it isn't
 // memory), the same confidence + can-do questions, then the Better answers reveal (class counts
@@ -70,6 +71,24 @@ export function SpeakRevealActivity({ students, onSetInputSpec, onRegisterRemote
     if (turn + 1 >= order.length) { setPhase('done'); onPhaseChange?.('finished'); return; }
     setTurn((t) => t + 1);
   }, [speaker, turn, order.length, recordFeature, onScore, onPhaseChange]);
+
+  // The logbook: save the class-level before → after once, when the reveal shows.
+  const sessionId = useSessionStore((s) => s.sessionId);
+  const savedRef = useRef(false);
+  useEffect(() => {
+    if (phase !== 'reveal' || savedRef.current || after.n === 0) return;
+    savedRef.current = true;
+    const m = (label: string, was: number, now: number) => ({ label, before: before.n > 0 ? { count: was, of: before.n } : null, after: { count: now, of: after.n } });
+    saveFlightResult(sessionId, {
+      preset: 'speak-60', flight: 'Speak', topic: customTopic || 'Speak', focus: situation.situation,
+      measures: [
+        m('Natural replies', before.natural, after.natural),
+        m('Confident', before.confident, after.confident),
+        m(`Can ${situation.canDo.charAt(0).toLowerCase()}${situation.canDo.slice(1)}`, before.canDo, after.canDo),
+      ],
+      phrases: phrases.slice(0, 4),
+    });
+  }, [phase, sessionId, before, after, customTopic, situation, phrases]);
 
   const go = (p: Phase) => { setPhase(p); onPhaseChange?.(p); };
 

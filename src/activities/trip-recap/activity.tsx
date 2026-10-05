@@ -5,6 +5,7 @@ import { Plane, MapPin, Users, Mail, Stamp } from 'lucide-react';
 import type { Difficulty } from '@/lib/difficulty';
 import { useSessionStore } from '@/stores/session-store';
 import { canDosFor, countTicks } from '@/lib/world-flight/trip-can-do';
+import { saveFlightResult } from '@/lib/flight-result';
 import type { ActivityProps } from '../types';
 
 // Trip Recap — the Travel arc's purpose-built landing. Data-seeded from the trip log the stops
@@ -143,11 +144,28 @@ export function TripRecapActivity({
     return () => onRegisterRemoteVoteHandler?.(null);
   }, [onRegisterRemoteVoteHandler, recordCanDo]);
 
+  // The logbook: can-do stamps earned (a can-do is stamped when at least half the class ticks it).
+  const sessionId = useSessionStore((s) => s.sessionId);
+  const saveResult = useCallback(() => {
+    if (afterN === 0) return;
+    const stampedAfter = canDos.filter((c) => (afterCounts[c.id] ?? 0) * 2 >= afterN).length;
+    const stampedBefore = canDos.filter((c) => (beforeCounts[c.id] ?? 0) * 2 >= beforeN).length;
+    saveFlightResult(sessionId, {
+      preset: 'travel-60', flight: 'Travel', topic: `Trip to ${city}`, city,
+      measures: [
+        { label: 'Can-do stamps', before: beforeN > 0 ? { count: stampedBefore, of: canDos.length } : null, after: { count: stampedAfter, of: canDos.length } },
+        { label: 'Postcards home', before: null, after: { count: scoredRef.size, of: orderedStudents.length } },
+      ],
+      phrases: vocabChips.slice(0, 4),
+    });
+  }, [sessionId, afterN, beforeN, canDos, afterCounts, beforeCounts, city, scoredRef, orderedStudents.length, vocabChips]);
+
   const finish = useCallback(() => {
+    if (phaseRef.current === 'after') saveResult();
     onSetInputSpec?.(null);
     setPhase('done');
     onPhaseChange?.('finished');
-  }, [onSetInputSpec, onPhaseChange]);
+  }, [onSetInputSpec, onPhaseChange, saveResult]);
 
   const advance = useCallback(async () => {
     const s = orderedStudents[index];
