@@ -82,9 +82,12 @@ let flightQuestionCount = 0;
 const flightQuestionOwners: Record<string, string> = {};
 let speakSituationCount = 0;
 const speakAgeCounts: Record<string, number> = { kids: 0, teens: 0 };
-const speakCanDoVerbs = new Set(['Accept', 'Ask', 'Borrow', 'Cancel', 'Correct', 'Decline',
-  'Describe', 'Explain', 'Give', 'Introduce', 'Invite', 'Order', 'Propose', 'Request',
-  'Respond', 'State', 'Suggest', 'Tell']);
+const speakPositions = { before: [0, 0, 0, 0], after: [0, 0, 0, 0] };
+const round12Speak = { kids: 0, teens: 0, teenB2: 0 };
+const speakCanDoVerbs = new Set(['Accept', 'Acknowledge', 'Answer', 'Apologize', 'Ask',
+  'Borrow', 'Cancel', 'Comfort', 'Correct', 'Decline', 'Describe', 'Disagree', 'Explain',
+  'Express', 'Give', 'Introduce', 'Invite', 'Name', 'Negotiate', 'Offer', 'Order',
+  'Praise', 'Propose', 'Request', 'Respond', 'State', 'Suggest', 'Take', 'Tell', 'Volunteer']);
 let listeningPackCount = 0;
 let listeningSegmentCount = 0;
 const packCohorts: Record<string, number> = { kids: 0, B1: 0, B2: 0 };
@@ -394,6 +397,13 @@ else {
       else for (const tag of situation.topics) speakTopics.add(String(tag).toLowerCase());
       if (situation.ageBand !== 'kids' && situation.ageBand !== 'teens') fail(where, 'ageBand must be kids or teens');
       else speakAgeCounts[situation.ageBand] += 1;
+      if (String(situation.id).indexOf('speak-r12-') === 0) {
+        if (situation.ageBand === 'kids') round12Speak.kids += 1;
+        if (situation.ageBand === 'teens') {
+          round12Speak.teens += 1;
+          if (situation.cefr === 'B2') round12Speak.teenB2 += 1;
+        }
+      }
       if (situation.ageBand === 'kids' && situation.cefr !== 'A1' && situation.cefr !== 'A2') fail(where, 'kids cefr must be A1 or A2');
       if (situation.ageBand === 'teens' && situation.cefr !== 'A2' && situation.cefr !== 'B1' && situation.cefr !== 'B2') fail(where, 'teens cefr must be A2, B1, or B2');
       if (!validSpeakSituation(raw)) fail(where, 'must satisfy validSpeakSituation');
@@ -404,9 +414,14 @@ else {
         || !Array.isArray(after?.replies) || after.replies.length !== 4) fail(where, 'before and after each require exactly four replies');
       if (before?.natural === after?.natural) fail(where, 'after natural reply must use a different index');
       if (!Number.isInteger(before?.natural) || !Number.isInteger(after?.natural)) fail(where, 'natural indexes must be integers');
+      if (Number.isInteger(before?.natural) && Number(before?.natural) >= 0 && Number(before?.natural) < 4) speakPositions.before[Number(before?.natural)] += 1;
+      if (Number.isInteger(after?.natural) && Number(after?.natural) >= 0 && Number(after?.natural) < 4) speakPositions.after[Number(after?.natural)] += 1;
     }
-    if (speakSituationCount !== 40) fail('speak-situations.json', `expected 40 situations (found ${speakSituationCount})`);
-    if (speakAgeCounts.kids !== 20 || speakAgeCounts.teens !== 20) fail('speak-situations.json', 'expected 20 kids and 20 teens situations');
+    if (speakSituationCount !== 80) fail('speak-situations.json', `expected 80 situations (found ${speakSituationCount})`);
+    if (speakAgeCounts.kids !== 40 || speakAgeCounts.teens !== 40) fail('speak-situations.json', 'expected 40 kids and 40 teens situations');
+    if (round12Speak.kids !== 20 || round12Speak.teens !== 20 || round12Speak.teenB2 < 8) fail('speak-situations.json', `Round 12 requires 20 kids, 20 teens and 8 B2 teens (found ${round12Speak.kids}/${round12Speak.teens}/${round12Speak.teenB2})`);
+    if (speakPositions.before.some((count) => count > speakSituationCount * 0.35)
+      || speakPositions.after.some((count) => count > speakSituationCount * 0.35)) fail('speak-situations.json', 'natural reply positions must each be at most 35% before and after');
     if (speakTopics.size < 16) fail('speak-situations.json', `expected at least 16 topics (found ${speakTopics.size})`);
   }
 }
@@ -477,6 +492,6 @@ if (errors.length) {
   process.exitCode = 1;
 } else {
   console.log(`Library validation passed: ${ids.size} items across ${files.length} files.`);
-  console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}).`);
+  console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}; before ${speakPositions.before.join('/')}, after ${speakPositions.after.join('/')}).`);
   console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
 }
