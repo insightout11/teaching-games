@@ -426,25 +426,24 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'speak-60',
     name: 'Speak',
-    description: 'Warm up, learn the key phrases, act out a scene, then keep it going as a free conversation — with an opinion pulse, a comms check, a review game, and a final word.',
+    description: 'One real conversation, three tries: say it cold, learn the phrases and watch the model scene, build the conversation together line by line, say it again better, then see how much better the class got.',
     tagline: 'Maximum talk time — fluency over accuracy',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
     lessonType: 'performance',
     takeoff: 'speak-check',
     landing: 'speak-reveal',
-    // Speak v2 (docs/speak-v2-concept.md): one conversation, three tries. Situation check (Try 1) ->
-    // quick-fire -> toolkit -> scene (model) -> Pass the Line (the class builds the conversation) -> Better answers (Try 3).
-    // Micro defaults (Vocab) await the Vocab micro + toggle system; Opinion Pulse baked in for now.
+    // Speak v2 (docs/speak-v2-concept.md): one conversation, three tries, lots of short turns, no
+    // spotlight. Try 1 (situation check) -> quick-fire -> toolkit -> scene (the model) -> break ->
+    // Pass the Line (the class builds the conversation) -> Say it again (40/30/20s) -> game ->
+    // Better answers (Try 3 + reveal + everyone says it). Fewer stages, each deeper.
     moduleSequence: [
-      // Lesson thread: Toolkit phrases -> the scene uses them -> the conversation continues the scene.
       { slotType: 'practice', key: 'quick-fire', stageId: 'quick-fire' },
       { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
-      { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it'] },
       { slotType: 'presentation', key: 'scene-igniter', stageId: 'scene' },
+      { slotType: 'practice', key: 'static', stageId: 'turbulence', isMicroEvent: true, pool: ['static', 'would-you-rather'] },
       { slotType: 'production', key: 'pass-the-line', stageId: 'conversation' },
       { slotType: 'production', key: 'say-it-again', stageId: 'say-again' },
-      { slotType: 'practice', key: 'vocab-micro', stageId: 'vocab-check', isMicroEvent: true },
       { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['connections', 'synonym-showdown', 'vocab-sprint', 'taboo-sprint', 'imposter'] },
     ],
     flightConfig: {
@@ -452,11 +451,10 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         { stageId: 'icebreaker', label: 'Try 1', kind: 'stage', phase: 'takeoff' },
         { stageId: 'quick-fire', label: 'Quick-fire', kind: 'stage', phase: 'takeoff' },
         { stageId: 'language-toolkit', label: 'Language Toolkit', kind: 'stage', phase: 'climb' },
-        { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event', phase: 'climb' },
-        { stageId: 'scene', label: 'Scene', kind: 'stage', phase: 'cruise' },
+        { stageId: 'scene', label: 'The model', kind: 'stage', phase: 'climb' },
+        { stageId: 'turbulence', label: 'Turbulence', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'conversation', label: 'Pass the Line', kind: 'stage', phase: 'cruise' },
         { stageId: 'say-again', label: 'Say it again', kind: 'stage', phase: 'cruise' },
-        { stageId: 'vocab-check', label: 'Comms Check', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
         { stageId: 'landing', label: 'Better answers', kind: 'landing', phase: 'landing' },
       ],
@@ -466,12 +464,13 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'quick-fire': 'quick-fire',
         'language-toolkit': 'language-toolkit',
         'scene-igniter': 'scene',
-        'would-you-rather': 'opinion-pulse',
-        'rank-it': 'opinion-pulse',
+        'static': 'turbulence',
+        'would-you-rather': 'turbulence',
+        'rank-it': 'turbulence',
         'conversation-rounds': 'conversation',
         'pass-the-line': 'conversation',
         'say-it-again': 'say-again',
-        'vocab-micro': 'vocab-check',
+        'vocab-micro': 'end-game',
         'word-chain': 'end-game',
         'connections': 'end-game',
         'synonym-showdown': 'end-game',

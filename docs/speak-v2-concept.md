@@ -1,6 +1,6 @@
 # Speak v2: Audit and Concept
 
-> Status: **concept for discussion, not a build plan.** Oct 5 2026.
+> Status: **built (Oct 5 2026), all 5 steps.** Concept below kept as the design record.
 > Part of Flight Presets v2 (`docs/flight-presets-concept-v2.md`). Rules that stay:
 > - spoken-first: phones scaffold and vote, nobody types answers;
 > - Speak must **not spotlight one student**;
@@ -108,3 +108,12 @@ That's 6 main stages instead of 8, with far more talking per student.
 3. **Pass the Line** (whole-class conversation, passing mic, twist cards, role swap).
 4. **Say it again, better** (4-3-2 timer, fair queue, phone helpers).
 5. **Reshape the Speak preset** around the situation + logbook deposit.
+
+## Built (Oct 5 2026)
+All 5 steps shipped: `speak-check` (Try 1) → `quick-fire` → `language-toolkit` → `scene-igniter` (the model) → turbulence
+(`static` / `would-you-rather`) → `pass-the-line` → `say-it-again` → review game → `speak-reveal` (Try 3, Better answers,
+everyone says it, logbook card). Comms Check and the opinion pulse left Speak (do less, go deeper).
+
+**Logbook gap (all flights):** the class logbook (`src/lib/class-logbook.ts`) is built only from session topics and scores;
+no flight's before → after is stored. Speak shows a logbook card on screen, like Captain's Verdict. Storing every flight's
+result in the logbook needs a small storage design (proposed separately).

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { MessageCircle, TrendingUp, Mic } from 'lucide-react';
+import { MessageCircle, TrendingUp, Mic, BookMarked } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
 import { fallbackSpeakSituation, summariseSpeak, type SpeakAnswer } from '@/lib/speak-check';
@@ -161,11 +161,22 @@ export function SpeakRevealActivity({ students, onSetInputSpec, onRegisterRemote
     );
   }
 
+  // The logbook card: the lesson's before → after in one line, ready for the class logbook.
+  const change = (was: number, now: number, of: number) => (before.n > 0 ? `${was} → ${now} of ${of}` : `${now} of ${of}`);
   return (
-    <div className="flex min-h-[300px] flex-col items-center justify-center gap-3 text-center">
-      <TrendingUp className="h-12 w-12 text-emerald-300" />
-      <h3 className="text-2xl font-game text-white">From Try 1 to Try 3</h3>
-      <p className="max-w-md text-sm text-slate-300">Natural replies: {before.n > 0 ? `${before.natural} → ` : ''}{after.natural} of {after.n}.</p>
+    <div className="flex min-h-[320px] flex-col items-center justify-center gap-4 text-center">
+      <BookMarked className="h-10 w-10 text-emerald-300" />
+      <p className="text-xs font-bold uppercase tracking-[0.24em] text-emerald-300/80">For the logbook</p>
+      <div className="w-full max-w-lg rounded-2xl border border-emerald-400/30 bg-emerald-500/[0.06] p-5 text-left">
+        <p className="text-sm text-slate-400">{customTopic ? `${customTopic} · ` : ''}Speak</p>
+        <p className="mt-1 text-lg text-white">{situation.situation}</p>
+        <ul className="mt-3 space-y-1 text-sm text-slate-200">
+          <li>Natural replies: <span className="font-semibold text-emerald-200">{change(before.natural, after.natural, after.n)}</span></li>
+          <li>Confident: <span className="font-semibold text-emerald-200">{change(before.confident, after.confident, after.n)}</span></li>
+          <li>Can {situation.canDo.charAt(0).toLowerCase() + situation.canDo.slice(1)}: <span className="font-semibold text-emerald-200">{change(before.canDo, after.canDo, after.n)}</span></li>
+        </ul>
+        {phrases.length > 0 && <p className="mt-3 text-xs text-slate-400">Phrases: {phrases.slice(0, 4).join(' · ')}</p>}
+      </div>
     </div>
   );
 }
