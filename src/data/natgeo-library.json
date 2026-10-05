@@ -115,6 +115,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-science",
+      "title": "A2 Teens: Everyday Science",
+      "order": 4
+    },
     "flightQuestion": "Should people build homes near active volcanoes?"
   },
   {
@@ -280,6 +285,11 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-b1-science",
+      "title": "B1 Teen Science and Discovery",
+      "order": 3
+    },
     "flightQuestion": "Should people explore space despite its cost?"
   }
 ]

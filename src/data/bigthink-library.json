@@ -39,6 +39,11 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
+    "series": {
+      "id": "round10-teens-b1-science",
+      "title": "B1 Teen Science and Discovery",
+      "order": 1
+    },
     "flightQuestion": "Should scientists send messages to a possible alien civilization?"
   },
   {

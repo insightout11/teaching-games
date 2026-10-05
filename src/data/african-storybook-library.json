@@ -273,6 +273,11 @@
     "attribution": "Author: Venkatramana Gowda, Divaspathy Hegde; illustrator: Padmanabha",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-animals",
+      "title": "B1 Animal Stories for Curious Readers",
+      "order": 1
+    },
     "flightQuestion": "Should Hare challenge Tortoise to another race?"
   },
   {
@@ -345,6 +350,11 @@
     "attribution": "Author: Peter K. Amoabil; illustrator: ",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-games",
+      "title": "B1 Games and Friendship",
+      "order": 1
+    },
     "flightQuestion": "Should the two villages play their first football match?"
   },
   {
@@ -379,6 +389,11 @@
     "attribution": "Author: Kholeka Mabeta; illustrator: Benjamin Mitchley",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-animals",
+      "title": "B1 Animal Stories for Curious Readers",
+      "order": 2
+    },
     "flightQuestion": "Should Crow trust Jackal with the cheese?"
   },
   {
@@ -413,6 +428,11 @@
     "attribution": "Author: Buhle Vilakazi; illustrator: Abraham Muzee",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-nature",
+      "title": "B1 Trees, Seeds, and Rivers",
+      "order": 1
+    },
     "flightQuestion": "Should Pontshibobo’s friends climb his tree?"
   },
   {
@@ -447,6 +467,11 @@
     "attribution": "Author: Gianna  Ambrosano, Laila  Wermelinger, Selina Buschor; illustrator: Gianna  Ambrosano, Laila  Wermelinger, Selina Buschor",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-clever",
+      "title": "B1 Clever Ideas and Choices",
+      "order": 4
+    },
     "flightQuestion": "How can Bohlale help siblings get along?"
   },
   {
@@ -481,6 +506,11 @@
     "attribution": "Author: Caroline Lentupuru; illustrator: Wiehan de Jager",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-clever",
+      "title": "B1 Clever Ideas and Choices",
+      "order": 2
+    },
     "flightQuestion": "Which girl should the giant trust with the talking bag?"
   },
   {
@@ -583,6 +613,11 @@
     "attribution": "Author: Roxana Bouwer; illustrator: Sarah Bouwer",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-clever",
+      "title": "B1 Clever Ideas and Choices",
+      "order": 1
+    },
     "flightQuestion": "Why does Nita hang upside down near the trees?"
   },
   {
@@ -621,6 +656,11 @@
     "attribution": "Author: Nicola Rijsdijk; illustrator: Maya Marshak",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-nature",
+      "title": "B1 Trees, Seeds, and Rivers",
+      "order": 2
+    },
     "flightQuestion": "Should Wangari’s village plant more trees together?"
   },
   {
@@ -655,6 +695,11 @@
     "attribution": "Author: Mezemir Girma; illustrator: ",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-games",
+      "title": "B1 Games and Friendship",
+      "order": 2
+    },
     "flightQuestion": "Can a coin make Kisara fun for every child?"
   },
   {
@@ -791,6 +836,11 @@
     "attribution": "Author: Yvette Bezuidenhout; illustrator: Fabianus  Bayu; adaptation: African Storybook, Yvette Bezuidenhout",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-animals",
+      "title": "B1 Animal Stories for Curious Readers",
+      "order": 3
+    },
     "flightQuestion": "Should Wayan protect the turtles near his village?"
   },
   {
@@ -995,6 +1045,11 @@
     "attribution": "Author: Blessmore Chikwakwa; illustrator: Awwalu  Sakiwa, Carol Liddiment, Idowu Abayomi Oluwasegun, Ketan Raut, Rob Owen, Siyavuya Nqezo",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-games",
+      "title": "B1 Games and Friendship",
+      "order": 4
+    },
     "flightQuestion": "Should friends stay together after a race?"
   },
   {
@@ -1131,6 +1186,11 @@
     "attribution": "Author: Omotola Ogunmuyiwa; illustrator: Wiehan de Jager",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-clever",
+      "title": "B1 Clever Ideas and Choices",
+      "order": 3
+    },
     "flightQuestion": "Which steps does Omotola use to install a game?"
   },
   {
@@ -1165,6 +1225,11 @@
     "attribution": "Author: Bethelihem Waltenegus; illustrator: Brian Wambi",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-animals",
+      "title": "B1 Animal Stories for Curious Readers",
+      "order": 4
+    },
     "flightQuestion": "Should Petros get a dog to feel less lonely?"
   },
   {
@@ -1199,6 +1264,11 @@
     "attribution": "Author: Nina Orange, Ursula  Nafula; illustrator: Brian Wambi",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-games",
+      "title": "B1 Games and Friendship",
+      "order": 3
+    },
     "flightQuestion": "Should runners from different countries join Juma’s race?"
   },
   {
@@ -1233,6 +1303,11 @@
     "attribution": "Author: Divine  Apedo, Elizabeth  Nkrumah, Georgina  Abbey; illustrator: Brian Wambi; translation: Divine  Apedo, Elizabeth  Nkrumah, Georgina  Abbey",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-nature",
+      "title": "B1 Trees, Seeds, and Rivers",
+      "order": 4
+    },
     "flightQuestion": "How should Cassava and Palm respond to the drought?"
   },
   {
@@ -1301,6 +1376,11 @@
     "attribution": "Author: Mimi  Werna; illustrator: Edwin  Irabor; translation: Mimi  Werna",
     "needsReview": true,
     "reviewNote": "Review needed: the source reading level is mapped to CEFR conservatively; an educator should confirm CEFR/age fit and local cultural context.",
+    "series": {
+      "id": "round10-kids-b1-nature",
+      "title": "B1 Trees, Seeds, and Rivers",
+      "order": 3
+    },
     "flightQuestion": "Should the children listen when their mother says no?"
   },
   {

@@ -18,4 +18,3 @@ Pending.
 ## Task 2 — Level ladder
 
 Pending.
-

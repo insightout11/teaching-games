@@ -25,6 +25,7 @@ const stopWords: Record<string, boolean> = {};
   .forEach((word) => { stopWords[word] = true; });
 
 const groundedQuestions: Record<string, string> = {
+  'voa-words-and-their-stories-idioms': 'Can knowing an idiom’s origin help people use it well?',
   'bbc_grammar_formal_informal': 'When should a speaker choose formal English over informal English?',
   'bbc_grammar_mixing_conditionals': 'How can mixed conditionals connect an imagined past and present?',
   'bbc-grammar-r2-xFsYrTIndhI': 'When should a speaker use present continuous instead of present simple?',
@@ -481,9 +482,10 @@ async function main() {
       if (baseline) {
         if (typeof baseline.flightQuestion === 'string') item.flightQuestion = baseline.flightQuestion;
         else delete item.flightQuestion;
-        item.needsReview = baseline.needsReview;
-        if (baseline.reviewNote === undefined) delete item.reviewNote;
-        else item.reviewNote = baseline.reviewNote;
+        if (baseline.reviewNote?.indexOf('Round 9 question is grounded') === 0) {
+          item.needsReview = baseline.needsReview;
+          item.reviewNote = baseline.reviewNote;
+        }
       }
     }
     libraries[file] = current;

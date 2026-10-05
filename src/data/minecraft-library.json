@@ -17,6 +17,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-gaming",
+      "title": "A2 Teens: Minecraft Survival Skills",
+      "order": 1
+    },
     "flightQuestion": "Should players gather resources before night falls?"
   },
   {
@@ -37,6 +42,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-gaming",
+      "title": "A2 Teens: Minecraft Survival Skills",
+      "order": 2
+    },
     "flightQuestion": "Which materials should players collect before making a tool?"
   },
   {
@@ -57,6 +67,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-gaming",
+      "title": "A2 Teens: Minecraft Survival Skills",
+      "order": 3
+    },
     "flightQuestion": "Should players build a house near water or trees?"
   },
   {
@@ -77,6 +92,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-gaming",
+      "title": "A2 Teens: Minecraft Survival Skills",
+      "order": 4
+    },
     "flightQuestion": "Could redstone circuits make a Minecraft house more useful?"
   }
 ]

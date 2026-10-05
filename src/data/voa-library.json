@@ -83,6 +83,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-culture",
+      "title": "A2 Teens: Stories and Culture",
+      "order": 1
+    },
     "flightQuestion": "How did jazz combine musical ideas from different communities?"
   },
   {
@@ -186,6 +191,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-food",
+      "title": "A2 Teens: Food and Health",
+      "order": 1
+    },
     "flightQuestion": "Should people reduce sugar in everyday drinks?"
   },
   {
@@ -323,6 +333,11 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-b1-society",
+      "title": "B1 Teen Society and Culture",
+      "order": 1
+    },
     "flightQuestion": "How can immigrants balance new customs and cultural identity?"
   },
   {
@@ -358,6 +373,11 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-b1-society",
+      "title": "B1 Teen Society and Culture",
+      "order": 2
+    },
     "flightQuestion": "Does the American Dream mean the same thing to everyone?"
   },
   {
@@ -461,6 +481,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-food",
+      "title": "A2 Teens: Food and Health",
+      "order": 2
+    },
     "flightQuestion": "How can small daily habits support good nutrition?"
   },
   {
@@ -478,7 +503,13 @@
     "summary": "English is full of *idioms* â€” fixed expressions whose meaning cannot be understood from the individual words alone. When someone says they are \"*under the weather*,\" they do not mean they are literally standing in the rain. They mean they are feeling ill. Understanding idioms is essential for *fluent* communication in English, and knowing their origins makes them much easier to remember.\n\nMany English idioms come from *seafaring* history. Britain's long history as a naval power has left dozens of expressions in everyday speech. To \"*know the ropes*\" means to understand how something works â€” it comes from the time when sailors had to learn the complex system of ropes on a sailing ship. To \"*be in the same boat*\" means to share the same difficult situation as others. \"*Plain sailing*\" means something is easy and uncomplicated.\n\nOther idioms come from the world of *farming* and the *countryside*. To \"*beat around the bush*\" means to avoid talking about the main point of something directly â€” it comes from the practice of beating bushes to drive out birds during a *hunt*, approaching indirectly rather than going straight to the target. To \"*let the cat out of the bag*\" means to accidentally reveal a secret â€” one possible origin is that dishonest *market traders* sometimes substituted a cat for a *piglet* in a bag, and if the bag was opened, the trick was revealed.\n\n\"*Bite the bullet*\" means to endure a painful or difficult situation *bravely*. It is believed to come from the practice of giving soldiers a *bullet* to bite down on during *surgery* before the invention of *anaesthetics*, to help them *cope* with the pain.\n\n\"*Hit the nail on the head*\" means to say or do exactly the right thing â€” a *carpentry* reference to striking a nail *precisely*. \"*Spill the beans*\" means to accidentally reveal secret information. \"*Cost an arm and a leg*\" means something is very expensive. \"*Break a leg*\" â€” used to wish someone good luck, especially in the performing arts â€” is thought to come from theatre *superstition*, where saying \"good luck\" directly was believed to bring bad luck.\n\nLearning idioms is most effective through *context* â€” reading, listening, and noticing how they are used in real communication. Trying to use idioms in your own speech and writing, and asking native speakers about expressions you do not understand, helps build a natural, *idiomatic* command of the language.",
     "genre": "expository",
     "cefr": "A2",
-    "ageBand": "teens"
+    "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-culture",
+      "title": "A2 Teens: Stories and Culture",
+      "order": 4
+    },
+    "flightQuestion": "Can knowing an idiom’s origin help people use it well?"
   },
   {
     "id": "voa-history-of-hip-hop",

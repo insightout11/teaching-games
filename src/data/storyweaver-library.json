@@ -36,7 +36,12 @@
     "license": "CC BY 4.0",
     "attribution": "Everything looks new! (en), text by Mala Kumar, Manisha Chaudhry, illustration by Priya Kuriyan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Should children plant seeds they can watch grow?"
+    "flightQuestion": "Should children plant seeds they can watch grow?",
+    "series": {
+      "id": "round10-kids-a1-6",
+      "title": "A1 StoryWeaver Readers 6",
+      "order": 2
+    }
   },
   {
     "id": "storyweaver-86-hot-tea-and-warm-rugs",
@@ -75,6 +80,11 @@
     "license": "CC BY 4.0",
     "attribution": "Hot Tea and Warm Rugs (en), text by Mala Kumar, Manisha Chaudhry, illustration by Priya Kuriyan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-1",
+      "title": "A1 StoryWeaver Readers 1",
+      "order": 3
+    },
     "flightQuestion": "Should the family use warm rugs on a cold day?"
   },
   {
@@ -114,6 +124,11 @@
     "license": "CC BY 4.0",
     "attribution": "Kheer on a Full Moon Night (en), text by Mala Kumar, Manisha Chaudhry, illustration by Priya Kuriyan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-3",
+      "title": "A1 StoryWeaver Readers 3",
+      "order": 3
+    },
     "flightQuestion": "Why does the family make kheer on a full moon night?"
   },
   {
@@ -153,6 +168,11 @@
     "license": "CC BY 4.0",
     "attribution": "Peacocks and Pakodas! (en), text by Mala Kumar, Manisha Chaudhry, illustration by Priya Kuriyan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-1",
+      "title": "A1 StoryWeaver Readers 1",
+      "order": 4
+    },
     "flightQuestion": "Should the children share pakodas with their guests?"
   },
   {
@@ -188,7 +208,12 @@
     "license": "CC BY 4.0",
     "attribution": "Little by Little (en), text by Anupa Lal, illustration by Ajit Narayan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Is it better to solve a problem together?"
+    "flightQuestion": "Is it better to solve a problem together?",
+    "series": {
+      "id": "round10-kids-a1-2",
+      "title": "A1 StoryWeaver Readers 2",
+      "order": 4
+    }
   },
   {
     "id": "storyweaver-127-the-missing-bat",
@@ -267,7 +292,12 @@
     "license": "CC BY 4.0",
     "attribution": "Going to a Wedding (en), text by Rukmini Banerji, illustration by Santosh Pujari, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Should relatives travel together for a wedding?"
+    "flightQuestion": "Should relatives travel together for a wedding?",
+    "series": {
+      "id": "round10-kids-a1-7",
+      "title": "A1 StoryWeaver Readers 7",
+      "order": 2
+    }
   },
   {
     "id": "storyweaver-156-paper-play",
@@ -302,7 +332,12 @@
     "license": "CC BY 4.0",
     "attribution": "Paper Play (en), text by Mala Kumar, illustration by Ruchi Shah, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Can old paper become a new toy for the children?"
+    "flightQuestion": "Can old paper become a new toy for the children?",
+    "series": {
+      "id": "round10-kids-a1-4",
+      "title": "A1 StoryWeaver Readers 4",
+      "order": 4
+    }
   },
   {
     "id": "storyweaver-173-the-jungle-school",
@@ -337,7 +372,12 @@
     "license": "CC BY 4.0",
     "attribution": "The Jungle School (en), text by Madhav Chavan, Meera Tendolkar, illustration by Ketan Raut, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Should different animals learn together at jungle school?"
+    "flightQuestion": "Should different animals learn together at jungle school?",
+    "series": {
+      "id": "round10-kids-a1-4",
+      "title": "A1 StoryWeaver Readers 4",
+      "order": 1
+    }
   },
   {
     "id": "storyweaver-189-ramya-s-stars",
@@ -411,7 +451,12 @@
     "license": "CC BY 4.0",
     "attribution": "Too Many Bananas (en), text by Rohini Nilekani, illustration by Angie & Upesh, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Should the family share extra bananas?"
+    "flightQuestion": "Should the family share extra bananas?",
+    "series": {
+      "id": "round10-kids-a1-3",
+      "title": "A1 StoryWeaver Readers 3",
+      "order": 1
+    }
   },
   {
     "id": "storyweaver-258-goodnight-tinku",
@@ -446,7 +491,12 @@
     "license": "CC BY 4.0",
     "attribution": "Goodnight, Tinku! (en), text by Preethi Nambiar, illustration by Sonal Goyal, Sumit Sakhuja, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Does Tinku need a bedtime routine to feel safe?"
+    "flightQuestion": "Does Tinku need a bedtime routine to feel safe?",
+    "series": {
+      "id": "round10-kids-a1-2",
+      "title": "A1 StoryWeaver Readers 2",
+      "order": 1
+    }
   },
   {
     "id": "storyweaver-283-annual-haircut-day",
@@ -524,6 +574,11 @@
     "license": "CC BY 4.0",
     "attribution": "Lassi, Ice-cream or Falooda? (en), text by Mala Kumar, Manisha Chaudhry, illustration by Priya Kuriyan, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-3",
+      "title": "A1 StoryWeaver Readers 3",
+      "order": 4
+    },
     "flightQuestion": "Which mango flavor does the family choose for lassi?"
   },
   {
@@ -559,6 +614,11 @@
     "license": "CC BY 4.0",
     "attribution": "Gulli's Box of Things (en), text by Anupama Ajinkya Apte, illustration by Anupama Ajinkya Apte, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-1",
+      "title": "A1 StoryWeaver Readers 1",
+      "order": 1
+    },
     "flightQuestion": "Should Gulli share the things in her box?"
   },
   {
@@ -594,6 +654,11 @@
     "license": "CC BY 4.0",
     "attribution": "Cheenu's Gift (en), text by Sridala Swami, illustration by Suvidha Mistry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-1",
+      "title": "A1 StoryWeaver Readers 1",
+      "order": 2
+    },
     "flightQuestion": "What gift does Cheenu choose for her friend?"
   },
   {
@@ -665,6 +730,11 @@
     "license": "CC BY 4.0",
     "attribution": "When Amma Went to School (en), text by Nandini Nayar, illustration by Ruchi Shah, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-4",
+      "title": "A1 StoryWeaver Readers 4",
+      "order": 2
+    },
     "flightQuestion": "Should children and parents share a school day?"
   },
   {
@@ -776,6 +846,11 @@
     "license": "CC BY 4.0",
     "attribution": "The Rainbow Story (en), text by Prakruti & Shruti Bhat, illustration by Ajit Narayan, Bulbul Sharma, Deepa Balsavar, Greystroke, Lavanya Karthik, Niloufer Wadia, Nimret Handa, Priya Kuriyan, Sanjay Sarkar, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-5",
+      "title": "A1 StoryWeaver Readers 5",
+      "order": 4
+    },
     "flightQuestion": "Should the children follow the rainbow together?"
   },
   {
@@ -847,7 +922,12 @@
     "license": "CC BY 4.0",
     "attribution": "The boy who hated vegetables (en), text by Prakruti & Shruti Bhat, illustration by Angie & Upesh, Deepa Balsavar, Padmanabh, Rijuta Ghate, Suvidha Mistry, Tanvi Choudhury, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Should children try a vegetable they dislike?"
+    "flightQuestion": "Should children try a vegetable they dislike?",
+    "series": {
+      "id": "round10-kids-a1-3",
+      "title": "A1 StoryWeaver Readers 3",
+      "order": 2
+    }
   },
   {
     "id": "storyweaver-639293-the-surprise",
@@ -987,7 +1067,12 @@
     "license": "CC BY 4.0",
     "attribution": "The party (en), text by Rachita Uday Kumar, illustration by Greystroke, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
-    "flightQuestion": "Can a party be fun when friends help plan it?"
+    "flightQuestion": "Can a party be fun when friends help plan it?",
+    "series": {
+      "id": "round10-kids-a1-7",
+      "title": "A1 StoryWeaver Readers 7",
+      "order": 3
+    }
   },
   {
     "id": "storyweaver-2325-the-unusual-rainmaking-duet",
@@ -1094,6 +1179,11 @@
     "license": "CC BY 4.0",
     "attribution": "The Story of Stories (en), text by Roopa Pai, illustration by Prashant Miranda, published by StoryWeaver under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-8",
+      "title": "A1 StoryWeaver Readers 8",
+      "order": 1
+    },
     "flightQuestion": "Should the storyteller share the story with everyone?"
   },
   {
@@ -1234,6 +1324,11 @@
     "license": "CC BY 4.0",
     "attribution": "Windy's adventure (en), text by Rachita Uday Kumar, illustration by Rijuta Ghate, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-6",
+      "title": "A1 StoryWeaver Readers 6",
+      "order": 3
+    },
     "flightQuestion": "Can Windy change the weather during her adventure?"
   },
   {
@@ -1273,6 +1368,11 @@
     "license": "CC BY 4.0",
     "attribution": "Dia's favourite festivals (en), text by Rachita Uday Kumar, illustration by Priya Kuriyan, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-7",
+      "title": "A1 StoryWeaver Readers 7",
+      "order": 1
+    },
     "flightQuestion": "How can Dia help classmates understand different festivals?"
   },
   {
@@ -1308,6 +1408,11 @@
     "license": "CC BY 4.0",
     "attribution": "The love of art (en), text by Rachita Uday Kumar, illustration by Tanvi Choudhury, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-5",
+      "title": "A1 StoryWeaver Readers 5",
+      "order": 1
+    },
     "flightQuestion": "Should Rohan keep painting when others choose differently?"
   },
   {
@@ -1343,6 +1448,11 @@
     "license": "CC BY 4.0",
     "attribution": "Nina Plays With the Butterflies (en), text by Adhvika Deepak, illustration by Herminder Ohri, Preeti Krishnamurthy, Priya Kuriyan, Sanjay Sarkar, Sorit Gupto, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-6",
+      "title": "A1 StoryWeaver Readers 6",
+      "order": 4
+    },
     "flightQuestion": "Should Nina protect the butterflies she finds?"
   },
   {
@@ -1378,6 +1488,11 @@
     "license": "CC BY 4.0",
     "attribution": "Aditi's Trip To Moon (en), text by Rajalakshmi Paramasivam, illustration by Ajit Narayan, Greystroke, Helga Parekh, Rijuta Ghate, Sorit Gupto, Suvidha Mistry, Taposhi Ghoshal, published by StoryWeaver Community under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": false,
+    "series": {
+      "id": "round10-kids-a1-8",
+      "title": "A1 StoryWeaver Readers 8",
+      "order": 2
+    },
     "flightQuestion": "Should Aditi continue her trip to the moon?"
   },
   {
@@ -1490,6 +1605,11 @@
     "attribution": "Vayu, the Wind (en), text by Madhuri Pai, illustration by Rijuta Ghate, translated by Rohini Nilekani, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "series": {
+      "id": "round10-kids-a1-6",
+      "title": "A1 StoryWeaver Readers 6",
+      "order": 1
+    },
     "flightQuestion": "Should the children wait for the storm to pass?"
   },
   {
@@ -1606,6 +1726,11 @@
     "attribution": "Rani's First Day at School (en), text by Cheryl Rao, illustration by Mayur Mistry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "series": {
+      "id": "round10-kids-a1-4",
+      "title": "A1 StoryWeaver Readers 4",
+      "order": 3
+    },
     "flightQuestion": "How can Rani feel brave on her first day at school?"
   },
   {
@@ -1686,6 +1811,11 @@
     "attribution": "Timmy and Pepe (en), text by Madhav Chavan, illustration by Santosh Pujari, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "series": {
+      "id": "round10-kids-a1-2",
+      "title": "A1 StoryWeaver Readers 2",
+      "order": 2
+    },
     "flightQuestion": "Should Timmy forgive Pepe after the noisy mistake?"
   },
   {
@@ -2102,6 +2232,11 @@
     "attribution": "The Timid Train (en), text by Bharati Jagannathan, illustration by Preeti Krishnamurthy, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "series": {
+      "id": "round10-kids-a1-8",
+      "title": "A1 StoryWeaver Readers 8",
+      "order": 3
+    },
     "flightQuestion": "Should Babu’s train travel through the tunnel?"
   },
   {
@@ -2246,6 +2381,11 @@
     "attribution": "The Boat Ride (en), text by Herminder Ohri, illustration by Herminder Ohri, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "series": {
+      "id": "round10-kids-a1-8",
+      "title": "A1 StoryWeaver Readers 8",
+      "order": 4
+    },
     "flightQuestion": "Should Vikki choose the boat route for the trip?"
   },
   {
@@ -2569,6 +2709,11 @@
     "attribution": "Smart Sona Helps Her Mother (en), text by Vinita Krishna, illustration by Suvidha Mistry, translated by Manisha Chaudhry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "series": {
+      "id": "round10-kids-a1-5",
+      "title": "A1 StoryWeaver Readers 5",
+      "order": 2
+    },
     "flightQuestion": "Should Sona help her mother with a difficult job?"
   },
   {
@@ -3005,6 +3150,11 @@
     "attribution": "Noisy Crows (en), text by Kanchan Bannerjee, illustration by Deepa Balsavar, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "series": {
+      "id": "round10-kids-a1-2",
+      "title": "A1 StoryWeaver Readers 2",
+      "order": 3
+    },
     "flightQuestion": "Could the crows solve their problem by working together?"
   },
   {
@@ -3081,6 +3231,11 @@
     "attribution": "Singing in the Rain (en), text by Mala Kumar, Manisha Chaudhry, illustration by Rajiv Eipe, translated by Mala Kumar, Manisha Chaudhry, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "series": {
+      "id": "round10-kids-a1-7",
+      "title": "A1 StoryWeaver Readers 7",
+      "order": 4
+    },
     "flightQuestion": "Should the children wait for Sukhiya before singing?"
   },
   {
@@ -4061,6 +4216,11 @@
     "attribution": "Little Painters (en), text by Cheryl Rao, illustration by Tanvi Choudhury, published by Pratham Books under CC-BY 4.0 on StoryWeaver. Donor/funder not listed in the source text archive.",
     "needsReview": true,
     "reviewNote": "Review needed: source reading level informs the CEFR estimate, but an educator should confirm CEFR/age fit and cultural context.",
+    "series": {
+      "id": "round10-kids-a1-5",
+      "title": "A1 StoryWeaver Readers 5",
+      "order": 3
+    },
     "flightQuestion": "Should Veena paint what she sees or imagine something new?"
   },
   {

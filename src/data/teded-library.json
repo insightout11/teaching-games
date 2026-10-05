@@ -85,6 +85,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-wellbeing",
+      "title": "A2 Teens: Wellbeing and Choices",
+      "order": 2
+    },
     "flightQuestion": "Should teens seek support when depression affects daily life?"
   },
   {
@@ -108,6 +113,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-wellbeing",
+      "title": "A2 Teens: Wellbeing and Choices",
+      "order": 3
+    },
     "flightQuestion": "Should students give sleep a higher priority?"
   },
   {
@@ -329,6 +339,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-culture",
+      "title": "A2 Teens: Stories and Culture",
+      "order": 2
+    },
     "flightQuestion": "Should a hero be judged by one brave act?"
   },
   {
@@ -578,8 +593,7 @@
     "summary": "Glass is everywhere — in our windows, our phones, our glasses — yet it has a property that should seem remarkable: you can see right through it. Most solid materials are *opaque*; they block light. What makes glass different? The answer requires *quantum mechanics*.\n\nLight is made of *photons* — particles of electromagnetic energy. When a photon encounters matter, one of three things can happen: it is *absorbed* (energy taken up by the material), *reflected* (bounced back), or *transmitted* (passes through). What happens depends on the *energy* of the photon and the *atomic structure* of the material.\n\nAtoms can only absorb photons of specific energies — the exact energies required to *jump their electrons* to higher *energy levels* (called *quantum states*). When a photon's energy exactly matches the gap between two electron energy levels, it can be absorbed. When the photon's energy doesn't match any available gap, it cannot be absorbed and passes straight through.\n\nIn most metals and opaque materials, electrons have many closely spaced energy levels — an almost continuous *band* of possible states — so photons of almost any energy can be absorbed. This is why metals are opaque (and shiny — absorbed and re-emitted photons produce reflection).\n\nIn glass, the *silicon-oxygen network* creates a structure where the electron energy gaps are *large* — too large for *visible light* photons to bridge. Visible photons pass straight through. *Ultraviolet* photons (higher energy) do have enough energy to be absorbed — which is why glass blocks UV light but transmits visible light.\n\nDifferent materials absorb different ranges of photon energies, which is also why objects have *colour*: a red apple absorbs all wavelengths except red, which it reflects back to your eye.\n\nKey vocabulary: *photon, quantum, energy level, electron, absorption, transmission, opacity, wavelength, visible light, ultraviolet*. A physics lesson that connects everyday experience to some of the most elegant ideas in modern science.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens",
-    "flightQuestion": "Why is glass transparent?"
+    "ageBand": "teens"
   },
   {
     "id": "teded_how_does_stock_market_work",
@@ -725,6 +739,11 @@
     },
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-culture",
+      "title": "A2 Teens: Stories and Culture",
+      "order": 3
+    },
     "flightQuestion": "Can cats explain a useful way to remember world history?"
   },
   {
@@ -783,6 +802,11 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-b1-science",
+      "title": "B1 Teen Science and Discovery",
+      "order": 4
+    },
     "flightQuestion": "What evidence links the human eye to evolution?"
   },
   {
@@ -803,6 +827,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-science",
+      "title": "A2 Teens: Everyday Science",
+      "order": 1
+    },
     "flightQuestion": "Should neighborhoods invest in rooftop solar panels?"
   },
   {

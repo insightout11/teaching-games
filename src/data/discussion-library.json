@@ -22,7 +22,12 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should students have homework on weekends?"
+    "flightQuestion": "Should students have homework on weekends?",
+    "series": {
+      "id": "round10-teens-a2-daily-life",
+      "title": "A2 Teens: School Life Decisions",
+      "order": 1
+    }
   },
   {
     "id": "discussion-r2-school-uniforms",
@@ -47,7 +52,12 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should schools require uniforms?"
+    "flightQuestion": "Should schools require uniforms?",
+    "series": {
+      "id": "round10-teens-a2-daily-life",
+      "title": "A2 Teens: School Life Decisions",
+      "order": 2
+    }
   },
   {
     "id": "discussion-r2-phones-in-class",
@@ -72,7 +82,12 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should students keep phones in class?"
+    "flightQuestion": "Should students keep phones in class?",
+    "series": {
+      "id": "round10-teens-a2-daily-life",
+      "title": "A2 Teens: School Life Decisions",
+      "order": 3
+    }
   },
   {
     "id": "discussion-r2-school-start-time",
@@ -247,7 +262,12 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Are team sports better than individual sports?"
+    "flightQuestion": "Are team sports better than individual sports?",
+    "series": {
+      "id": "round10-teens-a2-wellbeing",
+      "title": "A2 Teens: Wellbeing and Choices",
+      "order": 4
+    }
   },
   {
     "id": "discussion-r2-vegetarian-cafeteria",
@@ -297,7 +317,12 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should classrooms have pets?"
+    "flightQuestion": "Should classrooms have pets?",
+    "series": {
+      "id": "round10-teens-a2-daily-life",
+      "title": "A2 Teens: School Life Decisions",
+      "order": 4
+    }
   },
   {
     "id": "discussion-r2-student-course-choice",
@@ -569,7 +594,12 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should school lunch be free for every student?"
+    "flightQuestion": "Should school lunch be free for every student?",
+    "series": {
+      "id": "round10-teens-a2-food",
+      "title": "A2 Teens: Food and Health",
+      "order": 3
+    }
   },
   {
     "id": "discussion-r2-bike-lanes",
@@ -617,7 +647,12 @@
     "place": null,
     "needsReview": false,
     "difficultyLevel": "Easy",
-    "flightQuestion": "Should every student learn basic cooking at school?"
+    "flightQuestion": "Should every student learn basic cooking at school?",
+    "series": {
+      "id": "round10-teens-a2-food",
+      "title": "A2 Teens: Food and Health",
+      "order": 4
+    }
   },
   {
     "id": "discussion-r2-arts-class-time",

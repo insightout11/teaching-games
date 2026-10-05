@@ -17,6 +17,11 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-b1-society",
+      "title": "B1 Teen Society and Culture",
+      "order": 3
+    },
     "flightQuestion": "Could the Treaty of Versailles prevent another war?"
   },
   {
@@ -37,6 +42,11 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-b1-society",
+      "title": "B1 Teen Society and Culture",
+      "order": 4
+    },
     "flightQuestion": "Should countries use force to stop an invasion?"
   },
   {
@@ -95,6 +105,11 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-b1-science",
+      "title": "B1 Teen Science and Discovery",
+      "order": 2
+    },
     "flightQuestion": "How does natural selection change a population over time?"
   },
   {
@@ -210,6 +225,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-science",
+      "title": "A2 Teens: Everyday Science",
+      "order": 2
+    },
     "flightQuestion": "Should students use models to understand the solar system?"
   },
   {
@@ -268,6 +288,11 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
+    "series": {
+      "id": "round10-teens-a2-science",
+      "title": "A2 Teens: Everyday Science",
+      "order": 3
+    },
     "flightQuestion": "How do cells use DNA to pass on instructions?"
   }
 ]

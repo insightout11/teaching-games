@@ -108,16 +108,6 @@ function validateExpandedItem(item: Item, where: string) {
       fail(where, 'Flight Question videos must be 3–8 minutes long');
     }
   }
-  if (item.series !== undefined) {
-    const series = item.series as { id?: unknown; title?: unknown; order?: unknown };
-    if (!nonEmpty(series.id) || !nonEmpty(series.title)
-      || typeof series.order !== 'number' || Math.floor(series.order) !== series.order || series.order < 1) {
-      fail(where, 'series requires a non-empty id/title and positive integer order');
-    } else {
-      if (!seriesGroups[series.id]) seriesGroups[series.id] = [];
-      seriesGroups[series.id].push(item);
-    }
-  }
   if (item.place !== null && item.place !== undefined) {
     const place = item.place as { name?: unknown; lat?: unknown; lng?: unknown };
     if (!nonEmpty(place.name) || typeof place.lat !== 'number' || typeof place.lng !== 'number') {
@@ -271,6 +261,18 @@ for (const file of files) {
       else urls.set(normalized, where);
     }
 
+    // Course metadata also appears on legacy library records.
+    if (item.series !== undefined) {
+      const series = item.series as { id?: unknown; title?: unknown; order?: unknown };
+      if (!nonEmpty(series.id) || !nonEmpty(series.title)
+        || typeof series.order !== 'number' || Math.floor(series.order) !== series.order || series.order < 1) {
+        fail(where, 'series requires a non-empty id/title and positive integer order');
+      } else {
+        if (!seriesGroups[series.id]) seriesGroups[series.id] = [];
+        seriesGroups[series.id].push(item);
+      }
+    }
+
     if (file === 'grammar-library.json') {
       const tagged = Array.isArray(item.topicTags)
         && item.topicTags.some((tag) => typeof tag === 'string' && grammarTags.has(tag));
@@ -360,12 +362,30 @@ for (const seriesId of Object.keys(seriesGroups)) {
     orders.add(series.order);
     ranks.push(cefrRank[String(member.cefr)] || 0);
     if (member.ageBand !== members[0].ageBand) fail(`series ${seriesId}`, 'all members must use one ageBand');
+    if (seriesId.indexOf('round10-') === 0 && member.cefr !== members[0].cefr) fail(`series ${seriesId}`, 'Round 10 series must use one exact CEFR level');
+    if (seriesId.indexOf('round10-') === 0 && !nonEmpty(member.flightQuestion)) fail(`series ${seriesId}`, 'every Round 10 course item requires a Flight Question');
   }
   if (Math.max(...ranks) - Math.min(...ranks) > 1) fail(`series ${seriesId}`, 'CEFR levels may span no more than one step');
 }
 
 const seriesIds = Object.keys(seriesGroups);
-if (seriesIds.length < 31) fail('series catalog', `expected at least 31 course series after round 6 (found ${seriesIds.length})`);
+if (seriesIds.length < 51) fail('series catalog', `expected at least 51 course series after round 10 (found ${seriesIds.length})`);
+const round10SeriesIds = seriesIds.filter((seriesId) => seriesId.indexOf('round10-') === 0);
+if (round10SeriesIds.length !== 20) fail('Round 10 series', `expected exactly 20 new course series (found ${round10SeriesIds.length})`);
+const round10Cohorts = [
+  { prefix: 'round10-kids-a1-', count: 8, cefr: 'A1', ageBand: 'kids' },
+  { prefix: 'round10-kids-b1-', count: 4, cefr: 'B1', ageBand: 'kids' },
+  { prefix: 'round10-teens-a2-', count: 6, cefr: 'A2', ageBand: 'teens' },
+  { prefix: 'round10-teens-b1-', count: 2, cefr: 'B1', ageBand: 'teens' },
+];
+for (const cohort of round10Cohorts) {
+  const ids = round10SeriesIds.filter((seriesId) => seriesId.indexOf(cohort.prefix) === 0);
+  if (ids.length !== cohort.count) fail('Round 10 series', `expected ${cohort.count} ${cohort.cefr} ${cohort.ageBand} series (found ${ids.length})`);
+  for (const id of ids) {
+    const members = seriesGroups[id] || [];
+    if (members.some((member) => member.cefr !== cohort.cefr || member.ageBand !== cohort.ageBand)) fail(`series ${id}`, `all items must be ${cohort.cefr} and ${cohort.ageBand}`);
+  }
+}
 const bookSeriesIds = seriesIds.filter((seriesId) => seriesId.indexOf('book-course-') === 0);
 if (bookSeriesIds.length < 12) fail('book-library.json', `expected at least 12 public-domain book courses after round 6 (found ${bookSeriesIds.length})`);
 if (bookCourseItemCount < 48) fail('book-library.json', `expected at least 48 book lesson items after round 6 (found ${bookCourseItemCount})`);

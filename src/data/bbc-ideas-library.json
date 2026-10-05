@@ -140,6 +140,11 @@
     "cefr": "A2",
     "ageBand": "teens",
     "needsReview": false,
+    "series": {
+      "id": "round10-teens-a2-wellbeing",
+      "title": "A2 Teens: Wellbeing and Choices",
+      "order": 1
+    },
     "flightQuestion": "Can one kind act change someone’s day?"
   },
   {
