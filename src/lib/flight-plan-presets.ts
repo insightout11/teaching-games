@@ -437,6 +437,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     // Micro defaults (Vocab) await the Vocab micro + toggle system; Opinion Pulse baked in for now.
     moduleSequence: [
       // Lesson thread: Toolkit phrases -> the scene uses them -> the conversation continues the scene.
+      { slotType: 'practice', key: 'quick-fire', stageId: 'quick-fire' },
       { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
       { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it'] },
       { slotType: 'presentation', key: 'scene-igniter', stageId: 'scene' },
@@ -447,6 +448,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     flightConfig: {
       stages: [
         { stageId: 'icebreaker', label: 'Try 1', kind: 'stage', phase: 'takeoff' },
+        { stageId: 'quick-fire', label: 'Quick-fire', kind: 'stage', phase: 'takeoff' },
         { stageId: 'language-toolkit', label: 'Language Toolkit', kind: 'stage', phase: 'climb' },
         { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event', phase: 'climb' },
         { stageId: 'scene', label: 'Scene', kind: 'stage', phase: 'cruise' },
@@ -458,6 +460,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       stageByKey: {
         'character-cards': 'icebreaker',
         'speak-check': 'icebreaker',
+        'quick-fire': 'quick-fire',
         'language-toolkit': 'language-toolkit',
         'scene-igniter': 'scene',
         'would-you-rather': 'opinion-pulse',

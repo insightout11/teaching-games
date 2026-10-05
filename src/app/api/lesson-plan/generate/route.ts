@@ -1,3 +1,4 @@
+import { fallbackQuickFire } from '@/lib/quick-fire';
 import { fallbackSpeakSituation, validSpeakSituation } from '@/lib/speak-check';
 import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-announcement/content';
 import { NextRequest, NextResponse } from 'next/server';
@@ -1865,6 +1866,22 @@ Return:
   };
 }
 
+async function generateQuickFire(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<Record<string, unknown>> {
+  const schema: AISchema = { type: 'object', properties: { questions: { type: 'array', items: { type: 'string' } } }, required: ['questions'] };
+  const prompt = `Write 3 QUICK-FIRE warm-up questions for a speaking lesson. Every student answers each one out loud in about 10 seconds, so they must be easy to answer instantly, personal or fun, and lead into the topic.
+
+Topic: "${topic}"
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+${sourceCtx ? `\nLESSON MATERIAL:\n${sourceCtx.slice(0, 2000)}\n` : ''}
+Rules: max 12 words each; no yes/no questions; no facts to know; kids/teens must be able to answer. Go from easy (one word is fine) to a little more (a reason). Return { questions: [3 strings] }.`;
+  try {
+    const parsed = await generateJSON<{ questions?: string[] }>(prompt, schema);
+    const qs = (parsed.questions ?? []).map((q) => q.trim()).filter((q) => q.length > 3 && q.split(/\s+/).length <= 16);
+    if (qs.length >= 2) return { activityKey: 'quick-fire', topicContext: topic, questions: qs.slice(0, 3) };
+  } catch { /* fall back below */ }
+  return { activityKey: 'quick-fire', topicContext: topic, questions: fallbackQuickFire(topic) };
+}
+
 async function generateSpeakCheck(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<Record<string, unknown>> {
   const set: AISchema = { type: 'object', properties: { replies: { type: 'array', items: { type: 'string' } }, natural: { type: 'number' } }, required: ['replies', 'natural'] };
   const schema: AISchema = { type: 'object', properties: { situation: { type: 'string' }, canDo: { type: 'string' }, before: set, after: set }, required: ['situation', 'canDo', 'before', 'after'] };
@@ -3678,6 +3695,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'flight-question':
             generators.push(generateFlightQuestion(customTopic, diff, !!sourceMaterial, kitSourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'quick-fire':
+            generators.push(generateQuickFire(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r as unknown as ActivityGeneratedContent; }));
             break;
           case 'speak-check':
             generators.push(generateSpeakCheck(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r as unknown as ActivityGeneratedContent; }));
