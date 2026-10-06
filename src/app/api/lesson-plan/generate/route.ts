@@ -1,6 +1,6 @@
-import { bookLevelFor, fallbackPassages, validReadingPack, type ReadingPack } from '@/lib/reading-pack';
+import { bookLevelFor, fallbackPassages, mergeCast, validReadingPack, type ReadingPack, type ReadingPreviously } from '@/lib/reading-pack';
 import { bankMotionFor, fallbackMotion, validMotion, type DebateMotion } from '@/lib/debate-motion';
-import { getLibraryEntry, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
+import { earlierBookLessons, getLibraryEntry, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
 import { fallbackGist, isKidsLevel, listeningWindow, packToRadioCheck, validGist, validPack, windowTranscript, type GistQuestion, type ListeningPack } from '@/lib/listening-pack';
 import { fallbackSayItAgain } from '@/lib/say-it-again';
 import { fallbackPassTheLine, validPassTheLine } from '@/lib/pass-the-line';
@@ -1372,17 +1372,30 @@ Return:
 }
 
 /** Reading flight: the book lesson (library book course) at the class level, with its reading pack. */
-async function generateReadingLesson(difficulty: Difficulty, source: SourceMaterial | null | undefined): Promise<{ bookTitle: string; lessonTitle: string; text: string; pack: ReadingPack } | null> {
+type ReadingLesson = { bookTitle: string; lessonTitle: string; text: string; pack: ReadingPack; previously?: ReadingPreviously; castSoFar: Array<{ name: string; who: string }> };
+
+/** Reading flight: add "Previously..." (last lesson) and the cast so far (earlier lessons' packs + this one). */
+function withBookContext(lesson: Omit<ReadingLesson, 'castSoFar' | 'previously'>, id: string, level: string): ReadingLesson {
+  const earlier = earlierBookLessons(id);
+  const packs = earlier.map((e) => validReadingPack((e.readingPack as Record<string, unknown> | undefined)?.[level]));
+  const prev = earlier[earlier.length - 1];
+  const prevPack = packs[packs.length - 1];
+  const previously = prev ? { title: String(prev.title), summary: String(prev.shortSummary ?? prev.summary ?? ''), words: (prevPack?.words ?? []).map((w) => w.word).slice(0, 5) } : undefined;
+  const castSoFar = mergeCast(...packs.map((p) => p?.cast ?? []), lesson.pack.cast);
+  return { ...lesson, ...(previously ? { previously } : {}), castSoFar };
+}
+
+async function generateReadingLesson(difficulty: Difficulty, source: SourceMaterial | null | undefined): Promise<ReadingLesson | null> {
   if (!source?.sourceKey || source.sourceType !== 'books') return null;
   const entry = getLibraryEntry('books', source.sourceKey);
-  const level = bookLevelFor(difficulty);
   const retellings = entry?.retellings as Record<string, { text?: string }> | undefined;
-  const text = retellings?.[level]?.text ?? retellings?.B1?.text ?? retellings?.A2?.text;
+  const level = bookLevelFor(difficulty, Object.keys(retellings ?? {}));
+  const text = retellings?.[level]?.text;
   if (!entry || !text) return null;
   const bookTitle = String((entry.series as { title?: string } | undefined)?.title ?? entry.title).replace(/ (teen )?reading course$/i, '');
   const lessonTitle = String(entry.title);
   const checked = validReadingPack((entry.readingPack as Record<string, unknown> | undefined)?.[level], text);
-  if (checked) return { bookTitle, lessonTitle, text, pack: checked };
+  if (checked) return withBookContext({ bookTitle, lessonTitle, text, pack: checked }, source.sourceKey, level);
   try {
     const q: AISchema = { type: 'object', properties: { q: { type: 'string' }, options: { type: 'array', items: { type: 'string' } }, correctIndex: { type: 'number' } }, required: ['q', 'options', 'correctIndex'] };
     const schema: AISchema = {
@@ -1412,9 +1425,9 @@ Return:
 - talk: one question about a character's choice, max 14 words.`;
     const parsed = await generateJSON<Record<string, unknown>>(prompt, schema);
     const pack = validReadingPack(parsed, text);
-    if (pack) return { bookTitle, lessonTitle, text, pack };
+    if (pack) return withBookContext({ bookTitle, lessonTitle, text, pack }, source.sourceKey, level);
   } catch { /* fall back below */ }
-  return { bookTitle, lessonTitle, text, pack: { passages: fallbackPassages(text), check: [], words: [], cast: [] } };
+  return withBookContext({ bookTitle, lessonTitle, text, pack: { passages: fallbackPassages(text), check: [], words: [], cast: [] } }, source.sourceKey, level);
 }
 
 /** The clip's listening pack (library sources only), with its YouTube id. */
@@ -3615,7 +3628,7 @@ export async function POST(request: NextRequest) {
       let speakCheckP: Promise<Record<string, unknown>> | null = null;
       let listenP: Promise<Record<string, unknown> | null> | null = null;
       let motionP: Promise<DebateMotion> | null = null;
-      let readingP: Promise<{ bookTitle: string; lessonTitle: string; text: string; pack: ReadingPack } | null> | null = null;
+      let readingP: Promise<ReadingLesson | null> | null = null;
       for (const activityKey of activities) {
         if (vocabBlitzMode && activityKey === 'vocab-radar') continue; // already generated above
         switch (activityKey) {
@@ -3726,7 +3739,7 @@ export async function POST(request: NextRequest) {
             readingP = readingP ?? generateReadingLesson(diff, sourceMaterial);
             const key = activityKey;
             generators.push(readingP.then((r) => {
-              if (r) content[key] = { activityKey: key, topicContext: customTopic, bookTitle: r.bookTitle, lessonTitle: r.lessonTitle, pack: r.pack } as unknown as ActivityGeneratedContent;
+              if (r) content[key] = { activityKey: key, topicContext: customTopic, bookTitle: r.bookTitle, lessonTitle: r.lessonTitle, pack: r.pack, castSoFar: r.castSoFar, ...(r.previously ? { previously: r.previously } : {}) } as unknown as ActivityGeneratedContent;
             }));
             break;
           }

@@ -26,6 +26,8 @@ describe('reading packs', () => {
   it('picks the retelling level and counts who caught the chapter', () => {
     expect(bookLevelFor('Easy')).toBe('A2');
     expect(bookLevelFor('Advanced')).toBe('B1');
+    expect(bookLevelFor('Advanced', ['B1', 'B2'])).toBe('B2');
+    expect(bookLevelFor('Easy', ['B1', 'B2'])).toBe('B1');
     const check = [{ q: 'a', options: ['x', 'y'], correctIndex: 0 }, { q: 'b', options: ['x', 'y'], correctIndex: 1 }, { q: 'c', options: ['x', 'y'], correctIndex: 0 }];
     expect(caughtChapter({ s1: { 1: 0, 2: 1, 3: 0 }, s2: { 1: 1, 2: 0, 3: 1 } }, check, 1)).toEqual({ caught: 1, of: 2 });
   });

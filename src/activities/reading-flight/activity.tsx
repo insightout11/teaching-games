@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { BookOpen, TrendingUp, Users, ChevronRight } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
-import { caughtChapter, type ReadingPack } from '@/lib/reading-pack';
+import { caughtChapter, type ReadingPack, type ReadingPreviously } from '@/lib/reading-pack';
 import { saveFlightResult } from '@/lib/flight-result';
 
 // Reading flight takeoff (Predict) and landing (What really happened). Both read the lesson's
@@ -18,6 +18,10 @@ export interface ReadingLessonContent {
   bookTitle: string;
   lessonTitle: string;
   pack: ReadingPack;
+  /** Everyone met so far in the book (earlier lessons + this one). */
+  castSoFar?: Array<{ name: string; who: string }>;
+  /** Last lesson: title, summary, words (the "Previously..." recap). */
+  previously?: ReadingPreviously;
 }
 
 const CONFIDENCE = ['I’m lost', 'Mostly', 'I get it'];
@@ -48,14 +52,15 @@ export function StoryPredictActivity({ generatedContent, onSetInputSpec, onRegis
   const c = generatedContent as unknown as ReadingLessonContent;
   const record = useSessionStore((s) => s.recordReadingAnswer);
   const before = useSessionStore((s) => s.lessonThread.readingCheck?.before);
-  const [phase, setPhase] = useState<'idle' | 'predict' | 'done'>('idle');
+  const [phase, setPhase] = useState<'previously' | 'idle' | 'predict' | 'done'>(c?.previously ? 'previously' : 'idle');
+  const [recapShown, setRecapShown] = useState(false);
   const questions = useMemo(() => [
     ...(c?.pack?.predict ? [{ q: c.pack.predict.q, options: c.pack.predict.options }] : []),
     { q: CONFIDENCE_Q, options: CONFIDENCE },
   ], [c]);
   useMission('story-predict', questions, phase === 'predict', (cid, i, a) => record('before', cid, i, a), { onSetInputSpec, onRegisterRemoteVoteHandler });
-  const go = (p: 'idle' | 'predict' | 'done') => { setPhase(p); onPhaseChange?.(p === 'done' ? 'finished' : p); };
-  const cast = c?.pack?.cast ?? [];
+  const go = (p: 'previously' | 'idle' | 'predict' | 'done') => { setPhase(p); onPhaseChange?.(p === 'done' ? 'finished' : p); };
+  const cast = c?.castSoFar?.length ? c.castSoFar : (c?.pack?.cast ?? []);
 
   if (!c?.pack) return <p className="py-12 text-center text-slate-300">Pick a book lesson for this Reading flight.</p>;
 
@@ -70,6 +75,20 @@ export function StoryPredictActivity({ generatedContent, onSetInputSpec, onRegis
         <div className="mx-auto max-w-2xl rounded-2xl border border-white/10 bg-white/[0.03] p-4">
           <p className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-white/50"><Users className="h-3.5 w-3.5" />Who’s who</p>
           <div className="flex flex-wrap gap-2">{cast.map((p) => <span key={p.name} className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-sm"><b>{p.name}</b>{p.who ? `: ${p.who}` : ''}</span>)}</div>
+        </div>
+      )}
+      {phase === 'previously' && c.previously && (
+        <div className="mx-auto max-w-2xl space-y-3 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-300/80">Previously…</p>
+          <p className="text-3xl font-game">What happened last time?</p>
+          <p className="text-sm text-white/60">Last lesson: {c.previously.title}. Tell it together, one thing each, before we look.</p>
+          {c.previously.words.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-2">{c.previously.words.map((w) => <span key={w} className="rounded-full border border-amber-300/30 bg-amber-300/10 px-3 py-1 text-sm text-amber-100">{w}</span>)}</div>
+          )}
+          {recapShown
+            ? <p className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left text-lg text-white/90">{c.previously.summary}</p>
+            : <button onClick={() => setRecapShown(true)} className="rounded-xl border border-white/15 bg-white/5 px-5 py-2.5 text-sm text-white/80">Show the recap</button>}
+          <div><button onClick={() => go('idle')} className="mt-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3 font-game text-sm">ON TO TODAY’S CHAPTER</button></div>
         </div>
       )}
       {phase === 'idle' && (

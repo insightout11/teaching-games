@@ -117,3 +117,14 @@ export function listBookLessons(): Array<{ id: string; title: string; book: stri
     })
     .sort((a, b) => a.book.localeCompare(b.book) || a.order - b.order);
 }
+
+/** The earlier lessons of a book course, in order (Reading flight "Previously..." and the cast so far). */
+export function earlierBookLessons(id: string): Array<LibraryEntry & Record<string, unknown>> {
+  const all = (LIBRARIES.books ?? []) as Array<LibraryEntry & Record<string, unknown>>;
+  const me = all.find((e) => e.id === id);
+  const series = me?.series as { id?: string; order?: number } | undefined;
+  if (!series?.id) return [];
+  return all
+    .filter((e) => (e.series as { id?: string } | undefined)?.id === series.id && Number((e.series as { order?: number }).order ?? 0) < Number(series.order ?? 0))
+    .sort((a, b) => Number((a.series as { order?: number }).order) - Number((b.series as { order?: number }).order));
+}

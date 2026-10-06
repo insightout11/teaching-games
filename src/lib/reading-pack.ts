@@ -56,9 +56,18 @@ export function validReadingPack(raw: unknown, text?: string): ReadingPack | nul
   };
 }
 
-/** A1–A2 classes read the A2 retelling; everyone else the B1 one. */
-export function bookLevelFor(difficulty: string): 'A2' | 'B1' {
-  return difficulty === 'Beginner' || difficulty === 'Easy' ? 'A2' : 'B1';
+const LEVEL_ORDER = ['A2', 'B1', 'B2'];
+const WANT: Record<string, string> = { Beginner: 'A2', Easy: 'A2', Intermediate: 'B1', Advanced: 'B2', Expert: 'B2' };
+
+/**
+ * The retelling level for the class among the levels this book has (kids books: A2/B1; teen books:
+ * B1/B2): the class's level if present, else the nearest available.
+ */
+export function bookLevelFor(difficulty: string, available: string[] = ['A2', 'B1']): string {
+  const want = WANT[difficulty] ?? 'B1';
+  if (available.indexOf(want) >= 0) return want;
+  const w = LEVEL_ORDER.indexOf(want);
+  return [...available].sort((a, b) => Math.abs(LEVEL_ORDER.indexOf(a) - w) - Math.abs(LEVEL_ORDER.indexOf(b) - w))[0] ?? want;
 }
 
 /** No pack and no AI: split the text into passages of whole sentences (no questions). */
@@ -75,4 +84,18 @@ export function caughtChapter(answers: Record<string, Record<number, number>>, c
   const need = Math.min(2, check.length);
   const caught = ids.filter((id) => check.filter((q, i) => answers[id][offset + i] === q.correctIndex).length >= need).length;
   return { caught, of: ids.length };
+}
+
+/** "Previously...": last lesson's title, summary and words (for review). */
+export interface ReadingPreviously { title: string; summary: string; words: string[] }
+
+/** The cast so far: earlier lessons' characters first, then this lesson's, one entry per name. */
+export function mergeCast(...lists: Array<Array<{ name: string; who: string }>>): Array<{ name: string; who: string }> {
+  const out: Array<{ name: string; who: string }> = [];
+  lists.forEach((l) => l.forEach((c) => {
+    const i = out.findIndex((x) => x.name.toLowerCase() === c.name.toLowerCase());
+    if (i < 0) out.push(c);
+    else if (!out[i].who && c.who) out[i] = c;
+  }));
+  return out;
 }

@@ -15,7 +15,8 @@ happened" at the end. The first version runs on the **12 library book courses** 
 lessons, each with A2 and B1 `retellings`). We want checked content for every lesson so no AI runs at class time.
 
 ## Task: a `readingPack` for all 48 book lessons, per level
-Add `readingPack: { A2: Pack, B1: Pack }` to each lesson item (one pack per retelling, because the texts differ):
+Add `readingPack` to each lesson item with **one pack per existing retelling level** (the texts differ): `{ A2, B1 }` for the
+24 kids lessons, `{ B1, B2 }` for the 24 teen lessons (answered Oct 6: use the existing levels; no new A2 teen retellings):
 
 ```
 Pack {
