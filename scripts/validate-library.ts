@@ -222,8 +222,10 @@ function validateExpandedItem(item: Item, where: string) {
     // Round 5's Sherlock course is teen-labelled but follows the A2/B1 schema;
     // Round 6 teen courses are identified by their added B2 version.
     const teenCourse = !!versions?.B2 && item.ageBand === 'teens' && !!series?.id && series.id.indexOf('book-course-') === 0;
-    const levels = teenCourse ? ['B1', 'B2'] : ['A2', 'B1'];
-    const defaultLevel = teenCourse ? 'B1' : 'A2';
+    const earlyReader = !!versions?.A1 && !versions?.B1;
+    const levels = teenCourse ? ['B1', 'B2'] : earlyReader ? ['A1', 'A2'] : ['A2', 'B1'];
+    if (versions?.A1 && !earlyReader) levels.unshift('A1');
+    const defaultLevel = teenCourse ? 'B1' : earlyReader ? 'A1' : 'A2';
     let defaultWordCount: number | undefined;
     for (const level of levels) {
       const version = versions?.[level] as { cefr?: unknown; ageBand?: unknown; text?: unknown; wordCount?: unknown } | undefined;
@@ -232,10 +234,18 @@ function validateExpandedItem(item: Item, where: string) {
         continue;
       }
       const words = version.text.trim().split(/\s+/).filter(Boolean).length;
-      const minimumWords = level === 'A2' ? 250 : level === 'B1' ? 300 : 400;
-      const maximumWords = level === 'A2' ? 450 : level === 'B1' ? 500 : 600;
+      const minimumWords = level === 'A1' ? 120 : level === 'A2' ? 250 : level === 'B1' ? 300 : 400;
+      const maximumWords = level === 'A1' ? 220 : level === 'A2' ? 450 : level === 'B1' ? 500 : 600;
       if (words < minimumWords || words > maximumWords) fail(where, `${level} retelling must contain ${minimumWords}–${maximumWords} words (found ${words})`);
       if (version.wordCount !== words) fail(where, `${level} wordCount must match its retelling (${words})`);
+      if (level === 'A1') {
+        const sentences = readingSentences(version.text);
+        const lengths = sentences.map(sentence => sentence.trim().split(/\s+/).length);
+        if (!lengths.length || words / lengths.length > 10) fail(where, `A1 average sentence length must be at most 10 words (found ${(words / (lengths.length || 1)).toFixed(1)})`);
+        for (const [sentenceIndex, length] of Array.from(lengths.entries())) {
+          if (length > 14) fail(`${where}.A1.sentence[${sentenceIndex}]`, `A1 sentence exceeds 14 words (found ${length})`);
+        }
+      }
       const paragraphs = version.text.split(/\n\s*\n/).map(paragraph => paragraph.trim()).filter(Boolean);
       for (const [paragraphIndex, paragraph] of Array.from(paragraphs.entries())) {
         const at = `${where}.${level}.paragraph[${paragraphIndex}]`;
@@ -270,7 +280,9 @@ function validateExpandedItem(item: Item, where: string) {
         const pack = rawPack as Record<string, unknown>;
         const passages = pack.passages;
         const gistQuestions = new Set<string>();
-        if (!Array.isArray(passages) || passages.length < 4 || passages.length > 8) fail(at, 'passages must contain 4–8 items');
+        const minPassages = 4;
+        const maxPassages = level === 'A1' ? 6 : 8;
+        if (!Array.isArray(passages) || passages.length < minPassages || passages.length > maxPassages) fail(at, `passages must contain ${minPassages}–${maxPassages} items`);
         else {
           readingPassageCount += passages.length;
           const texts: string[] = [];
@@ -282,10 +294,18 @@ function validateExpandedItem(item: Item, where: string) {
             else {
               texts.push(passage.text);
               const sentences = readingSentences(passage.text);
-              if (sentences.length < 2 || sentences.length > 4) fail(passageAt, 'passage must contain 2–4 sentences');
+              const minimum = level === 'A1' ? 1 : 2;
+              const maximum = level === 'A1' ? 3 : 4;
+              if (sentences.length < minimum || sentences.length > maximum) fail(passageAt, `passage must contain ${minimum}–${maximum} sentences`);
             }
             readingGistCount += 1;
             const signature = validatePackQuestion(passage.gist, `${passageAt}.gist`, 3, 3);
+            if (level === 'A1' && passage.gist && typeof passage.gist === 'object') {
+              const options = (passage.gist as { options?: unknown }).options;
+              if (Array.isArray(options) && options.some(option => typeof option === 'string' && option.trim().split(/\s+/).length > 4)) {
+                fail(`${passageAt}.gist`, 'A1 gist options must be 1–4 words');
+              }
+            }
             if (signature) gistQuestions.add(signature);
           }
           if (texts.join(' ').replace(/\s+/g, ' ').trim() !== version.text.replace(/\s+/g, ' ').trim()) fail(at, 'passage texts must rejoin to the exact retelling');
@@ -325,7 +345,8 @@ function validateExpandedItem(item: Item, where: string) {
             if (!new RegExp(`(^|[^A-Za-z])${escapedName}([^A-Za-z]|$)`, 'i').test(version.text)) fail(`${at}.cast[${index}]`, 'cast name must appear in this retelling');
           }
         }
-        if (!nonEmpty(pack.talk) || !pack.talk.trim().endsWith('?') || pack.talk.trim().split(/\s+/).length > 14) fail(at, 'talk must be a question of at most 14 words');
+        const talkLimit = level === 'A1' ? 10 : 14;
+        if (!nonEmpty(pack.talk) || !pack.talk.trim().endsWith('?') || pack.talk.trim().split(/\s+/).length > talkLimit) fail(at, `talk must be a question of at most ${talkLimit} words`);
       }
     }
   }
@@ -689,9 +710,9 @@ for (const cohort of round10Cohorts) {
   }
 }
 const bookSeriesIds = seriesIds.filter((seriesId) => seriesId.indexOf('book-course-') === 0);
-if (bookSeriesIds.length < 12) fail('book-library.json', `expected at least 12 public-domain book courses after round 6 (found ${bookSeriesIds.length})`);
-if (bookCourseItemCount < 48) fail('book-library.json', `expected at least 48 book lesson items after round 6 (found ${bookCourseItemCount})`);
-if (readingPackCount !== 96) fail('book-library.json', `expected 96 reading packs for 48 lessons (found ${readingPackCount})`);
+if (bookSeriesIds.length < 14) fail('book-library.json', `expected at least 14 public-domain book courses after round 17 (found ${bookSeriesIds.length})`);
+if (bookCourseItemCount < 56) fail('book-library.json', `expected at least 56 book lesson items after round 17 (found ${bookCourseItemCount})`);
+if (readingPackCount !== bookCourseItemCount * 2 + 24) fail('book-library.json', `expected two packs per lesson plus 24 A1 versions (found ${readingPackCount})`);
 
 const debatePath = path.join(dataDir, 'debate-motions.json');
 if (!fs.existsSync(debatePath)) fail('debate-motions.json', 'required debate motions bank is missing');
