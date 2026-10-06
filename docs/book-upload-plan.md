@@ -71,3 +71,11 @@ what really happened). Five minutes from upload to course.
 3. **Scanned books:** how common are they for you? If very common, OCR moves up the order (and has a cost).
 4. **The rights checkbox:** OK to ask teachers to confirm they can use the book with their class?
 5. **Pictures:** for very young books (*Fly Guy*), should v1 try to keep the pictures with the text, or text-only first?
+
+## Decisions (owner, Oct 6 2026)
+1. **Samples:** owner has none; Claude finds public-domain / openly licensed test files (with owner approval to download).
+2. **File types:** PDF, Word (.docx) and plain text in v1.
+3. **Scanned books:** not used by the owner → OCR stays last (or later).
+4. **Rights checkbox:** yes.
+5. **Pictures:** keep the pictures with the text for very young books (v1 extracts page images and shows them with the
+   passage, like the picture-book read-along slides).
