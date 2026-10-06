@@ -78,6 +78,7 @@ const round4FlightQuestionVideos = new Set([
 const seriesGroups: Record<string, Item[]> = {};
 let bookCourseItemCount = 0;
 let readingPackCount = 0;
+const reflectiveCandidates: string[] = [];
 let readingPassageCount = 0;
 let readingGistCount = 0;
 let readingCheckCount = 0;
@@ -222,7 +223,6 @@ function validateExpandedItem(item: Item, where: string) {
     // Round 6 teen courses are identified by their added B2 version.
     const teenCourse = !!versions?.B2 && item.ageBand === 'teens' && !!series?.id && series.id.indexOf('book-course-') === 0;
     const levels = teenCourse ? ['B1', 'B2'] : ['A2', 'B1'];
-    const minimumWords = teenCourse ? 300 : 250;
     const defaultLevel = teenCourse ? 'B1' : 'A2';
     let defaultWordCount: number | undefined;
     for (const level of levels) {
@@ -232,8 +232,20 @@ function validateExpandedItem(item: Item, where: string) {
         continue;
       }
       const words = version.text.trim().split(/\s+/).filter(Boolean).length;
-      if (words < minimumWords || words > 500) fail(where, `${level} retelling must contain ${minimumWords}–500 words (found ${words})`);
+      const minimumWords = level === 'A2' ? 250 : level === 'B1' ? 300 : 400;
+      const maximumWords = level === 'A2' ? 450 : level === 'B1' ? 500 : 600;
+      if (words < minimumWords || words > maximumWords) fail(where, `${level} retelling must contain ${minimumWords}–${maximumWords} words (found ${words})`);
       if (version.wordCount !== words) fail(where, `${level} wordCount must match its retelling (${words})`);
+      const paragraphs = version.text.split(/\n\s*\n/).map(paragraph => paragraph.trim()).filter(Boolean);
+      for (const [paragraphIndex, paragraph] of Array.from(paragraphs.entries())) {
+        const at = `${where}.${level}.paragraph[${paragraphIndex}]`;
+        if (/^(?:The adults|This chapter|This part shows|This part of the story|We learn|In the end, the story|The episode marks|The story (?:shows|teaches|warns)|The lesson|The moral)\b/i.test(paragraph)) {
+          fail(at, 'reflective padding pattern; replace commentary with chapter events');
+        }
+        const abstract = (paragraph.match(/\b(?:theme|lesson|moral|responsibility|confidence|understanding|judgment|choice|choices|consequence|identity|meaning|experience|trust|courage|loyalty|society|humanity|freedom|ambition|relationship|development|growth)\b/gi) || []).length;
+        const action = (paragraph.match(/\b(?:said|asked|told|ran|walked|went|came|found|took|gave|carried|opened|closed|saw|heard|met|left|returned|jumped|climbed|fought|followed|reached|arrived|entered|helped|rescued|caught|pulled|pushed|searched|watched|wrote|read|sailed|escaped|died|killed|hid|held|moved)\b/gi) || []).length;
+        if (abstract >= 4 && abstract > action * 2) reflectiveCandidates.push(`${at}: ${paragraph.slice(0, 120)}…`);
+      }
       if (level === defaultLevel) defaultWordCount = words;
     }
     if (item.cefr !== defaultLevel) fail(where, `book item default cefr must be ${defaultLevel}`);
@@ -308,6 +320,10 @@ function validateExpandedItem(item: Item, where: string) {
           const character = rawCharacter as { name?: unknown; who?: unknown } | undefined;
           if (!character || !nonEmpty(character.name) || !nonEmpty(character.who) || character.who.trim().split(/\s+/).length < 4
             || character.who.trim().split(/\s+/).length > 8) fail(`${at}.cast[${index}]`, 'cast needs name and a 4–8 word description');
+          else {
+            const escapedName = character.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            if (!new RegExp(`(^|[^A-Za-z])${escapedName}([^A-Za-z]|$)`, 'i').test(version.text)) fail(`${at}.cast[${index}]`, 'cast name must appear in this retelling');
+          }
         }
         if (!nonEmpty(pack.talk) || !pack.talk.trim().endsWith('?') || pack.talk.trim().split(/\s+/).length > 14) fail(at, 'talk must be a question of at most 14 words');
       }
@@ -744,6 +760,8 @@ else {
     if (debateEvidenceCount < 240) fail('debate-motions.json', `expected at least 240 evidence facts (found ${debateEvidenceCount})`);
   }
 }
+
+if (reflectiveCandidates.length) console.warn(`Reflective-paragraph candidates for review (${reflectiveCandidates.length}):\n${reflectiveCandidates.join('\n')}`);
 
 if (errors.length) {
   console.error(`Library validation failed with ${errors.length} error(s):`);
