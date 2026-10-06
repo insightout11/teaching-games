@@ -91,3 +91,19 @@ Large books may exceed today's 10 MB / extraction limits; we'd start with a cap 
    Build the flight on library books first, then add uploads? Or uploads first because that's what teachers want?
 6. **Original text or retelling?** For library books we have levelled retellings. For uploads, do teachers want the
    **original text** as-is, or the option of a **simplified version** for lower levels (AI-written, clearly marked)?
+
+## Decisions (owner, Oct 6 2026)
+1. **Students read, taking turns** (short passages, everyone).
+2. **Lesson sizes** as proposed (A1–A2 ~300–600 words, B1 ~800–1,200, B2 ~1,500–2,500).
+3. **Text on both** the shared screen and phones.
+4. **Before → after:** prediction + confidence before; comprehension + confidence after.
+5. **Library books first**; uploads next, potentially the biggest part if done well.
+6. **Uploads: both** the original text and an optional simplified version (clearly marked).
+
+## The Read stage reuses Read Aloud (no new "Reading Room")
+`src/activities/read-aloud` already does most of it: students take turns reading short passages aloud, everyone follows
+on phones, a big sentence-by-sentence reading view, tricky-word taps collected for a vocab round, and a **class-level
+version with the original one tap away** (decision 6). The Reading flight adds only what's missing:
+- a **gist tap after each passage** (or every few passages) on phones;
+- reading **this lesson's part** of the book (library retelling or uploaded part) instead of a cargo item;
+- the new words feeding the course word bank.
