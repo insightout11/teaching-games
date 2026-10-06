@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, BookOpen, Link2, Loader2, ScanText, Upload } from 'lucide-react';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
@@ -75,6 +75,15 @@ export function BookUpload() {
   // Scanned books: a PDF with no text inside, or phone photos; the AI reads the text from the pictures.
   const [scan, setScan] = useState<{ name: string; pdf?: File; photos?: File[]; count: number; hiddenText?: boolean } | null>(null);
   const [scanNote, setScanNote] = useState<string | null>(null);
+  // Scanned pages read this month, and the monthly limit (until pricing is decided).
+  const [usage, setUsage] = useState<{ used: number; cap: number; resets: string } | null>(null);
+  useEffect(() => {
+    if (!scan) return;
+    let live = true;
+    fetch('/api/book-pages/read').then((r) => (r.ok ? r.json() : null)).then((u) => { if (live && u) setUsage(u); }).catch(() => {});
+    return () => { live = false; };
+  }, [scan]);
+  const overLimit = !!(scan && usage && usage.used + scan.count > usage.cap);
   const [saveNote, setSaveNote] = useState<string | null>(null);
 
   const lessons = useMemo(() => {
@@ -265,6 +274,13 @@ export function BookUpload() {
             <h1 className="text-2xl font-bold text-lc-text">{scan.count} page{scan.count === 1 ? '' : 's'}</h1>
             <p className="mt-1 text-sm text-lc-text3">{scan.photos ? 'Pages are in the order the photos were taken. ' : scan.hiddenText ? 'This file is a scan. Its hidden text is often wrong, so we’ll read the pages properly. ' : 'There’s no text inside this file, only pictures of the pages. '}We’ll read the text from the pictures, then split the book into lessons.</p>
           </div>
+          {usage && (
+            <p className={`text-sm ${overLimit ? 'text-amber-300' : 'text-lc-text3'}`}>
+              {overLimit
+                ? `This book has ${scan.count} pages, and you have ${Math.max(0, usage.cap - usage.used)} of this month’s ${usage.cap.toLocaleString('en-US')} scanned pages left. The limit resets on ${usage.resets}. You can upload part of the book (fewer photos) instead.`
+                : `This month: ${usage.used.toLocaleString('en-US')} of ${usage.cap.toLocaleString('en-US')} scanned pages read.`}
+            </p>
+          )}
           {phase === 'scanning' && progress && (
             <div className="space-y-1.5">
               <div className="h-2 overflow-hidden rounded-full bg-lc-surface"><div className="h-full rounded-full bg-lc-blue transition-all" style={{ width: `${Math.round((progress.done / Math.max(1, progress.total)) * 100)}%` }} /></div>
@@ -274,7 +290,7 @@ export function BookUpload() {
           {error && <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm text-red-400">{error}</p>}
           <div className="flex items-center justify-between">
             <button type="button" disabled={phase === 'scanning'} onClick={() => { setScan(null); setPhase('pick'); setError(null); }} className="text-sm text-lc-text3 hover:text-lc-text disabled:opacity-40">Choose another file</button>
-            <button type="button" disabled={phase === 'scanning'} onClick={() => void readScan()} className="inline-flex items-center gap-2 rounded-xl bg-lc-blue px-5 py-3 font-semibold text-white disabled:opacity-40">
+            <button type="button" disabled={phase === 'scanning' || overLimit} onClick={() => void readScan()} className="inline-flex items-center gap-2 rounded-xl bg-lc-blue px-5 py-3 font-semibold text-white disabled:opacity-40">
               <ScanText className="h-4 w-4" />Read the pages
             </button>
           </div>

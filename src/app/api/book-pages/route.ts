@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
+import { ensureBookPagesBucket } from '@/lib/book-import/scan-usage';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,11 +10,6 @@ export const dynamic = 'force-dynamic';
 const BUCKET = 'book-pages';
 const MAX_BYTES = 1_500_000;
 const SAFE = /^[a-z0-9-]{8,64}$/i;
-
-async function ensureBucket(supabase: ReturnType<typeof createServiceClient>) {
-  const { data } = await supabase.storage.getBucket(BUCKET);
-  if (!data) await supabase.storage.createBucket(BUCKET, { public: false, fileSizeLimit: MAX_BYTES, allowedMimeTypes: ['image/jpeg'] });
-}
 
 // POST (multipart: file, bookId, page) → { path }
 export async function POST(request: NextRequest) {
@@ -27,7 +23,7 @@ export async function POST(request: NextRequest) {
   if (!SAFE.test(bookId) || !Number.isInteger(page) || page < 1 || page > 2000) return NextResponse.json({ error: 'Bad page' }, { status: 400 });
 
   const supabase = createServiceClient();
-  await ensureBucket(supabase);
+  await ensureBookPagesBucket(supabase);
   const path = `${teacher.id}/${bookId}/${page}.jpg`;
   const { error: upErr } = await supabase.storage.from(BUCKET).upload(path, file, { contentType: 'image/jpeg', upsert: true });
   if (upErr) return NextResponse.json({ error: upErr.message }, { status: 500 });

@@ -3,13 +3,22 @@ import { requireAuth } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
 import { readPagesSafely } from '@/lib/book-import/page-reader';
 import { validPageRead } from '@/lib/book-import/scan';
+import { addScanUsage, getScanUsage, nextReset, SCAN_PAGE_CAP } from '@/lib/book-import/scan-usage';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 // Scanned books: read the text of up to 5 of the teacher's own uploaded page pictures (one AI call).
-// Pricing is decided later (docs/scanned-books-proposal.md); usage is logged per call for now.
+// Pricing is decided later (docs/scanned-books-proposal.md); until then a monthly page limit per teacher.
 const MAX_PAGES = 5;
+
+// GET: this month's pages read and the limit (shown on the upload page before reading).
+export async function GET() {
+  const { teacher, error } = await requireAuth();
+  if (error || !teacher) return error!;
+  const used = await getScanUsage(createServiceClient(), teacher.id);
+  return NextResponse.json({ used, cap: SCAN_PAGE_CAP, resets: nextReset() });
+}
 
 export async function POST(request: NextRequest) {
   const { teacher, error } = await requireAuth();
@@ -21,6 +30,10 @@ export async function POST(request: NextRequest) {
   }
 
   const supabase = createServiceClient();
+  const used = await getScanUsage(supabase, teacher.id);
+  if (used + paths.length > SCAN_PAGE_CAP) {
+    return NextResponse.json({ error: `You've read ${used.toLocaleString('en-US')} scanned pages this month, and the limit is ${SCAN_PAGE_CAP.toLocaleString('en-US')}. It resets on ${nextReset()}.`, limit: true }, { status: 429 });
+  }
   const images: Array<{ data: string; mimeType: string }> = [];
   for (const path of paths) {
     const { data, error: dlErr } = await supabase.storage.from('book-pages').download(path);
@@ -30,7 +43,8 @@ export async function POST(request: NextRequest) {
 
   try {
     const r = await readPagesSafely(images);
-    console.info(`[api/book-pages/read] teacher=${teacher.id} pages=${paths.length} in=${r.inputTokens} out=${r.outputTokens} blocked=${r.blocked}`);
+    const total = await addScanUsage(supabase, teacher.id, paths.length);
+    console.info(`[api/book-pages/read] teacher=${teacher.id} pages=${paths.length} month=${total} in=${r.inputTokens} out=${r.outputTokens} blocked=${r.blocked}`);
     return NextResponse.json({ pages: r.pages.map((p) => validPageRead(p)) });
   } catch (e) {
     console.error('[api/book-pages/read] failed:', e instanceof Error ? e.message : e);

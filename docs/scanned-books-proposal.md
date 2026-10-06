@@ -93,4 +93,7 @@ course, pictures shown only on the teacher's screen. Page images are sent to the
 - Upload page: scanned PDFs (no text, or hidden scan text via `isScannedPdf`) and phone photos → "Read the pages"
   with progress → the usual "Book ready" screen; unclear pages skipped with a note; picture books reuse the saved
   pictures.
-- Not yet: a full run on the deployed site; per-teacher page cap (with pricing).
+- **Monthly page limit** (until pricing): 1,000 scanned pages per teacher per month (`SCAN_PAGE_CAP` env var to
+  change), counted in `<teacher>/_usage/<YYYY-MM>.json` in the private bucket (no table). The scan screen shows
+  "This month: N of 1,000"; a book that doesn't fit is blocked before reading; the read route refuses (429) past it.
+- Not yet: a full run on the deployed site.
