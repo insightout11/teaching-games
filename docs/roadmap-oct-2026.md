@@ -3,6 +3,11 @@
 _Written Oct 6 2026 (Junior mode and pictures/art added the same day) from the owner's list, ordered by dependency. Owner decisions still apply: propose big redesigns
 before building; plan-heavy items (home page, pricing, rewards) get a concept doc and owner review first._
 
+**Updated Oct 7 2026** after the competitor report (`docs/competitive-landscape-oct-2026.md`): the Live Room is the
+product ("the cockpit for live teaching"); prepared content is becoming a commodity. Owner decisions so far:
+**departures-board Home page** (`docs/home-page-concept.md`), **pricing option B** (`docs/pricing-options-oct-2026.md`).
+Plans written: kids' privacy review (`docs/kids-privacy-review.md`).
+
 ## The ordering logic
 1. **Nothing new is trusted until it's been taught with.** Everything built since early October is untested in a real
    class. Testing comes first, and its fixes jump the queue.
@@ -21,6 +26,7 @@ before building; plan-heavy items (home page, pricing, rewards) get a concept do
 | Test round | The return checklist (claude.ai artifact "Return Test Checklist"): Speak, Travel, Debate, Listening, Reading, logbook results, book upload, picture books, Simplified, scans, phone photos. |
 | Fixes from it | Highest priority. |
 | Real phones | Student phone redesign (Sep 30) is still untested on real phones (iPhone + Android). |
+| **Live Room + Focus in a real class** | The core of the product (any topic → activities → phones) has never run with students: the room is still switched on per browser. Test it, then switch it on for everyone. |
 
 ## Phase 1: decide the business, fix the first screen
 | # | Item | Why here | Depends on |
@@ -28,14 +34,14 @@ before building; plan-heavy items (home page, pricing, rewards) get a concept do
 | 1 | **Pricing plans** | Decides free vs Pro vs trial, credits vs limits, scanned-book pricing, school/team plans. Stripe is built but not live (`docs/billing-setup.md`). | Test round (know what works) |
 | 2 | **Kids' privacy and safety review** | Kids and teens worldwide: COPPA (US), GDPR-K / UK Children's Code, parental consent for under-13s, data retention, what's stored about students. Required before marketing and before the Departures Board (minors + paying parents). | None (can run alongside 1) |
 | 3 | **Home page rebuild** (signed-in teachers) | Everything launches from the Live Room now. Goal: the fewest clicks from sign-in to a live class. Needs serious planning: concept doc, mockups, owner review. | 1 (what's gated) |
-| 4 | **After the lesson** (reports, class logbook, history) | What teachers keep and show (parents, schools) is a big part of why they pay. Builds on the flight results already stored. | 1 (what's Pro) |
+| 4 | **Live memory and continuity** (was "After the lesson") | The room remembers the lesson as it happens (the trail of topics, words that came up, what was hard, links explored, activities and results) and feeds the class logbook, a recap and the next lesson. Focus Phase 3. The competitor report's "capture and continue": summaries alone are table stakes; memory used during and after the lesson isn't. | 0 (room tested) |
 | 5 | **Pictures and art** (image layer) | Most activities are words only. One shared picture library used everywhere: a sticker set and illustrations in the house styles ("Sticker" for kids, "Paper-cut" for teens and brand), stock photos where real-world pictures fit, AI illustrations made once and cached (never per lesson), picture answers on phones, pictures on vocab cards and in Read Aloud. Needs a concept doc: sources and licences, cost, how pictures are matched to words. | 0 |
 | 6 | **Junior mode** (young kids) | The owner's real audience; the kids' visual side was the biggest product weakness (Sep 2026). One switch per class that changes the whole experience: the "Sticker" art style (owner's pick for kids), picture answers on phones instead of words, bigger tap targets, spoken prompts, shorter rounds, A1 content (Codex round 17), gentler scoring. Needs a concept doc: which flights and activities work for young kids, what changes on the teacher screen vs the phones. | 0, 5 (pictures; test round shows where kids struggle) |
 
 ## Phase 2: bring teachers in
 | # | Item | Why here | Depends on |
 |---|---|---|---|
-| 7 | **Landing page** (visitors) | Sells the product the home page now delivers; product imagery first, readability over theme, no email capture on the homepage (owner rules). | 1, 3, 6 (show Junior mode) |
+| 7 | **Landing page** (visitors) | Sells the product the home page now delivers. Positioning: "the cockpit for live teaching" (improvise when the lesson goes somewhere better; AI proposes, Captain approves; co-pilot, not evaluator); prep speed is a feature, not the headline. Product imagery first, readability over theme, no email capture on the homepage (owner rules). | 1, 3, 6 (show Junior mode) |
 | 8 | **Onboarding, first lesson** | The path from sign-up to a first live class with a phone joining (A3 shipped in July; check it still fits the Live Room). | 3 |
 | 9 | **Billing live** | Turn on Stripe with the chosen plans; Pro page; receipts; cancel flow. | 1 |
 | 10 | **Departures Board** | Free trial class → paid lessons with the teacher; Founding Crew. Group classes only (minors). Needs payments, safety and moderation design. | 1, 2, 9 |
@@ -52,8 +58,8 @@ before building; plan-heavy items (home page, pricing, rewards) get a concept do
 | 17 | **Flight visuals, animations and transitions** | One pass across all flights, after the test round shows which screens feel flat; Junior mode's style included. | 0, 5, 6 |
 
 ## Ongoing (alongside every phase)
-- **Codex library rounds**: round 17 (A1 kids' texts, early-reader courses) in progress; then content that the
-  phases above need (city trip packs for 13, more listening clips, more books).
+- **Codex library rounds**: after round 17, fewer prepared-content rounds (that's what competitors are making cheap);
+  point Codex at data the room and later phases need (city trip packs, listening clips, Junior picture vocabulary).
 - **Reliability**: error monitoring, AI costs per lesson, slow-screen checks, Supabase/Vercel limits at launch.
 
 ## Things not on the owner's list (suggested)
