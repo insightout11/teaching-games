@@ -4,6 +4,7 @@ import path from 'node:path';
 import { canonicalTopicTag } from './library-topic-tags';
 import { validSpeakSituation } from '../src/lib/speak-check';
 import { listeningWindow, type ListeningPack } from '../src/lib/listening-pack';
+import { readingSentences } from './library-reading-sentences';
 
 type Item = {
   id?: unknown;
@@ -35,6 +36,7 @@ type Item = {
   retellings?: unknown;
   transcriptVerified?: unknown;
   listeningPack?: unknown;
+  readingPack?: unknown;
 };
 
 const dataDir = path.resolve('src/data');
@@ -75,6 +77,11 @@ const round4FlightQuestionVideos = new Set([
 ]);
 const seriesGroups: Record<string, Item[]> = {};
 let bookCourseItemCount = 0;
+let readingPackCount = 0;
+let readingPassageCount = 0;
+let readingGistCount = 0;
+let readingCheckCount = 0;
+let readingWordCount = 0;
 const grammarCoverage: Record<string, { total: number; kids: number }> = {};
 const listeningCoverage: Record<string, number> = { A1: 0, A2: 0, B1: 0, B2: 0, kids: 0, dialogue: 0, announcement: 0 };
 const round8ListeningCoverage = { a1Dialogue: 0, a1Kids: 0, a2B1Announcements: 0 };
@@ -236,6 +243,74 @@ function validateExpandedItem(item: Item, where: string) {
     const defaultVersion = versions?.[defaultLevel] as { text?: unknown } | undefined;
     if (nonEmpty(defaultVersion?.text) && item.summary !== defaultVersion.text) {
       fail(where, `summary must contain the full ${defaultLevel} retelling for existing reading tools`);
+    }
+    const packs = item.readingPack as Record<string, unknown> | undefined;
+    if (!packs || typeof packs !== 'object' || Array.isArray(packs)) fail(where, 'readingPack must contain a pack for every retelling level');
+    else {
+      const presentLevels = Object.keys(versions || {}).sort();
+      if (Object.keys(packs).sort().join(',') !== presentLevels.join(',')) fail(where, `readingPack levels must exactly match retellings: ${presentLevels.join(', ')}`);
+      for (const level of presentLevels) {
+        const version = versions?.[level] as { text?: unknown } | undefined;
+        const rawPack = packs[level];
+        const at = `${where}.readingPack.${level}`;
+        if (!rawPack || typeof rawPack !== 'object' || Array.isArray(rawPack) || !nonEmpty(version?.text)) { fail(at, 'pack requires a retelling'); continue; }
+        readingPackCount += 1;
+        const pack = rawPack as Record<string, unknown>;
+        const passages = pack.passages;
+        const gistQuestions = new Set<string>();
+        if (!Array.isArray(passages) || passages.length < 4 || passages.length > 8) fail(at, 'passages must contain 4–8 items');
+        else {
+          readingPassageCount += passages.length;
+          const texts: string[] = [];
+          for (const [index, rawPassage] of Array.from(passages.entries())) {
+            const passageAt = `${at}.passages[${index}]`;
+            if (!rawPassage || typeof rawPassage !== 'object' || Array.isArray(rawPassage)) { fail(passageAt, 'passage must be an object'); continue; }
+            const passage = rawPassage as { text?: unknown; gist?: unknown };
+            if (!nonEmpty(passage.text)) fail(passageAt, 'text is required');
+            else {
+              texts.push(passage.text);
+              const sentences = readingSentences(passage.text);
+              if (sentences.length < 2 || sentences.length > 4) fail(passageAt, 'passage must contain 2–4 sentences');
+            }
+            readingGistCount += 1;
+            const signature = validatePackQuestion(passage.gist, `${passageAt}.gist`, 3, 3);
+            if (signature) gistQuestions.add(signature);
+          }
+          if (texts.join(' ').replace(/\s+/g, ' ').trim() !== version.text.replace(/\s+/g, ' ').trim()) fail(at, 'passage texts must rejoin to the exact retelling');
+        }
+        const predict = pack.predict as { q?: unknown; options?: unknown; outcomeIndex?: unknown } | undefined;
+        if (!predict || !nonEmpty(predict.q) || !predict.q.endsWith('?') || !Array.isArray(predict.options)
+          || predict.options.length !== 3 || predict.options.some((option) => !nonEmpty(option))
+          || new Set(predict.options).size !== 3 || !Number.isInteger(predict.outcomeIndex)
+          || Number(predict.outcomeIndex) < 0 || Number(predict.outcomeIndex) > 2) fail(`${at}.predict`, 'requires a question, three distinct outcomes and valid outcomeIndex');
+        if (!Array.isArray(pack.check) || pack.check.length !== 3) fail(at, 'check requires exactly three questions');
+        else for (const [index, question] of Array.from(pack.check.entries())) {
+          readingCheckCount += 1;
+          const signature = validatePackQuestion(question, `${at}.check[${index}]`, 3, 3);
+          if (signature && gistQuestions.has(signature)) fail(at, 'check question must differ from every passage gist');
+        }
+        if (!Array.isArray(pack.words) || pack.words.length !== 5) fail(at, 'words requires exactly five entries');
+        else {
+          const seen = new Set<string>();
+          const textWords = new Set((version.text.match(/[A-Za-z]+(?:['’][A-Za-z]+)?/g) || []).map((word) => word.toLowerCase()));
+          for (const [index, rawWord] of Array.from(pack.words.entries())) {
+            readingWordCount += 1;
+            const word = rawWord as { word?: unknown; meaning?: unknown } | undefined;
+            if (!word || !nonEmpty(word.word) || !nonEmpty(word.meaning) || word.word.trim().split(/\s+/).length !== 1) { fail(`${at}.words[${index}]`, 'word and meaning must be non-empty, with a single word'); continue; }
+            const normalized = word.word.toLowerCase();
+            if (!textWords.has(normalized)) fail(`${at}.words[${index}]`, 'word must appear in this retelling');
+            if (seen.has(normalized)) fail(`${at}.words[${index}]`, 'word repeats in the pack');
+            seen.add(normalized);
+          }
+        }
+        if (!Array.isArray(pack.cast) || pack.cast.length === 0) fail(at, 'cast requires at least one character');
+        else for (const [index, rawCharacter] of Array.from(pack.cast.entries())) {
+          const character = rawCharacter as { name?: unknown; who?: unknown } | undefined;
+          if (!character || !nonEmpty(character.name) || !nonEmpty(character.who) || character.who.trim().split(/\s+/).length < 4
+            || character.who.trim().split(/\s+/).length > 8) fail(`${at}.cast[${index}]`, 'cast needs name and a 4–8 word description');
+        }
+        if (!nonEmpty(pack.talk) || !pack.talk.trim().endsWith('?') || pack.talk.trim().split(/\s+/).length > 14) fail(at, 'talk must be a question of at most 14 words');
+      }
     }
   }
 }
@@ -600,6 +675,7 @@ for (const cohort of round10Cohorts) {
 const bookSeriesIds = seriesIds.filter((seriesId) => seriesId.indexOf('book-course-') === 0);
 if (bookSeriesIds.length < 12) fail('book-library.json', `expected at least 12 public-domain book courses after round 6 (found ${bookSeriesIds.length})`);
 if (bookCourseItemCount < 48) fail('book-library.json', `expected at least 48 book lesson items after round 6 (found ${bookCourseItemCount})`);
+if (readingPackCount !== 96) fail('book-library.json', `expected 96 reading packs for 48 lessons (found ${readingPackCount})`);
 
 const debatePath = path.join(dataDir, 'debate-motions.json');
 if (!fs.existsSync(debatePath)) fail('debate-motions.json', 'required debate motions bank is missing');
@@ -678,4 +754,5 @@ if (errors.length) {
   console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}; before ${speakPositions.before.join('/')}, after ${speakPositions.after.join('/')}).`);
   console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount}, gist: ${listeningGistCount}, harder: ${listeningHarderCount}, words: ${listeningWordCount}, Static rounds: ${listeningStaticCount}, Black Box passages: ${listeningBlackBoxCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
   console.log(`Debate motions: ${debateMotionCount} (kids ${debateCohorts.kids}, teens ${debateCohorts.teens}; A2 ${debateLevels.A2}, B1 ${debateLevels.B1}, B2 ${debateLevels.B2}; evidence ${debateEvidenceCount}).`);
+  console.log(`Reading packs: ${readingPackCount} across ${bookCourseItemCount} book lessons; passages ${readingPassageCount}, gist ${readingGistCount}, chapter checks ${readingCheckCount}, words ${readingWordCount}.`);
 }
