@@ -710,8 +710,8 @@ for (const cohort of round10Cohorts) {
   }
 }
 const bookSeriesIds = seriesIds.filter((seriesId) => seriesId.indexOf('book-course-') === 0);
-if (bookSeriesIds.length < 12) fail('book-library.json', `expected at least 12 public-domain book courses after round 6 (found ${bookSeriesIds.length})`);
-if (bookCourseItemCount < 48) fail('book-library.json', `expected at least 48 book lesson items after round 6 (found ${bookCourseItemCount})`);
+if (bookSeriesIds.length < 14) fail('book-library.json', `expected at least 14 public-domain book courses after round 17 (found ${bookSeriesIds.length})`);
+if (bookCourseItemCount < 56) fail('book-library.json', `expected at least 56 book lesson items after round 17 (found ${bookCourseItemCount})`);
 if (readingPackCount !== bookCourseItemCount * 2 + 24) fail('book-library.json', `expected two packs per lesson plus 24 A1 versions (found ${readingPackCount})`);
 
 const debatePath = path.join(dataDir, 'debate-motions.json');

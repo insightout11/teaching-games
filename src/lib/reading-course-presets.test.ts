@@ -5,7 +5,7 @@ import { getLibrarySourceMaterial } from './library-source-material';
 
 describe('reading course presets', () => {
   it('one course per library book, lessons in order, all on the Reading flight with a real book lesson', () => {
-    expect(READING_COURSE_PRESETS).toHaveLength(12);
+    expect(READING_COURSE_PRESETS).toHaveLength(14);
     READING_COURSE_PRESETS.forEach((c) => {
       expect(c.lessons.length).toBeGreaterThanOrEqual(4);
       c.lessons.forEach((l) => {
