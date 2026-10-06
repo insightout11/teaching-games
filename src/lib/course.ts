@@ -91,6 +91,8 @@ export interface CourseOutlineLesson {
   goal: GoalTag;
   /** Best library match for this lesson's topic (from recommendSources), if any. */
   suggestedSource?: { kind: 'video' | 'reading'; sourceType: SourceType; id: string; title: string } | null;
+  /** Fly this lesson with a specific flight (e.g. 'reading-60' for book courses) instead of the goal's default. */
+  flightPresetId?: string;
 }
 
 export interface CourseOutline {

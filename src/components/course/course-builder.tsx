@@ -13,7 +13,9 @@ import {
   getCourseSourceKind,
 } from '@/lib/course-flight-preset';
 import { buildCourseLessonContext } from '@/lib/course-context';
-import { COURSE_PRESETS, type CoursePreset } from '@/lib/course-presets';
+import { COURSE_PRESETS as TOPIC_COURSE_PRESETS, READING_COURSE_PRESETS, type CoursePreset } from '@/lib/course-presets';
+
+const COURSE_PRESETS: CoursePreset[] = [...TOPIC_COURSE_PRESETS, ...READING_COURSE_PRESETS];
 import type { CourseOutline, CourseOutlineLesson, CourseSourceRef } from '@/lib/course';
 import { ArrowLeft, ArrowDown, ArrowUp, BookOpen, Film, FileText, Loader2, Sparkles, Trash2, Wand2 } from 'lucide-react';
 
@@ -103,7 +105,7 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
     setError(null);
     try {
       const payloadLessons = lessons.map((l, i) => {
-        const preset = getCourseFlightPreset(l.goal);
+        const preset = getCourseFlightPreset(l.goal, l.flightPresetId);
         const sourceKind = getCourseSourceKind(l.suggestedSource);
         const modules = buildCourseModulesFromPreset(preset, sourceKind);
         const courseContext = buildCourseLessonContext({

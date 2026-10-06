@@ -107,3 +107,9 @@ version with the original one tap away** (decision 6). The Reading flight adds o
 - a **gist tap after each passage** (or every few passages) on phones;
 - reading **this lesson's part** of the book (library retelling or uploaded part) instead of a cargo item;
 - the new words feeding the course word bank.
+
+## Owner note (Oct 6 2026): a lesson can be several chapters
+Many kids reading courses do **2–3 chapters per lesson**, depending on length: from very young books (*Fly Guy*) to
+older chapter books (*Dragon Masters*). So when a book is uploaded, lessons are built by **grouping consecutive chapters
+up to the level's word budget** (and splitting a long chapter at paragraph breaks), never assuming one chapter = one
+lesson. The teacher can merge or split parts in the review step.

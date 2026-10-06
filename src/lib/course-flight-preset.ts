@@ -21,7 +21,9 @@ const COURSE_GOAL_PRESET_IDS: Record<GoalTag, string> = {
   'functional-english': 'speak-60',
 };
 
-export function getCourseFlightPreset(goal: GoalTag): FlightPlanPreset {
+export function getCourseFlightPreset(goal: GoalTag, flightPresetId?: string): FlightPlanPreset {
+  const named = flightPresetId ? FLIGHT_PLAN_PRESETS.find((preset) => preset.id === flightPresetId) : undefined;
+  if (named) return named;
   const presetId = COURSE_GOAL_PRESET_IDS[goal];
   return FLIGHT_PLAN_PRESETS.find((preset) => preset.id === presetId) ?? FLIGHT_PLAN_PRESETS[0];
 }

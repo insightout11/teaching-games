@@ -1,3 +1,4 @@
+import bookLibrary from '@/data/book-library.json';
 import type { CourseOutlineLesson } from '@/lib/course';
 import type { Difficulty } from '@/lib/difficulty';
 
@@ -424,3 +425,38 @@ export const COURSE_PRESETS: CoursePreset[] = [
 export function getCoursePreset(id: string): CoursePreset | null {
   return COURSE_PRESETS.find((preset) => preset.id === id) ?? null;
 }
+
+// ─── Reading courses: one per library book (book = course, lesson = book lesson, Reading flight) ──
+interface BookLessonEntry { id: string; title: string; summary?: string; ageBand?: string; series?: { id?: string; title?: string; order?: number } }
+
+function bookCoursePresets(): CoursePreset[] {
+  const byBook = new Map<string, BookLessonEntry[]>();
+  (bookLibrary as BookLessonEntry[]).forEach((e) => {
+    const key = e.series?.id ?? e.id;
+    byBook.set(key, [...(byBook.get(key) ?? []), e]);
+  });
+  const out: CoursePreset[] = [];
+  byBook.forEach((lessons, id) => {
+    const sorted = [...lessons].sort((a, b) => (a.series?.order ?? 0) - (b.series?.order ?? 0));
+    const book = String(sorted[0].series?.title ?? sorted[0].title).replace(/ (teen )?reading course$/i, '');
+    const teens = sorted[0].ageBand === 'teens';
+    out.push({
+      id: `reading-${id}`,
+      title: `${book} (reading course)`,
+      theme: `Reading ${book} together, one part per lesson`,
+      level: teens ? 'Intermediate' : 'Easy',
+      blurb: `${sorted.length} lessons: read ${book} aloud in turns, predict, check what really happened, and retell it.`,
+      lessons: sorted.map((e) => ({
+        title: e.title,
+        topic: `${book}: ${e.title}`,
+        goal: 'vocabulary-building',
+        flightPresetId: 'reading-60',
+        suggestedSource: { kind: 'reading', sourceType: 'books', id: e.id, title: e.title },
+      })),
+    });
+  });
+  return out;
+}
+
+/** Reading courses built from the library books (shown alongside COURSE_PRESETS in the course builder). */
+export const READING_COURSE_PRESETS: CoursePreset[] = bookCoursePresets();
