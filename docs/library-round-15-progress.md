@@ -1,0 +1,9 @@
+# Library round 15 progress
+
+2026-10-06 · Started from `origin/main` on `codex/library-round-15`. Confirmed the 48 lessons contain two existing retellings each: the first 24 use A2/B1 and the 24 teen lessons use B1/B2. The owner confirmed that packs must match those existing levels; no new retellings are needed.
+
+2026-10-06 · Added an exact sentence splitter, a read-only passage audit, hand-reviewed chapter outcomes and three chapter checks per lesson, and a reproducible pack builder. Each of the 96 packs has 4–8 exact-text passages, one gist question per passage, a prediction, three chapter checks, five words, a cast, and a character-choice talk prompt. Corrected one inherited typo in `book-sherlock-3` A2 and summary (`Alice listened` → `Mary listened`) to match the character and B1 retelling. The builder uses each lesson's existing levels and leaves the retellings otherwise intact.
+
+2026-10-06 · Extended the library validator to require a pack for **every level actually present in `retellings`**, exact passage reconstruction, 2–4 sentences per passage, 4–8 passages, three distinct options per question, exactly three chapter checks and five in-text words, 4–8 words per cast description, and a talk question of at most 14 words. Library validation passed: **96 packs, 589 passages, 589 gists, 288 chapter checks, 480 words across 48 lessons**. `pnpm test src/lib`: **73 files / 352 tests passed**. `npx tsc --noEmit -p .`: passed.
+
+Review note: the six teen book courses' existing retellings include repeated general-purpose reflective paragraphs after the plot summary. Passages reproduce those texts exactly, so some later gist questions necessarily address those reflective paragraphs. This is an inherited source-text quality issue for a later retelling revision; it is not a missing pack or a validation failure.
