@@ -102,3 +102,13 @@ images there; send only the cleaned text, the chapter list and the page images t
 server limit and native server dependencies, and handles pictures. Word (.docx) via a browser-capable .docx library;
 .txt directly. The build order stays, with step 2 (extraction) moving into the browser and **going first**, since it's
 the riskiest part, tested against these four samples.
+
+## Progress (Oct 6 2026): extraction + cleaning + chapters (step 1)
+`src/lib/book-import/` (pure, browser-ready): `linesFromTextItems` (pdf.js items → lines; drop caps restored; gap
+spaces), `toChapters` (running headers/footers, page numbers, imprint lines, Gutenberg licence, headings by print size +
+"Chapter/Part/numbered" patterns, wrapped titles joined, hyphenation rejoined, front matter dropped), `planLessons`
+(level word budgets; short chapters grouped, long ones split). Results on the samples: *Alice* 12/12 chapters clean;
+*Treasure Island* 34/34 (part dividers stripped); *The Jungle Book* 13 sections (one story title printed at body size,
+"Kaa's Hunting", is missed and merges into the previous section: the optional merge/split control covers it).
+**Picture books** need a page-based path (one page = one passage + its picture) rather than paragraphs: part of the
+pictures step.
