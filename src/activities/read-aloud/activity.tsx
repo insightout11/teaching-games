@@ -57,6 +57,8 @@ export function ReadAloudActivity({
     vocabWords = [],
     comprehensionQuestions = [],
     discussionPrompt,
+    levelled = false,
+    passages,
   } = content;
   const hasQuestions = comprehensionQuestions.length > 0;
 
@@ -65,7 +67,7 @@ export function ReadAloudActivity({
   const [preparing, setPreparing] = useState(false);
   const [useClassVersion, setUseClassVersion] = useState(true);
   useEffect(() => {
-    if (!sourceText || sourceText.length < 40) return;
+    if (levelled || !sourceText || sourceText.length < 40) return;
     let cancelled = false;
     setPreparing(true);
     fetch('/api/read-aloud/prepare', {
@@ -78,13 +80,22 @@ export function ReadAloudActivity({
       .catch(() => {})
       .finally(() => { if (!cancelled) setPreparing(false); });
     return () => { cancelled = true; };
-  }, [sessionSettings.difficulty, sourceText, sourceTitle]);
+  }, [sessionSettings.difficulty, sourceText, sourceTitle, levelled]);
 
   const readingText = useClassVersion && classVersion ? classVersion.text : sourceText;
+  // Reading flight: the pack's passages ARE the turns; otherwise split the text.
   const readingTurns = useMemo(
-    () => splitReadingTurns(readingText, students.length, readingTurnWords),
-    [readingTurnWords, readingText, students.length],
+    () => (passages?.length ? passages.map((p) => p.text) : splitReadingTurns(readingText, students.length, readingTurnWords)),
+    [passages, readingTurnWords, readingText, students.length],
   );
+  // Gist tap after a passage (Reading flight): the flow pauses before the next reader.
+  const [gistIdx, setGistIdx] = useState<number | null>(null);
+  const [gistVotes, setGistVotes] = useState<Record<string, number>>({});
+  const [gistRevealed, setGistRevealed] = useState(false);
+  const gistIdxRef = useRef(gistIdx); gistIdxRef.current = gistIdx;
+  const askedRef = useRef<Set<number>>(new Set());
+  const pendingSkipRef = useRef<string | undefined>(undefined);
+  const gist = gistIdx != null ? passages?.[gistIdx]?.gist : undefined;
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -123,6 +134,10 @@ export function ReadAloudActivity({
 
   useEffect(() => {
     if (phase === 'quiz') return;
+    if (phase === 'reading' && gist) {
+      onSetInputSpec?.({ type: 'choice', gameKey: 'read-aloud', prompt: gist.q, options: gist.options });
+      return;
+    }
     if (phase !== 'reading' || queue.length === 0) {
       onSetInputSpec?.(null);
       return;
@@ -138,14 +153,21 @@ export function ReadAloudActivity({
       ...(sessionId ? { readAloudChannel: sessionId } : {}),
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, queue, currentIndex, sourceTitle, onSetInputSpec]);
+  }, [phase, queue, currentIndex, sourceTitle, onSetInputSpec, gist]);
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
       if (phaseRef.current !== 'reading') return;
+      // During a gist tap, phones answer the question (choice votes), nobody advances the queue.
+      if (gistIdxRef.current != null) {
+        const q = passagesRef.current?.[gistIdxRef.current]?.gist;
+        const pick = q ? q.options.indexOf(vote.choice) : -1;
+        if (pick >= 0) setGistVotes((prev) => ({ ...prev, [vote.clientId]: pick }));
+        return;
+      }
       const active = queueRef.current[currentIndexRef.current];
       if (!active || vote.displayName !== active.studentName) return;
-      advance();
+      advanceWithGistRef.current();
     });
     return () => onRegisterRemoteVoteHandler?.(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -182,6 +204,32 @@ export function ReadAloudActivity({
       return next;
     });
   }, [students, onSetInputSpec, onScore]);
+
+  // After a passage: pause for its gist tap (once), else move straight on.
+  const passagesRef = useRef(passages); passagesRef.current = passages;
+  const advanceWithGist = useCallback((skipName?: string) => {
+    const idx = currentIndexRef.current;
+    if (passagesRef.current?.[idx]?.gist && !askedRef.current.has(idx)) {
+      askedRef.current.add(idx);
+      pendingSkipRef.current = skipName;
+      setGistVotes({});
+      setGistRevealed(false);
+      setGistIdx(idx);
+      return;
+    }
+    advance(skipName);
+  }, [advance]);
+  const advanceWithGistRef = useRef(advanceWithGist); advanceWithGistRef.current = advanceWithGist;
+  const continueAfterGist = () => {
+    const q = gist;
+    if (q) {
+      Object.keys(gistVotes).forEach((cid) => {
+        if (gistVotes[cid] === q.correctIndex) void onScore?.({ studentId: null, clientId: cid, displayName: '', promptIndex: 100 + (gistIdx ?? 0), points: 1, isCorrect: true });
+      });
+    }
+    setGistIdx(null);
+    advance(pendingSkipRef.current);
+  };
 
   function handleStart() {
     if (students.length === 0 || readingTurns.length === 0) return;
@@ -226,7 +274,7 @@ export function ReadAloudActivity({
           <p className="text-sm text-white/60">No text yet. Use Read it together on a cargo item with text, or add a text source.</p>
         ) : (
           <>
-            <div className="flex flex-wrap items-center gap-1.5">
+            <div className={`flex flex-wrap items-center gap-1.5 ${levelled ? 'hidden' : ''}`}>
               <KitChip on={useClassVersion && !!classVersion} tone="emerald" disabled={!classVersion} onClick={() => setUseClassVersion(true)}>
                 {preparing ? 'Preparing class version…' : classVersion ? `Class version (${sessionSettings.difficulty})` : 'Class version unavailable'}
               </KitChip>
@@ -350,8 +398,30 @@ export function ReadAloudActivity({
         </div>
       )}
 
+      {gist && (
+        <div className="space-y-3 rounded-3xl border-2 border-cyan-300/40 bg-cyan-400/[0.08] p-6 text-center">
+          <KitLabel tone="cyan">Quick check · on your phones</KitLabel>
+          <p className="font-display text-3xl text-white">{gist.q}</p>
+          <div className="grid gap-2 text-left sm:grid-cols-3">
+            {gist.options.map((o, i) => (
+              <div key={o} className={`rounded-xl border px-3 py-2 text-sm ${gistRevealed && i === gist.correctIndex ? 'border-emerald-300 bg-emerald-400/15 text-emerald-50' : gistRevealed ? 'border-white/10 text-white/40' : 'border-white/15 text-white/85'}`}>{o}</div>
+            ))}
+          </div>
+          <p className="text-sm text-white/65">
+            {gistRevealed
+              ? `${Object.keys(gistVotes).filter((k) => gistVotes[k] === gist.correctIndex).length} of ${Object.keys(gistVotes).length} got it`
+              : `${Object.keys(gistVotes).length} answered`}
+          </p>
+          <div className="flex justify-center gap-2">
+            {gistRevealed
+              ? <KitButton tone="emerald" solid icon={<ChevronRight className="h-3.5 w-3.5" />} onClick={continueAfterGist}>Keep reading</KitButton>
+              : <KitButton tone="cyan" solid onClick={() => setGistRevealed(true)}>Reveal</KitButton>}
+          </div>
+        </div>
+      )}
+
       {/* Follow-along: the current sentence is lit, the rest dimmed */}
-      <div className="rounded-3xl border border-white/12 bg-black/30 p-6">
+      <div className={`rounded-3xl border border-white/12 bg-black/30 p-6 ${gist ? 'hidden' : ''}`}>
         <p className="font-display text-2xl leading-relaxed sm:text-3xl">
           {sentences.map((s, i) => (
             <motion.span
@@ -370,8 +440,8 @@ export function ReadAloudActivity({
         <KitChip on={autoPace} tone="emerald" onClick={() => setAutoPace((v) => !v)}>
           <span className="flex items-center gap-1">{autoPace ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />} Follow-along pace</span>
         </KitChip>
-        {students.length > 1 && <KitButton icon={<SkipForward className="h-3.5 w-3.5" />} onClick={() => advance(activeEntry?.studentName)}>Skip reader</KitButton>}
-        <KitButton tone="emerald" solid className="ml-auto" icon={<ChevronRight className="h-3.5 w-3.5" />} onClick={() => advance()}>Next passage</KitButton>
+        {students.length > 1 && <KitButton icon={<SkipForward className="h-3.5 w-3.5" />} onClick={() => advanceWithGist(activeEntry?.studentName)}>Skip reader</KitButton>}
+        <KitButton tone="emerald" solid className="ml-auto" icon={<ChevronRight className="h-3.5 w-3.5" />} onClick={() => advanceWithGist()}>Next passage</KitButton>
       </div>
 
       {students.length === 1 ? (

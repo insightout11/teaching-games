@@ -723,6 +723,46 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     },
   },
   {
+    id: 'reading-60',
+    name: 'Reading',
+    description: 'One chapter of a book: meet the cast, predict, learn the words, read it aloud in turns with quick checks, talk about a character, then see what really happened and retell it together.',
+    tagline: 'Read the book together, one chapter a lesson',
+    lessonDurationMinutes: 60,
+    goal: 'vocabulary-building',
+    lessonType: 'skill-builder',
+    scoringMode: 'participation',
+    // Reading flight (docs/reading-flight-concept.md): book = course, chapter = lesson. Needs a book lesson
+    // (library book course now; uploads later): story-predict -> toolkit -> read-aloud (pack passages + gist
+    // taps) -> turbulence -> quick-fire (talk) -> story-recap (check, predictions vs story, class retelling).
+    takeoff: 'story-predict',
+    landing: 'story-recap',
+    moduleSequence: [
+      { slotType: 'practice', key: 'language-toolkit', stageId: 'words' },
+      { slotType: 'presentation', key: 'read-aloud', stageId: 'read' },
+      { slotType: 'practice', key: 'would-you-rather', stageId: 'turbulence', isMicroEvent: true, pool: ['would-you-rather', 'static'] },
+      { slotType: 'production', key: 'quick-fire', stageId: 'talk' },
+    ],
+    flightConfig: {
+      stages: [
+        { stageId: 'icebreaker', label: 'Predict', kind: 'stage', phase: 'takeoff' },
+        { stageId: 'words', label: 'Words', kind: 'stage', phase: 'climb' },
+        { stageId: 'read', label: 'Read together', kind: 'stage', phase: 'cruise' },
+        { stageId: 'turbulence', label: 'Turbulence', kind: 'micro-event', phase: 'cruise' },
+        { stageId: 'talk', label: 'Talk about it', kind: 'stage', phase: 'descent' },
+        { stageId: 'landing', label: 'What really happened', kind: 'landing', phase: 'landing' },
+      ],
+      stageByKey: {
+        'story-predict': 'icebreaker',
+        'language-toolkit': 'words',
+        'read-aloud': 'read',
+        'would-you-rather': 'turbulence',
+        'static': 'turbulence',
+        'quick-fire': 'talk',
+        'story-recap': 'landing',
+      },
+    },
+  },
+  {
     id: 'design-studio-60',
     name: 'Design Studio',
     description: 'Build one class-created design through contextual questions, debate, and progressive votes',

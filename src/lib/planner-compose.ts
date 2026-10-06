@@ -87,8 +87,8 @@ const SOURCE_BRIEFING_KEYS = new Set(['video-player', 'read-aloud']);
  * are not skeletons and are excluded from anchoring.
  */
 function anchorablePresets(): FlightPlanPreset[] {
-  // Listening needs a library clip with a listening pack, so it's never an automatic anchor.
-  return FLIGHT_PLAN_PRESETS.filter((p) => !p.skipTakeoffLanding && p.moduleSequence.length >= 2 && p.id !== 'listening-60');
+  // Listening and Reading need a specific source (a pack clip, a book lesson), so they're never automatic anchors.
+  return FLIGHT_PLAN_PRESETS.filter((p) => !p.skipTakeoffLanding && p.moduleSequence.length >= 2 && p.id !== 'listening-60' && p.id !== 'reading-60');
 }
 
 /**

@@ -88,6 +88,8 @@ export interface LessonThread {
   debateMotion?: DebateMotion;
   /** Debate: the evidence card the class voted strongest (used in prep and at landing). */
   debateStrongest?: DebateEvidence;
+  /** Reading: answers per phone (clientId → question index → option): predict + confidence before, check + confidence after. */
+  readingCheck?: { before: Record<string, Record<number, number>>; after: Record<string, Record<number, number>> };
 }
 
 export interface SessionSettings {
@@ -289,6 +291,7 @@ interface SessionState {
   recordListenAnswer: (when: 'before' | 'after', clientId: string, question: number, option: number) => void;
   setDebateMotion: (motion: DebateMotion) => void;
   setDebateStrongest: (card: DebateEvidence) => void;
+  recordReadingAnswer: (when: 'before' | 'after', clientId: string, question: number, option: number) => void;
   recordSpeakAnswer: (when: 'before' | 'after', clientId: string, answer: SpeakAnswer) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
@@ -456,6 +459,11 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   restoreLessonThread: (thread) => set({ lessonThread: thread }),
   setDebateMotion: (motion) => set({ lessonThread: { ...get().lessonThread, debateMotion: motion } }),
   setDebateStrongest: (card) => set({ lessonThread: { ...get().lessonThread, debateStrongest: card } }),
+  recordReadingAnswer: (when, clientId, question, option) => {
+    const { lessonThread } = get();
+    const cur = lessonThread.readingCheck ?? { before: {}, after: {} };
+    set({ lessonThread: { ...lessonThread, readingCheck: { ...cur, [when]: { ...cur[when], [clientId]: { ...(cur[when][clientId] ?? {}), [question]: option } } } } });
+  },
   recordListenAnswer: (when, clientId, question, option) => {
     const { lessonThread } = get();
     const cur = lessonThread.listenCheck ?? { before: {}, after: {} };

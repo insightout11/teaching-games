@@ -1286,7 +1286,7 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
   if (spec.gameKey === 'boarding-call' && spec.perStudentData?.__room) {
     return <TripTravellerCardPanel spec={spec} displayName={displayName ?? undefined} studentId={studentId ?? undefined} clientId={clientId} onSubmit={onSubmit} />;
   }
-  if (spec.gameKey === 'briefing-mission' || ((spec.gameKey === 'first-listen' || spec.gameKey === 'final-listen') && spec.perStudentData?.__mission)) {
+  if (spec.gameKey === 'briefing-mission' || ((spec.gameKey === 'first-listen' || spec.gameKey === 'final-listen' || spec.gameKey === 'story-predict' || spec.gameKey === 'story-recap') && spec.perStudentData?.__mission)) {
     return <BriefingMissionPanel spec={spec} onSubmit={onSubmit} />;
   }
   if (spec.gameKey === 'grammar-spotlight') {

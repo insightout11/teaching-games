@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { SceneIgniterActivity } from '@/activities/scene-igniter';
 import { RankItActivity } from '@/activities/rank-it';
 import { OpinionShiftActivity } from '@/activities/opinion-shift/activity';
+import { ReadAloudActivity } from '@/activities/read-aloud/activity';
 import { GrammarProofActivity } from '@/activities/grammar-proof/activity';
 import { FixTheCaptainActivity } from '@/activities/fix-the-captain';
 import { TenseTimeMachineActivity } from '@/activities/tense-time-machine';
@@ -159,7 +160,12 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'shift' ? (
+      {mode === 'readgist' ? (
+        <div className="flex gap-4">
+          <div className="flex-1"><ReadAloudActivity {...props} sessionSettings={{ difficulty: 'Intermediate' } as unknown as ActivityProps['sessionSettings']} students={TRIP_CREW} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={{ activityKey: 'read-aloud', topicContext: 'Jungle Book', sourceTitle: "Mowgli's Brothers", sourceText: 'Mowgli lived with wolves. He was happy. Shere Khan wanted him. The wolves met at the Council Rock.', levelled: true, passages: [{ text: 'Mowgli lived with wolves. He was happy.', gist: { q: 'Who did Mowgli live with?', options: ['Wolves', 'Bears', 'People'], correctIndex: 0 } }, { text: 'Shere Khan wanted him. The wolves met at the Council Rock.' }] } as unknown as ActivityProps['generatedContent']} /></div>
+          <pre className="w-72 whitespace-pre-wrap rounded-3xl bg-slate-900 p-4 text-xs text-slate-200">{JSON.stringify(spec, null, 1)}</pre>
+        </div>
+      ) : mode === 'shift' ? (
         <div className="flex gap-4">
           <div className="flex-1"><OpinionShiftActivity {...props} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={{ activityKey: 'opinion-shift', topicContext: 'phones at school' } as unknown as ActivityProps['generatedContent']} /></div>
           <pre className="w-72 whitespace-pre-wrap rounded-3xl bg-slate-900 p-4 text-xs text-slate-200">{JSON.stringify(spec, null, 1)}</pre>

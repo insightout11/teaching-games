@@ -1,3 +1,4 @@
+import { bookLevelFor, fallbackPassages, validReadingPack, type ReadingPack } from '@/lib/reading-pack';
 import { bankMotionFor, fallbackMotion, validMotion, type DebateMotion } from '@/lib/debate-motion';
 import { getLibraryEntry, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
 import { fallbackGist, isKidsLevel, listeningWindow, packToRadioCheck, validGist, validPack, windowTranscript, type GistQuestion, type ListeningPack } from '@/lib/listening-pack';
@@ -1368,6 +1369,52 @@ Return:
     if (valid) return valid;
   } catch { /* fall back below */ }
   return bankMotionFor(topic, difficulty) ?? fallbackMotion(topic);
+}
+
+/** Reading flight: the book lesson (library book course) at the class level, with its reading pack. */
+async function generateReadingLesson(difficulty: Difficulty, source: SourceMaterial | null | undefined): Promise<{ bookTitle: string; lessonTitle: string; text: string; pack: ReadingPack } | null> {
+  if (!source?.sourceKey || source.sourceType !== 'books') return null;
+  const entry = getLibraryEntry('books', source.sourceKey);
+  const level = bookLevelFor(difficulty);
+  const retellings = entry?.retellings as Record<string, { text?: string }> | undefined;
+  const text = retellings?.[level]?.text ?? retellings?.B1?.text ?? retellings?.A2?.text;
+  if (!entry || !text) return null;
+  const bookTitle = String((entry.series as { title?: string } | undefined)?.title ?? entry.title).replace(/ (teen )?reading course$/i, '');
+  const lessonTitle = String(entry.title);
+  const checked = validReadingPack((entry.readingPack as Record<string, unknown> | undefined)?.[level], text);
+  if (checked) return { bookTitle, lessonTitle, text, pack: checked };
+  try {
+    const q: AISchema = { type: 'object', properties: { q: { type: 'string' }, options: { type: 'array', items: { type: 'string' } }, correctIndex: { type: 'number' } }, required: ['q', 'options', 'correctIndex'] };
+    const schema: AISchema = {
+      type: 'object',
+      properties: {
+        passages: { type: 'array', items: { type: 'object', properties: { text: { type: 'string' }, gist: q }, required: ['text', 'gist'] } },
+        predict: { type: 'object', properties: { q: { type: 'string' }, options: { type: 'array', items: { type: 'string' } }, outcomeIndex: { type: 'number' } }, required: ['q', 'options', 'outcomeIndex'] },
+        check: { type: 'array', items: q },
+        words: { type: 'array', items: { type: 'object', properties: { word: { type: 'string' }, meaning: { type: 'string' } }, required: ['word', 'meaning'] } },
+        cast: { type: 'array', items: { type: 'object', properties: { name: { type: 'string' }, who: { type: 'string' } }, required: ['name', 'who'] } },
+        talk: { type: 'string' },
+      },
+      required: ['passages', 'predict', 'check', 'words', 'cast', 'talk'],
+    };
+    const prompt = `Make a READING lesson pack for this chapter of "${bookTitle}" ("${lessonTitle}"). Students take turns reading the passages aloud.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+TEXT:
+${text}
+
+Return:
+- passages: split the TEXT into 4-8 passages of 2-4 sentences, in order, copying the text EXACTLY (joined they must equal the text). Each with one gist question { q, options: 3, correctIndex } answerable from that passage.
+- predict: before reading, from the title: { q, options: 3 plausible outcomes, outcomeIndex = what really happens }. Not guessable from the title alone.
+- check: exactly 3 questions about the whole chapter (main events, cause, a feeling), different from the gist questions.
+- words: 5 useful words from the text with short simple meanings (no names).
+- cast: each named character here, with a 4-8 word "who".
+- talk: one question about a character's choice, max 14 words.`;
+    const parsed = await generateJSON<Record<string, unknown>>(prompt, schema);
+    const pack = validReadingPack(parsed, text);
+    if (pack) return { bookTitle, lessonTitle, text, pack };
+  } catch { /* fall back below */ }
+  return { bookTitle, lessonTitle, text, pack: { passages: fallbackPassages(text), check: [], words: [], cast: [] } };
 }
 
 /** The clip's listening pack (library sources only), with its YouTube id. */
@@ -3568,6 +3615,7 @@ export async function POST(request: NextRequest) {
       let speakCheckP: Promise<Record<string, unknown>> | null = null;
       let listenP: Promise<Record<string, unknown> | null> | null = null;
       let motionP: Promise<DebateMotion> | null = null;
+      let readingP: Promise<{ bookTitle: string; lessonTitle: string; text: string; pack: ReadingPack } | null> | null = null;
       for (const activityKey of activities) {
         if (vocabBlitzMode && activityKey === 'vocab-radar') continue; // already generated above
         switch (activityKey) {
@@ -3673,7 +3721,25 @@ export async function POST(request: NextRequest) {
           case 'listening-gap-fill':
             generators.push(generateListeningGapFill(customTopic, diff, sourceCtx, grammarTarget ?? undefined, getGapFillMode(sourceMaterial)).then((r) => { content[activityKey] = r; }));
             break;
+          case 'story-predict':
+          case 'story-recap': {
+            readingP = readingP ?? generateReadingLesson(diff, sourceMaterial);
+            const key = activityKey;
+            generators.push(readingP.then((r) => {
+              if (r) content[key] = { activityKey: key, topicContext: customTopic, bookTitle: r.bookTitle, lessonTitle: r.lessonTitle, pack: r.pack } as unknown as ActivityGeneratedContent;
+            }));
+            break;
+          }
           case 'read-aloud': {
+            // Reading flight on a library book lesson: the levelled retelling, read in the pack's passages.
+            if (sourceMaterial?.sourceType === 'books') {
+              readingP = readingP ?? generateReadingLesson(diff, sourceMaterial);
+              const key = activityKey;
+              generators.push(readingP.then((r) => {
+                if (r) content[key] = { activityKey: 'read-aloud', topicContext: customTopic, sourceText: r.text, sourceTitle: r.lessonTitle, levelled: true, passages: r.pack.passages, vocabWords: r.pack.words.map((w) => w.word), ...(r.pack.talk ? { discussionPrompt: r.pack.talk } : {}) } as unknown as ActivityGeneratedContent;
+              }));
+              break;
+            }
             const rawText = sourceMaterial?.briefingText ?? sourceMaterial?.rawText ?? sourceMaterial?.summary ?? '';
             if (rawText.length > 0) {
               const cleanText = stripAsterisks(rawText);

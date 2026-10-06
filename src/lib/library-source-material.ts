@@ -106,3 +106,14 @@ export function listLibraryEntriesWithListeningPack(): Array<{ sourceType: strin
   });
   return out;
 }
+
+/** Library book-course lessons (Reading flight picker), grouped by book in course order. */
+export function listBookLessons(): Array<{ id: string; title: string; book: string; order: number; ageBand: string }> {
+  return (LIBRARIES.books ?? [])
+    .map((e) => {
+      const x = e as LibraryEntry & Record<string, unknown>;
+      const series = x.series as { title?: string; order?: number } | undefined;
+      return { id: x.id, title: x.title, book: String(series?.title ?? x.title).replace(/ (teen )?reading course$/i, ''), order: Number(series?.order ?? 0), ageBand: String(x.ageBand ?? '') };
+    })
+    .sort((a, b) => a.book.localeCompare(b.book) || a.order - b.order);
+}

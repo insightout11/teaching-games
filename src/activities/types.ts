@@ -667,6 +667,10 @@ export interface ReadAloudContent extends ActivityGeneratedContent {
   comprehensionQuestions?: import('@/types/source-material').ComprehensionQuestion[];
   /** Optional open-ended speaking prompt shown after the comprehension questions. */
   discussionPrompt?: string;
+  /** Reading flight: the text is already at the class level (a levelled retelling), so skip the AI class version. */
+  levelled?: boolean;
+  /** Reading flight: the lesson's passages (the reading turns), each with an optional gist tap after it. */
+  passages?: Array<{ text: string; gist?: { q: string; options: string[]; correctIndex: number } }>;
 }
 
 // Game generated content types for lesson planner
