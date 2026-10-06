@@ -1840,6 +1840,73 @@
           "meaning": "ability to recover after difficulty",
           "at": 164.9
         }
+      ],
+      "static": [
+        {
+          "sentence": "exercise is good for our bodies and minds",
+          "spoken": "exercise is bad for our bodies and minds",
+          "target": "good",
+          "swap": "bad",
+          "options": [
+            "bodies",
+            "minds",
+            "good",
+            "exercise"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "Our brains also release a number of chemicals when we workout",
+          "spoken": "Our brains also release a number of chemicals when we sleep",
+          "target": "workout",
+          "swap": "sleep",
+          "options": [
+            "release",
+            "workout",
+            "brains",
+            "also"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "Increased endorphins and consistent physical activity in general can sharpen your focus",
+          "spoken": "Increased endorphins and consistent physical activity in general can weaken your focus",
+          "target": "sharpen",
+          "swap": "weaken",
+          "options": [
+            "sharpen",
+            "Increased",
+            "endorphins",
+            "consistent"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "commitment to a team and doing something fun can also make it easier",
+          "spoken": "commitment to a team and doing something fun can also make it harder",
+          "target": "easier",
+          "swap": "harder",
+          "options": [
+            "commitment",
+            "team",
+            "doing",
+            "easier"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "The experience of coming to terms with defeat can build the resilience",
+          "spoken": "The experience of coming to terms with victory can build the resilience",
+          "target": "defeat",
+          "swap": "victory",
+          "options": [
+            "coming",
+            "terms",
+            "defeat",
+            "experience"
+          ],
+          "correctIndex": 2
+        }
       ]
     },
     "transcriptVerified": true

@@ -121,6 +121,73 @@
           "meaning": "not knowing exactly what will happen",
           "at": 69.3
         }
+      ],
+      "static": [
+        {
+          "sentence": "Einstein was a determinist.",
+          "spoken": "Heisenberg was a determinist.",
+          "target": "Einstein",
+          "swap": "Heisenberg",
+          "options": [
+            "Einstein",
+            "determinist",
+            "was",
+            "a"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "There is uncertainty with regards to the position of the electron.",
+          "spoken": "There is certainty with regards to the position of the electron.",
+          "target": "uncertainty",
+          "swap": "certainty",
+          "options": [
+            "There",
+            "regards",
+            "position",
+            "uncertainty"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "You don’t know where the electron is.",
+          "spoken": "You don’t know where the proton is.",
+          "target": "electron",
+          "swap": "proton",
+          "options": [
+            "know",
+            "where",
+            "electron",
+            "don’t"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "There is always the wildcard.",
+          "spoken": "There is never the wildcard.",
+          "target": "always",
+          "swap": "never",
+          "options": [
+            "is",
+            "always",
+            "There",
+            "wildcard"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "No one can determine your future events given your past history.",
+          "spoken": "No one can determine your present events given your past history.",
+          "target": "future",
+          "swap": "present",
+          "options": [
+            "future",
+            "No",
+            "one",
+            "can"
+          ],
+          "correctIndex": 0
+        }
       ]
     },
     "transcriptVerified": true

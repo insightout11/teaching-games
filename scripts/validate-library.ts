@@ -94,6 +94,7 @@ let listeningSegmentCount = 0;
 let listeningGistCount = 0;
 let listeningHarderCount = 0;
 let listeningWordCount = 0;
+let listeningStaticCount = 0;
 const packCohorts: Record<string, number> = { kids: 0, B1: 0, B2: 0 };
 let debateMotionCount = 0;
 const debateCohorts: Record<string, number> = { kids: 0, teens: 0 };
@@ -274,7 +275,7 @@ for (const file of files) {
       else if (item.cefr === 'B2') packCohorts.B2 += 1;
       else fail(where, 'listening pack must be kids A1–A2, B1, or B2');
       if (!nonEmpty(item.youtubeId) || item.transcriptVerified !== true) fail(where, 'listening pack requires a verified YouTube transcript');
-      const pack = item.listeningPack as { segments?: unknown; gist?: unknown; harder?: unknown; words?: unknown };
+      const pack = item.listeningPack as { segments?: unknown; gist?: unknown; harder?: unknown; words?: unknown; static?: unknown };
       if (!pack || !Array.isArray(pack.segments) || pack.segments.length !== 3) fail(where, 'listeningPack requires exactly three segments');
       else for (const [segmentIndex, rawSegment] of Array.from(pack.segments.entries())) {
         listeningSegmentCount += 1;
@@ -328,6 +329,34 @@ for (const file of files) {
           }
           if (typeof word.at !== 'number' || !Number.isFinite(word.at)
             || word.at < window.start || word.at >= window.end) fail(at, `at must be inside the ${window.start}-${window.end}s listening window`);
+        }
+      }
+      if (!Array.isArray(pack?.static) || pack.static.length !== 5) fail(where, 'listeningPack.static requires exactly five rounds');
+      else {
+        const seenSentences = new Set<string>();
+        for (const [roundIndex, rawRound] of Array.from(pack.static.entries())) {
+          listeningStaticCount += 1;
+          const at = `${where}.listeningPack.static[${roundIndex}]`;
+          if (!rawRound || typeof rawRound !== 'object' || Array.isArray(rawRound)) { fail(at, 'must be a Static round object'); continue; }
+          const round = rawRound as { sentence?: unknown; spoken?: unknown; target?: unknown; swap?: unknown; options?: unknown; correctIndex?: unknown };
+          if (!nonEmpty(round.sentence) || !nonEmpty(round.spoken) || !nonEmpty(round.target) || !nonEmpty(round.swap)) { fail(at, 'sentence, spoken, target and swap are required'); continue; }
+          const sentence = round.sentence.trim();
+          const tokens = sentence.match(/[A-Za-z]+(?:['’][A-Za-z]+)?|\d+/g) || [];
+          if (tokens.length > 14) fail(at, 'sentence must have at most 14 words');
+          if (seenSentences.has(sentence.toLowerCase())) fail(at, 'sentence repeats within pack');
+          seenSentences.add(sentence.toLowerCase());
+          if (!/^[A-Za-z0-9]+(?:['’][A-Za-z]+)?$/.test(round.target) || !/^[A-Za-z0-9]+(?:['’][A-Za-z]+)?$/.test(round.swap)) fail(at, 'target and swap must each be one word');
+          if (round.target.toLowerCase() === round.swap.toLowerCase()) fail(at, 'swap must change the word');
+          if (tokens.filter((token) => token.toLowerCase() === String(round.target).toLowerCase()).length !== 1) fail(at, 'target must appear exactly once in sentence');
+          const escapedTarget = round.target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          if (sentence.replace(new RegExp(`\\b${escapedTarget}\\b`), round.swap) !== round.spoken) fail(at, 'spoken must replace exactly the target word');
+          if (!Array.isArray(round.options) || round.options.length !== 4 || round.options.some((option) => !nonEmpty(option))) fail(at, 'options must be four non-empty words');
+          else {
+            const optionWords = round.options as string[];
+            if (new Set(optionWords.map((option) => option.toLowerCase())).size !== 4) fail(at, 'options must be distinct');
+            if (optionWords.some((option) => !tokens.some((token) => token.toLowerCase() === option.toLowerCase()))) fail(at, 'each option must be a word in sentence');
+            if (!Number.isInteger(round.correctIndex) || Number(round.correctIndex) < 0 || Number(round.correctIndex) > 3 || optionWords[Number(round.correctIndex)] !== round.target) fail(at, 'correctIndex must point to target');
+          }
         }
       }
     }
@@ -432,6 +461,7 @@ if (flightQuestionCount < 500) fail('flight questions', `expected at least 500 i
 if (listeningPackCount !== 60 || listeningSegmentCount !== 180) fail('listening packs', `expected 60 packs and 180 segments (found ${listeningPackCount} and ${listeningSegmentCount})`);
 if (listeningGistCount !== 180 || listeningHarderCount !== 60) fail('listening packs', `expected 180 gist and 60 harder questions (found ${listeningGistCount} and ${listeningHarderCount})`);
 if (listeningWordCount !== 300) fail('listening packs', `expected 300 timed words (found ${listeningWordCount})`);
+if (listeningStaticCount !== 300) fail('listening packs', `expected 300 Static rounds (found ${listeningStaticCount})`);
 if (packCohorts.kids !== 22 || packCohorts.B1 !== 22 || packCohorts.B2 !== 16) fail('listening packs', `expected kids/B1/B2 = 22/22/16 (found ${packCohorts.kids}/${packCohorts.B1}/${packCohorts.B2})`);
 
 const speakPath = path.join(dataDir, 'speak-situations.json');
@@ -610,6 +640,6 @@ if (errors.length) {
 } else {
   console.log(`Library validation passed: ${ids.size} items across ${files.length} files.`);
   console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}; before ${speakPositions.before.join('/')}, after ${speakPositions.after.join('/')}).`);
-  console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount}, gist: ${listeningGistCount}, harder: ${listeningHarderCount}, words: ${listeningWordCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
+  console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount}, gist: ${listeningGistCount}, harder: ${listeningHarderCount}, words: ${listeningWordCount}, Static rounds: ${listeningStaticCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
   console.log(`Debate motions: ${debateMotionCount} (kids ${debateCohorts.kids}, teens ${debateCohorts.teens}; A2 ${debateLevels.A2}, B1 ${debateLevels.B1}, B2 ${debateLevels.B2}; evidence ${debateEvidenceCount}).`);
 }

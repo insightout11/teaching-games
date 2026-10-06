@@ -833,12 +833,79 @@
         {
           "word": "adapt",
           "meaning": "change to fit a situation",
-          "at": 45.0
+          "at": 45
         },
         {
           "word": "survive",
           "meaning": "stay alive",
-          "at": 61.0
+          "at": 61
+        }
+      ],
+      "static": [
+        {
+          "sentence": "Let’s talk about pineapples for a sec.",
+          "spoken": "Let’s talk about apples for a sec.",
+          "target": "pineapples",
+          "swap": "apples",
+          "options": [
+            "Let’s",
+            "talk",
+            "about",
+            "pineapples"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "they only grow in warm, lush tropical climates.",
+          "spoken": "they only grow in cold, lush tropical climates.",
+          "target": "warm",
+          "swap": "cold",
+          "options": [
+            "grow",
+            "lush",
+            "warm",
+            "only"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "No more pineapples for you.",
+          "spoken": "No more bananas for you.",
+          "target": "pineapples",
+          "swap": "bananas",
+          "options": [
+            "for",
+            "pineapples",
+            "No",
+            "more"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "You just need to learn to live without them.",
+          "spoken": "You just need to learn to live with them.",
+          "target": "without",
+          "swap": "with",
+          "options": [
+            "without",
+            "just",
+            "need",
+            "learn"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "Humans need clean water to survive",
+          "spoken": "Humans need dirty water to survive",
+          "target": "clean",
+          "swap": "dirty",
+          "options": [
+            "Humans",
+            "need",
+            "water",
+            "clean"
+          ],
+          "correctIndex": 3
         }
       ]
     },
@@ -2433,6 +2500,73 @@
           "meaning": "a list to check",
           "at": 118.8
         }
+      ],
+      "static": [
+        {
+          "sentence": "A solution is what again?",
+          "spoken": "A problem is what again?",
+          "target": "solution",
+          "swap": "problem",
+          "options": [
+            "again",
+            "A",
+            "solution",
+            "what"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "Think of it like making a checklist.",
+          "spoken": "Think of it like making a map.",
+          "target": "checklist",
+          "swap": "map",
+          "options": [
+            "making",
+            "checklist",
+            "Think",
+            "like"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "How do we fly across this canyon?",
+          "spoken": "How do we walk across this canyon?",
+          "target": "fly",
+          "swap": "walk",
+          "options": [
+            "fly",
+            "How",
+            "across",
+            "canyon"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "I'll be your stand-in engineer again.",
+          "spoken": "I'll be your stand-in pilot again.",
+          "target": "engineer",
+          "swap": "pilot",
+          "options": [
+            "I'll",
+            "stand",
+            "again",
+            "engineer"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "it should get me to the other side alive.",
+          "spoken": "it should get me to the other side wet.",
+          "target": "alive",
+          "swap": "wet",
+          "options": [
+            "get",
+            "me",
+            "alive",
+            "should"
+          ],
+          "correctIndex": 2
+        }
       ]
     },
     "transcriptVerified": true
@@ -2640,6 +2774,73 @@
           "meaning": "change into a useful form",
           "at": 79.8
         }
+      ],
+      "static": [
+        {
+          "sentence": "Why, it comes from our very own Earth!",
+          "spoken": "Why, it comes from our very own Mars!",
+          "target": "Earth",
+          "swap": "Mars",
+          "options": [
+            "very",
+            "Earth",
+            "Why",
+            "comes"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "There’s fresh water to drink, fruit on trees, and wood to build our houses.",
+          "spoken": "There’s fresh water to drink, flowers on trees, and wood to build our houses.",
+          "target": "fruit",
+          "swap": "flowers",
+          "options": [
+            "fruit",
+            "There’s",
+            "fresh",
+            "water"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "We call this “stuff” resources.",
+          "spoken": "We call this “stuff” toys.",
+          "target": "resources",
+          "swap": "toys",
+          "options": [
+            "call",
+            "stuff",
+            "We",
+            "resources"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "Think about your own town, and where it’s located.",
+          "spoken": "Think about your own city, and where it’s located.",
+          "target": "town",
+          "swap": "city",
+          "options": [
+            "about",
+            "own",
+            "town",
+            "Think"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "In fact, let’s make a cake!",
+          "spoken": "In fact, let’s make a salad!",
+          "target": "cake",
+          "swap": "salad",
+          "options": [
+            "make",
+            "cake",
+            "fact",
+            "let’s"
+          ],
+          "correctIndex": 1
+        }
       ]
     },
     "transcriptVerified": true
@@ -2775,6 +2976,73 @@
           "meaning": "levels on top of one another",
           "at": 92.9
         }
+      ],
+      "static": [
+        {
+          "sentence": "Hydro comes from the Greek word for water",
+          "spoken": "Hydro comes from the Greek word for fire",
+          "target": "water",
+          "swap": "fire",
+          "options": [
+            "water",
+            "Hydro",
+            "comes",
+            "Greek"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "This sphere contains all of the gases on the planet",
+          "spoken": "This sphere contains all of the liquids on the planet",
+          "target": "gases",
+          "swap": "liquids",
+          "options": [
+            "sphere",
+            "contains",
+            "all",
+            "gases"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "The troposphere is the lowest layer.",
+          "spoken": "The troposphere is the highest layer.",
+          "target": "lowest",
+          "swap": "highest",
+          "options": [
+            "layer",
+            "The",
+            "lowest",
+            "troposphere"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "There's no weather up there",
+          "spoken": "There's no rain up there",
+          "target": "weather",
+          "swap": "rain",
+          "options": [
+            "up",
+            "weather",
+            "There's",
+            "no"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "The mesosphere is the coldest layer of the atmosphere",
+          "spoken": "The mesosphere is the hottest layer of the atmosphere",
+          "target": "coldest",
+          "swap": "hottest",
+          "options": [
+            "coldest",
+            "mesosphere",
+            "layer",
+            "atmosphere"
+          ],
+          "correctIndex": 0
+        }
       ]
     },
     "transcriptVerified": true
@@ -2909,6 +3177,73 @@
           "word": "bounced back",
           "meaning": "sent back",
           "at": 79.8
+        }
+      ],
+      "static": [
+        {
+          "sentence": "This energy starts in the Sun's core.",
+          "spoken": "This water starts in the Sun's core.",
+          "target": "energy",
+          "swap": "water",
+          "options": [
+            "starts",
+            "Sun's",
+            "core",
+            "energy"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "It travels very slowly to the Sun's surface",
+          "spoken": "It travels very quickly to the Sun's surface",
+          "target": "slowly",
+          "swap": "quickly",
+          "options": [
+            "very",
+            "Sun's",
+            "slowly",
+            "travels"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "You and I can see and feel that heat as sunlight.",
+          "spoken": "You and I can see and feel that cold as sunlight.",
+          "target": "heat",
+          "swap": "cold",
+          "options": [
+            "feel",
+            "heat",
+            "can",
+            "see"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "Nearly 30% never makes it to the Earth's surface",
+          "spoken": "Nearly 30% always makes it to the Earth's surface",
+          "target": "never",
+          "swap": "always",
+          "options": [
+            "never",
+            "Nearly",
+            "30",
+            "makes"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "That is, it's land and water.",
+          "spoken": "That is, it's air and water.",
+          "target": "land",
+          "swap": "air",
+          "options": [
+            "it's",
+            "water",
+            "That",
+            "land"
+          ],
+          "correctIndex": 3
         }
       ]
     },
