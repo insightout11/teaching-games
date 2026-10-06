@@ -2231,16 +2231,16 @@
         }
       ],
       "blackBox": {
-        "passage": "like peace and quiet but in my opinion new york is possibly well no it's definitely the greatest city in the world don't you agree",
-        "start": 65.8,
-        "end": 75.3,
+        "passage": "personally i think people in london are a lot more easy going london's just not as hectic as new york",
+        "start": 58.6,
+        "end": 65.8,
         "decoys": [
           "waiters",
           "friendly",
-          "hectic",
           "prefer",
           "relaxed",
-          "rude"
+          "rude",
+          "quiet"
         ]
       }
     }
@@ -3473,7 +3473,7 @@
         }
       ],
       "blackBox": {
-        "passage": "the petrol tank is full when you start so if you return it with a full tank there's no extra charge that's great but",
+        "passage": "the petrol tank is full when you start so if you return it with a full tank there's no extra charge that's great",
         "start": 83.6,
         "end": 90.9,
         "decoys": [
