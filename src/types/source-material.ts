@@ -53,6 +53,8 @@ export interface SourceMaterial {
   wordCount?: number;
   citations?: SourceCitation[];
   slides?: string[];  // picture book slide image URLs, synced during read-aloud
+  /** Uploaded picture book: each page's text (one reading turn) and its private picture's storage path. */
+  bookPages?: Array<{ text: string; image?: string }>;
 }
 
 /** A single end-of-content multiple-choice comprehension question (video or reader). */

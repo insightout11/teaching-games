@@ -1391,6 +1391,9 @@ async function generateReadingLesson(difficulty: Difficulty, source: SourceMater
     const text = (source.originalText || source.rawText || '').trim();
     const [bookTitle, ...rest] = source.title.split(': ');
     const lesson = await readingPackFromText(difficulty, bookTitle, rest.join(': ') || source.title, text);
+    // Picture book: the pages are the turns (with their pictures), not the AI's passages.
+    const pages = (source.bookPages ?? []).filter((p) => p.text?.trim());
+    if (pages.length) lesson.pack = { ...lesson.pack, passages: pages.map((p) => ({ text: p.text.trim(), ...(p.image ? { image: p.image } : {}) })) };
     return { ...lesson, castSoFar: lesson.pack.cast };
   }
   if (!source?.sourceKey || source.sourceType !== 'books') return null;

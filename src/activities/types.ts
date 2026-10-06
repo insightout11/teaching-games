@@ -670,7 +670,7 @@ export interface ReadAloudContent extends ActivityGeneratedContent {
   /** Reading flight: the text is already at the class level (a levelled retelling), so skip the AI class version. */
   levelled?: boolean;
   /** Reading flight: the lesson's passages (the reading turns), each with an optional gist tap after it. */
-  passages?: Array<{ text: string; gist?: { q: string; options: string[]; correctIndex: number } }>;
+  passages?: Array<{ text: string; image?: string; gist?: { q: string; options: string[]; correctIndex: number } }>;
 }
 
 // Game generated content types for lesson planner

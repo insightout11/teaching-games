@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { planLessons, toChapters, unspace, type BookPage } from './index';
+import { isPictureBook, picturePages, planLessons, planPictureLessons, toChapters, unspace, type BookPage } from './index';
 import { linesFromTextItems } from './pdf-lines';
 
 const body = (s: string) => ({ text: s, size: 10 });
@@ -66,5 +66,21 @@ describe('book import', () => {
     const paras = [...Array.from({ length: 6 }, () => 'z '.repeat(200).trim()), 'tail words '.repeat(40).trim()];
     const lessons = planLessons([{ title: 'Long', paragraphs: paras, words: 1280 }], 'Easy');
     expect(lessons[lessons.length - 1].words).toBeGreaterThan(300);
+  });
+
+  it('reads a picture book page by page (one turn per page, picture-only pages dropped)', () => {
+    const pages: BookPage[] = [
+      { lines: [head('Fly Guy')] },
+      ...['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'].map((w, i) => ({ lines: [body(`A boy had ${w} pet flies.`), body(`Fly number ${w} said Buzz!`), body(String(i + 2))] })),
+      { lines: [] },
+    ];
+    expect(isPictureBook(pages)).toBe(true);
+    expect(isPictureBook(book())).toBe(false);
+    const pp = picturePages(pages);
+    expect(pp[1]).toEqual({ page: 2, text: 'A boy had one pet flies. Fly number one said Buzz!' });
+    expect(pp.some((p) => p.page === 10)).toBe(false);
+    const lessons = planPictureLessons(pp, 'Easy', 'Fly Guy');
+    expect(lessons).toHaveLength(1);
+    expect(lessons[0].pages).toHaveLength(9);
   });
 });

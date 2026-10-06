@@ -112,3 +112,12 @@ spaces), `toChapters` (running headers/footers, page numbers, imprint lines, Gut
 "Kaa's Hunting", is missed and merges into the previous section: the optional merge/split control covers it).
 **Picture books** need a page-based path (one page = one passage + its picture) rather than paragraphs: part of the
 pictures step.
+
+## Progress (Oct 6 2026)
+- Step 2 shipped: `/courses/book` upload page creates a private Reading-flight course (text in the lesson payload).
+- **Picture books shipped:** a PDF with little text per page (median ≤70 words) is read **page by page**: each page is
+  one reading turn, and its picture (the page drawn as a JPEG in the teacher's browser, ~60 KB) goes to the private
+  `book-pages` bucket (`<teacher id>/<book id>/<page>.jpg`, created on first upload). Read Aloud shows the page picture
+  on the teacher's screen via short-lived signed links (`/api/book-pages`); the pictures never go to phones.
+  Tested on *Peter Rabbit*: 26 pages → 2 lessons at Easy.
+- Next: the simplified-version option; "Previously…" and cast for uploaded books.

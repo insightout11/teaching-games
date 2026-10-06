@@ -122,6 +122,19 @@ export function ReadAloudActivity({
   }, [sessionId]);
   const trickyList = useMemo(() => Array.from(tricky.entries()).map(([word, who]) => ({ word, count: who.size })).sort((a, b) => b.count - a.count), [tricky]);
 
+  // Uploaded picture book: each passage is a page with a private picture, shown on the teacher's screen only.
+  const pagePaths = useMemo(() => (passages ?? []).map((p) => p.image).filter((x): x is string => !!x), [passages]);
+  const [pageUrls, setPageUrls] = useState<Record<string, string>>({});
+  useEffect(() => {
+    if (pagePaths.length === 0) return;
+    let live = true;
+    fetch(`/api/book-pages?paths=${encodeURIComponent(pagePaths.join(','))}`)
+      .then((r) => (r.ok ? r.json() : { urls: {} }))
+      .then((d: { urls?: Record<string, string> }) => { if (live) setPageUrls(d.urls ?? {}); })
+      .catch(() => {});
+    return () => { live = false; };
+  }, [pagePaths]);
+
   function getSlideUrl(index: number): string | undefined {
     if (!slides || slides.length === 0) return undefined;
     const slideIndex = Math.min(Math.floor(index * slides.length / Math.max(readingTurns.length, 1)), slides.length - 1);
@@ -372,6 +385,8 @@ export function ReadAloudActivity({
 
   // ── READING: the big windscreen view ─────────────────────────────────────
   const currentSlideUrl = getSlideUrl(currentIndex);
+  const pageImage = passages?.[currentIndex]?.image;
+  const pageUrl = pageImage ? pageUrls[pageImage] : undefined;
   return (
     <div className="mx-auto max-w-3xl space-y-4">
       <div className="flex items-center justify-between gap-2">
@@ -382,7 +397,14 @@ export function ReadAloudActivity({
         <span className="font-mono text-xs text-white/60">Passage {currentIndex + 1} / {readingTurns.length}</span>
       </div>
 
-      {currentSlideUrl && (
+      {pageUrl && (
+        <div className="overflow-hidden rounded-2xl border border-white/10 bg-white">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={pageUrl} alt={`Page ${currentIndex + 1} of ${sourceTitle}`} className="max-h-[45vh] w-full object-contain" />
+        </div>
+      )}
+
+      {!pageUrl && currentSlideUrl && (
         <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/30">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={currentSlideUrl} alt={`Illustration for ${sourceTitle}`} className="max-h-60 w-full object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).parentElement!.style.display = 'none'; }} />

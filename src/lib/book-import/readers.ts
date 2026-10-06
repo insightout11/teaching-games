@@ -16,15 +16,24 @@ const MAMMOTH = 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.br
 
 interface PdfJs {
   GlobalWorkerOptions: { workerSrc: string };
-  getDocument: (src: { data: Uint8Array }) => { promise: Promise<{ numPages: number; getPage: (n: number) => Promise<{ getTextContent: () => Promise<{ items: TextItem[] }> }> }> };
+  getDocument: (src: { data: Uint8Array }) => { promise: Promise<{ numPages: number; getPage: (n: number) => Promise<PdfPage> }> };
+}
+interface PdfPage {
+  getTextContent: () => Promise<{ items: TextItem[] }>;
+  getViewport: (o: { scale: number }) => { width: number; height: number };
+  render: (o: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => { promise: Promise<void> };
+}
+
+async function openPdf(file: File) {
+  const pdfjs = (await import(/* webpackIgnore: true */ PDFJS)) as PdfJs;
+  pdfjs.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+  return pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
 }
 
 export type ReadProgress = (done: number, total: number) => void;
 
 export async function readPdf(file: File, onProgress?: ReadProgress): Promise<BookPage[]> {
-  const pdfjs = (await import(/* webpackIgnore: true */ PDFJS)) as PdfJs;
-  pdfjs.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
-  const pdf = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+  const pdf = await openPdf(file);
   const pages: BookPage[] = [];
   for (let n = 1; n <= pdf.numPages; n++) {
     const tc = await (await pdf.getPage(n)).getTextContent();
@@ -32,6 +41,27 @@ export async function readPdf(file: File, onProgress?: ReadProgress): Promise<Bo
     onProgress?.(n, pdf.numPages);
   }
   return pages;
+}
+
+/** Picture books: each page drawn as a JPEG (about 900px wide), here in the browser. */
+export async function renderPdfPages(file: File, pageNumbers: number[], onProgress?: ReadProgress): Promise<Map<number, Blob>> {
+  const pdf = await openPdf(file);
+  const out = new Map<number, Blob>();
+  for (let i = 0; i < pageNumbers.length; i++) {
+    const page = await pdf.getPage(pageNumbers[i]);
+    const base = page.getViewport({ scale: 1 });
+    const viewport = page.getViewport({ scale: Math.min(2, 900 / base.width) });
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(viewport.width);
+    canvas.height = Math.round(viewport.height);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) continue;
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    const blob = await new Promise<Blob | null>((r) => canvas.toBlob(r, 'image/jpeg', 0.75));
+    if (blob) out.set(pageNumbers[i], blob);
+    onProgress?.(i + 1, pageNumbers.length);
+  }
+  return out;
 }
 
 function loadScript(src: string): Promise<void> {

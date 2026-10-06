@@ -205,3 +205,44 @@ export function planLessons(chapters: BookChapter[], difficulty: string): BookLe
   close();
   return lessons;
 }
+
+/**
+ * Picture books (Fly Guy, Peter Rabbit): little text per page, so the page is the reading turn and its
+ * picture is shown with it. Detected by words per page; the text stays page by page (never paragraphs).
+ */
+export interface PicturePage { page: number; text: string }
+export interface PictureLesson extends BookLesson { pages: PicturePage[] }
+
+export function isPictureBook(rawPages: BookPage[]): boolean {
+  const counts = stripRunningLines(trimGutenberg(rawPages)).map((p) => p.lines.reduce((n, l) => n + words(l.text), 0)).filter((n) => n > 0);
+  if (counts.length < 4) return false;
+  return median(counts) <= 70 && rawPages.length <= 120;
+}
+
+/** Each page's text, cleaned (running lines, page numbers, imprint, hyphenation); picture-only pages dropped. */
+export function picturePages(rawPages: BookPage[]): PicturePage[] {
+  return stripRunningLines(trimGutenberg(rawPages))
+    .map((p, i) => ({ page: i + 1, text: p.lines.map((l) => unspace(l.text.replace(/\s+/g, ' ').trim())).filter(Boolean).reduce((a, t) => (a ? joinLines(a, t) : t), '') }))
+    .filter((p) => words(p.text) > 0);
+}
+
+/** Pages → lessons by the level's word budget (a short picture book is one lesson). */
+export function planPictureLessons(pages: PicturePage[], difficulty: string, title = 'The book'): PictureLesson[] {
+  const { max } = LESSON_WORDS[difficulty] ?? LESSON_WORDS.Intermediate;
+  const groups: PicturePage[][] = [[]];
+  let n = 0;
+  pages.forEach((p) => {
+    const w = words(p.text);
+    if (n + w > max && groups[groups.length - 1].length) { groups.push([]); n = 0; }
+    groups[groups.length - 1].push(p);
+    n += w;
+  });
+  const multi = groups.length > 1;
+  return groups.filter((g) => g.length).map((g) => ({
+    title: multi ? `${title} (pages ${g[0].page}–${g[g.length - 1].page})` : title,
+    chapters: [],
+    text: g.map((p) => p.text).join('\n\n'),
+    words: g.reduce((s, p) => s + words(p.text), 0),
+    pages: g,
+  }));
+}

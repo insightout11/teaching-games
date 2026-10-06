@@ -7,7 +7,7 @@
  */
 export interface ReadingQuestion { q: string; options: string[]; correctIndex: number }
 export interface ReadingPack {
-  passages: Array<{ text: string; gist?: ReadingQuestion }>;
+  passages: Array<{ text: string; image?: string; gist?: ReadingQuestion }>;
   predict?: { q: string; options: string[]; outcomeIndex: number };
   check: ReadingQuestion[];
   words: Array<{ word: string; meaning: string }>;

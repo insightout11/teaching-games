@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, BookOpen, Link2, Loader2, Upload } from 'lucide-react';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
-import { planLessons, toChapters, type BookChapter, type BookLesson } from '@/lib/book-import';
-import { readBookFile } from '@/lib/book-import/readers';
+import { isPictureBook, picturePages, planLessons, planPictureLessons, toChapters, type BookChapter, type BookLesson, type PicturePage } from '@/lib/book-import';
+import { readBookFile, renderPdfPages } from '@/lib/book-import/readers';
 import { buildCourseLessonPayload } from '@/lib/planner-utils';
 import { buildCourseModulesFromPreset, buildFlightConfigForCourseSlots, getCourseFlightPreset } from '@/lib/course-flight-preset';
 import { buildCourseLessonContext } from '@/lib/course-context';
@@ -20,11 +20,13 @@ import type { SourceMaterial } from '@/types/source-material';
 
 const MAX_LESSONS = 150;
 
-function joinWithNext(lessons: BookLesson[], i: number): BookLesson[] {
+type UploadLesson = BookLesson & { pages?: PicturePage[] };
+
+function joinWithNext(lessons: UploadLesson[], i: number): UploadLesson[] {
   if (i >= lessons.length - 1) return lessons;
   const a = lessons[i];
   const b = lessons[i + 1];
-  const merged: BookLesson = { title: `${a.title} – ${b.title}`, chapters: Array.from(new Set([...a.chapters, ...b.chapters])), text: `${a.text}\n\n${b.text}`, words: a.words + b.words };
+  const merged: UploadLesson = { title: `${a.title} – ${b.title}`, chapters: Array.from(new Set([...a.chapters, ...b.chapters])), text: `${a.text}\n\n${b.text}`, words: a.words + b.words, ...(a.pages ? { pages: [...a.pages, ...(b.pages ?? [])] } : {}) };
   return [...lessons.slice(0, i), merged, ...lessons.slice(i + 2)];
 }
 
@@ -39,8 +41,14 @@ export function BookUpload() {
   const [chapters, setChapters] = useState<BookChapter[]>([]);
   const [joins, setJoins] = useState<number[]>([]); // "join with next" clicks, replayed on the planned lessons
   const [rights, setRights] = useState(false);
+  // Picture books: one page = one reading turn, shown with its picture (drawn from the PDF when saving).
+  const [pictures, setPictures] = useState<{ file: File; pages: PicturePage[] } | null>(null);
+  const [saveNote, setSaveNote] = useState<string | null>(null);
 
-  const lessons = useMemo(() => joins.reduce((ls, i) => joinWithNext(ls, i), planLessons(chapters, level)), [chapters, level, joins]);
+  const lessons = useMemo(() => {
+    const planned: UploadLesson[] = pictures ? planPictureLessons(pictures.pages, level, title.trim() || 'The book') : planLessons(chapters, level);
+    return joins.reduce((ls, i) => joinWithNext(ls, i), planned);
+  }, [chapters, level, joins, pictures, title]);
 
   const onFile = async (file: File | undefined) => {
     if (!file) return;
@@ -49,8 +57,11 @@ export function BookUpload() {
     setProgress(null);
     try {
       const pages = await readBookFile(file, (done, total) => setProgress({ done, total }));
-      const found = toChapters(pages);
-      if (found.reduce((n, c) => n + c.words, 0) < 100) throw new Error('We couldn’t find readable text in this file. If it’s a scanned book (pictures of pages), it can’t be read yet.');
+      const isPdf = /\.pdf$/i.test(file.name) || file.type === 'application/pdf';
+      const picture = isPdf && isPictureBook(pages) ? picturePages(pages) : null;
+      const found = picture ? [] : toChapters(pages);
+      setPictures(picture && picture.length ? { file, pages: picture } : null);
+      if (picture ? picture.length === 0 : found.reduce((n, c) => n + c.words, 0) < 100) throw new Error('We couldn’t find readable text in this file. If it’s a scanned book (pictures of pages), it can’t be read yet.');
       setChapters(found);
       setJoins([]);
       setTitle(file.name.replace(/\.(pdf|docx|txt)$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()));
@@ -68,6 +79,25 @@ export function BookUpload() {
     setError(null);
     try {
       const book = title.trim();
+      // Picture books: draw and save each page's picture first (private to this teacher).
+      const images = new Map<number, string>();
+      if (pictures) {
+        const wanted = lessons.flatMap((l) => (l.pages ?? []).map((p) => p.page));
+        const bookId = crypto.randomUUID();
+        const blobs = await renderPdfPages(pictures.file, wanted, (d, t) => setSaveNote(`Drawing page ${d} of ${t}…`));
+        let done = 0;
+        for (const [page, blob] of Array.from(blobs.entries())) {
+          const form = new FormData();
+          form.append('file', blob, `${page}.jpg`);
+          form.append('bookId', bookId);
+          form.append('page', String(page));
+          const up = await fetch('/api/book-pages', { method: 'POST', body: form });
+          if (!up.ok) throw new Error('Could not save the page pictures. Please try again.');
+          images.set(page, ((await up.json()) as { path: string }).path);
+          setSaveNote(`Saving picture ${++done} of ${blobs.size}…`);
+        }
+        setSaveNote('Saving the course…');
+      }
       const preset = getCourseFlightPreset('vocabulary-building', 'reading-60');
       const outline: CourseOutlineLesson[] = lessons.map((l) => ({ title: l.title, topic: `${book}: ${l.title}`, goal: 'vocabulary-building', flightPresetId: 'reading-60' }));
       const payloadLessons = lessons.map((l, i) => {
@@ -84,6 +114,7 @@ export function BookUpload() {
           originalText: l.text,
           documentKind: 'book-part',
           wordCount: l.words,
+          ...(l.pages ? { bookPages: l.pages.map((p) => ({ text: p.text, ...(images.get(p.page) ? { image: images.get(p.page) } : {}) })) } : {}),
         };
         // The full text lives once, in the lesson payload; the source ref keeps only the label.
         const label: SourceMaterial = { sourceType: material.sourceType, title: material.title, summary: material.summary.slice(0, 200), documentKind: material.documentKind, wordCount: material.wordCount };
@@ -101,6 +132,7 @@ export function BookUpload() {
       const course = (await res.json()) as { id: string };
       router.push(`/courses/${course.id}`);
     } catch (e) {
+      setSaveNote(null);
       setError(e instanceof Error ? e.message : 'Failed to save course');
       setPhase('ready');
     }
@@ -139,7 +171,8 @@ export function BookUpload() {
         <div className="space-y-5 rounded-2xl border border-lc-border bg-lc-card p-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-lc-success">Book ready</p>
-            <h1 className="text-2xl font-bold text-lc-text">{lessons.length} lessons · {chapters.length} chapters</h1>
+            <h1 className="text-2xl font-bold text-lc-text">{pictures ? `Picture book · ${pictures.pages.length} pages · ${lessons.length} lesson${lessons.length === 1 ? '' : 's'}` : `${lessons.length} lessons · ${chapters.length} chapters`}</h1>
+            {pictures && <p className="mt-1 text-sm text-lc-text3">Each page is one reading turn, shown with its picture.</p>}
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="block text-sm">
@@ -171,7 +204,8 @@ export function BookUpload() {
           </label>
           {error && <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm text-red-400">{error}</p>}
           <div className="flex items-center justify-between">
-            <button type="button" onClick={() => { setPhase('pick'); setChapters([]); }} className="text-sm text-lc-text3 hover:text-lc-text">Choose another file</button>
+            {phase === 'saving' && saveNote && <span className="text-sm text-lc-text3">{saveNote}</span>}
+            <button type="button" onClick={() => { setPhase('pick'); setChapters([]); setPictures(null); }} className="text-sm text-lc-text3 hover:text-lc-text">Choose another file</button>
             <button type="button" disabled={!rights || !title.trim() || phase === 'saving'} onClick={() => void create()} className="inline-flex items-center gap-2 rounded-xl bg-lc-blue px-5 py-3 font-semibold text-white disabled:opacity-40">
               {phase === 'saving' && <Loader2 className="h-4 w-4 animate-spin" />}Create the reading course
             </button>
