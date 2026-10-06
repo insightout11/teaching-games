@@ -1,6 +1,6 @@
 # Scanned books: proposal
 
-_Oct 6 2026. Status: proposal, nothing built. Builds on `docs/book-upload-plan.md` (browser extraction, picture books,
+_Oct 6 2026. Status: **BUILT** (see "Built" below); pricing decided later. Builds on `docs/book-upload-plan.md` (browser extraction, picture books,
 Simplified, Previously)._
 
 ## Why
@@ -62,3 +62,35 @@ The build's first step measures this on real scans.
 Unchanged from book upload: the rights box, images in the teacher's private folder, text private to the teacher's
 course, pictures shown only on the teacher's screen. Page images are sent to the AI provider only to read their text
 (as uploaded documents already are elsewhere in the product).
+
+## Owner decisions (Oct 6 2026)
+1. **Pricing: decide later**, once everything is built (it's a different product; probably Pro). For now it's
+   behind the Pro upload page, with no credits; each read call logs pages and tokens.
+2. Phone photos in v1: **yes**, ordered by the time taken.
+3. Speech bubbles: **read in reading order**.
+4. Test material: public-domain scans from the Internet Archive (*Peter Rabbit* 1917, *When Peter Rabbit Went to
+   School* 1921, *The New Wizard of Oz* 1903) plus simulated phone photos (tilted, shadowed, blurred).
+
+## Measured (Oct 6 2026, `scripts/measure-page-reading.ts`)
+- **Flash-Lite isn't good enough**: it mixed text between pages and kept line breaks. **Gemini 2.5 Flash** reads
+  cleanly (drop caps, two text blocks on a page, hyphenation) at **$0.0002-0.0005 a page**.
+- *When Peter Rabbit Went to School*, 76 pages: **2.5¢, ~2.5 min**, 0 skipped, 6 lessons at Easy, clean text.
+- *Peter Rabbit* (picture book), 52 pages: **1.2¢, ~1 min**, 2 picture-book lessons.
+- Simulated phone photos: read correctly.
+- **Gemini's RECITATION filter** sometimes refuses a batch (it won't repeat a known book word for word). Blocked
+  batches are retried page by page; a still-blocked page is skipped (and counted in the note). Expect this more with
+  in-copyright books: the first real-world test should watch the skipped count.
+- **Scans with hidden text** (copier text recognition, the Archive's own) are common and their text is poor (*Oz*:
+  pictures read as chapter titles, running headers as chapters, 87 broken lessons). They're detected (pages = a
+  picture + invisible text, 12 pages sampled through the book) and read from the pictures like other scans.
+
+## Built
+- `src/lib/book-import/page-reader.ts`: the prompt, `readPageImages` (pages labelled and matched by number, so a
+  skipped picture page never shifts the rest), `readPagesSafely` (recitation retry).
+- `src/lib/book-import/scan.ts`: `needsReading`, `validPageRead` (noise/refusal checks, drop caps, split words),
+  `readToBookPage` (paragraphs run on across page breaks), `dropRepeatedCaptions`, `readBatches`.
+- `/api/book-pages/read`: up to 5 of the teacher's own page pictures per call.
+- Upload page: scanned PDFs (no text, or hidden scan text via `isScannedPdf`) and phone photos → "Read the pages"
+  with progress → the usual "Book ready" screen; unclear pages skipped with a note; picture books reuse the saved
+  pictures.
+- Not yet: a full run on the deployed site; per-teacher page cap (with pricing).

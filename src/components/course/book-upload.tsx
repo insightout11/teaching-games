@@ -2,11 +2,13 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, BookOpen, Link2, Loader2, Upload } from 'lucide-react';
+import { ArrowLeft, BookOpen, Link2, Loader2, ScanText, Upload } from 'lucide-react';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
 import { isPictureBook, picturePages, planLessons, planPictureLessons, toChapters, type BookChapter, type BookLesson, type PicturePage } from '@/lib/book-import';
-import { readBookFile, renderPdfPages } from '@/lib/book-import/readers';
+import { isScannedPdf, readBookFile, renderImageFile, renderPdfPages } from '@/lib/book-import/readers';
+import { dropRepeatedCaptions, needsReading, readBatches, readToBookPage, type PageRead } from '@/lib/book-import/scan';
+import type { BookPage } from '@/lib/book-import';
 import { buildCourseLessonPayload } from '@/lib/planner-utils';
 import { buildCourseModulesFromPreset, buildFlightConfigForCourseSlots, getCourseFlightPreset } from '@/lib/course-flight-preset';
 import { buildCourseLessonContext } from '@/lib/course-context';
@@ -32,6 +34,19 @@ function lastWords(text: string, n: number): string {
   return out.join('\n\n');
 }
 
+/** Save one page picture to the teacher's private folder; returns its storage path. */
+async function uploadPage(blob: Blob, bookId: string, page: number): Promise<string> {
+  const form = new FormData();
+  form.append('file', blob, `${page}.jpg`);
+  form.append('bookId', bookId);
+  form.append('page', String(page));
+  const up = await fetch('/api/book-pages', { method: 'POST', body: form });
+  if (!up.ok) throw new Error('Could not save the page pictures. Please try again.');
+  return ((await up.json()) as { path: string }).path;
+}
+
+const IMAGE = /\.(jpe?g|png|webp|heic|heif)$/i;
+
 type UploadLesson = BookLesson & { pages?: PicturePage[] };
 
 function joinWithNext(lessons: UploadLesson[], i: number): UploadLesson[] {
@@ -45,7 +60,7 @@ function joinWithNext(lessons: UploadLesson[], i: number): UploadLesson[] {
 export function BookUpload() {
   const router = useRouter();
   const { isPro, loading: tierLoading } = useTeacherTier();
-  const [phase, setPhase] = useState<'pick' | 'reading' | 'ready' | 'saving'>('pick');
+  const [phase, setPhase] = useState<'pick' | 'reading' | 'scan' | 'scanning' | 'ready' | 'saving'>('pick');
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [title, setTitle] = useState('');
@@ -55,7 +70,11 @@ export function BookUpload() {
   const [rights, setRights] = useState(false);
   const [simplify, setSimplify] = useState(false);
   // Picture books: one page = one reading turn, shown with its picture (drawn from the PDF when saving).
-  const [pictures, setPictures] = useState<{ file: File; pages: PicturePage[] } | null>(null);
+  // `saved`: pictures already in storage (scanned books), so they aren't drawn again.
+  const [pictures, setPictures] = useState<{ file?: File; pages: PicturePage[]; saved?: Map<number, string> } | null>(null);
+  // Scanned books: a PDF with no text inside, or phone photos; the AI reads the text from the pictures.
+  const [scan, setScan] = useState<{ name: string; pdf?: File; photos?: File[]; count: number; hiddenText?: boolean } | null>(null);
+  const [scanNote, setScanNote] = useState<string | null>(null);
   const [saveNote, setSaveNote] = useState<string | null>(null);
 
   const lessons = useMemo(() => {
@@ -63,25 +82,84 @@ export function BookUpload() {
     return joins.reduce((ls, i) => joinWithNext(ls, i), planned);
   }, [chapters, level, joins, pictures, title]);
 
-  const onFile = async (file: File | undefined) => {
-    if (!file) return;
+  /** Pages (from a file's text, or read from pictures) → chapters or a picture book → the ready screen. */
+  const finish = (pages: BookPage[], name: string, opts: { pdf?: File; saved?: Map<number, string>; isPdf: boolean }) => {
+    const picture = (opts.isPdf || opts.saved) && isPictureBook(pages) ? picturePages(pages) : null;
+    const found = picture ? [] : toChapters(pages);
+    if (picture ? picture.length === 0 : found.reduce((n, c) => n + c.words, 0) < 100) throw new Error('We couldn’t find readable text in this file.');
+    setPictures(picture && picture.length ? { file: opts.pdf, pages: picture, saved: opts.saved } : null);
+    setChapters(found);
+    setJoins([]);
+    setTitle(name.replace(/\.(pdf|docx|txt|jpe?g|png|webp|heic|heif)$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()));
+    setPhase('ready');
+  };
+
+  const onFiles = async (list: FileList | null) => {
+    const files = Array.from(list ?? []);
+    if (files.length === 0) return;
     setError(null);
-    setPhase('reading');
+    setScanNote(null);
     setProgress(null);
+    // Photos of the pages: in the order they were taken.
+    if (files.every((f) => f.type.startsWith('image/') || IMAGE.test(f.name))) {
+      const photos = [...files].sort((a, b) => a.lastModified - b.lastModified || a.name.localeCompare(b.name));
+      setScan({ name: 'My book', photos, count: photos.length });
+      setPhase('scan');
+      return;
+    }
+    const file = files[0];
+    setPhase('reading');
     try {
       const pages = await readBookFile(file, (done, total) => setProgress({ done, total }));
       const isPdf = /\.pdf$/i.test(file.name) || file.type === 'application/pdf';
-      const picture = isPdf && isPictureBook(pages) ? picturePages(pages) : null;
-      const found = picture ? [] : toChapters(pages);
-      setPictures(picture && picture.length ? { file, pages: picture } : null);
-      if (picture ? picture.length === 0 : found.reduce((n, c) => n + c.words, 0) < 100) throw new Error('We couldn’t find readable text in this file. If it’s a scanned book (pictures of pages), it can’t be read yet.');
-      setChapters(found);
-      setJoins([]);
-      setTitle(file.name.replace(/\.(pdf|docx|txt)$/i, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()));
-      setPhase('ready');
+      const noText = isPdf && needsReading(pages);
+      if (noText || (isPdf && (await isScannedPdf(file)))) {
+        setScan({ name: file.name, pdf: file, count: pages.length, hiddenText: !noText });
+        setPhase('scan');
+        return;
+      }
+      finish(pages, file.name, { pdf: isPdf ? file : undefined, isPdf });
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not read this file.');
       setPhase('pick');
+    }
+  };
+
+  /** Scanned book: draw each page, save it privately, and have the AI read the text, 5 pages at a time. */
+  const readScan = async () => {
+    if (!scan) return;
+    setPhase('scanning');
+    setError(null);
+    setProgress({ done: 0, total: scan.count });
+    try {
+      const bookId = crypto.randomUUID();
+      const saved = new Map<number, string>();
+      const reads: Array<PageRead | null> = [];
+      for (const batch of readBatches(Array.from({ length: scan.count }, (_, i) => i + 1))) {
+        const blobs = scan.pdf
+          ? await renderPdfPages(scan.pdf, batch, undefined, 1400)
+          : new Map(await Promise.all(batch.map(async (n) => [n, await renderImageFile(scan.photos![n - 1])] as const)));
+        const paths: string[] = [];
+        for (const n of batch) {
+          const blob = blobs.get(n);
+          if (!blob) throw new Error(`Could not draw page ${n}.`);
+          const path = await uploadPage(blob, bookId, n);
+          saved.set(n, path);
+          paths.push(path);
+        }
+        const res = await fetch('/api/book-pages/read', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ paths }) });
+        if (!res.ok) throw new Error(((await res.json().catch(() => ({}))) as { error?: string }).error ?? 'Could not read the pages. Please try again.');
+        reads.push(...((await res.json()) as { pages: Array<PageRead | null> }).pages);
+        setProgress({ done: Math.min(batch[batch.length - 1], scan.count), total: scan.count });
+      }
+      const skipped = reads.filter((r) => !r || !r.readable).length;
+      if (scan.count - skipped < scan.count / 2) throw new Error('Most pages were too unclear to read. Try a sharper scan or brighter photos.');
+      if (skipped) setScanNote(`${skipped} page${skipped === 1 ? ' was' : 's were'} too unclear to read and ${skipped === 1 ? 'was' : 'were'} skipped.`);
+      finish(dropRepeatedCaptions(reads).map(readToBookPage), scan.name, { saved, isPdf: !!scan.pdf });
+      setScan(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not read the pages.');
+      setPhase('scan');
     }
   };
 
@@ -96,18 +174,16 @@ export function BookUpload() {
       const images = new Map<number, string>();
       if (pictures) {
         const wanted = lessons.flatMap((l) => (l.pages ?? []).map((p) => p.page));
-        const bookId = crypto.randomUUID();
-        const blobs = await renderPdfPages(pictures.file, wanted, (d, t) => setSaveNote(`Drawing page ${d} of ${t}…`));
-        let done = 0;
-        for (const [page, blob] of Array.from(blobs.entries())) {
-          const form = new FormData();
-          form.append('file', blob, `${page}.jpg`);
-          form.append('bookId', bookId);
-          form.append('page', String(page));
-          const up = await fetch('/api/book-pages', { method: 'POST', body: form });
-          if (!up.ok) throw new Error('Could not save the page pictures. Please try again.');
-          images.set(page, ((await up.json()) as { path: string }).path);
-          setSaveNote(`Saving picture ${++done} of ${blobs.size}…`);
+        pictures.saved?.forEach((path, page) => images.set(page, path));
+        const missing = wanted.filter((p) => !images.has(p));
+        if (missing.length && pictures.file) {
+          const bookId = crypto.randomUUID();
+          const blobs = await renderPdfPages(pictures.file, missing, (d, t) => setSaveNote(`Drawing page ${d} of ${t}…`));
+          let done = 0;
+          for (const [page, blob] of Array.from(blobs.entries())) {
+            images.set(page, await uploadPage(blob, bookId, page));
+            setSaveNote(`Saving picture ${++done} of ${blobs.size}…`);
+          }
         }
         setSaveNote('Saving the course…');
       }
@@ -175,10 +251,33 @@ export function BookUpload() {
           <label className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-lc-border p-10 text-center hover:border-lc-blue/60 ${phase === 'reading' ? 'pointer-events-none opacity-60' : ''}`}>
             {phase === 'reading' ? <Loader2 className="h-8 w-8 animate-spin text-lc-blue" /> : <Upload className="h-8 w-8 text-lc-blue" />}
             <span className="font-semibold text-lc-text">{phase === 'reading' ? (progress ? `Reading page ${progress.done} of ${progress.total}…` : 'Reading your book…') : 'Choose a book file'}</span>
-            <span className="text-xs text-lc-text3">PDF, .docx or .txt · your file stays private to you</span>
-            <input type="file" accept=".pdf,.docx,.txt,application/pdf,text/plain" className="hidden" onChange={(e) => void onFile(e.target.files?.[0])} />
+            <span className="text-xs text-lc-text3">PDF (also scanned), .docx, .txt, or photos of the pages · your file stays private to you</span>
+            <input type="file" multiple accept=".pdf,.docx,.txt,application/pdf,text/plain,image/*,.heic,.heif" className="hidden" onChange={(e) => { void onFiles(e.target.files); e.target.value = ''; }} />
           </label>
           {error && <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm text-red-400">{error}</p>}
+        </div>
+      )}
+
+      {(phase === 'scan' || phase === 'scanning') && scan && (
+        <div className="space-y-4 rounded-2xl border border-lc-border bg-lc-card p-6">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-lc-blue">{scan.photos ? 'Photos of the pages' : 'Scanned book'}</p>
+            <h1 className="text-2xl font-bold text-lc-text">{scan.count} page{scan.count === 1 ? '' : 's'}</h1>
+            <p className="mt-1 text-sm text-lc-text3">{scan.photos ? 'Pages are in the order the photos were taken. ' : scan.hiddenText ? 'This file is a scan. Its hidden text is often wrong, so we’ll read the pages properly. ' : 'There’s no text inside this file, only pictures of the pages. '}We’ll read the text from the pictures, then split the book into lessons.</p>
+          </div>
+          {phase === 'scanning' && progress && (
+            <div className="space-y-1.5">
+              <div className="h-2 overflow-hidden rounded-full bg-lc-surface"><div className="h-full rounded-full bg-lc-blue transition-all" style={{ width: `${Math.round((progress.done / Math.max(1, progress.total)) * 100)}%` }} /></div>
+              <p className="flex items-center gap-2 text-sm text-lc-text3"><Loader2 className="h-4 w-4 animate-spin" />Reading page {Math.min(progress.done + 1, progress.total)} of {progress.total}…</p>
+            </div>
+          )}
+          {error && <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm text-red-400">{error}</p>}
+          <div className="flex items-center justify-between">
+            <button type="button" disabled={phase === 'scanning'} onClick={() => { setScan(null); setPhase('pick'); setError(null); }} className="text-sm text-lc-text3 hover:text-lc-text disabled:opacity-40">Choose another file</button>
+            <button type="button" disabled={phase === 'scanning'} onClick={() => void readScan()} className="inline-flex items-center gap-2 rounded-xl bg-lc-blue px-5 py-3 font-semibold text-white disabled:opacity-40">
+              <ScanText className="h-4 w-4" />Read the pages
+            </button>
+          </div>
         </div>
       )}
 
@@ -188,6 +287,7 @@ export function BookUpload() {
             <p className="text-xs font-semibold uppercase tracking-wider text-lc-success">Book ready</p>
             <h1 className="text-2xl font-bold text-lc-text">{pictures ? `Picture book · ${pictures.pages.length} pages · ${lessons.length} lesson${lessons.length === 1 ? '' : 's'}` : `${lessons.length} lessons · ${chapters.length} chapters`}</h1>
             {pictures && <p className="mt-1 text-sm text-lc-text3">Each page is one reading turn, shown with its picture.</p>}
+            {scanNote && <p className="mt-1 text-sm text-amber-300">{scanNote}</p>}
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="block text-sm">
@@ -233,7 +333,7 @@ export function BookUpload() {
           {error && <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm text-red-400">{error}</p>}
           <div className="flex items-center justify-between">
             {phase === 'saving' && saveNote && <span className="text-sm text-lc-text3">{saveNote}</span>}
-            <button type="button" onClick={() => { setPhase('pick'); setChapters([]); setPictures(null); }} className="text-sm text-lc-text3 hover:text-lc-text">Choose another file</button>
+            <button type="button" onClick={() => { setPhase('pick'); setChapters([]); setPictures(null); setScanNote(null); }} className="text-sm text-lc-text3 hover:text-lc-text">Choose another file</button>
             <button type="button" disabled={!rights || !title.trim() || phase === 'saving'} onClick={() => void create()} className="inline-flex items-center gap-2 rounded-xl bg-lc-blue px-5 py-3 font-semibold text-white disabled:opacity-40">
               {phase === 'saving' && <Loader2 className="h-4 w-4 animate-spin" />}Create the reading course
             </button>

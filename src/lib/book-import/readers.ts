@@ -16,18 +16,50 @@ const MAMMOTH = 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.br
 
 interface PdfJs {
   GlobalWorkerOptions: { workerSrc: string };
+  OPS: Record<string, number>;
   getDocument: (src: { data: Uint8Array }) => { promise: Promise<{ numPages: number; getPage: (n: number) => Promise<PdfPage> }> };
 }
 interface PdfPage {
   getTextContent: () => Promise<{ items: TextItem[] }>;
+  getOperatorList: () => Promise<{ fnArray: number[]; argsArray: unknown[][] }>;
   getViewport: (o: { scale: number }) => { width: number; height: number };
   render: (o: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => { promise: Promise<void> };
 }
 
-async function openPdf(file: File) {
+async function loadPdfJs(): Promise<PdfJs> {
   const pdfjs = (await import(/* webpackIgnore: true */ PDFJS)) as PdfJs;
   pdfjs.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+  return pdfjs;
+}
+
+async function openPdf(file: File) {
+  const pdfjs = await loadPdfJs();
   return pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+}
+
+/**
+ * A scan with hidden text (e.g. a copier's or the Internet Archive's own text recognition): its pages are a
+ * picture with invisible text drawn over it. That text is often wrong (pictures read as words, headers as
+ * chapters), so these are read from the pictures instead. Checks 12 pages spread through the book; a third is enough.
+ */
+export async function isScannedPdf(file: File): Promise<boolean> {
+  const pdfjs = await loadPdfJs();
+  const pdf = await openPdf(file);
+  const O = pdfjs.OPS;
+  // Spread through the book (front matter is often picture-only).
+  const sample = Array.from({ length: Math.min(12, pdf.numPages) }, (_, i) => 1 + Math.floor(((i + 0.5) * pdf.numPages) / Math.min(12, pdf.numPages)));
+  let scanned = 0;
+  for (const n of Array.from(new Set(sample))) {
+    const ops = await (await pdf.getPage(n)).getOperatorList();
+    let invisible = false;
+    let image = false;
+    ops.fnArray.forEach((fn, k) => {
+      if (fn === O.setTextRenderingMode && ops.argsArray[k]?.[0] === 3) invisible = true;
+      if (fn === O.paintImageXObject || fn === O.paintJpegXObject) image = true;
+    });
+    if (invisible && image) scanned++;
+  }
+  return scanned >= Math.max(1, Math.ceil(sample.length / 3));
 }
 
 export type ReadProgress = (done: number, total: number) => void;
@@ -44,13 +76,13 @@ export async function readPdf(file: File, onProgress?: ReadProgress): Promise<Bo
 }
 
 /** Picture books: each page drawn as a JPEG (about 900px wide), here in the browser. */
-export async function renderPdfPages(file: File, pageNumbers: number[], onProgress?: ReadProgress): Promise<Map<number, Blob>> {
+export async function renderPdfPages(file: File, pageNumbers: number[], onProgress?: ReadProgress, width = 900): Promise<Map<number, Blob>> {
   const pdf = await openPdf(file);
   const out = new Map<number, Blob>();
   for (let i = 0; i < pageNumbers.length; i++) {
     const page = await pdf.getPage(pageNumbers[i]);
     const base = page.getViewport({ scale: 1 });
-    const viewport = page.getViewport({ scale: Math.min(2, 900 / base.width) });
+    const viewport = page.getViewport({ scale: Math.min(3, width / base.width) });
     const canvas = document.createElement('canvas');
     canvas.width = Math.round(viewport.width);
     canvas.height = Math.round(viewport.height);
@@ -62,6 +94,25 @@ export async function renderPdfPages(file: File, pageNumbers: number[], onProgre
     onProgress?.(i + 1, pageNumbers.length);
   }
   return out;
+}
+
+/** A phone photo or scanned image → an upright JPEG about `width` px wide (turned by its camera orientation). */
+export async function renderImageFile(file: File, width = 1400): Promise<Blob> {
+  let bitmap: ImageBitmap;
+  try {
+    bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
+  } catch {
+    throw new Error(`We couldn’t open “${file.name}”. Please use JPG or PNG photos (iPhone: Settings → Camera → Formats → Most Compatible).`);
+  }
+  const scale = Math.min(1, width / bitmap.width);
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(bitmap.width * scale);
+  canvas.height = Math.round(bitmap.height * scale);
+  canvas.getContext('2d')?.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
+  const blob = await new Promise<Blob | null>((r) => canvas.toBlob(r, 'image/jpeg', 0.8));
+  if (!blob) throw new Error(`Could not prepare “${file.name}”.`);
+  return blob;
 }
 
 function loadScript(src: string): Promise<void> {
