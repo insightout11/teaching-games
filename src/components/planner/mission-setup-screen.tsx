@@ -9,11 +9,13 @@ import { ScenarioPickerModal } from './scenario-picker-modal';
 import { SourceInputPanel } from './source-input-panel';
 import { DescribePanel } from './describe-panel';
 import { Paperclip } from 'lucide-react';
+import { LibraryLessonPicker } from './library-lesson-picker';
 
 export function MissionSetupScreen() {
   const router = useRouter();
-  const { sourceMaterial, setTopic, setStep, loadPreset } = usePlannerStore();
+  const { sourceMaterial, difficulty, setTopic, setStep, loadPreset, setSourceMaterial } = usePlannerStore();
   const [pendingPreset, setPendingPreset] = useState<FlightPlanPreset | null>(null);
+  const [libraryPreset, setLibraryPreset] = useState<FlightPlanPreset | null>(null);
   const [showSource, setShowSource] = useState(false);
 
   function handlePresetClick(preset: FlightPlanPreset) {
@@ -21,6 +23,13 @@ export function MissionSetupScreen() {
     // it there (with the preset preselected) instead of the planner's direct flow.
     if (preset.id === 'travel-60') {
       router.push('/world-flight?preset=travel-60');
+      return;
+    }
+    // Listening and Reading need a library clip / book lesson with a prepared pack (unless one is already attached).
+    const hasClip = preset.id === 'listening-60' && !!sourceMaterial?.sourceKey && sourceMaterial.sourceType !== 'books';
+    const hasBook = preset.id === 'reading-60' && sourceMaterial?.sourceType === 'books';
+    if ((preset.id === 'listening-60' || preset.id === 'reading-60') && !hasClip && !hasBook) {
+      setLibraryPreset(preset);
       return;
     }
     // Source-backed lessons and presets without scenarios load directly.
@@ -68,6 +77,21 @@ export function MissionSetupScreen() {
           ))}
         </div>
       </div>
+
+      {libraryPreset && (
+        <LibraryLessonPicker
+          preset={libraryPreset}
+          difficulty={difficulty}
+          onConfirm={(source, topic) => {
+            setSourceMaterial(source);
+            setTopic(topic);
+            loadPreset(libraryPreset);
+            setStep('flight-plan');
+            setLibraryPreset(null);
+          }}
+          onCancel={() => setLibraryPreset(null)}
+        />
+      )}
 
       {pendingPreset?.scenarios && (
         <ScenarioPickerModal

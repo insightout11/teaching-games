@@ -48,6 +48,7 @@ import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { TripTravellerCardPanel } from '@/components/student/trip-traveller-card';
 import { StaticActivity } from '@/activities/static';
 import { BlackBoxActivity } from '@/activities/black-box';
+import { packBlackBox } from '@/lib/listening-pack';
 import type { ActivityProps, RadioCheckContent, StaticContent, BlackBoxContent, SceneIgniterContent, RankItContent } from '@/activities/types';
 
 const VOICE: RadioCheckContent = {
@@ -80,6 +81,9 @@ const STATIC: StaticContent = {
     { sentence: 'Turn left at the big hotel and walk to the beach.', spoken: 'Turn left at the big hotel and work to the beach.', target: 'walk', swap: 'work', options: ['hotel', 'beach', 'walk', 'Turn'], correctIndex: 2 },
   ],
 };
+
+// Listening flight: a library clip's pack passage, played from the video.
+const BLACK_CLIP = { activityKey: 'black-box', topicContext: 'Jenny and Rob', passages: [{ ...packBlackBox({ passage: "it gave us the chance to get to know each other better when they offered me a permanent job i couldn't believe it", start: 96.5, end: 103.4, decoys: ['accent', 'opportunity', 'parents', 'actor'] })!, clip: { youtubeId: '_bG2uOEEkuI', start: 96.5, end: 103.4 } }] } as unknown as BlackBoxContent;
 
 const BLACK_BOX: BlackBoxContent = {
   activityKey: 'black-box',
@@ -284,7 +288,7 @@ export function RadioCheckDevClient() {
           <div className="flex-1"><SceneIgniterActivity {...props} generatedContent={SCENE} students={[{ id: 's1', name: 'Ana' }, { id: 's2', name: 'Ben' }] as unknown as ActivityProps['students']} onSetInputSpec={(x: InputSpec | null) => setSpec(x)} /></div>
           <div className="w-80 shrink-0 rounded-3xl border border-white/10 bg-slate-900 p-4">{spec ? <SceneScriptPanel spec={spec} displayName="Ana" studentId="s1" /> : <p className="text-white/40">phone</p>}</div>
         </div>
-      ) : mode === 'static' ? <StaticActivity {...props} generatedContent={STATIC} /> : mode === 'black-box' ? <BlackBoxActivity {...props} generatedContent={BLACK_BOX} /> : <RadioCheckActivity {...props} />}
+      ) : mode === 'static' ? <StaticActivity {...props} generatedContent={STATIC} /> : mode === 'black-box' ? <BlackBoxActivity {...props} generatedContent={BLACK_BOX} /> : mode === 'black-clip' ? <BlackBoxActivity {...props} generatedContent={BLACK_CLIP} /> : <RadioCheckActivity {...props} />}
     </div>
   );
 }

@@ -2,15 +2,17 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Box, Headphones, MessageCircleQuestion, Play, RotateCcw, Snail, Unlock, Volume2 } from 'lucide-react';
+import { ArrowRight, Box, Headphones, MessageCircleQuestion, Play, Radio, RotateCcw, Snail, Unlock, Volume2 } from 'lucide-react';
 import type { ActivityProps, BlackBoxContent } from '../types';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import { speak, warmUpSpeech } from '@/lib/speech';
+import { useYouTubePlayer } from '../shared/use-youtube-player';
 
 // Black Box: the "flight recorder". A short passage is read aloud (twice); its key words are
 // hidden on screen. Phones tap every word they heard from a cloud that includes sound-alike
 // decoys. A hidden word appears on screen once enough of the class caught it. Then the class
 // talks about the gaps that are left, and a final listen opens the box.
+// Listening flight: the passage is a stretch of the class's clip, played from the video (`passage.clip`).
 
 type Phase = 'idle' | 'listening' | 'talk' | 'open' | 'done';
 
@@ -41,6 +43,10 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
   const scored = useRef<Set<number>>(new Set());
 
   const passage = passages[idx];
+  const clip = passage?.clip;
+  const [iframeEl, setIframeEl] = useState<HTMLIFrameElement | null>(null);
+  const { playerRef } = useYouTubePlayer(clip?.youtubeId, iframeEl);
+  const clipTimer = useRef<number | null>(null);
   const cloud = useMemo(() => (passage ? shuffle([...passage.gaps, ...passage.decoys]) : []), [passage]);
   const gapSet = useMemo(() => new Set((passage?.gaps ?? []).map(clean)), [passage]);
 
@@ -49,8 +55,10 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
   const stop = useCallback(() => {
     token.current += 1;
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+    if (clipTimer.current) { window.clearInterval(clipTimer.current); clipTimer.current = null; }
+    try { playerRef.current?.pauseVideo(); } catch { /* not ready */ }
     setPlaying(false);
-  }, []);
+  }, [playerRef]);
   useEffect(() => () => stop(), [stop]);
 
   const play = useCallback((slow = false) => {
@@ -59,8 +67,20 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
     const t = ++token.current;
     setPlaying(true);
     setPlays((n) => n + 1);
+    const p = playerRef.current;
+    if (passage.clip && p) {
+      const { start, end } = passage.clip;
+      p.seekTo(start, true);
+      p.playVideo();
+      clipTimer.current = window.setInterval(() => {
+        let now = 0;
+        try { now = p.getCurrentTime(); } catch { /* busy */ }
+        if (now >= end) stop();
+      }, 200);
+      return;
+    }
     speak(passage.text, slow ? 0.72 : 0.9, () => { if (t === token.current) setPlaying(false); });
-  }, [passage, stop]);
+  }, [passage, stop, playerRef]);
 
   // ─── Phones: word cloud while listening and talking ───
   useEffect(() => {
@@ -122,6 +142,24 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
     if (idx + 1 < passages.length) openPassage(idx + 1);
     else { stop(); setPhase('done'); onPhaseChange?.('done'); }
   };
+
+  // The clip's player, covered by a "recorder" card (sound only: the picture would give the words away).
+  // Visible size, like Radio Check: YouTube may refuse to play a hidden player.
+  const clipPlayer = clip ? (
+    <div className="relative mx-auto aspect-video w-full max-w-sm overflow-hidden rounded-2xl">
+      <iframe
+        ref={setIframeEl}
+        src={`https://www.youtube.com/embed/${clip.youtubeId}?enablejsapi=1&rel=0&modestbranding=1&controls=0&fs=0&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`}
+        title="Black Box recording"
+        allow="autoplay; encrypted-media"
+        className="h-full w-full"
+      />
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-slate-950">
+        <Radio className={`h-9 w-9 ${playing ? 'text-cyan-300' : 'text-white/30'}`} />
+        <p className={`font-mono text-xs uppercase tracking-[0.25em] ${playing ? 'text-cyan-300' : 'text-white/45'}`}>{playing ? 'Playing from the clip' : 'Recorder ready'}</p>
+      </div>
+    </div>
+  ) : null;
 
   if (passages.length === 0) {
     return (
@@ -194,6 +232,7 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
 
   return (
     <div className="mx-auto max-w-5xl space-y-5 text-white">
+      {clipPlayer}
       <div className="flex items-center justify-between">
         <KitLabel tone="amber">Black Box · recording {idx + 1} of {passages.length}</KitLabel>
         <KitReadout>{recovered.size} / {passage.gaps.length} words recovered · {answerers.length} listening</KitReadout>
@@ -218,7 +257,7 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
           {!opened && (
             <>
               <KitButton tone="amber" solid={plays === 0} onClick={() => (playing ? stop() : play())} icon={plays === 0 ? <Play className="h-3.5 w-3.5" /> : <RotateCcw className="h-3.5 w-3.5" />}>{playing ? 'Stop' : plays === 0 ? 'Play' : 'Play again'}</KitButton>
-              {plays > 0 && <KitButton tone="plain" onClick={() => play(true)} icon={<Snail className="h-3.5 w-3.5" />}>Slower</KitButton>}
+              {plays > 0 && !clip && <KitButton tone="plain" onClick={() => play(true)} icon={<Snail className="h-3.5 w-3.5" />}>Slower</KitButton>}
             </>
           )}
           {opened && <KitButton tone="amber" onClick={() => (playing ? stop() : play())} icon={<RotateCcw className="h-3.5 w-3.5" />}>{playing ? 'Stop' : 'Hear it again'}</KitButton>}

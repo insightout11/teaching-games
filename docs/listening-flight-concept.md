@@ -132,3 +132,12 @@ A single **Radio Check** stage can drop into Captain's Flight (video source) or 
 All recommendations accepted: (1) before/after on **gist** questions; (2) **Quick-fire** for "Talk about it";
 (3) start with **listening-pack clips only**; (4) listening window cap **~3 min teens / ~90s kids**; (5) final play **with
 the transcript** on screen.
+
+## Pack-based activities + planner picker (Oct 6 2026)
+- **Static** uses the clip's checked rounds (`packStaticRounds`, ≥4 valid) instead of AI rounds.
+- **Black Box** uses the clip's passage (`packBlackBox`: up to 6 content-word gaps spread through it, the pack's decoys)
+  and **plays that stretch of the video** (player under a "recorder" cover, sound only; no "Slower" for clips).
+- **Words you'll hear** = the clip's pack words, each with the transcript line it's said in.
+- All three only in the Listening flight (it opens with First listen); other flights keep their AI content.
+- **Lesson Planner**: the Listening and Reading templates open a picker (clips by class level / book lessons), same
+  lists as the Live Room.

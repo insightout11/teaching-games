@@ -1,7 +1,7 @@
 import { bookLevelFor, fallbackPassages, mergeCast, validPrevious, validReadingPack, validSimplified, type ReadingPack, type ReadingPreviously } from '@/lib/reading-pack';
 import { bankMotionFor, fallbackMotion, validMotion, type DebateMotion } from '@/lib/debate-motion';
 import { earlierBookLessons, getLibraryEntry, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
-import { fallbackGist, isKidsLevel, listeningWindow, packToRadioCheck, validGist, validPack, windowTranscript, type GistQuestion, type ListeningPack } from '@/lib/listening-pack';
+import { fallbackGist, isKidsLevel, listeningWindow, packBlackBox, packStaticRounds, packToRadioCheck, packWordCards, validGist, validPack, windowTranscript, type GistQuestion, type ListeningPack } from '@/lib/listening-pack';
 import { fallbackSayItAgain } from '@/lib/say-it-again';
 import { fallbackPassTheLine, validPassTheLine } from '@/lib/pass-the-line';
 import { fallbackQuickFire } from '@/lib/quick-fire';
@@ -1485,6 +1485,14 @@ function packForSource(source: SourceMaterial | null | undefined): { pack: Liste
   const pack = validPack(entry?.listeningPack);
   const youtubeId = (entry?.youtubeId as string | undefined) ?? youtubeIdForSource(source);
   return pack && youtubeId ? { pack, youtubeId, title: source.title } : null;
+}
+
+/** The clip's raw pack fields from the library (Static rounds, Black Box passage), which validPack doesn't keep. */
+function rawPackExtras(source: SourceMaterial | null | undefined): { static?: unknown; blackBox?: unknown } | null {
+  if (!source?.sourceKey) return null;
+  const entry = getLibraryEntry(source.sourceType as string, source.sourceKey);
+  const p = entry?.listeningPack as { static?: unknown; blackBox?: unknown } | undefined;
+  return p ?? null;
 }
 
 /** First/Final Listen content: the window, its transcript, and 3 gist questions (+1 harder). */
@@ -3677,6 +3685,8 @@ export async function POST(request: NextRequest) {
       let listenP: Promise<Record<string, unknown> | null> | null = null;
       let motionP: Promise<DebateMotion> | null = null;
       let readingP: Promise<ReadingLesson | null> | null = null;
+      // Listening flight (it opens with First listen): Static, Black Box and the words come from the clip's pack.
+      const listeningFlight = activities.includes('first-listen');
       for (const activityKey of activities) {
         if (vocabBlitzMode && activityKey === 'vocab-radar') continue; // already generated above
         switch (activityKey) {
@@ -3763,7 +3773,13 @@ export async function POST(request: NextRequest) {
               };
             }));
             break;
-          case 'language-toolkit':
+          case 'language-toolkit': {
+            // Listening flight on a library clip: "Words you'll hear" = the clip's own words, with the line they're said in.
+            const clipPack = listeningFlight ? packForSource(sourceMaterial) : null;
+            if (clipPack?.pack.words?.length && clipPack.pack.words.length >= 3) {
+              content[activityKey] = { activityKey: 'language-toolkit', topicContext: customTopic, items: packWordCards(clipPack.pack, windowTranscript(sourceRawTranscript, 0, Infinity)) };
+              break;
+            }
             if (sourceVocab.length > 0) {
               content[activityKey] = { activityKey: 'language-toolkit', topicContext: customTopic, items: sourceVocab };
             } else if (needsSourceVocab) {
@@ -3779,6 +3795,7 @@ export async function POST(request: NextRequest) {
               }));
             }
             break;
+          }
           case 'listening-gap-fill':
             generators.push(generateListeningGapFill(customTopic, diff, sourceCtx, grammarTarget ?? undefined, getGapFillMode(sourceMaterial)).then((r) => { content[activityKey] = r; }));
             break;
@@ -3926,12 +3943,24 @@ export async function POST(request: NextRequest) {
           case 'taboo-sprint':
             generators.push(generateTabooSprint(customTopic, diff, kitSourceCtx, kitGrounding).then((r) => { content[activityKey] = r; }));
             break;
-          case 'static':
+          case 'static': {
+            // Listening flight on a library clip: the clip's checked Static rounds (no AI call).
+            const rounds = listeningFlight ? packStaticRounds(rawPackExtras(sourceMaterial)?.static) : null;
+            if (rounds) { content[activityKey] = { activityKey: 'static', topicContext: customTopic, rounds } as unknown as ActivityGeneratedContent; break; }
             generators.push(generateStatic(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
-          case 'black-box':
+          }
+          case 'black-box': {
+            // Listening flight on a library clip: the passage is played from the clip itself.
+            const bb = listeningFlight ? packBlackBox(rawPackExtras(sourceMaterial)?.blackBox) : null;
+            const clip = packForSource(sourceMaterial);
+            if (bb && clip) {
+              content[activityKey] = { activityKey: 'black-box', topicContext: customTopic, passages: [{ text: bb.text, gaps: bb.gaps, decoys: bb.decoys, clip: { youtubeId: clip.youtubeId, ...bb.clip } }] } as unknown as ActivityGeneratedContent;
+              break;
+            }
             generators.push(generateBlackBox(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
+          }
           case 'fix-the-captain':
             generators.push(generateFixTheCaptain(customTopic, diff, grammarTarget ?? undefined, kitSourceCtx).then((r) => { content[activityKey] = r; }));
             break;

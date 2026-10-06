@@ -988,6 +988,8 @@ export interface BlackBoxPassage {
   gaps: string[];
   /** Sound-alike words NOT in the text, mixed into the phone word cloud. */
   decoys: string[];
+  /** Listening flight: play this stretch of the clip instead of the computer voice. */
+  clip?: { youtubeId: string; start: number; end: number };
 }
 
 export interface BlackBoxContent extends ActivityGeneratedContent {

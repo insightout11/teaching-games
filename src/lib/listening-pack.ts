@@ -120,3 +120,50 @@ export function listeningClipsFor(entries: Array<{ sourceType: string; entry: Re
     .filter((c) => c.minutes > 0)
     .sort((a, b) => Number(want.indexOf(b.cefr) >= 0) - Number(want.indexOf(a.cefr) >= 0) || a.title.localeCompare(b.title));
 }
+
+// ─── Pack-based Static, Black Box and "Words you'll hear" (Codex rounds 13-14 data) ───
+
+export interface PackStaticRound { sentence: string; spoken: string; target: string; swap: string; options: string[]; correctIndex: number }
+
+/** The pack's Static rounds, checked (the target is in the sentence and is the right option). Null if fewer than 4. */
+export function packStaticRounds(raw: unknown): PackStaticRound[] | null {
+  const rounds = (Array.isArray(raw) ? raw : []).filter((r): r is PackStaticRound =>
+    !!r && typeof r.sentence === 'string' && typeof r.spoken === 'string' && typeof r.target === 'string' && typeof r.swap === 'string'
+    && r.sentence.includes(r.target) && r.target !== r.swap && Array.isArray(r.options) && r.options.length >= 2
+    && typeof r.correctIndex === 'number' && r.options[r.correctIndex] === r.target);
+  return rounds.length >= 4 ? rounds.slice(0, 8) : null;
+}
+
+const STOP = new Set(['about', 'after', 'again', 'also', 'because', 'been', 'before', 'being', 'could', 'didn\'t', 'does', 'doing', 'don\'t', 'each', 'from', 'have', 'having', 'here', 'into', 'just', 'like', 'more', 'most', 'much', 'only', 'other', 'over', 'really', 'said', 'same', 'some', 'such', 'than', 'that', 'their', 'them', 'then', 'there', 'these', 'they', 'thing', 'this', 'those', 'very', 'want', 'were', 'what', 'when', 'where', 'which', 'while', 'will', 'with', 'would', 'your', 'you\'re', 'i\'m', 'it\'s', 'know', 'think', 'going', 'gonna', 'yeah']);
+
+export interface PackBlackBox { text: string; gaps: string[]; decoys: string[]; clip: { start: number; end: number } }
+
+/**
+ * The pack's Black Box passage (a stretch of the clip itself): up to 6 content words become the gaps
+ * (spread through the passage), the pack's decoys go in the word cloud. Null if fewer than 3 gaps.
+ */
+export function packBlackBox(raw: unknown): PackBlackBox | null {
+  const b = raw as { passage?: unknown; start?: unknown; end?: unknown; decoys?: unknown } | null;
+  if (!b || typeof b.passage !== 'string' || typeof b.start !== 'number' || typeof b.end !== 'number' || b.end <= b.start) return null;
+  const raw0 = b.passage.replace(/\s+/g, ' ').trim();
+  // Transcripts are often lowercase: capitalise the start and "i" (also i'm, i've...).
+  const fixedI = raw0.replace(/(^|\s)i(?=$|\s|')/g, '$1I');
+  const text = fixedI.charAt(0).toUpperCase() + fixedI.slice(1);
+  const clean = (w: string) => w.toLowerCase().replace(/[^a-z0-9']/g, '');
+  const tokens = text.split(' ');
+  const counts: Record<string, number> = {};
+  tokens.forEach((t) => { const c = clean(t); counts[c] = (counts[c] ?? 0) + 1; });
+  const candidates = tokens.map((t) => t.replace(/^[^A-Za-z0-9']+|[^A-Za-z0-9']+$/g, '')).filter((w) => w.length >= 4 && !STOP.has(clean(w)) && counts[clean(w)] === 1);
+  const want = Math.min(6, candidates.length);
+  const gaps = want ? Array.from({ length: want }, (_, i) => candidates[Math.floor((i * candidates.length) / want)]) : [];
+  const decoys = (Array.isArray(b.decoys) ? b.decoys : []).filter((d): d is string => typeof d === 'string' && !!d.trim() && !counts[clean(d)]).slice(0, 4);
+  return gaps.length >= 3 ? { text, gaps, decoys, clip: { start: b.start, end: b.end } } : null;
+}
+
+/** "Words you'll hear": the pack's words, each with the clip line it's said in (from the transcript) as the example. */
+export function packWordCards(pack: ListeningPack, transcriptLines: string[]): Array<{ term: string; meaning: string; example: string }> {
+  return (pack.words ?? []).slice(0, 6).map((w) => {
+    const line = transcriptLines.find((l) => l.toLowerCase().includes(w.word.toLowerCase()));
+    return { term: w.word, meaning: w.meaning, example: line ?? '' };
+  });
+}
