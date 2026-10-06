@@ -628,7 +628,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     takeoff: 'motion-pulse',
     landing: 'opinion-shift',
     moduleSequence: [
-      { slotType: 'presentation', key: 'fact-detective', stageId: 'evidence' },
+      { slotType: 'presentation', key: 'evidence-cards', stageId: 'evidence' },
       { slotType: 'practice', key: 'would-you-rather', stageId: 'take-side', isMicroEvent: true, pool: ['would-you-rather', 'rank-it'] },
       { slotType: 'production', key: 'team-debate', stageId: 'debate' },
       { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['flash-quiz', 'connections', 'synonym-showdown', 'imposter', 'twenty-questions', 'sector-strike'] },
@@ -646,6 +646,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'quick-pulse': 'icebreaker',
         'motion-pulse': 'icebreaker',
         'fact-detective': 'evidence',
+        'evidence-cards': 'evidence',
         'would-you-rather': 'take-side',
         'rank-it': 'take-side',
         'team-debate': 'debate',

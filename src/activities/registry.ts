@@ -64,6 +64,7 @@ import { sayItAgainPlugin } from './say-it-again';
 import { firstListenPlugin } from './first-listen';
 import { finalListenPlugin } from './final-listen';
 import { motionPulsePlugin } from './motion-pulse';
+import { evidenceCardsPlugin } from './evidence-cards';
 import { videoPlayerPlugin } from './video-player';
 import { readAloudPlugin } from './read-aloud';
 import { listeningGapFillPlugin } from './listening-gap-fill';
@@ -116,6 +117,7 @@ const activities: ActivityPlugin[] = [
   firstListenPlugin,
   finalListenPlugin,
   motionPulsePlugin,
+  evidenceCardsPlugin,
   tripMealPlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,

@@ -1,4 +1,4 @@
-import type { DebateMotion } from '@/lib/debate-motion';
+import type { DebateEvidence, DebateMotion } from '@/lib/debate-motion';
 import type { SpeakAnswer, SpeakSituation } from '@/lib/speak-check';
 import type { TravellerCard } from '@/lib/world-flight/traveller-cards';
 import { create } from 'zustand';
@@ -86,6 +86,8 @@ export interface LessonThread {
   listenCheck?: { before: Record<string, Record<number, number>>; after: Record<string, Record<number, number>> };
   /** Debate: the lesson's motion (set at takeoff), used by evidence, prep, the debate and the shift. */
   debateMotion?: DebateMotion;
+  /** Debate: the evidence card the class voted strongest (used in prep and at landing). */
+  debateStrongest?: DebateEvidence;
 }
 
 export interface SessionSettings {
@@ -286,6 +288,7 @@ interface SessionState {
   restoreLessonThread: (thread: LessonThread) => void;
   recordListenAnswer: (when: 'before' | 'after', clientId: string, question: number, option: number) => void;
   setDebateMotion: (motion: DebateMotion) => void;
+  setDebateStrongest: (card: DebateEvidence) => void;
   recordSpeakAnswer: (when: 'before' | 'after', clientId: string, answer: SpeakAnswer) => void;
   setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
@@ -452,6 +455,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setTripStops: (stops) => set({ lessonThread: { ...get().lessonThread, tripStops: stops } }),
   restoreLessonThread: (thread) => set({ lessonThread: thread }),
   setDebateMotion: (motion) => set({ lessonThread: { ...get().lessonThread, debateMotion: motion } }),
+  setDebateStrongest: (card) => set({ lessonThread: { ...get().lessonThread, debateStrongest: card } }),
   recordListenAnswer: (when, clientId, question, option) => {
     const { lessonThread } = get();
     const cur = lessonThread.listenCheck ?? { before: {}, after: {} };

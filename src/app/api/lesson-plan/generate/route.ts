@@ -3847,7 +3847,8 @@ export async function POST(request: NextRequest) {
           case 'flight-verdict':
             generators.push(generateFlightVerdict(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r; }));
             break;
-          case 'motion-pulse': {
+          case 'motion-pulse':
+          case 'evidence-cards': {
             motionP = motionP ?? generateDebateMotion(customTopic, diff, kitSourceCtx);
             generators.push(motionP.then((m) => { content[activityKey] = { activityKey, topicContext: customTopic, ...m } as unknown as ActivityGeneratedContent; }));
             break;
