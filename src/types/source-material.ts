@@ -55,6 +55,8 @@ export interface SourceMaterial {
   slides?: string[];  // picture book slide image URLs, synced during read-aloud
   /** Uploaded picture book: each page's text (one reading turn) and its private picture's storage path. */
   bookPages?: Array<{ text: string; image?: string }>;
+  /** Uploaded book read as "Simplified": each lesson's part is retold at the class level when prepared. */
+  simplify?: boolean;
 }
 
 /** A single end-of-content multiple-choice comprehension question (video or reader). */

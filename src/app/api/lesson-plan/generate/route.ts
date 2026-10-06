@@ -1,4 +1,4 @@
-import { bookLevelFor, fallbackPassages, mergeCast, validReadingPack, type ReadingPack, type ReadingPreviously } from '@/lib/reading-pack';
+import { bookLevelFor, fallbackPassages, mergeCast, validReadingPack, validSimplified, type ReadingPack, type ReadingPreviously } from '@/lib/reading-pack';
 import { bankMotionFor, fallbackMotion, validMotion, type DebateMotion } from '@/lib/debate-motion';
 import { earlierBookLessons, getLibraryEntry, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
 import { fallbackGist, isKidsLevel, listeningWindow, packToRadioCheck, validGist, validPack, windowTranscript, type GistQuestion, type ListeningPack } from '@/lib/listening-pack';
@@ -1372,7 +1372,7 @@ Return:
 }
 
 /** Reading flight: the book lesson (library book course) at the class level, with its reading pack. */
-type ReadingLesson = { bookTitle: string; lessonTitle: string; text: string; pack: ReadingPack; previously?: ReadingPreviously; castSoFar: Array<{ name: string; who: string }> };
+type ReadingLesson = { bookTitle: string; lessonTitle: string; text: string; pack: ReadingPack; previously?: ReadingPreviously; castSoFar: Array<{ name: string; who: string }>; simplified?: boolean };
 
 /** Reading flight: add "Previously..." (last lesson) and the cast so far (earlier lessons' packs + this one). */
 function withBookContext(lesson: Omit<ReadingLesson, 'castSoFar' | 'previously'>, id: string, level: string): ReadingLesson {
@@ -1388,9 +1388,13 @@ function withBookContext(lesson: Omit<ReadingLesson, 'castSoFar' | 'previously'>
 async function generateReadingLesson(difficulty: Difficulty, source: SourceMaterial | null | undefined): Promise<ReadingLesson | null> {
   // An uploaded book's part: the text travels with the lesson; the pack is written now, from it.
   if (source?.documentKind === 'book-part' && (source.originalText || source.rawText)) {
-    const text = (source.originalText || source.rawText || '').trim();
+    const original = (source.originalText || source.rawText || '').trim();
     const [bookTitle, ...rest] = source.title.split(': ');
-    const lesson = await readingPackFromText(difficulty, bookTitle, rest.join(': ') || source.title, text);
+    const lessonTitle = rest.join(': ') || source.title;
+    // "Simplified" courses: a checked retelling at the class level, written now (else the original).
+    const simpler = source.simplify && !source.bookPages?.length ? await simplifyBookPart(difficulty, bookTitle, lessonTitle, original) : null;
+    const text = simpler ?? original;
+    const lesson = { ...(await readingPackFromText(difficulty, bookTitle, lessonTitle, text)), ...(simpler ? { simplified: true } : {}) };
     // Picture book: the pages are the turns (with their pictures), not the AI's passages.
     const pages = (source.bookPages ?? []).filter((p) => p.text?.trim());
     if (pages.length) lesson.pack = { ...lesson.pack, passages: pages.map((p) => ({ text: p.text.trim(), ...(p.image ? { image: p.image } : {}) })) };
@@ -1407,6 +1411,27 @@ async function generateReadingLesson(difficulty: Difficulty, source: SourceMater
   const checked = validReadingPack((entry.readingPack as Record<string, unknown> | undefined)?.[level], text);
   if (checked) return withBookContext({ bookTitle, lessonTitle, text, pack: checked }, source.sourceKey, level);
   return withBookContext(await readingPackFromText(difficulty, bookTitle, lessonTitle, text), source.sourceKey, level);
+}
+
+/** Uploaded book, "Simplified": the AI retells this part at the class level; kept only if it passes validSimplified. */
+async function simplifyBookPart(difficulty: Difficulty, bookTitle: string, lessonTitle: string, text: string): Promise<string | null> {
+  try {
+    const schema: AISchema = { type: 'object', properties: { text: { type: 'string' } }, required: ['text'] };
+    const prompt = `Retell this part of "${bookTitle}" ("${lessonTitle}") in simpler English for a class to read aloud.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+RULES:
+- Keep every event, in the same order, and keep the important dialogue (made simpler).
+- Use only names, places and events that are in the TEXT. Add nothing new; never mention later parts of the book.
+- Story only: no commentary, morals or "this chapter shows".
+- About 60-80% of the original length. Paragraphs separated by a blank line.
+TEXT:
+${text}`;
+    const parsed = await generateJSON<{ text?: string }>(prompt, schema);
+    return validSimplified(text, parsed?.text);
+  } catch {
+    return null;
+  }
 }
 
 /** The AI writes a reading pack from a lesson's text (validated: passages must rebuild it), else plain passages. */
@@ -3764,7 +3789,7 @@ export async function POST(request: NextRequest) {
               readingP = readingP ?? generateReadingLesson(diff, sourceMaterial);
               const key = activityKey;
               generators.push(readingP.then((r) => {
-                if (r) content[key] = { activityKey: 'read-aloud', topicContext: customTopic, sourceText: r.text, sourceTitle: r.lessonTitle, levelled: true, passages: r.pack.passages, vocabWords: r.pack.words.map((w) => w.word), ...(r.pack.talk ? { discussionPrompt: r.pack.talk } : {}) } as unknown as ActivityGeneratedContent;
+                if (r) content[key] = { activityKey: 'read-aloud', topicContext: customTopic, sourceText: r.text, sourceTitle: r.lessonTitle, levelled: true, ...(r.simplified ? { simplified: true } : {}), passages: r.pack.passages, vocabWords: r.pack.words.map((w) => w.word), ...(r.pack.talk ? { discussionPrompt: r.pack.talk } : {}) } as unknown as ActivityGeneratedContent;
               }));
               break;
             }

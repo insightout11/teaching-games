@@ -99,3 +99,24 @@ export function mergeCast(...lists: Array<Array<{ name: string; who: string }>>)
   }));
   return out;
 }
+
+/**
+ * Uploaded books, "Simplified" option: accept the AI's simpler retelling of a lesson part only if it
+ * stays faithful (every name it uses is in the original), keeps most of the story (35–110% of the
+ * original's length) and adds no commentary ("This chapter shows…"). Otherwise the original is read.
+ */
+const PADDING = /^(this (chapter|part|story|section) (shows|teaches|is about)|we learn|the lesson|in this (chapter|part)|the (story|chapter) (shows|teaches))/i;
+export function validSimplified(original: string, simplified: unknown): string | null {
+  if (typeof simplified !== 'string') return null;
+  const text = simplified.replace(/\r/g, '').replace(/\n{3,}/g, '\n\n').trim();
+  const count = (s: string) => (s.trim() ? s.trim().split(/\s+/).length : 0);
+  const n = count(text);
+  const o = count(original);
+  if (n < Math.min(80, o) || n < o * 0.35 || n > o * 1.1) return null;
+  if (text.split(/\n\n/).some((p) => PADDING.test(p.trim()))) return null;
+  const known = original.toLowerCase();
+  // Capitalised words not starting a sentence are names/places: they must come from the original.
+  const names = text.match(/(?<![.!?]["'’”]?\s)(?<!^)(?<!\n)\b[A-Z][a-z]{2,}\b/g) ?? [];
+  if (names.some((w) => !known.includes(w.toLowerCase()))) return null;
+  return text;
+}

@@ -120,4 +120,8 @@ pictures step.
   `book-pages` bucket (`<teacher id>/<book id>/<page>.jpg`, created on first upload). Read Aloud shows the page picture
   on the teacher's screen via short-lived signed links (`/api/book-pages`); the pictures never go to phones.
   Tested on *Peter Rabbit*: 26 pages → 2 lessons at Easy.
-- Next: the simplified-version option; "Previously…" and cast for uploaded books.
+- **Simplified shipped:** per course at upload ("Original text" / "Simplified"; not for picture books). Each lesson's
+  part is retold at the class level when that lesson is prepared (one AI call), kept only if `validSimplified` passes
+  (35–110% of the original's length, every name in it is in the original, no "this chapter shows" commentary), else the
+  original is read. Marked "Simplified" in Read Aloud.
+- Next: "Previously…" and cast for uploaded books.

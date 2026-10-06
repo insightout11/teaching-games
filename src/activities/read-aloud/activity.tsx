@@ -58,6 +58,7 @@ export function ReadAloudActivity({
     comprehensionQuestions = [],
     discussionPrompt,
     levelled = false,
+    simplified = false,
     passages,
   } = content;
   const hasQuestions = comprehensionQuestions.length > 0;
@@ -323,6 +324,7 @@ export function ReadAloudActivity({
     return (
       <div className="mx-auto max-w-2xl space-y-4">
         <KitLabel tone="emerald">{sourceTitle}</KitLabel>
+        {simplified && <KitLabel tone="cyan">Simplified</KitLabel>}
         <ComprehensionQuiz
           questions={comprehensionQuestions}
           students={students}
@@ -393,6 +395,7 @@ export function ReadAloudActivity({
         <span className="flex items-center gap-2">
           <KitStatus state="live" />
           <KitLabel tone="emerald">{sourceTitle}</KitLabel>
+          {simplified && <KitLabel tone="cyan">Simplified</KitLabel>}
         </span>
         <span className="font-mono text-xs text-white/60">Passage {currentIndex + 1} / {readingTurns.length}</span>
       </div>

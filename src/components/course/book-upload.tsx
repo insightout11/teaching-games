@@ -41,6 +41,7 @@ export function BookUpload() {
   const [chapters, setChapters] = useState<BookChapter[]>([]);
   const [joins, setJoins] = useState<number[]>([]); // "join with next" clicks, replayed on the planned lessons
   const [rights, setRights] = useState(false);
+  const [simplify, setSimplify] = useState(false);
   // Picture books: one page = one reading turn, shown with its picture (drawn from the PDF when saving).
   const [pictures, setPictures] = useState<{ file: File; pages: PicturePage[] } | null>(null);
   const [saveNote, setSaveNote] = useState<string | null>(null);
@@ -114,6 +115,7 @@ export function BookUpload() {
           originalText: l.text,
           documentKind: 'book-part',
           wordCount: l.words,
+          ...(simplify && !pictures ? { simplify: true } : {}),
           ...(l.pages ? { bookPages: l.pages.map((p) => ({ text: p.text, ...(images.get(p.page) ? { image: images.get(p.page) } : {}) })) } : {}),
         };
         // The full text lives once, in the lesson payload; the source ref keeps only the label.
@@ -198,6 +200,19 @@ export function BookUpload() {
               </li>
             ))}
           </ol>
+          {!pictures && (
+            <div className="space-y-1.5 text-sm">
+              <span className="text-lc-text3">Read the book as</span>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {([[false, 'Original text', 'The author’s words, exactly as written.'], [true, 'Simplified', `Retold in simpler English for your class level each lesson, marked “Simplified” on screen.`]] as const).map(([v, label, note]) => (
+                  <button key={label} type="button" onClick={() => setSimplify(v)} className={`rounded-xl border px-3 py-2 text-left ${simplify === v ? 'border-lc-blue bg-lc-blue/10' : 'border-lc-border bg-lc-surface hover:border-lc-blue/50'}`}>
+                    <span className="block font-semibold text-lc-text">{label}</span>
+                    <span className="block text-xs text-lc-text3">{note}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
           <label className="flex items-start gap-2 text-sm text-lc-text2">
             <input type="checkbox" checked={rights} onChange={(e) => setRights(e.target.checked)} className="mt-1" />
             I have the right to use this book with my class. It stays private to my lessons.
