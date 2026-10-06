@@ -25,6 +25,8 @@ describe('reading packs', () => {
 
   it('picks the retelling level and counts who caught the chapter', () => {
     expect(bookLevelFor('Easy')).toBe('A2');
+    expect(bookLevelFor('Beginner')).toBe('A2'); // no A1 yet: nearest level
+    expect(bookLevelFor('Beginner', ['A1', 'A2', 'B1'])).toBe('A1');
     expect(bookLevelFor('Advanced')).toBe('B1');
     expect(bookLevelFor('Advanced', ['B1', 'B2'])).toBe('B2');
     expect(bookLevelFor('Easy', ['B1', 'B2'])).toBe('B1');

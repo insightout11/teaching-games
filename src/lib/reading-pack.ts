@@ -56,8 +56,8 @@ export function validReadingPack(raw: unknown, text?: string): ReadingPack | nul
   };
 }
 
-const LEVEL_ORDER = ['A2', 'B1', 'B2'];
-const WANT: Record<string, string> = { Beginner: 'A2', Easy: 'A2', Intermediate: 'B1', Advanced: 'B2', Expert: 'B2' };
+const LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2'];
+const WANT: Record<string, string> = { Beginner: 'A1', Easy: 'A2', Intermediate: 'B1', Advanced: 'B2', Expert: 'B2' };
 
 /**
  * The retelling level for the class among the levels this book has (kids books: A2/B1; teen books:
