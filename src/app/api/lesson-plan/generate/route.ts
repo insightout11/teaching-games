@@ -1386,6 +1386,13 @@ function withBookContext(lesson: Omit<ReadingLesson, 'castSoFar' | 'previously'>
 }
 
 async function generateReadingLesson(difficulty: Difficulty, source: SourceMaterial | null | undefined): Promise<ReadingLesson | null> {
+  // An uploaded book's part: the text travels with the lesson; the pack is written now, from it.
+  if (source?.documentKind === 'book-part' && (source.originalText || source.rawText)) {
+    const text = (source.originalText || source.rawText || '').trim();
+    const [bookTitle, ...rest] = source.title.split(': ');
+    const lesson = await readingPackFromText(difficulty, bookTitle, rest.join(': ') || source.title, text);
+    return { ...lesson, castSoFar: lesson.pack.cast };
+  }
   if (!source?.sourceKey || source.sourceType !== 'books') return null;
   const entry = getLibraryEntry('books', source.sourceKey);
   const retellings = entry?.retellings as Record<string, { text?: string }> | undefined;
@@ -1396,6 +1403,11 @@ async function generateReadingLesson(difficulty: Difficulty, source: SourceMater
   const lessonTitle = String(entry.title);
   const checked = validReadingPack((entry.readingPack as Record<string, unknown> | undefined)?.[level], text);
   if (checked) return withBookContext({ bookTitle, lessonTitle, text, pack: checked }, source.sourceKey, level);
+  return withBookContext(await readingPackFromText(difficulty, bookTitle, lessonTitle, text), source.sourceKey, level);
+}
+
+/** The AI writes a reading pack from a lesson's text (validated: passages must rebuild it), else plain passages. */
+async function readingPackFromText(difficulty: Difficulty, bookTitle: string, lessonTitle: string, text: string): Promise<{ bookTitle: string; lessonTitle: string; text: string; pack: ReadingPack }> {
   try {
     const q: AISchema = { type: 'object', properties: { q: { type: 'string' }, options: { type: 'array', items: { type: 'string' } }, correctIndex: { type: 'number' } }, required: ['q', 'options', 'correctIndex'] };
     const schema: AISchema = {
@@ -1425,9 +1437,9 @@ Return:
 - talk: one question about a character's choice, max 14 words.`;
     const parsed = await generateJSON<Record<string, unknown>>(prompt, schema);
     const pack = validReadingPack(parsed, text);
-    if (pack) return withBookContext({ bookTitle, lessonTitle, text, pack }, source.sourceKey, level);
+    if (pack) return { bookTitle, lessonTitle, text, pack };
   } catch { /* fall back below */ }
-  return withBookContext({ bookTitle, lessonTitle, text, pack: { passages: fallbackPassages(text), check: [], words: [], cast: [] } }, source.sourceKey, level);
+  return { bookTitle, lessonTitle, text, pack: { passages: fallbackPassages(text), check: [], words: [], cast: [] } };
 }
 
 /** The clip's listening pack (library sources only), with its YouTube id. */
@@ -3745,7 +3757,7 @@ export async function POST(request: NextRequest) {
           }
           case 'read-aloud': {
             // Reading flight on a library book lesson: the levelled retelling, read in the pack's passages.
-            if (sourceMaterial?.sourceType === 'books') {
+            if (sourceMaterial?.sourceType === 'books' || sourceMaterial?.documentKind === 'book-part') {
               readingP = readingP ?? generateReadingLesson(diff, sourceMaterial);
               const key = activityKey;
               generators.push(readingP.then((r) => {

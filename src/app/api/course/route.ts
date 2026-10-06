@@ -50,7 +50,9 @@ export async function POST(request: NextRequest) {
   const lessons = Array.isArray(body.lessons) ? body.lessons : [];
   if (!title || !theme) return NextResponse.json({ error: 'title and theme are required' }, { status: 400 });
   if (lessons.length === 0) return NextResponse.json({ error: 'A course needs at least one lesson' }, { status: 400 });
-  if (lessons.length > 20) return NextResponse.json({ error: 'Too many lessons (max 20)' }, { status: 400 });
+  // Uploaded-book reading courses can be long (one lesson per part of the book).
+  const maxLessons = (body as { bookCourse?: boolean }).bookCourse ? 150 : 20;
+  if (lessons.length > maxLessons) return NextResponse.json({ error: `Too many lessons (max ${maxLessons})` }, { status: 400 });
 
   const supabase = createServiceClient();
   const { data: course, error: courseErr } = await supabase

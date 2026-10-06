@@ -55,4 +55,16 @@ describe('book import', () => {
     expect(lines.map((l) => l.text)).toEqual(['Alice was beginning to get very tired', 'sister on the bank, and of having nothing']);
     expect(lines[1].size).toBe(10);
   });
+
+  it('keeps Word/text paragraphs apart (whole-paragraph lines)', () => {
+    const para = (t: string) => ({ text: t, size: 10, para: true });
+    const pages: BookPage[] = [{ lines: [{ text: 'Chapter 1', size: 20, para: true }, ...Array.from({ length: 6 }, (_, i) => para(`Paragraph ${i} is a long paragraph from a Word file that goes on for quite a while without breaking at all.`))] }];
+    expect(toChapters(pages)[0].paragraphs).toHaveLength(6);
+  });
+
+  it('joins a short leftover part to the part before it', () => {
+    const paras = [...Array.from({ length: 6 }, () => 'z '.repeat(200).trim()), 'tail words '.repeat(40).trim()];
+    const lessons = planLessons([{ title: 'Long', paragraphs: paras, words: 1280 }], 'Easy');
+    expect(lessons[lessons.length - 1].words).toBeGreaterThan(300);
+  });
 });

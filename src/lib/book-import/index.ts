@@ -8,7 +8,8 @@
  *  5. group chapters into lessons by the class level's word budget (short chapters 2–3 per
  *     lesson, long chapters split at paragraph breaks).
  */
-export interface BookLine { text: string; size: number }
+/** A line of a page. `para`: the line is a whole paragraph (Word / text files), so it ends one. */
+export interface BookLine { text: string; size: number; para?: boolean }
 export interface BookPage { lines: BookLine[] }
 export interface BookChapter { title: string; paragraphs: string[]; words: number }
 export interface BookLesson { title: string; chapters: string[]; text: string; words: number }
@@ -128,7 +129,7 @@ export function toChapters(rawPages: BookPage[]): BookChapter[] {
     lastWasHeading = false;
     para = para ? joinLines(para, t) : t;
     // A short line that ends a sentence closes the paragraph.
-    if (endsSentence(t) && t.length < lineLen * 0.75) flush();
+    if (l.para || (endsSentence(t) && t.length < lineLen * 0.75)) flush();
   }));
   flush();
 
@@ -176,7 +177,12 @@ export function planLessons(chapters: BookChapter[], difficulty: string): BookLe
       n += words(p);
       const last = i === c.paragraphs.length - 1;
       if ((n >= target && k < parts) || last) {
-        units.push({ title: `${c.title} (part ${k})`, chapter: c.title, paragraphs: cur, words: n });
+        const prev = units[units.length - 1];
+        // A short leftover at the end of a chapter joins the part before it.
+        if (last && k > 1 && n < min * 0.5 && prev?.chapter === c.title) {
+          prev.paragraphs = [...prev.paragraphs, ...cur];
+          prev.words += n;
+        } else units.push({ title: `${c.title} (part ${k})`, chapter: c.title, paragraphs: cur, words: n });
         cur = []; n = 0; k++;
       }
     });

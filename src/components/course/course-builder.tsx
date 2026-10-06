@@ -168,6 +168,13 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
         <ArrowLeft className="w-4 h-4" /> Courses
       </button>
 
+      {phase === 'theme' && (
+        <a href="/courses/book" className="flex items-center gap-3 rounded-2xl border border-lc-blue/30 bg-lc-blue/5 px-5 py-4 hover:border-lc-blue/60">
+          <BookOpen className="h-5 w-5 shrink-0 text-lc-blue" />
+          <span className="flex-1"><span className="block font-semibold text-lc-text">Use your own book</span><span className="block text-sm text-lc-text3">Upload a PDF, Word or text file and get a reading course, one part per lesson.</span></span>
+        </a>
+      )}
+
       {phase === 'theme' ? (
         <div className="bg-lc-card rounded-2xl border border-lc-border p-6 space-y-5">
           <div>
