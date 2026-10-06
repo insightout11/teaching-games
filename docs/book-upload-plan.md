@@ -79,3 +79,26 @@ what really happened). Five minutes from upload to course.
 4. **Rights checkbox:** yes.
 5. **Pictures:** keep the pictures with the text for very young books (v1 extracts page images and shows them with the
    passage, like the picture-book read-along slides).
+
+## Findings from real samples (Oct 6 2026)
+Tested with public-domain PDFs (Planet eBook: *Alice* 111 pp / ~27k words, *The Jungle Book* 189 pp / ~52k, *Treasure
+Island* 266 pp / ~70k) and a picture-book PDF made from Gutenberg's *Peter Rabbit* (32 pp, 28 illustrations), using the
+`unpdf`/pdf.js text layer:
+- **Text extraction works** on all of them, no AI needed.
+- **Headers/footers** are the expected kind: "Alice's Adventures in Wonderland4" (title + page number glued),
+  "5Free eBooks at Planet eBook.com", plus hyphenation across lines ("read-\ning"). Repeated-line detection + de-hyphenation
+  handles them.
+- **Chapter headings can't be found from words alone.** *Alice* uses "Chapter I." + a title line, *Treasure Island*
+  "PART ONE" and "1. The Old Sea-dog at / the Admiral Benbow" (wrapped), but *The Jungle Book*'s story titles are plain
+  lines, and a text-only guess also caught dialogue ("Wah!'"). **Font size is the reliable signal**: headings are set
+  larger, and pdf.js reports each text item's size. So: headings by font size (+ "Chapter"/numerals patterns as support),
+  then the teacher's review.
+- **Pictures:** extracting embedded images from the picture book failed (pdf.js object timing), so keeping pictures means
+  **rendering each page to an image**. That's heavy on a server, easy in a browser.
+
+### Revised approach: extract in the teacher's browser
+pdf.js runs in the browser: read the text with font sizes, find headings, clean, and (for picture books) render page
+images there; send only the cleaned text, the chapter list and the page images to private storage. This avoids the 60s
+server limit and native server dependencies, and handles pictures. Word (.docx) via a browser-capable .docx library;
+.txt directly. The build order stays, with step 2 (extraction) moving into the browser and **going first**, since it's
+the riskiest part, tested against these four samples.
