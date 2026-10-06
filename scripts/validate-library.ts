@@ -101,6 +101,8 @@ let debateMotionCount = 0;
 const debateCohorts: Record<string, number> = { kids: 0, teens: 0 };
 const debateLevels: Record<string, number> = { A2: 0, B1: 0, B2: 0 };
 let debateEvidenceCount = 0;
+const round14DebateCounts = { kidsA2: 0, teensB1: 0, teensB2: 0 };
+const round14TeenTopics = new Set<string>();
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -629,6 +631,12 @@ else {
       else if (motion.ageBand === 'teens' && (motion.cefr === 'B1' || motion.cefr === 'B2')) debateCohorts.teens += 1;
       else fail(where, 'kids require A2–B1 and teens require B1–B2');
       if (motion.cefr === 'A2' || motion.cefr === 'B1' || motion.cefr === 'B2') debateLevels[motion.cefr] += 1;
+      if (String(motion.id).indexOf('debate-r14-') === 0) {
+        if (motion.ageBand === 'kids' && motion.cefr === 'A2') round14DebateCounts.kidsA2 += 1;
+        else if (motion.ageBand === 'teens' && motion.cefr === 'B1') round14DebateCounts.teensB1 += 1;
+        else if (motion.ageBand === 'teens' && motion.cefr === 'B2') round14DebateCounts.teensB2 += 1;
+        if (motion.ageBand === 'teens' && Array.isArray(motion.topics)) for (const tag of motion.topics) round14TeenTopics.add(String(tag));
+      }
       for (const side of ['forPoints', 'againstPoints']) {
         const points = motion[side];
         if (!Array.isArray(points) || points.length !== 3 || points.some((point) => !nonEmpty(point))) {
@@ -652,9 +660,12 @@ else {
       }
       if (!nonEmpty(motion.pulse) || !motion.pulse.trim().endsWith('?')) fail(where, 'pulse must be a question');
     }
-    if (debateMotionCount !== 60 || debateCohorts.kids !== 30 || debateCohorts.teens !== 30) {
-      fail('debate-motions.json', `expected 60 motions, 30 kids and 30 teens (found ${debateMotionCount}/${debateCohorts.kids}/${debateCohorts.teens})`);
+    if (debateMotionCount !== 120 || debateCohorts.kids !== 60 || debateCohorts.teens !== 60) {
+      fail('debate-motions.json', `expected 120 motions, 60 kids and 60 teens (found ${debateMotionCount}/${debateCohorts.kids}/${debateCohorts.teens})`);
     }
+    if (round14DebateCounts.kidsA2 !== 30 || round14DebateCounts.teensB1 !== 15 || round14DebateCounts.teensB2 !== 15) fail('debate-motions.json', `Round 14 expected kids A2 30, teens B1 15, teens B2 15 (found ${round14DebateCounts.kidsA2}/${round14DebateCounts.teensB1}/${round14DebateCounts.teensB2})`);
+    if (round14TeenTopics.size < 15) fail('debate-motions.json', `Round 14 teen motions need at least 15 topic areas (found ${round14TeenTopics.size})`);
+    if (debateEvidenceCount < 240) fail('debate-motions.json', `expected at least 240 evidence facts (found ${debateEvidenceCount})`);
   }
 }
 
