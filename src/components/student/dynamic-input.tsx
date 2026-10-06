@@ -3,6 +3,7 @@
 import { TripTravellerCardPanel } from './trip-traveller-card';
 import { CanDoPanel } from './can-do-panel';
 import { SpeakCheckPanel } from './speak-check-panel';
+import { DebateClaimPanel } from './debate-claim-panel';
 import { ImposterSecretCard } from './imposter-card';
 import type { ImposterAssignment } from '@/activities/imposter/activity';
 import { OptionLetter, PHONE_PRIMARY, PhoneLocked, PhonePrompt, PhoneSubmitStatus, PhoneTimer, phoneOption } from './phone-kit';
@@ -1273,6 +1274,9 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
     return <StoryChainPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} onSubmit={onSubmit} />;
   }
 
+  if (spec.perStudentData?.__claim) {
+    return <DebateClaimPanel spec={spec} displayName={displayName ?? undefined} studentId={studentId ?? undefined} clientId={clientId} onSubmit={onSubmit} />;
+  }
   if (spec.perStudentData?.__speakcheck) {
     return <SpeakCheckPanel key={spec.prompt} spec={spec} onSubmit={onSubmit} />;
   }
@@ -1288,7 +1292,7 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
   if (spec.gameKey === 'grammar-spotlight') {
     return <HeardItPanel spec={spec} onSubmit={onSubmit} />;
   }
-  if ((spec.gameKey === 'compare-it' || spec.gameKey === 'answer-first' || spec.gameKey === 'flight-verdict' || spec.gameKey === 'quick-fire' || spec.gameKey === 'pass-the-line' || spec.gameKey === 'say-it-again') && spec.perStudentData?.__room) {
+  if ((spec.gameKey === 'compare-it' || spec.gameKey === 'answer-first' || spec.gameKey === 'flight-verdict' || spec.gameKey === 'quick-fire' || spec.gameKey === 'pass-the-line' || spec.gameKey === 'say-it-again' || spec.gameKey === 'tag-team-debate') && spec.perStudentData?.__room) {
     return <SpeakingFramePanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} />;
   }
   if (spec.gameKey === 'tense-time-machine' && spec.perStudentData?.__room) {

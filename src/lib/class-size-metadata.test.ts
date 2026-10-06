@@ -17,7 +17,7 @@ describe('class-size metadata', () => {
     // Bump when registering a new module (Travel arc added trip-arrival + trip-directions;
     // trip-recap landing + boarding-call takeoff added in the preset-consistency pass).
     // Sep 2026: 10 retired, Hot Seat + Mystery Flight added; (src/lib/retired-plugins.ts) no longer count as browsable.
-    expect(registryKeys).toHaveLength(75);
+    expect(registryKeys).toHaveLength(76);
     expect(registryKeys.filter((key) => !getClassSizeMetadata(key))).toEqual([]);
     expect(FLIGHT_PLAN_ITEMS).toHaveLength(50);
     expect(FLIGHT_PLAN_ITEMS.filter((item) => !item.idealClassSizes || !item.minStudents)).toEqual([]);

@@ -65,6 +65,7 @@ import { firstListenPlugin } from './first-listen';
 import { finalListenPlugin } from './final-listen';
 import { motionPulsePlugin } from './motion-pulse';
 import { evidenceCardsPlugin } from './evidence-cards';
+import { tagTeamDebatePlugin } from './tag-team-debate';
 import { videoPlayerPlugin } from './video-player';
 import { readAloudPlugin } from './read-aloud';
 import { listeningGapFillPlugin } from './listening-gap-fill';
@@ -118,6 +119,7 @@ const activities: ActivityPlugin[] = [
   finalListenPlugin,
   motionPulsePlugin,
   evidenceCardsPlugin,
+  tagTeamDebatePlugin,
   tripMealPlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,
