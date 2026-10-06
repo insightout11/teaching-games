@@ -63,3 +63,11 @@ describe('Speak v2', () => {
     expect(plan.flightConfig?.stages.map((s) => s.label)).toContain('Pass the Line');
   });
 });
+
+describe('Debate v2', () => {
+  it('flies one motion: Motion Pulse to the Shift', () => {
+    const debate = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'debate-60')!;
+    const plan = buildRoomFlightPlan({ preset: debate, topic: 'Phones at school', difficulty: 'Intermediate' });
+    expect(plan.slots.map((s) => s.key)).toEqual(['motion-pulse', 'evidence-cards', 'would-you-rather', 'tag-team-debate', 'imposter', 'opinion-shift']);
+  });
+});

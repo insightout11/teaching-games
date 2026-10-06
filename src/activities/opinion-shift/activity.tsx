@@ -5,6 +5,7 @@ import type { ActivityProps } from '../types';
 import type { OpinionShiftContent } from '../types';
 import { useSessionStore } from '@/stores/session-store';
 import { ShiftFromPulse } from './shift-from-pulse';
+import { StrongestArgument } from './strongest-argument';
 
 type Phase = 'idle' | 'collecting' | 'revealing';
 
@@ -242,8 +243,15 @@ function OpinionShiftWritten({
  */
 export function OpinionShiftActivity(props: ActivityProps) {
   const pulse = useSessionStore((s) => s.lessonThread.pulse);
-  // The first opinion scale the class answered is the best "before" (fallback: the first question).
-  const baseline = pulse.find((p) => p.type === 'likert' && Object.keys(p.votes).length > 0) ?? pulse.find((p) => Object.keys(p.votes).length > 0);
-  if (baseline) return <ShiftFromPulse baseline={baseline} {...props} />;
+  const motion = useSessionStore((s) => s.lessonThread.debateMotion);
+  const [strongest, setStrongest] = useState(false);
+  // Debate: the motion's own question is the "before". Otherwise the first opinion scale the class
+  // answered (fallback: the first question).
+  const answered = (p: { votes: Record<string, unknown> }) => Object.keys(p.votes).length > 0;
+  const baseline = (motion ? pulse.find((p) => p.text === motion.pulse && answered(p)) : undefined)
+    ?? pulse.find((p) => p.type === 'likert' && answered(p)) ?? pulse.find(answered);
+  // Debate v2: after the Shift, the strongest-argument vote.
+  if (motion && strongest) return <StrongestArgument motion={motion} {...props} />;
+  if (baseline) return <ShiftFromPulse baseline={baseline} {...props} {...(motion ? { onDone: () => setStrongest(true) } : {})} />;
   return <OpinionShiftWritten {...props} />;
 }

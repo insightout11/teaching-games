@@ -1,6 +1,6 @@
 # Debate v2: Audit and Concept
 
-> Status: **concept for discussion, not a build plan.** Oct 6 2026.
+> Status: **built (Oct 6 2026), all 4 steps.** Concept below kept as the design record.
 > Part of Flight Presets v2 (`docs/flight-presets-concept-v2.md`). Rules that stay:
 > - spoken-first: phones tap and vote, **nobody types**;
 > - no spotlight on one student; everyone talks;
@@ -96,3 +96,9 @@ motions** when the topic matches, generated otherwise.
 2. **Evidence Cards.**
 3. **Tap-to-claim prep + Tag-team Debate** (openings, answers, closing) + **Switch Sides**.
 4. **Strongest argument** vote in the Opinion Shift landing + reshape the Debate preset.
+
+## Built (Oct 6 2026)
+`motion-pulse` → `evidence-cards` → break → `tag-team-debate` (tap-to-claim prep, openings, answers, closing, Switch
+Sides) → game → `opinion-shift` (the Shift on the motion's own question, saved to the logbook, then the strongest-argument
+vote). Motion: checked bank → generated → fallback (`src/lib/debate-motion.ts`), stored in `lessonThread.debateMotion`.
+Team Debate and Fact Detective stay in the catalogue.

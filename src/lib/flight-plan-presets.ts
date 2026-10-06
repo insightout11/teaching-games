@@ -619,11 +619,13 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'debate-60',
     name: 'Debate',
-    description: 'Warm up opinions, build an evidence base, pick a side, argue the motion through opening, rebuttal, and closing, then reflect on who changed their mind.',
-    tagline: 'Two teams, one motion — make your case',
+    description: 'One motion, everyone argues: take a position, sort real evidence for and against, claim your point, debate in short tag-team turns (and switch sides), then see how the room moved and which argument was strongest.',
+    tagline: 'Everyone argues, nobody alone',
     lessonDurationMinutes: 60,
     goal: 'discussion-debate',
     lessonType: 'performance',
+    // Debate v2 (docs/debate-v2-concept.md): motion-pulse -> evidence-cards -> break -> tag-team-debate -> game ->
+    // opinion-shift (the Shift on the motion + the strongest-argument vote).
     // discussion-debate derives to participation — no winner's vote; opinion-shift is the close.
     takeoff: 'motion-pulse',
     landing: 'opinion-shift',
@@ -636,11 +638,11 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     flightConfig: {
       stages: [
         { stageId: 'icebreaker', label: 'Motion', kind: 'stage', phase: 'takeoff' },
-        { stageId: 'evidence', label: 'Evidence', kind: 'stage', phase: 'climb' },
+        { stageId: 'evidence', label: 'Evidence Cards', kind: 'stage', phase: 'climb' },
         { stageId: 'take-side', label: 'Stance Check', kind: 'micro-event', phase: 'climb' },
-        { stageId: 'debate', label: 'Debate', kind: 'stage', phase: 'cruise' },
+        { stageId: 'debate', label: 'Tag-team Debate', kind: 'stage', phase: 'cruise' },
         { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
-        { stageId: 'landing', label: 'Reflection', kind: 'landing', phase: 'landing' },
+        { stageId: 'landing', label: 'The Shift', kind: 'landing', phase: 'landing' },
       ],
       stageByKey: {
         'quick-pulse': 'icebreaker',

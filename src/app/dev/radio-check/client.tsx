@@ -34,6 +34,7 @@ import { ClassLogbookHubCard } from '@/components/class/class-logbook-hub-card';
 import { MotionPulseActivity } from '@/activities/motion-pulse/activity';
 import { EvidenceCardsActivity } from '@/activities/evidence-cards/activity';
 import { TagTeamDebateActivity } from '@/activities/tag-team-debate/activity';
+import { bankMotionFor } from '@/lib/debate-motion';
 import { DebateClaimPanel } from '@/components/student/debate-claim-panel';
 import { SpeakRevealActivity } from '@/activities/speak-reveal/activity';
 import { SpeakCheckPanel } from '@/components/student/speak-check-panel';
@@ -139,6 +140,12 @@ export function RadioCheckDevClient() {
     return true;
   });
   const mode = useSearchParams().get('mode');
+  if (mode === 'shift' && !useSessionStore.getState().lessonThread.debateMotion) {
+    const m = bankMotionFor('phones at school', 'Intermediate')!;
+    const st = useSessionStore.getState();
+    st.setDebateMotion(m);
+    st.recordPulse({ text: m.pulse, type: 'likert', votes: { a: { name: 'Ana', choice: '2' }, b: { name: 'Ben', choice: '4' } } });
+  }
   if (mode === 'recap' && !useSessionStore.getState().lessonThread.canDo) {
     const st = useSessionStore.getState();
     st.setCustomTopic('Trip to Tokyo');
@@ -152,7 +159,12 @@ export function RadioCheckDevClient() {
   const props = { generatedContent: video ? VIDEO : VOICE, students: [], onScore: () => {}, onSetInputSpec: () => {}, onRegisterRemoteVoteHandler: (h: unknown) => { (window as unknown as { __vote?: unknown }).__vote = h; }, onPhaseChange: () => {} } as unknown as ActivityProps;
   return (
     <div className="min-h-screen bg-slate-950 p-8">
-      {mode === 'tagteam' ? (
+      {mode === 'shift' ? (
+        <div className="flex gap-4">
+          <div className="flex-1"><OpinionShiftActivity {...props} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={{ activityKey: 'opinion-shift', topicContext: 'phones at school' } as unknown as ActivityProps['generatedContent']} /></div>
+          <pre className="w-72 whitespace-pre-wrap rounded-3xl bg-slate-900 p-4 text-xs text-slate-200">{JSON.stringify(spec, null, 1)}</pre>
+        </div>
+      ) : mode === 'tagteam' ? (
         <div className="flex gap-4">
           <div className="flex-1"><TagTeamDebateActivity {...props} students={[...(TRIP_CREW as unknown as Array<{ id: string; name: string }>), { id: 's4', name: 'Dan' }] as unknown as ActivityProps['students']} onSetInputSpec={setSpec as ActivityProps['onSetInputSpec']} generatedContent={{ activityKey: 'tag-team-debate', topicContext: 'phones at school' } as unknown as ActivityProps['generatedContent']} /></div>
           <div className="w-80 rounded-3xl bg-slate-900 p-4 text-sm text-slate-200">{spec?.perStudentData?.__claim ? <DebateClaimPanel spec={spec} studentId="s2" onSubmit={() => {}} /> : spec?.perStudentData?.__room ? <SpeakingFramePanel spec={spec} displayName="Ben" studentId="s2" /> : <pre className="text-xs">{JSON.stringify(spec)}</pre>}</div>
