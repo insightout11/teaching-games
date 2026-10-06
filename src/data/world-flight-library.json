@@ -513,7 +513,20 @@
           ],
           "correctIndex": 1
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "all the water is harvested from rain and recirculated through the waterfall 24 7. at night it keeps running and acts as a canvas for a 360 degree light show projected on it",
+        "start": 84.1,
+        "end": 96,
+        "decoys": [
+          "layovers",
+          "rainforest",
+          "2020",
+          "runway",
+          "20",
+          "rivers"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -841,7 +854,20 @@
           ],
           "correctIndex": 0
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "surprisingly for something that's called The Underground 55% of today's network is actually above ground but it's the tube shaped tunnels that have made it famous and their depth varies greatly",
+        "start": 32.9,
+        "end": 44.8,
+        "decoys": [
+          "operates",
+          "simulator",
+          "last",
+          "20",
+          "below",
+          "300"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -1200,7 +1226,20 @@
           ],
           "correctIndex": 3
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "For the longest time, Lake Victoria was considered the source of the Nile. This however neglects the fact that the lake itself is fed by major rivers.",
+        "start": 30.6,
+        "end": 38.3,
+        "decoys": [
+          "tributary",
+          "climates",
+          "silt",
+          "mouth",
+          "dams",
+          "30"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -1436,7 +1475,20 @@
           ],
           "correctIndex": 2
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "Dubai airports can be proud of our remarkable past. And the future holds even greater promise as we build our infrastructure to support the impressive expansion of Emirates and Fly Dubai.",
+        "start": 87.8,
+        "end": 104.3,
+        "decoys": [
+          "airlines",
+          "gateway",
+          "passengers",
+          "52",
+          "40",
+          "50"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -2483,7 +2535,20 @@
           ],
           "correctIndex": 1
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "mumbai dabbawalas employs about 5 000 people many of them have had little to no education and have never learned to read so how do they keep these orders in order",
+        "start": 32.5,
+        "end": 43.5,
+        "decoys": [
+          "deliver",
+          "bicycles",
+          "lunchboxes",
+          "labeled",
+          "school",
+          "experience"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -2937,7 +3002,20 @@
           ],
           "correctIndex": 0
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "The problem was, the government wasn't entirely ready to pay the wages of those soldiers. And so they came here, and camped outside of the capital, and a favela was born.",
+        "start": 35.6,
+        "end": 46,
+        "decoys": [
+          "tenements",
+          "inequality",
+          "similar",
+          "taxes",
+          "peaceful",
+          "young"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -3583,7 +3661,20 @@
           ],
           "correctIndex": 3
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "so I normally take boats every day in order to get to office on time and the boat takes an average of 20 to 35 minutes",
+        "start": 96,
+        "end": 109,
+        "decoys": [
+          "road",
+          "congested",
+          "alternatives",
+          "multimodal",
+          "buses",
+          "bus"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -3849,7 +3940,20 @@
           ],
           "correctIndex": 2
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "the MTR Corporation builds the transport Hub and the malls in exchange for delivering customers to these malls it then takes a cut of the profits",
+        "start": 73.3,
+        "end": 82,
+        "decoys": [
+          "rail",
+          "residential",
+          "infrastructure",
+          "reinvested",
+          "bus",
+          "road"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -4052,7 +4156,20 @@
           ],
           "correctIndex": 1
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "I'm very worried because if my landlord asks me to leave I won't be able to find a place with such low rent I really can't afford it",
+        "start": 28.7,
+        "end": 39.5,
+        "decoys": [
+          "renovated",
+          "affordable",
+          "door",
+          "plan",
+          "down",
+          "2030"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -4289,7 +4406,20 @@
           ],
           "correctIndex": 0
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "The number of bikes in Amsterdam plummeted. Between 1960 and 1970 the number of cars in the country quadrupled, jamming the traditionally narrow streets.",
+        "start": 56.2,
+        "end": 66.6,
+        "decoys": [
+          "commutes",
+          "traffic",
+          "opposition",
+          "rose",
+          "halved",
+          "play"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -4621,7 +4751,20 @@
           ],
           "correctIndex": 3
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "coffee the Cuban food prevalent in Little Havana is based on Spanish and African cuisine there's also some Oriental",
+        "start": 102.8,
+        "end": 112.2,
+        "decoys": [
+          "culture",
+          "refugees",
+          "neighborhood",
+          "gather",
+          "dominoes",
+          "california"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -4952,7 +5095,20 @@
           ],
           "correctIndex": 2
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "while the city is promoting ways to decriminalize the art form authorities still often consider graffiti painters to be lawbreakers you can get uh put in a detention center",
+        "start": 50.1,
+        "end": 61.1,
+        "decoys": [
+          "mural",
+          "talent",
+          "vandalize",
+          "scholarships",
+          "three",
+          "visitors"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -5404,7 +5560,20 @@
           ],
           "correctIndex": 1
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "half of Lima's workers commute to work by bus in response to the strike public schools are shut and the government has urged businesses to allow employees to",
+        "start": 38.4,
+        "end": 49.8,
+        "decoys": [
+          "commuters",
+          "insecurity",
+          "extortion",
+          "trains",
+          "first",
+          "five"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -5640,7 +5809,20 @@
           ],
           "correctIndex": 0
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "transperth is renowned for its innovation having been the first public transport system in australia to use smart card technology it's also fully integrated with bus train and ferry services",
+        "start": 44,
+        "end": 57,
+        "decoys": [
+          "demand",
+          "satisfaction",
+          "tradition",
+          "taxi",
+          "50",
+          "expand"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -6309,7 +6491,20 @@
           ],
           "correctIndex": 3
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "the collections of the Museo Del pra have a diverse origin originally it was the former collection of the kings of Spain",
+        "start": 15.2,
+        "end": 24.2,
+        "decoys": [
+          "assembled",
+          "institutions",
+          "acquired",
+          "donations",
+          "single",
+          "artists"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -6672,7 +6867,20 @@
           ],
           "correctIndex": 2
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "the Oscar Wilde collection in the library of Trinity College Dublin is the only Oscar Wilde archive held in a public institution in Ireland the collection was acquired in 2011 from Julia Rosenthal",
+        "start": 40.2,
+        "end": 54.9,
+        "decoys": [
+          "exhibition",
+          "memorabilia",
+          "teachers",
+          "poet",
+          "early",
+          "2001"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -7225,7 +7433,20 @@
           ],
           "correctIndex": 1
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "moai the enormous heads that dot the landscape are the lasting legacy of this ancient society the effort to construct these monuments and move them around the island must have been considerable",
+        "start": 43,
+        "end": 59.4,
+        "decoys": [
+          "cultural",
+          "restored",
+          "quarried",
+          "diving",
+          "20",
+          "small"
+        ]
+      }
     },
     "transcriptVerified": true
   },

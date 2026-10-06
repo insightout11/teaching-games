@@ -907,7 +907,20 @@
           ],
           "correctIndex": 3
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "Or, two: You could adapt your lifestyle to be pineapple-free. No more pineapples for you.",
+        "start": 45,
+        "end": 50.9,
+        "decoys": [
+          "climates",
+          "resource",
+          "communities",
+          "survive",
+          "apples",
+          "cold"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -2567,7 +2580,20 @@
           ],
           "correctIndex": 2
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "OK. Let's back up a bit. A solution is what again?",
+        "start": 58.1,
+        "end": 60.9,
+        "decoys": [
+          "engineer",
+          "brainstorm",
+          "criteria",
+          "checklist",
+          "problem",
+          "map"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -2841,7 +2867,20 @@
           ],
           "correctIndex": 1
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "There’s fresh water to drink, fruit on trees, and wood to build our houses. Convenient, right?",
+        "start": 30.7,
+        "end": 36.5,
+        "decoys": [
+          "resources",
+          "communities",
+          "deserts",
+          "thrive",
+          "transform",
+          "mars"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -3043,7 +3082,20 @@
           ],
           "correctIndex": 0
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "The troposphere is the lowest layer. it contains 80% of the air on the planet",
+        "start": 95.2,
+        "end": 100.3,
+        "decoys": [
+          "hydrosphere",
+          "freshwater",
+          "glaciers",
+          "atmosphere",
+          "layers",
+          "fire"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -3245,7 +3297,20 @@
           ],
           "correctIndex": 3
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "We also know that heat is a kind of energy that warms things. This energy starts in the Sun's core.",
+        "start": 46.3,
+        "end": 51.2,
+        "decoys": [
+          "landforms",
+          "absorb",
+          "surface",
+          "sunlight",
+          "water",
+          "quickly"
+        ]
+      }
     },
     "transcriptVerified": true
   },

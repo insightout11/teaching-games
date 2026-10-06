@@ -188,7 +188,20 @@
           ],
           "correctIndex": 0
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "There is uncertainty. You don’t know where the electron is. It could be here, here or many places simultaneously.”",
+        "start": 48.9,
+        "end": 55.3,
+        "decoys": [
+          "clock",
+          "fixed",
+          "predetermined",
+          "heisenberg",
+          "certainty",
+          "proton"
+        ]
+      }
     },
     "transcriptVerified": true
   },

@@ -1907,7 +1907,20 @@
           ],
           "correctIndex": 2
         }
-      ]
+      ],
+      "blackBox": {
+        "passage": "School sport participation has also been shown to reduce the risk of suffering from depression for up to four years. Meanwhile, your self-esteem and confidence can get a big boost.",
+        "start": 124.6,
+        "end": 136.2,
+        "decoys": [
+          "cholesterol",
+          "endorphins",
+          "focus",
+          "team",
+          "resilience",
+          "bad"
+        ]
+      }
     },
     "transcriptVerified": true
   },
