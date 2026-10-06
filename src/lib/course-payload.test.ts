@@ -80,7 +80,7 @@ describe('buildCourseLessonPayload', () => {
     const flightConfig = buildFlightConfigForCourseSlots(preset.flightConfig, payload.slots);
 
     expect(preset.id).toBe('debate-60');
-    expect(payload.slots.some((slot) => slot.stageLabel === 'Debate')).toBe(true);
+    expect(payload.slots.some((slot) => slot.stageLabel === 'Tag-team Debate')).toBe(true);
     expect(payload.slots.every((slot) => slot.stageId)).toBe(true);
     expect(flightConfig?.stages.map((stage) => stage.label)).toEqual(
       payload.slots.map((slot) => slot.stageLabel),
