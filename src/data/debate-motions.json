@@ -1918,5 +1918,1925 @@
       }
     ],
     "pulse": "Do you think arts should receive as much class time as science?"
+  },
+  {
+    "id": "debate-r14-01",
+    "motion": "Every class should have a reading corner",
+    "topics": [
+      "books"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Books are easy to reach",
+      "Quiet reading helps children settle",
+      "Classmates can share stories"
+    ],
+    "againstPoints": [
+      "A corner takes classroom space",
+      "Some pupils prefer moving while reading",
+      "Books need care and replacement"
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF says reading together supports vocabulary and speaking confidence.",
+        "side": "for",
+        "source": "UNICEF, How to Teach Your Child to Love Reading"
+      },
+      {
+        "fact": "UNICEF advises making reading enjoyable and suited to each child, rather than forcing one routine.",
+        "side": "against",
+        "source": "UNICEF, How to Teach Your Child to Love Reading"
+      }
+    ],
+    "pulse": "Do you think every class should have a reading corner?"
+  },
+  {
+    "id": "debate-r14-02",
+    "motion": "Children should pick one library book every week",
+    "topics": [
+      "books"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Choice can make reading fun",
+      "A new book brings new words",
+      "Libraries let children try different stories"
+    ],
+    "againstPoints": [
+      "A weekly deadline may rush slow readers",
+      "Some children want to reread favourites",
+      "Not every family can reach a library"
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF says letting children choose books helps build a love of reading.",
+        "side": "for",
+        "source": "UNICEF, How to Teach Your Child to Love Reading"
+      },
+      {
+        "fact": "UNICEF advises reading at a child’s pace and rereading favourite books.",
+        "side": "against",
+        "source": "UNICEF, How to Teach Your Child to Love Reading"
+      }
+    ],
+    "pulse": "Do you think children should pick one library book every week?"
+  },
+  {
+    "id": "debate-r14-03",
+    "motion": "Teachers should read stories aloud every day",
+    "topics": [
+      "stories"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Everyone hears rich new words",
+      "Children can ask about the story",
+      "A shared story starts conversation"
+    ],
+    "againstPoints": [
+      "Children also need time to read alone",
+      "Daily reading aloud uses lesson time",
+      "One book may not suit every learner"
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF says reading aloud builds speech and vocabulary.",
+        "side": "for",
+        "source": "UNICEF, How to Teach Your Child to Love Reading"
+      },
+      {
+        "fact": "UNICEF recommends letting children participate and choose books they enjoy.",
+        "side": "against",
+        "source": "UNICEF, How to Teach Your Child to Love Reading"
+      }
+    ],
+    "pulse": "Do you think teachers should read stories aloud every day?"
+  },
+  {
+    "id": "debate-r14-04",
+    "motion": "Class plays should have parts for everyone",
+    "topics": [
+      "stories"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Every child can take part",
+      "Acting gives stories a voice",
+      "Small roles can build confidence"
+    ],
+    "againstPoints": [
+      "Some children dislike performing",
+      "Planning many roles takes time",
+      "Behind-the-scenes jobs also matter"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO reports that arts education can build creativity and inclusion.",
+        "side": "for",
+        "source": "UNESCO, State of the Education Report for India 2024"
+      },
+      {
+        "fact": "UNESCO says good arts programmes require teaching capacity and resources.",
+        "side": "against",
+        "source": "UNESCO, State of the Education Report for India 2024"
+      }
+    ],
+    "pulse": "Do you think class plays should have parts for everyone?"
+  },
+  {
+    "id": "debate-r14-05",
+    "motion": "Children should draw their own story endings",
+    "topics": [
+      "stories"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Drawing lets quiet pupils share ideas",
+      "There can be many creative endings",
+      "Pictures help explain a story"
+    ],
+    "againstPoints": [
+      "The original ending may be important",
+      "Some pupils prefer speaking or writing",
+      "Drawing can take extra time"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO says arts education supports creativity and different forms of expression.",
+        "side": "for",
+        "source": "UNESCO, State of the Education Report for India 2024"
+      },
+      {
+        "fact": "UNESCO calls for clear learning goals and ways to assess arts education.",
+        "side": "against",
+        "source": "UNESCO, State of the Education Report for India 2024"
+      }
+    ],
+    "pulse": "Do you think children should draw their own story endings?"
+  },
+  {
+    "id": "debate-r14-06",
+    "motion": "Every family should have a pet",
+    "topics": [
+      "pets"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Pets can be good companions",
+      "Caring for an animal teaches routines",
+      "Playing with pets gets people moving"
+    ],
+    "againstPoints": [
+      "Pets need time and money",
+      "Some families have allergies",
+      "Animals can carry germs"
+    ],
+    "evidence": [
+      {
+        "fact": "CDC says pets can increase opportunities for exercise and companionship.",
+        "side": "for",
+        "source": "CDC, Ways to Stay Healthy Around Animals"
+      },
+      {
+        "fact": "CDC warns that even healthy-looking pets can carry germs that make people sick.",
+        "side": "against",
+        "source": "CDC, Ways to Stay Healthy Around Animals"
+      }
+    ],
+    "pulse": "Do you think every family should have a pet?"
+  },
+  {
+    "id": "debate-r14-07",
+    "motion": "Schools should allow a class pet",
+    "topics": [
+      "pets"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Children can learn daily care",
+      "Watching an animal can spark questions",
+      "The class could share duties"
+    ],
+    "againstPoints": [
+      "Some children have allergies",
+      "Animals need care on holidays",
+      "Noise may upset an animal"
+    ],
+    "evidence": [
+      {
+        "fact": "CDC says pets can increase opportunities to socialize and spend time outdoors.",
+        "side": "for",
+        "source": "CDC, Ways to Stay Healthy Around Animals"
+      },
+      {
+        "fact": "CDC says children should wash hands after handling animals because pets can carry germs.",
+        "side": "against",
+        "source": "CDC, Ways to Stay Healthy Around Animals"
+      }
+    ],
+    "pulse": "Do you think schools should allow a class pet?"
+  },
+  {
+    "id": "debate-r14-08",
+    "motion": "Families should research a pet before adopting",
+    "topics": [
+      "pets"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "They can choose a suitable animal",
+      "They can plan daily care",
+      "They can check health needs"
+    ],
+    "againstPoints": [
+      "Research takes time",
+      "A shelter can answer questions",
+      "Families may still need to meet the pet"
+    ],
+    "evidence": [
+      {
+        "fact": "CDC advises choosing pets that fit a family’s health and lifestyle.",
+        "side": "for",
+        "source": "CDC, Ways to Stay Healthy Around Animals"
+      },
+      {
+        "fact": "CDC warns that even healthy-looking animals can carry germs.",
+        "side": "against",
+        "source": "CDC, Ways to Stay Healthy Around Animals"
+      }
+    ],
+    "pulse": "Do you think families should research a pet before adopting?"
+  },
+  {
+    "id": "debate-r14-09",
+    "motion": "Schools should offer water with every lunch",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Water is easy to drink with food",
+      "It avoids added sugar",
+      "Children can refill a bottle"
+    ],
+    "againstPoints": [
+      "Schools need clean taps",
+      "Some pupils prefer milk",
+      "Bottles and cups need washing"
+    ],
+    "evidence": [
+      {
+        "fact": "WHO recommends limiting free sugars in a healthy diet.",
+        "side": "for",
+        "source": "WHO, Healthy Diet"
+      },
+      {
+        "fact": "USDA school meal rules include milk among required meal components.",
+        "side": "against",
+        "source": "USDA, School Nutrition and Meal Cost Study"
+      }
+    ],
+    "pulse": "Do you think schools should offer water with every lunch?"
+  },
+  {
+    "id": "debate-r14-10",
+    "motion": "Children should help prepare one family meal weekly",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "They can learn food skills",
+      "Cooking gives families time together",
+      "Children may try new foods"
+    ],
+    "againstPoints": [
+      "Hot tools need adult supervision",
+      "Families may be busy",
+      "Young children need simple jobs"
+    ],
+    "evidence": [
+      {
+        "fact": "USDA reports that youth nutrition lessons helped participants learn food preparation.",
+        "side": "for",
+        "source": "USDA NIFA, Family Nutrition Education"
+      },
+      {
+        "fact": "CDC says handwashing during food preparation helps prevent cross-contamination.",
+        "side": "against",
+        "source": "CDC, Handwashing as a Healthy Habit in the Kitchen"
+      }
+    ],
+    "pulse": "Do you think children should help prepare one family meal weekly?"
+  },
+  {
+    "id": "debate-r14-11",
+    "motion": "School lunches should include a local fruit",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Children can discover nearby farms",
+      "Fresh fruit adds variety",
+      "Schools can support local growers"
+    ],
+    "againstPoints": [
+      "Local fruit changes with seasons",
+      "It may cost more in some places",
+      "Children still need other foods"
+    ],
+    "evidence": [
+      {
+        "fact": "USDA reports that local fruit is a common farm-to-school food.",
+        "side": "for",
+        "source": "USDA, Locally Produced Foods in School Districts"
+      },
+      {
+        "fact": "USDA reports that food prices vary across places and affect meal costs.",
+        "side": "against",
+        "source": "USDA, School Foodservice Costs: Location Matters"
+      }
+    ],
+    "pulse": "Do you think school lunches should include a local fruit?"
+  },
+  {
+    "id": "debate-r14-12",
+    "motion": "Children should choose between two lunch sizes",
+    "topics": [
+      "food"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Small eaters waste less",
+      "Hungry pupils can choose more",
+      "Choice respects different appetites"
+    ],
+    "againstPoints": [
+      "A small meal may leave someone hungry",
+      "Servers need extra planning",
+      "Balanced meals still matter"
+    ],
+    "evidence": [
+      {
+        "fact": "USDA identifies tailoring serving sizes to appetites as a possible way to reduce plate waste.",
+        "side": "for",
+        "source": "USDA, Plate Waste in School Nutrition Programs"
+      },
+      {
+        "fact": "USDA says schools must serve meals that meet nutrition requirements.",
+        "side": "against",
+        "source": "USDA, School Nutrition and Meal Cost Study"
+      }
+    ],
+    "pulse": "Do you think children should choose between two lunch sizes?"
+  },
+  {
+    "id": "debate-r14-13",
+    "motion": "Schools should teach safe cycling in PE",
+    "topics": [
+      "sport"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Children learn road rules",
+      "Riding gives active travel choices",
+      "Helmets become a habit"
+    ],
+    "againstPoints": [
+      "Not every child has a bicycle",
+      "Schools need safe practice space",
+      "Walking skills matter too"
+    ],
+    "evidence": [
+      {
+        "fact": "CDC says Safe Routes programmes can make walking and cycling to school safer.",
+        "side": "for",
+        "source": "CDC, Bicycle Safety"
+      },
+      {
+        "fact": "CDC says cycling injuries remain a risk and correctly fitted helmets reduce head injury.",
+        "side": "against",
+        "source": "CDC, Bicycle Safety"
+      }
+    ],
+    "pulse": "Do you think schools should teach safe cycling in PE?"
+  },
+  {
+    "id": "debate-r14-14",
+    "motion": "Every child should try a team game",
+    "topics": [
+      "sport"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Games teach cooperation",
+      "Children can make friends",
+      "Movement supports health"
+    ],
+    "againstPoints": [
+      "Some pupils prefer solo activities",
+      "Teams can leave children out",
+      "Choice keeps sport enjoyable"
+    ],
+    "evidence": [
+      {
+        "fact": "CDC says physical activity benefits children’s brain and body health.",
+        "side": "for",
+        "source": "CDC, Health Benefits of Physical Activity for Children"
+      },
+      {
+        "fact": "CDC recommends offering varied physical activity opportunities, not only team sport.",
+        "side": "against",
+        "source": "CDC, Physical Education and Activity Strategies"
+      }
+    ],
+    "pulse": "Do you think every child should try a team game?"
+  },
+  {
+    "id": "debate-r14-15",
+    "motion": "Schools should hold a weekly dance break",
+    "topics": [
+      "sport"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Dancing can be active fun",
+      "No team needs to win",
+      "Music can change the mood"
+    ],
+    "againstPoints": [
+      "Some pupils dislike public dancing",
+      "Noise may disturb another class",
+      "There are other ways to move"
+    ],
+    "evidence": [
+      {
+        "fact": "CDC says classroom activity breaks can improve attention and physical activity.",
+        "side": "for",
+        "source": "CDC, Classroom Physical Activity Breaks"
+      },
+      {
+        "fact": "CDC lists recess, PE, clubs and active travel as different ways to be active.",
+        "side": "against",
+        "source": "CDC, Physical Education and Activity Strategies"
+      }
+    ],
+    "pulse": "Do you think schools should hold a weekly dance break?"
+  },
+  {
+    "id": "debate-r14-16",
+    "motion": "Children should walk short school trips",
+    "topics": [
+      "sport"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Walking adds daily movement",
+      "The class can notice its area",
+      "Fewer vehicles stop outside school"
+    ],
+    "againstPoints": [
+      "Roads may be unsafe",
+      "Some pupils cannot walk that distance",
+      "Weather can change plans"
+    ],
+    "evidence": [
+      {
+        "fact": "CDC says safe walking routes can support physical activity.",
+        "side": "for",
+        "source": "CDC, Safe Routes to School"
+      },
+      {
+        "fact": "CDC says traffic safety concerns and missing sidewalks can stop children walking to school.",
+        "side": "against",
+        "source": "CDC, Safe Routes to School"
+      }
+    ],
+    "pulse": "Do you think children should walk short school trips?"
+  },
+  {
+    "id": "debate-r14-17",
+    "motion": "Family game night should happen every week",
+    "topics": [
+      "games"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Families can talk while playing",
+      "Games give everyone a turn",
+      "No screen is needed"
+    ],
+    "againstPoints": [
+      "Schedules are different",
+      "Some families prefer other activities",
+      "Weekly rules may feel forced"
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF says play with caregivers can support learning and relationships.",
+        "side": "for",
+        "source": "UNICEF, The Power of Play"
+      },
+      {
+        "fact": "UNICEF says play takes many forms and should follow children’s interests.",
+        "side": "against",
+        "source": "UNICEF, The Power of Play"
+      }
+    ],
+    "pulse": "Do you think family game night should happen every week?"
+  },
+  {
+    "id": "debate-r14-18",
+    "motion": "Digital games should count as play",
+    "topics": [
+      "games"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Some games invite creative choices",
+      "Friends can cooperate online",
+      "Children may learn new skills"
+    ],
+    "againstPoints": [
+      "Some games push purchases",
+      "Long sessions replace movement",
+      "Online spaces need safety rules"
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF reports that digital games can offer active, social and creative play.",
+        "side": "for",
+        "source": "UNICEF, The Power of Play"
+      },
+      {
+        "fact": "UNICEF warns that games may include in-game purchases or hidden advertising.",
+        "side": "against",
+        "source": "UNICEF, The Power of Play"
+      }
+    ],
+    "pulse": "Do you think digital games should count as play?"
+  },
+  {
+    "id": "debate-r14-19",
+    "motion": "Schools should lend board games at break",
+    "topics": [
+      "games"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "More children can try games",
+      "Games can start friendships",
+      "A rainy break has options"
+    ],
+    "againstPoints": [
+      "Pieces can get lost",
+      "Not everyone enjoys board games",
+      "Staff need to manage lending"
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF says different kinds of play support social skills.",
+        "side": "for",
+        "source": "UNICEF, The Power of Play"
+      },
+      {
+        "fact": "UNICEF says children need varied play choices, including active play.",
+        "side": "against",
+        "source": "UNICEF, The Power of Play"
+      }
+    ],
+    "pulse": "Do you think schools should lend board games at break?"
+  },
+  {
+    "id": "debate-r14-20",
+    "motion": "Parents should choose children’s screen time together",
+    "topics": [
+      "screens"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "A shared rule can be clear",
+      "Children can explain their needs",
+      "Families can plan other activities"
+    ],
+    "againstPoints": [
+      "One rule may not fit every day",
+      "School work uses screens too",
+      "Older children need some independence"
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF says family conversation helps children use digital spaces safely.",
+        "side": "for",
+        "source": "UNICEF Innocenti, Childhood in a Digital World"
+      },
+      {
+        "fact": "UNICEF warns that strict time limits alone miss the quality and context of digital use.",
+        "side": "against",
+        "source": "UNICEF Innocenti, Childhood in a Digital World"
+      }
+    ],
+    "pulse": "Do you think parents should choose children’s screen time together?"
+  },
+  {
+    "id": "debate-r14-21",
+    "motion": "Children should be allowed to keep a nature diary",
+    "topics": [
+      "nature"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "They can notice seasonal change",
+      "Drawing makes observation fun",
+      "A diary helps remember discoveries"
+    ],
+    "againstPoints": [
+      "Not every child likes writing",
+      "Outdoor access differs",
+      "Teachers need time to discuss entries"
+    ],
+    "evidence": [
+      {
+        "fact": "US EPA provides outdoor ecosystem lessons that use observation of local places.",
+        "side": "for",
+        "source": "US EPA, EnviroAtlas Educational Materials"
+      },
+      {
+        "fact": "US EPA notes that outdoor lessons need attention to local environmental conditions.",
+        "side": "against",
+        "source": "US EPA, EnviroAtlas Educational Materials"
+      }
+    ],
+    "pulse": "Do you think children should be allowed to keep a nature diary?"
+  },
+  {
+    "id": "debate-r14-22",
+    "motion": "Classes should plant flowers for insects",
+    "topics": [
+      "nature"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Flowers can help pollinators",
+      "Children see life cycles nearby",
+      "A small space can be useful"
+    ],
+    "againstPoints": [
+      "Plants need water and care",
+      "Some pupils fear insects",
+      "Local plants must be chosen carefully"
+    ],
+    "evidence": [
+      {
+        "fact": "USDA says pollinators help many flowering plants reproduce.",
+        "side": "for",
+        "source": "USDA NRCS, Pollinator Biology and Habitat"
+      },
+      {
+        "fact": "USDA advises choosing plants suited to local conditions for pollinator habitat.",
+        "side": "against",
+        "source": "USDA NRCS, Pollinator Biology and Habitat"
+      }
+    ],
+    "pulse": "Do you think classes should plant flowers for insects?"
+  },
+  {
+    "id": "debate-r14-23",
+    "motion": "Schools should turn off outdoor lights earlier",
+    "topics": [
+      "nature"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Darker nights help some animals",
+      "Schools use less electricity",
+      "Children can learn about night nature"
+    ],
+    "againstPoints": [
+      "Paths still need safe lighting",
+      "Some events finish late",
+      "A timer may be needed"
+    ],
+    "evidence": [
+      {
+        "fact": "US National Park Service says artificial light can disrupt nocturnal wildlife.",
+        "side": "for",
+        "source": "US National Park Service, Night Sky-Friendly Lighting"
+      },
+      {
+        "fact": "US National Park Service recommends using lighting where needed for safety.",
+        "side": "against",
+        "source": "US National Park Service, Night Sky-Friendly Lighting"
+      }
+    ],
+    "pulse": "Do you think schools should turn off outdoor lights earlier?"
+  },
+  {
+    "id": "debate-r14-24",
+    "motion": "Families should take one screen-free walk weekly",
+    "topics": [
+      "home"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "A walk gives time to talk",
+      "Movement is healthy",
+      "Children can notice local nature"
+    ],
+    "againstPoints": [
+      "Some families have unsafe routes",
+      "Weather may be difficult",
+      "Other shared activities also count"
+    ],
+    "evidence": [
+      {
+        "fact": "CDC says regular physical activity benefits children’s health.",
+        "side": "for",
+        "source": "CDC, Health Benefits of Physical Activity for Children"
+      },
+      {
+        "fact": "CDC says access to safe walking spaces differs by community.",
+        "side": "against",
+        "source": "CDC, Safe Routes to School"
+      }
+    ],
+    "pulse": "Do you think families should take one screen-free walk weekly?"
+  },
+  {
+    "id": "debate-r14-25",
+    "motion": "Children should help set one family rule",
+    "topics": [
+      "home"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Children can explain what feels fair",
+      "They may follow a rule they helped make",
+      "Adults hear different needs"
+    ],
+    "againstPoints": [
+      "Adults must keep children safe",
+      "Some decisions are too complex",
+      "Rules may need to change quickly"
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF guidance calls for children’s views to be heard in decisions affecting them.",
+        "side": "for",
+        "source": "UNICEF, Meaningful Consultations with Young People"
+      },
+      {
+        "fact": "UNICEF guidance says adults retain responsibility for children’s safety and wellbeing.",
+        "side": "against",
+        "source": "UNICEF, Meaningful Consultations with Young People"
+      }
+    ],
+    "pulse": "Do you think children should help set one family rule?"
+  },
+  {
+    "id": "debate-r14-26",
+    "motion": "Holidays should include a local day trip",
+    "topics": [
+      "holidays"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Families can explore nearby places",
+      "Travel time stays short",
+      "Local visits may cost less"
+    ],
+    "againstPoints": [
+      "Some families need rest at home",
+      "Transport may still cost money",
+      "A trip is not the only adventure"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO says museums support informal learning and community education.",
+        "side": "for",
+        "source": "UNESCO, Recommendation on Museums and Collections"
+      },
+      {
+        "fact": "UNESCO says museums need resources for collection care and education, so visits require planning.",
+        "side": "against",
+        "source": "UNESCO, Recommendation on Museums and Collections"
+      }
+    ],
+    "pulse": "Do you think holidays should include a local day trip?"
+  },
+  {
+    "id": "debate-r14-27",
+    "motion": "Children should help plan a holiday day",
+    "topics": [
+      "holidays"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Their interests get heard",
+      "Planning can teach choices",
+      "Families can compare activities"
+    ],
+    "againstPoints": [
+      "Adults know the budget",
+      "Plans need to be safe",
+      "Not every wish can fit one day"
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF guidance says young people’s participation works when adults listen seriously.",
+        "side": "for",
+        "source": "UNICEF, Meaningful Consultations with Young People"
+      },
+      {
+        "fact": "UNICEF guidance says participation needs time, preparation and practical support.",
+        "side": "against",
+        "source": "UNICEF, Meaningful Consultations with Young People"
+      }
+    ],
+    "pulse": "Do you think children should help plan a holiday day?"
+  },
+  {
+    "id": "debate-r14-28",
+    "motion": "Space lessons should show real satellite images",
+    "topics": [
+      "space"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Images show Earth from above",
+      "Children can ask new questions",
+      "Real data can make science exciting"
+    ],
+    "againstPoints": [
+      "Images need explanation",
+      "Not every image is easy to read",
+      "Models and experiments also help"
+    ],
+    "evidence": [
+      {
+        "fact": "NASA provides Earth-observation data and imagery for learning and research.",
+        "side": "for",
+        "source": "NASA Earthdata, Land Processes Archive"
+      },
+      {
+        "fact": "NASA says satellite data need interpretation and validation before use.",
+        "side": "against",
+        "source": "NASA Earthdata, Land Processes Archive"
+      }
+    ],
+    "pulse": "Do you think space lessons should show real satellite images?"
+  },
+  {
+    "id": "debate-r14-29",
+    "motion": "Children should design a pretend Moon base",
+    "topics": [
+      "space"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Designing encourages imagination",
+      "Teams can solve a problem",
+      "The Moon becomes less abstract"
+    ],
+    "againstPoints": [
+      "Pretend designs can miss real limits",
+      "Building takes materials",
+      "Science facts still need checking"
+    ],
+    "evidence": [
+      {
+        "fact": "NASA says exploration drives new technology and scientific questions.",
+        "side": "for",
+        "source": "NASA, Why Go to Space"
+      },
+      {
+        "fact": "NASA identifies radiation, isolation and other hazards that real Moon crews must address.",
+        "side": "against",
+        "source": "NASA, Risks of Human Spaceflight"
+      }
+    ],
+    "pulse": "Do you think children should design a pretend Moon base?"
+  },
+  {
+    "id": "debate-r14-30",
+    "motion": "Superhero stories should include ordinary helpers",
+    "topics": [
+      "stories"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "forPoints": [
+      "Children see everyday courage",
+      "Helpers can work as a team",
+      "More characters can join in"
+    ],
+    "againstPoints": [
+      "A fantasy hero can be fun",
+      "Stories need clear focus",
+      "Not every tale needs a lesson"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO says arts education can foster empathy and social connection.",
+        "side": "for",
+        "source": "UNESCO, State of the Education Report for India 2024"
+      },
+      {
+        "fact": "UNESCO says artistic expression should leave room for creativity and cultural diversity.",
+        "side": "against",
+        "source": "UNESCO, State of the Education Report for India 2024"
+      }
+    ],
+    "pulse": "Do you think superhero stories should include ordinary helpers?"
+  },
+  {
+    "id": "debate-r14-31",
+    "motion": "Cities should make buses free for teenagers",
+    "topics": [
+      "transport"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "More teens could reach activities",
+      "Families would save fares",
+      "A bus can replace a car ride"
+    ],
+    "againstPoints": [
+      "Bus services still need funding",
+      "Crowded routes need more vehicles",
+      "Safety and access matter beyond price"
+    ],
+    "evidence": [
+      {
+        "fact": "WHO says public transport can improve access to education for people without cars.",
+        "side": "for",
+        "source": "WHO, Safe Environments and Mobility"
+      },
+      {
+        "fact": "WHO says transport health also depends on road safety, noise and air pollution, not fares alone.",
+        "side": "against",
+        "source": "WHO, Safe Environments and Mobility"
+      }
+    ],
+    "pulse": "Do you think cities should make buses free for teenagers?"
+  },
+  {
+    "id": "debate-r14-32",
+    "motion": "Cities should charge for busy road space",
+    "topics": [
+      "transport"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Less congestion can speed buses",
+      "Charges could fund better transit",
+      "Cleaner air helps residents"
+    ],
+    "againstPoints": [
+      "Charges can burden some drivers",
+      "Good alternatives are needed first",
+      "Delivery workers may need exceptions"
+    ],
+    "evidence": [
+      {
+        "fact": "WHO identifies travel-demand management as one route to cleaner, healthier urban transport.",
+        "side": "for",
+        "source": "WHO, Safe Environments and Mobility"
+      },
+      {
+        "fact": "WHO says transport policy must account for equitable access to work, health care and education.",
+        "side": "against",
+        "source": "WHO, Safe Environments and Mobility"
+      }
+    ],
+    "pulse": "Do you think cities should charge for busy road space?"
+  },
+  {
+    "id": "debate-r14-33",
+    "motion": "Museums should offer free entry to teenagers",
+    "topics": [
+      "museums"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "More teens could visit",
+      "Families could try a museum together",
+      "History becomes easier to explore"
+    ],
+    "againstPoints": [
+      "Museums must pay for staff",
+      "Collections need protection",
+      "Free entry alone may not solve travel barriers"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO says museums provide formal and informal education for young people.",
+        "side": "for",
+        "source": "UNESCO, Recommendation on Museums and Collections"
+      },
+      {
+        "fact": "UNESCO says conservation, security and collection management require resources.",
+        "side": "against",
+        "source": "UNESCO, Recommendation on Museums and Collections"
+      }
+    ],
+    "pulse": "Do you think museums should offer free entry to teenagers?"
+  },
+  {
+    "id": "debate-r14-34",
+    "motion": "Museums should lend objects to local schools",
+    "topics": [
+      "museums"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Students could study real objects",
+      "Schools far away could participate",
+      "Loans may inspire later visits"
+    ],
+    "againstPoints": [
+      "Fragile objects can be damaged",
+      "Staff must track and insure loans",
+      "Digital copies may be safer"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO recommends museum partnerships with schools for educational programmes.",
+        "side": "for",
+        "source": "UNESCO, Recommendation on Museums and Collections"
+      },
+      {
+        "fact": "UNESCO says collections require security, risk analysis and preventive conservation.",
+        "side": "against",
+        "source": "UNESCO, Recommendation on Museums and Collections"
+      }
+    ],
+    "pulse": "Do you think museums should lend objects to local schools?"
+  },
+  {
+    "id": "debate-r14-35",
+    "motion": "Visitors should choose local guides on heritage trips",
+    "topics": [
+      "tourism"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Local people can earn income",
+      "Guides know community stories",
+      "Visitors may learn respectful behaviour"
+    ],
+    "againstPoints": [
+      "Guided trips can cost more",
+      "Visitors may want independence",
+      "Guides need training and fair work"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO says locally involved tourism can create economic benefits for communities.",
+        "side": "for",
+        "source": "UNESCO, World Heritage Sustainable Tourism Toolkit"
+      },
+      {
+        "fact": "UNESCO warns tourism growth must respect limits that protect heritage and residents.",
+        "side": "against",
+        "source": "UNESCO, World Heritage Sustainable Tourism Toolkit"
+      }
+    ],
+    "pulse": "Do you think visitors should choose local guides on heritage trips?"
+  },
+  {
+    "id": "debate-r14-36",
+    "motion": "Popular heritage sites should limit daily visitors",
+    "topics": [
+      "tourism"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Crowding can damage places",
+      "Visitors may enjoy calmer visits",
+      "Residents keep access to their area"
+    ],
+    "againstPoints": [
+      "Limits can cut local earnings",
+      "Tickets may become hard to get",
+      "Good crowd management may work instead"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO reports that overcrowding, congestion and tourism infrastructure increasingly harm some heritage sites.",
+        "side": "for",
+        "source": "UNESCO World Heritage Committee, Tourism Impacts"
+      },
+      {
+        "fact": "UNESCO says tourism can create jobs and income for local communities when managed sustainably.",
+        "side": "against",
+        "source": "UNESCO, World Heritage Sustainable Tourism Toolkit"
+      }
+    ],
+    "pulse": "Do you think popular heritage sites should limit daily visitors?"
+  },
+  {
+    "id": "debate-r14-37",
+    "motion": "Teen internships should always be paid",
+    "topics": [
+      "work"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Pay makes placements fairer",
+      "Teens can cover travel costs",
+      "Work has value"
+    ],
+    "againstPoints": [
+      "Small groups may offer fewer places",
+      "Training must remain the main goal",
+      "Some short observation visits are different"
+    ],
+    "evidence": [
+      {
+        "fact": "ILO warns that unpaid internships can be abused and exclude young people without financial support.",
+        "side": "for",
+        "source": "ILO, Internships: Head Start or Labour Trap?"
+      },
+      {
+        "fact": "ILO distinguishes internships with strong training from jobs that displace paid workers.",
+        "side": "against",
+        "source": "ILO, Internships: Head Start or Labour Trap?"
+      }
+    ],
+    "pulse": "Do you think teen internships should always be paid?"
+  },
+  {
+    "id": "debate-r14-38",
+    "motion": "Schools should expand apprenticeships instead of exams",
+    "topics": [
+      "work"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Learning at work builds skills",
+      "Students see different careers",
+      "Employers can offer feedback"
+    ],
+    "againstPoints": [
+      "Core knowledge still needs checking",
+      "Placement quality can vary",
+      "Not every career has a local employer"
+    ],
+    "evidence": [
+      {
+        "fact": "ILO says quality apprenticeships combine training with real work experience.",
+        "side": "for",
+        "source": "ILO, Quality Apprenticeships Recommendation 2023"
+      },
+      {
+        "fact": "ILO stresses that apprenticeships need regulation, social protection and quality assurance.",
+        "side": "against",
+        "source": "ILO, Quality Apprenticeships Recommendation 2023"
+      }
+    ],
+    "pulse": "Do you think schools should expand apprenticeships instead of exams?"
+  },
+  {
+    "id": "debate-r14-39",
+    "motion": "News lessons should teach misleading images",
+    "topics": [
+      "media"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Students can check visual claims",
+      "Edited images spread quickly",
+      "A picture needs context"
+    ],
+    "againstPoints": [
+      "Lessons need careful examples",
+      "Skills must cover text and sound too",
+      "Teachers need support"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO’s media-literacy guidance includes checking information and responding to misinformation.",
+        "side": "for",
+        "source": "UNESCO, Media and Information Literacy for Global Communication and Learning"
+      },
+      {
+        "fact": "UNESCO says media literacy spans many formats and requires educator capacity, not image lessons alone.",
+        "side": "against",
+        "source": "UNESCO, Media and Information Literacy for Global Communication and Learning"
+      }
+    ],
+    "pulse": "Do you think news lessons should teach misleading images?"
+  },
+  {
+    "id": "debate-r14-40",
+    "motion": "Platforms should label edited news images",
+    "topics": [
+      "media"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Labels help viewers pause",
+      "Sources become easier to question",
+      "Clear labels can reduce confusion"
+    ],
+    "againstPoints": [
+      "Editing can be harmless",
+      "A label cannot verify the whole story",
+      "False confidence is possible"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO says media and information literacy must address disinformation and digital manipulation.",
+        "side": "for",
+        "source": "UNESCO, Media and Information Literacy for Global Communication and Learning"
+      },
+      {
+        "fact": "UNESCO says users also need skills to judge sources and context; a platform label is not a full check.",
+        "side": "against",
+        "source": "UNESCO, Media and Information Literacy for Global Communication and Learning"
+      }
+    ],
+    "pulse": "Do you think platforms should label edited news images?"
+  },
+  {
+    "id": "debate-r14-41",
+    "motion": "Libraries should stay open after school",
+    "topics": [
+      "libraries"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Teens get a quiet place",
+      "Books and computers are shared",
+      "Friends can study together"
+    ],
+    "againstPoints": [
+      "Staff need safe working hours",
+      "Buildings cost money to run",
+      "Some pupils need transport home"
+    ],
+    "evidence": [
+      {
+        "fact": "ALA calls libraries informal learning spaces that bridge school and after-school time.",
+        "side": "for",
+        "source": "ALA YALSA, The Need for Teen Spaces in Public Libraries"
+      },
+      {
+        "fact": "ALA says teen library space must be designed around local needs, priorities and budgets.",
+        "side": "against",
+        "source": "ALA YALSA, The Need for Teen Spaces in Public Libraries"
+      }
+    ],
+    "pulse": "Do you think libraries should stay open after school?"
+  },
+  {
+    "id": "debate-r14-42",
+    "motion": "Libraries should offer printed and digital lessons",
+    "topics": [
+      "libraries"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Different learners get choices",
+      "Printed pages work offline",
+      "Digital copies can be updated"
+    ],
+    "againstPoints": [
+      "Two formats cost more to maintain",
+      "Devices may be missing",
+      "Licences can limit sharing"
+    ],
+    "evidence": [
+      {
+        "fact": "ALA recommends teen library spaces include both print and digital collections.",
+        "side": "for",
+        "source": "ALA YALSA, The Need for Teen Spaces in Public Libraries"
+      },
+      {
+        "fact": "UNESCO says hardware, connectivity and quality assurance remain challenges for digital learning.",
+        "side": "against",
+        "source": "UNESCO, Open Educational Resources Guidance"
+      }
+    ],
+    "pulse": "Do you think libraries should offer printed and digital lessons?"
+  },
+  {
+    "id": "debate-r14-43",
+    "motion": "School trips should offer accessible routes",
+    "topics": [
+      "accessibility"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "More classmates can join",
+      "Planning helps the whole group",
+      "Routes can be checked early"
+    ],
+    "againstPoints": [
+      "Some sites need major changes",
+      "Transport options may be limited",
+      "Staff need extra planning"
+    ],
+    "evidence": [
+      {
+        "fact": "WHO says accessible transport improves independent access to education and leisure.",
+        "side": "for",
+        "source": "WHO, Safe Environments and Mobility"
+      },
+      {
+        "fact": "WHO notes that safe, equitable mobility requires suitable infrastructure and transport services.",
+        "side": "against",
+        "source": "WHO, Safe Environments and Mobility"
+      }
+    ],
+    "pulse": "Do you think school trips should offer accessible routes?"
+  },
+  {
+    "id": "debate-r14-44",
+    "motion": "Cities should give accessible information at every transit stop",
+    "topics": [
+      "accessibility"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "More riders can travel alone",
+      "Clear signs help visitors too",
+      "Audio and text offer choice"
+    ],
+    "againstPoints": [
+      "Equipment needs upkeep",
+      "Small stops have limited space",
+      "Information must stay accurate"
+    ],
+    "evidence": [
+      {
+        "fact": "WHO says transport access is particularly important for people with disabilities.",
+        "side": "for",
+        "source": "WHO, Safe Environments and Mobility"
+      },
+      {
+        "fact": "WHO says equitable mobility requires infrastructure and services, so information alone is insufficient.",
+        "side": "against",
+        "source": "WHO, Safe Environments and Mobility"
+      }
+    ],
+    "pulse": "Do you think cities should give accessible information at every transit stop?"
+  },
+  {
+    "id": "debate-r14-45",
+    "motion": "Schools should use free satellite images in science",
+    "topics": [
+      "space"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Students see real patterns",
+      "Local change can be observed",
+      "Data may spark questions"
+    ],
+    "againstPoints": [
+      "Images need interpretation",
+      "Some schools lack devices",
+      "Hands-on experiments still matter"
+    ],
+    "evidence": [
+      {
+        "fact": "NASA makes Earth imagery and data available for education and research.",
+        "side": "for",
+        "source": "NASA Earthdata, Land Processes Archive"
+      },
+      {
+        "fact": "NASA explains that Earth-observation data need interpretation and validation.",
+        "side": "against",
+        "source": "NASA Earthdata, Land Processes Archive"
+      }
+    ],
+    "pulse": "Do you think schools should use free satellite images in science?"
+  },
+  {
+    "id": "debate-r14-46",
+    "motion": "More space budgets should support Earth observation",
+    "topics": [
+      "space"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Satellites track changes on Earth",
+      "Data can aid research",
+      "Weather services use space data"
+    ],
+    "againstPoints": [
+      "Human missions also produce discoveries",
+      "Budgets have different goals",
+      "Space systems need long-term upkeep"
+    ],
+    "evidence": [
+      {
+        "fact": "NASA says Earth-observation data support research, education and decision-making.",
+        "side": "for",
+        "source": "NASA Earthdata, Land Processes Archive"
+      },
+      {
+        "fact": "NASA says human exploration produces research and technologies with Earth applications.",
+        "side": "against",
+        "source": "NASA, Why Go to Space"
+      }
+    ],
+    "pulse": "Do you think more space budgets should support Earth observation?"
+  },
+  {
+    "id": "debate-r14-47",
+    "motion": "Schools should install solar panels when roofs allow",
+    "topics": [
+      "energy"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Solar power can cut grid use",
+      "Students can monitor output",
+      "The roof becomes a lesson"
+    ],
+    "againstPoints": [
+      "Roofs may need repair",
+      "Upfront costs can be high",
+      "Power is lower at night"
+    ],
+    "evidence": [
+      {
+        "fact": "IEA says solar and wind can reduce fossil-fuel dependence when integrated well.",
+        "side": "for",
+        "source": "IEA, Integrating Solar and Wind"
+      },
+      {
+        "fact": "IEA says weather-dependent solar supply requires grid flexibility and sometimes storage.",
+        "side": "against",
+        "source": "IEA, Integrating Solar and Wind"
+      }
+    ],
+    "pulse": "Do you think schools should install solar panels when roofs allow?"
+  },
+  {
+    "id": "debate-r14-48",
+    "motion": "Cities should pair new solar projects with storage",
+    "topics": [
+      "energy"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Stored power helps after sunset",
+      "Supply becomes more flexible",
+      "Less clean power is wasted"
+    ],
+    "againstPoints": [
+      "Storage adds cost",
+      "Other flexibility tools may work",
+      "Batteries need materials and management"
+    ],
+    "evidence": [
+      {
+        "fact": "IEA says storage is one option for integrating variable solar and wind power.",
+        "side": "for",
+        "source": "IEA, Integrating Solar and Wind"
+      },
+      {
+        "fact": "IEA says grid upgrades, flexible generation and demand response can also balance variable supply.",
+        "side": "against",
+        "source": "IEA, Integrating Solar and Wind"
+      }
+    ],
+    "pulse": "Do you think cities should pair new solar projects with storage?"
+  },
+  {
+    "id": "debate-r14-49",
+    "motion": "Public places should offer water refill points",
+    "topics": [
+      "water"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "People can refill bottles",
+      "Less packaging is needed",
+      "Water becomes easier to find"
+    ],
+    "againstPoints": [
+      "Taps need cleaning and tests",
+      "Installation costs money",
+      "Some places already have fountains"
+    ],
+    "evidence": [
+      {
+        "fact": "WHO says safe drinking-water supplies protect public health.",
+        "side": "for",
+        "source": "WHO, Drinking-Water Guidelines"
+      },
+      {
+        "fact": "WHO says water safety depends on reliable treatment, monitoring and maintenance.",
+        "side": "against",
+        "source": "WHO, Drinking-Water Guidelines"
+      }
+    ],
+    "pulse": "Do you think public places should offer water refill points?"
+  },
+  {
+    "id": "debate-r14-50",
+    "motion": "Cities should reuse treated water for public gardens",
+    "topics": [
+      "water"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Gardens need less drinking water",
+      "Cities can conserve supplies",
+      "Reuse can fit dry periods"
+    ],
+    "againstPoints": [
+      "Treatment must be reliable",
+      "Pipes and checks cost money",
+      "Some sites need different water quality"
+    ],
+    "evidence": [
+      {
+        "fact": "WHO says safely treated wastewater can be a useful resource when managed to protect health.",
+        "side": "for",
+        "source": "WHO, Potable Reuse Guidance"
+      },
+      {
+        "fact": "WHO says wastewater reuse requires risk management because untreated water can carry hazards.",
+        "side": "against",
+        "source": "WHO, Potable Reuse Guidance"
+      }
+    ],
+    "pulse": "Do you think cities should reuse treated water for public gardens?"
+  },
+  {
+    "id": "debate-r14-51",
+    "motion": "Students should collect local weather observations",
+    "topics": [
+      "science"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Real data make science concrete",
+      "Classes can compare seasons",
+      "A group can share tasks"
+    ],
+    "againstPoints": [
+      "Readings can be inaccurate",
+      "Equipment may cost money",
+      "Short projects miss long patterns"
+    ],
+    "evidence": [
+      {
+        "fact": "NASA citizen-science projects let volunteers contribute observations to research.",
+        "side": "for",
+        "source": "NASA, GLOBE Citizen Science Data Quality"
+      },
+      {
+        "fact": "NASA explains that citizen-science data need clear instructions and quality checks.",
+        "side": "against",
+        "source": "NASA, GLOBE Citizen Science Data Quality"
+      }
+    ],
+    "pulse": "Do you think students should collect local weather observations?"
+  },
+  {
+    "id": "debate-r14-52",
+    "motion": "Citizen science projects should publish their methods",
+    "topics": [
+      "science"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Others can check results",
+      "Volunteers learn careful practice",
+      "Projects gain trust"
+    ],
+    "againstPoints": [
+      "Writing methods takes time",
+      "Some personal data need protection",
+      "A method alone does not ensure quality"
+    ],
+    "evidence": [
+      {
+        "fact": "NASA says citizen science expands research by involving public observations.",
+        "side": "for",
+        "source": "NASA, GLOBE Citizen Science Data Quality"
+      },
+      {
+        "fact": "NASA says project teams must train volunteers and check data quality.",
+        "side": "against",
+        "source": "NASA, GLOBE Citizen Science Data Quality"
+      }
+    ],
+    "pulse": "Do you think citizen science projects should publish their methods?"
+  },
+  {
+    "id": "debate-r14-53",
+    "motion": "Shops should give customers simple repair guides",
+    "topics": [
+      "repair"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "People can keep products longer",
+      "Small faults may be fixed",
+      "Guides make parts easier to find"
+    ],
+    "againstPoints": [
+      "Some repairs are unsafe",
+      "Instructions cost time to write",
+      "Warranty rules can be complex"
+    ],
+    "evidence": [
+      {
+        "fact": "US EPA ranks reuse and repair above disposal in its materials-management hierarchy.",
+        "side": "for",
+        "source": "US EPA, Sustainable Materials Management Hierarchy"
+      },
+      {
+        "fact": "US EPA warns that damaged lithium-ion batteries require special handling because of fire risk.",
+        "side": "against",
+        "source": "US EPA, Lithium-Ion Battery Recycling FAQ"
+      }
+    ],
+    "pulse": "Do you think shops should give customers simple repair guides?"
+  },
+  {
+    "id": "debate-r14-54",
+    "motion": "Products should show likely repair costs at purchase",
+    "topics": [
+      "repair"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Buyers can compare lasting value",
+      "Costs become more transparent",
+      "Repairable goods may sell better"
+    ],
+    "againstPoints": [
+      "Future prices can change",
+      "Some faults are unpredictable",
+      "Small shops need fair rules"
+    ],
+    "evidence": [
+      {
+        "fact": "US EPA says source reduction and reuse avoid waste before recycling is needed.",
+        "side": "for",
+        "source": "US EPA, Sustainable Materials Management Hierarchy"
+      },
+      {
+        "fact": "US EPA says battery repair and recycling can involve safety and handling requirements.",
+        "side": "against",
+        "source": "US EPA, Lithium-Ion Battery Recycling FAQ"
+      }
+    ],
+    "pulse": "Do you think products should show likely repair costs at purchase?"
+  },
+  {
+    "id": "debate-r14-55",
+    "motion": "Every town should offer free public art walks",
+    "topics": [
+      "public-art"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Residents discover local artists",
+      "Families can join at no cost",
+      "Streets tell community stories"
+    ],
+    "againstPoints": [
+      "Routes need safe access",
+      "Art needs care",
+      "Not everyone enjoys guided walks"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO says culture and arts education can strengthen community connection.",
+        "side": "for",
+        "source": "UNESCO, State of the Education Report for India 2024"
+      },
+      {
+        "fact": "UNESCO says arts access needs teaching capacity, funding and suitable local resources.",
+        "side": "against",
+        "source": "UNESCO, State of the Education Report for India 2024"
+      }
+    ],
+    "pulse": "Do you think every town should offer free public art walks?"
+  },
+  {
+    "id": "debate-r14-56",
+    "motion": "Cities should reserve wall space for community murals",
+    "topics": [
+      "public-art"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Artists gain legal space",
+      "Residents can share stories",
+      "Murals can enliven streets"
+    ],
+    "againstPoints": [
+      "Walls need owner agreement",
+      "Paint needs upkeep",
+      "Public space serves many uses"
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO says artistic expression and cultural participation can support social cohesion.",
+        "side": "for",
+        "source": "UNESCO, State of the Education Report for India 2024"
+      },
+      {
+        "fact": "UNESCO calls for resources and local planning when arts programmes use shared public space.",
+        "side": "against",
+        "source": "UNESCO, State of the Education Report for India 2024"
+      }
+    ],
+    "pulse": "Do you think cities should reserve wall space for community murals?"
+  },
+  {
+    "id": "debate-r14-57",
+    "motion": "Schools should teach practical first aid",
+    "topics": [
+      "health"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Students can respond calmly",
+      "Small injuries happen often",
+      "Practice makes steps memorable"
+    ],
+    "againstPoints": [
+      "Training takes class time",
+      "Skills need updating",
+      "Adults still carry responsibility"
+    ],
+    "evidence": [
+      {
+        "fact": "WHO says basic first-aid knowledge helps people respond to injuries before professional help arrives.",
+        "side": "for",
+        "source": "WHO, Improving Care of the Injured"
+      },
+      {
+        "fact": "WHO advises seeking trained medical care for serious injuries; first aid has limits.",
+        "side": "against",
+        "source": "WHO, Improving Care of the Injured"
+      }
+    ],
+    "pulse": "Do you think schools should teach practical first aid?"
+  },
+  {
+    "id": "debate-r14-58",
+    "motion": "Public health messages should use two reading levels",
+    "topics": [
+      "health"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "More people can understand advice",
+      "Clear language helps quick decisions",
+      "Teens and adults have different needs"
+    ],
+    "againstPoints": [
+      "Two versions take staff time",
+      "Translation may matter more",
+      "No single reading level fits all"
+    ],
+    "evidence": [
+      {
+        "fact": "WHO says health literacy affects people’s ability to find and use health information.",
+        "side": "for",
+        "source": "WHO, Health Literacy"
+      },
+      {
+        "fact": "WHO says health communication must also consider language, culture and access barriers.",
+        "side": "against",
+        "source": "WHO, Health Literacy"
+      }
+    ],
+    "pulse": "Do you think public health messages should use two reading levels?"
+  },
+  {
+    "id": "debate-r14-59",
+    "motion": "School streets should have quiet traffic hours",
+    "topics": [
+      "noise"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Less traffic noise helps nearby people",
+      "Walking can feel calmer",
+      "Drivers learn a simple schedule"
+    ],
+    "againstPoints": [
+      "Families may need vehicle access",
+      "Traffic may move to another street",
+      "Rules need enforcement"
+    ],
+    "evidence": [
+      {
+        "fact": "WHO identifies traffic noise as a health concern in urban areas.",
+        "side": "for",
+        "source": "WHO, Environmental Noise Guidance"
+      },
+      {
+        "fact": "WHO says transport also provides access to education and services, so changes need equitable planning.",
+        "side": "against",
+        "source": "WHO, Safe Environments and Mobility"
+      }
+    ],
+    "pulse": "Do you think school streets should have quiet traffic hours?"
+  },
+  {
+    "id": "debate-r14-60",
+    "motion": "Cities should map noise before adding major roads",
+    "topics": [
+      "noise"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Planners can spot exposed homes",
+      "Designs can change early",
+      "Residents get useful information"
+    ],
+    "againstPoints": [
+      "Mapping takes time and money",
+      "Maps cannot predict every change",
+      "Roads may still be needed"
+    ],
+    "evidence": [
+      {
+        "fact": "WHO environmental-noise guidance links transport noise to sleep and health effects.",
+        "side": "for",
+        "source": "WHO, Environmental Noise Guidance"
+      },
+      {
+        "fact": "WHO says transport supports access to jobs, health care and education, so decisions must weigh mobility needs.",
+        "side": "against",
+        "source": "WHO, Safe Environments and Mobility"
+      }
+    ],
+    "pulse": "Do you think cities should map noise before adding major roads?"
   }
 ]

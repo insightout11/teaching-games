@@ -94,11 +94,15 @@ let listeningSegmentCount = 0;
 let listeningGistCount = 0;
 let listeningHarderCount = 0;
 let listeningWordCount = 0;
+let listeningStaticCount = 0;
+let listeningBlackBoxCount = 0;
 const packCohorts: Record<string, number> = { kids: 0, B1: 0, B2: 0 };
 let debateMotionCount = 0;
 const debateCohorts: Record<string, number> = { kids: 0, teens: 0 };
 const debateLevels: Record<string, number> = { A2: 0, B1: 0, B2: 0 };
 let debateEvidenceCount = 0;
+const round14DebateCounts = { kidsA2: 0, teensB1: 0, teensB2: 0 };
+const round14TeenTopics = new Set<string>();
 
 function fail(where: string, message: string) {
   errors.push(`${where}: ${message}`);
@@ -274,7 +278,7 @@ for (const file of files) {
       else if (item.cefr === 'B2') packCohorts.B2 += 1;
       else fail(where, 'listening pack must be kids A1–A2, B1, or B2');
       if (!nonEmpty(item.youtubeId) || item.transcriptVerified !== true) fail(where, 'listening pack requires a verified YouTube transcript');
-      const pack = item.listeningPack as { segments?: unknown; gist?: unknown; harder?: unknown; words?: unknown };
+      const pack = item.listeningPack as { segments?: unknown; gist?: unknown; harder?: unknown; words?: unknown; static?: unknown; blackBox?: unknown };
       if (!pack || !Array.isArray(pack.segments) || pack.segments.length !== 3) fail(where, 'listeningPack requires exactly three segments');
       else for (const [segmentIndex, rawSegment] of Array.from(pack.segments.entries())) {
         listeningSegmentCount += 1;
@@ -328,6 +332,57 @@ for (const file of files) {
           }
           if (typeof word.at !== 'number' || !Number.isFinite(word.at)
             || word.at < window.start || word.at >= window.end) fail(at, `at must be inside the ${window.start}-${window.end}s listening window`);
+        }
+      }
+      if (!Array.isArray(pack?.static) || pack.static.length !== 5) fail(where, 'listeningPack.static requires exactly five rounds');
+      else {
+        const seenSentences = new Set<string>();
+        for (const [roundIndex, rawRound] of Array.from(pack.static.entries())) {
+          listeningStaticCount += 1;
+          const at = `${where}.listeningPack.static[${roundIndex}]`;
+          if (!rawRound || typeof rawRound !== 'object' || Array.isArray(rawRound)) { fail(at, 'must be a Static round object'); continue; }
+          const round = rawRound as { sentence?: unknown; spoken?: unknown; target?: unknown; swap?: unknown; options?: unknown; correctIndex?: unknown };
+          if (!nonEmpty(round.sentence) || !nonEmpty(round.spoken) || !nonEmpty(round.target) || !nonEmpty(round.swap)) { fail(at, 'sentence, spoken, target and swap are required'); continue; }
+          const sentence = round.sentence.trim();
+          const tokens = sentence.match(/[A-Za-z]+(?:['’][A-Za-z]+)?|\d+/g) || [];
+          if (tokens.length > 14) fail(at, 'sentence must have at most 14 words');
+          if (seenSentences.has(sentence.toLowerCase())) fail(at, 'sentence repeats within pack');
+          seenSentences.add(sentence.toLowerCase());
+          if (!/^[A-Za-z0-9]+(?:['’][A-Za-z]+)?$/.test(round.target) || !/^[A-Za-z0-9]+(?:['’][A-Za-z]+)?$/.test(round.swap)) fail(at, 'target and swap must each be one word');
+          if (round.target.toLowerCase() === round.swap.toLowerCase()) fail(at, 'swap must change the word');
+          if (tokens.filter((token) => token.toLowerCase() === String(round.target).toLowerCase()).length !== 1) fail(at, 'target must appear exactly once in sentence');
+          const escapedTarget = round.target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          if (sentence.replace(new RegExp(`\\b${escapedTarget}\\b`), round.swap) !== round.spoken) fail(at, 'spoken must replace exactly the target word');
+          if (!Array.isArray(round.options) || round.options.length !== 4 || round.options.some((option) => !nonEmpty(option))) fail(at, 'options must be four non-empty words');
+          else {
+            const optionWords = round.options as string[];
+            if (new Set(optionWords.map((option) => option.toLowerCase())).size !== 4) fail(at, 'options must be distinct');
+            if (optionWords.some((option) => !tokens.some((token) => token.toLowerCase() === option.toLowerCase()))) fail(at, 'each option must be a word in sentence');
+            if (!Number.isInteger(round.correctIndex) || Number(round.correctIndex) < 0 || Number(round.correctIndex) > 3 || optionWords[Number(round.correctIndex)] !== round.target) fail(at, 'correctIndex must point to target');
+          }
+        }
+      }
+      const box = pack?.blackBox as { passage?: unknown; start?: unknown; end?: unknown; decoys?: unknown } | undefined;
+      const boxAt = `${where}.listeningPack.blackBox`;
+      if (!box || typeof box !== 'object' || Array.isArray(box)) fail(boxAt, 'requires a timed passage and decoys');
+      else {
+        listeningBlackBoxCount += 1;
+        const kids = item.ageBand === 'kids' && (item.cefr === 'A1' || item.cefr === 'A2');
+        const window = listeningWindow(pack as ListeningPack, kids);
+        if (!nonEmpty(box.passage)) fail(boxAt, 'passage is required');
+        else {
+          const wordCount = (box.passage.match(/[A-Za-z]+(?:['’][A-Za-z]+)?|\d+(?:[.,]\d+)*/g) || []).length;
+          if (wordCount < (kids ? 10 : 15) || wordCount > (kids ? 20 : 35)) fail(boxAt, `passage needs ${kids ? '10–20' : '15–35'} words`);
+        }
+        if (typeof box.start !== 'number' || typeof box.end !== 'number' || !Number.isFinite(box.start) || !Number.isFinite(box.end)
+          || box.start < window.start || box.end > window.end || box.end <= box.start) fail(boxAt, 'start/end must be inside the listening window');
+        if (!Array.isArray(box.decoys) || box.decoys.length < 6 || box.decoys.length > 8) fail(boxAt, 'requires 6–8 decoy words');
+        else {
+          const decoys = box.decoys as unknown[];
+          const normalized = decoys.map((word) => String(word).toLowerCase());
+          if (new Set(normalized).size !== decoys.length) fail(boxAt, 'decoys must be distinct');
+          const passageWords = new Set((nonEmpty(box.passage) ? box.passage.match(/[A-Za-z]+(?:['’][A-Za-z]+)?|\d+(?:[.,]\d+)*/g) || [] : []).map((word) => word.toLowerCase()));
+          if (decoys.some((word) => !nonEmpty(word) || String(word).trim().split(/\s+/).length !== 1 || passageWords.has(String(word).toLowerCase()))) fail(boxAt, 'decoys must be single words absent from passage');
         }
       }
     }
@@ -432,6 +487,8 @@ if (flightQuestionCount < 500) fail('flight questions', `expected at least 500 i
 if (listeningPackCount !== 60 || listeningSegmentCount !== 180) fail('listening packs', `expected 60 packs and 180 segments (found ${listeningPackCount} and ${listeningSegmentCount})`);
 if (listeningGistCount !== 180 || listeningHarderCount !== 60) fail('listening packs', `expected 180 gist and 60 harder questions (found ${listeningGistCount} and ${listeningHarderCount})`);
 if (listeningWordCount !== 300) fail('listening packs', `expected 300 timed words (found ${listeningWordCount})`);
+if (listeningStaticCount !== 300) fail('listening packs', `expected 300 Static rounds (found ${listeningStaticCount})`);
+if (listeningBlackBoxCount !== 60) fail('listening packs', `expected 60 Black Box passages (found ${listeningBlackBoxCount})`);
 if (packCohorts.kids !== 22 || packCohorts.B1 !== 22 || packCohorts.B2 !== 16) fail('listening packs', `expected kids/B1/B2 = 22/22/16 (found ${packCohorts.kids}/${packCohorts.B1}/${packCohorts.B2})`);
 
 const speakPath = path.join(dataDir, 'speak-situations.json');
@@ -574,6 +631,12 @@ else {
       else if (motion.ageBand === 'teens' && (motion.cefr === 'B1' || motion.cefr === 'B2')) debateCohorts.teens += 1;
       else fail(where, 'kids require A2–B1 and teens require B1–B2');
       if (motion.cefr === 'A2' || motion.cefr === 'B1' || motion.cefr === 'B2') debateLevels[motion.cefr] += 1;
+      if (String(motion.id).indexOf('debate-r14-') === 0) {
+        if (motion.ageBand === 'kids' && motion.cefr === 'A2') round14DebateCounts.kidsA2 += 1;
+        else if (motion.ageBand === 'teens' && motion.cefr === 'B1') round14DebateCounts.teensB1 += 1;
+        else if (motion.ageBand === 'teens' && motion.cefr === 'B2') round14DebateCounts.teensB2 += 1;
+        if (motion.ageBand === 'teens' && Array.isArray(motion.topics)) for (const tag of motion.topics) round14TeenTopics.add(String(tag));
+      }
       for (const side of ['forPoints', 'againstPoints']) {
         const points = motion[side];
         if (!Array.isArray(points) || points.length !== 3 || points.some((point) => !nonEmpty(point))) {
@@ -597,9 +660,12 @@ else {
       }
       if (!nonEmpty(motion.pulse) || !motion.pulse.trim().endsWith('?')) fail(where, 'pulse must be a question');
     }
-    if (debateMotionCount !== 60 || debateCohorts.kids !== 30 || debateCohorts.teens !== 30) {
-      fail('debate-motions.json', `expected 60 motions, 30 kids and 30 teens (found ${debateMotionCount}/${debateCohorts.kids}/${debateCohorts.teens})`);
+    if (debateMotionCount !== 120 || debateCohorts.kids !== 60 || debateCohorts.teens !== 60) {
+      fail('debate-motions.json', `expected 120 motions, 60 kids and 60 teens (found ${debateMotionCount}/${debateCohorts.kids}/${debateCohorts.teens})`);
     }
+    if (round14DebateCounts.kidsA2 !== 30 || round14DebateCounts.teensB1 !== 15 || round14DebateCounts.teensB2 !== 15) fail('debate-motions.json', `Round 14 expected kids A2 30, teens B1 15, teens B2 15 (found ${round14DebateCounts.kidsA2}/${round14DebateCounts.teensB1}/${round14DebateCounts.teensB2})`);
+    if (round14TeenTopics.size < 15) fail('debate-motions.json', `Round 14 teen motions need at least 15 topic areas (found ${round14TeenTopics.size})`);
+    if (debateEvidenceCount < 240) fail('debate-motions.json', `expected at least 240 evidence facts (found ${debateEvidenceCount})`);
   }
 }
 
@@ -610,6 +676,6 @@ if (errors.length) {
 } else {
   console.log(`Library validation passed: ${ids.size} items across ${files.length} files.`);
   console.log(`Flight Questions: ${flightQuestionCount}. Speak situations: ${speakSituationCount} (kids ${speakAgeCounts.kids}, teens ${speakAgeCounts.teens}; before ${speakPositions.before.join('/')}, after ${speakPositions.after.join('/')}).`);
-  console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount}, gist: ${listeningGistCount}, harder: ${listeningHarderCount}, words: ${listeningWordCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
+  console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount}, gist: ${listeningGistCount}, harder: ${listeningHarderCount}, words: ${listeningWordCount}, Static rounds: ${listeningStaticCount}, Black Box passages: ${listeningBlackBoxCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
   console.log(`Debate motions: ${debateMotionCount} (kids ${debateCohorts.kids}, teens ${debateCohorts.teens}; A2 ${debateLevels.A2}, B1 ${debateLevels.B1}, B2 ${debateLevels.B2}; evidence ${debateEvidenceCount}).`);
 }

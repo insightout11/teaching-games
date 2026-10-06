@@ -123,7 +123,87 @@
           "meaning": "animal you keep at home",
           "at": 66.2
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "I was born in Cairo, Egypt.",
+          "spoken": "I was born in London, Egypt.",
+          "target": "Cairo",
+          "swap": "London",
+          "options": [
+            "Egypt",
+            "I",
+            "Cairo",
+            "born"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "I live in New York.",
+          "spoken": "I work in New York.",
+          "target": "live",
+          "swap": "work",
+          "options": [
+            "I",
+            "live",
+            "New",
+            "York"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "Do you have a big family?",
+          "spoken": "Do you have a small family?",
+          "target": "big",
+          "swap": "small",
+          "options": [
+            "big",
+            "have",
+            "family",
+            "Do"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "My brother is 20 and my sister is 16.",
+          "spoken": "My father is 20 and my sister is 16.",
+          "target": "brother",
+          "swap": "father",
+          "options": [
+            "20",
+            "sister",
+            "16",
+            "brother"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "I have a cat.",
+          "spoken": "I have a dog.",
+          "target": "cat",
+          "swap": "dog",
+          "options": [
+            "I",
+            "a",
+            "cat",
+            "have"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "Where were you born? I was born in Cairo, Egypt.",
+        "start": 15.3,
+        "end": 19.1,
+        "decoys": [
+          "family",
+          "live",
+          "gardener",
+          "pet",
+          "london",
+          "work"
+        ]
+      }
     }
   },
   {
@@ -250,7 +330,87 @@
           "meaning": "spicy dishes with sauce",
           "at": 72.1
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "The architecture is incredible.",
+          "spoken": "The weather is incredible.",
+          "target": "architecture",
+          "swap": "weather",
+          "options": [
+            "is",
+            "architecture",
+            "incredible",
+            "The"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "What's your favorite room in your house?",
+          "spoken": "What's your favorite place in your house?",
+          "target": "room",
+          "swap": "place",
+          "options": [
+            "room",
+            "What's",
+            "favorite",
+            "house"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "My favorite room in my house is my kitchen cuz I really like cooking.",
+          "spoken": "My favorite room in my house is my bedroom cuz I really like cooking.",
+          "target": "kitchen",
+          "swap": "bedroom",
+          "options": [
+            "favorite",
+            "room",
+            "house",
+            "kitchen"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "Do you think you're a good cook?",
+          "spoken": "Do you think you're a bad cook?",
+          "target": "good",
+          "swap": "bad",
+          "options": [
+            "you're",
+            "cook",
+            "good",
+            "think"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "My specialtity is Indian food.",
+          "spoken": "My specialtity is Italian food.",
+          "target": "Indian",
+          "swap": "Italian",
+          "options": [
+            "My",
+            "Indian",
+            "specialtity",
+            "food"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "Do you like cooking? Yes, I really like cooking. Do you think you're a good cook?",
+        "start": 59.4,
+        "end": 64.6,
+        "decoys": [
+          "beautiful",
+          "architecture",
+          "favorite",
+          "curries",
+          "weather",
+          "place"
+        ]
+      }
     }
   },
   {
@@ -382,7 +542,7 @@
         {
           "word": "chose",
           "meaning": "picked",
-          "at": 33.0
+          "at": 33
         },
         {
           "word": "heritage",
@@ -399,7 +559,87 @@
           "meaning": "names between first and last",
           "at": 81.1
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "My mother chose my name.",
+          "spoken": "My father chose my name.",
+          "target": "mother",
+          "swap": "father",
+          "options": [
+            "mother",
+            "chose",
+            "name",
+            "My"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "I was born in England.",
+          "spoken": "I was born in Ireland.",
+          "target": "England",
+          "swap": "Ireland",
+          "options": [
+            "born",
+            "I",
+            "was",
+            "England"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "she gave me a very Irish name.",
+          "spoken": "she gave me a very French name.",
+          "target": "Irish",
+          "swap": "French",
+          "options": [
+            "me",
+            "very",
+            "Irish",
+            "gave"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "My dad's name is Edward.",
+          "spoken": "My dad's name is David.",
+          "target": "Edward",
+          "swap": "David",
+          "options": [
+            "My",
+            "Edward",
+            "dad's",
+            "name"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "My mom chose my name because she wanted to name me after my dad.",
+          "spoken": "My mom chose my name because she wanted to name me after my aunt.",
+          "target": "dad",
+          "swap": "aunt",
+          "options": [
+            "dad",
+            "mom",
+            "chose",
+            "name"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "Who chose your name? My mother chose my name. I was born in England. Um, and my mother's Irish.",
+        "start": 33,
+        "end": 44.2,
+        "decoys": [
+          "myth",
+          "heritage",
+          "named",
+          "father",
+          "ireland",
+          "french"
+        ]
+      }
     }
   },
   {
@@ -680,7 +920,87 @@
           "meaning": "very bad",
           "at": 134.8
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "The weather was appalling.",
+          "spoken": "The food was appalling.",
+          "target": "weather",
+          "swap": "food",
+          "options": [
+            "appalling",
+            "The",
+            "was",
+            "weather"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "It was freezing cold.",
+          "spoken": "It was freezing hot.",
+          "target": "cold",
+          "swap": "hot",
+          "options": [
+            "It",
+            "was",
+            "cold",
+            "freezing"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "it rained every day.",
+          "spoken": "it snowed every day.",
+          "target": "rained",
+          "swap": "snowed",
+          "options": [
+            "it",
+            "rained",
+            "every",
+            "day"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "Have you ever had a disastrous holiday?",
+          "spoken": "Have you ever had a wonderful holiday?",
+          "target": "disastrous",
+          "swap": "wonderful",
+          "options": [
+            "disastrous",
+            "Have",
+            "ever",
+            "had"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "I was studying Latin at the time",
+          "spoken": "I was studying Greek at the time",
+          "target": "Latin",
+          "swap": "Greek",
+          "options": [
+            "studying",
+            "time",
+            "I",
+            "Latin"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "the weather was appalling. It was terrible. And um it rained every day. It was freezing cold.",
+        "start": 131.5,
+        "end": 140.2,
+        "decoys": [
+          "culture",
+          "ruins",
+          "civilization",
+          "recommend",
+          "food",
+          "hot"
+        ]
+      }
     }
   },
   {
@@ -790,7 +1110,7 @@
         {
           "word": "ignore",
           "meaning": "not pay attention to",
-          "at": 29.0
+          "at": 29
         },
         {
           "word": "browse",
@@ -807,7 +1127,87 @@
           "meaning": "with other people",
           "at": 61.3
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "Is there anything that shop assistants do that really annoys you?",
+          "spoken": "Is there anything that shop assistants do that really helps you?",
+          "target": "annoys",
+          "swap": "helps",
+          "options": [
+            "anything",
+            "shop",
+            "annoys",
+            "there"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "when they tend to talk and ignore you",
+          "spoken": "when they tend to talk and notice you",
+          "target": "ignore",
+          "swap": "notice",
+          "options": [
+            "talk",
+            "ignore",
+            "when",
+            "tend"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "I prefer to just browse",
+          "spoken": "I prefer to just buy",
+          "target": "browse",
+          "swap": "buy",
+          "options": [
+            "browse",
+            "prefer",
+            "just",
+            "I"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "when I want assistance, I'll go to get the assistant",
+          "spoken": "when I refuse assistance, I'll go to get the assistant",
+          "target": "want",
+          "swap": "refuse",
+          "options": [
+            "when",
+            "assistance",
+            "I'll",
+            "want"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "people seem to think it's fine to just mess around on their phones",
+          "spoken": "people seem to think it's wrong to just mess around on their phones",
+          "target": "fine",
+          "swap": "wrong",
+          "options": [
+            "seem",
+            "think",
+            "fine",
+            "people"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "Is there anything that shop assistants do that really annoys you? Uh when they tend to talk and ignore you or keep on asking you whether you need any help or not.",
+        "start": 24.5,
+        "end": 37.5,
+        "decoys": [
+          "annoy",
+          "browse",
+          "assistance",
+          "social",
+          "helps",
+          "notice"
+        ]
+      }
     }
   },
   {
@@ -934,7 +1334,87 @@
           "meaning": "a mother and father",
           "at": 158.4
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "i'm a writer on new york 24 7",
+          "spoken": "i'm a actor on new york 24 7",
+          "target": "writer",
+          "swap": "actor",
+          "options": [
+            "york",
+            "writer",
+            "i'm",
+            "new"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "i'm british and i came over to the states a few months ago",
+          "spoken": "i'm american and i came over to the states a few months ago",
+          "target": "british",
+          "swap": "american",
+          "options": [
+            "british",
+            "i'm",
+            "came",
+            "over"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "he was writing for the london edition of 24 7",
+          "spoken": "he was writing for the paris edition of 24 7",
+          "target": "london",
+          "swap": "paris",
+          "options": [
+            "writing",
+            "edition",
+            "24",
+            "london"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "i helped rob find an apartment",
+          "spoken": "i helped rob rent an apartment",
+          "target": "find",
+          "swap": "rent",
+          "options": [
+            "rob",
+            "apartment",
+            "find",
+            "helped"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "we have a new boss don taylor",
+          "spoken": "we have a old boss don taylor",
+          "target": "new",
+          "swap": "old",
+          "options": [
+            "don",
+            "new",
+            "have",
+            "boss"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "it gave us the chance to get to know each other better when they offered me a permanent job i couldn't believe it",
+        "start": 96.5,
+        "end": 103.4,
+        "decoys": [
+          "accent",
+          "opportunity",
+          "parents",
+          "actor",
+          "american",
+          "paris"
+        ]
+      }
     }
   },
   {
@@ -1061,7 +1541,87 @@
           "meaning": "person in charge at work",
           "at": 121.9
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "i think they're still on my desk",
+          "spoken": "i think they're still on my table",
+          "target": "desk",
+          "swap": "table",
+          "options": [
+            "desk",
+            "think",
+            "they're",
+            "still"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "we could go and buy some more",
+          "spoken": "we could go and borrow some more",
+          "target": "buy",
+          "swap": "borrow",
+          "options": [
+            "could",
+            "go",
+            "some",
+            "buy"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "this is my mom and dad harry and sally",
+          "spoken": "this is my aunt and dad harry and sally",
+          "target": "mom",
+          "swap": "aunt",
+          "options": [
+            "harry",
+            "sally",
+            "mom",
+            "dad"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "we left them at the office",
+          "spoken": "we left them at the house",
+          "target": "office",
+          "swap": "house",
+          "options": [
+            "we",
+            "office",
+            "left",
+            "them"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "today he made me the managing editor of the magazine",
+          "spoken": "today he made me the managing writer of the magazine",
+          "target": "editor",
+          "swap": "writer",
+          "options": [
+            "editor",
+            "today",
+            "made",
+            "me"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "mom i'm really sorry we bought you some chocolates but we left them at the office oh what a pity",
+        "start": 81.7,
+        "end": 88.6,
+        "decoys": [
+          "forgot",
+          "late",
+          "introduce",
+          "promotion",
+          "boss",
+          "table"
+        ]
+      }
     }
   },
   {
@@ -1188,7 +1748,87 @@
           "meaning": "taking pictures",
           "at": 69.5
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "she's the first member of our family to study at harvard",
+          "spoken": "she's the first member of our family to study at oxford",
+          "target": "harvard",
+          "swap": "oxford",
+          "options": [
+            "she's",
+            "first",
+            "member",
+            "harvard"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "she's a very capable and ambitious young woman",
+          "spoken": "she's a very capable and lazy young woman",
+          "target": "ambitious",
+          "swap": "lazy",
+          "options": [
+            "very",
+            "capable",
+            "ambitious",
+            "she's"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "how do you see your career",
+          "spoken": "how do you see your future",
+          "target": "career",
+          "swap": "future",
+          "options": [
+            "do",
+            "career",
+            "how",
+            "see"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "i'm more of a a writer really",
+          "spoken": "i'm more of a a manager really",
+          "target": "writer",
+          "swap": "manager",
+          "options": [
+            "writer",
+            "i'm",
+            "more",
+            "really"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "my dad's a very keen photographer",
+          "spoken": "my dad's a very keen gardener",
+          "target": "photographer",
+          "swap": "gardener",
+          "options": [
+            "dad's",
+            "very",
+            "keen",
+            "photographer"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "and what about you rob how do you see your career do you see yourself going into management me uh no not really i'm more of a a writer really",
+        "start": 29.3,
+        "end": 41,
+        "decoys": [
+          "ambitious",
+          "creative",
+          "photography",
+          "oxford",
+          "lazy",
+          "future"
+        ]
+      }
     }
   },
   {
@@ -1315,7 +1955,87 @@
           "meaning": "live music shows",
           "at": 132.3
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "you used to be in a band now you play solo",
+          "spoken": "you used to be in a band now you play together",
+          "target": "solo",
+          "swap": "together",
+          "options": [
+            "band",
+            "now",
+            "solo",
+            "used"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "i have a lot more freedom this way",
+          "spoken": "i have a lot more pressure this way",
+          "target": "freedom",
+          "swap": "pressure",
+          "options": [
+            "more",
+            "freedom",
+            "have",
+            "lot"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "i never talk about my private life",
+          "spoken": "i always talk about my private life",
+          "target": "never",
+          "swap": "always",
+          "options": [
+            "never",
+            "talk",
+            "about",
+            "private"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "your mum's a classical pianist",
+          "spoken": "your mum's a jazz pianist",
+          "target": "classical",
+          "swap": "jazz",
+          "options": [
+            "mum's",
+            "pianist",
+            "your",
+            "classical"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "i'm going to play at some clubs here in new york",
+          "spoken": "i'm going to play at some schools here in new york",
+          "target": "clubs",
+          "swap": "schools",
+          "options": [
+            "going",
+            "play",
+            "clubs",
+            "i'm"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "i never talk about my private life your dad was in a famous punk band and your mum's a classical pianist have they influenced your music",
+        "start": 70,
+        "end": 82.9,
+        "decoys": [
+          "solo",
+          "experimental",
+          "gigs",
+          "together",
+          "pressure",
+          "jazz"
+        ]
+      }
     }
   },
   {
@@ -1430,7 +2150,7 @@
         {
           "word": "hectic",
           "meaning": "very busy",
-          "at": 63.0
+          "at": 63
         },
         {
           "word": "prefer",
@@ -1440,9 +2160,89 @@
         {
           "word": "relaxed",
           "meaning": "calm and at ease",
-          "at": 90.0
+          "at": 90
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "new york waiters never leave you alone",
+          "spoken": "new york waiters always leave you alone",
+          "target": "never",
+          "swap": "always",
+          "options": [
+            "waiters",
+            "never",
+            "new",
+            "york"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "what you mean waiters aren't friendly in london",
+          "spoken": "what you mean waiters aren't rude in london",
+          "target": "friendly",
+          "swap": "rude",
+          "options": [
+            "friendly",
+            "what",
+            "mean",
+            "waiters"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "london's just not as hectic as new york",
+          "spoken": "london's just not as quiet as new york",
+          "target": "hectic",
+          "swap": "quiet",
+          "options": [
+            "london's",
+            "just",
+            "not",
+            "hectic"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "i definitely prefer london",
+          "spoken": "i definitely dislike london",
+          "target": "prefer",
+          "swap": "dislike",
+          "options": [
+            "london",
+            "i",
+            "prefer",
+            "definitely"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "it's dangerous to cycle in new york",
+          "spoken": "it's safe to cycle in new york",
+          "target": "dangerous",
+          "swap": "safe",
+          "options": [
+            "new",
+            "dangerous",
+            "it's",
+            "cycle"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "personally i think people in london are a lot more easy going london's just not as hectic as new york",
+        "start": 58.6,
+        "end": 65.8,
+        "decoys": [
+          "waiters",
+          "friendly",
+          "prefer",
+          "relaxed",
+          "rude",
+          "quiet"
+        ]
+      }
     }
   },
   {
@@ -1547,7 +2347,7 @@
         {
           "word": "service",
           "meaning": "help given to customers",
-          "at": 29.0
+          "at": 29
         },
         {
           "word": "tip",
@@ -1569,7 +2369,87 @@
           "meaning": "helpful and caring",
           "at": 92.9
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "i think she saw the big tip you left on the table",
+          "spoken": "i think she saw the big bill you left on the table",
+          "target": "tip",
+          "swap": "bill",
+          "options": [
+            "tip",
+            "think",
+            "saw",
+            "big"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "moving to a new place is always difficult",
+          "spoken": "moving to a new place is always easy",
+          "target": "difficult",
+          "swap": "easy",
+          "options": [
+            "moving",
+            "new",
+            "place",
+            "difficult"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "you don't regret coming here do you",
+          "spoken": "you don't enjoy coming here do you",
+          "target": "regret",
+          "swap": "enjoy",
+          "options": [
+            "coming",
+            "here",
+            "regret",
+            "don't"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "you left it in my cab",
+          "spoken": "you left it in my house",
+          "target": "cab",
+          "swap": "house",
+          "options": [
+            "it",
+            "cab",
+            "left",
+            "you"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "new yorkers are really friendly people",
+          "spoken": "new yorkers are really rude people",
+          "target": "friendly",
+          "swap": "rude",
+          "options": [
+            "friendly",
+            "new",
+            "yorkers",
+            "really"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "but hey not that much it's just that moving to a new place is always difficult but you don't regret coming here do you no no not at all",
+        "start": 54.1,
+        "end": 64.1,
+        "decoys": [
+          "service",
+          "tip",
+          "homesick",
+          "kind",
+          "bill",
+          "easy"
+        ]
+      }
     }
   },
   {
@@ -1696,7 +2576,87 @@
           "meaning": "talk someone into doing something",
           "at": 108.6
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "scott and i we're getting married",
+          "spoken": "scott and i we're getting engaged",
+          "target": "married",
+          "swap": "engaged",
+          "options": [
+            "scott",
+            "we're",
+            "getting",
+            "married"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "we've only told family so far",
+          "spoken": "we've only told friends so far",
+          "target": "family",
+          "swap": "friends",
+          "options": [
+            "only",
+            "told",
+            "family",
+            "we've"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "all i want to do now is stay in and read wedding magazines",
+          "spoken": "all i want to do now is stay in and read fashion magazines",
+          "target": "wedding",
+          "swap": "fashion",
+          "options": [
+            "now",
+            "wedding",
+            "all",
+            "want"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "he only moved here a few months ago from london",
+          "spoken": "he only moved here a few months ago from paris",
+          "target": "london",
+          "swap": "paris",
+          "options": [
+            "london",
+            "only",
+            "moved",
+            "here"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "you think you can persuade him to stay in new york",
+          "spoken": "you think you can persuade him to leave in new york",
+          "target": "stay",
+          "swap": "leave",
+          "options": [
+            "think",
+            "can",
+            "persuade",
+            "stay"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "when did you get engaged only a few days ago i i'm glad i saw you actually i was gonna call you",
+        "start": 54.2,
+        "end": 60.6,
+        "decoys": [
+          "wedding",
+          "serious",
+          "persuade",
+          "friends",
+          "fashion",
+          "paris"
+        ]
+      }
     }
   },
   {
@@ -1823,7 +2783,87 @@
           "meaning": "asked someone to come",
           "at": 108.2
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "i have to leave in a minute anyway",
+          "spoken": "i have to leave in a hour anyway",
+          "target": "minute",
+          "swap": "hour",
+          "options": [
+            "leave",
+            "anyway",
+            "minute",
+            "have"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "i've seen college photos of you two together",
+          "spoken": "i've seen school photos of you two together",
+          "target": "college",
+          "swap": "school",
+          "options": [
+            "photos",
+            "college",
+            "i've",
+            "seen"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "she seems like a happy person",
+          "spoken": "she seems like a sad person",
+          "target": "happy",
+          "swap": "sad",
+          "options": [
+            "happy",
+            "seems",
+            "like",
+            "person"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "he's arriving in new york this evening",
+          "spoken": "he's arriving in new york this morning",
+          "target": "evening",
+          "swap": "morning",
+          "options": [
+            "he's",
+            "arriving",
+            "new",
+            "evening"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "i've invited him to stay for the week",
+          "spoken": "i've invited him to stay for the month",
+          "target": "week",
+          "swap": "month",
+          "options": [
+            "invited",
+            "him",
+            "week",
+            "i've"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "she seems like a happy person she is especially right now she's getting married that's fantastic news yeah it is",
+        "start": 72.7,
+        "end": 81.8,
+        "decoys": [
+          "interrupted",
+          "settling",
+          "favor",
+          "invited",
+          "hour",
+          "school"
+        ]
+      }
     }
   },
   {
@@ -1928,7 +2968,7 @@
         {
           "word": "practice",
           "meaning": "doing something often to improve",
-          "at": 33.0
+          "at": 33
         },
         {
           "word": "free time",
@@ -1950,7 +2990,87 @@
           "meaning": "a person who works in business",
           "at": 113.4
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "you used to play pool a lot at university",
+          "spoken": "you used to play football a lot at university",
+          "target": "pool",
+          "swap": "football",
+          "options": [
+            "lot",
+            "pool",
+            "used",
+            "play"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "the magazine keeps me pretty busy",
+          "spoken": "the hospital keeps me pretty busy",
+          "target": "magazine",
+          "swap": "hospital",
+          "options": [
+            "magazine",
+            "keeps",
+            "me",
+            "pretty"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "look at you now with your girlfriend",
+          "spoken": "look at you now with your roommate",
+          "target": "girlfriend",
+          "swap": "roommate",
+          "options": [
+            "look",
+            "now",
+            "at",
+            "girlfriend"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "it was a present from jenny",
+          "spoken": "it was a present from paul",
+          "target": "jenny",
+          "swap": "paul",
+          "options": [
+            "it",
+            "was",
+            "jenny",
+            "present"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "we've got to go",
+          "spoken": "we've got to stay",
+          "target": "go",
+          "swap": "stay",
+          "options": [
+            "to",
+            "go",
+            "we've",
+            "got"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "it's true i mean just look at that shirt what's wrong with my shirt you look like a businessman",
+        "start": 107.2,
+        "end": 115.3,
+        "decoys": [
+          "practice",
+          "uni",
+          "girlfriend",
+          "football",
+          "hospital",
+          "roommate"
+        ]
+      }
     }
   },
   {
@@ -2077,7 +3197,87 @@
           "meaning": "follow where something is",
           "at": 151.3
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "my suitcase hasn't arrived",
+          "spoken": "my passport hasn't arrived",
+          "target": "suitcase",
+          "swap": "passport",
+          "options": [
+            "suitcase",
+            "hasn't",
+            "arrived",
+            "my"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "how long are you staying for 10 days",
+          "spoken": "how long are you staying for five days",
+          "target": "10",
+          "swap": "five",
+          "options": [
+            "how",
+            "long",
+            "staying",
+            "10"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "there's a small lock and a label",
+          "spoken": "there's a small zipper and a label",
+          "target": "lock",
+          "swap": "zipper",
+          "options": [
+            "small",
+            "label",
+            "lock",
+            "there's"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "you can track the progress of your luggage online",
+          "spoken": "you can track the progress of your luggage later",
+          "target": "online",
+          "swap": "later",
+          "options": [
+            "progress",
+            "online",
+            "can",
+            "track"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "we should be able to get it back to you within 24 hours",
+          "spoken": "we should be able to get it back to you within 24 days",
+          "target": "hours",
+          "swap": "days",
+          "options": [
+            "hours",
+            "should",
+            "able",
+            "get"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "here's your reference number you can track the progress of your luggage online or just give us a call but we should be able to get it back to you",
+        "start": 149.6,
+        "end": 156.2,
+        "decoys": [
+          "suitcase",
+          "details",
+          "belongings",
+          "passport",
+          "five",
+          "zipper"
+        ]
+      }
     }
   },
   {
@@ -2182,12 +3382,12 @@
         {
           "word": "compact",
           "meaning": "small",
-          "at": 53.0
+          "at": 53
         },
         {
           "word": "automatic",
           "meaning": "a car that changes gears itself",
-          "at": 61.0
+          "at": 61
         },
         {
           "word": "insurance",
@@ -2204,7 +3404,87 @@
           "meaning": "a hire returned in another place",
           "at": 101.4
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "we have several models i can show you",
+          "spoken": "we have several cars i can show you",
+          "target": "models",
+          "swap": "cars",
+          "options": [
+            "have",
+            "several",
+            "can",
+            "models"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "the petrol tank is full when you start",
+          "spoken": "the petrol tank is empty when you start",
+          "target": "full",
+          "swap": "empty",
+          "options": [
+            "tank",
+            "when",
+            "full",
+            "petrol"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "you have to pay for them yourself",
+          "spoken": "you have to pay for them later",
+          "target": "yourself",
+          "swap": "later",
+          "options": [
+            "them",
+            "yourself",
+            "have",
+            "pay"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "there's an additional charge of 50 pounds",
+          "spoken": "there's an additional charge of 60 pounds",
+          "target": "50",
+          "swap": "60",
+          "options": [
+            "50",
+            "there's",
+            "additional",
+            "charge"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "driving on the left is not a problem",
+          "spoken": "driving on the right is not a problem",
+          "target": "left",
+          "swap": "right",
+          "options": [
+            "driving",
+            "not",
+            "problem",
+            "left"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "the petrol tank is full when you start so if you return it with a full tank there's no extra charge that's great",
+        "start": 83.6,
+        "end": 90.9,
+        "decoys": [
+          "compact",
+          "automatic",
+          "insurance",
+          "cars",
+          "empty",
+          "later"
+        ]
+      }
     }
   },
   {
@@ -2331,7 +3611,87 @@
           "meaning": "without another person",
           "at": 93.1
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "the police found him at the airport",
+          "spoken": "the police found him at the station",
+          "target": "airport",
+          "swap": "station",
+          "options": [
+            "found",
+            "him",
+            "airport",
+            "police"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "he helped carry my bags",
+          "spoken": "he helped carry my books",
+          "target": "bags",
+          "swap": "books",
+          "options": [
+            "he",
+            "bags",
+            "helped",
+            "carry"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "your dad hasn't come home",
+          "spoken": "your brother hasn't come home",
+          "target": "dad",
+          "swap": "brother",
+          "options": [
+            "dad",
+            "hasn't",
+            "come",
+            "home"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "we were supposed to have dinner at 7",
+          "spoken": "we were supposed to have lunch at 7",
+          "target": "dinner",
+          "swap": "lunch",
+          "options": [
+            "supposed",
+            "have",
+            "7",
+            "dinner"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "it's a little after 9",
+          "spoken": "it's a little before 9",
+          "target": "after",
+          "swap": "before",
+          "options": [
+            "little",
+            "9",
+            "after",
+            "it's"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "i don't want to worry you but your dad hasn't come home we were supposed to have dinner at 7. what time is it now",
+        "start": 52.2,
+        "end": 62.7,
+        "decoys": [
+          "attacked",
+          "police",
+          "punctual",
+          "worrying",
+          "alone",
+          "station"
+        ]
+      }
     }
   },
   {
@@ -2442,7 +3802,7 @@
         {
           "word": "encrypted",
           "meaning": "locked in a coded form",
-          "at": 72.0
+          "at": 72
         },
         {
           "word": "formula",
@@ -2457,9 +3817,89 @@
         {
           "word": "prove",
           "meaning": "show that something is true",
-          "at": 128.0
+          "at": 128
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "i tried henry again still no answer",
+          "spoken": "i tried henry again still no message",
+          "target": "answer",
+          "swap": "message",
+          "options": [
+            "again",
+            "answer",
+            "tried",
+            "henry"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "i've cracked the security code on your computer",
+          "spoken": "i've cracked the security code on your phone",
+          "target": "computer",
+          "swap": "phone",
+          "options": [
+            "computer",
+            "i've",
+            "cracked",
+            "security"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "all the files are encrypted",
+          "spoken": "all the files are open",
+          "target": "encrypted",
+          "swap": "open",
+          "options": [
+            "all",
+            "files",
+            "the",
+            "encrypted"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "it's a formula or something",
+          "spoken": "it's a drawing or something",
+          "target": "formula",
+          "swap": "drawing",
+          "options": [
+            "something",
+            "a",
+            "formula",
+            "it's"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "they want you to leave it at the house",
+          "spoken": "they want you to leave it at the office",
+          "target": "house",
+          "swap": "office",
+          "options": [
+            "they",
+            "house",
+            "want",
+            "leave"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "these people want some documents on your computer they want you to leave it at the house to prove that i'm okay",
+        "start": 117,
+        "end": 130.7,
+        "decoys": [
+          "encrypted",
+          "formula",
+          "message",
+          "phone",
+          "open",
+          "drawing"
+        ]
+      }
     }
   },
   {
@@ -2574,19 +4014,99 @@
         {
           "word": "password",
           "meaning": "secret word for access",
-          "at": 61.0
+          "at": 61
         },
         {
           "word": "detergents",
           "meaning": "soap for washing clothes",
-          "at": 84.0
+          "at": 84
         },
         {
           "word": "saving energy",
           "meaning": "using less power",
           "at": 92.7
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "it's a no-smoking house",
+          "spoken": "it's a no-smoking car",
+          "target": "house",
+          "swap": "car",
+          "options": [
+            "house",
+            "it's",
+            "no",
+            "smoking"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "you can't cook meat or leave meat products in the fridge",
+          "spoken": "you can't cook meat or leave meat products in the cupboard",
+          "target": "fridge",
+          "swap": "cupboard",
+          "options": [
+            "can't",
+            "cook",
+            "meat",
+            "fridge"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "he's very keen on saving energy",
+          "spoken": "he's very keen on saving money",
+          "target": "energy",
+          "swap": "money",
+          "options": [
+            "very",
+            "keen",
+            "energy",
+            "he's"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "you mustn't use a hot water program",
+          "spoken": "you mustn't use a cold water program",
+          "target": "hot",
+          "swap": "cold",
+          "options": [
+            "water",
+            "hot",
+            "mustn't",
+            "use"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "is there anything else i should know",
+          "spoken": "is there anything else i should ask",
+          "target": "know",
+          "swap": "ask",
+          "options": [
+            "know",
+            "there",
+            "anything",
+            "else"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "and he's a strict vegetarian so you can't cook meat or leave meat products in the fridge he just feels really strongly about not eating meat",
+        "start": 39.9,
+        "end": 49.1,
+        "decoys": [
+          "rules",
+          "password",
+          "detergents",
+          "car",
+          "cupboard",
+          "money"
+        ]
+      }
     }
   },
   {
@@ -2711,9 +4231,89 @@
         {
           "word": "flashlights",
           "meaning": "small lights carried in the hand",
-          "at": 153.0
+          "at": 153
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "it's snowing really heavily and there aren't any flights to london",
+          "spoken": "it's snowing really heavily and there aren't any trains to london",
+          "target": "flights",
+          "swap": "trains",
+          "options": [
+            "it's",
+            "snowing",
+            "really",
+            "flights"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "it's the only explanation",
+          "spoken": "it's the best explanation",
+          "target": "only",
+          "swap": "best",
+          "options": [
+            "explanation",
+            "the",
+            "only",
+            "it's"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "we'll have to go when it's dark",
+          "spoken": "we'll have to go when it's light",
+          "target": "dark",
+          "swap": "light",
+          "options": [
+            "go",
+            "dark",
+            "we'll",
+            "have"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "we can sneak in the back way",
+          "spoken": "we can sneak in the front way",
+          "target": "back",
+          "swap": "front",
+          "options": [
+            "back",
+            "can",
+            "sneak",
+            "way"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "we'll need flashlights though",
+          "spoken": "we'll need candles though",
+          "target": "flashlights",
+          "swap": "candles",
+          "options": [
+            "we'll",
+            "need",
+            "though",
+            "flashlights"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "but we can't go to the house now if they're there they'll see us immediately we'll have to go when it's dark but they still might see us",
+        "start": 134.9,
+        "end": 144.5,
+        "decoys": [
+          "flights",
+          "message",
+          "study",
+          "flashlights",
+          "trains",
+          "best"
+        ]
+      }
     }
   },
   {
@@ -2864,7 +4464,87 @@
           "meaning": "space to sleep in a hotel",
           "at": 86.7
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "hello I'm Rob I'm from London",
+          "spoken": "hello I'm Rob I'm from Paris",
+          "target": "London",
+          "swap": "Paris",
+          "options": [
+            "I'm",
+            "Rob",
+            "London",
+            "hello"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "I'm here for work",
+          "spoken": "I'm here for fun",
+          "target": "work",
+          "swap": "fun",
+          "options": [
+            "for",
+            "work",
+            "I'm",
+            "here"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "my name's Rob Walker",
+          "spoken": "my name's Tom Walker",
+          "target": "Rob",
+          "swap": "Tom",
+          "options": [
+            "Rob",
+            "name's",
+            "Walker",
+            "my"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "I have a reservation",
+          "spoken": "I have a question",
+          "target": "reservation",
+          "swap": "question",
+          "options": [
+            "have",
+            "I",
+            "a",
+            "reservation"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "you're in room 3 2 1",
+          "spoken": "you're in office 3 2 1",
+          "target": "room",
+          "swap": "office",
+          "options": [
+            "3",
+            "2",
+            "room",
+            "you're"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "hello good afternoon my name's Rob Walker I have a reservation sorry what's your surname",
+        "start": 51.8,
+        "end": 68.1,
+        "decoys": [
+          "journalist",
+          "work",
+          "room",
+          "paris",
+          "fun",
+          "tom"
+        ]
+      }
     }
   },
   {
@@ -2998,7 +4678,7 @@
         {
           "word": "mineral water",
           "meaning": "bottled drinking water",
-          "at": 41.0
+          "at": 41
         },
         {
           "word": "lunch",
@@ -3015,7 +4695,87 @@
           "meaning": "food between pieces of bread",
           "at": 75.4
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "hi how can I help you",
+          "spoken": "hi how can I serve you",
+          "target": "help",
+          "swap": "serve",
+          "options": [
+            "can",
+            "help",
+            "hi",
+            "how"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "and a mineral water please",
+          "spoken": "and a mineral juice please",
+          "target": "water",
+          "swap": "juice",
+          "options": [
+            "water",
+            "mineral",
+            "please",
+            "and"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "thank you have a nice day",
+          "spoken": "thank you have a nice night",
+          "target": "day",
+          "swap": "night",
+          "options": [
+            "thank",
+            "have",
+            "nice",
+            "day"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "we can have lunch together in the park",
+          "spoken": "we can have lunch together in the office",
+          "target": "park",
+          "swap": "office",
+          "options": [
+            "have",
+            "lunch",
+            "park",
+            "can"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "can I have a cheese sandwich",
+          "spoken": "can I have a ham sandwich",
+          "target": "cheese",
+          "swap": "ham",
+          "options": [
+            "sandwich",
+            "cheese",
+            "can",
+            "have"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "hi how can I help you Hi how much is this tuna salad it's 7 20. okay fine",
+        "start": 30.4,
+        "end": 41,
+        "decoys": [
+          "lunch",
+          "park",
+          "sandwich",
+          "serve",
+          "juice",
+          "night"
+        ]
+      }
     }
   },
   {
@@ -3166,7 +4926,87 @@
           "meaning": "feel troubled",
           "at": 90.5
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "what's the date today",
+          "spoken": "what's the time today",
+          "target": "date",
+          "swap": "time",
+          "options": [
+            "date",
+            "what's",
+            "today",
+            "the"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "it's my dad's birthday",
+          "spoken": "it's my dad's holiday",
+          "target": "birthday",
+          "swap": "holiday",
+          "options": [
+            "it's",
+            "dad's",
+            "my",
+            "birthday"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "this is for you",
+          "spoken": "this is from you",
+          "target": "for",
+          "swap": "from",
+          "options": [
+            "is",
+            "you",
+            "for",
+            "this"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "it's my favorite wine",
+          "spoken": "it's my favorite cake",
+          "target": "wine",
+          "swap": "cake",
+          "options": [
+            "my",
+            "wine",
+            "it's",
+            "favorite"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "my birthday is on the 2nd of July",
+          "spoken": "my birthday is on the 2nd of June",
+          "target": "July",
+          "swap": "June",
+          "options": [
+            "July",
+            "birthday",
+            "2",
+            "nd"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "Happy Birthday Rob it isn't my birthday today my birthday is on the 2nd of July",
+        "start": 79.2,
+        "end": 87.8,
+        "decoys": [
+          "date",
+          "favorite",
+          "wine",
+          "worry",
+          "holiday",
+          "cake"
+        ]
+      }
     }
   },
   {
@@ -3287,14 +5127,94 @@
         {
           "word": "working",
           "meaning": "able to do its job",
-          "at": 64.0
+          "at": 64
         },
         {
           "word": "another",
           "meaning": "one more",
-          "at": 64.0
+          "at": 64
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "is there a cash machine near here",
+          "spoken": "is there a cash machine far here",
+          "target": "near",
+          "swap": "far",
+          "options": [
+            "there",
+            "cash",
+            "machine",
+            "near"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "turn left and go straight on",
+          "spoken": "turn right and go straight on",
+          "target": "left",
+          "swap": "right",
+          "options": [
+            "go",
+            "straight",
+            "left",
+            "turn"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "it's on the right",
+          "spoken": "it's on the left",
+          "target": "right",
+          "swap": "left",
+          "options": [
+            "the",
+            "right",
+            "it's",
+            "on"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "this cash machine isn't working",
+          "spoken": "this cash machine isn't broken",
+          "target": "working",
+          "swap": "broken",
+          "options": [
+            "working",
+            "cash",
+            "machine",
+            "isn't"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "it's on the left",
+          "spoken": "it's on the right",
+          "target": "left",
+          "swap": "right",
+          "options": [
+            "it's",
+            "on",
+            "the",
+            "left"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "sorry where is that turn left and go straight on then turn right and it's on the right",
+        "start": 30.3,
+        "end": 43.1,
+        "decoys": [
+          "near",
+          "working",
+          "far",
+          "broken",
+          "excuse",
+          "cash"
+        ]
+      }
     }
   },
   {
@@ -3422,7 +5342,87 @@
           "meaning": "person who plays a role in a show",
           "at": 69.2
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "i'm james evans president of top-notch travel",
+          "spoken": "i'm james evans manager of top-notch travel",
+          "target": "president",
+          "swap": "manager",
+          "options": [
+            "james",
+            "evans",
+            "president",
+            "i'm"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "i'm marie the receptionist",
+          "spoken": "i'm marie the manager",
+          "target": "receptionist",
+          "swap": "manager",
+          "options": [
+            "the",
+            "receptionist",
+            "i'm",
+            "marie"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "i'm paul i'm a tour guide",
+          "spoken": "i'm paul i'm a tour driver",
+          "target": "guide",
+          "swap": "driver",
+          "options": [
+            "guide",
+            "i'm",
+            "paul",
+            "tour"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "bob is not a chef",
+          "spoken": "bob is not a doctor",
+          "target": "chef",
+          "swap": "doctor",
+          "options": [
+            "bob",
+            "not",
+            "is",
+            "chef"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "bob is an actor",
+          "spoken": "bob is an doctor",
+          "target": "actor",
+          "swap": "doctor",
+          "options": [
+            "is",
+            "an",
+            "actor",
+            "bob"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "bob is a chef no bob is not a chef bob is a doctor",
+        "start": 42.3,
+        "end": 52.2,
+        "decoys": [
+          "president",
+          "receptionist",
+          "mailman",
+          "actor",
+          "manager",
+          "driver"
+        ]
+      }
     }
   },
   {
@@ -3533,7 +5533,7 @@
         {
           "word": "neighbor",
           "meaning": "person who lives nearby",
-          "at": 39.0
+          "at": 39
         },
         {
           "word": "doctor",
@@ -3543,14 +5543,94 @@
         {
           "word": "artist",
           "meaning": "person who makes art",
-          "at": 48.0
+          "at": 48
         },
         {
           "word": "musician",
           "meaning": "person who makes music",
           "at": 59.9
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "he's a writer from france",
+          "spoken": "he's a artist from france",
+          "target": "writer",
+          "swap": "artist",
+          "options": [
+            "a",
+            "writer",
+            "he's",
+            "france"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "he's mr evan's neighbor",
+          "spoken": "he's mr evan's brother",
+          "target": "neighbor",
+          "swap": "brother",
+          "options": [
+            "neighbor",
+            "he's",
+            "mr",
+            "evan's"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "he's a doctor from mexico",
+          "spoken": "he's a teacher from mexico",
+          "target": "doctor",
+          "swap": "teacher",
+          "options": [
+            "he's",
+            "mexico",
+            "a",
+            "doctor"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "that's alan reece he's our lawyer",
+          "spoken": "that's alan reece he's our teacher",
+          "target": "lawyer",
+          "swap": "teacher",
+          "options": [
+            "alan",
+            "reece",
+            "lawyer",
+            "that's"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "that's mr evans he's your boss",
+          "spoken": "that's mr evans he's your friend",
+          "target": "boss",
+          "swap": "friend",
+          "options": [
+            "evans",
+            "boss",
+            "that's",
+            "mr"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "that's not david duquesne that's arturo montoya he's mr evan's neighbor",
+        "start": 34.7,
+        "end": 41.1,
+        "decoys": [
+          "writer",
+          "doctor",
+          "artist",
+          "musician",
+          "brother",
+          "teacher"
+        ]
+      }
     }
   },
   {
@@ -3678,7 +5758,87 @@
           "meaning": "shop for medicine",
           "at": 53.2
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "excuse me how do i get to the red cafe",
+          "spoken": "excuse me how do i get to the blue cafe",
+          "target": "red",
+          "swap": "blue",
+          "options": [
+            "red",
+            "excuse",
+            "me",
+            "how"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "go to the corner and turn left",
+          "spoken": "go to the corner and turn right",
+          "target": "left",
+          "swap": "right",
+          "options": [
+            "go",
+            "corner",
+            "turn",
+            "left"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "go two blocks and turn right",
+          "spoken": "go three blocks and turn right",
+          "target": "two",
+          "swap": "three",
+          "options": [
+            "blocks",
+            "turn",
+            "two",
+            "go"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "around the corner is a train station",
+          "spoken": "around the corner is a bus station",
+          "target": "train",
+          "swap": "bus",
+          "options": [
+            "station",
+            "train",
+            "around",
+            "corner"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "next to the bookstore is a pharmacy",
+          "spoken": "next to the bookstore is a cafe",
+          "target": "pharmacy",
+          "swap": "cafe",
+          "options": [
+            "pharmacy",
+            "next",
+            "bookstore",
+            "to"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "go to the corner and turn left left go two blocks and turn right right",
+        "start": 35.3,
+        "end": 42.5,
+        "decoys": [
+          "station",
+          "bookstore",
+          "pharmacy",
+          "blue",
+          "three",
+          "bus"
+        ]
+      }
     }
   },
   {
@@ -3806,7 +5966,87 @@
           "meaning": "person who writes books",
           "at": 84.5
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "you're late what time is it",
+          "spoken": "you're early what time is it",
+          "target": "late",
+          "swap": "early",
+          "options": [
+            "you're",
+            "what",
+            "time",
+            "late"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "two minutes after six",
+          "spoken": "two minutes before six",
+          "target": "after",
+          "swap": "before",
+          "options": [
+            "minutes",
+            "six",
+            "after",
+            "two"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "there's a great french movie at the avalon",
+          "spoken": "there's a great french concert at the avalon",
+          "target": "movie",
+          "swap": "concert",
+          "options": [
+            "french",
+            "movie",
+            "there's",
+            "great"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "there's a baseball game on saturday night",
+          "spoken": "there's a baseball game on sunday night",
+          "target": "saturday",
+          "swap": "sunday",
+          "options": [
+            "saturday",
+            "there's",
+            "baseball",
+            "game"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "there's a mozart concert on saturday",
+          "spoken": "there's a mozart movie on saturday",
+          "target": "concert",
+          "swap": "movie",
+          "options": [
+            "there's",
+            "mozart",
+            "saturday",
+            "concert"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "you're late what time is it two minutes after six i'm not late",
+        "start": 27.5,
+        "end": 34.4,
+        "decoys": [
+          "early",
+          "birthday",
+          "concert",
+          "writer",
+          "sunday",
+          "movie"
+        ]
+      }
     }
   },
   {
@@ -3916,7 +6156,7 @@
         {
           "word": "laundry",
           "meaning": "clothes that need washing",
-          "at": 40.0
+          "at": 40
         },
         {
           "word": "art class",
@@ -3933,7 +6173,87 @@
           "meaning": "place that shows art or history",
           "at": 72.8
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "do you want to go shopping with me",
+          "spoken": "do you want to go swimming with me",
+          "target": "shopping",
+          "swap": "swimming",
+          "options": [
+            "go",
+            "me",
+            "shopping",
+            "want"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "i'm making breakfast for some friends at nine",
+          "spoken": "i'm making lunch for some friends at nine",
+          "target": "breakfast",
+          "swap": "lunch",
+          "options": [
+            "some",
+            "breakfast",
+            "i'm",
+            "making"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "i'm taking an art class from one to three",
+          "spoken": "i'm taking an music class from one to three",
+          "target": "art",
+          "swap": "music",
+          "options": [
+            "art",
+            "i'm",
+            "taking",
+            "class"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "i'm exercising with a friend from three to four",
+          "spoken": "i'm shopping with a friend from three to four",
+          "target": "exercising",
+          "swap": "shopping",
+          "options": [
+            "i'm",
+            "friend",
+            "three",
+            "exercising"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "i'm going to a baseball game with bob at 1",
+          "spoken": "i'm going to a basketball game with bob at 1",
+          "target": "baseball",
+          "swap": "basketball",
+          "options": [
+            "going",
+            "game",
+            "baseball",
+            "i'm"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "what are you doing this weekend do you want to go shopping with me that sounds great",
+        "start": 24.2,
+        "end": 30.5,
+        "decoys": [
+          "laundry",
+          "exercising",
+          "museum",
+          "swimming",
+          "lunch",
+          "music"
+        ]
+      }
     }
   },
   {
@@ -4060,7 +6380,87 @@
           "meaning": "talks given to a group",
           "at": 83.6
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "did you visit lots of museums",
+          "spoken": "did you visit lots of parks",
+          "target": "museums",
+          "swap": "parks",
+          "options": [
+            "did",
+            "museums",
+            "visit",
+            "lots"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "i ate in the same bad restaurant every day",
+          "spoken": "i ate in the same good restaurant every day",
+          "target": "bad",
+          "swap": "good",
+          "options": [
+            "bad",
+            "ate",
+            "same",
+            "restaurant"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "i watch tv in the hotel room at night",
+          "spoken": "i watch tv in the hotel room at morning",
+          "target": "night",
+          "swap": "morning",
+          "options": [
+            "watch",
+            "tv",
+            "hotel",
+            "night"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "i sat in a chair for four days",
+          "spoken": "i sat in a chair for two days",
+          "target": "four",
+          "swap": "two",
+          "options": [
+            "chair",
+            "days",
+            "four",
+            "sat"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "i went to london for business not for vacation",
+          "spoken": "i went to london for pleasure not for vacation",
+          "target": "business",
+          "swap": "pleasure",
+          "options": [
+            "not",
+            "business",
+            "went",
+            "london"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "did you eat in some good restaurants no i ate in the same bad restaurant",
+        "start": 39.8,
+        "end": 46.8,
+        "decoys": [
+          "trip",
+          "museums",
+          "hotel",
+          "business",
+          "speeches",
+          "parks"
+        ]
+      }
     }
   },
   {
@@ -4170,7 +6570,7 @@
         {
           "word": "doctor",
           "meaning": "person who helps sick people",
-          "at": 31.0
+          "at": 31
         },
         {
           "word": "fever",
@@ -4187,7 +6587,87 @@
           "meaning": "pain in a tooth",
           "at": 75.9
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "i'm meeting my sister for lunch",
+          "spoken": "i'm meeting my brother for lunch",
+          "target": "sister",
+          "swap": "brother",
+          "options": [
+            "sister",
+            "i'm",
+            "meeting",
+            "lunch"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "i don't feel well and i'm going to the doctor",
+          "spoken": "i don't feel well and i'm going to the dentist",
+          "target": "doctor",
+          "swap": "dentist",
+          "options": [
+            "don't",
+            "feel",
+            "well",
+            "doctor"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "she has a fever and a headache",
+          "spoken": "she has a cold and a headache",
+          "target": "fever",
+          "swap": "cold",
+          "options": [
+            "headache",
+            "she",
+            "fever",
+            "has"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "you're not going anywhere stay right here",
+          "spoken": "you're not going outside stay right here",
+          "target": "anywhere",
+          "swap": "outside",
+          "options": [
+            "going",
+            "anywhere",
+            "you're",
+            "not"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "i'm calling the doctor",
+          "spoken": "i'm calling the nurse",
+          "target": "doctor",
+          "swap": "nurse",
+          "options": [
+            "doctor",
+            "i'm",
+            "calling",
+            "the"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "is marie here uh no she's not feeling so well",
+        "start": 40.6,
+        "end": 46.1,
+        "decoys": [
+          "sister",
+          "doctor",
+          "fever",
+          "headache",
+          "toothache",
+          "brother"
+        ]
+      }
     }
   },
   {
@@ -4314,7 +6794,87 @@
           "meaning": "person who studies",
           "at": 79.2
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "is this your family yes",
+          "spoken": "is this your class yes",
+          "target": "family",
+          "swap": "class",
+          "options": [
+            "yes",
+            "is",
+            "this",
+            "family"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "he's so handsome how old is he he's 34",
+          "spoken": "he's so tired how old is he he's 34",
+          "target": "handsome",
+          "swap": "tired",
+          "options": [
+            "so",
+            "how",
+            "handsome",
+            "he's"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "he's a university student",
+          "spoken": "he's a university teacher",
+          "target": "student",
+          "swap": "teacher",
+          "options": [
+            "a",
+            "student",
+            "he's",
+            "university"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "that's my sister's husband",
+          "spoken": "that's my sister's friend",
+          "target": "husband",
+          "swap": "friend",
+          "options": [
+            "husband",
+            "that's",
+            "sister's",
+            "my"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "she's not old she's 58",
+          "spoken": "she's not young she's 58",
+          "target": "old",
+          "swap": "young",
+          "options": [
+            "she's",
+            "not",
+            "58",
+            "old"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "who's this is he a doctor too no he's an architect that's my sister's husband",
+        "start": 65.4,
+        "end": 75.5,
+        "decoys": [
+          "family",
+          "brother",
+          "mother",
+          "student",
+          "class",
+          "tired"
+        ]
+      }
     }
   },
   {
@@ -4429,19 +6989,99 @@
         {
           "word": "laundry",
           "meaning": "clothes that need washing",
-          "at": 46.0
+          "at": 46
         },
         {
           "word": "exercise",
           "meaning": "move to stay fit",
-          "at": 60.0
+          "at": 60
         },
         {
           "word": "weekends",
           "meaning": "Saturday and Sunday",
           "at": 71.3
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "paul you're late again",
+          "spoken": "paul you're early again",
+          "target": "late",
+          "swap": "early",
+          "options": [
+            "you're",
+            "again",
+            "late",
+            "paul"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "i never get up before 8 45",
+          "spoken": "i never get up after 8 45",
+          "target": "before",
+          "swap": "after",
+          "options": [
+            "up",
+            "before",
+            "never",
+            "get"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "i usually make breakfast",
+          "spoken": "i usually make lunch",
+          "target": "breakfast",
+          "swap": "lunch",
+          "options": [
+            "breakfast",
+            "usually",
+            "make",
+            "i"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "then i read the newspaper check my email",
+          "spoken": "then i read the magazine check my email",
+          "target": "newspaper",
+          "swap": "magazine",
+          "options": [
+            "then",
+            "read",
+            "check",
+            "newspaper"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "on monday wednesday and friday i exercise",
+          "spoken": "on monday wednesday and sunday i exercise",
+          "target": "friday",
+          "swap": "sunday",
+          "options": [
+            "wednesday",
+            "exercise",
+            "friday",
+            "monday"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "sometimes i take a nap you take a nap in the morning just 15 minutes",
+        "start": 52.3,
+        "end": 57.4,
+        "decoys": [
+          "breakfast",
+          "laundry",
+          "exercise",
+          "weekends",
+          "early",
+          "lunch"
+        ]
+      }
     }
   },
   {
@@ -4568,7 +7208,87 @@
           "meaning": "room where lessons happen",
           "at": 73.4
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "please hand in your class signed slips",
+          "spoken": "please hand in your class blank slips",
+          "target": "signed",
+          "swap": "blank",
+          "options": [
+            "class",
+            "signed",
+            "please",
+            "hand"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "please sign up at the registrar section",
+          "spoken": "please sign up at the library section",
+          "target": "registrar",
+          "swap": "library",
+          "options": [
+            "registrar",
+            "please",
+            "sign",
+            "up"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "please sign up at the registrar section before the end of the school day",
+          "spoken": "please sign up at the registrar section before the end of the school week",
+          "target": "day",
+          "swap": "week",
+          "options": [
+            "please",
+            "sign",
+            "up",
+            "day"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "admission information session will be held this afternoon",
+          "spoken": "admission information session will be held this morning",
+          "target": "afternoon",
+          "swap": "morning",
+          "options": [
+            "information",
+            "session",
+            "afternoon",
+            "admission"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "please meet at the multi-purpose classroom during afternoon break",
+          "spoken": "please meet at the multi-purpose hall during afternoon break",
+          "target": "classroom",
+          "swap": "hall",
+          "options": [
+            "multi",
+            "classroom",
+            "please",
+            "meet"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "please meet at the multi-purpose classroom during afternoon break Arts officers please return your class confirmed test results",
+        "start": 70.4,
+        "end": 85.5,
+        "decoys": [
+          "fees",
+          "scholarship",
+          "session",
+          "blank",
+          "library",
+          "week"
+        ]
+      }
     }
   },
   {
@@ -4986,7 +7706,87 @@
           "meaning": "cover held over you in rain",
           "at": 55.2
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "It's a beautiful spring morning across the city.",
+          "spoken": "It's a beautiful winter morning across the city.",
+          "target": "spring",
+          "swap": "winter",
+          "options": [
+            "spring",
+            "It's",
+            "beautiful",
+            "morning"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "The sun is shining and temperatures are rising quickly.",
+          "spoken": "The sun is shining and temperatures are falling quickly.",
+          "target": "rising",
+          "swap": "falling",
+          "options": [
+            "sun",
+            "shining",
+            "temperatures",
+            "rising"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "There will be light winds from the east, but no rain is expected today.",
+          "spoken": "There will be light winds from the west, but no rain is expected today.",
+          "target": "east",
+          "swap": "west",
+          "options": [
+            "will",
+            "light",
+            "east",
+            "There"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "Skies will remain clear, making it a great night for stargazing.",
+          "spoken": "Skies will remain cloudy, making it a great night for stargazing.",
+          "target": "clear",
+          "swap": "cloudy",
+          "options": [
+            "remain",
+            "clear",
+            "Skies",
+            "will"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "there's a chance of light rain in the afternoon.",
+          "spoken": "there's a chance of light rain in the morning.",
+          "target": "afternoon",
+          "swap": "morning",
+          "options": [
+            "afternoon",
+            "there's",
+            "chance",
+            "light"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "It's a beautiful spring morning across the city. The sun is shining and temperatures are rising quickly.",
+        "start": 9,
+        "end": 16.1,
+        "decoys": [
+          "clouds",
+          "picnic",
+          "umbrella",
+          "winter",
+          "falling",
+          "west"
+        ]
+      }
     }
   },
   {
@@ -5092,7 +7892,7 @@
         {
           "word": "flood warning",
           "meaning": "notice that water may rise dangerously",
-          "at": 2.0
+          "at": 2
         },
         {
           "word": "drizzle",
@@ -5107,14 +7907,94 @@
         {
           "word": "thunderstorms",
           "meaning": "storms with thunder",
-          "at": 16.0
+          "at": 16
         },
         {
           "word": "cold front",
           "meaning": "moving area of cooler air",
-          "at": 32.0
+          "at": 32
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "the flood warning is over for now",
+          "spoken": "the flood warning is active for now",
+          "target": "over",
+          "swap": "active",
+          "options": [
+            "flood",
+            "warning",
+            "now",
+            "over"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "we do have a chance of rain all week",
+          "spoken": "we do have a chance of snow all week",
+          "target": "rain",
+          "swap": "snow",
+          "options": [
+            "chance",
+            "all",
+            "rain",
+            "have"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "tonight we're looking at a low of 63 degrees",
+          "spoken": "tonight we're looking at a high of 63 degrees",
+          "target": "low",
+          "swap": "high",
+          "options": [
+            "looking",
+            "low",
+            "tonight",
+            "we're"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "tomorrow we are going to see a high of 75",
+          "spoken": "tomorrow we are going to see a low of 75",
+          "target": "high",
+          "swap": "low",
+          "options": [
+            "high",
+            "tomorrow",
+            "going",
+            "see"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "we also have a cold front moving in",
+          "spoken": "we also have a warm front moving in",
+          "target": "cold",
+          "swap": "warm",
+          "options": [
+            "also",
+            "have",
+            "front",
+            "cold"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "well guys the National Weather Service says that the flood warning is over for now however we do have a chance of rain all week and possible thunderstorms",
+        "start": 0,
+        "end": 7.7,
+        "decoys": [
+          "drizzle",
+          "fog",
+          "active",
+          "snow",
+          "high",
+          "low"
+        ]
+      }
     }
   }
 ]

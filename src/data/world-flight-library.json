@@ -446,7 +446,87 @@
           "meaning": "paths for walking",
           "at": 114.2
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "in april 2019 changi opened up jewel a lifestyle hub for the airport",
+          "spoken": "in april 2020 changi opened up jewel a lifestyle hub for the airport",
+          "target": "2019",
+          "swap": "2020",
+          "options": [
+            "opened",
+            "2019",
+            "april",
+            "changi"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "the massive donut-shaped building sits between the control tower and terminal 1",
+          "spoken": "the massive donut-shaped building sits between the control tower and runway 1",
+          "target": "terminal",
+          "swap": "runway",
+          "options": [
+            "terminal",
+            "massive",
+            "donut",
+            "shaped"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "it stands 10 stories tall with 5 stories below ground and 5 above",
+          "spoken": "it stands 20 stories tall with 5 stories below ground and 5 above",
+          "target": "10",
+          "swap": "20",
+          "options": [
+            "stands",
+            "stories",
+            "tall",
+            "10"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "the water is harvested from rain and recirculated through the waterfall 24 7",
+          "spoken": "the water is harvested from rivers and recirculated through the waterfall 24 7",
+          "target": "rain",
+          "swap": "rivers",
+          "options": [
+            "harvested",
+            "recirculated",
+            "rain",
+            "water"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "more than 900 trees and 60 thousand shrubs from around the world",
+          "spoken": "more than 500 trees and 60 thousand shrubs from around the world",
+          "target": "900",
+          "swap": "500",
+          "options": [
+            "trees",
+            "900",
+            "more",
+            "than"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "all the water is harvested from rain and recirculated through the waterfall 24 7. at night it keeps running and acts as a canvas for a 360 degree light show projected on it",
+        "start": 84.1,
+        "end": 96,
+        "decoys": [
+          "layovers",
+          "rainforest",
+          "2020",
+          "runway",
+          "20",
+          "rivers"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -707,7 +787,87 @@
           "meaning": "machine that copies a real experience",
           "at": 68.1
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "it was the first underground system of its kind",
+          "spoken": "it was the last underground system of its kind",
+          "target": "first",
+          "swap": "last",
+          "options": [
+            "first",
+            "underground",
+            "system",
+            "kind"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "the London Tube was carrying over 40 million passengers a year",
+          "spoken": "the London Tube was carrying over 20 million passengers a year",
+          "target": "40",
+          "swap": "20",
+          "options": [
+            "London",
+            "Tube",
+            "carrying",
+            "40"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "55% of today's network is actually above ground",
+          "spoken": "55% of today's network is actually below ground",
+          "target": "above",
+          "swap": "below",
+          "options": [
+            "today's",
+            "network",
+            "above",
+            "55"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "it operates 600 trains 7 days a week",
+          "spoken": "it operates 300 trains 7 days a week",
+          "target": "600",
+          "swap": "300",
+          "options": [
+            "7",
+            "600",
+            "operates",
+            "trains"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "today they're letting Johnny loose behind the wheel",
+          "spoken": "today they're letting Matt loose behind the wheel",
+          "target": "Johnny",
+          "swap": "Matt",
+          "options": [
+            "Johnny",
+            "today",
+            "they're",
+            "letting"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "surprisingly for something that's called The Underground 55% of today's network is actually above ground but it's the tube shaped tunnels that have made it famous and their depth varies greatly",
+        "start": 32.9,
+        "end": 44.8,
+        "decoys": [
+          "operates",
+          "simulator",
+          "last",
+          "20",
+          "below",
+          "300"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -977,7 +1137,7 @@
         {
           "word": "tributary",
           "meaning": "river flowing into a larger river",
-          "at": 21.0
+          "at": 21
         },
         {
           "word": "source",
@@ -999,7 +1159,87 @@
           "meaning": "fine soil carried by a river",
           "at": 146.7
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "Lake Victoria was considered the source of the Nile.",
+          "spoken": "Lake Victoria was considered the mouth of the Nile.",
+          "target": "source",
+          "swap": "mouth",
+          "options": [
+            "Lake",
+            "Victoria",
+            "considered",
+            "source"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "New tributaries and evaporation keep the water levels in balance",
+          "spoken": "New dams and evaporation keep the water levels in balance",
+          "target": "tributaries",
+          "swap": "dams",
+          "options": [
+            "evaporation",
+            "keep",
+            "tributaries",
+            "New"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "they contribute over 70% of the entire discharge of the Nile",
+          "spoken": "they contribute over 30% of the entire discharge of the Nile",
+          "target": "70",
+          "swap": "30",
+          "options": [
+            "entire",
+            "70",
+            "contribute",
+            "over"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "the water from the Blue Nile carries large amounts of silt",
+          "spoken": "the water from the Blue Nile carries large amounts of sand",
+          "target": "silt",
+          "swap": "sand",
+          "options": [
+            "silt",
+            "water",
+            "Blue",
+            "Nile"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "the river floods the desert and delta",
+          "spoken": "the river floods the city and delta",
+          "target": "desert",
+          "swap": "city",
+          "options": [
+            "river",
+            "floods",
+            "delta",
+            "desert"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "For the longest time, Lake Victoria was considered the source of the Nile. This however neglects the fact that the lake itself is fed by major rivers.",
+        "start": 30.6,
+        "end": 38.3,
+        "decoys": [
+          "tributary",
+          "climates",
+          "silt",
+          "mouth",
+          "dams",
+          "30"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -1166,9 +1406,89 @@
         {
           "word": "expansion",
           "meaning": "growth",
-          "at": 99.0
+          "at": 99
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "Dubai International has welcomed over 42 million passengers",
+          "spoken": "Dubai International has welcomed over 52 million passengers",
+          "target": "42",
+          "swap": "52",
+          "options": [
+            "International",
+            "has",
+            "42",
+            "Dubai"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "Dubai airports can be proud of our remarkable past.",
+          "spoken": "Dubai airports can be proud of our remarkable future.",
+          "target": "past",
+          "swap": "future",
+          "options": [
+            "can",
+            "past",
+            "Dubai",
+            "airports"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "we will open our doors to over 50 million passengers.",
+          "spoken": "we will open our doors to over 40 million passengers.",
+          "target": "50",
+          "swap": "40",
+          "options": [
+            "50",
+            "will",
+            "open",
+            "doors"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "the future holds even greater promise as we build our infrastructure",
+          "spoken": "the past holds even greater promise as we build our infrastructure",
+          "target": "future",
+          "swap": "past",
+          "options": [
+            "holds",
+            "even",
+            "greater",
+            "future"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "Dubai airports will welcome almost 100 million passengers to Dubai.",
+          "spoken": "Dubai airports will welcome almost 50 million passengers to Dubai.",
+          "target": "100",
+          "swap": "50",
+          "options": [
+            "airports",
+            "will",
+            "100",
+            "Dubai"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "Dubai airports can be proud of our remarkable past. And the future holds even greater promise as we build our infrastructure to support the impressive expansion of Emirates and Fly Dubai.",
+        "start": 87.8,
+        "end": 104.3,
+        "decoys": [
+          "airlines",
+          "gateway",
+          "passengers",
+          "52",
+          "40",
+          "50"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -2146,9 +2466,89 @@
         {
           "word": "labeled",
           "meaning": "marked with information",
-          "at": 77.0
+          "at": 77
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "they deliver home-cooked meals to people at work every day",
+          "spoken": "they deliver home-cooked meals to people at school every day",
+          "target": "work",
+          "swap": "school",
+          "options": [
+            "cooked",
+            "work",
+            "deliver",
+            "home"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "many of them have had little to no education",
+          "spoken": "many of them have had little to no experience",
+          "target": "education",
+          "swap": "experience",
+          "options": [
+            "education",
+            "many",
+            "them",
+            "have"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "they have until 10 30 am to bike to the nearest train station",
+          "spoken": "they have until 10 30 am to bike to the nearest train market",
+          "target": "station",
+          "swap": "market",
+          "options": [
+            "have",
+            "until",
+            "10",
+            "station"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "the lids are labeled with letters numbers and symbols",
+          "spoken": "the lids are labeled with colors numbers and symbols",
+          "target": "letters",
+          "swap": "colors",
+          "options": [
+            "labeled",
+            "numbers",
+            "letters",
+            "lids"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "they deliver lunches to their clients",
+          "spoken": "they deliver lunches to their families",
+          "target": "clients",
+          "swap": "families",
+          "options": [
+            "they",
+            "clients",
+            "deliver",
+            "lunches"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "mumbai dabbawalas employs about 5 000 people many of them have had little to no education and have never learned to read so how do they keep these orders in order",
+        "start": 32.5,
+        "end": 43.5,
+        "decoys": [
+          "deliver",
+          "bicycles",
+          "lunchboxes",
+          "labeled",
+          "school",
+          "experience"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -2535,7 +2935,87 @@
           "meaning": "large unfair differences",
           "at": 132.6
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "There are many different explanations for why Rio has its many favelas.",
+          "spoken": "There are many similar explanations for why Rio has its many favelas.",
+          "target": "different",
+          "swap": "similar",
+          "options": [
+            "different",
+            "There",
+            "many",
+            "explanations"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "the government wasn't entirely ready to pay the wages of those soldiers.",
+          "spoken": "the government wasn't entirely ready to pay the taxes of those soldiers.",
+          "target": "wages",
+          "swap": "taxes",
+          "options": [
+            "government",
+            "wasn't",
+            "entirely",
+            "wages"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "One military expedition came to disperse the settlement.",
+          "spoken": "One peaceful expedition came to disperse the settlement.",
+          "target": "military",
+          "swap": "peaceful",
+          "options": [
+            "expedition",
+            "came",
+            "military",
+            "One"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "cities are places of opportunity that attract both rich and poor alike",
+          "spoken": "cities are places of opportunity that attract both young and poor alike",
+          "target": "rich",
+          "swap": "young",
+          "options": [
+            "opportunity",
+            "rich",
+            "cities",
+            "places"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "The fourth lens through which we view favelas is inequality.",
+          "spoken": "The fourth lens through which we view favelas is culture.",
+          "target": "inequality",
+          "swap": "culture",
+          "options": [
+            "inequality",
+            "fourth",
+            "lens",
+            "through"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "The problem was, the government wasn't entirely ready to pay the wages of those soldiers. And so they came here, and camped outside of the capital, and a favela was born.",
+        "start": 35.6,
+        "end": 46,
+        "decoys": [
+          "tenements",
+          "inequality",
+          "similar",
+          "taxes",
+          "peaceful",
+          "young"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -3092,12 +3572,12 @@
         {
           "word": "boats",
           "meaning": "small water vehicles",
-          "at": 96.0
+          "at": 96
         },
         {
           "word": "road",
           "meaning": "route for land vehicles",
-          "at": 109.0
+          "at": 109
         },
         {
           "word": "congested",
@@ -3114,7 +3594,87 @@
           "meaning": "using several kinds of transport",
           "at": 136.4
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "so I normally take boats every day",
+          "spoken": "so I normally take buses every day",
+          "target": "boats",
+          "swap": "buses",
+          "options": [
+            "so",
+            "normally",
+            "take",
+            "boats"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "the boat takes an average of 20 to 35 minutes",
+          "spoken": "the bus takes an average of 20 to 35 minutes",
+          "target": "boat",
+          "swap": "bus",
+          "options": [
+            "average",
+            "20",
+            "boat",
+            "takes"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "going by road that takes one and a half hour to two hours",
+          "spoken": "going by rail that takes one and a half hour to two hours",
+          "target": "road",
+          "swap": "rail",
+          "options": [
+            "one",
+            "road",
+            "going",
+            "takes"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "Lagos is a congested city",
+          "spoken": "Lagos is a quiet city",
+          "target": "congested",
+          "swap": "quiet",
+          "options": [
+            "congested",
+            "Lagos",
+            "city",
+            "is"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "the road transport and also the rail transport",
+          "spoken": "the road transport and also the air transport",
+          "target": "rail",
+          "swap": "air",
+          "options": [
+            "road",
+            "transport",
+            "also",
+            "rail"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "so I normally take boats every day in order to get to office on time and the boat takes an average of 20 to 35 minutes",
+        "start": 96,
+        "end": 109,
+        "decoys": [
+          "road",
+          "congested",
+          "alternatives",
+          "multimodal",
+          "buses",
+          "bus"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -3311,9 +3871,89 @@
         {
           "word": "reinvested",
           "meaning": "put back into a project",
-          "at": 82.0
+          "at": 82
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "this is not just a train Network",
+          "spoken": "this is not just a bus Network",
+          "target": "train",
+          "swap": "bus",
+          "options": [
+            "just",
+            "Network",
+            "train",
+            "not"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "it builds the subway around it",
+          "spoken": "it builds the road around it",
+          "target": "subway",
+          "swap": "road",
+          "options": [
+            "it",
+            "subway",
+            "builds",
+            "around"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "it creates malls which include residential Apartments office space hotels and retail stores",
+          "spoken": "it creates parks which include residential Apartments office space hotels and retail stores",
+          "target": "malls",
+          "swap": "parks",
+          "options": [
+            "malls",
+            "creates",
+            "which",
+            "include"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "it then takes a cut of the profits which is then reinvested",
+          "spoken": "it then takes a cut of the fares which is then reinvested",
+          "target": "profits",
+          "swap": "fares",
+          "options": [
+            "then",
+            "takes",
+            "cut",
+            "profits"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "space is limited and vertical living is the norm",
+          "spoken": "space is unlimited and vertical living is the norm",
+          "target": "limited",
+          "swap": "unlimited",
+          "options": [
+            "vertical",
+            "living",
+            "limited",
+            "space"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "the MTR Corporation builds the transport Hub and the malls in exchange for delivering customers to these malls it then takes a cut of the profits",
+        "start": 73.3,
+        "end": 82,
+        "decoys": [
+          "rail",
+          "residential",
+          "infrastructure",
+          "reinvested",
+          "bus",
+          "road"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -3449,7 +4089,87 @@
           "meaning": "not too expensive",
           "at": 126.4
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "tiny room with no window or air conditioning paying $340 a month",
+          "spoken": "tiny room with no door or air conditioning paying $340 a month",
+          "target": "window",
+          "swap": "door",
+          "options": [
+            "no",
+            "window",
+            "tiny",
+            "room"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "the city's leader John Lee wants to pass a new law",
+          "spoken": "the city's leader John Lee wants to pass a new plan",
+          "target": "law",
+          "swap": "plan",
+          "options": [
+            "law",
+            "city's",
+            "leader",
+            "John"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "I really can't afford it",
+          "spoken": "I really can't rent it",
+          "target": "afford",
+          "swap": "rent",
+          "options": [
+            "really",
+            "can't",
+            "I",
+            "afford"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "tenants fear that may push up the price of rents",
+          "spoken": "tenants fear that may push down the price of rents",
+          "target": "up",
+          "swap": "down",
+          "options": [
+            "fear",
+            "may",
+            "up",
+            "tenants"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "50,000 units to come online by 2027",
+          "spoken": "50,000 units to come online by 2030",
+          "target": "2027",
+          "swap": "2030",
+          "options": [
+            "units",
+            "2027",
+            "50",
+            "000"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "I'm very worried because if my landlord asks me to leave I won't be able to find a place with such low rent I really can't afford it",
+        "start": 28.7,
+        "end": 39.5,
+        "decoys": [
+          "renovated",
+          "affordable",
+          "door",
+          "plan",
+          "down",
+          "2030"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -3619,7 +4339,87 @@
           "meaning": "people or actions against a plan",
           "at": 89.2
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "the city only narrowly avoided being taken over by cars.",
+          "spoken": "the city only narrowly avoided being taken over by bikes.",
+          "target": "cars",
+          "swap": "bikes",
+          "options": [
+            "cars",
+            "city",
+            "only",
+            "narrowly"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "The number of bikes in Amsterdam plummeted.",
+          "spoken": "The number of bikes in Amsterdam rose.",
+          "target": "plummeted",
+          "swap": "rose",
+          "options": [
+            "number",
+            "bikes",
+            "Amsterdam",
+            "plummeted"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "the number of cars in the country quadrupled",
+          "spoken": "the number of cars in the country halved",
+          "target": "quadrupled",
+          "swap": "halved",
+          "options": [
+            "cars",
+            "country",
+            "quadrupled",
+            "number"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "Their new function was purely for traffic.",
+          "spoken": "Their new function was purely for play.",
+          "target": "traffic",
+          "swap": "play",
+          "options": [
+            "purely",
+            "traffic",
+            "new",
+            "function"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "the oil crisis sent fuel prices skyward",
+          "spoken": "the oil crisis sent food prices skyward",
+          "target": "fuel",
+          "swap": "food",
+          "options": [
+            "fuel",
+            "oil",
+            "crisis",
+            "sent"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "The number of bikes in Amsterdam plummeted. Between 1960 and 1970 the number of cars in the country quadrupled, jamming the traditionally narrow streets.",
+        "start": 56.2,
+        "end": 66.6,
+        "decoys": [
+          "commutes",
+          "traffic",
+          "opposition",
+          "rose",
+          "halved",
+          "play"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -3872,7 +4672,7 @@
         {
           "word": "neighborhood",
           "meaning": "part of a city where people live",
-          "at": 55.0
+          "at": 55
         },
         {
           "word": "gather",
@@ -3884,7 +4684,87 @@
           "meaning": "game played with marked tiles",
           "at": 123.4
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "actually we're in Florida in Miami's Little Havana",
+          "spoken": "actually we're in California in Miami's Little Havana",
+          "target": "Florida",
+          "swap": "California",
+          "options": [
+            "actually",
+            "we're",
+            "Miami's",
+            "Florida"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "the Cuban food prevalent in Little Havana is based on Spanish and African cuisine",
+          "spoken": "the Cuban food prevalent in Little Havana is based on Italian and African cuisine",
+          "target": "Spanish",
+          "swap": "Italian",
+          "options": [
+            "food",
+            "prevalent",
+            "Spanish",
+            "Cuban"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "Cuban Americans gather here to talk about everything from Sports to International politics",
+          "spoken": "Cuban Americans gather here to talk about everything from music to International politics",
+          "target": "Sports",
+          "swap": "music",
+          "options": [
+            "gather",
+            "Sports",
+            "Cuban",
+            "Americans"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "elderly men gather here daily to play dominoes",
+          "spoken": "elderly men gather here daily to play cards",
+          "target": "dominoes",
+          "swap": "cards",
+          "options": [
+            "dominoes",
+            "elderly",
+            "men",
+            "gather"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "cigars are another icon of Cuban culture",
+          "spoken": "coffee are another icon of Cuban culture",
+          "target": "cigars",
+          "swap": "coffee",
+          "options": [
+            "another",
+            "icon",
+            "Cuban",
+            "cigars"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "the coffee windows are a unique phenomenon in Little Havana Cuban Americans gather here to talk about everything from Sports to International politics",
+        "start": 76,
+        "end": 88.2,
+        "decoys": [
+          "culture",
+          "refugees",
+          "neighborhood",
+          "dominoes",
+          "california",
+          "italian"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -4126,7 +5006,7 @@
         {
           "word": "mural",
           "meaning": "large painting on a wall",
-          "at": 29.0
+          "at": 29
         },
         {
           "word": "talent",
@@ -4148,7 +5028,87 @@
           "meaning": "money given to support study or work",
           "at": 109.1
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "the mayor of bogota have set aside five large public mural spaces",
+          "spoken": "the mayor of bogota have set aside three large public mural spaces",
+          "target": "five",
+          "swap": "three",
+          "options": [
+            "bogota",
+            "have",
+            "five",
+            "mayor"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "local street artists are taking advantage of every inch",
+          "spoken": "local street visitors are taking advantage of every inch",
+          "target": "artists",
+          "swap": "visitors",
+          "options": [
+            "taking",
+            "artists",
+            "local",
+            "street"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "authorities still often consider graffiti painters to be lawbreakers",
+          "spoken": "authorities still often consider graffiti painters to be artists",
+          "target": "lawbreakers",
+          "swap": "artists",
+          "options": [
+            "lawbreakers",
+            "authorities",
+            "still",
+            "often"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "you can get put in a detention center for 24 hours",
+          "spoken": "you can get put in a detention center for 12 hours",
+          "target": "24",
+          "swap": "12",
+          "options": [
+            "can",
+            "get",
+            "put",
+            "24"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "scholarships are awarded to groups of graffiti artists in the program",
+          "spoken": "prizes are awarded to groups of graffiti artists in the program",
+          "target": "scholarships",
+          "swap": "prizes",
+          "options": [
+            "groups",
+            "graffiti",
+            "scholarships",
+            "awarded"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "while the city is promoting ways to decriminalize the art form authorities still often consider graffiti painters to be lawbreakers you can get uh put in a detention center",
+        "start": 50.1,
+        "end": 61.1,
+        "decoys": [
+          "mural",
+          "talent",
+          "vandalize",
+          "scholarships",
+          "three",
+          "visitors"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -4516,7 +5476,7 @@
         {
           "word": "strike",
           "meaning": "workers stopping work in protest",
-          "at": 11.0
+          "at": 11
         },
         {
           "word": "insecurity",
@@ -4533,7 +5493,87 @@
           "meaning": "do your job at home",
           "at": 49.8
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "commuters are waiting for buses but none are in sight",
+          "spoken": "commuters are waiting for trains but none are in sight",
+          "target": "buses",
+          "swap": "trains",
+          "options": [
+            "none",
+            "buses",
+            "commuters",
+            "waiting"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "transport unions have called for a second strike in 2 weeks",
+          "spoken": "transport unions have called for a first strike in 2 weeks",
+          "target": "second",
+          "swap": "first",
+          "options": [
+            "second",
+            "transport",
+            "unions",
+            "have"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "at least three bus drivers were killed in September",
+          "spoken": "at least five bus drivers were killed in September",
+          "target": "three",
+          "swap": "five",
+          "options": [
+            "least",
+            "bus",
+            "drivers",
+            "three"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "half of Lima's workers commute to work by bus",
+          "spoken": "half of Lima's workers commute to work by train",
+          "target": "bus",
+          "swap": "train",
+          "options": [
+            "Lima's",
+            "workers",
+            "bus",
+            "half"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "public schools are shut",
+          "spoken": "public schools are open",
+          "target": "shut",
+          "swap": "open",
+          "options": [
+            "are",
+            "shut",
+            "public",
+            "schools"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "transport unions have called for a second strike in 2 weeks demanding the government to take action against organized crime at least three bus drivers were killed in September",
+        "start": 9.2,
+        "end": 21.1,
+        "decoys": [
+          "commuters",
+          "insecurity",
+          "extortion",
+          "trains",
+          "first",
+          "five"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -4702,7 +5742,87 @@
           "meaning": "fast travel service",
           "at": 76.3
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "transperth is renowned for its innovation",
+          "spoken": "transperth is renowned for its tradition",
+          "target": "innovation",
+          "swap": "tradition",
+          "options": [
+            "innovation",
+            "transperth",
+            "renowned",
+            "is"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "it's also fully integrated with bus train and ferry services",
+          "spoken": "it's also fully integrated with bus train and taxi services",
+          "target": "ferry",
+          "swap": "taxi",
+          "options": [
+            "it's",
+            "also",
+            "fully",
+            "ferry"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "passenger satisfaction levels to be consistently at 90 percent",
+          "spoken": "passenger satisfaction levels to be consistently at 50 percent",
+          "target": "90",
+          "swap": "50",
+          "options": [
+            "satisfaction",
+            "levels",
+            "90",
+            "passenger"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "transperth is always looking for ways to improve",
+          "spoken": "transperth is always looking for ways to expand",
+          "target": "improve",
+          "swap": "expand",
+          "options": [
+            "looking",
+            "improve",
+            "transperth",
+            "always"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "future developments being explored include the introduction of a bus rapid transport system",
+          "spoken": "future developments being explored include the introduction of a train rapid transport system",
+          "target": "bus",
+          "swap": "train",
+          "options": [
+            "bus",
+            "future",
+            "developments",
+            "being"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "blackBox": {
+        "passage": "transperth is renowned for its innovation having been the first public transport system in australia to use smart card technology it's also fully integrated with bus train and ferry services",
+        "start": 44,
+        "end": 57,
+        "decoys": [
+          "demand",
+          "satisfaction",
+          "tradition",
+          "taxi",
+          "50",
+          "expand"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -5304,7 +6424,87 @@
           "meaning": "things freely given",
           "at": 72.4
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "the collections of the Museo Del pra have a diverse origin",
+          "spoken": "the collections of the Museo Del pra have a single origin",
+          "target": "diverse",
+          "swap": "single",
+          "options": [
+            "collections",
+            "Museo",
+            "Del",
+            "diverse"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "it was the former collection of the kings of Spain",
+          "spoken": "it was the former collection of the artists of Spain",
+          "target": "kings",
+          "swap": "artists",
+          "options": [
+            "collection",
+            "Spain",
+            "kings",
+            "former"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "have been added to the pr Museum",
+          "spoken": "have been removed to the pr Museum",
+          "target": "added",
+          "swap": "removed",
+          "options": [
+            "Museum",
+            "added",
+            "have",
+            "pr"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "the Museum of Modern Art which contributed paintings from the late 19th century",
+          "spoken": "the Museum of Modern Art which contributed sculptures from the late 19th century",
+          "target": "paintings",
+          "swap": "sculptures",
+          "options": [
+            "paintings",
+            "Museum",
+            "Modern",
+            "Art"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "the par mum has acquired works and received various legacies and donations",
+          "spoken": "the par mum has acquired works and received various legacies and loans",
+          "target": "donations",
+          "swap": "loans",
+          "options": [
+            "par",
+            "mum",
+            "has",
+            "donations"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "blackBox": {
+        "passage": "the collections of the Museo Del pra have a diverse origin originally it was the former collection of the kings of Spain",
+        "start": 15.2,
+        "end": 24.2,
+        "decoys": [
+          "assembled",
+          "institutions",
+          "acquired",
+          "donations",
+          "single",
+          "artists"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -5600,7 +6800,87 @@
           "meaning": "printed cards used to promote goods",
           "at": 116.1
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "Oscar Wilde is one of our most illustrious graduates at Trinity College Dublin",
+          "spoken": "Oscar Wilde is one of our most illustrious teachers at Trinity College Dublin",
+          "target": "graduates",
+          "swap": "teachers",
+          "options": [
+            "Wilde",
+            "one",
+            "graduates",
+            "Oscar"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "he was a novelist he was a dramatist",
+          "spoken": "he was a poet he was a dramatist",
+          "target": "novelist",
+          "swap": "poet",
+          "options": [
+            "was",
+            "novelist",
+            "dramatist",
+            "he"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "he's one of the major cultural figures of the late Victorian age",
+          "spoken": "he's one of the major cultural figures of the early Victorian age",
+          "target": "late",
+          "swap": "early",
+          "options": [
+            "late",
+            "he's",
+            "one",
+            "major"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "the collection was acquired in 2011 from Julia Rosenthal",
+          "spoken": "the collection was acquired in 2001 from Julia Rosenthal",
+          "target": "2011",
+          "swap": "2001",
+          "options": [
+            "collection",
+            "acquired",
+            "Julia",
+            "2011"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "his face appeared on advertising cards for a wide range of many different products",
+          "spoken": "his face appeared on greeting cards for a wide range of many different products",
+          "target": "advertising",
+          "swap": "greeting",
+          "options": [
+            "appeared",
+            "cards",
+            "advertising",
+            "face"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "blackBox": {
+        "passage": "the Oscar Wilde collection in the library of Trinity College Dublin is the only Oscar Wilde archive held in a public institution in Ireland the collection was acquired in 2011 from Julia Rosenthal",
+        "start": 40.2,
+        "end": 54.9,
+        "decoys": [
+          "exhibition",
+          "memorabilia",
+          "teachers",
+          "poet",
+          "early",
+          "2001"
+        ]
+      }
     },
     "transcriptVerified": true
   },
@@ -6079,14 +7359,94 @@
         {
           "word": "quarried",
           "meaning": "taken from a rock site",
-          "at": 82.0
+          "at": 82
         },
         {
           "word": "diving",
           "meaning": "swimming below the water",
           "at": 99.8
         }
-      ]
+      ],
+      "static": [
+        {
+          "sentence": "about 42% of the island is Bravo Nui National Park",
+          "spoken": "about 20% of the island is Bravo Nui National Park",
+          "target": "42",
+          "swap": "20",
+          "options": [
+            "Bravo",
+            "42",
+            "about",
+            "island"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "sentence": "moai the enormous heads that dot the landscape are the lasting legacy",
+          "spoken": "moai the small heads that dot the landscape are the lasting legacy",
+          "target": "enormous",
+          "swap": "small",
+          "options": [
+            "enormous",
+            "moai",
+            "heads",
+            "dot"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "sentence": "no one knows exactly why the Rapa Nui people undertook such a task",
+          "spoken": "no one agrees exactly why the Rapa Nui people undertook such a task",
+          "target": "knows",
+          "swap": "agrees",
+          "options": [
+            "no",
+            "one",
+            "exactly",
+            "knows"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "sentence": "the hundreds of moai standing on Easter Island today were restored by historians",
+          "spoken": "the hundreds of moai standing on Easter Island today were restored by visitors",
+          "target": "historians",
+          "swap": "visitors",
+          "options": [
+            "moai",
+            "standing",
+            "historians",
+            "hundreds"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "sentence": "the island is also home to some excellent diving surfing and enticing beaches",
+          "spoken": "the island is also home to some excellent hiking surfing and enticing beaches",
+          "target": "diving",
+          "swap": "hiking",
+          "options": [
+            "home",
+            "diving",
+            "island",
+            "also"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "blackBox": {
+        "passage": "moai the enormous heads that dot the landscape are the lasting legacy of this ancient society the effort to construct these monuments and move them around the island must have been considerable",
+        "start": 43,
+        "end": 59.4,
+        "decoys": [
+          "cultural",
+          "restored",
+          "quarried",
+          "diving",
+          "20",
+          "small"
+        ]
+      }
     },
     "transcriptVerified": true
   },
