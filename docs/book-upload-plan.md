@@ -124,4 +124,8 @@ pictures step.
   part is retold at the class level when that lesson is prepared (one AI call), kept only if `validSimplified` passes
   (35–110% of the original's length, every name in it is in the original, no "this chapter shows" commentary), else the
   original is read. Marked "Simplified" in Read Aloud.
-- Next: "Previously…" and cast for uploaded books.
+- **Previously + cast shipped:** each uploaded lesson keeps the end of the previous part (whole paragraphs, ≤1,200
+  words) as `previousPart`. The same pack AI call writes a 2-sentence recap, 3 words and that part's characters;
+  `validPrevious` keeps the recap only if its names are in that text, and only cast/words found there. Story Predict
+  opens on "Previously…"; the cast so far = previous part's cast + this lesson's.
+- Not covered: cast from more than one lesson back (main characters usually recur); scanned books (AI OCR, costed).

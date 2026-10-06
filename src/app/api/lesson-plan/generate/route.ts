@@ -1,4 +1,4 @@
-import { bookLevelFor, fallbackPassages, mergeCast, validReadingPack, validSimplified, type ReadingPack, type ReadingPreviously } from '@/lib/reading-pack';
+import { bookLevelFor, fallbackPassages, mergeCast, validPrevious, validReadingPack, validSimplified, type ReadingPack, type ReadingPreviously } from '@/lib/reading-pack';
 import { bankMotionFor, fallbackMotion, validMotion, type DebateMotion } from '@/lib/debate-motion';
 import { earlierBookLessons, getLibraryEntry, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
 import { fallbackGist, isKidsLevel, listeningWindow, packToRadioCheck, validGist, validPack, windowTranscript, type GistQuestion, type ListeningPack } from '@/lib/listening-pack';
@@ -1394,11 +1394,14 @@ async function generateReadingLesson(difficulty: Difficulty, source: SourceMater
     // "Simplified" courses: a checked retelling at the class level, written now (else the original).
     const simpler = source.simplify && !source.bookPages?.length ? await simplifyBookPart(difficulty, bookTitle, lessonTitle, original) : null;
     const text = simpler ?? original;
-    const lesson = { ...(await readingPackFromText(difficulty, bookTitle, lessonTitle, text)), ...(simpler ? { simplified: true } : {}) };
+    const prev = source.previousPart?.text?.trim() ? { title: source.previousPart.title, text: source.previousPart.text.trim() } : undefined;
+    const made = await readingPackFromText(difficulty, bookTitle, lessonTitle, text, prev);
+    const lesson = { ...made, ...(simpler ? { simplified: true } : {}) };
     // Picture book: the pages are the turns (with their pictures), not the AI's passages.
     const pages = (source.bookPages ?? []).filter((p) => p.text?.trim());
     if (pages.length) lesson.pack = { ...lesson.pack, passages: pages.map((p) => ({ text: p.text.trim(), ...(p.image ? { image: p.image } : {}) })) };
-    return { ...lesson, castSoFar: lesson.pack.cast };
+    const earlier = prev ? validPrevious(made.previous, prev) : { cast: [] };
+    return { ...lesson, ...(earlier.previously ? { previously: earlier.previously } : {}), castSoFar: mergeCast(earlier.cast, lesson.pack.cast) };
   }
   if (!source?.sourceKey || source.sourceType !== 'books') return null;
   const entry = getLibraryEntry('books', source.sourceKey);
@@ -1435,7 +1438,7 @@ ${text}`;
 }
 
 /** The AI writes a reading pack from a lesson's text (validated: passages must rebuild it), else plain passages. */
-async function readingPackFromText(difficulty: Difficulty, bookTitle: string, lessonTitle: string, text: string): Promise<{ bookTitle: string; lessonTitle: string; text: string; pack: ReadingPack }> {
+async function readingPackFromText(difficulty: Difficulty, bookTitle: string, lessonTitle: string, text: string, prev?: { title: string; text: string }): Promise<{ bookTitle: string; lessonTitle: string; text: string; pack: ReadingPack; previous?: unknown }> {
   try {
     const q: AISchema = { type: 'object', properties: { q: { type: 'string' }, options: { type: 'array', items: { type: 'string' } }, correctIndex: { type: 'number' } }, required: ['q', 'options', 'correctIndex'] };
     const schema: AISchema = {
@@ -1447,8 +1450,9 @@ async function readingPackFromText(difficulty: Difficulty, bookTitle: string, le
         words: { type: 'array', items: { type: 'object', properties: { word: { type: 'string' }, meaning: { type: 'string' } }, required: ['word', 'meaning'] } },
         cast: { type: 'array', items: { type: 'object', properties: { name: { type: 'string' }, who: { type: 'string' } }, required: ['name', 'who'] } },
         talk: { type: 'string' },
+        ...(prev ? { previous: { type: 'object', properties: { summary: { type: 'string' }, words: { type: 'array', items: { type: 'string' } }, cast: { type: 'array', items: { type: 'object', properties: { name: { type: 'string' }, who: { type: 'string' } }, required: ['name', 'who'] } } }, required: ['summary', 'words', 'cast'] } } : {}),
       },
-      required: ['passages', 'predict', 'check', 'words', 'cast', 'talk'],
+      required: ['passages', 'predict', 'check', 'words', 'cast', 'talk', ...(prev ? ['previous'] : [])],
     };
     const prompt = `Make a READING lesson pack for this chapter of "${bookTitle}" ("${lessonTitle}"). Students take turns reading the passages aloud.
 
@@ -1462,10 +1466,14 @@ Return:
 - check: exactly 3 questions about the whole chapter (main events, cause, a feeling), different from the gist questions.
 - words: 5 useful words from the text with short simple meanings (no names).
 - cast: each named character here, with a 4-8 word "who".
-- talk: one question about a character's choice, max 14 words.`;
+- talk: one question about a character's choice, max 14 words.${prev ? `
+- previous: about the PREVIOUS PART below (what the class read last time): { summary: 2 simple sentences of what happened (story only, names from that part), words: 3 useful words from it, cast: each named character in it with a 4-8 word "who" }.
+
+PREVIOUS PART ("${prev.title}"):
+${prev.text}` : ''}`;
     const parsed = await generateJSON<Record<string, unknown>>(prompt, schema);
     const pack = validReadingPack(parsed, text);
-    if (pack) return { bookTitle, lessonTitle, text, pack };
+    if (pack) return { bookTitle, lessonTitle, text, pack, ...(parsed.previous ? { previous: parsed.previous } : {}) };
   } catch { /* fall back below */ }
   return { bookTitle, lessonTitle, text, pack: { passages: fallbackPassages(text), check: [], words: [], cast: [] } };
 }

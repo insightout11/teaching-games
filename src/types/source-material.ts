@@ -57,6 +57,8 @@ export interface SourceMaterial {
   bookPages?: Array<{ text: string; image?: string }>;
   /** Uploaded book read as "Simplified": each lesson's part is retold at the class level when prepared. */
   simplify?: boolean;
+  /** Uploaded book: the end of the previous lesson's part, for "Previously..." and the cast so far. */
+  previousPart?: { title: string; text: string };
 }
 
 /** A single end-of-content multiple-choice comprehension question (video or reader). */

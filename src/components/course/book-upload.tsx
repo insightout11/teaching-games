@@ -20,6 +20,18 @@ import type { SourceMaterial } from '@/types/source-material';
 
 const MAX_LESSONS = 150;
 
+/** The end of a part (whole paragraphs, up to n words): enough for "Previously..." without doubling the book. */
+function lastWords(text: string, n: number): string {
+  const paras = text.split(/\n\n/);
+  const out: string[] = [];
+  let count = 0;
+  for (let i = paras.length - 1; i >= 0 && (count === 0 || count + paras[i].split(/\s+/).length <= n); i--) {
+    out.unshift(paras[i]);
+    count += paras[i].split(/\s+/).length;
+  }
+  return out.join('\n\n');
+}
+
 type UploadLesson = BookLesson & { pages?: PicturePage[] };
 
 function joinWithNext(lessons: UploadLesson[], i: number): UploadLesson[] {
@@ -116,6 +128,7 @@ export function BookUpload() {
           documentKind: 'book-part',
           wordCount: l.words,
           ...(simplify && !pictures ? { simplify: true } : {}),
+          ...(i > 0 ? { previousPart: { title: lessons[i - 1].title, text: lastWords(lessons[i - 1].text, 1200) } } : {}),
           ...(l.pages ? { bookPages: l.pages.map((p) => ({ text: p.text, ...(images.get(p.page) ? { image: images.get(p.page) } : {}) })) } : {}),
         };
         // The full text lives once, in the lesson payload; the source ref keeps only the label.

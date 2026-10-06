@@ -120,3 +120,27 @@ export function validSimplified(original: string, simplified: unknown): string |
   if (names.some((w) => !known.includes(w.toLowerCase()))) return null;
   return text;
 }
+
+/**
+ * Uploaded books: "Previously..." and the earlier cast come from the previous part's text (kept with
+ * each lesson at upload). Accept the AI's recap only if it is short story text whose names are all
+ * in that text; keep only cast names and words that really appear there.
+ */
+export function validPrevious(
+  raw: unknown,
+  prev: { title: string; text: string },
+): { previously?: ReadingPreviously; cast: Array<{ name: string; who: string }> } {
+  const r = (raw && typeof raw === 'object' ? raw : {}) as { summary?: unknown; words?: unknown; cast?: unknown };
+  const known = prev.text.toLowerCase();
+  const has = (w: string) => known.includes(w.toLowerCase());
+  const cast = (Array.isArray(r.cast) ? r.cast : [])
+    .filter((c): c is { name: string; who: string } => !!c && typeof c.name === 'string' && typeof c.who === 'string' && c.name.trim().length > 1 && has(c.name.trim()))
+    .map((c) => ({ name: c.name.trim(), who: c.who.trim() }))
+    .slice(0, 12);
+  const summary = typeof r.summary === 'string' ? r.summary.replace(/\s+/g, ' ').trim() : '';
+  const n = summary ? summary.split(' ').length : 0;
+  const names = summary.match(/(?<![.!?]["'’”]?\s)(?<!^)\b[A-Z][a-z]{2,}\b/g) ?? [];
+  const ok = n >= 8 && n <= 60 && !PADDING.test(summary) && names.every(has);
+  const words = (Array.isArray(r.words) ? r.words : []).filter((w): w is string => typeof w === 'string' && w.trim().length > 1 && has(w.trim())).map((w) => w.trim()).slice(0, 5);
+  return { ...(ok ? { previously: { title: prev.title, summary, words } } : {}), cast };
+}
