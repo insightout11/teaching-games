@@ -404,6 +404,149 @@
           }
         ],
         "talk": "Should Mowgli stay with the wolves or join the village?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "A tiger came near a wolf family at night. A small boy crawled into their cave. Mother Wolf called the boy Mowgli and kept him safe.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A boy arrives",
+                "Mother Wolf refuses",
+                "The pack agrees"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The tiger wanted Mowgli, but Mother Wolf said no. The wolves met to talk about the boy. Baloo the bear said he would teach Mowgli.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Jungle lessons",
+                "Mother Wolf refuses",
+                "The pack agrees"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Bagheera the panther brought food for the wolves. The pack let Mowgli stay with them. He grew up with the wolf cubs.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Jungle lessons",
+                "Finding village fire",
+                "The pack agrees"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Baloo taught him the rules of the jungle. Bagheera taught him to watch and listen. But the tiger still wanted to hurt him.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Jungle lessons",
+                "Finding village fire",
+                "A boy arrives"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "One day Bagheera said the pack was changing. Some young wolves listened to the tiger now. Mowgli went toward the village to find fire.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mother Wolf refuses",
+                "Finding village fire",
+                "A boy arrives"
+              ],
+              "correctIndex": 1
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The wolves accept the child, but he must seek fire",
+            "The tiger takes the child from the cave",
+            "The family returns and takes the child home"
+          ],
+          "outcomeIndex": 0
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "A boy arrives",
+              "The pack agrees",
+              "Finding village fire"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Finding village fire",
+              "The pack agrees",
+              "A boy arrives"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "A boy arrives",
+              "The pack agrees",
+              "Finding village fire"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "tiger",
+            "meaning": "a big striped cat"
+          },
+          {
+            "word": "wolf",
+            "meaning": "a wild dog"
+          },
+          {
+            "word": "cave",
+            "meaning": "a hole in rock"
+          },
+          {
+            "word": "bear",
+            "meaning": "a large furry animal"
+          },
+          {
+            "word": "fire",
+            "meaning": "hot bright flames"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Mowgli",
+            "who": "a human child raised by wolves"
+          },
+          {
+            "name": "Mother Wolf",
+            "who": "the wolf who protects Mowgli"
+          },
+          {
+            "name": "Baloo",
+            "who": "the bear who teaches jungle laws"
+          },
+          {
+            "name": "Bagheera",
+            "who": "the panther who guides Mowgli"
+          }
+        ],
+        "talk": "Would you live with the wolves?"
       }
     }
   },
@@ -784,6 +927,149 @@
           }
         ],
         "talk": "Should Baloo ask Kaa to frighten the monkeys?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Baloo told Mowgli to stay away from the monkeys. They made promises and then forgot them. But Mowgli wanted to see where they lived.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The monkey warning",
+                "Mowgli is taken",
+                "Friends seek help"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The monkeys took Mowgli high into the trees. They carried him to some old, broken buildings. Mowgli wanted to go home, but they said no.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Kaa joins them",
+                "Mowgli is taken",
+                "Friends seek help"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Mowgli sent a message with a bird. Baloo and Bagheera came to look for him. The monkeys ran quickly from tree to tree.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Kaa joins them",
+                "Mowgli is safe",
+                "Friends seek help"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "The two friends asked Kaa the snake for help. Monkeys were very afraid of Kaa. He came with Baloo and Bagheera to the buildings.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Kaa joins them",
+                "Mowgli is safe",
+                "The monkey warning"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Kaa climbed over the wall and found Mowgli. The monkeys watched the big snake and grew quiet. Mowgli went home with his friends, tired but safe.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mowgli is taken",
+                "Mowgli is safe",
+                "The monkey warning"
+              ],
+              "correctIndex": 1
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "Mowgli agrees to lead the monkeys",
+            "Kaa helps the friends free Mowgli from the monkeys",
+            "The monkeys bring Mowgli back themselves"
+          ],
+          "outcomeIndex": 1
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "The monkey warning",
+              "Friends seek help",
+              "Mowgli is safe"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Mowgli is safe",
+              "Friends seek help",
+              "The monkey warning"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "The monkey warning",
+              "Friends seek help",
+              "Mowgli is safe"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "monkeys",
+            "meaning": "animals that climb trees"
+          },
+          {
+            "word": "trees",
+            "meaning": "tall plants with leaves"
+          },
+          {
+            "word": "bird",
+            "meaning": "an animal with wings"
+          },
+          {
+            "word": "snake",
+            "meaning": "a long animal with no legs"
+          },
+          {
+            "word": "wall",
+            "meaning": "the side of a building"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Mowgli",
+            "who": "a human child raised by wolves"
+          },
+          {
+            "name": "Baloo",
+            "who": "the bear who teaches jungle laws"
+          },
+          {
+            "name": "Bagheera",
+            "who": "the panther who guides Mowgli"
+          },
+          {
+            "name": "Kaa",
+            "who": "a python who helps rescue Mowgli"
+          }
+        ],
+        "talk": "Should Mowgli listen to Baloo next time?"
       }
     }
   },
@@ -1136,6 +1422,137 @@
           }
         ],
         "talk": "Should Mowgli choose the jungle or the human village?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Mowgli left the wolves and came to a village. Messua took him into her home. She helped him learn the words people used.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A new home",
+                "Village and cattle",
+                "A valley plan"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Mowgli wore clothes and ate at a table. But he missed the forest and his wolf brothers. The people asked him to watch their cattle.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The trapped tiger",
+                "Village and cattle",
+                "A valley plan"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Mowgli heard that the tiger still wanted him. He made a plan with the wolves. They would take the cattle into a small valley.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The trapped tiger",
+                "Back to forest",
+                "A valley plan"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "The tiger lay there after a big meal. Cattle came from both sides of the valley. The tiger could not get away from them.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The trapped tiger",
+                "Back to forest",
+                "A new home"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Mowgli took the tiger’s skin back to the village. The people feared him and made him leave. Mowgli went back to the forest with the wolves.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Village and cattle",
+                "Back to forest",
+                "A new home"
+              ],
+              "correctIndex": 1
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The villagers help Mowgli join their council",
+            "The tiger becomes a protector of the cattle",
+            "Mowgli defeats the tiger but is driven from the village"
+          ],
+          "outcomeIndex": 2
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "A new home",
+              "A valley plan",
+              "Back to forest"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Back to forest",
+              "A valley plan",
+              "A new home"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "A new home",
+              "A valley plan",
+              "Back to forest"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "village",
+            "meaning": "a small town"
+          },
+          {
+            "word": "clothes",
+            "meaning": "things people wear"
+          },
+          {
+            "word": "cattle",
+            "meaning": "large farm animals"
+          },
+          {
+            "word": "valley",
+            "meaning": "low land between hills"
+          },
+          {
+            "word": "skin",
+            "meaning": "the outside of a body"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Mowgli",
+            "who": "a human child raised by wolves"
+          }
+        ],
+        "talk": "Where should Mowgli live now?"
       }
     }
   },
@@ -1492,6 +1909,137 @@
           }
         ],
         "talk": "Should Kotick keep searching for a safer home?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Kotick was a young seal with white fur. He lived on an island with many seals. His mother taught him to swim in the sea.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A white seal",
+                "Hunters on beach",
+                "A long search"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "One day men came to the beach. They took many seals away and killed them. Kotick was afraid for his seal friends.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "More unsafe beaches",
+                "Hunters on beach",
+                "A long search"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The older seals said they could not change this. But Kotick wanted a safe home for everyone. He swam away to look for one.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "More unsafe beaches",
+                "A safe home",
+                "A long search"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Kotick saw many beaches and met sea animals. Some places looked good, but people went there too. He kept swimming and looking for a safe beach.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "More unsafe beaches",
+                "A safe home",
+                "A white seal"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "At last he found a beach behind hard rocks. The men could not come there easily. Kotick led the other seals to their new home.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Hunters on beach",
+                "A safe home",
+                "A white seal"
+              ],
+              "correctIndex": 1
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "Kotick finds a hidden beach and leads the seals there",
+            "Kotick persuades the hunters to stop",
+            "The seals decide the old beach is safe"
+          ],
+          "outcomeIndex": 0
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "A white seal",
+              "A long search",
+              "A safe home"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "A safe home",
+              "A long search",
+              "A white seal"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "A white seal",
+              "A long search",
+              "A safe home"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "seal",
+            "meaning": "an animal that swims in the sea"
+          },
+          {
+            "word": "island",
+            "meaning": "land with water all around"
+          },
+          {
+            "word": "beach",
+            "meaning": "sand beside the sea"
+          },
+          {
+            "word": "rocks",
+            "meaning": "hard pieces of stone"
+          },
+          {
+            "word": "sea",
+            "meaning": "a great body of salt water"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Kotick",
+            "who": "a young seal seeking a safe home"
+          }
+        ],
+        "talk": "Would you follow Kotick to the new beach?"
       }
     }
   },
@@ -1856,6 +2404,153 @@
           }
         ],
         "talk": "Should Alice follow a stranger into the unknown?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Alice sat outside with her sister one day. Her sister read a book with no pictures. Alice felt bored and looked around.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Alice sees Rabbit",
+                "Into the hole",
+                "A long fall"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "A White Rabbit ran past with a watch. He said he was late for something. Alice followed him into a deep hole.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A little door",
+                "Into the hole",
+                "A long fall"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The Rabbit went ahead and Alice could not see him. Alice fell for a long, long time. She saw maps and jars on the walls.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A little door",
+                "Bottle and cake",
+                "A long fall"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Then she landed on dry leaves. She ran into a hall with many doors. A small key opened one little door.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A little door",
+                "Bottle and cake",
+                "A new size"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Alice saw a beautiful garden, but she was too big. The little key lay on a glass table. She drank from a bottle and became small.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Alice sees Rabbit",
+                "Bottle and cake",
+                "A new size"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Now the key was too high to reach. Alice found a cake and ate it.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Alice sees Rabbit",
+                "Into the hole",
+                "A new size"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The rabbit gives Alice the garden key",
+            "Alice changes size but still cannot enter the garden",
+            "Alice returns home through the rabbit hole"
+          ],
+          "outcomeIndex": 1
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Alice sees Rabbit",
+              "A little door",
+              "A new size"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "A new size",
+              "A little door",
+              "Alice sees Rabbit"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Alice sees Rabbit",
+              "A little door",
+              "A new size"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "book",
+            "meaning": "pages with words to read"
+          },
+          {
+            "word": "rabbit",
+            "meaning": "a small animal with long ears"
+          },
+          {
+            "word": "watch",
+            "meaning": "a small clock"
+          },
+          {
+            "word": "hole",
+            "meaning": "an open space in something"
+          },
+          {
+            "word": "key",
+            "meaning": "a tool that opens a lock"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Alice",
+            "who": "a curious girl exploring a strange world"
+          },
+          {
+            "name": "White Rabbit",
+            "who": "a hurried rabbit Alice follows"
+          }
+        ],
+        "talk": "Would you follow the White Rabbit?"
       }
     }
   },
@@ -2232,6 +2927,153 @@
           }
         ],
         "talk": "Should Alice stop talking about Dinah when the Mouse objects?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Alice ate a cake and grew very big. Now she could get the key again. But she was too big for the little garden door.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Alice grows big",
+                "The Rabbit returns",
+                "Into the pool"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Alice cried, and her tears made a pool. The White Rabbit came with a fan. He ran away and left the fan behind.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mouse dislikes cats",
+                "The Rabbit returns",
+                "Into the pool"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The fan fell beside her on the floor. Alice picked up the fan and grew small. She fell into the pool of her own tears.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mouse dislikes cats",
+                "Other wet animals",
+                "Into the pool"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "She had to swim to get out. A Mouse swam beside Alice in the water. Alice spoke about her cat Dinah.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mouse dislikes cats",
+                "Other wet animals",
+                "Toward the shore"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The Mouse did not like hearing about cats. Alice asked the Mouse how to leave. Alice said she would stop talking about cats.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Alice grows big",
+                "Other wet animals",
+                "Toward the shore"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Birds and other animals came into the pool. They all swam together toward the shore.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Alice grows big",
+                "The Rabbit returns",
+                "Toward the shore"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "Alice wins a race run by the dodo",
+            "The White Rabbit carries Alice across the pool",
+            "Alice reaches the bank with a mouse and other animals"
+          ],
+          "outcomeIndex": 2
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Alice grows big",
+              "Mouse dislikes cats",
+              "Toward the shore"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Toward the shore",
+              "Mouse dislikes cats",
+              "Alice grows big"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Alice grows big",
+              "Mouse dislikes cats",
+              "Toward the shore"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "cake",
+            "meaning": "a sweet food"
+          },
+          {
+            "word": "key",
+            "meaning": "a tool that opens a lock"
+          },
+          {
+            "word": "fan",
+            "meaning": "a thing that moves air"
+          },
+          {
+            "word": "pool",
+            "meaning": "a small body of water"
+          },
+          {
+            "word": "Mouse",
+            "meaning": "a small animal with a long tail"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Alice",
+            "who": "a curious girl exploring a strange world"
+          },
+          {
+            "name": "Dinah",
+            "who": "Alice’s cat who frightens other animals"
+          }
+        ],
+        "talk": "Would you help the Mouse out?"
       }
     }
   },
@@ -2608,6 +3450,153 @@
           }
         ],
         "talk": "Should Alice give everyone a prize after the race?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Alice and the animals came out of the pool. Their fur and feathers were all wet. The Dodo said a race could dry them.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Wet animals",
+                "Everybody wins",
+                "A long tale"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Everyone ran in a different way. Nobody knew where the race should start. At last the Dodo said everyone had won.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mouse leaves",
+                "Everybody wins",
+                "A long tale"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "There was no line for the runners to follow. Alice gave the animals small sweets. Then the Mouse began a long story.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mouse leaves",
+                "Birds fear Dinah",
+                "A long tale"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Alice tried to listen to every word. Alice spoke about her cat Dinah again. The Mouse was upset and went away.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mouse leaves",
+                "Birds fear Dinah",
+                "Rabbit returns"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Alice called after him, but he did not come back. Alice wished Dinah could be with her. The birds left too, one after another.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Wet animals",
+                "Birds fear Dinah",
+                "Rabbit returns"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "They were afraid a cat might catch them. Alice sat alone and heard the White Rabbit nearby.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Wet animals",
+                "Everybody wins",
+                "Rabbit returns"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "Everyone wins the race, but Alice’s words drive the animals away",
+            "The mouse wins and leads Alice to the garden",
+            "The dodo cancels the race before it begins"
+          ],
+          "outcomeIndex": 0
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Wet animals",
+              "Mouse leaves",
+              "Rabbit returns"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Rabbit returns",
+              "Mouse leaves",
+              "Wet animals"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Wet animals",
+              "Mouse leaves",
+              "Rabbit returns"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "pool",
+            "meaning": "a small body of water"
+          },
+          {
+            "word": "feathers",
+            "meaning": "soft parts on a bird"
+          },
+          {
+            "word": "race",
+            "meaning": "a run to see who is fastest"
+          },
+          {
+            "word": "sweets",
+            "meaning": "small sugary foods"
+          },
+          {
+            "word": "birds",
+            "meaning": "animals with wings"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Alice",
+            "who": "a curious girl exploring a strange world"
+          },
+          {
+            "name": "Dinah",
+            "who": "Alice’s cat who frightens other animals"
+          }
+        ],
+        "talk": "Should everyone get a race prize?"
       }
     }
   },
@@ -2980,6 +3969,157 @@
           }
         ],
         "talk": "Should Alice trust a stranger’s instructions?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "The White Rabbit saw Alice near his house. He thought she was a girl named Mary Ann. He told her to bring his gloves and fan.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Rabbit gives orders",
+                "Alice grows big",
+                "Bill in chimney"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Alice went upstairs and found his things. Then she started to grow very big. Soon the little house was too small for her.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Cakes from stones",
+                "Alice grows big",
+                "Bill in chimney"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The little room grew crowded around her. The Rabbit looked in and called for help. A small lizard named Bill came down the chimney.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Cakes from stones",
+                "Alice runs out",
+                "Bill in chimney"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Alice pushed him out with her foot. Animals threw little stones into the house. The stones became cakes on the floor.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Cakes from stones",
+                "Alice runs out",
+                "A playful puppy"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Alice ate one cake and grew small again. She wanted to find the garden again. She ran outside before the Rabbit caught her.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Rabbit gives orders",
+                "Alice runs out",
+                "A playful puppy"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "A big puppy came close to play. Alice used a stick and went safely away.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Rabbit gives orders",
+                "Alice grows big",
+                "A playful puppy"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The rabbit keeps Alice as his servant",
+            "Alice shrinks, escapes the house, and avoids a puppy",
+            "Bill finds a way to make the house bigger"
+          ],
+          "outcomeIndex": 1
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Rabbit gives orders",
+              "Cakes from stones",
+              "A playful puppy"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "A playful puppy",
+              "Cakes from stones",
+              "Rabbit gives orders"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Rabbit gives orders",
+              "Cakes from stones",
+              "A playful puppy"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "house",
+            "meaning": "a place to live"
+          },
+          {
+            "word": "gloves",
+            "meaning": "clothes for hands"
+          },
+          {
+            "word": "chimney",
+            "meaning": "a way for smoke to leave"
+          },
+          {
+            "word": "stones",
+            "meaning": "small pieces of rock"
+          },
+          {
+            "word": "puppy",
+            "meaning": "a young dog"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Alice",
+            "who": "a curious girl exploring a strange world"
+          },
+          {
+            "name": "White Rabbit",
+            "who": "a hurried rabbit Alice follows"
+          },
+          {
+            "name": "Bill",
+            "who": "a lizard sent into the chimney"
+          }
+        ],
+        "talk": "Would you enter the Rabbit’s house?"
       }
     }
   },
@@ -3356,6 +4496,153 @@
           }
         ],
         "talk": "Should Dorothy have gone back for Toto during the storm?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Dorothy lived on a farm with Aunt Em. Uncle Henry worked in the fields each day. Toto, her small dog, made Dorothy smile.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Dorothy and Toto",
+                "A storm comes",
+                "Toto hides"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "One day the sky grew dark and gray. Uncle Henry saw a big storm coming. Aunt Em went down to a room under the house.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The flying house",
+                "A storm comes",
+                "Toto hides"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Aunt Em called Dorothy to the shelter. Toto hid under the bed from the wind. Dorothy ran to get her little dog.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The flying house",
+                "A strange place",
+                "Toto hides"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "The house began to shake before they could leave. The wind lifted the house into the air. Dorothy held Toto and waited inside.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The flying house",
+                "A strange place",
+                "Green trees"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "After a long time, they both fell asleep. Toto ran around the room as they flew. The house came down with a hard bump.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Dorothy and Toto",
+                "A strange place",
+                "Green trees"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Dorothy opened the door and looked outside. Green trees and bright flowers stood all around her.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Dorothy and Toto",
+                "A storm comes",
+                "Green trees"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "Dorothy meets the Wizard in Kansas",
+            "Toto leads Dorothy along a yellow road",
+            "A cyclone carries Dorothy’s house away from Kansas"
+          ],
+          "outcomeIndex": 2
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Dorothy and Toto",
+              "The flying house",
+              "Green trees"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Green trees",
+              "The flying house",
+              "Dorothy and Toto"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Dorothy and Toto",
+              "The flying house",
+              "Green trees"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "farm",
+            "meaning": "land for crops or animals"
+          },
+          {
+            "word": "dog",
+            "meaning": "a common pet animal"
+          },
+          {
+            "word": "storm",
+            "meaning": "strong wind and rain"
+          },
+          {
+            "word": "bed",
+            "meaning": "a place to sleep"
+          },
+          {
+            "word": "flowers",
+            "meaning": "colourful parts of plants"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Dorothy",
+            "who": "a girl trying to return home"
+          },
+          {
+            "name": "Toto",
+            "who": "Dorothy’s loyal little dog"
+          }
+        ],
+        "talk": "Would you go back for Toto?"
       }
     }
   },
@@ -3724,6 +5011,157 @@
           }
         ],
         "talk": "Should Dorothy trust the people she has just met?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Dorothy met some small people called Munchkins. Her house had fallen on a bad witch. Now the Munchkins were free from her.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Free Munchkins",
+                "Dorothy wants home",
+                "The yellow road"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Dorothy wanted to go back to Kansas. The Munchkins did not know the way. They said the Wizard of Oz might help.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Silver shoes",
+                "Dorothy wants home",
+                "The yellow road"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The silver shoes came from the bad witch. The Wizard lived in the Emerald City. A road of yellow bricks led there.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Silver shoes",
+                "A good witch",
+                "The yellow road"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Dorothy decided to walk on that road. The Munchkins gave Dorothy silver shoes. A good witch made a mark on her head.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Silver shoes",
+                "A good witch",
+                "Toward the Wizard"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "She said Dorothy should keep the shoes on. The good witch wished her a safe walk. Dorothy thanked the people for their help.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Free Munchkins",
+                "A good witch",
+                "Toward the Wizard"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Toto walked beside her on the road. They went toward the city to find the Wizard.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Free Munchkins",
+                "Dorothy wants home",
+                "Toward the Wizard"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "A good witch protects Dorothy as she starts for the Wizard",
+            "Dorothy gives the shoes back to the Munchkins",
+            "The Munchkins take Dorothy directly to Kansas"
+          ],
+          "outcomeIndex": 0
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Free Munchkins",
+              "Silver shoes",
+              "Toward the Wizard"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Toward the Wizard",
+              "Silver shoes",
+              "Free Munchkins"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Free Munchkins",
+              "Silver shoes",
+              "Toward the Wizard"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "house",
+            "meaning": "a place to live"
+          },
+          {
+            "word": "witch",
+            "meaning": "a person with magic in stories"
+          },
+          {
+            "word": "road",
+            "meaning": "a path for walking or driving"
+          },
+          {
+            "word": "shoes",
+            "meaning": "things worn on feet"
+          },
+          {
+            "word": "city",
+            "meaning": "a large town"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Dorothy",
+            "who": "a girl trying to return home"
+          },
+          {
+            "name": "Toto",
+            "who": "Dorothy’s loyal little dog"
+          },
+          {
+            "name": "Wizard",
+            "who": "the ruler whose power is questioned"
+          }
+        ],
+        "talk": "Would you walk to the Wizard?"
       }
     }
   },
@@ -4116,6 +5554,161 @@
           }
         ],
         "talk": "What makes someone a good friend: knowledge or kindness?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Dorothy saw a Scarecrow in a field. His body was full of straw. He smiled at her and began to talk.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A talking Scarecrow",
+                "Dorothy helps him",
+                "A wish for brains"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The Scarecrow could not leave his pole. Dorothy climbed up and helped him down. He was happy to move his feet.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A new friend",
+                "Dorothy helps him",
+                "A wish for brains"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The painted face looked kind to Dorothy. He said he wanted a brain. Dorothy told him about the Wizard.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A new friend",
+                "Along the road",
+                "A wish for brains"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "She hoped the Wizard could send her home. The Scarecrow asked to walk with her. He wanted to ask the Wizard for a brain.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A new friend",
+                "Along the road",
+                "A hard path"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Dorothy said yes and called Toto to follow. Toto ran around their feet as they walked. They walked into a wood together.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A talking Scarecrow",
+                "Along the road",
+                "A hard path"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The Scarecrow saw the road ahead. Dorothy helped when the path became hard to cross.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A talking Scarecrow",
+                "Dorothy helps him",
+                "A hard path"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The Scarecrow stays in the field guarding corn",
+            "Dorothy frees the Scarecrow and they travel together",
+            "The Wizard arrives and gives him a brain"
+          ],
+          "outcomeIndex": 1
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "A talking Scarecrow",
+              "A new friend",
+              "A hard path"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "A hard path",
+              "A new friend",
+              "A talking Scarecrow"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "A talking Scarecrow",
+              "A new friend",
+              "A hard path"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "field",
+            "meaning": "open land"
+          },
+          {
+            "word": "straw",
+            "meaning": "dry plant stems"
+          },
+          {
+            "word": "pole",
+            "meaning": "a long upright stick"
+          },
+          {
+            "word": "brain",
+            "meaning": "part inside a head for thinking"
+          },
+          {
+            "word": "wood",
+            "meaning": "a place with many trees"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Dorothy",
+            "who": "a girl trying to return home"
+          },
+          {
+            "name": "Toto",
+            "who": "Dorothy’s loyal little dog"
+          },
+          {
+            "name": "Scarecrow",
+            "who": "a friend who wants a brain"
+          },
+          {
+            "name": "Wizard",
+            "who": "the ruler whose power is questioned"
+          }
+        ],
+        "talk": "Would you help the Scarecrow?"
       }
     }
   },
@@ -4484,6 +6077,153 @@
           }
         ],
         "talk": "Is it safer to avoid every risk or face a challenge together?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Dorothy and the Scarecrow followed the yellow road. Some bricks were broken or missing. The Scarecrow fell into little holes.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Broken yellow road",
+                "Rest by water",
+                "Dorothy misses home"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Dorothy helped him stand up each time. They stopped by some water to rest. Dorothy ate bread, but the Scarecrow ate nothing.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The farmer’s Scarecrow",
+                "Rest by water",
+                "Dorothy misses home"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The Scarecrow laughed when he fell. Dorothy spoke about her gray home in Kansas. The Scarecrow liked the pretty land around them.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The farmer’s Scarecrow",
+                "Into the forest",
+                "Dorothy misses home"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Dorothy still wanted to go home. He told her how a farmer made him. The farmer put straw inside old clothes.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The farmer’s Scarecrow",
+                "Into the forest",
+                "A house at night"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Crows ate the corn because they did not fear him. Dorothy ate from the basket she carried. The road went into a dark forest.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Broken yellow road",
+                "Into the forest",
+                "A house at night"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Dorothy held the Scarecrow’s arm there. They found a small house and stayed for the night.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Broken yellow road",
+                "Rest by water",
+                "A house at night"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The Scarecrow leaves to guard the farmer’s corn",
+            "Dorothy returns to Kansas through the brook",
+            "Dorothy and the Scarecrow reach a dark forest and shelter together"
+          ],
+          "outcomeIndex": 2
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Broken yellow road",
+              "The farmer’s Scarecrow",
+              "A house at night"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "A house at night",
+              "The farmer’s Scarecrow",
+              "Broken yellow road"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Broken yellow road",
+              "The farmer’s Scarecrow",
+              "A house at night"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "bricks",
+            "meaning": "blocks used to build"
+          },
+          {
+            "word": "holes",
+            "meaning": "open spaces in something"
+          },
+          {
+            "word": "bread",
+            "meaning": "food made from flour"
+          },
+          {
+            "word": "corn",
+            "meaning": "a tall food plant"
+          },
+          {
+            "word": "forest",
+            "meaning": "a large area of trees"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Dorothy",
+            "who": "a girl trying to return home"
+          },
+          {
+            "name": "Scarecrow",
+            "who": "a friend who wants a brain"
+          }
+        ],
+        "talk": "Would you sleep in the forest?"
       }
     }
   },
@@ -4852,6 +6592,149 @@
           }
         ],
         "talk": "Should Mrs. Darling tell the children what she saw?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Wendy lived with John and Michael in London. Their dog Nana watched them in the nursery. Mother came to hear their stories at night.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Darling children",
+                "Stories of Peter",
+                "Dreams of Neverland"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Wendy told Mother about a boy called Peter Pan. She said he came into children’s dreams. Mother knew the name but had never seen him.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Strange leaves",
+                "Stories of Peter",
+                "Dreams of Neverland"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The children talked about a place called Neverland. John thought of boats and Michael thought of games. Mother thought these stories were just dreams.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Strange leaves",
+                "The boy appears",
+                "Dreams of Neverland"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "One morning Mother found strange leaves on the floor. Wendy said Peter might have left them. Mother looked at the window but found no answer.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Strange leaves",
+                "The boy appears",
+                "Darling children"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "That night a boy came through the window. A small light flew beside him in the dark. Mother woke, saw Peter, and watched him fly away.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Stories of Peter",
+                "The boy appears",
+                "Darling children"
+              ],
+              "correctIndex": 1
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "Mrs. Darling sees Peter at the nursery window",
+            "Wendy sews Peter’s shadow to him",
+            "The children fly to Neverland"
+          ],
+          "outcomeIndex": 0
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Darling children",
+              "Dreams of Neverland",
+              "The boy appears"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "The boy appears",
+              "Dreams of Neverland",
+              "Darling children"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Darling children",
+              "Dreams of Neverland",
+              "The boy appears"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "dog",
+            "meaning": "a common pet animal"
+          },
+          {
+            "word": "nursery",
+            "meaning": "a room for children"
+          },
+          {
+            "word": "boy",
+            "meaning": "a young male person"
+          },
+          {
+            "word": "leaves",
+            "meaning": "flat green parts of plants"
+          },
+          {
+            "word": "window",
+            "meaning": "glass opening in a wall"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Peter Pan",
+            "who": "a boy who will not grow up"
+          },
+          {
+            "name": "Wendy",
+            "who": "a girl caring for lost boys"
+          },
+          {
+            "name": "John",
+            "who": "Wendy’s brother on the adventure"
+          },
+          {
+            "name": "Michael",
+            "who": "Wendy’s younger brother on the adventure"
+          }
+        ],
+        "talk": "Would you tell Mother about Peter?"
       }
     }
   },
@@ -5228,6 +7111,149 @@
           }
         ],
         "talk": "Should Mr. Darling have tied Nana outside?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Nana ran into the nursery after Peter came. Peter jumped out through the open window. His shadow stayed behind on the floor.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Peter loses shadow",
+                "A hidden shadow",
+                "Michael’s medicine"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Mother put the shadow in a drawer. She wanted to ask Peter about it. But the family had other things to do.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Nana goes outside",
+                "A hidden shadow",
+                "Michael’s medicine"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Nana could not come back into the room. One night Michael did not want his medicine. Father said he would take his own medicine.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Nana goes outside",
+                "Parents leave",
+                "Michael’s medicine"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Then he tried to put it off. Father gave medicine to Nana too. The children were angry with him.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Nana goes outside",
+                "Parents leave",
+                "Nana barks"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Father took Nana outside and tied her there. Mother heard Nana call from outside. Mother looked at the children in bed.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Peter loses shadow",
+                "Parents leave",
+                "Nana barks"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Nana barked outside in the yard. Then Mother and Father went out for the evening.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Peter loses shadow",
+                "A hidden shadow",
+                "Nana barks"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "Wendy leaves with Peter that night",
+            "Nana catches Peter’s shadow and is later tied outside",
+            "Captain Hook arrives at the nursery"
+          ],
+          "outcomeIndex": 1
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Peter loses shadow",
+              "Nana goes outside",
+              "Nana barks"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Nana barks",
+              "Nana goes outside",
+              "Peter loses shadow"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Peter loses shadow",
+              "Nana goes outside",
+              "Nana barks"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "window",
+            "meaning": "glass opening in a wall"
+          },
+          {
+            "word": "shadow",
+            "meaning": "a dark shape made by light"
+          },
+          {
+            "word": "drawer",
+            "meaning": "a sliding box in furniture"
+          },
+          {
+            "word": "medicine",
+            "meaning": "something taken when ill"
+          },
+          {
+            "word": "yard",
+            "meaning": "open ground by a house"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Michael",
+            "who": "Wendy’s younger brother on the adventure"
+          }
+        ],
+        "talk": "Should Nana sleep inside with the children?"
       }
     }
   },
@@ -5620,6 +7646,157 @@
           }
         ],
         "talk": "Should the children leave home with Peter?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "A small fairy called Tinker Bell flew inside. She looked for Peter’s lost shadow. Peter came in through the window after her.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Fairy finds shadow",
+                "Peter cannot fix it",
+                "Wendy sews shadow"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Peter found his shadow in a drawer. It would not stay on his feet. He sat down on the floor and cried.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Children learn flying",
+                "Peter cannot fix it",
+                "Wendy sews shadow"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The shadow came loose when Peter moved. Wendy woke up and helped Peter. She used a needle to sew his shadow on.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Children learn flying",
+                "Out the window",
+                "Wendy sews shadow"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Peter told her about the Lost Boys in Neverland. John and Michael woke up too. Peter asked them all to come with him.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Children learn flying",
+                "Out the window",
+                "Empty beds"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "He showed them how to fly with fairy dust. They went up toward the ceiling together. The children flew around their room and laughed.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Fairy finds shadow",
+                "Out the window",
+                "Empty beds"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Then they followed Peter out of the window. Mother and Father came home to find empty beds.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Fairy finds shadow",
+                "Peter cannot fix it",
+                "Empty beds"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The children meet Captain Hook on the island",
+            "Mrs. Darling sends Peter home with Nana",
+            "Wendy repairs Peter’s shadow and the children fly away"
+          ],
+          "outcomeIndex": 2
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Fairy finds shadow",
+              "Children learn flying",
+              "Empty beds"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Empty beds",
+              "Children learn flying",
+              "Fairy finds shadow"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Fairy finds shadow",
+              "Children learn flying",
+              "Empty beds"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "fairy",
+            "meaning": "a tiny magic person in stories"
+          },
+          {
+            "word": "shadow",
+            "meaning": "a dark shape made by light"
+          },
+          {
+            "word": "drawer",
+            "meaning": "a sliding box in furniture"
+          },
+          {
+            "word": "needle",
+            "meaning": "a thin tool for sewing"
+          },
+          {
+            "word": "beds",
+            "meaning": "places to sleep"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Wendy",
+            "who": "a girl caring for lost boys"
+          },
+          {
+            "name": "John",
+            "who": "Wendy’s brother on the adventure"
+          },
+          {
+            "name": "Michael",
+            "who": "Wendy’s younger brother on the adventure"
+          }
+        ],
+        "talk": "Would you fly away with Peter?"
       }
     }
   },
@@ -6008,6 +8185,161 @@
           }
         ],
         "talk": "Should Wendy choose home or another adventure?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Peter flew ahead of Wendy, John, and Michael. They followed him across the dark sea. He said Neverland lay far away.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Across the sea",
+                "Cold hungry children",
+                "Michael starts falling"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The children became cold and hungry. Peter caught birds and brought them food. But he often flew away to find adventure.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Peter catches him",
+                "Cold hungry children",
+                "Michael starts falling"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The long flight made their eyes feel heavy. Michael grew sleepy and began to fall. Peter caught him before he reached the water.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Peter catches him",
+                "Island in sight",
+                "Michael starts falling"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Wendy asked Peter to watch her brothers. Peter taught them to rest in the wind. Then he went away again for a while.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Peter catches him",
+                "Island in sight",
+                "Wendy remembers home"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Wendy stayed close to John and Michael. The island looked dark from the sky. At last they saw Neverland below them.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Across the sea",
+                "Island in sight",
+                "Wendy remembers home"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Peter spoke of Lost Boys and pirates there. Wendy looked at the island and thought of home.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Across the sea",
+                "Cold hungry children",
+                "Wendy remembers home"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "Peter saves Michael during the long flight, then leaves again",
+            "Michael lands safely on a passing ship",
+            "The children decide to sleep on the sea"
+          ],
+          "outcomeIndex": 0
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Across the sea",
+              "Peter catches him",
+              "Wendy remembers home"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Wendy remembers home",
+              "Peter catches him",
+              "Across the sea"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Across the sea",
+              "Peter catches him",
+              "Wendy remembers home"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "sea",
+            "meaning": "a great body of salt water"
+          },
+          {
+            "word": "birds",
+            "meaning": "animals with wings"
+          },
+          {
+            "word": "food",
+            "meaning": "things we eat"
+          },
+          {
+            "word": "wind",
+            "meaning": "moving air"
+          },
+          {
+            "word": "island",
+            "meaning": "land with water all around"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Peter",
+            "who": "a boy who will not grow up"
+          },
+          {
+            "name": "Wendy",
+            "who": "a girl caring for lost boys"
+          },
+          {
+            "name": "John",
+            "who": "Wendy’s brother on the adventure"
+          },
+          {
+            "name": "Michael",
+            "who": "Wendy’s younger brother on the adventure"
+          }
+        ],
+        "talk": "Would you keep flying or go home?"
       }
     }
   },
@@ -6376,6 +8708,149 @@
           }
         ],
         "talk": "Should Holmes help the king take Irene’s photograph?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Watson visited his friend Sherlock Holmes. A king came to ask them for help. A woman named Irene had a photo of him.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The king’s problem",
+                "Holmes watches Irene",
+                "A false fire"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The king feared people would see the photo. Holmes went to watch Irene’s house. Watson helped him make a little noise outside.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Irene finds photo",
+                "Holmes watches Irene",
+                "A false fire"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The photo could hurt the king’s new marriage. Someone called out that there was a fire. Irene ran to where she kept the photo.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Irene finds photo",
+                "Irene leaves",
+                "A false fire"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Holmes saw the place and left. When Holmes came back, Irene was gone. She had seen through his plan.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Irene finds photo",
+                "Irene leaves",
+                "A letter and gift"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "A letter said she kept the photo for safety. Irene had sent Holmes a letter too. The king was happy when he heard this.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The king’s problem",
+                "Irene leaves",
+                "A letter and gift"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Irene would not show the photo to others. Holmes asked for her own photo as his gift.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "The king’s problem",
+                "Holmes watches Irene",
+                "A letter and gift"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "Holmes burns the photograph inside her house",
+            "Irene outwits Holmes but promises not to expose the king",
+            "The king marries Irene to hide the photograph"
+          ],
+          "outcomeIndex": 1
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "The king’s problem",
+              "Irene finds photo",
+              "A letter and gift"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "A letter and gift",
+              "Irene finds photo",
+              "The king’s problem"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "The king’s problem",
+              "Irene finds photo",
+              "A letter and gift"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "king",
+            "meaning": "a man who rules a country"
+          },
+          {
+            "word": "photo",
+            "meaning": "a picture made by a camera"
+          },
+          {
+            "word": "house",
+            "meaning": "a place to live"
+          },
+          {
+            "word": "fire",
+            "meaning": "hot bright flames"
+          },
+          {
+            "word": "letter",
+            "meaning": "a written message"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Sherlock Holmes",
+            "who": "a detective who studies small clues"
+          }
+        ],
+        "talk": "Should Irene keep the photo?"
       }
     }
   },
@@ -6724,6 +9199,149 @@
           }
         ],
         "talk": "Should people trust a job that seems too easy?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "A shopkeeper named Wilson came to Holmes. A strange group paid him to copy words. Then the group suddenly closed.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Wilson’s strange job",
+                "A cellar clue",
+                "A bank nearby"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Holmes asked about Wilson’s shop helper. The helper went down into the cellar often. Holmes saw dirt on the knees of his trousers.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Police wait",
+                "A cellar clue",
+                "A bank nearby"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Wilson came to the closed room and found a note. A bank stood next to Wilson’s shop. Holmes thought the helper dug under the ground.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Police wait",
+                "Thieves in tunnel",
+                "A bank nearby"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "The copying job kept Wilson away all day. Holmes and the police waited at the bank. Two men came up from a tunnel.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Police wait",
+                "Thieves in tunnel",
+                "Money stays safe"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "One was the shop helper, a thief called Clay. The men had dug toward the bank’s safe. The police caught Clay before he could run.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Wilson’s strange job",
+                "Thieves in tunnel",
+                "Money stays safe"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The bank kept its money safe. Holmes told Watson how he had found the tunnel.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Wilson’s strange job",
+                "A cellar clue",
+                "Money stays safe"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The League gives Wilson a permanent promotion",
+            "Wilson’s assistant is secretly his brother",
+            "The odd job hides a plan to tunnel into a bank"
+          ],
+          "outcomeIndex": 2
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Wilson’s strange job",
+              "Police wait",
+              "Money stays safe"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Money stays safe",
+              "Police wait",
+              "Wilson’s strange job"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Wilson’s strange job",
+              "Police wait",
+              "Money stays safe"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "shop",
+            "meaning": "a place to buy things"
+          },
+          {
+            "word": "cellar",
+            "meaning": "a room below a building"
+          },
+          {
+            "word": "bank",
+            "meaning": "a place that keeps money"
+          },
+          {
+            "word": "tunnel",
+            "meaning": "a path under the ground"
+          },
+          {
+            "word": "money",
+            "meaning": "coins or notes for buying"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Holmes",
+            "who": "a detective who studies small clues"
+          }
+        ],
+        "talk": "Would you take Wilson’s easy job?"
       }
     }
   },
@@ -7104,6 +9722,149 @@
           }
         ],
         "talk": "Should a person confront someone who has lied to them?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "Mary came to Holmes with a sad story. A man named Hosmer wanted to marry her. On their wedding day, he went away.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mary loses Hosmer",
+                "Stepfather and letters",
+                "A strange disguise"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Mary’s stepfather did not want her to marry. He was often away for work. Holmes read the letters Hosmer had sent.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Money keeps Mary home",
+                "Stepfather and letters",
+                "A strange disguise"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Mary had waited for Hosmer to return. The letters came from a typing machine. Hosmer never met Mary in bright daylight.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Money keeps Mary home",
+                "Holmes finds truth",
+                "A strange disguise"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "Holmes began to see a trick. Her stepfather had dressed up as Hosmer. He wanted Mary to stay at home.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Money keeps Mary home",
+                "Holmes finds truth",
+                "Mary does not know"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "He did not want her money to leave the family. The stepfather wore dark glasses in his disguise. Holmes asked the stepfather to come and talk.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mary loses Hosmer",
+                "Holmes finds truth",
+                "Mary does not know"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The man ran away when Holmes knew his trick. Mary did not hear the answer from Holmes.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mary loses Hosmer",
+                "Stepfather and letters",
+                "Mary does not know"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "Holmes discovers Mary’s stepfather posed as Hosmer",
+            "Hosmer returns to the wedding church",
+            "Mary confronts Windibank with Holmes"
+          ],
+          "outcomeIndex": 0
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Mary loses Hosmer",
+              "Money keeps Mary home",
+              "Mary does not know"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Mary does not know",
+              "Money keeps Mary home",
+              "Mary loses Hosmer"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Mary loses Hosmer",
+              "Money keeps Mary home",
+              "Mary does not know"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "man",
+            "meaning": "an adult male person"
+          },
+          {
+            "word": "letters",
+            "meaning": "written messages"
+          },
+          {
+            "word": "machine",
+            "meaning": "a tool with moving parts"
+          },
+          {
+            "word": "glasses",
+            "meaning": "lenses worn over eyes"
+          },
+          {
+            "word": "money",
+            "meaning": "coins or notes for buying"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Holmes",
+            "who": "a detective who studies small clues"
+          }
+        ],
+        "talk": "Should Holmes tell Mary the truth?"
       }
     }
   },
@@ -7468,6 +10229,153 @@
           }
         ],
         "talk": "Should Holmes tell James what he learned about Turner?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "James was blamed for his father’s death. Alice said James had done nothing wrong. She asked Holmes to find the truth.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "James is blamed",
+                "Marks near pool",
+                "Turner’s old secret"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Holmes and Watson went to the valley. Holmes looked at marks near a pool. Another person had walked there too.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Turner writes truth",
+                "Marks near pool",
+                "Turner’s old secret"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "People said James had fought with his father. Holmes spoke with Alice’s father, Mr Turner. Turner knew James’s father from many years ago.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Turner writes truth",
+                "James is freed",
+                "Turner’s old secret"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "The two men had a bad secret. Turner said he had killed James’s father. He wrote this down for Holmes.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Turner writes truth",
+                "James is freed",
+                "Alice can stay"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "Holmes kept the paper in case James needed it. Turner was afraid Alice would hear his secret. James was freed without showing that paper.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "James is blamed",
+                "James is freed",
+                "Alice can stay"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "Mr Turner was very ill and soon died. Alice and James could live without the charge.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "James is blamed",
+                "Marks near pool",
+                "Alice can stay"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "James confesses to killing his father",
+            "Holmes finds that John Turner, not James, killed McCarthy",
+            "Alice discovers the murder weapon in her home"
+          ],
+          "outcomeIndex": 1
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "James is blamed",
+              "Turner writes truth",
+              "Alice can stay"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Alice can stay",
+              "Turner writes truth",
+              "James is blamed"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "James is blamed",
+              "Turner writes truth",
+              "Alice can stay"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "father",
+            "meaning": "a male parent"
+          },
+          {
+            "word": "valley",
+            "meaning": "low land between hills"
+          },
+          {
+            "word": "pool",
+            "meaning": "a small body of water"
+          },
+          {
+            "word": "paper",
+            "meaning": "thin material for writing"
+          },
+          {
+            "word": "secret",
+            "meaning": "something kept hidden"
+          }
+        ],
+        "cast": [
+          {
+            "name": "Holmes",
+            "who": "a detective who studies small clues"
+          },
+          {
+            "name": "Watson",
+            "who": "Holmes’s friend and story narrator"
+          }
+        ],
+        "talk": "Should Holmes show Turner’s paper?"
       }
     }
   },
@@ -7844,6 +10752,153 @@
           }
         ],
         "talk": "Should the lion release the mouse that disturbed him?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "A Lion slept under a tree. A little Mouse ran over his paw. The Lion woke up and caught it.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Lion catches Mouse",
+                "Lion lets it go",
+                "Lion in net"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The Mouse asked the Lion to let it go. It said it might help him one day. The Lion laughed but opened his paw.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mouse bites ropes",
+                "Lion lets it go",
+                "Lion in net"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The Lion did not think a Mouse could help. Later some hunters put a net in the forest. The Lion walked into it and could not leave.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mouse bites ropes",
+                "Lion gets free",
+                "Lion in net"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "He called out for help. The Mouse heard his voice and came quickly. It bit the ropes with its small teeth.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Mouse bites ropes",
+                "Lion gets free",
+                "Friends walk away"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The Lion waited while the Mouse worked. The ropes were too strong for the Lion. At last the net had a hole.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Lion catches Mouse",
+                "Lion gets free",
+                "Friends walk away"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The Lion stepped out and thanked the Mouse. A small friend had helped a big one.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Lion catches Mouse",
+                "Lion lets it go",
+                "Friends walk away"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The mouse hides from the lion forever",
+            "The lion escapes by pulling the net apart",
+            "The mouse later frees the lion from a net"
+          ],
+          "outcomeIndex": 2
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Lion catches Mouse",
+              "Mouse bites ropes",
+              "Friends walk away"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Friends walk away",
+              "Mouse bites ropes",
+              "Lion catches Mouse"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Lion catches Mouse",
+              "Mouse bites ropes",
+              "Friends walk away"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "tree",
+            "meaning": "a tall plant"
+          },
+          {
+            "word": "paw",
+            "meaning": "an animal foot"
+          },
+          {
+            "word": "Mouse",
+            "meaning": "a small animal with a long tail"
+          },
+          {
+            "word": "net",
+            "meaning": "woven ropes for catching"
+          },
+          {
+            "word": "ropes",
+            "meaning": "strong thick strings"
+          }
+        ],
+        "cast": [
+          {
+            "name": "lion",
+            "who": "a powerful animal who learns humility"
+          },
+          {
+            "name": "mouse",
+            "who": "a small animal who offers help"
+          }
+        ],
+        "talk": "Would you free the little Mouse?"
       }
     }
   },
@@ -8196,6 +11251,153 @@
           }
         ],
         "talk": "Is it fair to blame someone without evidence?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "A Lamb drank water from a stream. A Wolf stood farther up the stream. He wanted to hurt the Lamb.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Lamb drinks water",
+                "Wolf blames Lamb",
+                "An old insult"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The Wolf said the Lamb made his water dirty. The Lamb said the water ran the other way. Her answer was true.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A family excuse",
+                "Wolf blames Lamb",
+                "An old insult"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The Lamb stood below the Wolf in the water. The Wolf said she had been rude last year. The Lamb said she was not born then.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A family excuse",
+                "Wolf comes closer",
+                "An old insult"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "The Wolf found another reason. He said someone in her family was rude. The Lamb could not speak for her family.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "A family excuse",
+                "Wolf comes closer",
+                "Lamb is attacked"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The Wolf came closer and closer. She looked at the water as it ran by. The Lamb had no more answers to give.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Lamb drinks water",
+                "Wolf comes closer",
+                "Lamb is attacked"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The Wolf attacked her by the stream. He had wanted this from the start.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Lamb drinks water",
+                "Wolf blames Lamb",
+                "Lamb is attacked"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The wolf keeps inventing excuses despite the lamb’s answers",
+            "The wolf accepts the lamb’s explanation",
+            "The lamb discovers it really muddied the stream"
+          ],
+          "outcomeIndex": 0
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Lamb drinks water",
+              "A family excuse",
+              "Lamb is attacked"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Lamb is attacked",
+              "A family excuse",
+              "Lamb drinks water"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Lamb drinks water",
+              "A family excuse",
+              "Lamb is attacked"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "water",
+            "meaning": "a drinkable clear liquid"
+          },
+          {
+            "word": "stream",
+            "meaning": "a small moving river"
+          },
+          {
+            "word": "Lamb",
+            "meaning": "a young sheep"
+          },
+          {
+            "word": "Wolf",
+            "meaning": "a wild dog"
+          },
+          {
+            "word": "family",
+            "meaning": "people who care for each other"
+          }
+        ],
+        "cast": [
+          {
+            "name": "wolf",
+            "who": "an animal using power unfairly"
+          },
+          {
+            "name": "lamb",
+            "who": "a young sheep answering an accusation"
+          }
+        ],
+        "talk": "Was the Wolf fair to the Lamb?"
       }
     }
   },
@@ -8548,6 +11750,153 @@
           }
         ],
         "talk": "Is it wise to copy what another person eats?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "An Ass heard a Grasshopper sing. He wanted to make a song like that. He asked what the Grasshopper ate.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Ass hears song",
+                "Dew on leaves",
+                "Ass stops eating"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The Grasshopper said it drank drops from leaves. These little drops are called dew. The Ass thought dew made the song.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Too little food",
+                "Dew on leaves",
+                "Ass stops eating"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The drops were very small in the morning. The Ass stopped eating his usual food. Each morning he looked for drops on leaves.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Too little food",
+                "Ass grows weak",
+                "Ass stops eating"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "He drank a little and waited for more. The Ass was much bigger than the Grasshopper. The drops did not give him enough food.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Too little food",
+                "Ass grows weak",
+                "Grasshopper sings"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "He became hungry and could not work. The Ass still wanted a beautiful voice. The Ass tried to sing, but no song came.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Ass hears song",
+                "Ass grows weak",
+                "Grasshopper sings"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "His legs grew weak from too little food. The Grasshopper kept singing in the field.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Ass hears song",
+                "Dew on leaves",
+                "Grasshopper sings"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The ass learns to sing like the grasshopper",
+            "The ass grows weak because dew is not enough food",
+            "The grasshopper teaches the ass another song"
+          ],
+          "outcomeIndex": 1
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Ass hears song",
+              "Too little food",
+              "Grasshopper sings"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Grasshopper sings",
+              "Too little food",
+              "Ass hears song"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Ass hears song",
+              "Too little food",
+              "Grasshopper sings"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "Ass",
+            "meaning": "an animal like a small horse"
+          },
+          {
+            "word": "song",
+            "meaning": "words and sounds sung together"
+          },
+          {
+            "word": "drops",
+            "meaning": "tiny bits of liquid"
+          },
+          {
+            "word": "leaves",
+            "meaning": "flat green parts of plants"
+          },
+          {
+            "word": "legs",
+            "meaning": "body parts used to walk"
+          }
+        ],
+        "cast": [
+          {
+            "name": "ass",
+            "who": "an animal trying to copy another"
+          },
+          {
+            "name": "grasshopper",
+            "who": "a singing insect with different needs"
+          }
+        ],
+        "talk": "Should the Ass eat only dew?"
       }
     }
   },
@@ -8900,6 +12249,153 @@
           }
         ],
         "talk": "Should you help someone who may not repay you?"
+      },
+      "A1": {
+        "passages": [
+          {
+            "text": "A Wolf ate his food too fast. A bone got stuck in his throat. He asked the other animals to help.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Bone in throat",
+                "Crane can help",
+                "A promised gift"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The animals feared his big teeth. A Crane had a long beak and neck. The Wolf asked her to get the bone.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Crane pulls bone",
+                "Crane can help",
+                "A promised gift"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "The bone hurt each time the Wolf ate. He said he would give her a gift. The Crane put her beak inside his mouth.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Crane pulls bone",
+                "Wolf shows teeth",
+                "A promised gift"
+              ],
+              "correctIndex": 2
+            }
+          },
+          {
+            "text": "She pulled out the bone and stepped back. Now the Wolf could eat again. The Crane asked for her gift.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Crane pulls bone",
+                "Wolf shows teeth",
+                "Crane walks away"
+              ],
+              "correctIndex": 0
+            }
+          },
+          {
+            "text": "The Wolf showed her his sharp teeth. The Crane had done just what he asked. He said she should be glad to be safe.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Bone in throat",
+                "Wolf shows teeth",
+                "Crane walks away"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "text": "He gave her nothing at all. The Crane walked away from the Wolf.",
+            "gist": {
+              "q": "What happens in this part?",
+              "options": [
+                "Bone in throat",
+                "Crane can help",
+                "Crane walks away"
+              ],
+              "correctIndex": 2
+            }
+          }
+        ],
+        "predict": {
+          "q": "What might happen in this story?",
+          "options": [
+            "The wolf pays the crane twice the reward",
+            "The crane decides to leave the bone in place",
+            "The crane saves the wolf, but he refuses to pay"
+          ],
+          "outcomeIndex": 2
+        },
+        "check": [
+          {
+            "q": "What happens near the start?",
+            "options": [
+              "Bone in throat",
+              "Crane pulls bone",
+              "Crane walks away"
+            ],
+            "correctIndex": 0
+          },
+          {
+            "q": "What happens in the middle?",
+            "options": [
+              "Crane walks away",
+              "Crane pulls bone",
+              "Bone in throat"
+            ],
+            "correctIndex": 1
+          },
+          {
+            "q": "What happens near the end?",
+            "options": [
+              "Bone in throat",
+              "Crane pulls bone",
+              "Crane walks away"
+            ],
+            "correctIndex": 2
+          }
+        ],
+        "words": [
+          {
+            "word": "food",
+            "meaning": "things we eat"
+          },
+          {
+            "word": "bone",
+            "meaning": "hard part inside a body"
+          },
+          {
+            "word": "throat",
+            "meaning": "the passage inside a neck"
+          },
+          {
+            "word": "beak",
+            "meaning": "a bird’s hard mouth"
+          },
+          {
+            "word": "teeth",
+            "meaning": "hard parts used to bite"
+          }
+        ],
+        "cast": [
+          {
+            "name": "wolf",
+            "who": "an animal using power unfairly"
+          },
+          {
+            "name": "crane",
+            "who": "a long-beaked bird who helps a wolf"
+          }
+        ],
+        "talk": "Should the Crane help the Wolf?"
       }
     }
   },
