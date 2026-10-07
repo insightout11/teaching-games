@@ -21,3 +21,5 @@ Batch 2 (15 Earth and space topics): added independent briefing details, subject
 Batch 3 (10 weather and nature topics): added separate briefing material, subject vocabulary, and student speech. Remaining audit counts: 245/237/39/20/245/0; all 45 rewritten topics pass their individual checks.
 
 Batch 4 (15 everyday topics): rewrote food, school, family, festivals and jobs. Remaining audit counts: 200/204/37/15/200/0; all 60 rewritten topics pass their individual checks.
+
+Batch 5 (20 play and creativity topics): rewrote sports, games, transport and arts. All 80 kids' topics now have new copy. Remaining counts are 140/144/17/11/142/0. Two rewritten levels still trigger the 80%-fact speech check; I will locate and fix those in final editorial QA.
