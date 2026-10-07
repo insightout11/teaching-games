@@ -29,6 +29,8 @@ Keep ids, titles, aliases, age bands, categories and the JSON shape. Rewrite eve
   reused across topics only when it's genuinely central (e.g. "habitat" for at most a few animal topics).
 - **expressions**: 6 stems that model student talk about this topic, each example a fresh sentence a student might
   say ("If I could visit a volcano, I'd…", "The scariest thing about volcanoes is…"), not a fact with "I think" added.
+- **aliases**: also cover the common names teachers will type: synonyms and regional words (football/soccer),
+  famous examples kids name instead of the category (T-rex, shark), singular and plural. Still no alias in two topics.
 - Levels must really differ: A1 short and concrete, A2 a bit longer, B1 natural, B2 richer ideas and words, not the
   same sentences trimmed.
 
