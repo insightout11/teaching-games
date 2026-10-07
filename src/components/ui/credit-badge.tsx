@@ -19,7 +19,7 @@ export function CreditBadge() {
   if (credits >= 3) {
     return (
       <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-medium">
-        {credits} live lesson credit{credits !== 1 ? 's' : ''} left
+        {credits} free lesson{credits !== 1 ? 's' : ''} left
       </span>
     );
   }
@@ -27,7 +27,7 @@ export function CreditBadge() {
   if (credits === 2) {
     return (
       <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-medium">
-        2 live lesson credits left
+        2 free lessons left
       </span>
     );
   }
@@ -35,7 +35,7 @@ export function CreditBadge() {
   if (credits === 1) {
     return (
       <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 font-medium">
-        1 live lesson credit left
+        1 free lesson left
       </span>
     );
   }

@@ -623,12 +623,12 @@ export function ReviewLaunchScreen() {
           {/* Low-credit warning */}
           {!tierLoading && !isPro && credits === 2 && (
             <div className="px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm">
-              2 live lesson credits left. Pro removes the limit when you&apos;re ready.
+              2 free lessons left. Pro removes the limit when you&apos;re ready.
             </div>
           )}
           {!tierLoading && !isPro && credits === 1 && (
             <div className="px-4 py-2.5 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm">
-              This is your last free live lesson credit. Upgrade after this lesson to keep teaching.
+              This is your last free lesson this month. You get 4 more on the 1st, or go Pro for unlimited.
             </div>
           )}
 
@@ -642,7 +642,7 @@ export function ReviewLaunchScreen() {
                 Upgrade to Pro to launch more lessons →
               </a>
               <p className="text-xs text-center text-lc-text3">
-                Or wait for your free monthly live lesson credit — you get 1 back each month.
+                Or wait for next month: you get 4 free lessons on the 1st.
               </p>
             </div>
           ) : (

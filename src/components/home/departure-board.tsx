@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowRight, BookOpen, Compass, Globe2, Library, Loader2, Map, PenLine, Plane, PlaneTakeoff, Plus, Radio, Users } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { launchCourseLesson } from '@/lib/launch-course-lesson';
+import { startClassSession } from '@/lib/start-class';
 import type { BoardRow } from '@/lib/home-board';
 import type { CourseLesson } from '@/lib/course';
 
@@ -21,14 +22,8 @@ function shortDate(iso: string): string {
   return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
-/** Start a plan-free session for a class (same as the Classes page) and open the room. */
-async function board(classId: string): Promise<string | null> {
-  const supabase = createClient();
-  const { data } = await supabase.from('sessions').insert({ class_id: classId }).select('id').single();
-  if (!data) return null;
-  try { sessionStorage.removeItem('lessonPlanContent'); } catch { /* storage unavailable */ }
-  return (data as { id: string }).id;
-}
+/** Start a plan-free session for a class through the server (counted in the free monthly lessons). */
+const board = (classId: string) => startClassSession(classId);
 
 export function DepartureBoard({ rows }: { rows: BoardRow[] }) {
   const router = useRouter();
@@ -49,9 +44,7 @@ export function DepartureBoard({ rows }: { rows: BoardRow[] }) {
   };
 
   const boardClass = (classId: string) => go(`board-${classId}`, async () => {
-    const id = await board(classId);
-    if (!id) throw new Error('Could not start the class. Please try again.');
-    router.push(`/sessions/${id}`);
+    router.push(`/sessions/${await board(classId)}`);
   });
 
   const boardNext = (row: BoardRow) => go(`next-${row.classId}`, async () => {
@@ -70,9 +63,7 @@ export function DepartureBoard({ rows }: { rows: BoardRow[] }) {
     if (!user) throw new Error('Please sign in again.');
     const { data: cls } = await supabase.from('classes').insert({ name: 'My class', teacher_id: user.id }).select('id').single();
     if (!cls) throw new Error('Could not create your class. Please try again.');
-    const id = await board((cls as { id: string }).id);
-    if (!id) throw new Error('Could not start the class. Please try again.');
-    router.push(`/sessions/${id}`);
+    router.push(`/sessions/${await board((cls as { id: string }).id)}`);
   });
 
   // Enter boards the first class (live classes are listed first, so Enter rejoins one).
@@ -105,7 +96,11 @@ export function DepartureBoard({ rows }: { rows: BoardRow[] }) {
         </div>
       </header>
 
-      {error && <p role="alert" className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm text-red-300">{error}</p>}
+      {error && (
+        <p role="alert" className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
+          {error}{error.includes('free lessons') && <> <Link href="/pro" className="font-semibold underline">See Pro</Link></>}
+        </p>
+      )}
 
       {rows.length === 0 ? (
         <section className="flex flex-col items-center gap-4 rounded-2xl border border-cyan-300/25 bg-[#0b1626]/90 px-6 py-14 text-center">

@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
+import { freeLessonsLeft, lessonsUsedThisMonth } from '@/lib/lesson-allowance';
 
 export interface AuthedTeacher {
   id: string;
   email: string;
+  /** Lessons a free teacher can still start: this month's free lessons + leftover credits (pricing option B). */
   credits: number;
+  /** Free lessons left this month (free teachers; 0 for Pro/developer). */
+  freeLeft?: number;
   isPro: boolean;
   isDeveloper: boolean;
 }
@@ -22,7 +26,8 @@ interface AuthResult {
  *   1. is_developer = true   → unlimited, all modules
  *   2. subscription_status = 'active'   → Pro
  *   3. promo_expires_at > NOW()          → Pro (marketing Test Flight)
- *   4. generation_credits > 0            → onboarding credit; will consume 1 after generation
+ *   4. free monthly lessons left (4 a month) or generation_credits > 0 → allowed; a credit is spent only
+ *      once this month's free lessons are used (pricing option B)
  *   5. session grace (sessionId) → free for in-session use
  *   6. else → 402 CREDITS_EXHAUSTED
  *
@@ -59,9 +64,11 @@ export async function requireAuthWithCredits(options?: {
     generations: number;
   };
 
+  const freeLeft = info.is_pro || info.is_developer ? 0 : freeLessonsLeft(await lessonsUsedThisMonth(service, teacher.id));
   const enriched: AuthedTeacher = {
     ...teacher,
-    credits: info.credits,
+    credits: info.credits + freeLeft,
+    freeLeft,
     isPro: info.is_pro,
     isDeveloper: info.is_developer,
   };
@@ -76,8 +83,8 @@ export async function requireAuthWithCredits(options?: {
     return { teacher: enriched, error: null };
   }
 
-  // ── 5. Onboarding credits → allow (caller consumes after generation) ──
-  if (info.credits > 0) {
+  // ── 5. Free monthly lessons or leftover credits → allow (caller spends a credit only past the free ones) ──
+  if (freeLeft > 0 || info.credits > 0) {
     return { teacher: enriched, error: null };
   }
 
@@ -105,7 +112,7 @@ export async function requireAuthWithCredits(options?: {
   return {
     teacher: null,
     error: NextResponse.json(
-      { error: 'Credits exhausted. Upgrade to Pro for unlimited generation.', code: 'CREDITS_EXHAUSTED' },
+      { error: "You've used this month's 4 free lessons. Go Pro for unlimited lessons, or wait for next month.", code: 'CREDITS_EXHAUSTED' },
       { status: 402 }
     ),
   };
@@ -160,6 +167,10 @@ export async function requireAuthForGeneration(options?: {
 
   if (info.is_developer || info.is_pro || info.credits > 0) {
     return { teacher: enriched, error: null };
+  }
+  const freeLeft = freeLessonsLeft(await lessonsUsedThisMonth(service, teacher.id));
+  if (freeLeft > 0) {
+    return { teacher: { ...enriched, credits: info.credits + freeLeft, freeLeft }, error: null };
   }
 
   return {

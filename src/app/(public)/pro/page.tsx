@@ -9,12 +9,12 @@ export const metadata: Metadata = {
 };
 
 const FREE_FEATURES = [
-  '5 live lesson credits for Test Flights',
-  'All games and activities during your Test Flights',
-  'Source-based lessons and custom topics included in your Test Flights',
-  'Run live lessons — students join free, no accounts',
-  'Full Flight Plan experience',
-  'History saved for your Test Flight lessons',
+  '4 full lessons free every month',
+  'Every flight, game and activity',
+  'Source-based lessons and custom topics',
+  'Run live lessons: students join free, no accounts',
+  'The Live Room and the full Flight Plan experience',
+  'History saved for your lessons',
 ];
 
 const PRO_FEATURES = [
@@ -30,12 +30,12 @@ const PRO_FEATURES = [
 
 const FAQ = [
   {
-    q: 'What counts as a Test Flight?',
-    a: 'Each Test Flight uses one live lesson credit. It can be a single game, a single activity, or a full Flight Plan, regardless of lesson length. If you use all 5 credits, you get 1 free credit back each month.',
+    q: 'What counts as a free lesson?',
+    a: 'Each class you start counts as one lesson, whether it is a single game, an activity or a full flight, however long it runs. Free teachers get 4 every month, and they come back on the 1st.',
   },
   {
     q: 'What happens to my free session history if I upgrade?',
-    a: 'It stays saved. Your Test Flight debriefs are always accessible whether you upgrade or not. Pro teachers can also add private notes per student and draft progress summaries from those notes in the Control Room.',
+    a: 'It stays saved. Your lesson debriefs are always accessible whether you upgrade or not. Pro teachers can also add private notes per student and draft progress summaries from those notes in the Control Room.',
   },
   {
     q: 'When will self-serve checkout be available?',
@@ -67,7 +67,7 @@ export default function ProPage() {
           <div>
             <p className="text-xs font-semibold text-lc-text3 uppercase tracking-wide mb-1">Free</p>
             <p className="text-3xl font-bold text-lc-text">$0</p>
-            <p className="text-sm text-lc-text3 mt-1">5 live lesson credits for Test Flights, no card required</p>
+            <p className="text-sm text-lc-text3 mt-1">4 full lessons every month, no card required</p>
           </div>
 
           <ul className="space-y-3">
@@ -106,7 +106,7 @@ export default function ProPage() {
               <p className="text-3xl font-bold text-lc-text">$79<span className="text-base font-normal text-lc-text3">/year</span></p>
             </div>
             <p className="text-sm text-lc-text3 mt-1">
-              or $8/month · <span className="text-lc-text2 font-medium">Founding Crew teachers get 50% off for life</span>
+              or $9/month · <span className="text-lc-text2 font-medium">Founding Crew teachers get 50% off for life</span>
             </p>
           </div>
 

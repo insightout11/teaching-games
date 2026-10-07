@@ -123,7 +123,7 @@ export function SourceBasedSection() {
             </Link>
           </motion.div>
           <p className="text-xs text-lc-text3">
-            Source-based lesson planning is available on Test Flight and Pro.
+            Source-based lesson planning is included in your free lessons and in Pro.
           </p>
           <Link
             href="/video-lesson"

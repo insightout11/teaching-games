@@ -292,8 +292,9 @@ export async function POST(request: Request) {
     );
   }
 
-  // Consume 1 credit for Standard-tier teachers (Pro/developer are unlimited)
-  if (teacher && !teacher.isPro && !teacher.isDeveloper) {
+  // Free teachers: this month's free lessons first (counted from sessions, nothing to spend); a leftover credit is
+  // spent only after those (pricing option B). Pro/developer are unlimited.
+  if (teacher && !teacher.isPro && !teacher.isDeveloper && !(teacher.freeLeft && teacher.freeLeft > 0)) {
     await consumeCredit(teacher.id);
   }
 

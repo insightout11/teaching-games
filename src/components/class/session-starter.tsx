@@ -1,9 +1,9 @@
 'use client';
 
-import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
+import { startClassSession } from '@/lib/start-class';
 
 export function SessionStarter({
   classId,
@@ -16,34 +16,32 @@ export function SessionStarter({
   size?: 'sm' | 'md' | 'lg' | 'compact' | 'icon';
 }) {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const supabase = createClient();
 
   const startSession = async (e: React.MouseEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { data } = await supabase
-      .from('sessions')
-      .insert({ class_id: classId })
-      .select()
-      .single();
-
-    if (data) {
-      // Drop the legacy unscoped plan key so a lesson run earlier in this tab
-      // isn't loaded into this new plan-free session.
-      try {
-        sessionStorage.removeItem('lessonPlanContent');
-      } catch {
-        // storage unavailable — nothing to clear
-      }
-      router.push(`/sessions/${data.id}`);
+    setError(null);
+    try {
+      // Through the server, so the lesson counts against the free monthly lessons.
+      router.push(`/sessions/${await startClassSession(classId)}`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not start the class.');
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
-    <Button onClick={startSession} disabled={loading} size={size}>
-      {loading ? 'Starting...' : 'Start Session'}
-    </Button>
+    <span className="inline-flex flex-col items-end gap-1">
+      <Button onClick={startSession} disabled={loading} size={size}>
+        {loading ? 'Starting...' : 'Start Session'}
+      </Button>
+      {error && (
+        <span role="alert" className="max-w-xs text-right text-xs text-red-300">
+          {error} {error.includes('free lessons') && <a href="/pro" className="underline">See Pro</a>}
+        </span>
+      )}
+    </span>
   );
 }

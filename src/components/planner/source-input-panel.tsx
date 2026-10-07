@@ -444,7 +444,7 @@ export function SourceInputPanel() {
               {!isPro && (
                 <span
                   className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-400"
-                  title="Available with Pro or while you have live lesson credits"
+                  title="Available with Pro or while you have free lessons left"
                 >
                   Pro or credit
                 </span>
