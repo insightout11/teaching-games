@@ -22968,7 +22968,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Video games are interactive systems built around rules and player choices. Some games reward planning rather than speed. Cooperative games ask players to share goals. Game sound can signal a change before visuals do.",
+        "briefing": "A player learns a game by testing its rules, not just reading them. The same level can feel different when played with friends. Small design choices influence whether a challenge feels fair.",
         "facts": [
           "Some games reward planning rather than speed.",
           "A difficulty setting can change a player's challenge.",
@@ -22982,84 +22982,84 @@
         ],
         "vocab": [
           {
-            "word": "Video Games",
-            "definition": "Video games are interactive systems built around rules and player choices.",
+            "word": "level",
+            "definition": "A section of a game with its own challenge",
             "partOfSpeech": "noun",
-            "example": "Video games are interactive systems built around rules and player choices.",
-            "starter": "I want to discuss video games because…"
+            "example": "The same level can feel different when played with friends.",
+            "starter": "If I saw level, I would…"
           },
           {
-            "word": "planning",
-            "definition": "Thinking ahead about steps and choices",
+            "word": "checkpoint",
+            "definition": "A saved place for restarting play",
             "partOfSpeech": "noun",
-            "example": "Some games reward planning rather than speed.",
-            "starter": "I can use planning to explain…"
+            "example": "A checkpoint would make the challenge less frustrating.",
+            "starter": "I could describe checkpoint by…"
           },
           {
-            "word": "difficulty",
-            "definition": "The level of challenge",
+            "word": "co-op",
+            "definition": "A game mode where players work together",
             "partOfSpeech": "noun",
-            "example": "A difficulty setting can change a player's challenge.",
-            "starter": "When I hear difficulty, I think of…"
+            "example": "I prefer co-op with friends.",
+            "starter": "I wonder whether co-op can…"
           },
           {
-            "word": "cooperative",
-            "definition": "Working together toward a shared goal",
-            "partOfSpeech": "noun",
-            "example": "Cooperative games ask players to share goals.",
-            "starter": "A question about cooperative is…"
+            "word": "difficulty curve",
+            "definition": "How challenge increases through a game",
+            "partOfSpeech": "phrase",
+            "example": "This difficulty curve feels steep.",
+            "starter": "One question about difficulty curve is…"
           },
           {
-            "word": "rules",
-            "definition": "Instructions that shape play",
+            "word": "controller",
+            "definition": "A device used to direct game actions",
             "partOfSpeech": "noun",
-            "example": "Video games are interactive systems built around rules and player choices.",
-            "starter": "I would compare rules with…"
+            "example": "I would redesign the controller.",
+            "starter": "I would compare controller with…"
           },
           {
-            "word": "sound",
-            "definition": "What players hear during play",
+            "word": "quest",
+            "definition": "A task a player tries to complete",
             "partOfSpeech": "noun",
-            "example": "Game sound can signal a change before visuals do.",
-            "starter": "One example of sound is…"
+            "example": "The quest could have two solutions.",
+            "starter": "My idea about quest is…"
           },
           {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience video games.",
-            "starter": "I want to compare screen with…"
+            "word": "feedback loop",
+            "definition": "A cycle where results affect later actions",
+            "partOfSpeech": "phrase",
+            "example": "A feedback loop can keep me playing.",
+            "starter": "I might use feedback loop when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that some games reward planning rather than speed."
+            "phrase": "I would replay that level with…",
+            "example": "I would replay that level with a different plan."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a difficulty setting can change a player's challenge."
+            "phrase": "A checkpoint would make the challenge…",
+            "example": "A checkpoint would make the challenge less frustrating."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, cooperative games ask players to share goals."
+            "phrase": "I prefer playing with friends when…",
+            "example": "I prefer playing with friends when a puzzle is difficult."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare video games with a related topic."
+            "phrase": "The controls should be simple…",
+            "example": "The controls should be simple to learn."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that game sound can signal a change before visuals do."
+            "phrase": "I would change the ending after…",
+            "example": "I would change the ending after a clever choice."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because some games reward planning rather than speed."
+            "phrase": "A game can be fun without…",
+            "example": "A game can be fun without a huge map."
           }
         ]
       },
       "B2": {
-        "briefing": "Video games are interactive systems built around rules and player choices. Some games reward planning rather than speed; a difficulty setting can change a player's challenge. Cooperative games ask players to share goals; game sound can signal a change before visuals do.",
+        "briefing": "Games create feedback loops in which every action changes the next decision. A carefully balanced system can offer freedom without losing a clear purpose. The social setting around a game may shape its meaning as much as the code.",
         "facts": [
           "Some games reward planning rather than speed.",
           "A difficulty setting can change a player's challenge.",
@@ -23073,79 +23073,79 @@
         ],
         "vocab": [
           {
-            "word": "Video Games",
-            "definition": "Video games are interactive systems built around rules and player choices.",
+            "word": "level",
+            "definition": "A section of a game with its own challenge",
             "partOfSpeech": "noun",
-            "example": "Video games are interactive systems built around rules and player choices.",
-            "starter": "I want to discuss video games because…"
+            "example": "I would redesign the first level.",
+            "starter": "If I saw level, I would…"
           },
           {
-            "word": "planning",
-            "definition": "Thinking ahead about steps and choices",
+            "word": "checkpoint",
+            "definition": "A saved place for restarting play",
             "partOfSpeech": "noun",
-            "example": "Some games reward planning rather than speed.",
-            "starter": "I can use planning to explain…"
+            "example": "I would add a checkpoint here.",
+            "starter": "I could describe checkpoint by…"
           },
           {
-            "word": "difficulty",
-            "definition": "The level of challenge",
+            "word": "co-op",
+            "definition": "A game mode where players work together",
             "partOfSpeech": "noun",
-            "example": "A difficulty setting can change a player's challenge.",
-            "starter": "When I hear difficulty, I think of…"
+            "example": "Co-op play can turn one person's mistake into a group conversation.",
+            "starter": "I wonder whether co-op can…"
           },
           {
-            "word": "cooperative",
-            "definition": "Working together toward a shared goal",
-            "partOfSpeech": "noun",
-            "example": "Cooperative games ask players to share goals.",
-            "starter": "A question about cooperative is…"
+            "word": "difficulty curve",
+            "definition": "How challenge increases through a game",
+            "partOfSpeech": "phrase",
+            "example": "A difficulty curve should make failure useful instead of exhausting.",
+            "starter": "One question about difficulty curve is…"
           },
           {
-            "word": "rules",
-            "definition": "Instructions that shape play",
+            "word": "controller",
+            "definition": "A device used to direct game actions",
             "partOfSpeech": "noun",
-            "example": "Video games are interactive systems built around rules and player choices.",
-            "starter": "I would compare rules with…"
+            "example": "I would redesign the controller.",
+            "starter": "I would compare controller with…"
           },
           {
-            "word": "sound",
-            "definition": "What players hear during play",
+            "word": "quest",
+            "definition": "A task a player tries to complete",
             "partOfSpeech": "noun",
-            "example": "Game sound can signal a change before visuals do.",
-            "starter": "One example of sound is…"
+            "example": "The quest could have two solutions.",
+            "starter": "My idea about quest is…"
           },
           {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of video games.",
-            "starter": "I want to compare algorithm with…"
+            "word": "feedback loop",
+            "definition": "A cycle where results affect later actions",
+            "partOfSpeech": "phrase",
+            "example": "Games create feedback loops in which every action changes the next decision.",
+            "starter": "I might use feedback loop when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that some games reward planning rather than speed."
+            "phrase": "If the rules were less clear,…",
+            "example": "If the rules were less clear, I might enjoy discovering them myself."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a difficulty setting can change a player's challenge."
+            "phrase": "I would rather a game reward…",
+            "example": "I would rather a game reward creative solutions than fast button presses."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, cooperative games ask players to share goals."
+            "phrase": "A difficulty curve should make failure…",
+            "example": "A difficulty curve should make failure useful instead of exhausting."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare video games with a related topic."
+            "phrase": "Co-op play can turn one person's…",
+            "example": "Co-op play can turn one person's mistake into a group conversation."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that game sound can signal a change before visuals do."
+            "phrase": "I wonder which part of the…",
+            "example": "I wonder which part of the game would stay interesting after ten plays."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because some games reward planning rather than speed."
+            "phrase": "The best design may be the…",
+            "example": "The best design may be the decision the player never notices."
           }
         ]
       }
@@ -23164,7 +23164,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Game design shapes the choices players make. Rules determine what actions a player can try. Feedback helps players understand their progress. Designers revise games after watching real players.",
+        "briefing": "Designers start with a question about what players should do. A rough paper version can test an idea early. Watching a confused player reveals problems hidden from the creator.",
         "facts": [
           "Rules determine what actions a player can try.",
           "Playtesting reveals confusing instructions or unfair challenges.",
@@ -23178,84 +23178,84 @@
         ],
         "vocab": [
           {
-            "word": "Game Design",
-            "definition": "Game design shapes the choices players make.",
+            "word": "mechanic",
+            "definition": "A rule governing one kind of game action",
             "partOfSpeech": "noun",
-            "example": "Game design shapes the choices players make.",
-            "starter": "I want to discuss game design because…"
+            "example": "I would test one mechanic first.",
+            "starter": "If I saw mechanic, I would…"
           },
           {
-            "word": "rules",
-            "definition": "Instructions shaping what players can do",
+            "word": "prototype",
+            "definition": "An early model used for testing",
             "partOfSpeech": "noun",
-            "example": "Rules determine what actions a player can try.",
-            "starter": "I can use rules to explain…"
+            "example": "A paper prototype could save time.",
+            "starter": "I could describe prototype by…"
           },
           {
-            "word": "playtesting",
-            "definition": "Trying a game to find problems",
+            "word": "playtest",
+            "definition": "A session where people try an unfinished game",
             "partOfSpeech": "noun",
             "example": "Playtesting reveals confusing instructions or unfair challenges.",
-            "starter": "When I hear playtesting, I think of…"
+            "starter": "I wonder whether playtest can…"
           },
           {
-            "word": "feedback",
-            "definition": "Information about how something works",
+            "word": "tutorial",
+            "definition": "A short guide teaching a game",
             "partOfSpeech": "noun",
-            "example": "Feedback helps players understand their progress.",
-            "starter": "A question about feedback is…"
+            "example": "The tutorial should let me try things.",
+            "starter": "One question about tutorial is…"
           },
           {
-            "word": "player",
-            "definition": "A person taking part in a game",
+            "word": "balance",
+            "definition": "Fairness between different game choices",
             "partOfSpeech": "noun",
-            "example": "Game design shapes the choices players make.",
-            "starter": "I would compare player with…"
+            "example": "The balance feels wrong here.",
+            "starter": "I would compare balance with…"
           },
           {
-            "word": "revise",
-            "definition": "To change something to improve it",
-            "partOfSpeech": "verb",
-            "example": "Designers revise games after watching real players.",
-            "starter": "One example of revise is…"
+            "word": "level design",
+            "definition": "Planning the spaces and challenges of a game",
+            "partOfSpeech": "phrase",
+            "example": "I would change the level design.",
+            "starter": "My idea about level design is…"
           },
           {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience game design.",
-            "starter": "I want to compare screen with…"
+            "word": "player feedback",
+            "definition": "What players say or show after play",
+            "partOfSpeech": "phrase",
+            "example": "Player feedback could reveal a hidden problem.",
+            "starter": "I might use player feedback when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that rules determine what actions a player can try."
+            "phrase": "I would test the game with…",
+            "example": "I would test the game with someone new."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that playtesting reveals confusing instructions or unfair challenges."
+            "phrase": "A paper prototype could…",
+            "example": "A paper prototype could save time."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, feedback helps players understand their progress."
+            "phrase": "The first rule should be easy…",
+            "example": "The first rule should be easy to try."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare game design with a related topic."
+            "phrase": "I would watch where players…",
+            "example": "I would watch where players get stuck."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that designers revise games after watching real players."
+            "phrase": "A confusing button needs a…",
+            "example": "A confusing button needs a clearer sign."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because rules determine what actions a player can try."
+            "phrase": "The game should let mistakes…",
+            "example": "The game should let mistakes teach something."
           }
         ]
       },
       "B2": {
-        "briefing": "Game design shapes the choices players make. Rules determine what actions a player can try; playtesting reveals confusing instructions or unfair challenges. Feedback helps players understand their progress; designers revise games after watching real players.",
+        "briefing": "Good design separates a player's meaningful choices from needless complexity. Repeated playtests expose patterns that one enthusiastic tester may miss. A mechanic becomes interesting when players can use it in several ways.",
         "facts": [
           "Rules determine what actions a player can try.",
           "Playtesting reveals confusing instructions or unfair challenges.",
@@ -23269,79 +23269,79 @@
         ],
         "vocab": [
           {
-            "word": "Game Design",
-            "definition": "Game design shapes the choices players make.",
+            "word": "mechanic",
+            "definition": "A rule governing one kind of game action",
             "partOfSpeech": "noun",
-            "example": "Game design shapes the choices players make.",
-            "starter": "I want to discuss game design because…"
+            "example": "A mechanic becomes interesting when players can use it in several ways.",
+            "starter": "If I saw mechanic, I would…"
           },
           {
-            "word": "rules",
-            "definition": "Instructions shaping what players can do",
+            "word": "prototype",
+            "definition": "An early model used for testing",
             "partOfSpeech": "noun",
-            "example": "Rules determine what actions a player can try.",
-            "starter": "I can use rules to explain…"
+            "example": "My prototype could use paper.",
+            "starter": "I could describe prototype by…"
           },
           {
-            "word": "playtesting",
-            "definition": "Trying a game to find problems",
+            "word": "playtest",
+            "definition": "A session where people try an unfinished game",
             "partOfSpeech": "noun",
-            "example": "Playtesting reveals confusing instructions or unfair challenges.",
-            "starter": "When I hear playtesting, I think of…"
+            "example": "Repeated playtests expose patterns that one enthusiastic tester may miss.",
+            "starter": "I wonder whether playtest can…"
           },
           {
-            "word": "feedback",
-            "definition": "Information about how something works",
+            "word": "tutorial",
+            "definition": "A short guide teaching a game",
             "partOfSpeech": "noun",
-            "example": "Feedback helps players understand their progress.",
-            "starter": "A question about feedback is…"
+            "example": "I would rather cut a weak mechanic than add another tutorial.",
+            "starter": "One question about tutorial is…"
           },
           {
-            "word": "player",
-            "definition": "A person taking part in a game",
+            "word": "balance",
+            "definition": "Fairness between different game choices",
             "partOfSpeech": "noun",
-            "example": "Game design shapes the choices players make.",
-            "starter": "I would compare player with…"
+            "example": "Balance does not mean every choice must feel identical.",
+            "starter": "I would compare balance with…"
           },
           {
-            "word": "revise",
-            "definition": "To change something to improve it",
-            "partOfSpeech": "verb",
-            "example": "Designers revise games after watching real players.",
-            "starter": "One example of revise is…"
+            "word": "level design",
+            "definition": "Planning the spaces and challenges of a game",
+            "partOfSpeech": "phrase",
+            "example": "I would change the level design.",
+            "starter": "My idea about level design is…"
           },
           {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of game design.",
-            "starter": "I want to compare algorithm with…"
+            "word": "player feedback",
+            "definition": "What players say or show after play",
+            "partOfSpeech": "phrase",
+            "example": "Player feedback could reveal a hidden problem.",
+            "starter": "I might use player feedback when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that rules determine what actions a player can try."
+            "phrase": "If a playtest failed, I would…",
+            "example": "If a playtest failed, I would ask what the player expected to happen."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that playtesting reveals confusing instructions or unfair challenges."
+            "phrase": "I would rather cut a weak…",
+            "example": "I would rather cut a weak mechanic than add another tutorial."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, feedback helps players understand their progress."
+            "phrase": "Balance does not mean every choice…",
+            "example": "Balance does not mean every choice must feel identical."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare game design with a related topic."
+            "phrase": "A level can teach a rule…",
+            "example": "A level can teach a rule through its layout instead of a paragraph."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that designers revise games after watching real players."
+            "phrase": "I wonder whether surprising players is…",
+            "example": "I wonder whether surprising players is worth confusing them."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because rules determine what actions a player can try."
+            "phrase": "The designer's favorite feature may be…",
+            "example": "The designer's favorite feature may be the first one to remove."
           }
         ]
       }
@@ -23360,7 +23360,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Esports are organized competitions in video games. Teams practice communication as well as game skills. Spectators can follow tactics during a match. Training includes rest as well as practice.",
+        "briefing": "Competitive players study opponents as well as their own moves. A team can lose despite one player's excellent performance. The audience often follows decisions that happen in seconds.",
         "facts": [
           "Teams practice communication as well as game skills.",
           "Competition rules aim to make matches fair.",
@@ -23374,84 +23374,84 @@
         ],
         "vocab": [
           {
-            "word": "Esports",
-            "definition": "Esports are organized competitions in video games.",
+            "word": "roster",
+            "definition": "The list of players on a team",
             "partOfSpeech": "noun",
-            "example": "Esports are organized competitions in video games.",
-            "starter": "I want to discuss esports because…"
+            "example": "I would check the roster.",
+            "starter": "If I saw roster, I would…"
           },
           {
-            "word": "teams",
-            "definition": "Groups playing together",
+            "word": "scrimmage",
+            "definition": "A practice match between teams",
             "partOfSpeech": "noun",
-            "example": "Teams practice communication as well as game skills.",
-            "starter": "I can use teams to explain…"
+            "example": "Our scrimmage exposed mistakes.",
+            "starter": "I could describe scrimmage by…"
           },
           {
-            "word": "tactics",
-            "definition": "Planned moves to reach a goal",
+            "word": "commentator",
+            "definition": "A person describing the match to viewers",
             "partOfSpeech": "noun",
-            "example": "Spectators can follow tactics during a match.",
-            "starter": "When I hear tactics, I think of…"
+            "example": "A good commentator helps me follow the match.",
+            "starter": "I wonder whether commentator can…"
           },
           {
-            "word": "training",
-            "definition": "Repeated practice to improve",
+            "word": "bracket",
+            "definition": "A diagram showing tournament matches",
             "partOfSpeech": "noun",
-            "example": "Training includes rest as well as practice.",
-            "starter": "A question about training is…"
+            "example": "I would study the bracket.",
+            "starter": "One question about bracket is…"
           },
           {
-            "word": "spectators",
-            "definition": "People watching an event",
-            "partOfSpeech": "noun",
-            "example": "Spectators can follow tactics during a match.",
-            "starter": "I would compare spectators with…"
+            "word": "reaction time",
+            "definition": "The speed of responding to a signal",
+            "partOfSpeech": "phrase",
+            "example": "Reaction time matters here.",
+            "starter": "I would compare reaction time with…"
           },
           {
-            "word": "matches",
-            "definition": "Individual competitions",
-            "partOfSpeech": "noun",
-            "example": "Competition rules aim to make matches fair.",
-            "starter": "One example of matches is…"
+            "word": "team call",
+            "definition": "A short spoken instruction during play",
+            "partOfSpeech": "phrase",
+            "example": "Our team call was too late.",
+            "starter": "My idea about team call is…"
           },
           {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
+            "word": "sportsmanship",
+            "definition": "Fair and respectful conduct in competition",
             "partOfSpeech": "noun",
-            "example": "A screen can change how people experience esports.",
-            "starter": "I want to compare screen with…"
+            "example": "Sportsmanship matters after a loss.",
+            "starter": "I might use sportsmanship when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that teams practice communication as well as game skills."
+            "phrase": "I would practice talking clearly…",
+            "example": "I would practice talking clearly with teammates."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that competition rules aim to make matches fair."
+            "phrase": "A good commentator helps me follow…",
+            "example": "A good commentator helps me follow the match."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, spectators can follow tactics during a match."
+            "phrase": "The final round could…",
+            "example": "The final round could feel tense."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare esports with a related topic."
+            "phrase": "I would congratulate the…",
+            "example": "I would congratulate the other team."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that training includes rest as well as practice."
+            "phrase": "One clever play might change…",
+            "example": "One clever play might change our plan."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because teams practice communication as well as game skills."
+            "phrase": "Rest should be part…",
+            "example": "Rest should be part of training."
           }
         ]
       },
       "B2": {
-        "briefing": "Esports are organized competitions in video games. Teams practice communication as well as game skills; competition rules aim to make matches fair. Spectators can follow tactics during a match; training includes rest as well as practice.",
+        "briefing": "Esports blends individual skill with communication under pressure. Rules and equipment standards help make comparisons more meaningful. Public attention can make recovery after a loss unusually difficult.",
         "facts": [
           "Teams practice communication as well as game skills.",
           "Competition rules aim to make matches fair.",
@@ -23465,79 +23465,79 @@
         ],
         "vocab": [
           {
-            "word": "Esports",
-            "definition": "Esports are organized competitions in video games.",
+            "word": "roster",
+            "definition": "The list of players on a team",
             "partOfSpeech": "noun",
-            "example": "Esports are organized competitions in video games.",
-            "starter": "I want to discuss esports because…"
+            "example": "I would check the roster.",
+            "starter": "If I saw roster, I would…"
           },
           {
-            "word": "teams",
-            "definition": "Groups playing together",
+            "word": "scrimmage",
+            "definition": "A practice match between teams",
             "partOfSpeech": "noun",
-            "example": "Teams practice communication as well as game skills.",
-            "starter": "I can use teams to explain…"
+            "example": "Our scrimmage exposed mistakes.",
+            "starter": "I could describe scrimmage by…"
           },
           {
-            "word": "tactics",
-            "definition": "Planned moves to reach a goal",
+            "word": "commentator",
+            "definition": "A person describing the match to viewers",
             "partOfSpeech": "noun",
-            "example": "Spectators can follow tactics during a match.",
-            "starter": "When I hear tactics, I think of…"
+            "example": "The commentator made the tactic clear.",
+            "starter": "I wonder whether commentator can…"
           },
           {
-            "word": "training",
-            "definition": "Repeated practice to improve",
+            "word": "bracket",
+            "definition": "A diagram showing tournament matches",
             "partOfSpeech": "noun",
-            "example": "Training includes rest as well as practice.",
-            "starter": "A question about training is…"
+            "example": "I would study the bracket.",
+            "starter": "One question about bracket is…"
           },
           {
-            "word": "spectators",
-            "definition": "People watching an event",
-            "partOfSpeech": "noun",
-            "example": "Spectators can follow tactics during a match.",
-            "starter": "I would compare spectators with…"
+            "word": "reaction time",
+            "definition": "The speed of responding to a signal",
+            "partOfSpeech": "phrase",
+            "example": "Reaction time matters here.",
+            "starter": "I would compare reaction time with…"
           },
           {
-            "word": "matches",
-            "definition": "Individual competitions",
-            "partOfSpeech": "noun",
-            "example": "Competition rules aim to make matches fair.",
-            "starter": "One example of matches is…"
+            "word": "team call",
+            "definition": "A short spoken instruction during play",
+            "partOfSpeech": "phrase",
+            "example": "Our team call was too late.",
+            "starter": "My idea about team call is…"
           },
           {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
+            "word": "sportsmanship",
+            "definition": "Fair and respectful conduct in competition",
             "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of esports.",
-            "starter": "I want to compare algorithm with…"
+            "example": "I would rather lose with good sportsmanship than win by bending a rule.",
+            "starter": "I might use sportsmanship when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that teams practice communication as well as game skills."
+            "phrase": "If I joined a team, I…",
+            "example": "If I joined a team, I would value reliable communication over a flashy move."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that competition rules aim to make matches fair."
+            "phrase": "A fair tournament needs more than…",
+            "example": "A fair tournament needs more than identical computers."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, spectators can follow tactics during a match."
+            "phrase": "The pressure of a live audience…",
+            "example": "The pressure of a live audience might change even practiced decisions."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare esports with a related topic."
+            "phrase": "I would rather lose with good…",
+            "example": "I would rather lose with good sportsmanship than win by bending a rule."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that training includes rest as well as practice."
+            "phrase": "I wonder how teams review mistakes…",
+            "example": "I wonder how teams review mistakes without blaming one person."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because teams practice communication as well as game skills."
+            "phrase": "Competitive gaming should make room for…",
+            "example": "Competitive gaming should make room for rest and healthy routines."
           }
         ]
       }
@@ -23556,7 +23556,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Social media lets people share and respond online. A feed selects which posts users see. Comments can change the tone of a discussion. People choose what parts of life to share.",
+        "briefing": "A feed can make an ordinary day seem full of dramatic moments. People choose a small part of life to put online. A private joke can reach an unintended audience.",
         "facts": [
           "A feed selects which posts users see.",
           "A short post can travel beyond its first audience.",
@@ -23570,84 +23570,84 @@
         ],
         "vocab": [
           {
-            "word": "Social Media",
-            "definition": "Social media lets people share and respond online.",
-            "partOfSpeech": "noun",
-            "example": "Social media lets people share and respond online.",
-            "starter": "I want to discuss social media because…"
-          },
-          {
             "word": "feed",
-            "definition": "A changing list of online posts",
+            "definition": "A stream of posts shown by a platform",
             "partOfSpeech": "noun",
-            "example": "A feed selects which posts users see.",
-            "starter": "I can use feed to explain…"
+            "example": "A feed can make an ordinary day seem full of dramatic moments.",
+            "starter": "If I saw feed, I would…"
           },
           {
-            "word": "comments",
-            "definition": "Written replies to online posts",
+            "word": "caption",
+            "definition": "Words placed beside a post",
             "partOfSpeech": "noun",
-            "example": "Comments can change the tone of a discussion.",
-            "starter": "When I hear comments, I think of…"
+            "example": "A short caption can change the meaning.",
+            "starter": "I could describe caption by…"
           },
           {
-            "word": "share",
-            "definition": "To make something available to others",
-            "partOfSpeech": "verb",
-            "example": "Social media lets people share and respond online.",
-            "starter": "A question about share is…"
-          },
-          {
-            "word": "posts",
-            "definition": "Messages or images shared online",
+            "word": "repost",
+            "definition": "To share someone else's post again",
             "partOfSpeech": "noun",
-            "example": "A feed selects which posts users see.",
-            "starter": "I would compare posts with…"
+            "example": "I would ask before a repost.",
+            "starter": "I wonder whether repost can…"
           },
           {
             "word": "audience",
-            "definition": "People who see a message",
+            "definition": "The people who may see a message",
             "partOfSpeech": "noun",
-            "example": "A short post can travel beyond its first audience.",
-            "starter": "One example of audience is…"
+            "example": "A private joke can reach an unintended audience.",
+            "starter": "One question about audience is…"
           },
           {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
+            "word": "engagement",
+            "definition": "Responses such as likes and comments",
             "partOfSpeech": "noun",
-            "example": "A screen can change how people experience social media.",
-            "starter": "I want to compare screen with…"
+            "example": "Engagement is not the same as trust.",
+            "starter": "I would compare engagement with…"
+          },
+          {
+            "word": "privacy setting",
+            "definition": "A control limiting who sees content",
+            "partOfSpeech": "phrase",
+            "example": "I would check the privacy setting.",
+            "starter": "My idea about privacy setting is…"
+          },
+          {
+            "word": "context collapse",
+            "definition": "Different audiences seeing the same post",
+            "partOfSpeech": "phrase",
+            "example": "Context collapse can make a joke confusing.",
+            "starter": "I might use context collapse when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a feed selects which posts users see."
+            "phrase": "I would ask before posting a…",
+            "example": "I would ask before posting a friend's photo."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a short post can travel beyond its first audience."
+            "phrase": "A short caption can change…",
+            "example": "A short caption can change the meaning."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, comments can change the tone of a discussion."
+            "phrase": "The feed should show more…",
+            "example": "The feed should show more ordinary moments."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare social media with a related topic."
+            "phrase": "I might delete a joke that…",
+            "example": "I might delete a joke that feels unkind."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that people choose what parts of life to share."
+            "phrase": "A private message could be better…",
+            "example": "A private message could be better than a public reply."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a feed selects which posts users see."
+            "phrase": "I would take a break after…",
+            "example": "I would take a break after too much scrolling."
           }
         ]
       },
       "B2": {
-        "briefing": "Social media lets people share and respond online. A feed selects which posts users see; a short post can travel beyond its first audience. Comments can change the tone of a discussion; people choose what parts of life to share.",
+        "briefing": "Platforms reward some forms of attention while leaving other experiences unseen. A post's context can disappear when it is reshared. Users negotiate between connection, privacy, and the wish to be noticed.",
         "facts": [
           "A feed selects which posts users see.",
           "A short post can travel beyond its first audience.",
@@ -23661,79 +23661,79 @@
         ],
         "vocab": [
           {
-            "word": "Social Media",
-            "definition": "Social media lets people share and respond online.",
-            "partOfSpeech": "noun",
-            "example": "Social media lets people share and respond online.",
-            "starter": "I want to discuss social media because…"
-          },
-          {
             "word": "feed",
-            "definition": "A changing list of online posts",
+            "definition": "A stream of posts shown by a platform",
             "partOfSpeech": "noun",
             "example": "A feed selects which posts users see.",
-            "starter": "I can use feed to explain…"
+            "starter": "If I saw feed, I would…"
           },
           {
-            "word": "comments",
-            "definition": "Written replies to online posts",
+            "word": "caption",
+            "definition": "Words placed beside a post",
             "partOfSpeech": "noun",
-            "example": "Comments can change the tone of a discussion.",
-            "starter": "When I hear comments, I think of…"
+            "example": "I would change the caption.",
+            "starter": "I could describe caption by…"
           },
           {
-            "word": "share",
-            "definition": "To make something available to others",
-            "partOfSpeech": "verb",
-            "example": "Social media lets people share and respond online.",
-            "starter": "A question about share is…"
-          },
-          {
-            "word": "posts",
-            "definition": "Messages or images shared online",
+            "word": "repost",
+            "definition": "To share someone else's post again",
             "partOfSpeech": "noun",
-            "example": "A feed selects which posts users see.",
-            "starter": "I would compare posts with…"
+            "example": "I would ask before a repost.",
+            "starter": "I wonder whether repost can…"
           },
           {
             "word": "audience",
-            "definition": "People who see a message",
+            "definition": "The people who may see a message",
             "partOfSpeech": "noun",
             "example": "A short post can travel beyond its first audience.",
-            "starter": "One example of audience is…"
+            "starter": "One question about audience is…"
           },
           {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
+            "word": "engagement",
+            "definition": "Responses such as likes and comments",
             "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of social media.",
-            "starter": "I want to compare algorithm with…"
+            "example": "Engagement can measure attention without showing whether people understood.",
+            "starter": "I would compare engagement with…"
+          },
+          {
+            "word": "privacy setting",
+            "definition": "A control limiting who sees content",
+            "partOfSpeech": "phrase",
+            "example": "A privacy setting cannot control screenshots someone else takes.",
+            "starter": "My idea about privacy setting is…"
+          },
+          {
+            "word": "context collapse",
+            "definition": "Different audiences seeing the same post",
+            "partOfSpeech": "phrase",
+            "example": "Context collapse can make a joke confusing.",
+            "starter": "I might use context collapse when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a feed selects which posts users see."
+            "phrase": "If a post reached people outside…",
+            "example": "If a post reached people outside my friend group, I might explain its context."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a short post can travel beyond its first audience."
+            "phrase": "I would rather see fewer thoughtful…",
+            "example": "I would rather see fewer thoughtful posts than an endless feed."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, comments can change the tone of a discussion."
+            "phrase": "Engagement can measure attention without showing…",
+            "example": "Engagement can measure attention without showing whether people understood."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare social media with a related topic."
+            "phrase": "A privacy setting cannot control screenshots…",
+            "example": "A privacy setting cannot control screenshots someone else takes."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that people choose what parts of life to share."
+            "phrase": "I wonder who benefits when a…",
+            "example": "I wonder who benefits when a platform encourages quick reactions."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a feed selects which posts users see."
+            "phrase": "The best online conversation might move…",
+            "example": "The best online conversation might move to a quieter place."
           }
         ]
       }
@@ -23752,7 +23752,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Online privacy concerns who can see personal information. A strong password helps protect an account. Screenshots can preserve a post after deletion. Sharing less information can reduce unwanted attention.",
+        "briefing": "Information can spread even from a small group chat. An old account may still hold personal details. Someone can copy a picture without asking.",
         "facts": [
           "A strong password helps protect an account.",
           "Privacy settings limit some kinds of sharing.",
@@ -23766,84 +23766,84 @@
         ],
         "vocab": [
           {
-            "word": "Online Privacy",
-            "definition": "Online privacy concerns who can see personal information.",
+            "word": "passphrase",
+            "definition": "A long secret used to protect an account",
             "partOfSpeech": "noun",
-            "example": "Online privacy concerns who can see personal information.",
-            "starter": "I want to discuss online privacy because…"
+            "example": "A longer passphrase is easier to remember as a sentence.",
+            "starter": "If I saw passphrase, I would…"
           },
           {
-            "word": "password",
-            "definition": "A secret used to enter an account",
-            "partOfSpeech": "noun",
-            "example": "A strong password helps protect an account.",
-            "starter": "I can use password to explain…"
+            "word": "two-factor login",
+            "definition": "A second check during sign-in",
+            "partOfSpeech": "phrase",
+            "example": "Two-factor login can slow an intruder.",
+            "starter": "I could describe two-factor login by…"
           },
           {
-            "word": "settings",
-            "definition": "Controls that change how a service works",
-            "partOfSpeech": "noun",
-            "example": "Privacy settings limit some kinds of sharing.",
-            "starter": "When I hear settings, I think of…"
+            "word": "data trail",
+            "definition": "Information left by online actions",
+            "partOfSpeech": "phrase",
+            "example": "My data trail might surprise me.",
+            "starter": "I wonder whether data trail can…"
           },
           {
-            "word": "screenshots",
-            "definition": "Pictures copied from a screen",
+            "word": "screenshot",
+            "definition": "An image copied from a screen",
             "partOfSpeech": "noun",
             "example": "Screenshots can preserve a post after deletion.",
-            "starter": "A question about screenshots is…"
+            "starter": "One question about screenshot is…"
           },
           {
-            "word": "account",
-            "definition": "A personal space in an online service",
+            "word": "permission",
+            "definition": "Agreement before an action is taken",
             "partOfSpeech": "noun",
-            "example": "A strong password helps protect an account.",
-            "starter": "I would compare account with…"
+            "example": "I would ask permission first.",
+            "starter": "I would compare permission with…"
           },
           {
-            "word": "sharing",
-            "definition": "Letting others see information",
+            "word": "profile",
+            "definition": "A page showing information about a user",
             "partOfSpeech": "noun",
-            "example": "Privacy settings limit some kinds of sharing.",
-            "starter": "One example of sharing is…"
+            "example": "My old profile might need a review.",
+            "starter": "My idea about profile is…"
           },
           {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience online privacy.",
-            "starter": "I want to compare screen with…"
+            "word": "account recovery",
+            "definition": "Steps for regaining access to an account",
+            "partOfSpeech": "phrase",
+            "example": "Account recovery needs careful checks.",
+            "starter": "I might use account recovery when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a strong password helps protect an account."
+            "phrase": "I would ask before sharing a…",
+            "example": "I would ask before sharing a group photo."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that privacy settings limit some kinds of sharing."
+            "phrase": "A longer passphrase is easier to…",
+            "example": "A longer passphrase is easier to remember as a sentence."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, screenshots can preserve a post after deletion."
+            "phrase": "My old profile might need…",
+            "example": "My old profile might need a review."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare online privacy with a related topic."
+            "phrase": "I would keep recovery details…",
+            "example": "I would keep recovery details somewhere safe."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that sharing less information can reduce unwanted attention."
+            "phrase": "A screenshot can leave the…",
+            "example": "A screenshot can leave the group chat."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a strong password helps protect an account."
+            "phrase": "Privacy should include my friends'…",
+            "example": "Privacy should include my friends' choices too."
           }
         ]
       },
       "B2": {
-        "briefing": "Online privacy concerns who can see personal information. A strong password helps protect an account; privacy settings limit some kinds of sharing. Screenshots can preserve a post after deletion; sharing less information can reduce unwanted attention.",
+        "briefing": "Privacy is partly about deciding who sees information and when. Security tools help, but social choices affect exposure too. A single public detail can become more revealing when combined with others.",
         "facts": [
           "A strong password helps protect an account.",
           "Privacy settings limit some kinds of sharing.",
@@ -23857,79 +23857,79 @@
         ],
         "vocab": [
           {
-            "word": "Online Privacy",
-            "definition": "Online privacy concerns who can see personal information.",
+            "word": "passphrase",
+            "definition": "A long secret used to protect an account",
             "partOfSpeech": "noun",
-            "example": "Online privacy concerns who can see personal information.",
-            "starter": "I want to discuss online privacy because…"
+            "example": "I would choose a passphrase.",
+            "starter": "If I saw passphrase, I would…"
           },
           {
-            "word": "password",
-            "definition": "A secret used to enter an account",
-            "partOfSpeech": "noun",
-            "example": "A strong password helps protect an account.",
-            "starter": "I can use password to explain…"
+            "word": "two-factor login",
+            "definition": "A second check during sign-in",
+            "partOfSpeech": "phrase",
+            "example": "Two-factor login can slow an intruder.",
+            "starter": "I could describe two-factor login by…"
           },
           {
-            "word": "settings",
-            "definition": "Controls that change how a service works",
-            "partOfSpeech": "noun",
-            "example": "Privacy settings limit some kinds of sharing.",
-            "starter": "When I hear settings, I think of…"
+            "word": "data trail",
+            "definition": "Information left by online actions",
+            "partOfSpeech": "phrase",
+            "example": "I wonder who should teach young people to manage their data trails.",
+            "starter": "I wonder whether data trail can…"
           },
           {
-            "word": "screenshots",
-            "definition": "Pictures copied from a screen",
+            "word": "screenshot",
+            "definition": "An image copied from a screen",
             "partOfSpeech": "noun",
             "example": "Screenshots can preserve a post after deletion.",
-            "starter": "A question about screenshots is…"
+            "starter": "One question about screenshot is…"
           },
           {
-            "word": "account",
-            "definition": "A personal space in an online service",
+            "word": "permission",
+            "definition": "Agreement before an action is taken",
             "partOfSpeech": "noun",
-            "example": "A strong password helps protect an account.",
-            "starter": "I would compare account with…"
+            "example": "If a friend shared my photo, I would explain why permission matters.",
+            "starter": "I would compare permission with…"
           },
           {
-            "word": "sharing",
-            "definition": "Letting others see information",
+            "word": "profile",
+            "definition": "A page showing information about a user",
             "partOfSpeech": "noun",
-            "example": "Privacy settings limit some kinds of sharing.",
-            "starter": "One example of sharing is…"
+            "example": "I would review my profile.",
+            "starter": "My idea about profile is…"
           },
           {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of online privacy.",
-            "starter": "I want to compare algorithm with…"
+            "word": "account recovery",
+            "definition": "Steps for regaining access to an account",
+            "partOfSpeech": "phrase",
+            "example": "Account recovery needs careful checks.",
+            "starter": "I might use account recovery when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a strong password helps protect an account."
+            "phrase": "If a friend shared my photo,…",
+            "example": "If a friend shared my photo, I would explain why permission matters."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that privacy settings limit some kinds of sharing."
+            "phrase": "I would rather use an extra…",
+            "example": "I would rather use an extra login step than lose an account."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, screenshots can preserve a post after deletion."
+            "phrase": "Privacy settings can help, but they…",
+            "example": "Privacy settings can help, but they cannot undo every copy."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare online privacy with a related topic."
+            "phrase": "A harmless detail may reveal more…",
+            "example": "A harmless detail may reveal more when linked to other information."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that sharing less information can reduce unwanted attention."
+            "phrase": "I wonder who should teach young…",
+            "example": "I wonder who should teach young people to manage their data trails."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a strong password helps protect an account."
+            "phrase": "The right to share a story…",
+            "example": "The right to share a story should include the right to leave someone out."
           }
         ]
       }
@@ -23948,7 +23948,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Screen time measures time spent using digital devices. The purpose of a screen session matters. Breaks can help eyes and bodies rest. Notifications can interrupt a difficult task.",
+        "briefing": "Two hours on a screen can hold very different activities. A video call may leave someone energized. Mindless scrolling may feel tiring even without effort.",
         "facts": [
           "The purpose of a screen session matters.",
           "A call with friends differs from endless scrolling.",
@@ -23962,84 +23962,84 @@
         ],
         "vocab": [
           {
-            "word": "Screen Time",
-            "definition": "Screen time measures time spent using digital devices.",
+            "word": "notification",
+            "definition": "An alert from a device or app",
             "partOfSpeech": "noun",
-            "example": "Screen time measures time spent using digital devices.",
-            "starter": "I want to discuss screen time because…"
-          },
-          {
-            "word": "purpose",
-            "definition": "The reason for doing something",
-            "partOfSpeech": "noun",
-            "example": "The purpose of a screen session matters.",
-            "starter": "I can use purpose to explain…"
+            "example": "Notifications can interrupt a difficult task.",
+            "starter": "If I saw notification, I would…"
           },
           {
             "word": "scrolling",
             "definition": "Moving through content on a screen",
             "partOfSpeech": "noun",
-            "example": "A call with friends differs from endless scrolling.",
-            "starter": "When I hear scrolling, I think of…"
+            "example": "Mindless scrolling may feel tiring even without effort.",
+            "starter": "I could describe scrolling by…"
           },
           {
-            "word": "notifications",
-            "definition": "Alerts from a device or app",
-            "partOfSpeech": "noun",
-            "example": "Notifications can interrupt a difficult task.",
-            "starter": "A question about notifications is…"
+            "word": "app timer",
+            "definition": "A tool showing or limiting app use",
+            "partOfSpeech": "phrase",
+            "example": "I would set an app timer.",
+            "starter": "I wonder whether app timer can…"
           },
           {
-            "word": "breaks",
-            "definition": "Short rests during an activity",
-            "partOfSpeech": "noun",
-            "example": "Breaks can help eyes and bodies rest.",
-            "starter": "I would compare breaks with…"
+            "word": "focus mode",
+            "definition": "A setting that reduces interruptions",
+            "partOfSpeech": "phrase",
+            "example": "Focus mode might help me study.",
+            "starter": "One question about focus mode is…"
           },
           {
-            "word": "task",
-            "definition": "A piece of work to finish",
-            "partOfSpeech": "noun",
-            "example": "Notifications can interrupt a difficult task.",
-            "starter": "One example of task is…"
+            "word": "break reminder",
+            "definition": "A prompt to pause an activity",
+            "partOfSpeech": "phrase",
+            "example": "A break reminder could help.",
+            "starter": "I would compare break reminder with…"
           },
           {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience screen time.",
-            "starter": "I want to compare screen with…"
+            "word": "video call",
+            "definition": "A conversation using live video",
+            "partOfSpeech": "phrase",
+            "example": "A video call may leave someone energized.",
+            "starter": "My idea about video call is…"
+          },
+          {
+            "word": "digital boundary",
+            "definition": "A personal rule for device use",
+            "partOfSpeech": "phrase",
+            "example": "My digital boundary could change.",
+            "starter": "I might use digital boundary when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that the purpose of a screen session matters."
+            "phrase": "I would silence alerts while…",
+            "example": "I would silence alerts while doing homework."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a call with friends differs from endless scrolling."
+            "phrase": "A video call with friends feels…",
+            "example": "A video call with friends feels different from scrolling."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, breaks can help eyes and bodies rest."
+            "phrase": "I might set a timer before…",
+            "example": "I might set a timer before opening an app."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare screen time with a related topic."
+            "phrase": "The phone can stay outside…",
+            "example": "The phone can stay outside my bedroom."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that notifications can interrupt a difficult task."
+            "phrase": "A break should include…",
+            "example": "A break should include moving around."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because the purpose of a screen session matters."
+            "phrase": "I would ask what I gained…",
+            "example": "I would ask what I gained from that hour."
           }
         ]
       },
       "B2": {
-        "briefing": "Screen time measures time spent using digital devices. The purpose of a screen session matters; a call with friends differs from endless scrolling. Breaks can help eyes and bodies rest; notifications can interrupt a difficult task.",
+        "briefing": "Counting minutes alone misses the purpose and quality of digital activity. Interruptions can matter more than total time when studying. A useful boundary should fit a person's work, friendships, and rest.",
         "facts": [
           "The purpose of a screen session matters.",
           "A call with friends differs from endless scrolling.",
@@ -24053,79 +24053,79 @@
         ],
         "vocab": [
           {
-            "word": "Screen Time",
-            "definition": "Screen time measures time spent using digital devices.",
+            "word": "notification",
+            "definition": "An alert from a device or app",
             "partOfSpeech": "noun",
-            "example": "Screen time measures time spent using digital devices.",
-            "starter": "I want to discuss screen time because…"
-          },
-          {
-            "word": "purpose",
-            "definition": "The reason for doing something",
-            "partOfSpeech": "noun",
-            "example": "The purpose of a screen session matters.",
-            "starter": "I can use purpose to explain…"
+            "example": "Notifications can interrupt a difficult task.",
+            "starter": "If I saw notification, I would…"
           },
           {
             "word": "scrolling",
             "definition": "Moving through content on a screen",
             "partOfSpeech": "noun",
             "example": "A call with friends differs from endless scrolling.",
-            "starter": "When I hear scrolling, I think of…"
+            "starter": "I could describe scrolling by…"
           },
           {
-            "word": "notifications",
-            "definition": "Alerts from a device or app",
-            "partOfSpeech": "noun",
-            "example": "Notifications can interrupt a difficult task.",
-            "starter": "A question about notifications is…"
+            "word": "app timer",
+            "definition": "A tool showing or limiting app use",
+            "partOfSpeech": "phrase",
+            "example": "I would set an app timer.",
+            "starter": "I wonder whether app timer can…"
           },
           {
-            "word": "breaks",
-            "definition": "Short rests during an activity",
-            "partOfSpeech": "noun",
-            "example": "Breaks can help eyes and bodies rest.",
-            "starter": "I would compare breaks with…"
+            "word": "focus mode",
+            "definition": "A setting that reduces interruptions",
+            "partOfSpeech": "phrase",
+            "example": "Focus mode might help me study.",
+            "starter": "One question about focus mode is…"
           },
           {
-            "word": "task",
-            "definition": "A piece of work to finish",
-            "partOfSpeech": "noun",
-            "example": "Notifications can interrupt a difficult task.",
-            "starter": "One example of task is…"
+            "word": "break reminder",
+            "definition": "A prompt to pause an activity",
+            "partOfSpeech": "phrase",
+            "example": "A break reminder could help.",
+            "starter": "I would compare break reminder with…"
           },
           {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of screen time.",
-            "starter": "I want to compare algorithm with…"
+            "word": "video call",
+            "definition": "A conversation using live video",
+            "partOfSpeech": "phrase",
+            "example": "A video call can feel social.",
+            "starter": "My idea about video call is…"
+          },
+          {
+            "word": "digital boundary",
+            "definition": "A personal rule for device use",
+            "partOfSpeech": "phrase",
+            "example": "My digital boundary could change.",
+            "starter": "I might use digital boundary when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that the purpose of a screen session matters."
+            "phrase": "If I tracked screen time, I…",
+            "example": "If I tracked screen time, I would note what I was doing as well as minutes."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a call with friends differs from endless scrolling."
+            "phrase": "I would rather protect uninterrupted study…",
+            "example": "I would rather protect uninterrupted study than impose one strict daily number."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, breaks can help eyes and bodies rest."
+            "phrase": "A notification that seems small can…",
+            "example": "A notification that seems small can break a difficult train of thought."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare screen time with a related topic."
+            "phrase": "I wonder whether social calls should…",
+            "example": "I wonder whether social calls should count as rest or screen use."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that notifications can interrupt a difficult task."
+            "phrase": "My boundaries should change when school…",
+            "example": "My boundaries should change when school and family needs change."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because the purpose of a screen session matters."
+            "phrase": "A useful device habit leaves room…",
+            "example": "A useful device habit leaves room for both connection and quiet."
           }
         ]
       }
@@ -24144,7 +24144,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "A digital footprint is the trail left by online actions. Public comments may remain easy to find. Private messages can still be copied. People can review their accounts before sharing more.",
+        "briefing": "A casual comment can be found long after it was written. Photos may reveal more than their captions say. People can change, while old posts remain visible.",
         "facts": [
           "Public comments may remain easy to find.",
           "Search results can show old posts without context.",
@@ -24158,84 +24158,84 @@
         ],
         "vocab": [
           {
-            "word": "digital footprint",
-            "definition": "A digital footprint is the trail left by online actions.",
-            "partOfSpeech": "noun",
-            "example": "A digital footprint is the trail left by online actions.",
-            "starter": "I want to discuss digital footprints because…"
+            "word": "search result",
+            "definition": "A page shown after an online search",
+            "partOfSpeech": "phrase",
+            "example": "Search results can show old posts without context.",
+            "starter": "If I saw search result, I would…"
           },
           {
-            "word": "comments",
-            "definition": "Written replies to posts",
+            "word": "archived post",
+            "definition": "An older saved online message",
+            "partOfSpeech": "phrase",
+            "example": "I found an archived post.",
+            "starter": "I could describe archived post by…"
+          },
+          {
+            "word": "tag",
+            "definition": "A label connecting a person to content",
             "partOfSpeech": "noun",
+            "example": "A tag should need my permission.",
+            "starter": "I wonder whether tag can…"
+          },
+          {
+            "word": "public comment",
+            "definition": "A reply visible to many people",
+            "partOfSpeech": "phrase",
             "example": "Public comments may remain easy to find.",
-            "starter": "I can use comments to explain…"
+            "starter": "One question about public comment is…"
           },
           {
-            "word": "context",
-            "definition": "Background needed to understand something",
+            "word": "metadata",
+            "definition": "Information about a file, such as time or location",
             "partOfSpeech": "noun",
-            "example": "Search results can show old posts without context.",
-            "starter": "When I hear context, I think of…"
+            "example": "Photo metadata can reveal a place.",
+            "starter": "I would compare metadata with…"
           },
           {
-            "word": "copied",
-            "definition": "Made into another version",
-            "partOfSpeech": "noun",
-            "example": "Private messages can still be copied.",
-            "starter": "A question about copied is…"
+            "word": "digital trail",
+            "definition": "The traces left by online activity",
+            "partOfSpeech": "phrase",
+            "example": "My digital trail includes old accounts.",
+            "starter": "My idea about digital trail is…"
           },
           {
-            "word": "posts",
-            "definition": "Messages or images shared online",
+            "word": "reputation",
+            "definition": "What others generally think about someone",
             "partOfSpeech": "noun",
-            "example": "Search results can show old posts without context.",
-            "starter": "I would compare posts with…"
-          },
-          {
-            "word": "search results",
-            "definition": "Pages shown after an online search",
-            "partOfSpeech": "noun",
-            "example": "Search results can show old posts without context.",
-            "starter": "One example of search results is…"
-          },
-          {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience digital footprints.",
-            "starter": "I want to compare screen with…"
+            "example": "One post should not decide a reputation.",
+            "starter": "I might use reputation when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that public comments may remain easy to find."
+            "phrase": "I would read an old post…",
+            "example": "I would read an old post before sharing it again."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that search results can show old posts without context."
+            "phrase": "A tag should need…",
+            "example": "A tag should need my permission."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, private messages can still be copied."
+            "phrase": "My joke might look…",
+            "example": "My joke might look different later."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare digital footprints with a related topic."
+            "phrase": "I would check what a…",
+            "example": "I would check what a search shows."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that people can review their accounts before sharing more."
+            "phrase": "A photo can reveal where…",
+            "example": "A photo can reveal where I was."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because public comments may remain easy to find."
+            "phrase": "I want room to change…",
+            "example": "I want room to change my mind."
           }
         ]
       },
       "B2": {
-        "briefing": "A digital footprint is the trail left by online actions. Public comments may remain easy to find; search results can show old posts without context. Private messages can still be copied; people can review their accounts before sharing more.",
+        "briefing": "Searchable traces can flatten years of growth into a few isolated moments. Deleting a post does not ensure every copy disappears. A thoughtful footprint includes what we choose not to share.",
         "facts": [
           "Public comments may remain easy to find.",
           "Search results can show old posts without context.",
@@ -24249,79 +24249,79 @@
         ],
         "vocab": [
           {
-            "word": "digital footprint",
-            "definition": "A digital footprint is the trail left by online actions.",
-            "partOfSpeech": "noun",
-            "example": "A digital footprint is the trail left by online actions.",
-            "starter": "I want to discuss digital footprints because…"
+            "word": "search result",
+            "definition": "A page shown after an online search",
+            "partOfSpeech": "phrase",
+            "example": "Search results can show old posts without context.",
+            "starter": "If I saw search result, I would…"
           },
           {
-            "word": "comments",
-            "definition": "Written replies to posts",
+            "word": "archived post",
+            "definition": "An older saved online message",
+            "partOfSpeech": "phrase",
+            "example": "I found an archived post.",
+            "starter": "I could describe archived post by…"
+          },
+          {
+            "word": "tag",
+            "definition": "A label connecting a person to content",
             "partOfSpeech": "noun",
+            "example": "A friend tagging me should consider my boundaries too.",
+            "starter": "I wonder whether tag can…"
+          },
+          {
+            "word": "public comment",
+            "definition": "A reply visible to many people",
+            "partOfSpeech": "phrase",
             "example": "Public comments may remain easy to find.",
-            "starter": "I can use comments to explain…"
+            "starter": "One question about public comment is…"
           },
           {
-            "word": "context",
-            "definition": "Background needed to understand something",
+            "word": "metadata",
+            "definition": "Information about a file, such as time or location",
             "partOfSpeech": "noun",
-            "example": "Search results can show old posts without context.",
-            "starter": "When I hear context, I think of…"
+            "example": "Photo metadata can reveal a place.",
+            "starter": "I would compare metadata with…"
           },
           {
-            "word": "copied",
-            "definition": "Made into another version",
-            "partOfSpeech": "noun",
-            "example": "Private messages can still be copied.",
-            "starter": "A question about copied is…"
+            "word": "digital trail",
+            "definition": "The traces left by online activity",
+            "partOfSpeech": "phrase",
+            "example": "A careful digital trail leaves evidence of learning, not just polished success.",
+            "starter": "My idea about digital trail is…"
           },
           {
-            "word": "posts",
-            "definition": "Messages or images shared online",
+            "word": "reputation",
+            "definition": "What others generally think about someone",
             "partOfSpeech": "noun",
-            "example": "Search results can show old posts without context.",
-            "starter": "I would compare posts with…"
-          },
-          {
-            "word": "search results",
-            "definition": "Pages shown after an online search",
-            "partOfSpeech": "noun",
-            "example": "Search results can show old posts without context.",
-            "starter": "One example of search results is…"
-          },
-          {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of digital footprints.",
-            "starter": "I want to compare algorithm with…"
+            "example": "One post should not decide a reputation.",
+            "starter": "I might use reputation when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that public comments may remain easy to find."
+            "phrase": "If an old comment embarrassed me,…",
+            "example": "If an old comment embarrassed me, I would add context rather than pretend it vanished."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that search results can show old posts without context."
+            "phrase": "I would rather be judged by…",
+            "example": "I would rather be judged by a pattern of actions than one teenage post."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, private messages can still be copied."
+            "phrase": "Search results can separate a sentence…",
+            "example": "Search results can separate a sentence from the conversation around it."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare digital footprints with a related topic."
+            "phrase": "A friend tagging me should consider…",
+            "example": "A friend tagging me should consider my boundaries too."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that people can review their accounts before sharing more."
+            "phrase": "I wonder how long schools should…",
+            "example": "I wonder how long schools should keep old student work online."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because public comments may remain easy to find."
+            "phrase": "A careful digital trail leaves evidence…",
+            "example": "A careful digital trail leaves evidence of learning, not just polished success."
           }
         ]
       }
@@ -24340,7 +24340,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Internet memes are ideas copied and changed online. An image can gain new meanings through captions. Memes spread when people make their own versions. A funny post can still exclude someone.",
+        "briefing": "A meme changes as people add new captions. A funny picture can mean different things to different groups. Some jokes need background knowledge to make sense.",
         "facts": [
           "An image can gain new meanings through captions.",
           "A joke often depends on shared background knowledge.",
@@ -24354,84 +24354,84 @@
         ],
         "vocab": [
           {
-            "word": "Internet Memes",
-            "definition": "Internet memes are ideas copied and changed online.",
+            "word": "caption",
+            "definition": "Words placed beside an image",
             "partOfSpeech": "noun",
-            "example": "Internet memes are ideas copied and changed online.",
-            "starter": "I want to discuss internet memes because…"
+            "example": "A meme changes as people add new captions.",
+            "starter": "If I saw caption, I would…"
           },
           {
-            "word": "captions",
-            "definition": "Words placed with images",
-            "partOfSpeech": "noun",
-            "example": "An image can gain new meanings through captions.",
-            "starter": "I can use captions to explain…"
+            "word": "reaction image",
+            "definition": "A picture used to show a response",
+            "partOfSpeech": "phrase",
+            "example": "I would choose a reaction image.",
+            "starter": "I could describe reaction image by…"
           },
           {
-            "word": "joke",
-            "definition": "Something said or shown for humor",
+            "word": "remix",
+            "definition": "A new version of existing material",
             "partOfSpeech": "noun",
-            "example": "A joke often depends on shared background knowledge.",
-            "starter": "When I hear joke, I think of…"
+            "example": "My remix could change the joke.",
+            "starter": "I wonder whether remix can…"
           },
           {
-            "word": "versions",
-            "definition": "Different forms of one idea",
+            "word": "template",
+            "definition": "A reusable pattern for making content",
             "partOfSpeech": "noun",
-            "example": "Memes spread when people make their own versions.",
-            "starter": "A question about versions is…"
+            "example": "This meme template feels old.",
+            "starter": "One question about template is…"
           },
           {
-            "word": "image",
-            "definition": "A picture that carries meaning",
-            "partOfSpeech": "noun",
-            "example": "An image can gain new meanings through captions.",
-            "starter": "I would compare image with…"
+            "word": "inside joke",
+            "definition": "Humor understood by a particular group",
+            "partOfSpeech": "phrase",
+            "example": "An inside joke can exclude people.",
+            "starter": "I would compare inside joke with…"
           },
           {
-            "word": "background knowledge",
-            "definition": "Information needed to understand a joke",
+            "word": "credit",
+            "definition": "Recognition given to a creator",
             "partOfSpeech": "noun",
-            "example": "A joke often depends on shared background knowledge.",
-            "starter": "One example of background knowledge is…"
+            "example": "I would credit the original artist.",
+            "starter": "My idea about credit is…"
           },
           {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience internet memes.",
-            "starter": "I want to compare screen with…"
+            "word": "viral spread",
+            "definition": "Fast sharing between many people",
+            "partOfSpeech": "phrase",
+            "example": "Viral spread can change a meme.",
+            "starter": "I might use viral spread when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that an image can gain new meanings through captions."
+            "phrase": "I would add a…",
+            "example": "I would add a kinder caption."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a joke often depends on shared background knowledge."
+            "phrase": "That meme needs a…",
+            "example": "That meme needs a little explanation."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, memes spread when people make their own versions."
+            "phrase": "My friends might understand…",
+            "example": "My friends might understand it differently."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare internet memes with a related topic."
+            "phrase": "I would credit the…",
+            "example": "I would credit the original artist."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that a funny post can still exclude someone."
+            "phrase": "A silly picture could start…",
+            "example": "A silly picture could start a story."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because an image can gain new meanings through captions."
+            "phrase": "I would not share a joke…",
+            "example": "I would not share a joke that hurts someone."
           }
         ]
       },
       "B2": {
-        "briefing": "Internet memes are ideas copied and changed online. An image can gain new meanings through captions; a joke often depends on shared background knowledge. Memes spread when people make their own versions; a funny post can still exclude someone.",
+        "briefing": "Memes act like small pieces of shared culture that people continually remake. A new caption can reverse the meaning of an old image. Speed of sharing can make it hard to trace who created an idea.",
         "facts": [
           "An image can gain new meanings through captions.",
           "A joke often depends on shared background knowledge.",
@@ -24445,79 +24445,79 @@
         ],
         "vocab": [
           {
-            "word": "Internet Memes",
-            "definition": "Internet memes are ideas copied and changed online.",
+            "word": "caption",
+            "definition": "Words placed beside an image",
             "partOfSpeech": "noun",
-            "example": "Internet memes are ideas copied and changed online.",
-            "starter": "I want to discuss internet memes because…"
+            "example": "A new caption can reverse the meaning of an old image.",
+            "starter": "If I saw caption, I would…"
           },
           {
-            "word": "captions",
-            "definition": "Words placed with images",
-            "partOfSpeech": "noun",
-            "example": "An image can gain new meanings through captions.",
-            "starter": "I can use captions to explain…"
+            "word": "reaction image",
+            "definition": "A picture used to show a response",
+            "partOfSpeech": "phrase",
+            "example": "I would choose a reaction image.",
+            "starter": "I could describe reaction image by…"
           },
           {
-            "word": "joke",
-            "definition": "Something said or shown for humor",
+            "word": "remix",
+            "definition": "A new version of existing material",
             "partOfSpeech": "noun",
-            "example": "A joke often depends on shared background knowledge.",
-            "starter": "When I hear joke, I think of…"
+            "example": "If I remixed a meme, I would check whether the original creator deserves credit.",
+            "starter": "I wonder whether remix can…"
           },
           {
-            "word": "versions",
-            "definition": "Different forms of one idea",
+            "word": "template",
+            "definition": "A reusable pattern for making content",
             "partOfSpeech": "noun",
-            "example": "Memes spread when people make their own versions.",
-            "starter": "A question about versions is…"
+            "example": "This meme template feels old.",
+            "starter": "One question about template is…"
           },
           {
-            "word": "image",
-            "definition": "A picture that carries meaning",
-            "partOfSpeech": "noun",
-            "example": "An image can gain new meanings through captions.",
-            "starter": "I would compare image with…"
+            "word": "inside joke",
+            "definition": "Humor understood by a particular group",
+            "partOfSpeech": "phrase",
+            "example": "An inside joke loses something when the whole internet sees it.",
+            "starter": "I would compare inside joke with…"
           },
           {
-            "word": "background knowledge",
-            "definition": "Information needed to understand a joke",
+            "word": "credit",
+            "definition": "Recognition given to a creator",
             "partOfSpeech": "noun",
-            "example": "A joke often depends on shared background knowledge.",
-            "starter": "One example of background knowledge is…"
+            "example": "If I remixed a meme, I would check whether the original creator deserves credit.",
+            "starter": "My idea about credit is…"
           },
           {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of internet memes.",
-            "starter": "I want to compare algorithm with…"
+            "word": "viral spread",
+            "definition": "Fast sharing between many people",
+            "partOfSpeech": "phrase",
+            "example": "Viral spread can change a meme.",
+            "starter": "I might use viral spread when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that an image can gain new meanings through captions."
+            "phrase": "If I remixed a meme, I…",
+            "example": "If I remixed a meme, I would check whether the original creator deserves credit."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a joke often depends on shared background knowledge."
+            "phrase": "I would rather share a clever…",
+            "example": "I would rather share a clever joke than one that embarrasses a classmate."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, memes spread when people make their own versions."
+            "phrase": "An inside joke loses something when…",
+            "example": "An inside joke loses something when the whole internet sees it."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare internet memes with a related topic."
+            "phrase": "A new caption can make the…",
+            "example": "A new caption can make the same image argue the opposite view."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that a funny post can still exclude someone."
+            "phrase": "I wonder when a meme becomes…",
+            "example": "I wonder when a meme becomes a useful explanation instead of only a joke."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because an image can gain new meanings through captions."
+            "phrase": "Fast sharing can outrun the time…",
+            "example": "Fast sharing can outrun the time needed to understand the context."
           }
         ]
       }
@@ -24536,7 +24536,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Artificial intelligence uses computer systems to find patterns and produce outputs. Training examples shape what a system learns. People still choose how to use the output. Checking sources matters when decisions have consequences.",
+        "briefing": "An AI tool can produce a convincing answer from patterns. It may miss a fact that a person would check. The user still decides what to trust.",
         "facts": [
           "Training examples shape what a system learns.",
           "An AI answer can sound confident and be wrong.",
@@ -24550,84 +24550,84 @@
         ],
         "vocab": [
           {
-            "word": "Artificial Intelligence",
-            "definition": "Artificial intelligence uses computer systems to find patterns and produce outputs.",
-            "partOfSpeech": "noun",
-            "example": "Artificial intelligence uses computer systems to find patterns and produce outputs.",
-            "starter": "I want to discuss artificial intelligence because…"
+            "word": "training data",
+            "definition": "Examples used to teach an AI system",
+            "partOfSpeech": "phrase",
+            "example": "I would check who chose the training data.",
+            "starter": "If I saw training data, I would…"
           },
           {
-            "word": "patterns",
-            "definition": "Repeated arrangements in information",
+            "word": "prompt",
+            "definition": "The instruction given to an AI tool",
             "partOfSpeech": "noun",
-            "example": "Artificial intelligence uses computer systems to find patterns and produce outputs.",
-            "starter": "I can use patterns to explain…"
+            "example": "A clear prompt might help.",
+            "starter": "I could describe prompt by…"
           },
           {
-            "word": "training examples",
-            "definition": "Data used to teach a system",
+            "word": "hallucination",
+            "definition": "A plausible but unsupported AI output",
             "partOfSpeech": "noun",
-            "example": "Training examples shape what a system learns.",
-            "starter": "When I hear training examples, I think of…"
+            "example": "That hallucination needs checking.",
+            "starter": "I wonder whether hallucination can…"
           },
           {
-            "word": "sources",
-            "definition": "Places where information comes from",
+            "word": "model",
+            "definition": "A trained system that produces outputs",
             "partOfSpeech": "noun",
-            "example": "Checking sources matters when decisions have consequences.",
-            "starter": "A question about sources is…"
+            "example": "The model gave two answers.",
+            "starter": "One question about model is…"
           },
           {
-            "word": "output",
-            "definition": "The result made by a system",
+            "word": "bias",
+            "definition": "A tendency toward some results over others",
             "partOfSpeech": "noun",
-            "example": "Artificial intelligence uses computer systems to find patterns and produce outputs.",
-            "starter": "I would compare output with…"
+            "example": "Bias can appear in training data.",
+            "starter": "I would compare bias with…"
           },
           {
-            "word": "decisions",
-            "definition": "Choices made after thinking",
-            "partOfSpeech": "noun",
-            "example": "Checking sources matters when decisions have consequences.",
-            "starter": "One example of decisions is…"
+            "word": "source check",
+            "definition": "A step verifying where a claim came from",
+            "partOfSpeech": "phrase",
+            "example": "I would do a source check.",
+            "starter": "My idea about source check is…"
           },
           {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience artificial intelligence.",
-            "starter": "I want to compare screen with…"
+            "word": "human oversight",
+            "definition": "People reviewing and guiding a system",
+            "partOfSpeech": "phrase",
+            "example": "Human oversight matters for decisions.",
+            "starter": "I might use human oversight when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that training examples shape what a system learns."
+            "phrase": "I would check the answer in…",
+            "example": "I would check the answer in another source."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that an AI answer can sound confident and be wrong."
+            "phrase": "A clear prompt…",
+            "example": "A clear prompt might help."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, people still choose how to use the output."
+            "phrase": "The tool could miss an…",
+            "example": "The tool could miss an important detail."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare artificial intelligence with a related topic."
+            "phrase": "I would show when AI…",
+            "example": "I would show when AI helped me."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that checking sources matters when decisions have consequences."
+            "phrase": "A human should decide the…",
+            "example": "A human should decide the final result."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because training examples shape what a system learns."
+            "phrase": "I would ask what information…",
+            "example": "I would ask what information it used."
           }
         ]
       },
       "B2": {
-        "briefing": "Artificial intelligence uses computer systems to find patterns and produce outputs. Training examples shape what a system learns; an AI answer can sound confident and be wrong. People still choose how to use the output; checking sources matters when decisions have consequences.",
+        "briefing": "AI systems can generate plausible text without directly verifying its truth. Training data influences which patterns a model finds familiar. The value of an output depends on the task and the human review around it.",
         "facts": [
           "Training examples shape what a system learns.",
           "An AI answer can sound confident and be wrong.",
@@ -24641,79 +24641,79 @@
         ],
         "vocab": [
           {
-            "word": "Artificial Intelligence",
-            "definition": "Artificial intelligence uses computer systems to find patterns and produce outputs.",
-            "partOfSpeech": "noun",
-            "example": "Artificial intelligence uses computer systems to find patterns and produce outputs.",
-            "starter": "I want to discuss artificial intelligence because…"
+            "word": "training data",
+            "definition": "Examples used to teach an AI system",
+            "partOfSpeech": "phrase",
+            "example": "Training data influences which patterns a model finds familiar.",
+            "starter": "If I saw training data, I would…"
           },
           {
-            "word": "patterns",
-            "definition": "Repeated arrangements in information",
+            "word": "prompt",
+            "definition": "The instruction given to an AI tool",
             "partOfSpeech": "noun",
-            "example": "Artificial intelligence uses computer systems to find patterns and produce outputs.",
-            "starter": "I can use patterns to explain…"
+            "example": "I would write a clearer prompt.",
+            "starter": "I could describe prompt by…"
           },
           {
-            "word": "training examples",
-            "definition": "Data used to teach a system",
+            "word": "hallucination",
+            "definition": "A plausible but unsupported AI output",
             "partOfSpeech": "noun",
-            "example": "Training examples shape what a system learns.",
-            "starter": "When I hear training examples, I think of…"
+            "example": "That hallucination needs checking.",
+            "starter": "I wonder whether hallucination can…"
           },
           {
-            "word": "sources",
-            "definition": "Places where information comes from",
+            "word": "model",
+            "definition": "A trained system that produces outputs",
             "partOfSpeech": "noun",
-            "example": "Checking sources matters when decisions have consequences.",
-            "starter": "A question about sources is…"
+            "example": "Training data influences which patterns a model finds familiar.",
+            "starter": "One question about model is…"
           },
           {
-            "word": "output",
-            "definition": "The result made by a system",
+            "word": "bias",
+            "definition": "A tendency toward some results over others",
             "partOfSpeech": "noun",
-            "example": "Artificial intelligence uses computer systems to find patterns and produce outputs.",
-            "starter": "I would compare output with…"
+            "example": "Bias can appear in training data.",
+            "starter": "I would compare bias with…"
           },
           {
-            "word": "decisions",
-            "definition": "Choices made after thinking",
-            "partOfSpeech": "noun",
-            "example": "Checking sources matters when decisions have consequences.",
-            "starter": "One example of decisions is…"
+            "word": "source check",
+            "definition": "A step verifying where a claim came from",
+            "partOfSpeech": "phrase",
+            "example": "I would do a source check.",
+            "starter": "My idea about source check is…"
           },
           {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of artificial intelligence.",
-            "starter": "I want to compare algorithm with…"
+            "word": "human oversight",
+            "definition": "People reviewing and guiding a system",
+            "partOfSpeech": "phrase",
+            "example": "Human oversight matters more when a decision affects someone else's life.",
+            "starter": "I might use human oversight when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that training examples shape what a system learns."
+            "phrase": "If I used AI for an…",
+            "example": "If I used AI for an essay, I would explain which parts it helped draft."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that an AI answer can sound confident and be wrong."
+            "phrase": "I would rather receive an uncertain…",
+            "example": "I would rather receive an uncertain answer than a confident mistake."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, people still choose how to use the output."
+            "phrase": "A model's fluent language can hide…",
+            "example": "A model's fluent language can hide gaps in evidence."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare artificial intelligence with a related topic."
+            "phrase": "Human oversight matters more when a…",
+            "example": "Human oversight matters more when a decision affects someone else's life."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that checking sources matters when decisions have consequences."
+            "phrase": "I wonder which creative tasks benefit…",
+            "example": "I wonder which creative tasks benefit from a machine's suggestions."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because training examples shape what a system learns."
+            "phrase": "The best use may be asking…",
+            "example": "The best use may be asking better questions, not accepting the first response."
           }
         ]
       }
@@ -24732,7 +24732,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Automation lets machines repeat tasks with limited human direction. Sensors can help robots respond to surroundings. People maintain and program automated systems. Changing tasks can reshape what workers do.",
+        "briefing": "A robot can do one repeated factory movement accurately. People still inspect and repair the machines. Changing a task can require a new program.",
         "facts": [
           "Sensors can help robots respond to surroundings.",
           "Factories use robots for precise repeated movements.",
@@ -24746,84 +24746,84 @@
         ],
         "vocab": [
           {
-            "word": "Automation",
-            "definition": "Automation lets machines repeat tasks with limited human direction.",
-            "partOfSpeech": "noun",
-            "example": "Automation lets machines repeat tasks with limited human direction.",
-            "starter": "I want to discuss robots and automation because…"
+            "word": "assembly line",
+            "definition": "A sequence of work stations making a product",
+            "partOfSpeech": "phrase",
+            "example": "I would watch an assembly line.",
+            "starter": "If I saw assembly line, I would…"
           },
           {
-            "word": "sensors",
-            "definition": "Devices that notice changes",
+            "word": "sensor",
+            "definition": "A device noticing changes nearby",
             "partOfSpeech": "noun",
             "example": "Sensors can help robots respond to surroundings.",
-            "starter": "I can use sensors to explain…"
+            "starter": "I could describe sensor by…"
           },
           {
-            "word": "precise",
-            "definition": "Exact and careful",
-            "partOfSpeech": "noun",
-            "example": "Factories use robots for precise repeated movements.",
-            "starter": "When I hear precise, I think of…"
+            "word": "robot arm",
+            "definition": "A moving machine part used for tasks",
+            "partOfSpeech": "phrase",
+            "example": "A robot arm could lift boxes.",
+            "starter": "I wonder whether robot arm can…"
           },
           {
-            "word": "workers",
-            "definition": "People doing paid jobs",
+            "word": "programmer",
+            "definition": "A person writing computer instructions",
             "partOfSpeech": "noun",
-            "example": "Changing tasks can reshape what workers do.",
-            "starter": "A question about workers is…"
+            "example": "A programmer might adjust the machine.",
+            "starter": "One question about programmer is…"
           },
           {
-            "word": "factories",
-            "definition": "Places where goods are made",
+            "word": "maintenance",
+            "definition": "Work keeping equipment in good condition",
             "partOfSpeech": "noun",
-            "example": "Factories use robots for precise repeated movements.",
-            "starter": "I would compare factories with…"
+            "example": "Maintenance should be planned.",
+            "starter": "I would compare maintenance with…"
           },
           {
-            "word": "tasks",
-            "definition": "Pieces of work to do",
+            "word": "precision",
+            "definition": "Exactness in movement or measurement",
             "partOfSpeech": "noun",
-            "example": "Automation lets machines repeat tasks with limited human direction.",
-            "starter": "One example of tasks is…"
+            "example": "The robot needs precision.",
+            "starter": "My idea about precision is…"
           },
           {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience robots and automation.",
-            "starter": "I want to compare screen with…"
+            "word": "worker training",
+            "definition": "Practice for a changing job",
+            "partOfSpeech": "phrase",
+            "example": "Worker training can reduce confusion.",
+            "starter": "I might use worker training when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that sensors can help robots respond to surroundings."
+            "phrase": "I would let the robot lift…",
+            "example": "I would let the robot lift heavy boxes."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that factories use robots for precise repeated movements."
+            "phrase": "A worker should be able to…",
+            "example": "A worker should be able to stop it."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, people maintain and program automated systems."
+            "phrase": "The machine needs…",
+            "example": "The machine needs regular checks."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare robots and automation with a related topic."
+            "phrase": "I would ask what job…",
+            "example": "I would ask what job changes next."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that changing tasks can reshape what workers do."
+            "phrase": "People should help design the…",
+            "example": "People should help design the new routine."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because sensors can help robots respond to surroundings."
+            "phrase": "One robot cannot solve…",
+            "example": "One robot cannot solve every problem."
           }
         ]
       },
       "B2": {
-        "briefing": "Automation lets machines repeat tasks with limited human direction. Sensors can help robots respond to surroundings; factories use robots for precise repeated movements. People maintain and program automated systems; changing tasks can reshape what workers do.",
+        "briefing": "Automation shifts work instead of simply making it disappear. Sensors and software help machines respond to limited changes. Workers need a voice in how a new system changes their jobs.",
         "facts": [
           "Sensors can help robots respond to surroundings.",
           "Factories use robots for precise repeated movements.",
@@ -24837,79 +24837,79 @@
         ],
         "vocab": [
           {
-            "word": "Automation",
-            "definition": "Automation lets machines repeat tasks with limited human direction.",
-            "partOfSpeech": "noun",
-            "example": "Automation lets machines repeat tasks with limited human direction.",
-            "starter": "I want to discuss robots and automation because…"
+            "word": "assembly line",
+            "definition": "A sequence of work stations making a product",
+            "partOfSpeech": "phrase",
+            "example": "I would watch an assembly line.",
+            "starter": "If I saw assembly line, I would…"
           },
           {
-            "word": "sensors",
-            "definition": "Devices that notice changes",
+            "word": "sensor",
+            "definition": "A device noticing changes nearby",
             "partOfSpeech": "noun",
-            "example": "Sensors can help robots respond to surroundings.",
-            "starter": "I can use sensors to explain…"
+            "example": "Sensors and software help machines respond to limited changes.",
+            "starter": "I could describe sensor by…"
           },
           {
-            "word": "precise",
-            "definition": "Exact and careful",
-            "partOfSpeech": "noun",
-            "example": "Factories use robots for precise repeated movements.",
-            "starter": "When I hear precise, I think of…"
+            "word": "robot arm",
+            "definition": "A moving machine part used for tasks",
+            "partOfSpeech": "phrase",
+            "example": "A robot arm could lift boxes.",
+            "starter": "I wonder whether robot arm can…"
           },
           {
-            "word": "workers",
-            "definition": "People doing paid jobs",
+            "word": "programmer",
+            "definition": "A person writing computer instructions",
             "partOfSpeech": "noun",
-            "example": "Changing tasks can reshape what workers do.",
-            "starter": "A question about workers is…"
+            "example": "A programmer might adjust the machine.",
+            "starter": "One question about programmer is…"
           },
           {
-            "word": "factories",
-            "definition": "Places where goods are made",
+            "word": "maintenance",
+            "definition": "Work keeping equipment in good condition",
             "partOfSpeech": "noun",
-            "example": "Factories use robots for precise repeated movements.",
-            "starter": "I would compare factories with…"
+            "example": "A new system may create maintenance work that was not needed before.",
+            "starter": "I would compare maintenance with…"
           },
           {
-            "word": "tasks",
-            "definition": "Pieces of work to do",
+            "word": "precision",
+            "definition": "Exactness in movement or measurement",
             "partOfSpeech": "noun",
-            "example": "Automation lets machines repeat tasks with limited human direction.",
-            "starter": "One example of tasks is…"
+            "example": "Precision is useful only when the machine knows the right goal.",
+            "starter": "My idea about precision is…"
           },
           {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of robots and automation.",
-            "starter": "I want to compare algorithm with…"
+            "word": "worker training",
+            "definition": "Practice for a changing job",
+            "partOfSpeech": "phrase",
+            "example": "Worker training should begin before the machines arrive, not afterward.",
+            "starter": "I might use worker training when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that sensors can help robots respond to surroundings."
+            "phrase": "If a factory added robots, I…",
+            "example": "If a factory added robots, I would ask workers which tasks cause strain."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that factories use robots for precise repeated movements."
+            "phrase": "I would rather automate dull repetition…",
+            "example": "I would rather automate dull repetition than creative judgment."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, people maintain and program automated systems."
+            "phrase": "Precision is useful only when the…",
+            "example": "Precision is useful only when the machine knows the right goal."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare robots and automation with a related topic."
+            "phrase": "A new system may create maintenance…",
+            "example": "A new system may create maintenance work that was not needed before."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that changing tasks can reshape what workers do."
+            "phrase": "I wonder who benefits when automation…",
+            "example": "I wonder who benefits when automation saves time."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because sensors can help robots respond to surroundings."
+            "phrase": "Worker training should begin before the…",
+            "example": "Worker training should begin before the machines arrive, not afterward."
           }
         ]
       }
@@ -24928,7 +24928,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Virtual reality creates a simulated space people can explore. Headsets track movement to change the view. Simulation can help people practice unfamiliar tasks. Comfort and accessibility differ between users.",
+        "briefing": "A headset can make a room look like another place. Turning your head changes the view. Some people feel uncomfortable after a long session.",
         "facts": [
           "Headsets track movement to change the view.",
           "A shared virtual space can connect distant people.",
@@ -24942,84 +24942,84 @@
         ],
         "vocab": [
           {
-            "word": "Virtual Reality",
-            "definition": "Virtual reality creates a simulated space people can explore.",
+            "word": "headset",
+            "definition": "A device worn over eyes for a virtual view",
             "partOfSpeech": "noun",
-            "example": "Virtual reality creates a simulated space people can explore.",
-            "starter": "I want to discuss virtual reality because…"
+            "example": "A headset can make a room look like another place.",
+            "starter": "If I saw headset, I would…"
           },
           {
-            "word": "headsets",
-            "definition": "Devices worn over eyes and ears",
+            "word": "avatar",
+            "definition": "A person's figure in a virtual space",
             "partOfSpeech": "noun",
-            "example": "Headsets track movement to change the view.",
-            "starter": "I can use headsets to explain…"
+            "example": "My avatar might look different.",
+            "starter": "I could describe avatar by…"
+          },
+          {
+            "word": "motion sickness",
+            "definition": "Discomfort caused by conflicting movement signals",
+            "partOfSpeech": "phrase",
+            "example": "Motion sickness might stop me.",
+            "starter": "I wonder whether motion sickness can…"
           },
           {
             "word": "simulation",
-            "definition": "A model of a real or imagined situation",
+            "definition": "A modeled experience of a situation",
             "partOfSpeech": "noun",
             "example": "Simulation can help people practice unfamiliar tasks.",
-            "starter": "When I hear simulation, I think of…"
+            "starter": "One question about simulation is…"
           },
           {
-            "word": "accessibility",
-            "definition": "Ease of use for people with different needs",
-            "partOfSpeech": "noun",
-            "example": "Comfort and accessibility differ between users.",
-            "starter": "A question about accessibility is…"
+            "word": "hand controller",
+            "definition": "A device used to act in virtual space",
+            "partOfSpeech": "phrase",
+            "example": "I would hold a hand controller.",
+            "starter": "I would compare hand controller with…"
           },
           {
-            "word": "space",
-            "definition": "An area someone can move through",
+            "word": "immersion",
+            "definition": "The feeling of being inside an experience",
             "partOfSpeech": "noun",
-            "example": "Virtual reality creates a simulated space people can explore.",
-            "starter": "I would compare space with…"
+            "example": "Immersion can be exciting.",
+            "starter": "My idea about immersion is…"
           },
           {
-            "word": "movement",
-            "definition": "Changing position",
-            "partOfSpeech": "noun",
-            "example": "Headsets track movement to change the view.",
-            "starter": "One example of movement is…"
-          },
-          {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience virtual reality.",
-            "starter": "I want to compare screen with…"
+            "word": "virtual room",
+            "definition": "A simulated shared space",
+            "partOfSpeech": "phrase",
+            "example": "Our virtual room could show a museum.",
+            "starter": "I might use virtual room when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that headsets track movement to change the view."
+            "phrase": "I would visit a…",
+            "example": "I would visit a virtual forest."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a shared virtual space can connect distant people."
+            "phrase": "The headset might…",
+            "example": "The headset might feel heavy."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, simulation can help people practice unfamiliar tasks."
+            "phrase": "I could meet a…",
+            "example": "I could meet a friend there."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare virtual reality with a related topic."
+            "phrase": "I would take a…",
+            "example": "I would take a short break."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that comfort and accessibility differ between users."
+            "phrase": "My avatar might…",
+            "example": "My avatar might look different."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because headsets track movement to change the view."
+            "phrase": "I want to try a safe…",
+            "example": "I want to try a safe flying game."
           }
         ]
       },
       "B2": {
-        "briefing": "Virtual reality creates a simulated space people can explore. Headsets track movement to change the view; a shared virtual space can connect distant people. Simulation can help people practice unfamiliar tasks; comfort and accessibility differ between users.",
+        "briefing": "Virtual reality connects visual movement with body movement to create presence. A convincing simulation can support practice without real-world risk. Designers must account for motion comfort and different physical abilities.",
         "facts": [
           "Headsets track movement to change the view.",
           "A shared virtual space can connect distant people.",
@@ -25033,79 +25033,79 @@
         ],
         "vocab": [
           {
-            "word": "Virtual Reality",
-            "definition": "Virtual reality creates a simulated space people can explore.",
-            "partOfSpeech": "noun",
-            "example": "Virtual reality creates a simulated space people can explore.",
-            "starter": "I want to discuss virtual reality because…"
-          },
-          {
-            "word": "headsets",
-            "definition": "Devices worn over eyes and ears",
+            "word": "headset",
+            "definition": "A device worn over eyes for a virtual view",
             "partOfSpeech": "noun",
             "example": "Headsets track movement to change the view.",
-            "starter": "I can use headsets to explain…"
+            "starter": "If I saw headset, I would…"
+          },
+          {
+            "word": "avatar",
+            "definition": "A person's figure in a virtual space",
+            "partOfSpeech": "noun",
+            "example": "My avatar could wave.",
+            "starter": "I could describe avatar by…"
+          },
+          {
+            "word": "motion sickness",
+            "definition": "Discomfort caused by conflicting movement signals",
+            "partOfSpeech": "phrase",
+            "example": "Motion sickness should be treated as a design problem, not a user's fault.",
+            "starter": "I wonder whether motion sickness can…"
           },
           {
             "word": "simulation",
-            "definition": "A model of a real or imagined situation",
+            "definition": "A modeled experience of a situation",
             "partOfSpeech": "noun",
-            "example": "Simulation can help people practice unfamiliar tasks.",
-            "starter": "When I hear simulation, I think of…"
+            "example": "A convincing simulation can support practice without real-world risk.",
+            "starter": "One question about simulation is…"
           },
           {
-            "word": "accessibility",
-            "definition": "Ease of use for people with different needs",
-            "partOfSpeech": "noun",
-            "example": "Comfort and accessibility differ between users.",
-            "starter": "A question about accessibility is…"
+            "word": "hand controller",
+            "definition": "A device used to act in virtual space",
+            "partOfSpeech": "phrase",
+            "example": "I would hold a hand controller.",
+            "starter": "I would compare hand controller with…"
           },
           {
-            "word": "space",
-            "definition": "An area someone can move through",
+            "word": "immersion",
+            "definition": "The feeling of being inside an experience",
             "partOfSpeech": "noun",
-            "example": "Virtual reality creates a simulated space people can explore.",
-            "starter": "I would compare space with…"
+            "example": "Immersion is powerful only when people can leave comfortably.",
+            "starter": "My idea about immersion is…"
           },
           {
-            "word": "movement",
-            "definition": "Changing position",
-            "partOfSpeech": "noun",
-            "example": "Headsets track movement to change the view.",
-            "starter": "One example of movement is…"
-          },
-          {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of virtual reality.",
-            "starter": "I want to compare algorithm with…"
+            "word": "virtual room",
+            "definition": "A simulated shared space",
+            "partOfSpeech": "phrase",
+            "example": "A virtual room can connect people who cannot travel together.",
+            "starter": "I might use virtual room when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that headsets track movement to change the view."
+            "phrase": "If I practiced a speech in…",
+            "example": "If I practiced a speech in VR, I would want the audience to respond naturally."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a shared virtual space can connect distant people."
+            "phrase": "I would rather visit a real…",
+            "example": "I would rather visit a real park than spend hours in its simulation."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, simulation can help people practice unfamiliar tasks."
+            "phrase": "A virtual room can connect people…",
+            "example": "A virtual room can connect people who cannot travel together."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare virtual reality with a related topic."
+            "phrase": "Motion sickness should be treated as…",
+            "example": "Motion sickness should be treated as a design problem, not a user's fault."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that comfort and accessibility differ between users."
+            "phrase": "I wonder which skills transfer best…",
+            "example": "I wonder which skills transfer best from simulation to life."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because headsets track movement to change the view."
+            "phrase": "Immersion is powerful only when people…",
+            "example": "Immersion is powerful only when people can leave comfortably."
           }
         ]
       }
@@ -25124,7 +25124,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Coding means writing instructions for computers. Programs use steps, choices, and repeated actions. Testing helps programmers find and fix problems. Readable code helps people work together.",
+        "briefing": "A program follows instructions in a chosen order. A missing symbol can change what happens. The programmer tests a small piece before moving on.",
         "facts": [
           "Programs use steps, choices, and repeated actions.",
           "A small error can change an output.",
@@ -25138,84 +25138,84 @@
         ],
         "vocab": [
           {
-            "word": "Coding",
-            "definition": "Coding means writing instructions for computers.",
+            "word": "variable",
+            "definition": "A named place for a value in code",
             "partOfSpeech": "noun",
-            "example": "Coding means writing instructions for computers.",
-            "starter": "I want to discuss coding because…"
+            "example": "I would name the variable clearly.",
+            "starter": "If I saw variable, I would…"
           },
           {
-            "word": "programs",
-            "definition": "Sets of computer instructions",
+            "word": "loop",
+            "definition": "Instructions repeated until a condition changes",
             "partOfSpeech": "noun",
-            "example": "Programs use steps, choices, and repeated actions.",
-            "starter": "I can use programs to explain…"
+            "example": "A loop could repeat the question.",
+            "starter": "I could describe loop by…"
           },
           {
-            "word": "error",
-            "definition": "A mistake that changes a result",
+            "word": "bug",
+            "definition": "A mistake causing unwanted behavior",
             "partOfSpeech": "noun",
-            "example": "A small error can change an output.",
-            "starter": "When I hear error, I think of…"
+            "example": "A bug might make it funny.",
+            "starter": "I wonder whether bug can…"
           },
           {
-            "word": "testing",
-            "definition": "Checking whether something works",
+            "word": "debug",
+            "definition": "To find and fix a program error",
             "partOfSpeech": "noun",
-            "example": "Testing helps programmers find and fix problems.",
-            "starter": "A question about testing is…"
+            "example": "I would debug one step at a time.",
+            "starter": "One question about debug is…"
           },
           {
-            "word": "steps",
-            "definition": "Individual instructions in a process",
+            "word": "function",
+            "definition": "A reusable block of instructions",
             "partOfSpeech": "noun",
-            "example": "Programs use steps, choices, and repeated actions.",
-            "starter": "I would compare steps with…"
+            "example": "I would write a small function.",
+            "starter": "I would compare function with…"
           },
           {
-            "word": "problems",
-            "definition": "Things needing a solution",
+            "word": "syntax",
+            "definition": "Rules for writing valid code",
             "partOfSpeech": "noun",
-            "example": "Testing helps programmers find and fix problems.",
-            "starter": "One example of problems is…"
+            "example": "A syntax error can stop the program.",
+            "starter": "My idea about syntax is…"
           },
           {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience coding.",
-            "starter": "I want to compare screen with…"
+            "word": "test case",
+            "definition": "A chosen input used to check a program",
+            "partOfSpeech": "phrase",
+            "example": "I would add a test case.",
+            "starter": "I might use test case when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that programs use steps, choices, and repeated actions."
+            "phrase": "I would build a…",
+            "example": "I would build a tiny quiz."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a small error can change an output."
+            "phrase": "A bug might make…",
+            "example": "A bug might make it funny."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, testing helps programmers find and fix problems."
+            "phrase": "I would check one line at…",
+            "example": "I would check one line at a time."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare coding with a related topic."
+            "phrase": "A loop could repeat…",
+            "example": "A loop could repeat the question."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that readable code helps people work together."
+            "phrase": "I want a friend to…",
+            "example": "I want a friend to test it."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because programs use steps, choices, and repeated actions."
+            "phrase": "The first version can…",
+            "example": "The first version can be simple."
           }
         ]
       },
       "B2": {
-        "briefing": "Coding means writing instructions for computers. Programs use steps, choices, and repeated actions; a small error can change an output. Testing helps programmers find and fix problems; readable code helps people work together.",
+        "briefing": "Code translates a human idea into steps a machine can perform. Clear names and structure help other people understand a program. Debugging often means checking an assumption rather than guessing at random.",
         "facts": [
           "Programs use steps, choices, and repeated actions.",
           "A small error can change an output.",
@@ -25229,79 +25229,79 @@
         ],
         "vocab": [
           {
-            "word": "Coding",
-            "definition": "Coding means writing instructions for computers.",
+            "word": "variable",
+            "definition": "A named place for a value in code",
             "partOfSpeech": "noun",
-            "example": "Coding means writing instructions for computers.",
-            "starter": "I want to discuss coding because…"
+            "example": "I would name the variable clearly.",
+            "starter": "If I saw variable, I would…"
           },
           {
-            "word": "programs",
-            "definition": "Sets of computer instructions",
+            "word": "loop",
+            "definition": "Instructions repeated until a condition changes",
             "partOfSpeech": "noun",
-            "example": "Programs use steps, choices, and repeated actions.",
-            "starter": "I can use programs to explain…"
+            "example": "A loop could save typing.",
+            "starter": "I could describe loop by…"
           },
           {
-            "word": "error",
-            "definition": "A mistake that changes a result",
+            "word": "bug",
+            "definition": "A mistake causing unwanted behavior",
             "partOfSpeech": "noun",
-            "example": "A small error can change an output.",
-            "starter": "When I hear error, I think of…"
+            "example": "Debugging often means checking an assumption rather than guessing at random.",
+            "starter": "I wonder whether bug can…"
           },
           {
-            "word": "testing",
-            "definition": "Checking whether something works",
+            "word": "debug",
+            "definition": "To find and fix a program error",
             "partOfSpeech": "noun",
-            "example": "Testing helps programmers find and fix problems.",
-            "starter": "A question about testing is…"
+            "example": "Debugging often means checking an assumption rather than guessing at random.",
+            "starter": "One question about debug is…"
           },
           {
-            "word": "steps",
-            "definition": "Individual instructions in a process",
+            "word": "function",
+            "definition": "A reusable block of instructions",
             "partOfSpeech": "noun",
-            "example": "Programs use steps, choices, and repeated actions.",
-            "starter": "I would compare steps with…"
+            "example": "A small function might make later changes easier.",
+            "starter": "I would compare function with…"
           },
           {
-            "word": "problems",
-            "definition": "Things needing a solution",
+            "word": "syntax",
+            "definition": "Rules for writing valid code",
             "partOfSpeech": "noun",
-            "example": "Testing helps programmers find and fix problems.",
-            "starter": "One example of problems is…"
+            "example": "A syntax error can stop the program.",
+            "starter": "My idea about syntax is…"
           },
           {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of coding.",
-            "starter": "I want to compare algorithm with…"
+            "word": "test case",
+            "definition": "A chosen input used to check a program",
+            "partOfSpeech": "phrase",
+            "example": "A good test case can reveal a mistake I did not expect.",
+            "starter": "I might use test case when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that programs use steps, choices, and repeated actions."
+            "phrase": "If my code failed, I would…",
+            "example": "If my code failed, I would try to reproduce the same error first."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a small error can change an output."
+            "phrase": "I would rather write readable code…",
+            "example": "I would rather write readable code than finish ten minutes sooner."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, testing helps programmers find and fix problems."
+            "phrase": "A good test case can reveal…",
+            "example": "A good test case can reveal a mistake I did not expect."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare coding with a related topic."
+            "phrase": "A small function might make later…",
+            "example": "A small function might make later changes easier."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that readable code helps people work together."
+            "phrase": "I wonder when a program needs…",
+            "example": "I wonder when a program needs a rewrite instead of another patch."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because programs use steps, choices, and repeated actions."
+            "phrase": "Coding with a partner could improve…",
+            "example": "Coding with a partner could improve both the idea and the explanation."
           }
         ]
       }
@@ -25320,7 +25320,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Cybersecurity protects digital systems and information. Updates can repair known software weaknesses. Suspicious links may lead to fake pages. Good security depends on human habits too.",
+        "briefing": "A fake message may ask for an urgent click. A software update can close a known weakness. An extra login step makes stealing an account harder.",
         "facts": [
           "Updates can repair known software weaknesses.",
           "Extra login checks reduce account takeovers.",
@@ -25334,84 +25334,84 @@
         ],
         "vocab": [
           {
-            "word": "Cybersecurity",
-            "definition": "Cybersecurity protects digital systems and information.",
+            "word": "phishing",
+            "definition": "A trick to steal information through fake messages",
             "partOfSpeech": "noun",
-            "example": "Cybersecurity protects digital systems and information.",
-            "starter": "I want to discuss cybersecurity because…"
+            "example": "I would report phishing.",
+            "starter": "If I saw phishing, I would…"
           },
           {
-            "word": "updates",
-            "definition": "Changes that repair or improve software",
-            "partOfSpeech": "noun",
-            "example": "Updates can repair known software weaknesses.",
-            "starter": "I can use updates to explain…"
+            "word": "password manager",
+            "definition": "A tool storing strong passwords",
+            "partOfSpeech": "phrase",
+            "example": "I would use a password manager.",
+            "starter": "I could describe password manager by…"
           },
           {
-            "word": "login",
-            "definition": "The process of entering an account",
-            "partOfSpeech": "noun",
-            "example": "Extra login checks reduce account takeovers.",
-            "starter": "When I hear login, I think of…"
+            "word": "security update",
+            "definition": "A change that fixes software weaknesses",
+            "partOfSpeech": "phrase",
+            "example": "A security update can help.",
+            "starter": "I wonder whether security update can…"
           },
           {
-            "word": "links",
-            "definition": "Connections to other web pages",
-            "partOfSpeech": "noun",
+            "word": "verification code",
+            "definition": "A short number used for a second login check",
+            "partOfSpeech": "phrase",
+            "example": "I would protect my verification code.",
+            "starter": "One question about verification code is…"
+          },
+          {
+            "word": "suspicious link",
+            "definition": "A web address that may lead somewhere unsafe",
+            "partOfSpeech": "phrase",
             "example": "Suspicious links may lead to fake pages.",
-            "starter": "A question about links is…"
+            "starter": "I would compare suspicious link with…"
           },
           {
-            "word": "software",
-            "definition": "Programs used by a computer",
-            "partOfSpeech": "noun",
-            "example": "Updates can repair known software weaknesses.",
-            "starter": "I would compare software with…"
+            "word": "account recovery",
+            "definition": "Steps for regaining access after a lockout",
+            "partOfSpeech": "phrase",
+            "example": "Account recovery should be secure.",
+            "starter": "My idea about account recovery is…"
           },
           {
-            "word": "fake pages",
-            "definition": "Web pages pretending to be trustworthy",
+            "word": "backup",
+            "definition": "A saved copy used if the original is lost",
             "partOfSpeech": "noun",
-            "example": "Suspicious links may lead to fake pages.",
-            "starter": "One example of fake pages is…"
-          },
-          {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience cybersecurity.",
-            "starter": "I want to compare screen with…"
+            "example": "A backup could save my work.",
+            "starter": "I might use backup when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that updates can repair known software weaknesses."
+            "phrase": "I would check the…",
+            "example": "I would check the sender first."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that extra login checks reduce account takeovers."
+            "phrase": "A rushed message makes…",
+            "example": "A rushed message makes me suspicious."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, suspicious links may lead to fake pages."
+            "phrase": "I would not share a…",
+            "example": "I would not share a login code."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare cybersecurity with a related topic."
+            "phrase": "A backup could save…",
+            "example": "A backup could save my work."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that good security depends on human habits too."
+            "phrase": "I would ask for help after…",
+            "example": "I would ask for help after a strange link."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because updates can repair known software weaknesses."
+            "phrase": "Updates can be worth…",
+            "example": "Updates can be worth the wait."
           }
         ]
       },
       "B2": {
-        "briefing": "Cybersecurity protects digital systems and information. Updates can repair known software weaknesses; extra login checks reduce account takeovers. Suspicious links may lead to fake pages; good security depends on human habits too.",
+        "briefing": "Security depends on people, procedures, and technology working together. Attackers exploit rushed decisions as often as technical flaws. A simple habit of checking the sender can prevent a costly mistake.",
         "facts": [
           "Updates can repair known software weaknesses.",
           "Extra login checks reduce account takeovers.",
@@ -25425,79 +25425,79 @@
         ],
         "vocab": [
           {
-            "word": "Cybersecurity",
-            "definition": "Cybersecurity protects digital systems and information.",
+            "word": "phishing",
+            "definition": "A trick to steal information through fake messages",
             "partOfSpeech": "noun",
-            "example": "Cybersecurity protects digital systems and information.",
-            "starter": "I want to discuss cybersecurity because…"
+            "example": "I would report phishing.",
+            "starter": "If I saw phishing, I would…"
           },
           {
-            "word": "updates",
-            "definition": "Changes that repair or improve software",
-            "partOfSpeech": "noun",
-            "example": "Updates can repair known software weaknesses.",
-            "starter": "I can use updates to explain…"
+            "word": "password manager",
+            "definition": "A tool storing strong passwords",
+            "partOfSpeech": "phrase",
+            "example": "I would use a password manager.",
+            "starter": "I could describe password manager by…"
           },
           {
-            "word": "login",
-            "definition": "The process of entering an account",
-            "partOfSpeech": "noun",
-            "example": "Extra login checks reduce account takeovers.",
-            "starter": "When I hear login, I think of…"
+            "word": "security update",
+            "definition": "A change that fixes software weaknesses",
+            "partOfSpeech": "phrase",
+            "example": "A security update can help.",
+            "starter": "I wonder whether security update can…"
           },
           {
-            "word": "links",
-            "definition": "Connections to other web pages",
-            "partOfSpeech": "noun",
+            "word": "verification code",
+            "definition": "A short number used for a second login check",
+            "partOfSpeech": "phrase",
+            "example": "I would protect my verification code.",
+            "starter": "One question about verification code is…"
+          },
+          {
+            "word": "suspicious link",
+            "definition": "A web address that may lead somewhere unsafe",
+            "partOfSpeech": "phrase",
             "example": "Suspicious links may lead to fake pages.",
-            "starter": "A question about links is…"
+            "starter": "I would compare suspicious link with…"
           },
           {
-            "word": "software",
-            "definition": "Programs used by a computer",
-            "partOfSpeech": "noun",
-            "example": "Updates can repair known software weaknesses.",
-            "starter": "I would compare software with…"
+            "word": "account recovery",
+            "definition": "Steps for regaining access after a lockout",
+            "partOfSpeech": "phrase",
+            "example": "Account recovery should be secure.",
+            "starter": "My idea about account recovery is…"
           },
           {
-            "word": "fake pages",
-            "definition": "Web pages pretending to be trustworthy",
+            "word": "backup",
+            "definition": "A saved copy used if the original is lost",
             "partOfSpeech": "noun",
-            "example": "Suspicious links may lead to fake pages.",
-            "starter": "One example of fake pages is…"
-          },
-          {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of cybersecurity.",
-            "starter": "I want to compare algorithm with…"
+            "example": "A backup is useful only if I know how to restore it.",
+            "starter": "I might use backup when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that updates can repair known software weaknesses."
+            "phrase": "If a message demanded immediate action,…",
+            "example": "If a message demanded immediate action, I would slow down and check its source."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that extra login checks reduce account takeovers."
+            "phrase": "I would rather spend time on…",
+            "example": "I would rather spend time on a second login step than recover a stolen account."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, suspicious links may lead to fake pages."
+            "phrase": "Security advice should be clear enough…",
+            "example": "Security advice should be clear enough for ordinary users to follow."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare cybersecurity with a related topic."
+            "phrase": "A backup is useful only if…",
+            "example": "A backup is useful only if I know how to restore it."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that good security depends on human habits too."
+            "phrase": "I wonder how schools can teach…",
+            "example": "I wonder how schools can teach scams without making everyone fearful."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because updates can repair known software weaknesses."
+            "phrase": "Good cybersecurity makes careful behavior easier,…",
+            "example": "Good cybersecurity makes careful behavior easier, not just mandatory."
           }
         ]
       }
@@ -25516,7 +25516,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Online learning uses digital tools to connect learners and materials. Recorded lessons let students pause and replay. Unequal internet access changes who can join. Clear instructions matter when help is distant.",
+        "briefing": "A recorded lesson lets a student pause and replay. A live class can answer a question immediately. A quiet learner may prefer typing first.",
         "facts": [
           "Recorded lessons let students pause and replay.",
           "Live discussions can build a sense of class.",
@@ -25530,84 +25530,84 @@
         ],
         "vocab": [
           {
-            "word": "Online Learning",
-            "definition": "Online learning uses digital tools to connect learners and materials.",
+            "word": "recording",
+            "definition": "A saved lesson that can be replayed",
             "partOfSpeech": "noun",
-            "example": "Online learning uses digital tools to connect learners and materials.",
-            "starter": "I want to discuss online learning because…"
+            "example": "I would watch the recording again.",
+            "starter": "If I saw recording, I would…"
           },
           {
-            "word": "recorded lessons",
-            "definition": "Classes saved to watch later",
-            "partOfSpeech": "noun",
-            "example": "Recorded lessons let students pause and replay.",
-            "starter": "I can use recorded lessons to explain…"
+            "word": "live session",
+            "definition": "A class happening in real time",
+            "partOfSpeech": "phrase",
+            "example": "I would join a live session.",
+            "starter": "I could describe live session by…"
           },
           {
-            "word": "discussions",
-            "definition": "Talks where people share views",
-            "partOfSpeech": "noun",
-            "example": "Live discussions can build a sense of class.",
-            "starter": "When I hear discussions, I think of…"
+            "word": "chat box",
+            "definition": "A space for typed questions",
+            "partOfSpeech": "phrase",
+            "example": "I would use the chat box.",
+            "starter": "I wonder whether chat box can…"
           },
           {
-            "word": "access",
-            "definition": "The ability to reach or use something",
+            "word": "self-paced",
+            "definition": "Done at a learner's chosen speed",
             "partOfSpeech": "noun",
+            "example": "A self-paced lesson could help.",
+            "starter": "One question about self-paced is…"
+          },
+          {
+            "word": "discussion board",
+            "definition": "A place for written class conversations",
+            "partOfSpeech": "phrase",
+            "example": "I would post on the discussion board.",
+            "starter": "I would compare discussion board with…"
+          },
+          {
+            "word": "internet access",
+            "definition": "The ability to connect to the network",
+            "partOfSpeech": "phrase",
             "example": "Unequal internet access changes who can join.",
-            "starter": "A question about access is…"
+            "starter": "My idea about internet access is…"
           },
           {
-            "word": "live discussions",
-            "definition": "Talks happening while learners are present",
-            "partOfSpeech": "noun",
-            "example": "Live discussions can build a sense of class.",
-            "starter": "I would compare live discussions with…"
-          },
-          {
-            "word": "instructions",
-            "definition": "Directions telling students what to do",
-            "partOfSpeech": "noun",
-            "example": "Clear instructions matter when help is distant.",
-            "starter": "One example of instructions is…"
-          },
-          {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
-            "partOfSpeech": "noun",
-            "example": "A screen can change how people experience online learning.",
-            "starter": "I want to compare screen with…"
+            "word": "breakout room",
+            "definition": "A small online group space",
+            "partOfSpeech": "phrase",
+            "example": "Our breakout room could be quiet.",
+            "starter": "I might use breakout room when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that recorded lessons let students pause and replay."
+            "phrase": "I would pause the video to…",
+            "example": "I would pause the video to take notes."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that live discussions can build a sense of class."
+            "phrase": "A live question could…",
+            "example": "A live question could save time."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, unequal internet access changes who can join."
+            "phrase": "I might type…",
+            "example": "I might type before speaking."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare online learning with a related topic."
+            "phrase": "A short task helps…",
+            "example": "A short task helps me focus."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that clear instructions matter when help is distant."
+            "phrase": "I would ask classmates…",
+            "example": "I would ask classmates for help."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because recorded lessons let students pause and replay."
+            "phrase": "The internet should not decide…",
+            "example": "The internet should not decide who learns."
           }
         ]
       },
       "B2": {
-        "briefing": "Online learning uses digital tools to connect learners and materials. Recorded lessons let students pause and replay; live discussions can build a sense of class. Unequal internet access changes who can join; clear instructions matter when help is distant.",
+        "briefing": "Online learning changes how students ask for help and show confusion. Good lessons combine clear independent tasks with chances to talk. Reliable access and a suitable place to study are part of the learning environment.",
         "facts": [
           "Recorded lessons let students pause and replay.",
           "Live discussions can build a sense of class.",
@@ -25621,79 +25621,79 @@
         ],
         "vocab": [
           {
-            "word": "Online Learning",
-            "definition": "Online learning uses digital tools to connect learners and materials.",
+            "word": "recording",
+            "definition": "A saved lesson that can be replayed",
             "partOfSpeech": "noun",
-            "example": "Online learning uses digital tools to connect learners and materials.",
-            "starter": "I want to discuss online learning because…"
+            "example": "I would watch the recording again.",
+            "starter": "If I saw recording, I would…"
           },
           {
-            "word": "recorded lessons",
-            "definition": "Classes saved to watch later",
-            "partOfSpeech": "noun",
-            "example": "Recorded lessons let students pause and replay.",
-            "starter": "I can use recorded lessons to explain…"
+            "word": "live session",
+            "definition": "A class happening in real time",
+            "partOfSpeech": "phrase",
+            "example": "I would join a live session.",
+            "starter": "I could describe live session by…"
           },
           {
-            "word": "discussions",
-            "definition": "Talks where people share views",
-            "partOfSpeech": "noun",
-            "example": "Live discussions can build a sense of class.",
-            "starter": "When I hear discussions, I think of…"
+            "word": "chat box",
+            "definition": "A space for typed questions",
+            "partOfSpeech": "phrase",
+            "example": "I would use the chat box.",
+            "starter": "I wonder whether chat box can…"
           },
           {
-            "word": "access",
-            "definition": "The ability to reach or use something",
+            "word": "self-paced",
+            "definition": "Done at a learner's chosen speed",
             "partOfSpeech": "noun",
+            "example": "A self-paced lesson could help.",
+            "starter": "One question about self-paced is…"
+          },
+          {
+            "word": "discussion board",
+            "definition": "A place for written class conversations",
+            "partOfSpeech": "phrase",
+            "example": "A discussion board can give thoughtful students more time to respond.",
+            "starter": "I would compare discussion board with…"
+          },
+          {
+            "word": "internet access",
+            "definition": "The ability to connect to the network",
+            "partOfSpeech": "phrase",
             "example": "Unequal internet access changes who can join.",
-            "starter": "A question about access is…"
+            "starter": "My idea about internet access is…"
           },
           {
-            "word": "live discussions",
-            "definition": "Talks happening while learners are present",
-            "partOfSpeech": "noun",
-            "example": "Live discussions can build a sense of class.",
-            "starter": "I would compare live discussions with…"
-          },
-          {
-            "word": "instructions",
-            "definition": "Directions telling students what to do",
-            "partOfSpeech": "noun",
-            "example": "Clear instructions matter when help is distant.",
-            "starter": "One example of instructions is…"
-          },
-          {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
-            "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of online learning.",
-            "starter": "I want to compare algorithm with…"
+            "word": "breakout room",
+            "definition": "A small online group space",
+            "partOfSpeech": "phrase",
+            "example": "Our breakout room could be quiet.",
+            "starter": "I might use breakout room when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that recorded lessons let students pause and replay."
+            "phrase": "If I taught online, I would…",
+            "example": "If I taught online, I would leave pauses for questions rather than fill every minute."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that live discussions can build a sense of class."
+            "phrase": "I would rather replay a difficult…",
+            "example": "I would rather replay a difficult explanation than pretend I understood it live."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, unequal internet access changes who can join."
+            "phrase": "A discussion board can give thoughtful…",
+            "example": "A discussion board can give thoughtful students more time to respond."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare online learning with a related topic."
+            "phrase": "Reliable access is a basic learning…",
+            "example": "Reliable access is a basic learning need, not a luxury."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that clear instructions matter when help is distant."
+            "phrase": "I wonder how teachers notice confusion…",
+            "example": "I wonder how teachers notice confusion when cameras are off."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because recorded lessons let students pause and replay."
+            "phrase": "The strongest online course might blend…",
+            "example": "The strongest online course might blend independent work with real conversation."
           }
         ]
       }
@@ -25712,7 +25712,7 @@
     "category": "digital life",
     "levels": {
       "B1": {
-        "briefing": "Digital art uses software as a creative material. Layers let artists revise separate parts of images. Undo tools encourage experiments without losing earlier work. The finished work still reflects human choices.",
+        "briefing": "An artist can work on separate layers of one image. Undo makes a risky experiment easier. A tablet pen can respond to pressure.",
         "facts": [
           "Layers let artists revise separate parts of images.",
           "A stylus can imitate a pencil or brush.",
@@ -25726,84 +25726,84 @@
         ],
         "vocab": [
           {
-            "word": "Digital Art",
-            "definition": "Digital art uses software as a creative material.",
+            "word": "layer",
+            "definition": "A separate part of a digital image",
             "partOfSpeech": "noun",
-            "example": "Digital art uses software as a creative material.",
-            "starter": "I want to discuss digital art because…"
-          },
-          {
-            "word": "layers",
-            "definition": "Separate parts of a digital picture",
-            "partOfSpeech": "noun",
-            "example": "Layers let artists revise separate parts of images.",
-            "starter": "I can use layers to explain…"
+            "example": "An artist can work on separate layers of one image.",
+            "starter": "If I saw layer, I would…"
           },
           {
             "word": "stylus",
-            "definition": "Pen-shaped tool for a screen",
+            "definition": "A pen-shaped tool used on a screen",
             "partOfSpeech": "noun",
             "example": "A stylus can imitate a pencil or brush.",
-            "starter": "When I hear stylus, I think of…"
+            "starter": "I could describe stylus by…"
+          },
+          {
+            "word": "brush preset",
+            "definition": "A saved digital brush setting",
+            "partOfSpeech": "phrase",
+            "example": "I would try a brush preset.",
+            "starter": "I wonder whether brush preset can…"
           },
           {
             "word": "undo",
-            "definition": "A command that reverses an action",
+            "definition": "A command reversing the last action",
             "partOfSpeech": "noun",
-            "example": "Undo tools encourage experiments without losing earlier work.",
-            "starter": "A question about undo is…"
+            "example": "Undo makes a risky experiment easier.",
+            "starter": "One question about undo is…"
           },
           {
-            "word": "brush",
-            "definition": "A tool for painting",
+            "word": "opacity",
+            "definition": "How much of a layer can be seen through",
             "partOfSpeech": "noun",
-            "example": "A stylus can imitate a pencil or brush.",
-            "starter": "I would compare brush with…"
+            "example": "I would lower the opacity.",
+            "starter": "I would compare opacity with…"
           },
           {
-            "word": "images",
-            "definition": "Pictures made from light or color",
-            "partOfSpeech": "noun",
-            "example": "Layers let artists revise separate parts of images.",
-            "starter": "One example of images is…"
+            "word": "canvas size",
+            "definition": "The dimensions of a digital picture",
+            "partOfSpeech": "phrase",
+            "example": "I would set the canvas size.",
+            "starter": "My idea about canvas size is…"
           },
           {
-            "word": "screen",
-            "definition": "A display showing digital images or text.",
+            "word": "pixel",
+            "definition": "A tiny unit of a digital image",
             "partOfSpeech": "noun",
-            "example": "A screen can change how people experience digital art.",
-            "starter": "I want to compare screen with…"
+            "example": "One pixel can change a line.",
+            "starter": "I might use pixel when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that layers let artists revise separate parts of images."
+            "phrase": "I would draw on…",
+            "example": "I would draw on a tablet."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a stylus can imitate a pencil or brush."
+            "phrase": "An undo button makes…",
+            "example": "An undo button makes me braver."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, undo tools encourage experiments without losing earlier work."
+            "phrase": "I could add color on…",
+            "example": "I could add color on another layer."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare digital art with a related topic."
+            "phrase": "My brush might look…",
+            "example": "My brush might look like chalk."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that the finished work still reflects human choices."
+            "phrase": "I would save the…",
+            "example": "I would save the first version."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because layers let artists revise separate parts of images."
+            "phrase": "The final picture should feel…",
+            "example": "The final picture should feel like mine."
           }
         ]
       },
       "B2": {
-        "briefing": "Digital art uses software as a creative material. Layers let artists revise separate parts of images; a stylus can imitate a pencil or brush. Undo tools encourage experiments without losing earlier work; the finished work still reflects human choices.",
+        "briefing": "Digital tools change how easily an artist revises a picture. A layer can separate light, color, and line without losing earlier work. The choices behind the image still belong to its maker.",
         "facts": [
           "Layers let artists revise separate parts of images.",
           "A stylus can imitate a pencil or brush.",
@@ -25817,79 +25817,79 @@
         ],
         "vocab": [
           {
-            "word": "Digital Art",
-            "definition": "Digital art uses software as a creative material.",
+            "word": "layer",
+            "definition": "A separate part of a digital image",
             "partOfSpeech": "noun",
-            "example": "Digital art uses software as a creative material.",
-            "starter": "I want to discuss digital art because…"
-          },
-          {
-            "word": "layers",
-            "definition": "Separate parts of a digital picture",
-            "partOfSpeech": "noun",
-            "example": "Layers let artists revise separate parts of images.",
-            "starter": "I can use layers to explain…"
+            "example": "A layer can separate light, color, and line without losing earlier work.",
+            "starter": "If I saw layer, I would…"
           },
           {
             "word": "stylus",
-            "definition": "Pen-shaped tool for a screen",
+            "definition": "A pen-shaped tool used on a screen",
             "partOfSpeech": "noun",
             "example": "A stylus can imitate a pencil or brush.",
-            "starter": "When I hear stylus, I think of…"
+            "starter": "I could describe stylus by…"
+          },
+          {
+            "word": "brush preset",
+            "definition": "A saved digital brush setting",
+            "partOfSpeech": "phrase",
+            "example": "A brush preset can save time but cannot choose the idea for me.",
+            "starter": "I wonder whether brush preset can…"
           },
           {
             "word": "undo",
-            "definition": "A command that reverses an action",
+            "definition": "A command reversing the last action",
             "partOfSpeech": "noun",
             "example": "Undo tools encourage experiments without losing earlier work.",
-            "starter": "A question about undo is…"
+            "starter": "One question about undo is…"
           },
           {
-            "word": "brush",
-            "definition": "A tool for painting",
+            "word": "opacity",
+            "definition": "How much of a layer can be seen through",
             "partOfSpeech": "noun",
-            "example": "A stylus can imitate a pencil or brush.",
-            "starter": "I would compare brush with…"
+            "example": "Changing opacity could make a shadow feel softer.",
+            "starter": "I would compare opacity with…"
           },
           {
-            "word": "images",
-            "definition": "Pictures made from light or color",
-            "partOfSpeech": "noun",
-            "example": "Layers let artists revise separate parts of images.",
-            "starter": "One example of images is…"
+            "word": "canvas size",
+            "definition": "The dimensions of a digital picture",
+            "partOfSpeech": "phrase",
+            "example": "I would set the canvas size.",
+            "starter": "My idea about canvas size is…"
           },
           {
-            "word": "algorithm",
-            "definition": "A set of steps a computer follows.",
+            "word": "pixel",
+            "definition": "A tiny unit of a digital image",
             "partOfSpeech": "noun",
-            "example": "An algorithm can influence experiences of digital art.",
-            "starter": "I want to compare algorithm with…"
+            "example": "One pixel can change a line.",
+            "starter": "I might use pixel when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that layers let artists revise separate parts of images."
+            "phrase": "If I painted digitally, I would…",
+            "example": "If I painted digitally, I would try a bold change on a separate layer."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a stylus can imitate a pencil or brush."
+            "phrase": "I would rather keep one interesting…",
+            "example": "I would rather keep one interesting mistake than undo every imperfect mark."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, undo tools encourage experiments without losing earlier work."
+            "phrase": "A brush preset can save time…",
+            "example": "A brush preset can save time but cannot choose the idea for me."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare digital art with a related topic."
+            "phrase": "Changing opacity could make a shadow…",
+            "example": "Changing opacity could make a shadow feel softer."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that the finished work still reflects human choices."
+            "phrase": "I wonder whether unlimited undo changes…",
+            "example": "I wonder whether unlimited undo changes how artists learn."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because layers let artists revise separate parts of images."
+            "phrase": "The final image still carries a…",
+            "example": "The final image still carries a human series of choices."
           }
         ]
       }

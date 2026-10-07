@@ -23,3 +23,5 @@ Batch 3 (10 weather and nature topics): added separate briefing material, subjec
 Batch 4 (15 everyday topics): rewrote food, school, family, festivals and jobs. Remaining audit counts: 200/204/37/15/200/0; all 60 rewritten topics pass their individual checks.
 
 Batch 5 (20 play and creativity topics): rewrote sports, games, transport and arts. All 80 kids' topics now have new copy. Remaining counts are 140/144/17/11/142/0. Two rewritten levels still trigger the 80%-fact speech check; I will locate and fix those in final editorial QA.
+
+Batch 6 (15 digital life topics): wrote distinct B1 and B2 briefings and student speech for games, online life, technology and digital art. Remaining counts: 110/116/2/9/112/0.
