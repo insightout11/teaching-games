@@ -85,3 +85,15 @@ board-style status ("Boarding" when a session is live, so the teacher can rejoin
 2. Should Home remember class times (for "due now" ordering and option C)? It's a small addition to class settings.
 3. Is "Board" the right word on the button, or "Start class"?
 4. Anything from today's Home that must stay on it?
+
+## Built (Oct 7 2026; owner chose the departures-board look on the gate-list structure)
+- `/home` = `DepartureBoard` (`src/components/home/departure-board.tsx`) fed by `getDepartureBoard`
+  (`src/lib/home-board.ts`): one row per class (live first, then most recently used) with **Board** (plan-free session
+  → the room), **Rejoin** for a live class (active and started in the last 6 hours), the next planned lesson of a
+  course the class has started (tap to board with it), one "Last" line (flight result, or topic), crew count, a clock.
+- "Gate" column dropped for **Crew** (student count): a gate number wouldn't mean anything.
+- First visit (no classes): **Start your first class** creates "My class" and boards.
+- Enter boards (or rejoins) the first row.
+- The old Home (featured flight, World Flight, flight lanes, shelves) moved unchanged to **`/flights`**, linked from
+  the board as "Flights and activities".
+- Not yet: class times ("due now" ordering), Junior tag, turning the Live Room on for everyone (after the test round).
