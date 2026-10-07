@@ -48,6 +48,7 @@ import { ShownItem } from '@/components/session/live-room/shown-item';
 import { openRoomChannel } from '@/components/session/live-room/room-channel';
 import { roomItemToSource } from '@/components/session/live-room/room-source';
 import { useDeckDrag, type DeckDrop } from '@/components/session/live-room/use-deck-drag';
+import { useLessonMemory } from '@/hooks/use-lesson-memory';
 
 /**
  * The Live Room flight deck. The windscreen is what the class sees (the teacher
@@ -172,6 +173,11 @@ export function FlightDeck({
   const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
   const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
   const { material, shown } = useRoom(sessionId);
+  // Live memory: what this lesson covers, recorded as it happens (docs/live-memory-concept.md).
+  const lessonMemory = useLessonMemory(sessionId);
+  useEffect(() => {
+    material.forEach((m) => { if (m.kind !== 'note') lessonMemory.material(m.title, m.kind); });
+  }, [material, lessonMemory]);
   const addItem = useLiveRoomStore((s) => s.add);
   const showItem = useLiveRoomStore((s) => s.show);
   const hideItem = useLiveRoomStore((s) => s.hide);
@@ -596,6 +602,7 @@ export function FlightDeck({
     setCatalogueState((c) => ({ ...c, recent: [key, ...c.recent.filter((k) => k !== key)].slice(0, 6) }));
     setPanel(null);
     const entry = catalogue.find((c) => c.key === key);
+    lessonMemory.activity(entry?.name ?? getActivity(key)?.name ?? key);
     // Phones show "Get ready: <name>" at once, while the content generates.
     if (entry) {
       void fetch('/api/session/room-launch', {
@@ -610,7 +617,7 @@ export function FlightDeck({
     // Planner-only activities (e.g. Video Player's comprehension check) still launch from an item.
     const activity = activities.find((a) => a.key === key) ?? getActivity(key);
     if (activity) onLaunchActivity(activity);
-  }, [catalogue, games, activities, onLaunchGame, onLaunchActivity, setSourceMaterial, setCustomTopic, flash, sessionId]);
+  }, [catalogue, games, activities, onLaunchGame, onLaunchActivity, setSourceMaterial, setCustomTopic, flash, sessionId, lessonMemory]);
 
   const focused = material.find((m) => m.id === focusId) ?? null;
   const roomChannelRef = useRef<BroadcastChannel | null>(null);
@@ -646,6 +653,7 @@ export function FlightDeck({
   useEffect(() => {
     if (!focused) return;
     setFocusTrail((t) => [focused.id, ...t.filter((x) => x !== focused.id)].slice(0, 8));
+    lessonMemory.topic(focused.title, focused.kind);
     setCustomTopic(focused.title.slice(0, 120));
     roomChannelRef.current?.postMessage({ type: 'topic', title: focused.title.slice(0, 120) });
     if (briefs[focused.id]) return;
@@ -678,6 +686,7 @@ export function FlightDeck({
   // The topic's key words feed the Word bank widget.
   const setBusVocab = useFocusBus((s) => s.setVocab);
   useEffect(() => { setBusVocab(brief?.vocab ?? []); }, [brief, setBusVocab]);
+  useEffect(() => { if (brief?.vocab?.length) lessonMemory.words(brief.vocab.map((v) => v.word)); }, [brief, lessonMemory]);
 
   // Setting a focus item starts preparing the top two activity stamps for it, so
   // launching one of them is near-instant. (Games generate inside themselves.)
@@ -1435,6 +1444,7 @@ export function FlightDeck({
           onClose={() => setPlanOpen(false)}
           onLaunch={(plan) => {
             setPlanOpen(false);
+            lessonMemory.activity(`Flight plan: ${plan.customTopic}`);
             // Mid-air: a new flight plan, not a new take-off.
             flash(flightStage === 'flying' ? `Captain's announcement: new flight plan, ${plan.customTopic}` : `Flight plan ready: ${plan.customTopic}`);
             onLaunchPlan(plan);

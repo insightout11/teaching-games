@@ -69,3 +69,13 @@ surveillance warning), names on anything that's shared or public.
 ## Owner decisions (Oct 7 2026: "go with your recommendations")
 1. The capture list as written. 2. "Last time" shows as one line at boarding with its suggestions one tap away
 (never launching by itself). 3. Student/parent recaps later, only after the privacy decisions.
+
+## Built: step 1 (Oct 7 2026)
+- `src/lib/lesson-memory.ts` (record shape, merge rules, caps, sanitizer), `src/hooks/use-lesson-memory.ts` (browser
+  copy in localStorage `lc-lesson-memory-<session>`, saved 15 s after a change and when the page closes), wired into
+  the room (`flight-deck.tsx`): each Focus topic, the briefing's words, material opened (not typed notes), every
+  activity launched and flight plan started.
+- Saved through `/api/session/lesson-memory` to the teacher-only table `session_memory`
+  (**`supabase/migrations/058_session_memory.sql`, not applied yet: needs the owner's OK** to write to production).
+  Until it's applied, saves fail quietly and the lesson is unaffected.
+- Not yet: the logbook entry (step 2), "Last time" at boarding (step 3), the in-room drawer (step 4).
