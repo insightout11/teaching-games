@@ -19,3 +19,5 @@ Batch 1 (20 animal topics): rewrote the three kids levels with new briefing mate
 Batch 2 (15 Earth and space topics): added independent briefing details, subject vocabulary and student speech. Simplified the dinosaur and volcano prompts. Remaining audit counts: 275/267/39/23/275/0; all 35 rewritten topics pass their individual checks.
 
 Batch 3 (10 weather and nature topics): added separate briefing material, subject vocabulary, and student speech. Remaining audit counts: 245/237/39/20/245/0; all 45 rewritten topics pass their individual checks.
+
+Batch 4 (15 everyday topics): rewrote food, school, family, festivals and jobs. Remaining audit counts: 200/204/37/15/200/0; all 60 rewritten topics pass their individual checks.
