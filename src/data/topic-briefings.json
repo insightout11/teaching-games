@@ -1,0 +1,1798 @@
+[
+  {
+    "id": "topic-kids-cats",
+    "title": "Cats",
+    "aliases": [
+      "cats",
+      "cat",
+      "kittens",
+      "house cats"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-dogs",
+    "title": "Dogs",
+    "aliases": [
+      "dogs",
+      "dog",
+      "puppies",
+      "pet dogs"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-horses",
+    "title": "Horses",
+    "aliases": [
+      "horses",
+      "horse",
+      "ponies",
+      "riding horses"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-elephants",
+    "title": "Elephants",
+    "aliases": [
+      "elephants",
+      "elephant",
+      "elephant trunks",
+      "elephant families"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-giraffes",
+    "title": "Giraffes",
+    "aliases": [
+      "giraffes",
+      "giraffe",
+      "long-necked animals",
+      "giraffe spots"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-zebras",
+    "title": "Zebras",
+    "aliases": [
+      "zebras",
+      "zebra",
+      "zebra stripes",
+      "wild striped horses"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-lions",
+    "title": "Lions",
+    "aliases": [
+      "lions",
+      "lion",
+      "lion pride",
+      "big cats in grasslands"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-tigers",
+    "title": "Tigers",
+    "aliases": [
+      "tigers",
+      "tiger",
+      "tiger stripes",
+      "wild striped cats"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-pandas",
+    "title": "Pandas",
+    "aliases": [
+      "pandas",
+      "panda",
+      "giant pandas",
+      "bamboo bears"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-koalas",
+    "title": "Koalas",
+    "aliases": [
+      "koalas",
+      "koala",
+      "tree-dwelling koalas",
+      "eucalyptus eaters"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-kangaroos",
+    "title": "Kangaroos",
+    "aliases": [
+      "kangaroos",
+      "kangaroo",
+      "kangaroo pouches",
+      "jumping marsupials"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-penguins",
+    "title": "Penguins",
+    "aliases": [
+      "penguins",
+      "penguin",
+      "penguin colonies",
+      "birds on ice"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-polar-bears",
+    "title": "Polar Bears",
+    "aliases": [
+      "polar bears",
+      "polar bear",
+      "arctic bears",
+      "bears on sea ice"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-dolphins",
+    "title": "Dolphins",
+    "aliases": [
+      "dolphins",
+      "dolphin",
+      "dolphin pods",
+      "smart sea mammals"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-whales",
+    "title": "Whales",
+    "aliases": [
+      "whales",
+      "whale",
+      "whale songs",
+      "giants of the sea"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-sharks",
+    "title": "Sharks",
+    "aliases": [
+      "sharks",
+      "shark",
+      "shark teeth",
+      "ocean predators"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-sea-turtles",
+    "title": "Sea Turtles",
+    "aliases": [
+      "sea turtles",
+      "sea turtle",
+      "ocean turtles",
+      "turtle shells at sea"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-frogs",
+    "title": "Frogs",
+    "aliases": [
+      "frogs",
+      "frog",
+      "tadpoles",
+      "frog life cycle"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-butterflies",
+    "title": "Butterflies",
+    "aliases": [
+      "butterflies",
+      "butterfly",
+      "caterpillars",
+      "butterfly wings"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-bees",
+    "title": "Bees",
+    "aliases": [
+      "bees",
+      "bee",
+      "honeybees",
+      "bees and flowers"
+    ],
+    "ageBand": "kids",
+    "category": "animals"
+  },
+  {
+    "id": "topic-kids-dinosaurs",
+    "title": "Dinosaurs",
+    "aliases": [
+      "dinosaurs",
+      "dinosaur",
+      "prehistoric reptiles",
+      "giant ancient animals"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-fossils",
+    "title": "Fossils",
+    "aliases": [
+      "fossils",
+      "fossil",
+      "old bones in rock",
+      "fossil footprints"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-the-moon",
+    "title": "The Moon",
+    "aliases": [
+      "the moon",
+      "moon",
+      "moon phases",
+      "night sky moon"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-the-sun",
+    "title": "The Sun",
+    "aliases": [
+      "the sun",
+      "sun",
+      "sunlight",
+      "our star"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-planets",
+    "title": "Planets",
+    "aliases": [
+      "planets",
+      "planet",
+      "solar system worlds",
+      "planets around the sun"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-stars",
+    "title": "Stars",
+    "aliases": [
+      "stars",
+      "star",
+      "constellations",
+      "twinkling stars"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-rockets",
+    "title": "Rockets",
+    "aliases": [
+      "rockets",
+      "rocket",
+      "rocket launch",
+      "space rockets"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-astronauts",
+    "title": "Astronauts",
+    "aliases": [
+      "astronauts",
+      "astronaut",
+      "space travellers",
+      "living in space"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-volcanoes",
+    "title": "Volcanoes",
+    "aliases": [
+      "volcanoes",
+      "volcano",
+      "eruption",
+      "lava"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-earthquakes",
+    "title": "Earthquakes",
+    "aliases": [
+      "earthquakes",
+      "earthquake",
+      "shaking ground",
+      "earth tremors"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-mountains",
+    "title": "Mountains",
+    "aliases": [
+      "mountains",
+      "mountain",
+      "high peaks",
+      "mountain slopes"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-rivers",
+    "title": "Rivers",
+    "aliases": [
+      "rivers",
+      "river",
+      "flowing rivers",
+      "riverbanks"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-oceans",
+    "title": "Oceans",
+    "aliases": [
+      "oceans",
+      "ocean",
+      "deep ocean",
+      "seas of the world"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-coral-reefs",
+    "title": "Coral Reefs",
+    "aliases": [
+      "coral reefs",
+      "coral reef",
+      "reef fish",
+      "underwater coral"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-rainforests",
+    "title": "Rainforests",
+    "aliases": [
+      "rainforests",
+      "rainforest",
+      "tropical forests",
+      "jungle layers"
+    ],
+    "ageBand": "kids",
+    "category": "earth and space"
+  },
+  {
+    "id": "topic-kids-deserts",
+    "title": "Deserts",
+    "aliases": [
+      "deserts",
+      "desert",
+      "sandy deserts",
+      "dry lands"
+    ],
+    "ageBand": "kids",
+    "category": "weather and nature"
+  },
+  {
+    "id": "topic-kids-forests",
+    "title": "Forests",
+    "aliases": [
+      "forests",
+      "forest",
+      "woodlands",
+      "trees in woods"
+    ],
+    "ageBand": "kids",
+    "category": "weather and nature"
+  },
+  {
+    "id": "topic-kids-seasons",
+    "title": "Seasons",
+    "aliases": [
+      "seasons",
+      "season",
+      "spring summer autumn winter",
+      "changing seasons"
+    ],
+    "ageBand": "kids",
+    "category": "weather and nature"
+  },
+  {
+    "id": "topic-kids-rain",
+    "title": "Rain",
+    "aliases": [
+      "rain",
+      "raindrops",
+      "rainy days"
+    ],
+    "ageBand": "kids",
+    "category": "weather and nature"
+  },
+  {
+    "id": "topic-kids-snow",
+    "title": "Snow",
+    "aliases": [
+      "snow",
+      "snowflakes",
+      "snowy days"
+    ],
+    "ageBand": "kids",
+    "category": "weather and nature"
+  },
+  {
+    "id": "topic-kids-wind",
+    "title": "Wind",
+    "aliases": [
+      "wind",
+      "breezes",
+      "windy weather"
+    ],
+    "ageBand": "kids",
+    "category": "weather and nature"
+  },
+  {
+    "id": "topic-kids-clouds",
+    "title": "Clouds",
+    "aliases": [
+      "clouds",
+      "cloud",
+      "cloud shapes",
+      "cloudy sky"
+    ],
+    "ageBand": "kids",
+    "category": "weather and nature"
+  },
+  {
+    "id": "topic-kids-rainbows",
+    "title": "Rainbows",
+    "aliases": [
+      "rainbows",
+      "rainbow",
+      "colors in a rainbow",
+      "rainbow colors"
+    ],
+    "ageBand": "kids",
+    "category": "weather and nature"
+  },
+  {
+    "id": "topic-kids-water-cycle",
+    "title": "Water Cycle",
+    "aliases": [
+      "water cycle",
+      "evaporation and rain",
+      "where rain comes from"
+    ],
+    "ageBand": "kids",
+    "category": "weather and nature"
+  },
+  {
+    "id": "topic-kids-plant-growth",
+    "title": "Plant Growth",
+    "aliases": [
+      "plant growth",
+      "growing plants",
+      "seeds to plants",
+      "how plants grow"
+    ],
+    "ageBand": "kids",
+    "category": "weather and nature"
+  },
+  {
+    "id": "topic-kids-cooking",
+    "title": "Cooking",
+    "aliases": [
+      "cooking",
+      "cook",
+      "make a meal",
+      "cooking food"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-baking",
+    "title": "Baking",
+    "aliases": [
+      "baking",
+      "bake",
+      "baking bread",
+      "using an oven"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-fruits",
+    "title": "Fruits",
+    "aliases": [
+      "fruits",
+      "fruit",
+      "apples and oranges",
+      "fruit from trees"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-vegetables",
+    "title": "Vegetables",
+    "aliases": [
+      "vegetables",
+      "vegetable",
+      "carrots and greens",
+      "garden vegetables"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-breakfast",
+    "title": "Breakfast",
+    "aliases": [
+      "breakfast",
+      "morning meal",
+      "breakfast foods",
+      "eating in the morning"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-school-lunch",
+    "title": "School Lunch",
+    "aliases": [
+      "school lunch",
+      "lunch at school",
+      "lunchbox",
+      "school meals"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-caring-for-pets",
+    "title": "Caring for Pets",
+    "aliases": [
+      "caring for pets",
+      "pet care",
+      "feeding a pet",
+      "looking after animals"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-school-day",
+    "title": "School Day",
+    "aliases": [
+      "school day",
+      "a day at school",
+      "school routines",
+      "school timetable"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-classroom-rules",
+    "title": "Classroom Rules",
+    "aliases": [
+      "classroom rules",
+      "class rules",
+      "sharing in class",
+      "being fair at school"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-making-friends",
+    "title": "Making Friends",
+    "aliases": [
+      "making friends",
+      "new friends",
+      "how to make friends",
+      "playground friends"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-family-traditions",
+    "title": "Family Traditions",
+    "aliases": [
+      "family traditions",
+      "family customs",
+      "things families do",
+      "family celebrations"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-birthday-parties",
+    "title": "Birthday Parties",
+    "aliases": [
+      "birthday parties",
+      "birthday party",
+      "birthday games",
+      "celebrating a birthday"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-festivals-around-the-world",
+    "title": "Festivals Around the World",
+    "aliases": [
+      "festivals around the world",
+      "world festivals",
+      "festival customs",
+      "celebrations worldwide"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-holidays",
+    "title": "Holidays",
+    "aliases": [
+      "holidays",
+      "school holidays",
+      "holiday activities",
+      "time off school"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-jobs-people-do",
+    "title": "Jobs People Do",
+    "aliases": [
+      "jobs people do",
+      "community jobs",
+      "people at work",
+      "what adults do at work"
+    ],
+    "ageBand": "kids",
+    "category": "everyday life"
+  },
+  {
+    "id": "topic-kids-soccer",
+    "title": "Soccer",
+    "aliases": [
+      "soccer",
+      "football game",
+      "kicking a ball",
+      "soccer teams"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-basketball",
+    "title": "Basketball",
+    "aliases": [
+      "basketball",
+      "basketball game",
+      "shooting hoops",
+      "basketball teams"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-swimming",
+    "title": "Swimming",
+    "aliases": [
+      "swimming",
+      "swim",
+      "swimming lessons",
+      "pool swimming"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-cycling",
+    "title": "Cycling",
+    "aliases": [
+      "cycling",
+      "ride a bike",
+      "cycling safety",
+      "bike rides"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-running",
+    "title": "Running",
+    "aliases": [
+      "running",
+      "run",
+      "running races",
+      "jogging for kids"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-dancing",
+    "title": "Dancing",
+    "aliases": [
+      "dancing",
+      "dance",
+      "dance moves",
+      "dancing together"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-board-games",
+    "title": "Board Games",
+    "aliases": [
+      "board games",
+      "board game",
+      "tabletop games",
+      "dice and boards"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-puzzles",
+    "title": "Puzzles",
+    "aliases": [
+      "puzzles",
+      "puzzle",
+      "jigsaw puzzles",
+      "solving puzzles"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-building-blocks",
+    "title": "Building Blocks",
+    "aliases": [
+      "building blocks",
+      "blocks",
+      "building toys",
+      "stacking blocks"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-kites",
+    "title": "Kites",
+    "aliases": [
+      "kites",
+      "kite",
+      "flying a kite",
+      "kites in the wind"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-playgrounds",
+    "title": "Playgrounds",
+    "aliases": [
+      "playgrounds",
+      "playground",
+      "slides and swings",
+      "playing outside"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-superheroes",
+    "title": "Superheroes",
+    "aliases": [
+      "superheroes",
+      "superhero",
+      "imaginary heroes",
+      "hero powers"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-robots",
+    "title": "Robots",
+    "aliases": [
+      "robots",
+      "robot",
+      "helpful robots",
+      "robot helpers"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-trains",
+    "title": "Trains",
+    "aliases": [
+      "trains",
+      "train",
+      "rail journeys",
+      "train stations"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-airplanes",
+    "title": "Airplanes",
+    "aliases": [
+      "airplanes",
+      "airplane",
+      "aeroplanes",
+      "planes in the sky"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-boats",
+    "title": "Boats",
+    "aliases": [
+      "boats",
+      "boat",
+      "sailing boats",
+      "boats on water"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-musical-instruments",
+    "title": "Musical Instruments",
+    "aliases": [
+      "musical instruments",
+      "instrument",
+      "playing an instrument",
+      "instruments and sounds"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-drawing",
+    "title": "Drawing",
+    "aliases": [
+      "drawing",
+      "draw",
+      "sketching pictures",
+      "drawing with pencils"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-painting",
+    "title": "Painting",
+    "aliases": [
+      "painting",
+      "paint",
+      "painting pictures",
+      "paintbrush art"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-kids-the-five-senses",
+    "title": "The Five Senses",
+    "aliases": [
+      "the five senses",
+      "body senses",
+      "seeing hearing smelling",
+      "senses of the body"
+    ],
+    "ageBand": "kids",
+    "category": "play and creativity"
+  },
+  {
+    "id": "topic-teens-video-games",
+    "title": "Video Games",
+    "aliases": [
+      "video games",
+      "gaming",
+      "computer games",
+      "gameplay"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-game-design",
+    "title": "Game Design",
+    "aliases": [
+      "game design",
+      "designing games",
+      "game makers",
+      "how games are made"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-esports",
+    "title": "Esports",
+    "aliases": [
+      "esports",
+      "competitive gaming",
+      "esports teams",
+      "game tournaments"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-social-media",
+    "title": "Social Media",
+    "aliases": [
+      "social media",
+      "social networks",
+      "sharing posts",
+      "online feeds"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-online-privacy",
+    "title": "Online Privacy",
+    "aliases": [
+      "online privacy",
+      "privacy online",
+      "protecting personal data",
+      "private accounts"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-screen-time",
+    "title": "Screen Time",
+    "aliases": [
+      "screen time",
+      "time on screens",
+      "phone time",
+      "device habits"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-digital-footprints",
+    "title": "Digital Footprints",
+    "aliases": [
+      "digital footprints",
+      "online trace",
+      "posts that last",
+      "what the internet remembers"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-internet-memes",
+    "title": "Internet Memes",
+    "aliases": [
+      "internet memes",
+      "meme",
+      "funny online pictures",
+      "sharing memes"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-artificial-intelligence",
+    "title": "Artificial Intelligence",
+    "aliases": [
+      "artificial intelligence",
+      "AI tools",
+      "machine learning",
+      "computer intelligence"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-robots-and-automation",
+    "title": "Robots and Automation",
+    "aliases": [
+      "robots and automation",
+      "automation",
+      "automated machines",
+      "robots at work"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-virtual-reality",
+    "title": "Virtual Reality",
+    "aliases": [
+      "virtual reality",
+      "VR headsets",
+      "virtual worlds",
+      "immersive technology"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-coding",
+    "title": "Coding",
+    "aliases": [
+      "coding",
+      "computer code",
+      "programming",
+      "writing code"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-cybersecurity",
+    "title": "Cybersecurity",
+    "aliases": [
+      "cybersecurity",
+      "online security",
+      "computer safety",
+      "protecting accounts"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-online-learning",
+    "title": "Online Learning",
+    "aliases": [
+      "online learning",
+      "learning online",
+      "remote classes",
+      "digital lessons"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-digital-art",
+    "title": "Digital Art",
+    "aliases": [
+      "digital art",
+      "art on tablets",
+      "computer drawing",
+      "creating digital images"
+    ],
+    "ageBand": "teens",
+    "category": "digital life"
+  },
+  {
+    "id": "topic-teens-friendship",
+    "title": "Friendship",
+    "aliases": [
+      "friendship",
+      "close friends",
+      "being a good friend",
+      "friendship problems"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-peer-pressure",
+    "title": "Peer Pressure",
+    "aliases": [
+      "peer pressure",
+      "pressure from friends",
+      "following the crowd",
+      "saying no to friends"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-teamwork",
+    "title": "Teamwork",
+    "aliases": [
+      "teamwork",
+      "working together",
+      "group projects",
+      "team roles"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-music-genres",
+    "title": "Music Genres",
+    "aliases": [
+      "music genres",
+      "styles of music",
+      "hip-hop and jazz",
+      "music styles"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-live-music",
+    "title": "Live Music",
+    "aliases": [
+      "live music",
+      "concerts",
+      "live performances",
+      "music on stage"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-songwriting",
+    "title": "Songwriting",
+    "aliases": [
+      "songwriting",
+      "writing songs",
+      "song lyrics",
+      "making a melody"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-film-genres",
+    "title": "Film Genres",
+    "aliases": [
+      "film genres",
+      "types of films",
+      "comedies and mysteries",
+      "movie genres"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-film-making",
+    "title": "Film Making",
+    "aliases": [
+      "film making",
+      "making films",
+      "behind the camera",
+      "filmmaking"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-fashion",
+    "title": "Fashion",
+    "aliases": [
+      "fashion",
+      "clothing trends",
+      "what people wear",
+      "fashion choices"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-personal-style",
+    "title": "Personal Style",
+    "aliases": [
+      "personal style",
+      "individual style",
+      "dressing to express yourself",
+      "style choices"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-food-culture",
+    "title": "Food Culture",
+    "aliases": [
+      "food culture",
+      "food traditions",
+      "meals around the world",
+      "cultural food"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-cooking-skills",
+    "title": "Cooking Skills",
+    "aliases": [
+      "cooking skills",
+      "learning to cook",
+      "kitchen skills",
+      "preparing food"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-language-learning",
+    "title": "Language Learning",
+    "aliases": [
+      "language learning",
+      "learning languages",
+      "how to learn a language",
+      "language practice"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-travel-etiquette",
+    "title": "Travel Etiquette",
+    "aliases": [
+      "travel etiquette",
+      "travel manners",
+      "being a good visitor",
+      "respectful travel"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-local-traditions",
+    "title": "Local Traditions",
+    "aliases": [
+      "local traditions",
+      "local customs",
+      "traditions where we live",
+      "community customs"
+    ],
+    "ageBand": "teens",
+    "category": "culture and relationships"
+  },
+  {
+    "id": "topic-teens-exams",
+    "title": "Exams",
+    "aliases": [
+      "exams",
+      "school exams",
+      "testing at school",
+      "exam nerves"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-homework",
+    "title": "Homework",
+    "aliases": [
+      "homework",
+      "homework habits",
+      "after-school work",
+      "school assignments"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-school-clubs",
+    "title": "School Clubs",
+    "aliases": [
+      "school clubs",
+      "after-school clubs",
+      "student groups",
+      "joining a club"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-part-time-jobs",
+    "title": "Part-Time Jobs",
+    "aliases": [
+      "part-time jobs",
+      "after-school jobs",
+      "weekend work",
+      "teen employment"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-future-jobs",
+    "title": "Future Jobs",
+    "aliases": [
+      "future jobs",
+      "jobs of the future",
+      "changing careers",
+      "work in the future"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-entrepreneurship",
+    "title": "Entrepreneurship",
+    "aliases": [
+      "entrepreneurship",
+      "starting a small business",
+      "young entrepreneurs",
+      "business ideas"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-money-and-saving",
+    "title": "Money and Saving",
+    "aliases": [
+      "money and saving",
+      "saving money",
+      "pocket money",
+      "savings goals"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-budgeting",
+    "title": "Budgeting",
+    "aliases": [
+      "budgeting",
+      "making a budget",
+      "planning spending",
+      "tracking costs"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-volunteering",
+    "title": "Volunteering",
+    "aliases": [
+      "volunteering",
+      "community service",
+      "helping without pay",
+      "volunteer work"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-public-speaking",
+    "title": "Public Speaking",
+    "aliases": [
+      "public speaking",
+      "giving a speech",
+      "speaking to a group",
+      "presentations"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-study-habits",
+    "title": "Study Habits",
+    "aliases": [
+      "study habits",
+      "how to study",
+      "study routines",
+      "revision habits"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-sleep-and-learning",
+    "title": "Sleep and Learning",
+    "aliases": [
+      "sleep and learning",
+      "sleep for students",
+      "rest and memory",
+      "bedtime and school"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-choosing-subjects",
+    "title": "Choosing Subjects",
+    "aliases": [
+      "choosing subjects",
+      "school subject choices",
+      "selecting classes",
+      "subject decisions"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-gap-years",
+    "title": "Gap Years",
+    "aliases": [
+      "gap years",
+      "year before college",
+      "taking a gap year",
+      "time between school and study"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-career-skills",
+    "title": "Career Skills",
+    "aliases": [
+      "career skills",
+      "workplace skills",
+      "skills for a job",
+      "communication at work"
+    ],
+    "ageBand": "teens",
+    "category": "school and work"
+  },
+  {
+    "id": "topic-teens-climate-change",
+    "title": "Climate Change",
+    "aliases": [
+      "climate change",
+      "global warming",
+      "changing climate",
+      "climate action"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-renewable-energy",
+    "title": "Renewable Energy",
+    "aliases": [
+      "renewable energy",
+      "clean energy",
+      "solar and wind power",
+      "renewable power"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-plastic-waste",
+    "title": "Plastic Waste",
+    "aliases": [
+      "plastic waste",
+      "plastic pollution",
+      "single-use plastic",
+      "plastic trash"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-wildlife-conservation",
+    "title": "Wildlife Conservation",
+    "aliases": [
+      "wildlife conservation",
+      "protecting wildlife",
+      "animal habitats",
+      "conservation work"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-urban-nature",
+    "title": "Urban Nature",
+    "aliases": [
+      "urban nature",
+      "nature in cities",
+      "city parks",
+      "urban wildlife"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-public-transport",
+    "title": "Public Transport",
+    "aliases": [
+      "public transport",
+      "buses and trains",
+      "shared transport",
+      "getting around a city"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-cities-of-the-future",
+    "title": "Cities of the Future",
+    "aliases": [
+      "cities of the future",
+      "future cities",
+      "smart cities",
+      "tomorrow's cities"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-space-exploration",
+    "title": "Space Exploration",
+    "aliases": [
+      "space exploration",
+      "exploring space",
+      "space missions",
+      "space science"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-mars-missions",
+    "title": "Mars Missions",
+    "aliases": [
+      "mars missions",
+      "travel to Mars",
+      "exploring Mars",
+      "Mars spacecraft"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-satellites",
+    "title": "Satellites",
+    "aliases": [
+      "satellites",
+      "satellite",
+      "objects in orbit",
+      "space satellites"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-inventions",
+    "title": "Inventions",
+    "aliases": [
+      "inventions",
+      "inventors",
+      "new ideas and inventions",
+      "how inventions work"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-medical-technology",
+    "title": "Medical Technology",
+    "aliases": [
+      "medical technology",
+      "tools in medicine",
+      "health technology",
+      "medical devices"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-food-waste",
+    "title": "Food Waste",
+    "aliases": [
+      "food waste",
+      "wasted food",
+      "saving leftover food",
+      "throwing food away"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-sustainable-fashion",
+    "title": "Sustainable Fashion",
+    "aliases": [
+      "sustainable fashion",
+      "clothes and the environment",
+      "reusing clothes",
+      "eco-friendly fashion"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-water-conservation",
+    "title": "Water Conservation",
+    "aliases": [
+      "water conservation",
+      "saving water",
+      "using less water",
+      "protecting freshwater"
+    ],
+    "ageBand": "teens",
+    "category": "science and environment"
+  },
+  {
+    "id": "topic-teens-team-sports",
+    "title": "Team Sports",
+    "aliases": [
+      "team sports",
+      "sports teams",
+      "playing on a team",
+      "team games"
+    ],
+    "ageBand": "teens",
+    "category": "wellbeing and adventure"
+  },
+  {
+    "id": "topic-teens-solo-sports",
+    "title": "Solo Sports",
+    "aliases": [
+      "solo sports",
+      "individual sports",
+      "sports you play alone",
+      "personal sports goals"
+    ],
+    "ageBand": "teens",
+    "category": "wellbeing and adventure"
+  },
+  {
+    "id": "topic-teens-fitness",
+    "title": "Fitness",
+    "aliases": [
+      "fitness",
+      "staying fit",
+      "exercise routines",
+      "physical fitness"
+    ],
+    "ageBand": "teens",
+    "category": "wellbeing and adventure"
+  },
+  {
+    "id": "topic-teens-outdoor-adventures",
+    "title": "Outdoor Adventures",
+    "aliases": [
+      "outdoor adventures",
+      "hiking and camping",
+      "exploring outdoors",
+      "adventure trips"
+    ],
+    "ageBand": "teens",
+    "category": "wellbeing and adventure"
+  },
+  {
+    "id": "topic-teens-mysteries-and-clues",
+    "title": "Mysteries and Clues",
+    "aliases": [
+      "mysteries and clues",
+      "solving mysteries",
+      "detective clues",
+      "mystery stories"
+    ],
+    "ageBand": "teens",
+    "category": "wellbeing and adventure"
+  },
+  {
+    "id": "topic-teens-unexplained-places",
+    "title": "Unexplained Places",
+    "aliases": [
+      "unexplained places",
+      "strange places",
+      "places with mysteries",
+      "unusual places"
+    ],
+    "ageBand": "teens",
+    "category": "wellbeing and adventure"
+  },
+  {
+    "id": "topic-teens-optical-illusions",
+    "title": "Optical Illusions",
+    "aliases": [
+      "optical illusions",
+      "visual tricks",
+      "eyes and illusions",
+      "images that fool us"
+    ],
+    "ageBand": "teens",
+    "category": "wellbeing and adventure"
+  },
+  {
+    "id": "topic-teens-healthy-eating",
+    "title": "Healthy Eating",
+    "aliases": [
+      "healthy eating",
+      "balanced meals",
+      "food for energy",
+      "eating well"
+    ],
+    "ageBand": "teens",
+    "category": "wellbeing and adventure"
+  },
+  {
+    "id": "topic-teens-stress-management",
+    "title": "Stress Management",
+    "aliases": [
+      "stress management",
+      "managing stress",
+      "calming down",
+      "stress at school"
+    ],
+    "ageBand": "teens",
+    "category": "wellbeing and adventure"
+  },
+  {
+    "id": "topic-teens-travel-planning",
+    "title": "Travel Planning",
+    "aliases": [
+      "travel planning",
+      "planning a trip",
+      "travel itinerary",
+      "getting ready to travel"
+    ],
+    "ageBand": "teens",
+    "category": "wellbeing and adventure"
+  }
+]
