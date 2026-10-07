@@ -2,15 +2,36 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-type Counts = { topics: number; kids: number; teens: number; A1: number; A2: number; B1: number; B2: number };
+type Counts = {
+  topics: number; kids: number; teens: number; A1: number; A2: number; B1: number; B2: number;
+  briefingFactOverlap: number; titleAliasVocab: number; genericVocab: number;
+  overusedVocab: number; expressionFactOverlap: number; crossTopicSentences: number;
+};
 const isText = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
 const countWords = (text: string) => text.trim().split(/\s+/).filter(Boolean).length;
 const normalize = (text: string) => text.trim().toLowerCase().replace(/\s+/g, ' ');
+const normalizeSentence = (text: string) => normalize(text).replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+const tokens = (text: string) => normalizeSentence(text).split(' ').filter(Boolean);
 const sentences = (text: string) => (text.trim().match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).map((part) => part.trim()).filter(Boolean);
 const sensitive = /\b(?:currently|this year|the newest|record|20[0-9]{2}|21[0-9]{2})\b/i;
+const genericWords = new Set(['place', 'shape', 'change', 'look', 'screen', 'try', 'thing', 'way', 'use', 'good', 'people', 'part', 'kind', 'type', 'area']);
+
+function factCopiedIntoExample(fact: string, example: string): boolean {
+  const a = tokens(fact);
+  const b = tokens(example);
+  if (a.length === 0 || b.length === 0) return false;
+  const n = Math.ceil(a.length * 0.8);
+  for (let i = 0; i <= a.length - n; i += 1) {
+    const section = a.slice(i, i + n).join(' ');
+    for (let j = 0; j <= b.length - n; j += 1) if (b.slice(j, j + n).join(' ') === section) return true;
+  }
+  return false;
+}
 
 export function validateTopicBriefings(dataDir: string, fail: (where: string, message: string) => void): Counts {
-  const counts: Counts = { topics: 0, kids: 0, teens: 0, A1: 0, A2: 0, B1: 0, B2: 0 };
+  const counts: Counts = { topics: 0, kids: 0, teens: 0, A1: 0, A2: 0, B1: 0, B2: 0,
+    briefingFactOverlap: 0, titleAliasVocab: 0, genericVocab: 0,
+    overusedVocab: 0, expressionFactOverlap: 0, crossTopicSentences: 0 };
   const file = path.join(dataDir, 'topic-briefings.json');
   if (!fs.existsSync(file)) { fail('topic-briefings.json', 'required Focus bank is missing'); return counts; }
   let raw: unknown;
@@ -21,6 +42,8 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
   const ids = new Set<string>();
   const titles = new Set<string>();
   const aliases = new Map<string, string>();
+  const sentenceOwners = new Map<string, Set<string>>();
+  const vocabOwners = new Map<string, Set<string>>();
   for (const [index, entry] of Array.from(raw.entries())) {
     const where = `topic-briefings.json[${index}]`;
     if (!entry || typeof entry !== 'object' || Array.isArray(entry)) { fail(where, 'must be an object'); continue; }
@@ -89,6 +112,10 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
         for (const key of ['definition', 'example', 'starter']) if (isText(row[key])) textFields.push(row[key]);
         if (isText(row.word)) {
           const word = normalize(row.word);
+          if (word === normalize(String(topic.title)) || (Array.isArray(topic.aliases) && topic.aliases.some((alias) => isText(alias) && normalize(alias) === word))) counts.titleAliasVocab += 1;
+          if (genericWords.has(word)) counts.genericVocab += 1;
+          if (!vocabOwners.has(word)) vocabOwners.set(word, new Set<string>());
+          vocabOwners.get(word)?.add(String(topic.id));
           const usage = [item.briefing, ...(Array.isArray(item.facts) ? item.facts : []), ...(Array.isArray(vocab) ? vocab.map((card) => card?.example) : []), ...(Array.isArray(item.expressions) ? item.expressions.map((expression) => expression?.example) : [])].filter(isText);
           if (!usage.some((text) => normalize(text).includes(word))) fail(vWhere, `word ${row.word} is absent from briefing, facts, and examples`);
           if (isText(row.example) && !normalize(row.example).includes(word)) fail(vWhere, 'the example must use the word');
@@ -111,6 +138,22 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
         const match = text.match(sensitive);
         if (match && (match[0] !== '2000')) fail(at, `time-sensitive wording needs review: ${match[0]}`);
       }
+      const facts = Array.isArray(item.facts) ? item.facts.filter(isText) : [];
+      const briefing = isText(item.briefing) ? item.briefing : '';
+      if (briefing && facts.some((fact) => sentences(briefing).some((sentence) => {
+        const a = normalizeSentence(sentence);
+        const b = normalizeSentence(fact);
+        return a.length > 0 && b.length > 0 && (a.includes(b) || b.includes(a));
+      }))) counts.briefingFactOverlap += 1;
+      if (Array.isArray(expressions) && expressions.some((expression) => isText(expression?.example) && facts.some((fact) => factCopiedIntoExample(fact, expression.example)))) {
+        counts.expressionFactOverlap += 1;
+      }
+      for (const text of [...(isText(item.briefing) ? sentences(item.briefing) : []), ...facts]) {
+        const key = normalizeSentence(text);
+        if (!key) continue;
+        if (!sentenceOwners.has(key)) sentenceOwners.set(key, new Set<string>());
+        sentenceOwners.get(key)?.add(String(topic.id));
+      }
     }
   }
   if (counts.topics !== 150 || counts.kids !== 80 || counts.teens !== 70) {
@@ -118,6 +161,11 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
   }
   if (counts.A1 !== 80 || counts.A2 !== 80 || counts.B1 !== 150 || counts.B2 !== 70) {
     fail('topic-briefings.json', `expected level counts 80/80/150/70 (found ${counts.A1}/${counts.A2}/${counts.B1}/${counts.B2})`);
+  }
+  counts.overusedVocab = Array.from(vocabOwners.values()).filter((owners) => owners.size > 4).length;
+  counts.crossTopicSentences = Array.from(sentenceOwners.values()).filter((owners) => owners.size > 1).length;
+  for (const key of ['briefingFactOverlap', 'titleAliasVocab', 'genericVocab', 'overusedVocab', 'expressionFactOverlap', 'crossTopicSentences'] as const) {
+    if (counts[key] !== 0) fail('topic-briefings.json', `Round 19 ${key}: ${counts[key]} (expected 0)`);
   }
   return counts;
 }
