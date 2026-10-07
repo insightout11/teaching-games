@@ -27,3 +27,5 @@ Batch 5 (20 play and creativity topics): rewrote sports, games, transport and ar
 Batch 6 (15 digital life topics): wrote distinct B1 and B2 briefings and student speech for games, online life, technology and digital art. Remaining counts: 110/116/2/9/112/0.
 
 Batch 7 (15 culture and relationships topics): rewrote friendship, music, film, style, food and travel customs. Remaining counts: 80/86/0/8/82/0. I replaced a time-sensitive word in the local traditions example before committing.
+
+Batch 8 (15 school and work topics): rewrote study, work, money, volunteering and career material. Remaining writing audit counts: 50/62/0/6/52/0. The separate time-sensitive wording warnings were corrected in the authoring source.

@@ -1,0 +1,108 @@
+import { parseWritingBlocks } from './library-round-19-overrides';
+
+export const schoolWriting = parseWritingBlocks(`
+Exams
+L=An exam samples what a student can show on one day.|Different questions test memory, explanation, or application.|Preparation works better when it reveals gaps early.
+H=A score compresses many kinds of understanding into one number.|Exam pressure can change how well a student retrieves familiar ideas.|A fair assessment should reveal what to learn next, not only rank people.
+V=revision~Reviewing learned material~I would plan revision in short blocks.|practice question~A sample task for preparation~I would try a practice question.|rubric~A guide to how work is marked~The rubric should be clear.|recall~Remembering without looking~I would test my recall.|time limit~The allowed period~A time limit makes me rush.|mark scheme~A guide to expected answers~I would read the mark scheme.|feedback~Advice based on performance~Feedback helps me improve.
+S=I would practice one question first.|The long answer needs more time.|I know this topic but feel nervous.|I would ask why I lost a mark.|A break could help me focus.|One result will not define me.
+T=If an exam went badly, I would study the feedback before deciding what it meant.|A rubric helps only when students understand it before the test.|I would rather explain an idea well than memorize a paragraph blindly.|The time limit may hide what a thoughtful student knows.|I wonder which skills a written exam measures poorly.|A useful exam should point toward better learning afterward.
+
+Homework
+L=Work at home can extend practice beyond a lesson.|A task is harder when instructions are unclear.|Students have different amounts of quiet time and help.
+H=Homework is useful when it targets something worth practicing independently.|Large quantities can crowd out sleep, family duties, and curiosity.|A teacher may learn more from an honest incomplete attempt than a polished copied answer.
+V=assignment~Work given to complete~I would clarify the assignment.|instruction~A direction for a task~That instruction is confusing.|deadline~The time work is due~I would check the deadline.|independent practice~Work done without immediate help~Independent practice shows my gaps.|workload~The total amount assigned~My workload feels heavy.|draft~An unfinished version~I would bring a draft.|extension~Extra time granted~I would request an extension.
+S=I need an example of the task.|I can start with the first question.|The instructions are not clear.|I would ask before copying.|I need a quiet place to work.|I can show what I tried.
+T=If I could redesign homework, I would choose fewer tasks with clearer purposes.|An honest draft tells a teacher more than a perfect answer from someone else.|I would rather ask for an extension than pretend I understood.|Independent practice should challenge me without requiring a private tutor.|I wonder how schools account for students' different evenings.|Homework feels worthwhile when tomorrow's lesson uses what I did.
+
+School Clubs
+L=A club gives students a place to try an interest.|Members can take turns leading an activity.|A welcoming first meeting helps newcomers return.
+H=Clubs create friendships across classes and year groups.|The most visible members should not decide every plan.|A small budget can still support an ambitious project when roles are clear.
+V=membership~Belonging to a group~Membership should be open.|meeting~A planned gathering~Our meeting needs a purpose.|committee~A small organizing group~The committee could include new students.|proposal~A plan put forward~I would write a proposal.|recruit~To invite new members~We could recruit at lunch.|schedule~A plan of meeting times~The schedule needs to fit buses.|club project~A shared club task~Our club project could help the school.
+S=I would join the art club.|Could my friend come too?|We can meet after lunch.|I want to try before deciding.|Everyone should get a turn.|I could help make a poster.
+T=If I led a club, I would ask new members what they hoped to do.|A committee should make decisions visible to everyone affected.|I would rather run one memorable project than fill the schedule with meetings.|Recruitment works when people can try the activity without a long commitment.|I wonder which students never join because the meeting time excludes them.|A club succeeds when members feel able to shape it.
+
+Part-Time Jobs
+L=A short shift can teach a teenager to manage time.|Customers and coworkers may expect different things.|Pay is only one part of deciding whether a job fits.
+H=Part-time work can build confidence while competing with study and rest.|A clear schedule and safe supervision matter as much as the hourly rate.|The skills learned from difficult interactions may transfer to other settings.
+V=shift~A scheduled period of work~My shift ends at six.|hourly wage~Pay for one hour~I would compare the hourly wage.|supervisor~A person overseeing work~I would ask the supervisor.|timesheet~A list of hours worked~I would check my timesheet.|customer service~Helping buyers or visitors~Customer service takes patience.|workplace rights~Protections for workers~I would learn my workplace rights.|availability~The times someone can work~My availability changes during exams.
+S=I would ask about the hours.|That shift is too late for me.|I need training for this task.|A kind coworker would help.|I would save some of my pay.|School still needs time.
+T=If I took a part-time job, I would discuss exam weeks before accepting shifts.|An hourly wage tells only part of the story if travel takes too long.|I would rather ask for training than hide an unsafe mistake.|Customer service can teach patience without requiring tolerance of abuse.|I wonder when work experience becomes too costly for a student's health.|A good supervisor makes expectations and rights clear.
+
+Future Jobs
+L=New tools can change tasks inside an old job.|Some work needs care and judgment more than speed.|Students may try several roles before choosing a direction.
+H=Predicting a single future career misses how jobs evolve over time.|Transferable skills help when a familiar role changes or disappears.|Communities also need work that markets do not reward highly.
+V=career path~A sequence of work choices~My career path may bend.|apprenticeship~Learning a trade through work~An apprenticeship could suit me.|transferable skill~An ability useful in many jobs~Listening is a transferable skill.|automation~Machines doing some tasks~Automation may change this role.|mentor~A person offering guidance~I would seek a mentor.|qualification~Proof of completed training~That qualification takes time.|job shadowing~Watching someone at work~Job shadowing could test my interest.
+S=I want to try several jobs.|I could ask someone about their work.|Helping people matters to me.|I like solving practical problems.|My choice may change later.|I want time to learn.
+T=If I chose a career today, I would leave room to change direction later.|Automation may remove routine tasks while creating new responsibilities.|I would rather test a role through job shadowing than trust its title.|A transferable skill can matter when an industry changes.|I wonder which important jobs our society undervalues.|Future work should be judged by its conditions as well as its novelty.
+
+Entrepreneurship
+L=A small business begins by finding a problem people have.|A good idea still needs costs and customers.|Testing a simple version can prevent waste.
+H=Starting a venture involves uncertainty about demand, money, and timing.|Listening to dissatisfied customers can improve a product more than praise.|Success should include whether the work is sustainable for its makers.
+V=customer~A person buying a service or product~I would ask a customer.|prototype~An early version for testing~My prototype could be simple.|startup cost~Money needed to begin~I would estimate the startup cost.|profit~Money left after costs~Profit is not guaranteed.|supplier~A source of materials~I would compare suppliers.|pitch~A short explanation of an idea~I would practice my pitch.|demand~How much people want something~I would test demand first.
+S=I would sell a useful service.|Let us ask who needs it.|The first version can be small.|Materials might cost too much.|I would listen to complaints.|We need a fair price.
+T=If I launched an idea, I would test demand before spending heavily.|A polished pitch cannot replace evidence that customers need the product.|I would rather revise a prototype than defend a weak first plan.|Profit matters, but so do the hours and conditions behind it.|I wonder how much risk a young founder should be expected to take.|The best business may solve a quiet everyday problem.
+
+Money and Saving
+L=Saving means keeping some money for a later need or goal.|Small amounts can add up when set aside regularly.|A goal becomes easier to track when it has a price and date.
+H=Saving choices depend on income, responsibilities, and unexpected costs.|Money set aside for emergencies serves a different purpose from a planned purchase.|A habit matters, but advice must account for unequal circumstances.
+V=savings goal~A target for money kept aside~My savings goal is a bicycle.|emergency fund~Money reserved for surprises~An emergency fund provides a cushion.|interest~Money earned or charged for holding money~I would compare interest rates.|deposit~Money placed into an account~I could make a small deposit.|withdrawal~Money taken from an account~I would plan that withdrawal.|balance~Money available in an account~I would check my balance.|trade-off~Giving up one option to choose another~That trade-off is hard.
+S=I would save for a bike.|A small amount is a start.|I need money for the bus too.|I can wait another week.|I would check my balance.|My goal may change.
+T=If I saved for a goal, I would keep emergency money separate.|A budget cannot solve a shortage of income by itself.|I would rather delay a purchase than borrow without understanding the cost.|Interest can help or hurt depending on which side pays it.|I wonder how families decide which needs come first.|Saving advice should recognize that people's choices have different limits.
+
+Budgeting
+L=A budget lists money coming in and going out.|Some costs are fixed while others vary.|Looking back at real spending can improve a plan.
+H=A useful budget reflects actual habits instead of an ideal week.|Irregular costs are easy to forget until they arrive.|Adjusting a plan is a sign of attention, not necessarily failure.
+V=income~Money received~My income varies by month.|expense~Money paid out~Transport is an expense.|fixed cost~A regular payment that stays similar~Rent is a fixed cost.|variable cost~A payment that changes~Food is a variable cost.|estimate~An approximate calculation~My estimate was too low.|receipt~Proof of a purchase~I would keep the receipt.|contingency~A reserve for unexpected needs~I would add a contingency.
+S=I would list bus fares first.|That cost changes each week.|I forgot a birthday gift.|We could adjust the plan.|I want to know where money goes.|A small reserve would help.
+T=If my budget failed, I would compare it with receipts before blaming myself.|Irregular expenses deserve a line even when they are easy to ignore.|I would rather use a realistic estimate than an impressive impossible target.|A contingency helps a plan survive ordinary surprises.|I wonder how to budget when income changes from week to week.|The purpose of a budget is to support choices, not punish them.
+
+Volunteering
+L=Volunteers offer time to help with a community task.|The organizer should explain what is needed.|Reliable attendance can matter more than dramatic gestures.
+H=Good volunteering starts by listening to the people affected.|An activity can feel rewarding to helpers yet create extra work for hosts.|Long-term trust grows when volunteers do unglamorous tasks well.
+V=organizer~A person coordinating an activity~I would ask the organizer.|commitment~A promise to continue~I can make a weekly commitment.|community need~A problem identified locally~I would ask about the community need.|training~Preparation for a role~That training seems important.|safeguarding~Practices that protect vulnerable people~Safeguarding should be clear.|donation~Something given to help~A donation should be useful.|impact~The effect of an action~I would ask about the impact.
+S=I could help every Saturday.|What work needs doing?|I would listen before starting.|This task needs training.|I can carry the supplies.|I want to come back.
+T=If I volunteered, I would ask what the organization actually needs.|A regular commitment might help more than a one-day photo opportunity.|I would rather do a quiet useful task than choose the most visible one.|Training protects both volunteers and the people they serve.|I wonder who decides whether a project has had real impact.|Service should strengthen local leadership rather than replace it.
+
+Public Speaking
+L=A speaker can help listeners follow one clear idea.|Pauses give people time to understand.|Practicing aloud reveals sentences that are hard to say.
+H=Effective speaking responds to the audience rather than reciting a page.|Voice, structure, and evidence work together to support a claim.|A nervous speaker can still be persuasive when the message is honest.
+V=opening~The beginning of a speech~I would make the opening brief.|pause~A short silence~I would pause after the question.|eye contact~Looking toward listeners~Eye contact helps me connect.|outline~A plan of main points~I would use an outline.|transition~A phrase linking ideas~That transition feels abrupt.|audience~The people listening~I would think about the audience.|rehearsal~Practice before a performance~My rehearsal revealed a long sentence.
+S=I would start with a question.|Let me try that line again.|I need a short pause.|I can look at one friendly face.|The ending should be clear.|I feel nervous but ready.
+T=If I lost my place, I would return to the main idea instead of apologizing at length.|An outline gives me freedom to speak naturally.|I would rather use one well-explained example than five rushed points.|A pause can make a difficult idea easier to hear.|I wonder how different audiences change the way I tell the same story.|Good public speaking invites attention without pretending the speaker is fearless.
+
+Study Habits
+L=Short sessions can be easier to repeat than long bursts.|Retrieving an answer helps reveal what was learned.|A planned break can restore attention.
+H=Effective study combines practice, feedback, and enough rest.|Rereading can feel fluent even when recall remains weak.|The best routine is one a student can maintain during an ordinary week.
+V=active recall~Remembering without looking~I would use active recall.|spaced practice~Review across several days~Spaced practice suits vocabulary.|distraction~Something pulling attention away~I would remove that distraction.|study session~A period set aside for learning~My study session is short.|break~A pause from work~I need a break.|flashcard~A card used to test memory~I would make a flashcard.|routine~A repeated plan~My routine should fit my life.
+S=I would test myself first.|My phone can wait ten minutes.|I need a short break.|I remember more after sleep.|Let us quiz each other.|I can try again tomorrow.
+T=If I had little time, I would test recall instead of rereading everything.|A routine should survive a difficult day, not require perfect conditions.|I would rather practice a weak area than repeat what already feels easy.|Spaced practice makes forgetting part of learning rather than proof of failure.|I wonder which distractions I can remove and which I must plan around.|A good study habit leaves space for rest and other responsibilities.
+
+Sleep and Learning
+L=Sleep gives the brain time to process a busy day.|A tired student may struggle to focus on familiar work.|Regular timing can make mornings easier.
+H=Learning continues after practice as the brain organizes memories during rest.|Late-night study can trade tomorrow's attention for another hour tonight.|Sleep advice must account for schedules students do not control.
+V=memory~Information the mind can keep~Sleep may help my memory.|attention~The ability to focus~My attention drops when I am tired.|routine~A repeated pattern~I would adjust my evening routine.|bedtime~The time someone goes to bed~My bedtime has moved later.|alertness~How awake and ready someone feels~My alertness changes by hour.|rest~Time to recover~I need more rest.|sleep debt~Lost sleep that builds over time~Sleep debt can affect my day.
+S=I find reading harder when tired.|I would put my phone away earlier.|The bus comes very early.|A short rest might help.|I want a calmer evening.|I learn better after sleeping.
+T=If I revised all night, I might lose more attention than I gained knowledge.|A regular bedtime is difficult when family duties change.|I would rather protect sleep before an exam than add one exhausted hour.|Memory depends on more than the time spent looking at notes.|I wonder how school start times affect who can arrive alert.|Advice about rest should recognize pressures outside a student's control.
+
+Choosing Subjects
+L=Students often choose subjects before knowing every future job.|An enjoyable class can encourage deeper effort.|Advice from others helps when it leaves room for the student's interests.
+H=Subject choices balance curiosity, requirements, and available opportunities.|A difficult course may still be right if its challenge feels meaningful.|Schools should make routes back into a field visible when interests change.
+V=elective~A subject chosen rather than required~I would pick that elective.|prerequisite~A course needed before another~I would check the prerequisite.|strength~An ability someone uses well~Writing is one of my strengths.|interest~Something that attracts curiosity~My interest may grow.|workload~The amount of assigned work~I would compare the workload.|guidance counselor~A person advising on school choices~I would ask the guidance counselor.|option~A possible choice~I want to keep an option open.
+S=I like making things.|This subject seems hard but interesting.|I would ask an older student.|I need to check the requirements.|My parents have ideas too.|I might change my mind.
+T=If I chose only subjects I already found easy, I might miss an important interest.|A prerequisite should be explained before students make a choice.|I would rather discuss my reasons than follow a friend's timetable.|A heavy workload matters when several courses peak together.|I wonder how schools can keep doors open after an early decision.|Choosing a subject is a step in learning about myself, not a permanent label.
+
+Gap Years
+L=Some students take time between school and further study.|They may work, travel, volunteer, or care for family.|A plan helps make the time purposeful.
+H=A gap year can offer perspective, but it depends on money and responsibilities.|Structured work may teach as much as a distant trip.|Returning to study can require planning for applications and costs.
+V=deferral~A delay of an accepted place~I would ask about deferral.|placement~A temporary work or learning role~That placement sounds useful.|application~A formal request for entry~I would check the application date.|savings~Money kept for later~My savings would limit the plan.|itinerary~A planned route~I would keep the itinerary flexible.|work experience~Learning gained through employment~Work experience could help.|reentry~Returning after time away~I would plan for reentry.
+S=I might work for a few months.|I would save before traveling.|A local project sounds useful.|I need a plan for coming back.|It should be my choice.|I could learn outside school.
+T=If I took a gap year, I would set goals without filling every week.|A local placement might teach more than an expensive trip.|I would rather be honest about costs than romanticize travel.|Deferral rules could shape when I apply to study.|I wonder why some kinds of experience are praised more than others.|Time away is valuable when a student has support to use it well.
+
+Career Skills
+L=Many jobs need clear communication and dependable habits.|People learn by trying tasks and getting feedback.|A skill can grow in school, home, or community work.
+H=Employers may name a skill broadly while expecting specific behavior.|Showing evidence of a skill is often harder than claiming it.|New tools change tasks, making learning itself a useful ability.
+V=collaboration~Working with others~I would show collaboration through a project.|initiative~Acting without being told every step~That took initiative.|adaptability~Adjusting to change~Adaptability helped our team.|portfolio~A collection of work examples~I would build a portfolio.|reference~A person who can describe your work~I would ask for a reference.|interview~A conversation about a role~I would practice for the interview.|problem-solving~Finding a workable answer~Problem-solving takes patience.
+S=I can explain what I did.|I would ask for feedback.|This project shows teamwork.|I learned from a mistake.|I want to try a new tool.|I can meet the deadline.
+T=If I described my skills, I would give a concrete example instead of a label.|A portfolio can show growth as well as polished final work.|I would rather admit what I need to learn than invent confidence.|Adaptability matters when the job itself changes.|I wonder whether interviews reward speaking style more than ability.|Career skills develop in ordinary responsibilities, not only formal jobs.
+`);

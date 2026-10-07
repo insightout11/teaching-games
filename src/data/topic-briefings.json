@@ -28848,7 +28848,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Exams are one way to show what students have learned. A timed test measures more than knowledge alone. Sleep and planning can support concentration. Different formats let students show different strengths.",
+        "briefing": "An exam samples what a student can show on one day. Different questions test memory, explanation, or application. Preparation works better when it reveals gaps early.",
         "facts": [
           "A timed test measures more than knowledge alone.",
           "Practice questions reveal gaps before an exam.",
@@ -28862,84 +28862,84 @@
         ],
         "vocab": [
           {
-            "word": "Exams",
-            "definition": "Exams are one way to show what students have learned.",
+            "word": "revision",
+            "definition": "Reviewing learned material",
             "partOfSpeech": "noun",
-            "example": "Exams are one way to show what students have learned.",
-            "starter": "I want to discuss exams because…"
+            "example": "I would plan revision in short blocks.",
+            "starter": "If I saw revision, I would…"
           },
           {
-            "word": "timed test",
-            "definition": "An assessment with a fixed time",
-            "partOfSpeech": "noun",
-            "example": "A timed test measures more than knowledge alone.",
-            "starter": "I can use timed test to explain…"
-          },
-          {
-            "word": "gaps",
-            "definition": "Things not yet known or learned",
-            "partOfSpeech": "noun",
+            "word": "practice question",
+            "definition": "A sample task for preparation",
+            "partOfSpeech": "phrase",
             "example": "Practice questions reveal gaps before an exam.",
-            "starter": "When I hear gaps, I think of…"
+            "starter": "I could describe practice question by…"
           },
           {
-            "word": "concentration",
-            "definition": "Careful attention to a task",
+            "word": "rubric",
+            "definition": "A guide to how work is marked",
             "partOfSpeech": "noun",
-            "example": "Sleep and planning can support concentration.",
-            "starter": "A question about concentration is…"
+            "example": "The rubric should be clear.",
+            "starter": "I wonder whether rubric can…"
           },
           {
-            "word": "knowledge",
-            "definition": "Things someone knows",
+            "word": "recall",
+            "definition": "Remembering without looking",
             "partOfSpeech": "noun",
-            "example": "A timed test measures more than knowledge alone.",
-            "starter": "I would compare knowledge with…"
+            "example": "I would test my recall.",
+            "starter": "One question about recall is…"
           },
           {
-            "word": "planning",
-            "definition": "Thinking ahead about steps",
-            "partOfSpeech": "noun",
-            "example": "Sleep and planning can support concentration.",
-            "starter": "One example of planning is…"
+            "word": "time limit",
+            "definition": "The allowed period",
+            "partOfSpeech": "phrase",
+            "example": "A time limit makes me rush.",
+            "starter": "I would compare time limit with…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
+            "word": "mark scheme",
+            "definition": "A guide to expected answers",
+            "partOfSpeech": "phrase",
+            "example": "I would read the mark scheme.",
+            "starter": "My idea about mark scheme is…"
+          },
+          {
+            "word": "feedback",
+            "definition": "Advice based on performance",
             "partOfSpeech": "noun",
-            "example": "A goal can guide choices about exams.",
-            "starter": "I want to compare goal with…"
+            "example": "Feedback helps me improve.",
+            "starter": "I might use feedback when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a timed test measures more than knowledge alone."
+            "phrase": "I would practice one…",
+            "example": "I would practice one question first."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that practice questions reveal gaps before an exam."
+            "phrase": "The long answer needs…",
+            "example": "The long answer needs more time."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, sleep and planning can support concentration."
+            "phrase": "I know this topic but…",
+            "example": "I know this topic but feel nervous."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare exams with a related topic."
+            "phrase": "I would ask why I lost…",
+            "example": "I would ask why I lost a mark."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that different formats let students show different strengths."
+            "phrase": "A break could help…",
+            "example": "A break could help me focus."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a timed test measures more than knowledge alone."
+            "phrase": "One result will not…",
+            "example": "One result will not define me."
           }
         ]
       },
       "B2": {
-        "briefing": "Exams are one way to show what students have learned. A timed test measures more than knowledge alone; practice questions reveal gaps before an exam. Sleep and planning can support concentration; different formats let students show different strengths.",
+        "briefing": "A score compresses many kinds of understanding into one number. Exam pressure can change how well a student retrieves familiar ideas. A fair assessment should reveal what to learn next, not only rank people.",
         "facts": [
           "A timed test measures more than knowledge alone.",
           "Practice questions reveal gaps before an exam.",
@@ -28953,79 +28953,79 @@
         ],
         "vocab": [
           {
-            "word": "Exams",
-            "definition": "Exams are one way to show what students have learned.",
+            "word": "revision",
+            "definition": "Reviewing learned material",
             "partOfSpeech": "noun",
-            "example": "Exams are one way to show what students have learned.",
-            "starter": "I want to discuss exams because…"
+            "example": "I would plan revision in short blocks.",
+            "starter": "If I saw revision, I would…"
           },
           {
-            "word": "timed test",
-            "definition": "An assessment with a fixed time",
-            "partOfSpeech": "noun",
-            "example": "A timed test measures more than knowledge alone.",
-            "starter": "I can use timed test to explain…"
-          },
-          {
-            "word": "gaps",
-            "definition": "Things not yet known or learned",
-            "partOfSpeech": "noun",
+            "word": "practice question",
+            "definition": "A sample task for preparation",
+            "partOfSpeech": "phrase",
             "example": "Practice questions reveal gaps before an exam.",
-            "starter": "When I hear gaps, I think of…"
+            "starter": "I could describe practice question by…"
           },
           {
-            "word": "concentration",
-            "definition": "Careful attention to a task",
+            "word": "rubric",
+            "definition": "A guide to how work is marked",
             "partOfSpeech": "noun",
-            "example": "Sleep and planning can support concentration.",
-            "starter": "A question about concentration is…"
+            "example": "A rubric helps only when students understand it before the test.",
+            "starter": "I wonder whether rubric can…"
           },
           {
-            "word": "knowledge",
-            "definition": "Things someone knows",
+            "word": "recall",
+            "definition": "Remembering without looking",
             "partOfSpeech": "noun",
-            "example": "A timed test measures more than knowledge alone.",
-            "starter": "I would compare knowledge with…"
+            "example": "I would test my recall.",
+            "starter": "One question about recall is…"
           },
           {
-            "word": "planning",
-            "definition": "Thinking ahead about steps",
-            "partOfSpeech": "noun",
-            "example": "Sleep and planning can support concentration.",
-            "starter": "One example of planning is…"
+            "word": "time limit",
+            "definition": "The allowed period",
+            "partOfSpeech": "phrase",
+            "example": "The time limit may hide what a thoughtful student knows.",
+            "starter": "I would compare time limit with…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
+            "word": "mark scheme",
+            "definition": "A guide to expected answers",
+            "partOfSpeech": "phrase",
+            "example": "I would read the mark scheme.",
+            "starter": "My idea about mark scheme is…"
+          },
+          {
+            "word": "feedback",
+            "definition": "Advice based on performance",
             "partOfSpeech": "noun",
-            "example": "A priority can change decisions about exams.",
-            "starter": "I want to compare priority with…"
+            "example": "If an exam went badly, I would study the feedback before deciding what it meant.",
+            "starter": "I might use feedback when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a timed test measures more than knowledge alone."
+            "phrase": "If an exam went badly, I…",
+            "example": "If an exam went badly, I would study the feedback before deciding what it meant."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that practice questions reveal gaps before an exam."
+            "phrase": "A rubric helps only when students…",
+            "example": "A rubric helps only when students understand it before the test."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, sleep and planning can support concentration."
+            "phrase": "I would rather explain an idea…",
+            "example": "I would rather explain an idea well than memorize a paragraph blindly."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare exams with a related topic."
+            "phrase": "The time limit may hide what…",
+            "example": "The time limit may hide what a thoughtful student knows."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that different formats let students show different strengths."
+            "phrase": "I wonder which skills a written…",
+            "example": "I wonder which skills a written exam measures poorly."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a timed test measures more than knowledge alone."
+            "phrase": "A useful exam should point toward…",
+            "example": "A useful exam should point toward better learning afterward."
           }
         ]
       }
@@ -29044,7 +29044,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Homework gives students practice beyond class time. Clear tasks help students work independently. Different homes provide different study conditions. Practice can be useful without being long.",
+        "briefing": "Work at home can extend practice beyond a lesson. A task is harder when instructions are unclear. Students have different amounts of quiet time and help.",
         "facts": [
           "Clear tasks help students work independently.",
           "Feedback matters more when it arrives soon.",
@@ -29058,84 +29058,84 @@
         ],
         "vocab": [
           {
-            "word": "Homework",
-            "definition": "Homework gives students practice beyond class time.",
+            "word": "assignment",
+            "definition": "Work given to complete",
             "partOfSpeech": "noun",
-            "example": "Homework gives students practice beyond class time.",
-            "starter": "I want to discuss homework because…"
+            "example": "I would clarify the assignment.",
+            "starter": "If I saw assignment, I would…"
           },
           {
-            "word": "practice",
-            "definition": "Repeated work to improve",
+            "word": "instruction",
+            "definition": "A direction for a task",
             "partOfSpeech": "noun",
-            "example": "Homework gives students practice beyond class time.",
-            "starter": "I can use practice to explain…"
+            "example": "A task is harder when instructions are unclear.",
+            "starter": "I could describe instruction by…"
           },
           {
-            "word": "feedback",
-            "definition": "Advice about what worked and what can improve",
+            "word": "deadline",
+            "definition": "The time work is due",
             "partOfSpeech": "noun",
-            "example": "Feedback matters more when it arrives soon.",
-            "starter": "When I hear feedback, I think of…"
+            "example": "I would check the deadline.",
+            "starter": "I wonder whether deadline can…"
           },
           {
-            "word": "conditions",
-            "definition": "Surrounding circumstances that affect work",
-            "partOfSpeech": "noun",
-            "example": "Different homes provide different study conditions.",
-            "starter": "A question about conditions is…"
+            "word": "independent practice",
+            "definition": "Work done without immediate help",
+            "partOfSpeech": "phrase",
+            "example": "Independent practice shows my gaps.",
+            "starter": "One question about independent practice is…"
           },
           {
-            "word": "tasks",
-            "definition": "Pieces of work to finish",
+            "word": "workload",
+            "definition": "The total amount assigned",
             "partOfSpeech": "noun",
-            "example": "Clear tasks help students work independently.",
-            "starter": "I would compare tasks with…"
+            "example": "My workload feels heavy.",
+            "starter": "I would compare workload with…"
           },
           {
-            "word": "students",
-            "definition": "People learning at school",
+            "word": "draft",
+            "definition": "An unfinished version",
             "partOfSpeech": "noun",
-            "example": "Homework gives students practice beyond class time.",
-            "starter": "One example of students is…"
+            "example": "I would bring a draft.",
+            "starter": "My idea about draft is…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
+            "word": "extension",
+            "definition": "Extra time granted",
             "partOfSpeech": "noun",
-            "example": "A goal can guide choices about homework.",
-            "starter": "I want to compare goal with…"
+            "example": "I would request an extension.",
+            "starter": "I might use extension when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that clear tasks help students work independently."
+            "phrase": "I need an example of…",
+            "example": "I need an example of the task."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that feedback matters more when it arrives soon."
+            "phrase": "I can start with the…",
+            "example": "I can start with the first question."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, different homes provide different study conditions."
+            "phrase": "The instructions are…",
+            "example": "The instructions are not clear."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare homework with a related topic."
+            "phrase": "I would ask…",
+            "example": "I would ask before copying."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that practice can be useful without being long."
+            "phrase": "I need a quiet place…",
+            "example": "I need a quiet place to work."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because clear tasks help students work independently."
+            "phrase": "I can show what…",
+            "example": "I can show what I tried."
           }
         ]
       },
       "B2": {
-        "briefing": "Homework gives students practice beyond class time. Clear tasks help students work independently; feedback matters more when it arrives soon. Different homes provide different study conditions; practice can be useful without being long.",
+        "briefing": "Homework is useful when it targets something worth practicing independently. Large quantities can crowd out sleep, family duties, and curiosity. A teacher may learn more from an honest incomplete attempt than a polished copied answer.",
         "facts": [
           "Clear tasks help students work independently.",
           "Feedback matters more when it arrives soon.",
@@ -29149,79 +29149,79 @@
         ],
         "vocab": [
           {
-            "word": "Homework",
-            "definition": "Homework gives students practice beyond class time.",
+            "word": "assignment",
+            "definition": "Work given to complete",
             "partOfSpeech": "noun",
-            "example": "Homework gives students practice beyond class time.",
-            "starter": "I want to discuss homework because…"
+            "example": "I would clarify the assignment.",
+            "starter": "If I saw assignment, I would…"
           },
           {
-            "word": "practice",
-            "definition": "Repeated work to improve",
+            "word": "instruction",
+            "definition": "A direction for a task",
             "partOfSpeech": "noun",
-            "example": "Homework gives students practice beyond class time.",
-            "starter": "I can use practice to explain…"
+            "example": "That instruction is confusing.",
+            "starter": "I could describe instruction by…"
           },
           {
-            "word": "feedback",
-            "definition": "Advice about what worked and what can improve",
+            "word": "deadline",
+            "definition": "The time work is due",
             "partOfSpeech": "noun",
-            "example": "Feedback matters more when it arrives soon.",
-            "starter": "When I hear feedback, I think of…"
+            "example": "I would check the deadline.",
+            "starter": "I wonder whether deadline can…"
           },
           {
-            "word": "conditions",
-            "definition": "Surrounding circumstances that affect work",
-            "partOfSpeech": "noun",
-            "example": "Different homes provide different study conditions.",
-            "starter": "A question about conditions is…"
+            "word": "independent practice",
+            "definition": "Work done without immediate help",
+            "partOfSpeech": "phrase",
+            "example": "Independent practice should challenge me without requiring a private tutor.",
+            "starter": "One question about independent practice is…"
           },
           {
-            "word": "tasks",
-            "definition": "Pieces of work to finish",
+            "word": "workload",
+            "definition": "The total amount assigned",
             "partOfSpeech": "noun",
-            "example": "Clear tasks help students work independently.",
-            "starter": "I would compare tasks with…"
+            "example": "My workload feels heavy.",
+            "starter": "I would compare workload with…"
           },
           {
-            "word": "students",
-            "definition": "People learning at school",
+            "word": "draft",
+            "definition": "An unfinished version",
             "partOfSpeech": "noun",
-            "example": "Homework gives students practice beyond class time.",
-            "starter": "One example of students is…"
+            "example": "An honest draft tells a teacher more than a perfect answer from someone else.",
+            "starter": "My idea about draft is…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
+            "word": "extension",
+            "definition": "Extra time granted",
             "partOfSpeech": "noun",
-            "example": "A priority can change decisions about homework.",
-            "starter": "I want to compare priority with…"
+            "example": "I would rather ask for an extension than pretend I understood.",
+            "starter": "I might use extension when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that clear tasks help students work independently."
+            "phrase": "If I could redesign homework, I…",
+            "example": "If I could redesign homework, I would choose fewer tasks with clearer purposes."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that feedback matters more when it arrives soon."
+            "phrase": "An honest draft tells a teacher…",
+            "example": "An honest draft tells a teacher more than a perfect answer from someone else."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, different homes provide different study conditions."
+            "phrase": "I would rather ask for an…",
+            "example": "I would rather ask for an extension than pretend I understood."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare homework with a related topic."
+            "phrase": "Independent practice should challenge me without…",
+            "example": "Independent practice should challenge me without requiring a private tutor."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that practice can be useful without being long."
+            "phrase": "I wonder how schools account for…",
+            "example": "I wonder how schools account for students' different evenings."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because clear tasks help students work independently."
+            "phrase": "Homework feels worthwhile when tomorrow's lesson…",
+            "example": "Homework feels worthwhile when tomorrow's lesson uses what I did."
           }
         ]
       }
@@ -29240,7 +29240,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "School clubs bring people together around shared interests. A club can let students try new roles. Members learn by planning events together. A welcoming club explains how newcomers can join.",
+        "briefing": "A club gives students a place to try an interest. Members can take turns leading an activity. A welcoming first meeting helps newcomers return.",
         "facts": [
           "A club can let students try new roles.",
           "Small groups may make speaking easier.",
@@ -29254,84 +29254,84 @@
         ],
         "vocab": [
           {
-            "word": "School Clubs",
-            "definition": "School clubs bring people together around shared interests.",
+            "word": "membership",
+            "definition": "Belonging to a group",
             "partOfSpeech": "noun",
-            "example": "School clubs bring people together around shared interests.",
-            "starter": "I want to discuss school clubs because…"
+            "example": "Membership should be open.",
+            "starter": "If I saw membership, I would…"
           },
           {
-            "word": "interests",
-            "definition": "Activities or ideas people care about",
+            "word": "meeting",
+            "definition": "A planned gathering",
             "partOfSpeech": "noun",
-            "example": "School clubs bring people together around shared interests.",
-            "starter": "I can use interests to explain…"
+            "example": "A welcoming first meeting helps newcomers return.",
+            "starter": "I could describe meeting by…"
           },
           {
-            "word": "roles",
-            "definition": "Jobs or parts taken in a group",
+            "word": "committee",
+            "definition": "A small organizing group",
             "partOfSpeech": "noun",
-            "example": "A club can let students try new roles.",
-            "starter": "When I hear roles, I think of…"
+            "example": "The committee could include new students.",
+            "starter": "I wonder whether committee can…"
           },
           {
-            "word": "newcomers",
-            "definition": "People joining a group recently",
+            "word": "proposal",
+            "definition": "A plan put forward",
             "partOfSpeech": "noun",
-            "example": "A welcoming club explains how newcomers can join.",
-            "starter": "A question about newcomers is…"
+            "example": "I would write a proposal.",
+            "starter": "One question about proposal is…"
           },
           {
-            "word": "members",
-            "definition": "People who belong to a group",
+            "word": "recruit",
+            "definition": "To invite new members",
             "partOfSpeech": "noun",
-            "example": "Members learn by planning events together.",
-            "starter": "I would compare members with…"
+            "example": "We could recruit at lunch.",
+            "starter": "I would compare recruit with…"
           },
           {
-            "word": "events",
-            "definition": "Planned gatherings or activities",
+            "word": "schedule",
+            "definition": "A plan of meeting times",
             "partOfSpeech": "noun",
-            "example": "Members learn by planning events together.",
-            "starter": "One example of events is…"
+            "example": "The schedule needs to fit buses.",
+            "starter": "My idea about schedule is…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
-            "partOfSpeech": "noun",
-            "example": "A goal can guide choices about school clubs.",
-            "starter": "I want to compare goal with…"
+            "word": "club project",
+            "definition": "A shared club task",
+            "partOfSpeech": "phrase",
+            "example": "Our club project could help the school.",
+            "starter": "I might use club project when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a club can let students try new roles."
+            "phrase": "I would join the…",
+            "example": "I would join the art club."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that small groups may make speaking easier."
+            "phrase": "Could my friend…",
+            "example": "Could my friend come too?"
           },
           {
-            "phrase": "For example…",
-            "example": "For example, members learn by planning events together."
+            "phrase": "We can meet…",
+            "example": "We can meet after lunch."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare school clubs with a related topic."
+            "phrase": "I want to try…",
+            "example": "I want to try before deciding."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that a welcoming club explains how newcomers can join."
+            "phrase": "Everyone should get…",
+            "example": "Everyone should get a turn."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a club can let students try new roles."
+            "phrase": "I could help make…",
+            "example": "I could help make a poster."
           }
         ]
       },
       "B2": {
-        "briefing": "School clubs bring people together around shared interests. A club can let students try new roles; small groups may make speaking easier. Members learn by planning events together; a welcoming club explains how newcomers can join.",
+        "briefing": "Clubs create friendships across classes and year groups. The most visible members should not decide every plan. A small budget can still support an ambitious project when roles are clear.",
         "facts": [
           "A club can let students try new roles.",
           "Small groups may make speaking easier.",
@@ -29345,79 +29345,79 @@
         ],
         "vocab": [
           {
-            "word": "School Clubs",
-            "definition": "School clubs bring people together around shared interests.",
+            "word": "membership",
+            "definition": "Belonging to a group",
             "partOfSpeech": "noun",
-            "example": "School clubs bring people together around shared interests.",
-            "starter": "I want to discuss school clubs because…"
+            "example": "Membership should be open.",
+            "starter": "If I saw membership, I would…"
           },
           {
-            "word": "interests",
-            "definition": "Activities or ideas people care about",
+            "word": "meeting",
+            "definition": "A planned gathering",
             "partOfSpeech": "noun",
-            "example": "School clubs bring people together around shared interests.",
-            "starter": "I can use interests to explain…"
+            "example": "I would rather run one memorable project than fill the schedule with meetings.",
+            "starter": "I could describe meeting by…"
           },
           {
-            "word": "roles",
-            "definition": "Jobs or parts taken in a group",
+            "word": "committee",
+            "definition": "A small organizing group",
             "partOfSpeech": "noun",
-            "example": "A club can let students try new roles.",
-            "starter": "When I hear roles, I think of…"
+            "example": "A committee should make decisions visible to everyone affected.",
+            "starter": "I wonder whether committee can…"
           },
           {
-            "word": "newcomers",
-            "definition": "People joining a group recently",
+            "word": "proposal",
+            "definition": "A plan put forward",
             "partOfSpeech": "noun",
-            "example": "A welcoming club explains how newcomers can join.",
-            "starter": "A question about newcomers is…"
+            "example": "I would write a proposal.",
+            "starter": "One question about proposal is…"
           },
           {
-            "word": "members",
-            "definition": "People who belong to a group",
+            "word": "recruit",
+            "definition": "To invite new members",
             "partOfSpeech": "noun",
-            "example": "Members learn by planning events together.",
-            "starter": "I would compare members with…"
+            "example": "Recruitment works when people can try the activity without a long commitment.",
+            "starter": "I would compare recruit with…"
           },
           {
-            "word": "events",
-            "definition": "Planned gatherings or activities",
+            "word": "schedule",
+            "definition": "A plan of meeting times",
             "partOfSpeech": "noun",
-            "example": "Members learn by planning events together.",
-            "starter": "One example of events is…"
+            "example": "I would rather run one memorable project than fill the schedule with meetings.",
+            "starter": "My idea about schedule is…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
-            "partOfSpeech": "noun",
-            "example": "A priority can change decisions about school clubs.",
-            "starter": "I want to compare priority with…"
+            "word": "club project",
+            "definition": "A shared club task",
+            "partOfSpeech": "phrase",
+            "example": "Our club project could help the school.",
+            "starter": "I might use club project when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a club can let students try new roles."
+            "phrase": "If I led a club, I…",
+            "example": "If I led a club, I would ask new members what they hoped to do."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that small groups may make speaking easier."
+            "phrase": "A committee should make decisions visible…",
+            "example": "A committee should make decisions visible to everyone affected."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, members learn by planning events together."
+            "phrase": "I would rather run one memorable…",
+            "example": "I would rather run one memorable project than fill the schedule with meetings."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare school clubs with a related topic."
+            "phrase": "Recruitment works when people can try…",
+            "example": "Recruitment works when people can try the activity without a long commitment."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that a welcoming club explains how newcomers can join."
+            "phrase": "I wonder which students never join…",
+            "example": "I wonder which students never join because the meeting time excludes them."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a club can let students try new roles."
+            "phrase": "A club succeeds when members feel…",
+            "example": "A club succeeds when members feel able to shape it."
           }
         ]
       }
@@ -29436,7 +29436,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Part-time jobs give students experience alongside school. Schedules affect time for study and rest. Pay is only one part of job value. Local rules may limit young workers' hours.",
+        "briefing": "A short shift can teach a teenager to manage time. Customers and coworkers may expect different things. Pay is only one part of deciding whether a job fits.",
         "facts": [
           "Schedules affect time for study and rest.",
           "Workers learn to communicate with customers or teams.",
@@ -29450,84 +29450,84 @@
         ],
         "vocab": [
           {
-            "word": "Part-Time Jobs",
-            "definition": "Part-time jobs give students experience alongside school.",
+            "word": "shift",
+            "definition": "A scheduled period of work",
             "partOfSpeech": "noun",
-            "example": "Part-time jobs give students experience alongside school.",
-            "starter": "I want to discuss part-time jobs because…"
+            "example": "A short shift can teach a teenager to manage time.",
+            "starter": "If I saw shift, I would…"
           },
           {
-            "word": "schedules",
-            "definition": "Plans showing when work happens",
-            "partOfSpeech": "noun",
-            "example": "Schedules affect time for study and rest.",
-            "starter": "I can use schedules to explain…"
+            "word": "hourly wage",
+            "definition": "Pay for one hour",
+            "partOfSpeech": "phrase",
+            "example": "I would compare the hourly wage.",
+            "starter": "I could describe hourly wage by…"
           },
           {
-            "word": "pay",
-            "definition": "Money received for work",
+            "word": "supervisor",
+            "definition": "A person overseeing work",
             "partOfSpeech": "noun",
-            "example": "Pay is only one part of job value.",
-            "starter": "When I hear pay, I think of…"
+            "example": "I would ask the supervisor.",
+            "starter": "I wonder whether supervisor can…"
           },
           {
-            "word": "rules",
-            "definition": "Instructions people must follow",
+            "word": "timesheet",
+            "definition": "A list of hours worked",
             "partOfSpeech": "noun",
-            "example": "Local rules may limit young workers' hours.",
-            "starter": "A question about rules is…"
+            "example": "I would check my timesheet.",
+            "starter": "One question about timesheet is…"
           },
           {
-            "word": "workers",
-            "definition": "People doing paid work",
-            "partOfSpeech": "noun",
-            "example": "Workers learn to communicate with customers or teams.",
-            "starter": "I would compare workers with…"
+            "word": "customer service",
+            "definition": "Helping buyers or visitors",
+            "partOfSpeech": "phrase",
+            "example": "Customer service takes patience.",
+            "starter": "I would compare customer service with…"
           },
           {
-            "word": "experience",
-            "definition": "Knowledge gained by doing something",
-            "partOfSpeech": "noun",
-            "example": "Part-time jobs give students experience alongside school.",
-            "starter": "One example of experience is…"
+            "word": "workplace rights",
+            "definition": "Protections for workers",
+            "partOfSpeech": "phrase",
+            "example": "I would learn my workplace rights.",
+            "starter": "My idea about workplace rights is…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
+            "word": "availability",
+            "definition": "The times someone can work",
             "partOfSpeech": "noun",
-            "example": "A goal can guide choices about part-time jobs.",
-            "starter": "I want to compare goal with…"
+            "example": "My availability changes during exams.",
+            "starter": "I might use availability when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that schedules affect time for study and rest."
+            "phrase": "I would ask about…",
+            "example": "I would ask about the hours."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that workers learn to communicate with customers or teams."
+            "phrase": "That shift is too late…",
+            "example": "That shift is too late for me."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, pay is only one part of job value."
+            "phrase": "I need training for…",
+            "example": "I need training for this task."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare part-time jobs with a related topic."
+            "phrase": "A kind coworker…",
+            "example": "A kind coworker would help."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that local rules may limit young workers' hours."
+            "phrase": "I would save some of…",
+            "example": "I would save some of my pay."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because schedules affect time for study and rest."
+            "phrase": "School still…",
+            "example": "School still needs time."
           }
         ]
       },
       "B2": {
-        "briefing": "Part-time jobs give students experience alongside school. Schedules affect time for study and rest; workers learn to communicate with customers or teams. Pay is only one part of job value; local rules may limit young workers' hours.",
+        "briefing": "Part-time work can build confidence while competing with study and rest. A clear schedule and safe supervision matter as much as the hourly rate. The skills learned from difficult interactions may transfer to other settings.",
         "facts": [
           "Schedules affect time for study and rest.",
           "Workers learn to communicate with customers or teams.",
@@ -29541,79 +29541,79 @@
         ],
         "vocab": [
           {
-            "word": "Part-Time Jobs",
-            "definition": "Part-time jobs give students experience alongside school.",
+            "word": "shift",
+            "definition": "A scheduled period of work",
             "partOfSpeech": "noun",
-            "example": "Part-time jobs give students experience alongside school.",
-            "starter": "I want to discuss part-time jobs because…"
+            "example": "If I took a part-time job, I would discuss exam weeks before accepting shifts.",
+            "starter": "If I saw shift, I would…"
           },
           {
-            "word": "schedules",
-            "definition": "Plans showing when work happens",
-            "partOfSpeech": "noun",
-            "example": "Schedules affect time for study and rest.",
-            "starter": "I can use schedules to explain…"
+            "word": "hourly wage",
+            "definition": "Pay for one hour",
+            "partOfSpeech": "phrase",
+            "example": "An hourly wage tells only part of the story if travel takes too long.",
+            "starter": "I could describe hourly wage by…"
           },
           {
-            "word": "pay",
-            "definition": "Money received for work",
+            "word": "supervisor",
+            "definition": "A person overseeing work",
             "partOfSpeech": "noun",
-            "example": "Pay is only one part of job value.",
-            "starter": "When I hear pay, I think of…"
+            "example": "A good supervisor makes expectations and rights clear.",
+            "starter": "I wonder whether supervisor can…"
           },
           {
-            "word": "rules",
-            "definition": "Instructions people must follow",
+            "word": "timesheet",
+            "definition": "A list of hours worked",
             "partOfSpeech": "noun",
-            "example": "Local rules may limit young workers' hours.",
-            "starter": "A question about rules is…"
+            "example": "I would check my timesheet.",
+            "starter": "One question about timesheet is…"
           },
           {
-            "word": "workers",
-            "definition": "People doing paid work",
-            "partOfSpeech": "noun",
-            "example": "Workers learn to communicate with customers or teams.",
-            "starter": "I would compare workers with…"
+            "word": "customer service",
+            "definition": "Helping buyers or visitors",
+            "partOfSpeech": "phrase",
+            "example": "Customer service can teach patience without requiring tolerance of abuse.",
+            "starter": "I would compare customer service with…"
           },
           {
-            "word": "experience",
-            "definition": "Knowledge gained by doing something",
-            "partOfSpeech": "noun",
-            "example": "Part-time jobs give students experience alongside school.",
-            "starter": "One example of experience is…"
+            "word": "workplace rights",
+            "definition": "Protections for workers",
+            "partOfSpeech": "phrase",
+            "example": "I would learn my workplace rights.",
+            "starter": "My idea about workplace rights is…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
+            "word": "availability",
+            "definition": "The times someone can work",
             "partOfSpeech": "noun",
-            "example": "A priority can change decisions about part-time jobs.",
-            "starter": "I want to compare priority with…"
+            "example": "My availability changes during exams.",
+            "starter": "I might use availability when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that schedules affect time for study and rest."
+            "phrase": "If I took a part-time job,…",
+            "example": "If I took a part-time job, I would discuss exam weeks before accepting shifts."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that workers learn to communicate with customers or teams."
+            "phrase": "An hourly wage tells only part…",
+            "example": "An hourly wage tells only part of the story if travel takes too long."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, pay is only one part of job value."
+            "phrase": "I would rather ask for training…",
+            "example": "I would rather ask for training than hide an unsafe mistake."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare part-time jobs with a related topic."
+            "phrase": "Customer service can teach patience without…",
+            "example": "Customer service can teach patience without requiring tolerance of abuse."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that local rules may limit young workers' hours."
+            "phrase": "I wonder when work experience becomes…",
+            "example": "I wonder when work experience becomes too costly for a student's health."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because schedules affect time for study and rest."
+            "phrase": "A good supervisor makes expectations and…",
+            "example": "A good supervisor makes expectations and rights clear."
           }
         ]
       }
@@ -29632,7 +29632,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Future jobs will change as tools and needs change. Some roles combine skills from several subjects. Human judgment matters even with automation. No forecast can name every future career.",
+        "briefing": "New tools can change tasks inside an old job. Some work needs care and judgment more than speed. Students may try several roles before choosing a direction.",
         "facts": [
           "Some roles combine skills from several subjects.",
           "Adaptability helps people learn new tasks.",
@@ -29646,84 +29646,84 @@
         ],
         "vocab": [
           {
-            "word": "Future Jobs",
-            "definition": "Future jobs will change as tools and needs change.",
-            "partOfSpeech": "noun",
-            "example": "Future jobs will change as tools and needs change.",
-            "starter": "I want to discuss future jobs because…"
+            "word": "career path",
+            "definition": "A sequence of work choices",
+            "partOfSpeech": "phrase",
+            "example": "My career path may bend.",
+            "starter": "If I saw career path, I would…"
           },
           {
-            "word": "roles",
-            "definition": "Types of work people do",
+            "word": "apprenticeship",
+            "definition": "Learning a trade through work",
             "partOfSpeech": "noun",
-            "example": "Some roles combine skills from several subjects.",
-            "starter": "I can use roles to explain…"
+            "example": "An apprenticeship could suit me.",
+            "starter": "I could describe apprenticeship by…"
           },
           {
-            "word": "adaptability",
-            "definition": "Ability to adjust to new conditions",
-            "partOfSpeech": "noun",
-            "example": "Adaptability helps people learn new tasks.",
-            "starter": "When I hear adaptability, I think of…"
+            "word": "transferable skill",
+            "definition": "An ability useful in many jobs",
+            "partOfSpeech": "phrase",
+            "example": "Listening is a transferable skill.",
+            "starter": "I wonder whether transferable skill can…"
           },
           {
-            "word": "judgment",
-            "definition": "Careful decisions based on understanding",
+            "word": "automation",
+            "definition": "Machines doing some tasks",
             "partOfSpeech": "noun",
             "example": "Human judgment matters even with automation.",
-            "starter": "A question about judgment is…"
+            "starter": "One question about automation is…"
           },
           {
-            "word": "skills",
-            "definition": "Abilities learned through practice",
+            "word": "mentor",
+            "definition": "A person offering guidance",
             "partOfSpeech": "noun",
-            "example": "Some roles combine skills from several subjects.",
-            "starter": "I would compare skills with…"
+            "example": "I would seek a mentor.",
+            "starter": "I would compare mentor with…"
           },
           {
-            "word": "tools",
-            "definition": "Objects or systems used for work",
+            "word": "qualification",
+            "definition": "Proof of completed training",
             "partOfSpeech": "noun",
-            "example": "Future jobs will change as tools and needs change.",
-            "starter": "One example of tools is…"
+            "example": "That qualification takes time.",
+            "starter": "My idea about qualification is…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
-            "partOfSpeech": "noun",
-            "example": "A goal can guide choices about future jobs.",
-            "starter": "I want to compare goal with…"
+            "word": "job shadowing",
+            "definition": "Watching someone at work",
+            "partOfSpeech": "phrase",
+            "example": "Job shadowing could test my interest.",
+            "starter": "I might use job shadowing when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that some roles combine skills from several subjects."
+            "phrase": "I want to try…",
+            "example": "I want to try several jobs."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that adaptability helps people learn new tasks."
+            "phrase": "I could ask someone about…",
+            "example": "I could ask someone about their work."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, human judgment matters even with automation."
+            "phrase": "Helping people matters…",
+            "example": "Helping people matters to me."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare future jobs with a related topic."
+            "phrase": "I like solving…",
+            "example": "I like solving practical problems."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that no forecast can name every future career."
+            "phrase": "My choice may…",
+            "example": "My choice may change later."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because some roles combine skills from several subjects."
+            "phrase": "I want time…",
+            "example": "I want time to learn."
           }
         ]
       },
       "B2": {
-        "briefing": "Future jobs will change as tools and needs change. Some roles combine skills from several subjects; adaptability helps people learn new tasks. Human judgment matters even with automation; no forecast can name every future career.",
+        "briefing": "Predicting a single future career misses how jobs evolve over time. Transferable skills help when a familiar role changes or disappears. Communities also need work that markets do not reward highly.",
         "facts": [
           "Some roles combine skills from several subjects.",
           "Adaptability helps people learn new tasks.",
@@ -29737,79 +29737,79 @@
         ],
         "vocab": [
           {
-            "word": "Future Jobs",
-            "definition": "Future jobs will change as tools and needs change.",
-            "partOfSpeech": "noun",
-            "example": "Future jobs will change as tools and needs change.",
-            "starter": "I want to discuss future jobs because…"
+            "word": "career path",
+            "definition": "A sequence of work choices",
+            "partOfSpeech": "phrase",
+            "example": "My career path may bend.",
+            "starter": "If I saw career path, I would…"
           },
           {
-            "word": "roles",
-            "definition": "Types of work people do",
+            "word": "apprenticeship",
+            "definition": "Learning a trade through work",
             "partOfSpeech": "noun",
-            "example": "Some roles combine skills from several subjects.",
-            "starter": "I can use roles to explain…"
+            "example": "An apprenticeship could suit me.",
+            "starter": "I could describe apprenticeship by…"
           },
           {
-            "word": "adaptability",
-            "definition": "Ability to adjust to new conditions",
-            "partOfSpeech": "noun",
-            "example": "Adaptability helps people learn new tasks.",
-            "starter": "When I hear adaptability, I think of…"
+            "word": "transferable skill",
+            "definition": "An ability useful in many jobs",
+            "partOfSpeech": "phrase",
+            "example": "Transferable skills help when a familiar role changes or disappears.",
+            "starter": "I wonder whether transferable skill can…"
           },
           {
-            "word": "judgment",
-            "definition": "Careful decisions based on understanding",
+            "word": "automation",
+            "definition": "Machines doing some tasks",
             "partOfSpeech": "noun",
             "example": "Human judgment matters even with automation.",
-            "starter": "A question about judgment is…"
+            "starter": "One question about automation is…"
           },
           {
-            "word": "skills",
-            "definition": "Abilities learned through practice",
+            "word": "mentor",
+            "definition": "A person offering guidance",
             "partOfSpeech": "noun",
-            "example": "Some roles combine skills from several subjects.",
-            "starter": "I would compare skills with…"
+            "example": "I would seek a mentor.",
+            "starter": "I would compare mentor with…"
           },
           {
-            "word": "tools",
-            "definition": "Objects or systems used for work",
+            "word": "qualification",
+            "definition": "Proof of completed training",
             "partOfSpeech": "noun",
-            "example": "Future jobs will change as tools and needs change.",
-            "starter": "One example of tools is…"
+            "example": "That qualification takes time.",
+            "starter": "My idea about qualification is…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
-            "partOfSpeech": "noun",
-            "example": "A priority can change decisions about future jobs.",
-            "starter": "I want to compare priority with…"
+            "word": "job shadowing",
+            "definition": "Watching someone at work",
+            "partOfSpeech": "phrase",
+            "example": "I would rather test a role through job shadowing than trust its title.",
+            "starter": "I might use job shadowing when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that some roles combine skills from several subjects."
+            "phrase": "If I chose a career today,…",
+            "example": "If I chose a career today, I would leave room to change direction later."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that adaptability helps people learn new tasks."
+            "phrase": "Automation may remove routine tasks while…",
+            "example": "Automation may remove routine tasks while creating new responsibilities."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, human judgment matters even with automation."
+            "phrase": "I would rather test a role…",
+            "example": "I would rather test a role through job shadowing than trust its title."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare future jobs with a related topic."
+            "phrase": "A transferable skill can matter when…",
+            "example": "A transferable skill can matter when an industry changes."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that no forecast can name every future career."
+            "phrase": "I wonder which important jobs our…",
+            "example": "I wonder which important jobs our society undervalues."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because some roles combine skills from several subjects."
+            "phrase": "Future work should be judged by…",
+            "example": "Future work should be judged by its conditions as well as its novelty."
           }
         ]
       }
@@ -29828,7 +29828,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Entrepreneurship starts by noticing a need and offering a solution. A small project can test an idea. Costs and time matter before profit. Teams can bring different skills to a project.",
+        "briefing": "A small business begins by finding a problem people have. A good idea still needs costs and customers. Testing a simple version can prevent waste.",
         "facts": [
           "A small project can test an idea.",
           "Feedback may show a different customer need.",
@@ -29842,84 +29842,84 @@
         ],
         "vocab": [
           {
-            "word": "Entrepreneurship",
-            "definition": "Entrepreneurship starts by noticing a need and offering a solution.",
+            "word": "customer",
+            "definition": "A person buying a service or product",
             "partOfSpeech": "noun",
-            "example": "Entrepreneurship starts by noticing a need and offering a solution.",
-            "starter": "I want to discuss entrepreneurship because…"
+            "example": "A good idea still needs costs and customers.",
+            "starter": "If I saw customer, I would…"
           },
           {
-            "word": "need",
-            "definition": "A problem or requirement people have",
+            "word": "prototype",
+            "definition": "An early version for testing",
             "partOfSpeech": "noun",
-            "example": "Entrepreneurship starts by noticing a need and offering a solution.",
-            "starter": "I can use need to explain…"
+            "example": "My prototype could be simple.",
+            "starter": "I could describe prototype by…"
           },
           {
-            "word": "feedback",
-            "definition": "Information about what users think",
-            "partOfSpeech": "noun",
-            "example": "Feedback may show a different customer need.",
-            "starter": "When I hear feedback, I think of…"
+            "word": "startup cost",
+            "definition": "Money needed to begin",
+            "partOfSpeech": "phrase",
+            "example": "I would estimate the startup cost.",
+            "starter": "I wonder whether startup cost can…"
           },
           {
-            "word": "costs",
-            "definition": "Money or resources needed",
+            "word": "profit",
+            "definition": "Money left after costs",
             "partOfSpeech": "noun",
             "example": "Costs and time matter before profit.",
-            "starter": "A question about costs is…"
+            "starter": "One question about profit is…"
           },
           {
-            "word": "solution",
-            "definition": "An answer to a need",
+            "word": "supplier",
+            "definition": "A source of materials",
             "partOfSpeech": "noun",
-            "example": "Entrepreneurship starts by noticing a need and offering a solution.",
-            "starter": "I would compare solution with…"
+            "example": "I would compare suppliers.",
+            "starter": "I would compare supplier with…"
           },
           {
-            "word": "customer",
-            "definition": "A person who buys or uses something",
+            "word": "pitch",
+            "definition": "A short explanation of an idea",
             "partOfSpeech": "noun",
-            "example": "Feedback may show a different customer need.",
-            "starter": "One example of customer is…"
+            "example": "I would practice my pitch.",
+            "starter": "My idea about pitch is…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
+            "word": "demand",
+            "definition": "How much people want something",
             "partOfSpeech": "noun",
-            "example": "A goal can guide choices about entrepreneurship.",
-            "starter": "I want to compare goal with…"
+            "example": "I would test demand first.",
+            "starter": "I might use demand when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a small project can test an idea."
+            "phrase": "I would sell a…",
+            "example": "I would sell a useful service."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that feedback may show a different customer need."
+            "phrase": "Let us ask who…",
+            "example": "Let us ask who needs it."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, costs and time matter before profit."
+            "phrase": "The first version can…",
+            "example": "The first version can be small."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare entrepreneurship with a related topic."
+            "phrase": "Materials might cost…",
+            "example": "Materials might cost too much."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that teams can bring different skills to a project."
+            "phrase": "I would listen…",
+            "example": "I would listen to complaints."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a small project can test an idea."
+            "phrase": "We need a…",
+            "example": "We need a fair price."
           }
         ]
       },
       "B2": {
-        "briefing": "Entrepreneurship starts by noticing a need and offering a solution. A small project can test an idea; feedback may show a different customer need. Costs and time matter before profit; teams can bring different skills to a project.",
+        "briefing": "Starting a venture involves uncertainty about demand, money, and timing. Listening to dissatisfied customers can improve a product more than praise. Success should include whether the work is sustainable for its makers.",
         "facts": [
           "A small project can test an idea.",
           "Feedback may show a different customer need.",
@@ -29933,79 +29933,79 @@
         ],
         "vocab": [
           {
-            "word": "Entrepreneurship",
-            "definition": "Entrepreneurship starts by noticing a need and offering a solution.",
+            "word": "customer",
+            "definition": "A person buying a service or product",
             "partOfSpeech": "noun",
-            "example": "Entrepreneurship starts by noticing a need and offering a solution.",
-            "starter": "I want to discuss entrepreneurship because…"
+            "example": "Listening to dissatisfied customers can improve a product more than praise.",
+            "starter": "If I saw customer, I would…"
           },
           {
-            "word": "need",
-            "definition": "A problem or requirement people have",
+            "word": "prototype",
+            "definition": "An early version for testing",
             "partOfSpeech": "noun",
-            "example": "Entrepreneurship starts by noticing a need and offering a solution.",
-            "starter": "I can use need to explain…"
+            "example": "I would rather revise a prototype than defend a weak first plan.",
+            "starter": "I could describe prototype by…"
           },
           {
-            "word": "feedback",
-            "definition": "Information about what users think",
-            "partOfSpeech": "noun",
-            "example": "Feedback may show a different customer need.",
-            "starter": "When I hear feedback, I think of…"
+            "word": "startup cost",
+            "definition": "Money needed to begin",
+            "partOfSpeech": "phrase",
+            "example": "I would estimate the startup cost.",
+            "starter": "I wonder whether startup cost can…"
           },
           {
-            "word": "costs",
-            "definition": "Money or resources needed",
+            "word": "profit",
+            "definition": "Money left after costs",
             "partOfSpeech": "noun",
             "example": "Costs and time matter before profit.",
-            "starter": "A question about costs is…"
+            "starter": "One question about profit is…"
           },
           {
-            "word": "solution",
-            "definition": "An answer to a need",
+            "word": "supplier",
+            "definition": "A source of materials",
             "partOfSpeech": "noun",
-            "example": "Entrepreneurship starts by noticing a need and offering a solution.",
-            "starter": "I would compare solution with…"
+            "example": "I would compare suppliers.",
+            "starter": "I would compare supplier with…"
           },
           {
-            "word": "customer",
-            "definition": "A person who buys or uses something",
+            "word": "pitch",
+            "definition": "A short explanation of an idea",
             "partOfSpeech": "noun",
-            "example": "Feedback may show a different customer need.",
-            "starter": "One example of customer is…"
+            "example": "A polished pitch cannot replace evidence that customers need the product.",
+            "starter": "My idea about pitch is…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
+            "word": "demand",
+            "definition": "How much people want something",
             "partOfSpeech": "noun",
-            "example": "A priority can change decisions about entrepreneurship.",
-            "starter": "I want to compare priority with…"
+            "example": "Starting a venture involves uncertainty about demand, money, and timing.",
+            "starter": "I might use demand when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a small project can test an idea."
+            "phrase": "If I launched an idea, I…",
+            "example": "If I launched an idea, I would test demand before spending heavily."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that feedback may show a different customer need."
+            "phrase": "A polished pitch cannot replace evidence…",
+            "example": "A polished pitch cannot replace evidence that customers need the product."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, costs and time matter before profit."
+            "phrase": "I would rather revise a prototype…",
+            "example": "I would rather revise a prototype than defend a weak first plan."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare entrepreneurship with a related topic."
+            "phrase": "Profit matters, but so do the…",
+            "example": "Profit matters, but so do the hours and conditions behind it."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that teams can bring different skills to a project."
+            "phrase": "I wonder how much risk a…",
+            "example": "I wonder how much risk a young founder should be expected to take."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a small project can test an idea."
+            "phrase": "The best business may solve a…",
+            "example": "The best business may solve a quiet everyday problem."
           }
         ]
       }
@@ -30024,7 +30024,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Saving means keeping some money for a later goal. Small regular choices can build a habit. Unexpected needs can change a savings plan. People have different resources and priorities.",
+        "briefing": "Saving means keeping some money for a later need or goal. Small amounts can add up when set aside regularly. A goal becomes easier to track when it has a price and date.",
         "facts": [
           "Small regular choices can build a habit.",
           "A clear goal makes trade-offs easier.",
@@ -30038,84 +30038,84 @@
         ],
         "vocab": [
           {
-            "word": "Saving",
-            "definition": "Saving means keeping some money for a later goal.",
-            "partOfSpeech": "noun",
-            "example": "Saving means keeping some money for a later goal.",
-            "starter": "I want to discuss money and saving because…"
+            "word": "savings goal",
+            "definition": "A target for money kept aside",
+            "partOfSpeech": "phrase",
+            "example": "My savings goal is a bicycle.",
+            "starter": "If I saw savings goal, I would…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person hopes to reach",
-            "partOfSpeech": "noun",
-            "example": "Saving means keeping some money for a later goal.",
-            "starter": "I can use goal to explain…"
+            "word": "emergency fund",
+            "definition": "Money reserved for surprises",
+            "partOfSpeech": "phrase",
+            "example": "An emergency fund provides a cushion.",
+            "starter": "I could describe emergency fund by…"
           },
           {
-            "word": "trade-offs",
-            "definition": "Choices where one benefit costs another",
+            "word": "interest",
+            "definition": "Money earned or charged for holding money",
+            "partOfSpeech": "noun",
+            "example": "I would compare interest rates.",
+            "starter": "I wonder whether interest can…"
+          },
+          {
+            "word": "deposit",
+            "definition": "Money placed into an account",
+            "partOfSpeech": "noun",
+            "example": "I could make a small deposit.",
+            "starter": "One question about deposit is…"
+          },
+          {
+            "word": "withdrawal",
+            "definition": "Money taken from an account",
+            "partOfSpeech": "noun",
+            "example": "I would plan that withdrawal.",
+            "starter": "I would compare withdrawal with…"
+          },
+          {
+            "word": "balance",
+            "definition": "Money available in an account",
+            "partOfSpeech": "noun",
+            "example": "I would check my balance.",
+            "starter": "My idea about balance is…"
+          },
+          {
+            "word": "trade-off",
+            "definition": "Giving up one option to choose another",
             "partOfSpeech": "noun",
             "example": "A clear goal makes trade-offs easier.",
-            "starter": "When I hear trade-offs, I think of…"
-          },
-          {
-            "word": "resources",
-            "definition": "Things available for use",
-            "partOfSpeech": "noun",
-            "example": "People have different resources and priorities.",
-            "starter": "A question about resources is…"
-          },
-          {
-            "word": "choices",
-            "definition": "Options people select",
-            "partOfSpeech": "noun",
-            "example": "Small regular choices can build a habit.",
-            "starter": "I would compare choices with…"
-          },
-          {
-            "word": "savings plan",
-            "definition": "A plan for keeping money for later",
-            "partOfSpeech": "noun",
-            "example": "Unexpected needs can change a savings plan.",
-            "starter": "One example of savings plan is…"
-          },
-          {
-            "word": "plan",
-            "definition": "A set of steps for doing something.",
-            "partOfSpeech": "noun",
-            "example": "A plan can make money and saving easier to manage.",
-            "starter": "I want to compare plan with…"
+            "starter": "I might use trade-off when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that small regular choices can build a habit."
+            "phrase": "I would save for…",
+            "example": "I would save for a bike."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a clear goal makes trade-offs easier."
+            "phrase": "A small amount is…",
+            "example": "A small amount is a start."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, unexpected needs can change a savings plan."
+            "phrase": "I need money for the…",
+            "example": "I need money for the bus too."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare money and saving with a related topic."
+            "phrase": "I can wait…",
+            "example": "I can wait another week."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that people have different resources and priorities."
+            "phrase": "I would check…",
+            "example": "I would check my balance."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because small regular choices can build a habit."
+            "phrase": "My goal…",
+            "example": "My goal may change."
           }
         ]
       },
       "B2": {
-        "briefing": "Saving means keeping some money for a later goal. Small regular choices can build a habit; a clear goal makes trade-offs easier. Unexpected needs can change a savings plan; people have different resources and priorities.",
+        "briefing": "Saving choices depend on income, responsibilities, and unexpected costs. Money set aside for emergencies serves a different purpose from a planned purchase. A habit matters, but advice must account for unequal circumstances.",
         "facts": [
           "Small regular choices can build a habit.",
           "A clear goal makes trade-offs easier.",
@@ -30129,79 +30129,79 @@
         ],
         "vocab": [
           {
-            "word": "Saving",
-            "definition": "Saving means keeping some money for a later goal.",
-            "partOfSpeech": "noun",
-            "example": "Saving means keeping some money for a later goal.",
-            "starter": "I want to discuss money and saving because…"
+            "word": "savings goal",
+            "definition": "A target for money kept aside",
+            "partOfSpeech": "phrase",
+            "example": "My savings goal is a bicycle.",
+            "starter": "If I saw savings goal, I would…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person hopes to reach",
-            "partOfSpeech": "noun",
-            "example": "Saving means keeping some money for a later goal.",
-            "starter": "I can use goal to explain…"
+            "word": "emergency fund",
+            "definition": "Money reserved for surprises",
+            "partOfSpeech": "phrase",
+            "example": "An emergency fund provides a cushion.",
+            "starter": "I could describe emergency fund by…"
           },
           {
-            "word": "trade-offs",
-            "definition": "Choices where one benefit costs another",
+            "word": "interest",
+            "definition": "Money earned or charged for holding money",
+            "partOfSpeech": "noun",
+            "example": "Interest can help or hurt depending on which side pays it.",
+            "starter": "I wonder whether interest can…"
+          },
+          {
+            "word": "deposit",
+            "definition": "Money placed into an account",
+            "partOfSpeech": "noun",
+            "example": "I could make a small deposit.",
+            "starter": "One question about deposit is…"
+          },
+          {
+            "word": "withdrawal",
+            "definition": "Money taken from an account",
+            "partOfSpeech": "noun",
+            "example": "I would plan that withdrawal.",
+            "starter": "I would compare withdrawal with…"
+          },
+          {
+            "word": "balance",
+            "definition": "Money available in an account",
+            "partOfSpeech": "noun",
+            "example": "I would check my balance.",
+            "starter": "My idea about balance is…"
+          },
+          {
+            "word": "trade-off",
+            "definition": "Giving up one option to choose another",
             "partOfSpeech": "noun",
             "example": "A clear goal makes trade-offs easier.",
-            "starter": "When I hear trade-offs, I think of…"
-          },
-          {
-            "word": "resources",
-            "definition": "Things available for use",
-            "partOfSpeech": "noun",
-            "example": "People have different resources and priorities.",
-            "starter": "A question about resources is…"
-          },
-          {
-            "word": "choices",
-            "definition": "Options people select",
-            "partOfSpeech": "noun",
-            "example": "Small regular choices can build a habit.",
-            "starter": "I would compare choices with…"
-          },
-          {
-            "word": "savings plan",
-            "definition": "A plan for keeping money for later",
-            "partOfSpeech": "noun",
-            "example": "Unexpected needs can change a savings plan.",
-            "starter": "One example of savings plan is…"
-          },
-          {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
-            "partOfSpeech": "noun",
-            "example": "A priority can change decisions about money and saving.",
-            "starter": "I want to compare priority with…"
+            "starter": "I might use trade-off when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that small regular choices can build a habit."
+            "phrase": "If I saved for a goal,…",
+            "example": "If I saved for a goal, I would keep emergency money separate."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a clear goal makes trade-offs easier."
+            "phrase": "A budget cannot solve a shortage…",
+            "example": "A budget cannot solve a shortage of income by itself."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, unexpected needs can change a savings plan."
+            "phrase": "I would rather delay a purchase…",
+            "example": "I would rather delay a purchase than borrow without understanding the cost."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare money and saving with a related topic."
+            "phrase": "Interest can help or hurt depending…",
+            "example": "Interest can help or hurt depending on which side pays it."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that people have different resources and priorities."
+            "phrase": "I wonder how families decide which…",
+            "example": "I wonder how families decide which needs come first."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because small regular choices can build a habit."
+            "phrase": "Saving advice should recognize that people's…",
+            "example": "Saving advice should recognize that people's choices have different limits."
           }
         ]
       }
@@ -30220,7 +30220,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Budgeting is planning how available money will be used. A plan separates needs from optional choices. A budget can change when circumstances change. Time and effort are resources too.",
+        "briefing": "A budget lists money coming in and going out. Some costs are fixed while others vary. Looking back at real spending can improve a plan.",
         "facts": [
           "A plan separates needs from optional choices.",
           "Tracking spending shows patterns people may miss.",
@@ -30234,84 +30234,84 @@
         ],
         "vocab": [
           {
-            "word": "Budgeting",
-            "definition": "Budgeting is planning how available money will be used.",
+            "word": "income",
+            "definition": "Money received",
             "partOfSpeech": "noun",
-            "example": "Budgeting is planning how available money will be used.",
-            "starter": "I want to discuss budgeting because…"
+            "example": "My income varies by month.",
+            "starter": "If I saw income, I would…"
           },
           {
-            "word": "needs",
-            "definition": "Things important for living or functioning",
+            "word": "expense",
+            "definition": "Money paid out",
             "partOfSpeech": "noun",
-            "example": "A plan separates needs from optional choices.",
-            "starter": "I can use needs to explain…"
+            "example": "Transport is an expense.",
+            "starter": "I could describe expense by…"
           },
           {
-            "word": "tracking",
-            "definition": "Following information over time",
-            "partOfSpeech": "noun",
-            "example": "Tracking spending shows patterns people may miss.",
-            "starter": "When I hear tracking, I think of…"
+            "word": "fixed cost",
+            "definition": "A regular payment that stays similar",
+            "partOfSpeech": "phrase",
+            "example": "Rent is a fixed cost.",
+            "starter": "I wonder whether fixed cost can…"
           },
           {
-            "word": "budget",
-            "definition": "A plan for how money is used",
-            "partOfSpeech": "noun",
-            "example": "Budgeting is planning how available money will be used.",
-            "starter": "A question about budget is…"
+            "word": "variable cost",
+            "definition": "A payment that changes",
+            "partOfSpeech": "phrase",
+            "example": "Food is a variable cost.",
+            "starter": "One question about variable cost is…"
           },
           {
-            "word": "spending",
-            "definition": "Using money to buy something",
+            "word": "estimate",
+            "definition": "An approximate calculation",
             "partOfSpeech": "noun",
-            "example": "Tracking spending shows patterns people may miss.",
-            "starter": "I would compare spending with…"
+            "example": "My estimate was too low.",
+            "starter": "I would compare estimate with…"
           },
           {
-            "word": "circumstances",
-            "definition": "Conditions affecting a person's choices",
+            "word": "receipt",
+            "definition": "Proof of a purchase",
             "partOfSpeech": "noun",
-            "example": "A budget can change when circumstances change.",
-            "starter": "One example of circumstances is…"
+            "example": "I would keep the receipt.",
+            "starter": "My idea about receipt is…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
+            "word": "contingency",
+            "definition": "A reserve for unexpected needs",
             "partOfSpeech": "noun",
-            "example": "A goal can guide choices about budgeting.",
-            "starter": "I want to compare goal with…"
+            "example": "I would add a contingency.",
+            "starter": "I might use contingency when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a plan separates needs from optional choices."
+            "phrase": "I would list bus…",
+            "example": "I would list bus fares first."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that tracking spending shows patterns people may miss."
+            "phrase": "That cost changes…",
+            "example": "That cost changes each week."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, a budget can change when circumstances change."
+            "phrase": "I forgot a…",
+            "example": "I forgot a birthday gift."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare budgeting with a related topic."
+            "phrase": "We could adjust…",
+            "example": "We could adjust the plan."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that time and effort are resources too."
+            "phrase": "I want to know where…",
+            "example": "I want to know where money goes."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a plan separates needs from optional choices."
+            "phrase": "A small reserve…",
+            "example": "A small reserve would help."
           }
         ]
       },
       "B2": {
-        "briefing": "Budgeting is planning how available money will be used. A plan separates needs from optional choices; tracking spending shows patterns people may miss. A budget can change when circumstances change; time and effort are resources too.",
+        "briefing": "A useful budget reflects actual habits instead of an ideal week. Irregular costs are easy to forget until they arrive. Adjusting a plan is a sign of attention, not necessarily failure.",
         "facts": [
           "A plan separates needs from optional choices.",
           "Tracking spending shows patterns people may miss.",
@@ -30325,79 +30325,79 @@
         ],
         "vocab": [
           {
-            "word": "Budgeting",
-            "definition": "Budgeting is planning how available money will be used.",
+            "word": "income",
+            "definition": "Money received",
             "partOfSpeech": "noun",
-            "example": "Budgeting is planning how available money will be used.",
-            "starter": "I want to discuss budgeting because…"
+            "example": "I wonder how to budget when income changes from week to week.",
+            "starter": "If I saw income, I would…"
           },
           {
-            "word": "needs",
-            "definition": "Things important for living or functioning",
+            "word": "expense",
+            "definition": "Money paid out",
             "partOfSpeech": "noun",
-            "example": "A plan separates needs from optional choices.",
-            "starter": "I can use needs to explain…"
+            "example": "Irregular expenses deserve a line even when they are easy to ignore.",
+            "starter": "I could describe expense by…"
           },
           {
-            "word": "tracking",
-            "definition": "Following information over time",
-            "partOfSpeech": "noun",
-            "example": "Tracking spending shows patterns people may miss.",
-            "starter": "When I hear tracking, I think of…"
+            "word": "fixed cost",
+            "definition": "A regular payment that stays similar",
+            "partOfSpeech": "phrase",
+            "example": "Rent is a fixed cost.",
+            "starter": "I wonder whether fixed cost can…"
           },
           {
-            "word": "budget",
-            "definition": "A plan for how money is used",
-            "partOfSpeech": "noun",
-            "example": "Budgeting is planning how available money will be used.",
-            "starter": "A question about budget is…"
+            "word": "variable cost",
+            "definition": "A payment that changes",
+            "partOfSpeech": "phrase",
+            "example": "Food is a variable cost.",
+            "starter": "One question about variable cost is…"
           },
           {
-            "word": "spending",
-            "definition": "Using money to buy something",
+            "word": "estimate",
+            "definition": "An approximate calculation",
             "partOfSpeech": "noun",
-            "example": "Tracking spending shows patterns people may miss.",
-            "starter": "I would compare spending with…"
+            "example": "I would rather use a realistic estimate than an impressive impossible target.",
+            "starter": "I would compare estimate with…"
           },
           {
-            "word": "circumstances",
-            "definition": "Conditions affecting a person's choices",
+            "word": "receipt",
+            "definition": "Proof of a purchase",
             "partOfSpeech": "noun",
-            "example": "A budget can change when circumstances change.",
-            "starter": "One example of circumstances is…"
+            "example": "If my budget failed, I would compare it with receipts before blaming myself.",
+            "starter": "My idea about receipt is…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
+            "word": "contingency",
+            "definition": "A reserve for unexpected needs",
             "partOfSpeech": "noun",
-            "example": "A priority can change decisions about budgeting.",
-            "starter": "I want to compare priority with…"
+            "example": "A contingency helps a plan survive ordinary surprises.",
+            "starter": "I might use contingency when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a plan separates needs from optional choices."
+            "phrase": "If my budget failed, I would…",
+            "example": "If my budget failed, I would compare it with receipts before blaming myself."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that tracking spending shows patterns people may miss."
+            "phrase": "Irregular expenses deserve a line even…",
+            "example": "Irregular expenses deserve a line even when they are easy to ignore."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, a budget can change when circumstances change."
+            "phrase": "I would rather use a realistic…",
+            "example": "I would rather use a realistic estimate than an impressive impossible target."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare budgeting with a related topic."
+            "phrase": "A contingency helps a plan survive…",
+            "example": "A contingency helps a plan survive ordinary surprises."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that time and effort are resources too."
+            "phrase": "I wonder how to budget when…",
+            "example": "I wonder how to budget when income changes from week to week."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a plan separates needs from optional choices."
+            "phrase": "The purpose of a budget is…",
+            "example": "The purpose of a budget is to support choices, not punish them."
           }
         ]
       }
@@ -30416,7 +30416,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Volunteering means giving time to help without pay. Local groups often know what help is useful. Shared tasks can build community connections. Reliable attendance matters more than big promises.",
+        "briefing": "Volunteers offer time to help with a community task. The organizer should explain what is needed. Reliable attendance can matter more than dramatic gestures.",
         "facts": [
           "Local groups often know what help is useful.",
           "Listening prevents helpers from assuming needs.",
@@ -30430,84 +30430,84 @@
         ],
         "vocab": [
           {
-            "word": "Volunteering",
-            "definition": "Volunteering means giving time to help without pay.",
+            "word": "organizer",
+            "definition": "A person coordinating an activity",
             "partOfSpeech": "noun",
-            "example": "Volunteering means giving time to help without pay.",
-            "starter": "I want to discuss volunteering because…"
+            "example": "The organizer should explain what is needed.",
+            "starter": "If I saw organizer, I would…"
           },
           {
-            "word": "local groups",
-            "definition": "Organizations rooted in a community",
+            "word": "commitment",
+            "definition": "A promise to continue",
             "partOfSpeech": "noun",
-            "example": "Local groups often know what help is useful.",
-            "starter": "I can use local groups to explain…"
+            "example": "I can make a weekly commitment.",
+            "starter": "I could describe commitment by…"
           },
           {
-            "word": "listening",
-            "definition": "Paying attention to others' views",
-            "partOfSpeech": "noun",
-            "example": "Listening prevents helpers from assuming needs.",
-            "starter": "When I hear listening, I think of…"
+            "word": "community need",
+            "definition": "A problem identified locally",
+            "partOfSpeech": "phrase",
+            "example": "I would ask about the community need.",
+            "starter": "I wonder whether community need can…"
           },
           {
-            "word": "reliable",
-            "definition": "Able to be trusted to do what was promised",
+            "word": "training",
+            "definition": "Preparation for a role",
             "partOfSpeech": "noun",
-            "example": "Reliable attendance matters more than big promises.",
-            "starter": "A question about reliable is…"
+            "example": "This task needs training.",
+            "starter": "One question about training is…"
           },
           {
-            "word": "helpers",
-            "definition": "People offering support",
+            "word": "safeguarding",
+            "definition": "Practices that protect vulnerable people",
             "partOfSpeech": "noun",
-            "example": "Listening prevents helpers from assuming needs.",
-            "starter": "I would compare helpers with…"
+            "example": "Safeguarding should be clear.",
+            "starter": "I would compare safeguarding with…"
           },
           {
-            "word": "community",
-            "definition": "People connected by place or interest",
+            "word": "donation",
+            "definition": "Something given to help",
             "partOfSpeech": "noun",
-            "example": "Shared tasks can build community connections.",
-            "starter": "One example of community is…"
+            "example": "A donation should be useful.",
+            "starter": "My idea about donation is…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
+            "word": "impact",
+            "definition": "The effect of an action",
             "partOfSpeech": "noun",
-            "example": "A goal can guide choices about volunteering.",
-            "starter": "I want to compare goal with…"
+            "example": "I would ask about the impact.",
+            "starter": "I might use impact when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that local groups often know what help is useful."
+            "phrase": "I could help…",
+            "example": "I could help every Saturday."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that listening prevents helpers from assuming needs."
+            "phrase": "What work…",
+            "example": "What work needs doing?"
           },
           {
-            "phrase": "For example…",
-            "example": "For example, shared tasks can build community connections."
+            "phrase": "I would listen…",
+            "example": "I would listen before starting."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare volunteering with a related topic."
+            "phrase": "This task…",
+            "example": "This task needs training."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that reliable attendance matters more than big promises."
+            "phrase": "I can carry…",
+            "example": "I can carry the supplies."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because local groups often know what help is useful."
+            "phrase": "I want to…",
+            "example": "I want to come back."
           }
         ]
       },
       "B2": {
-        "briefing": "Volunteering means giving time to help without pay. Local groups often know what help is useful; listening prevents helpers from assuming needs. Shared tasks can build community connections; reliable attendance matters more than big promises.",
+        "briefing": "Good volunteering starts by listening to the people affected. An activity can feel rewarding to helpers yet create extra work for hosts. Long-term trust grows when volunteers do unglamorous tasks well.",
         "facts": [
           "Local groups often know what help is useful.",
           "Listening prevents helpers from assuming needs.",
@@ -30521,79 +30521,79 @@
         ],
         "vocab": [
           {
-            "word": "Volunteering",
-            "definition": "Volunteering means giving time to help without pay.",
+            "word": "organizer",
+            "definition": "A person coordinating an activity",
             "partOfSpeech": "noun",
-            "example": "Volunteering means giving time to help without pay.",
-            "starter": "I want to discuss volunteering because…"
+            "example": "I would ask the organizer.",
+            "starter": "If I saw organizer, I would…"
           },
           {
-            "word": "local groups",
-            "definition": "Organizations rooted in a community",
+            "word": "commitment",
+            "definition": "A promise to continue",
             "partOfSpeech": "noun",
-            "example": "Local groups often know what help is useful.",
-            "starter": "I can use local groups to explain…"
+            "example": "A regular commitment might help more than a one-day photo opportunity.",
+            "starter": "I could describe commitment by…"
           },
           {
-            "word": "listening",
-            "definition": "Paying attention to others' views",
-            "partOfSpeech": "noun",
-            "example": "Listening prevents helpers from assuming needs.",
-            "starter": "When I hear listening, I think of…"
+            "word": "community need",
+            "definition": "A problem identified locally",
+            "partOfSpeech": "phrase",
+            "example": "I would ask about the community need.",
+            "starter": "I wonder whether community need can…"
           },
           {
-            "word": "reliable",
-            "definition": "Able to be trusted to do what was promised",
+            "word": "training",
+            "definition": "Preparation for a role",
             "partOfSpeech": "noun",
-            "example": "Reliable attendance matters more than big promises.",
-            "starter": "A question about reliable is…"
+            "example": "Training protects both volunteers and the people they serve.",
+            "starter": "One question about training is…"
           },
           {
-            "word": "helpers",
-            "definition": "People offering support",
+            "word": "safeguarding",
+            "definition": "Practices that protect vulnerable people",
             "partOfSpeech": "noun",
-            "example": "Listening prevents helpers from assuming needs.",
-            "starter": "I would compare helpers with…"
+            "example": "Safeguarding should be clear.",
+            "starter": "I would compare safeguarding with…"
           },
           {
-            "word": "community",
-            "definition": "People connected by place or interest",
+            "word": "donation",
+            "definition": "Something given to help",
             "partOfSpeech": "noun",
-            "example": "Shared tasks can build community connections.",
-            "starter": "One example of community is…"
+            "example": "A donation should be useful.",
+            "starter": "My idea about donation is…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
+            "word": "impact",
+            "definition": "The effect of an action",
             "partOfSpeech": "noun",
-            "example": "A priority can change decisions about volunteering.",
-            "starter": "I want to compare priority with…"
+            "example": "I wonder who decides whether a project has had real impact.",
+            "starter": "I might use impact when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that local groups often know what help is useful."
+            "phrase": "If I volunteered, I would ask…",
+            "example": "If I volunteered, I would ask what the organization actually needs."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that listening prevents helpers from assuming needs."
+            "phrase": "A regular commitment might help more…",
+            "example": "A regular commitment might help more than a one-day photo opportunity."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, shared tasks can build community connections."
+            "phrase": "I would rather do a quiet…",
+            "example": "I would rather do a quiet useful task than choose the most visible one."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare volunteering with a related topic."
+            "phrase": "Training protects both volunteers and the…",
+            "example": "Training protects both volunteers and the people they serve."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that reliable attendance matters more than big promises."
+            "phrase": "I wonder who decides whether a…",
+            "example": "I wonder who decides whether a project has had real impact."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because local groups often know what help is useful."
+            "phrase": "Service should strengthen local leadership rather…",
+            "example": "Service should strengthen local leadership rather than replace it."
           }
         ]
       }
@@ -30612,7 +30612,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Public speaking shares ideas with a group. A clear opening helps listeners follow the topic. Pauses give speakers and listeners time to think. Practice can reduce uncertainty without removing nerves.",
+        "briefing": "A speaker can help listeners follow one clear idea. Pauses give people time to understand. Practicing aloud reveals sentences that are hard to say.",
         "facts": [
           "A clear opening helps listeners follow the topic.",
           "Examples make abstract ideas easier to understand.",
@@ -30626,84 +30626,84 @@
         ],
         "vocab": [
           {
-            "word": "Public Speaking",
-            "definition": "Public speaking shares ideas with a group.",
-            "partOfSpeech": "noun",
-            "example": "Public speaking shares ideas with a group.",
-            "starter": "I want to discuss public speaking because…"
-          },
-          {
             "word": "opening",
-            "definition": "The first part of a speech",
+            "definition": "The beginning of a speech",
             "partOfSpeech": "noun",
             "example": "A clear opening helps listeners follow the topic.",
-            "starter": "I can use opening to explain…"
+            "starter": "If I saw opening, I would…"
           },
           {
-            "word": "examples",
-            "definition": "Specific cases used to explain ideas",
+            "word": "pause",
+            "definition": "A short silence",
             "partOfSpeech": "noun",
-            "example": "Examples make abstract ideas easier to understand.",
-            "starter": "When I hear examples, I think of…"
+            "example": "Pauses give people time to understand.",
+            "starter": "I could describe pause by…"
           },
           {
-            "word": "pauses",
-            "definition": "Short breaks in speaking",
-            "partOfSpeech": "noun",
-            "example": "Pauses give speakers and listeners time to think.",
-            "starter": "A question about pauses is…"
+            "word": "eye contact",
+            "definition": "Looking toward listeners",
+            "partOfSpeech": "phrase",
+            "example": "Eye contact helps me connect.",
+            "starter": "I wonder whether eye contact can…"
           },
           {
-            "word": "listeners",
-            "definition": "People hearing a speaker",
+            "word": "outline",
+            "definition": "A plan of main points",
             "partOfSpeech": "noun",
-            "example": "A clear opening helps listeners follow the topic.",
-            "starter": "I would compare listeners with…"
+            "example": "I would use an outline.",
+            "starter": "One question about outline is…"
           },
           {
-            "word": "ideas",
-            "definition": "Thoughts or plans",
+            "word": "transition",
+            "definition": "A phrase linking ideas",
             "partOfSpeech": "noun",
-            "example": "Public speaking shares ideas with a group.",
-            "starter": "One example of ideas is…"
+            "example": "That transition feels abrupt.",
+            "starter": "I would compare transition with…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
+            "word": "audience",
+            "definition": "The people listening",
             "partOfSpeech": "noun",
-            "example": "A goal can guide choices about public speaking.",
-            "starter": "I want to compare goal with…"
+            "example": "I would think about the audience.",
+            "starter": "My idea about audience is…"
+          },
+          {
+            "word": "rehearsal",
+            "definition": "Practice before a performance",
+            "partOfSpeech": "noun",
+            "example": "My rehearsal revealed a long sentence.",
+            "starter": "I might use rehearsal when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a clear opening helps listeners follow the topic."
+            "phrase": "I would start with…",
+            "example": "I would start with a question."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that examples make abstract ideas easier to understand."
+            "phrase": "Let me try that…",
+            "example": "Let me try that line again."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, pauses give speakers and listeners time to think."
+            "phrase": "I need a…",
+            "example": "I need a short pause."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare public speaking with a related topic."
+            "phrase": "I can look at one…",
+            "example": "I can look at one friendly face."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that practice can reduce uncertainty without removing nerves."
+            "phrase": "The ending should…",
+            "example": "The ending should be clear."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a clear opening helps listeners follow the topic."
+            "phrase": "I feel nervous…",
+            "example": "I feel nervous but ready."
           }
         ]
       },
       "B2": {
-        "briefing": "Public speaking shares ideas with a group. A clear opening helps listeners follow the topic; examples make abstract ideas easier to understand. Pauses give speakers and listeners time to think; practice can reduce uncertainty without removing nerves.",
+        "briefing": "Effective speaking responds to the audience rather than reciting a page. Voice, structure, and evidence work together to support a claim. A nervous speaker can still be persuasive when the message is honest.",
         "facts": [
           "A clear opening helps listeners follow the topic.",
           "Examples make abstract ideas easier to understand.",
@@ -30717,79 +30717,79 @@
         ],
         "vocab": [
           {
-            "word": "Public Speaking",
-            "definition": "Public speaking shares ideas with a group.",
-            "partOfSpeech": "noun",
-            "example": "Public speaking shares ideas with a group.",
-            "starter": "I want to discuss public speaking because…"
-          },
-          {
             "word": "opening",
-            "definition": "The first part of a speech",
+            "definition": "The beginning of a speech",
             "partOfSpeech": "noun",
             "example": "A clear opening helps listeners follow the topic.",
-            "starter": "I can use opening to explain…"
+            "starter": "If I saw opening, I would…"
           },
           {
-            "word": "examples",
-            "definition": "Specific cases used to explain ideas",
-            "partOfSpeech": "noun",
-            "example": "Examples make abstract ideas easier to understand.",
-            "starter": "When I hear examples, I think of…"
-          },
-          {
-            "word": "pauses",
-            "definition": "Short breaks in speaking",
+            "word": "pause",
+            "definition": "A short silence",
             "partOfSpeech": "noun",
             "example": "Pauses give speakers and listeners time to think.",
-            "starter": "A question about pauses is…"
+            "starter": "I could describe pause by…"
           },
           {
-            "word": "listeners",
-            "definition": "People hearing a speaker",
-            "partOfSpeech": "noun",
-            "example": "A clear opening helps listeners follow the topic.",
-            "starter": "I would compare listeners with…"
+            "word": "eye contact",
+            "definition": "Looking toward listeners",
+            "partOfSpeech": "phrase",
+            "example": "Eye contact helps me connect.",
+            "starter": "I wonder whether eye contact can…"
           },
           {
-            "word": "ideas",
-            "definition": "Thoughts or plans",
+            "word": "outline",
+            "definition": "A plan of main points",
             "partOfSpeech": "noun",
-            "example": "Public speaking shares ideas with a group.",
-            "starter": "One example of ideas is…"
+            "example": "An outline gives me freedom to speak naturally.",
+            "starter": "One question about outline is…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
+            "word": "transition",
+            "definition": "A phrase linking ideas",
             "partOfSpeech": "noun",
-            "example": "A priority can change decisions about public speaking.",
-            "starter": "I want to compare priority with…"
+            "example": "That transition feels abrupt.",
+            "starter": "I would compare transition with…"
+          },
+          {
+            "word": "audience",
+            "definition": "The people listening",
+            "partOfSpeech": "noun",
+            "example": "Effective speaking responds to the audience rather than reciting a page.",
+            "starter": "My idea about audience is…"
+          },
+          {
+            "word": "rehearsal",
+            "definition": "Practice before a performance",
+            "partOfSpeech": "noun",
+            "example": "My rehearsal revealed a long sentence.",
+            "starter": "I might use rehearsal when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a clear opening helps listeners follow the topic."
+            "phrase": "If I lost my place, I…",
+            "example": "If I lost my place, I would return to the main idea instead of apologizing at length."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that examples make abstract ideas easier to understand."
+            "phrase": "An outline gives me freedom to…",
+            "example": "An outline gives me freedom to speak naturally."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, pauses give speakers and listeners time to think."
+            "phrase": "I would rather use one well-explained…",
+            "example": "I would rather use one well-explained example than five rushed points."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare public speaking with a related topic."
+            "phrase": "A pause can make a difficult…",
+            "example": "A pause can make a difficult idea easier to hear."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that practice can reduce uncertainty without removing nerves."
+            "phrase": "I wonder how different audiences change…",
+            "example": "I wonder how different audiences change the way I tell the same story."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a clear opening helps listeners follow the topic."
+            "phrase": "Good public speaking invites attention without…",
+            "example": "Good public speaking invites attention without pretending the speaker is fearless."
           }
         ]
       }
@@ -30808,7 +30808,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Study habits are repeated ways of preparing to learn. Short review sessions can help memory. A quiet place can reduce distractions. Rest helps learning continue after practice.",
+        "briefing": "Short sessions can be easier to repeat than long bursts. Retrieving an answer helps reveal what was learned. A planned break can restore attention.",
         "facts": [
           "Short review sessions can help memory.",
           "Testing yourself shows what you can explain.",
@@ -30822,84 +30822,84 @@
         ],
         "vocab": [
           {
-            "word": "Study Habits",
-            "definition": "Study habits are repeated ways of preparing to learn.",
-            "partOfSpeech": "noun",
-            "example": "Study habits are repeated ways of preparing to learn.",
-            "starter": "I want to discuss study habits because…"
+            "word": "active recall",
+            "definition": "Remembering without looking",
+            "partOfSpeech": "phrase",
+            "example": "I would use active recall.",
+            "starter": "If I saw active recall, I would…"
           },
           {
-            "word": "review",
-            "definition": "Looking at material again",
-            "partOfSpeech": "noun",
-            "example": "Short review sessions can help memory.",
-            "starter": "I can use review to explain…"
+            "word": "spaced practice",
+            "definition": "Review across several days",
+            "partOfSpeech": "phrase",
+            "example": "Spaced practice suits vocabulary.",
+            "starter": "I could describe spaced practice by…"
           },
           {
-            "word": "memory",
-            "definition": "The ability to keep and recall information",
-            "partOfSpeech": "noun",
-            "example": "Short review sessions can help memory.",
-            "starter": "When I hear memory, I think of…"
-          },
-          {
-            "word": "distractions",
-            "definition": "Things that pull attention away",
+            "word": "distraction",
+            "definition": "Something pulling attention away",
             "partOfSpeech": "noun",
             "example": "A quiet place can reduce distractions.",
-            "starter": "A question about distractions is…"
+            "starter": "I wonder whether distraction can…"
           },
           {
-            "word": "sessions",
-            "definition": "Periods spent doing one activity",
-            "partOfSpeech": "noun",
-            "example": "Short review sessions can help memory.",
-            "starter": "I would compare sessions with…"
+            "word": "study session",
+            "definition": "A period set aside for learning",
+            "partOfSpeech": "phrase",
+            "example": "My study session is short.",
+            "starter": "One question about study session is…"
           },
           {
-            "word": "study",
-            "definition": "Work done to learn something",
+            "word": "break",
+            "definition": "A pause from work",
             "partOfSpeech": "noun",
-            "example": "Study habits are repeated ways of preparing to learn.",
-            "starter": "One example of study is…"
+            "example": "A planned break can restore attention.",
+            "starter": "I would compare break with…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
+            "word": "flashcard",
+            "definition": "A card used to test memory",
             "partOfSpeech": "noun",
-            "example": "A goal can guide choices about study habits.",
-            "starter": "I want to compare goal with…"
+            "example": "I would make a flashcard.",
+            "starter": "My idea about flashcard is…"
+          },
+          {
+            "word": "routine",
+            "definition": "A repeated plan",
+            "partOfSpeech": "noun",
+            "example": "My routine should fit my life.",
+            "starter": "I might use routine when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that short review sessions can help memory."
+            "phrase": "I would test…",
+            "example": "I would test myself first."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that testing yourself shows what you can explain."
+            "phrase": "My phone can wait…",
+            "example": "My phone can wait ten minutes."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, a quiet place can reduce distractions."
+            "phrase": "I need a…",
+            "example": "I need a short break."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare study habits with a related topic."
+            "phrase": "I remember more…",
+            "example": "I remember more after sleep."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that rest helps learning continue after practice."
+            "phrase": "Let us quiz…",
+            "example": "Let us quiz each other."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because short review sessions can help memory."
+            "phrase": "I can try…",
+            "example": "I can try again tomorrow."
           }
         ]
       },
       "B2": {
-        "briefing": "Study habits are repeated ways of preparing to learn. Short review sessions can help memory; testing yourself shows what you can explain. A quiet place can reduce distractions; rest helps learning continue after practice.",
+        "briefing": "Effective study combines practice, feedback, and enough rest. Rereading can feel fluent even when recall remains weak. The best routine is one a student can maintain during an ordinary week.",
         "facts": [
           "Short review sessions can help memory.",
           "Testing yourself shows what you can explain.",
@@ -30913,79 +30913,79 @@
         ],
         "vocab": [
           {
-            "word": "Study Habits",
-            "definition": "Study habits are repeated ways of preparing to learn.",
-            "partOfSpeech": "noun",
-            "example": "Study habits are repeated ways of preparing to learn.",
-            "starter": "I want to discuss study habits because…"
+            "word": "active recall",
+            "definition": "Remembering without looking",
+            "partOfSpeech": "phrase",
+            "example": "I would use active recall.",
+            "starter": "If I saw active recall, I would…"
           },
           {
-            "word": "review",
-            "definition": "Looking at material again",
-            "partOfSpeech": "noun",
-            "example": "Short review sessions can help memory.",
-            "starter": "I can use review to explain…"
+            "word": "spaced practice",
+            "definition": "Review across several days",
+            "partOfSpeech": "phrase",
+            "example": "Spaced practice makes forgetting part of learning rather than proof of failure.",
+            "starter": "I could describe spaced practice by…"
           },
           {
-            "word": "memory",
-            "definition": "The ability to keep and recall information",
-            "partOfSpeech": "noun",
-            "example": "Short review sessions can help memory.",
-            "starter": "When I hear memory, I think of…"
-          },
-          {
-            "word": "distractions",
-            "definition": "Things that pull attention away",
+            "word": "distraction",
+            "definition": "Something pulling attention away",
             "partOfSpeech": "noun",
             "example": "A quiet place can reduce distractions.",
-            "starter": "A question about distractions is…"
+            "starter": "I wonder whether distraction can…"
           },
           {
-            "word": "sessions",
-            "definition": "Periods spent doing one activity",
-            "partOfSpeech": "noun",
-            "example": "Short review sessions can help memory.",
-            "starter": "I would compare sessions with…"
+            "word": "study session",
+            "definition": "A period set aside for learning",
+            "partOfSpeech": "phrase",
+            "example": "My study session is short.",
+            "starter": "One question about study session is…"
           },
           {
-            "word": "study",
-            "definition": "Work done to learn something",
+            "word": "break",
+            "definition": "A pause from work",
             "partOfSpeech": "noun",
-            "example": "Study habits are repeated ways of preparing to learn.",
-            "starter": "One example of study is…"
+            "example": "I need a break.",
+            "starter": "I would compare break with…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
+            "word": "flashcard",
+            "definition": "A card used to test memory",
             "partOfSpeech": "noun",
-            "example": "A priority can change decisions about study habits.",
-            "starter": "I want to compare priority with…"
+            "example": "I would make a flashcard.",
+            "starter": "My idea about flashcard is…"
+          },
+          {
+            "word": "routine",
+            "definition": "A repeated plan",
+            "partOfSpeech": "noun",
+            "example": "The best routine is one a student can maintain during an ordinary week.",
+            "starter": "I might use routine when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that short review sessions can help memory."
+            "phrase": "If I had little time, I…",
+            "example": "If I had little time, I would test recall instead of rereading everything."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that testing yourself shows what you can explain."
+            "phrase": "A routine should survive a difficult…",
+            "example": "A routine should survive a difficult day, not require perfect conditions."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, a quiet place can reduce distractions."
+            "phrase": "I would rather practice a weak…",
+            "example": "I would rather practice a weak area than repeat what already feels easy."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare study habits with a related topic."
+            "phrase": "Spaced practice makes forgetting part of…",
+            "example": "Spaced practice makes forgetting part of learning rather than proof of failure."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that rest helps learning continue after practice."
+            "phrase": "I wonder which distractions I can…",
+            "example": "I wonder which distractions I can remove and which I must plan around."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because short review sessions can help memory."
+            "phrase": "A good study habit leaves space…",
+            "example": "A good study habit leaves space for rest and other responsibilities."
           }
         ]
       }
@@ -31004,7 +31004,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Sleep supports attention, memory, and daily energy. A regular bedtime helps the body expect rest. Memory continues to settle after study. Sleep needs differ between people and ages.",
+        "briefing": "Sleep gives the brain time to process a busy day. A tired student may struggle to focus on familiar work. Regular timing can make mornings easier.",
         "facts": [
           "A regular bedtime helps the body expect rest.",
           "Bright screens can delay feeling sleepy.",
@@ -31018,84 +31018,84 @@
         ],
         "vocab": [
           {
-            "word": "Sleep",
-            "definition": "Sleep supports attention, memory, and daily energy.",
+            "word": "memory",
+            "definition": "Information the mind can keep",
             "partOfSpeech": "noun",
-            "example": "Sleep supports attention, memory, and daily energy.",
-            "starter": "I want to discuss sleep and learning because…"
+            "example": "Memory continues to settle after study.",
+            "starter": "If I saw memory, I would…"
+          },
+          {
+            "word": "attention",
+            "definition": "The ability to focus",
+            "partOfSpeech": "noun",
+            "example": "My attention drops when I am tired.",
+            "starter": "I could describe attention by…"
+          },
+          {
+            "word": "routine",
+            "definition": "A repeated pattern",
+            "partOfSpeech": "noun",
+            "example": "I would adjust my evening routine.",
+            "starter": "I wonder whether routine can…"
           },
           {
             "word": "bedtime",
             "definition": "The time someone goes to bed",
             "partOfSpeech": "noun",
             "example": "A regular bedtime helps the body expect rest.",
-            "starter": "I can use bedtime to explain…"
+            "starter": "One question about bedtime is…"
           },
           {
-            "word": "screens",
-            "definition": "Displays on electronic devices",
+            "word": "alertness",
+            "definition": "How awake and ready someone feels",
             "partOfSpeech": "noun",
-            "example": "Bright screens can delay feeling sleepy.",
-            "starter": "When I hear screens, I think of…"
-          },
-          {
-            "word": "memory",
-            "definition": "The ability to keep and recall information",
-            "partOfSpeech": "noun",
-            "example": "Sleep supports attention, memory, and daily energy.",
-            "starter": "A question about memory is…"
-          },
-          {
-            "word": "attention",
-            "definition": "Careful focus on something",
-            "partOfSpeech": "noun",
-            "example": "Sleep supports attention, memory, and daily energy.",
-            "starter": "I would compare attention with…"
+            "example": "My alertness changes by hour.",
+            "starter": "I would compare alertness with…"
           },
           {
             "word": "rest",
-            "definition": "Time when the body recovers",
+            "definition": "Time to recover",
             "partOfSpeech": "noun",
             "example": "A regular bedtime helps the body expect rest.",
-            "starter": "One example of rest is…"
+            "starter": "My idea about rest is…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
-            "partOfSpeech": "noun",
-            "example": "A goal can guide choices about sleep and learning.",
-            "starter": "I want to compare goal with…"
+            "word": "sleep debt",
+            "definition": "Lost sleep that builds over time",
+            "partOfSpeech": "phrase",
+            "example": "Sleep debt can affect my day.",
+            "starter": "I might use sleep debt when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a regular bedtime helps the body expect rest."
+            "phrase": "I find reading harder…",
+            "example": "I find reading harder when tired."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that bright screens can delay feeling sleepy."
+            "phrase": "I would put my phone…",
+            "example": "I would put my phone away earlier."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, memory continues to settle after study."
+            "phrase": "The bus comes…",
+            "example": "The bus comes very early."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare sleep and learning with a related topic."
+            "phrase": "A short rest…",
+            "example": "A short rest might help."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that sleep needs differ between people and ages."
+            "phrase": "I want a…",
+            "example": "I want a calmer evening."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a regular bedtime helps the body expect rest."
+            "phrase": "I learn better…",
+            "example": "I learn better after sleeping."
           }
         ]
       },
       "B2": {
-        "briefing": "Sleep supports attention, memory, and daily energy. A regular bedtime helps the body expect rest; bright screens can delay feeling sleepy. Memory continues to settle after study; sleep needs differ between people and ages.",
+        "briefing": "Learning continues after practice as the brain organizes memories during rest. Late-night study can trade tomorrow's attention for another hour tonight. Sleep advice must account for schedules students do not control.",
         "facts": [
           "A regular bedtime helps the body expect rest.",
           "Bright screens can delay feeling sleepy.",
@@ -31109,79 +31109,79 @@
         ],
         "vocab": [
           {
-            "word": "Sleep",
-            "definition": "Sleep supports attention, memory, and daily energy.",
+            "word": "memory",
+            "definition": "Information the mind can keep",
             "partOfSpeech": "noun",
-            "example": "Sleep supports attention, memory, and daily energy.",
-            "starter": "I want to discuss sleep and learning because…"
+            "example": "Memory continues to settle after study.",
+            "starter": "If I saw memory, I would…"
+          },
+          {
+            "word": "attention",
+            "definition": "The ability to focus",
+            "partOfSpeech": "noun",
+            "example": "Late-night study can trade tomorrow's attention for another hour tonight.",
+            "starter": "I could describe attention by…"
+          },
+          {
+            "word": "routine",
+            "definition": "A repeated pattern",
+            "partOfSpeech": "noun",
+            "example": "I would adjust my evening routine.",
+            "starter": "I wonder whether routine can…"
           },
           {
             "word": "bedtime",
             "definition": "The time someone goes to bed",
             "partOfSpeech": "noun",
             "example": "A regular bedtime helps the body expect rest.",
-            "starter": "I can use bedtime to explain…"
+            "starter": "One question about bedtime is…"
           },
           {
-            "word": "screens",
-            "definition": "Displays on electronic devices",
+            "word": "alertness",
+            "definition": "How awake and ready someone feels",
             "partOfSpeech": "noun",
-            "example": "Bright screens can delay feeling sleepy.",
-            "starter": "When I hear screens, I think of…"
-          },
-          {
-            "word": "memory",
-            "definition": "The ability to keep and recall information",
-            "partOfSpeech": "noun",
-            "example": "Sleep supports attention, memory, and daily energy.",
-            "starter": "A question about memory is…"
-          },
-          {
-            "word": "attention",
-            "definition": "Careful focus on something",
-            "partOfSpeech": "noun",
-            "example": "Sleep supports attention, memory, and daily energy.",
-            "starter": "I would compare attention with…"
+            "example": "My alertness changes by hour.",
+            "starter": "I would compare alertness with…"
           },
           {
             "word": "rest",
-            "definition": "Time when the body recovers",
+            "definition": "Time to recover",
             "partOfSpeech": "noun",
-            "example": "A regular bedtime helps the body expect rest.",
-            "starter": "One example of rest is…"
+            "example": "Learning continues after practice as the brain organizes memories during rest.",
+            "starter": "My idea about rest is…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
-            "partOfSpeech": "noun",
-            "example": "A priority can change decisions about sleep and learning.",
-            "starter": "I want to compare priority with…"
+            "word": "sleep debt",
+            "definition": "Lost sleep that builds over time",
+            "partOfSpeech": "phrase",
+            "example": "Sleep debt can affect my day.",
+            "starter": "I might use sleep debt when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a regular bedtime helps the body expect rest."
+            "phrase": "If I revised all night, I…",
+            "example": "If I revised all night, I might lose more attention than I gained knowledge."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that bright screens can delay feeling sleepy."
+            "phrase": "A regular bedtime is difficult when…",
+            "example": "A regular bedtime is difficult when family duties change."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, memory continues to settle after study."
+            "phrase": "I would rather protect sleep before…",
+            "example": "I would rather protect sleep before an exam than add one exhausted hour."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare sleep and learning with a related topic."
+            "phrase": "Memory depends on more than the…",
+            "example": "Memory depends on more than the time spent looking at notes."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that sleep needs differ between people and ages."
+            "phrase": "I wonder how school start times…",
+            "example": "I wonder how school start times affect who can arrive alert."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a regular bedtime helps the body expect rest."
+            "phrase": "Advice about rest should recognize pressures…",
+            "example": "Advice about rest should recognize pressures outside a student's control."
           }
         ]
       }
@@ -31200,7 +31200,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Choosing subjects shapes what students practice and explore. Interest can make difficult work feel worthwhile. Advice helps when it includes the student's goals. Trying unfamiliar subjects can reveal strengths.",
+        "briefing": "Students often choose subjects before knowing every future job. An enjoyable class can encourage deeper effort. Advice from others helps when it leaves room for the student's interests.",
         "facts": [
           "Interest can make difficult work feel worthwhile.",
           "A subject choice need not fix a career.",
@@ -31214,84 +31214,84 @@
         ],
         "vocab": [
           {
-            "word": "Choosing Subjects",
-            "definition": "Choosing subjects shapes what students practice and explore.",
+            "word": "elective",
+            "definition": "A subject chosen rather than required",
             "partOfSpeech": "noun",
-            "example": "Choosing subjects shapes what students practice and explore.",
-            "starter": "I want to discuss choosing subjects because…"
+            "example": "I would pick that elective.",
+            "starter": "If I saw elective, I would…"
+          },
+          {
+            "word": "prerequisite",
+            "definition": "A course needed before another",
+            "partOfSpeech": "noun",
+            "example": "I would check the prerequisite.",
+            "starter": "I could describe prerequisite by…"
+          },
+          {
+            "word": "strength",
+            "definition": "An ability someone uses well",
+            "partOfSpeech": "noun",
+            "example": "Trying unfamiliar subjects can reveal strengths.",
+            "starter": "I wonder whether strength can…"
           },
           {
             "word": "interest",
-            "definition": "A feeling of wanting to learn more",
+            "definition": "Something that attracts curiosity",
             "partOfSpeech": "noun",
-            "example": "Interest can make difficult work feel worthwhile.",
-            "starter": "I can use interest to explain…"
+            "example": "Advice from others helps when it leaves room for the student's interests.",
+            "starter": "One question about interest is…"
           },
           {
-            "word": "advice",
-            "definition": "Suggestions that help a decision",
+            "word": "workload",
+            "definition": "The amount of assigned work",
             "partOfSpeech": "noun",
-            "example": "Advice helps when it includes the student's goals.",
-            "starter": "When I hear advice, I think of…"
+            "example": "I would compare the workload.",
+            "starter": "I would compare workload with…"
           },
           {
-            "word": "strengths",
-            "definition": "Things someone does well",
-            "partOfSpeech": "noun",
-            "example": "Trying unfamiliar subjects can reveal strengths.",
-            "starter": "A question about strengths is…"
+            "word": "guidance counselor",
+            "definition": "A person advising on school choices",
+            "partOfSpeech": "phrase",
+            "example": "I would ask the guidance counselor.",
+            "starter": "My idea about guidance counselor is…"
           },
           {
-            "word": "career",
-            "definition": "A person's working life",
+            "word": "option",
+            "definition": "A possible choice",
             "partOfSpeech": "noun",
-            "example": "A subject choice need not fix a career.",
-            "starter": "I would compare career with…"
-          },
-          {
-            "word": "goals",
-            "definition": "Things someone hopes to achieve",
-            "partOfSpeech": "noun",
-            "example": "Advice helps when it includes the student's goals.",
-            "starter": "One example of goals is…"
-          },
-          {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
-            "partOfSpeech": "noun",
-            "example": "A goal can guide choices about choosing subjects.",
-            "starter": "I want to compare goal with…"
+            "example": "I want to keep an option open.",
+            "starter": "I might use option when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that interest can make difficult work feel worthwhile."
+            "phrase": "I like…",
+            "example": "I like making things."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a subject choice need not fix a career."
+            "phrase": "This subject seems hard…",
+            "example": "This subject seems hard but interesting."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, advice helps when it includes the student's goals."
+            "phrase": "I would ask an…",
+            "example": "I would ask an older student."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare choosing subjects with a related topic."
+            "phrase": "I need to check…",
+            "example": "I need to check the requirements."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that trying unfamiliar subjects can reveal strengths."
+            "phrase": "My parents have…",
+            "example": "My parents have ideas too."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because interest can make difficult work feel worthwhile."
+            "phrase": "I might change…",
+            "example": "I might change my mind."
           }
         ]
       },
       "B2": {
-        "briefing": "Choosing subjects shapes what students practice and explore. Interest can make difficult work feel worthwhile; a subject choice need not fix a career. Advice helps when it includes the student's goals; trying unfamiliar subjects can reveal strengths.",
+        "briefing": "Subject choices balance curiosity, requirements, and available opportunities. A difficult course may still be right if its challenge feels meaningful. Schools should make routes back into a field visible when interests change.",
         "facts": [
           "Interest can make difficult work feel worthwhile.",
           "A subject choice need not fix a career.",
@@ -31305,79 +31305,79 @@
         ],
         "vocab": [
           {
-            "word": "Choosing Subjects",
-            "definition": "Choosing subjects shapes what students practice and explore.",
+            "word": "elective",
+            "definition": "A subject chosen rather than required",
             "partOfSpeech": "noun",
-            "example": "Choosing subjects shapes what students practice and explore.",
-            "starter": "I want to discuss choosing subjects because…"
+            "example": "I would pick that elective.",
+            "starter": "If I saw elective, I would…"
+          },
+          {
+            "word": "prerequisite",
+            "definition": "A course needed before another",
+            "partOfSpeech": "noun",
+            "example": "A prerequisite should be explained before students make a choice.",
+            "starter": "I could describe prerequisite by…"
+          },
+          {
+            "word": "strength",
+            "definition": "An ability someone uses well",
+            "partOfSpeech": "noun",
+            "example": "Trying unfamiliar subjects can reveal strengths.",
+            "starter": "I wonder whether strength can…"
           },
           {
             "word": "interest",
-            "definition": "A feeling of wanting to learn more",
+            "definition": "Something that attracts curiosity",
             "partOfSpeech": "noun",
-            "example": "Interest can make difficult work feel worthwhile.",
-            "starter": "I can use interest to explain…"
+            "example": "Schools should make routes back into a field visible when interests change.",
+            "starter": "One question about interest is…"
           },
           {
-            "word": "advice",
-            "definition": "Suggestions that help a decision",
+            "word": "workload",
+            "definition": "The amount of assigned work",
             "partOfSpeech": "noun",
-            "example": "Advice helps when it includes the student's goals.",
-            "starter": "When I hear advice, I think of…"
+            "example": "A heavy workload matters when several courses peak together.",
+            "starter": "I would compare workload with…"
           },
           {
-            "word": "strengths",
-            "definition": "Things someone does well",
-            "partOfSpeech": "noun",
-            "example": "Trying unfamiliar subjects can reveal strengths.",
-            "starter": "A question about strengths is…"
+            "word": "guidance counselor",
+            "definition": "A person advising on school choices",
+            "partOfSpeech": "phrase",
+            "example": "I would ask the guidance counselor.",
+            "starter": "My idea about guidance counselor is…"
           },
           {
-            "word": "career",
-            "definition": "A person's working life",
+            "word": "option",
+            "definition": "A possible choice",
             "partOfSpeech": "noun",
-            "example": "A subject choice need not fix a career.",
-            "starter": "I would compare career with…"
-          },
-          {
-            "word": "goals",
-            "definition": "Things someone hopes to achieve",
-            "partOfSpeech": "noun",
-            "example": "Advice helps when it includes the student's goals.",
-            "starter": "One example of goals is…"
-          },
-          {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
-            "partOfSpeech": "noun",
-            "example": "A priority can change decisions about choosing subjects.",
-            "starter": "I want to compare priority with…"
+            "example": "I want to keep an option open.",
+            "starter": "I might use option when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that interest can make difficult work feel worthwhile."
+            "phrase": "If I chose only subjects I…",
+            "example": "If I chose only subjects I already found easy, I might miss an important interest."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a subject choice need not fix a career."
+            "phrase": "A prerequisite should be explained before…",
+            "example": "A prerequisite should be explained before students make a choice."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, advice helps when it includes the student's goals."
+            "phrase": "I would rather discuss my reasons…",
+            "example": "I would rather discuss my reasons than follow a friend's timetable."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare choosing subjects with a related topic."
+            "phrase": "A heavy workload matters when several…",
+            "example": "A heavy workload matters when several courses peak together."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that trying unfamiliar subjects can reveal strengths."
+            "phrase": "I wonder how schools can keep…",
+            "example": "I wonder how schools can keep doors open after an early decision."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because interest can make difficult work feel worthwhile."
+            "phrase": "Choosing a subject is a step…",
+            "example": "Choosing a subject is a step in learning about myself, not a permanent label."
           }
         ]
       }
@@ -31396,7 +31396,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "A gap year is time between study stages. People may work, travel, or volunteer then. Costs and opportunities vary between families. Reflection can help people choose their next step.",
+        "briefing": "Some students take time between school and further study. They may work, travel, volunteer, or care for family. A plan helps make the time purposeful.",
         "facts": [
           "People may work, travel, or volunteer then.",
           "A plan can give the time direction.",
@@ -31410,84 +31410,84 @@
         ],
         "vocab": [
           {
-            "word": "gap year",
-            "definition": "A gap year is time between study stages.",
+            "word": "deferral",
+            "definition": "A delay of an accepted place",
             "partOfSpeech": "noun",
-            "example": "A gap year is time between study stages.",
-            "starter": "I want to discuss gap years because…"
+            "example": "I would ask about deferral.",
+            "starter": "If I saw deferral, I would…"
           },
           {
-            "word": "volunteer",
-            "definition": "To work without pay to help others",
-            "partOfSpeech": "verb",
-            "example": "People may work, travel, or volunteer then.",
-            "starter": "I can use volunteer to explain…"
+            "word": "placement",
+            "definition": "A temporary work or learning role",
+            "partOfSpeech": "noun",
+            "example": "That placement sounds useful.",
+            "starter": "I could describe placement by…"
           },
           {
-            "word": "opportunities",
-            "definition": "Chances to do something useful",
+            "word": "application",
+            "definition": "A formal request for entry",
             "partOfSpeech": "noun",
-            "example": "Costs and opportunities vary between families.",
-            "starter": "When I hear opportunities, I think of…"
+            "example": "I would check the application date.",
+            "starter": "I wonder whether application can…"
           },
           {
-            "word": "reflection",
-            "definition": "Careful thought about experience",
+            "word": "savings",
+            "definition": "Money kept for later",
             "partOfSpeech": "noun",
-            "example": "Reflection can help people choose their next step.",
-            "starter": "A question about reflection is…"
+            "example": "My savings would limit the plan.",
+            "starter": "One question about savings is…"
           },
           {
-            "word": "plan",
-            "definition": "A set of steps for doing something",
+            "word": "itinerary",
+            "definition": "A planned route",
             "partOfSpeech": "noun",
-            "example": "A plan can give the time direction.",
-            "starter": "I would compare plan with…"
+            "example": "I would keep the itinerary flexible.",
+            "starter": "I would compare itinerary with…"
           },
           {
-            "word": "costs",
-            "definition": "Money or resources needed",
-            "partOfSpeech": "noun",
-            "example": "Costs and opportunities vary between families.",
-            "starter": "One example of costs is…"
+            "word": "work experience",
+            "definition": "Learning gained through employment",
+            "partOfSpeech": "phrase",
+            "example": "Work experience could help.",
+            "starter": "My idea about work experience is…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
+            "word": "reentry",
+            "definition": "Returning after time away",
             "partOfSpeech": "noun",
-            "example": "A goal can guide choices about gap years.",
-            "starter": "I want to compare goal with…"
+            "example": "I would plan for reentry.",
+            "starter": "I might use reentry when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that people may work, travel, or volunteer then."
+            "phrase": "I might work for a…",
+            "example": "I might work for a few months."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a plan can give the time direction."
+            "phrase": "I would save…",
+            "example": "I would save before traveling."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, costs and opportunities vary between families."
+            "phrase": "A local project…",
+            "example": "A local project sounds useful."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare gap years with a related topic."
+            "phrase": "I need a plan for…",
+            "example": "I need a plan for coming back."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that reflection can help people choose their next step."
+            "phrase": "It should be…",
+            "example": "It should be my choice."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because people may work, travel, or volunteer then."
+            "phrase": "I could learn…",
+            "example": "I could learn outside school."
           }
         ]
       },
       "B2": {
-        "briefing": "A gap year is time between study stages. People may work, travel, or volunteer then; a plan can give the time direction. Costs and opportunities vary between families; reflection can help people choose their next step.",
+        "briefing": "A gap year can offer perspective, but it depends on money and responsibilities. Structured work may teach as much as a distant trip. Returning to study can require planning for applications and costs.",
         "facts": [
           "People may work, travel, or volunteer then.",
           "A plan can give the time direction.",
@@ -31501,79 +31501,79 @@
         ],
         "vocab": [
           {
-            "word": "gap year",
-            "definition": "A gap year is time between study stages.",
+            "word": "deferral",
+            "definition": "A delay of an accepted place",
             "partOfSpeech": "noun",
-            "example": "A gap year is time between study stages.",
-            "starter": "I want to discuss gap years because…"
+            "example": "Deferral rules could shape when I apply to study.",
+            "starter": "If I saw deferral, I would…"
           },
           {
-            "word": "volunteer",
-            "definition": "To work without pay to help others",
-            "partOfSpeech": "verb",
-            "example": "People may work, travel, or volunteer then.",
-            "starter": "I can use volunteer to explain…"
+            "word": "placement",
+            "definition": "A temporary work or learning role",
+            "partOfSpeech": "noun",
+            "example": "A local placement might teach more than an expensive trip.",
+            "starter": "I could describe placement by…"
           },
           {
-            "word": "opportunities",
-            "definition": "Chances to do something useful",
+            "word": "application",
+            "definition": "A formal request for entry",
             "partOfSpeech": "noun",
-            "example": "Costs and opportunities vary between families.",
-            "starter": "When I hear opportunities, I think of…"
+            "example": "Returning to study can require planning for applications and costs.",
+            "starter": "I wonder whether application can…"
           },
           {
-            "word": "reflection",
-            "definition": "Careful thought about experience",
+            "word": "savings",
+            "definition": "Money kept for later",
             "partOfSpeech": "noun",
-            "example": "Reflection can help people choose their next step.",
-            "starter": "A question about reflection is…"
+            "example": "My savings would limit the plan.",
+            "starter": "One question about savings is…"
           },
           {
-            "word": "plan",
-            "definition": "A set of steps for doing something",
+            "word": "itinerary",
+            "definition": "A planned route",
             "partOfSpeech": "noun",
-            "example": "A plan can give the time direction.",
-            "starter": "I would compare plan with…"
+            "example": "I would keep the itinerary flexible.",
+            "starter": "I would compare itinerary with…"
           },
           {
-            "word": "costs",
-            "definition": "Money or resources needed",
-            "partOfSpeech": "noun",
-            "example": "Costs and opportunities vary between families.",
-            "starter": "One example of costs is…"
+            "word": "work experience",
+            "definition": "Learning gained through employment",
+            "partOfSpeech": "phrase",
+            "example": "Work experience could help.",
+            "starter": "My idea about work experience is…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
+            "word": "reentry",
+            "definition": "Returning after time away",
             "partOfSpeech": "noun",
-            "example": "A priority can change decisions about gap years.",
-            "starter": "I want to compare priority with…"
+            "example": "I would plan for reentry.",
+            "starter": "I might use reentry when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that people may work, travel, or volunteer then."
+            "phrase": "If I took a gap year,…",
+            "example": "If I took a gap year, I would set goals without filling every week."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a plan can give the time direction."
+            "phrase": "A local placement might teach more…",
+            "example": "A local placement might teach more than an expensive trip."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, costs and opportunities vary between families."
+            "phrase": "I would rather be honest about…",
+            "example": "I would rather be honest about costs than romanticize travel."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare gap years with a related topic."
+            "phrase": "Deferral rules could shape when I…",
+            "example": "Deferral rules could shape when I apply to study."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that reflection can help people choose their next step."
+            "phrase": "I wonder why some kinds of…",
+            "example": "I wonder why some kinds of experience are praised more than others."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because people may work, travel, or volunteer then."
+            "phrase": "Time away is valuable when a…",
+            "example": "Time away is valuable when a student has support to use it well."
           }
         ]
       }
@@ -31592,7 +31592,7 @@
     "category": "school and work",
     "levels": {
       "B1": {
-        "briefing": "Career skills help people work across many jobs. Clear communication prevents avoidable mistakes. Teams need people who meet commitments. Learning new tools takes practice and feedback.",
+        "briefing": "Many jobs need clear communication and dependable habits. People learn by trying tasks and getting feedback. A skill can grow in school, home, or community work.",
         "facts": [
           "Clear communication prevents avoidable mistakes.",
           "Asking questions can be a strength.",
@@ -31606,84 +31606,84 @@
         ],
         "vocab": [
           {
-            "word": "Career Skills",
-            "definition": "Career skills help people work across many jobs.",
+            "word": "collaboration",
+            "definition": "Working with others",
             "partOfSpeech": "noun",
-            "example": "Career skills help people work across many jobs.",
-            "starter": "I want to discuss career skills because…"
+            "example": "I would show collaboration through a project.",
+            "starter": "If I saw collaboration, I would…"
           },
           {
-            "word": "communication",
-            "definition": "Sharing ideas clearly with others",
+            "word": "initiative",
+            "definition": "Acting without being told every step",
             "partOfSpeech": "noun",
-            "example": "Clear communication prevents avoidable mistakes.",
-            "starter": "I can use communication to explain…"
+            "example": "That took initiative.",
+            "starter": "I could describe initiative by…"
           },
           {
-            "word": "commitments",
-            "definition": "Promises or agreed responsibilities",
+            "word": "adaptability",
+            "definition": "Adjusting to change",
             "partOfSpeech": "noun",
-            "example": "Teams need people who meet commitments.",
-            "starter": "When I hear commitments, I think of…"
+            "example": "Adaptability helped our team.",
+            "starter": "I wonder whether adaptability can…"
           },
           {
-            "word": "feedback",
-            "definition": "Advice about what to improve",
+            "word": "portfolio",
+            "definition": "A collection of work examples",
             "partOfSpeech": "noun",
-            "example": "Learning new tools takes practice and feedback.",
-            "starter": "A question about feedback is…"
+            "example": "I would build a portfolio.",
+            "starter": "One question about portfolio is…"
           },
           {
-            "word": "mistakes",
-            "definition": "Things done incorrectly",
+            "word": "reference",
+            "definition": "A person who can describe your work",
             "partOfSpeech": "noun",
-            "example": "Clear communication prevents avoidable mistakes.",
-            "starter": "I would compare mistakes with…"
+            "example": "I would ask for a reference.",
+            "starter": "I would compare reference with…"
           },
           {
-            "word": "questions",
-            "definition": "Requests for information",
+            "word": "interview",
+            "definition": "A conversation about a role",
             "partOfSpeech": "noun",
-            "example": "Asking questions can be a strength.",
-            "starter": "One example of questions is…"
+            "example": "I would practice for the interview.",
+            "starter": "My idea about interview is…"
           },
           {
-            "word": "goal",
-            "definition": "Something a person aims to do.",
+            "word": "problem-solving",
+            "definition": "Finding a workable answer",
             "partOfSpeech": "noun",
-            "example": "A goal can guide choices about career skills.",
-            "starter": "I want to compare goal with…"
+            "example": "Problem-solving takes patience.",
+            "starter": "I might use problem-solving when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that clear communication prevents avoidable mistakes."
+            "phrase": "I can explain what…",
+            "example": "I can explain what I did."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that asking questions can be a strength."
+            "phrase": "I would ask…",
+            "example": "I would ask for feedback."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, teams need people who meet commitments."
+            "phrase": "This project…",
+            "example": "This project shows teamwork."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare career skills with a related topic."
+            "phrase": "I learned from…",
+            "example": "I learned from a mistake."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that learning new tools takes practice and feedback."
+            "phrase": "I want to try a…",
+            "example": "I want to try a new tool."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because clear communication prevents avoidable mistakes."
+            "phrase": "I can meet…",
+            "example": "I can meet the deadline."
           }
         ]
       },
       "B2": {
-        "briefing": "Career skills help people work across many jobs. Clear communication prevents avoidable mistakes; asking questions can be a strength. Teams need people who meet commitments; learning new tools takes practice and feedback.",
+        "briefing": "Employers may name a skill broadly while expecting specific behavior. Showing evidence of a skill is often harder than claiming it. New tools change tasks, making learning itself a useful ability.",
         "facts": [
           "Clear communication prevents avoidable mistakes.",
           "Asking questions can be a strength.",
@@ -31697,79 +31697,79 @@
         ],
         "vocab": [
           {
-            "word": "Career Skills",
-            "definition": "Career skills help people work across many jobs.",
+            "word": "collaboration",
+            "definition": "Working with others",
             "partOfSpeech": "noun",
-            "example": "Career skills help people work across many jobs.",
-            "starter": "I want to discuss career skills because…"
+            "example": "I would show collaboration through a project.",
+            "starter": "If I saw collaboration, I would…"
           },
           {
-            "word": "communication",
-            "definition": "Sharing ideas clearly with others",
+            "word": "initiative",
+            "definition": "Acting without being told every step",
             "partOfSpeech": "noun",
-            "example": "Clear communication prevents avoidable mistakes.",
-            "starter": "I can use communication to explain…"
+            "example": "That took initiative.",
+            "starter": "I could describe initiative by…"
           },
           {
-            "word": "commitments",
-            "definition": "Promises or agreed responsibilities",
+            "word": "adaptability",
+            "definition": "Adjusting to change",
             "partOfSpeech": "noun",
-            "example": "Teams need people who meet commitments.",
-            "starter": "When I hear commitments, I think of…"
+            "example": "Adaptability matters when the job itself changes.",
+            "starter": "I wonder whether adaptability can…"
           },
           {
-            "word": "feedback",
-            "definition": "Advice about what to improve",
+            "word": "portfolio",
+            "definition": "A collection of work examples",
             "partOfSpeech": "noun",
-            "example": "Learning new tools takes practice and feedback.",
-            "starter": "A question about feedback is…"
+            "example": "A portfolio can show growth as well as polished final work.",
+            "starter": "One question about portfolio is…"
           },
           {
-            "word": "mistakes",
-            "definition": "Things done incorrectly",
+            "word": "reference",
+            "definition": "A person who can describe your work",
             "partOfSpeech": "noun",
-            "example": "Clear communication prevents avoidable mistakes.",
-            "starter": "I would compare mistakes with…"
+            "example": "I would ask for a reference.",
+            "starter": "I would compare reference with…"
           },
           {
-            "word": "questions",
-            "definition": "Requests for information",
+            "word": "interview",
+            "definition": "A conversation about a role",
             "partOfSpeech": "noun",
-            "example": "Asking questions can be a strength.",
-            "starter": "One example of questions is…"
+            "example": "I wonder whether interviews reward speaking style more than ability.",
+            "starter": "My idea about interview is…"
           },
           {
-            "word": "priority",
-            "definition": "Something considered more important than others.",
+            "word": "problem-solving",
+            "definition": "Finding a workable answer",
             "partOfSpeech": "noun",
-            "example": "A priority can change decisions about career skills.",
-            "starter": "I want to compare priority with…"
+            "example": "Problem-solving takes patience.",
+            "starter": "I might use problem-solving when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that clear communication prevents avoidable mistakes."
+            "phrase": "If I described my skills, I…",
+            "example": "If I described my skills, I would give a concrete example instead of a label."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that asking questions can be a strength."
+            "phrase": "A portfolio can show growth as…",
+            "example": "A portfolio can show growth as well as polished final work."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, teams need people who meet commitments."
+            "phrase": "I would rather admit what I…",
+            "example": "I would rather admit what I need to learn than invent confidence."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare career skills with a related topic."
+            "phrase": "Adaptability matters when the job…",
+            "example": "Adaptability matters when the job itself changes."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that learning new tools takes practice and feedback."
+            "phrase": "I wonder whether interviews reward speaking…",
+            "example": "I wonder whether interviews reward speaking style more than ability."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because clear communication prevents avoidable mistakes."
+            "phrase": "Career skills develop in ordinary responsibilities,…",
+            "example": "Career skills develop in ordinary responsibilities, not only formal jobs."
           }
         ]
       }
