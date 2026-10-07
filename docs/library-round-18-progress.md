@@ -17,3 +17,5 @@ The Round 19 brief on `origin/main` rejected the writing quality while retaining
 Batch 1 (20 animal topics): rewrote the three kids levels with new briefing material, seven subject words, and student speech examples rather than fact recitations. Corrected the shark discussion prompt. Remaining audit counts: 320/318/87/28/320/0 in the order above; the 20 rewritten topics pass their individual field and sentence checks.
 
 Batch 2 (15 Earth and space topics): added independent briefing details, subject vocabulary and student speech. Simplified the dinosaur and volcano prompts. Remaining audit counts: 275/267/39/23/275/0; all 35 rewritten topics pass their individual checks.
+
+Batch 3 (10 weather and nature topics): added separate briefing material, subject vocabulary, and student speech. Remaining audit counts: 245/237/39/20/245/0; all 45 rewritten topics pass their individual checks.

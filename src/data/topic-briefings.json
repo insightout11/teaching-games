@@ -10057,7 +10057,7 @@
     "category": "weather and nature",
     "levels": {
       "A1": {
-        "briefing": "Deserts are places with very little rain. Some deserts are hot; others are cold. Many desert animals rest during hot days.",
+        "briefing": "Some deserts have rocky ground instead of sand. Small animals hide below the surface. Rain may come only after long waits.",
         "facts": [
           "Some deserts are hot; others are cold.",
           "Many desert animals rest during hot days.",
@@ -10071,84 +10071,84 @@
         ],
         "vocab": [
           {
-            "word": "Deserts",
-            "definition": "Deserts are places with very little rain.",
+            "word": "dune",
+            "definition": "A hill of sand shaped by wind",
             "partOfSpeech": "noun",
-            "example": "Deserts are places with very little rain.",
-            "starter": "I want to discuss deserts because…"
+            "example": "I would climb a small dune.",
+            "starter": "If I saw dune, I would…"
           },
           {
-            "word": "rain",
-            "definition": "Water drops falling from clouds",
+            "word": "cactus",
+            "definition": "A plant that stores water in thick stems",
             "partOfSpeech": "noun",
-            "example": "Deserts are places with very little rain.",
-            "starter": "I can use rain to explain…"
+            "example": "A cactus might grow near my path.",
+            "starter": "I could describe cactus by…"
           },
           {
-            "word": "store",
-            "definition": "To keep something for later",
-            "partOfSpeech": "verb",
-            "example": "Some plants store water in thick parts.",
-            "starter": "When I hear store, I think of…"
+            "word": "oasis",
+            "definition": "A wet spot in a dry region",
+            "partOfSpeech": "noun",
+            "example": "A tiny oasis would surprise me.",
+            "starter": "I wonder whether oasis can…"
           },
           {
-            "word": "nights",
-            "definition": "Times between sunset and sunrise",
+            "word": "burrow",
+            "definition": "A hole made by an animal underground",
             "partOfSpeech": "noun",
-            "example": "Desert nights can be much cooler.",
-            "starter": "A question about nights is…"
+            "example": "A lizard might hide in a burrow.",
+            "starter": "One question about burrow is…"
           },
           {
-            "word": "nature",
-            "definition": "Plants, animals, land, and weather.",
+            "word": "dusk",
+            "definition": "The time just after sunset",
             "partOfSpeech": "noun",
-            "example": "We can find deserts in nature.",
-            "starter": "I know about nature because…"
+            "example": "I would walk at dusk with a guide.",
+            "starter": "I would compare dusk with…"
           },
           {
-            "word": "water",
-            "definition": "The clear liquid living things need.",
-            "partOfSpeech": "noun",
-            "example": "Water is connected with deserts.",
-            "starter": "My picture of water shows…"
+            "word": "dry season",
+            "definition": "A long period with little rain",
+            "partOfSpeech": "phrase",
+            "example": "The dry season can last many weeks.",
+            "starter": "My idea about dry season is…"
           },
           {
-            "word": "air",
-            "definition": "The gas around Earth that we breathe.",
-            "partOfSpeech": "noun",
-            "example": "Air can affect deserts.",
-            "starter": "I want to ask about air because…"
+            "word": "rocky ground",
+            "definition": "Land covered with stones",
+            "partOfSpeech": "phrase",
+            "example": "Some deserts have rocky ground instead of sand.",
+            "starter": "I might use rocky ground when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "I think…",
-            "example": "I think some deserts are hot; others are cold."
+            "phrase": "I would carry plenty…",
+            "example": "I would carry plenty of water."
           },
           {
-            "phrase": "I can see…",
-            "example": "I can see deserts in pictures."
+            "phrase": "A small lizard might…",
+            "example": "A small lizard might hide nearby."
           },
           {
-            "phrase": "I would choose…",
-            "example": "I would choose to learn about deserts."
+            "phrase": "I would look for a…",
+            "example": "I would look for a shady rock."
           },
           {
-            "phrase": "I wonder…",
-            "example": "I wonder about deserts."
+            "phrase": "The sand could feel…",
+            "example": "The sand could feel very hot."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, some plants store water in thick parts."
+            "phrase": "I want to see a…",
+            "example": "I want to see a desert flower."
           },
           {
-            "phrase": "What if…",
-            "example": "What if we studied deserts?"
+            "phrase": "A tiny oasis would…",
+            "example": "A tiny oasis would surprise me."
           }
         ]
       },
       "A2": {
-        "briefing": "Deserts are places with very little rain. Many desert animals rest during hot days. Some plants store water in thick parts. Desert nights can be much cooler.",
+        "briefing": "Some deserts have rocky ground instead of sand. Desert plants often grow far apart because water is scarce. Animals may become active at dusk when the ground cools.",
         "facts": [
           "Some deserts are hot; others are cold.",
           "Many desert animals rest during hot days.",
@@ -10162,84 +10162,84 @@
         ],
         "vocab": [
           {
-            "word": "Deserts",
-            "definition": "Deserts are places with very little rain.",
+            "word": "dune",
+            "definition": "A hill of sand shaped by wind",
             "partOfSpeech": "noun",
-            "example": "Deserts are places with very little rain.",
-            "starter": "I want to discuss deserts because…"
+            "example": "I would climb a small dune.",
+            "starter": "If I saw dune, I would…"
           },
           {
-            "word": "rain",
-            "definition": "Water drops falling from clouds",
+            "word": "cactus",
+            "definition": "A plant that stores water in thick stems",
             "partOfSpeech": "noun",
-            "example": "Deserts are places with very little rain.",
-            "starter": "I can use rain to explain…"
+            "example": "A cactus might grow near my path.",
+            "starter": "I could describe cactus by…"
           },
           {
-            "word": "store",
-            "definition": "To keep something for later",
-            "partOfSpeech": "verb",
-            "example": "Some plants store water in thick parts.",
-            "starter": "When I hear store, I think of…"
+            "word": "oasis",
+            "definition": "A wet spot in a dry region",
+            "partOfSpeech": "noun",
+            "example": "I would rest beside an oasis.",
+            "starter": "I wonder whether oasis can…"
           },
           {
-            "word": "nights",
-            "definition": "Times between sunset and sunrise",
+            "word": "burrow",
+            "definition": "A hole made by an animal underground",
             "partOfSpeech": "noun",
-            "example": "Desert nights can be much cooler.",
-            "starter": "A question about nights is…"
+            "example": "A lizard might hide in a burrow.",
+            "starter": "One question about burrow is…"
           },
           {
-            "word": "cold",
-            "definition": "Having a low temperature",
+            "word": "dusk",
+            "definition": "The time just after sunset",
             "partOfSpeech": "noun",
-            "example": "Some deserts are hot; others are cold.",
-            "starter": "I would compare cold with…"
+            "example": "Animals may become active at dusk when the ground cools.",
+            "starter": "I would compare dusk with…"
           },
           {
-            "word": "thick parts",
-            "definition": "Large plant sections able to hold water",
-            "partOfSpeech": "noun",
-            "example": "Some plants store water in thick parts.",
-            "starter": "One example of thick parts is…"
+            "word": "dry season",
+            "definition": "A long period with little rain",
+            "partOfSpeech": "phrase",
+            "example": "The dry season can last many weeks.",
+            "starter": "My idea about dry season is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
-            "partOfSpeech": "noun",
-            "example": "Climate can shape where we find deserts.",
-            "starter": "I want to compare climate with…"
+            "word": "rocky ground",
+            "definition": "Land covered with stones",
+            "partOfSpeech": "phrase",
+            "example": "Some deserts have rocky ground instead of sand.",
+            "starter": "I might use rocky ground when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that some deserts are hot; others are cold."
+            "phrase": "I would carry plenty…",
+            "example": "I would carry plenty of water."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that many desert animals rest during hot days."
+            "phrase": "A small lizard might…",
+            "example": "A small lizard might hide nearby."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, some plants store water in thick parts."
+            "phrase": "I would look for a…",
+            "example": "I would look for a shady rock."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare deserts with a related topic."
+            "phrase": "I wonder which animals come out…",
+            "example": "I wonder which animals come out after sunset."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that desert nights can be much cooler."
+            "phrase": "The quiet might make every small…",
+            "example": "The quiet might make every small sound noticeable."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because some deserts are hot; others are cold."
+            "phrase": "A desert scene could show life…",
+            "example": "A desert scene could show life without showing many trees."
           }
         ]
       },
       "B1": {
-        "briefing": "Deserts are places with very little rain. Some deserts are hot; others are cold. Some plants store water in thick parts. Desert nights can be much cooler.",
+        "briefing": "Desert plants often grow far apart because water is scarce. Animals may become active at dusk when the ground cools. A desert can look empty while holding many hidden lives.",
         "facts": [
           "Some deserts are hot; others are cold.",
           "Many desert animals rest during hot days.",
@@ -10253,79 +10253,79 @@
         ],
         "vocab": [
           {
-            "word": "Deserts",
-            "definition": "Deserts are places with very little rain.",
+            "word": "dune",
+            "definition": "A hill of sand shaped by wind",
             "partOfSpeech": "noun",
-            "example": "Deserts are places with very little rain.",
-            "starter": "I want to discuss deserts because…"
+            "example": "I would rather explore a rocky valley than climb a high dune.",
+            "starter": "If I saw dune, I would…"
           },
           {
-            "word": "rain",
-            "definition": "Water drops falling from clouds",
+            "word": "cactus",
+            "definition": "A plant that stores water in thick stems",
             "partOfSpeech": "noun",
-            "example": "Deserts are places with very little rain.",
-            "starter": "I can use rain to explain…"
+            "example": "A cactus might grow near my path.",
+            "starter": "I could describe cactus by…"
           },
           {
-            "word": "store",
-            "definition": "To keep something for later",
-            "partOfSpeech": "verb",
-            "example": "Some plants store water in thick parts.",
-            "starter": "When I hear store, I think of…"
+            "word": "oasis",
+            "definition": "A wet spot in a dry region",
+            "partOfSpeech": "noun",
+            "example": "I would rest beside an oasis.",
+            "starter": "I wonder whether oasis can…"
           },
           {
-            "word": "nights",
-            "definition": "Times between sunset and sunrise",
+            "word": "burrow",
+            "definition": "A hole made by an animal underground",
             "partOfSpeech": "noun",
-            "example": "Desert nights can be much cooler.",
-            "starter": "A question about nights is…"
+            "example": "A lizard might hide in a burrow.",
+            "starter": "One question about burrow is…"
           },
           {
-            "word": "cold",
-            "definition": "Having a low temperature",
+            "word": "dusk",
+            "definition": "The time just after sunset",
             "partOfSpeech": "noun",
-            "example": "Some deserts are hot; others are cold.",
-            "starter": "I would compare cold with…"
+            "example": "Animals may become active at dusk when the ground cools.",
+            "starter": "I would compare dusk with…"
           },
           {
-            "word": "thick parts",
-            "definition": "Large plant sections able to hold water",
-            "partOfSpeech": "noun",
-            "example": "Some plants store water in thick parts.",
-            "starter": "One example of thick parts is…"
+            "word": "dry season",
+            "definition": "A long period with little rain",
+            "partOfSpeech": "phrase",
+            "example": "The dry season can last many weeks.",
+            "starter": "My idea about dry season is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
-            "partOfSpeech": "noun",
-            "example": "Climate can shape where we find deserts.",
-            "starter": "I want to compare climate with…"
+            "word": "rocky ground",
+            "definition": "Land covered with stones",
+            "partOfSpeech": "phrase",
+            "example": "Rocky ground would hurt bare feet.",
+            "starter": "I might use rocky ground when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that some deserts are hot; others are cold."
+            "phrase": "If I crossed a desert, I…",
+            "example": "If I crossed a desert, I would travel with an experienced guide."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that many desert animals rest during hot days."
+            "phrase": "I would rather explore a rocky…",
+            "example": "I would rather explore a rocky valley than climb a high dune."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, some plants store water in thick parts."
+            "phrase": "A plant growing after rare rain…",
+            "example": "A plant growing after rare rain would be worth waiting for."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare deserts with a related topic."
+            "phrase": "I wonder which animals come out…",
+            "example": "I wonder which animals come out after sunset."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that desert nights can be much cooler."
+            "phrase": "The quiet might make every small…",
+            "example": "The quiet might make every small sound noticeable."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because some deserts are hot; others are cold."
+            "phrase": "A desert scene could show life…",
+            "example": "A desert scene could show life without showing many trees."
           }
         ]
       }
@@ -10344,7 +10344,7 @@
     "category": "weather and nature",
     "levels": {
       "A1": {
-        "briefing": "Forests are places where many trees grow. Tree leaves catch sunlight for food. Fallen leaves add material to soil.",
+        "briefing": "A forest floor can smell earthy after rain. Tree roots spread under our feet. Mushrooms may grow on old wood.",
         "facts": [
           "Tree leaves catch sunlight for food.",
           "Fallen leaves add material to soil.",
@@ -10358,84 +10358,84 @@
         ],
         "vocab": [
           {
-            "word": "Forests",
-            "definition": "Forests are places where many trees grow.",
+            "word": "canopy",
+            "definition": "A roof made by the tops of trees",
             "partOfSpeech": "noun",
-            "example": "Forests are places where many trees grow.",
-            "starter": "I want to discuss forests because…"
+            "example": "I would look up at the canopy.",
+            "starter": "If I saw canopy, I would…"
           },
           {
-            "word": "leaves",
-            "definition": "Flat plant parts that catch sunlight",
+            "word": "mushroom",
+            "definition": "The visible part of some fungi",
             "partOfSpeech": "noun",
-            "example": "Tree leaves catch sunlight for food.",
-            "starter": "I can use leaves to explain…"
+            "example": "Mushrooms may grow on old wood.",
+            "starter": "I could describe mushroom by…"
           },
           {
-            "word": "soil",
-            "definition": "The loose ground under plants",
+            "word": "sapling",
+            "definition": "A young tree",
             "partOfSpeech": "noun",
-            "example": "Fallen leaves add material to soil.",
-            "starter": "When I hear soil, I think of…"
+            "example": "I want to draw a tiny sapling.",
+            "starter": "I wonder whether sapling can…"
           },
           {
-            "word": "shelter",
-            "definition": "A place that gives protection",
-            "partOfSpeech": "noun",
-            "example": "Birds and insects use trees for shelter.",
-            "starter": "A question about shelter is…"
+            "word": "leaf litter",
+            "definition": "Fallen leaves covering the ground",
+            "partOfSpeech": "phrase",
+            "example": "Leaf litter can hide insects.",
+            "starter": "One question about leaf litter is…"
           },
           {
-            "word": "nature",
-            "definition": "Plants, animals, land, and weather.",
+            "word": "bark",
+            "definition": "The outer covering of a tree",
             "partOfSpeech": "noun",
-            "example": "We can find forests in nature.",
-            "starter": "I know about nature because…"
+            "example": "I would touch rough bark gently.",
+            "starter": "I would compare bark with…"
           },
           {
-            "word": "water",
-            "definition": "The clear liquid living things need.",
+            "word": "root",
+            "definition": "A plant part taking water from soil",
             "partOfSpeech": "noun",
-            "example": "Water is connected with forests.",
-            "starter": "My picture of water shows…"
+            "example": "Tree roots spread under our feet.",
+            "starter": "My idea about root is…"
           },
           {
-            "word": "air",
-            "definition": "The gas around Earth that we breathe.",
+            "word": "fungus",
+            "definition": "An organism that grows on material and breaks some down",
             "partOfSpeech": "noun",
-            "example": "Air can affect forests.",
-            "starter": "I want to ask about air because…"
+            "example": "A fungus could grow on old wood.",
+            "starter": "I might use fungus when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "I think…",
-            "example": "I think tree leaves catch sunlight for food."
+            "phrase": "I would listen for…",
+            "example": "I would listen for forest birds."
           },
           {
-            "phrase": "I can see…",
-            "example": "I can see forests in pictures."
+            "phrase": "A mushroom might grow…",
+            "example": "A mushroom might grow near me."
           },
           {
-            "phrase": "I would choose…",
-            "example": "I would choose to learn about forests."
+            "phrase": "I like the smell…",
+            "example": "I like the smell after rain."
           },
           {
-            "phrase": "I wonder…",
-            "example": "I wonder about forests."
+            "phrase": "I would stay on…",
+            "example": "I would stay on the path."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, birds and insects use trees for shelter."
+            "phrase": "A tall tree could…",
+            "example": "A tall tree could give shade."
           },
           {
-            "phrase": "What if…",
-            "example": "What if we studied forests?"
+            "phrase": "I want to draw a…",
+            "example": "I want to draw a tiny sapling."
           }
         ]
       },
       "A2": {
-        "briefing": "Forests are places where many trees grow. Fallen leaves add material to soil. Birds and insects use trees for shelter. Different forests grow in different climates.",
+        "briefing": "A forest floor can smell earthy after rain. Fungi help break down fallen material in the forest. Tree canopies create shade and cooler places below.",
         "facts": [
           "Tree leaves catch sunlight for food.",
           "Fallen leaves add material to soil.",
@@ -10449,84 +10449,84 @@
         ],
         "vocab": [
           {
-            "word": "Forests",
-            "definition": "Forests are places where many trees grow.",
+            "word": "canopy",
+            "definition": "A roof made by the tops of trees",
             "partOfSpeech": "noun",
-            "example": "Forests are places where many trees grow.",
-            "starter": "I want to discuss forests because…"
+            "example": "I would look up at the canopy.",
+            "starter": "If I saw canopy, I would…"
           },
           {
-            "word": "leaves",
-            "definition": "Flat plant parts that catch sunlight",
+            "word": "mushroom",
+            "definition": "The visible part of some fungi",
             "partOfSpeech": "noun",
-            "example": "Tree leaves catch sunlight for food.",
-            "starter": "I can use leaves to explain…"
+            "example": "A mushroom might grow near me.",
+            "starter": "I could describe mushroom by…"
           },
           {
-            "word": "soil",
-            "definition": "The loose ground under plants",
+            "word": "sapling",
+            "definition": "A young tree",
             "partOfSpeech": "noun",
-            "example": "Fallen leaves add material to soil.",
-            "starter": "When I hear soil, I think of…"
+            "example": "I would protect a small sapling.",
+            "starter": "I wonder whether sapling can…"
           },
           {
-            "word": "shelter",
-            "definition": "A place that gives protection",
-            "partOfSpeech": "noun",
-            "example": "Birds and insects use trees for shelter.",
-            "starter": "A question about shelter is…"
+            "word": "leaf litter",
+            "definition": "Fallen leaves covering the ground",
+            "partOfSpeech": "phrase",
+            "example": "Leaf litter can hide insects.",
+            "starter": "One question about leaf litter is…"
           },
           {
-            "word": "trees",
-            "definition": "Large plants with woody trunks",
+            "word": "bark",
+            "definition": "The outer covering of a tree",
             "partOfSpeech": "noun",
-            "example": "Forests are places where many trees grow.",
-            "starter": "I would compare trees with…"
+            "example": "I would touch rough bark gently.",
+            "starter": "I would compare bark with…"
           },
           {
-            "word": "climates",
-            "definition": "Usual weather patterns in places",
+            "word": "root",
+            "definition": "A plant part taking water from soil",
             "partOfSpeech": "noun",
-            "example": "Different forests grow in different climates.",
-            "starter": "One example of climates is…"
+            "example": "A root might cross the path.",
+            "starter": "My idea about root is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "fungus",
+            "definition": "An organism that grows on material and breaks some down",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find forests.",
-            "starter": "I want to compare climate with…"
+            "example": "A fungus could grow on old wood.",
+            "starter": "I might use fungus when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that tree leaves catch sunlight for food."
+            "phrase": "I would listen for…",
+            "example": "I would listen for forest birds."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that fallen leaves add material to soil."
+            "phrase": "A mushroom might grow…",
+            "example": "A mushroom might grow near me."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, birds and insects use trees for shelter."
+            "phrase": "I like the smell…",
+            "example": "I like the smell after rain."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare forests with a related topic."
+            "phrase": "The forest floor seems like a…",
+            "example": "The forest floor seems like a busy place when you look closely."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that different forests grow in different climates."
+            "phrase": "I wonder how fungi change dead…",
+            "example": "I wonder how fungi change dead wood over time."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because tree leaves catch sunlight for food."
+            "phrase": "I would ask a guide which…",
+            "example": "I would ask a guide which trees belong in this forest."
           }
         ]
       },
       "B1": {
-        "briefing": "Forests are places where many trees grow. Tree leaves catch sunlight for food. Birds and insects use trees for shelter. Different forests grow in different climates.",
+        "briefing": "Fungi help break down fallen material in the forest. Tree canopies create shade and cooler places below. A forest changes as young trees replace older ones.",
         "facts": [
           "Tree leaves catch sunlight for food.",
           "Fallen leaves add material to soil.",
@@ -10540,79 +10540,79 @@
         ],
         "vocab": [
           {
-            "word": "Forests",
-            "definition": "Forests are places where many trees grow.",
+            "word": "canopy",
+            "definition": "A roof made by the tops of trees",
             "partOfSpeech": "noun",
-            "example": "Forests are places where many trees grow.",
-            "starter": "I want to discuss forests because…"
+            "example": "I would look up at the canopy.",
+            "starter": "If I saw canopy, I would…"
           },
           {
-            "word": "leaves",
-            "definition": "Flat plant parts that catch sunlight",
+            "word": "mushroom",
+            "definition": "The visible part of some fungi",
             "partOfSpeech": "noun",
-            "example": "Tree leaves catch sunlight for food.",
-            "starter": "I can use leaves to explain…"
+            "example": "I might spot a mushroom by a log.",
+            "starter": "I could describe mushroom by…"
           },
           {
-            "word": "soil",
-            "definition": "The loose ground under plants",
+            "word": "sapling",
+            "definition": "A young tree",
             "partOfSpeech": "noun",
-            "example": "Fallen leaves add material to soil.",
-            "starter": "When I hear soil, I think of…"
+            "example": "A young sapling might become the biggest tree here someday.",
+            "starter": "I wonder whether sapling can…"
           },
           {
-            "word": "shelter",
-            "definition": "A place that gives protection",
-            "partOfSpeech": "noun",
-            "example": "Birds and insects use trees for shelter.",
-            "starter": "A question about shelter is…"
+            "word": "leaf litter",
+            "definition": "Fallen leaves covering the ground",
+            "partOfSpeech": "phrase",
+            "example": "Leaf litter can hide insects.",
+            "starter": "One question about leaf litter is…"
           },
           {
-            "word": "trees",
-            "definition": "Large plants with woody trunks",
+            "word": "bark",
+            "definition": "The outer covering of a tree",
             "partOfSpeech": "noun",
-            "example": "Forests are places where many trees grow.",
-            "starter": "I would compare trees with…"
+            "example": "I would touch rough bark gently.",
+            "starter": "I would compare bark with…"
           },
           {
-            "word": "climates",
-            "definition": "Usual weather patterns in places",
+            "word": "root",
+            "definition": "A plant part taking water from soil",
             "partOfSpeech": "noun",
-            "example": "Different forests grow in different climates.",
-            "starter": "One example of climates is…"
+            "example": "A root might cross the path.",
+            "starter": "My idea about root is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "fungus",
+            "definition": "An organism that grows on material and breaks some down",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find forests.",
-            "starter": "I want to compare climate with…"
+            "example": "A fungus could grow on old wood.",
+            "starter": "I might use fungus when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that tree leaves catch sunlight for food."
+            "phrase": "If I explored a forest, I…",
+            "example": "If I explored a forest, I would notice fallen logs as well as tall trees."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that fallen leaves add material to soil."
+            "phrase": "A young sapling might become the…",
+            "example": "A young sapling might become the biggest tree here someday."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, birds and insects use trees for shelter."
+            "phrase": "I would rather follow a quiet…",
+            "example": "I would rather follow a quiet trail than make a new one."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare forests with a related topic."
+            "phrase": "The forest floor seems like a…",
+            "example": "The forest floor seems like a busy place when you look closely."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that different forests grow in different climates."
+            "phrase": "I wonder how fungi change dead…",
+            "example": "I wonder how fungi change dead wood over time."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because tree leaves catch sunlight for food."
+            "phrase": "I would ask a guide which…",
+            "example": "I would ask a guide which trees belong in this forest."
           }
         ]
       }
@@ -10631,7 +10631,7 @@
     "category": "weather and nature",
     "levels": {
       "A1": {
-        "briefing": "Seasons change as Earth moves around the Sun. Earth's tilt changes how sunlight reaches places. Some places have four clear seasons.",
+        "briefing": "Long summer days give more hours of light. Some animals grow thicker coats before winter. People change clothes as the weather shifts.",
         "facts": [
           "Earth's tilt changes how sunlight reaches places.",
           "Some places have four clear seasons.",
@@ -10645,84 +10645,84 @@
         ],
         "vocab": [
           {
-            "word": "Seasons",
-            "definition": "Seasons change as Earth moves around the Sun.",
+            "word": "spring",
+            "definition": "The season when many plants begin growing",
             "partOfSpeech": "noun",
-            "example": "Seasons change as Earth moves around the Sun.",
-            "starter": "I want to discuss seasons because…"
+            "example": "I want flowers in spring.",
+            "starter": "If I saw spring, I would…"
           },
           {
-            "word": "tilt",
-            "definition": "A slant away from a straight position",
+            "word": "summer",
+            "definition": "The warm season with long days in many places",
             "partOfSpeech": "noun",
-            "example": "Earth's tilt changes how sunlight reaches places.",
-            "starter": "I can use tilt to explain…"
+            "example": "Long summer days give more hours of light.",
+            "starter": "I could describe summer by…"
           },
           {
-            "word": "sunlight",
-            "definition": "Light from the Sun",
+            "word": "autumn",
+            "definition": "The season when many trees lose leaves",
             "partOfSpeech": "noun",
-            "example": "Earth's tilt changes how sunlight reaches places.",
-            "starter": "When I hear sunlight, I think of…"
+            "example": "I would jump in autumn leaves.",
+            "starter": "I wonder whether autumn can…"
           },
           {
-            "word": "wet",
-            "definition": "Having much water or rain",
+            "word": "winter",
+            "definition": "The cold season in many places",
             "partOfSpeech": "noun",
-            "example": "Other places have wet and dry seasons.",
-            "starter": "A question about wet is…"
+            "example": "Some animals grow thicker coats before winter.",
+            "starter": "One question about winter is…"
           },
           {
-            "word": "nature",
-            "definition": "Plants, animals, land, and weather.",
+            "word": "daylight",
+            "definition": "Light during the day",
             "partOfSpeech": "noun",
-            "example": "We can find seasons in nature.",
-            "starter": "I know about nature because…"
+            "example": "Long daylight gives me more playtime.",
+            "starter": "I would compare daylight with…"
           },
           {
-            "word": "water",
-            "definition": "The clear liquid living things need.",
-            "partOfSpeech": "noun",
-            "example": "Water is connected with seasons.",
-            "starter": "My picture of water shows…"
+            "word": "wet season",
+            "definition": "A part of the year with much rain",
+            "partOfSpeech": "phrase",
+            "example": "I would take boots in the wet season.",
+            "starter": "My idea about wet season is…"
           },
           {
-            "word": "air",
-            "definition": "The gas around Earth that we breathe.",
+            "word": "migration",
+            "definition": "Animals' regular journey between regions",
             "partOfSpeech": "noun",
-            "example": "Air can affect seasons.",
-            "starter": "I want to ask about air because…"
+            "example": "I would watch birds begin migration.",
+            "starter": "I might use migration when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "I think…",
-            "example": "I think earth's tilt changes how sunlight reaches places."
+            "phrase": "I like long…",
+            "example": "I like long summer evenings."
           },
           {
-            "phrase": "I can see…",
-            "example": "I can see seasons in pictures."
+            "phrase": "I would jump in…",
+            "example": "I would jump in autumn leaves."
           },
           {
-            "phrase": "I would choose…",
-            "example": "I would choose to learn about seasons."
+            "phrase": "A winter coat keeps…",
+            "example": "A winter coat keeps me warm."
           },
           {
-            "phrase": "I wonder…",
-            "example": "I wonder about seasons."
+            "phrase": "I want flowers…",
+            "example": "I want flowers in spring."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, other places have wet and dry seasons."
+            "phrase": "Rainy months could fill…",
+            "example": "Rainy months could fill the river."
           },
           {
-            "phrase": "What if…",
-            "example": "What if we studied seasons?"
+            "phrase": "My favorite season…",
+            "example": "My favorite season might change."
           }
         ]
       },
       "A2": {
-        "briefing": "Seasons change as Earth moves around the Sun. Some places have four clear seasons. Other places have wet and dry seasons. Plants and animals respond to seasonal changes.",
+        "briefing": "Long summer days give more hours of light. Day length is a useful signal for many plants and animals. Seasonal patterns differ greatly near the equator and near the poles.",
         "facts": [
           "Earth's tilt changes how sunlight reaches places.",
           "Some places have four clear seasons.",
@@ -10736,84 +10736,84 @@
         ],
         "vocab": [
           {
-            "word": "Seasons",
-            "definition": "Seasons change as Earth moves around the Sun.",
+            "word": "spring",
+            "definition": "The season when many plants begin growing",
             "partOfSpeech": "noun",
-            "example": "Seasons change as Earth moves around the Sun.",
-            "starter": "I want to discuss seasons because…"
+            "example": "I would look for spring flowers.",
+            "starter": "If I saw spring, I would…"
           },
           {
-            "word": "tilt",
-            "definition": "A slant away from a straight position",
+            "word": "summer",
+            "definition": "The warm season with long days in many places",
             "partOfSpeech": "noun",
-            "example": "Earth's tilt changes how sunlight reaches places.",
-            "starter": "I can use tilt to explain…"
+            "example": "Long summer days give more hours of light.",
+            "starter": "I could describe summer by…"
           },
           {
-            "word": "sunlight",
-            "definition": "Light from the Sun",
+            "word": "autumn",
+            "definition": "The season when many trees lose leaves",
             "partOfSpeech": "noun",
-            "example": "Earth's tilt changes how sunlight reaches places.",
-            "starter": "When I hear sunlight, I think of…"
+            "example": "I would jump in autumn leaves.",
+            "starter": "I wonder whether autumn can…"
           },
           {
-            "word": "wet",
-            "definition": "Having much water or rain",
+            "word": "winter",
+            "definition": "The cold season in many places",
             "partOfSpeech": "noun",
-            "example": "Other places have wet and dry seasons.",
-            "starter": "A question about wet is…"
+            "example": "A winter coat keeps me warm.",
+            "starter": "One question about winter is…"
           },
           {
-            "word": "Earth",
-            "definition": "The planet where we live",
+            "word": "daylight",
+            "definition": "Light during the day",
             "partOfSpeech": "noun",
-            "example": "Seasons change as Earth moves around the Sun.",
-            "starter": "I would compare Earth with…"
+            "example": "Longer daylight could change how I spend my afternoons.",
+            "starter": "I would compare daylight with…"
           },
           {
-            "word": "animals",
-            "definition": "Living things that eat and move",
-            "partOfSpeech": "noun",
-            "example": "Plants and animals respond to seasonal changes.",
-            "starter": "One example of animals is…"
+            "word": "wet season",
+            "definition": "A part of the year with much rain",
+            "partOfSpeech": "phrase",
+            "example": "I would take boots in the wet season.",
+            "starter": "My idea about wet season is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "migration",
+            "definition": "Animals' regular journey between regions",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find seasons.",
-            "starter": "I want to compare climate with…"
+            "example": "I would watch birds begin migration.",
+            "starter": "I might use migration when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that earth's tilt changes how sunlight reaches places."
+            "phrase": "I like long…",
+            "example": "I like long summer evenings."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that some places have four clear seasons."
+            "phrase": "I would jump in…",
+            "example": "I would jump in autumn leaves."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, other places have wet and dry seasons."
+            "phrase": "A winter coat keeps…",
+            "example": "A winter coat keeps me warm."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare seasons with a related topic."
+            "phrase": "Longer daylight could change how I…",
+            "example": "Longer daylight could change how I spend my afternoons."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that plants and animals respond to seasonal changes."
+            "phrase": "I wonder how plants know when…",
+            "example": "I wonder how plants know when to begin growing."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because earth's tilt changes how sunlight reaches places."
+            "phrase": "The same street can feel different…",
+            "example": "The same street can feel different in every season."
           }
         ]
       },
       "B1": {
-        "briefing": "Seasons change as Earth moves around the Sun. Earth's tilt changes how sunlight reaches places. Other places have wet and dry seasons. Plants and animals respond to seasonal changes.",
+        "briefing": "Day length is a useful signal for many plants and animals. Seasonal patterns differ greatly near the equator and near the poles. A familiar place can look new as leaves, light, and rain change.",
         "facts": [
           "Earth's tilt changes how sunlight reaches places.",
           "Some places have four clear seasons.",
@@ -10827,79 +10827,79 @@
         ],
         "vocab": [
           {
-            "word": "Seasons",
-            "definition": "Seasons change as Earth moves around the Sun.",
+            "word": "spring",
+            "definition": "The season when many plants begin growing",
             "partOfSpeech": "noun",
-            "example": "Seasons change as Earth moves around the Sun.",
-            "starter": "I want to discuss seasons because…"
+            "example": "I would look for spring flowers.",
+            "starter": "If I saw spring, I would…"
           },
           {
-            "word": "tilt",
-            "definition": "A slant away from a straight position",
+            "word": "summer",
+            "definition": "The warm season with long days in many places",
             "partOfSpeech": "noun",
-            "example": "Earth's tilt changes how sunlight reaches places.",
-            "starter": "I can use tilt to explain…"
+            "example": "I like summer evenings.",
+            "starter": "I could describe summer by…"
           },
           {
-            "word": "sunlight",
-            "definition": "Light from the Sun",
+            "word": "autumn",
+            "definition": "The season when many trees lose leaves",
             "partOfSpeech": "noun",
-            "example": "Earth's tilt changes how sunlight reaches places.",
-            "starter": "When I hear sunlight, I think of…"
+            "example": "I would collect fallen autumn leaves.",
+            "starter": "I wonder whether autumn can…"
           },
           {
-            "word": "wet",
-            "definition": "Having much water or rain",
+            "word": "winter",
+            "definition": "The cold season in many places",
             "partOfSpeech": "noun",
-            "example": "Other places have wet and dry seasons.",
-            "starter": "A question about wet is…"
+            "example": "I would wear a coat in winter.",
+            "starter": "One question about winter is…"
           },
           {
-            "word": "Earth",
-            "definition": "The planet where we live",
+            "word": "daylight",
+            "definition": "Light during the day",
             "partOfSpeech": "noun",
-            "example": "Seasons change as Earth moves around the Sun.",
-            "starter": "I would compare Earth with…"
+            "example": "Longer daylight could change how I spend my afternoons.",
+            "starter": "I would compare daylight with…"
           },
           {
-            "word": "animals",
-            "definition": "Living things that eat and move",
-            "partOfSpeech": "noun",
-            "example": "Plants and animals respond to seasonal changes.",
-            "starter": "One example of animals is…"
+            "word": "wet season",
+            "definition": "A part of the year with much rain",
+            "partOfSpeech": "phrase",
+            "example": "I would take boots in the wet season.",
+            "starter": "My idea about wet season is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "migration",
+            "definition": "Animals' regular journey between regions",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find seasons.",
-            "starter": "I want to compare climate with…"
+            "example": "I would watch birds begin migration.",
+            "starter": "I might use migration when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that earth's tilt changes how sunlight reaches places."
+            "phrase": "If I lived near the equator,…",
+            "example": "If I lived near the equator, I might describe seasons by rain."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that some places have four clear seasons."
+            "phrase": "I would rather watch leaves change…",
+            "example": "I would rather watch leaves change than see snow fall."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, other places have wet and dry seasons."
+            "phrase": "A bird's seasonal journey would make…",
+            "example": "A bird's seasonal journey would make a good map."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare seasons with a related topic."
+            "phrase": "Longer daylight could change how I…",
+            "example": "Longer daylight could change how I spend my afternoons."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that plants and animals respond to seasonal changes."
+            "phrase": "I wonder how plants know when…",
+            "example": "I wonder how plants know when to begin growing."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because earth's tilt changes how sunlight reaches places."
+            "phrase": "The same street can feel different…",
+            "example": "The same street can feel different in every season."
           }
         ]
       }
@@ -10917,7 +10917,7 @@
     "category": "weather and nature",
     "levels": {
       "A1": {
-        "briefing": "Rain falls from clouds as water drops. Warm air can carry water vapor upward. Cloud drops join and become heavy.",
+        "briefing": "Rain can tap softly or pound loudly. Puddles show where water gathers. A coat can keep us dry outside.",
         "facts": [
           "Warm air can carry water vapor upward.",
           "Cloud drops join and become heavy.",
@@ -10931,84 +10931,84 @@
         ],
         "vocab": [
           {
-            "word": "Rain",
-            "definition": "Rain falls from clouds as water drops.",
+            "word": "raindrop",
+            "definition": "One small drop of falling water",
             "partOfSpeech": "noun",
-            "example": "Rain falls from clouds as water drops.",
-            "starter": "I want to discuss rain because…"
+            "example": "A raindrop landed on my hand.",
+            "starter": "If I saw raindrop, I would…"
           },
           {
-            "word": "clouds",
-            "definition": "Groups of water drops in the sky",
+            "word": "puddle",
+            "definition": "A small pool of water on the ground",
             "partOfSpeech": "noun",
-            "example": "Rain falls from clouds as water drops.",
-            "starter": "I can use clouds to explain…"
+            "example": "Puddles show where water gathers.",
+            "starter": "I could describe puddle by…"
           },
           {
-            "word": "vapor",
-            "definition": "Water in gas form",
+            "word": "shower",
+            "definition": "A short period of rain",
             "partOfSpeech": "noun",
-            "example": "Warm air can carry water vapor upward.",
-            "starter": "When I hear vapor, I think of…"
+            "example": "A shower might end quickly.",
+            "starter": "I wonder whether shower can…"
           },
           {
-            "word": "heavy",
-            "definition": "Having much weight",
+            "word": "downpour",
+            "definition": "Very heavy rain",
             "partOfSpeech": "noun",
-            "example": "Cloud drops join and become heavy.",
-            "starter": "A question about heavy is…"
+            "example": "A downpour might change our game.",
+            "starter": "One question about downpour is…"
           },
           {
-            "word": "nature",
-            "definition": "Plants, animals, land, and weather.",
+            "word": "raincoat",
+            "definition": "A coat made to keep out rain",
             "partOfSpeech": "noun",
-            "example": "We can find rain in nature.",
-            "starter": "I know about nature because…"
+            "example": "I would wear my yellow raincoat.",
+            "starter": "I would compare raincoat with…"
           },
           {
-            "word": "water",
-            "definition": "The clear liquid living things need.",
+            "word": "umbrella",
+            "definition": "A cover held above the head",
             "partOfSpeech": "noun",
-            "example": "Water is connected with rain.",
-            "starter": "My picture of water shows…"
+            "example": "I would share my umbrella.",
+            "starter": "My idea about umbrella is…"
           },
           {
-            "word": "air",
-            "definition": "The gas around Earth that we breathe.",
-            "partOfSpeech": "noun",
-            "example": "Air can affect rain.",
-            "starter": "I want to ask about air because…"
+            "word": "soil scent",
+            "definition": "An earthy smell after rain",
+            "partOfSpeech": "phrase",
+            "example": "The soil scent made the garden feel fresh.",
+            "starter": "I might use soil scent when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "I think…",
-            "example": "I think warm air can carry water vapor upward."
+            "phrase": "I would wear my…",
+            "example": "I would wear my yellow raincoat."
           },
           {
-            "phrase": "I can see…",
-            "example": "I can see rain in pictures."
+            "phrase": "A puddle could splash…",
+            "example": "A puddle could splash my shoes."
           },
           {
-            "phrase": "I would choose…",
-            "example": "I would choose to learn about rain."
+            "phrase": "I like soft rain…",
+            "example": "I like soft rain on windows."
           },
           {
-            "phrase": "I wonder…",
-            "example": "I wonder about rain."
+            "phrase": "A downpour might change…",
+            "example": "A downpour might change our game."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, rain gives water to plants and rivers."
+            "phrase": "I would share…",
+            "example": "I would share my umbrella."
           },
           {
-            "phrase": "What if…",
-            "example": "What if we studied rain?"
+            "phrase": "The garden smells…",
+            "example": "The garden smells different afterward."
           }
         ]
       },
       "A2": {
-        "briefing": "Rain falls from clouds as water drops. Cloud drops join and become heavy. Rain gives water to plants and rivers. Rainfall differs from place to place.",
+        "briefing": "Rain can tap softly or pound loudly. Rain begins when cloud drops grow large enough to fall. A short shower can leave streets wet without filling a river.",
         "facts": [
           "Warm air can carry water vapor upward.",
           "Cloud drops join and become heavy.",
@@ -11022,84 +11022,84 @@
         ],
         "vocab": [
           {
-            "word": "Rain",
-            "definition": "Rain falls from clouds as water drops.",
+            "word": "raindrop",
+            "definition": "One small drop of falling water",
             "partOfSpeech": "noun",
-            "example": "Rain falls from clouds as water drops.",
-            "starter": "I want to discuss rain because…"
+            "example": "A raindrop landed on my hand.",
+            "starter": "If I saw raindrop, I would…"
           },
           {
-            "word": "clouds",
-            "definition": "Groups of water drops in the sky",
+            "word": "puddle",
+            "definition": "A small pool of water on the ground",
             "partOfSpeech": "noun",
-            "example": "Rain falls from clouds as water drops.",
-            "starter": "I can use clouds to explain…"
+            "example": "A puddle could splash my shoes.",
+            "starter": "I could describe puddle by…"
           },
           {
-            "word": "vapor",
-            "definition": "Water in gas form",
+            "word": "shower",
+            "definition": "A short period of rain",
             "partOfSpeech": "noun",
-            "example": "Warm air can carry water vapor upward.",
-            "starter": "When I hear vapor, I think of…"
+            "example": "A short shower can leave streets wet without filling a river.",
+            "starter": "I wonder whether shower can…"
           },
           {
-            "word": "heavy",
-            "definition": "Having much weight",
+            "word": "downpour",
+            "definition": "Very heavy rain",
             "partOfSpeech": "noun",
-            "example": "Cloud drops join and become heavy.",
-            "starter": "A question about heavy is…"
+            "example": "I would wait indoors during a downpour.",
+            "starter": "One question about downpour is…"
           },
           {
-            "word": "drops",
-            "definition": "Small round bits of liquid",
+            "word": "raincoat",
+            "definition": "A coat made to keep out rain",
             "partOfSpeech": "noun",
-            "example": "Rain falls from clouds as water drops.",
-            "starter": "I would compare drops with…"
+            "example": "I would wear my yellow raincoat.",
+            "starter": "I would compare raincoat with…"
           },
           {
-            "word": "rivers",
-            "definition": "Streams of moving water",
+            "word": "umbrella",
+            "definition": "A cover held above the head",
             "partOfSpeech": "noun",
-            "example": "Rain gives water to plants and rivers.",
-            "starter": "One example of rivers is…"
+            "example": "A raincoat seems more useful than an umbrella in wind.",
+            "starter": "My idea about umbrella is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
-            "partOfSpeech": "noun",
-            "example": "Climate can shape where we find rain.",
-            "starter": "I want to compare climate with…"
+            "word": "soil scent",
+            "definition": "An earthy smell after rain",
+            "partOfSpeech": "phrase",
+            "example": "The soil scent made the garden feel fresh.",
+            "starter": "I might use soil scent when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that warm air can carry water vapor upward."
+            "phrase": "I would wear my…",
+            "example": "I would wear my yellow raincoat."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that cloud drops join and become heavy."
+            "phrase": "A puddle could splash…",
+            "example": "A puddle could splash my shoes."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, rain gives water to plants and rivers."
+            "phrase": "I like soft rain…",
+            "example": "I like soft rain on windows."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare rain with a related topic."
+            "phrase": "The first drops can make everyone…",
+            "example": "The first drops can make everyone look up at once."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that rainfall differs from place to place."
+            "phrase": "I wonder why some places receive…",
+            "example": "I wonder why some places receive rain while others stay dry."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because warm air can carry water vapor upward."
+            "phrase": "A raincoat seems more useful than…",
+            "example": "A raincoat seems more useful than an umbrella in wind."
           }
         ]
       },
       "B1": {
-        "briefing": "Rain falls from clouds as water drops. Warm air can carry water vapor upward. Rain gives water to plants and rivers. Rainfall differs from place to place.",
+        "briefing": "Rain begins when cloud drops grow large enough to fall. A short shower can leave streets wet without filling a river. The smell after rain often comes from substances released by soil.",
         "facts": [
           "Warm air can carry water vapor upward.",
           "Cloud drops join and become heavy.",
@@ -11113,79 +11113,79 @@
         ],
         "vocab": [
           {
-            "word": "Rain",
-            "definition": "Rain falls from clouds as water drops.",
+            "word": "raindrop",
+            "definition": "One small drop of falling water",
             "partOfSpeech": "noun",
-            "example": "Rain falls from clouds as water drops.",
-            "starter": "I want to discuss rain because…"
+            "example": "A raindrop landed on my hand.",
+            "starter": "If I saw raindrop, I would…"
           },
           {
-            "word": "clouds",
-            "definition": "Groups of water drops in the sky",
+            "word": "puddle",
+            "definition": "A small pool of water on the ground",
             "partOfSpeech": "noun",
-            "example": "Rain falls from clouds as water drops.",
-            "starter": "I can use clouds to explain…"
+            "example": "I would jump around a puddle.",
+            "starter": "I could describe puddle by…"
           },
           {
-            "word": "vapor",
-            "definition": "Water in gas form",
+            "word": "shower",
+            "definition": "A short period of rain",
             "partOfSpeech": "noun",
-            "example": "Warm air can carry water vapor upward.",
-            "starter": "When I hear vapor, I think of…"
+            "example": "A short shower can leave streets wet without filling a river.",
+            "starter": "I wonder whether shower can…"
           },
           {
-            "word": "heavy",
-            "definition": "Having much weight",
+            "word": "downpour",
+            "definition": "Very heavy rain",
             "partOfSpeech": "noun",
-            "example": "Cloud drops join and become heavy.",
-            "starter": "A question about heavy is…"
+            "example": "I would wait indoors during a downpour.",
+            "starter": "One question about downpour is…"
           },
           {
-            "word": "drops",
-            "definition": "Small round bits of liquid",
+            "word": "raincoat",
+            "definition": "A coat made to keep out rain",
             "partOfSpeech": "noun",
-            "example": "Rain falls from clouds as water drops.",
-            "starter": "I would compare drops with…"
+            "example": "A raincoat seems more useful than an umbrella in wind.",
+            "starter": "I would compare raincoat with…"
           },
           {
-            "word": "rivers",
-            "definition": "Streams of moving water",
+            "word": "umbrella",
+            "definition": "A cover held above the head",
             "partOfSpeech": "noun",
-            "example": "Rain gives water to plants and rivers.",
-            "starter": "One example of rivers is…"
+            "example": "A raincoat seems more useful than an umbrella in wind.",
+            "starter": "My idea about umbrella is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
-            "partOfSpeech": "noun",
-            "example": "Climate can shape where we find rain.",
-            "starter": "I want to compare climate with…"
+            "word": "soil scent",
+            "definition": "An earthy smell after rain",
+            "partOfSpeech": "phrase",
+            "example": "The soil scent made the garden feel fresh.",
+            "starter": "I might use soil scent when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that warm air can carry water vapor upward."
+            "phrase": "If rain stopped our match, I…",
+            "example": "If rain stopped our match, I would look for an indoor game."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that cloud drops join and become heavy."
+            "phrase": "A quiet shower sounds more relaxing…",
+            "example": "A quiet shower sounds more relaxing than a loud storm."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, rain gives water to plants and rivers."
+            "phrase": "I would photograph the street's reflections…",
+            "example": "I would photograph the street's reflections after dark."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare rain with a related topic."
+            "phrase": "The first drops can make everyone…",
+            "example": "The first drops can make everyone look up at once."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that rainfall differs from place to place."
+            "phrase": "I wonder why some places receive…",
+            "example": "I wonder why some places receive rain while others stay dry."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because warm air can carry water vapor upward."
+            "phrase": "A raincoat seems more useful than…",
+            "example": "A raincoat seems more useful than an umbrella in wind."
           }
         ]
       }
@@ -11203,7 +11203,7 @@
     "category": "weather and nature",
     "levels": {
       "A1": {
-        "briefing": "Snow is frozen water that falls from clouds. Snowflakes form from tiny ice crystals. Snow can cover and protect plant roots.",
+        "briefing": "Fresh snow can make a street quiet. A snowflake may melt on your hand. Animals leave clear tracks in soft snow.",
         "facts": [
           "Snowflakes form from tiny ice crystals.",
           "Snow can cover and protect plant roots.",
@@ -11217,84 +11217,84 @@
         ],
         "vocab": [
           {
-            "word": "Snow",
-            "definition": "Snow is frozen water that falls from clouds.",
+            "word": "snowflake",
+            "definition": "A small piece of falling snow",
             "partOfSpeech": "noun",
-            "example": "Snow is frozen water that falls from clouds.",
-            "starter": "I want to discuss snow because…"
+            "example": "A snowflake may melt on your hand.",
+            "starter": "If I saw snowflake, I would…"
           },
           {
-            "word": "snowflakes",
-            "definition": "Small pieces of falling snow",
+            "word": "snowdrift",
+            "definition": "A pile of snow made by wind",
+            "partOfSpeech": "noun",
+            "example": "I would step around a snowdrift.",
+            "starter": "I could describe snowdrift by…"
+          },
+          {
+            "word": "tracks",
+            "definition": "Marks left by moving feet",
+            "partOfSpeech": "noun",
+            "example": "Animals leave clear tracks in soft snow.",
+            "starter": "I wonder whether tracks can…"
+          },
+          {
+            "word": "frost",
+            "definition": "A thin covering of ice",
+            "partOfSpeech": "noun",
+            "example": "Frost might shine on the window.",
+            "starter": "One question about frost is…"
+          },
+          {
+            "word": "slush",
+            "definition": "Wet partly melted snow",
+            "partOfSpeech": "noun",
+            "example": "My boots could splash in slush.",
+            "starter": "I would compare slush with…"
+          },
+          {
+            "word": "snowball",
+            "definition": "A ball made of packed snow",
+            "partOfSpeech": "noun",
+            "example": "I would make one snowball.",
+            "starter": "My idea about snowball is…"
+          },
+          {
+            "word": "crystal",
+            "definition": "A solid with an orderly shape",
             "partOfSpeech": "noun",
             "example": "Snowflakes form from tiny ice crystals.",
-            "starter": "I can use snowflakes to explain…"
-          },
-          {
-            "word": "ice crystals",
-            "definition": "Small solid pieces of frozen water",
-            "partOfSpeech": "noun",
-            "example": "Snowflakes form from tiny ice crystals.",
-            "starter": "When I hear ice crystals, I think of…"
-          },
-          {
-            "word": "melt",
-            "definition": "To change from solid to liquid",
-            "partOfSpeech": "verb",
-            "example": "Sunlight can melt snow into water.",
-            "starter": "A question about melt is…"
-          },
-          {
-            "word": "nature",
-            "definition": "Plants, animals, land, and weather.",
-            "partOfSpeech": "noun",
-            "example": "We can find snow in nature.",
-            "starter": "I know about nature because…"
-          },
-          {
-            "word": "water",
-            "definition": "The clear liquid living things need.",
-            "partOfSpeech": "noun",
-            "example": "Water is connected with snow.",
-            "starter": "My picture of water shows…"
-          },
-          {
-            "word": "air",
-            "definition": "The gas around Earth that we breathe.",
-            "partOfSpeech": "noun",
-            "example": "Air can affect snow.",
-            "starter": "I want to ask about air because…"
+            "starter": "I might use crystal when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "I think…",
-            "example": "I think snowflakes form from tiny ice crystals."
+            "phrase": "I would catch…",
+            "example": "I would catch a snowflake."
           },
           {
-            "phrase": "I can see…",
-            "example": "I can see snow in pictures."
+            "phrase": "My boots might…",
+            "example": "My boots might sink deep."
           },
           {
-            "phrase": "I would choose…",
-            "example": "I would choose to learn about snow."
+            "phrase": "I like the quiet…",
+            "example": "I like the quiet after snow."
           },
           {
-            "phrase": "I wonder…",
-            "example": "I wonder about snow."
+            "phrase": "A rabbit could leave…",
+            "example": "A rabbit could leave little tracks."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, sunlight can melt snow into water."
+            "phrase": "I would build a small…",
+            "example": "I would build a small snow house."
           },
           {
-            "phrase": "What if…",
-            "example": "What if we studied snow?"
+            "phrase": "My hands need…",
+            "example": "My hands need warm gloves."
           }
         ]
       },
       "A2": {
-        "briefing": "Snow is frozen water that falls from clouds. Snow can cover and protect plant roots. Sunlight can melt snow into water. Wet snow can stick together in balls.",
+        "briefing": "Fresh snow can make a street quiet. Snow acts like a blanket that can slow heat loss from the ground. Its crystals scatter light, making a snowy field look bright.",
         "facts": [
           "Snowflakes form from tiny ice crystals.",
           "Snow can cover and protect plant roots.",
@@ -11308,84 +11308,84 @@
         ],
         "vocab": [
           {
-            "word": "Snow",
-            "definition": "Snow is frozen water that falls from clouds.",
-            "partOfSpeech": "noun",
-            "example": "Snow is frozen water that falls from clouds.",
-            "starter": "I want to discuss snow because…"
-          },
-          {
-            "word": "snowflakes",
-            "definition": "Small pieces of falling snow",
+            "word": "snowflake",
+            "definition": "A small piece of falling snow",
             "partOfSpeech": "noun",
             "example": "Snowflakes form from tiny ice crystals.",
-            "starter": "I can use snowflakes to explain…"
+            "starter": "If I saw snowflake, I would…"
           },
           {
-            "word": "ice crystals",
-            "definition": "Small solid pieces of frozen water",
+            "word": "snowdrift",
+            "definition": "A pile of snow made by wind",
             "partOfSpeech": "noun",
-            "example": "Snowflakes form from tiny ice crystals.",
-            "starter": "When I hear ice crystals, I think of…"
+            "example": "A snowdrift can make a familiar path look strange.",
+            "starter": "I could describe snowdrift by…"
           },
           {
-            "word": "melt",
-            "definition": "To change from solid to liquid",
-            "partOfSpeech": "verb",
-            "example": "Sunlight can melt snow into water.",
-            "starter": "A question about melt is…"
-          },
-          {
-            "word": "roots",
-            "definition": "Plant parts that take water from soil",
+            "word": "tracks",
+            "definition": "Marks left by moving feet",
             "partOfSpeech": "noun",
-            "example": "Snow can cover and protect plant roots.",
-            "starter": "I would compare roots with…"
+            "example": "I would follow rabbit tracks.",
+            "starter": "I wonder whether tracks can…"
           },
           {
-            "word": "balls",
-            "definition": "Round shapes made from snow",
+            "word": "frost",
+            "definition": "A thin covering of ice",
             "partOfSpeech": "noun",
-            "example": "Wet snow can stick together in balls.",
-            "starter": "One example of balls is…"
+            "example": "Frost might shine on the window.",
+            "starter": "One question about frost is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "slush",
+            "definition": "Wet partly melted snow",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find snow.",
-            "starter": "I want to compare climate with…"
+            "example": "My boots could splash in slush.",
+            "starter": "I would compare slush with…"
+          },
+          {
+            "word": "snowball",
+            "definition": "A ball made of packed snow",
+            "partOfSpeech": "noun",
+            "example": "I would make one snowball.",
+            "starter": "My idea about snowball is…"
+          },
+          {
+            "word": "crystal",
+            "definition": "A solid with an orderly shape",
+            "partOfSpeech": "noun",
+            "example": "Its crystals scatter light, making a snowy field look bright.",
+            "starter": "I might use crystal when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that snowflakes form from tiny ice crystals."
+            "phrase": "I would catch…",
+            "example": "I would catch a snowflake."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that snow can cover and protect plant roots."
+            "phrase": "My boots might…",
+            "example": "My boots might sink deep."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, sunlight can melt snow into water."
+            "phrase": "I like the quiet…",
+            "example": "I like the quiet after snow."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare snow with a related topic."
+            "phrase": "I wonder why some snow packs…",
+            "example": "I wonder why some snow packs firmly and other snow falls apart."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that wet snow can stick together in balls."
+            "phrase": "I would bring dry gloves for…",
+            "example": "I would bring dry gloves for a long walk."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because snowflakes form from tiny ice crystals."
+            "phrase": "A snowdrift can make a familiar…",
+            "example": "A snowdrift can make a familiar path look strange."
           }
         ]
       },
       "B1": {
-        "briefing": "Snow is frozen water that falls from clouds. Snowflakes form from tiny ice crystals. Sunlight can melt snow into water. Wet snow can stick together in balls.",
+        "briefing": "Snow acts like a blanket that can slow heat loss from the ground. Its crystals scatter light, making a snowy field look bright. Different snow conditions change how easily people can build with it.",
         "facts": [
           "Snowflakes form from tiny ice crystals.",
           "Snow can cover and protect plant roots.",
@@ -11399,79 +11399,79 @@
         ],
         "vocab": [
           {
-            "word": "Snow",
-            "definition": "Snow is frozen water that falls from clouds.",
-            "partOfSpeech": "noun",
-            "example": "Snow is frozen water that falls from clouds.",
-            "starter": "I want to discuss snow because…"
-          },
-          {
-            "word": "snowflakes",
-            "definition": "Small pieces of falling snow",
+            "word": "snowflake",
+            "definition": "A small piece of falling snow",
             "partOfSpeech": "noun",
             "example": "Snowflakes form from tiny ice crystals.",
-            "starter": "I can use snowflakes to explain…"
+            "starter": "If I saw snowflake, I would…"
           },
           {
-            "word": "ice crystals",
-            "definition": "Small solid pieces of frozen water",
+            "word": "snowdrift",
+            "definition": "A pile of snow made by wind",
             "partOfSpeech": "noun",
-            "example": "Snowflakes form from tiny ice crystals.",
-            "starter": "When I hear ice crystals, I think of…"
+            "example": "A snowdrift can make a familiar path look strange.",
+            "starter": "I could describe snowdrift by…"
           },
           {
-            "word": "melt",
-            "definition": "To change from solid to liquid",
-            "partOfSpeech": "verb",
-            "example": "Sunlight can melt snow into water.",
-            "starter": "A question about melt is…"
-          },
-          {
-            "word": "roots",
-            "definition": "Plant parts that take water from soil",
+            "word": "tracks",
+            "definition": "Marks left by moving feet",
             "partOfSpeech": "noun",
-            "example": "Snow can cover and protect plant roots.",
-            "starter": "I would compare roots with…"
+            "example": "I would rather follow animal tracks than throw snowballs.",
+            "starter": "I wonder whether tracks can…"
           },
           {
-            "word": "balls",
-            "definition": "Round shapes made from snow",
+            "word": "frost",
+            "definition": "A thin covering of ice",
             "partOfSpeech": "noun",
-            "example": "Wet snow can stick together in balls.",
-            "starter": "One example of balls is…"
+            "example": "Frost might shine on the window.",
+            "starter": "One question about frost is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "slush",
+            "definition": "Wet partly melted snow",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find snow.",
-            "starter": "I want to compare climate with…"
+            "example": "My boots could splash in slush.",
+            "starter": "I would compare slush with…"
+          },
+          {
+            "word": "snowball",
+            "definition": "A ball made of packed snow",
+            "partOfSpeech": "noun",
+            "example": "I would rather follow animal tracks than throw snowballs.",
+            "starter": "My idea about snowball is…"
+          },
+          {
+            "word": "crystal",
+            "definition": "A solid with an orderly shape",
+            "partOfSpeech": "noun",
+            "example": "Its crystals scatter light, making a snowy field look bright.",
+            "starter": "I might use crystal when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that snowflakes form from tiny ice crystals."
+            "phrase": "If I woke to deep snow,…",
+            "example": "If I woke to deep snow, I would listen before looking outside."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that snow can cover and protect plant roots."
+            "phrase": "I would rather follow animal tracks…",
+            "example": "I would rather follow animal tracks than throw snowballs."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, sunlight can melt snow into water."
+            "phrase": "A field of crystals could look…",
+            "example": "A field of crystals could look bright even on a cloudy day."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare snow with a related topic."
+            "phrase": "I wonder why some snow packs…",
+            "example": "I wonder why some snow packs firmly and other snow falls apart."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that wet snow can stick together in balls."
+            "phrase": "I would bring dry gloves for…",
+            "example": "I would bring dry gloves for a long walk."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because snowflakes form from tiny ice crystals."
+            "phrase": "A snowdrift can make a familiar…",
+            "example": "A snowdrift can make a familiar path look strange."
           }
         ]
       }
@@ -11489,7 +11489,7 @@
     "category": "weather and nature",
     "levels": {
       "A1": {
-        "briefing": "Wind is air moving from place to place. Uneven heating helps create moving air. Wind can push clouds across the sky.",
+        "briefing": "Wind can make tree leaves turn over. A strong gust may lift loose paper. We can feel moving air on our faces.",
         "facts": [
           "Uneven heating helps create moving air.",
           "Wind can push clouds across the sky.",
@@ -11503,84 +11503,84 @@
         ],
         "vocab": [
           {
-            "word": "Wind",
-            "definition": "Wind is air moving from place to place.",
+            "word": "breeze",
+            "definition": "A gentle wind",
             "partOfSpeech": "noun",
-            "example": "Wind is air moving from place to place.",
-            "starter": "I want to discuss wind because…"
+            "example": "A breeze could cool my face.",
+            "starter": "If I saw breeze, I would…"
           },
           {
-            "word": "air",
-            "definition": "The gas surrounding Earth",
+            "word": "gust",
+            "definition": "A short strong burst of wind",
             "partOfSpeech": "noun",
-            "example": "Wind is air moving from place to place.",
-            "starter": "I can use air to explain…"
+            "example": "A strong gust may lift loose paper.",
+            "starter": "I could describe gust by…"
           },
           {
-            "word": "seeds",
-            "definition": "Parts of plants that can grow into new plants",
+            "word": "kite",
+            "definition": "A light object flown on a string",
             "partOfSpeech": "noun",
-            "example": "Some seeds travel on the wind.",
-            "starter": "When I hear seeds, I think of…"
+            "example": "My kite might fly high.",
+            "starter": "I wonder whether kite can…"
           },
           {
-            "word": "sails",
-            "definition": "Large cloth surfaces that catch wind",
+            "word": "sail",
+            "definition": "Cloth that catches wind to move a boat",
             "partOfSpeech": "noun",
             "example": "People use wind to move sails.",
-            "starter": "A question about sails is…"
+            "starter": "One question about sail is…"
           },
           {
-            "word": "nature",
-            "definition": "Plants, animals, land, and weather.",
-            "partOfSpeech": "noun",
-            "example": "We can find wind in nature.",
-            "starter": "I know about nature because…"
+            "word": "wind direction",
+            "definition": "The way the wind is moving",
+            "partOfSpeech": "phrase",
+            "example": "I would check wind direction first.",
+            "starter": "I would compare wind direction with…"
           },
           {
-            "word": "water",
-            "definition": "The clear liquid living things need.",
-            "partOfSpeech": "noun",
-            "example": "Water is connected with wind.",
-            "starter": "My picture of water shows…"
+            "word": "weather vane",
+            "definition": "A tool showing wind direction",
+            "partOfSpeech": "phrase",
+            "example": "A weather vane could spin today.",
+            "starter": "My idea about weather vane is…"
           },
           {
-            "word": "grow",
-            "definition": "To become larger over time.",
-            "partOfSpeech": "verb",
-            "example": "We can watch ideas about wind grow.",
-            "starter": "I want to ask about grow because…"
+            "word": "seed dispersal",
+            "definition": "The spread of seeds away from plants",
+            "partOfSpeech": "phrase",
+            "example": "Wind can help seed dispersal.",
+            "starter": "I might use seed dispersal when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "I think…",
-            "example": "I think uneven heating helps create moving air."
+            "phrase": "I would hold my…",
+            "example": "I would hold my hat tightly."
           },
           {
-            "phrase": "I can see…",
-            "example": "I can see wind in pictures."
+            "phrase": "A breeze could cool…",
+            "example": "A breeze could cool my face."
           },
           {
-            "phrase": "I would choose…",
-            "example": "I would choose to learn about wind."
+            "phrase": "My kite might…",
+            "example": "My kite might fly high."
           },
           {
-            "phrase": "I wonder…",
-            "example": "I wonder about wind."
+            "phrase": "I like leaves dancing…",
+            "example": "I like leaves dancing in wind."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, some seeds travel on the wind."
+            "phrase": "A gust could move…",
+            "example": "A gust could move my paper."
           },
           {
-            "phrase": "What if…",
-            "example": "What if we studied wind?"
+            "phrase": "I would watch flags to…",
+            "example": "I would watch flags to see direction."
           }
         ]
       },
       "A2": {
-        "briefing": "Wind is air moving from place to place. Wind can push clouds across the sky. Some seeds travel on the wind. People use wind to move sails.",
+        "briefing": "Wind can make tree leaves turn over. Air moves as warm and cool regions develop different pressures. Trees can bend without breaking when gusts pass through.",
         "facts": [
           "Uneven heating helps create moving air.",
           "Wind can push clouds across the sky.",
@@ -11594,84 +11594,84 @@
         ],
         "vocab": [
           {
-            "word": "Wind",
-            "definition": "Wind is air moving from place to place.",
+            "word": "breeze",
+            "definition": "A gentle wind",
             "partOfSpeech": "noun",
-            "example": "Wind is air moving from place to place.",
-            "starter": "I want to discuss wind because…"
+            "example": "A breeze could cool my face.",
+            "starter": "If I saw breeze, I would…"
           },
           {
-            "word": "air",
-            "definition": "The gas surrounding Earth",
+            "word": "gust",
+            "definition": "A short strong burst of wind",
             "partOfSpeech": "noun",
-            "example": "Wind is air moving from place to place.",
-            "starter": "I can use air to explain…"
+            "example": "Trees can bend without breaking when gusts pass through.",
+            "starter": "I could describe gust by…"
           },
           {
-            "word": "seeds",
-            "definition": "Parts of plants that can grow into new plants",
+            "word": "kite",
+            "definition": "A light object flown on a string",
             "partOfSpeech": "noun",
-            "example": "Some seeds travel on the wind.",
-            "starter": "When I hear seeds, I think of…"
+            "example": "My kite might fly high.",
+            "starter": "I wonder whether kite can…"
           },
           {
-            "word": "sails",
-            "definition": "Large cloth surfaces that catch wind",
+            "word": "sail",
+            "definition": "Cloth that catches wind to move a boat",
             "partOfSpeech": "noun",
             "example": "People use wind to move sails.",
-            "starter": "A question about sails is…"
+            "starter": "One question about sail is…"
           },
           {
-            "word": "clouds",
-            "definition": "Groups of water drops in the sky",
-            "partOfSpeech": "noun",
-            "example": "Wind can push clouds across the sky.",
-            "starter": "I would compare clouds with…"
+            "word": "wind direction",
+            "definition": "The way the wind is moving",
+            "partOfSpeech": "phrase",
+            "example": "The moving leaves can show wind direction without a tool.",
+            "starter": "I would compare wind direction with…"
           },
           {
-            "word": "sky",
-            "definition": "The open space seen above the ground",
-            "partOfSpeech": "noun",
-            "example": "Wind can push clouds across the sky.",
-            "starter": "One example of sky is…"
+            "word": "weather vane",
+            "definition": "A tool showing wind direction",
+            "partOfSpeech": "phrase",
+            "example": "A weather vane would make a useful classroom project.",
+            "starter": "My idea about weather vane is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
-            "partOfSpeech": "noun",
-            "example": "Climate can shape where we find wind.",
-            "starter": "I want to compare climate with…"
+            "word": "seed dispersal",
+            "definition": "The spread of seeds away from plants",
+            "partOfSpeech": "phrase",
+            "example": "Wind can help seed dispersal.",
+            "starter": "I might use seed dispersal when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that uneven heating helps create moving air."
+            "phrase": "I would hold my…",
+            "example": "I would hold my hat tightly."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that wind can push clouds across the sky."
+            "phrase": "A breeze could cool…",
+            "example": "A breeze could cool my face."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, some seeds travel on the wind."
+            "phrase": "My kite might…",
+            "example": "My kite might fly high."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare wind with a related topic."
+            "phrase": "The moving leaves can show wind…",
+            "example": "The moving leaves can show wind direction without a tool."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that people use wind to move sails."
+            "phrase": "I wonder how far a seed…",
+            "example": "I wonder how far a seed can travel on one gust."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because uneven heating helps create moving air."
+            "phrase": "A weather vane would make a…",
+            "example": "A weather vane would make a useful classroom project."
           }
         ]
       },
       "B1": {
-        "briefing": "Wind is air moving from place to place. Uneven heating helps create moving air. Some seeds travel on the wind. People use wind to move sails.",
+        "briefing": "Air moves as warm and cool regions develop different pressures. Trees can bend without breaking when gusts pass through. A sailor studies wind direction before setting a sail.",
         "facts": [
           "Uneven heating helps create moving air.",
           "Wind can push clouds across the sky.",
@@ -11685,79 +11685,79 @@
         ],
         "vocab": [
           {
-            "word": "Wind",
-            "definition": "Wind is air moving from place to place.",
+            "word": "breeze",
+            "definition": "A gentle wind",
             "partOfSpeech": "noun",
-            "example": "Wind is air moving from place to place.",
-            "starter": "I want to discuss wind because…"
+            "example": "I would rather sail with a light breeze than a fierce wind.",
+            "starter": "If I saw breeze, I would…"
           },
           {
-            "word": "air",
-            "definition": "The gas surrounding Earth",
+            "word": "gust",
+            "definition": "A short strong burst of wind",
             "partOfSpeech": "noun",
-            "example": "Wind is air moving from place to place.",
-            "starter": "I can use air to explain…"
+            "example": "Trees can bend without breaking when gusts pass through.",
+            "starter": "I could describe gust by…"
           },
           {
-            "word": "seeds",
-            "definition": "Parts of plants that can grow into new plants",
+            "word": "kite",
+            "definition": "A light object flown on a string",
             "partOfSpeech": "noun",
-            "example": "Some seeds travel on the wind.",
-            "starter": "When I hear seeds, I think of…"
+            "example": "If I planned a kite day, I would choose a wide open field.",
+            "starter": "I wonder whether kite can…"
           },
           {
-            "word": "sails",
-            "definition": "Large cloth surfaces that catch wind",
+            "word": "sail",
+            "definition": "Cloth that catches wind to move a boat",
             "partOfSpeech": "noun",
-            "example": "People use wind to move sails.",
-            "starter": "A question about sails is…"
+            "example": "A sailor studies wind direction before setting a sail.",
+            "starter": "One question about sail is…"
           },
           {
-            "word": "clouds",
-            "definition": "Groups of water drops in the sky",
-            "partOfSpeech": "noun",
-            "example": "Wind can push clouds across the sky.",
-            "starter": "I would compare clouds with…"
+            "word": "wind direction",
+            "definition": "The way the wind is moving",
+            "partOfSpeech": "phrase",
+            "example": "A sailor studies wind direction before setting a sail.",
+            "starter": "I would compare wind direction with…"
           },
           {
-            "word": "sky",
-            "definition": "The open space seen above the ground",
-            "partOfSpeech": "noun",
-            "example": "Wind can push clouds across the sky.",
-            "starter": "One example of sky is…"
+            "word": "weather vane",
+            "definition": "A tool showing wind direction",
+            "partOfSpeech": "phrase",
+            "example": "A weather vane would make a useful classroom project.",
+            "starter": "My idea about weather vane is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
-            "partOfSpeech": "noun",
-            "example": "Climate can shape where we find wind.",
-            "starter": "I want to compare climate with…"
+            "word": "seed dispersal",
+            "definition": "The spread of seeds away from plants",
+            "partOfSpeech": "phrase",
+            "example": "Wind can help seed dispersal.",
+            "starter": "I might use seed dispersal when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that uneven heating helps create moving air."
+            "phrase": "If I planned a kite day,…",
+            "example": "If I planned a kite day, I would choose a wide open field."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that wind can push clouds across the sky."
+            "phrase": "A strong gust can turn a…",
+            "example": "A strong gust can turn a calm walk into a challenge."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, some seeds travel on the wind."
+            "phrase": "I would rather sail with a…",
+            "example": "I would rather sail with a light breeze than a fierce wind."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare wind with a related topic."
+            "phrase": "The moving leaves can show wind…",
+            "example": "The moving leaves can show wind direction without a tool."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that people use wind to move sails."
+            "phrase": "I wonder how far a seed…",
+            "example": "I wonder how far a seed can travel on one gust."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because uneven heating helps create moving air."
+            "phrase": "A weather vane would make a…",
+            "example": "A weather vane would make a useful classroom project."
           }
         ]
       }
@@ -11776,7 +11776,7 @@
     "category": "weather and nature",
     "levels": {
       "A1": {
-        "briefing": "Clouds are tiny water drops or ice crystals. Warm air rises and cools into clouds. Different clouds have different shapes.",
+        "briefing": "Clouds can look thin, thick, or fluffy. They move at different speeds. A cloud's shadow can cross a field.",
         "facts": [
           "Warm air rises and cools into clouds.",
           "Different clouds have different shapes.",
@@ -11790,84 +11790,84 @@
         ],
         "vocab": [
           {
-            "word": "Clouds",
-            "definition": "Clouds are tiny water drops or ice crystals.",
+            "word": "cumulus",
+            "definition": "A puffy cloud with a flat base",
             "partOfSpeech": "noun",
-            "example": "Clouds are tiny water drops or ice crystals.",
-            "starter": "I want to discuss clouds because…"
+            "example": "I would draw a cumulus cloud.",
+            "starter": "If I saw cumulus, I would…"
           },
           {
-            "word": "water drops",
-            "definition": "Tiny round pieces of liquid water",
+            "word": "cirrus",
+            "definition": "A high thin wispy cloud",
             "partOfSpeech": "noun",
-            "example": "Clouds are tiny water drops or ice crystals.",
-            "starter": "I can use water drops to explain…"
+            "example": "Cirrus clouds look like feathers.",
+            "starter": "I could describe cirrus by…"
           },
           {
-            "word": "shapes",
-            "definition": "Outlines or forms",
+            "word": "shadow",
+            "definition": "A dark patch where light is blocked",
             "partOfSpeech": "noun",
-            "example": "Different clouds have different shapes.",
-            "starter": "When I hear shapes, I think of…"
+            "example": "A cloud's shadow can cross a field.",
+            "starter": "I wonder whether shadow can…"
           },
           {
-            "word": "shade",
-            "definition": "A darker area sheltered from sunlight",
+            "word": "mist",
+            "definition": "Tiny water drops hanging near the ground",
             "partOfSpeech": "noun",
-            "example": "Clouds can shade the ground below.",
-            "starter": "A question about shade is…"
+            "example": "Mist could hide the hill.",
+            "starter": "One question about mist is…"
           },
           {
-            "word": "nature",
-            "definition": "Plants, animals, land, and weather.",
-            "partOfSpeech": "noun",
-            "example": "We can find clouds in nature.",
-            "starter": "I know about nature because…"
+            "word": "cloud layer",
+            "definition": "A broad sheet of clouds",
+            "partOfSpeech": "phrase",
+            "example": "A cloud layer might cover the Sun.",
+            "starter": "I would compare cloud layer with…"
           },
           {
-            "word": "water",
-            "definition": "The clear liquid living things need.",
+            "word": "droplet",
+            "definition": "A very small drop of liquid",
             "partOfSpeech": "noun",
-            "example": "Water is connected with clouds.",
-            "starter": "My picture of water shows…"
+            "example": "A cloud droplet is tiny.",
+            "starter": "My idea about droplet is…"
           },
           {
-            "word": "air",
-            "definition": "The gas around Earth that we breathe.",
+            "word": "skywatching",
+            "definition": "Careful observation of the sky",
             "partOfSpeech": "noun",
-            "example": "Air can affect clouds.",
-            "starter": "I want to ask about air because…"
+            "example": "Skywatching could be our class game.",
+            "starter": "I might use skywatching when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "I think…",
-            "example": "I think warm air rises and cools into clouds."
+            "phrase": "I would draw a…",
+            "example": "I would draw a cloud dragon."
           },
           {
-            "phrase": "I can see…",
-            "example": "I can see clouds in pictures."
+            "phrase": "That fluffy cloud…",
+            "example": "That fluffy cloud looks soft."
           },
           {
-            "phrase": "I would choose…",
-            "example": "I would choose to learn about clouds."
+            "phrase": "A dark cloud might…",
+            "example": "A dark cloud might bring rain."
           },
           {
-            "phrase": "I wonder…",
-            "example": "I wonder about clouds."
+            "phrase": "I like cloud shadows…",
+            "example": "I like cloud shadows on grass."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, some clouds bring rain or snow."
+            "phrase": "The clouds could hide…",
+            "example": "The clouds could hide the Sun."
           },
           {
-            "phrase": "What if…",
-            "example": "What if we studied clouds?"
+            "phrase": "I want to watch…",
+            "example": "I want to watch them move."
           }
         ]
       },
       "A2": {
-        "briefing": "Clouds are tiny water drops or ice crystals. Different clouds have different shapes. Some clouds bring rain or snow. Clouds can shade the ground below.",
+        "briefing": "Clouds can look thin, thick, or fluffy. Clouds form when rising air cools and water gathers into tiny drops. High thin clouds can differ from low heavy ones.",
         "facts": [
           "Warm air rises and cools into clouds.",
           "Different clouds have different shapes.",
@@ -11881,84 +11881,84 @@
         ],
         "vocab": [
           {
-            "word": "Clouds",
-            "definition": "Clouds are tiny water drops or ice crystals.",
+            "word": "cumulus",
+            "definition": "A puffy cloud with a flat base",
             "partOfSpeech": "noun",
-            "example": "Clouds are tiny water drops or ice crystals.",
-            "starter": "I want to discuss clouds because…"
+            "example": "I would draw a cumulus cloud.",
+            "starter": "If I saw cumulus, I would…"
           },
           {
-            "word": "water drops",
-            "definition": "Tiny round pieces of liquid water",
+            "word": "cirrus",
+            "definition": "A high thin wispy cloud",
             "partOfSpeech": "noun",
-            "example": "Clouds are tiny water drops or ice crystals.",
-            "starter": "I can use water drops to explain…"
+            "example": "Cirrus clouds look like feathers.",
+            "starter": "I could describe cirrus by…"
           },
           {
-            "word": "shapes",
-            "definition": "Outlines or forms",
+            "word": "shadow",
+            "definition": "A dark patch where light is blocked",
             "partOfSpeech": "noun",
-            "example": "Different clouds have different shapes.",
-            "starter": "When I hear shapes, I think of…"
+            "example": "A cloud shadow crossed the field.",
+            "starter": "I wonder whether shadow can…"
           },
           {
-            "word": "shade",
-            "definition": "A darker area sheltered from sunlight",
+            "word": "mist",
+            "definition": "Tiny water drops hanging near the ground",
             "partOfSpeech": "noun",
-            "example": "Clouds can shade the ground below.",
-            "starter": "A question about shade is…"
+            "example": "Mist could hide the hill.",
+            "starter": "One question about mist is…"
           },
           {
-            "word": "ice crystals",
-            "definition": "Small solid pieces of frozen water",
-            "partOfSpeech": "noun",
-            "example": "Clouds are tiny water drops or ice crystals.",
-            "starter": "I would compare ice crystals with…"
+            "word": "cloud layer",
+            "definition": "A broad sheet of clouds",
+            "partOfSpeech": "phrase",
+            "example": "A cloud layer might cover the Sun.",
+            "starter": "I would compare cloud layer with…"
           },
           {
-            "word": "ground",
-            "definition": "The land beneath our feet",
+            "word": "droplet",
+            "definition": "A very small drop of liquid",
             "partOfSpeech": "noun",
-            "example": "Clouds can shade the ground below.",
-            "starter": "One example of ground is…"
+            "example": "I wonder how a tiny droplet stays above us.",
+            "starter": "My idea about droplet is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "skywatching",
+            "definition": "Careful observation of the sky",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find clouds.",
-            "starter": "I want to compare climate with…"
+            "example": "Skywatching could be our class game.",
+            "starter": "I might use skywatching when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that warm air rises and cools into clouds."
+            "phrase": "I would draw a…",
+            "example": "I would draw a cloud dragon."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that different clouds have different shapes."
+            "phrase": "That fluffy cloud…",
+            "example": "That fluffy cloud looks soft."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, some clouds bring rain or snow."
+            "phrase": "A dark cloud might…",
+            "example": "A dark cloud might bring rain."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare clouds with a related topic."
+            "phrase": "Thin high clouds could make me…",
+            "example": "Thin high clouds could make me wonder about coming weather."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that clouds can shade the ground below."
+            "phrase": "I wonder how a tiny droplet…",
+            "example": "I wonder how a tiny droplet stays above us."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because warm air rises and cools into clouds."
+            "phrase": "A changing sky makes the same…",
+            "example": "A changing sky makes the same landscape look new."
           }
         ]
       },
       "B1": {
-        "briefing": "Clouds are tiny water drops or ice crystals. Warm air rises and cools into clouds. Some clouds bring rain or snow. Clouds can shade the ground below.",
+        "briefing": "Clouds form when rising air cools and water gathers into tiny drops. High thin clouds can differ from low heavy ones. Watching the sky can reveal a change before rain begins.",
         "facts": [
           "Warm air rises and cools into clouds.",
           "Different clouds have different shapes.",
@@ -11972,79 +11972,79 @@
         ],
         "vocab": [
           {
-            "word": "Clouds",
-            "definition": "Clouds are tiny water drops or ice crystals.",
+            "word": "cumulus",
+            "definition": "A puffy cloud with a flat base",
             "partOfSpeech": "noun",
-            "example": "Clouds are tiny water drops or ice crystals.",
-            "starter": "I want to discuss clouds because…"
+            "example": "I would draw a cumulus cloud.",
+            "starter": "If I saw cumulus, I would…"
           },
           {
-            "word": "water drops",
-            "definition": "Tiny round pieces of liquid water",
+            "word": "cirrus",
+            "definition": "A high thin wispy cloud",
             "partOfSpeech": "noun",
-            "example": "Clouds are tiny water drops or ice crystals.",
-            "starter": "I can use water drops to explain…"
+            "example": "Cirrus clouds look like feathers.",
+            "starter": "I could describe cirrus by…"
           },
           {
-            "word": "shapes",
-            "definition": "Outlines or forms",
+            "word": "shadow",
+            "definition": "A dark patch where light is blocked",
             "partOfSpeech": "noun",
-            "example": "Different clouds have different shapes.",
-            "starter": "When I hear shapes, I think of…"
+            "example": "A cloud shadow moving across a field would make a lovely film.",
+            "starter": "I wonder whether shadow can…"
           },
           {
-            "word": "shade",
-            "definition": "A darker area sheltered from sunlight",
+            "word": "mist",
+            "definition": "Tiny water drops hanging near the ground",
             "partOfSpeech": "noun",
-            "example": "Clouds can shade the ground below.",
-            "starter": "A question about shade is…"
+            "example": "Mist could hide the hill.",
+            "starter": "One question about mist is…"
           },
           {
-            "word": "ice crystals",
-            "definition": "Small solid pieces of frozen water",
-            "partOfSpeech": "noun",
-            "example": "Clouds are tiny water drops or ice crystals.",
-            "starter": "I would compare ice crystals with…"
+            "word": "cloud layer",
+            "definition": "A broad sheet of clouds",
+            "partOfSpeech": "phrase",
+            "example": "A cloud layer might cover the Sun.",
+            "starter": "I would compare cloud layer with…"
           },
           {
-            "word": "ground",
-            "definition": "The land beneath our feet",
+            "word": "droplet",
+            "definition": "A very small drop of liquid",
             "partOfSpeech": "noun",
-            "example": "Clouds can shade the ground below.",
-            "starter": "One example of ground is…"
+            "example": "I wonder how a tiny droplet stays above us.",
+            "starter": "My idea about droplet is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "skywatching",
+            "definition": "Careful observation of the sky",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find clouds.",
-            "starter": "I want to compare climate with…"
+            "example": "If I spent ten minutes skywatching, I might notice several kinds of cloud.",
+            "starter": "I might use skywatching when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that warm air rises and cools into clouds."
+            "phrase": "If I spent ten minutes skywatching,…",
+            "example": "If I spent ten minutes skywatching, I might notice several kinds of cloud."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that different clouds have different shapes."
+            "phrase": "A cloud shadow moving across a…",
+            "example": "A cloud shadow moving across a field would make a lovely film."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, some clouds bring rain or snow."
+            "phrase": "I would rather name shapes than…",
+            "example": "I would rather name shapes than memorize every cloud type."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare clouds with a related topic."
+            "phrase": "Thin high clouds could make me…",
+            "example": "Thin high clouds could make me wonder about coming weather."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that clouds can shade the ground below."
+            "phrase": "I wonder how a tiny droplet…",
+            "example": "I wonder how a tiny droplet stays above us."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because warm air rises and cools into clouds."
+            "phrase": "A changing sky makes the same…",
+            "example": "A changing sky makes the same landscape look new."
           }
         ]
       }
@@ -12063,7 +12063,7 @@
     "category": "weather and nature",
     "levels": {
       "A1": {
-        "briefing": "Rainbows appear when light meets water drops. Water bends and separates sunlight colors. A rainbow appears opposite the Sun.",
+        "briefing": "A rainbow can appear in spray near a waterfall. You see its colors in a curved band. Moving your feet changes what you see.",
         "facts": [
           "Water bends and separates sunlight colors.",
           "A rainbow appears opposite the Sun.",
@@ -12077,84 +12077,84 @@
         ],
         "vocab": [
           {
-            "word": "Rainbows",
-            "definition": "Rainbows appear when light meets water drops.",
+            "word": "arc",
+            "definition": "A curved line or band",
             "partOfSpeech": "noun",
-            "example": "Rainbows appear when light meets water drops.",
-            "starter": "I want to discuss rainbows because…"
+            "example": "I would draw a big color arc.",
+            "starter": "If I saw arc, I would…"
           },
           {
-            "word": "light",
-            "definition": "Energy that lets our eyes see",
-            "partOfSpeech": "noun",
-            "example": "Rainbows appear when light meets water drops.",
-            "starter": "I can use light to explain…"
-          },
-          {
-            "word": "colors",
-            "definition": "Different kinds of visible light",
+            "word": "sunlight",
+            "definition": "Light from the Sun",
             "partOfSpeech": "noun",
             "example": "Water bends and separates sunlight colors.",
-            "starter": "When I hear colors, I think of…"
+            "starter": "I could describe sunlight by…"
           },
           {
-            "word": "opposite",
-            "definition": "On the other side",
+            "word": "droplet",
+            "definition": "A tiny drop of water",
             "partOfSpeech": "noun",
-            "example": "A rainbow appears opposite the Sun.",
-            "starter": "A question about opposite is…"
+            "example": "A droplet can bend light.",
+            "starter": "I wonder whether droplet can…"
           },
           {
-            "word": "nature",
-            "definition": "Plants, animals, land, and weather.",
+            "word": "spectrum",
+            "definition": "The range of colors made by separated light",
             "partOfSpeech": "noun",
-            "example": "We can find rainbows in nature.",
-            "starter": "I know about nature because…"
+            "example": "I would paint a color spectrum.",
+            "starter": "One question about spectrum is…"
           },
           {
-            "word": "water",
-            "definition": "The clear liquid living things need.",
+            "word": "mist",
+            "definition": "Fine water drops in air",
             "partOfSpeech": "noun",
-            "example": "Water is connected with rainbows.",
-            "starter": "My picture of water shows…"
+            "example": "Mist might make one appear.",
+            "starter": "I would compare mist with…"
           },
           {
-            "word": "air",
-            "definition": "The gas around Earth that we breathe.",
+            "word": "double rainbow",
+            "definition": "Two rainbow arcs visible together",
+            "partOfSpeech": "phrase",
+            "example": "A double rainbow would surprise me.",
+            "starter": "My idea about double rainbow is…"
+          },
+          {
+            "word": "reflection",
+            "definition": "Light sent back from a surface",
             "partOfSpeech": "noun",
-            "example": "Air can affect rainbows.",
-            "starter": "I want to ask about air because…"
+            "example": "A reflection can brighten wet ground.",
+            "starter": "I might use reflection when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "I think…",
-            "example": "I think water bends and separates sunlight colors."
+            "phrase": "I would stop to watch…",
+            "example": "I would stop to watch a rainbow."
           },
           {
-            "phrase": "I can see…",
-            "example": "I can see rainbows in pictures."
+            "phrase": "My favorite color might be near…",
+            "example": "My favorite color might be near the top."
           },
           {
-            "phrase": "I would choose…",
-            "example": "I would choose to learn about rainbows."
+            "phrase": "A rainbow could follow a…",
+            "example": "A rainbow could follow a short shower."
           },
           {
-            "phrase": "I wonder…",
-            "example": "I wonder about rainbows."
+            "phrase": "I would draw a big…",
+            "example": "I would draw a big color arc."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, rainbows look different from different places."
+            "phrase": "Mist might make…",
+            "example": "Mist might make one appear."
           },
           {
-            "phrase": "What if…",
-            "example": "What if we studied rainbows?"
+            "phrase": "I would call a friend…",
+            "example": "I would call a friend to look."
           }
         ]
       },
       "A2": {
-        "briefing": "Rainbows appear when light meets water drops. A rainbow appears opposite the Sun. Rainbows look different from different places. You need light and water to see one.",
+        "briefing": "A rainbow can appear in spray near a waterfall. Each person receives light from different water drops when viewing a rainbow. The color order follows how light bends inside droplets.",
         "facts": [
           "Water bends and separates sunlight colors.",
           "A rainbow appears opposite the Sun.",
@@ -12168,84 +12168,84 @@
         ],
         "vocab": [
           {
-            "word": "Rainbows",
-            "definition": "Rainbows appear when light meets water drops.",
+            "word": "arc",
+            "definition": "A curved line or band",
             "partOfSpeech": "noun",
-            "example": "Rainbows appear when light meets water drops.",
-            "starter": "I want to discuss rainbows because…"
+            "example": "I would draw a rainbow arc.",
+            "starter": "If I saw arc, I would…"
           },
           {
-            "word": "light",
-            "definition": "Energy that lets our eyes see",
-            "partOfSpeech": "noun",
-            "example": "Rainbows appear when light meets water drops.",
-            "starter": "I can use light to explain…"
-          },
-          {
-            "word": "colors",
-            "definition": "Different kinds of visible light",
+            "word": "sunlight",
+            "definition": "Light from the Sun",
             "partOfSpeech": "noun",
             "example": "Water bends and separates sunlight colors.",
-            "starter": "When I hear colors, I think of…"
+            "starter": "I could describe sunlight by…"
           },
           {
-            "word": "opposite",
-            "definition": "On the other side",
+            "word": "droplet",
+            "definition": "A tiny drop of water",
             "partOfSpeech": "noun",
-            "example": "A rainbow appears opposite the Sun.",
-            "starter": "A question about opposite is…"
+            "example": "The color order follows how light bends inside droplets.",
+            "starter": "I wonder whether droplet can…"
           },
           {
-            "word": "water drops",
-            "definition": "Tiny round pieces of liquid",
+            "word": "spectrum",
+            "definition": "The range of colors made by separated light",
             "partOfSpeech": "noun",
-            "example": "Rainbows appear when light meets water drops.",
-            "starter": "I would compare water drops with…"
+            "example": "I would paint a color spectrum.",
+            "starter": "One question about spectrum is…"
           },
           {
-            "word": "Sun",
-            "definition": "The star nearest Earth",
+            "word": "mist",
+            "definition": "Fine water drops in air",
             "partOfSpeech": "noun",
-            "example": "Water bends and separates sunlight colors.",
-            "starter": "One example of Sun is…"
+            "example": "I might see a rainbow in mist.",
+            "starter": "I would compare mist with…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "double rainbow",
+            "definition": "Two rainbow arcs visible together",
+            "partOfSpeech": "phrase",
+            "example": "A double rainbow would surprise me.",
+            "starter": "My idea about double rainbow is…"
+          },
+          {
+            "word": "reflection",
+            "definition": "Light sent back from a surface",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find rainbows.",
-            "starter": "I want to compare climate with…"
+            "example": "A reflection can brighten wet ground.",
+            "starter": "I might use reflection when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that water bends and separates sunlight colors."
+            "phrase": "I would stop to watch…",
+            "example": "I would stop to watch a rainbow."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a rainbow appears opposite the Sun."
+            "phrase": "My favorite color might be near…",
+            "example": "My favorite color might be near the top."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, rainbows look different from different places."
+            "phrase": "A rainbow could follow a…",
+            "example": "A rainbow could follow a short shower."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare rainbows with a related topic."
+            "phrase": "Moving a little could change my…",
+            "example": "Moving a little could change my view of the same rainbow."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that you need light and water to see one."
+            "phrase": "I wonder why no one can…",
+            "example": "I wonder why no one can walk right up to it."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because water bends and separates sunlight colors."
+            "phrase": "A rainbow is a good example…",
+            "example": "A rainbow is a good example of science that feels magical."
           }
         ]
       },
       "B1": {
-        "briefing": "Rainbows appear when light meets water drops. Water bends and separates sunlight colors. Rainbows look different from different places. You need light and water to see one.",
+        "briefing": "Each person receives light from different water drops when viewing a rainbow. The color order follows how light bends inside droplets. Sometimes a second, fainter arc appears beyond the first.",
         "facts": [
           "Water bends and separates sunlight colors.",
           "A rainbow appears opposite the Sun.",
@@ -12259,79 +12259,79 @@
         ],
         "vocab": [
           {
-            "word": "Rainbows",
-            "definition": "Rainbows appear when light meets water drops.",
+            "word": "arc",
+            "definition": "A curved line or band",
             "partOfSpeech": "noun",
-            "example": "Rainbows appear when light meets water drops.",
-            "starter": "I want to discuss rainbows because…"
+            "example": "Sometimes a second, fainter arc appears beyond the first.",
+            "starter": "If I saw arc, I would…"
           },
           {
-            "word": "light",
-            "definition": "Energy that lets our eyes see",
-            "partOfSpeech": "noun",
-            "example": "Rainbows appear when light meets water drops.",
-            "starter": "I can use light to explain…"
-          },
-          {
-            "word": "colors",
-            "definition": "Different kinds of visible light",
+            "word": "sunlight",
+            "definition": "Light from the Sun",
             "partOfSpeech": "noun",
             "example": "Water bends and separates sunlight colors.",
-            "starter": "When I hear colors, I think of…"
+            "starter": "I could describe sunlight by…"
           },
           {
-            "word": "opposite",
-            "definition": "On the other side",
+            "word": "droplet",
+            "definition": "A tiny drop of water",
             "partOfSpeech": "noun",
-            "example": "A rainbow appears opposite the Sun.",
-            "starter": "A question about opposite is…"
+            "example": "The color order follows how light bends inside droplets.",
+            "starter": "I wonder whether droplet can…"
           },
           {
-            "word": "water drops",
-            "definition": "Tiny round pieces of liquid",
+            "word": "spectrum",
+            "definition": "The range of colors made by separated light",
             "partOfSpeech": "noun",
-            "example": "Rainbows appear when light meets water drops.",
-            "starter": "I would compare water drops with…"
+            "example": "I would paint a color spectrum.",
+            "starter": "One question about spectrum is…"
           },
           {
-            "word": "Sun",
-            "definition": "The star nearest Earth",
+            "word": "mist",
+            "definition": "Fine water drops in air",
             "partOfSpeech": "noun",
-            "example": "Water bends and separates sunlight colors.",
-            "starter": "One example of Sun is…"
+            "example": "I might see a rainbow in mist.",
+            "starter": "I would compare mist with…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "double rainbow",
+            "definition": "Two rainbow arcs visible together",
+            "partOfSpeech": "phrase",
+            "example": "If I saw a double rainbow, I would check which arc looked fainter.",
+            "starter": "My idea about double rainbow is…"
+          },
+          {
+            "word": "reflection",
+            "definition": "Light sent back from a surface",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find rainbows.",
-            "starter": "I want to compare climate with…"
+            "example": "A reflection can brighten wet ground.",
+            "starter": "I might use reflection when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that water bends and separates sunlight colors."
+            "phrase": "If I saw a double rainbow,…",
+            "example": "If I saw a double rainbow, I would check which arc looked fainter."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a rainbow appears opposite the Sun."
+            "phrase": "A waterfall's spray might create color…",
+            "example": "A waterfall's spray might create color even on a clear day."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, rainbows look different from different places."
+            "phrase": "I would rather study the light…",
+            "example": "I would rather study the light than search for an imaginary end."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare rainbows with a related topic."
+            "phrase": "Moving a little could change my…",
+            "example": "Moving a little could change my view of the same rainbow."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that you need light and water to see one."
+            "phrase": "I wonder why no one can…",
+            "example": "I wonder why no one can walk right up to it."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because water bends and separates sunlight colors."
+            "phrase": "A rainbow is a good example…",
+            "example": "A rainbow is a good example of science that feels magical."
           }
         ]
       }
@@ -12349,7 +12349,7 @@
     "category": "weather and nature",
     "levels": {
       "A1": {
-        "briefing": "The water cycle moves water around Earth. Sunlight helps water rise as vapor. Cooling vapor can form clouds.",
+        "briefing": "A drop can leave a puddle as vapor. It can join a cloud later. The same water keeps moving in new ways.",
         "facts": [
           "Sunlight helps water rise as vapor.",
           "Cooling vapor can form clouds.",
@@ -12363,84 +12363,84 @@
         ],
         "vocab": [
           {
-            "word": "Water Cycle",
-            "definition": "The water cycle moves water around Earth.",
+            "word": "evaporation",
+            "definition": "Liquid water changing into vapor",
             "partOfSpeech": "noun",
-            "example": "The water cycle moves water around Earth.",
-            "starter": "I want to discuss water cycle because…"
+            "example": "I would draw evaporation above a puddle.",
+            "starter": "If I saw evaporation, I would…"
           },
           {
             "word": "vapor",
             "definition": "Water in gas form",
             "partOfSpeech": "noun",
-            "example": "Sunlight helps water rise as vapor.",
-            "starter": "I can use vapor to explain…"
+            "example": "A drop can leave a puddle as vapor.",
+            "starter": "I could describe vapor by…"
           },
           {
-            "word": "clouds",
-            "definition": "Groups of water drops in the sky",
+            "word": "condensation",
+            "definition": "Vapor changing into liquid drops",
             "partOfSpeech": "noun",
-            "example": "Cooling vapor can form clouds.",
-            "starter": "When I hear clouds, I think of…"
+            "example": "Condensation can fog a window.",
+            "starter": "I wonder whether condensation can…"
           },
           {
-            "word": "rivers",
-            "definition": "Streams of moving water",
+            "word": "precipitation",
+            "definition": "Water falling from clouds",
             "partOfSpeech": "noun",
-            "example": "Rivers return some water to oceans.",
-            "starter": "A question about rivers is…"
+            "example": "Rain is one kind of precipitation.",
+            "starter": "One question about precipitation is…"
           },
           {
-            "word": "nature",
-            "definition": "Plants, animals, land, and weather.",
+            "word": "puddle",
+            "definition": "A small pool on the ground",
             "partOfSpeech": "noun",
-            "example": "We can find water cycle in nature.",
-            "starter": "I know about nature because…"
+            "example": "A drop can leave a puddle as vapor.",
+            "starter": "I would compare puddle with…"
           },
           {
-            "word": "water",
-            "definition": "The clear liquid living things need.",
+            "word": "groundwater",
+            "definition": "Water stored below Earth's surface",
             "partOfSpeech": "noun",
-            "example": "Water is connected with water cycle.",
-            "starter": "My picture of water shows…"
+            "example": "Groundwater can feed a spring.",
+            "starter": "My idea about groundwater is…"
           },
           {
-            "word": "air",
-            "definition": "The gas around Earth that we breathe.",
+            "word": "runoff",
+            "definition": "Water flowing across land after rain",
             "partOfSpeech": "noun",
-            "example": "Air can affect water cycle.",
-            "starter": "I want to ask about air because…"
+            "example": "Runoff might reach the river.",
+            "starter": "I might use runoff when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "I think…",
-            "example": "I think sunlight helps water rise as vapor."
+            "phrase": "I would follow one…",
+            "example": "I would follow one water drop."
           },
           {
-            "phrase": "I can see…",
-            "example": "I can see water cycle in pictures."
+            "phrase": "A puddle could vanish…",
+            "example": "A puddle could vanish in sunlight."
           },
           {
-            "phrase": "I would choose…",
-            "example": "I would choose to learn about water cycle."
+            "phrase": "The drop might join…",
+            "example": "The drop might join a cloud."
           },
           {
-            "phrase": "I wonder…",
-            "example": "I wonder about water cycle."
+            "phrase": "I would draw arrows on…",
+            "example": "I would draw arrows on a map."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, water falls again as rain or snow."
+            "phrase": "Rain could start its…",
+            "example": "Rain could start its trip again."
           },
           {
-            "phrase": "What if…",
-            "example": "What if we studied water cycle?"
+            "phrase": "I like the idea of…",
+            "example": "I like the idea of traveling water."
           }
         ]
       },
       "A2": {
-        "briefing": "The water cycle moves water around Earth. Cooling vapor can form clouds. Water falls again as rain or snow. Rivers return some water to oceans.",
+        "briefing": "A drop can leave a puddle as vapor. Evaporation moves liquid water into the air without visible boiling. Cooling air allows that vapor to form droplets again.",
         "facts": [
           "Sunlight helps water rise as vapor.",
           "Cooling vapor can form clouds.",
@@ -12454,84 +12454,84 @@
         ],
         "vocab": [
           {
-            "word": "Water Cycle",
-            "definition": "The water cycle moves water around Earth.",
+            "word": "evaporation",
+            "definition": "Liquid water changing into vapor",
             "partOfSpeech": "noun",
-            "example": "The water cycle moves water around Earth.",
-            "starter": "I want to discuss water cycle because…"
+            "example": "Evaporation moves liquid water into the air without visible boiling.",
+            "starter": "If I saw evaporation, I would…"
           },
           {
             "word": "vapor",
             "definition": "Water in gas form",
             "partOfSpeech": "noun",
-            "example": "Sunlight helps water rise as vapor.",
-            "starter": "I can use vapor to explain…"
+            "example": "A drop can leave a puddle as vapor.",
+            "starter": "I could describe vapor by…"
           },
           {
-            "word": "clouds",
-            "definition": "Groups of water drops in the sky",
+            "word": "condensation",
+            "definition": "Vapor changing into liquid drops",
             "partOfSpeech": "noun",
-            "example": "Cooling vapor can form clouds.",
-            "starter": "When I hear clouds, I think of…"
+            "example": "A small glass experiment could make condensation easier to see.",
+            "starter": "I wonder whether condensation can…"
           },
           {
-            "word": "rivers",
-            "definition": "Streams of moving water",
+            "word": "precipitation",
+            "definition": "Water falling from clouds",
             "partOfSpeech": "noun",
-            "example": "Rivers return some water to oceans.",
-            "starter": "A question about rivers is…"
+            "example": "Rain is one kind of precipitation.",
+            "starter": "One question about precipitation is…"
           },
           {
-            "word": "sunlight",
-            "definition": "Light from the Sun",
+            "word": "puddle",
+            "definition": "A small pool on the ground",
             "partOfSpeech": "noun",
-            "example": "Sunlight helps water rise as vapor.",
-            "starter": "I would compare sunlight with…"
+            "example": "A drop can leave a puddle as vapor.",
+            "starter": "I would compare puddle with…"
           },
           {
-            "word": "snow",
-            "definition": "Frozen water falling from clouds",
+            "word": "groundwater",
+            "definition": "Water stored below Earth's surface",
             "partOfSpeech": "noun",
-            "example": "Water falls again as rain or snow.",
-            "starter": "One example of snow is…"
+            "example": "Groundwater can feed a spring.",
+            "starter": "My idea about groundwater is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "runoff",
+            "definition": "Water flowing across land after rain",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find water cycle.",
-            "starter": "I want to compare climate with…"
+            "example": "Runoff might reach the river.",
+            "starter": "I might use runoff when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that sunlight helps water rise as vapor."
+            "phrase": "I would follow one…",
+            "example": "I would follow one water drop."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that cooling vapor can form clouds."
+            "phrase": "A puddle could vanish…",
+            "example": "A puddle could vanish in sunlight."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, water falls again as rain or snow."
+            "phrase": "The drop might join…",
+            "example": "The drop might join a cloud."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare water cycle with a related topic."
+            "phrase": "The same water can connect a…",
+            "example": "The same water can connect a street, a river, and a sea."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that rivers return some water to oceans."
+            "phrase": "I wonder how long a drop…",
+            "example": "I wonder how long a drop stays in one place."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because sunlight helps water rise as vapor."
+            "phrase": "A small glass experiment could make…",
+            "example": "A small glass experiment could make condensation easier to see."
           }
         ]
       },
       "B1": {
-        "briefing": "The water cycle moves water around Earth. Sunlight helps water rise as vapor. Water falls again as rain or snow. Rivers return some water to oceans.",
+        "briefing": "Evaporation moves liquid water into the air without visible boiling. Cooling air allows that vapor to form droplets again. A drop may travel through soil before reaching a river.",
         "facts": [
           "Sunlight helps water rise as vapor.",
           "Cooling vapor can form clouds.",
@@ -12545,79 +12545,79 @@
         ],
         "vocab": [
           {
-            "word": "Water Cycle",
-            "definition": "The water cycle moves water around Earth.",
+            "word": "evaporation",
+            "definition": "Liquid water changing into vapor",
             "partOfSpeech": "noun",
-            "example": "The water cycle moves water around Earth.",
-            "starter": "I want to discuss water cycle because…"
+            "example": "Evaporation moves liquid water into the air without visible boiling.",
+            "starter": "If I saw evaporation, I would…"
           },
           {
             "word": "vapor",
             "definition": "Water in gas form",
             "partOfSpeech": "noun",
-            "example": "Sunlight helps water rise as vapor.",
-            "starter": "I can use vapor to explain…"
+            "example": "Evaporation moves liquid water into the air without visible boiling.",
+            "starter": "I could describe vapor by…"
           },
           {
-            "word": "clouds",
-            "definition": "Groups of water drops in the sky",
+            "word": "condensation",
+            "definition": "Vapor changing into liquid drops",
             "partOfSpeech": "noun",
-            "example": "Cooling vapor can form clouds.",
-            "starter": "When I hear clouds, I think of…"
+            "example": "A small glass experiment could make condensation easier to see.",
+            "starter": "I wonder whether condensation can…"
           },
           {
-            "word": "rivers",
-            "definition": "Streams of moving water",
+            "word": "precipitation",
+            "definition": "Water falling from clouds",
             "partOfSpeech": "noun",
-            "example": "Rivers return some water to oceans.",
-            "starter": "A question about rivers is…"
+            "example": "Rain is one kind of precipitation.",
+            "starter": "One question about precipitation is…"
           },
           {
-            "word": "sunlight",
-            "definition": "Light from the Sun",
+            "word": "puddle",
+            "definition": "A small pool on the ground",
             "partOfSpeech": "noun",
-            "example": "Sunlight helps water rise as vapor.",
-            "starter": "I would compare sunlight with…"
+            "example": "A disappearing puddle would make me think about invisible vapor.",
+            "starter": "I would compare puddle with…"
           },
           {
-            "word": "snow",
-            "definition": "Frozen water falling from clouds",
+            "word": "groundwater",
+            "definition": "Water stored below Earth's surface",
             "partOfSpeech": "noun",
-            "example": "Water falls again as rain or snow.",
-            "starter": "One example of snow is…"
+            "example": "Groundwater can feed a spring.",
+            "starter": "My idea about groundwater is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "runoff",
+            "definition": "Water flowing across land after rain",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find water cycle.",
-            "starter": "I want to compare climate with…"
+            "example": "Runoff might reach the river.",
+            "starter": "I might use runoff when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that sunlight helps water rise as vapor."
+            "phrase": "If I traced one drop, I…",
+            "example": "If I traced one drop, I might lose it underground."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that cooling vapor can form clouds."
+            "phrase": "A disappearing puddle would make me…",
+            "example": "A disappearing puddle would make me think about invisible vapor."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, water falls again as rain or snow."
+            "phrase": "I would rather model clouds than…",
+            "example": "I would rather model clouds than memorize a diagram."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare water cycle with a related topic."
+            "phrase": "The same water can connect a…",
+            "example": "The same water can connect a street, a river, and a sea."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that rivers return some water to oceans."
+            "phrase": "I wonder how long a drop…",
+            "example": "I wonder how long a drop stays in one place."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because sunlight helps water rise as vapor."
+            "phrase": "A small glass experiment could make…",
+            "example": "A small glass experiment could make condensation easier to see."
           }
         ]
       }
@@ -12636,7 +12636,7 @@
     "category": "weather and nature",
     "levels": {
       "A1": {
-        "briefing": "Plants grow from seeds when conditions suit them. Roots take in water from soil. Leaves use sunlight to make food.",
+        "briefing": "A seed holds a tiny new plant. The first leaves may look different later. A young stem bends toward the light.",
         "facts": [
           "Roots take in water from soil.",
           "Leaves use sunlight to make food.",
@@ -12650,84 +12650,84 @@
         ],
         "vocab": [
           {
-            "word": "Plants",
-            "definition": "Plants grow from seeds when conditions suit them.",
+            "word": "seedling",
+            "definition": "A young plant just beginning to grow",
             "partOfSpeech": "noun",
-            "example": "Plants grow from seeds when conditions suit them.",
-            "starter": "I want to discuss plant growth because…"
+            "example": "I would care for a seedling.",
+            "starter": "If I saw seedling, I would…"
           },
           {
-            "word": "roots",
-            "definition": "Plant parts that take water from soil",
+            "word": "sprout",
+            "definition": "A new shoot coming from a seed",
+            "partOfSpeech": "verb",
+            "example": "A sprout might appear soon.",
+            "starter": "I could describe sprout by…"
+          },
+          {
+            "word": "root",
+            "definition": "The plant part taking water from soil",
             "partOfSpeech": "noun",
             "example": "Roots take in water from soil.",
-            "starter": "I can use roots to explain…"
+            "starter": "I wonder whether root can…"
           },
           {
-            "word": "leaves",
-            "definition": "Plant parts that use light to make food",
+            "word": "shoot",
+            "definition": "A young stem growing upward",
             "partOfSpeech": "noun",
-            "example": "Leaves use sunlight to make food.",
-            "starter": "When I hear leaves, I think of…"
+            "example": "The shoot could bend toward light.",
+            "starter": "One question about shoot is…"
           },
           {
-            "word": "seeds",
-            "definition": "Small plant parts that can grow",
-            "partOfSpeech": "noun",
-            "example": "Plants grow from seeds when conditions suit them.",
-            "starter": "A question about seeds is…"
+            "word": "seed coat",
+            "definition": "A covering around a seed",
+            "partOfSpeech": "phrase",
+            "example": "I would look at the seed coat.",
+            "starter": "I would compare seed coat with…"
           },
           {
-            "word": "nature",
-            "definition": "Plants, animals, land, and weather.",
+            "word": "germination",
+            "definition": "The start of growth from a seed",
             "partOfSpeech": "noun",
-            "example": "We can find plant growth in nature.",
-            "starter": "I know about nature because…"
+            "example": "Germination could begin in wet soil.",
+            "starter": "My idea about germination is…"
           },
           {
-            "word": "water",
-            "definition": "The clear liquid living things need.",
+            "word": "stem",
+            "definition": "The plant part holding leaves upward",
             "partOfSpeech": "noun",
-            "example": "Water is connected with plant growth.",
-            "starter": "My picture of water shows…"
-          },
-          {
-            "word": "air",
-            "definition": "The gas around Earth that we breathe.",
-            "partOfSpeech": "noun",
-            "example": "Air can affect plant growth.",
-            "starter": "I want to ask about air because…"
+            "example": "A young stem bends toward the light.",
+            "starter": "I might use stem when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "I think…",
-            "example": "I think roots take in water from soil."
+            "phrase": "I would plant one…",
+            "example": "I would plant one small seed."
           },
           {
-            "phrase": "I can see…",
-            "example": "I can see plant growth in pictures."
+            "phrase": "A sprout might…",
+            "example": "A sprout might appear soon."
           },
           {
-            "phrase": "I would choose…",
-            "example": "I would choose to learn about plant growth."
+            "phrase": "I would keep the…",
+            "example": "I would keep the soil damp."
           },
           {
-            "phrase": "I wonder…",
-            "example": "I wonder about plant growth."
+            "phrase": "My plant could lean…",
+            "example": "My plant could lean toward light."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, stems hold leaves toward the light."
+            "phrase": "I like watching new…",
+            "example": "I like watching new leaves open."
           },
           {
-            "phrase": "What if…",
-            "example": "What if we studied plant growth?"
+            "phrase": "I would draw it…",
+            "example": "I would draw it each week."
           }
         ]
       },
       "A2": {
-        "briefing": "Plants grow from seeds when conditions suit them. Leaves use sunlight to make food. Stems hold leaves toward the light. Flowers can make new seeds.",
+        "briefing": "A seed holds a tiny new plant. Stored food inside a seed helps its first growth. As leaves develop, the plant can make more of its own food.",
         "facts": [
           "Roots take in water from soil.",
           "Leaves use sunlight to make food.",
@@ -12741,84 +12741,84 @@
         ],
         "vocab": [
           {
-            "word": "Plants",
-            "definition": "Plants grow from seeds when conditions suit them.",
+            "word": "seedling",
+            "definition": "A young plant just beginning to grow",
             "partOfSpeech": "noun",
-            "example": "Plants grow from seeds when conditions suit them.",
-            "starter": "I want to discuss plant growth because…"
+            "example": "I would care for a seedling.",
+            "starter": "If I saw seedling, I would…"
           },
           {
-            "word": "roots",
-            "definition": "Plant parts that take water from soil",
+            "word": "sprout",
+            "definition": "A new shoot coming from a seed",
+            "partOfSpeech": "verb",
+            "example": "A sprout might appear soon.",
+            "starter": "I could describe sprout by…"
+          },
+          {
+            "word": "root",
+            "definition": "The plant part taking water from soil",
             "partOfSpeech": "noun",
             "example": "Roots take in water from soil.",
-            "starter": "I can use roots to explain…"
+            "starter": "I wonder whether root can…"
           },
           {
-            "word": "leaves",
-            "definition": "Plant parts that use light to make food",
+            "word": "shoot",
+            "definition": "A young stem growing upward",
             "partOfSpeech": "noun",
-            "example": "Leaves use sunlight to make food.",
-            "starter": "When I hear leaves, I think of…"
+            "example": "The shoot could bend toward light.",
+            "starter": "One question about shoot is…"
           },
           {
-            "word": "seeds",
-            "definition": "Small plant parts that can grow",
-            "partOfSpeech": "noun",
-            "example": "Plants grow from seeds when conditions suit them.",
-            "starter": "A question about seeds is…"
+            "word": "seed coat",
+            "definition": "A covering around a seed",
+            "partOfSpeech": "phrase",
+            "example": "I would look at the seed coat.",
+            "starter": "I would compare seed coat with…"
           },
           {
-            "word": "soil",
-            "definition": "Loose ground where plants grow",
+            "word": "germination",
+            "definition": "The start of growth from a seed",
             "partOfSpeech": "noun",
-            "example": "Roots take in water from soil.",
-            "starter": "I would compare soil with…"
+            "example": "Germination could begin in wet soil.",
+            "starter": "My idea about germination is…"
           },
           {
-            "word": "flowers",
-            "definition": "Plant parts that can make seeds",
+            "word": "stem",
+            "definition": "The plant part holding leaves upward",
             "partOfSpeech": "noun",
-            "example": "Flowers can make new seeds.",
-            "starter": "One example of flowers is…"
-          },
-          {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
-            "partOfSpeech": "noun",
-            "example": "Climate can shape where we find plant growth.",
-            "starter": "I want to compare climate with…"
+            "example": "Stems hold leaves toward the light.",
+            "starter": "I might use stem when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that roots take in water from soil."
+            "phrase": "I would plant one…",
+            "example": "I would plant one small seed."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that leaves use sunlight to make food."
+            "phrase": "A sprout might…",
+            "example": "A sprout might appear soon."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, stems hold leaves toward the light."
+            "phrase": "I would keep the…",
+            "example": "I would keep the soil damp."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare plant growth with a related topic."
+            "phrase": "The first leaves might not match…",
+            "example": "The first leaves might not match the later ones."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that flowers can make new seeds."
+            "phrase": "I wonder how roots know which…",
+            "example": "I wonder how roots know which way to grow."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because roots take in water from soil."
+            "phrase": "A weekly drawing could show changes…",
+            "example": "A weekly drawing could show changes I might miss."
           }
         ]
       },
       "B1": {
-        "briefing": "Plants grow from seeds when conditions suit them. Roots take in water from soil. Stems hold leaves toward the light. Flowers can make new seeds.",
+        "briefing": "Stored food inside a seed helps its first growth. As leaves develop, the plant can make more of its own food. Roots and shoots respond differently to light and gravity.",
         "facts": [
           "Roots take in water from soil.",
           "Leaves use sunlight to make food.",
@@ -12832,79 +12832,79 @@
         ],
         "vocab": [
           {
-            "word": "Plants",
-            "definition": "Plants grow from seeds when conditions suit them.",
+            "word": "seedling",
+            "definition": "A young plant just beginning to grow",
             "partOfSpeech": "noun",
-            "example": "Plants grow from seeds when conditions suit them.",
-            "starter": "I want to discuss plant growth because…"
+            "example": "If I grew two seedlings, I would give them different light and compare.",
+            "starter": "If I saw seedling, I would…"
           },
           {
-            "word": "roots",
-            "definition": "Plant parts that take water from soil",
-            "partOfSpeech": "noun",
-            "example": "Roots take in water from soil.",
-            "starter": "I can use roots to explain…"
+            "word": "sprout",
+            "definition": "A new shoot coming from a seed",
+            "partOfSpeech": "verb",
+            "example": "A sprout might appear tomorrow.",
+            "starter": "I could describe sprout by…"
           },
           {
-            "word": "leaves",
-            "definition": "Plant parts that use light to make food",
+            "word": "root",
+            "definition": "The plant part taking water from soil",
             "partOfSpeech": "noun",
-            "example": "Leaves use sunlight to make food.",
-            "starter": "When I hear leaves, I think of…"
+            "example": "Roots and shoots respond differently to light and gravity.",
+            "starter": "I wonder whether root can…"
           },
           {
-            "word": "seeds",
-            "definition": "Small plant parts that can grow",
+            "word": "shoot",
+            "definition": "A young stem growing upward",
             "partOfSpeech": "noun",
-            "example": "Plants grow from seeds when conditions suit them.",
-            "starter": "A question about seeds is…"
+            "example": "Roots and shoots respond differently to light and gravity.",
+            "starter": "One question about shoot is…"
           },
           {
-            "word": "soil",
-            "definition": "Loose ground where plants grow",
-            "partOfSpeech": "noun",
-            "example": "Roots take in water from soil.",
-            "starter": "I would compare soil with…"
+            "word": "seed coat",
+            "definition": "A covering around a seed",
+            "partOfSpeech": "phrase",
+            "example": "A seed coat breaking open would be worth watching closely.",
+            "starter": "I would compare seed coat with…"
           },
           {
-            "word": "flowers",
-            "definition": "Plant parts that can make seeds",
+            "word": "germination",
+            "definition": "The start of growth from a seed",
             "partOfSpeech": "noun",
-            "example": "Flowers can make new seeds.",
-            "starter": "One example of flowers is…"
+            "example": "Germination could begin in wet soil.",
+            "starter": "My idea about germination is…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years.",
+            "word": "stem",
+            "definition": "The plant part holding leaves upward",
             "partOfSpeech": "noun",
-            "example": "Climate can shape where we find plant growth.",
-            "starter": "I want to compare climate with…"
+            "example": "Stems hold leaves toward the light.",
+            "starter": "I might use stem when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that roots take in water from soil."
+            "phrase": "If I grew two seedlings, I…",
+            "example": "If I grew two seedlings, I would give them different light and compare."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that leaves use sunlight to make food."
+            "phrase": "A seed coat breaking open would…",
+            "example": "A seed coat breaking open would be worth watching closely."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, stems hold leaves toward the light."
+            "phrase": "I would rather plant a bean…",
+            "example": "I would rather plant a bean than buy a finished flower."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare plant growth with a related topic."
+            "phrase": "The first leaves might not match…",
+            "example": "The first leaves might not match the later ones."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that flowers can make new seeds."
+            "phrase": "I wonder how roots know which…",
+            "example": "I wonder how roots know which way to grow."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because roots take in water from soil."
+            "phrase": "A weekly drawing could show changes…",
+            "example": "A weekly drawing could show changes I might miss."
           }
         ]
       }

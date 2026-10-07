@@ -4,13 +4,14 @@ import path from 'node:path';
 import type { WritingSeed, TermSeed } from './library-round-19-overrides';
 import { animalWriting } from './library-round-19-animals';
 import { earthWriting } from './library-round-19-earth';
+import { natureWriting } from './library-round-19-nature';
 
 type Vocab = { word: string; definition: string; partOfSpeech: string; example: string; starter: string };
 type Level = { briefing: string; facts: string[]; angles: string[]; vocab: Vocab[]; expressions: { phrase: string; example: string }[] };
 type Topic = { title: string; ageBand: 'kids' | 'teens'; levels: Record<string, Level> };
 const dataPath = path.resolve('src/data/topic-briefings.json');
 const topics = JSON.parse(fs.readFileSync(dataPath, 'utf8')) as Topic[];
-const writings: WritingSeed[] = [...animalWriting, ...earthWriting];
+const writings: WritingSeed[] = [...animalWriting, ...earthWriting, ...natureWriting];
 const byTitle = new Map(writings.map((writing) => [writing.title, writing]));
 if (byTitle.size !== writings.length) throw new Error('Duplicate Round 19 writing title');
 
