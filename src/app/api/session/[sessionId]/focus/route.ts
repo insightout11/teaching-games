@@ -14,6 +14,7 @@ import {
   PHRASEBOOK_ITEM_SCHEMA,
   withPhraseSource,
 } from '@/lib/reference-materials';
+import { findTopicBriefing, topicBriefingLevel } from '@/lib/topic-briefings';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -72,8 +73,14 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   const difficulty = ((session?.difficulty as string | undefined) ?? 'Intermediate') as Difficulty;
   const level = difficultyDescriptions[difficulty] ?? difficultyDescriptions.Intermediate;
 
-  const limited = await checkAndRecordAiUsage(teacher);
-  if (limited) return limited;
+  // A topic from the ready bank (no material attached): instant, no AI call.
+  const banked = text ? null : findTopicBriefing(title);
+  const bankedLevel = banked ? topicBriefingLevel(banked, difficulty) : null;
+
+  if (!bankedLevel) {
+    const limited = await checkAndRecordAiUsage(teacher);
+    if (limited) return limited;
+  }
 
   const prompt = `LANGUAGE RULE: write everything in simple, natural English for ${difficulty} learners (${level}).
 
@@ -89,7 +96,7 @@ ${PHRASEBOOK_FIELDS_PROMPT}
 
   let brief: FocusBrief;
   try {
-    brief = await generateJSON<FocusBrief>(prompt, schema, { taskClass: 'content-generation' });
+    brief = bankedLevel ? (bankedLevel as FocusBrief) : await generateJSON<FocusBrief>(prompt, schema, { taskClass: 'content-generation' });
   } catch {
     // The topic still changes (phones show it); the reference panel keeps its previous words.
     await service.from('sessions').update({ custom_topic: title.slice(0, 120) }).eq('id', params.sessionId);

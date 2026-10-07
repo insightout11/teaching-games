@@ -17,7 +17,7 @@ few seconds. This round builds a **bank of ready briefings** for the topics clas
 and better than a quick AI draft. Claude will wire the bank into the Focus route after you deliver it.
 
 ## Task 1: choose 150 topics
-New file `src/data/topic-briefings.json`. Topics that kids (6–12) and teens (13–17) really raise in English classes
+File `src/data/topic-briefings.json` (on main as an empty list `[]`, with the loader `src/lib/topic-briefings.ts` already wired into the Focus route; replace the empty list with your array, and keep the shape the loader expects). Topics that kids (6–12) and teens (13–17) really raise in English classes
 worldwide, evergreen (no news events, no living public figures, no "the newest/current" anything):
 - **Kids (about 80)**: animals (by kind and habitat), dinosaurs, space and planets, volcanoes, oceans, weather, seasons,
   food and cooking, festivals around the world, sports, toys and games, pets, school, family, superheroes (generic),

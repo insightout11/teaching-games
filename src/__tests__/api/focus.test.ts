@@ -19,6 +19,14 @@ vi.mock('@/lib/supabase/service', () => ({
   }),
 }));
 
+// A fixed bank for these tests (the real one is src/data/topic-briefings.json, from library round 18).
+vi.mock('@/data/topic-briefings.json', () => ({
+  default: [{
+    id: 'dinosaurs', title: 'Dinosaurs', aliases: ['dinosaur', 't-rex'], ageBand: 'kids',
+    levels: { A1: { briefing: 'Dinosaurs lived a very long time ago. Some were big.', facts: ['Some ate plants.'], angles: ['Big or small?'], vocab: [{ word: 'fossil', definition: 'Old bones in rock.' }], expressions: [{ phrase: 'My favourite is…', example: 'My favourite is the T-rex.' }] } },
+  }],
+}));
+
 import { POST } from '@/app/api/session/[sessionId]/focus/route';
 
 const params = { params: { sessionId: 's1' } };
@@ -57,6 +65,19 @@ describe('focus route', () => {
     aiGen.mockRejectedValue(new Error('down'));
     expect((await post({ title: 'Robots' })).status).toBe(502);
     expect(update).toHaveBeenCalledWith({ custom_topic: 'Robots' });
+  });
+
+  it('uses a banked topic instantly, with no AI call', async () => {
+    const data = await (await post({ title: 'T-Rex' })).json();
+    expect(aiGen).not.toHaveBeenCalled();
+    expect(data.briefing).toContain('Dinosaurs lived');
+    expect(update).toHaveBeenCalledWith(expect.objectContaining({ custom_topic: 'T-Rex', reference_vocab: [{ word: 'fossil', definition: 'Old bones in rock.', source: 'topic' }] }));
+  });
+
+  it('still asks the AI when material is attached, even for a banked topic', async () => {
+    aiGen.mockResolvedValue({ briefing: 'x', facts: [], angles: [], vocab: [], expressions: [] });
+    await post({ title: 'Dinosaurs', text: 'A museum page about a new fossil.' });
+    expect(aiGen).toHaveBeenCalled();
   });
 
   it('requires a title', async () => {
