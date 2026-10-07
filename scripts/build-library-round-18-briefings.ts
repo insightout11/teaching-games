@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { kidsContent, teensContent } from './library-round-18-content';
 import { kidsExtraTerms, teensExtraTerms } from './library-round-18-vocab';
+import { vocabSupplement } from './library-round-18-vocab-supplement';
 
 type Term = { word: string; definition: string; example: string };
 type Bank = { basic: Term[]; extended: Term[] };
@@ -177,9 +178,15 @@ const overviewTerms: Record<string, string> = {
 function makeLevel(topic: Topic, seed: typeof content[number], level: 'A1' | 'A2' | 'B1' | 'B2') {
   const bank = banks[topic.category];
   if (!bank) throw new Error(`Missing category bank: ${topic.category}`);
-  const selected = (level === 'A1' || (level === 'B1' && topic.ageBand === 'teens') ? bank.basic : bank.extended).slice(0, 3);
-  const extras = (topic.ageBand === 'kids' ? kidsExtraTerms : teensExtraTerms)[topic.title];
-  if (!extras || extras.length !== 3) throw new Error(`Missing topic vocabulary: ${topic.title}`);
+  const firstExtras = (topic.ageBand === 'kids' ? kidsExtraTerms : teensExtraTerms)[topic.title];
+  const extraVocab = level === 'A1' ? firstExtras : [...(firstExtras || []), ...(vocabSupplement[topic.title] || [])];
+  if (!firstExtras || firstExtras.length !== 3 || !vocabSupplement[topic.title] || vocabSupplement[topic.title].length !== 2 || extraVocab.length !== (level === 'A1' ? 3 : 5)) {
+    throw new Error(`Missing topic vocabulary: ${topic.title}`);
+  }
+  const options = level === 'A1' || (level === 'B1' && topic.ageBand === 'teens') ? bank.basic : bank.extended;
+  const used = new Set(extraVocab.map((term) => term.word.toLowerCase()));
+  const selected = options.filter((term) => !used.has(term.word.toLowerCase())).slice(0, level === 'A1' ? 3 : 1);
+  if (selected.length !== (level === 'A1' ? 3 : 1)) throw new Error(`Category vocabulary shortage: ${topic.title}`);
   const t = topic.title.toLowerCase();
   const first = {
     word: overviewTerms[topic.title] || topic.title,
@@ -188,7 +195,7 @@ function makeLevel(topic: Topic, seed: typeof content[number], level: 'A1' | 'A2
     example: seed.overview,
     starter: `I want to discuss ${t} because…`,
   };
-  const vocab = [first, ...extras.map((term, index) => {
+  const vocab = [first, ...extraVocab.map((term, index) => {
     const example = [seed.overview, ...seed.facts].find((sentence) => sentence.toLowerCase().includes(term.word.toLowerCase()));
     if (!example) throw new Error(`${topic.title}: no example sentence for ${term.word}`);
     return {
@@ -196,7 +203,7 @@ function makeLevel(topic: Topic, seed: typeof content[number], level: 'A1' | 'A2
       definition: term.definition,
       partOfSpeech: /^(swim|breathe|filter|store|melt|bring|listen|travel|bounce|revise|share|volunteer|navigate)$/.test(term.word) ? 'verb' : 'noun',
       example,
-      starter: [`I can use ${term.word} to explain…`, `When I hear ${term.word}, I think of…`, `A question about ${term.word} is…`][index],
+      starter: [`I can use ${term.word} to explain…`, `When I hear ${term.word}, I think of…`, `A question about ${term.word} is…`, `I would compare ${term.word} with…`, `One example of ${term.word} is…`][index],
     };
   }), ...selected.map((term, index) => ({
     word: term.word,

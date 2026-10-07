@@ -75,7 +75,11 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
       }
       const vocab = item.vocab;
       if (!Array.isArray(vocab) || vocab.length !== 7) fail(at, 'vocab needs exactly 7 items');
-      else for (const [vocabIndex, value] of Array.from(vocab.entries())) {
+      else {
+        const vocabWords = vocab.map((value) => isText(value?.word) ? normalize(value.word) : '').filter(Boolean);
+        if (new Set(vocabWords).size !== 7) fail(at, 'vocab words must be distinct');
+      }
+      if (Array.isArray(vocab)) for (const [vocabIndex, value] of Array.from(vocab.entries())) {
         const vWhere = `${at}.vocab[${vocabIndex}]`;
         if (!value || typeof value !== 'object' || Array.isArray(value)) { fail(vWhere, 'must be an object'); continue; }
         const row = value as Record<string, unknown>;
