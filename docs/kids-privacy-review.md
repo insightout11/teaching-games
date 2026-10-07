@@ -92,3 +92,10 @@ Departures Board concept. 9-13 follow.
 - FTC COPPA amendments, compliance dates: [BBB National Programs](https://bbbprograms.org/media/insights/blog/coppa-amended),
   [Hunton](https://www.hunton.com/privacy-and-cybersecurity-law-blog/coppa-rule-amendment-compliance-deadline-approaches),
   [Securiti](https://securiti.ai/ftc-coppa-final-rule-amendments/).
+
+## Owner decisions (Oct 7 2026: "go with your recommendations")
+1. Retention: named student data kept 12 months after a class's last session, then deleted or anonymised; class
+totals and name-free flight results may stay. 2. Consent: teachers confirm in the terms that they've informed parents
+and have consent where required; LessonCaptain collects parent consent itself only for the Departures Board.
+3. Results links stay shareable (first name, 30-day expiry); a teacher off switch is still to build. 4. Lawyer review
+before launch: owner to arrange.

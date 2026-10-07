@@ -65,3 +65,7 @@ surveillance warning), names on anything that's shared or public.
 1. Is this the right list of what to remember? Anything missing (or anything that feels like too much)?
 2. Suggestions at boarding: always shown, or only when the teacher opens "Last time"?
 3. Student/parent recaps: wanted at all, and if so, after the privacy decisions?
+
+## Owner decisions (Oct 7 2026: "go with your recommendations")
+1. The capture list as written. 2. "Last time" shows as one line at boarding with its suggestions one tap away
+(never launching by itself). 3. Student/parent recaps later, only after the privacy decisions.

@@ -79,3 +79,8 @@ first audience is online ESL teachers, who are paid per lesson and value prep ti
 [Kahoot pricing 2026 (Wooclap)](https://www.wooclap.com/en/blog/kahoot-pricing/) ·
 [Blooket pricing (Nibble)](https://nibble-app.com/blog/blooket-pricing) ·
 Gemini prices: Google AI list prices (Flash-Lite $0.10/$0.40, Flash $0.30/$2.50 per million tokens in/out).
+
+## Owner decision (Oct 7 2026)
+**Option B, as recommended**: Free = 4 full lessons every month (every flight included, no credits); Pro = unlimited
+plus Course Builder, book upload and scans, reports/history and teacher notes; **$9/month or $79/year** (push yearly);
+Founding Crew = free Pro in the beta, then 50% off for life. The expired founding-price line was replaced on Oct 7.

@@ -83,3 +83,8 @@ young kids. Students never see a setting.
 3. **On-demand stickers**: allowed, with teacher approval before use (recommended), or core set only?
 4. **Rankings off in Junior mode** by default (recommended), or a teacher choice?
 5. Anything the owner's own young classes need that isn't here (from real teaching)?
+
+## Owner decisions (Oct 7 2026: "go with your recommendations")
+1. Junior mode for about ages 5–9. 2. Core stickers AI-drawn in our Sticker style. 3. On-demand stickers allowed,
+approved by the teacher before first use. 4. Rankings off by default in Junior mode. 5. Owner adds needs from real
+classes later.
