@@ -5,6 +5,7 @@ import { canonicalTopicTag } from './library-topic-tags';
 import { validSpeakSituation } from '../src/lib/speak-check';
 import { listeningWindow, type ListeningPack } from '../src/lib/listening-pack';
 import { readingSentences } from './library-reading-sentences';
+import { validateTopicBriefings } from './library-topic-briefings-validator';
 
 type Item = {
   id?: unknown;
@@ -782,6 +783,7 @@ else {
   }
 }
 
+const topicBriefingCounts = validateTopicBriefings(dataDir, fail);
 if (reflectiveCandidates.length) console.warn(`Reflective-paragraph candidates for review (${reflectiveCandidates.length}):\n${reflectiveCandidates.join('\n')}`);
 
 if (errors.length) {
@@ -794,4 +796,5 @@ if (errors.length) {
   console.log(`Listening packs: ${listeningPackCount}, segments: ${listeningSegmentCount}, gist: ${listeningGistCount}, harder: ${listeningHarderCount}, words: ${listeningWordCount}, Static rounds: ${listeningStaticCount}, Black Box passages: ${listeningBlackBoxCount} (kids A1–A2 ${packCohorts.kids}, B1 ${packCohorts.B1}, B2 ${packCohorts.B2}).`);
   console.log(`Debate motions: ${debateMotionCount} (kids ${debateCohorts.kids}, teens ${debateCohorts.teens}; A2 ${debateLevels.A2}, B1 ${debateLevels.B1}, B2 ${debateLevels.B2}; evidence ${debateEvidenceCount}).`);
   console.log(`Reading packs: ${readingPackCount} across ${bookCourseItemCount} book lessons; passages ${readingPassageCount}, gist ${readingGistCount}, chapter checks ${readingCheckCount}, words ${readingWordCount}.`);
+  console.log(`Topic briefings: ${topicBriefingCounts.topics} (kids ${topicBriefingCounts.kids}, teens ${topicBriefingCounts.teens}; A1 ${topicBriefingCounts.A1}, A2 ${topicBriefingCounts.A2}, B1 ${topicBriefingCounts.B1}, B2 ${topicBriefingCounts.B2}).`);
 }
