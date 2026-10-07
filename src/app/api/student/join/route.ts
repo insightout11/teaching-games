@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { studentFirstName } from '@/lib/student-name';
 import { createServiceClient } from '@/lib/supabase/service';
 import { mockStore } from '@/lib/mock/data';
 import { isSessionStale } from '@/lib/session-freshness';
@@ -58,7 +59,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ studentId: student.id, name: student.name, isExisting: true });
       }
 
-      const trimmedName = String(newName).trim();
+      const trimmedName = studentFirstName(newName);
       if (!trimmedName || trimmedName.length > 40) {
         return NextResponse.json({ error: 'Name must be 1-40 characters' }, { status: 400 });
       }
@@ -165,7 +166,7 @@ export async function POST(request: NextRequest) {
     }
 
     // ── Shape B: new name / not on list ───────────────────────────────────
-    const trimmedName = String(newName).trim();
+    const trimmedName = studentFirstName(newName);
     if (!trimmedName || trimmedName.length > 40) {
       return NextResponse.json({ error: 'Name must be 1-40 characters' }, { status: 400 });
     }

@@ -1,3 +1,4 @@
+import { debriefFirstName } from '@/lib/debrief-link';
 import type { Metadata } from 'next';
 import { createServiceClient } from '@/lib/supabase/service';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: { params: { token: string } }
     .select('display_name')
     .eq('debrief_token', params.token)
     .maybeSingle();
-  const firstName = (participant?.display_name || 'Pilot').trim().split(/\s+/)[0];
+  const firstName = debriefFirstName(participant?.display_name);
   return {
     title: `${firstName}'s flight results · LessonCaptain`,
     description: 'A live lesson, landed. Points, accuracy and streak from class.',
@@ -132,7 +133,7 @@ export default async function DebriefPage({ params }: { params: { token: string 
 
   const vocab = ((session?.reference_vocab as VocabItem[] | null) ?? []).slice(0, 10);
   const topic = session?.custom_topic || session?.topic || 'your lesson';
-  const name = participant.display_name || 'Student';
+  const name = debriefFirstName(participant.display_name, 'Student');
 
   const stats = [
     { label: 'Points', value: String(totalPoints), Icon: Trophy, color: 'text-amber-300' },

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { studentFirstName } from '@/lib/student-name';
 import { createClient } from '@/lib/supabase/client';
 import type { Student } from '@/lib/supabase/types';
 import { Button } from '@/components/ui/button';
@@ -102,7 +103,9 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
 
   const addStudent = async () => {
     if (!newName.trim()) return;
-    const name = newName.trim().replace(/\s+/g, ' ');
+    // First name or nickname only (docs/kids-privacy-review.md).
+    const name = studentFirstName(newName);
+    if (!name) return;
 
     // Check for duplicate
     const exists = students.some((s) => s.name.toLowerCase() === name.toLowerCase());
@@ -289,7 +292,7 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && addStudent()}
-            placeholder="Student name"
+            placeholder="First name or nickname"
             inputSize="md"
             className="w-auto flex-1 py-2 focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
           />

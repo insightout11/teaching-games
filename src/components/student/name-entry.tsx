@@ -295,8 +295,8 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
                   value={freeName}
                   onChange={(e) => setFreeName(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter' && freeName.trim()) handleJoin(); }}
-                  placeholder="Enter your name..."
-                  maxLength={40}
+                  placeholder="First name or nickname"
+                  maxLength={20}
                   autoFocus
                   className="w-full rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-white placeholder:text-lc-text3 transition-all focus:border-cyan-500/50 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
                 />

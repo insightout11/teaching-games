@@ -34,7 +34,7 @@ running the lesson needs. Much of that is already true:
 | A random browser id | `localStorage` on the phone; `client_id` in tables | The teacher | Used only to run the session (allowed as "internal operations") |
 | Answers, votes, scores | `scores`, `rounds`, `student_submissions`, votes tables | The teacher | Mostly taps; some games still take typed text |
 | Teacher notes about a student (Pro) | `student_session_notes` | The teacher | Can contain anything the teacher writes |
-| Results page for a student | `/debrief/[token]` | **Anyone with the link** | Shows the name as entered and the student's stats |
+| Results page for a student | `/debrief/[token]` | **Anyone with the link** (for 30 days) | Shows the first name and the student's stats |
 | Typed answers sent to AI to check them | Gemini (Google) | Google, as our processor | Only in games that take typed text |
 | Page views | PostHog (US) | Us | **Loads on every page, including students' phones** |
 
@@ -42,12 +42,11 @@ Nothing is deleted automatically: sessions, names and answers are kept until a t
 
 ## Gaps, by priority
 ### Must fix before marketing to new teachers
-1. **No analytics on student pages.** PostHog currently loads on the join page and student screens, setting an
-   analytics id on children's phones. Turn it off for every student route (join, phone controller, debrief).
-   _Small code change._
-2. **First names or nicknames only.** Make the join screen and roster say "first name or nickname", stop accepting
-   more than one word plus an initial (e.g. "Mia" or "Mia K"), and never show or store surnames. A first name alone
-   isn't personal information under COPPA. _Small change._
+1. **No analytics on student pages.** **Done Oct 7:** PostHog no longer loads on `/join`, `/questions`, `/debrief`,
+   `/journey` or `/logbook` (`src/lib/analytics/student-paths.ts`).
+2. **First names or nicknames only.** **Done Oct 7:** the join screen and roster ask for "First name or nickname";
+   new names are stored as one word plus an initial at most ("Mia Kowalski" → "Mia K", `src/lib/student-name.ts`).
+   Names entered before this stay as they are.
 3. **A real privacy policy.** Today's `/privacy` page covers beta applications only. It needs to say what we collect
    from teachers and students, why, who processes it (Supabase, Vercel, Google Gemini, PostHog, YouTube), where it's
    stored, how long it's kept, how to delete it, and the children's section COPPA requires. Plus **terms of service**
@@ -55,8 +54,9 @@ Nothing is deleted automatically: sessions, names and answers are kept until a t
 4. **A retention policy, enforced.** Decide how long student data is kept (suggestion: names, answers and scores
    deleted or anonymised 12 months after the last session; class totals and flight results without names can stay),
    publish it, and add a scheduled clean-up job. COPPA now requires this.
-5. **Results links.** `/debrief/[token]` shows a child's name and results to anyone with the link. Show the first
-   name only (the share image already does), let links expire (e.g. 30 days), and let the teacher turn sharing off.
+5. **Results links.** `/debrief/[token]` shows a child's results to anyone with the link. Links already stop working
+   30 days after the lesson. **Done Oct 7:** the page now shows the first name only (like the share image). Still to do:
+   a teacher switch to turn sharing off (needs a database column).
 
 ### Before the Departures Board (minors meet paying parents)
 6. **Parent consent flow.** The board takes bookings for children from their parents: that's direct collection from

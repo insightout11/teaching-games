@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { studentFirstName } from '@/lib/student-name';
 import { createServiceClient } from '@/lib/supabase/service';
 import { RATE_LIMITS, VALIDATION } from '@/lib/config/rate-limits';
 import { isSessionStale } from '@/lib/session-freshness';
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Trim and validate string lengths
-    const trimmedName = displayName.trim();
+    const trimmedName = studentFirstName(displayName);
     const trimmedContent = content.trim();
 
     if (!trimmedName || trimmedName.length > VALIDATION.DISPLAY_NAME_MAX) {

@@ -124,17 +124,16 @@ export function PricingSection() {
                   <div className="flex items-center gap-2.5">
                     <p className="text-3xl font-bold text-lc-text">Pro</p>
                     <span className="rounded-full bg-lc-amber/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-amber">
-                      Founding offer
+                      Founding Crew
                     </span>
                   </div>
                   <div className="text-right">
                     <p className="text-4xl font-bold text-lc-text">
                       $79<span className="text-base font-normal text-lc-text3">/yr</span>
                     </p>
-                    <p className="text-sm text-lc-text3 line-through">$99</p>
                   </div>
                 </div>
-                <p className="mt-1 text-xs text-lc-text3">Until Aug 31, 2026 · or $8/month</p>
+                <p className="mt-1 text-xs text-lc-text3">or $8/month · Founding Crew teachers get 50% off for life</p>
               </div>
               <div className="flex flex-1 flex-col px-7 py-6">
                 <ul className="space-y-3.5">

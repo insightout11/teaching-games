@@ -1,3 +1,4 @@
+import { debriefFirstName } from '@/lib/debrief-link';
 import { ImageResponse } from 'next/og';
 import { createServiceClient } from '@/lib/supabase/service';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
@@ -79,7 +80,7 @@ async function loadCard(token: string): Promise<Card | null> {
   const lbRows = lb ?? [];
   const rank = lbRows.length > 0 ? lbRows.filter((e) => e.total_points > leaderboardTotal).length + 1 : null;
 
-  const firstName = (participant.display_name || 'Pilot').trim().split(/\s+/)[0];
+  const firstName = debriefFirstName(participant.display_name);
   const topic = session?.custom_topic || session?.topic || 'today’s lesson';
 
   return { firstName, topic, points, accuracy, bestStreak, rank, participants: lbRows.length };

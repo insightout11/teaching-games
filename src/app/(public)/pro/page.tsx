@@ -98,16 +98,15 @@ export default function ProPage() {
             <div className="flex items-center gap-2 mb-1">
               <p className="text-xs font-semibold text-lc-blue uppercase tracking-wide">Pro</p>
               <span className="text-[10px] font-semibold text-lc-amber bg-lc-amber/10 px-2 py-0.5 rounded-full uppercase tracking-wide">
-                Founding offer
+                Founding Crew
               </span>
             </div>
 
             <div className="flex items-baseline gap-2">
               <p className="text-3xl font-bold text-lc-text">$79<span className="text-base font-normal text-lc-text3">/year</span></p>
-              <p className="text-sm text-lc-text3 line-through">$99</p>
             </div>
             <p className="text-sm text-lc-text3 mt-1">
-              Founding price until <span className="text-lc-text2 font-medium">August 31, 2026</span> · or $8/month
+              or $8/month · <span className="text-lc-text2 font-medium">Founding Crew teachers get 50% off for life</span>
             </p>
           </div>
 
