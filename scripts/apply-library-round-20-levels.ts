@@ -24,6 +24,9 @@ import { digitalLevelCopyC } from './library-round-20-digital-c';
 import { cultureLevelCopyA } from './library-round-20-culture-a';
 import { cultureLevelCopyB } from './library-round-20-culture-b';
 import { cultureLevelCopyC } from './library-round-20-culture-c';
+import { schoolLevelCopyA } from './library-round-20-school-a';
+import { schoolLevelCopyB } from './library-round-20-school-b';
+import { schoolLevelCopyC } from './library-round-20-school-c';
 
 type DataLevel = { facts: string[]; angles: string[] };
 type DataTopic = { title: string; levels: Record<string, DataLevel> };
@@ -34,7 +37,8 @@ const batches: TopicCopy[][] = [animalLevelCopyA, animalLevelCopyB, animalLevelC
   everydayLevelCopyA, everydayLevelCopyB, everydayLevelCopyC,
   playLevelCopyA, playLevelCopyB, playLevelCopyC, playLevelCopyD,
   digitalLevelCopyA, digitalLevelCopyB, digitalLevelCopyC,
-  cultureLevelCopyA, cultureLevelCopyB, cultureLevelCopyC];
+  cultureLevelCopyA, cultureLevelCopyB, cultureLevelCopyC,
+  schoolLevelCopyA, schoolLevelCopyB, schoolLevelCopyC];
 const copy = batches.flat();
 const seen = new Set<string>();
 for (const item of copy) {
