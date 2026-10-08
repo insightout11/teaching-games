@@ -4,7 +4,7 @@ _Oct 8 2026. Program: claude.com/programs/startups (1 year Claude Team up to 5 s
 credits for 6 months, office hours, partner offers)._
 
 ## Facts
-- Company: LessonCaptain (not a registered company yet; sole founder). Founded: March 2026. Funding: none (bootstrapped).
+- Company: LessonCaptain (not a registered company yet; sole founder, lives in Thailand, Canadian). Based in: Thailand. Founded: March 2026. Funding: none (bootstrapped).
 - Website: https://lessoncaptain.com · Email: an @lessoncaptain.com address (Google Workspace).
 - Existing Claude Team org: none.
 - Claude Console organization: **Lesson Captain** (created Oct 8 2026 with the @lessoncaptain.com account); API key in
