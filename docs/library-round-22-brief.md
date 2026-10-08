@@ -11,10 +11,10 @@ vary, and the checker is a good one. All 60 missing words you listed are now dra
 When a Junior class picks a topic in the Live Room (Focus), the phones should show picture word cards. For each of the
 150 topics in `src/data/topic-briefings.json`, add a top-level field:
 ```json
-"pictureWords": ["magma", "fire", "mountain", "rock", "smoke"]
+"pictureWords": ["volcano", "mountain", "fire", "rock", "island", "map"]
 ```
 - 6–10 sticker `id`s from `src/data/sticker-words.json` (exactly as spelled) that a 5–9-year-old would meet when
-  talking about that topic, most useful first. Literal and concrete: for "volcanoes", mountain, fire, rock, smoke (if
+  talking about that topic, most useful first. Literal and concrete: for "volcanoes", mountain, fire, rock (all
   drawn) and island beat abstract links.
 - If a topic has fewer than 6 good matches, use what fits (minimum 3) and list the missing words in the progress log
   (topic → up to 5 words that would make good stickers). Don't edit `sticker-words.json`.
