@@ -784,6 +784,7 @@ else {
 }
 
 const topicBriefingCounts = validateTopicBriefings(dataDir, fail);
+console.log(`Round 22 picture words: ${topicBriefingCounts.shortPictureWords} topics below six, average ${topicBriefingCounts.averagePictureWords.toFixed(2)} per topic.`);
 console.log(`Round 19 writing audit: briefing/fact overlap ${topicBriefingCounts.briefingFactOverlap}, title/alias vocab ${topicBriefingCounts.titleAliasVocab}, generic vocab ${topicBriefingCounts.genericVocab}, overused vocab ${topicBriefingCounts.overusedVocab}, expression/fact overlap ${topicBriefingCounts.expressionFactOverlap}, cross-topic sentences ${topicBriefingCounts.crossTopicSentences}.`);
 console.log(`Round 20 level audit: identical facts ${topicBriefingCounts.identicalFactsAcrossLevels}, identical angles ${topicBriefingCounts.identicalAnglesAcrossLevels}.`);
 if (reflectiveCandidates.length) console.warn(`Reflective-paragraph candidates for review (${reflectiveCandidates.length}):\n${reflectiveCandidates.join('\n')}`);

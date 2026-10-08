@@ -4,6 +4,7 @@ import path from 'node:path';
 
 type Counts = {
   topics: number; kids: number; teens: number; A1: number; A2: number; B1: number; B2: number;
+  shortPictureWords: number; averagePictureWords: number;
   briefingFactOverlap: number; titleAliasVocab: number; genericVocab: number;
   overusedVocab: number; expressionFactOverlap: number; crossTopicSentences: number;
   identicalFactsAcrossLevels: number; identicalAnglesAcrossLevels: number;
@@ -44,6 +45,7 @@ function mostlySameAcrossLevels(left: string, right: string): boolean {
 
 export function validateTopicBriefings(dataDir: string, fail: (where: string, message: string) => void): Counts {
   const counts: Counts = { topics: 0, kids: 0, teens: 0, A1: 0, A2: 0, B1: 0, B2: 0,
+    shortPictureWords: 0, averagePictureWords: 0,
     briefingFactOverlap: 0, titleAliasVocab: 0, genericVocab: 0,
     overusedVocab: 0, expressionFactOverlap: 0, crossTopicSentences: 0,
     identicalFactsAcrossLevels: 0, identicalAnglesAcrossLevels: 0 };
@@ -54,6 +56,14 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
   catch (error) { fail('topic-briefings.json', `invalid JSON: ${String(error)}`); return counts; }
   if (!Array.isArray(raw)) { fail('topic-briefings.json', 'top-level value must be an array'); return counts; }
   counts.topics = raw.length;
+  const stickerFile = path.join(dataDir, 'sticker-words.json');
+  let stickerIds = new Set<string>();
+  try {
+    const stickerRows = JSON.parse(fs.readFileSync(stickerFile, 'utf8')) as { id: string }[];
+    if (!Array.isArray(stickerRows)) throw new Error('expected an array');
+    stickerIds = new Set(stickerRows.map((row) => row.id));
+  } catch (error) { fail('sticker-words.json', `cannot check picture words: ${String(error)}`); }
+  let totalPictureWords = 0;
   const ids = new Set<string>();
   const titles = new Set<string>();
   const aliases = new Map<string, string>();
@@ -63,6 +73,19 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
     const where = `topic-briefings.json[${index}]`;
     if (!entry || typeof entry !== 'object' || Array.isArray(entry)) { fail(where, 'must be an object'); continue; }
     const topic = entry as Record<string, unknown>;
+    if (!Array.isArray(topic.pictureWords) || topic.pictureWords.length < 3 || topic.pictureWords.length > 10) {
+      fail(where, 'pictureWords must contain 3–10 sticker IDs');
+    } else {
+      const words = topic.pictureWords as unknown[];
+      totalPictureWords += words.length;
+      if (words.length < 6) counts.shortPictureWords += 1;
+      const seen = new Set<string>();
+      for (const word of words) {
+        if (typeof word !== 'string' || !stickerIds.has(word)) fail(where, `unknown picture word ${String(word)}`);
+        else if (seen.has(word)) fail(where, `duplicate picture word ${word}`);
+        else seen.add(word);
+      }
+    }
     for (const key of ['id', 'title', 'category']) {
       if (!isText(topic[key])) fail(where, `${key} is required`);
     }
@@ -190,6 +213,7 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
     fail('topic-briefings.json', `expected level counts 80/80/150/70 (found ${counts.A1}/${counts.A2}/${counts.B1}/${counts.B2})`);
   }
   counts.overusedVocab = Array.from(vocabOwners.values()).filter((owners) => owners.size > 4).length;
+  counts.averagePictureWords = counts.topics ? totalPictureWords / counts.topics : 0;
   counts.crossTopicSentences = Array.from(sentenceOwners.values()).filter((owners) => owners.size > 1).length;
   for (const key of ['briefingFactOverlap', 'titleAliasVocab', 'genericVocab', 'overusedVocab', 'expressionFactOverlap', 'crossTopicSentences'] as const) {
     if (counts[key] !== 0) fail('topic-briefings.json', `Round 19 ${key}: ${counts[key]} (expected 0)`);
