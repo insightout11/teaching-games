@@ -31,6 +31,7 @@ import { useLiveRoomOptIn } from '@/components/session/live-room/live-room-opt-i
 // Live Room: on for everyone via NEXT_PUBLIC_LIVE_ROOM, or per browser with ?liveroom=on.
 const LIVE_ROOM_ENV = process.env.NEXT_PUBLIC_LIVE_ROOM === 'true';
 import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
+import { hiddenForJunior } from '@/lib/junior';
 import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
 import { isParticipantCompatible, participantRequirementLabel } from '@/lib/participant-compatibility';
 import { createClient } from '@/lib/supabase/client';
@@ -803,8 +804,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [showRouteChoice, setShowRouteChoice] = useState(false);
   const [routeChoicePool, setRouteChoicePool] = useState<string[] | null>(null);
   const supabase = createClient();
-  const games = getAllGames().filter((g) => !g.flightPlanOnly);
-  const activities = getAllActivities().filter((a) => !a.flightPlanOnly);
+  const games = getAllGames().filter((g) => !g.flightPlanOnly && !hiddenForJunior(g.key, cls.junior === true));
+  const activities = getAllActivities().filter((a) => !a.flightPlanOnly && !hiddenForJunior(a.key, cls.junior === true));
 
   useEffect(() => {
     setBrowserOrigin(window.location.origin);

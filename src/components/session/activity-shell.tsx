@@ -15,6 +15,7 @@ import type {
 } from '@/activities/types';
 import type { ActivityInstanceIdentity, InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import type { Score } from '@/lib/supabase/types';
+import { JuniorReadAloud } from './junior-read-aloud';
 import { Leaderboard } from './leaderboard';
 import { ApprovalQueue } from './approval-queue';
 import { MissionControlSummary } from './mission-control-summary';
@@ -456,6 +457,7 @@ export function ActivityShell({ sessionId, activity, generatedContent, timerSeco
               </span>
             </div>
             <div className="flex items-center gap-2">
+              <JuniorReadAloud />
               {huntTotal > 0 && <span className="flex items-center gap-1 rounded-full bg-violet-400/15 px-2 py-0.5 text-xs text-violet-200" title="Secret-mission stamps from phones (Grammar or Phrase Hunt)">Mission stamps · {huntTotal}</span>}
               <span className="text-xs opacity-50">Activity status:</span>
               <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">

@@ -11,6 +11,7 @@ import type { StudentSubmission, Score } from '@/lib/supabase/types';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import { useStudentPrefs } from '@/hooks/use-student-prefs';
 import { getScoreReconcileDelay, markScoreDelivered } from '@/lib/activity-score-reconciliation';
+import { JuniorReadAloud } from './junior-read-aloud';
 import { Leaderboard } from './leaderboard';
 import { ApprovalQueue } from './approval-queue';
 import { TeamTotals } from './team-totals';
@@ -442,6 +443,8 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
               <div className="flex items-center gap-3">
                 <h2 className="text-lg font-bold">{game.name}</h2>
               </div>
+              <div className="flex items-center gap-2">
+              <JuniorReadAloud />
               {autoApprove && !junior && (
                 <button
                   onClick={handleRevealTop3}
@@ -450,6 +453,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
                   Reveal Top 3
                 </button>
               )}
+              </div>
             </div>
             <div className="flex-1 overflow-y-auto p-6">
               <GameComponent

@@ -24,7 +24,12 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   // Travel flies to the room's destination with that city's trip pack (real stops, no AI).
   const tripDestination = useMemo(() => findTripDestination(destinationId, destinationCity), [destinationId, destinationCity]);
-  const presets = useMemo(() => roomFlightPresets({ travel: !!tripDestination }), [tripDestination]);
+  const junior = useSessionStore((s) => s.junior);
+  // Junior classes skip the debate and grammar flights (too much arguing and rule talk for 5-9s).
+  const presets = useMemo(
+    () => roomFlightPresets({ travel: !!tripDestination }).filter((p) => !junior || !/debate|grammar/.test(p.id)),
+    [tripDestination, junior],
+  );
   const [presetId, setPresetId] = useState(presets[0]?.id ?? '');
   const [topic, setTopic] = useState(settings.customTopic || sourceMaterial?.title || '');
   const [grammar, setGrammar] = useState<string>(settings.grammarTarget ?? '');
