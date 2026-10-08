@@ -237,3 +237,123 @@ Which one can roll on wheels? | toy-car | doll,drum,balloon
 Which toy would you choose? | - | ball,doll,teddy-bear,blocks
 Which toy would you share? | - | puzzle,board-game,marbles,kite
 Which toy would you draw? | - | robot,balloon,toy-car,yo-yo
+
+transport | Transport
+Which one flies in the sky? | airplane | car,bus,boat
+Which one runs on tracks? | train | truck,ship,taxi
+Which one goes under water? | submarine | car,airplane,truck
+Which one helps sick people travel? | ambulance | taxi,van,tractor
+Which one carries many road passengers? | bus | bike,scooter,motorbike
+Which one uses pedals? | bike | car,train,ship
+Which one has a sail? | sailboat | canoe,truck,helicopter
+Which transport would you ride? | - | train,bus,tram,boat
+Which transport would you draw? | - | rocket,helicopter,airplane,submarine
+Which transport would you try? | - | bike,scooter,hot-air-balloon,ship
+
+places | Places
+Which place has waves? | beach | park,shop,museum
+Which place has doctors? | hospital | bakery,cinema,airport
+Which place lends books? | library | museum,restaurant,hotel
+Which place has airplanes? | airport | station,stadium,hotel
+Which place has wild animals? | zoo | cinema,supermarket,museum
+Which place has lots of sand? | desert | forest,city,lake
+Where can you watch a match? | stadium | library,bakery,hospital
+Which place would you visit? | - | park,beach,museum,castle
+Which place would you draw? | - | mountain,river,island,forest
+Which place would you explore? | - | cave,waterfall,village,city
+
+jobs | Jobs
+Who helps children learn? | teacher | chef,pilot,driver
+Who cooks in a kitchen? | chef | dentist,pilot,farmer
+Who flies an airplane? | pilot | nurse,farmer,artist
+Who rides a fire engine? | firefighter | singer,vet,chef
+Who grows food on a farm? | farmer | dentist,driver,pilot
+Who helps sick animals? | vet | teacher,chef,singer
+Who checks your teeth? | dentist | pilot,artist,driver
+Which job would you try? | - | teacher,artist,chef,farmer
+Which job would you draw? | - | pilot,firefighter,nurse,vet
+Which job would you ask about? | - | doctor,driver,astronaut,singer
+
+family-time | Family Time
+Which one shows a family? | family | boy,girl,baby
+Which one shows a hug? | hug | run,read,sleep
+Which one shows talking? | talk | draw,swim,eat
+Which one could make dinner? | cook | sing,skate,run
+Which one shows reading? | read | jump,swim,ride-a-bike
+Which one shows playing? | play | sleep,wash,write
+Which one shows listening? | listen | throw,kick,climb
+Which family activity would you choose? | - | cook,read,play,walk
+Which family picture would you draw? | - | family,baby,mother,father
+Which thing would you do together? | - | dance,sing,draw,build
+
+actions | Actions
+Which action makes a picture? | draw | sleep,drink,walk
+Which action makes music? | sing | eat,write,wash
+Which action uses a book? | read | run,swim,dance
+Which action can make you wet? | swim | think,listen,sit
+Which action can wake someone? | shout | whisper,smile,sit
+Which action helps a plant? | water-the-plants | throw,catch,ride-a-bike
+Which action can clean a floor? | sweep | paint,clap,point
+Which action would you choose? | - | run,walk,jump,dance
+Which action would you try? | - | draw,paint,build,bake
+Which action would you show? | - | clap,wave,smile,stand
+
+feelings | Feelings
+Which one feels joyful? | happy | sad,angry,scared
+Which one needs some sleep? | tired | proud,silly,brave
+Which one wants food? | hungry | worried,surprised,cold
+Which one wants water? | thirsty | shy,angry,bored
+Which one feels afraid? | scared | happy,proud,excited
+Which one feels too warm? | hot | cold,sad,hungry
+Which one did not expect that? | surprised | bored,tired,angry
+Which feeling would you draw? | - | happy,sad,angry,surprised
+Which feeling would you name? | - | excited,shy,proud,silly
+Which feeling would you talk about? | - | worried,brave,scared,happy
+
+colours-of-things | Colours of Things
+Which one is yellow? | banana | tomato,broccoli,strawberry
+Which one is red? | strawberry | lemon,broccoli,coconut
+Which one is green? | broccoli | carrot,egg,cherry
+Which one is white? | snowman | sun,grass,strawberry
+Which one is orange? | carrot | broccoli,banana,strawberry
+Which one is black and white? | zebra | lion,elephant,hippo
+Which one is pink? | flamingo | penguin,owl,bat
+Which colorful thing would you draw? | - | rainbow,flower,butterfly,peacock
+Which color fruit would you choose? | - | banana,strawberry,orange,kiwi
+Which color animal would you paint? | - | flamingo,zebra,peacock,ladybug
+
+sizes | Sizes
+Which one is the biggest? | elephant | mouse,ant,bee
+Which one is the smallest? | ant | elephant,horse,cow
+Which one is the longest? | snake | snail,mouse,bee
+Which one is the tallest? | giraffe | rabbit,fox,dog
+Which fruit is the smallest? | cherry | watermelon,pineapple,coconut
+Which one is bigger than a car? | bus | bike,scooter,ball
+Which one is tiny? | ladybug | cow,horse,hippo
+Which big animal would you draw? | - | elephant,whale,giraffe,hippo
+Which small animal would you draw? | - | ant,bee,mouse,ladybug
+Which tall thing would you visit? | - | mountain,castle,tree,rocket
+
+birthday-party | Birthday Party
+Which one is a sweet party food? | cake | carrot,cheese,potato
+Which one floats above a party? | balloon | puzzle,drum,book
+Which one is a gift? | present | pillow,spoon,shoes
+Which one shows a birthday? | birthday | morning,night,summer
+Which one shows people celebrating? | party | classroom,library,school
+Which one can carry an invitation? | envelope | plate,broom,ball
+Which one makes a loud beat? | drum | spoon,cup,plate
+Which party food would you choose? | - | cake,muffin,pie,ice-cream
+Which party thing would you draw? | - | balloon,present,party,candle
+Which party game would you choose? | - | board-game,puzzle,marbles,ball
+
+sports | Sports
+Which sport uses a hoop? | basketball | football,tennis,golf
+Which sport uses a racket? | tennis | football,golf,karate
+Which sport uses a club? | golf | football,basketball,karate
+Which sport happens on water? | surfing | tennis,karate,golf
+Which sport uses kicking? | football | tennis,baseball,golf
+Which sport uses a bat? | baseball | tennis,karate,surfing
+Which sport needs no ball? | karate | football,tennis,golf
+Which sport would you play? | - | football,basketball,tennis,baseball
+Which sport would you watch? | - | golf,hockey,karate,surfing
+Which sport would you draw? | - | basketball,football,surfing,tennis
