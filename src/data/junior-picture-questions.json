@@ -2,6 +2,7 @@
   {
     "id": "animals",
     "topic": "Animals",
+    "topicIds": ["topic-kids-cats","topic-kids-dogs","topic-kids-horses","topic-kids-elephants","topic-kids-giraffes","topic-kids-zebras","topic-kids-lions","topic-kids-tigers","topic-kids-pandas","topic-kids-koalas","topic-kids-kangaroos","topic-kids-penguins","topic-kids-polar-bears","topic-kids-dolphins","topic-kids-whales","topic-kids-sharks","topic-kids-sea-turtles","topic-kids-frogs","topic-kids-butterflies","topic-kids-bees"],
     "questions": [
       {
         "id": "animals-01",
@@ -128,6 +129,7 @@
   {
     "id": "pet-animals",
     "topic": "Pet Animals",
+    "topicIds": ["topic-kids-cats","topic-kids-dogs","topic-kids-caring-for-pets"],
     "questions": [
       {
         "id": "pet-animals-01",
@@ -254,6 +256,7 @@
   {
     "id": "farm-animals",
     "topic": "Farm Animals",
+    "topicIds": ["topic-kids-horses"],
     "questions": [
       {
         "id": "farm-animals-01",
@@ -380,6 +383,7 @@
   {
     "id": "wild-animals",
     "topic": "Wild Animals",
+    "topicIds": ["topic-kids-elephants","topic-kids-giraffes","topic-kids-zebras","topic-kids-lions","topic-kids-tigers","topic-kids-pandas","topic-kids-koalas","topic-kids-kangaroos","topic-kids-polar-bears","topic-kids-rainforests","topic-kids-forests"],
     "questions": [
       {
         "id": "wild-animals-01",
@@ -506,6 +510,7 @@
   {
     "id": "sea-animals",
     "topic": "Sea Animals",
+    "topicIds": ["topic-kids-dolphins","topic-kids-whales","topic-kids-sharks","topic-kids-sea-turtles","topic-kids-oceans","topic-kids-coral-reefs"],
     "questions": [
       {
         "id": "sea-animals-01",
@@ -632,6 +637,7 @@
   {
     "id": "small-animals",
     "topic": "Small Animals",
+    "topicIds": ["topic-kids-frogs","topic-kids-butterflies","topic-kids-bees","topic-kids-forests","topic-kids-rainforests"],
     "questions": [
       {
         "id": "small-animals-01",
@@ -758,6 +764,7 @@
   {
     "id": "food",
     "topic": "Food",
+    "topicIds": ["topic-kids-cooking","topic-kids-baking","topic-kids-fruits","topic-kids-vegetables","topic-kids-breakfast","topic-kids-school-lunch"],
     "questions": [
       {
         "id": "food-01",
@@ -884,6 +891,7 @@
   {
     "id": "fruit",
     "topic": "Fruit",
+    "topicIds": ["topic-kids-fruits","topic-kids-breakfast","topic-teens-healthy-eating"],
     "questions": [
       {
         "id": "fruit-01",
@@ -1010,6 +1018,7 @@
   {
     "id": "vegetables",
     "topic": "Vegetables",
+    "topicIds": ["topic-kids-vegetables","topic-kids-cooking","topic-kids-plant-growth","topic-teens-healthy-eating"],
     "questions": [
       {
         "id": "vegetables-01",
@@ -1136,6 +1145,7 @@
   {
     "id": "breakfast",
     "topic": "Breakfast",
+    "topicIds": ["topic-kids-breakfast","topic-kids-cooking","topic-kids-baking","topic-teens-healthy-eating"],
     "questions": [
       {
         "id": "breakfast-01",
@@ -1262,6 +1272,7 @@
   {
     "id": "body-parts",
     "topic": "Body Parts",
+    "topicIds": ["topic-kids-the-five-senses"],
     "questions": [
       {
         "id": "body-parts-01",
@@ -1388,6 +1399,7 @@
   {
     "id": "clothes",
     "topic": "Clothes",
+    "topicIds": ["topic-teens-fashion","topic-teens-personal-style","topic-teens-sustainable-fashion"],
     "questions": [
       {
         "id": "clothes-01",
@@ -1514,6 +1526,7 @@
   {
     "id": "getting-dressed",
     "topic": "Getting Dressed",
+    "topicIds": ["topic-teens-fashion","topic-teens-personal-style"],
     "questions": [
       {
         "id": "getting-dressed-01",
@@ -1640,6 +1653,7 @@
   {
     "id": "weather",
     "topic": "Weather",
+    "topicIds": ["topic-kids-rain","topic-kids-snow","topic-kids-wind","topic-kids-clouds","topic-kids-rainbows","topic-kids-seasons","topic-kids-water-cycle"],
     "questions": [
       {
         "id": "weather-01",
@@ -1766,6 +1780,7 @@
   {
     "id": "seasons",
     "topic": "Seasons",
+    "topicIds": ["topic-kids-seasons","topic-kids-snow","topic-kids-rain","topic-kids-plant-growth"],
     "questions": [
       {
         "id": "seasons-01",
@@ -1892,6 +1907,7 @@
   {
     "id": "home",
     "topic": "Home",
+    "topicIds": [],
     "questions": [
       {
         "id": "home-01",
@@ -2018,6 +2034,7 @@
   {
     "id": "kitchen-things",
     "topic": "Kitchen Things",
+    "topicIds": ["topic-kids-cooking","topic-kids-baking","topic-teens-cooking-skills"],
     "questions": [
       {
         "id": "kitchen-things-01",
@@ -2144,6 +2161,7 @@
   {
     "id": "bathroom-things",
     "topic": "Bathroom Things",
+    "topicIds": ["topic-kids-the-five-senses","topic-teens-water-conservation"],
     "questions": [
       {
         "id": "bathroom-things-01",
@@ -2270,6 +2288,7 @@
   {
     "id": "school-things",
     "topic": "School Things",
+    "topicIds": ["topic-kids-school-day","topic-kids-classroom-rules","topic-teens-homework","topic-teens-study-habits"],
     "questions": [
       {
         "id": "school-things-01",
@@ -2396,6 +2415,7 @@
   {
     "id": "toys",
     "topic": "Toys",
+    "topicIds": ["topic-kids-board-games","topic-kids-puzzles","topic-kids-building-blocks","topic-kids-kites","topic-kids-playgrounds","topic-kids-robots"],
     "questions": [
       {
         "id": "toys-01",
@@ -2522,6 +2542,7 @@
   {
     "id": "transport",
     "topic": "Transport",
+    "topicIds": ["topic-kids-trains","topic-kids-airplanes","topic-kids-boats","topic-kids-cycling","topic-teens-public-transport"],
     "questions": [
       {
         "id": "transport-01",
@@ -2648,6 +2669,7 @@
   {
     "id": "places",
     "topic": "Places",
+    "topicIds": ["topic-kids-holidays","topic-kids-jobs-people-do","topic-teens-travel-planning"],
     "questions": [
       {
         "id": "places-01",
@@ -2774,6 +2796,7 @@
   {
     "id": "jobs",
     "topic": "Jobs",
+    "topicIds": ["topic-kids-jobs-people-do","topic-teens-future-jobs","topic-teens-part-time-jobs","topic-teens-career-skills"],
     "questions": [
       {
         "id": "jobs-01",
@@ -2900,6 +2923,7 @@
   {
     "id": "family-time",
     "topic": "Family Time",
+    "topicIds": ["topic-kids-family-traditions","topic-kids-holidays","topic-kids-birthday-parties"],
     "questions": [
       {
         "id": "family-time-01",
@@ -3026,6 +3050,7 @@
   {
     "id": "actions",
     "topic": "Actions",
+    "topicIds": [],
     "questions": [
       {
         "id": "actions-01",
@@ -3152,6 +3177,7 @@
   {
     "id": "feelings",
     "topic": "Feelings",
+    "topicIds": ["topic-kids-making-friends","topic-teens-friendship","topic-teens-stress-management"],
     "questions": [
       {
         "id": "feelings-01",
@@ -3278,6 +3304,7 @@
   {
     "id": "colours-of-things",
     "topic": "Colours of Things",
+    "topicIds": ["topic-kids-drawing","topic-kids-painting","topic-kids-rainbows","topic-teens-digital-art"],
     "questions": [
       {
         "id": "colours-of-things-01",
@@ -3404,6 +3431,7 @@
   {
     "id": "sizes",
     "topic": "Sizes",
+    "topicIds": [],
     "questions": [
       {
         "id": "sizes-01",
@@ -3530,6 +3558,7 @@
   {
     "id": "birthday-party",
     "topic": "Birthday Party",
+    "topicIds": ["topic-kids-birthday-parties","topic-kids-family-traditions"],
     "questions": [
       {
         "id": "birthday-party-01",
@@ -3656,6 +3685,7 @@
   {
     "id": "sports",
     "topic": "Sports",
+    "topicIds": ["topic-kids-soccer","topic-kids-basketball","topic-kids-swimming","topic-kids-cycling","topic-kids-running","topic-teens-team-sports","topic-teens-solo-sports","topic-teens-fitness"],
     "questions": [
       {
         "id": "sports-01",
@@ -3782,6 +3812,7 @@
   {
     "id": "nature",
     "topic": "Nature",
+    "topicIds": ["topic-kids-forests","topic-kids-plant-growth","topic-kids-mountains","topic-kids-rivers","topic-kids-oceans"],
     "questions": [
       {
         "id": "nature-01",
@@ -3908,6 +3939,7 @@
   {
     "id": "opposites",
     "topic": "Opposites",
+    "topicIds": [],
     "questions": [
       {
         "id": "opposites-01",
@@ -4034,6 +4066,7 @@
   {
     "id": "what-do-you-use",
     "topic": "What Do You Use?",
+    "topicIds": [],
     "questions": [
       {
         "id": "what-do-you-use-01",
@@ -4160,6 +4193,7 @@
   {
     "id": "where-do-you",
     "topic": "Where Do You?",
+    "topicIds": ["topic-teens-travel-planning"],
     "questions": [
       {
         "id": "where-do-you-01",
@@ -4286,6 +4320,7 @@
   {
     "id": "at-the-park",
     "topic": "At the Park",
+    "topicIds": ["topic-kids-playgrounds","topic-kids-running","topic-kids-cycling","topic-kids-making-friends","topic-teens-urban-nature"],
     "questions": [
       {
         "id": "at-the-park-01",
@@ -4412,6 +4447,7 @@
   {
     "id": "at-the-beach",
     "topic": "At the Beach",
+    "topicIds": ["topic-kids-oceans","topic-kids-sea-turtles","topic-kids-holidays"],
     "questions": [
       {
         "id": "at-the-beach-01",
@@ -4538,6 +4574,7 @@
   {
     "id": "music-and-art",
     "topic": "Music and Art",
+    "topicIds": ["topic-kids-musical-instruments","topic-kids-drawing","topic-kids-painting","topic-kids-dancing","topic-teens-music-genres","topic-teens-live-music"],
     "questions": [
       {
         "id": "music-and-art-01",
@@ -4664,6 +4701,7 @@
   {
     "id": "bedtime",
     "topic": "Bedtime",
+    "topicIds": ["topic-teens-sleep-and-learning"],
     "questions": [
       {
         "id": "bedtime-01",
@@ -4790,6 +4828,7 @@
   {
     "id": "on-a-trip",
     "topic": "On a Trip",
+    "topicIds": ["topic-kids-holidays","topic-kids-trains","topic-kids-airplanes","topic-kids-boats","topic-teens-travel-planning"],
     "questions": [
       {
         "id": "on-a-trip-01",
@@ -4916,6 +4955,7 @@
   {
     "id": "in-the-garden",
     "topic": "In the Garden",
+    "topicIds": ["topic-kids-plant-growth","topic-kids-butterflies","topic-kids-bees","topic-kids-forests"],
     "questions": [
       {
         "id": "in-the-garden-01",

@@ -4,14 +4,14 @@ import path from 'node:path';
 
 type Sticker = { id: string; word: string };
 type Question = { id?: unknown; prompt?: unknown; options?: unknown; answer?: unknown; say?: unknown };
-type SetRow = { id?: unknown; topic?: unknown; questions?: unknown };
+type SetRow = { id?: unknown; topic?: unknown; topicIds?: unknown; questions?: unknown };
 type Check = 'bankSize' | 'badSet' | 'setSize' | 'duplicateSetId' | 'badQuestion' | 'duplicateQuestionId' |
   'badOptions' | 'unknownOption' | 'duplicateOption' | 'badAnswer' | 'longPrompt' |
-  'duplicatePromptOptions' | 'badSay' | 'fixedAnswerSlot' | 'opinionMix';
+  'duplicatePromptOptions' | 'badSay' | 'fixedAnswerSlot' | 'opinionMix' | 'badTopicIds';
 const checks: Record<Check, number> = {
   bankSize: 0, badSet: 0, setSize: 0, duplicateSetId: 0, badQuestion: 0, duplicateQuestionId: 0,
   badOptions: 0, unknownOption: 0, duplicateOption: 0, badAnswer: 0, longPrompt: 0,
-  duplicatePromptOptions: 0, badSay: 0, fixedAnswerSlot: 0, opinionMix: 0,
+  duplicatePromptOptions: 0, badSay: 0, fixedAnswerSlot: 0, opinionMix: 0, badTopicIds: 0,
 };
 const errors: string[] = [];
 function fail(check: Check, where: string, message: string): void {
@@ -21,8 +21,12 @@ function fail(check: Check, where: string, message: string): void {
 const dataDir = path.resolve('src/data');
 const stickers = JSON.parse(fs.readFileSync(path.join(dataDir, 'sticker-words.json'), 'utf8')) as Sticker[];
 const stickerNames = new Map(stickers.map((sticker) => [sticker.id, sticker.word]));
+const briefingRows = JSON.parse(fs.readFileSync(path.join(dataDir, 'topic-briefings.json'), 'utf8')) as { id: string }[];
+const briefingIds = new Set(briefingRows.map((row) => row.id));
 const file = path.join(dataDir, 'junior-picture-questions.json');
 if (process.argv.includes('--build')) {
+  const existing = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) as SetRow[] : [];
+  const existingTopicIds = new Map(existing.map((row) => [row.id, row.topicIds]));
   const seedFile = path.resolve('docs/library-round-21-question-seeds.txt');
   const seed = fs.readFileSync(seedFile, 'utf8');
   const blocks = seed.trim().split(/\n\s*\n/);
@@ -51,7 +55,7 @@ if (process.argv.includes('--build')) {
       return { id: `${id}-${String(index + 1).padStart(2, '0')}`, prompt, options, answer,
         say: `${prompt} ${spoken.charAt(0).toUpperCase()}${spoken.slice(1)}?` };
     });
-    return { id, topic, questions };
+    return { id, topic, topicIds: existingTopicIds.get(id) || [], questions };
   });
   fs.writeFileSync(file, JSON.stringify(built, null, 2) + '\n');
   console.log(`Built ${built.length} Junior topic sets from the reviewed seeds.`);
@@ -72,6 +76,7 @@ const pairs = new Set<string>();
 const used = new Set<string>();
 let questions = 0;
 let opinions = 0;
+let emptyTopicIds = 0;
 for (const [setIndex, set] of Array.from(sets.entries())) {
   const at = `set[${setIndex}]`;
   if (!set || typeof set !== 'object' || Array.isArray(set) || typeof set.id !== 'string' || !set.id.trim() ||
@@ -81,6 +86,14 @@ for (const [setIndex, set] of Array.from(sets.entries())) {
   }
   if (setIds.has(set.id)) fail('duplicateSetId', at, `duplicate set id ${set.id}`);
   setIds.add(set.id);
+  if (!Array.isArray(set.topicIds)) fail('badTopicIds', at, 'topicIds must be an array');
+  else {
+    if (set.topicIds.length === 0) emptyTopicIds += 1;
+    if (new Set(set.topicIds).size !== set.topicIds.length) fail('badTopicIds', at, 'topicIds must not repeat');
+    for (const id of set.topicIds) if (typeof id !== 'string' || !briefingIds.has(id)) {
+      fail('badTopicIds', at, `unknown briefing id ${String(id)}`);
+    }
+  }
   const rows = set.questions as Question[];
   if (rows.length < 8 || rows.length > 12) fail('setSize', at, `expected 8–12 questions, found ${rows.length}`);
   const positions = [0, 0, 0, 0];
@@ -145,6 +158,7 @@ if (questions && (opinionShare < 0.25 || opinionShare > 0.35)) {
   fail('opinionMix', file, `opinion share ${(opinionShare * 100).toFixed(1)}% is outside 25–35%`);
 }
 console.log(`Junior picture questions: ${sets.length} sets, ${questions} questions, ${opinions} opinion (${(opinionShare * 100).toFixed(1)}%), ${used.size} sticker words used.`);
+console.log(`Round 22 Junior topics: ${emptyTopicIds} sets with no topicIds.`);
 console.log(`Junior checks: ${Object.entries(checks).map(([key, value]) => `${key} ${value}`).join(', ')}.`);
 if (errors.length) {
   console.error(`Junior validation failed with ${errors.length} error(s):\n${errors.slice(0, 50).join('\n')}`);
