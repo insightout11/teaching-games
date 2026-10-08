@@ -10,13 +10,14 @@ import { playWriting } from './library-round-19-play';
 import { digitalWriting } from './library-round-19-digital';
 import { cultureWriting } from './library-round-19-culture';
 import { schoolWriting } from './library-round-19-school';
+import { scienceWriting } from './library-round-19-science';
 
 type Vocab = { word: string; definition: string; partOfSpeech: string; example: string; starter: string };
 type Level = { briefing: string; facts: string[]; angles: string[]; vocab: Vocab[]; expressions: { phrase: string; example: string }[] };
 type Topic = { title: string; ageBand: 'kids' | 'teens'; levels: Record<string, Level> };
 const dataPath = path.resolve('src/data/topic-briefings.json');
 const topics = JSON.parse(fs.readFileSync(dataPath, 'utf8')) as Topic[];
-const writings: WritingSeed[] = [...animalWriting, ...earthWriting, ...natureWriting, ...everydayWriting, ...playWriting, ...digitalWriting, ...cultureWriting, ...schoolWriting];
+const writings: WritingSeed[] = [...animalWriting, ...earthWriting, ...natureWriting, ...everydayWriting, ...playWriting, ...digitalWriting, ...cultureWriting, ...schoolWriting, ...scienceWriting];
 const byTitle = new Map(writings.map((writing) => [writing.title, writing]));
 if (byTitle.size !== writings.length) throw new Error('Duplicate Round 19 writing title');
 

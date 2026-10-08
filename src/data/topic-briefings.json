@@ -31788,7 +31788,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Climate change describes long-term shifts in Earth's climate. Greenhouse gases hold some heat in the atmosphere. Warming affects rainfall and habitats differently. Communities can plan ways to reduce risks.",
+        "briefing": "A changing climate affects seasons, water, and growing conditions. The effects differ from one region to another. Choices about energy and land influence future warming.",
         "facts": [
           "Greenhouse gases hold some heat in the atmosphere.",
           "Human activities add extra greenhouse gases.",
@@ -31802,84 +31802,84 @@
         ],
         "vocab": [
           {
-            "word": "Climate Change",
-            "definition": "Climate change describes long-term shifts in Earth's climate.",
+            "word": "emissions",
+            "definition": "Gases released into the air",
             "partOfSpeech": "noun",
-            "example": "Climate change describes long-term shifts in Earth's climate.",
-            "starter": "I want to discuss climate change because…"
+            "example": "I would cut emissions from transport.",
+            "starter": "If I saw emissions, I would…"
           },
           {
-            "word": "greenhouse gases",
-            "definition": "Gases that hold heat in the atmosphere",
-            "partOfSpeech": "noun",
+            "word": "greenhouse gas",
+            "definition": "A gas that traps heat",
+            "partOfSpeech": "phrase",
             "example": "Greenhouse gases hold some heat in the atmosphere.",
-            "starter": "I can use greenhouse gases to explain…"
+            "starter": "I could describe greenhouse gas by…"
           },
           {
-            "word": "atmosphere",
-            "definition": "The layer of gases around Earth",
+            "word": "adaptation",
+            "definition": "Preparing for changing conditions",
             "partOfSpeech": "noun",
-            "example": "Greenhouse gases hold some heat in the atmosphere.",
-            "starter": "When I hear atmosphere, I think of…"
+            "example": "Adaptation can protect homes.",
+            "starter": "I wonder whether adaptation can…"
           },
           {
-            "word": "habitats",
-            "definition": "Natural homes of living things",
+            "word": "mitigation",
+            "definition": "Reducing the causes of warming",
             "partOfSpeech": "noun",
-            "example": "Warming affects rainfall and habitats differently.",
-            "starter": "A question about habitats is…"
+            "example": "Mitigation needs cooperation.",
+            "starter": "One question about mitigation is…"
           },
           {
-            "word": "warming",
-            "definition": "A rise in temperature",
+            "word": "heatwave",
+            "definition": "A period of unusually hot weather",
             "partOfSpeech": "noun",
-            "example": "Warming affects rainfall and habitats differently.",
-            "starter": "I would compare warming with…"
+            "example": "A heatwave can close schools.",
+            "starter": "I would compare heatwave with…"
           },
           {
-            "word": "rainfall",
-            "definition": "Rain falling in a place over time",
-            "partOfSpeech": "noun",
-            "example": "Warming affects rainfall and habitats differently.",
-            "starter": "One example of rainfall is…"
+            "word": "carbon footprint",
+            "definition": "Emissions linked to an activity",
+            "partOfSpeech": "phrase",
+            "example": "I would compare the carbon footprint.",
+            "starter": "My idea about carbon footprint is…"
           },
           {
-            "word": "system",
-            "definition": "Connected parts that work together.",
+            "word": "resilience",
+            "definition": "Ability to cope with shocks",
             "partOfSpeech": "noun",
-            "example": "We can study climate change as a system.",
-            "starter": "I want to compare system with…"
+            "example": "Resilience matters during floods.",
+            "starter": "I might use resilience when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that greenhouse gases hold some heat in the atmosphere."
+            "phrase": "Hotter days affect my walk…",
+            "example": "Hotter days affect my walk to school."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that human activities add extra greenhouse gases."
+            "phrase": "I would plant…",
+            "example": "I would plant shade trees."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, warming affects rainfall and habitats differently."
+            "phrase": "Some families need…",
+            "example": "Some families need help now."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare climate change with a related topic."
+            "phrase": "We should waste…",
+            "example": "We should waste less energy."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that communities can plan ways to reduce risks."
+            "phrase": "I want to know…",
+            "example": "I want to know what works."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because greenhouse gases hold some heat in the atmosphere."
+            "phrase": "One town cannot…",
+            "example": "One town cannot do everything."
           }
         ]
       },
       "B2": {
-        "briefing": "Climate change describes long-term shifts in Earth's climate. Greenhouse gases hold some heat in the atmosphere; human activities add extra greenhouse gases. Warming affects rainfall and habitats differently; communities can plan ways to reduce risks.",
+        "briefing": "Climate change is a long-term shift that appears through many local experiences. The people least responsible for emissions can face severe consequences. Adaptation and cutting emissions address different parts of the problem.",
         "facts": [
           "Greenhouse gases hold some heat in the atmosphere.",
           "Human activities add extra greenhouse gases.",
@@ -31893,79 +31893,79 @@
         ],
         "vocab": [
           {
-            "word": "Climate Change",
-            "definition": "Climate change describes long-term shifts in Earth's climate.",
+            "word": "emissions",
+            "definition": "Gases released into the air",
             "partOfSpeech": "noun",
-            "example": "Climate change describes long-term shifts in Earth's climate.",
-            "starter": "I want to discuss climate change because…"
+            "example": "The people least responsible for emissions can face severe consequences.",
+            "starter": "If I saw emissions, I would…"
           },
           {
-            "word": "greenhouse gases",
-            "definition": "Gases that hold heat in the atmosphere",
-            "partOfSpeech": "noun",
+            "word": "greenhouse gas",
+            "definition": "A gas that traps heat",
+            "partOfSpeech": "phrase",
             "example": "Greenhouse gases hold some heat in the atmosphere.",
-            "starter": "I can use greenhouse gases to explain…"
+            "starter": "I could describe greenhouse gas by…"
           },
           {
-            "word": "atmosphere",
-            "definition": "The layer of gases around Earth",
+            "word": "adaptation",
+            "definition": "Preparing for changing conditions",
             "partOfSpeech": "noun",
-            "example": "Greenhouse gases hold some heat in the atmosphere.",
-            "starter": "When I hear atmosphere, I think of…"
+            "example": "Adaptation and cutting emissions address different parts of the problem.",
+            "starter": "I wonder whether adaptation can…"
           },
           {
-            "word": "habitats",
-            "definition": "Natural homes of living things",
+            "word": "mitigation",
+            "definition": "Reducing the causes of warming",
             "partOfSpeech": "noun",
-            "example": "Warming affects rainfall and habitats differently.",
-            "starter": "A question about habitats is…"
+            "example": "Mitigation needs cooperation.",
+            "starter": "One question about mitigation is…"
           },
           {
-            "word": "warming",
-            "definition": "A rise in temperature",
+            "word": "heatwave",
+            "definition": "A period of unusually hot weather",
             "partOfSpeech": "noun",
-            "example": "Warming affects rainfall and habitats differently.",
-            "starter": "I would compare warming with…"
+            "example": "If my city faced more heatwaves, I would ask who lacks a cool place to go.",
+            "starter": "I would compare heatwave with…"
           },
           {
-            "word": "rainfall",
-            "definition": "Rain falling in a place over time",
-            "partOfSpeech": "noun",
-            "example": "Warming affects rainfall and habitats differently.",
-            "starter": "One example of rainfall is…"
+            "word": "carbon footprint",
+            "definition": "Emissions linked to an activity",
+            "partOfSpeech": "phrase",
+            "example": "A carbon footprint can inform choices without explaining every inequality.",
+            "starter": "My idea about carbon footprint is…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
+            "word": "resilience",
+            "definition": "Ability to cope with shocks",
             "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about climate change.",
-            "starter": "I want to compare evidence with…"
+            "example": "Resilience matters during floods.",
+            "starter": "I might use resilience when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that greenhouse gases hold some heat in the atmosphere."
+            "phrase": "If my city faced more heatwaves,…",
+            "example": "If my city faced more heatwaves, I would ask who lacks a cool place to go."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that human activities add extra greenhouse gases."
+            "phrase": "Cutting emissions and preparing for change…",
+            "example": "Cutting emissions and preparing for change should happen together."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, warming affects rainfall and habitats differently."
+            "phrase": "I would rather support a measurable…",
+            "example": "I would rather support a measurable policy than rely on guilt alone."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare climate change with a related topic."
+            "phrase": "A carbon footprint can inform choices…",
+            "example": "A carbon footprint can inform choices without explaining every inequality."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that communities can plan ways to reduce risks."
+            "phrase": "I wonder whose experience is missing…",
+            "example": "I wonder whose experience is missing from climate decisions."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because greenhouse gases hold some heat in the atmosphere."
+            "phrase": "Climate action should make ordinary life…",
+            "example": "Climate action should make ordinary life safer and fairer."
           }
         ]
       }
@@ -31984,7 +31984,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Renewable energy comes from sources that naturally replenish. Solar panels turn sunlight into electricity. Energy storage helps when supply changes. Every energy source has land and material needs.",
+        "briefing": "Sun, wind, and moving water can provide power. Electricity must reach homes when it is needed. A community chooses an energy site for more than its output.",
         "facts": [
           "Solar panels turn sunlight into electricity.",
           "Wind turbines use moving air to generate power.",
@@ -31998,84 +31998,84 @@
         ],
         "vocab": [
           {
-            "word": "Renewable Energy",
-            "definition": "Renewable energy comes from sources that naturally replenish.",
-            "partOfSpeech": "noun",
-            "example": "Renewable energy comes from sources that naturally replenish.",
-            "starter": "I want to discuss renewable energy because…"
-          },
-          {
-            "word": "solar panels",
-            "definition": "Devices turning sunlight into electricity",
-            "partOfSpeech": "noun",
+            "word": "solar panel",
+            "definition": "A device turning sunlight into electricity",
+            "partOfSpeech": "phrase",
             "example": "Solar panels turn sunlight into electricity.",
-            "starter": "I can use solar panels to explain…"
+            "starter": "If I saw solar panel, I would…"
           },
           {
-            "word": "wind turbines",
-            "definition": "Machines using moving air to make power",
-            "partOfSpeech": "noun",
+            "word": "wind turbine",
+            "definition": "A machine using wind to generate power",
+            "partOfSpeech": "phrase",
             "example": "Wind turbines use moving air to generate power.",
-            "starter": "When I hear wind turbines, I think of…"
+            "starter": "I could describe wind turbine by…"
           },
           {
-            "word": "storage",
-            "definition": "Keeping energy for later use",
+            "word": "grid",
+            "definition": "A network carrying electricity",
             "partOfSpeech": "noun",
-            "example": "Energy storage helps when supply changes.",
-            "starter": "A question about storage is…"
+            "example": "The grid needs upgrades.",
+            "starter": "I wonder whether grid can…"
           },
           {
-            "word": "electricity",
-            "definition": "Energy used to power many devices",
-            "partOfSpeech": "noun",
-            "example": "Solar panels turn sunlight into electricity.",
-            "starter": "I would compare electricity with…"
+            "word": "battery storage",
+            "definition": "Equipment holding energy for later",
+            "partOfSpeech": "phrase",
+            "example": "Battery storage can help at night.",
+            "starter": "One question about battery storage is…"
           },
           {
-            "word": "supply",
-            "definition": "An amount available for use",
+            "word": "hydropower",
+            "definition": "Electricity from moving water",
             "partOfSpeech": "noun",
-            "example": "Energy storage helps when supply changes.",
-            "starter": "One example of supply is…"
+            "example": "Hydropower changes a river.",
+            "starter": "I would compare hydropower with…"
           },
           {
-            "word": "system",
-            "definition": "Connected parts that work together.",
+            "word": "capacity",
+            "definition": "The maximum possible output",
             "partOfSpeech": "noun",
-            "example": "We can study renewable energy as a system.",
-            "starter": "I want to compare system with…"
+            "example": "I would check the capacity.",
+            "starter": "My idea about capacity is…"
+          },
+          {
+            "word": "intermittent",
+            "definition": "Not available all the time",
+            "partOfSpeech": "noun",
+            "example": "Wind power is intermittent.",
+            "starter": "I might use intermittent when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that solar panels turn sunlight into electricity."
+            "phrase": "I would choose a…",
+            "example": "I would choose a sunny roof."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that wind turbines use moving air to generate power."
+            "phrase": "The wind does not blow…",
+            "example": "The wind does not blow every day."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, energy storage helps when supply changes."
+            "phrase": "We need power…",
+            "example": "We need power after dark."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare renewable energy with a related topic."
+            "phrase": "A nearby project needs…",
+            "example": "A nearby project needs local support."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that every energy source has land and material needs."
+            "phrase": "I would ask about…",
+            "example": "I would ask about the cost."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because solar panels turn sunlight into electricity."
+            "phrase": "One source may not…",
+            "example": "One source may not be enough."
           }
         ]
       },
       "B2": {
-        "briefing": "Renewable energy comes from sources that naturally replenish. Solar panels turn sunlight into electricity; wind turbines use moving air to generate power. Energy storage helps when supply changes; every energy source has land and material needs.",
+        "briefing": "Renewable power reduces fuel burning but still requires materials and land. Storage and flexible grids help match supply with demand. Local participation can decide whether a project earns trust.",
         "facts": [
           "Solar panels turn sunlight into electricity.",
           "Wind turbines use moving air to generate power.",
@@ -32089,79 +32089,79 @@
         ],
         "vocab": [
           {
-            "word": "Renewable Energy",
-            "definition": "Renewable energy comes from sources that naturally replenish.",
-            "partOfSpeech": "noun",
-            "example": "Renewable energy comes from sources that naturally replenish.",
-            "starter": "I want to discuss renewable energy because…"
-          },
-          {
-            "word": "solar panels",
-            "definition": "Devices turning sunlight into electricity",
-            "partOfSpeech": "noun",
+            "word": "solar panel",
+            "definition": "A device turning sunlight into electricity",
+            "partOfSpeech": "phrase",
             "example": "Solar panels turn sunlight into electricity.",
-            "starter": "I can use solar panels to explain…"
+            "starter": "If I saw solar panel, I would…"
           },
           {
-            "word": "wind turbines",
-            "definition": "Machines using moving air to make power",
-            "partOfSpeech": "noun",
+            "word": "wind turbine",
+            "definition": "A machine using wind to generate power",
+            "partOfSpeech": "phrase",
             "example": "Wind turbines use moving air to generate power.",
-            "starter": "When I hear wind turbines, I think of…"
+            "starter": "I could describe wind turbine by…"
           },
           {
-            "word": "storage",
-            "definition": "Keeping energy for later use",
+            "word": "grid",
+            "definition": "A network carrying electricity",
             "partOfSpeech": "noun",
-            "example": "Energy storage helps when supply changes.",
-            "starter": "A question about storage is…"
+            "example": "Storage and flexible grids help match supply with demand.",
+            "starter": "I wonder whether grid can…"
           },
           {
-            "word": "electricity",
-            "definition": "Energy used to power many devices",
-            "partOfSpeech": "noun",
-            "example": "Solar panels turn sunlight into electricity.",
-            "starter": "I would compare electricity with…"
+            "word": "battery storage",
+            "definition": "Equipment holding energy for later",
+            "partOfSpeech": "phrase",
+            "example": "Battery storage helps, but it does not remove every grid challenge.",
+            "starter": "One question about battery storage is…"
           },
           {
-            "word": "supply",
-            "definition": "An amount available for use",
+            "word": "hydropower",
+            "definition": "Electricity from moving water",
             "partOfSpeech": "noun",
-            "example": "Energy storage helps when supply changes.",
-            "starter": "One example of supply is…"
+            "example": "Hydropower may provide electricity while changing river habitats.",
+            "starter": "I would compare hydropower with…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
+            "word": "capacity",
+            "definition": "The maximum possible output",
             "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about renewable energy.",
-            "starter": "I want to compare evidence with…"
+            "example": "I would check the capacity.",
+            "starter": "My idea about capacity is…"
+          },
+          {
+            "word": "intermittent",
+            "definition": "Not available all the time",
+            "partOfSpeech": "noun",
+            "example": "Wind power is intermittent.",
+            "starter": "I might use intermittent when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that solar panels turn sunlight into electricity."
+            "phrase": "If my town built turbines, I…",
+            "example": "If my town built turbines, I would want residents involved before the site was chosen."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that wind turbines use moving air to generate power."
+            "phrase": "Battery storage helps, but it does…",
+            "example": "Battery storage helps, but it does not remove every grid challenge."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, energy storage helps when supply changes."
+            "phrase": "I would rather compare whole systems…",
+            "example": "I would rather compare whole systems than call one technology perfect."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare renewable energy with a related topic."
+            "phrase": "Hydropower may provide electricity while changing…",
+            "example": "Hydropower may provide electricity while changing river habitats."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that every energy source has land and material needs."
+            "phrase": "I wonder who owns the benefits…",
+            "example": "I wonder who owns the benefits of a community energy project."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because solar panels turn sunlight into electricity."
+            "phrase": "Reliable renewable power depends on planning…",
+            "example": "Reliable renewable power depends on planning as well as weather."
           }
         ]
       }
@@ -32180,7 +32180,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Plastic waste can persist after a product is used. Some plastic pieces break into smaller fragments. Reuse can avoid making a new item. Collection systems differ between communities.",
+        "briefing": "Plastic is useful because it is light and durable. The same durability makes discarded pieces linger. Sorting waste helps only when collection systems can process it.",
         "facts": [
           "Some plastic pieces break into smaller fragments.",
           "Sorting materials can help some recycling systems.",
@@ -32194,84 +32194,84 @@
         ],
         "vocab": [
           {
-            "word": "Plastic Waste",
-            "definition": "Plastic waste can persist after a product is used.",
+            "word": "packaging",
+            "definition": "Material wrapping a product",
             "partOfSpeech": "noun",
-            "example": "Plastic waste can persist after a product is used.",
-            "starter": "I want to discuss plastic waste because…"
+            "example": "I would reduce packaging.",
+            "starter": "If I saw packaging, I would…"
           },
           {
-            "word": "fragments",
-            "definition": "Small pieces broken from a larger item",
+            "word": "microplastic",
+            "definition": "A tiny plastic fragment",
             "partOfSpeech": "noun",
-            "example": "Some plastic pieces break into smaller fragments.",
-            "starter": "I can use fragments to explain…"
+            "example": "A microplastic can enter water.",
+            "starter": "I could describe microplastic by…"
+          },
+          {
+            "word": "single-use",
+            "definition": "Designed for one use",
+            "partOfSpeech": "noun",
+            "example": "I would avoid a single-use cup.",
+            "starter": "I wonder whether single-use can…"
           },
           {
             "word": "recycling",
-            "definition": "Turning used materials into new products",
+            "definition": "Processing used material into new products",
             "partOfSpeech": "noun",
             "example": "Sorting materials can help some recycling systems.",
-            "starter": "When I hear recycling, I think of…"
+            "starter": "One question about recycling is…"
           },
           {
-            "word": "reuse",
-            "definition": "Using something again rather than discarding it",
+            "word": "refill",
+            "definition": "Filling a container again",
             "partOfSpeech": "noun",
-            "example": "Reuse can avoid making a new item.",
-            "starter": "A question about reuse is…"
+            "example": "We could offer refills.",
+            "starter": "I would compare refill with…"
           },
           {
-            "word": "product",
-            "definition": "An item made for use or sale",
+            "word": "disposal",
+            "definition": "Getting rid of waste",
             "partOfSpeech": "noun",
-            "example": "Plastic waste can persist after a product is used.",
-            "starter": "I would compare product with…"
+            "example": "Disposal rules differ by place.",
+            "starter": "My idea about disposal is…"
           },
           {
-            "word": "collection systems",
-            "definition": "Ways communities gather used materials",
+            "word": "durability",
+            "definition": "Ability to last",
             "partOfSpeech": "noun",
-            "example": "Collection systems differ between communities.",
-            "starter": "One example of collection systems is…"
-          },
-          {
-            "word": "system",
-            "definition": "Connected parts that work together.",
-            "partOfSpeech": "noun",
-            "example": "We can study plastic waste as a system.",
-            "starter": "I want to compare system with…"
+            "example": "The same durability makes discarded pieces linger.",
+            "starter": "I might use durability when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that some plastic pieces break into smaller fragments."
+            "phrase": "I would carry…",
+            "example": "I would carry a bottle."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that sorting materials can help some recycling systems."
+            "phrase": "This wrapper…",
+            "example": "This wrapper seems unnecessary."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, reuse can avoid making a new item."
+            "phrase": "The bin label…",
+            "example": "The bin label is confusing."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare plastic waste with a related topic."
+            "phrase": "We could…",
+            "example": "We could offer refills."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that collection systems differ between communities."
+            "phrase": "Some plastic keeps…",
+            "example": "Some plastic keeps food safe."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because some plastic pieces break into smaller fragments."
+            "phrase": "I want less waste…",
+            "example": "I want less waste at school."
           }
         ]
       },
       "B2": {
-        "briefing": "Plastic waste can persist after a product is used. Some plastic pieces break into smaller fragments; sorting materials can help some recycling systems. Reuse can avoid making a new item; collection systems differ between communities.",
+        "briefing": "Plastic pollution begins with production and product design, not just littering. Some packaging protects food, while other layers add little value. Reducing unnecessary materials can work before recycling begins.",
         "facts": [
           "Some plastic pieces break into smaller fragments.",
           "Sorting materials can help some recycling systems.",
@@ -32285,79 +32285,79 @@
         ],
         "vocab": [
           {
-            "word": "Plastic Waste",
-            "definition": "Plastic waste can persist after a product is used.",
+            "word": "packaging",
+            "definition": "Material wrapping a product",
             "partOfSpeech": "noun",
-            "example": "Plastic waste can persist after a product is used.",
-            "starter": "I want to discuss plastic waste because…"
+            "example": "Some packaging protects food, while other layers add little value.",
+            "starter": "If I saw packaging, I would…"
           },
           {
-            "word": "fragments",
-            "definition": "Small pieces broken from a larger item",
+            "word": "microplastic",
+            "definition": "A tiny plastic fragment",
             "partOfSpeech": "noun",
-            "example": "Some plastic pieces break into smaller fragments.",
-            "starter": "I can use fragments to explain…"
+            "example": "Microplastics make cleanup much harder than prevention.",
+            "starter": "I could describe microplastic by…"
+          },
+          {
+            "word": "single-use",
+            "definition": "Designed for one use",
+            "partOfSpeech": "noun",
+            "example": "I would avoid a single-use cup.",
+            "starter": "I wonder whether single-use can…"
           },
           {
             "word": "recycling",
-            "definition": "Turning used materials into new products",
+            "definition": "Processing used material into new products",
             "partOfSpeech": "noun",
-            "example": "Sorting materials can help some recycling systems.",
-            "starter": "When I hear recycling, I think of…"
+            "example": "Reducing unnecessary materials can work before recycling begins.",
+            "starter": "One question about recycling is…"
           },
           {
-            "word": "reuse",
-            "definition": "Using something again rather than discarding it",
+            "word": "refill",
+            "definition": "Filling a container again",
             "partOfSpeech": "noun",
-            "example": "Reuse can avoid making a new item.",
-            "starter": "A question about reuse is…"
+            "example": "I would rather see refill systems than blame individual shoppers alone.",
+            "starter": "I would compare refill with…"
           },
           {
-            "word": "product",
-            "definition": "An item made for use or sale",
+            "word": "disposal",
+            "definition": "Getting rid of waste",
             "partOfSpeech": "noun",
-            "example": "Plastic waste can persist after a product is used.",
-            "starter": "I would compare product with…"
+            "example": "Disposal rules differ by place.",
+            "starter": "My idea about disposal is…"
           },
           {
-            "word": "collection systems",
-            "definition": "Ways communities gather used materials",
+            "word": "durability",
+            "definition": "Ability to last",
             "partOfSpeech": "noun",
-            "example": "Collection systems differ between communities.",
-            "starter": "One example of collection systems is…"
-          },
-          {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
-            "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about plastic waste.",
-            "starter": "I want to compare evidence with…"
+            "example": "Durability is useful until we throw it away.",
+            "starter": "I might use durability when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that some plastic pieces break into smaller fragments."
+            "phrase": "If a shop removed plastic, I…",
+            "example": "If a shop removed plastic, I would check whether its replacement is actually better."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that sorting materials can help some recycling systems."
+            "phrase": "Recycling cannot solve a product designed…",
+            "example": "Recycling cannot solve a product designed to become waste immediately."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, reuse can avoid making a new item."
+            "phrase": "I would rather see refill systems…",
+            "example": "I would rather see refill systems than blame individual shoppers alone."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare plastic waste with a related topic."
+            "phrase": "Microplastics make cleanup much harder…",
+            "example": "Microplastics make cleanup much harder than prevention."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that collection systems differ between communities."
+            "phrase": "I wonder which packaging protects food…",
+            "example": "I wonder which packaging protects food and which merely attracts buyers."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because some plastic pieces break into smaller fragments."
+            "phrase": "A durable material needs a plan…",
+            "example": "A durable material needs a plan for what happens after use."
           }
         ]
       }
@@ -32376,7 +32376,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Wildlife conservation works to protect animals and habitats. Connected habitats let animals move between areas. Protecting one species can help others. Conservation plans balance several human and animal needs.",
+        "briefing": "Animals need food, shelter, and room to move. A protected area can help when nearby land also stays healthy. Local people often know changes in a habitat first.",
         "facts": [
           "Connected habitats let animals move between areas.",
           "Local people often know an ecosystem well.",
@@ -32390,84 +32390,84 @@
         ],
         "vocab": [
           {
-            "word": "Wildlife Conservation",
-            "definition": "Wildlife conservation works to protect animals and habitats.",
+            "word": "population",
+            "definition": "A group of one species in an area",
             "partOfSpeech": "noun",
-            "example": "Wildlife conservation works to protect animals and habitats.",
-            "starter": "I want to discuss wildlife conservation because…"
+            "example": "I would track the population.",
+            "starter": "If I saw population, I would…"
           },
           {
-            "word": "habitats",
-            "definition": "Natural homes of plants and animals",
+            "word": "migration corridor",
+            "definition": "A route animals use between habitats",
+            "partOfSpeech": "phrase",
+            "example": "A migration corridor needs space.",
+            "starter": "I could describe migration corridor by…"
+          },
+          {
+            "word": "poaching",
+            "definition": "Illegal hunting",
             "partOfSpeech": "noun",
-            "example": "Wildlife conservation works to protect animals and habitats.",
-            "starter": "I can use habitats to explain…"
+            "example": "Poaching harms threatened wildlife.",
+            "starter": "I wonder whether poaching can…"
+          },
+          {
+            "word": "restoration",
+            "definition": "Repairing damaged nature",
+            "partOfSpeech": "noun",
+            "example": "Restoration takes time.",
+            "starter": "One question about restoration is…"
           },
           {
             "word": "ecosystem",
-            "definition": "Living things and their surroundings interacting",
+            "definition": "Living things and their surroundings",
             "partOfSpeech": "noun",
             "example": "Local people often know an ecosystem well.",
-            "starter": "When I hear ecosystem, I think of…"
+            "starter": "I would compare ecosystem with…"
           },
           {
-            "word": "species",
-            "definition": "Kinds of living things",
+            "word": "ranger",
+            "definition": "A person caring for protected land",
             "partOfSpeech": "noun",
-            "example": "Protecting one species can help others.",
-            "starter": "A question about species is…"
+            "example": "A ranger knows the area.",
+            "starter": "My idea about ranger is…"
           },
           {
-            "word": "animals",
-            "definition": "Living things that eat and move",
+            "word": "biodiversity",
+            "definition": "Variety of living things",
             "partOfSpeech": "noun",
-            "example": "Wildlife conservation works to protect animals and habitats.",
-            "starter": "I would compare animals with…"
-          },
-          {
-            "word": "connected habitats",
-            "definition": "Natural areas joined so animals can travel",
-            "partOfSpeech": "noun",
-            "example": "Connected habitats let animals move between areas.",
-            "starter": "One example of connected habitats is…"
-          },
-          {
-            "word": "system",
-            "definition": "Connected parts that work together.",
-            "partOfSpeech": "noun",
-            "example": "We can study wildlife conservation as a system.",
-            "starter": "I want to compare system with…"
+            "example": "Biodiversity helps ecosystems cope.",
+            "starter": "I might use biodiversity when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that connected habitats let animals move between areas."
+            "phrase": "I would protect a path…",
+            "example": "I would protect a path for animals."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that local people often know an ecosystem well."
+            "phrase": "The river needs…",
+            "example": "The river needs clean water."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, protecting one species can help others."
+            "phrase": "Local people should…",
+            "example": "Local people should help decide."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare wildlife conservation with a related topic."
+            "phrase": "A small insect…",
+            "example": "A small insect also matters."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that conservation plans balance several human and animal needs."
+            "phrase": "I want to learn…",
+            "example": "I want to learn what changed."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because connected habitats let animals move between areas."
+            "phrase": "We should visit without…",
+            "example": "We should visit without disturbing them."
           }
         ]
       },
       "B2": {
-        "briefing": "Wildlife conservation works to protect animals and habitats. Connected habitats let animals move between areas; local people often know an ecosystem well. Protecting one species can help others; conservation plans balance several human and animal needs.",
+        "briefing": "Conservation succeeds when it protects relationships across an ecosystem. A single charismatic species can attract support but obscure less visible life. Long-term care depends on communities having a meaningful role.",
         "facts": [
           "Connected habitats let animals move between areas.",
           "Local people often know an ecosystem well.",
@@ -32481,79 +32481,79 @@
         ],
         "vocab": [
           {
-            "word": "Wildlife Conservation",
-            "definition": "Wildlife conservation works to protect animals and habitats.",
+            "word": "population",
+            "definition": "A group of one species in an area",
             "partOfSpeech": "noun",
-            "example": "Wildlife conservation works to protect animals and habitats.",
-            "starter": "I want to discuss wildlife conservation because…"
+            "example": "I would track the population.",
+            "starter": "If I saw population, I would…"
           },
           {
-            "word": "habitats",
-            "definition": "Natural homes of plants and animals",
+            "word": "migration corridor",
+            "definition": "A route animals use between habitats",
+            "partOfSpeech": "phrase",
+            "example": "A migration corridor can matter more than an isolated reserve.",
+            "starter": "I could describe migration corridor by…"
+          },
+          {
+            "word": "poaching",
+            "definition": "Illegal hunting",
             "partOfSpeech": "noun",
-            "example": "Wildlife conservation works to protect animals and habitats.",
-            "starter": "I can use habitats to explain…"
+            "example": "Poaching harms threatened wildlife.",
+            "starter": "I wonder whether poaching can…"
+          },
+          {
+            "word": "restoration",
+            "definition": "Repairing damaged nature",
+            "partOfSpeech": "noun",
+            "example": "Restoration takes patience because an ecosystem cannot be rebuilt overnight.",
+            "starter": "One question about restoration is…"
           },
           {
             "word": "ecosystem",
-            "definition": "Living things and their surroundings interacting",
+            "definition": "Living things and their surroundings",
             "partOfSpeech": "noun",
-            "example": "Local people often know an ecosystem well.",
-            "starter": "When I hear ecosystem, I think of…"
+            "example": "Conservation succeeds when it protects relationships across an ecosystem.",
+            "starter": "I would compare ecosystem with…"
           },
           {
-            "word": "species",
-            "definition": "Kinds of living things",
+            "word": "ranger",
+            "definition": "A person caring for protected land",
             "partOfSpeech": "noun",
-            "example": "Protecting one species can help others.",
-            "starter": "A question about species is…"
+            "example": "A ranger knows the area.",
+            "starter": "My idea about ranger is…"
           },
           {
-            "word": "animals",
-            "definition": "Living things that eat and move",
+            "word": "biodiversity",
+            "definition": "Variety of living things",
             "partOfSpeech": "noun",
-            "example": "Wildlife conservation works to protect animals and habitats.",
-            "starter": "I would compare animals with…"
-          },
-          {
-            "word": "connected habitats",
-            "definition": "Natural areas joined so animals can travel",
-            "partOfSpeech": "noun",
-            "example": "Connected habitats let animals move between areas.",
-            "starter": "One example of connected habitats is…"
-          },
-          {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
-            "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about wildlife conservation.",
-            "starter": "I want to compare evidence with…"
+            "example": "Biodiversity helps ecosystems cope.",
+            "starter": "I might use biodiversity when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that connected habitats let animals move between areas."
+            "phrase": "If we protected only famous animals,…",
+            "example": "If we protected only famous animals, we might miss what supports them."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that local people often know an ecosystem well."
+            "phrase": "A migration corridor can matter more…",
+            "example": "A migration corridor can matter more than an isolated reserve."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, protecting one species can help others."
+            "phrase": "I would rather ask local communities…",
+            "example": "I would rather ask local communities about needs than announce a distant plan."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare wildlife conservation with a related topic."
+            "phrase": "Restoration takes patience because an ecosystem…",
+            "example": "Restoration takes patience because an ecosystem cannot be rebuilt overnight."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that conservation plans balance several human and animal needs."
+            "phrase": "I wonder how conservation can support…",
+            "example": "I wonder how conservation can support livelihoods as well as wildlife."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because connected habitats let animals move between areas."
+            "phrase": "The least visible species may play…",
+            "example": "The least visible species may play a crucial role."
           }
         ]
       }
@@ -32572,7 +32572,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Urban nature includes plants and animals in towns. Street trees can provide shade. Buildings may offer nesting spaces for birds. Connected green areas help some animals travel.",
+        "briefing": "Trees and gardens give city animals places to live. Shade can make a hot street easier to use. Even a small patch of soil can hold surprising life.",
         "facts": [
           "Street trees can provide shade.",
           "Parks give people room to move and rest.",
@@ -32586,84 +32586,84 @@
         ],
         "vocab": [
           {
-            "word": "Urban Nature",
-            "definition": "Urban nature includes plants and animals in towns.",
-            "partOfSpeech": "noun",
-            "example": "Urban nature includes plants and animals in towns.",
-            "starter": "I want to discuss urban nature because…"
+            "word": "tree canopy",
+            "definition": "The cover formed by treetops",
+            "partOfSpeech": "phrase",
+            "example": "The tree canopy shades the street.",
+            "starter": "If I saw tree canopy, I would…"
           },
           {
-            "word": "shade",
-            "definition": "An area sheltered from direct sun",
+            "word": "pollinator",
+            "definition": "An animal helping plants reproduce",
             "partOfSpeech": "noun",
-            "example": "Street trees can provide shade.",
-            "starter": "I can use shade to explain…"
+            "example": "A pollinator visited the flowers.",
+            "starter": "I could describe pollinator by…"
           },
           {
-            "word": "nesting",
-            "definition": "Making places for animals to raise young",
-            "partOfSpeech": "noun",
-            "example": "Buildings may offer nesting spaces for birds.",
-            "starter": "When I hear nesting, I think of…"
+            "word": "green corridor",
+            "definition": "A linked route of planted areas",
+            "partOfSpeech": "phrase",
+            "example": "A green corridor could join parks.",
+            "starter": "I wonder whether green corridor can…"
           },
           {
-            "word": "green areas",
-            "definition": "Places with plants in a city",
-            "partOfSpeech": "noun",
-            "example": "Connected green areas help some animals travel.",
-            "starter": "A question about green areas is…"
+            "word": "rain garden",
+            "definition": "A planted area catching runoff",
+            "partOfSpeech": "phrase",
+            "example": "I would build a rain garden.",
+            "starter": "One question about rain garden is…"
           },
           {
-            "word": "parks",
-            "definition": "Public green spaces",
-            "partOfSpeech": "noun",
-            "example": "Parks give people room to move and rest.",
-            "starter": "I would compare parks with…"
+            "word": "native plant",
+            "definition": "A species local to the region",
+            "partOfSpeech": "phrase",
+            "example": "A native plant may support insects.",
+            "starter": "I would compare native plant with…"
           },
           {
-            "word": "birds",
-            "definition": "Feathered animals with beaks",
+            "word": "runoff",
+            "definition": "Water flowing over hard ground",
             "partOfSpeech": "noun",
-            "example": "Buildings may offer nesting spaces for birds.",
-            "starter": "One example of birds is…"
+            "example": "Runoff collects near the road.",
+            "starter": "My idea about runoff is…"
           },
           {
-            "word": "system",
-            "definition": "Connected parts that work together.",
+            "word": "biodiversity",
+            "definition": "Variety of living things",
             "partOfSpeech": "noun",
-            "example": "We can study urban nature as a system.",
-            "starter": "I want to compare system with…"
+            "example": "The garden adds biodiversity.",
+            "starter": "I might use biodiversity when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that street trees can provide shade."
+            "phrase": "I would plant near the…",
+            "example": "I would plant near the bus stop."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that parks give people room to move and rest."
+            "phrase": "Birds use this…",
+            "example": "Birds use this small tree."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, buildings may offer nesting spaces for birds."
+            "phrase": "The pavement is…",
+            "example": "The pavement is too hot."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare urban nature with a related topic."
+            "phrase": "We could make room…",
+            "example": "We could make room for flowers."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that connected green areas help some animals travel."
+            "phrase": "I want a park I…",
+            "example": "I want a park I can reach."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because street trees can provide shade."
+            "phrase": "Rain collects here…",
+            "example": "Rain collects here after storms."
           }
         ]
       },
       "B2": {
-        "briefing": "Urban nature includes plants and animals in towns. Street trees can provide shade; parks give people room to move and rest. Buildings may offer nesting spaces for birds; connected green areas help some animals travel.",
+        "briefing": "Urban nature is part of infrastructure for heat, water, and wellbeing. Connected green spaces help wildlife move across built areas. Access matters when some neighborhoods have far fewer trees.",
         "facts": [
           "Street trees can provide shade.",
           "Parks give people room to move and rest.",
@@ -32677,79 +32677,79 @@
         ],
         "vocab": [
           {
-            "word": "Urban Nature",
-            "definition": "Urban nature includes plants and animals in towns.",
-            "partOfSpeech": "noun",
-            "example": "Urban nature includes plants and animals in towns.",
-            "starter": "I want to discuss urban nature because…"
+            "word": "tree canopy",
+            "definition": "The cover formed by treetops",
+            "partOfSpeech": "phrase",
+            "example": "The tree canopy shades the street.",
+            "starter": "If I saw tree canopy, I would…"
           },
           {
-            "word": "shade",
-            "definition": "An area sheltered from direct sun",
+            "word": "pollinator",
+            "definition": "An animal helping plants reproduce",
             "partOfSpeech": "noun",
-            "example": "Street trees can provide shade.",
-            "starter": "I can use shade to explain…"
+            "example": "Native plants may help local pollinators better than decorative imports.",
+            "starter": "I could describe pollinator by…"
           },
           {
-            "word": "nesting",
-            "definition": "Making places for animals to raise young",
-            "partOfSpeech": "noun",
-            "example": "Buildings may offer nesting spaces for birds.",
-            "starter": "When I hear nesting, I think of…"
+            "word": "green corridor",
+            "definition": "A linked route of planted areas",
+            "partOfSpeech": "phrase",
+            "example": "A green corridor could join parks.",
+            "starter": "I wonder whether green corridor can…"
           },
           {
-            "word": "green areas",
-            "definition": "Places with plants in a city",
-            "partOfSpeech": "noun",
-            "example": "Connected green areas help some animals travel.",
-            "starter": "A question about green areas is…"
+            "word": "rain garden",
+            "definition": "A planted area catching runoff",
+            "partOfSpeech": "phrase",
+            "example": "A rain garden can solve a drainage problem while supporting insects.",
+            "starter": "One question about rain garden is…"
           },
           {
-            "word": "parks",
-            "definition": "Public green spaces",
-            "partOfSpeech": "noun",
-            "example": "Parks give people room to move and rest.",
-            "starter": "I would compare parks with…"
+            "word": "native plant",
+            "definition": "A species local to the region",
+            "partOfSpeech": "phrase",
+            "example": "Native plants may help local pollinators better than decorative imports.",
+            "starter": "I would compare native plant with…"
           },
           {
-            "word": "birds",
-            "definition": "Feathered animals with beaks",
+            "word": "runoff",
+            "definition": "Water flowing over hard ground",
             "partOfSpeech": "noun",
-            "example": "Buildings may offer nesting spaces for birds.",
-            "starter": "One example of birds is…"
+            "example": "Runoff collects near the road.",
+            "starter": "My idea about runoff is…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
+            "word": "biodiversity",
+            "definition": "Variety of living things",
             "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about urban nature.",
-            "starter": "I want to compare evidence with…"
+            "example": "The garden adds biodiversity.",
+            "starter": "I might use biodiversity when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that street trees can provide shade."
+            "phrase": "If my neighborhood gained trees, I…",
+            "example": "If my neighborhood gained trees, I would ask who gets shade first."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that parks give people room to move and rest."
+            "phrase": "A rain garden can solve a…",
+            "example": "A rain garden can solve a drainage problem while supporting insects."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, buildings may offer nesting spaces for birds."
+            "phrase": "I would rather connect small habitats…",
+            "example": "I would rather connect small habitats than celebrate one isolated lawn."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare urban nature with a related topic."
+            "phrase": "Native plants may help local pollinators…",
+            "example": "Native plants may help local pollinators better than decorative imports."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that connected green areas help some animals travel."
+            "phrase": "I wonder which residents can actually…",
+            "example": "I wonder which residents can actually reach a safe green space."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because street trees can provide shade."
+            "phrase": "Urban nature should be planned as…",
+            "example": "Urban nature should be planned as carefully as roads."
           }
         ]
       }
@@ -32768,7 +32768,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Public transport carries groups of people on shared routes. Buses can change routes more easily than trains. Good connections make transfers simpler. Accessible stops help more people travel independently.",
+        "briefing": "A bus or train carries many people along one route. Frequency matters when a passenger has no flexible schedule. A safe walk to the stop is part of the trip.",
         "facts": [
           "Buses can change routes more easily than trains.",
           "Trains can move many people along fixed lines.",
@@ -32782,84 +32782,84 @@
         ],
         "vocab": [
           {
-            "word": "Public Transport",
-            "definition": "Public transport carries groups of people on shared routes.",
+            "word": "route",
+            "definition": "The path a service follows",
             "partOfSpeech": "noun",
-            "example": "Public transport carries groups of people on shared routes.",
-            "starter": "I want to discuss public transport because…"
+            "example": "A bus or train carries many people along one route.",
+            "starter": "If I saw route, I would…"
           },
           {
-            "word": "routes",
-            "definition": "Paths followed by vehicles",
+            "word": "frequency",
+            "definition": "How often a service runs",
             "partOfSpeech": "noun",
-            "example": "Public transport carries groups of people on shared routes.",
-            "starter": "I can use routes to explain…"
+            "example": "Frequency matters when a passenger has no flexible schedule.",
+            "starter": "I could describe frequency by…"
           },
           {
-            "word": "transfers",
-            "definition": "Changes from one service to another",
+            "word": "transfer",
+            "definition": "A change from one service to another",
             "partOfSpeech": "noun",
             "example": "Good connections make transfers simpler.",
-            "starter": "When I hear transfers, I think of…"
+            "starter": "I wonder whether transfer can…"
           },
           {
-            "word": "accessible",
-            "definition": "Usable by people with different needs",
+            "word": "fare",
+            "definition": "The price of a ride",
             "partOfSpeech": "noun",
-            "example": "Accessible stops help more people travel independently.",
-            "starter": "A question about accessible is…"
+            "example": "The fare matters to me.",
+            "starter": "One question about fare is…"
           },
           {
-            "word": "buses",
-            "definition": "Road vehicles carrying many people",
+            "word": "platform",
+            "definition": "A place for boarding a train",
             "partOfSpeech": "noun",
-            "example": "Buses can change routes more easily than trains.",
-            "starter": "I would compare buses with…"
+            "example": "The platform needs clear signs.",
+            "starter": "I would compare platform with…"
           },
           {
-            "word": "stops",
-            "definition": "Places where passengers board",
+            "word": "accessibility",
+            "definition": "Ease of use for people with different needs",
             "partOfSpeech": "noun",
-            "example": "Accessible stops help more people travel independently.",
-            "starter": "One example of stops is…"
+            "example": "Accessibility should guide design.",
+            "starter": "My idea about accessibility is…"
           },
           {
-            "word": "system",
-            "definition": "Connected parts that work together.",
+            "word": "timetable",
+            "definition": "A schedule of departures",
             "partOfSpeech": "noun",
-            "example": "We can study public transport as a system.",
-            "starter": "I want to compare system with…"
+            "example": "I would check the timetable.",
+            "starter": "I might use timetable when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that buses can change routes more easily than trains."
+            "phrase": "I would take the bus…",
+            "example": "I would take the bus to school."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that trains can move many people along fixed lines."
+            "phrase": "The stop needs…",
+            "example": "The stop needs a shelter."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, good connections make transfers simpler."
+            "phrase": "This transfer is…",
+            "example": "This transfer is too slow."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare public transport with a related topic."
+            "phrase": "A clear sign…",
+            "example": "A clear sign would help."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that accessible stops help more people travel independently."
+            "phrase": "I want a safe…",
+            "example": "I want a safe ride home."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because buses can change routes more easily than trains."
+            "phrase": "The fare matters…",
+            "example": "The fare matters to me."
           }
         ]
       },
       "B2": {
-        "briefing": "Public transport carries groups of people on shared routes. Buses can change routes more easily than trains; trains can move many people along fixed lines. Good connections make transfers simpler; accessible stops help more people travel independently.",
+        "briefing": "Public transport works as a network, not a collection of vehicles. Reliability shapes whether people can trust it for work or school. Accessible routes expand who can participate in city life.",
         "facts": [
           "Buses can change routes more easily than trains.",
           "Trains can move many people along fixed lines.",
@@ -32873,79 +32873,79 @@
         ],
         "vocab": [
           {
-            "word": "Public Transport",
-            "definition": "Public transport carries groups of people on shared routes.",
+            "word": "route",
+            "definition": "The path a service follows",
             "partOfSpeech": "noun",
-            "example": "Public transport carries groups of people on shared routes.",
-            "starter": "I want to discuss public transport because…"
+            "example": "Accessible routes expand who can participate in city life.",
+            "starter": "If I saw route, I would…"
           },
           {
-            "word": "routes",
-            "definition": "Paths followed by vehicles",
+            "word": "frequency",
+            "definition": "How often a service runs",
             "partOfSpeech": "noun",
-            "example": "Public transport carries groups of people on shared routes.",
-            "starter": "I can use routes to explain…"
+            "example": "Frequency matters at night.",
+            "starter": "I could describe frequency by…"
           },
           {
-            "word": "transfers",
-            "definition": "Changes from one service to another",
+            "word": "transfer",
+            "definition": "A change from one service to another",
             "partOfSpeech": "noun",
             "example": "Good connections make transfers simpler.",
-            "starter": "When I hear transfers, I think of…"
+            "starter": "I wonder whether transfer can…"
           },
           {
-            "word": "accessible",
-            "definition": "Usable by people with different needs",
+            "word": "fare",
+            "definition": "The price of a ride",
             "partOfSpeech": "noun",
-            "example": "Accessible stops help more people travel independently.",
-            "starter": "A question about accessible is…"
+            "example": "A low fare helps little when the last bus leaves too early.",
+            "starter": "One question about fare is…"
           },
           {
-            "word": "buses",
-            "definition": "Road vehicles carrying many people",
+            "word": "platform",
+            "definition": "A place for boarding a train",
             "partOfSpeech": "noun",
-            "example": "Buses can change routes more easily than trains.",
-            "starter": "I would compare buses with…"
+            "example": "The platform needs clear signs.",
+            "starter": "I would compare platform with…"
           },
           {
-            "word": "stops",
-            "definition": "Places where passengers board",
+            "word": "accessibility",
+            "definition": "Ease of use for people with different needs",
             "partOfSpeech": "noun",
-            "example": "Accessible stops help more people travel independently.",
-            "starter": "One example of stops is…"
+            "example": "Accessibility includes the path to the stop and the information along it.",
+            "starter": "My idea about accessibility is…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
+            "word": "timetable",
+            "definition": "A schedule of departures",
             "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about public transport.",
-            "starter": "I want to compare evidence with…"
+            "example": "I would check the timetable.",
+            "starter": "I might use timetable when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that buses can change routes more easily than trains."
+            "phrase": "If I redesigned a route, I…",
+            "example": "If I redesigned a route, I would begin with trips people actually need."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that trains can move many people along fixed lines."
+            "phrase": "A low fare helps little when…",
+            "example": "A low fare helps little when the last bus leaves too early."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, good connections make transfers simpler."
+            "phrase": "I would rather improve reliability than…",
+            "example": "I would rather improve reliability than add a flashy vehicle."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare public transport with a related topic."
+            "phrase": "Accessibility includes the path to the…",
+            "example": "Accessibility includes the path to the stop and the information along it."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that accessible stops help more people travel independently."
+            "phrase": "I wonder whose travel time city…",
+            "example": "I wonder whose travel time city planners count."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because buses can change routes more easily than trains."
+            "phrase": "A useful network should serve ordinary…",
+            "example": "A useful network should serve ordinary days, not just busy centers."
           }
         ]
       }
@@ -32964,7 +32964,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Future cities will still need homes, movement, and public space. Compact neighborhoods can shorten some trips. Shared systems need careful maintenance. Residents should help decide what their city needs.",
+        "briefing": "A city can change its streets as people grow and move. Homes, parks, and services need to fit together. A clever device cannot fix a badly planned neighborhood.",
         "facts": [
           "Compact neighborhoods can shorten some trips.",
           "Trees can cool streets and offer shade.",
@@ -32978,84 +32978,84 @@
         ],
         "vocab": [
           {
-            "word": "Future cities",
-            "definition": "Future cities will still need homes, movement, and public space.",
+            "word": "mixed-use",
+            "definition": "Combining homes, shops, and services",
             "partOfSpeech": "noun",
-            "example": "Future cities will still need homes, movement, and public space.",
-            "starter": "I want to discuss cities of the future because…"
+            "example": "I prefer a mixed-use street.",
+            "starter": "If I saw mixed-use, I would…"
           },
           {
-            "word": "neighborhoods",
-            "definition": "Local areas where people live",
+            "word": "density",
+            "definition": "How many people live in an area",
             "partOfSpeech": "noun",
-            "example": "Compact neighborhoods can shorten some trips.",
-            "starter": "I can use neighborhoods to explain…"
+            "example": "Density can support frequent buses.",
+            "starter": "I could describe density by…"
           },
           {
-            "word": "maintenance",
-            "definition": "Work keeping a system in good condition",
-            "partOfSpeech": "noun",
-            "example": "Shared systems need careful maintenance.",
-            "starter": "When I hear maintenance, I think of…"
-          },
-          {
-            "word": "residents",
-            "definition": "People who live in a place",
-            "partOfSpeech": "noun",
-            "example": "Residents should help decide what their city needs.",
-            "starter": "A question about residents is…"
-          },
-          {
-            "word": "trees",
-            "definition": "Large plants with woody trunks",
-            "partOfSpeech": "noun",
-            "example": "Trees can cool streets and offer shade.",
-            "starter": "I would compare trees with…"
+            "word": "smart sensor",
+            "definition": "A device gathering local information",
+            "partOfSpeech": "phrase",
+            "example": "A smart sensor could detect leaks.",
+            "starter": "I wonder whether smart sensor can…"
           },
           {
             "word": "public space",
-            "definition": "Places open for everyone to use",
-            "partOfSpeech": "noun",
-            "example": "Future cities will still need homes, movement, and public space.",
-            "starter": "One example of public space is…"
+            "definition": "A place open to everyone",
+            "partOfSpeech": "phrase",
+            "example": "Public space needs shade.",
+            "starter": "One question about public space is…"
           },
           {
-            "word": "system",
-            "definition": "Connected parts that work together.",
+            "word": "zoning",
+            "definition": "Rules for how land may be used",
             "partOfSpeech": "noun",
-            "example": "We can study cities of the future as a system.",
-            "starter": "I want to compare system with…"
+            "example": "Zoning can separate homes and shops.",
+            "starter": "I would compare zoning with…"
+          },
+          {
+            "word": "walkability",
+            "definition": "Ease of getting around on foot",
+            "partOfSpeech": "noun",
+            "example": "Walkability matters near schools.",
+            "starter": "My idea about walkability is…"
+          },
+          {
+            "word": "housing supply",
+            "definition": "The amount of available housing",
+            "partOfSpeech": "phrase",
+            "example": "Housing supply affects choices.",
+            "starter": "I might use housing supply when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that compact neighborhoods can shorten some trips."
+            "phrase": "I want a park…",
+            "example": "I want a park near home."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that trees can cool streets and offer shade."
+            "phrase": "The streets should…",
+            "example": "The streets should feel safe."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, shared systems need careful maintenance."
+            "phrase": "A shop within walking…",
+            "example": "A shop within walking distance helps."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare cities of the future with a related topic."
+            "phrase": "We need homes people…",
+            "example": "We need homes people can afford."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that residents should help decide what their city needs."
+            "phrase": "I would add shade to…",
+            "example": "I would add shade to the square."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because compact neighborhoods can shorten some trips."
+            "phrase": "A robot cannot solve…",
+            "example": "A robot cannot solve every problem."
           }
         ]
       },
       "B2": {
-        "briefing": "Future cities will still need homes, movement, and public space. Compact neighborhoods can shorten some trips; trees can cool streets and offer shade. Shared systems need careful maintenance; residents should help decide what their city needs.",
+        "briefing": "Future cities will reflect choices about housing, climate, and public space. Technology helps only when residents can understand and shape it. A good plan should work for children, older people, and people with disabilities.",
         "facts": [
           "Compact neighborhoods can shorten some trips.",
           "Trees can cool streets and offer shade.",
@@ -33069,79 +33069,79 @@
         ],
         "vocab": [
           {
-            "word": "Future cities",
-            "definition": "Future cities will still need homes, movement, and public space.",
+            "word": "mixed-use",
+            "definition": "Combining homes, shops, and services",
             "partOfSpeech": "noun",
-            "example": "Future cities will still need homes, movement, and public space.",
-            "starter": "I want to discuss cities of the future because…"
+            "example": "Mixed-use streets can make daily errands easier without a car.",
+            "starter": "If I saw mixed-use, I would…"
           },
           {
-            "word": "neighborhoods",
-            "definition": "Local areas where people live",
+            "word": "density",
+            "definition": "How many people live in an area",
             "partOfSpeech": "noun",
-            "example": "Compact neighborhoods can shorten some trips.",
-            "starter": "I can use neighborhoods to explain…"
+            "example": "Density can support frequent buses.",
+            "starter": "I could describe density by…"
           },
           {
-            "word": "maintenance",
-            "definition": "Work keeping a system in good condition",
-            "partOfSpeech": "noun",
-            "example": "Shared systems need careful maintenance.",
-            "starter": "When I hear maintenance, I think of…"
-          },
-          {
-            "word": "residents",
-            "definition": "People who live in a place",
-            "partOfSpeech": "noun",
-            "example": "Residents should help decide what their city needs.",
-            "starter": "A question about residents is…"
-          },
-          {
-            "word": "trees",
-            "definition": "Large plants with woody trunks",
-            "partOfSpeech": "noun",
-            "example": "Trees can cool streets and offer shade.",
-            "starter": "I would compare trees with…"
+            "word": "smart sensor",
+            "definition": "A device gathering local information",
+            "partOfSpeech": "phrase",
+            "example": "A smart sensor is useful only when someone responds to its information.",
+            "starter": "I wonder whether smart sensor can…"
           },
           {
             "word": "public space",
-            "definition": "Places open for everyone to use",
-            "partOfSpeech": "noun",
-            "example": "Future cities will still need homes, movement, and public space.",
-            "starter": "One example of public space is…"
+            "definition": "A place open to everyone",
+            "partOfSpeech": "phrase",
+            "example": "Future cities will reflect choices about housing, climate, and public space.",
+            "starter": "One question about public space is…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
+            "word": "zoning",
+            "definition": "Rules for how land may be used",
             "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about cities of the future.",
-            "starter": "I want to compare evidence with…"
+            "example": "Zoning can separate homes and shops.",
+            "starter": "I would compare zoning with…"
+          },
+          {
+            "word": "walkability",
+            "definition": "Ease of getting around on foot",
+            "partOfSpeech": "noun",
+            "example": "Walkability matters near schools.",
+            "starter": "My idea about walkability is…"
+          },
+          {
+            "word": "housing supply",
+            "definition": "The amount of available housing",
+            "partOfSpeech": "phrase",
+            "example": "Housing supply affects choices.",
+            "starter": "I might use housing supply when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that compact neighborhoods can shorten some trips."
+            "phrase": "If I planned a city, I…",
+            "example": "If I planned a city, I would ask residents what already works before drawing new towers."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that trees can cool streets and offer shade."
+            "phrase": "A smart sensor is useful only…",
+            "example": "A smart sensor is useful only when someone responds to its information."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, shared systems need careful maintenance."
+            "phrase": "I would rather have reliable buses…",
+            "example": "I would rather have reliable buses than spectacular empty buildings."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare cities of the future with a related topic."
+            "phrase": "Mixed-use streets can make daily errands…",
+            "example": "Mixed-use streets can make daily errands easier without a car."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that residents should help decide what their city needs."
+            "phrase": "I wonder how future housing can…",
+            "example": "I wonder how future housing can remain affordable."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because compact neighborhoods can shorten some trips."
+            "phrase": "A successful city lets more people…",
+            "example": "A successful city lets more people share its benefits."
           }
         ]
       }
@@ -33160,7 +33160,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Space exploration uses missions to study places beyond Earth. Robots can visit places too risky for people. Long journeys require careful supplies and communication. Discoveries can change questions about Earth.",
+        "briefing": "Space missions use instruments to learn about distant places. An unmanned probe can travel where people cannot safely go. Each mission has limited fuel, time, and power.",
         "facts": [
           "Robots can visit places too risky for people.",
           "Spacecraft instruments measure distant objects.",
@@ -33174,84 +33174,84 @@
         ],
         "vocab": [
           {
-            "word": "Space Exploration",
-            "definition": "Space exploration uses missions to study places beyond Earth.",
+            "word": "probe",
+            "definition": "An unmanned craft for investigation",
             "partOfSpeech": "noun",
-            "example": "Space exploration uses missions to study places beyond Earth.",
-            "starter": "I want to discuss space exploration because…"
+            "example": "An unmanned probe can travel where people cannot safely go.",
+            "starter": "If I saw probe, I would…"
           },
           {
-            "word": "spacecraft",
-            "definition": "Vehicles built for travel beyond Earth",
+            "word": "orbit",
+            "definition": "A path around another body",
             "partOfSpeech": "noun",
-            "example": "Spacecraft instruments measure distant objects.",
-            "starter": "I can use spacecraft to explain…"
+            "example": "The craft entered orbit.",
+            "starter": "I could describe orbit by…"
           },
           {
-            "word": "instruments",
-            "definition": "Tools used to take measurements",
+            "word": "telescope",
+            "definition": "An instrument for observing distant objects",
             "partOfSpeech": "noun",
-            "example": "Spacecraft instruments measure distant objects.",
-            "starter": "When I hear instruments, I think of…"
+            "example": "A telescope reveals faint light.",
+            "starter": "I wonder whether telescope can…"
           },
           {
-            "word": "missions",
-            "definition": "Planned journeys with a purpose",
+            "word": "payload",
+            "definition": "Equipment carried for a mission",
             "partOfSpeech": "noun",
-            "example": "Space exploration uses missions to study places beyond Earth.",
-            "starter": "A question about missions is…"
+            "example": "I would check the payload.",
+            "starter": "One question about payload is…"
           },
           {
-            "word": "robots",
-            "definition": "Machines that can perform programmed tasks",
-            "partOfSpeech": "noun",
-            "example": "Robots can visit places too risky for people.",
-            "starter": "I would compare robots with…"
+            "word": "mission control",
+            "definition": "The team directing a mission",
+            "partOfSpeech": "phrase",
+            "example": "Mission control sent a command.",
+            "starter": "I would compare mission control with…"
           },
           {
-            "word": "journeys",
-            "definition": "Travel from one place to another",
+            "word": "trajectory",
+            "definition": "A planned path through space",
             "partOfSpeech": "noun",
-            "example": "Long journeys require careful supplies and communication.",
-            "starter": "One example of journeys is…"
+            "example": "The trajectory saves fuel.",
+            "starter": "My idea about trajectory is…"
           },
           {
-            "word": "system",
-            "definition": "Connected parts that work together.",
-            "partOfSpeech": "noun",
-            "example": "We can study space exploration as a system.",
-            "starter": "I want to compare system with…"
+            "word": "life support",
+            "definition": "Systems keeping astronauts alive",
+            "partOfSpeech": "phrase",
+            "example": "Life support needs backups.",
+            "starter": "I might use life support when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that robots can visit places too risky for people."
+            "phrase": "I would send a small…",
+            "example": "I would send a small robot first."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that spacecraft instruments measure distant objects."
+            "phrase": "The journey could…",
+            "example": "The journey could take years."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, long journeys require careful supplies and communication."
+            "phrase": "What would…",
+            "example": "What would it measure?"
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare space exploration with a related topic."
+            "phrase": "Astronauts need…",
+            "example": "Astronauts need safe air."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that discoveries can change questions about Earth."
+            "phrase": "I want to see…",
+            "example": "I want to see the images."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because robots can visit places too risky for people."
+            "phrase": "The cost needs…",
+            "example": "The cost needs a reason."
           }
         ]
       },
       "B2": {
-        "briefing": "Space exploration uses missions to study places beyond Earth. Robots can visit places too risky for people; spacecraft instruments measure distant objects. Long journeys require careful supplies and communication; discoveries can change questions about Earth.",
+        "briefing": "Exploration asks scientific questions while also expressing human ambitions. Robotic craft and astronauts offer different kinds of observation. The cost of a mission invites debate about benefits on Earth.",
         "facts": [
           "Robots can visit places too risky for people.",
           "Spacecraft instruments measure distant objects.",
@@ -33265,79 +33265,79 @@
         ],
         "vocab": [
           {
-            "word": "Space Exploration",
-            "definition": "Space exploration uses missions to study places beyond Earth.",
+            "word": "probe",
+            "definition": "An unmanned craft for investigation",
             "partOfSpeech": "noun",
-            "example": "Space exploration uses missions to study places beyond Earth.",
-            "starter": "I want to discuss space exploration because…"
+            "example": "A robotic probe can take risks that would be unacceptable for people.",
+            "starter": "If I saw probe, I would…"
           },
           {
-            "word": "spacecraft",
-            "definition": "Vehicles built for travel beyond Earth",
+            "word": "orbit",
+            "definition": "A path around another body",
             "partOfSpeech": "noun",
-            "example": "Spacecraft instruments measure distant objects.",
-            "starter": "I can use spacecraft to explain…"
+            "example": "The craft entered orbit.",
+            "starter": "I could describe orbit by…"
           },
           {
-            "word": "instruments",
-            "definition": "Tools used to take measurements",
+            "word": "telescope",
+            "definition": "An instrument for observing distant objects",
             "partOfSpeech": "noun",
-            "example": "Spacecraft instruments measure distant objects.",
-            "starter": "When I hear instruments, I think of…"
+            "example": "A telescope reveals faint light.",
+            "starter": "I wonder whether telescope can…"
           },
           {
-            "word": "missions",
-            "definition": "Planned journeys with a purpose",
+            "word": "payload",
+            "definition": "Equipment carried for a mission",
             "partOfSpeech": "noun",
-            "example": "Space exploration uses missions to study places beyond Earth.",
-            "starter": "A question about missions is…"
+            "example": "I would check the payload.",
+            "starter": "One question about payload is…"
           },
           {
-            "word": "robots",
-            "definition": "Machines that can perform programmed tasks",
-            "partOfSpeech": "noun",
-            "example": "Robots can visit places too risky for people.",
-            "starter": "I would compare robots with…"
+            "word": "mission control",
+            "definition": "The team directing a mission",
+            "partOfSpeech": "phrase",
+            "example": "Mission control sent a command.",
+            "starter": "I would compare mission control with…"
           },
           {
-            "word": "journeys",
-            "definition": "Travel from one place to another",
+            "word": "trajectory",
+            "definition": "A planned path through space",
             "partOfSpeech": "noun",
-            "example": "Long journeys require careful supplies and communication.",
-            "starter": "One example of journeys is…"
+            "example": "The trajectory saves fuel.",
+            "starter": "My idea about trajectory is…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
-            "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about space exploration.",
-            "starter": "I want to compare evidence with…"
+            "word": "life support",
+            "definition": "Systems keeping astronauts alive",
+            "partOfSpeech": "phrase",
+            "example": "Life support makes human exploration far more complex than a camera flight.",
+            "starter": "I might use life support when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that robots can visit places too risky for people."
+            "phrase": "If I designed a mission, I…",
+            "example": "If I designed a mission, I would start with one question the instruments could answer."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that spacecraft instruments measure distant objects."
+            "phrase": "A robotic probe can take risks…",
+            "example": "A robotic probe can take risks that would be unacceptable for people."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, long journeys require careful supplies and communication."
+            "phrase": "I would rather fund a careful…",
+            "example": "I would rather fund a careful long mission than a dramatic short visit."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare space exploration with a related topic."
+            "phrase": "Life support makes human exploration far…",
+            "example": "Life support makes human exploration far more complex than a camera flight."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that discoveries can change questions about Earth."
+            "phrase": "I wonder which discoveries justify the…",
+            "example": "I wonder which discoveries justify the expense to society."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because robots can visit places too risky for people."
+            "phrase": "Exploration is most valuable when its…",
+            "example": "Exploration is most valuable when its findings are shared widely."
           }
         ]
       }
@@ -33356,7 +33356,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Mars missions study a cold, rocky planet. Robotic vehicles can examine rocks and soil. Signals take time to travel between planets. A human trip would need long-term supplies.",
+        "briefing": "Mars is far away, and a message takes time to travel. Robots can examine rocks before people arrive. Dust and cold make equipment difficult to maintain.",
         "facts": [
           "Robotic vehicles can examine rocks and soil.",
           "Dust and distance make missions difficult.",
@@ -33370,84 +33370,84 @@
         ],
         "vocab": [
           {
-            "word": "Mars Missions",
-            "definition": "Mars missions study a cold, rocky planet.",
+            "word": "rover",
+            "definition": "A robot that moves over another world's surface",
             "partOfSpeech": "noun",
-            "example": "Mars missions study a cold, rocky planet.",
-            "starter": "I want to discuss mars missions because…"
+            "example": "I would send a rover.",
+            "starter": "If I saw rover, I would…"
           },
           {
-            "word": "robotic vehicles",
-            "definition": "Machines that travel and gather information",
-            "partOfSpeech": "noun",
-            "example": "Robotic vehicles can examine rocks and soil.",
-            "starter": "I can use robotic vehicles to explain…"
+            "word": "landing site",
+            "definition": "The chosen arrival area",
+            "partOfSpeech": "phrase",
+            "example": "I would compare landing sites.",
+            "starter": "I could describe landing site by…"
           },
           {
-            "word": "dust",
-            "definition": "Fine dry particles",
+            "word": "sample",
+            "definition": "A small collected piece",
             "partOfSpeech": "noun",
-            "example": "Dust and distance make missions difficult.",
-            "starter": "When I hear dust, I think of…"
+            "example": "The sample may reveal history.",
+            "starter": "I wonder whether sample can…"
           },
           {
-            "word": "signals",
-            "definition": "Messages sent between devices",
-            "partOfSpeech": "noun",
-            "example": "Signals take time to travel between planets.",
-            "starter": "A question about signals is…"
+            "word": "dust storm",
+            "definition": "A large movement of airborne dust",
+            "partOfSpeech": "phrase",
+            "example": "A dust storm could delay work.",
+            "starter": "One question about dust storm is…"
           },
           {
-            "word": "rocks",
-            "definition": "Hard natural materials",
-            "partOfSpeech": "noun",
-            "example": "Robotic vehicles can examine rocks and soil.",
-            "starter": "I would compare rocks with…"
+            "word": "communication delay",
+            "definition": "Time before a message arrives",
+            "partOfSpeech": "phrase",
+            "example": "Communication delay complicates control.",
+            "starter": "I would compare communication delay with…"
           },
           {
-            "word": "supplies",
-            "definition": "Things needed during a journey",
-            "partOfSpeech": "noun",
-            "example": "A human trip would need long-term supplies.",
-            "starter": "One example of supplies is…"
+            "word": "habitat module",
+            "definition": "A shelter for astronauts",
+            "partOfSpeech": "phrase",
+            "example": "The habitat module needs protection.",
+            "starter": "My idea about habitat module is…"
           },
           {
-            "word": "system",
-            "definition": "Connected parts that work together.",
-            "partOfSpeech": "noun",
-            "example": "We can study mars missions as a system.",
-            "starter": "I want to compare system with…"
+            "word": "return mission",
+            "definition": "A trip designed to come home",
+            "partOfSpeech": "phrase",
+            "example": "A return mission doubles the challenge.",
+            "starter": "I might use return mission when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that robotic vehicles can examine rocks and soil."
+            "phrase": "I would send…",
+            "example": "I would send a rover."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that dust and distance make missions difficult."
+            "phrase": "The dust could cover…",
+            "example": "The dust could cover its camera."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, signals take time to travel between planets."
+            "phrase": "A message cannot arrive…",
+            "example": "A message cannot arrive at once."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare mars missions with a related topic."
+            "phrase": "I want to study…",
+            "example": "I want to study a rock."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that a human trip would need long-term supplies."
+            "phrase": "People need…",
+            "example": "People need shelter there."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because robotic vehicles can examine rocks and soil."
+            "phrase": "Coming home…",
+            "example": "Coming home matters too."
           }
         ]
       },
       "B2": {
-        "briefing": "Mars missions study a cold, rocky planet. Robotic vehicles can examine rocks and soil; dust and distance make missions difficult. Signals take time to travel between planets; a human trip would need long-term supplies.",
+        "briefing": "A Mars mission must plan for delays, hazards, and uncertain results. Samples could tell a history that images alone cannot show. Sending people would require reliable supplies and a way home.",
         "facts": [
           "Robotic vehicles can examine rocks and soil.",
           "Dust and distance make missions difficult.",
@@ -33461,79 +33461,79 @@
         ],
         "vocab": [
           {
-            "word": "Mars Missions",
-            "definition": "Mars missions study a cold, rocky planet.",
+            "word": "rover",
+            "definition": "A robot that moves over another world's surface",
             "partOfSpeech": "noun",
-            "example": "Mars missions study a cold, rocky planet.",
-            "starter": "I want to discuss mars missions because…"
+            "example": "A sample brought home might answer questions a rover cannot.",
+            "starter": "If I saw rover, I would…"
           },
           {
-            "word": "robotic vehicles",
-            "definition": "Machines that travel and gather information",
-            "partOfSpeech": "noun",
-            "example": "Robotic vehicles can examine rocks and soil.",
-            "starter": "I can use robotic vehicles to explain…"
+            "word": "landing site",
+            "definition": "The chosen arrival area",
+            "partOfSpeech": "phrase",
+            "example": "If a landing site looked exciting but dangerous, I would choose safety first.",
+            "starter": "I could describe landing site by…"
           },
           {
-            "word": "dust",
-            "definition": "Fine dry particles",
+            "word": "sample",
+            "definition": "A small collected piece",
             "partOfSpeech": "noun",
-            "example": "Dust and distance make missions difficult.",
-            "starter": "When I hear dust, I think of…"
+            "example": "Samples could tell a history that images alone cannot show.",
+            "starter": "I wonder whether sample can…"
           },
           {
-            "word": "signals",
-            "definition": "Messages sent between devices",
-            "partOfSpeech": "noun",
-            "example": "Signals take time to travel between planets.",
-            "starter": "A question about signals is…"
+            "word": "dust storm",
+            "definition": "A large movement of airborne dust",
+            "partOfSpeech": "phrase",
+            "example": "A dust storm could delay work.",
+            "starter": "One question about dust storm is…"
           },
           {
-            "word": "rocks",
-            "definition": "Hard natural materials",
-            "partOfSpeech": "noun",
-            "example": "Robotic vehicles can examine rocks and soil.",
-            "starter": "I would compare rocks with…"
+            "word": "communication delay",
+            "definition": "Time before a message arrives",
+            "partOfSpeech": "phrase",
+            "example": "Communication delay means a crew must solve some problems alone.",
+            "starter": "I would compare communication delay with…"
           },
           {
-            "word": "supplies",
-            "definition": "Things needed during a journey",
-            "partOfSpeech": "noun",
-            "example": "A human trip would need long-term supplies.",
-            "starter": "One example of supplies is…"
+            "word": "habitat module",
+            "definition": "A shelter for astronauts",
+            "partOfSpeech": "phrase",
+            "example": "The habitat module needs protection.",
+            "starter": "My idea about habitat module is…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
-            "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about mars missions.",
-            "starter": "I want to compare evidence with…"
+            "word": "return mission",
+            "definition": "A trip designed to come home",
+            "partOfSpeech": "phrase",
+            "example": "A return mission doubles the challenge.",
+            "starter": "I might use return mission when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that robotic vehicles can examine rocks and soil."
+            "phrase": "If a landing site looked exciting…",
+            "example": "If a landing site looked exciting but dangerous, I would choose safety first."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that dust and distance make missions difficult."
+            "phrase": "A sample brought home might answer…",
+            "example": "A sample brought home might answer questions a rover cannot."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, signals take time to travel between planets."
+            "phrase": "I would rather send better robots…",
+            "example": "I would rather send better robots before committing people to the trip."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare mars missions with a related topic."
+            "phrase": "Communication delay means a crew must…",
+            "example": "Communication delay means a crew must solve some problems alone."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that a human trip would need long-term supplies."
+            "phrase": "I wonder what evidence would justify…",
+            "example": "I wonder what evidence would justify the risks of a human mission."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because robotic vehicles can examine rocks and soil."
+            "phrase": "The return journey deserves as much…",
+            "example": "The return journey deserves as much planning as the arrival."
           }
         ]
       }
@@ -33552,7 +33552,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Satellites are objects that orbit larger bodies. Artificial satellites can relay signals across Earth. Orbits depend on speed and gravity. Old satellites can become space debris.",
+        "briefing": "A satellite travels around Earth while collecting or sending information. Different instruments watch weather, land, or communication signals. Old equipment in orbit can become a hazard.",
         "facts": [
           "Artificial satellites can relay signals across Earth.",
           "Some satellites observe weather and land.",
@@ -33566,84 +33566,84 @@
         ],
         "vocab": [
           {
-            "word": "Satellites",
-            "definition": "Satellites are objects that orbit larger bodies.",
-            "partOfSpeech": "noun",
-            "example": "Satellites are objects that orbit larger bodies.",
-            "starter": "I want to discuss satellites because…"
-          },
-          {
             "word": "orbit",
-            "definition": "A path around another body",
+            "definition": "A path around Earth",
             "partOfSpeech": "noun",
-            "example": "Satellites are objects that orbit larger bodies.",
-            "starter": "I can use orbit to explain…"
+            "example": "Old equipment in orbit can become a hazard.",
+            "starter": "If I saw orbit, I would…"
           },
           {
-            "word": "signals",
-            "definition": "Messages sent through a system",
+            "word": "sensor",
+            "definition": "A device measuring something",
             "partOfSpeech": "noun",
-            "example": "Artificial satellites can relay signals across Earth.",
-            "starter": "When I hear signals, I think of…"
+            "example": "The sensor tracks clouds.",
+            "starter": "I could describe sensor by…"
           },
           {
-            "word": "debris",
-            "definition": "Broken pieces left in space",
+            "word": "signal",
+            "definition": "Information sent through the air",
             "partOfSpeech": "noun",
+            "example": "Different instruments watch weather, land, or communication signals.",
+            "starter": "I wonder whether signal can…"
+          },
+          {
+            "word": "ground station",
+            "definition": "A site receiving satellite data",
+            "partOfSpeech": "phrase",
+            "example": "A ground station collects the data.",
+            "starter": "One question about ground station is…"
+          },
+          {
+            "word": "space debris",
+            "definition": "Discarded objects in orbit",
+            "partOfSpeech": "phrase",
             "example": "Old satellites can become space debris.",
-            "starter": "A question about debris is…"
+            "starter": "I would compare space debris with…"
           },
           {
-            "word": "gravity",
-            "definition": "The force pulling objects together",
+            "word": "resolution",
+            "definition": "The detail visible in an image",
             "partOfSpeech": "noun",
-            "example": "Orbits depend on speed and gravity.",
-            "starter": "I would compare gravity with…"
+            "example": "Higher resolution may help.",
+            "starter": "My idea about resolution is…"
           },
           {
-            "word": "weather",
-            "definition": "Conditions of air and sky",
+            "word": "navigation",
+            "definition": "Finding a route or position",
             "partOfSpeech": "noun",
-            "example": "Some satellites observe weather and land.",
-            "starter": "One example of weather is…"
-          },
-          {
-            "word": "system",
-            "definition": "Connected parts that work together.",
-            "partOfSpeech": "noun",
-            "example": "We can study satellites as a system.",
-            "starter": "I want to compare system with…"
+            "example": "Navigation depends on signals.",
+            "starter": "I might use navigation when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that artificial satellites can relay signals across Earth."
+            "phrase": "I would use it to…",
+            "example": "I would use it to watch storms."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that some satellites observe weather and land."
+            "phrase": "The image…",
+            "example": "The image looks blurry."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, orbits depend on speed and gravity."
+            "phrase": "A signal could help…",
+            "example": "A signal could help a ship."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare satellites with a related topic."
+            "phrase": "Old parts should not…",
+            "example": "Old parts should not float forever."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that old satellites can become space debris."
+            "phrase": "Who can see…",
+            "example": "Who can see the data?"
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because artificial satellites can relay signals across Earth."
+            "phrase": "The view from above…",
+            "example": "The view from above is useful."
           }
         ]
       },
       "B2": {
-        "briefing": "Satellites are objects that orbit larger bodies. Artificial satellites can relay signals across Earth; some satellites observe weather and land. Orbits depend on speed and gravity; old satellites can become space debris.",
+        "briefing": "Satellites make distant information available quickly but create dependence. Images can reveal broad changes while missing local context. Crowded orbits raise questions about shared space and responsibility.",
         "facts": [
           "Artificial satellites can relay signals across Earth.",
           "Some satellites observe weather and land.",
@@ -33657,79 +33657,79 @@
         ],
         "vocab": [
           {
-            "word": "Satellites",
-            "definition": "Satellites are objects that orbit larger bodies.",
-            "partOfSpeech": "noun",
-            "example": "Satellites are objects that orbit larger bodies.",
-            "starter": "I want to discuss satellites because…"
-          },
-          {
             "word": "orbit",
-            "definition": "A path around another body",
+            "definition": "A path around Earth",
             "partOfSpeech": "noun",
-            "example": "Satellites are objects that orbit larger bodies.",
-            "starter": "I can use orbit to explain…"
+            "example": "Crowded orbits raise questions about shared space and responsibility.",
+            "starter": "If I saw orbit, I would…"
           },
           {
-            "word": "signals",
-            "definition": "Messages sent through a system",
+            "word": "sensor",
+            "definition": "A device measuring something",
+            "partOfSpeech": "noun",
+            "example": "The sensor tracks clouds.",
+            "starter": "I could describe sensor by…"
+          },
+          {
+            "word": "signal",
+            "definition": "Information sent through the air",
             "partOfSpeech": "noun",
             "example": "Artificial satellites can relay signals across Earth.",
-            "starter": "When I hear signals, I think of…"
+            "starter": "I wonder whether signal can…"
           },
           {
-            "word": "debris",
-            "definition": "Broken pieces left in space",
-            "partOfSpeech": "noun",
+            "word": "ground station",
+            "definition": "A site receiving satellite data",
+            "partOfSpeech": "phrase",
+            "example": "A ground station collects the data.",
+            "starter": "One question about ground station is…"
+          },
+          {
+            "word": "space debris",
+            "definition": "Discarded objects in orbit",
+            "partOfSpeech": "phrase",
             "example": "Old satellites can become space debris.",
-            "starter": "A question about debris is…"
+            "starter": "I would compare space debris with…"
           },
           {
-            "word": "gravity",
-            "definition": "The force pulling objects together",
+            "word": "resolution",
+            "definition": "The detail visible in an image",
             "partOfSpeech": "noun",
-            "example": "Orbits depend on speed and gravity.",
-            "starter": "I would compare gravity with…"
+            "example": "Resolution changes what we can infer and what privacy concerns arise.",
+            "starter": "My idea about resolution is…"
           },
           {
-            "word": "weather",
-            "definition": "Conditions of air and sky",
+            "word": "navigation",
+            "definition": "Finding a route or position",
             "partOfSpeech": "noun",
-            "example": "Some satellites observe weather and land.",
-            "starter": "One example of weather is…"
-          },
-          {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
-            "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about satellites.",
-            "starter": "I want to compare evidence with…"
+            "example": "Navigation depends on signals.",
+            "starter": "I might use navigation when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that artificial satellites can relay signals across Earth."
+            "phrase": "If I used satellite images, I…",
+            "example": "If I used satellite images, I would check what they cannot show on the ground."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that some satellites observe weather and land."
+            "phrase": "A stronger signal helps only when…",
+            "example": "A stronger signal helps only when people have access to a receiver."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, orbits depend on speed and gravity."
+            "phrase": "I would rather plan for space…",
+            "example": "I would rather plan for space debris before adding more equipment."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare satellites with a related topic."
+            "phrase": "Resolution changes what we can infer…",
+            "example": "Resolution changes what we can infer and what privacy concerns arise."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that old satellites can become space debris."
+            "phrase": "I wonder who should manage a…",
+            "example": "I wonder who should manage a crowded orbit."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because artificial satellites can relay signals across Earth."
+            "phrase": "Satellite data needs local knowledge to…",
+            "example": "Satellite data needs local knowledge to become useful action."
           }
         ]
       }
@@ -33748,7 +33748,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Inventions are new solutions to practical or creative problems. Many inventions improve earlier ideas. Unexpected failures can reveal better approaches. People judge an invention by its effects.",
+        "briefing": "An invention begins with a problem someone notices. Early versions often fail in useful ways. A new device may need other systems before people adopt it.",
         "facts": [
           "Many inventions improve earlier ideas.",
           "A prototype lets makers test a design.",
@@ -33762,84 +33762,84 @@
         ],
         "vocab": [
           {
-            "word": "Inventions",
-            "definition": "Inventions are new solutions to practical or creative problems.",
-            "partOfSpeech": "noun",
-            "example": "Inventions are new solutions to practical or creative problems.",
-            "starter": "I want to discuss inventions because…"
-          },
-          {
             "word": "prototype",
-            "definition": "An early model used for testing",
+            "definition": "An early version for testing",
             "partOfSpeech": "noun",
             "example": "A prototype lets makers test a design.",
-            "starter": "I can use prototype to explain…"
+            "starter": "If I saw prototype, I would…"
           },
           {
-            "word": "failures",
-            "definition": "Attempts that do not work as hoped",
+            "word": "patent",
+            "definition": "A legal claim to an invention",
             "partOfSpeech": "noun",
-            "example": "Unexpected failures can reveal better approaches.",
-            "starter": "When I hear failures, I think of…"
+            "example": "I would read about the patent.",
+            "starter": "I could describe patent by…"
           },
           {
-            "word": "effects",
-            "definition": "Changes caused by something",
+            "word": "iteration",
+            "definition": "A revised version after testing",
             "partOfSpeech": "noun",
-            "example": "People judge an invention by its effects.",
-            "starter": "A question about effects is…"
+            "example": "The next iteration should be smaller.",
+            "starter": "I wonder whether iteration can…"
           },
           {
-            "word": "ideas",
-            "definition": "Thoughts or plans",
+            "word": "constraint",
+            "definition": "A limit shaping a design",
             "partOfSpeech": "noun",
-            "example": "Many inventions improve earlier ideas.",
-            "starter": "I would compare ideas with…"
+            "example": "Cost is a constraint.",
+            "starter": "One question about constraint is…"
           },
           {
-            "word": "design",
-            "definition": "A plan for how something works",
+            "word": "manufacturing",
+            "definition": "Making goods at scale",
             "partOfSpeech": "noun",
-            "example": "A prototype lets makers test a design.",
-            "starter": "One example of design is…"
+            "example": "Manufacturing changes the design.",
+            "starter": "I would compare manufacturing with…"
           },
           {
-            "word": "system",
-            "definition": "Connected parts that work together.",
+            "word": "user need",
+            "definition": "A problem a person wants solved",
+            "partOfSpeech": "phrase",
+            "example": "I would check the user need.",
+            "starter": "My idea about user need is…"
+          },
+          {
+            "word": "trade-off",
+            "definition": "A choice that sacrifices one benefit",
             "partOfSpeech": "noun",
-            "example": "We can study inventions as a system.",
-            "starter": "I want to compare system with…"
+            "example": "That trade-off seems fair.",
+            "starter": "I might use trade-off when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that many inventions improve earlier ideas."
+            "phrase": "I would fix the…",
+            "example": "I would fix the broken handle."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a prototype lets makers test a design."
+            "phrase": "The first version…",
+            "example": "The first version might fail."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, unexpected failures can reveal better approaches."
+            "phrase": "Let us ask who…",
+            "example": "Let us ask who needs it."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare inventions with a related topic."
+            "phrase": "I would test…",
+            "example": "I would test it safely."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that people judge an invention by its effects."
+            "phrase": "The idea could…",
+            "example": "The idea could be simpler."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because many inventions improve earlier ideas."
+            "phrase": "Someone else may…",
+            "example": "Someone else may improve it."
           }
         ]
       },
       "B2": {
-        "briefing": "Inventions are new solutions to practical or creative problems. Many inventions improve earlier ideas; a prototype lets makers test a design. Unexpected failures can reveal better approaches; people judge an invention by its effects.",
+        "briefing": "Inventions emerge from teams, earlier ideas, and practical constraints. A clever prototype is not the same as a safe useful product. The consequences of a device may differ from its inventor's goal.",
         "facts": [
           "Many inventions improve earlier ideas.",
           "A prototype lets makers test a design.",
@@ -33853,79 +33853,79 @@
         ],
         "vocab": [
           {
-            "word": "Inventions",
-            "definition": "Inventions are new solutions to practical or creative problems.",
-            "partOfSpeech": "noun",
-            "example": "Inventions are new solutions to practical or creative problems.",
-            "starter": "I want to discuss inventions because…"
-          },
-          {
             "word": "prototype",
-            "definition": "An early model used for testing",
+            "definition": "An early version for testing",
             "partOfSpeech": "noun",
-            "example": "A prototype lets makers test a design.",
-            "starter": "I can use prototype to explain…"
+            "example": "A clever prototype is not the same as a safe useful product.",
+            "starter": "If I saw prototype, I would…"
           },
           {
-            "word": "failures",
-            "definition": "Attempts that do not work as hoped",
+            "word": "patent",
+            "definition": "A legal claim to an invention",
             "partOfSpeech": "noun",
-            "example": "Unexpected failures can reveal better approaches.",
-            "starter": "When I hear failures, I think of…"
+            "example": "A patent may reward one person even when many contributed ideas.",
+            "starter": "I could describe patent by…"
           },
           {
-            "word": "effects",
-            "definition": "Changes caused by something",
+            "word": "iteration",
+            "definition": "A revised version after testing",
             "partOfSpeech": "noun",
-            "example": "People judge an invention by its effects.",
-            "starter": "A question about effects is…"
+            "example": "The next iteration should be smaller.",
+            "starter": "I wonder whether iteration can…"
           },
           {
-            "word": "ideas",
-            "definition": "Thoughts or plans",
+            "word": "constraint",
+            "definition": "A limit shaping a design",
             "partOfSpeech": "noun",
-            "example": "Many inventions improve earlier ideas.",
-            "starter": "I would compare ideas with…"
+            "example": "Inventions emerge from teams, earlier ideas, and practical constraints.",
+            "starter": "One question about constraint is…"
           },
           {
-            "word": "design",
-            "definition": "A plan for how something works",
+            "word": "manufacturing",
+            "definition": "Making goods at scale",
             "partOfSpeech": "noun",
-            "example": "A prototype lets makers test a design.",
-            "starter": "One example of design is…"
+            "example": "Manufacturing can reveal flaws a prototype hides.",
+            "starter": "I would compare manufacturing with…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
+            "word": "user need",
+            "definition": "A problem a person wants solved",
+            "partOfSpeech": "phrase",
+            "example": "I would check the user need.",
+            "starter": "My idea about user need is…"
+          },
+          {
+            "word": "trade-off",
+            "definition": "A choice that sacrifices one benefit",
             "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about inventions.",
-            "starter": "I want to compare evidence with…"
+            "example": "That trade-off seems fair.",
+            "starter": "I might use trade-off when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that many inventions improve earlier ideas."
+            "phrase": "If I invented a tool, I…",
+            "example": "If I invented a tool, I would watch how people use it before defending my design."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a prototype lets makers test a design."
+            "phrase": "A patent may reward one person…",
+            "example": "A patent may reward one person even when many contributed ideas."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, unexpected failures can reveal better approaches."
+            "phrase": "I would rather solve a small…",
+            "example": "I would rather solve a small real problem than build a dramatic useless device."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare inventions with a related topic."
+            "phrase": "Manufacturing can reveal flaws a…",
+            "example": "Manufacturing can reveal flaws a prototype hides."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that people judge an invention by its effects."
+            "phrase": "I wonder who bears the cost…",
+            "example": "I wonder who bears the cost of a new invention's side effects."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because many inventions improve earlier ideas."
+            "phrase": "Useful innovation includes maintenance after the…",
+            "example": "Useful innovation includes maintenance after the first sale."
           }
         ]
       }
@@ -33944,7 +33944,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Medical technology helps people observe, diagnose, or treat health conditions. Imaging tools reveal structures inside a body. Testing helps assess safety and usefulness. Access can differ between communities.",
+        "briefing": "A medical device can help doctors see or measure a problem. Tests must show that a tool is safe enough to use. Clear instructions matter when patients use equipment at home.",
         "facts": [
           "Imaging tools reveal structures inside a body.",
           "Devices may support movement or hearing.",
@@ -33958,84 +33958,84 @@
         ],
         "vocab": [
           {
-            "word": "Medical Technology",
-            "definition": "Medical technology helps people observe, diagnose, or treat health conditions.",
+            "word": "diagnosis",
+            "definition": "Identifying an illness",
             "partOfSpeech": "noun",
-            "example": "Medical technology helps people observe, diagnose, or treat health conditions.",
-            "starter": "I want to discuss medical technology because…"
+            "example": "A careful diagnosis needs context.",
+            "starter": "If I saw diagnosis, I would…"
           },
           {
-            "word": "imaging tools",
-            "definition": "Devices that create pictures inside the body",
+            "word": "scan",
+            "definition": "An image of the body's inside",
             "partOfSpeech": "noun",
-            "example": "Imaging tools reveal structures inside a body.",
-            "starter": "I can use imaging tools to explain…"
+            "example": "The scan showed a change.",
+            "starter": "I could describe scan by…"
           },
           {
-            "word": "devices",
-            "definition": "Tools made for a purpose",
-            "partOfSpeech": "noun",
-            "example": "Devices may support movement or hearing.",
-            "starter": "When I hear devices, I think of…"
+            "word": "clinical trial",
+            "definition": "A study testing a treatment or tool",
+            "partOfSpeech": "phrase",
+            "example": "A clinical trial needs safeguards.",
+            "starter": "I wonder whether clinical trial can…"
           },
           {
-            "word": "access",
-            "definition": "The ability to obtain or use something",
+            "word": "monitor",
+            "definition": "A device tracking a body signal",
             "partOfSpeech": "noun",
-            "example": "Access can differ between communities.",
-            "starter": "A question about access is…"
+            "example": "The monitor checks heart rhythm.",
+            "starter": "One question about monitor is…"
           },
           {
-            "word": "safety",
-            "definition": "Being protected from avoidable harm",
-            "partOfSpeech": "noun",
-            "example": "Testing helps assess safety and usefulness.",
-            "starter": "I would compare safety with…"
+            "word": "false positive",
+            "definition": "A result suggesting a problem that is absent",
+            "partOfSpeech": "phrase",
+            "example": "A false positive can cause worry.",
+            "starter": "I would compare false positive with…"
           },
           {
-            "word": "health conditions",
-            "definition": "Medical states affecting a person's body",
+            "word": "accessibility",
+            "definition": "Ease of use for varied patients",
             "partOfSpeech": "noun",
-            "example": "Medical technology helps people observe, diagnose, or treat health conditions.",
-            "starter": "One example of health conditions is…"
+            "example": "Accessibility matters in device design.",
+            "starter": "My idea about accessibility is…"
           },
           {
-            "word": "system",
-            "definition": "Connected parts that work together.",
-            "partOfSpeech": "noun",
-            "example": "We can study medical technology as a system.",
-            "starter": "I want to compare system with…"
+            "word": "informed consent",
+            "definition": "Agreement after understanding risks",
+            "partOfSpeech": "phrase",
+            "example": "Informed consent should be clear.",
+            "starter": "I might use informed consent when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that imaging tools reveal structures inside a body."
+            "phrase": "I would ask how the…",
+            "example": "I would ask how the tool works."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that devices may support movement or hearing."
+            "phrase": "A clear picture…",
+            "example": "A clear picture could help."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, testing helps assess safety and usefulness."
+            "phrase": "The result might…",
+            "example": "The result might be wrong."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare medical technology with a related topic."
+            "phrase": "Patients need…",
+            "example": "Patients need simple instructions."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that access can differ between communities."
+            "phrase": "Not everyone can…",
+            "example": "Not everyone can afford it."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because imaging tools reveal structures inside a body."
+            "phrase": "A doctor should explain…",
+            "example": "A doctor should explain the choice."
           }
         ]
       },
       "B2": {
-        "briefing": "Medical technology helps people observe, diagnose, or treat health conditions. Imaging tools reveal structures inside a body; devices may support movement or hearing. Testing helps assess safety and usefulness; access can differ between communities.",
+        "briefing": "Medical technology combines scientific promise with evidence about real patients. A tool can improve diagnosis yet remain inaccessible because of cost. Privacy and human judgment still matter when software analyzes health data.",
         "facts": [
           "Imaging tools reveal structures inside a body.",
           "Devices may support movement or hearing.",
@@ -34049,79 +34049,79 @@
         ],
         "vocab": [
           {
-            "word": "Medical Technology",
-            "definition": "Medical technology helps people observe, diagnose, or treat health conditions.",
+            "word": "diagnosis",
+            "definition": "Identifying an illness",
             "partOfSpeech": "noun",
-            "example": "Medical technology helps people observe, diagnose, or treat health conditions.",
-            "starter": "I want to discuss medical technology because…"
+            "example": "A tool can improve diagnosis yet remain inaccessible because of cost.",
+            "starter": "If I saw diagnosis, I would…"
           },
           {
-            "word": "imaging tools",
-            "definition": "Devices that create pictures inside the body",
+            "word": "scan",
+            "definition": "An image of the body's inside",
             "partOfSpeech": "noun",
-            "example": "Imaging tools reveal structures inside a body.",
-            "starter": "I can use imaging tools to explain…"
+            "example": "The scan showed a change.",
+            "starter": "I could describe scan by…"
           },
           {
-            "word": "devices",
-            "definition": "Tools made for a purpose",
-            "partOfSpeech": "noun",
-            "example": "Devices may support movement or hearing.",
-            "starter": "When I hear devices, I think of…"
+            "word": "clinical trial",
+            "definition": "A study testing a treatment or tool",
+            "partOfSpeech": "phrase",
+            "example": "A promising clinical trial does not guarantee equal access.",
+            "starter": "I wonder whether clinical trial can…"
           },
           {
-            "word": "access",
-            "definition": "The ability to obtain or use something",
+            "word": "monitor",
+            "definition": "A device tracking a body signal",
             "partOfSpeech": "noun",
-            "example": "Access can differ between communities.",
-            "starter": "A question about access is…"
+            "example": "The monitor checks heart rhythm.",
+            "starter": "One question about monitor is…"
           },
           {
-            "word": "safety",
-            "definition": "Being protected from avoidable harm",
-            "partOfSpeech": "noun",
-            "example": "Testing helps assess safety and usefulness.",
-            "starter": "I would compare safety with…"
+            "word": "false positive",
+            "definition": "A result suggesting a problem that is absent",
+            "partOfSpeech": "phrase",
+            "example": "A false positive can cause worry.",
+            "starter": "I would compare false positive with…"
           },
           {
-            "word": "health conditions",
-            "definition": "Medical states affecting a person's body",
+            "word": "accessibility",
+            "definition": "Ease of use for varied patients",
             "partOfSpeech": "noun",
-            "example": "Medical technology helps people observe, diagnose, or treat health conditions.",
-            "starter": "One example of health conditions is…"
+            "example": "Accessibility matters in device design.",
+            "starter": "My idea about accessibility is…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
-            "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about medical technology.",
-            "starter": "I want to compare evidence with…"
+            "word": "informed consent",
+            "definition": "Agreement after understanding risks",
+            "partOfSpeech": "phrase",
+            "example": "Informed consent requires language patients can understand.",
+            "starter": "I might use informed consent when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that imaging tools reveal structures inside a body."
+            "phrase": "If a device found more possible…",
+            "example": "If a device found more possible problems, I would also ask how many alerts were false."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that devices may support movement or hearing."
+            "phrase": "A promising clinical trial does not…",
+            "example": "A promising clinical trial does not guarantee equal access."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, testing helps assess safety and usefulness."
+            "phrase": "I would rather have a slower…",
+            "example": "I would rather have a slower explained diagnosis than an opaque instant one."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare medical technology with a related topic."
+            "phrase": "Informed consent requires language patients…",
+            "example": "Informed consent requires language patients can understand."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that access can differ between communities."
+            "phrase": "I wonder who is left out…",
+            "example": "I wonder who is left out when a tool is tested on too narrow a group."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because imaging tools reveal structures inside a body."
+            "phrase": "Technology should support care, not replace…",
+            "example": "Technology should support care, not replace the patient's voice."
           }
         ]
       }
@@ -34140,7 +34140,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Food waste happens when edible food is discarded. Planning meals can reduce unused ingredients. Leftovers can become ingredients for another meal. Waste also uses the water and work behind food.",
+        "briefing": "Food can be lost on farms, in shops, or at home. A date label may tell different things about safety and quality. Planning a meal can keep useful ingredients from being forgotten.",
         "facts": [
           "Planning meals can reduce unused ingredients.",
           "Storage changes how long some foods last.",
@@ -34154,84 +34154,84 @@
         ],
         "vocab": [
           {
-            "word": "Food Waste",
-            "definition": "Food waste happens when edible food is discarded.",
+            "word": "spoilage",
+            "definition": "Food becoming unsafe or unpleasant",
             "partOfSpeech": "noun",
-            "example": "Food waste happens when edible food is discarded.",
-            "starter": "I want to discuss food waste because…"
+            "example": "Cold storage slows spoilage.",
+            "starter": "If I saw spoilage, I would…"
+          },
+          {
+            "word": "portion",
+            "definition": "An amount served to one person",
+            "partOfSpeech": "noun",
+            "example": "This portion is too big.",
+            "starter": "I could describe portion by…"
+          },
+          {
+            "word": "date label",
+            "definition": "Words marking a product date",
+            "partOfSpeech": "phrase",
+            "example": "A date label may tell different things about safety and quality.",
+            "starter": "I wonder whether date label can…"
           },
           {
             "word": "storage",
-            "definition": "Keeping food in suitable conditions",
+            "definition": "Keeping food under suitable conditions",
             "partOfSpeech": "noun",
             "example": "Storage changes how long some foods last.",
-            "starter": "I can use storage to explain…"
+            "starter": "One question about storage is…"
           },
           {
-            "word": "leftovers",
-            "definition": "Food remaining after a meal",
+            "word": "surplus",
+            "definition": "More than is needed",
             "partOfSpeech": "noun",
-            "example": "Leftovers can become ingredients for another meal.",
-            "starter": "When I hear leftovers, I think of…"
+            "example": "The shop had a surplus.",
+            "starter": "I would compare surplus with…"
           },
           {
-            "word": "discarded",
-            "definition": "Thrown away",
+            "word": "compost",
+            "definition": "Decayed organic material for soil",
             "partOfSpeech": "noun",
-            "example": "Food waste happens when edible food is discarded.",
-            "starter": "A question about discarded is…"
+            "example": "I would compost scraps.",
+            "starter": "My idea about compost is…"
           },
           {
-            "word": "ingredients",
-            "definition": "Foods used to make meals",
-            "partOfSpeech": "noun",
-            "example": "Planning meals can reduce unused ingredients.",
-            "starter": "I would compare ingredients with…"
-          },
-          {
-            "word": "water",
-            "definition": "A liquid used to grow food",
-            "partOfSpeech": "noun",
-            "example": "Waste also uses the water and work behind food.",
-            "starter": "One example of water is…"
-          },
-          {
-            "word": "system",
-            "definition": "Connected parts that work together.",
-            "partOfSpeech": "noun",
-            "example": "We can study food waste as a system.",
-            "starter": "I want to compare system with…"
+            "word": "meal plan",
+            "definition": "A schedule of intended meals",
+            "partOfSpeech": "phrase",
+            "example": "My meal plan uses leftovers.",
+            "starter": "I might use meal plan when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that planning meals can reduce unused ingredients."
+            "phrase": "I would use the…",
+            "example": "I would use the carrots tonight."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that storage changes how long some foods last."
+            "phrase": "This portion is…",
+            "example": "This portion is too big."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, leftovers can become ingredients for another meal."
+            "phrase": "Let us freeze…",
+            "example": "Let us freeze the rest."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare food waste with a related topic."
+            "phrase": "The label…",
+            "example": "The label is confusing."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that waste also uses the water and work behind food."
+            "phrase": "I can make soup…",
+            "example": "I can make soup from leftovers."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because planning meals can reduce unused ingredients."
+            "phrase": "The bin should be the…",
+            "example": "The bin should be the last option."
           }
         ]
       },
       "B2": {
-        "briefing": "Food waste happens when edible food is discarded. Planning meals can reduce unused ingredients; storage changes how long some foods last. Leftovers can become ingredients for another meal; waste also uses the water and work behind food.",
+        "briefing": "Food waste reflects storage, transport, marketing, and household habits. Discarding edible food also wastes the land and water behind it. Solutions differ depending on where in the chain the loss happens.",
         "facts": [
           "Planning meals can reduce unused ingredients.",
           "Storage changes how long some foods last.",
@@ -34245,79 +34245,79 @@
         ],
         "vocab": [
           {
-            "word": "Food Waste",
-            "definition": "Food waste happens when edible food is discarded.",
+            "word": "spoilage",
+            "definition": "Food becoming unsafe or unpleasant",
             "partOfSpeech": "noun",
-            "example": "Food waste happens when edible food is discarded.",
-            "starter": "I want to discuss food waste because…"
+            "example": "Cold storage slows spoilage.",
+            "starter": "If I saw spoilage, I would…"
+          },
+          {
+            "word": "portion",
+            "definition": "An amount served to one person",
+            "partOfSpeech": "noun",
+            "example": "I would choose a smaller portion.",
+            "starter": "I could describe portion by…"
+          },
+          {
+            "word": "date label",
+            "definition": "Words marking a product date",
+            "partOfSpeech": "phrase",
+            "example": "A date label should guide decisions without encouraging needless disposal.",
+            "starter": "I wonder whether date label can…"
           },
           {
             "word": "storage",
-            "definition": "Keeping food in suitable conditions",
+            "definition": "Keeping food under suitable conditions",
             "partOfSpeech": "noun",
-            "example": "Storage changes how long some foods last.",
-            "starter": "I can use storage to explain…"
+            "example": "Food waste reflects storage, transport, marketing, and household habits.",
+            "starter": "One question about storage is…"
           },
           {
-            "word": "leftovers",
-            "definition": "Food remaining after a meal",
+            "word": "surplus",
+            "definition": "More than is needed",
             "partOfSpeech": "noun",
-            "example": "Leftovers can become ingredients for another meal.",
-            "starter": "When I hear leftovers, I think of…"
+            "example": "If a shop had surplus food, I would look for a safe way to share it.",
+            "starter": "I would compare surplus with…"
           },
           {
-            "word": "discarded",
-            "definition": "Thrown away",
+            "word": "compost",
+            "definition": "Decayed organic material for soil",
             "partOfSpeech": "noun",
-            "example": "Food waste happens when edible food is discarded.",
-            "starter": "A question about discarded is…"
+            "example": "Compost helps with scraps but does not recover a whole wasted meal.",
+            "starter": "My idea about compost is…"
           },
           {
-            "word": "ingredients",
-            "definition": "Foods used to make meals",
-            "partOfSpeech": "noun",
-            "example": "Planning meals can reduce unused ingredients.",
-            "starter": "I would compare ingredients with…"
-          },
-          {
-            "word": "water",
-            "definition": "A liquid used to grow food",
-            "partOfSpeech": "noun",
-            "example": "Waste also uses the water and work behind food.",
-            "starter": "One example of water is…"
-          },
-          {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
-            "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about food waste.",
-            "starter": "I want to compare evidence with…"
+            "word": "meal plan",
+            "definition": "A schedule of intended meals",
+            "partOfSpeech": "phrase",
+            "example": "My meal plan uses leftovers.",
+            "starter": "I might use meal plan when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that planning meals can reduce unused ingredients."
+            "phrase": "If a shop had surplus food,…",
+            "example": "If a shop had surplus food, I would look for a safe way to share it."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that storage changes how long some foods last."
+            "phrase": "A date label should guide decisions…",
+            "example": "A date label should guide decisions without encouraging needless disposal."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, leftovers can become ingredients for another meal."
+            "phrase": "I would rather plan flexible meals…",
+            "example": "I would rather plan flexible meals than buy ingredients for a perfect week."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare food waste with a related topic."
+            "phrase": "Compost helps with scraps but does…",
+            "example": "Compost helps with scraps but does not recover a whole wasted meal."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that waste also uses the water and work behind food."
+            "phrase": "I wonder where most food is…",
+            "example": "I wonder where most food is lost before shoppers see it."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because planning meals can reduce unused ingredients."
+            "phrase": "Preventing waste begins with understanding why…",
+            "example": "Preventing waste begins with understanding why food was bought or grown."
           }
         ]
       }
@@ -34336,7 +34336,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Sustainable fashion considers clothing's materials and lifespan. Repair can keep a garment useful longer. Producing fabric uses water and energy. Quality can matter more than frequent purchases.",
+        "briefing": "Clothes use materials, energy, and labor before reaching a shop. Repair can keep a favorite garment useful longer. Buying fewer pieces may be easier when they last.",
         "facts": [
           "Repair can keep a garment useful longer.",
           "Secondhand clothes avoid making a new item.",
@@ -34350,84 +34350,84 @@
         ],
         "vocab": [
           {
-            "word": "Sustainable Fashion",
-            "definition": "Sustainable fashion considers clothing's materials and lifespan.",
-            "partOfSpeech": "noun",
-            "example": "Sustainable fashion considers clothing's materials and lifespan.",
-            "starter": "I want to discuss sustainable fashion because…"
-          },
-          {
-            "word": "garment",
-            "definition": "An item of clothing",
-            "partOfSpeech": "noun",
-            "example": "Repair can keep a garment useful longer.",
-            "starter": "I can use garment to explain…"
-          },
-          {
-            "word": "secondhand",
-            "definition": "Previously owned by someone else",
-            "partOfSpeech": "noun",
-            "example": "Secondhand clothes avoid making a new item.",
-            "starter": "When I hear secondhand, I think of…"
-          },
-          {
-            "word": "fabric",
-            "definition": "Material used to make clothes",
-            "partOfSpeech": "noun",
-            "example": "Producing fabric uses water and energy.",
-            "starter": "A question about fabric is…"
+            "word": "fast fashion",
+            "definition": "Rapid production of cheap changing styles",
+            "partOfSpeech": "phrase",
+            "example": "I would question fast fashion.",
+            "starter": "If I saw fast fashion, I would…"
           },
           {
             "word": "repair",
-            "definition": "To fix something so it lasts",
+            "definition": "Fixing a damaged item",
             "partOfSpeech": "noun",
-            "example": "Repair can keep a garment useful longer.",
-            "starter": "I would compare repair with…"
+            "example": "Repair can keep a favorite garment useful longer.",
+            "starter": "I could describe repair by…"
           },
           {
-            "word": "energy",
-            "definition": "The ability to do work",
+            "word": "fiber",
+            "definition": "A strand used in fabric",
             "partOfSpeech": "noun",
-            "example": "Producing fabric uses water and energy.",
-            "starter": "One example of energy is…"
+            "example": "This fiber dries quickly.",
+            "starter": "I wonder whether fiber can…"
           },
           {
-            "word": "system",
-            "definition": "Connected parts that work together.",
+            "word": "dye",
+            "definition": "A substance adding color",
             "partOfSpeech": "noun",
-            "example": "We can study sustainable fashion as a system.",
-            "starter": "I want to compare system with…"
+            "example": "The dye may pollute water.",
+            "starter": "One question about dye is…"
+          },
+          {
+            "word": "supply chain",
+            "definition": "Steps from material to shop",
+            "partOfSpeech": "phrase",
+            "example": "I would ask about the supply chain.",
+            "starter": "I would compare supply chain with…"
+          },
+          {
+            "word": "secondhand",
+            "definition": "Previously owned",
+            "partOfSpeech": "noun",
+            "example": "Secondhand clothes avoid making a new item.",
+            "starter": "My idea about secondhand is…"
+          },
+          {
+            "word": "durability",
+            "definition": "Ability to last",
+            "partOfSpeech": "noun",
+            "example": "Durability matters more than a trend.",
+            "starter": "I might use durability when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that repair can keep a garment useful longer."
+            "phrase": "I would mend…",
+            "example": "I would mend this shirt."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that secondhand clothes avoid making a new item."
+            "phrase": "I could swap clothes with…",
+            "example": "I could swap clothes with a friend."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, producing fabric uses water and energy."
+            "phrase": "The fabric…",
+            "example": "The fabric feels strong."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare sustainable fashion with a related topic."
+            "phrase": "I do not need…",
+            "example": "I do not need another jacket."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that quality can matter more than frequent purchases."
+            "phrase": "A worker…",
+            "example": "A worker made this."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because repair can keep a garment useful longer."
+            "phrase": "I want it…",
+            "example": "I want it to last."
           }
         ]
       },
       "B2": {
-        "briefing": "Sustainable fashion considers clothing's materials and lifespan. Repair can keep a garment useful longer; secondhand clothes avoid making a new item. Producing fabric uses water and energy; quality can matter more than frequent purchases.",
+        "briefing": "The environmental cost of clothing includes production, transport, use, and disposal. A green label is less useful than clear information about a garment's life. Workers' conditions belong in a discussion of sustainability.",
         "facts": [
           "Repair can keep a garment useful longer.",
           "Secondhand clothes avoid making a new item.",
@@ -34441,79 +34441,79 @@
         ],
         "vocab": [
           {
-            "word": "Sustainable Fashion",
-            "definition": "Sustainable fashion considers clothing's materials and lifespan.",
-            "partOfSpeech": "noun",
-            "example": "Sustainable fashion considers clothing's materials and lifespan.",
-            "starter": "I want to discuss sustainable fashion because…"
-          },
-          {
-            "word": "garment",
-            "definition": "An item of clothing",
-            "partOfSpeech": "noun",
-            "example": "Repair can keep a garment useful longer.",
-            "starter": "I can use garment to explain…"
-          },
-          {
-            "word": "secondhand",
-            "definition": "Previously owned by someone else",
-            "partOfSpeech": "noun",
-            "example": "Secondhand clothes avoid making a new item.",
-            "starter": "When I hear secondhand, I think of…"
-          },
-          {
-            "word": "fabric",
-            "definition": "Material used to make clothes",
-            "partOfSpeech": "noun",
-            "example": "Producing fabric uses water and energy.",
-            "starter": "A question about fabric is…"
+            "word": "fast fashion",
+            "definition": "Rapid production of cheap changing styles",
+            "partOfSpeech": "phrase",
+            "example": "I would question fast fashion.",
+            "starter": "If I saw fast fashion, I would…"
           },
           {
             "word": "repair",
-            "definition": "To fix something so it lasts",
+            "definition": "Fixing a damaged item",
             "partOfSpeech": "noun",
             "example": "Repair can keep a garment useful longer.",
-            "starter": "I would compare repair with…"
+            "starter": "I could describe repair by…"
           },
           {
-            "word": "energy",
-            "definition": "The ability to do work",
+            "word": "fiber",
+            "definition": "A strand used in fabric",
             "partOfSpeech": "noun",
-            "example": "Producing fabric uses water and energy.",
-            "starter": "One example of energy is…"
+            "example": "This fiber dries quickly.",
+            "starter": "I wonder whether fiber can…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
+            "word": "dye",
+            "definition": "A substance adding color",
             "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about sustainable fashion.",
-            "starter": "I want to compare evidence with…"
+            "example": "The dye may pollute water.",
+            "starter": "One question about dye is…"
+          },
+          {
+            "word": "supply chain",
+            "definition": "Steps from material to shop",
+            "partOfSpeech": "phrase",
+            "example": "A supply chain includes workers whose conditions are often hidden.",
+            "starter": "I would compare supply chain with…"
+          },
+          {
+            "word": "secondhand",
+            "definition": "Previously owned",
+            "partOfSpeech": "noun",
+            "example": "Secondhand clothes avoid making a new item.",
+            "starter": "My idea about secondhand is…"
+          },
+          {
+            "word": "durability",
+            "definition": "Ability to last",
+            "partOfSpeech": "noun",
+            "example": "Durability matters more than a trend.",
+            "starter": "I might use durability when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that repair can keep a garment useful longer."
+            "phrase": "If a brand claimed to be…",
+            "example": "If a brand claimed to be sustainable, I would ask for evidence beyond the label."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that secondhand clothes avoid making a new item."
+            "phrase": "Repairing a garment can preserve something…",
+            "example": "Repairing a garment can preserve something I already enjoy wearing."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, producing fabric uses water and energy."
+            "phrase": "I would rather buy one durable…",
+            "example": "I would rather buy one durable piece than several weak copies."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare sustainable fashion with a related topic."
+            "phrase": "A supply chain includes workers whose…",
+            "example": "A supply chain includes workers whose conditions are often hidden."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that quality can matter more than frequent purchases."
+            "phrase": "I wonder whether constant new collections…",
+            "example": "I wonder whether constant new collections can ever be responsible."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because repair can keep a garment useful longer."
+            "phrase": "Sustainable clothing should be accessible, not…",
+            "example": "Sustainable clothing should be accessible, not just fashionable."
           }
         ]
       }
@@ -34532,7 +34532,7 @@
     "category": "science and environment",
     "levels": {
       "B1": {
-        "briefing": "Water conservation means using freshwater with care. Fixing leaks prevents waste without changing routines. Farms, homes, and industry all need water. Local climate affects which solutions work.",
+        "briefing": "Clean water needs to be collected, treated, and delivered. A dripping tap wastes water slowly but steadily. Farms, homes, and businesses use water differently.",
         "facts": [
           "Fixing leaks prevents waste without changing routines.",
           "Gardens can use water collected from rain.",
@@ -34546,84 +34546,84 @@
         ],
         "vocab": [
           {
-            "word": "Water Conservation",
-            "definition": "Water conservation means using freshwater with care.",
+            "word": "watershed",
+            "definition": "Land draining to one waterway",
             "partOfSpeech": "noun",
-            "example": "Water conservation means using freshwater with care.",
-            "starter": "I want to discuss water conservation because…"
+            "example": "I would protect the watershed.",
+            "starter": "If I saw watershed, I would…"
           },
           {
-            "word": "leaks",
-            "definition": "Places where water escapes by accident",
+            "word": "leak",
+            "definition": "An unwanted escape of water",
             "partOfSpeech": "noun",
             "example": "Fixing leaks prevents waste without changing routines.",
-            "starter": "I can use leaks to explain…"
+            "starter": "I could describe leak by…"
           },
           {
-            "word": "rain",
-            "definition": "Water falling from clouds",
+            "word": "irrigation",
+            "definition": "Supplying water to crops",
             "partOfSpeech": "noun",
-            "example": "Gardens can use water collected from rain.",
-            "starter": "When I hear rain, I think of…"
+            "example": "Irrigation can be improved.",
+            "starter": "I wonder whether irrigation can…"
           },
           {
-            "word": "freshwater",
-            "definition": "Water with very little salt",
-            "partOfSpeech": "noun",
-            "example": "Water conservation means using freshwater with care.",
-            "starter": "A question about freshwater is…"
+            "word": "treatment plant",
+            "definition": "A facility cleaning water",
+            "partOfSpeech": "phrase",
+            "example": "The treatment plant needs upkeep.",
+            "starter": "One question about treatment plant is…"
           },
           {
-            "word": "gardens",
-            "definition": "Places where people grow plants",
+            "word": "drought",
+            "definition": "A long period with too little rain",
             "partOfSpeech": "noun",
-            "example": "Gardens can use water collected from rain.",
-            "starter": "I would compare gardens with…"
+            "example": "Drought changes local plans.",
+            "starter": "I would compare drought with…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years",
+            "word": "reuse",
+            "definition": "Using water again for another purpose",
             "partOfSpeech": "noun",
-            "example": "Local climate affects which solutions work.",
-            "starter": "One example of climate is…"
+            "example": "I would support safe reuse.",
+            "starter": "My idea about reuse is…"
           },
           {
-            "word": "system",
-            "definition": "Connected parts that work together.",
+            "word": "meter",
+            "definition": "A device measuring consumption",
             "partOfSpeech": "noun",
-            "example": "We can study water conservation as a system.",
-            "starter": "I want to compare system with…"
+            "example": "The meter showed a leak.",
+            "starter": "I might use meter when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that fixing leaks prevents waste without changing routines."
+            "phrase": "I would fix…",
+            "example": "I would fix that tap."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that gardens can use water collected from rain."
+            "phrase": "We can collect rain…",
+            "example": "We can collect rain for plants."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, farms, homes, and industry all need water."
+            "phrase": "The river needs…",
+            "example": "The river needs water too."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare water conservation with a related topic."
+            "phrase": "This shower could…",
+            "example": "This shower could be shorter."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that local climate affects which solutions work."
+            "phrase": "Farmers need…",
+            "example": "Farmers need fair support."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because fixing leaks prevents waste without changing routines."
+            "phrase": "I want safe…",
+            "example": "I want safe drinking water."
           }
         ]
       },
       "B2": {
-        "briefing": "Water conservation means using freshwater with care. Fixing leaks prevents waste without changing routines; gardens can use water collected from rain. Farms, homes, and industry all need water; local climate affects which solutions work.",
+        "briefing": "Conserving water means matching use to local supply and ecological needs. Leaks in public systems can waste more than household habits alone. Rules should protect basic access while encouraging careful use.",
         "facts": [
           "Fixing leaks prevents waste without changing routines.",
           "Gardens can use water collected from rain.",
@@ -34637,79 +34637,79 @@
         ],
         "vocab": [
           {
-            "word": "Water Conservation",
-            "definition": "Water conservation means using freshwater with care.",
+            "word": "watershed",
+            "definition": "Land draining to one waterway",
             "partOfSpeech": "noun",
-            "example": "Water conservation means using freshwater with care.",
-            "starter": "I want to discuss water conservation because…"
+            "example": "Conservation works when users understand the needs of the whole watershed.",
+            "starter": "If I saw watershed, I would…"
           },
           {
-            "word": "leaks",
-            "definition": "Places where water escapes by accident",
+            "word": "leak",
+            "definition": "An unwanted escape of water",
             "partOfSpeech": "noun",
-            "example": "Fixing leaks prevents waste without changing routines.",
-            "starter": "I can use leaks to explain…"
+            "example": "Leaks in public systems can waste more than household habits alone.",
+            "starter": "I could describe leak by…"
           },
           {
-            "word": "rain",
-            "definition": "Water falling from clouds",
+            "word": "irrigation",
+            "definition": "Supplying water to crops",
             "partOfSpeech": "noun",
-            "example": "Gardens can use water collected from rain.",
-            "starter": "When I hear rain, I think of…"
+            "example": "Irrigation can be improved.",
+            "starter": "I wonder whether irrigation can…"
           },
           {
-            "word": "freshwater",
-            "definition": "Water with very little salt",
-            "partOfSpeech": "noun",
-            "example": "Water conservation means using freshwater with care.",
-            "starter": "A question about freshwater is…"
+            "word": "treatment plant",
+            "definition": "A facility cleaning water",
+            "partOfSpeech": "phrase",
+            "example": "The treatment plant needs upkeep.",
+            "starter": "One question about treatment plant is…"
           },
           {
-            "word": "gardens",
-            "definition": "Places where people grow plants",
+            "word": "drought",
+            "definition": "A long period with too little rain",
             "partOfSpeech": "noun",
-            "example": "Gardens can use water collected from rain.",
-            "starter": "I would compare gardens with…"
+            "example": "If my town faced drought, I would ask where the largest losses occur.",
+            "starter": "I would compare drought with…"
           },
           {
-            "word": "climate",
-            "definition": "Usual weather in a place over many years",
+            "word": "reuse",
+            "definition": "Using water again for another purpose",
             "partOfSpeech": "noun",
-            "example": "Local climate affects which solutions work.",
-            "starter": "One example of climate is…"
+            "example": "Safe reuse could free clean water for drinking.",
+            "starter": "My idea about reuse is…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation.",
+            "word": "meter",
+            "definition": "A device measuring consumption",
             "partOfSpeech": "noun",
-            "example": "Evidence improves decisions about water conservation.",
-            "starter": "I want to compare evidence with…"
+            "example": "A household meter can help, but public pipes matter too.",
+            "starter": "I might use meter when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that fixing leaks prevents waste without changing routines."
+            "phrase": "If my town faced drought, I…",
+            "example": "If my town faced drought, I would ask where the largest losses occur."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that gardens can use water collected from rain."
+            "phrase": "A household meter can help, but…",
+            "example": "A household meter can help, but public pipes matter too."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, farms, homes, and industry all need water."
+            "phrase": "I would rather invest in repair…",
+            "example": "I would rather invest in repair than blame people for every drop."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare water conservation with a related topic."
+            "phrase": "Safe reuse could free clean water…",
+            "example": "Safe reuse could free clean water for drinking."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that local climate affects which solutions work."
+            "phrase": "I wonder how water rules can…",
+            "example": "I wonder how water rules can protect low-income families."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because fixing leaks prevents waste without changing routines."
+            "phrase": "Conservation works when users understand the…",
+            "example": "Conservation works when users understand the needs of the whole watershed."
           }
         ]
       }
