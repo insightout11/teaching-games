@@ -1,0 +1,479 @@
+animals | Animals
+Which one can fly? | bird | cow,fish,snail
+Which one has a shell? | turtle | dog,duck,bee
+Which one says moo? | cow | cat,horse,lion
+Which one has stripes? | zebra | elephant,bear,rabbit
+Which one has a long neck? | giraffe | sheep,fox,frog
+Which one is a baby cat? | kitten | puppy,lamb,mouse
+Which one lives in water? | fish | chicken,goat,butterfly
+Which animal would you draw? | - | cat,dog,bird,rabbit
+Which animal would you watch? | - | penguin,lion,panda,kangaroo
+Which animal would you name? | - | turtle,horse,duck,koala
+
+pet-animals | Pet Animals
+Which pet has fins? | fish | cat,dog,rabbit
+Which pet can bark? | dog | bird,fish,turtle
+Which pet has whiskers? | cat | bird,fish,turtle
+Which pet has long ears? | rabbit | fish,bird,turtle
+Which pet is a baby dog? | puppy | kitten,lamb,mouse
+Which pet is a baby cat? | kitten | puppy,lamb,turtle
+Which pet can sit on a perch? | bird | dog,cat,rabbit
+Which pet would you cuddle? | - | cat,dog,rabbit,teddy-bear
+Which pet would you draw? | - | fish,bird,cat,rabbit
+Which pet would you name? | - | puppy,kitten,turtle,mouse
+
+farm-animals | Farm Animals
+Which one gives us milk? | cow | chicken,duck,pig
+Which one lays eggs? | chicken | cow,pig,horse
+Which one has wool? | sheep | chicken,pig,cow
+Which one has a mane? | horse | cow,pig,duck
+Which one has a curly tail? | pig | sheep,cow,chicken
+Which one is a baby sheep? | lamb | puppy,kitten,duck
+Which one says quack? | duck | cow,pig,sheep
+Which farm animal would you feed? | - | cow,goat,sheep,horse
+Which farm animal would you draw? | - | chicken,duck,pig,cow
+Which farm animal would you visit? | - | horse,sheep,goat,duck
+
+wild-animals | Wild Animals
+Which one has a trunk? | elephant | tiger,lion,fox
+Which one has a very long neck? | giraffe | zebra,panda,bear
+Which one has a mane? | lion | tiger,elephant,koala
+Which one has orange stripes? | tiger | hippo,camel,kangaroo
+Which one eats bamboo? | panda | wolf,fox,deer
+Which one has white fur? | polar-bear | crocodile,lion,monkey
+Which one has big jaws? | crocodile | koala,panda,zebra
+Which wild animal would you draw? | - | elephant,giraffe,lion,tiger
+Which wild animal would you watch? | - | panda,kangaroo,fox,polar-bear
+Which wild animal would you name? | - | bear,zebra,deer,monkey
+
+sea-animals | Sea Animals
+Which one has eight arms? | octopus | whale,shark,seal
+Which one has claws? | crab | jellyfish,dolphin,whale
+Which one can sting in water? | jellyfish | seal,turtle,whale
+Which one can squirt ink? | octopus | dolphin,crab,shark
+Which one is a fish? | shark | whale,dolphin,seal
+Which one has a hard shell? | turtle | jellyfish,seal,dolphin
+Which one is the biggest? | whale | crab,seal,octopus
+Which sea animal would you draw? | - | dolphin,whale,shark,octopus
+Which sea animal would you watch? | - | seal,turtle,crab,jellyfish
+Which sea animal would you name? | - | dolphin,octopus,seal,turtle
+
+small-animals | Small Animals
+Which one has six legs? | bee | spider,worm,snail
+Which one has eight legs? | spider | bee,ant,butterfly
+Which one makes honey? | bee | worm,snail,spider
+Which one has bright wings? | butterfly | worm,snail,ant
+Which one carries a shell? | snail | bee,ant,spider
+Which one has red spotted wings? | ladybug | worm,bee,ant
+Which one lives in soil? | worm | butterfly,ladybug,bee
+Which small animal would you draw? | - | bee,butterfly,ladybug,ant
+Which small animal would you watch? | - | snail,worm,spider,butterfly
+Which small animal would you name? | - | ladybug,snail,bee,ant
+
+food | Food
+Which one can go on bread? | jam | rice,egg,carrot
+Which one is made from milk? | cheese | bread,apple,rice
+Which one is a drink? | water | cake,egg,bread
+Which one is frozen? | ice-cream | pasta,broccoli,pizza
+Which one comes in a shell? | egg | cheese,water,rice
+Which one is long and thin? | noodles | potato,cake,peas
+Which one is baked in a loaf? | bread | salad,soup,rice
+Which food would you make? | - | pizza,soup,sandwich,salad
+Which food would you share? | - | cake,cookie,popcorn,watermelon
+Which food would you taste? | - | mango,cheese,noodles,pancake
+
+fruit | Fruit
+Which one has spiky skin? | pineapple | banana,orange,pear
+Which one is a small red berry? | strawberry | watermelon,banana,pear
+Which one is green outside, red inside? | watermelon | apple,peach,grapes
+Which one tastes very sour? | lemon | banana,pear,peach
+Which one has a hard stone inside? | peach | grapes,banana,strawberry
+Which one grows in a bunch? | grapes | apple,pear,lemon
+Which one is named for its color? | orange | apple,banana,pear
+Which fruit would you pack? | - | apple,banana,pear,grapes
+Which fruit would you draw? | - | pineapple,watermelon,strawberry,kiwi
+Which fruit would you taste? | - | mango,peach,cherry,coconut
+
+vegetables | Vegetables
+Which one is an orange root? | carrot | broccoli,corn,peas
+Which one grows under the ground? | potato | corn,cucumber,broccoli
+Which one has yellow kernels? | corn | carrot,onion,peas
+Which one looks like a little tree? | broccoli | potato,cucumber,garlic
+Which one has many layers? | onion | carrot,peas,corn
+Which one grows in a pod? | peas | potato,broccoli,onion
+Which one is long and green? | cucumber | carrot,corn,garlic
+Which vegetable would you grow? | - | carrot,peas,broccoli,pumpkin
+Which vegetable would you cook? | - | potato,onion,corn,beans
+Which vegetable would you draw? | - | cucumber,carrot,mushroom,broccoli
+
+breakfast | Breakfast
+Which one can you pour? | milk | bread,egg,banana
+Which one comes from a chicken? | egg | bread,apple,cheese
+Which one is a flat cake? | pancake | cereal,banana,bread
+Which one can you spread? | jam | cereal,egg,orange
+Which one is a fruit? | banana | bread,egg,cheese
+Which one can you drink? | juice | pancake,cereal,egg
+Which one is made from grains? | cereal | banana,egg,cheese
+Which breakfast would you choose? | - | pancake,cereal,egg,bread
+Which drink would you choose? | - | milk,water,juice,tea
+Which fruit would you add? | - | banana,strawberry,apple,grapes
+
+body-parts | Body Parts
+Which one helps you see? | eye | ear,nose,hand
+Which one helps you hear? | ear | eye,foot,tongue
+Which one helps you smell? | nose | knee,arm,teeth
+Which one helps you taste? | tongue | finger,shoulder,hair
+Which one can hold a pencil? | hand | foot,ear,neck
+Which one bends in your leg? | knee | nose,eye,shoulder
+Which one helps you walk? | foot | mouth,hand,ear
+Which body part would you draw? | - | eye,ear,nose,mouth
+Which action feels fun? | - | jump,clap,dance,run
+Which game action would you choose? | - | catch,kick,throw,clap
+
+clothes | Clothes
+Which one goes on your head? | hat | shoes,skirt,gloves
+Which one goes on your hands? | gloves | scarf,shorts,cap
+Which one goes on your feet? | shoes | jacket,hat,shirt
+Which one can keep off rain? | raincoat | sandals,skirt,ring
+Which one goes around your neck? | scarf | boots,jeans,socks
+Which one is for sleeping? | pajamas | coat,watch,hat
+Which one helps you see clearly? | glasses | belt,shirt,gloves
+Which clothes would you choose? | - | dress,shirt,jeans,shorts
+Which one would you wear? | - | boots,sandals,shoes,socks
+Which warm thing would you choose? | - | coat,sweater,scarf,gloves
+
+getting-dressed | Getting Dressed
+Which one goes around your waist? | belt | gloves,cap,boots
+Which one keeps hands warm? | gloves | sandals,shorts,skirt
+Which one is for swimming? | swimsuit | coat,sweater,jeans
+Which one shades your face? | cap | socks,belt,boots
+Which one keeps feet dry in rain? | boots | sandals,gloves,hat
+Which one covers your legs? | trousers | cap,scarf,gloves
+Which one is warm for cold weather? | coat | sandals,shorts,ring
+Which clothes would you pack? | - | raincoat,sweater,shirt,shorts
+Which one would you wear today? | - | dress,jeans,skirt,trousers
+Which one would you choose first? | - | hat,shoes,jacket,glasses
+
+weather | Weather
+Which one falls as water? | rain | wind,sun,cloud
+Which one falls as ice? | snow | rain,wind,sun
+Which one moves a kite? | wind | snow,rain,moon
+Which one has many colors? | rainbow | cloud,snow,wind
+Which one flashes in a storm? | lightning | snow,sun,rain
+Which one warms the ground? | sun | wind,cloud,snow
+Which one can hide the sun? | cloud | rain,snow,wind
+Which weather would you draw? | - | rain,snow,wind,rainbow
+Which sky picture do you like? | - | sun,moon,cloud,star
+Which weather would you watch? | - | storm,snow,rain,rainbow
+
+seasons | Seasons
+Which season comes after spring? | summer | autumn,winter,spring
+Which season comes before winter? | autumn | spring,summer,winter
+Which season comes after winter? | spring | autumn,summer,winter
+Which season is between spring and autumn? | summer | winter,spring,autumn
+Which season can show falling leaves? | autumn | spring,summer,winter
+Which season can show new flowers? | spring | autumn,winter,summer
+Which season can show snow? | winter | summer,autumn,spring
+Which season would you draw? | - | spring,summer,autumn,winter
+Which season would you choose? | - | winter,spring,summer,autumn
+Which season would you visit? | - | summer,autumn,winter,spring
+
+home | Home
+Which one is for sleeping? | bed | table,door,lamp
+Which one is for sitting? | chair | window,fridge,stairs
+Which one gives light? | lamp | bed,sofa,basket
+Which one opens to a room? | door | rug,clock,spoon
+Which one lets you see outside? | window | sofa,bath,oven
+Which one takes you upstairs? | stairs | mirror,blanket,fridge
+Which one keeps food cold? | fridge | bed,chair,clock
+Which home thing would you draw? | - | house,door,window,garden
+Which room would you choose? | - | kitchen,bathroom,bedroom,garden
+Which cozy thing would you choose? | - | pillow,blanket,rug,sofa
+
+kitchen-things | Kitchen Things
+Which one helps eat soup? | spoon | knife,fork,plate
+Which one picks up food? | fork | cup,oven,sink
+Which one can cut food? | knife | bowl,plate,cup
+Which one bakes bread? | oven | fridge,table,chair
+Which one keeps milk cold? | fridge | oven,lamp,bookshelf
+Which one holds a meal? | plate | broom,hammer,ladder
+Which one holds a drink? | cup | chair,pillow,door
+Which kitchen thing would you use? | - | spoon,fork,plate,bowl
+Which one would you draw? | - | oven,fridge,sink,teapot
+Which one would you choose? | - | cup,bottle,bowl,plate
+
+bathroom-things | Bathroom Things
+Which one cleans teeth? | toothbrush | towel,mirror,soap
+Which one makes hands soapy? | soap | pillow,clock,book
+Which one dries wet hands? | towel | mirror,toilet,bath
+Which one shows your face? | mirror | sink,shower,soap
+Which one lets water fall on you? | shower | lamp,bed,sofa
+Which one is for a bath? | bath | bookshelf,oven,fridge
+Which one holds water for washing? | sink | table,bed,chair
+Which one would you put by a sink? | - | soap,toothbrush,toothpaste,towel
+Which bathroom thing would you draw? | - | mirror,shower,bath,sink
+Which one would you use first? | - | soap,towel,toothbrush,mirror
+
+school-things | School Things
+Which one makes pencil marks? | pencil | eraser,ruler,glue
+Which one removes pencil marks? | eraser | crayon,scissors,pen
+Which one measures a line? | ruler | book,paintbrush,glue
+Which one cuts paper? | scissors | pencil,notebook,crayon
+Which one sticks paper together? | glue | ruler,backpack,map
+Which one adds color to a drawing? | crayon | eraser,globe,desk
+Which one carries your books? | backpack | pencil,glue,ruler
+Which school thing would you use? | - | pencil,crayon,paintbrush,pen
+Which one would you draw? | - | book,map,globe,backpack
+Which one would you choose? | - | puzzle,notebook,calculator,scissors
+
+toys | Toys
+Which one can you kick? | ball | doll,blocks,puzzle
+Which one is soft to cuddle? | teddy-bear | toy-car,blocks,robot
+Which one flies on a string? | kite | doll,ball,marbles
+Which one floats in the air? | balloon | board-game,drum,puzzle
+Which one builds a tower? | blocks | yo-yo,microphone,doll
+Which one has many pieces? | puzzle | teddy-bear,ball,kite
+Which one can roll on wheels? | toy-car | doll,drum,balloon
+Which toy would you choose? | - | ball,doll,teddy-bear,blocks
+Which toy would you share? | - | puzzle,board-game,marbles,kite
+Which toy would you draw? | - | robot,balloon,toy-car,yo-yo
+
+transport | Transport
+Which one flies in the sky? | airplane | car,bus,boat
+Which one runs on tracks? | train | truck,ship,taxi
+Which one goes under water? | submarine | car,airplane,truck
+Which one helps sick people travel? | ambulance | taxi,van,tractor
+Which one carries many road passengers? | bus | bike,scooter,motorbike
+Which one uses pedals? | bike | car,train,ship
+Which one has a sail? | sailboat | canoe,truck,helicopter
+Which transport would you ride? | - | train,bus,tram,boat
+Which transport would you draw? | - | rocket,helicopter,airplane,submarine
+Which transport would you try? | - | bike,scooter,hot-air-balloon,ship
+
+places | Places
+Which place has waves? | beach | park,shop,museum
+Which place has doctors? | hospital | bakery,cinema,airport
+Which place lends books? | library | museum,restaurant,hotel
+Which place has airplanes? | airport | station,stadium,hotel
+Which place has wild animals? | zoo | cinema,supermarket,museum
+Which place has lots of sand? | desert | forest,city,lake
+Where can you watch a match? | stadium | library,bakery,hospital
+Which place would you visit? | - | park,beach,museum,castle
+Which place would you draw? | - | mountain,river,island,forest
+Which place would you explore? | - | cave,waterfall,village,city
+
+jobs | Jobs
+Who helps children learn? | teacher | chef,pilot,driver
+Who cooks in a kitchen? | chef | dentist,pilot,farmer
+Who flies an airplane? | pilot | nurse,farmer,artist
+Who rides a fire engine? | firefighter | singer,vet,chef
+Who grows food on a farm? | farmer | dentist,driver,pilot
+Who helps sick animals? | vet | teacher,chef,singer
+Who checks your teeth? | dentist | pilot,artist,driver
+Which job would you try? | - | teacher,artist,chef,farmer
+Which job would you draw? | - | pilot,firefighter,nurse,vet
+Which job would you ask about? | - | doctor,driver,astronaut,singer
+
+family-time | Family Time
+Which one shows a family? | family | boy,girl,baby
+Which one shows a hug? | hug | run,read,sleep
+Which one shows talking? | talk | draw,swim,eat
+Which one could make dinner? | cook | sing,skate,run
+Which one shows reading? | read | jump,swim,ride-a-bike
+Which one shows playing? | play | sleep,wash,write
+Which one shows listening? | listen | throw,kick,climb
+Which family activity would you choose? | - | cook,read,play,walk
+Which family picture would you draw? | - | family,baby,mother,father
+Which thing would you do together? | - | dance,sing,draw,build
+
+actions | Actions
+Which action makes a picture? | draw | sleep,drink,walk
+Which action makes music? | sing | eat,write,wash
+Which action uses a book? | read | run,swim,dance
+Which action can make you wet? | swim | think,listen,sit
+Which action can wake someone? | shout | whisper,smile,sit
+Which action helps a plant? | water-the-plants | throw,catch,ride-a-bike
+Which action can clean a floor? | sweep | paint,clap,point
+Which action would you choose? | - | run,walk,jump,dance
+Which action would you try? | - | draw,paint,build,bake
+Which action would you show? | - | clap,wave,smile,stand
+
+feelings | Feelings
+Which one feels joyful? | happy | sad,angry,scared
+Which one needs some sleep? | tired | proud,silly,brave
+Which one wants food? | hungry | worried,surprised,cold
+Which one wants water? | thirsty | shy,angry,bored
+Which one feels afraid? | scared | happy,proud,excited
+Which one feels too warm? | hot | cold,sad,hungry
+Which one did not expect that? | surprised | bored,tired,angry
+Which feeling would you draw? | - | happy,sad,angry,surprised
+Which feeling would you name? | - | excited,shy,proud,silly
+Which feeling would you talk about? | - | worried,brave,scared,happy
+
+colours-of-things | Colours of Things
+Which one is yellow? | banana | tomato,broccoli,strawberry
+Which one is red? | strawberry | lemon,broccoli,coconut
+Which one is green? | broccoli | carrot,egg,cherry
+Which one is white? | snowman | sun,grass,strawberry
+Which one is orange? | carrot | broccoli,banana,strawberry
+Which one is black and white? | zebra | lion,elephant,hippo
+Which one is pink? | flamingo | penguin,owl,bat
+Which colorful thing would you draw? | - | rainbow,flower,butterfly,peacock
+Which color fruit would you choose? | - | banana,strawberry,orange,kiwi
+Which color animal would you paint? | - | flamingo,zebra,peacock,ladybug
+
+sizes | Sizes
+Which one is the biggest? | elephant | mouse,ant,bee
+Which one is the smallest? | ant | elephant,horse,cow
+Which one is the longest? | snake | snail,mouse,bee
+Which one is the tallest? | giraffe | rabbit,fox,dog
+Which fruit is the smallest? | cherry | watermelon,pineapple,coconut
+Which one is bigger than a car? | bus | bike,scooter,ball
+Which one is tiny? | ladybug | cow,horse,hippo
+Which big animal would you draw? | - | elephant,whale,giraffe,hippo
+Which small animal would you draw? | - | ant,bee,mouse,ladybug
+Which tall thing would you visit? | - | mountain,castle,tree,rocket
+
+birthday-party | Birthday Party
+Which one is a sweet party food? | cake | carrot,cheese,potato
+Which one floats above a party? | balloon | puzzle,drum,book
+Which one is a gift? | present | pillow,spoon,shoes
+Which one shows a birthday? | birthday | morning,night,summer
+Which one shows people celebrating? | party | classroom,library,school
+Which one can carry an invitation? | envelope | plate,broom,ball
+Which one makes a loud beat? | drum | spoon,cup,plate
+Which party food would you choose? | - | cake,muffin,pie,ice-cream
+Which party thing would you draw? | - | balloon,present,party,candle
+Which party game would you choose? | - | board-game,puzzle,marbles,ball
+
+sports | Sports
+Which sport uses a hoop? | basketball | football,tennis,golf
+Which sport uses a racket? | tennis | football,golf,karate
+Which sport uses a club? | golf | football,basketball,karate
+Which sport happens on water? | surfing | tennis,karate,golf
+Which sport uses kicking? | football | tennis,baseball,golf
+Which sport uses a bat? | baseball | tennis,karate,surfing
+Which sport needs no ball? | karate | football,tennis,golf
+Which sport would you play? | - | football,basketball,tennis,baseball
+Which sport would you watch? | - | golf,hockey,karate,surfing
+Which sport would you draw? | - | basketball,football,surfing,tennis
+
+nature | Nature
+Which one lights the day? | sun | rock,tree,leaf
+Which one can glow at night? | moon | sand,grass,flower
+Which one has a trunk? | tree | cloud,rock,star
+Which one has petals? | flower | sand,moon,rock
+Which one is hot inside? | volcano | river,forest,cloud
+Which one falls from clouds? | rain | tree,rock,fire
+Which one grows in a desert? | cactus | shell,feather,acorn
+Which nature picture would you draw? | - | sun,moon,star,rainbow
+Which nature picture would you explore? | - | mountain,river,forest,cave
+Which nature thing would you watch? | - | flower,tree,waterfall,cloud
+
+opposites | Opposites
+Which one is hot? | fire | ice,snow,cloud
+Which one is cold? | ice | sun,fire,sand
+Which one feels happy? | happy | sad,angry,scared
+Which one is very big? | elephant | mouse,ant,bee
+Which one is very light? | feather | rock,hammer,ladder
+Which action goes upward? | climb | sit,sleep,fall
+Which one shows opening? | open | close,run,walk
+Which opposite would you act? | - | hot,cold,happy,sad
+Which big or small thing would you draw? | - | elephant,ant,whale,bee
+Which opposite picture would you choose? | - | sun,snow,fire,ice
+
+what-do-you-use | What Do You Use?
+What do you use to write? | pencil | spoon,hat,ball
+What do you use in rain? | umbrella | fork,pillow,book
+What do you use for teeth? | toothbrush | towel,shoes,ball
+What do you use to cut paper? | scissors | glue,crayon,clock
+What do you use for soup? | spoon | ruler,pen,hammer
+What do you use to open doors? | key | leaf,cup,plate
+What do you use in the dark? | flashlight | broom,rope,box
+Which tool would you try? | - | paintbrush,hammer,calculator,camera
+Which school thing would you use? | - | pencil,ruler,crayon,glue
+Which home thing would you use? | - | broom,bucket,ladder,flashlight
+
+where-do-you | Where Do You?
+Where do you buy food? | supermarket | library,hospital,stadium
+Where do you see a doctor? | hospital | bakery,cinema,airport
+Where do you swim in a pool? | swimming-pool | museum,farm,shop
+Where do you catch a train? | station | castle,beach,forest
+Where can you borrow books? | library | airport,stadium,farm
+Where do you watch a film? | cinema | hospital,bakery,bridge
+Where might you sleep on a trip? | hotel | road,station,restaurant
+Where would you play? | - | park,playground,beach,garden
+Where would you visit animals? | - | zoo,farm,forest,sea
+Where would you go today? | - | museum,library,park,shop
+
+at-the-park | At the Park
+Which one can you slide down? | slide | swing,chair,kite
+Which one moves back and forth? | swing | slide,tree,ball
+Which one can you sit on? | chair | flower,kite,balloon
+Which one grows from an acorn? | tree | rock,ball,cloud
+Which one has petals? | flower | grass,rock,chair
+Which one can bounce? | ball | leaf,flower,chair
+Which one can fly on a string? | kite | slide,swing,chair
+Which park thing would you choose? | - | slide,swing,ball,kite
+Which park picture would you draw? | - | tree,flower,grass,chair
+Which park game would you play? | - | catch,kick,run,clap
+
+at-the-beach | At the Beach
+Which one comes from a sea animal? | shell | car,book,hat
+Which one is salty and wet? | sea | sand,rock,grass
+Which one can pinch? | crab | fish,whale,seal
+Which one can give shade? | umbrella | shell,bucket,rope
+Which one floats on water? | boat | rock,car,chair
+Which one is a sand building? | sandcastle | house,castle,bridge
+Which one warms the sand? | sun | moon,star,cloud
+Which beach thing would you choose? | - | shell,sandcastle,ball,umbrella
+Which sea animal would you watch? | - | crab,fish,dolphin,seal
+Which beach picture would you draw? | - | sea,sun,sand,boat
+
+music-and-art | Music and Art
+Which one has strings you pluck? | guitar | drum,flute,paintbrush
+Which one has black and white keys? | piano | drum,guitar,flute
+Which one do you blow into? | flute | drum,guitar,piano
+Which one do you hit for a beat? | drum | violin,flute,paintbrush
+Which one puts paint on paper? | paintbrush | eraser,ruler,book
+Which one draws in bright colors? | crayon | ruler,eraser,notebook
+Which one makes your voice louder? | microphone | guitar,drum,flute
+Which instrument would you play? | - | guitar,piano,drum,flute
+Which art tool would you choose? | - | crayon,paintbrush,pencil,pen
+Which sound would you choose? | - | violin,trumpet,flute,drum
+
+bedtime | Bedtime
+Which one is for sleeping? | bed | table,chair,door
+Which one goes under your head? | pillow | rug,basket,box
+Which one can cover you? | blanket | plate,clock,mirror
+Which one gives light at night? | lamp | broom,spoon,book
+Which one shows the time? | clock | pillow,bed,soap
+Which one cleans teeth? | toothbrush | blanket,lamp,book
+Which one do you wear to sleep? | pajamas | coat,shorts,gloves
+Which bedtime thing would you keep near? | - | book,teddy-bear,blanket,lamp
+Which cozy thing would you choose? | - | pillow,blanket,teddy-bear,rug
+Which bedtime picture would you draw? | - | moon,star,night,bed
+
+on-a-trip | On a Trip
+Which one carries your clothes? | bag | book,hat,chair
+Which one shows the way? | map | cup,plate,clock
+Which one keeps off rain? | umbrella | ball,book,spoon
+Which one shows the time? | clock | map,bag,hat
+Which one takes off from a runway? | airplane | bus,train,ship
+Which one floats at sea? | ship | car,train,truck
+Which one is a place to stay? | hotel | station,airport,road
+Which transport would you choose? | - | bus,train,airplane,boat
+Which place would you visit? | - | beach,forest,city,island
+Which trip thing would you pack? | - | camera,book,hat,umbrella
+
+in-the-garden | In the Garden
+Which one can you water? | flower | rock,coin,shell
+Which one carries pollen? | bee | worm,spider,snail
+Which one can become a tree? | acorn | rock,shell,coin
+Which one can carry water? | bucket | broom,hammer,rope
+Which food grows below the soil? | carrot | corn,peas,broccoli
+Which one can crawl in soil? | worm | butterfly,bird,bee
+Which one has green blades? | grass | rock,sand,shell
+Which garden thing would you grow? | - | flower,carrot,tree,grass
+Which small visitor would you watch? | - | bee,butterfly,ladybug,ant
+Which thing would you use outside? | - | bucket,broom,rope,ladder
