@@ -812,7 +812,13 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
               src={src}
               label={spec.optionLabels?.[index] ?? spec.options?.[index] ?? ''}
               selected={selected === spec.options?.[index]}
-              onClick={() => setSelected(spec.options?.[index] ?? null)}
+              onClick={() => {
+                // Picture answers are for young kids: one tap answers (tap another to change).
+                const option = spec.options?.[index];
+                if (!option) return;
+                setSelected(option);
+                void onSubmit(option);
+              }}
               disabled={isSubmitting || submitStatus === 'success'}
             />
           ))}
@@ -869,6 +875,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
       )}
       <div className="flex flex-col-reverse items-center gap-2">
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
+        {!choicePictures && (
         <Button
           onClick={handleSubmit}
           disabled={!canSubmit}
@@ -876,6 +883,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
         >
           {isSubmitting ? 'Submitting...' : submitStatus === 'success' ? 'Submitted' : 'Submit'}
         </Button>
+        )}
       </div>
     </div>
   );

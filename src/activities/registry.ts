@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import { isRetired } from '@/lib/retired-plugins';
 import type { ActivityPlugin, ActivityCategory } from './types';
 import { wouldYouRatherPlugin } from './would-you-rather';
+import { pictureQuizPlugin } from './picture-quiz';
 import { hotTakeArenaPlugin } from './hot-take-arena';
 import { twoTruthsPlugin } from './two-truths';
 import { rankItPlugin } from './rank-it';
@@ -129,6 +130,7 @@ const activities: ActivityPlugin[] = [
   twoTruthsAndALiePlugin,
   sceneIgniterPlugin,
   wouldYouRatherPlugin,
+  pictureQuizPlugin,
   twoTruthsPlugin,
   rankItPlugin,
   // Learning modules
