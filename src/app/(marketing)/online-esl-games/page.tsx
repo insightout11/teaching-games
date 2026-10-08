@@ -25,7 +25,7 @@ const gameGroups = [
     links: [
       { label: 'GridRush', href: '/classroom-games/grid-rush' },
       { label: 'Vocab Sprint', href: '/classroom-games/vocab-sprint' },
-      { label: 'Word Chain', href: '/classroom-games/word-chain' },
+      { label: 'Taboo Sprint', href: '/classroom-activities/taboo-sprint' },
       { label: 'Flash Quiz', href: '/classroom-games/flash-quiz' },
     ],
   },
@@ -36,7 +36,7 @@ const gameGroups = [
       { label: 'Scenario Simulator', href: '/classroom-activities/scenario-simulator' },
       { label: 'Decision Council', href: '/classroom-activities/decision-council' },
       { label: 'Hot Take Arena', href: '/classroom-activities/hot-take-arena' },
-      { label: 'In Your Words', href: '/classroom-activities/in-your-words' },
+      { label: 'Hot Seat', href: '/classroom-activities/hot-seat' },
     ],
   },
   {
@@ -45,8 +45,8 @@ const gameGroups = [
     links: [
       { label: 'Video to Lesson', href: '/video-lesson' },
       { label: 'Prediction Round', href: '/classroom-activities/prediction-round' },
-      { label: 'Listening Gap Fill', href: '/classroom-activities/listening-gap-fill' },
-      { label: 'Vocab Radar', href: '/classroom-activities/vocab-radar' },
+      { label: 'Fact Detective', href: '/classroom-activities/fact-detective' },
+      { label: 'Scene Igniter', href: '/classroom-activities/scene-igniter' },
     ],
   },
 ];

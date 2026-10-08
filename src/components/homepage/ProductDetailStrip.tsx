@@ -24,19 +24,19 @@ const CATEGORIES: { name: string; icon: LucideIcon; tone: Tone; examples: string
     name: 'Vocabulary',
     icon: BookOpen,
     tone: { border: 'border-cyan-400/25', tile: 'border-cyan-300/30 bg-cyan-400/10', icon: 'text-cyan-200' },
-    examples: ['Vocab Sprint', 'Synonym Showdown', 'Word Chain', 'Bluff Definition', 'Taboo Sprint'],
+    examples: ['Vocab Sprint', 'Synonym Showdown', 'Bluff Definition', 'Taboo Sprint', 'Language Toolkit'],
   },
   {
     name: 'Grammar & writing',
     icon: SpellCheck,
     tone: { border: 'border-violet-400/25', tile: 'border-violet-300/30 bg-violet-400/10', icon: 'text-violet-200' },
-    examples: ['Grammar Boss', 'Error Hunter', 'Sentence Scramble'],
+    examples: ['Grammar Boss', 'Error Hunter', 'Sentence Scramble', 'Fix the Captain', 'Tense Time Machine'],
   },
   {
     name: 'Logic & puzzles',
     icon: Puzzle,
     tone: { border: 'border-emerald-400/25', tile: 'border-emerald-300/30 bg-emerald-400/10', icon: 'text-emerald-200' },
-    examples: ['Connections', 'Brain Teasers', '20 Questions', 'Dialogue Detective'],
+    examples: ['Connections', '20 Questions', 'Dialogue Detective', 'Cabin Mystery'],
   },
   {
     name: 'Speed & competition',
@@ -48,41 +48,41 @@ const CATEGORIES: { name: string; icon: LucideIcon; tone: Tone; examples: string
     name: 'Geography & places',
     icon: Globe2,
     tone: { border: 'border-indigo-400/25', tile: 'border-indigo-300/30 bg-indigo-400/10', icon: 'text-indigo-200' },
-    examples: ['World Lens', 'Radar Fix'],
+    examples: ['Mystery Flight', 'Out & About', 'Find Your Way'],
   },
   {
     name: 'Icebreakers',
     icon: Snowflake,
     tone: { border: 'border-sky-400/25', tile: 'border-sky-300/30 bg-sky-400/10', icon: 'text-sky-200' },
-    examples: ['Imposter', 'Two Truths and a Lie', 'Password', 'Wonder Board', 'Character Cards'],
+    examples: ['Imposter', 'Hot Seat', 'Two Truths & a Lie', 'Wonder Board', 'Character Cards'],
   },
   {
     name: 'Speaking & debate',
     icon: Mic,
     tone: { border: 'border-rose-400/25', tile: 'border-rose-300/30 bg-rose-400/10', icon: 'text-rose-200' },
-    examples: ['Hot Take Arena', 'Would You Rather', 'Rank It', 'Expert Panel', 'Defend the Indefensible'],
+    examples: ['Hot Take Arena', 'Would You Rather', 'Rank It', 'Team Debate', 'Tag-team Debate', 'Pass the Line'],
   },
   {
-    name: 'Video & listening',
+    name: 'Listening',
     icon: Headphones,
     tone: { border: 'border-teal-400/25', tile: 'border-teal-300/30 bg-teal-400/10', icon: 'text-teal-200' },
-    examples: ['Listening Gap Fill', 'Scenario Simulator', 'Read Aloud'],
+    examples: ['Radio Check', 'Static', 'Black Box', 'First Listen'],
   },
   {
-    name: 'Storytelling',
+    name: 'Reading & stories',
     icon: Feather,
     tone: { border: 'border-fuchsia-400/25', tile: 'border-fuchsia-300/30 bg-fuchsia-400/10', icon: 'text-fuchsia-200' },
-    examples: ['Story Sprint', 'Scene Igniter', 'Conversation Rounds'],
+    examples: ['Read it together', 'Story Sprint', 'Scene Igniter', 'Conversation Rounds'],
   },
   {
     name: 'Check-ins & warm-up',
     icon: Activity,
     tone: { border: 'border-lime-400/25', tile: 'border-lime-300/30 bg-lime-400/10', icon: 'text-lime-200' },
-    examples: ['Quick Pulse', 'Vocab Radar', 'Prediction Round', 'Fact Detective'],
+    examples: ['Quick Pulse', 'Quick-fire', 'Prediction Round', 'Fact Detective'],
   },
 ];
 
-const TOTAL_MODULES = CATEGORIES.reduce((sum, c) => sum + c.examples.length, 0);
+// The examples are a sample; the catalogue has 78 active games, activities and flight stages (Oct 2026).
 
 export function ProductDetailStrip() {
   return (
@@ -101,7 +101,7 @@ export function ProductDetailStrip() {
             What you can run live
           </h2>
           <p className="mt-3 inline-flex items-center gap-2 text-sm text-lc-text3">
-            <span className="font-semibold text-lc-amber">{TOTAL_MODULES} games &amp; activities</span>
+            <span className="font-semibold text-lc-amber">70+ games, activities &amp; flight stages</span>
             <span className="h-1 w-1 rounded-full bg-lc-text3" />
             <span>{CATEGORIES.length} live-ready categories</span>
           </p>

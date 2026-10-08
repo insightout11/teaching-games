@@ -32,7 +32,7 @@ const gameGroups = [
     title: 'Word connection games',
     copy: 'Build stronger lexical networks by asking students to connect, compare, categorize, and explain word choices.',
     links: [
-      { label: 'Word Chain', href: '/classroom-games/word-chain' },
+      { label: 'Taboo Sprint', href: '/classroom-activities/taboo-sprint' },
       { label: 'Connections', href: '/classroom-games/connections' },
       { label: 'Synonym Showdown', href: '/classroom-games/synonym-showdown' },
     ],
@@ -42,8 +42,8 @@ const gameGroups = [
     copy: 'Pull useful words from a video, article, image, or topic, then reuse them in speaking tasks.',
     links: [
       { label: 'Video to Lesson', href: '/video-lesson' },
-      { label: 'Vocab Radar', href: '/classroom-activities/vocab-radar' },
-      { label: 'Listening Gap Fill', href: '/classroom-activities/listening-gap-fill' },
+      { label: 'Bluff Definition', href: '/classroom-activities/bluff-definition' },
+      { label: 'Fact Detective', href: '/classroom-activities/fact-detective' },
     ],
   },
 ];

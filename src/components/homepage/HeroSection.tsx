@@ -285,7 +285,7 @@ export function HeroSection() {
             <p className="max-w-xl self-center text-lg leading-relaxed text-lc-text2 lg:self-start">
               Screen-share the teacher view on Zoom, Meet, or Teams — students join from any
               browser to answer, play, vote, and speak live. Start from a video, an article, a
-              topic, or a ready-made flight.
+              topic, a ready-made flight, or whatever comes up in class.
             </p>
             <div className="flex flex-col items-center gap-4 sm:flex-row lg:items-start">
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>

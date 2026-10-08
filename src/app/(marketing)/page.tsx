@@ -4,6 +4,7 @@ import { createServerSupabase } from '@/lib/supabase/server';
 import { HeroSection } from '@/components/homepage/HeroSection';
 import { HowItWorksSection } from '@/components/homepage/HowItWorksSection';
 import { TwoScreensSection } from '@/components/homepage/TwoScreensSection';
+import { LiveRoomSection } from '@/components/homepage/LiveRoomSection';
 import { WorldFlightSection } from '@/components/homepage/WorldFlightSection';
 import { ProductDetailStrip } from '@/components/homepage/ProductDetailStrip';
 import { SourceBasedSection } from '@/components/homepage/SourceBasedSection';
@@ -32,6 +33,7 @@ export default async function HomePage() {
       <HeroSection />
       <HowItWorksSection />
       <TwoScreensSection />
+      <LiveRoomSection />
       <WorldFlightSection />
       <ProductDetailStrip />
       <SourceBasedSection />
