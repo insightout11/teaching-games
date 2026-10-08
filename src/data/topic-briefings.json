@@ -31808,15 +31808,15 @@
       "B1": {
         "briefing": "A changing climate affects seasons, water, and growing conditions. The effects differ from one region to another. Choices about energy and land influence future warming.",
         "facts": [
-          "Greenhouse gases hold some heat in the atmosphere.",
-          "Human activities add extra greenhouse gases.",
-          "Warming affects rainfall and habitats differently.",
-          "Communities can plan ways to reduce risks."
+          "Greenhouse gases slow the escape of heat from Earth.",
+          "Emissions from fuel use add to that heat-trapping effect.",
+          "A heatwave can strain homes, schools, and health services.",
+          "Adaptation prepares places for changes already occurring."
         ],
         "angles": [
-          "Should individuals or institutions act first?",
-          "How should communities choose climate priorities?",
-          "Can hopeful stories support useful action?"
+          "Which local change would you prepare for first?",
+          "How can a school reduce emissions realistically?",
+          "Who needs the most help during a heatwave?"
         ],
         "vocab": [
           {
@@ -31899,15 +31899,15 @@
       "B2": {
         "briefing": "Climate change is a long-term shift that appears through many local experiences. The people least responsible for emissions can face severe consequences. Adaptation and cutting emissions address different parts of the problem.",
         "facts": [
-          "Greenhouse gases hold some heat in the atmosphere.",
-          "Human activities add extra greenhouse gases.",
-          "Warming affects rainfall and habitats differently.",
-          "Communities can plan ways to reduce risks."
+          "Mitigation reduces future warming while adaptation reduces immediate harm.",
+          "A carbon footprint measures only some effects of an activity.",
+          "Historical emissions and present vulnerability are distributed unequally.",
+          "Climate resilience depends on housing, infrastructure, and social support."
         ],
         "angles": [
-          "Should individuals or institutions act first?",
-          "How should communities choose climate priorities?",
-          "Can hopeful stories support useful action?"
+          "Who should pay for adaptation in vulnerable regions?",
+          "Can individual choices matter without system-level change?",
+          "How should climate policy balance cost now against future harm?"
         ],
         "vocab": [
           {
@@ -32005,15 +32005,15 @@
       "B1": {
         "briefing": "Sun, wind, and moving water can provide power. Electricity must reach homes when it is needed. A community chooses an energy site for more than its output.",
         "facts": [
-          "Solar panels turn sunlight into electricity.",
-          "Wind turbines use moving air to generate power.",
-          "Energy storage helps when supply changes.",
-          "Every energy source has land and material needs."
+          "A solar panel converts light into electrical energy.",
+          "A wind turbine works best where winds are suitable and steady.",
+          "Battery storage can shift some power to a later hour.",
+          "The grid must balance supply and demand throughout the day."
         ],
         "angles": [
-          "Should a town prioritize solar or wind?",
-          "How much should scenery affect energy plans?",
-          "Can saving energy matter as much as producing it?"
+          "Would your town benefit more from solar or wind?",
+          "What makes a good site for a turbine?",
+          "How can a home use less energy at peak times?"
         ],
         "vocab": [
           {
@@ -32096,15 +32096,15 @@
       "B2": {
         "briefing": "Renewable power reduces fuel burning but still requires materials and land. Storage and flexible grids help match supply with demand. Local participation can decide whether a project earns trust.",
         "facts": [
-          "Solar panels turn sunlight into electricity.",
-          "Wind turbines use moving air to generate power.",
-          "Energy storage helps when supply changes.",
-          "Every energy source has land and material needs."
+          "Intermittent generation requires flexible systems rather than one constant source.",
+          "Hydropower can provide electricity while altering river habitats.",
+          "Building clean power still uses land, minerals, and labor.",
+          "Grid planning can spread benefits and costs unevenly across communities."
         ],
         "angles": [
-          "Should a town prioritize solar or wind?",
-          "How much should scenery affect energy plans?",
-          "Can saving energy matter as much as producing it?"
+          "Should communities be able to reject energy projects nearby?",
+          "How much environmental trade-off is acceptable for clean power?",
+          "Can renewable electricity be reliable without large-scale storage?"
         ],
         "vocab": [
           {
@@ -32201,15 +32201,15 @@
       "B1": {
         "briefing": "Plastic is useful because it is light and durable. The same durability makes discarded pieces linger. Sorting waste helps only when collection systems can process it.",
         "facts": [
-          "Some plastic pieces break into smaller fragments.",
-          "Sorting materials can help some recycling systems.",
-          "Reuse can avoid making a new item.",
-          "Collection systems differ between communities."
+          "Single-use packaging may outlast the product it protects.",
+          "Microplastics form when larger pieces break down.",
+          "Refill systems can avoid a new container for each purchase.",
+          "Recycling depends on collecting and sorting material correctly."
         ],
         "angles": [
-          "Should shops reduce packaging first?",
-          "Is reuse easier than recycling?",
-          "Who should pay for waste collection?"
+          "Which plastic item would you remove from school first?",
+          "When does packaging prevent more waste than it creates?",
+          "What would make refills easy for families?"
         ],
         "vocab": [
           {
@@ -32292,15 +32292,15 @@
       "B2": {
         "briefing": "Plastic pollution begins with production and product design, not just littering. Some packaging protects food, while other layers add little value. Reducing unnecessary materials can work before recycling begins.",
         "facts": [
-          "Some plastic pieces break into smaller fragments.",
-          "Sorting materials can help some recycling systems.",
-          "Reuse can avoid making a new item.",
-          "Collection systems differ between communities."
+          "Durability is useful in a product but difficult after careless disposal.",
+          "Some plastic replacements use more material or energy than expected.",
+          "Waste prevention begins in design before a recycling bin exists.",
+          "Pollution can travel through waterways beyond the place it began."
         ],
         "angles": [
-          "Should shops reduce packaging first?",
-          "Is reuse easier than recycling?",
-          "Who should pay for waste collection?"
+          "Should producers pay for collecting their packaging?",
+          "Can recycling ever keep pace with rising plastic production?",
+          "How should we judge a plastic alternative fairly?"
         ],
         "vocab": [
           {
@@ -32397,15 +32397,15 @@
       "B1": {
         "briefing": "Animals need food, shelter, and room to move. A protected area can help when nearby land also stays healthy. Local people often know changes in a habitat first.",
         "facts": [
-          "Connected habitats let animals move between areas.",
-          "Local people often know an ecosystem well.",
-          "Protecting one species can help others.",
-          "Conservation plans balance several human and animal needs."
+          "A migration corridor connects places animals need at different times.",
+          "Poaching can reduce a small population quickly.",
+          "Rangers may track changes in habitat as well as animals.",
+          "Biodiversity includes common and overlooked species too."
         ],
         "angles": [
-          "Should protection focus on species or habitats?",
-          "Who should guide a local conservation plan?",
-          "Can tourism help wildlife without disturbing it?"
+          "Which animal would you protect first in a local area?",
+          "How can a ranger work with nearby communities?",
+          "What makes a wildlife corridor useful?"
         ],
         "vocab": [
           {
@@ -32488,15 +32488,15 @@
       "B2": {
         "briefing": "Conservation succeeds when it protects relationships across an ecosystem. A single charismatic species can attract support but obscure less visible life. Long-term care depends on communities having a meaningful role.",
         "facts": [
-          "Connected habitats let animals move between areas.",
-          "Local people often know an ecosystem well.",
-          "Protecting one species can help others.",
-          "Conservation plans balance several human and animal needs."
+          "An ecosystem can weaken before one famous species disappears.",
+          "Restoration may fail if the original cause of damage remains.",
+          "Local people need a voice in decisions affecting land and livelihoods.",
+          "Population counts alone may hide whether animals can move and breed."
         ],
         "angles": [
-          "Should protection focus on species or habitats?",
-          "Who should guide a local conservation plan?",
-          "Can tourism help wildlife without disturbing it?"
+          "Should conservation funding favor whole habitats over iconic animals?",
+          "Who should decide when wildlife and farms compete for space?",
+          "How can a protected area be judged successful decades later?"
         ],
         "vocab": [
           {
@@ -32593,15 +32593,15 @@
       "B1": {
         "briefing": "Trees and gardens give city animals places to live. Shade can make a hot street easier to use. Even a small patch of soil can hold surprising life.",
         "facts": [
-          "Street trees can provide shade.",
-          "Parks give people room to move and rest.",
-          "Buildings may offer nesting spaces for birds.",
-          "Connected green areas help some animals travel."
+          "A tree canopy provides shade over streets and homes.",
+          "A rain garden can absorb runoff from hard surfaces.",
+          "Native plants may support local pollinators.",
+          "A green corridor links small habitats across a city."
         ],
         "angles": [
-          "Should cities favor parks or street trees?",
-          "Can a small garden improve a neighborhood?",
-          "Who should care for shared green space?"
+          "Where would you plant a tree in your neighborhood?",
+          "What wildlife could use a small city garden?",
+          "How would you improve an empty paved space?"
         ],
         "vocab": [
           {
@@ -32684,15 +32684,15 @@
       "B2": {
         "briefing": "Urban nature is part of infrastructure for heat, water, and wellbeing. Connected green spaces help wildlife move across built areas. Access matters when some neighborhoods have far fewer trees.",
         "facts": [
-          "Street trees can provide shade.",
-          "Parks give people room to move and rest.",
-          "Buildings may offer nesting spaces for birds.",
-          "Connected green areas help some animals travel."
+          "Unequal tree cover can deepen heat differences between neighborhoods.",
+          "Connected green spaces may aid species that cannot cross wide roads.",
+          "Urban planting needs long-term watering and care, not just a ceremony.",
+          "A park's value depends partly on whether people can reach it safely."
         ],
         "angles": [
-          "Should cities favor parks or street trees?",
-          "Can a small garden improve a neighborhood?",
-          "Who should care for shared green space?"
+          "Should cities prioritize shade where it is hottest or most visited?",
+          "Can a small garden matter if a large park is nearby?",
+          "Who should maintain green spaces after the opening day?"
         ],
         "vocab": [
           {
@@ -32791,15 +32791,15 @@
       "B1": {
         "briefing": "A bus or train carries many people along one route. Frequency matters when a passenger has no flexible schedule. A safe walk to the stop is part of the trip.",
         "facts": [
-          "Buses can change routes more easily than trains.",
-          "Trains can move many people along fixed lines.",
-          "Good connections make transfers simpler.",
-          "Accessible stops help more people travel independently."
+          "A frequent route cuts the time passengers spend waiting.",
+          "A transfer connects journeys when no direct service exists.",
+          "A fare influences whether people can travel regularly.",
+          "Clear platform signs help new passengers find a service."
         ],
         "angles": [
-          "Should cities invest first in buses or trains?",
-          "What makes a journey feel reliable?",
-          "How can transport serve distant neighborhoods?"
+          "Which bus route would improve your town most?",
+          "How could a station become easier to use?",
+          "What makes a transfer stressful?"
         ],
         "vocab": [
           {
@@ -32882,15 +32882,15 @@
       "B2": {
         "briefing": "Public transport works as a network, not a collection of vehicles. Reliability shapes whether people can trust it for work or school. Accessible routes expand who can participate in city life.",
         "facts": [
-          "Buses can change routes more easily than trains.",
-          "Trains can move many people along fixed lines.",
-          "Good connections make transfers simpler.",
-          "Accessible stops help more people travel independently."
+          "Accessibility starts before boarding, with safe paths to stops.",
+          "A low fare cannot compensate for an unreliable timetable.",
+          "Transport networks shape access to jobs, schools, and care.",
+          "Service planning must account for trips outside peak commuting hours."
         ],
         "angles": [
-          "Should cities invest first in buses or trains?",
-          "What makes a journey feel reliable?",
-          "How can transport serve distant neighborhoods?"
+          "Should public transport be free at the point of use?",
+          "Whose journeys are overlooked when planners count commuters?",
+          "Is reliability worth more than speed for most passengers?"
         ],
         "vocab": [
           {
@@ -32987,15 +32987,15 @@
       "B1": {
         "briefing": "A city can change its streets as people grow and move. Homes, parks, and services need to fit together. A clever device cannot fix a badly planned neighborhood.",
         "facts": [
-          "Compact neighborhoods can shorten some trips.",
-          "Trees can cool streets and offer shade.",
-          "Shared systems need careful maintenance.",
-          "Residents should help decide what their city needs."
+          "Mixed-use streets place homes near services and shops.",
+          "Density can support frequent transport when homes are close together.",
+          "A smart sensor can detect a leak in public pipes.",
+          "Walkability includes safe crossings, not just short distances."
         ],
         "angles": [
-          "Should future cities grow upward or outward?",
-          "Which public space matters most?",
-          "Can technology solve a poorly planned street?"
+          "What would you put within a short walk of home?",
+          "How should a city use an empty lot?",
+          "Which street would you redesign first?"
         ],
         "vocab": [
           {
@@ -33078,15 +33078,15 @@
       "B2": {
         "briefing": "Future cities will reflect choices about housing, climate, and public space. Technology helps only when residents can understand and shape it. A good plan should work for children, older people, and people with disabilities.",
         "facts": [
-          "Compact neighborhoods can shorten some trips.",
-          "Trees can cool streets and offer shade.",
-          "Shared systems need careful maintenance.",
-          "Residents should help decide what their city needs."
+          "Zoning rules influence housing supply and travel patterns.",
+          "Public space must work for residents with different ages and abilities.",
+          "Technology cannot solve a shortage of affordable homes by itself.",
+          "Planning choices made today can shape a neighborhood for decades."
         ],
         "angles": [
-          "Should future cities grow upward or outward?",
-          "Which public space matters most?",
-          "Can technology solve a poorly planned street?"
+          "Should cities allow more homes in established neighborhoods?",
+          "Who should control data collected by street sensors?",
+          "Can a dense city also feel calm and green?"
         ],
         "vocab": [
           {
@@ -33183,15 +33183,15 @@
       "B1": {
         "briefing": "Space missions use instruments to learn about distant places. An unmanned probe can travel where people cannot safely go. Each mission has limited fuel, time, and power.",
         "facts": [
-          "Robots can visit places too risky for people.",
-          "Spacecraft instruments measure distant objects.",
-          "Long journeys require careful supplies and communication.",
-          "Discoveries can change questions about Earth."
+          "A probe can measure conditions too dangerous for astronauts.",
+          "A telescope gathers light from objects people cannot reach.",
+          "A payload contains the instruments chosen for a mission.",
+          "Mission control sends commands and interprets returning data."
         ],
         "angles": [
-          "Should robots explore before humans?",
-          "Is learning about space worth large costs?",
-          "Which question should the next mission answer?"
+          "Which question would you send a probe to investigate?",
+          "What would you include in a small payload?",
+          "When is a telescope better than a spacecraft?"
         ],
         "vocab": [
           {
@@ -33274,15 +33274,15 @@
       "B2": {
         "briefing": "Exploration asks scientific questions while also expressing human ambitions. Robotic craft and astronauts offer different kinds of observation. The cost of a mission invites debate about benefits on Earth.",
         "facts": [
-          "Robots can visit places too risky for people.",
-          "Spacecraft instruments measure distant objects.",
-          "Long journeys require careful supplies and communication.",
-          "Discoveries can change questions about Earth."
+          "A trajectory uses gravity and motion to reach a distant target.",
+          "Life support makes human missions heavier and more complex.",
+          "Robotic and crewed exploration answer different kinds of questions.",
+          "Public missions can share findings while still competing for funding."
         ],
         "angles": [
-          "Should robots explore before humans?",
-          "Is learning about space worth large costs?",
-          "Which question should the next mission answer?"
+          "Should governments fund people or robots for distant exploration?",
+          "What discoveries would justify a very expensive mission?",
+          "Who should benefit from scientific findings made in space?"
         ],
         "vocab": [
           {
@@ -33379,15 +33379,15 @@
       "B1": {
         "briefing": "Mars is far away, and a message takes time to travel. Robots can examine rocks before people arrive. Dust and cold make equipment difficult to maintain.",
         "facts": [
-          "Robotic vehicles can examine rocks and soil.",
-          "Dust and distance make missions difficult.",
-          "Signals take time to travel between planets.",
-          "A human trip would need long-term supplies."
+          "A rover can examine rocks beyond its landing site.",
+          "A dust storm may reduce the light reaching solar panels.",
+          "Communication delay prevents real-time driving from Earth.",
+          "A sample can preserve clues that a camera misses."
         ],
         "angles": [
-          "Should people travel to Mars soon?",
-          "What should robots study first?",
-          "How much risk is fair for exploration?"
+          "Where would you send a rover first?",
+          "What should a crew practice before landing?",
+          "Why might a return mission be harder than arrival?"
         ],
         "vocab": [
           {
@@ -33470,15 +33470,15 @@
       "B2": {
         "briefing": "A Mars mission must plan for delays, hazards, and uncertain results. Samples could tell a history that images alone cannot show. Sending people would require reliable supplies and a way home.",
         "facts": [
-          "Robotic vehicles can examine rocks and soil.",
-          "Dust and distance make missions difficult.",
-          "Signals take time to travel between planets.",
-          "A human trip would need long-term supplies."
+          "A landing site must balance scientific interest with safe terrain.",
+          "Returning samples would allow tests with many laboratories on Earth.",
+          "A habitat module needs protection from cold and radiation.",
+          "A crew may need to solve urgent problems without advice arriving in time."
         ],
         "angles": [
-          "Should people travel to Mars soon?",
-          "What should robots study first?",
-          "How much risk is fair for exploration?"
+          "Should humans go to Mars before sample return is complete?",
+          "What risk is acceptable for a volunteer crew?",
+          "Could Mars research be worth its cost without a settlement?"
         ],
         "vocab": [
           {
@@ -33575,15 +33575,15 @@
       "B1": {
         "briefing": "A satellite travels around Earth while collecting or sending information. Different instruments watch weather, land, or communication signals. Old equipment in orbit can become a hazard.",
         "facts": [
-          "Artificial satellites can relay signals across Earth.",
-          "Some satellites observe weather and land.",
-          "Orbits depend on speed and gravity.",
-          "Old satellites can become space debris."
+          "A satellite sensor can measure clouds, land, or ocean conditions.",
+          "A ground station receives signals as a craft passes overhead.",
+          "Navigation services use timing information from orbit.",
+          "Space debris can damage working equipment."
         ],
         "angles": [
-          "Should satellite launches face stricter limits?",
-          "Which satellite service matters most?",
-          "Who should clean up space debris?"
+          "Which problem on Earth could a satellite help study?",
+          "What would you do with a weather image?",
+          "How could old equipment be kept out of useful orbits?"
         ],
         "vocab": [
           {
@@ -33666,15 +33666,15 @@
       "B2": {
         "briefing": "Satellites make distant information available quickly but create dependence. Images can reveal broad changes while missing local context. Crowded orbits raise questions about shared space and responsibility.",
         "facts": [
-          "Artificial satellites can relay signals across Earth.",
-          "Some satellites observe weather and land.",
-          "Orbits depend on speed and gravity.",
-          "Old satellites can become space debris."
+          "Image resolution affects both scientific detail and privacy concerns.",
+          "Crowded orbital paths require coordination between different operators.",
+          "A signal may fail because of equipment, weather, or interference.",
+          "Satellite data becomes useful when combined with observations on the ground."
         ],
         "angles": [
-          "Should satellite launches face stricter limits?",
-          "Which satellite service matters most?",
-          "Who should clean up space debris?"
+          "Who should set rules for debris removal in shared orbit?",
+          "Should anyone be able to buy detailed images of homes?",
+          "How dependent should a society become on satellite navigation?"
         ],
         "vocab": [
           {
@@ -33771,15 +33771,15 @@
       "B1": {
         "briefing": "An invention begins with a problem someone notices. Early versions often fail in useful ways. A new device may need other systems before people adopt it.",
         "facts": [
-          "Many inventions improve earlier ideas.",
-          "A prototype lets makers test a design.",
-          "Unexpected failures can reveal better approaches.",
-          "People judge an invention by its effects."
+          "A prototype shows whether an idea works outside someone's imagination.",
+          "Iteration changes a design after testing reveals a problem.",
+          "Manufacturing at scale can expose weaknesses in materials.",
+          "A patent grants legal rights under particular rules."
         ],
         "angles": [
-          "Should inventors focus on simple problems?",
-          "When does an improvement become a new invention?",
-          "Is an invention useful if few people can afford it?"
+          "Which everyday object would you improve first?",
+          "How would you test a rough invention safely?",
+          "What can a failed prototype teach?"
         ],
         "vocab": [
           {
@@ -33862,15 +33862,15 @@
       "B2": {
         "briefing": "Inventions emerge from teams, earlier ideas, and practical constraints. A clever prototype is not the same as a safe useful product. The consequences of a device may differ from its inventor's goal.",
         "facts": [
-          "Many inventions improve earlier ideas.",
-          "A prototype lets makers test a design.",
-          "Unexpected failures can reveal better approaches.",
-          "People judge an invention by its effects."
+          "An invention often combines many earlier ideas rather than appearing alone.",
+          "Constraints can lead to a simpler and more useful solution.",
+          "A patent system may encourage sharing details while limiting access.",
+          "Users may find purposes the inventor never intended."
         ],
         "angles": [
-          "Should inventors focus on simple problems?",
-          "When does an improvement become a new invention?",
-          "Is an invention useful if few people can afford it?"
+          "Should essential inventions be freely available to everyone?",
+          "Who deserves credit when a team develops one product?",
+          "When does solving one problem create a larger one?"
         ],
         "vocab": [
           {
@@ -33968,15 +33968,15 @@
       "B1": {
         "briefing": "A medical device can help doctors see or measure a problem. Tests must show that a tool is safe enough to use. Clear instructions matter when patients use equipment at home.",
         "facts": [
-          "Imaging tools reveal structures inside a body.",
-          "Devices may support movement or hearing.",
-          "Testing helps assess safety and usefulness.",
-          "Access can differ between communities."
+          "A scan can help a clinician see structures inside the body.",
+          "A clinical trial tests a tool with planned safeguards.",
+          "A false positive suggests a problem that further checks do not confirm.",
+          "A home monitor needs instructions patients can understand."
         ],
         "angles": [
-          "Should simple tools receive more funding?",
-          "How should patients help shape device design?",
-          "Can technology replace careful listening?"
+          "What would you ask before trusting a health device?",
+          "How should a doctor explain an uncertain scan?",
+          "When is a simple tool better than a complex one?"
         ],
         "vocab": [
           {
@@ -34059,15 +34059,15 @@
       "B2": {
         "briefing": "Medical technology combines scientific promise with evidence about real patients. A tool can improve diagnosis yet remain inaccessible because of cost. Privacy and human judgment still matter when software analyzes health data.",
         "facts": [
-          "Imaging tools reveal structures inside a body.",
-          "Devices may support movement or hearing.",
-          "Testing helps assess safety and usefulness.",
-          "Access can differ between communities."
+          "Diagnostic accuracy must be weighed against false alarms and missed cases.",
+          "Informed consent requires meaningful understanding, not just a signature.",
+          "A device tested on a narrow group may work differently for others.",
+          "Accessibility includes cost, language, and physical ease of use."
         ],
         "angles": [
-          "Should simple tools receive more funding?",
-          "How should patients help shape device design?",
-          "Can technology replace careful listening?"
+          "Should an algorithm ever make a diagnosis without a clinician?",
+          "Who should see data collected by a home health monitor?",
+          "How much uncertainty should patients hear about a new tool?"
         ],
         "vocab": [
           {
@@ -34164,15 +34164,15 @@
       "B1": {
         "briefing": "Food can be lost on farms, in shops, or at home. A date label may tell different things about safety and quality. Planning a meal can keep useful ingredients from being forgotten.",
         "facts": [
-          "Planning meals can reduce unused ingredients.",
-          "Storage changes how long some foods last.",
-          "Leftovers can become ingredients for another meal.",
-          "Waste also uses the water and work behind food."
+          "Spoilage can be slowed by suitable storage.",
+          "A portion that is too large may become uneaten food.",
+          "Date labels can refer to quality rather than immediate danger.",
+          "Compost returns some food scraps to soil."
         ],
         "angles": [
-          "Should shops or households act first?",
-          "Can menus make leftover food appealing?",
-          "How can a school reduce food waste?"
+          "Which leftovers would you turn into another meal?",
+          "What would help a school serve better portions?",
+          "How can a shop use surplus food safely?"
         ],
         "vocab": [
           {
@@ -34255,15 +34255,15 @@
       "B2": {
         "briefing": "Food waste reflects storage, transport, marketing, and household habits. Discarding edible food also wastes the land and water behind it. Solutions differ depending on where in the chain the loss happens.",
         "facts": [
-          "Planning meals can reduce unused ingredients.",
-          "Storage changes how long some foods last.",
-          "Leftovers can become ingredients for another meal.",
-          "Waste also uses the water and work behind food."
+          "Food lost before reaching shops can be invisible to consumers.",
+          "Preventing edible waste saves more resources than composting it afterward.",
+          "Storage systems and transport affect spoilage across a supply chain.",
+          "A rigid meal plan can cause waste when real life changes."
         ],
         "angles": [
-          "Should shops or households act first?",
-          "Can menus make leftover food appealing?",
-          "How can a school reduce food waste?"
+          "Should shops be required to share usable surplus food?",
+          "Who should pay to reduce losses before food reaches stores?",
+          "When does a date label help safety, and when does it mislead?"
         ],
         "vocab": [
           {
@@ -34360,15 +34360,15 @@
       "B1": {
         "briefing": "Clothes use materials, energy, and labor before reaching a shop. Repair can keep a favorite garment useful longer. Buying fewer pieces may be easier when they last.",
         "facts": [
-          "Repair can keep a garment useful longer.",
-          "Secondhand clothes avoid making a new item.",
-          "Producing fabric uses water and energy.",
-          "Quality can matter more than frequent purchases."
+          "Repair can extend the life of a worn garment.",
+          "A fiber's source affects how it is made and disposed of.",
+          "Some dyes require substantial water or careful waste treatment.",
+          "Secondhand buying can keep clothes in use longer."
         ],
         "angles": [
-          "Should people buy fewer clothes?",
-          "Is repair a creative choice or a chore?",
-          "Can fashion be both affordable and sustainable?"
+          "What item would you mend rather than replace?",
+          "How could a school organize a clothes swap?",
+          "Which claim on a fashion label would you check?"
         ],
         "vocab": [
           {
@@ -34451,15 +34451,15 @@
       "B2": {
         "briefing": "The environmental cost of clothing includes production, transport, use, and disposal. A green label is less useful than clear information about a garment's life. Workers' conditions belong in a discussion of sustainability.",
         "facts": [
-          "Repair can keep a garment useful longer.",
-          "Secondhand clothes avoid making a new item.",
-          "Producing fabric uses water and energy.",
-          "Quality can matter more than frequent purchases."
+          "Fast fashion depends on rapid design, production, and disposal cycles.",
+          "Durability can reduce replacement but may raise the purchase price.",
+          "A supply chain includes workers whose conditions may be hard to see.",
+          "Reusing a garment usually avoids making a new one immediately."
         ],
         "angles": [
-          "Should people buy fewer clothes?",
-          "Is repair a creative choice or a chore?",
-          "Can fashion be both affordable and sustainable?"
+          "Should clothing brands be responsible for unwanted garments?",
+          "Can cheap fashion be fair to workers and the environment?",
+          "Who should make durable clothes affordable?"
         ],
         "vocab": [
           {
@@ -34556,15 +34556,15 @@
       "B1": {
         "briefing": "Clean water needs to be collected, treated, and delivered. A dripping tap wastes water slowly but steadily. Farms, homes, and businesses use water differently.",
         "facts": [
-          "Fixing leaks prevents waste without changing routines.",
-          "Gardens can use water collected from rain.",
-          "Farms, homes, and industry all need water.",
-          "Local climate affects which solutions work."
+          "A leak in a pipe can waste water before it reaches a home.",
+          "A meter helps reveal unusual use.",
+          "Irrigation brings water to crops when rain is insufficient.",
+          "A watershed links land areas draining toward the same waterway."
         ],
         "angles": [
-          "Should households or farms change first?",
-          "What water habit is easiest to improve?",
-          "How can a community share limited water fairly?"
+          "Where would you check for wasted water first?",
+          "How could a garden use less clean drinking water?",
+          "What should a town do during drought?"
         ],
         "vocab": [
           {
@@ -34647,15 +34647,15 @@
       "B2": {
         "briefing": "Conserving water means matching use to local supply and ecological needs. Leaks in public systems can waste more than household habits alone. Rules should protect basic access while encouraging careful use.",
         "facts": [
-          "Fixing leaks prevents waste without changing routines.",
-          "Gardens can use water collected from rain.",
-          "Farms, homes, and industry all need water.",
-          "Local climate affects which solutions work."
+          "Treatment plants require energy and maintenance to provide safe water.",
+          "Safe reuse can reserve drinking-quality water for the tasks that need it.",
+          "Drought planning must protect basic access for households.",
+          "Losses in public pipes may outweigh many small household savings."
         ],
         "angles": [
-          "Should households or farms change first?",
-          "What water habit is easiest to improve?",
-          "How can a community share limited water fairly?"
+          "Should farms or homes face tighter limits during a drought?",
+          "Who should fund repairs to aging water systems?",
+          "When is recycling water worth its cost and complexity?"
         ],
         "vocab": [
           {

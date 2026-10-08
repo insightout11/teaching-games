@@ -19,3 +19,5 @@ Batch 6: rewrote 15 teen digital life topics at B1 and B2. Repeated-fact and rep
 Batch 7: rewrote 15 relationships and culture topics, from friendship through local traditions. Repeated-fact and repeated-angle counts each fell to 40; Round 19 checks remain zero.
 
 Batch 8: rewrote 15 school and work topics, from exams through career skills. Repeated-fact and repeated-angle counts each fell to 25; Round 19 checks remain zero.
+
+Batch 9: rewrote 15 science and environment topics, from climate through water conservation. Repeated-fact and repeated-angle counts each fell to 10; Round 19 checks remain zero.
