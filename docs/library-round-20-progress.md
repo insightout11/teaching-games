@@ -15,3 +15,5 @@ Batch 4: rewrote 15 everyday topics, from cooking through community jobs. Repeat
 Batch 5: rewrote 20 play and creativity topics, from soccer through the five senses. All 80 kids' topics now have A1, A2 and B1 facts and questions written separately. Repeated-fact and repeated-angle counts each fell to 70; the six Round 19 checks remain zero.
 
 Batch 6: rewrote 15 teen digital life topics at B1 and B2. Repeated-fact and repeated-angle counts each fell to 55; the six Round 19 checks remain zero.
+
+Batch 7: rewrote 15 relationships and culture topics, from friendship through local traditions. Repeated-fact and repeated-angle counts each fell to 40; Round 19 checks remain zero.
