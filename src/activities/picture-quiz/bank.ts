@@ -1,5 +1,4 @@
 import bank from '@/data/junior-picture-questions.json';
-import words from '@/data/sticker-words.json';
 import { topicKey } from '@/lib/topic-briefings';
 
 /** Junior picture questions (Codex round 21): options and answers are sticker ids (public/stickers/<id>.webp). */
@@ -19,12 +18,7 @@ export interface JuniorSet {
 
 export const JUNIOR_SETS = bank as unknown as JuniorSet[];
 
-const LABELS = new Map((words as Array<{ id: string; word: string }>).map((w) => [w.id, w.word]));
-
-/** The word shown under a sticker ("ice-cream" -> "ice cream"). */
-export function stickerLabel(id: string): string {
-  return LABELS.get(id) ?? id.replace(/-/g, ' ');
-}
+export { stickerLabel } from '@/lib/stickers';
 
 /** The set that fits the lesson topic (title or briefing topic id), else null so the teacher picks. */
 export function pickJuniorSet(topic: string | undefined, sets: JuniorSet[] = JUNIOR_SETS): JuniorSet | null {

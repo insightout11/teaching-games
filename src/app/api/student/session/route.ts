@@ -100,6 +100,8 @@ interface SessionPayload {
   difficulty: string;
   grammarTarget: string | null;
   referenceVocab: ReferenceVocabItem[] | null;
+  /** Junior class (classes.junior): picture word cards, gentle feedback, no ranks. */
+  junior?: boolean;
   referenceExpressions: ReferenceExpressionItem[] | null;
   latestFeedback: { feedback: string; points: number; submissionId: string } | null;
   /** This student's own recent messages to the teacher, newest first. */
@@ -268,7 +270,7 @@ export async function GET(request: NextRequest) {
     // Check if session exists and is active, including input_spec
     const { data: session, error: sessionError } = await supabase
       .from('sessions')
-      .select('id, status, input_spec, topic, difficulty, custom_topic, grammar_target, reference_vocab, reference_expressions')
+      .select('id, status, input_spec, topic, difficulty, custom_topic, grammar_target, reference_vocab, reference_expressions, classes(junior)')
       .eq('id', sessionId)
       .single();
 
@@ -816,6 +818,7 @@ export async function GET(request: NextRequest) {
       difficulty: (session.difficulty as string) || 'Intermediate',
       grammarTarget: (session.grammar_target as string | null) ?? null,
       referenceVocab: normalizedReferenceVocab.length > 0 ? normalizedReferenceVocab : null,
+      junior: (session as { classes?: { junior?: boolean } | null }).classes?.junior === true,
       referenceExpressions: normalizedReferenceExpressions.length > 0 ? normalizedReferenceExpressions : null,
       latestFeedback,
       myMessages,

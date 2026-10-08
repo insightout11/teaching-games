@@ -666,6 +666,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (data.difficulty) setSessionDifficulty(data.difficulty);
       setGrammarTarget(data.grammarTarget ?? null);
       setReferenceVocab(Array.isArray(data.referenceVocab) ? data.referenceVocab : null);
+      if (data.junior === true) {
+        setJuniorClass(true);
+        try { sessionStorage.setItem(`lc-junior-${sessionId}`, '1'); } catch { /* private mode */ }
+      }
       setReferenceExpressions(Array.isArray(data.referenceExpressions) ? data.referenceExpressions : null);
       setLatestFeedback(data.latestFeedback ?? null);
       setMyMessages(Array.isArray(data.myMessages) ? data.myMessages : []);
@@ -2201,6 +2205,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 onUse={markWordUsed}
                 openWord={openWord}
                 setOpenWord={setOpenWord}
+                pictures={juniorClass}
               />
             )}
 

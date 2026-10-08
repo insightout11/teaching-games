@@ -1,4 +1,5 @@
 import drawnIds from '@/data/sticker-ids.json';
+import words from '@/data/sticker-words.json';
 
 /**
  * Picture stickers for everyday words (docs/pictures-and-junior-concept.md, part 1). The core set lives in
@@ -70,4 +71,11 @@ export function stickerIdFor(text: string, ids: Set<string> = drawn): string | n
 export function stickerUrlFor(text: string): string | null {
   const id = stickerIdFor(text);
   return id ? `/stickers/${id}.webp` : null;
+}
+
+const LABELS = new Map((words as Array<{ id: string; word: string }>).map((w) => [w.id, w.word]));
+
+/** The word shown under a sticker ("ice-cream" -> "ice cream"). */
+export function stickerLabel(id: string): string {
+  return LABELS.get(id) ?? id.replace(/-/g, ' ');
 }

@@ -15,6 +15,7 @@ import {
   withPhraseSource,
 } from '@/lib/reference-materials';
 import { findTopicBriefing, topicBriefingLevel } from '@/lib/topic-briefings';
+import { stickerLabel } from '@/lib/stickers';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -69,7 +70,7 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   if (owned.error) return owned.error;
 
   const service = createServiceClient();
-  const { data: session } = await service.from('sessions').select('difficulty').eq('id', params.sessionId).maybeSingle();
+  const { data: session } = await service.from('sessions').select('difficulty, classes(junior)').eq('id', params.sessionId).maybeSingle();
   const difficulty = ((session?.difficulty as string | undefined) ?? 'Intermediate') as Difficulty;
   const level = difficultyDescriptions[difficulty] ?? difficultyDescriptions.Intermediate;
 
@@ -103,7 +104,15 @@ ${PHRASEBOOK_FIELDS_PROMPT}
     return NextResponse.json({ error: 'Briefing failed' }, { status: 502 });
   }
 
-  const vocab = withPhraseSource(normalizeReferenceVocab(brief.vocab), 'topic');
+  // Junior classes on a banked topic: the phones' words are picture words (Codex round 22), said and pointed at.
+  const junior = (session as { classes?: { junior?: boolean } | null } | null)?.classes?.junior === true;
+  const pictureVocab = junior && banked?.pictureWords?.length
+    ? banked.pictureWords.map((id) => {
+        const word = stickerLabel(id);
+        return { word, definition: '', starter: `Point to the picture and say “${word}”.` };
+      })
+    : null;
+  const vocab = withPhraseSource(normalizeReferenceVocab(pictureVocab ?? brief.vocab), 'topic');
   const expressions = normalizeReferenceExpressions(brief.expressions);
   await service
     .from('sessions')

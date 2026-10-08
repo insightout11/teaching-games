@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { stickerUrlFor } from '@/lib/stickers';
 import { ChevronLeft, ChevronRight, Star, Volume2 } from 'lucide-react';
 import type { PhraseSource, ReferenceVocabItem } from '@/lib/reference-materials';
 import type { PhraseState } from '@/lib/phrasebook-progress';
@@ -52,6 +53,7 @@ export function PhraseCard({
   place,
   onUse,
   fresh,
+  pictures = false,
 }: {
   item: ReferenceVocabItem;
   state: PhraseState;
@@ -59,8 +61,11 @@ export function PhraseCard({
   place?: string | null;
   onUse: () => void;
   fresh?: boolean;
+  /** Junior classes: show the word's sticker picture. */
+  pictures?: boolean;
 }) {
   const ribbon = ribbonOf(item);
+  const picture = pictures ? stickerUrlFor(item.word) : null;
   const used = state === 'used' || state === 'mastered';
   const date = usedAt ? new Date(usedAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) : '';
   return (
@@ -85,6 +90,10 @@ export function PhraseCard({
             <Volume2 className="h-5 w-5" />
           </button>
         </div>
+        {picture && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={picture} alt="" className="mx-auto mt-2 h-32 w-32 rounded-xl bg-white object-contain" />
+        )}
         {item.definition && <p className="mt-2 text-[15px] leading-snug">{item.definition}</p>}
         {item.example && (
           <p className="mt-2 text-[14px] italic leading-snug" style={{ color: INK_SOFT }}>
@@ -133,7 +142,7 @@ function StateTag({ state }: { state: PhraseState }) {
   return <span className={`${MONO} text-[10px]`} style={{ color: INK_FAINT }}>Seen</span>;
 }
 
-export function PhraseRow({ item, state, onOpen }: { item: ReferenceVocabItem; state: PhraseState; onOpen: () => void }) {
+export function PhraseRow({ item, state, onOpen, pictures = false }: { item: ReferenceVocabItem; state: PhraseState; onOpen: () => void; pictures?: boolean }) {
   return (
     <button
       type="button"
@@ -142,6 +151,11 @@ export function PhraseRow({ item, state, onOpen }: { item: ReferenceVocabItem; s
       style={{ background: PAPER, color: INK }}
     >
       <span className="w-1 self-stretch rounded-full" style={{ background: ribbonOf(item).color }} />
+      {(() => {
+        const picture = pictures ? stickerUrlFor(item.word) : null;
+        // eslint-disable-next-line @next/next/no-img-element
+        return picture ? <img src={picture} alt="" className="h-9 w-9 shrink-0 rounded-lg bg-white object-contain" /> : null;
+      })()}
       <span className="min-w-0 flex-1 truncate font-display text-xl">{item.word}</span>
       <StateTag state={state} />
       <ChevronRight className="h-4 w-4 shrink-0" style={{ color: INK_FAINT }} />
@@ -159,6 +173,7 @@ export function Phrasebook({
   onUse,
   openWord,
   setOpenWord,
+  pictures = false,
 }: {
   items: ReferenceVocabItem[];
   stateOf: (word: string) => PhraseState;
@@ -168,6 +183,7 @@ export function Phrasebook({
   onUse: (word: string) => void;
   openWord: string | null;
   setOpenWord: (word: string | null) => void;
+  pictures?: boolean;
 }) {
   const [freshWord, setFreshWord] = useState<string | null>(null);
   useEffect(() => { warmUpSpeech(); }, []);
@@ -199,6 +215,7 @@ export function Phrasebook({
           usedAt={usedAtOf(item.word)}
           place={place}
           fresh={freshWord === item.word}
+          pictures={pictures}
           onUse={() => { onUse(item.word); setFreshWord(item.word); window.setTimeout(() => buzz(BUZZ.stamp), 260); }}
         />
         {items.length > 1 && (
@@ -219,7 +236,7 @@ export function Phrasebook({
         <p className={`${MONO} text-[11px]`} style={{ color: STAMP }}>{usedCount} stamped</p>
       </div>
       {items.map((item) => (
-        <PhraseRow key={item.word} item={item} state={stateOf(item.word)} onOpen={() => { onOpen(item.word); setOpenWord(item.word); }} />
+        <PhraseRow key={item.word} item={item} state={stateOf(item.word)} onOpen={() => { onOpen(item.word); setOpenWord(item.word); }} pictures={pictures} />
       ))}
       <p className={`${MONO} pt-1 text-[10px] leading-relaxed text-lc-text3`}>
         {Object.entries(SOURCE_RIBBON).map(([k, v]) => (

@@ -19,6 +19,8 @@ export interface TopicBriefing {
   ageBand?: 'kids' | 'teens';
   category?: string;
   levels: Record<string, TopicBriefingLevel>;
+  /** Junior classes: sticker ids for picture word cards (Codex round 22). */
+  pictureWords?: string[];
 }
 
 const LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2'];
