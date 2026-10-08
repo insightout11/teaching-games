@@ -45,6 +45,7 @@ export function LandingCard({
   debriefUrl,
   shareCopied,
   onShare,
+  hideRank = false,
 }: {
   name: string;
   seat: string | null;
@@ -55,11 +56,13 @@ export function LandingCard({
   debriefUrl: string | null;
   shareCopied: boolean;
   onShare: () => void;
+  /** Junior classes: never show a rank. */
+  hideRank?: boolean;
 }) {
   const date = new Date().toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
   const used = words.filter((w) => w.state === 'used' || w.state === 'mastered').length;
   // Rank is a pat on the back for the top three, never a "#9 of 10".
-  const podium = results?.rank != null && results.totalParticipants != null && results.totalParticipants > 1 && results.rank <= 3;
+  const podium = !hideRank && results?.rank != null && results.totalParticipants != null && results.totalParticipants > 1 && results.rank <= 3;
 
   return (
     <div className="w-full max-w-md space-y-4">

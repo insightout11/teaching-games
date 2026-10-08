@@ -34,6 +34,8 @@ export interface InputSpec {
   optionLabels?: string[];   // Labels for binary choice (e.g., ["Option A", "Option B"])
   /** Choice inputs: show big picture tiles when every option has a sticker (src/lib/stickers.ts). Junior classes. */
   pictureOptions?: boolean;
+  /** Set on every spec in a Junior class: phones use gentle feedback and never show ranks. */
+  junior?: boolean;
   hint?: {
     title?: string;
     content: string | { rule?: string; example?: string; mistakes?: string[] };

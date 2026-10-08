@@ -676,7 +676,11 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId,
           </>
         ) : (
           <>
-            <p className="font-display text-4xl text-rose-300">Not this time</p>
+            {spec.junior ? (
+              <p className="font-display text-4xl text-amber-300">Good try!</p>
+            ) : (
+              <p className="font-display text-4xl text-rose-300">Not this time</p>
+            )}
             <p className="text-sm text-lc-text2">Next one&apos;s yours</p>
           </>
         )}

@@ -264,6 +264,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [degradedSince, setDegradedSince] = useState<number | null>(Date.now());
   const [connectionNow, setConnectionNow] = useState(Date.now());
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
+  // Junior class: remembered once any spec says so (also after the lesson ends, for the landing card).
+  const [juniorClass, setJuniorClass] = useState(() => {
+    try { return sessionStorage.getItem(`lc-junior-${sessionId}`) === '1'; } catch { return false; }
+  });
+  useEffect(() => {
+    if (!inputSpec?.junior || juniorClass) return;
+    setJuniorClass(true);
+    try { sessionStorage.setItem(`lc-junior-${sessionId}`, '1'); } catch { /* private mode */ }
+  }, [inputSpec, juniorClass, sessionId]);
   // Live Room launch notice: "Get ready: <activity>" while its content generates.
   const [roomLaunch, setRoomLaunch] = useState<{ name: string; at: number } | null>(null);
   useEffect(() => {
@@ -1419,6 +1428,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             debriefUrl={debriefUrl}
             shareCopied={shareCopied}
             onShare={handleShare}
+            hideRank={juniorClass}
           />
         ) : (
           <div className="glass w-full max-w-md space-y-3 rounded-3xl p-8 text-center">
@@ -1565,7 +1575,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 <p className={`text-sm font-semibold ${color}`}>{label}</p>
                 {showAccuracy && (
                   <p className={`text-xs ${lastResult.accuracyStatus === 'correct' ? 'text-emerald-400' : 'text-amber-400'}`}>
-                    {lastResult.accuracyStatus === 'correct' ? 'Correct' : 'Not quite'}
+                    {lastResult.accuracyStatus === 'correct' ? 'Correct' : juniorClass ? 'Good try!' : 'Not quite'}
                   </p>
                 )}
               </div>

@@ -634,11 +634,15 @@ export const useSessionStore = create<SessionState>((set, get) => ({
 
   setInputSpec: async (rawSpec: InputSpec | null, suppliedActivityInstanceIdentity) => {
     const { sessionId, inputSpec: current, junior } = get();
-    // Junior classes: choice answers become picture tiles where every option has a sticker.
-    // Cached per spec object so re-sending the same spec stays a no-op.
+    // Junior classes: every spec tells the phone (gentle feedback, no ranks), and choice answers become
+    // picture tiles where every option has a sticker. Cached per spec object so re-sending stays a no-op.
     let spec = rawSpec;
-    if (junior && rawSpec && rawSpec.type === 'choice' && rawSpec.pictureOptions === undefined) {
-      spec = juniorSpecCache.get(rawSpec) ?? { ...rawSpec, pictureOptions: true };
+    if (junior && rawSpec) {
+      spec = juniorSpecCache.get(rawSpec) ?? {
+        ...rawSpec,
+        junior: true,
+        ...(rawSpec.type === 'choice' && rawSpec.pictureOptions === undefined ? { pictureOptions: true } : {}),
+      };
       juniorSpecCache.set(rawSpec, spec);
     }
     // Skip no-op updates to avoid triggering unnecessary re-renders
