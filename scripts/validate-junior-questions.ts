@@ -22,6 +22,40 @@ const dataDir = path.resolve('src/data');
 const stickers = JSON.parse(fs.readFileSync(path.join(dataDir, 'sticker-words.json'), 'utf8')) as Sticker[];
 const stickerNames = new Map(stickers.map((sticker) => [sticker.id, sticker.word]));
 const file = path.join(dataDir, 'junior-picture-questions.json');
+if (process.argv.includes('--build')) {
+  const seedFile = path.resolve('docs/library-round-21-question-seeds.txt');
+  const seed = fs.readFileSync(seedFile, 'utf8');
+  const blocks = seed.trim().split(/\n\s*\n/);
+  const built = blocks.map((block, setIndex) => {
+    const lines = block.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+    const [id, topic] = lines[0].split('|').map((part) => part.trim());
+    if (!id || !topic) throw new Error(`Bad seed heading: ${lines[0]}`);
+    let objective = 0;
+    const questions = lines.slice(1).map((line, index) => {
+      const [prompt, answerField, optionField] = line.split('|').map((part) => part.trim());
+      if (!prompt || !answerField || !optionField) throw new Error(`Bad seed row: ${line}`);
+      const others = optionField.split(',').map((part) => part.trim());
+      const answer = answerField === '-' ? null : answerField;
+      const options = answer === null ? others : others.slice();
+      if (answer !== null) {
+        options.splice((objective + setIndex) % (others.length + 1), 0, answer);
+        objective += 1;
+      }
+      const words = options.map((option) => {
+        const name = stickerNames.get(option);
+        if (!name) throw new Error(`Unknown sticker in seed ${id}: ${option}`);
+        return name;
+      });
+      const spoken = words.length === 2 ? `${words[0]} or ${words[1]}` :
+        `${words.slice(0, -1).join(', ')}, or ${words[words.length - 1]}`;
+      return { id: `${id}-${String(index + 1).padStart(2, '0')}`, prompt, options, answer,
+        say: `${prompt} ${spoken}?` };
+    });
+    return { id, topic, questions };
+  });
+  fs.writeFileSync(file, JSON.stringify(built, null, 2) + '\n');
+  console.log(`Built ${built.length} Junior topic sets from the reviewed seeds.`);
+}
 if (!fs.existsSync(file)) {
   fail('badSet', file, 'question bank is missing');
   console.error(errors.join('\n'));

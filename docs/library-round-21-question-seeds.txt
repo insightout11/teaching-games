@@ -1,0 +1,119 @@
+animals | Animals
+Which one can fly? | bird | cow,fish,snail
+Which one has a shell? | turtle | dog,duck,bee
+Which one says moo? | cow | cat,horse,lion
+Which one has stripes? | zebra | elephant,bear,rabbit
+Which one has a long neck? | giraffe | sheep,fox,frog
+Which one is a baby cat? | kitten | puppy,lamb,mouse
+Which one lives in water? | fish | chicken,goat,butterfly
+Which animal would you draw? | - | cat,dog,bird,rabbit
+Which animal would you watch? | - | penguin,lion,panda,kangaroo
+Which animal would you name? | - | turtle,horse,duck,koala
+
+pet-animals | Pet Animals
+Which pet has fins? | fish | cat,dog,rabbit
+Which pet can bark? | dog | bird,fish,turtle
+Which pet has whiskers? | cat | bird,fish,turtle
+Which pet has long ears? | rabbit | fish,bird,turtle
+Which pet is a baby dog? | puppy | kitten,lamb,mouse
+Which pet is a baby cat? | kitten | puppy,lamb,turtle
+Which pet can sit on a perch? | bird | dog,cat,rabbit
+Which pet would you cuddle? | - | cat,dog,rabbit,teddy-bear
+Which pet would you draw? | - | fish,bird,cat,rabbit
+Which pet would you name? | - | puppy,kitten,turtle,mouse
+
+farm-animals | Farm Animals
+Which one gives us milk? | cow | chicken,duck,pig
+Which one lays eggs? | chicken | cow,pig,horse
+Which one has wool? | sheep | chicken,pig,cow
+Which one has a mane? | horse | cow,pig,duck
+Which one has a curly tail? | pig | sheep,cow,chicken
+Which one is a baby sheep? | lamb | puppy,kitten,duck
+Which one says quack? | duck | cow,pig,sheep
+Which farm animal would you feed? | - | cow,goat,sheep,horse
+Which farm animal would you draw? | - | chicken,duck,pig,cow
+Which farm animal would you visit? | - | horse,sheep,goat,duck
+
+wild-animals | Wild Animals
+Which one has a trunk? | elephant | tiger,lion,fox
+Which one has a very long neck? | giraffe | zebra,panda,bear
+Which one has a mane? | lion | tiger,elephant,koala
+Which one has orange stripes? | tiger | hippo,camel,kangaroo
+Which one eats bamboo? | panda | wolf,fox,deer
+Which one has white fur? | polar-bear | crocodile,lion,monkey
+Which one has big jaws? | crocodile | koala,panda,zebra
+Which wild animal would you draw? | - | elephant,giraffe,lion,tiger
+Which wild animal would you watch? | - | panda,kangaroo,fox,polar-bear
+Which wild animal would you name? | - | bear,zebra,deer,monkey
+
+sea-animals | Sea Animals
+Which one has eight arms? | octopus | whale,shark,seal
+Which one has claws? | crab | jellyfish,dolphin,whale
+Which one can sting in water? | jellyfish | seal,turtle,whale
+Which one can squirt ink? | octopus | dolphin,crab,shark
+Which one is a fish? | shark | whale,dolphin,seal
+Which one has a hard shell? | turtle | jellyfish,seal,dolphin
+Which one is the biggest? | whale | crab,seal,octopus
+Which sea animal would you draw? | - | dolphin,whale,shark,octopus
+Which sea animal would you watch? | - | seal,turtle,crab,jellyfish
+Which sea animal would you name? | - | dolphin,octopus,seal,turtle
+
+small-animals | Small Animals
+Which one has six legs? | bee | spider,worm,snail
+Which one has eight legs? | spider | bee,ant,butterfly
+Which one makes honey? | bee | worm,snail,spider
+Which one has bright wings? | butterfly | worm,snail,ant
+Which one carries a shell? | snail | bee,ant,spider
+Which one has red spotted wings? | ladybug | worm,bee,ant
+Which one lives in soil? | worm | butterfly,ladybug,bee
+Which small animal would you draw? | - | bee,butterfly,ladybug,ant
+Which small animal would you watch? | - | snail,worm,spider,butterfly
+Which small animal would you name? | - | ladybug,snail,bee,ant
+
+food | Food
+Which one can go on bread? | jam | rice,egg,carrot
+Which one is made from milk? | cheese | bread,apple,rice
+Which one is a drink? | water | cake,egg,bread
+Which one is frozen? | ice-cream | pasta,broccoli,pizza
+Which one comes in a shell? | egg | cheese,water,rice
+Which one is long and thin? | noodles | potato,cake,peas
+Which one is baked in a loaf? | bread | salad,soup,rice
+Which food would you make? | - | pizza,soup,sandwich,salad
+Which food would you share? | - | cake,cookie,popcorn,watermelon
+Which food would you taste? | - | mango,cheese,noodles,pancake
+
+fruit | Fruit
+Which one has spiky skin? | pineapple | banana,orange,pear
+Which one is a small red berry? | strawberry | watermelon,banana,pear
+Which one is green outside, red inside? | watermelon | apple,peach,grapes
+Which one tastes very sour? | lemon | banana,pear,peach
+Which one has a hard stone inside? | peach | grapes,banana,strawberry
+Which one grows in a bunch? | grapes | apple,pear,lemon
+Which one is named for its color? | orange | apple,banana,pear
+Which fruit would you pack? | - | apple,banana,pear,grapes
+Which fruit would you draw? | - | pineapple,watermelon,strawberry,kiwi
+Which fruit would you taste? | - | mango,peach,cherry,coconut
+
+vegetables | Vegetables
+Which one is an orange root? | carrot | broccoli,corn,peas
+Which one grows under the ground? | potato | corn,cucumber,broccoli
+Which one has yellow kernels? | corn | carrot,onion,peas
+Which one looks like a little tree? | broccoli | potato,cucumber,garlic
+Which one has many layers? | onion | carrot,peas,corn
+Which one grows in a pod? | peas | potato,broccoli,onion
+Which one is long and green? | cucumber | carrot,corn,garlic
+Which vegetable would you grow? | - | carrot,peas,broccoli,pumpkin
+Which vegetable would you cook? | - | potato,onion,corn,beans
+Which vegetable would you draw? | - | cucumber,carrot,mushroom,broccoli
+
+breakfast | Breakfast
+Which one can you pour? | milk | bread,egg,banana
+Which one comes from a chicken? | egg | bread,apple,cheese
+Which one is a flat cake? | pancake | cereal,banana,bread
+Which one can you spread? | jam | cereal,egg,orange
+Which one is a fruit? | banana | bread,egg,cheese
+Which one can you drink? | juice | pancake,cereal,egg
+Which one is made from grains? | cereal | banana,egg,cheese
+Which breakfast would you choose? | - | pancake,cereal,egg,bread
+Which drink would you choose? | - | milk,water,juice,tea
+Which fruit would you add? | - | banana,strawberry,apple,grapes
