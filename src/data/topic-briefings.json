@@ -17240,15 +17240,15 @@
       "A1": {
         "briefing": "A soccer field has two goals. Players need space to pass safely. A game can end with no goals.",
         "facts": [
-          "Players usually move the ball with their feet.",
-          "Teams try to score in a goal.",
-          "Passing helps teammates work together.",
-          "A goalkeeper guards one team's goal."
+          "A player can pass the ball.",
+          "A goalkeeper guards the goal.",
+          "The game starts with a kickoff.",
+          "A soccer pitch has two ends."
         ],
         "angles": [
-          "Would you rather pass or shoot the ball?",
-          "Why do teams need a goalkeeper?",
-          "What makes a fair soccer game?"
+          "Would you pass or shoot first?",
+          "Which team shirt color would you choose?",
+          "Would you play in goal or midfield?"
         ],
         "vocab": [
           {
@@ -17331,15 +17331,15 @@
       "A2": {
         "briefing": "A soccer field has two goals. Teams spread across the field to create passing choices. Players without the ball still shape the game by moving.",
         "facts": [
-          "Players usually move the ball with their feet.",
-          "Teams try to score in a goal.",
-          "Passing helps teammates work together.",
-          "A goalkeeper guards one team's goal."
+          "Dribbling keeps the ball close while a player runs.",
+          "A defender tries to stop a safe path to goal.",
+          "A corner kick restarts play near the corner flag.",
+          "A goalkeeper may use hands inside a marked area."
         ],
         "angles": [
-          "Would you rather pass or shoot the ball?",
-          "Why do teams need a goalkeeper?",
-          "What makes a fair soccer game?"
+          "How would you help a teammate with the ball?",
+          "Would you practice passes or dribbling?",
+          "Where would you stand for a corner kick?"
         ],
         "vocab": [
           {
@@ -17422,15 +17422,15 @@
       "B1": {
         "briefing": "Teams spread across the field to create passing choices. Players without the ball still shape the game by moving. A fair match depends on rules both teams understand.",
         "facts": [
-          "Players usually move the ball with their feet.",
-          "Teams try to score in a goal.",
-          "Passing helps teammates work together.",
-          "A goalkeeper guards one team's goal."
+          "Players without the ball create space for a useful pass.",
+          "A defensive line can move together to limit an attack.",
+          "A short pass may keep possession better than a rushed shot.",
+          "The referee applies rules that protect fair and safe play."
         ],
         "angles": [
-          "Would you rather pass or shoot the ball?",
-          "Why do teams need a goalkeeper?",
-          "What makes a fair soccer game?"
+          "Should every child play each position at least once?",
+          "What makes a pass valuable even without a goal?",
+          "How can a team respond well to a mistaken referee call?"
         ],
         "vocab": [
           {
@@ -17528,15 +17528,15 @@
       "A1": {
         "briefing": "A basketball court has lines and two hoops. Players can pass above or below their shoulders. A close game can change quickly.",
         "facts": [
-          "Players bounce the ball while moving.",
-          "Teams score by putting the ball through hoops.",
-          "Passing can create a clear shot.",
-          "Players need space to move safely."
+          "A basketball can bounce on a court.",
+          "A hoop has a net.",
+          "Players can pass to teammates.",
+          "A defender tries to block a shot."
         ],
         "angles": [
-          "Would you rather pass or take a shot?",
-          "Why is passing useful?",
-          "How can a team include everyone?"
+          "Would you pass or shoot from close?",
+          "What color would your basketball be?",
+          "Would you play outside or inside?"
         ],
         "vocab": [
           {
@@ -17619,15 +17619,15 @@
       "A2": {
         "briefing": "A basketball court has lines and two hoops. Good spacing creates room for a teammate to move. A bounce pass can get beneath a defender's hands.",
         "facts": [
-          "Players bounce the ball while moving.",
-          "Teams score by putting the ball through hoops.",
-          "Passing can create a clear shot.",
-          "Players need space to move safely."
+          "Dribbling lets a player move while keeping the ball.",
+          "A bounce pass reaches a teammate after touching the floor.",
+          "A rebound gives someone another chance after a missed shot.",
+          "A free throw is taken without a defender nearby."
         ],
         "angles": [
-          "Would you rather pass or take a shot?",
-          "Why is passing useful?",
-          "How can a team include everyone?"
+          "How would you help a shorter teammate score?",
+          "Would you practice a bounce pass or high pass?",
+          "Where might a defender stand to help?"
         ],
         "vocab": [
           {
@@ -17710,15 +17710,15 @@
       "B1": {
         "briefing": "Good spacing creates room for a teammate to move. A bounce pass can get beneath a defender's hands. Players must decide quickly whether to pass, shoot, or drive.",
         "facts": [
-          "Players bounce the ball while moving.",
-          "Teams score by putting the ball through hoops.",
-          "Passing can create a clear shot.",
-          "Players need space to move safely."
+          "Moving without the ball can open a path to the hoop.",
+          "Teams often change defensive positions as attackers move.",
+          "A player who secures a rebound can start a fast attack.",
+          "Shot choices involve distance, time, and nearby defenders."
         ],
         "angles": [
-          "Would you rather pass or take a shot?",
-          "Why is passing useful?",
-          "How can a team include everyone?"
+          "Should school teams value assists as much as points?",
+          "How can a team include new players fairly?",
+          "When is a difficult shot worth taking?"
         ],
         "vocab": [
           {
@@ -17815,15 +17815,15 @@
       "A1": {
         "briefing": "Water holds part of a swimmer's weight. Floating can feel easier with calm breathing. A pool has a shallow and deep end.",
         "facts": [
-          "Arms and legs push against water.",
-          "Breathing matters when learning to swim.",
-          "Different strokes use different movements.",
-          "A trained adult should watch young swimmers."
+          "Goggles help eyes underwater.",
+          "A swimmer can float on their back.",
+          "A lifeguard watches a pool.",
+          "The shallow end is less deep."
         ],
         "angles": [
-          "Would you rather practice floating or kicking?",
-          "Why does breathing matter in water?",
-          "What helps a new swimmer feel confident?"
+          "Would you float or kick first?",
+          "What color goggles would you choose?",
+          "Would you swim in a pool or calm lake?"
         ],
         "vocab": [
           {
@@ -17906,15 +17906,15 @@
       "A2": {
         "briefing": "Water holds part of a swimmer's weight. Different swimming strokes use different timing for arms and breath. A streamlined body moves with less resistance through water.",
         "facts": [
-          "Arms and legs push against water.",
-          "Breathing matters when learning to swim.",
-          "Different strokes use different movements.",
-          "A trained adult should watch young swimmers."
+          "Different strokes use arms and legs in different patterns.",
+          "A steady breath helps a swimmer keep a rhythm.",
+          "Kicking near the surface can move a body forward.",
+          "A lifeguard needs a clear view across the water."
         ],
         "angles": [
-          "Would you rather practice floating or kicking?",
-          "Why does breathing matter in water?",
-          "What helps a new swimmer feel confident?"
+          "How would you help a beginner feel safe?",
+          "Would you practice breathing or kicking today?",
+          "Why is walking beside a pool safer?"
         ],
         "vocab": [
           {
@@ -17997,15 +17997,15 @@
       "B1": {
         "briefing": "Different swimming strokes use different timing for arms and breath. A streamlined body moves with less resistance through water. Learning water safety matters before trying to swim faster.",
         "facts": [
-          "Arms and legs push against water.",
-          "Breathing matters when learning to swim.",
-          "Different strokes use different movements.",
-          "A trained adult should watch young swimmers."
+          "Buoyancy makes bodies feel lighter in water than on land.",
+          "Efficient strokes reduce drag as the swimmer moves.",
+          "Breathing technique can affect endurance over a long distance.",
+          "Even confident swimmers need to assess currents and water conditions."
         ],
         "angles": [
-          "Would you rather practice floating or kicking?",
-          "Why does breathing matter in water?",
-          "What helps a new swimmer feel confident?"
+          "Should swimming lessons be available to every child?",
+          "What matters more for beginners: speed or confidence?",
+          "How should a group decide whether open water is safe?"
         ],
         "vocab": [
           {
@@ -18102,15 +18102,15 @@
       "A1": {
         "briefing": "A bicycle moves when pedals turn the wheels. A bell can warn someone nearby. A rider checks the path ahead.",
         "facts": [
-          "Pedals turn a bike's wheels.",
-          "A helmet helps protect a rider's head.",
-          "Brakes help slow the bicycle.",
-          "Cyclists watch roads and people around them."
+          "A bike has two pedals.",
+          "Handlebars help steer.",
+          "A helmet protects the head.",
+          "A bicycle bell rings when pressed."
         ],
         "angles": [
-          "Would you rather cycle in a park or lane?",
-          "Why should riders check brakes?",
-          "How can cyclists share a path?"
+          "Would you ride to a park or shop?",
+          "What color helmet would you wear?",
+          "Would you ring a bell or wave hello?"
         ],
         "vocab": [
           {
@@ -18193,15 +18193,15 @@
       "A2": {
         "briefing": "A bicycle moves when pedals turn the wheels. Gears help riders handle hills and flat roads differently. Braking early gives more time to respond to a turn.",
         "facts": [
-          "Pedals turn a bike's wheels.",
-          "A helmet helps protect a rider's head.",
-          "Brakes help slow the bicycle.",
-          "Cyclists watch roads and people around them."
+          "Brakes slow the wheels when a rider squeezes a lever.",
+          "A lower gear can make an uphill ride easier.",
+          "A cycle lane marks space for riders on some roads.",
+          "Checking tires before a ride can prevent trouble later."
         ],
         "angles": [
-          "Would you rather cycle in a park or lane?",
-          "Why should riders check brakes?",
-          "How can cyclists share a path?"
+          "How could you make a bike ride safer?",
+          "Would you choose a flat route or gentle hill?",
+          "What should riders check before leaving?"
         ],
         "vocab": [
           {
@@ -18284,15 +18284,15 @@
       "B1": {
         "briefing": "Gears help riders handle hills and flat roads differently. Braking early gives more time to respond to a turn. A shared path works best when everyone predicts one another's movements.",
         "facts": [
-          "Pedals turn a bike's wheels.",
-          "A helmet helps protect a rider's head.",
-          "Brakes help slow the bicycle.",
-          "Cyclists watch roads and people around them."
+          "Gears trade speed for easier pedaling under different conditions.",
+          "Good bicycle lights help others notice a rider in low light.",
+          "Separated routes can reduce conflicts between bicycles and cars.",
+          "Bike maintenance often begins with checking brakes, tires, and chain."
         ],
         "angles": [
-          "Would you rather cycle in a park or lane?",
-          "Why should riders check brakes?",
-          "How can cyclists share a path?"
+          "Should towns give road space to protected cycle lanes?",
+          "How can cyclists and walkers share a path fairly?",
+          "When is riding a bike a realistic way to travel?"
         ],
         "vocab": [
           {
@@ -18389,15 +18389,15 @@
       "A1": {
         "briefing": "Running makes your heart beat faster. A slow start can feel easier. Shoes help protect feet on rough ground.",
         "facts": [
-          "Arms help balance the moving body.",
-          "Runners breathe harder during exercise.",
-          "People can run short or long distances.",
-          "Rest helps muscles recover after activity."
+          "A sprint is a short fast run.",
+          "A jog is slower.",
+          "A finish line ends a race.",
+          "People breathe faster while running."
         ],
         "angles": [
-          "Would you rather sprint or run slowly?",
-          "Why do runners need rest?",
-          "How can friends make running fun?"
+          "Would you sprint or jog around a field?",
+          "What would you cheer at the finish?",
+          "Would you run with a friend or alone?"
         ],
         "vocab": [
           {
@@ -18480,15 +18480,15 @@
       "A2": {
         "briefing": "Running makes your heart beat faster. Runners can change pace to match a distance or goal. Warm muscles usually move more comfortably than cold ones.",
         "facts": [
-          "Arms help balance the moving body.",
-          "Runners breathe harder during exercise.",
-          "People can run short or long distances.",
-          "Rest helps muscles recover after activity."
+          "A warm-up can prepare muscles before faster movement.",
+          "A steady pace helps some runners go farther.",
+          "Longer strides are not always better for every runner.",
+          "Breathing usually becomes deeper as effort rises."
         ],
         "angles": [
-          "Would you rather sprint or run slowly?",
-          "Why do runners need rest?",
-          "How can friends make running fun?"
+          "How would you pace a short race?",
+          "Would you run on grass or a track?",
+          "What could make a group run fun?"
         ],
         "vocab": [
           {
@@ -18571,15 +18571,15 @@
       "B1": {
         "briefing": "Runners can change pace to match a distance or goal. Warm muscles usually move more comfortably than cold ones. Personal progress can matter more than finishing first.",
         "facts": [
-          "Arms help balance the moving body.",
-          "Runners breathe harder during exercise.",
-          "People can run short or long distances.",
-          "Rest helps muscles recover after activity."
+          "Endurance running depends on an effort that can be sustained.",
+          "Runners adjust stride length and rate as terrain changes.",
+          "Recovery days help the body adapt to training.",
+          "Starting too quickly can make the final part of a race harder."
         ],
         "angles": [
-          "Would you rather sprint or run slowly?",
-          "Why do runners need rest?",
-          "How can friends make running fun?"
+          "Should schools reward improvement more than race places?",
+          "What makes running enjoyable without competition?",
+          "How would you plan a safe first long run?"
         ],
         "vocab": [
           {
@@ -18676,15 +18676,15 @@
       "A1": {
         "briefing": "Dancers can move with or without music. A small step can start a pattern. Faces and hands can tell part of a story.",
         "facts": [
-          "Music can help dancers keep time.",
-          "People dance alone, in pairs, or groups.",
-          "Different cultures have different dance styles.",
-          "Practice helps a group move together."
+          "A beat helps feet move together.",
+          "A spin turns the body.",
+          "People can dance with partners.",
+          "A step can be small."
         ],
         "angles": [
-          "Would you rather dance alone or with friends?",
-          "Why does rhythm help dancers?",
-          "Can dancing tell a story?"
+          "Would you spin or clap first?",
+          "What song would make you move?",
+          "Would you dance alone or with friends?"
         ],
         "vocab": [
           {
@@ -18767,15 +18767,15 @@
       "A2": {
         "briefing": "Dancers can move with or without music. Dance styles often grow from communities and shared celebrations. Changing speed can make the same movement express another feeling.",
         "facts": [
-          "Music can help dancers keep time.",
-          "People dance alone, in pairs, or groups.",
-          "Different cultures have different dance styles.",
-          "Practice helps a group move together."
+          "Rhythm helps dancers repeat a pattern at the right time.",
+          "A partner may use a gesture to show the next move.",
+          "Choreography is a planned order of steps.",
+          "A dancer can change levels by bending or reaching."
         ],
         "angles": [
-          "Would you rather dance alone or with friends?",
-          "Why does rhythm help dancers?",
-          "Can dancing tell a story?"
+          "How would you teach a friend three steps?",
+          "Would you dance to a slow or quick beat?",
+          "What gesture could start your group dance?"
         ],
         "vocab": [
           {
@@ -18858,15 +18858,15 @@
       "B1": {
         "briefing": "Dance styles often grow from communities and shared celebrations. Changing speed can make the same movement express another feeling. Group dancers watch one another to stay together.",
         "facts": [
-          "Music can help dancers keep time.",
-          "People dance alone, in pairs, or groups.",
-          "Different cultures have different dance styles.",
-          "Practice helps a group move together."
+          "Dance traditions can carry stories across generations.",
+          "A repeated step may look different when the music's rhythm changes.",
+          "Partners communicate through timing as well as words.",
+          "Improvising a movement can become part of later choreography."
         ],
         "angles": [
-          "Would you rather dance alone or with friends?",
-          "Why does rhythm help dancers?",
-          "Can dancing tell a story?"
+          "Should dance classes teach tradition or invention first?",
+          "How could a group include someone with limited movement?",
+          "What can dance express that words cannot?"
         ],
         "vocab": [
           {
@@ -18963,15 +18963,15 @@
       "A1": {
         "briefing": "A board game can use cards, dice, or pieces. Players wait for their turns. A clever move may change the whole game.",
         "facts": [
-          "Some games use dice to choose moves.",
-          "Other games ask players to make plans.",
-          "Players often learn by trying again.",
-          "Fair play helps everyone enjoy the game."
+          "A dice roll can choose a number.",
+          "A token marks a player's place.",
+          "Players take turns.",
+          "A rulebook tells how to play."
         ],
         "angles": [
-          "Would you rather roll dice or plan moves?",
-          "Why do games need rules?",
-          "Can losing teach a useful skill?"
+          "Would you move a red or blue token?",
+          "Would you roll dice or pick a card?",
+          "What would your own board show?"
         ],
         "vocab": [
           {
@@ -19054,15 +19054,15 @@
       "A2": {
         "briefing": "A board game can use cards, dice, or pieces. Some games reward planning, while others include more chance. The rules create choices that players learn over time.",
         "facts": [
-          "Some games use dice to choose moves.",
-          "Other games ask players to make plans.",
-          "Players often learn by trying again.",
-          "Fair play helps everyone enjoy the game."
+          "A chance card can change a player's plan.",
+          "The scoreboard helps everyone see progress.",
+          "Some games reward strategy more than lucky rolls.",
+          "Clear rules stop arguments about a turn."
         ],
         "angles": [
-          "Would you rather roll dice or plan moves?",
-          "Why do games need rules?",
-          "Can losing teach a useful skill?"
+          "How would you explain a rule to a new player?",
+          "Would you choose a puzzle game or race game?",
+          "What should a fair chance card do?"
         ],
         "vocab": [
           {
@@ -19145,15 +19145,15 @@
       "B1": {
         "briefing": "Some games reward planning, while others include more chance. The rules create choices that players learn over time. Playing again can reveal a strategy missed on the first try.",
         "facts": [
-          "Some games use dice to choose moves.",
-          "Other games ask players to make plans.",
-          "Players often learn by trying again.",
-          "Fair play helps everyone enjoy the game."
+          "A game's balance depends on whether different choices remain useful.",
+          "Hidden information can make players predict one another's moves.",
+          "Shorter turns may keep everyone more involved.",
+          "Testing with new players exposes rules the designer thought were obvious."
         ],
         "angles": [
-          "Would you rather roll dice or plan moves?",
-          "Why do games need rules?",
-          "Can losing teach a useful skill?"
+          "Should a good board game allow luck to change the winner?",
+          "How can a game remain fun for the player in last place?",
+          "When is a complicated rule worth learning?"
         ],
         "vocab": [
           {
@@ -19250,15 +19250,15 @@
       "A1": {
         "briefing": "A puzzle can hide a picture or a pattern. A corner piece can be easy to find. Two friends may notice different clues.",
         "facts": [
-          "A jigsaw picture has pieces that fit.",
-          "Some puzzles use words or numbers.",
-          "Looking for patterns can help.",
-          "Friends may solve a puzzle together."
+          "A jigsaw has many pieces.",
+          "A corner piece has two straight sides.",
+          "A clue can help solve a riddle.",
+          "A pattern repeats."
         ],
         "angles": [
-          "Would you rather solve a picture or word puzzle?",
-          "Why do patterns help?",
-          "When is teamwork useful for puzzles?"
+          "Would you start with corners or colors?",
+          "What picture would your jigsaw show?",
+          "Would you solve alone or with a friend?"
         ],
         "vocab": [
           {
@@ -19341,15 +19341,15 @@
       "A2": {
         "briefing": "A puzzle can hide a picture or a pattern. Solving a puzzle often means breaking one hard problem into smaller ones. Sorting pieces by color can reduce the search.",
         "facts": [
-          "A jigsaw picture has pieces that fit.",
-          "Some puzzles use words or numbers.",
-          "Looking for patterns can help.",
-          "Friends may solve a puzzle together."
+          "Sorting pieces by color can reduce a large jigsaw's search.",
+          "A riddle may hide its clue in ordinary words.",
+          "Trial and error helps when each attempt gives feedback.",
+          "A solution should explain the whole pattern, not one piece."
         ],
         "angles": [
-          "Would you rather solve a picture or word puzzle?",
-          "Why do patterns help?",
-          "When is teamwork useful for puzzles?"
+          "How would you help someone stuck on a puzzle?",
+          "Would you choose a number or picture riddle?",
+          "What clue would you give without spoiling it?"
         ],
         "vocab": [
           {
@@ -19432,15 +19432,15 @@
       "B1": {
         "briefing": "Solving a puzzle often means breaking one hard problem into smaller ones. Sorting pieces by color can reduce the search. A surprising solution can make an earlier clue seem obvious.",
         "facts": [
-          "A jigsaw picture has pieces that fit.",
-          "Some puzzles use words or numbers.",
-          "Looking for patterns can help.",
-          "Friends may solve a puzzle together."
+          "Constraints can make a puzzle easier by ruling out possibilities.",
+          "An incorrect guess may still reveal useful information.",
+          "Solvers often switch methods when one pattern stops helping.",
+          "A fair riddle gives enough evidence to reach its answer."
         ],
         "angles": [
-          "Would you rather solve a picture or word puzzle?",
-          "Why do patterns help?",
-          "When is teamwork useful for puzzles?"
+          "Should puzzles have hints available from the start?",
+          "Is a lucky guess the same as a solved puzzle?",
+          "How can a puzzle challenge people without frustrating them?"
         ],
         "vocab": [
           {
@@ -19537,15 +19537,15 @@
       "A1": {
         "briefing": "Blocks can stand tall on a wide base. Small pieces can fill gaps. A tower falls when its balance changes.",
         "facts": [
-          "Wide bases can help towers stand.",
-          "Different block shapes fit in different ways.",
-          "Builders can test and change a design.",
-          "Sharing blocks lets friends build together."
+          "A tower needs a strong base.",
+          "Blocks can make a bridge.",
+          "An arch has a curved top.",
+          "A tall stack may wobble."
         ],
         "angles": [
-          "Would you rather build a tower or bridge?",
-          "Why does a wide base help?",
-          "How can friends share one design?"
+          "Would you build a tower or bridge?",
+          "What would your blocks carry?",
+          "Would you use big or small blocks first?"
         ],
         "vocab": [
           {
@@ -19628,15 +19628,15 @@
       "A2": {
         "briefing": "Blocks can stand tall on a wide base. Builders test a structure by changing one part at a time. Triangles and arches can make different shapes stable.",
         "facts": [
-          "Wide bases can help towers stand.",
-          "Different block shapes fit in different ways.",
-          "Builders can test and change a design.",
-          "Sharing blocks lets friends build together."
+          "A wide base can help a block tower stay steady.",
+          "An arch can carry weight around an opening.",
+          "A blueprint is a drawing made before building.",
+          "Bridges need support where the blocks meet."
         ],
         "angles": [
-          "Would you rather build a tower or bridge?",
-          "Why does a wide base help?",
-          "How can friends share one design?"
+          "How would you make a bridge longer?",
+          "Would you draw a blueprint or start building?",
+          "Which tower shape would stay up best?"
         ],
         "vocab": [
           {
@@ -19719,15 +19719,15 @@
       "B1": {
         "briefing": "Builders test a structure by changing one part at a time. Triangles and arches can make different shapes stable. A design may improve after it falls and gets rebuilt.",
         "facts": [
-          "Wide bases can help towers stand.",
-          "Different block shapes fit in different ways.",
-          "Builders can test and change a design.",
-          "Sharing blocks lets friends build together."
+          "Weight must pass through a structure to its supports.",
+          "A narrow tower may fail when its center of mass shifts.",
+          "Testing one change at a time helps builders learn why something fell.",
+          "Repeated blocks can create strong patterns with few materials."
         ],
         "angles": [
-          "Would you rather build a tower or bridge?",
-          "Why does a wide base help?",
-          "How can friends share one design?"
+          "Should builders prioritize height or stability?",
+          "What would you change after a block bridge collapsed?",
+          "Can a simple design be more creative than a complex one?"
         ],
         "vocab": [
           {
@@ -19824,15 +19824,15 @@
       "A1": {
         "briefing": "A kite needs moving air to lift. Its string helps you guide it. A tail can stop it spinning too much.",
         "facts": [
-          "Wind pushes against a kite's surface.",
-          "A string helps a person guide it.",
-          "Tails can help some kites balance.",
-          "Open spaces make kite flying easier."
+          "A kite has a string.",
+          "A gust can lift it.",
+          "Some kites have a frame.",
+          "A diamond kite has four points."
         ],
         "angles": [
-          "Would you rather build or fly a kite?",
-          "Why does a kite need wind?",
-          "Which kite shape might fly well?"
+          "Would you make a diamond or bird kite?",
+          "What color would your kite be?",
+          "Would you fly it on grass or sand?"
         ],
         "vocab": [
           {
@@ -19915,15 +19915,15 @@
       "A2": {
         "briefing": "A kite needs moving air to lift. Air moving over and under a kite creates lifting forces. The frame holds its shape against the wind.",
         "facts": [
-          "Wind pushes against a kite's surface.",
-          "A string helps a person guide it.",
-          "Tails can help some kites balance.",
-          "Open spaces make kite flying easier."
+          "A bridle joins the flying line to a kite's body.",
+          "A light frame helps a kite keep its shape.",
+          "A reel holds extra string while the kite flies.",
+          "Launching works best when the wind reaches the kite."
         ],
         "angles": [
-          "Would you rather build or fly a kite?",
-          "Why does a kite need wind?",
-          "Which kite shape might fly well?"
+          "How would you stop a kite from spinning?",
+          "Would you add a tail or a new color?",
+          "What would you check before launch?"
         ],
         "vocab": [
           {
@@ -20006,15 +20006,15 @@
       "B1": {
         "briefing": "Air moving over and under a kite creates lifting forces. The frame holds its shape against the wind. Small changes to the tail can affect how steadily it flies.",
         "facts": [
-          "Wind pushes against a kite's surface.",
-          "A string helps a person guide it.",
-          "Tails can help some kites balance.",
-          "Open spaces make kite flying easier."
+          "Air moving over a kite produces lift and pulls against its line.",
+          "The bridle's position changes how the kite meets the wind.",
+          "Too much weight can keep a kite from climbing.",
+          "A long line needs clear space away from trees and wires."
         ],
         "angles": [
-          "Would you rather build or fly a kite?",
-          "Why does a kite need wind?",
-          "Which kite shape might fly well?"
+          "What matters more for a kite: its shape or the wind?",
+          "How would you redesign a kite that dives suddenly?",
+          "Should a park set aside open space for kite flying?"
         ],
         "vocab": [
           {
@@ -20111,15 +20111,15 @@
       "A1": {
         "briefing": "A playground can have quiet and active spaces. Some children like climbing; others like swinging. A bench gives people a place to rest.",
         "facts": [
-          "Slides, swings, and climbing frames offer choices.",
-          "Children can practice balance and movement.",
-          "Taking turns helps everyone use equipment.",
-          "Safe play includes watching for others."
+          "A slide goes down.",
+          "A swing moves back and forth.",
+          "A sandbox holds sand.",
+          "A bench gives people a seat."
         ],
         "angles": [
-          "Would you rather swing or climb?",
-          "Why should people take turns?",
-          "What would you add to a playground?"
+          "Would you choose a slide or swing?",
+          "What would you make in the sandbox?",
+          "Where would you sit after playing?"
         ],
         "vocab": [
           {
@@ -20202,15 +20202,15 @@
       "A2": {
         "briefing": "A playground can have quiet and active spaces. Good playground design offers several kinds of movement and play. Paths and equipment should let different children join.",
         "facts": [
-          "Slides, swings, and climbing frames offer choices.",
-          "Children can practice balance and movement.",
-          "Taking turns helps everyone use equipment.",
-          "Safe play includes watching for others."
+          "A climbing frame offers different ways to reach the top.",
+          "A seesaw moves when people shift their weight.",
+          "A ramp can help more children enter a play area.",
+          "Shade makes a bench comfortable on a hot day."
         ],
         "angles": [
-          "Would you rather swing or climb?",
-          "Why should people take turns?",
-          "What would you add to a playground?"
+          "How would you include a younger child in a game?",
+          "Would you climb or play in sand first?",
+          "What would make a playground easier for everyone?"
         ],
         "vocab": [
           {
@@ -20293,15 +20293,15 @@
       "B1": {
         "briefing": "Good playground design offers several kinds of movement and play. Paths and equipment should let different children join. Taking turns can work better than making everyone wait in one line.",
         "facts": [
-          "Slides, swings, and climbing frames offer choices.",
-          "Children can practice balance and movement.",
-          "Taking turns helps everyone use equipment.",
-          "Safe play includes watching for others."
+          "Different play equipment develops balance, climbing, and imagination.",
+          "Accessible paths matter between activities, not only at the entrance.",
+          "Clear sight lines help adults supervise without directing every game.",
+          "A quiet area can support children who need a break from noise."
         ],
         "angles": [
-          "Would you rather swing or climb?",
-          "Why should people take turns?",
-          "What would you add to a playground?"
+          "Should children help design their own playgrounds?",
+          "How much risk is useful in play?",
+          "What should a playground offer beyond equipment?"
         ],
         "vocab": [
           {
@@ -20398,15 +20398,15 @@
       "A1": {
         "briefing": "A superhero can help without flying. A costume may hide a secret name. A hero sometimes needs a friend.",
         "facts": [
-          "A hero may solve problems through teamwork.",
-          "Some heroes help without special powers.",
-          "Stories give heroes difficult choices.",
-          "A hero's actions show what matters to them."
+          "A superhero may wear a cape.",
+          "A sidekick can help a hero.",
+          "A secret identity hides a name.",
+          "Heroes try to rescue people."
         ],
         "angles": [
-          "Would you rather fly or talk to animals?",
-          "Can teamwork beat a special power?",
-          "What makes a hero kind?"
+          "Would your hero fly or swim?",
+          "What color cape would you draw?",
+          "Who would be your hero's helper?"
         ],
         "vocab": [
           {
@@ -20489,15 +20489,15 @@
       "A2": {
         "briefing": "A superhero can help without flying. Superhero stories turn ordinary choices into larger adventures. A power creates problems as well as possible solutions.",
         "facts": [
-          "A hero may solve problems through teamwork.",
-          "Some heroes help without special powers.",
-          "Stories give heroes difficult choices.",
-          "A hero's actions show what matters to them."
+          "A superpower often creates a problem as well as an advantage.",
+          "A sidekick may notice something the hero misses.",
+          "A villain's plan gives the hero a choice to make.",
+          "A costume can hide identity or send a message."
         ],
         "angles": [
-          "Would you rather fly or talk to animals?",
-          "Can teamwork beat a special power?",
-          "What makes a hero kind?"
+          "Would your hero rescue a pet or fix a bridge?",
+          "What rule would your superpower need?",
+          "How could a sidekick save the day?"
         ],
         "vocab": [
           {
@@ -20580,15 +20580,15 @@
       "B1": {
         "briefing": "Superhero stories turn ordinary choices into larger adventures. A power creates problems as well as possible solutions. The most interesting heroes often have limits they must accept.",
         "facts": [
-          "A hero may solve problems through teamwork.",
-          "Some heroes help without special powers.",
-          "Stories give heroes difficult choices.",
-          "A hero's actions show what matters to them."
+          "Stories become richer when a hero's power has limits.",
+          "A secret identity can protect loved ones while creating dishonesty.",
+          "Some heroes solve conflicts through cooperation rather than force.",
+          "The strongest rescue may require admitting a mistake."
         ],
         "angles": [
-          "Would you rather fly or talk to animals?",
-          "Can teamwork beat a special power?",
-          "What makes a hero kind?"
+          "Should a powerful hero follow ordinary rules?",
+          "Can a villain believe they are helping? Explain.",
+          "What makes courage different from having a superpower?"
         ],
         "vocab": [
           {
@@ -20685,15 +20685,15 @@
       "A1": {
         "briefing": "A robot can repeat the same action many times. Some robots roll instead of walking. A person decides what task it should try.",
         "facts": [
-          "Sensors help some robots notice surroundings.",
-          "Motors can move robot parts.",
-          "People design robots for different tasks.",
-          "A robot still needs careful human choices."
+          "A robot can have wheels.",
+          "A sensor notices something nearby.",
+          "A motor makes parts move.",
+          "A battery gives power."
         ],
         "angles": [
-          "Would you rather design a robot for home or school?",
-          "Why do robots need sensors?",
-          "Which task should a robot do?"
+          "Would your robot roll or walk?",
+          "What job would you give it?",
+          "Would it carry books or water?"
         ],
         "vocab": [
           {
@@ -20776,15 +20776,15 @@
       "A2": {
         "briefing": "A robot can repeat the same action many times. Sensors let a robot respond to changes around it. Programs turn human goals into instructions the machine can follow.",
         "facts": [
-          "Sensors help some robots notice surroundings.",
-          "Motors can move robot parts.",
-          "People design robots for different tasks.",
-          "A robot still needs careful human choices."
+          "A program tells a robot which steps to follow.",
+          "A gripper can hold an object without fingers.",
+          "Sensors help a robot react to a line or wall.",
+          "A remote control sends commands from a person."
         ],
         "angles": [
-          "Would you rather design a robot for home or school?",
-          "Why do robots need sensors?",
-          "Which task should a robot do?"
+          "How would your robot find a lost pencil?",
+          "Would you give it wheels or legs?",
+          "What should it do when its battery runs low?"
         ],
         "vocab": [
           {
@@ -20867,15 +20867,15 @@
       "B1": {
         "briefing": "Sensors let a robot respond to changes around it. Programs turn human goals into instructions the machine can follow. A useful robot may be simple rather than shaped like a person.",
         "facts": [
-          "Sensors help some robots notice surroundings.",
-          "Motors can move robot parts.",
-          "People design robots for different tasks.",
-          "A robot still needs careful human choices."
+          "Robots repeat precise movements well but struggle with some messy environments.",
+          "A sensor reading can be wrong if light or distance changes.",
+          "Programs need rules for what happens when a task fails.",
+          "Human operators still choose goals and check results."
         ],
         "angles": [
-          "Would you rather design a robot for home or school?",
-          "Why do robots need sensors?",
-          "Which task should a robot do?"
+          "Which jobs should robots do instead of people?",
+          "How would you teach a robot to handle a surprise?",
+          "Who is responsible when an automated machine makes a mistake?"
         ],
         "vocab": [
           {
@@ -20972,15 +20972,15 @@
       "A1": {
         "briefing": "Train doors open at marked stops. Many carriages can travel together. A window shows towns passing by.",
         "facts": [
-          "Carriages join behind a train engine.",
-          "Stations help travelers board safely.",
-          "Tracks guide wheels along a route.",
-          "Some trains run using electricity."
+          "A train runs on railway tracks.",
+          "A carriage holds passengers.",
+          "A platform is beside the train.",
+          "A ticket shows a trip."
         ],
         "angles": [
-          "Would you rather travel by day or night train?",
-          "Why do trains use tracks?",
-          "What makes a station easy to use?"
+          "Would you sit by the window or aisle?",
+          "Where would your toy train stop?",
+          "Would you take a fast or slow train?"
         ],
         "vocab": [
           {
@@ -21063,15 +21063,15 @@
       "A2": {
         "briefing": "Train doors open at marked stops. Rail tracks guide heavy vehicles along a fixed route. Stations organize boarding so travelers can find the right service.",
         "facts": [
-          "Carriages join behind a train engine.",
-          "Stations help travelers board safely.",
-          "Tracks guide wheels along a route.",
-          "Some trains run using electricity."
+          "A locomotive provides power for some trains.",
+          "A timetable lists planned departures.",
+          "A conductor may help passengers and check tickets.",
+          "Railway signals help separate trains on the tracks."
         ],
         "angles": [
-          "Would you rather travel by day or night train?",
-          "Why do trains use tracks?",
-          "What makes a station easy to use?"
+          "How would you help a new passenger find a platform?",
+          "Would you carry a book or look outside?",
+          "What should a station sign show clearly?"
         ],
         "vocab": [
           {
@@ -21154,15 +21154,15 @@
       "B1": {
         "briefing": "Rail tracks guide heavy vehicles along a fixed route. Stations organize boarding so travelers can find the right service. Trains can carry goods as well as passengers over long distances.",
         "facts": [
-          "Carriages join behind a train engine.",
-          "Stations help travelers board safely.",
-          "Tracks guide wheels along a route.",
-          "Some trains run using electricity."
+          "Electric trains draw power from outside rather than carrying fuel onboard.",
+          "Rail lines can move many passengers using relatively little road space.",
+          "Reliable connections depend on timetables across different routes.",
+          "Stations must work for passengers carrying luggage or using mobility aids."
         ],
         "angles": [
-          "Would you rather travel by day or night train?",
-          "Why do trains use tracks?",
-          "What makes a station easy to use?"
+          "Should towns invest in rail before wider roads?",
+          "How could a train journey be easier for families?",
+          "What makes a station feel safe after dark?"
         ],
         "vocab": [
           {
@@ -21260,15 +21260,15 @@
       "A1": {
         "briefing": "An airplane climbs after leaving the runway. Clouds may look flat from above. A pilot checks many controls before flight.",
         "facts": [
-          "Wings help an airplane stay aloft.",
-          "Engines push the plane forward.",
-          "Pilots use controls to guide flight.",
-          "Airports have spaces for takeoff and landing."
+          "An airplane has two wings.",
+          "A runway helps it take off.",
+          "Passengers wear seat belts.",
+          "A cockpit holds the pilots."
         ],
         "angles": [
-          "Would you rather watch takeoff or landing?",
-          "Why do planes need wings?",
-          "What would you pack for a flight?"
+          "Would you sit by a window or aisle?",
+          "What would you see from high above?",
+          "Would you draw a small or large plane?"
         ],
         "vocab": [
           {
@@ -21351,15 +21351,15 @@
       "A2": {
         "briefing": "An airplane climbs after leaving the runway. Air flowing around the wings helps create lift. Weather reports influence the route and altitude chosen by the crew.",
         "facts": [
-          "Wings help an airplane stay aloft.",
-          "Engines push the plane forward.",
-          "Pilots use controls to guide flight.",
-          "Airports have spaces for takeoff and landing."
+          "Air moving around a wing helps produce lift.",
+          "An airplane gains altitude after leaving the runway.",
+          "Turbulence can make a flight feel bumpy.",
+          "A boarding pass tells a traveler where to sit."
         ],
         "angles": [
-          "Would you rather watch takeoff or landing?",
-          "Why do planes need wings?",
-          "What would you pack for a flight?"
+          "What would you pack for a short flight?",
+          "Would you watch clouds or the ground below?",
+          "How could a pilot explain a bumpy moment?"
         ],
         "vocab": [
           {
@@ -21442,15 +21442,15 @@
       "B1": {
         "briefing": "Air flowing around the wings helps create lift. Weather reports influence the route and altitude chosen by the crew. Takeoff and landing demand especially careful coordination.",
         "facts": [
-          "Wings help an airplane stay aloft.",
-          "Engines push the plane forward.",
-          "Pilots use controls to guide flight.",
-          "Airports have spaces for takeoff and landing."
+          "Pilots use several instruments to monitor speed, height, and direction.",
+          "Air pressure changes as an aircraft climbs or descends.",
+          "Seat belts protect passengers during unexpected movement.",
+          "Aircraft routes and altitudes are coordinated to keep flights separated."
         ],
         "angles": [
-          "Would you rather watch takeoff or landing?",
-          "Why do planes need wings?",
-          "What would you pack for a flight?"
+          "Should short trips use trains when rail is available?",
+          "How can airlines make flights easier for nervous travelers?",
+          "What would make an airport more accessible?"
         ],
         "vocab": [
           {
@@ -21548,15 +21548,15 @@
       "A1": {
         "briefing": "A small boat can rock with waves. A paddle moves water behind it. Some boats carry many people.",
         "facts": [
-          "Some boats use sails and wind.",
-          "Others use engines or human paddles.",
-          "A wide hull can help a boat float.",
-          "Boat size depends on its job."
+          "A boat has a hull.",
+          "A paddle pushes water.",
+          "Some boats have a sail.",
+          "An anchor can hold a boat still."
         ],
         "angles": [
-          "Would you rather paddle or sail?",
-          "Why do boats have different shapes?",
-          "Which boat suits a quiet river?"
+          "Would you paddle or sail?",
+          "Where would your toy boat go?",
+          "Would you sit on the deck or inside?"
         ],
         "vocab": [
           {
@@ -21639,15 +21639,15 @@
       "A2": {
         "briefing": "A small boat can rock with waves. The shape of a hull affects stability and speed. Sailors adjust sails as the wind changes.",
         "facts": [
-          "Some boats use sails and wind.",
-          "Others use engines or human paddles.",
-          "A wide hull can help a boat float.",
-          "Boat size depends on its job."
+          "An oar turns against the water as a rower pulls it.",
+          "A life jacket helps a person float if they fall in.",
+          "A hull's shape affects how the boat moves.",
+          "An anchor works best when it catches the bottom."
         ],
         "angles": [
-          "Would you rather paddle or sail?",
-          "Why do boats have different shapes?",
-          "Which boat suits a quiet river?"
+          "What would you check before a boat ride?",
+          "Would you choose a river or quiet lake?",
+          "How could two rowers move together?"
         ],
         "vocab": [
           {
@@ -21730,15 +21730,15 @@
       "B1": {
         "briefing": "The shape of a hull affects stability and speed. Sailors adjust sails as the wind changes. Safe boating depends on weather, equipment, and clear plans.",
         "facts": [
-          "Some boats use sails and wind.",
-          "Others use engines or human paddles.",
-          "A wide hull can help a boat float.",
-          "Boat size depends on its job."
+          "A sailboat can move at angles to the wind by adjusting its sails.",
+          "A wide hull may offer stability but also meet more resistance.",
+          "Currents can carry a boat even when its engine stops.",
+          "A safe trip depends on weather, equipment, and passengers' skills."
         ],
         "angles": [
-          "Would you rather paddle or sail?",
-          "Why do boats have different shapes?",
-          "Which boat suits a quiet river?"
+          "Should beginners learn in a sailboat or rowing boat?",
+          "How should boaters share a river with wildlife?",
+          "When is turning back the best decision on water?"
         ],
         "vocab": [
           {
@@ -21835,15 +21835,15 @@
       "A1": {
         "briefing": "Different instruments can play the same song. A drum makes sound when struck. A string can make a high or low note.",
         "facts": [
-          "Drums sound when their surfaces vibrate.",
-          "Strings vibrate on guitars and violins.",
-          "Wind instruments need moving air.",
-          "Musicians practice to play together."
+          "A drumhead makes sound when hit.",
+          "A flute uses moving air.",
+          "A guitar has strings.",
+          "A keyboard has many keys."
         ],
         "angles": [
-          "Would you rather play drums or strings?",
-          "Why do instruments make different sounds?",
-          "How could a group start a song?"
+          "Would you play a drum or flute?",
+          "Which sound would wake a sleepy dragon?",
+          "Would you make music alone or together?"
         ],
         "vocab": [
           {
@@ -21926,15 +21926,15 @@
       "A2": {
         "briefing": "Different instruments can play the same song. Sound begins with vibration, whether in a string, drumhead, or air column. Instrument makers choose materials that shape tone.",
         "facts": [
-          "Drums sound when their surfaces vibrate.",
-          "Strings vibrate on guitars and violins.",
-          "Wind instruments need moving air.",
-          "Musicians practice to play together."
+          "A plucked string vibrates to make a note.",
+          "A bigger drum may produce a deeper sound.",
+          "A keyboard lets one player choose many pitches.",
+          "An ensemble needs players to listen to one another."
         ],
         "angles": [
-          "Would you rather play drums or strings?",
-          "Why do instruments make different sounds?",
-          "How could a group start a song?"
+          "How would you make a quiet sound on a drum?",
+          "Would you lead an ensemble or follow it?",
+          "Which instrument would fit a rainy-day song?"
         ],
         "vocab": [
           {
@@ -22017,15 +22017,15 @@
       "B1": {
         "briefing": "Sound begins with vibration, whether in a string, drumhead, or air column. Instrument makers choose materials that shape tone. A small ensemble succeeds when players listen to one another.",
         "facts": [
-          "Drums sound when their surfaces vibrate.",
-          "Strings vibrate on guitars and violins.",
-          "Wind instruments need moving air.",
-          "Musicians practice to play together."
+          "Instruments amplify vibrations through air, wood, metal, or membranes.",
+          "Players can shape the same melody with different tone colors.",
+          "An ensemble may change tempo together without anyone speaking.",
+          "Instrument design affects both the notes available and playing technique."
         ],
         "angles": [
-          "Would you rather play drums or strings?",
-          "Why do instruments make different sounds?",
-          "How could a group start a song?"
+          "Should every school offer instruments to borrow?",
+          "Is rhythm or melody easier to communicate without words?",
+          "How could a new instrument change a familiar song?"
         ],
         "vocab": [
           {
@@ -22122,15 +22122,15 @@
       "A1": {
         "briefing": "A pencil can make thin or thick lines. A drawing can begin with one circle. An artist may erase and try again.",
         "facts": [
-          "Pencils can make light or dark marks.",
-          "Artists use shapes to plan pictures.",
-          "Practice helps hands control lines.",
-          "A drawing can show real or imagined things."
+          "A pencil can make a sketch.",
+          "An eraser can remove a line.",
+          "An outline shows an edge.",
+          "Shading can make a circle look round."
         ],
         "angles": [
-          "Would you rather draw from life or imagination?",
-          "How can lines show movement?",
-          "Can a simple shape tell a story?"
+          "Would you draw an animal or house?",
+          "What would you sketch with one line?",
+          "Would you use a dark or light pencil?"
         ],
         "vocab": [
           {
@@ -22213,15 +22213,15 @@
       "A2": {
         "briefing": "A pencil can make thin or thick lines. Sketching simple shapes helps artists plan more complex pictures. Dark and light marks can create a sense of depth.",
         "facts": [
-          "Pencils can make light or dark marks.",
-          "Artists use shapes to plan pictures.",
-          "Practice helps hands control lines.",
-          "A drawing can show real or imagined things."
+          "Light pencil marks are easier to change than heavy ones.",
+          "Shading shows where light and dark meet.",
+          "Perspective can make a distant object appear smaller.",
+          "A doodle may lead to a larger drawing idea."
         ],
         "angles": [
-          "Would you rather draw from life or imagination?",
-          "How can lines show movement?",
-          "Can a simple shape tell a story?"
+          "How would you draw a tree far away?",
+          "Would you outline first or shade first?",
+          "What could your doodle become?"
         ],
         "vocab": [
           {
@@ -22304,15 +22304,15 @@
       "B1": {
         "briefing": "Sketching simple shapes helps artists plan more complex pictures. Dark and light marks can create a sense of depth. Observation and imagination can both guide a drawing.",
         "facts": [
-          "Pencils can make light or dark marks.",
-          "Artists use shapes to plan pictures.",
-          "Practice helps hands control lines.",
-          "A drawing can show real or imagined things."
+          "Artists can use overlapping shapes to suggest depth.",
+          "A change in line weight can draw attention to one edge.",
+          "Shadows give clues about the direction of light.",
+          "Observational drawing often begins by checking proportions rather than details."
         ],
         "angles": [
-          "Would you rather draw from life or imagination?",
-          "How can lines show movement?",
-          "Can a simple shape tell a story?"
+          "Should a drawing look realistic to be successful?",
+          "When can an eraser help, and when can it limit ideas?",
+          "How might two people draw the same scene differently?"
         ],
         "vocab": [
           {
@@ -22409,15 +22409,15 @@
       "A1": {
         "briefing": "Paint can be thick or watery. A brush makes different marks as it turns. Two colors can make a new shade.",
         "facts": [
-          "Painters mix colors to make new shades.",
-          "Brushes can make wide or thin marks.",
-          "Water changes how some paints spread.",
-          "A painting can show a mood or place."
+          "A paintbrush carries color.",
+          "A palette holds paint.",
+          "A canvas can be painted on.",
+          "A stroke leaves a mark."
         ],
         "angles": [
-          "Would you rather paint with wide or thin brushes?",
-          "How can color show a feeling?",
-          "What would you paint from memory?"
+          "Would you paint with blue or orange first?",
+          "What would your brush make in one stroke?",
+          "Would you paint a sky or garden?"
         ],
         "vocab": [
           {
@@ -22500,15 +22500,15 @@
       "A2": {
         "briefing": "Paint can be thick or watery. Painters choose colors to create contrast or harmony. Layers of paint can hide or reveal earlier choices.",
         "facts": [
-          "Painters mix colors to make new shades.",
-          "Brushes can make wide or thin marks.",
-          "Water changes how some paints spread.",
-          "A painting can show a mood or place."
+          "A wash is a thin layer of watery paint.",
+          "Mixing colors on a palette can create a new shade.",
+          "A wide brush makes a different stroke from a small one.",
+          "An artist may let one layer dry before adding another."
         ],
         "angles": [
-          "Would you rather paint with wide or thin brushes?",
-          "How can color show a feeling?",
-          "What would you paint from memory?"
+          "How would you paint a soft rainy sky?",
+          "Would you use a wide or thin brush?",
+          "Which two colors would you mix?"
         ],
         "vocab": [
           {
@@ -22591,15 +22591,15 @@
       "B1": {
         "briefing": "Painters choose colors to create contrast or harmony. Layers of paint can hide or reveal earlier choices. The same scene can feel cheerful or quiet depending on color.",
         "facts": [
-          "Painters mix colors to make new shades.",
-          "Brushes can make wide or thin marks.",
-          "Water changes how some paints spread.",
-          "A painting can show a mood or place."
+          "Transparent layers can let earlier colors show through.",
+          "The texture of canvas changes how a brushstroke looks.",
+          "A limited palette can make colors feel more connected.",
+          "Painters sometimes leave unpainted space to guide attention."
         ],
         "angles": [
-          "Would you rather paint with wide or thin brushes?",
-          "How can color show a feeling?",
-          "What would you paint from memory?"
+          "Should a painting show what an artist sees or feels?",
+          "What changes when you limit yourself to three colors?",
+          "When does another layer improve a painting?"
         ],
         "vocab": [
           {
@@ -22696,15 +22696,15 @@
       "A1": {
         "briefing": "Our ears hear soft and loud sounds. Our skin feels warm and cold things. Smells can remind us of places.",
         "facts": [
-          "Eyes detect light and shapes.",
-          "Ears detect sounds around us.",
-          "Skin helps us feel touch and temperature.",
-          "Noses and tongues help us smell and taste."
+          "Eyes help us see.",
+          "Ears help with hearing.",
+          "Hands can feel texture.",
+          "A nose can smell food."
         ],
         "angles": [
-          "Would you rather explore by touch or sound?",
-          "Which sense helps you cook?",
-          "How do senses help us stay aware?"
+          "Would you listen to rain or birds?",
+          "What soft thing would you touch?",
+          "Which fruit smell do you like?"
         ],
         "vocab": [
           {
@@ -22787,15 +22787,15 @@
       "A2": {
         "briefing": "Our ears hear soft and loud sounds. The brain combines signals from several senses into one experience. Smell and taste work closely when we enjoy food.",
         "facts": [
-          "Eyes detect light and shapes.",
-          "Ears detect sounds around us.",
-          "Skin helps us feel touch and temperature.",
-          "Noses and tongues help us smell and taste."
+          "The tongue helps us taste sweet and sour foods.",
+          "Skin sends touch information to the brain.",
+          "Hearing can notice a sound we cannot see.",
+          "Sight helps us judge where something is."
         ],
         "angles": [
-          "Would you rather explore by touch or sound?",
-          "Which sense helps you cook?",
-          "How do senses help us stay aware?"
+          "How could you describe a mystery object by touch?",
+          "Would you guess food by smell or taste?",
+          "Which sense helps you find a ringing phone?"
         ],
         "vocab": [
           {
@@ -22878,15 +22878,15 @@
       "B1": {
         "briefing": "The brain combines signals from several senses into one experience. Smell and taste work closely when we enjoy food. Losing one sense can make people attend more carefully to others.",
         "facts": [
-          "Eyes detect light and shapes.",
-          "Ears detect sounds around us.",
-          "Skin helps us feel touch and temperature.",
-          "Noses and tongues help us smell and taste."
+          "The brain combines information from several senses into one experience.",
+          "Smell can strongly connect a moment with memory.",
+          "People differ in how sharply they detect particular tastes.",
+          "A sense can be less reliable when another cue changes expectations."
         ],
         "angles": [
-          "Would you rather explore by touch or sound?",
-          "Which sense helps you cook?",
-          "How do senses help us stay aware?"
+          "Which sense would be hardest to explain without using it?",
+          "How should a classroom welcome different sensory needs?",
+          "Can an expectation change what we think we tasted?"
         ],
         "vocab": [
           {

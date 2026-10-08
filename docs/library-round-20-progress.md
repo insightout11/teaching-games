@@ -11,3 +11,5 @@ Batch 2: rewrote 15 Earth and space topics, from dinosaurs through rainforests. 
 Batch 3: rewrote 10 weather and nature topics, from deserts through plant growth. Repeated-fact and repeated-angle counts each fell to 105. Corrected two near matches identified by the 80% check; Round 19 checks remain zero.
 
 Batch 4: rewrote 15 everyday topics, from cooking through community jobs. Repeated-fact and repeated-angle counts each fell to 90. Corrected one A2 sentence-length issue; Round 19 checks remain zero.
+
+Batch 5: rewrote 20 play and creativity topics, from soccer through the five senses. All 80 kids' topics now have A1, A2 and B1 facts and questions written separately. Repeated-fact and repeated-angle counts each fell to 70; the six Round 19 checks remain zero.
