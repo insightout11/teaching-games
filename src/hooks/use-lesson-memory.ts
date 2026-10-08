@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { addActivity, addMaterial, addTopic, addWords, emptyLessonMemory, lessonMemoryStorageKey, type LessonMemory } from '@/lib/lesson-memory';
 
 const SAVE_DELAY_MS = 15_000;
@@ -21,8 +21,10 @@ export function useLessonMemory(sessionId: string) {
   const memory = useRef<LessonMemory>(emptyLessonMemory());
   const timer = useRef<number | null>(null);
   const dirty = useRef(false);
+  // A copy for display (the in-room logbook); the ref stays the source of truth for saving.
+  const [snapshot, setSnapshot] = useState<LessonMemory>(emptyLessonMemory());
 
-  useEffect(() => { memory.current = load(sessionId); }, [sessionId]);
+  useEffect(() => { memory.current = load(sessionId); setSnapshot(memory.current); }, [sessionId]);
 
   const save = useCallback((keepalive = false) => {
     if (!dirty.current) return;
@@ -39,6 +41,7 @@ export function useLessonMemory(sessionId: string) {
     const next = fn(memory.current);
     if (next === memory.current) return;
     memory.current = next;
+    setSnapshot(next);
     dirty.current = true;
     try { localStorage.setItem(lessonMemoryStorageKey(sessionId), JSON.stringify(next)); } catch { /* storage unavailable */ }
     if (timer.current) window.clearTimeout(timer.current);
@@ -55,8 +58,8 @@ export function useLessonMemory(sessionId: string) {
     };
   }, [save]);
 
-  // One stable object, so effects that depend on it don't re-run every render.
-  return useMemo(() => ({
+  // Stable functions (effects depend on them, not on the returned object), plus the current record for display.
+  const api = useMemo(() => ({
     topic: (title: string, kind: string) => update((m) => addTopic(m, title, kind)),
     words: (words: string[]) => update((m) => addWords(m, words)),
     material: (title: string, kind: string) => update((m) => addMaterial(m, title, kind)),
@@ -64,4 +67,5 @@ export function useLessonMemory(sessionId: string) {
     /** Save now (e.g. when the class ends). */
     flush: () => save(true),
   }), [update, save]);
+  return { ...api, snapshot };
 }

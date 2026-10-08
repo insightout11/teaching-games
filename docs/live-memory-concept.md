@@ -92,5 +92,11 @@ surveillance warning), names on anything that's shared or public.
   that do nothing until tapped: **Pick up <last topic>** (sets it as the Focus) and **Warm up with its words**
   (a Focus built from last lesson's words, so briefing, activities and phones follow). "Not now" dismisses it.
 - **Home board**: the "Last" line uses the lesson record (topics · word count) when the lesson has no flight result.
-- Not yet: the in-room Logbook drawer and "back to an earlier topic" (step 4); course "next lesson" already shows on
-  the board.
+- Course "next lesson" already shows on the board.
+
+## Built: step 4 (Oct 8 2026)
+- **Today's logbook** (flight menu → "Today's logbook", `lesson-logbook-drawer.tsx`): this lesson so far (topics in
+  order with the current one marked Now, words, activities, material explored) and last lesson for reference.
+  **Back to this** on any earlier topic returns the class to it (the room's own item when it still exists, so its
+  briefing is kept). No names or answers, so it's safe on the shared screen.
+- All four steps of the plan are built. Later: student/parent recaps (after the privacy decisions).
