@@ -11,15 +11,33 @@ import { digitalWriting } from './library-round-19-digital';
 import { cultureWriting } from './library-round-19-culture';
 import { schoolWriting } from './library-round-19-school';
 import { scienceWriting } from './library-round-19-science';
+import { wellbeingWriting } from './library-round-19-wellbeing';
 
 type Vocab = { word: string; definition: string; partOfSpeech: string; example: string; starter: string };
 type Level = { briefing: string; facts: string[]; angles: string[]; vocab: Vocab[]; expressions: { phrase: string; example: string }[] };
-type Topic = { title: string; ageBand: 'kids' | 'teens'; levels: Record<string, Level> };
+type Topic = { title: string; aliases: string[]; ageBand: 'kids' | 'teens'; levels: Record<string, Level> };
 const dataPath = path.resolve('src/data/topic-briefings.json');
 const topics = JSON.parse(fs.readFileSync(dataPath, 'utf8')) as Topic[];
-const writings: WritingSeed[] = [...animalWriting, ...earthWriting, ...natureWriting, ...everydayWriting, ...playWriting, ...digitalWriting, ...cultureWriting, ...schoolWriting, ...scienceWriting];
+const writings: WritingSeed[] = [...animalWriting, ...earthWriting, ...natureWriting, ...everydayWriting, ...playWriting, ...digitalWriting, ...cultureWriting, ...schoolWriting, ...scienceWriting, ...wellbeingWriting];
 const byTitle = new Map(writings.map((writing) => [writing.title, writing]));
 if (byTitle.size !== writings.length) throw new Error('Duplicate Round 19 writing title');
+
+// Extra teacher search forms: common regional names, abbreviations and named examples.
+const extraAliases: Record<string, string[]> = {
+  Cats: ['domestic cat'], Dogs: ['puppy'], Horses: ['horse riding'],
+  Sharks: ['great white shark', 'hammerhead shark'],
+  Dinosaurs: ['T-rex', 'Tyrannosaurus rex'],
+  Volcanoes: ['volcanic eruption'], 'The Moon': ['lunar phases'],
+  Soccer: ['football'], Basketball: ['basketball hoop'],
+  Airplanes: ['aeroplane', 'airplane'], Boats: ['sailboat'],
+  'Social Media': ['social networking'],
+  'Artificial Intelligence': ['AI'], 'Virtual Reality': ['VR'],
+  Cybersecurity: ['internet safety'],
+  'Climate Change': ['climate crisis'], 'Renewable Energy': ['solar power'],
+  'Public Transport': ['public transportation', 'mass transit'],
+  'Medical Technology': ['medtech'],
+  'Team Sports': ['team athletics'], 'Solo Sports': ['individual athletics'],
+};
 
 function description(word: TermSeed, old: Level): string {
   if (word.definition) return word.definition;
@@ -65,6 +83,10 @@ for (const topic of topics) {
   const writing = byTitle.get(topic.title);
   if (!writing) continue;
   for (const levelName of Object.keys(topic.levels)) topic.levels[levelName] = buildLevel(topic, writing, levelName, topic.levels[levelName]);
+  if (topic.title === 'Cats') topic.aliases = topic.aliases.filter((alias) => alias.toLowerCase() !== 'kitten');
+  for (const alias of extraAliases[topic.title] || []) {
+    if (!topic.aliases.some((existing) => existing.toLowerCase() === alias.toLowerCase())) topic.aliases.push(alias);
+  }
   applied += 1;
 }
 if (applied !== writings.length) throw new Error(`Only applied ${applied} of ${writings.length} topics`);

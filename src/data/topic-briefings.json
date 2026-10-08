@@ -6,7 +6,8 @@
       "cats",
       "cat",
       "kittens",
-      "house cats"
+      "house cats",
+      "domestic cat"
     ],
     "ageBand": "kids",
     "category": "animals",
@@ -293,7 +294,8 @@
       "dogs",
       "dog",
       "puppies",
-      "pet dogs"
+      "pet dogs",
+      "puppy"
     ],
     "ageBand": "kids",
     "category": "animals",
@@ -320,11 +322,11 @@
             "starter": "If I saw noses, I would…"
           },
           {
-            "word": "puppies",
-            "definition": "Young dogs",
+            "word": "snout",
+            "definition": "The projecting nose and mouth of an animal",
             "partOfSpeech": "noun",
-            "example": "Puppies learn through play and practice.",
-            "starter": "I could describe puppies by…"
+            "example": "A dog might nudge me with its snout.",
+            "starter": "I could describe snout by…"
           },
           {
             "word": "fur",
@@ -411,11 +413,11 @@
             "starter": "If I saw noses, I would…"
           },
           {
-            "word": "puppies",
-            "definition": "Young dogs",
+            "word": "snout",
+            "definition": "The projecting nose and mouth of an animal",
             "partOfSpeech": "noun",
-            "example": "Puppies learn through play and practice.",
-            "starter": "I could describe puppies by…"
+            "example": "A dog might nudge me with its snout.",
+            "starter": "I could describe snout by…"
           },
           {
             "word": "fur",
@@ -502,11 +504,11 @@
             "starter": "If I saw noses, I would…"
           },
           {
-            "word": "puppies",
-            "definition": "Young dogs",
+            "word": "snout",
+            "definition": "The projecting nose and mouth of an animal",
             "partOfSpeech": "noun",
-            "example": "Puppies learn through play and practice.",
-            "starter": "I could describe puppies by…"
+            "example": "A dog might nudge me with its snout.",
+            "starter": "I could describe snout by…"
           },
           {
             "word": "fur",
@@ -580,7 +582,8 @@
       "horses",
       "horse",
       "ponies",
-      "riding horses"
+      "riding horses",
+      "horse riding"
     ],
     "ageBand": "kids",
     "category": "animals",
@@ -4058,11 +4061,11 @@
             "starter": "I could describe calf by…"
           },
           {
-            "word": "tail",
-            "definition": "The rear body part used for swimming",
+            "word": "fluke",
+            "definition": "One of the broad halves of a whale tail",
             "partOfSpeech": "noun",
-            "example": "A whale lifts its tail before some deep dives.",
-            "starter": "I wonder whether tail can…"
+            "example": "I would look for a whale fluke.",
+            "starter": "I wonder whether fluke can…"
           },
           {
             "word": "dive",
@@ -4149,11 +4152,11 @@
             "starter": "I could describe calf by…"
           },
           {
-            "word": "tail",
-            "definition": "The rear body part used for swimming",
+            "word": "fluke",
+            "definition": "One of the broad halves of a whale tail",
             "partOfSpeech": "noun",
-            "example": "I would look for a whale's tail.",
-            "starter": "I wonder whether tail can…"
+            "example": "I would look for a whale fluke.",
+            "starter": "I wonder whether fluke can…"
           },
           {
             "word": "dive",
@@ -4240,11 +4243,11 @@
             "starter": "I could describe calf by…"
           },
           {
-            "word": "tail",
-            "definition": "The rear body part used for swimming",
+            "word": "fluke",
+            "definition": "One of the broad halves of a whale tail",
             "partOfSpeech": "noun",
-            "example": "Seeing a whale's tail would be enough for an unforgettable day.",
-            "starter": "I wonder whether tail can…"
+            "example": "I would look for a whale fluke.",
+            "starter": "I wonder whether fluke can…"
           },
           {
             "word": "dive",
@@ -4311,7 +4314,9 @@
       "sharks",
       "shark",
       "shark teeth",
-      "ocean predators"
+      "ocean predators",
+      "great white shark",
+      "hammerhead shark"
     ],
     "ageBand": "kids",
     "category": "animals",
@@ -5746,7 +5751,9 @@
       "dinosaurs",
       "dinosaur",
       "prehistoric reptiles",
-      "giant ancient animals"
+      "giant ancient animals",
+      "T-rex",
+      "Tyrannosaurus rex"
     ],
     "ageBand": "kids",
     "category": "earth and space",
@@ -6320,7 +6327,8 @@
       "the moon",
       "moon",
       "moon phases",
-      "night sky moon"
+      "night sky moon",
+      "lunar phases"
     ],
     "ageBand": "kids",
     "category": "earth and space",
@@ -8042,7 +8050,8 @@
       "volcanoes",
       "volcano",
       "eruption",
-      "lava"
+      "lava",
+      "volcanic eruption"
     ],
     "ageBand": "kids",
     "category": "earth and space",
@@ -8062,11 +8071,11 @@
         ],
         "vocab": [
           {
-            "word": "lava",
-            "definition": "Melted rock flowing above ground",
-            "partOfSpeech": "noun",
-            "example": "Melted rock is called lava above ground.",
-            "starter": "If I saw lava, I would…"
+            "word": "molten rock",
+            "definition": "Rock made liquid by great heat",
+            "partOfSpeech": "phrase",
+            "example": "Molten rock can glow near a volcano.",
+            "starter": "If I saw molten rock, I would…"
           },
           {
             "word": "ash",
@@ -8153,11 +8162,11 @@
         ],
         "vocab": [
           {
-            "word": "lava",
-            "definition": "Melted rock flowing above ground",
-            "partOfSpeech": "noun",
-            "example": "Melted rock is called lava above ground.",
-            "starter": "If I saw lava, I would…"
+            "word": "molten rock",
+            "definition": "Rock made liquid by great heat",
+            "partOfSpeech": "phrase",
+            "example": "Molten rock can glow near a volcano.",
+            "starter": "If I saw molten rock, I would…"
           },
           {
             "word": "ash",
@@ -8244,11 +8253,11 @@
         ],
         "vocab": [
           {
-            "word": "lava",
-            "definition": "Melted rock flowing above ground",
-            "partOfSpeech": "noun",
-            "example": "Melted rock is called lava above ground.",
-            "starter": "If I saw lava, I would…"
+            "word": "molten rock",
+            "definition": "Rock made liquid by great heat",
+            "partOfSpeech": "phrase",
+            "example": "Molten rock can glow near a volcano.",
+            "starter": "If I saw molten rock, I would…"
           },
           {
             "word": "ash",
@@ -14106,11 +14115,11 @@
             "starter": "I wonder whether cereal can…"
           },
           {
-            "word": "morning meal",
-            "definition": "Food eaten early in the day",
+            "word": "breakfast table",
+            "definition": "A place where people eat the first meal",
             "partOfSpeech": "phrase",
-            "example": "My morning meal might be quick.",
-            "starter": "One question about morning meal is…"
+            "example": "Our breakfast table can be busy.",
+            "starter": "One question about breakfast table is…"
           },
           {
             "word": "grain",
@@ -14197,11 +14206,11 @@
             "starter": "I wonder whether cereal can…"
           },
           {
-            "word": "morning meal",
-            "definition": "Food eaten early in the day",
+            "word": "breakfast table",
+            "definition": "A place where people eat the first meal",
             "partOfSpeech": "phrase",
-            "example": "A morning meal can mix grains, fruit, and protein.",
-            "starter": "One question about morning meal is…"
+            "example": "Our breakfast table can be busy.",
+            "starter": "One question about breakfast table is…"
           },
           {
             "word": "grain",
@@ -14288,11 +14297,11 @@
             "starter": "I wonder whether cereal can…"
           },
           {
-            "word": "morning meal",
-            "definition": "Food eaten early in the day",
+            "word": "breakfast table",
+            "definition": "A place where people eat the first meal",
             "partOfSpeech": "phrase",
-            "example": "A morning meal can mix grains, fruit, and protein.",
-            "starter": "One question about morning meal is…"
+            "example": "Our breakfast table can be busy.",
+            "starter": "One question about breakfast table is…"
           },
           {
             "word": "grain",
@@ -14372,11 +14381,11 @@
         ],
         "vocab": [
           {
-            "word": "lunchbox",
-            "definition": "A container used to carry a meal",
-            "partOfSpeech": "noun",
-            "example": "A lunchbox keeps food in one place.",
-            "starter": "If I saw lunchbox, I would…"
+            "word": "lunch queue",
+            "definition": "A line of students waiting for food",
+            "partOfSpeech": "phrase",
+            "example": "I would join the lunch queue.",
+            "starter": "If I saw lunch queue, I would…"
           },
           {
             "word": "cafeteria",
@@ -14463,11 +14472,11 @@
         ],
         "vocab": [
           {
-            "word": "lunchbox",
-            "definition": "A container used to carry a meal",
-            "partOfSpeech": "noun",
-            "example": "My lunchbox could hold fruit.",
-            "starter": "If I saw lunchbox, I would…"
+            "word": "lunch queue",
+            "definition": "A line of students waiting for food",
+            "partOfSpeech": "phrase",
+            "example": "I would join the lunch queue.",
+            "starter": "If I saw lunch queue, I would…"
           },
           {
             "word": "cafeteria",
@@ -14554,11 +14563,11 @@
         ],
         "vocab": [
           {
-            "word": "lunchbox",
-            "definition": "A container used to carry a meal",
-            "partOfSpeech": "noun",
-            "example": "My lunchbox could hold fruit.",
-            "starter": "If I saw lunchbox, I would…"
+            "word": "lunch queue",
+            "definition": "A line of students waiting for food",
+            "partOfSpeech": "phrase",
+            "example": "I would join the lunch queue.",
+            "starter": "If I saw lunch queue, I would…"
           },
           {
             "word": "cafeteria",
@@ -17222,7 +17231,8 @@
       "soccer",
       "football game",
       "kicking a ball",
-      "soccer teams"
+      "soccer teams",
+      "football"
     ],
     "ageBand": "kids",
     "category": "play and creativity",
@@ -17509,7 +17519,8 @@
       "basketball",
       "basketball game",
       "shooting hoops",
-      "basketball teams"
+      "basketball teams",
+      "basketball hoop"
     ],
     "ageBand": "kids",
     "category": "play and creativity",
@@ -19832,11 +19843,11 @@
             "starter": "If I saw string, I would…"
           },
           {
-            "word": "tail",
-            "definition": "A long part that helps some kites balance",
+            "word": "bridle",
+            "definition": "The cords connecting a kite to its flying line",
             "partOfSpeech": "noun",
-            "example": "A tail can stop it spinning too much.",
-            "starter": "I could describe tail by…"
+            "example": "I would check the bridle before launch.",
+            "starter": "I could describe bridle by…"
           },
           {
             "word": "frame",
@@ -19923,11 +19934,11 @@
             "starter": "If I saw string, I would…"
           },
           {
-            "word": "tail",
-            "definition": "A long part that helps some kites balance",
+            "word": "bridle",
+            "definition": "The cords connecting a kite to its flying line",
             "partOfSpeech": "noun",
-            "example": "Tails can help some kites balance.",
-            "starter": "I could describe tail by…"
+            "example": "I would check the bridle before launch.",
+            "starter": "I could describe bridle by…"
           },
           {
             "word": "frame",
@@ -20014,11 +20025,11 @@
             "starter": "If I saw string, I would…"
           },
           {
-            "word": "tail",
-            "definition": "A long part that helps some kites balance",
+            "word": "bridle",
+            "definition": "The cords connecting a kite to its flying line",
             "partOfSpeech": "noun",
-            "example": "Small changes to the tail can affect how steadily it flies.",
-            "starter": "I could describe tail by…"
+            "example": "I would check the bridle before launch.",
+            "starter": "I could describe bridle by…"
           },
           {
             "word": "frame",
@@ -21240,7 +21251,8 @@
       "airplanes",
       "airplane",
       "aeroplanes",
-      "planes in the sky"
+      "planes in the sky",
+      "aeroplane"
     ],
     "ageBand": "kids",
     "category": "play and creativity",
@@ -21527,7 +21539,8 @@
       "boats",
       "boat",
       "sailing boats",
-      "boats on water"
+      "boats on water",
+      "sailboat"
     ],
     "ageBand": "kids",
     "category": "play and creativity",
@@ -21701,8 +21714,8 @@
             "example": "I would wear a life jacket."
           },
           {
-            "phrase": "I wonder why some boats use…",
-            "example": "I wonder why some boats use sails and others use engines."
+            "phrase": "I would choose a sailboat when…",
+            "example": "I would choose a sailboat when the wind felt gentle and steady."
           },
           {
             "phrase": "A life jacket would be the…",
@@ -21792,8 +21805,8 @@
             "example": "The hull's shape could change how steady the boat feels."
           },
           {
-            "phrase": "I wonder why some boats use…",
-            "example": "I wonder why some boats use sails and others use engines."
+            "phrase": "I would choose a sailboat when…",
+            "example": "I would choose a sailboat when the wind felt gentle and steady."
           },
           {
             "phrase": "A life jacket would be the…",
@@ -23550,7 +23563,8 @@
       "social media",
       "social networks",
       "sharing posts",
-      "online feeds"
+      "online feeds",
+      "social networking"
     ],
     "ageBand": "teens",
     "category": "digital life",
@@ -24530,7 +24544,8 @@
       "artificial intelligence",
       "AI tools",
       "machine learning",
-      "computer intelligence"
+      "computer intelligence",
+      "AI"
     ],
     "ageBand": "teens",
     "category": "digital life",
@@ -24922,7 +24937,8 @@
       "virtual reality",
       "VR headsets",
       "virtual worlds",
-      "immersive technology"
+      "immersive technology",
+      "VR"
     ],
     "ageBand": "teens",
     "category": "digital life",
@@ -25314,7 +25330,8 @@
       "cybersecurity",
       "online security",
       "computer safety",
-      "protecting accounts"
+      "protecting accounts",
+      "internet safety"
     ],
     "ageBand": "teens",
     "category": "digital life",
@@ -30073,11 +30090,11 @@
             "starter": "I would compare withdrawal with…"
           },
           {
-            "word": "balance",
-            "definition": "Money available in an account",
-            "partOfSpeech": "noun",
-            "example": "I would check my balance.",
-            "starter": "My idea about balance is…"
+            "word": "bank statement",
+            "definition": "A summary of account activity",
+            "partOfSpeech": "phrase",
+            "example": "I would check my bank statement.",
+            "starter": "My idea about bank statement is…"
           },
           {
             "word": "trade-off",
@@ -30164,11 +30181,11 @@
             "starter": "I would compare withdrawal with…"
           },
           {
-            "word": "balance",
-            "definition": "Money available in an account",
-            "partOfSpeech": "noun",
-            "example": "I would check my balance.",
-            "starter": "My idea about balance is…"
+            "word": "bank statement",
+            "definition": "A summary of account activity",
+            "partOfSpeech": "phrase",
+            "example": "I would check my bank statement.",
+            "starter": "My idea about bank statement is…"
           },
           {
             "word": "trade-off",
@@ -31782,7 +31799,8 @@
       "climate change",
       "global warming",
       "changing climate",
-      "climate action"
+      "climate action",
+      "climate crisis"
     ],
     "ageBand": "teens",
     "category": "science and environment",
@@ -31978,7 +31996,8 @@
       "renewable energy",
       "clean energy",
       "solar and wind power",
-      "renewable power"
+      "renewable power",
+      "solar power"
     ],
     "ageBand": "teens",
     "category": "science and environment",
@@ -32762,7 +32781,9 @@
       "public transport",
       "buses and trains",
       "shared transport",
-      "getting around a city"
+      "getting around a city",
+      "public transportation",
+      "mass transit"
     ],
     "ageBand": "teens",
     "category": "science and environment",
@@ -33938,7 +33959,8 @@
       "medical technology",
       "tools in medicine",
       "health technology",
-      "medical devices"
+      "medical devices",
+      "medtech"
     ],
     "ageBand": "teens",
     "category": "science and environment",
@@ -34722,13 +34744,14 @@
       "team sports",
       "sports teams",
       "playing on a team",
-      "team games"
+      "team games",
+      "team athletics"
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
     "levels": {
       "B1": {
-        "briefing": "Team sports combine individual effort with shared plans. Players take different roles during a match. Practice builds trust as well as skill. Rules give teams a fair framework.",
+        "briefing": "Players share a goal but have different jobs on the field. A team must respond when its first plan stops working. Practice can improve communication as well as movement.",
         "facts": [
           "Players take different roles during a match.",
           "Communication helps teammates respond quickly.",
@@ -34742,84 +34765,84 @@
         ],
         "vocab": [
           {
-            "word": "Team Sports",
-            "definition": "Team sports combine individual effort with shared plans.",
+            "word": "formation",
+            "definition": "The arrangement of players",
             "partOfSpeech": "noun",
-            "example": "Team sports combine individual effort with shared plans.",
-            "starter": "I want to discuss team sports because…"
+            "example": "I would change the formation.",
+            "starter": "If I saw formation, I would…"
           },
           {
-            "word": "roles",
-            "definition": "Different jobs players take",
+            "word": "pass",
+            "definition": "To send the ball to another player",
             "partOfSpeech": "noun",
-            "example": "Players take different roles during a match.",
-            "starter": "I can use roles to explain…"
+            "example": "I would pass to a teammate.",
+            "starter": "I could describe pass by…"
           },
           {
-            "word": "communication",
-            "definition": "Sharing information with teammates",
+            "word": "defense",
+            "definition": "Actions that stop the opposing team",
             "partOfSpeech": "noun",
-            "example": "Communication helps teammates respond quickly.",
-            "starter": "When I hear communication, I think of…"
+            "example": "Our defense needs help.",
+            "starter": "I wonder whether defense can…"
           },
           {
-            "word": "trust",
-            "definition": "Belief that others will do their part",
+            "word": "captain",
+            "definition": "A player chosen to guide the team",
             "partOfSpeech": "noun",
-            "example": "Practice builds trust as well as skill.",
-            "starter": "A question about trust is…"
+            "example": "The captain listened first.",
+            "starter": "One question about captain is…"
           },
           {
-            "word": "players",
-            "definition": "People taking part in a game",
+            "word": "substitute",
+            "definition": "A player who enters later",
             "partOfSpeech": "noun",
-            "example": "Players take different roles during a match.",
-            "starter": "I would compare players with…"
+            "example": "A substitute can bring new energy.",
+            "starter": "I would compare substitute with…"
           },
           {
-            "word": "practice",
-            "definition": "Repeated work to improve",
+            "word": "strategy",
+            "definition": "A plan for play",
             "partOfSpeech": "noun",
-            "example": "Practice builds trust as well as skill.",
-            "starter": "One example of practice is…"
+            "example": "Our strategy needs to change.",
+            "starter": "My idea about strategy is…"
           },
           {
-            "word": "experience",
-            "definition": "Something a person does or lives through.",
+            "word": "sportsmanship",
+            "definition": "Respectful conduct in competition",
             "partOfSpeech": "noun",
-            "example": "People can have different experiences of team sports.",
-            "starter": "I want to compare experience with…"
+            "example": "Sportsmanship matters after a loss.",
+            "starter": "I might use sportsmanship when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that players take different roles during a match."
+            "phrase": "I would pass to…",
+            "example": "I would pass to a teammate."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that communication helps teammates respond quickly."
+            "phrase": "We need to talk…",
+            "example": "We need to talk more clearly."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, practice builds trust as well as skill."
+            "phrase": "The new player should get…",
+            "example": "The new player should get a turn."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare team sports with a related topic."
+            "phrase": "I can try a…",
+            "example": "I can try a different position."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that rules give teams a fair framework."
+            "phrase": "Let us practice…",
+            "example": "Let us practice that move."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because players take different roles during a match."
+            "phrase": "Losing does not end…",
+            "example": "Losing does not end the team."
           }
         ]
       },
       "B2": {
-        "briefing": "Team sports combine individual effort with shared plans. Players take different roles during a match; communication helps teammates respond quickly. Practice builds trust as well as skill; rules give teams a fair framework.",
+        "briefing": "Team sports reward coordinated decisions that no single player can make alone. A strong player can lift others or make them hesitate, depending on behavior. How a team handles defeat reveals its habits more clearly than an easy win.",
         "facts": [
           "Players take different roles during a match.",
           "Communication helps teammates respond quickly.",
@@ -34833,79 +34856,79 @@
         ],
         "vocab": [
           {
-            "word": "Team Sports",
-            "definition": "Team sports combine individual effort with shared plans.",
+            "word": "formation",
+            "definition": "The arrangement of players",
             "partOfSpeech": "noun",
-            "example": "Team sports combine individual effort with shared plans.",
-            "starter": "I want to discuss team sports because…"
+            "example": "I would change the formation.",
+            "starter": "If I saw formation, I would…"
           },
           {
-            "word": "roles",
-            "definition": "Different jobs players take",
+            "word": "pass",
+            "definition": "To send the ball to another player",
             "partOfSpeech": "noun",
-            "example": "Players take different roles during a match.",
-            "starter": "I can use roles to explain…"
+            "example": "I would pass earlier.",
+            "starter": "I could describe pass by…"
           },
           {
-            "word": "communication",
-            "definition": "Sharing information with teammates",
+            "word": "defense",
+            "definition": "Actions that stop the opposing team",
             "partOfSpeech": "noun",
-            "example": "Communication helps teammates respond quickly.",
-            "starter": "When I hear communication, I think of…"
+            "example": "Our defense needs help.",
+            "starter": "I wonder whether defense can…"
           },
           {
-            "word": "trust",
-            "definition": "Belief that others will do their part",
+            "word": "captain",
+            "definition": "A player chosen to guide the team",
             "partOfSpeech": "noun",
-            "example": "Practice builds trust as well as skill.",
-            "starter": "A question about trust is…"
+            "example": "A captain should make quieter players feel able to speak.",
+            "starter": "One question about captain is…"
           },
           {
-            "word": "players",
-            "definition": "People taking part in a game",
+            "word": "substitute",
+            "definition": "A player who enters later",
             "partOfSpeech": "noun",
-            "example": "Players take different roles during a match.",
-            "starter": "I would compare players with…"
+            "example": "A substitute deserves a role, not just the final seconds.",
+            "starter": "I would compare substitute with…"
           },
           {
-            "word": "practice",
-            "definition": "Repeated work to improve",
+            "word": "strategy",
+            "definition": "A plan for play",
             "partOfSpeech": "noun",
-            "example": "Practice builds trust as well as skill.",
-            "starter": "One example of practice is…"
+            "example": "Our strategy needs to change.",
+            "starter": "My idea about strategy is…"
           },
           {
-            "word": "perspective",
-            "definition": "A person's way of understanding something.",
+            "word": "sportsmanship",
+            "definition": "Respectful conduct in competition",
             "partOfSpeech": "noun",
-            "example": "Perspective changes how people describe team sports.",
-            "starter": "I want to compare perspective with…"
+            "example": "Sportsmanship matters after a loss.",
+            "starter": "I might use sportsmanship when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that players take different roles during a match."
+            "phrase": "If our plan failed, I would…",
+            "example": "If our plan failed, I would ask what the other team had noticed."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that communication helps teammates respond quickly."
+            "phrase": "A captain should make quieter players…",
+            "example": "A captain should make quieter players feel able to speak."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, practice builds trust as well as skill."
+            "phrase": "I would rather share chances than…",
+            "example": "I would rather share chances than build every move around one star."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare team sports with a related topic."
+            "phrase": "A substitute deserves a role, not…",
+            "example": "A substitute deserves a role, not just the final seconds."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that rules give teams a fair framework."
+            "phrase": "I wonder when competition makes teammates…",
+            "example": "I wonder when competition makes teammates less honest with each other."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because players take different roles during a match."
+            "phrase": "The best teams improve how they…",
+            "example": "The best teams improve how they lose as well as how they win."
           }
         ]
       }
@@ -34918,13 +34941,14 @@
       "solo sports",
       "individual sports",
       "sports you play alone",
-      "personal sports goals"
+      "personal sports goals",
+      "individual athletics"
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
     "levels": {
       "B1": {
-        "briefing": "Solo sports focus attention on personal choices and progress. Athletes still learn from coaches and partners. Practice includes repeating small skills. Rest helps prevent overtraining.",
+        "briefing": "An individual athlete makes many decisions without teammates nearby. Practice often repeats a small movement many times. A coach or training partner can still offer support.",
         "facts": [
           "Athletes still learn from coaches and partners.",
           "A personal goal can differ from a competition result.",
@@ -34938,84 +34962,84 @@
         ],
         "vocab": [
           {
-            "word": "Solo Sports",
-            "definition": "Solo sports focus attention on personal choices and progress.",
+            "word": "technique",
+            "definition": "A practiced way of moving",
             "partOfSpeech": "noun",
-            "example": "Solo sports focus attention on personal choices and progress.",
-            "starter": "I want to discuss solo sports because…"
+            "example": "I would adjust my technique.",
+            "starter": "If I saw technique, I would…"
           },
           {
-            "word": "personal goal",
-            "definition": "A target chosen for oneself",
-            "partOfSpeech": "noun",
-            "example": "A personal goal can differ from a competition result.",
-            "starter": "I can use personal goal to explain…"
+            "word": "personal best",
+            "definition": "An athlete's best result so far",
+            "partOfSpeech": "phrase",
+            "example": "I beat my personal best.",
+            "starter": "I could describe personal best by…"
           },
           {
-            "word": "competition",
-            "definition": "An event where people compare performance",
+            "word": "pace",
+            "definition": "Speed maintained over time",
             "partOfSpeech": "noun",
-            "example": "A personal goal can differ from a competition result.",
-            "starter": "When I hear competition, I think of…"
+            "example": "My pace felt too fast.",
+            "starter": "I wonder whether pace can…"
           },
           {
-            "word": "rest",
-            "definition": "Time when the body recovers",
+            "word": "coach",
+            "definition": "A person guiding practice",
             "partOfSpeech": "noun",
-            "example": "Rest helps prevent overtraining.",
-            "starter": "A question about rest is…"
+            "example": "A coach or training partner can still offer support.",
+            "starter": "One question about coach is…"
           },
           {
-            "word": "athletes",
-            "definition": "People who train for sports",
+            "word": "recovery",
+            "definition": "Rest after effort",
             "partOfSpeech": "noun",
-            "example": "Athletes still learn from coaches and partners.",
-            "starter": "I would compare athletes with…"
+            "example": "Recovery belongs in training.",
+            "starter": "I would compare recovery with…"
           },
           {
-            "word": "result",
-            "definition": "The outcome of a competition",
+            "word": "focus",
+            "definition": "Concentrated attention",
             "partOfSpeech": "noun",
-            "example": "A personal goal can differ from a competition result.",
-            "starter": "One example of result is…"
+            "example": "I lost focus near the end.",
+            "starter": "My idea about focus is…"
           },
           {
-            "word": "experience",
-            "definition": "Something a person does or lives through.",
-            "partOfSpeech": "noun",
-            "example": "People can have different experiences of solo sports.",
-            "starter": "I want to compare experience with…"
+            "word": "training plan",
+            "definition": "A schedule for improving",
+            "partOfSpeech": "phrase",
+            "example": "My training plan needs rest days.",
+            "starter": "I might use training plan when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that athletes still learn from coaches and partners."
+            "phrase": "I would practice…",
+            "example": "I would practice the start."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a personal goal can differ from a competition result."
+            "phrase": "My pace felt…",
+            "example": "My pace felt too fast."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, practice includes repeating small skills."
+            "phrase": "A coach could spot…",
+            "example": "A coach could spot a mistake."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare solo sports with a related topic."
+            "phrase": "I am proud of a…",
+            "example": "I am proud of a small improvement."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that rest helps prevent overtraining."
+            "phrase": "I need a…",
+            "example": "I need a rest day."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because athletes still learn from coaches and partners."
+            "phrase": "I want to enjoy…",
+            "example": "I want to enjoy the sport."
           }
         ]
       },
       "B2": {
-        "briefing": "Solo sports focus attention on personal choices and progress. Athletes still learn from coaches and partners; a personal goal can differ from a competition result. Practice includes repeating small skills; rest helps prevent overtraining.",
+        "briefing": "Solo sports combine personal responsibility with networks of instruction and care. Progress may appear slowly before one small change unlocks it. Comparing only results can hide different starting points and resources.",
         "facts": [
           "Athletes still learn from coaches and partners.",
           "A personal goal can differ from a competition result.",
@@ -35029,79 +35053,79 @@
         ],
         "vocab": [
           {
-            "word": "Solo Sports",
-            "definition": "Solo sports focus attention on personal choices and progress.",
+            "word": "technique",
+            "definition": "A practiced way of moving",
             "partOfSpeech": "noun",
-            "example": "Solo sports focus attention on personal choices and progress.",
-            "starter": "I want to discuss solo sports because…"
+            "example": "If I missed a personal best, I would still look for a stronger technique.",
+            "starter": "If I saw technique, I would…"
           },
           {
-            "word": "personal goal",
-            "definition": "A target chosen for oneself",
-            "partOfSpeech": "noun",
-            "example": "A personal goal can differ from a competition result.",
-            "starter": "I can use personal goal to explain…"
+            "word": "personal best",
+            "definition": "An athlete's best result so far",
+            "partOfSpeech": "phrase",
+            "example": "If I missed a personal best, I would still look for a stronger technique.",
+            "starter": "I could describe personal best by…"
           },
           {
-            "word": "competition",
-            "definition": "An event where people compare performance",
+            "word": "pace",
+            "definition": "Speed maintained over time",
             "partOfSpeech": "noun",
-            "example": "A personal goal can differ from a competition result.",
-            "starter": "When I hear competition, I think of…"
+            "example": "My pace was too fast at first.",
+            "starter": "I wonder whether pace can…"
           },
           {
-            "word": "rest",
-            "definition": "Time when the body recovers",
-            "partOfSpeech": "noun",
-            "example": "Rest helps prevent overtraining.",
-            "starter": "A question about rest is…"
-          },
-          {
-            "word": "athletes",
-            "definition": "People who train for sports",
+            "word": "coach",
+            "definition": "A person guiding practice",
             "partOfSpeech": "noun",
             "example": "Athletes still learn from coaches and partners.",
-            "starter": "I would compare athletes with…"
+            "starter": "One question about coach is…"
           },
           {
-            "word": "result",
-            "definition": "The outcome of a competition",
+            "word": "recovery",
+            "definition": "Rest after effort",
             "partOfSpeech": "noun",
-            "example": "A personal goal can differ from a competition result.",
-            "starter": "One example of result is…"
+            "example": "Recovery can be a deliberate part of improvement.",
+            "starter": "I would compare recovery with…"
           },
           {
-            "word": "perspective",
-            "definition": "A person's way of understanding something.",
+            "word": "focus",
+            "definition": "Concentrated attention",
             "partOfSpeech": "noun",
-            "example": "Perspective changes how people describe solo sports.",
-            "starter": "I want to compare perspective with…"
+            "example": "I lost focus near the end.",
+            "starter": "My idea about focus is…"
+          },
+          {
+            "word": "training plan",
+            "definition": "A schedule for improving",
+            "partOfSpeech": "phrase",
+            "example": "I would rather follow a sustainable training plan than chase one dramatic week.",
+            "starter": "I might use training plan when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that athletes still learn from coaches and partners."
+            "phrase": "If I missed a personal best,…",
+            "example": "If I missed a personal best, I would still look for a stronger technique."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a personal goal can differ from a competition result."
+            "phrase": "A solo result often rests on…",
+            "example": "A solo result often rests on help from people the audience never sees."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, practice includes repeating small skills."
+            "phrase": "I would rather follow a sustainable…",
+            "example": "I would rather follow a sustainable training plan than chase one dramatic week."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare solo sports with a related topic."
+            "phrase": "Recovery can be a deliberate part…",
+            "example": "Recovery can be a deliberate part of improvement."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that rest helps prevent overtraining."
+            "phrase": "I wonder how athletes stay motivated…",
+            "example": "I wonder how athletes stay motivated when progress is hard to measure."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because athletes still learn from coaches and partners."
+            "phrase": "Competing with myself feels useful only…",
+            "example": "Competing with myself feels useful only when it leaves room for joy."
           }
         ]
       }
@@ -35120,7 +35144,7 @@
     "category": "wellbeing and adventure",
     "levels": {
       "B1": {
-        "briefing": "Fitness includes strength, movement, stamina, and recovery. Different activities challenge the body in different ways. Rest gives the body time to adapt. Enjoyment can make a habit easier to keep.",
+        "briefing": "Different activities strengthen different parts of the body. A routine works better when it fits ordinary life. Rest gives muscles time to recover after effort.",
         "facts": [
           "Different activities challenge the body in different ways.",
           "Regular movement can support daily energy.",
@@ -35134,84 +35158,84 @@
         ],
         "vocab": [
           {
-            "word": "Fitness",
-            "definition": "Fitness includes strength, movement, stamina, and recovery.",
+            "word": "endurance",
+            "definition": "Ability to keep going during effort",
             "partOfSpeech": "noun",
-            "example": "Fitness includes strength, movement, stamina, and recovery.",
-            "starter": "I want to discuss fitness because…"
-          },
-          {
-            "word": "stamina",
-            "definition": "Ability to keep moving without tiring quickly",
-            "partOfSpeech": "noun",
-            "example": "Fitness includes strength, movement, stamina, and recovery.",
-            "starter": "I can use stamina to explain…"
-          },
-          {
-            "word": "recovery",
-            "definition": "The process of returning to normal after effort",
-            "partOfSpeech": "noun",
-            "example": "Fitness includes strength, movement, stamina, and recovery.",
-            "starter": "When I hear recovery, I think of…"
-          },
-          {
-            "word": "movement",
-            "definition": "Changing position through physical action",
-            "partOfSpeech": "noun",
-            "example": "Fitness includes strength, movement, stamina, and recovery.",
-            "starter": "A question about movement is…"
+            "example": "I want to build endurance.",
+            "starter": "If I saw endurance, I would…"
           },
           {
             "word": "strength",
-            "definition": "Ability to exert force",
+            "definition": "Ability to produce force",
             "partOfSpeech": "noun",
-            "example": "Fitness includes strength, movement, stamina, and recovery.",
-            "starter": "I would compare strength with…"
+            "example": "Different activities strengthen different parts of the body.",
+            "starter": "I could describe strength by…"
           },
           {
-            "word": "habit",
-            "definition": "Something done regularly",
+            "word": "mobility",
+            "definition": "Ease of moving joints",
             "partOfSpeech": "noun",
-            "example": "Enjoyment can make a habit easier to keep.",
-            "starter": "One example of habit is…"
+            "example": "Mobility matters to me.",
+            "starter": "I wonder whether mobility can…"
           },
           {
-            "word": "experience",
-            "definition": "Something a person does or lives through.",
+            "word": "warm-up",
+            "definition": "Gentle activity before harder work",
             "partOfSpeech": "noun",
-            "example": "People can have different experiences of fitness.",
-            "starter": "I want to compare experience with…"
+            "example": "I would do a warm-up.",
+            "starter": "One question about warm-up is…"
+          },
+          {
+            "word": "repetition",
+            "definition": "One complete exercise movement",
+            "partOfSpeech": "noun",
+            "example": "I would add a repetition slowly.",
+            "starter": "I would compare repetition with…"
+          },
+          {
+            "word": "recovery",
+            "definition": "Rest that allows repair",
+            "partOfSpeech": "noun",
+            "example": "Recovery is part of exercise.",
+            "starter": "My idea about recovery is…"
+          },
+          {
+            "word": "intensity",
+            "definition": "How demanding an activity is",
+            "partOfSpeech": "noun",
+            "example": "I would lower the intensity.",
+            "starter": "I might use intensity when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that different activities challenge the body in different ways."
+            "phrase": "I enjoy walking with…",
+            "example": "I enjoy walking with a friend."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that regular movement can support daily energy."
+            "phrase": "I would…",
+            "example": "I would start slowly."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, rest gives the body time to adapt."
+            "phrase": "This exercise hurts…",
+            "example": "This exercise hurts my knee."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare fitness with a related topic."
+            "phrase": "A short routine fits…",
+            "example": "A short routine fits my day."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that enjoyment can make a habit easier to keep."
+            "phrase": "Rest helps me…",
+            "example": "Rest helps me come back."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because different activities challenge the body in different ways."
+            "phrase": "I want to…",
+            "example": "I want to feel stronger."
           }
         ]
       },
       "B2": {
-        "briefing": "Fitness includes strength, movement, stamina, and recovery. Different activities challenge the body in different ways; regular movement can support daily energy. Rest gives the body time to adapt; enjoyment can make a habit easier to keep.",
+        "briefing": "Fitness includes strength, endurance, mobility, and the ability to enjoy movement. A plan should be adjusted when pain signals a problem. Numbers can track progress, but they cannot describe every benefit.",
         "facts": [
           "Different activities challenge the body in different ways.",
           "Regular movement can support daily energy.",
@@ -35225,79 +35249,79 @@
         ],
         "vocab": [
           {
-            "word": "Fitness",
-            "definition": "Fitness includes strength, movement, stamina, and recovery.",
+            "word": "endurance",
+            "definition": "Ability to keep going during effort",
             "partOfSpeech": "noun",
-            "example": "Fitness includes strength, movement, stamina, and recovery.",
-            "starter": "I want to discuss fitness because…"
-          },
-          {
-            "word": "stamina",
-            "definition": "Ability to keep moving without tiring quickly",
-            "partOfSpeech": "noun",
-            "example": "Fitness includes strength, movement, stamina, and recovery.",
-            "starter": "I can use stamina to explain…"
-          },
-          {
-            "word": "recovery",
-            "definition": "The process of returning to normal after effort",
-            "partOfSpeech": "noun",
-            "example": "Fitness includes strength, movement, stamina, and recovery.",
-            "starter": "When I hear recovery, I think of…"
-          },
-          {
-            "word": "movement",
-            "definition": "Changing position through physical action",
-            "partOfSpeech": "noun",
-            "example": "Fitness includes strength, movement, stamina, and recovery.",
-            "starter": "A question about movement is…"
+            "example": "Fitness includes strength, endurance, mobility, and the ability to enjoy movement.",
+            "starter": "If I saw endurance, I would…"
           },
           {
             "word": "strength",
-            "definition": "Ability to exert force",
+            "definition": "Ability to produce force",
             "partOfSpeech": "noun",
-            "example": "Fitness includes strength, movement, stamina, and recovery.",
-            "starter": "I would compare strength with…"
+            "example": "Fitness includes strength, endurance, mobility, and the ability to enjoy movement.",
+            "starter": "I could describe strength by…"
           },
           {
-            "word": "habit",
-            "definition": "Something done regularly",
+            "word": "mobility",
+            "definition": "Ease of moving joints",
             "partOfSpeech": "noun",
-            "example": "Enjoyment can make a habit easier to keep.",
-            "starter": "One example of habit is…"
+            "example": "Fitness includes strength, endurance, mobility, and the ability to enjoy movement.",
+            "starter": "I wonder whether mobility can…"
           },
           {
-            "word": "perspective",
-            "definition": "A person's way of understanding something.",
+            "word": "warm-up",
+            "definition": "Gentle activity before harder work",
             "partOfSpeech": "noun",
-            "example": "Perspective changes how people describe fitness.",
-            "starter": "I want to compare perspective with…"
+            "example": "A warm-up prepares me to move, but it should not become a test.",
+            "starter": "One question about warm-up is…"
+          },
+          {
+            "word": "repetition",
+            "definition": "One complete exercise movement",
+            "partOfSpeech": "noun",
+            "example": "I would add a repetition slowly.",
+            "starter": "I would compare repetition with…"
+          },
+          {
+            "word": "recovery",
+            "definition": "Rest that allows repair",
+            "partOfSpeech": "noun",
+            "example": "Recovery is part of exercise.",
+            "starter": "My idea about recovery is…"
+          },
+          {
+            "word": "intensity",
+            "definition": "How demanding an activity is",
+            "partOfSpeech": "noun",
+            "example": "More intensity is not automatically better when technique breaks down.",
+            "starter": "I might use intensity when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that different activities challenge the body in different ways."
+            "phrase": "If I planned exercise, I would…",
+            "example": "If I planned exercise, I would choose something I could repeat without dread."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that regular movement can support daily energy."
+            "phrase": "More intensity is not automatically better…",
+            "example": "More intensity is not automatically better when technique breaks down."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, rest gives the body time to adapt."
+            "phrase": "I would rather notice energy and…",
+            "example": "I would rather notice energy and sleep than judge myself only by numbers."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare fitness with a related topic."
+            "phrase": "A warm-up prepares me to move,…",
+            "example": "A warm-up prepares me to move, but it should not become a test."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that enjoyment can make a habit easier to keep."
+            "phrase": "I wonder how public spaces shape…",
+            "example": "I wonder how public spaces shape who feels welcome to exercise."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because different activities challenge the body in different ways."
+            "phrase": "Fitness should make daily life easier,…",
+            "example": "Fitness should make daily life easier, not smaller."
           }
         ]
       }
@@ -35316,7 +35340,7 @@
     "category": "wellbeing and adventure",
     "levels": {
       "B1": {
-        "briefing": "Outdoor adventures bring people into changing natural places. Weather can alter even a familiar route. Groups need water and suitable clothing. Leaving little trace protects places for others.",
+        "briefing": "A hike or camp changes when weather changes. A route needs enough time for the slowest person. Small preparations can prevent a difficult day.",
         "facts": [
           "Weather can alter even a familiar route.",
           "A map helps travelers plan and navigate.",
@@ -35330,84 +35354,84 @@
         ],
         "vocab": [
           {
-            "word": "Outdoor Adventures",
-            "definition": "Outdoor adventures bring people into changing natural places.",
+            "word": "trail",
+            "definition": "A path through an outdoor area",
             "partOfSpeech": "noun",
-            "example": "Outdoor adventures bring people into changing natural places.",
-            "starter": "I want to discuss outdoor adventures because…"
+            "example": "I would follow the marked trail.",
+            "starter": "If I saw trail, I would…"
           },
           {
-            "word": "weather",
-            "definition": "Conditions of air and sky",
+            "word": "forecast",
+            "definition": "A prediction of weather",
             "partOfSpeech": "noun",
-            "example": "Weather can alter even a familiar route.",
-            "starter": "I can use weather to explain…"
+            "example": "Let us check the forecast.",
+            "starter": "I could describe forecast by…"
           },
           {
-            "word": "navigate",
-            "definition": "To find and follow a route",
-            "partOfSpeech": "verb",
-            "example": "A map helps travelers plan and navigate.",
-            "starter": "When I hear navigate, I think of…"
+            "word": "navigation",
+            "definition": "Finding a route",
+            "partOfSpeech": "noun",
+            "example": "Navigation takes practice.",
+            "starter": "I wonder whether navigation can…"
           },
           {
-            "word": "trace",
-            "definition": "A sign left behind",
-            "partOfSpeech": "noun",
-            "example": "Leaving little trace protects places for others.",
-            "starter": "A question about trace is…"
+            "word": "first-aid kit",
+            "definition": "Supplies for minor injuries",
+            "partOfSpeech": "phrase",
+            "example": "I would carry a first-aid kit.",
+            "starter": "One question about first-aid kit is…"
           },
           {
-            "word": "map",
-            "definition": "A drawing showing places and routes",
+            "word": "shelter",
+            "definition": "Protection from weather",
             "partOfSpeech": "noun",
-            "example": "A map helps travelers plan and navigate.",
-            "starter": "I would compare map with…"
+            "example": "We need shelter before dark.",
+            "starter": "I would compare shelter with…"
           },
           {
-            "word": "clothing",
-            "definition": "Things people wear",
+            "word": "landmark",
+            "definition": "A visible feature used for orientation",
             "partOfSpeech": "noun",
-            "example": "Groups need water and suitable clothing.",
-            "starter": "One example of clothing is…"
+            "example": "That landmark helps us turn.",
+            "starter": "My idea about landmark is…"
           },
           {
-            "word": "experience",
-            "definition": "Something a person does or lives through.",
-            "partOfSpeech": "noun",
-            "example": "People can have different experiences of outdoor adventures.",
-            "starter": "I want to compare experience with…"
+            "word": "leave no trace",
+            "definition": "A principle of minimizing damage",
+            "partOfSpeech": "phrase",
+            "example": "I would follow leave no trace.",
+            "starter": "I might use leave no trace when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that weather can alter even a familiar route."
+            "phrase": "I would pack…",
+            "example": "I would pack water first."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a map helps travelers plan and navigate."
+            "phrase": "The path may…",
+            "example": "The path may be muddy."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, groups need water and suitable clothing."
+            "phrase": "Let us check…",
+            "example": "Let us check the forecast."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare outdoor adventures with a related topic."
+            "phrase": "I want to turn back…",
+            "example": "I want to turn back before dark."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that leaving little trace protects places for others."
+            "phrase": "We should…",
+            "example": "We should stay together."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because weather can alter even a familiar route."
+            "phrase": "I would take the…",
+            "example": "I would take the rubbish home."
           }
         ]
       },
       "B2": {
-        "briefing": "Outdoor adventures bring people into changing natural places. Weather can alter even a familiar route; a map helps travelers plan and navigate. Groups need water and suitable clothing; leaving little trace protects places for others.",
+        "briefing": "Outdoor adventures balance curiosity with responsibility for companions and the place. Maps, forecasts, and local advice each answer different questions. Turning back can be the strongest decision when conditions change.",
         "facts": [
           "Weather can alter even a familiar route.",
           "A map helps travelers plan and navigate.",
@@ -35421,79 +35445,79 @@
         ],
         "vocab": [
           {
-            "word": "Outdoor Adventures",
-            "definition": "Outdoor adventures bring people into changing natural places.",
+            "word": "trail",
+            "definition": "A path through an outdoor area",
             "partOfSpeech": "noun",
-            "example": "Outdoor adventures bring people into changing natural places.",
-            "starter": "I want to discuss outdoor adventures because…"
+            "example": "I would rather finish a short safe trail than force a longer one.",
+            "starter": "If I saw trail, I would…"
           },
           {
-            "word": "weather",
-            "definition": "Conditions of air and sky",
+            "word": "forecast",
+            "definition": "A prediction of weather",
             "partOfSpeech": "noun",
-            "example": "Weather can alter even a familiar route.",
-            "starter": "I can use weather to explain…"
+            "example": "Maps, forecasts, and local advice each answer different questions.",
+            "starter": "I could describe forecast by…"
           },
           {
-            "word": "navigate",
-            "definition": "To find and follow a route",
-            "partOfSpeech": "verb",
-            "example": "A map helps travelers plan and navigate.",
-            "starter": "When I hear navigate, I think of…"
+            "word": "navigation",
+            "definition": "Finding a route",
+            "partOfSpeech": "noun",
+            "example": "Navigation should use more than a single phone battery.",
+            "starter": "I wonder whether navigation can…"
           },
           {
-            "word": "trace",
-            "definition": "A sign left behind",
-            "partOfSpeech": "noun",
-            "example": "Leaving little trace protects places for others.",
-            "starter": "A question about trace is…"
+            "word": "first-aid kit",
+            "definition": "Supplies for minor injuries",
+            "partOfSpeech": "phrase",
+            "example": "A first-aid kit helps only when someone knows how to use it.",
+            "starter": "One question about first-aid kit is…"
           },
           {
-            "word": "map",
-            "definition": "A drawing showing places and routes",
+            "word": "shelter",
+            "definition": "Protection from weather",
             "partOfSpeech": "noun",
-            "example": "A map helps travelers plan and navigate.",
-            "starter": "I would compare map with…"
+            "example": "We need shelter before dark.",
+            "starter": "I would compare shelter with…"
           },
           {
-            "word": "clothing",
-            "definition": "Things people wear",
+            "word": "landmark",
+            "definition": "A visible feature used for orientation",
             "partOfSpeech": "noun",
-            "example": "Groups need water and suitable clothing.",
-            "starter": "One example of clothing is…"
+            "example": "That landmark helps us turn.",
+            "starter": "My idea about landmark is…"
           },
           {
-            "word": "perspective",
-            "definition": "A person's way of understanding something.",
-            "partOfSpeech": "noun",
-            "example": "Perspective changes how people describe outdoor adventures.",
-            "starter": "I want to compare perspective with…"
+            "word": "leave no trace",
+            "definition": "A principle of minimizing damage",
+            "partOfSpeech": "phrase",
+            "example": "I would follow leave no trace.",
+            "starter": "I might use leave no trace when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that weather can alter even a familiar route."
+            "phrase": "If the forecast worsened, I would…",
+            "example": "If the forecast worsened, I would change the route instead of defending the plan."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that a map helps travelers plan and navigate."
+            "phrase": "A first-aid kit helps only when…",
+            "example": "A first-aid kit helps only when someone knows how to use it."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, groups need water and suitable clothing."
+            "phrase": "I would rather finish a short…",
+            "example": "I would rather finish a short safe trail than force a longer one."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare outdoor adventures with a related topic."
+            "phrase": "Navigation should use more than a…",
+            "example": "Navigation should use more than a single phone battery."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that leaving little trace protects places for others."
+            "phrase": "I wonder how visitors can enjoy…",
+            "example": "I wonder how visitors can enjoy wild places without wearing them down."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because weather can alter even a familiar route."
+            "phrase": "An adventure includes caring for the…",
+            "example": "An adventure includes caring for the people who came with us."
           }
         ]
       }
@@ -35512,7 +35536,7 @@
     "category": "wellbeing and adventure",
     "levels": {
       "B1": {
-        "briefing": "Mystery stories hide some information from the audience. A clue should connect to a possible explanation. Readers compare details as new facts appear. A satisfying ending explains earlier clues.",
+        "briefing": "A clue matters because it points toward more than one possibility. The first explanation can seem convincing but still be wrong. A careful question may reveal what a witness actually saw.",
         "facts": [
           "A clue should connect to a possible explanation.",
           "False leads can make a story harder to solve.",
@@ -35526,84 +35550,84 @@
         ],
         "vocab": [
           {
-            "word": "Mystery stories",
-            "definition": "Mystery stories hide some information from the audience.",
+            "word": "alibi",
+            "definition": "An account of where someone was",
             "partOfSpeech": "noun",
-            "example": "Mystery stories hide some information from the audience.",
-            "starter": "I want to discuss mysteries and clues because…"
+            "example": "I would check the alibi.",
+            "starter": "If I saw alibi, I would…"
           },
           {
-            "word": "clue",
-            "definition": "A detail helping explain a mystery",
+            "word": "witness",
+            "definition": "A person who saw an event",
             "partOfSpeech": "noun",
-            "example": "A clue should connect to a possible explanation.",
-            "starter": "I can use clue to explain…"
+            "example": "A careful question may reveal what a witness actually saw.",
+            "starter": "I could describe witness by…"
           },
           {
-            "word": "false leads",
-            "definition": "Details that suggest a wrong answer",
+            "word": "motive",
+            "definition": "A reason to act",
             "partOfSpeech": "noun",
-            "example": "False leads can make a story harder to solve.",
-            "starter": "When I hear false leads, I think of…"
+            "example": "That motive seems weak.",
+            "starter": "I wonder whether motive can…"
           },
           {
-            "word": "ending",
-            "definition": "The final part of a story",
-            "partOfSpeech": "noun",
-            "example": "A satisfying ending explains earlier clues.",
-            "starter": "A question about ending is…"
+            "word": "red herring",
+            "definition": "A misleading clue",
+            "partOfSpeech": "phrase",
+            "example": "The note was a red herring.",
+            "starter": "One question about red herring is…"
           },
           {
-            "word": "details",
-            "definition": "Small pieces of information",
+            "word": "timeline",
+            "definition": "The order of events",
             "partOfSpeech": "noun",
-            "example": "Readers compare details as new facts appear.",
-            "starter": "I would compare details with…"
+            "example": "I would draw a timeline.",
+            "starter": "I would compare timeline with…"
           },
           {
-            "word": "readers",
-            "definition": "People reading stories",
+            "word": "inference",
+            "definition": "A conclusion drawn from evidence",
             "partOfSpeech": "noun",
-            "example": "Readers compare details as new facts appear.",
-            "starter": "One example of readers is…"
+            "example": "My inference may be wrong.",
+            "starter": "My idea about inference is…"
           },
           {
-            "word": "experience",
-            "definition": "Something a person does or lives through.",
+            "word": "contradiction",
+            "definition": "Two claims that cannot both be true",
             "partOfSpeech": "noun",
-            "example": "People can have different experiences of mysteries and clues.",
-            "starter": "I want to compare experience with…"
+            "example": "That contradiction matters.",
+            "starter": "I might use contradiction when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a clue should connect to a possible explanation."
+            "phrase": "I would check…",
+            "example": "I would check the time."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that false leads can make a story harder to solve."
+            "phrase": "The note might be…",
+            "example": "The note might be a trick."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, readers compare details as new facts appear."
+            "phrase": "Can we ask the…",
+            "example": "Can we ask the witness again?"
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare mysteries and clues with a related topic."
+            "phrase": "I have two…",
+            "example": "I have two possible answers."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that a satisfying ending explains earlier clues."
+            "phrase": "That detail does…",
+            "example": "That detail does not fit."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a clue should connect to a possible explanation."
+            "phrase": "I want one…",
+            "example": "I want one more clue."
           }
         ]
       },
       "B2": {
-        "briefing": "Mystery stories hide some information from the audience. A clue should connect to a possible explanation; false leads can make a story harder to solve. Readers compare details as new facts appear; a satisfying ending explains earlier clues.",
+        "briefing": "A fair mystery gives readers enough evidence to revise their theories. Misleading details can create suspense without requiring a dishonest narrator. The most satisfying solution explains small contradictions as well as the main event.",
         "facts": [
           "A clue should connect to a possible explanation.",
           "False leads can make a story harder to solve.",
@@ -35617,79 +35641,79 @@
         ],
         "vocab": [
           {
-            "word": "Mystery stories",
-            "definition": "Mystery stories hide some information from the audience.",
+            "word": "alibi",
+            "definition": "An account of where someone was",
             "partOfSpeech": "noun",
-            "example": "Mystery stories hide some information from the audience.",
-            "starter": "I want to discuss mysteries and clues because…"
+            "example": "I would check the alibi.",
+            "starter": "If I saw alibi, I would…"
           },
           {
-            "word": "clue",
-            "definition": "A detail helping explain a mystery",
+            "word": "witness",
+            "definition": "A person who saw an event",
             "partOfSpeech": "noun",
-            "example": "A clue should connect to a possible explanation.",
-            "starter": "I can use clue to explain…"
+            "example": "If a witness sounded certain, I would still compare their account with the timeline.",
+            "starter": "I could describe witness by…"
           },
           {
-            "word": "false leads",
-            "definition": "Details that suggest a wrong answer",
+            "word": "motive",
+            "definition": "A reason to act",
             "partOfSpeech": "noun",
-            "example": "False leads can make a story harder to solve.",
-            "starter": "When I hear false leads, I think of…"
+            "example": "That motive seems weak.",
+            "starter": "I wonder whether motive can…"
           },
           {
-            "word": "ending",
-            "definition": "The final part of a story",
-            "partOfSpeech": "noun",
-            "example": "A satisfying ending explains earlier clues.",
-            "starter": "A question about ending is…"
+            "word": "red herring",
+            "definition": "A misleading clue",
+            "partOfSpeech": "phrase",
+            "example": "A good red herring distracts without making the final answer unfair.",
+            "starter": "One question about red herring is…"
           },
           {
-            "word": "details",
-            "definition": "Small pieces of information",
+            "word": "timeline",
+            "definition": "The order of events",
             "partOfSpeech": "noun",
-            "example": "Readers compare details as new facts appear.",
-            "starter": "I would compare details with…"
+            "example": "If a witness sounded certain, I would still compare their account with the timeline.",
+            "starter": "I would compare timeline with…"
           },
           {
-            "word": "readers",
-            "definition": "People reading stories",
+            "word": "inference",
+            "definition": "A conclusion drawn from evidence",
             "partOfSpeech": "noun",
-            "example": "Readers compare details as new facts appear.",
-            "starter": "One example of readers is…"
+            "example": "My inference may be wrong.",
+            "starter": "My idea about inference is…"
           },
           {
-            "word": "perspective",
-            "definition": "A person's way of understanding something.",
+            "word": "contradiction",
+            "definition": "Two claims that cannot both be true",
             "partOfSpeech": "noun",
-            "example": "Perspective changes how people describe mysteries and clues.",
-            "starter": "I want to compare perspective with…"
+            "example": "The most satisfying solution explains small contradictions as well as the main event.",
+            "starter": "I might use contradiction when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a clue should connect to a possible explanation."
+            "phrase": "If a witness sounded certain, I…",
+            "example": "If a witness sounded certain, I would still compare their account with the timeline."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that false leads can make a story harder to solve."
+            "phrase": "A good red herring distracts without…",
+            "example": "A good red herring distracts without making the final answer unfair."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, readers compare details as new facts appear."
+            "phrase": "I would rather revise my theory…",
+            "example": "I would rather revise my theory than bend every clue to fit it."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare mysteries and clues with a related topic."
+            "phrase": "The smallest contradiction may reveal the…",
+            "example": "The smallest contradiction may reveal the most important mistake."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that a satisfying ending explains earlier clues."
+            "phrase": "I wonder when readers know enough…",
+            "example": "I wonder when readers know enough to solve the mystery themselves."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a clue should connect to a possible explanation."
+            "phrase": "A strong ending makes earlier details…",
+            "example": "A strong ending makes earlier details meaningful in a new way."
           }
         ]
       }
@@ -35708,7 +35732,7 @@
     "category": "wellbeing and adventure",
     "levels": {
       "B1": {
-        "briefing": "Unexplained places invite questions when evidence is incomplete. A strange sound can have several causes. Maps and records can test local claims. Curiosity works best alongside careful checking.",
+        "briefing": "An unfamiliar site can attract stories before anyone studies it carefully. Old buildings may have lost their original purpose. Maps and local memories can offer different kinds of clues.",
         "facts": [
           "A strange sound can have several causes.",
           "Stories may change as people retell them.",
@@ -35722,84 +35746,84 @@
         ],
         "vocab": [
           {
-            "word": "Unexplained Places",
-            "definition": "Unexplained places invite questions when evidence is incomplete.",
+            "word": "ruin",
+            "definition": "A damaged remainder of a building",
             "partOfSpeech": "noun",
-            "example": "Unexplained places invite questions when evidence is incomplete.",
-            "starter": "I want to discuss unexplained places because…"
+            "example": "I would study the ruin carefully.",
+            "starter": "If I saw ruin, I would…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation",
+            "word": "archive",
+            "definition": "A collection of old documents",
             "partOfSpeech": "noun",
-            "example": "Unexplained places invite questions when evidence is incomplete.",
-            "starter": "I can use evidence to explain…"
+            "example": "An archive might hold a map.",
+            "starter": "I could describe archive by…"
           },
           {
-            "word": "claims",
-            "definition": "Statements people say are true",
+            "word": "legend",
+            "definition": "A story passed down over time",
             "partOfSpeech": "noun",
-            "example": "Maps and records can test local claims.",
-            "starter": "When I hear claims, I think of…"
+            "example": "That legend has several versions.",
+            "starter": "I wonder whether legend can…"
           },
           {
-            "word": "curiosity",
-            "definition": "A desire to understand something",
+            "word": "artifact",
+            "definition": "An object made or used by people",
             "partOfSpeech": "noun",
-            "example": "Curiosity works best alongside careful checking.",
-            "starter": "A question about curiosity is…"
+            "example": "The artifact may be fragile.",
+            "starter": "One question about artifact is…"
           },
           {
-            "word": "stories",
-            "definition": "Accounts of real or imagined events",
+            "word": "excavation",
+            "definition": "Careful digging for evidence",
             "partOfSpeech": "noun",
-            "example": "Stories may change as people retell them.",
-            "starter": "I would compare stories with…"
+            "example": "Excavation needs permission.",
+            "starter": "I would compare excavation with…"
           },
           {
-            "word": "maps",
-            "definition": "Drawings showing places and routes",
-            "partOfSpeech": "noun",
-            "example": "Maps and records can test local claims.",
-            "starter": "One example of maps is…"
+            "word": "oral history",
+            "definition": "Memories shared by speaking",
+            "partOfSpeech": "phrase",
+            "example": "An oral history could offer a clue.",
+            "starter": "My idea about oral history is…"
           },
           {
-            "word": "experience",
-            "definition": "Something a person does or lives through.",
+            "word": "hypothesis",
+            "definition": "A possible explanation to test",
             "partOfSpeech": "noun",
-            "example": "People can have different experiences of unexplained places.",
-            "starter": "I want to compare experience with…"
+            "example": "My hypothesis could change.",
+            "starter": "I might use hypothesis when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a strange sound can have several causes."
+            "phrase": "I would start with an…",
+            "example": "I would start with an old map."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that stories may change as people retell them."
+            "phrase": "The story…",
+            "example": "The story sounds exciting."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, maps and records can test local claims."
+            "phrase": "We should not take…",
+            "example": "We should not take objects home."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare unexplained places with a related topic."
+            "phrase": "Could a local person…",
+            "example": "Could a local person explain it?"
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that curiosity works best alongside careful checking."
+            "phrase": "I see a door in…",
+            "example": "I see a door in the wall."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a strange sound can have several causes."
+            "phrase": "There may be a…",
+            "example": "There may be a simple answer."
           }
         ]
       },
       "B2": {
-        "briefing": "Unexplained places invite questions when evidence is incomplete. A strange sound can have several causes; stories may change as people retell them. Maps and records can test local claims; curiosity works best alongside careful checking.",
+        "briefing": "Unexplained places invite imagination because evidence is incomplete. A dramatic legend may hide an ordinary but interesting history. Respect for the people connected to a site matters while investigating it.",
         "facts": [
           "A strange sound can have several causes.",
           "Stories may change as people retell them.",
@@ -35813,79 +35837,79 @@
         ],
         "vocab": [
           {
-            "word": "Unexplained Places",
-            "definition": "Unexplained places invite questions when evidence is incomplete.",
+            "word": "ruin",
+            "definition": "A damaged remainder of a building",
             "partOfSpeech": "noun",
-            "example": "Unexplained places invite questions when evidence is incomplete.",
-            "starter": "I want to discuss unexplained places because…"
+            "example": "I would study the ruin carefully.",
+            "starter": "If I saw ruin, I would…"
           },
           {
-            "word": "evidence",
-            "definition": "Information supporting an explanation",
+            "word": "archive",
+            "definition": "A collection of old documents",
             "partOfSpeech": "noun",
-            "example": "Unexplained places invite questions when evidence is incomplete.",
-            "starter": "I can use evidence to explain…"
+            "example": "An archive might challenge the most popular version of events.",
+            "starter": "I could describe archive by…"
           },
           {
-            "word": "claims",
-            "definition": "Statements people say are true",
+            "word": "legend",
+            "definition": "A story passed down over time",
             "partOfSpeech": "noun",
-            "example": "Maps and records can test local claims.",
-            "starter": "When I hear claims, I think of…"
+            "example": "A dramatic legend may hide an ordinary but interesting history.",
+            "starter": "I wonder whether legend can…"
           },
           {
-            "word": "curiosity",
-            "definition": "A desire to understand something",
+            "word": "artifact",
+            "definition": "An object made or used by people",
             "partOfSpeech": "noun",
-            "example": "Curiosity works best alongside careful checking.",
-            "starter": "A question about curiosity is…"
+            "example": "I would rather protect an artifact than grab a dramatic photograph.",
+            "starter": "One question about artifact is…"
           },
           {
-            "word": "stories",
-            "definition": "Accounts of real or imagined events",
+            "word": "excavation",
+            "definition": "Careful digging for evidence",
             "partOfSpeech": "noun",
-            "example": "Stories may change as people retell them.",
-            "starter": "I would compare stories with…"
+            "example": "Excavation needs permission.",
+            "starter": "I would compare excavation with…"
           },
           {
-            "word": "maps",
-            "definition": "Drawings showing places and routes",
-            "partOfSpeech": "noun",
-            "example": "Maps and records can test local claims.",
-            "starter": "One example of maps is…"
+            "word": "oral history",
+            "definition": "Memories shared by speaking",
+            "partOfSpeech": "phrase",
+            "example": "An oral history could offer a clue.",
+            "starter": "My idea about oral history is…"
           },
           {
-            "word": "perspective",
-            "definition": "A person's way of understanding something.",
+            "word": "hypothesis",
+            "definition": "A possible explanation to test",
             "partOfSpeech": "noun",
-            "example": "Perspective changes how people describe unexplained places.",
-            "starter": "I want to compare perspective with…"
+            "example": "A careful hypothesis should leave room for evidence we have not found.",
+            "starter": "I might use hypothesis when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a strange sound can have several causes."
+            "phrase": "If I visited a mysterious site,…",
+            "example": "If I visited a mysterious site, I would ask who has the right to tell its story."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that stories may change as people retell them."
+            "phrase": "A legend can be valuable even…",
+            "example": "A legend can be valuable even when it is not a literal explanation."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, maps and records can test local claims."
+            "phrase": "I would rather protect an artifact…",
+            "example": "I would rather protect an artifact than grab a dramatic photograph."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare unexplained places with a related topic."
+            "phrase": "An archive might challenge the most…",
+            "example": "An archive might challenge the most popular version of events."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that curiosity works best alongside careful checking."
+            "phrase": "I wonder why some abandoned places…",
+            "example": "I wonder why some abandoned places attract attention while others are forgotten."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a strange sound can have several causes."
+            "phrase": "A careful hypothesis should leave room…",
+            "example": "A careful hypothesis should leave room for evidence we have not found."
           }
         ]
       }
@@ -35904,7 +35928,7 @@
     "category": "wellbeing and adventure",
     "levels": {
       "B1": {
-        "briefing": "Optical illusions show differences between seeing and interpreting. The brain uses context to judge shapes. Two people may notice different details first. An illusion can reveal a useful visual shortcut.",
+        "briefing": "An image can make two equal lines look different. The brain uses context to interpret what the eyes receive. Looking again can reveal a hidden pattern.",
         "facts": [
           "The brain uses context to judge shapes.",
           "Light and shadow can change apparent size.",
@@ -35918,84 +35942,84 @@
         ],
         "vocab": [
           {
-            "word": "Optical Illusions",
-            "definition": "Optical illusions show differences between seeing and interpreting.",
+            "word": "perception",
+            "definition": "How the brain interprets senses",
             "partOfSpeech": "noun",
-            "example": "Optical illusions show differences between seeing and interpreting.",
-            "starter": "I want to discuss optical illusions because…"
+            "example": "My perception changed after a second look.",
+            "starter": "If I saw perception, I would…"
           },
           {
-            "word": "context",
-            "definition": "Surrounding information that shapes understanding",
+            "word": "contrast",
+            "definition": "A difference between light or colors",
             "partOfSpeech": "noun",
-            "example": "The brain uses context to judge shapes.",
-            "starter": "I can use context to explain…"
+            "example": "Contrast affects the image.",
+            "starter": "I could describe contrast by…"
           },
           {
-            "word": "shadow",
-            "definition": "A dark area where light is blocked",
+            "word": "perspective",
+            "definition": "The impression of depth or position",
             "partOfSpeech": "noun",
-            "example": "Light and shadow can change apparent size.",
-            "starter": "When I hear shadow, I think of…"
+            "example": "Perspective made one line seem longer.",
+            "starter": "I wonder whether perspective can…"
           },
           {
-            "word": "interpreting",
-            "definition": "Giving meaning to what is seen",
+            "word": "afterimage",
+            "definition": "An image felt after looking away",
             "partOfSpeech": "noun",
-            "example": "Optical illusions show differences between seeing and interpreting.",
-            "starter": "A question about interpreting is…"
+            "example": "I noticed an afterimage.",
+            "starter": "One question about afterimage is…"
           },
           {
-            "word": "brain",
-            "definition": "The organ that interprets signals",
+            "word": "pattern",
+            "definition": "A repeated arrangement",
             "partOfSpeech": "noun",
-            "example": "The brain uses context to judge shapes.",
-            "starter": "I would compare brain with…"
+            "example": "Looking again can reveal a hidden pattern.",
+            "starter": "I would compare pattern with…"
           },
           {
-            "word": "light",
-            "definition": "Energy that lets eyes see",
-            "partOfSpeech": "noun",
-            "example": "Light and shadow can change apparent size.",
-            "starter": "One example of light is…"
+            "word": "blind spot",
+            "definition": "An area the eye does not detect",
+            "partOfSpeech": "phrase",
+            "example": "A blind spot can hide a dot.",
+            "starter": "My idea about blind spot is…"
           },
           {
-            "word": "experience",
-            "definition": "Something a person does or lives through.",
-            "partOfSpeech": "noun",
-            "example": "People can have different experiences of optical illusions.",
-            "starter": "I want to compare experience with…"
+            "word": "visual cue",
+            "definition": "A detail helping interpretation",
+            "partOfSpeech": "phrase",
+            "example": "That visual cue suggests depth.",
+            "starter": "I might use visual cue when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that the brain uses context to judge shapes."
+            "phrase": "Those lines…",
+            "example": "Those lines look unequal."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that light and shadow can change apparent size."
+            "phrase": "Now I can see the…",
+            "example": "Now I can see the other picture."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, two people may notice different details first."
+            "phrase": "The colors seem…",
+            "example": "The colors seem to move."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare optical illusions with a related topic."
+            "phrase": "I would ask a friend what…",
+            "example": "I would ask a friend what they see."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that an illusion can reveal a useful visual shortcut."
+            "phrase": "I cannot trust the…",
+            "example": "I cannot trust the first glance."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because the brain uses context to judge shapes."
+            "phrase": "The background…",
+            "example": "The background changes it."
           }
         ]
       },
       "B2": {
-        "briefing": "Optical illusions show differences between seeing and interpreting. The brain uses context to judge shapes; light and shadow can change apparent size. Two people may notice different details first; an illusion can reveal a useful visual shortcut.",
+        "briefing": "Optical illusions expose useful shortcuts in visual perception. An error in one setting may reflect a skill that usually helps us navigate. Explaining an illusion requires separating the image from our experience of it.",
         "facts": [
           "The brain uses context to judge shapes.",
           "Light and shadow can change apparent size.",
@@ -36009,79 +36033,79 @@
         ],
         "vocab": [
           {
-            "word": "Optical Illusions",
-            "definition": "Optical illusions show differences between seeing and interpreting.",
+            "word": "perception",
+            "definition": "How the brain interprets senses",
             "partOfSpeech": "noun",
-            "example": "Optical illusions show differences between seeing and interpreting.",
-            "starter": "I want to discuss optical illusions because…"
+            "example": "Optical illusions expose useful shortcuts in visual perception.",
+            "starter": "If I saw perception, I would…"
           },
           {
-            "word": "context",
-            "definition": "Surrounding information that shapes understanding",
+            "word": "contrast",
+            "definition": "A difference between light or colors",
             "partOfSpeech": "noun",
-            "example": "The brain uses context to judge shapes.",
-            "starter": "I can use context to explain…"
-          },
-          {
-            "word": "shadow",
-            "definition": "A dark area where light is blocked",
-            "partOfSpeech": "noun",
-            "example": "Light and shadow can change apparent size.",
-            "starter": "When I hear shadow, I think of…"
-          },
-          {
-            "word": "interpreting",
-            "definition": "Giving meaning to what is seen",
-            "partOfSpeech": "noun",
-            "example": "Optical illusions show differences between seeing and interpreting.",
-            "starter": "A question about interpreting is…"
-          },
-          {
-            "word": "brain",
-            "definition": "The organ that interprets signals",
-            "partOfSpeech": "noun",
-            "example": "The brain uses context to judge shapes.",
-            "starter": "I would compare brain with…"
-          },
-          {
-            "word": "light",
-            "definition": "Energy that lets eyes see",
-            "partOfSpeech": "noun",
-            "example": "Light and shadow can change apparent size.",
-            "starter": "One example of light is…"
+            "example": "Changing the contrast can transform the same shapes.",
+            "starter": "I could describe contrast by…"
           },
           {
             "word": "perspective",
-            "definition": "A person's way of understanding something.",
+            "definition": "The impression of depth or position",
             "partOfSpeech": "noun",
-            "example": "Perspective changes how people describe optical illusions.",
-            "starter": "I want to compare perspective with…"
+            "example": "Perspective made one line seem longer.",
+            "starter": "I wonder whether perspective can…"
+          },
+          {
+            "word": "afterimage",
+            "definition": "An image felt after looking away",
+            "partOfSpeech": "noun",
+            "example": "I noticed an afterimage.",
+            "starter": "One question about afterimage is…"
+          },
+          {
+            "word": "pattern",
+            "definition": "A repeated arrangement",
+            "partOfSpeech": "noun",
+            "example": "The pattern seems to move.",
+            "starter": "I would compare pattern with…"
+          },
+          {
+            "word": "blind spot",
+            "definition": "An area the eye does not detect",
+            "partOfSpeech": "phrase",
+            "example": "A blind spot can hide a dot.",
+            "starter": "My idea about blind spot is…"
+          },
+          {
+            "word": "visual cue",
+            "definition": "A detail helping interpretation",
+            "partOfSpeech": "phrase",
+            "example": "I wonder which visual cues artists use to guide attention.",
+            "starter": "I might use visual cue when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that the brain uses context to judge shapes."
+            "phrase": "If two people saw different images…",
+            "example": "If two people saw different images first, I would ask what cues each noticed."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that light and shadow can change apparent size."
+            "phrase": "An illusion does not mean vision…",
+            "example": "An illusion does not mean vision is broken; it reveals a useful shortcut."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, two people may notice different details first."
+            "phrase": "I would rather test the picture…",
+            "example": "I would rather test the picture than argue from my first impression."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare optical illusions with a related topic."
+            "phrase": "Changing the contrast can transform the…",
+            "example": "Changing the contrast can transform the same shapes."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that an illusion can reveal a useful visual shortcut."
+            "phrase": "I wonder which visual cues artists…",
+            "example": "I wonder which visual cues artists use to guide attention."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because the brain uses context to judge shapes."
+            "phrase": "Perception is an active interpretation, not…",
+            "example": "Perception is an active interpretation, not a photograph."
           }
         ]
       }
@@ -36100,7 +36124,7 @@
     "category": "wellbeing and adventure",
     "levels": {
       "B1": {
-        "briefing": "Healthy eating means choosing a varied pattern of food. Different foods supply different nutrients. Culture and access shape food choices. No single food decides a person's health.",
+        "briefing": "Meals give the body energy and materials for growth. A mix of foods can offer different nutrients. Eating patterns need to fit culture, access, and appetite.",
         "facts": [
           "Different foods supply different nutrients.",
           "Regular meals can support energy and concentration.",
@@ -36114,84 +36138,84 @@
         ],
         "vocab": [
           {
-            "word": "Healthy Eating",
-            "definition": "Healthy eating means choosing a varied pattern of food.",
+            "word": "nutrient",
+            "definition": "A substance the body uses",
             "partOfSpeech": "noun",
-            "example": "Healthy eating means choosing a varied pattern of food.",
-            "starter": "I want to discuss healthy eating because…"
+            "example": "A mix of foods can offer different nutrients.",
+            "starter": "If I saw nutrient, I would…"
           },
           {
-            "word": "nutrients",
-            "definition": "Useful substances supplied by food",
+            "word": "fiber",
+            "definition": "A part of food that helps digestion",
             "partOfSpeech": "noun",
-            "example": "Different foods supply different nutrients.",
-            "starter": "I can use nutrients to explain…"
+            "example": "Beans provide fiber.",
+            "starter": "I could describe fiber by…"
           },
           {
-            "word": "concentration",
-            "definition": "Careful attention",
+            "word": "protein",
+            "definition": "A nutrient used to build and repair tissue",
             "partOfSpeech": "noun",
-            "example": "Regular meals can support energy and concentration.",
-            "starter": "When I hear concentration, I think of…"
+            "example": "Eggs contain protein.",
+            "starter": "I wonder whether protein can…"
           },
           {
-            "word": "varied",
-            "definition": "Including different kinds",
+            "word": "portion",
+            "definition": "An amount served",
             "partOfSpeech": "noun",
-            "example": "Healthy eating means choosing a varied pattern of food.",
-            "starter": "A question about varied is…"
+            "example": "My portion depends on hunger.",
+            "starter": "One question about portion is…"
           },
           {
-            "word": "foods",
-            "definition": "Things people eat",
+            "word": "hydration",
+            "definition": "Having enough fluid",
             "partOfSpeech": "noun",
-            "example": "Different foods supply different nutrients.",
-            "starter": "I would compare foods with…"
+            "example": "Hydration matters after sport.",
+            "starter": "I would compare hydration with…"
           },
           {
-            "word": "energy",
-            "definition": "The ability to do activity",
-            "partOfSpeech": "noun",
-            "example": "Regular meals can support energy and concentration.",
-            "starter": "One example of energy is…"
+            "word": "whole grain",
+            "definition": "A grain retaining more of its parts",
+            "partOfSpeech": "phrase",
+            "example": "I would choose a whole grain.",
+            "starter": "My idea about whole grain is…"
           },
           {
-            "word": "experience",
-            "definition": "Something a person does or lives through.",
-            "partOfSpeech": "noun",
-            "example": "People can have different experiences of healthy eating.",
-            "starter": "I want to compare experience with…"
+            "word": "balanced meal",
+            "definition": "A meal with varied useful foods",
+            "partOfSpeech": "phrase",
+            "example": "I would plan a balanced meal.",
+            "starter": "I might use balanced meal when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that different foods supply different nutrients."
+            "phrase": "I would add fruit…",
+            "example": "I would add fruit to breakfast."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that regular meals can support energy and concentration."
+            "phrase": "This meal keeps…",
+            "example": "This meal keeps me full."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, culture and access shape food choices."
+            "phrase": "I like food from…",
+            "example": "I like food from my family."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare healthy eating with a related topic."
+            "phrase": "Water sounds good…",
+            "example": "Water sounds good after sport."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that no single food decides a person's health."
+            "phrase": "I want to learn to…",
+            "example": "I want to learn to cook beans."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because different foods supply different nutrients."
+            "phrase": "I do not need a…",
+            "example": "I do not need a perfect plate."
           }
         ]
       },
       "B2": {
-        "briefing": "Healthy eating means choosing a varied pattern of food. Different foods supply different nutrients; regular meals can support energy and concentration. Culture and access shape food choices; no single food decides a person's health.",
+        "briefing": "Healthy eating is a practical relationship with food, not a single perfect menu. Different bodies and circumstances require different choices. Public advice is more useful when it considers price, time, and availability.",
         "facts": [
           "Different foods supply different nutrients.",
           "Regular meals can support energy and concentration.",
@@ -36205,79 +36229,79 @@
         ],
         "vocab": [
           {
-            "word": "Healthy Eating",
-            "definition": "Healthy eating means choosing a varied pattern of food.",
-            "partOfSpeech": "noun",
-            "example": "Healthy eating means choosing a varied pattern of food.",
-            "starter": "I want to discuss healthy eating because…"
-          },
-          {
-            "word": "nutrients",
-            "definition": "Useful substances supplied by food",
+            "word": "nutrient",
+            "definition": "A substance the body uses",
             "partOfSpeech": "noun",
             "example": "Different foods supply different nutrients.",
-            "starter": "I can use nutrients to explain…"
+            "starter": "If I saw nutrient, I would…"
           },
           {
-            "word": "concentration",
-            "definition": "Careful attention",
+            "word": "fiber",
+            "definition": "A part of food that helps digestion",
             "partOfSpeech": "noun",
-            "example": "Regular meals can support energy and concentration.",
-            "starter": "When I hear concentration, I think of…"
+            "example": "Fiber and protein can help a meal stay satisfying.",
+            "starter": "I could describe fiber by…"
           },
           {
-            "word": "varied",
-            "definition": "Including different kinds",
+            "word": "protein",
+            "definition": "A nutrient used to build and repair tissue",
             "partOfSpeech": "noun",
-            "example": "Healthy eating means choosing a varied pattern of food.",
-            "starter": "A question about varied is…"
+            "example": "Fiber and protein can help a meal stay satisfying.",
+            "starter": "I wonder whether protein can…"
           },
           {
-            "word": "foods",
-            "definition": "Things people eat",
+            "word": "portion",
+            "definition": "An amount served",
             "partOfSpeech": "noun",
-            "example": "Different foods supply different nutrients.",
-            "starter": "I would compare foods with…"
+            "example": "My portion depends on hunger.",
+            "starter": "One question about portion is…"
           },
           {
-            "word": "energy",
-            "definition": "The ability to do activity",
+            "word": "hydration",
+            "definition": "Having enough fluid",
             "partOfSpeech": "noun",
-            "example": "Regular meals can support energy and concentration.",
-            "starter": "One example of energy is…"
+            "example": "Hydration matters after sport.",
+            "starter": "I would compare hydration with…"
           },
           {
-            "word": "perspective",
-            "definition": "A person's way of understanding something.",
-            "partOfSpeech": "noun",
-            "example": "Perspective changes how people describe healthy eating.",
-            "starter": "I want to compare perspective with…"
+            "word": "whole grain",
+            "definition": "A grain retaining more of its parts",
+            "partOfSpeech": "phrase",
+            "example": "I would choose a whole grain.",
+            "starter": "My idea about whole grain is…"
+          },
+          {
+            "word": "balanced meal",
+            "definition": "A meal with varied useful foods",
+            "partOfSpeech": "phrase",
+            "example": "A balanced meal can look different across cultures.",
+            "starter": "I might use balanced meal when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that different foods supply different nutrients."
+            "phrase": "If I planned meals for a…",
+            "example": "If I planned meals for a school, I would ask students what is affordable and familiar."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that regular meals can support energy and concentration."
+            "phrase": "A balanced meal can look different…",
+            "example": "A balanced meal can look different across cultures."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, culture and access shape food choices."
+            "phrase": "I would rather build a habit…",
+            "example": "I would rather build a habit I enjoy than follow a strict list for a week."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare healthy eating with a related topic."
+            "phrase": "Fiber and protein can help a…",
+            "example": "Fiber and protein can help a meal stay satisfying."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that no single food decides a person's health."
+            "phrase": "I wonder how food advice changes…",
+            "example": "I wonder how food advice changes when time and money are limited."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because different foods supply different nutrients."
+            "phrase": "Healthy eating should include pleasure and…",
+            "example": "Healthy eating should include pleasure and enough food."
           }
         ]
       }
@@ -36296,7 +36320,7 @@
     "category": "wellbeing and adventure",
     "levels": {
       "B1": {
-        "briefing": "Stress management involves noticing pressure and choosing helpful responses. A short break can create space to think. Sleep and movement may affect how stress feels. Different strategies work for different people.",
+        "briefing": "Stress can make a familiar task feel harder. A short pause may help someone notice what they need. Talking to a trusted person can make a problem less lonely.",
         "facts": [
           "A short break can create space to think.",
           "Talking with someone can clarify a problem.",
@@ -36310,84 +36334,84 @@
         ],
         "vocab": [
           {
-            "word": "Stress Management",
-            "definition": "Stress management involves noticing pressure and choosing helpful responses.",
-            "partOfSpeech": "noun",
-            "example": "Stress management involves noticing pressure and choosing helpful responses.",
-            "starter": "I want to discuss stress management because…"
+            "word": "stress signal",
+            "definition": "A sign that pressure is affecting someone",
+            "partOfSpeech": "phrase",
+            "example": "My stress signal is a tense shoulder.",
+            "starter": "If I saw stress signal, I would…"
           },
           {
-            "word": "pressure",
-            "definition": "A feeling of demands or difficulty",
-            "partOfSpeech": "noun",
-            "example": "Stress management involves noticing pressure and choosing helpful responses.",
-            "starter": "I can use pressure to explain…"
+            "word": "breathing exercise",
+            "definition": "A planned way to slow breathing",
+            "partOfSpeech": "phrase",
+            "example": "I would try a breathing exercise.",
+            "starter": "I could describe breathing exercise by…"
           },
           {
-            "word": "responses",
-            "definition": "Actions taken after something happens",
-            "partOfSpeech": "noun",
-            "example": "Stress management involves noticing pressure and choosing helpful responses.",
-            "starter": "When I hear responses, I think of…"
+            "word": "support network",
+            "definition": "People available to help",
+            "partOfSpeech": "phrase",
+            "example": "My support network includes a teacher.",
+            "starter": "I wonder whether support network can…"
           },
           {
-            "word": "strategies",
-            "definition": "Plans for handling a problem",
+            "word": "workload",
+            "definition": "The amount of work to do",
             "partOfSpeech": "noun",
-            "example": "Different strategies work for different people.",
-            "starter": "A question about strategies is…"
+            "example": "My workload feels too heavy.",
+            "starter": "One question about workload is…"
           },
           {
-            "word": "break",
-            "definition": "A short rest from activity",
-            "partOfSpeech": "noun",
-            "example": "A short break can create space to think.",
-            "starter": "I would compare break with…"
+            "word": "coping strategy",
+            "definition": "A way to handle difficulty",
+            "partOfSpeech": "phrase",
+            "example": "Walking is one coping strategy.",
+            "starter": "I would compare coping strategy with…"
           },
           {
-            "word": "sleep",
-            "definition": "Rest with eyes closed",
+            "word": "boundary",
+            "definition": "A limit protecting time or energy",
             "partOfSpeech": "noun",
-            "example": "Sleep and movement may affect how stress feels.",
-            "starter": "One example of sleep is…"
+            "example": "I need a boundary around study time.",
+            "starter": "My idea about boundary is…"
           },
           {
-            "word": "experience",
-            "definition": "Something a person does or lives through.",
+            "word": "recovery",
+            "definition": "Time to regain energy",
             "partOfSpeech": "noun",
-            "example": "People can have different experiences of stress management.",
-            "starter": "I want to compare experience with…"
+            "example": "Recovery cannot be rushed.",
+            "starter": "I might use recovery when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a short break can create space to think."
+            "phrase": "I need a…",
+            "example": "I need a short break."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that talking with someone can clarify a problem."
+            "phrase": "I would tell someone…",
+            "example": "I would tell someone I trust."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, sleep and movement may affect how stress feels."
+            "phrase": "My shoulders…",
+            "example": "My shoulders feel tense."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare stress management with a related topic."
+            "phrase": "One task at a time…",
+            "example": "One task at a time may help."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that different strategies work for different people."
+            "phrase": "I can ask for…",
+            "example": "I can ask for more time."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a short break can create space to think."
+            "phrase": "Rest is part of…",
+            "example": "Rest is part of the plan."
           }
         ]
       },
       "B2": {
-        "briefing": "Stress management involves noticing pressure and choosing helpful responses. A short break can create space to think; talking with someone can clarify a problem. Sleep and movement may affect how stress feels; different strategies work for different people.",
+        "briefing": "Stress responses can be useful briefly but exhausting when pressure continues. Coping strategies work differently for different people and situations. Reducing an unfair workload may matter more than adding another relaxation tip.",
         "facts": [
           "A short break can create space to think.",
           "Talking with someone can clarify a problem.",
@@ -36401,79 +36425,79 @@
         ],
         "vocab": [
           {
-            "word": "Stress Management",
-            "definition": "Stress management involves noticing pressure and choosing helpful responses.",
-            "partOfSpeech": "noun",
-            "example": "Stress management involves noticing pressure and choosing helpful responses.",
-            "starter": "I want to discuss stress management because…"
+            "word": "stress signal",
+            "definition": "A sign that pressure is affecting someone",
+            "partOfSpeech": "phrase",
+            "example": "My stress signal is a tense shoulder.",
+            "starter": "If I saw stress signal, I would…"
           },
           {
-            "word": "pressure",
-            "definition": "A feeling of demands or difficulty",
-            "partOfSpeech": "noun",
-            "example": "Stress management involves noticing pressure and choosing helpful responses.",
-            "starter": "I can use pressure to explain…"
+            "word": "breathing exercise",
+            "definition": "A planned way to slow breathing",
+            "partOfSpeech": "phrase",
+            "example": "A breathing exercise may help in the moment without fixing an unfair workload.",
+            "starter": "I could describe breathing exercise by…"
           },
           {
-            "word": "responses",
-            "definition": "Actions taken after something happens",
-            "partOfSpeech": "noun",
-            "example": "Stress management involves noticing pressure and choosing helpful responses.",
-            "starter": "When I hear responses, I think of…"
+            "word": "support network",
+            "definition": "People available to help",
+            "partOfSpeech": "phrase",
+            "example": "My support network includes a teacher.",
+            "starter": "I wonder whether support network can…"
           },
           {
-            "word": "strategies",
-            "definition": "Plans for handling a problem",
+            "word": "workload",
+            "definition": "The amount of work to do",
             "partOfSpeech": "noun",
-            "example": "Different strategies work for different people.",
-            "starter": "A question about strategies is…"
+            "example": "Reducing an unfair workload may matter more than adding another relaxation tip.",
+            "starter": "One question about workload is…"
           },
           {
-            "word": "break",
-            "definition": "A short rest from activity",
-            "partOfSpeech": "noun",
-            "example": "A short break can create space to think.",
-            "starter": "I would compare break with…"
+            "word": "coping strategy",
+            "definition": "A way to handle difficulty",
+            "partOfSpeech": "phrase",
+            "example": "If I felt overwhelmed, I would name the immediate problem before choosing a coping strategy.",
+            "starter": "I would compare coping strategy with…"
           },
           {
-            "word": "sleep",
-            "definition": "Rest with eyes closed",
+            "word": "boundary",
+            "definition": "A limit protecting time or energy",
             "partOfSpeech": "noun",
-            "example": "Sleep and movement may affect how stress feels.",
-            "starter": "One example of sleep is…"
+            "example": "A boundary around time can protect both study and relationships.",
+            "starter": "My idea about boundary is…"
           },
           {
-            "word": "perspective",
-            "definition": "A person's way of understanding something.",
+            "word": "recovery",
+            "definition": "Time to regain energy",
             "partOfSpeech": "noun",
-            "example": "Perspective changes how people describe stress management.",
-            "starter": "I want to compare perspective with…"
+            "example": "Recovery deserves as much planning as the work itself.",
+            "starter": "I might use recovery when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a short break can create space to think."
+            "phrase": "If I felt overwhelmed, I would…",
+            "example": "If I felt overwhelmed, I would name the immediate problem before choosing a coping strategy."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that talking with someone can clarify a problem."
+            "phrase": "A breathing exercise may help in…",
+            "example": "A breathing exercise may help in the moment without fixing an unfair workload."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, sleep and movement may affect how stress feels."
+            "phrase": "I would rather ask for support…",
+            "example": "I would rather ask for support early than wait until I cannot sleep."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare stress management with a related topic."
+            "phrase": "A boundary around time can protect…",
+            "example": "A boundary around time can protect both study and relationships."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that different strategies work for different people."
+            "phrase": "I wonder which pressures schools can…",
+            "example": "I wonder which pressures schools can change instead of asking students to endure."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a short break can create space to think."
+            "phrase": "Recovery deserves as much planning as…",
+            "example": "Recovery deserves as much planning as the work itself."
           }
         ]
       }
@@ -36492,7 +36516,7 @@
     "category": "wellbeing and adventure",
     "levels": {
       "B1": {
-        "briefing": "Travel planning connects routes, time, money, and interests. A flexible schedule leaves room for surprises. Local customs can affect daily plans. A backup option can reduce avoidable stress.",
+        "briefing": "A trip begins with decisions about time, money, and transport. A flexible plan leaves room for delays and discoveries. Travelers need to check what everyone in the group can manage.",
         "facts": [
           "A flexible schedule leaves room for surprises.",
           "Maps help compare different journeys.",
@@ -36506,84 +36530,84 @@
         ],
         "vocab": [
           {
-            "word": "Travel Planning",
-            "definition": "Travel planning connects routes, time, money, and interests.",
+            "word": "itinerary",
+            "definition": "A planned sequence of trip activities",
             "partOfSpeech": "noun",
-            "example": "Travel planning connects routes, time, money, and interests.",
-            "starter": "I want to discuss travel planning because…"
+            "example": "I would leave space in the itinerary.",
+            "starter": "If I saw itinerary, I would…"
           },
           {
-            "word": "routes",
-            "definition": "Ways of getting from one place to another",
+            "word": "reservation",
+            "definition": "An arranged place or service",
             "partOfSpeech": "noun",
-            "example": "Travel planning connects routes, time, money, and interests.",
-            "starter": "I can use routes to explain…"
+            "example": "I would confirm the reservation.",
+            "starter": "I could describe reservation by…"
           },
           {
-            "word": "schedule",
-            "definition": "A plan showing times",
+            "word": "connection",
+            "definition": "A change between journeys",
             "partOfSpeech": "noun",
-            "example": "A flexible schedule leaves room for surprises.",
-            "starter": "When I hear schedule, I think of…"
+            "example": "That connection looks too short.",
+            "starter": "I wonder whether connection can…"
           },
           {
-            "word": "backup option",
-            "definition": "A second choice if the first fails",
-            "partOfSpeech": "noun",
-            "example": "A backup option can reduce avoidable stress.",
-            "starter": "A question about backup option is…"
+            "word": "travel budget",
+            "definition": "Money planned for a trip",
+            "partOfSpeech": "phrase",
+            "example": "My travel budget includes food.",
+            "starter": "One question about travel budget is…"
           },
           {
-            "word": "maps",
-            "definition": "Drawings showing routes",
-            "partOfSpeech": "noun",
-            "example": "Maps help compare different journeys.",
-            "starter": "I would compare maps with…"
+            "word": "travel insurance",
+            "definition": "Cover for specified trip problems",
+            "partOfSpeech": "phrase",
+            "example": "I would read the travel insurance terms.",
+            "starter": "I would compare travel insurance with…"
           },
           {
-            "word": "customs",
-            "definition": "Shared ways of acting in a place",
+            "word": "accessibility",
+            "definition": "Ease of use for varied travelers",
             "partOfSpeech": "noun",
-            "example": "Local customs can affect daily plans.",
-            "starter": "One example of customs is…"
+            "example": "Accessibility matters at the station.",
+            "starter": "My idea about accessibility is…"
           },
           {
-            "word": "experience",
-            "definition": "Something a person does or lives through.",
-            "partOfSpeech": "noun",
-            "example": "People can have different experiences of travel planning.",
-            "starter": "I want to compare experience with…"
+            "word": "contingency plan",
+            "definition": "An alternative if something changes",
+            "partOfSpeech": "phrase",
+            "example": "We need a contingency plan.",
+            "starter": "I might use contingency plan when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a flexible schedule leaves room for surprises."
+            "phrase": "I would check the…",
+            "example": "I would check the train time."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that maps help compare different journeys."
+            "phrase": "We need money…",
+            "example": "We need money for meals."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, local customs can affect daily plans."
+            "phrase": "This stop looks…",
+            "example": "This stop looks too rushed."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare travel planning with a related topic."
+            "phrase": "Could we rest…",
+            "example": "Could we rest after arriving?"
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that a backup option can reduce avoidable stress."
+            "phrase": "I want one…",
+            "example": "I want one free afternoon."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a flexible schedule leaves room for surprises."
+            "phrase": "Let us plan a…",
+            "example": "Let us plan a backup route."
           }
         ]
       },
       "B2": {
-        "briefing": "Travel planning connects routes, time, money, and interests. A flexible schedule leaves room for surprises; maps help compare different journeys. Local customs can affect daily plans; a backup option can reduce avoidable stress.",
+        "briefing": "Good planning balances a clear purpose with uncertainty. The cheapest ticket can become expensive when transfers or lost time are counted. Local conditions and accessibility shape what a realistic itinerary includes.",
         "facts": [
           "A flexible schedule leaves room for surprises.",
           "Maps help compare different journeys.",
@@ -36597,79 +36621,79 @@
         ],
         "vocab": [
           {
-            "word": "Travel Planning",
-            "definition": "Travel planning connects routes, time, money, and interests.",
+            "word": "itinerary",
+            "definition": "A planned sequence of trip activities",
             "partOfSpeech": "noun",
-            "example": "Travel planning connects routes, time, money, and interests.",
-            "starter": "I want to discuss travel planning because…"
+            "example": "Local conditions and accessibility shape what a realistic itinerary includes.",
+            "starter": "If I saw itinerary, I would…"
           },
           {
-            "word": "routes",
-            "definition": "Ways of getting from one place to another",
+            "word": "reservation",
+            "definition": "An arranged place or service",
             "partOfSpeech": "noun",
-            "example": "Travel planning connects routes, time, money, and interests.",
-            "starter": "I can use routes to explain…"
+            "example": "I would confirm the reservation.",
+            "starter": "I could describe reservation by…"
           },
           {
-            "word": "schedule",
-            "definition": "A plan showing times",
+            "word": "connection",
+            "definition": "A change between journeys",
             "partOfSpeech": "noun",
-            "example": "A flexible schedule leaves room for surprises.",
-            "starter": "When I hear schedule, I think of…"
+            "example": "If our connection failed, I would want a clear second route rather than panic.",
+            "starter": "I wonder whether connection can…"
           },
           {
-            "word": "backup option",
-            "definition": "A second choice if the first fails",
-            "partOfSpeech": "noun",
-            "example": "A backup option can reduce avoidable stress.",
-            "starter": "A question about backup option is…"
+            "word": "travel budget",
+            "definition": "Money planned for a trip",
+            "partOfSpeech": "phrase",
+            "example": "A travel budget should include ordinary costs beyond the ticket.",
+            "starter": "One question about travel budget is…"
           },
           {
-            "word": "maps",
-            "definition": "Drawings showing routes",
-            "partOfSpeech": "noun",
-            "example": "Maps help compare different journeys.",
-            "starter": "I would compare maps with…"
+            "word": "travel insurance",
+            "definition": "Cover for specified trip problems",
+            "partOfSpeech": "phrase",
+            "example": "I would read the travel insurance terms.",
+            "starter": "I would compare travel insurance with…"
           },
           {
-            "word": "customs",
-            "definition": "Shared ways of acting in a place",
+            "word": "accessibility",
+            "definition": "Ease of use for varied travelers",
             "partOfSpeech": "noun",
-            "example": "Local customs can affect daily plans.",
-            "starter": "One example of customs is…"
+            "example": "Local conditions and accessibility shape what a realistic itinerary includes.",
+            "starter": "My idea about accessibility is…"
           },
           {
-            "word": "perspective",
-            "definition": "A person's way of understanding something.",
-            "partOfSpeech": "noun",
-            "example": "Perspective changes how people describe travel planning.",
-            "starter": "I want to compare perspective with…"
+            "word": "contingency plan",
+            "definition": "An alternative if something changes",
+            "partOfSpeech": "phrase",
+            "example": "We need a contingency plan.",
+            "starter": "I might use contingency plan when…"
           }
         ],
         "expressions": [
           {
-            "phrase": "One reason is…",
-            "example": "One reason is that a flexible schedule leaves room for surprises."
+            "phrase": "If our connection failed, I would…",
+            "example": "If our connection failed, I would want a clear second route rather than panic."
           },
           {
-            "phrase": "The evidence suggests…",
-            "example": "The evidence suggests that maps help compare different journeys."
+            "phrase": "A travel budget should include ordinary…",
+            "example": "A travel budget should include ordinary costs beyond the ticket."
           },
           {
-            "phrase": "For example…",
-            "example": "For example, local customs can affect daily plans."
+            "phrase": "I would rather experience fewer places…",
+            "example": "I would rather experience fewer places well than rush through a long checklist."
           },
           {
-            "phrase": "I would compare…",
-            "example": "I would compare travel planning with a related topic."
+            "phrase": "Accessibility can determine whether the whole…",
+            "example": "Accessibility can determine whether the whole group can enjoy the itinerary."
           },
           {
-            "phrase": "Another thing to consider is…",
-            "example": "Another thing to consider is that a backup option can reduce avoidable stress."
+            "phrase": "I wonder how visitors can support…",
+            "example": "I wonder how visitors can support local businesses respectfully."
           },
           {
-            "phrase": "This matters because…",
-            "example": "This matters because a flexible schedule leaves room for surprises."
+            "phrase": "The best plan gives travelers enough…",
+            "example": "The best plan gives travelers enough information to make new choices."
           }
         ]
       }

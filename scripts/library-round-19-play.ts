@@ -67,7 +67,7 @@ T=If my tower fell, I would change the base before adding height.|I would rather
 Kites
 L=A kite needs moving air to lift.|Its string helps you guide it.|A tail can stop it spinning too much.
 H=Air moving over and under a kite creates lifting forces.|The frame holds its shape against the wind.|Small changes to the tail can affect how steadily it flies.
-V=string~Thin cord used to hold a kite|tail~A long part that helps some kites balance|frame~The supporting structure inside a kite~I would make a light frame.|gust~A short strong burst of wind~A gust might pull my kite.|launch~To send something upward~I would launch my kite.|reel~A wheel for winding string~I would turn the reel slowly.|diamond kite~A kite with four pointed corners~I would paint a diamond kite.
+V=string~Thin cord used to hold a kite|bridle~The cords connecting a kite to its flying line~I would check the bridle before launch.|frame~The supporting structure inside a kite~I would make a light frame.|gust~A short strong burst of wind~A gust might pull my kite.|launch~To send something upward~I would launch my kite.|reel~A wheel for winding string~I would turn the reel slowly.|diamond kite~A kite with four pointed corners~I would paint a diamond kite.
 S=I would fly a red kite.|The string might pull my hand.|A long tail looks pretty.|I need an open field.|A gust could lift it high.|I would share the reel.
 T=If my kite spun wildly, I would adjust its tail before giving up.|I would rather build a simple frame that flies than a beautiful heavy one.|A sudden gust could turn a calm flight into a challenge.|I wonder which shape stays steady in light wind.|I would give a beginner plenty of open space.|The moment a handmade kite rises would feel like a reward.
 
@@ -111,7 +111,7 @@ L=A small boat can rock with waves.|A paddle moves water behind it.|Some boats c
 H=The shape of a hull affects stability and speed.|Sailors adjust sails as the wind changes.|Safe boating depends on weather, equipment, and clear plans.
 V=hull~The main body of a boat|paddle~A tool pushed through water|oar~A long tool used to row~I would hold one oar.|sail~Cloth catching wind to move a boat|anchor~A heavy object holding a boat in place~I would lower the anchor.|deck~The upper surface of a boat~I would stand on the deck.|life jacket~Clothing designed to help someone float~I would wear a life jacket.
 S=I would paddle a small boat.|The waves might rock it.|I would wear a life jacket.|A sail could catch the wind.|I like watching water from the deck.|I would stay close to shore.
-T=If I sailed, I would learn to read the wind before choosing a route.|I would rather paddle on a quiet river than race on open water.|The hull's shape could change how steady the boat feels.|I wonder why some boats use sails and others use engines.|A life jacket would be the first thing I packed.|I would ask a guide where it is safe to stop.
+T=If I sailed, I would learn to read the wind before choosing a route.|I would rather paddle on a quiet river than race on open water.|The hull's shape could change how steady the boat feels.|I would choose a sailboat when the wind felt gentle and steady.|A life jacket would be the first thing I packed.|I would ask a guide where it is safe to stop.
 
 Musical Instruments
 L=Different instruments can play the same song.|A drum makes sound when struck.|A string can make a high or low note.

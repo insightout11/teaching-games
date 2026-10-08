@@ -31,3 +31,7 @@ Batch 7 (15 culture and relationships topics): rewrote friendship, music, film, 
 Batch 8 (15 school and work topics): rewrote study, work, money, volunteering and career material. Remaining writing audit counts: 50/62/0/6/52/0. The separate time-sensitive wording warnings were corrected in the authoring source.
 
 Batch 9 (15 science and environment topics): rewrote climate, energy, transport, space and resource topics. Remaining writing audit counts: 20/32/0/4/22/0.
+
+Batch 10 (10 wellbeing and adventure topics): completed all 150 handwritten topics and then revised the exact remaining collisions. Replaced four title/alias vocabulary terms, reduced reuse of *tail* and *balance*, and rewrote a boats speech example that repeated a fact. Added 24 teacher search aliases for regional forms, abbreviations and named examples; the bank now has 620 unique aliases.
+
+Final Round 19 writing audit: briefing/fact overlap **0**, title/alias vocabulary **0**, generic vocabulary **0**, overused vocabulary **0**, expression/fact overlap **0**, cross-topic fact or briefing sentences **0**. Per-level counts: A1 **80**, A2 **80**, B1 **150**, B2 **70**; total **150 topics** (80 kids, 70 teens) and **380 levels**. `npx tsx scripts/validate-library.ts` passed (1,388 library items across 28 files). `pnpm test src/lib` passed (78 files, 374 tests). `npx tsc --noEmit -p .` passed. To rebuild the Round 19 copy after running any Round 18 seed script, run `npx tsx scripts/apply-library-round-19-writing.ts`; the Round 18 builder alone writes its earlier draft.
