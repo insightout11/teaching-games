@@ -11,6 +11,7 @@ import {
   Youtube,
   FileText,
   Lightbulb,
+  ArrowDown,
   ArrowUpRight,
 } from 'lucide-react';
 import { FEATURED_CHIPS } from '@/lib/video-lesson-demos';
@@ -274,18 +275,18 @@ export function HeroSection() {
           >
             <span className="inline-flex items-center gap-1.5 self-center text-xs font-medium uppercase tracking-widest text-lc-blue lg:self-start">
               <span className="h-px w-4 bg-lc-blue" />
-              Live Lesson Layer for Online ESL
+              Live lessons for online English teachers
             </span>
             <h1
               className="text-shadow-hero font-display text-[2.7rem] leading-[1.04] text-lc-text sm:text-[3.4rem]"
             >
-              Run interactive ESL lessons{' '}
-              <span className="font-game">while you screen share.</span>
+              The cockpit for{' '}
+              <span className="font-game">live teaching.</span>
             </h1>
             <p className="max-w-xl self-center text-lg leading-relaxed text-lc-text2 lg:self-start">
-              Screen-share the teacher view on Zoom, Meet, or Teams — students join from any
-              browser to answer, play, vote, and speak live. Start from a video, an article, a
-              topic, a ready-made flight, or whatever comes up in class.
+              Plan when you want to. Improvise when you need to. Share one screen on Zoom, Meet or
+              Teams, students join on their phones, and whatever comes up in class becomes the
+              lesson.
             </p>
             <div className="flex flex-col items-center gap-4 sm:flex-row lg:items-start">
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
@@ -298,11 +299,11 @@ export function HeroSection() {
                 </Link>
               </motion.div>
               <Link
-                href="/showcase"
+                href="#live-room"
                 className="inline-flex items-center gap-1.5 text-base font-semibold text-lc-text2 transition-colors hover:text-lc-text"
               >
-                Browse games and activities
-                <ArrowUpRight className="h-4 w-4" aria-hidden />
+                See how a class runs
+                <ArrowDown className="h-4 w-4" aria-hidden />
               </Link>
             </div>
             <Link

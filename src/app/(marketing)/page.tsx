@@ -13,7 +13,7 @@ import { TrustSection } from '@/components/homepage/TrustSection';
 import { PricingSection } from '@/components/homepage/PricingSection';
 
 export const metadata: Metadata = {
-  title: 'LessonCaptain — Live ESL Lessons While You Screen Share',
+  title: 'LessonCaptain — The Cockpit for Live ESL Teaching',
   description:
     'Plan a structured lesson, screen-share the teacher view, and let students join from any browser. Games, activities, and live participation for online ESL teachers.',
 };

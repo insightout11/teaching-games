@@ -39,7 +39,7 @@ const FLIGHTS = [
 
 export function LiveRoomSection() {
   return (
-    <section className="border-t border-lc-border px-6 py-20">
+    <section id="live-room" className="scroll-mt-20 border-t border-lc-border px-6 py-20">
       <div className="mx-auto max-w-6xl space-y-16">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
