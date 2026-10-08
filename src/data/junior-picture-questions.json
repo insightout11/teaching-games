@@ -13,7 +13,7 @@
           "snail"
         ],
         "answer": "bird",
-        "say": "Which one can fly? bird, cow, fish, or snail?"
+        "say": "Which one can fly? Bird, cow, fish, or snail?"
       },
       {
         "id": "animals-02",
@@ -25,7 +25,7 @@
           "bee"
         ],
         "answer": "turtle",
-        "say": "Which one has a shell? dog, turtle, duck, or bee?"
+        "say": "Which one has a shell? Dog, turtle, duck, or bee?"
       },
       {
         "id": "animals-03",
@@ -37,7 +37,7 @@
           "lion"
         ],
         "answer": "cow",
-        "say": "Which one says moo? cat, horse, cow, or lion?"
+        "say": "Which one says moo? Cat, horse, cow, or lion?"
       },
       {
         "id": "animals-04",
@@ -49,7 +49,7 @@
           "zebra"
         ],
         "answer": "zebra",
-        "say": "Which one has stripes? elephant, bear, rabbit, or zebra?"
+        "say": "Which one has stripes? Elephant, bear, rabbit, or zebra?"
       },
       {
         "id": "animals-05",
@@ -61,7 +61,7 @@
           "frog"
         ],
         "answer": "giraffe",
-        "say": "Which one has a long neck? giraffe, sheep, fox, or frog?"
+        "say": "Which one has a long neck? Giraffe, sheep, fox, or frog?"
       },
       {
         "id": "animals-06",
@@ -73,7 +73,7 @@
           "mouse"
         ],
         "answer": "kitten",
-        "say": "Which one is a baby cat? puppy, kitten, lamb, or mouse?"
+        "say": "Which one is a baby cat? Puppy, kitten, lamb, or mouse?"
       },
       {
         "id": "animals-07",
@@ -85,7 +85,7 @@
           "butterfly"
         ],
         "answer": "fish",
-        "say": "Which one lives in water? chicken, goat, fish, or butterfly?"
+        "say": "Which one lives in water? Chicken, goat, fish, or butterfly?"
       },
       {
         "id": "animals-08",
@@ -97,7 +97,7 @@
           "rabbit"
         ],
         "answer": null,
-        "say": "Which animal would you draw? cat, dog, bird, or rabbit?"
+        "say": "Which animal would you draw? Cat, dog, bird, or rabbit?"
       },
       {
         "id": "animals-09",
@@ -109,7 +109,7 @@
           "kangaroo"
         ],
         "answer": null,
-        "say": "Which animal would you watch? penguin, lion, panda, or kangaroo?"
+        "say": "Which animal would you watch? Penguin, lion, panda, or kangaroo?"
       },
       {
         "id": "animals-10",
@@ -121,7 +121,7 @@
           "koala"
         ],
         "answer": null,
-        "say": "Which animal would you name? turtle, horse, duck, or koala?"
+        "say": "Which animal would you name? Turtle, horse, duck, or koala?"
       }
     ]
   },
@@ -139,7 +139,7 @@
           "rabbit"
         ],
         "answer": "fish",
-        "say": "Which pet has fins? cat, fish, dog, or rabbit?"
+        "say": "Which pet has fins? Cat, fish, dog, or rabbit?"
       },
       {
         "id": "pet-animals-02",
@@ -151,7 +151,7 @@
           "turtle"
         ],
         "answer": "dog",
-        "say": "Which pet can bark? bird, fish, dog, or turtle?"
+        "say": "Which pet can bark? Bird, fish, dog, or turtle?"
       },
       {
         "id": "pet-animals-03",
@@ -163,7 +163,7 @@
           "cat"
         ],
         "answer": "cat",
-        "say": "Which pet has whiskers? bird, fish, turtle, or cat?"
+        "say": "Which pet has whiskers? Bird, fish, turtle, or cat?"
       },
       {
         "id": "pet-animals-04",
@@ -175,7 +175,7 @@
           "turtle"
         ],
         "answer": "rabbit",
-        "say": "Which pet has long ears? rabbit, fish, bird, or turtle?"
+        "say": "Which pet has long ears? Rabbit, fish, bird, or turtle?"
       },
       {
         "id": "pet-animals-05",
@@ -187,7 +187,7 @@
           "mouse"
         ],
         "answer": "puppy",
-        "say": "Which pet is a baby dog? kitten, puppy, lamb, or mouse?"
+        "say": "Which pet is a baby dog? Kitten, puppy, lamb, or mouse?"
       },
       {
         "id": "pet-animals-06",
@@ -199,7 +199,7 @@
           "turtle"
         ],
         "answer": "kitten",
-        "say": "Which pet is a baby cat? puppy, lamb, kitten, or turtle?"
+        "say": "Which pet is a baby cat? Puppy, lamb, kitten, or turtle?"
       },
       {
         "id": "pet-animals-07",
@@ -211,7 +211,7 @@
           "bird"
         ],
         "answer": "bird",
-        "say": "Which pet can sit on a perch? dog, cat, rabbit, or bird?"
+        "say": "Which pet can sit on a perch? Dog, cat, rabbit, or bird?"
       },
       {
         "id": "pet-animals-08",
@@ -223,7 +223,7 @@
           "teddy-bear"
         ],
         "answer": null,
-        "say": "Which pet would you cuddle? cat, dog, rabbit, or teddy bear?"
+        "say": "Which pet would you cuddle? Cat, dog, rabbit, or teddy bear?"
       },
       {
         "id": "pet-animals-09",
@@ -235,7 +235,7 @@
           "rabbit"
         ],
         "answer": null,
-        "say": "Which pet would you draw? fish, bird, cat, or rabbit?"
+        "say": "Which pet would you draw? Fish, bird, cat, or rabbit?"
       },
       {
         "id": "pet-animals-10",
@@ -247,7 +247,7 @@
           "mouse"
         ],
         "answer": null,
-        "say": "Which pet would you name? puppy, kitten, turtle, or mouse?"
+        "say": "Which pet would you name? Puppy, kitten, turtle, or mouse?"
       }
     ]
   },
@@ -265,7 +265,7 @@
           "pig"
         ],
         "answer": "cow",
-        "say": "Which one gives us milk? chicken, duck, cow, or pig?"
+        "say": "Which one gives us milk? Chicken, duck, cow, or pig?"
       },
       {
         "id": "farm-animals-02",
@@ -277,7 +277,7 @@
           "chicken"
         ],
         "answer": "chicken",
-        "say": "Which one lays eggs? cow, pig, horse, or chicken?"
+        "say": "Which one lays eggs? Cow, pig, horse, or chicken?"
       },
       {
         "id": "farm-animals-03",
@@ -289,7 +289,7 @@
           "cow"
         ],
         "answer": "sheep",
-        "say": "Which one has wool? sheep, chicken, pig, or cow?"
+        "say": "Which one has wool? Sheep, chicken, pig, or cow?"
       },
       {
         "id": "farm-animals-04",
@@ -301,7 +301,7 @@
           "duck"
         ],
         "answer": "horse",
-        "say": "Which one has a mane? cow, horse, pig, or duck?"
+        "say": "Which one has a mane? Cow, horse, pig, or duck?"
       },
       {
         "id": "farm-animals-05",
@@ -313,7 +313,7 @@
           "chicken"
         ],
         "answer": "pig",
-        "say": "Which one has a curly tail? sheep, cow, pig, or chicken?"
+        "say": "Which one has a curly tail? Sheep, cow, pig, or chicken?"
       },
       {
         "id": "farm-animals-06",
@@ -325,7 +325,7 @@
           "lamb"
         ],
         "answer": "lamb",
-        "say": "Which one is a baby sheep? puppy, kitten, duck, or lamb?"
+        "say": "Which one is a baby sheep? Puppy, kitten, duck, or lamb?"
       },
       {
         "id": "farm-animals-07",
@@ -337,7 +337,7 @@
           "sheep"
         ],
         "answer": "duck",
-        "say": "Which one says quack? duck, cow, pig, or sheep?"
+        "say": "Which one says quack? Duck, cow, pig, or sheep?"
       },
       {
         "id": "farm-animals-08",
@@ -349,7 +349,7 @@
           "horse"
         ],
         "answer": null,
-        "say": "Which farm animal would you feed? cow, goat, sheep, or horse?"
+        "say": "Which farm animal would you feed? Cow, goat, sheep, or horse?"
       },
       {
         "id": "farm-animals-09",
@@ -361,7 +361,7 @@
           "cow"
         ],
         "answer": null,
-        "say": "Which farm animal would you draw? chicken, duck, pig, or cow?"
+        "say": "Which farm animal would you draw? Chicken, duck, pig, or cow?"
       },
       {
         "id": "farm-animals-10",
@@ -373,7 +373,7 @@
           "duck"
         ],
         "answer": null,
-        "say": "Which farm animal would you visit? horse, sheep, goat, or duck?"
+        "say": "Which farm animal would you visit? Horse, sheep, goat, or duck?"
       }
     ]
   },
@@ -391,7 +391,7 @@
           "elephant"
         ],
         "answer": "elephant",
-        "say": "Which one has a trunk? tiger, lion, fox, or elephant?"
+        "say": "Which one has a trunk? Tiger, lion, fox, or elephant?"
       },
       {
         "id": "wild-animals-02",
@@ -403,7 +403,7 @@
           "bear"
         ],
         "answer": "giraffe",
-        "say": "Which one has a very long neck? giraffe, zebra, panda, or bear?"
+        "say": "Which one has a very long neck? Giraffe, zebra, panda, or bear?"
       },
       {
         "id": "wild-animals-03",
@@ -415,7 +415,7 @@
           "koala"
         ],
         "answer": "lion",
-        "say": "Which one has a mane? tiger, lion, elephant, or koala?"
+        "say": "Which one has a mane? Tiger, lion, elephant, or koala?"
       },
       {
         "id": "wild-animals-04",
@@ -427,7 +427,7 @@
           "kangaroo"
         ],
         "answer": "tiger",
-        "say": "Which one has orange stripes? hippo, camel, tiger, or kangaroo?"
+        "say": "Which one has orange stripes? Hippo, camel, tiger, or kangaroo?"
       },
       {
         "id": "wild-animals-05",
@@ -439,7 +439,7 @@
           "panda"
         ],
         "answer": "panda",
-        "say": "Which one eats bamboo? wolf, fox, deer, or panda?"
+        "say": "Which one eats bamboo? Wolf, fox, deer, or panda?"
       },
       {
         "id": "wild-animals-06",
@@ -451,7 +451,7 @@
           "monkey"
         ],
         "answer": "polar-bear",
-        "say": "Which one has white fur? polar bear, crocodile, lion, or monkey?"
+        "say": "Which one has white fur? Polar bear, crocodile, lion, or monkey?"
       },
       {
         "id": "wild-animals-07",
@@ -463,7 +463,7 @@
           "zebra"
         ],
         "answer": "crocodile",
-        "say": "Which one has big jaws? koala, crocodile, panda, or zebra?"
+        "say": "Which one has big jaws? Koala, crocodile, panda, or zebra?"
       },
       {
         "id": "wild-animals-08",
@@ -475,7 +475,7 @@
           "tiger"
         ],
         "answer": null,
-        "say": "Which wild animal would you draw? elephant, giraffe, lion, or tiger?"
+        "say": "Which wild animal would you draw? Elephant, giraffe, lion, or tiger?"
       },
       {
         "id": "wild-animals-09",
@@ -487,7 +487,7 @@
           "polar-bear"
         ],
         "answer": null,
-        "say": "Which wild animal would you watch? panda, kangaroo, fox, or polar bear?"
+        "say": "Which wild animal would you watch? Panda, kangaroo, fox, or polar bear?"
       },
       {
         "id": "wild-animals-10",
@@ -499,7 +499,7 @@
           "monkey"
         ],
         "answer": null,
-        "say": "Which wild animal would you name? bear, zebra, deer, or monkey?"
+        "say": "Which wild animal would you name? Bear, zebra, deer, or monkey?"
       }
     ]
   },
@@ -517,7 +517,7 @@
           "seal"
         ],
         "answer": "octopus",
-        "say": "Which one has eight arms? octopus, whale, shark, or seal?"
+        "say": "Which one has eight arms? Octopus, whale, shark, or seal?"
       },
       {
         "id": "sea-animals-02",
@@ -529,7 +529,7 @@
           "whale"
         ],
         "answer": "crab",
-        "say": "Which one has claws? jellyfish, crab, dolphin, or whale?"
+        "say": "Which one has claws? Jellyfish, crab, dolphin, or whale?"
       },
       {
         "id": "sea-animals-03",
@@ -541,7 +541,7 @@
           "whale"
         ],
         "answer": "jellyfish",
-        "say": "Which one can sting in water? seal, turtle, jellyfish, or whale?"
+        "say": "Which one can sting in water? Seal, turtle, jellyfish, or whale?"
       },
       {
         "id": "sea-animals-04",
@@ -553,7 +553,7 @@
           "octopus"
         ],
         "answer": "octopus",
-        "say": "Which one can squirt ink? dolphin, crab, shark, or octopus?"
+        "say": "Which one can squirt ink? Dolphin, crab, shark, or octopus?"
       },
       {
         "id": "sea-animals-05",
@@ -565,7 +565,7 @@
           "seal"
         ],
         "answer": "shark",
-        "say": "Which one is a fish? shark, whale, dolphin, or seal?"
+        "say": "Which one is a fish? Shark, whale, dolphin, or seal?"
       },
       {
         "id": "sea-animals-06",
@@ -577,7 +577,7 @@
           "dolphin"
         ],
         "answer": "turtle",
-        "say": "Which one has a hard shell? jellyfish, turtle, seal, or dolphin?"
+        "say": "Which one has a hard shell? Jellyfish, turtle, seal, or dolphin?"
       },
       {
         "id": "sea-animals-07",
@@ -589,7 +589,7 @@
           "octopus"
         ],
         "answer": "whale",
-        "say": "Which one is the biggest? crab, seal, whale, or octopus?"
+        "say": "Which one is the biggest? Crab, seal, whale, or octopus?"
       },
       {
         "id": "sea-animals-08",
@@ -601,7 +601,7 @@
           "octopus"
         ],
         "answer": null,
-        "say": "Which sea animal would you draw? dolphin, whale, shark, or octopus?"
+        "say": "Which sea animal would you draw? Dolphin, whale, shark, or octopus?"
       },
       {
         "id": "sea-animals-09",
@@ -613,7 +613,7 @@
           "jellyfish"
         ],
         "answer": null,
-        "say": "Which sea animal would you watch? seal, turtle, crab, or jellyfish?"
+        "say": "Which sea animal would you watch? Seal, turtle, crab, or jellyfish?"
       },
       {
         "id": "sea-animals-10",
@@ -625,7 +625,7 @@
           "turtle"
         ],
         "answer": null,
-        "say": "Which sea animal would you name? dolphin, octopus, seal, or turtle?"
+        "say": "Which sea animal would you name? Dolphin, octopus, seal, or turtle?"
       }
     ]
   },
@@ -643,7 +643,7 @@
           "snail"
         ],
         "answer": "bee",
-        "say": "Which one has six legs? spider, bee, worm, or snail?"
+        "say": "Which one has six legs? Spider, bee, worm, or snail?"
       },
       {
         "id": "small-animals-02",
@@ -655,7 +655,7 @@
           "butterfly"
         ],
         "answer": "spider",
-        "say": "Which one has eight legs? bee, ant, spider, or butterfly?"
+        "say": "Which one has eight legs? Bee, ant, spider, or butterfly?"
       },
       {
         "id": "small-animals-03",
@@ -667,7 +667,7 @@
           "bee"
         ],
         "answer": "bee",
-        "say": "Which one makes honey? worm, snail, spider, or bee?"
+        "say": "Which one makes honey? Worm, snail, spider, or bee?"
       },
       {
         "id": "small-animals-04",
@@ -679,7 +679,7 @@
           "ant"
         ],
         "answer": "butterfly",
-        "say": "Which one has bright wings? butterfly, worm, snail, or ant?"
+        "say": "Which one has bright wings? Butterfly, worm, snail, or ant?"
       },
       {
         "id": "small-animals-05",
@@ -691,7 +691,7 @@
           "spider"
         ],
         "answer": "snail",
-        "say": "Which one carries a shell? bee, snail, ant, or spider?"
+        "say": "Which one carries a shell? Bee, snail, ant, or spider?"
       },
       {
         "id": "small-animals-06",
@@ -703,7 +703,7 @@
           "ant"
         ],
         "answer": "ladybug",
-        "say": "Which one has red spotted wings? worm, bee, ladybug, or ant?"
+        "say": "Which one has red spotted wings? Worm, bee, ladybug, or ant?"
       },
       {
         "id": "small-animals-07",
@@ -715,7 +715,7 @@
           "worm"
         ],
         "answer": "worm",
-        "say": "Which one lives in soil? butterfly, ladybug, bee, or worm?"
+        "say": "Which one lives in soil? Butterfly, ladybug, bee, or worm?"
       },
       {
         "id": "small-animals-08",
@@ -727,7 +727,7 @@
           "ant"
         ],
         "answer": null,
-        "say": "Which small animal would you draw? bee, butterfly, ladybug, or ant?"
+        "say": "Which small animal would you draw? Bee, butterfly, ladybug, or ant?"
       },
       {
         "id": "small-animals-09",
@@ -739,7 +739,7 @@
           "butterfly"
         ],
         "answer": null,
-        "say": "Which small animal would you watch? snail, worm, spider, or butterfly?"
+        "say": "Which small animal would you watch? Snail, worm, spider, or butterfly?"
       },
       {
         "id": "small-animals-10",
@@ -751,7 +751,7 @@
           "ant"
         ],
         "answer": null,
-        "say": "Which small animal would you name? ladybug, snail, bee, or ant?"
+        "say": "Which small animal would you name? Ladybug, snail, bee, or ant?"
       }
     ]
   },
@@ -769,7 +769,7 @@
           "carrot"
         ],
         "answer": "jam",
-        "say": "Which one can go on bread? rice, egg, jam, or carrot?"
+        "say": "Which one can go on bread? Rice, egg, jam, or carrot?"
       },
       {
         "id": "food-02",
@@ -781,7 +781,7 @@
           "cheese"
         ],
         "answer": "cheese",
-        "say": "Which one is made from milk? bread, apple, rice, or cheese?"
+        "say": "Which one is made from milk? Bread, apple, rice, or cheese?"
       },
       {
         "id": "food-03",
@@ -793,7 +793,7 @@
           "bread"
         ],
         "answer": "water",
-        "say": "Which one is a drink? water, cake, egg, or bread?"
+        "say": "Which one is a drink? Water, cake, egg, or bread?"
       },
       {
         "id": "food-04",
@@ -805,7 +805,7 @@
           "pizza"
         ],
         "answer": "ice-cream",
-        "say": "Which one is frozen? pasta, ice cream, broccoli, or pizza?"
+        "say": "Which one is frozen? Pasta, ice cream, broccoli, or pizza?"
       },
       {
         "id": "food-05",
@@ -817,7 +817,7 @@
           "rice"
         ],
         "answer": "egg",
-        "say": "Which one comes in a shell? cheese, water, egg, or rice?"
+        "say": "Which one comes in a shell? Cheese, water, egg, or rice?"
       },
       {
         "id": "food-06",
@@ -829,7 +829,7 @@
           "noodles"
         ],
         "answer": "noodles",
-        "say": "Which one is long and thin? potato, cake, peas, or noodles?"
+        "say": "Which one is long and thin? Potato, cake, peas, or noodles?"
       },
       {
         "id": "food-07",
@@ -841,7 +841,7 @@
           "rice"
         ],
         "answer": "bread",
-        "say": "Which one is baked in a loaf? bread, salad, soup, or rice?"
+        "say": "Which one is baked in a loaf? Bread, salad, soup, or rice?"
       },
       {
         "id": "food-08",
@@ -853,7 +853,7 @@
           "salad"
         ],
         "answer": null,
-        "say": "Which food would you make? pizza, soup, sandwich, or salad?"
+        "say": "Which food would you make? Pizza, soup, sandwich, or salad?"
       },
       {
         "id": "food-09",
@@ -865,7 +865,7 @@
           "watermelon"
         ],
         "answer": null,
-        "say": "Which food would you share? cake, cookie, popcorn, or watermelon?"
+        "say": "Which food would you share? Cake, cookie, popcorn, or watermelon?"
       },
       {
         "id": "food-10",
@@ -877,7 +877,7 @@
           "pancake"
         ],
         "answer": null,
-        "say": "Which food would you taste? mango, cheese, noodles, or pancake?"
+        "say": "Which food would you taste? Mango, cheese, noodles, or pancake?"
       }
     ]
   },
@@ -895,7 +895,7 @@
           "pineapple"
         ],
         "answer": "pineapple",
-        "say": "Which one has spiky skin? banana, orange, pear, or pineapple?"
+        "say": "Which one has spiky skin? Banana, orange, pear, or pineapple?"
       },
       {
         "id": "fruit-02",
@@ -907,7 +907,7 @@
           "pear"
         ],
         "answer": "strawberry",
-        "say": "Which one is a small red berry? strawberry, watermelon, banana, or pear?"
+        "say": "Which one is a small red berry? Strawberry, watermelon, banana, or pear?"
       },
       {
         "id": "fruit-03",
@@ -919,7 +919,7 @@
           "grapes"
         ],
         "answer": "watermelon",
-        "say": "Which one is green outside, red inside? apple, watermelon, peach, or grapes?"
+        "say": "Which one is green outside, red inside? Apple, watermelon, peach, or grapes?"
       },
       {
         "id": "fruit-04",
@@ -931,7 +931,7 @@
           "peach"
         ],
         "answer": "lemon",
-        "say": "Which one tastes very sour? banana, pear, lemon, or peach?"
+        "say": "Which one tastes very sour? Banana, pear, lemon, or peach?"
       },
       {
         "id": "fruit-05",
@@ -943,7 +943,7 @@
           "peach"
         ],
         "answer": "peach",
-        "say": "Which one has a hard stone inside? grapes, banana, strawberry, or peach?"
+        "say": "Which one has a hard stone inside? Grapes, banana, strawberry, or peach?"
       },
       {
         "id": "fruit-06",
@@ -955,7 +955,7 @@
           "lemon"
         ],
         "answer": "grapes",
-        "say": "Which one grows in a bunch? grapes, apple, pear, or lemon?"
+        "say": "Which one grows in a bunch? Grapes, apple, pear, or lemon?"
       },
       {
         "id": "fruit-07",
@@ -967,7 +967,7 @@
           "pear"
         ],
         "answer": "orange",
-        "say": "Which one is named for its color? apple, orange, banana, or pear?"
+        "say": "Which one is named for its color? Apple, orange, banana, or pear?"
       },
       {
         "id": "fruit-08",
@@ -979,7 +979,7 @@
           "grapes"
         ],
         "answer": null,
-        "say": "Which fruit would you pack? apple, banana, pear, or grapes?"
+        "say": "Which fruit would you pack? Apple, banana, pear, or grapes?"
       },
       {
         "id": "fruit-09",
@@ -991,7 +991,7 @@
           "kiwi"
         ],
         "answer": null,
-        "say": "Which fruit would you draw? pineapple, watermelon, strawberry, or kiwi?"
+        "say": "Which fruit would you draw? Pineapple, watermelon, strawberry, or kiwi?"
       },
       {
         "id": "fruit-10",
@@ -1003,7 +1003,7 @@
           "coconut"
         ],
         "answer": null,
-        "say": "Which fruit would you taste? mango, peach, cherry, or coconut?"
+        "say": "Which fruit would you taste? Mango, peach, cherry, or coconut?"
       }
     ]
   },
@@ -1021,7 +1021,7 @@
           "peas"
         ],
         "answer": "carrot",
-        "say": "Which one is an orange root? carrot, broccoli, corn, or peas?"
+        "say": "Which one is an orange root? Carrot, broccoli, corn, or peas?"
       },
       {
         "id": "vegetables-02",
@@ -1033,7 +1033,7 @@
           "broccoli"
         ],
         "answer": "potato",
-        "say": "Which one grows under the ground? corn, potato, cucumber, or broccoli?"
+        "say": "Which one grows under the ground? Corn, potato, cucumber, or broccoli?"
       },
       {
         "id": "vegetables-03",
@@ -1045,7 +1045,7 @@
           "peas"
         ],
         "answer": "corn",
-        "say": "Which one has yellow kernels? carrot, onion, corn, or peas?"
+        "say": "Which one has yellow kernels? Carrot, onion, corn, or peas?"
       },
       {
         "id": "vegetables-04",
@@ -1057,7 +1057,7 @@
           "broccoli"
         ],
         "answer": "broccoli",
-        "say": "Which one looks like a little tree? potato, cucumber, garlic, or broccoli?"
+        "say": "Which one looks like a little tree? Potato, cucumber, garlic, or broccoli?"
       },
       {
         "id": "vegetables-05",
@@ -1069,7 +1069,7 @@
           "corn"
         ],
         "answer": "onion",
-        "say": "Which one has many layers? onion, carrot, peas, or corn?"
+        "say": "Which one has many layers? Onion, carrot, peas, or corn?"
       },
       {
         "id": "vegetables-06",
@@ -1081,7 +1081,7 @@
           "onion"
         ],
         "answer": "peas",
-        "say": "Which one grows in a pod? potato, peas, broccoli, or onion?"
+        "say": "Which one grows in a pod? Potato, peas, broccoli, or onion?"
       },
       {
         "id": "vegetables-07",
@@ -1093,7 +1093,7 @@
           "garlic"
         ],
         "answer": "cucumber",
-        "say": "Which one is long and green? carrot, corn, cucumber, or garlic?"
+        "say": "Which one is long and green? Carrot, corn, cucumber, or garlic?"
       },
       {
         "id": "vegetables-08",
@@ -1105,7 +1105,7 @@
           "pumpkin"
         ],
         "answer": null,
-        "say": "Which vegetable would you grow? carrot, peas, broccoli, or pumpkin?"
+        "say": "Which vegetable would you grow? Carrot, peas, broccoli, or pumpkin?"
       },
       {
         "id": "vegetables-09",
@@ -1117,7 +1117,7 @@
           "beans"
         ],
         "answer": null,
-        "say": "Which vegetable would you cook? potato, onion, corn, or beans?"
+        "say": "Which vegetable would you cook? Potato, onion, corn, or beans?"
       },
       {
         "id": "vegetables-10",
@@ -1129,7 +1129,7 @@
           "broccoli"
         ],
         "answer": null,
-        "say": "Which vegetable would you draw? cucumber, carrot, mushroom, or broccoli?"
+        "say": "Which vegetable would you draw? Cucumber, carrot, mushroom, or broccoli?"
       }
     ]
   },
@@ -1147,7 +1147,7 @@
           "banana"
         ],
         "answer": "milk",
-        "say": "Which one can you pour? bread, milk, egg, or banana?"
+        "say": "Which one can you pour? Bread, milk, egg, or banana?"
       },
       {
         "id": "breakfast-02",
@@ -1159,7 +1159,7 @@
           "cheese"
         ],
         "answer": "egg",
-        "say": "Which one comes from a chicken? bread, apple, egg, or cheese?"
+        "say": "Which one comes from a chicken? Bread, apple, egg, or cheese?"
       },
       {
         "id": "breakfast-03",
@@ -1171,7 +1171,7 @@
           "pancake"
         ],
         "answer": "pancake",
-        "say": "Which one is a flat cake? cereal, banana, bread, or pancake?"
+        "say": "Which one is a flat cake? Cereal, banana, bread, or pancake?"
       },
       {
         "id": "breakfast-04",
@@ -1183,7 +1183,7 @@
           "orange"
         ],
         "answer": "jam",
-        "say": "Which one can you spread? jam, cereal, egg, or orange?"
+        "say": "Which one can you spread? Jam, cereal, egg, or orange?"
       },
       {
         "id": "breakfast-05",
@@ -1195,7 +1195,7 @@
           "cheese"
         ],
         "answer": "banana",
-        "say": "Which one is a fruit? bread, banana, egg, or cheese?"
+        "say": "Which one is a fruit? Bread, banana, egg, or cheese?"
       },
       {
         "id": "breakfast-06",
@@ -1207,7 +1207,7 @@
           "egg"
         ],
         "answer": "juice",
-        "say": "Which one can you drink? pancake, cereal, juice, or egg?"
+        "say": "Which one can you drink? Pancake, cereal, juice, or egg?"
       },
       {
         "id": "breakfast-07",
@@ -1219,7 +1219,7 @@
           "cereal"
         ],
         "answer": "cereal",
-        "say": "Which one is made from grains? banana, egg, cheese, or cereal?"
+        "say": "Which one is made from grains? Banana, egg, cheese, or cereal?"
       },
       {
         "id": "breakfast-08",
@@ -1231,7 +1231,7 @@
           "bread"
         ],
         "answer": null,
-        "say": "Which breakfast would you choose? pancake, cereal, egg, or bread?"
+        "say": "Which breakfast would you choose? Pancake, cereal, egg, or bread?"
       },
       {
         "id": "breakfast-09",
@@ -1243,7 +1243,7 @@
           "tea"
         ],
         "answer": null,
-        "say": "Which drink would you choose? milk, water, juice, or tea?"
+        "say": "Which drink would you choose? Milk, water, juice, or tea?"
       },
       {
         "id": "breakfast-10",
@@ -1255,7 +1255,7 @@
           "grapes"
         ],
         "answer": null,
-        "say": "Which fruit would you add? banana, strawberry, apple, or grapes?"
+        "say": "Which fruit would you add? Banana, strawberry, apple, or grapes?"
       }
     ]
   },
@@ -1273,7 +1273,7 @@
           "hand"
         ],
         "answer": "eye",
-        "say": "Which one helps you see? ear, nose, eye, or hand?"
+        "say": "Which one helps you see? Ear, nose, eye, or hand?"
       },
       {
         "id": "body-parts-02",
@@ -1285,7 +1285,7 @@
           "ear"
         ],
         "answer": "ear",
-        "say": "Which one helps you hear? eye, foot, tongue, or ear?"
+        "say": "Which one helps you hear? Eye, foot, tongue, or ear?"
       },
       {
         "id": "body-parts-03",
@@ -1297,7 +1297,7 @@
           "teeth"
         ],
         "answer": "nose",
-        "say": "Which one helps you smell? nose, knee, arm, or teeth?"
+        "say": "Which one helps you smell? Nose, knee, arm, or teeth?"
       },
       {
         "id": "body-parts-04",
@@ -1309,7 +1309,7 @@
           "hair"
         ],
         "answer": "tongue",
-        "say": "Which one helps you taste? finger, tongue, shoulder, or hair?"
+        "say": "Which one helps you taste? Finger, tongue, shoulder, or hair?"
       },
       {
         "id": "body-parts-05",
@@ -1321,7 +1321,7 @@
           "neck"
         ],
         "answer": "hand",
-        "say": "Which one can hold a pencil? foot, ear, hand, or neck?"
+        "say": "Which one can hold a pencil? Foot, ear, hand, or neck?"
       },
       {
         "id": "body-parts-06",
@@ -1333,7 +1333,7 @@
           "knee"
         ],
         "answer": "knee",
-        "say": "Which one bends in your leg? nose, eye, shoulder, or knee?"
+        "say": "Which one bends in your leg? Nose, eye, shoulder, or knee?"
       },
       {
         "id": "body-parts-07",
@@ -1345,7 +1345,7 @@
           "ear"
         ],
         "answer": "foot",
-        "say": "Which one helps you walk? foot, mouth, hand, or ear?"
+        "say": "Which one helps you walk? Foot, mouth, hand, or ear?"
       },
       {
         "id": "body-parts-08",
@@ -1357,7 +1357,7 @@
           "mouth"
         ],
         "answer": null,
-        "say": "Which body part would you draw? eye, ear, nose, or mouth?"
+        "say": "Which body part would you draw? Eye, ear, nose, or mouth?"
       },
       {
         "id": "body-parts-09",
@@ -1369,7 +1369,7 @@
           "run"
         ],
         "answer": null,
-        "say": "Which action feels fun? jump, clap, dance, or run?"
+        "say": "Which action feels fun? Jump, clap, dance, or run?"
       },
       {
         "id": "body-parts-10",
@@ -1381,7 +1381,7 @@
           "clap"
         ],
         "answer": null,
-        "say": "Which game action would you choose? catch, kick, throw, or clap?"
+        "say": "Which game action would you choose? Catch, kick, throw, or clap?"
       }
     ]
   },
@@ -1399,7 +1399,7 @@
           "hat"
         ],
         "answer": "hat",
-        "say": "Which one goes on your head? shoes, skirt, gloves, or hat?"
+        "say": "Which one goes on your head? Shoes, skirt, gloves, or hat?"
       },
       {
         "id": "clothes-02",
@@ -1411,7 +1411,7 @@
           "cap"
         ],
         "answer": "gloves",
-        "say": "Which one goes on your hands? gloves, scarf, shorts, or cap?"
+        "say": "Which one goes on your hands? Gloves, scarf, shorts, or cap?"
       },
       {
         "id": "clothes-03",
@@ -1423,7 +1423,7 @@
           "shirt"
         ],
         "answer": "shoes",
-        "say": "Which one goes on your feet? jacket, shoes, hat, or shirt?"
+        "say": "Which one goes on your feet? Jacket, shoes, hat, or shirt?"
       },
       {
         "id": "clothes-04",
@@ -1435,7 +1435,7 @@
           "ring"
         ],
         "answer": "raincoat",
-        "say": "Which one can keep off rain? sandals, skirt, raincoat, or ring?"
+        "say": "Which one can keep off rain? Sandals, skirt, raincoat, or ring?"
       },
       {
         "id": "clothes-05",
@@ -1447,7 +1447,7 @@
           "scarf"
         ],
         "answer": "scarf",
-        "say": "Which one goes around your neck? boots, jeans, socks, or scarf?"
+        "say": "Which one goes around your neck? Boots, jeans, socks, or scarf?"
       },
       {
         "id": "clothes-06",
@@ -1459,7 +1459,7 @@
           "hat"
         ],
         "answer": "pajamas",
-        "say": "Which one is for sleeping? pajamas, coat, watch, or hat?"
+        "say": "Which one is for sleeping? Pajamas, coat, watch, or hat?"
       },
       {
         "id": "clothes-07",
@@ -1471,7 +1471,7 @@
           "gloves"
         ],
         "answer": "glasses",
-        "say": "Which one helps you see clearly? belt, glasses, shirt, or gloves?"
+        "say": "Which one helps you see clearly? Belt, glasses, shirt, or gloves?"
       },
       {
         "id": "clothes-08",
@@ -1483,7 +1483,7 @@
           "shorts"
         ],
         "answer": null,
-        "say": "Which clothes would you choose? dress, shirt, jeans, or shorts?"
+        "say": "Which clothes would you choose? Dress, shirt, jeans, or shorts?"
       },
       {
         "id": "clothes-09",
@@ -1495,7 +1495,7 @@
           "socks"
         ],
         "answer": null,
-        "say": "Which one would you wear? boots, sandals, shoes, or socks?"
+        "say": "Which one would you wear? Boots, sandals, shoes, or socks?"
       },
       {
         "id": "clothes-10",
@@ -1507,7 +1507,7 @@
           "gloves"
         ],
         "answer": null,
-        "say": "Which warm thing would you choose? coat, sweater, scarf, or gloves?"
+        "say": "Which warm thing would you choose? Coat, sweater, scarf, or gloves?"
       }
     ]
   },
@@ -1525,7 +1525,7 @@
           "boots"
         ],
         "answer": "belt",
-        "say": "Which one goes around your waist? belt, gloves, cap, or boots?"
+        "say": "Which one goes around your waist? Belt, gloves, cap, or boots?"
       },
       {
         "id": "getting-dressed-02",
@@ -1537,7 +1537,7 @@
           "skirt"
         ],
         "answer": "gloves",
-        "say": "Which one keeps hands warm? sandals, gloves, shorts, or skirt?"
+        "say": "Which one keeps hands warm? Sandals, gloves, shorts, or skirt?"
       },
       {
         "id": "getting-dressed-03",
@@ -1549,7 +1549,7 @@
           "jeans"
         ],
         "answer": "swimsuit",
-        "say": "Which one is for swimming? coat, sweater, swimsuit, or jeans?"
+        "say": "Which one is for swimming? Coat, sweater, swimsuit, or jeans?"
       },
       {
         "id": "getting-dressed-04",
@@ -1561,7 +1561,7 @@
           "cap"
         ],
         "answer": "cap",
-        "say": "Which one shades your face? socks, belt, boots, or cap?"
+        "say": "Which one shades your face? Socks, belt, boots, or cap?"
       },
       {
         "id": "getting-dressed-05",
@@ -1573,7 +1573,7 @@
           "hat"
         ],
         "answer": "boots",
-        "say": "Which one keeps feet dry in rain? boots, sandals, gloves, or hat?"
+        "say": "Which one keeps feet dry in rain? Boots, sandals, gloves, or hat?"
       },
       {
         "id": "getting-dressed-06",
@@ -1585,7 +1585,7 @@
           "gloves"
         ],
         "answer": "trousers",
-        "say": "Which one covers your legs? cap, trousers, scarf, or gloves?"
+        "say": "Which one covers your legs? Cap, trousers, scarf, or gloves?"
       },
       {
         "id": "getting-dressed-07",
@@ -1597,7 +1597,7 @@
           "ring"
         ],
         "answer": "coat",
-        "say": "Which one is warm for cold weather? sandals, shorts, coat, or ring?"
+        "say": "Which one is warm for cold weather? Sandals, shorts, coat, or ring?"
       },
       {
         "id": "getting-dressed-08",
@@ -1609,7 +1609,7 @@
           "shorts"
         ],
         "answer": null,
-        "say": "Which clothes would you pack? raincoat, sweater, shirt, or shorts?"
+        "say": "Which clothes would you pack? Raincoat, sweater, shirt, or shorts?"
       },
       {
         "id": "getting-dressed-09",
@@ -1621,7 +1621,7 @@
           "trousers"
         ],
         "answer": null,
-        "say": "Which one would you wear today? dress, jeans, skirt, or trousers?"
+        "say": "Which one would you wear today? Dress, jeans, skirt, or trousers?"
       },
       {
         "id": "getting-dressed-10",
@@ -1633,7 +1633,7 @@
           "glasses"
         ],
         "answer": null,
-        "say": "Which one would you choose first? hat, shoes, jacket, or glasses?"
+        "say": "Which one would you choose first? Hat, shoes, jacket, or glasses?"
       }
     ]
   },
@@ -1651,7 +1651,7 @@
           "cloud"
         ],
         "answer": "rain",
-        "say": "Which one falls as water? wind, rain, sun, or cloud?"
+        "say": "Which one falls as water? Wind, rain, sun, or cloud?"
       },
       {
         "id": "weather-02",
@@ -1663,7 +1663,7 @@
           "sun"
         ],
         "answer": "snow",
-        "say": "Which one falls as ice? rain, wind, snow, or sun?"
+        "say": "Which one falls as ice? Rain, wind, snow, or sun?"
       },
       {
         "id": "weather-03",
@@ -1675,7 +1675,7 @@
           "wind"
         ],
         "answer": "wind",
-        "say": "Which one moves a kite? snow, rain, moon, or wind?"
+        "say": "Which one moves a kite? Snow, rain, moon, or wind?"
       },
       {
         "id": "weather-04",
@@ -1687,7 +1687,7 @@
           "wind"
         ],
         "answer": "rainbow",
-        "say": "Which one has many colors? rainbow, cloud, snow, or wind?"
+        "say": "Which one has many colors? Rainbow, cloud, snow, or wind?"
       },
       {
         "id": "weather-05",
@@ -1699,7 +1699,7 @@
           "rain"
         ],
         "answer": "lightning",
-        "say": "Which one flashes in a storm? snow, lightning, sun, or rain?"
+        "say": "Which one flashes in a storm? Snow, lightning, sun, or rain?"
       },
       {
         "id": "weather-06",
@@ -1711,7 +1711,7 @@
           "snow"
         ],
         "answer": "sun",
-        "say": "Which one warms the ground? wind, cloud, sun, or snow?"
+        "say": "Which one warms the ground? Wind, cloud, sun, or snow?"
       },
       {
         "id": "weather-07",
@@ -1723,7 +1723,7 @@
           "cloud"
         ],
         "answer": "cloud",
-        "say": "Which one can hide the sun? rain, snow, wind, or cloud?"
+        "say": "Which one can hide the sun? Rain, snow, wind, or cloud?"
       },
       {
         "id": "weather-08",
@@ -1735,7 +1735,7 @@
           "rainbow"
         ],
         "answer": null,
-        "say": "Which weather would you draw? rain, snow, wind, or rainbow?"
+        "say": "Which weather would you draw? Rain, snow, wind, or rainbow?"
       },
       {
         "id": "weather-09",
@@ -1747,7 +1747,7 @@
           "star"
         ],
         "answer": null,
-        "say": "Which sky picture do you like? sun, moon, cloud, or star?"
+        "say": "Which sky picture do you like? Sun, moon, cloud, or star?"
       },
       {
         "id": "weather-10",
@@ -1759,7 +1759,7 @@
           "rainbow"
         ],
         "answer": null,
-        "say": "Which weather would you watch? storm, snow, rain, or rainbow?"
+        "say": "Which weather would you watch? Storm, snow, rain, or rainbow?"
       }
     ]
   },
@@ -1774,10 +1774,10 @@
           "autumn",
           "winter",
           "summer",
-          "morning"
+          "spring"
         ],
         "answer": "summer",
-        "say": "Which season comes after spring? autumn, winter, summer, or morning?"
+        "say": "Which season comes after spring? Autumn, winter, summer, or spring?"
       },
       {
         "id": "seasons-02",
@@ -1785,11 +1785,11 @@
         "options": [
           "spring",
           "summer",
-          "night",
+          "winter",
           "autumn"
         ],
         "answer": "autumn",
-        "say": "Which season comes before winter? spring, summer, night, or autumn?"
+        "say": "Which season comes before winter? Spring, summer, winter, or autumn?"
       },
       {
         "id": "seasons-03",
@@ -1798,10 +1798,10 @@
           "spring",
           "autumn",
           "summer",
-          "birthday"
+          "winter"
         ],
         "answer": "spring",
-        "say": "Which season comes after winter? spring, autumn, summer, or birthday?"
+        "say": "Which season comes after winter? Spring, autumn, summer, or winter?"
       },
       {
         "id": "seasons-04",
@@ -1809,11 +1809,11 @@
         "options": [
           "winter",
           "summer",
-          "morning",
-          "night"
+          "spring",
+          "autumn"
         ],
         "answer": "summer",
-        "say": "Which season is between spring and autumn? winter, summer, morning, or night?"
+        "say": "Which season is between spring and autumn? Winter, summer, spring, or autumn?"
       },
       {
         "id": "seasons-05",
@@ -1822,10 +1822,10 @@
           "spring",
           "summer",
           "autumn",
-          "morning"
+          "winter"
         ],
         "answer": "autumn",
-        "say": "Which season can show falling leaves? spring, summer, autumn, or morning?"
+        "say": "Which season can show falling leaves? Spring, summer, autumn, or winter?"
       },
       {
         "id": "seasons-06",
@@ -1833,11 +1833,11 @@
         "options": [
           "autumn",
           "winter",
-          "night",
+          "summer",
           "spring"
         ],
         "answer": "spring",
-        "say": "Which season can show new flowers? autumn, winter, night, or spring?"
+        "say": "Which season can show new flowers? Autumn, winter, summer, or spring?"
       },
       {
         "id": "seasons-07",
@@ -1846,10 +1846,10 @@
           "winter",
           "summer",
           "autumn",
-          "birthday"
+          "spring"
         ],
         "answer": "winter",
-        "say": "Which season can show snow? winter, summer, autumn, or birthday?"
+        "say": "Which season can show snow? Winter, summer, autumn, or spring?"
       },
       {
         "id": "seasons-08",
@@ -1861,7 +1861,7 @@
           "winter"
         ],
         "answer": null,
-        "say": "Which season would you draw? spring, summer, autumn, or winter?"
+        "say": "Which season would you draw? Spring, summer, autumn, or winter?"
       },
       {
         "id": "seasons-09",
@@ -1873,7 +1873,7 @@
           "autumn"
         ],
         "answer": null,
-        "say": "Which season would you choose? winter, spring, summer, or autumn?"
+        "say": "Which season would you choose? Winter, spring, summer, or autumn?"
       },
       {
         "id": "seasons-10",
@@ -1885,7 +1885,7 @@
           "spring"
         ],
         "answer": null,
-        "say": "Which season would you visit? summer, autumn, winter, or spring?"
+        "say": "Which season would you visit? Summer, autumn, winter, or spring?"
       }
     ]
   },
@@ -1903,7 +1903,7 @@
           "bed"
         ],
         "answer": "bed",
-        "say": "Which one is for sleeping? table, door, lamp, or bed?"
+        "say": "Which one is for sleeping? Table, door, lamp, or bed?"
       },
       {
         "id": "home-02",
@@ -1915,7 +1915,7 @@
           "stairs"
         ],
         "answer": "chair",
-        "say": "Which one is for sitting? chair, window, fridge, or stairs?"
+        "say": "Which one is for sitting? Chair, window, fridge, or stairs?"
       },
       {
         "id": "home-03",
@@ -1927,7 +1927,7 @@
           "basket"
         ],
         "answer": "lamp",
-        "say": "Which one gives light? bed, lamp, sofa, or basket?"
+        "say": "Which one gives light? Bed, lamp, sofa, or basket?"
       },
       {
         "id": "home-04",
@@ -1939,7 +1939,7 @@
           "spoon"
         ],
         "answer": "door",
-        "say": "Which one opens to a room? rug, clock, door, or spoon?"
+        "say": "Which one opens to a room? Rug, clock, door, or spoon?"
       },
       {
         "id": "home-05",
@@ -1951,7 +1951,7 @@
           "window"
         ],
         "answer": "window",
-        "say": "Which one lets you see outside? sofa, bath, oven, or window?"
+        "say": "Which one lets you see outside? Sofa, bath, oven, or window?"
       },
       {
         "id": "home-06",
@@ -1963,7 +1963,7 @@
           "fridge"
         ],
         "answer": "stairs",
-        "say": "Which one takes you upstairs? stairs, mirror, blanket, or fridge?"
+        "say": "Which one takes you upstairs? Stairs, mirror, blanket, or fridge?"
       },
       {
         "id": "home-07",
@@ -1975,7 +1975,7 @@
           "clock"
         ],
         "answer": "fridge",
-        "say": "Which one keeps food cold? bed, fridge, chair, or clock?"
+        "say": "Which one keeps food cold? Bed, fridge, chair, or clock?"
       },
       {
         "id": "home-08",
@@ -1987,7 +1987,7 @@
           "garden"
         ],
         "answer": null,
-        "say": "Which home thing would you draw? house, door, window, or garden?"
+        "say": "Which home thing would you draw? House, door, window, or garden?"
       },
       {
         "id": "home-09",
@@ -1999,7 +1999,7 @@
           "garden"
         ],
         "answer": null,
-        "say": "Which room would you choose? kitchen, bathroom, bedroom, or garden?"
+        "say": "Which room would you choose? Kitchen, bathroom, bedroom, or garden?"
       },
       {
         "id": "home-10",
@@ -2011,7 +2011,7 @@
           "sofa"
         ],
         "answer": null,
-        "say": "Which cozy thing would you choose? pillow, blanket, rug, or sofa?"
+        "say": "Which cozy thing would you choose? Pillow, blanket, rug, or sofa?"
       }
     ]
   },
@@ -2029,7 +2029,7 @@
           "plate"
         ],
         "answer": "spoon",
-        "say": "Which one helps eat soup? spoon, knife, fork, or plate?"
+        "say": "Which one helps eat soup? Spoon, knife, fork, or plate?"
       },
       {
         "id": "kitchen-things-02",
@@ -2041,7 +2041,7 @@
           "sink"
         ],
         "answer": "fork",
-        "say": "Which one picks up food? cup, fork, oven, or sink?"
+        "say": "Which one picks up food? Cup, fork, oven, or sink?"
       },
       {
         "id": "kitchen-things-03",
@@ -2053,7 +2053,7 @@
           "cup"
         ],
         "answer": "knife",
-        "say": "Which one can cut food? bowl, plate, knife, or cup?"
+        "say": "Which one can cut food? Bowl, plate, knife, or cup?"
       },
       {
         "id": "kitchen-things-04",
@@ -2065,7 +2065,7 @@
           "oven"
         ],
         "answer": "oven",
-        "say": "Which one bakes bread? fridge, table, chair, or oven?"
+        "say": "Which one bakes bread? Fridge, table, chair, or oven?"
       },
       {
         "id": "kitchen-things-05",
@@ -2077,7 +2077,7 @@
           "bookshelf"
         ],
         "answer": "fridge",
-        "say": "Which one keeps milk cold? fridge, oven, lamp, or bookshelf?"
+        "say": "Which one keeps milk cold? Fridge, oven, lamp, or bookshelf?"
       },
       {
         "id": "kitchen-things-06",
@@ -2089,7 +2089,7 @@
           "ladder"
         ],
         "answer": "plate",
-        "say": "Which one holds a meal? broom, plate, hammer, or ladder?"
+        "say": "Which one holds a meal? Broom, plate, hammer, or ladder?"
       },
       {
         "id": "kitchen-things-07",
@@ -2101,7 +2101,7 @@
           "door"
         ],
         "answer": "cup",
-        "say": "Which one holds a drink? chair, pillow, cup, or door?"
+        "say": "Which one holds a drink? Chair, pillow, cup, or door?"
       },
       {
         "id": "kitchen-things-08",
@@ -2113,7 +2113,7 @@
           "bowl"
         ],
         "answer": null,
-        "say": "Which kitchen thing would you use? spoon, fork, plate, or bowl?"
+        "say": "Which kitchen thing would you use? Spoon, fork, plate, or bowl?"
       },
       {
         "id": "kitchen-things-09",
@@ -2125,7 +2125,7 @@
           "teapot"
         ],
         "answer": null,
-        "say": "Which one would you draw? oven, fridge, sink, or teapot?"
+        "say": "Which one would you draw? Oven, fridge, sink, or teapot?"
       },
       {
         "id": "kitchen-things-10",
@@ -2137,7 +2137,7 @@
           "plate"
         ],
         "answer": null,
-        "say": "Which one would you choose? cup, bottle, bowl, or plate?"
+        "say": "Which one would you choose? Cup, bottle, bowl, or plate?"
       }
     ]
   },
@@ -2155,7 +2155,7 @@
           "soap"
         ],
         "answer": "toothbrush",
-        "say": "Which one cleans teeth? towel, toothbrush, mirror, or soap?"
+        "say": "Which one cleans teeth? Towel, toothbrush, mirror, or soap?"
       },
       {
         "id": "bathroom-things-02",
@@ -2167,7 +2167,7 @@
           "book"
         ],
         "answer": "soap",
-        "say": "Which one makes hands soapy? pillow, clock, soap, or book?"
+        "say": "Which one makes hands soapy? Pillow, clock, soap, or book?"
       },
       {
         "id": "bathroom-things-03",
@@ -2179,7 +2179,7 @@
           "towel"
         ],
         "answer": "towel",
-        "say": "Which one dries wet hands? mirror, toilet, bath, or towel?"
+        "say": "Which one dries wet hands? Mirror, toilet, bath, or towel?"
       },
       {
         "id": "bathroom-things-04",
@@ -2191,7 +2191,7 @@
           "soap"
         ],
         "answer": "mirror",
-        "say": "Which one shows your face? mirror, sink, shower, or soap?"
+        "say": "Which one shows your face? Mirror, sink, shower, or soap?"
       },
       {
         "id": "bathroom-things-05",
@@ -2203,7 +2203,7 @@
           "sofa"
         ],
         "answer": "shower",
-        "say": "Which one lets water fall on you? lamp, shower, bed, or sofa?"
+        "say": "Which one lets water fall on you? Lamp, shower, bed, or sofa?"
       },
       {
         "id": "bathroom-things-06",
@@ -2215,7 +2215,7 @@
           "fridge"
         ],
         "answer": "bath",
-        "say": "Which one is for a bath? bookshelf, oven, bath, or fridge?"
+        "say": "Which one is for a bath? Bookshelf, oven, bath, or fridge?"
       },
       {
         "id": "bathroom-things-07",
@@ -2227,7 +2227,7 @@
           "sink"
         ],
         "answer": "sink",
-        "say": "Which one holds water for washing? table, bed, chair, or sink?"
+        "say": "Which one holds water for washing? Table, bed, chair, or sink?"
       },
       {
         "id": "bathroom-things-08",
@@ -2239,7 +2239,7 @@
           "towel"
         ],
         "answer": null,
-        "say": "Which one would you put by a sink? soap, toothbrush, toothpaste, or towel?"
+        "say": "Which one would you put by a sink? Soap, toothbrush, toothpaste, or towel?"
       },
       {
         "id": "bathroom-things-09",
@@ -2251,7 +2251,7 @@
           "sink"
         ],
         "answer": null,
-        "say": "Which bathroom thing would you draw? mirror, shower, bath, or sink?"
+        "say": "Which bathroom thing would you draw? Mirror, shower, bath, or sink?"
       },
       {
         "id": "bathroom-things-10",
@@ -2263,7 +2263,7 @@
           "mirror"
         ],
         "answer": null,
-        "say": "Which one would you use first? soap, towel, toothbrush, or mirror?"
+        "say": "Which one would you use first? Soap, towel, toothbrush, or mirror?"
       }
     ]
   },
@@ -2281,7 +2281,7 @@
           "glue"
         ],
         "answer": "pencil",
-        "say": "Which one makes pencil marks? eraser, ruler, pencil, or glue?"
+        "say": "Which one makes pencil marks? Eraser, ruler, pencil, or glue?"
       },
       {
         "id": "school-things-02",
@@ -2293,7 +2293,7 @@
           "eraser"
         ],
         "answer": "eraser",
-        "say": "Which one removes pencil marks? crayon, scissors, pen, or eraser?"
+        "say": "Which one removes pencil marks? Crayon, scissors, pen, or eraser?"
       },
       {
         "id": "school-things-03",
@@ -2305,7 +2305,7 @@
           "glue"
         ],
         "answer": "ruler",
-        "say": "Which one measures a line? ruler, book, paintbrush, or glue?"
+        "say": "Which one measures a line? Ruler, book, paintbrush, or glue?"
       },
       {
         "id": "school-things-04",
@@ -2317,7 +2317,7 @@
           "crayon"
         ],
         "answer": "scissors",
-        "say": "Which one cuts paper? pencil, scissors, notebook, or crayon?"
+        "say": "Which one cuts paper? Pencil, scissors, notebook, or crayon?"
       },
       {
         "id": "school-things-05",
@@ -2329,7 +2329,7 @@
           "map"
         ],
         "answer": "glue",
-        "say": "Which one sticks paper together? ruler, backpack, glue, or map?"
+        "say": "Which one sticks paper together? Ruler, backpack, glue, or map?"
       },
       {
         "id": "school-things-06",
@@ -2341,7 +2341,7 @@
           "crayon"
         ],
         "answer": "crayon",
-        "say": "Which one adds color to a drawing? eraser, globe, desk, or crayon?"
+        "say": "Which one adds color to a drawing? Eraser, globe, desk, or crayon?"
       },
       {
         "id": "school-things-07",
@@ -2353,7 +2353,7 @@
           "ruler"
         ],
         "answer": "backpack",
-        "say": "Which one carries your books? backpack, pencil, glue, or ruler?"
+        "say": "Which one carries your books? Backpack, pencil, glue, or ruler?"
       },
       {
         "id": "school-things-08",
@@ -2365,7 +2365,7 @@
           "pen"
         ],
         "answer": null,
-        "say": "Which school thing would you use? pencil, crayon, paintbrush, or pen?"
+        "say": "Which school thing would you use? Pencil, crayon, paintbrush, or pen?"
       },
       {
         "id": "school-things-09",
@@ -2377,7 +2377,7 @@
           "backpack"
         ],
         "answer": null,
-        "say": "Which one would you draw? book, map, globe, or backpack?"
+        "say": "Which one would you draw? Book, map, globe, or backpack?"
       },
       {
         "id": "school-things-10",
@@ -2389,7 +2389,7 @@
           "scissors"
         ],
         "answer": null,
-        "say": "Which one would you choose? puzzle, notebook, calculator, or scissors?"
+        "say": "Which one would you choose? Puzzle, notebook, calculator, or scissors?"
       }
     ]
   },
@@ -2407,7 +2407,7 @@
           "ball"
         ],
         "answer": "ball",
-        "say": "Which one can you kick? doll, blocks, puzzle, or ball?"
+        "say": "Which one can you kick? Doll, blocks, puzzle, or ball?"
       },
       {
         "id": "toys-02",
@@ -2419,7 +2419,7 @@
           "robot"
         ],
         "answer": "teddy-bear",
-        "say": "Which one is soft to cuddle? teddy bear, toy car, blocks, or robot?"
+        "say": "Which one is soft to cuddle? Teddy bear, toy car, blocks, or robot?"
       },
       {
         "id": "toys-03",
@@ -2431,7 +2431,7 @@
           "marbles"
         ],
         "answer": "kite",
-        "say": "Which one flies on a string? doll, kite, ball, or marbles?"
+        "say": "Which one flies on a string? Doll, kite, ball, or marbles?"
       },
       {
         "id": "toys-04",
@@ -2443,7 +2443,7 @@
           "puzzle"
         ],
         "answer": "balloon",
-        "say": "Which one floats in the air? board game, drum, balloon, or puzzle?"
+        "say": "Which one floats in the air? Board game, drum, balloon, or puzzle?"
       },
       {
         "id": "toys-05",
@@ -2455,7 +2455,7 @@
           "blocks"
         ],
         "answer": "blocks",
-        "say": "Which one builds a tower? yo-yo, microphone, doll, or blocks?"
+        "say": "Which one builds a tower? Yo-yo, microphone, doll, or blocks?"
       },
       {
         "id": "toys-06",
@@ -2467,7 +2467,7 @@
           "kite"
         ],
         "answer": "puzzle",
-        "say": "Which one has many pieces? puzzle, teddy bear, ball, or kite?"
+        "say": "Which one has many pieces? Puzzle, teddy bear, ball, or kite?"
       },
       {
         "id": "toys-07",
@@ -2479,7 +2479,7 @@
           "balloon"
         ],
         "answer": "toy-car",
-        "say": "Which one can roll on wheels? doll, toy car, drum, or balloon?"
+        "say": "Which one can roll on wheels? Doll, toy car, drum, or balloon?"
       },
       {
         "id": "toys-08",
@@ -2491,7 +2491,7 @@
           "blocks"
         ],
         "answer": null,
-        "say": "Which toy would you choose? ball, doll, teddy bear, or blocks?"
+        "say": "Which toy would you choose? Ball, doll, teddy bear, or blocks?"
       },
       {
         "id": "toys-09",
@@ -2503,7 +2503,7 @@
           "kite"
         ],
         "answer": null,
-        "say": "Which toy would you share? puzzle, board game, marbles, or kite?"
+        "say": "Which toy would you share? Puzzle, board game, marbles, or kite?"
       },
       {
         "id": "toys-10",
@@ -2515,7 +2515,7 @@
           "yo-yo"
         ],
         "answer": null,
-        "say": "Which toy would you draw? robot, balloon, toy car, or yo-yo?"
+        "say": "Which toy would you draw? Robot, balloon, toy car, or yo-yo?"
       }
     ]
   },
@@ -2533,7 +2533,7 @@
           "boat"
         ],
         "answer": "airplane",
-        "say": "Which one flies in the sky? airplane, car, bus, or boat?"
+        "say": "Which one flies in the sky? Airplane, car, bus, or boat?"
       },
       {
         "id": "transport-02",
@@ -2545,7 +2545,7 @@
           "taxi"
         ],
         "answer": "train",
-        "say": "Which one runs on tracks? truck, train, ship, or taxi?"
+        "say": "Which one runs on tracks? Truck, train, ship, or taxi?"
       },
       {
         "id": "transport-03",
@@ -2557,7 +2557,7 @@
           "truck"
         ],
         "answer": "submarine",
-        "say": "Which one goes under water? car, airplane, submarine, or truck?"
+        "say": "Which one goes under water? Car, airplane, submarine, or truck?"
       },
       {
         "id": "transport-04",
@@ -2569,7 +2569,7 @@
           "ambulance"
         ],
         "answer": "ambulance",
-        "say": "Which one helps sick people travel? taxi, van, tractor, or ambulance?"
+        "say": "Which one helps sick people travel? Taxi, van, tractor, or ambulance?"
       },
       {
         "id": "transport-05",
@@ -2581,7 +2581,7 @@
           "motorbike"
         ],
         "answer": "bus",
-        "say": "Which one carries many road passengers? bus, bike, scooter, or motorbike?"
+        "say": "Which one carries many road passengers? Bus, bike, scooter, or motorbike?"
       },
       {
         "id": "transport-06",
@@ -2593,7 +2593,7 @@
           "ship"
         ],
         "answer": "bike",
-        "say": "Which one uses pedals? car, bike, train, or ship?"
+        "say": "Which one uses pedals? Car, bike, train, or ship?"
       },
       {
         "id": "transport-07",
@@ -2605,7 +2605,7 @@
           "helicopter"
         ],
         "answer": "sailboat",
-        "say": "Which one has a sail? canoe, truck, sailboat, or helicopter?"
+        "say": "Which one has a sail? Canoe, truck, sailboat, or helicopter?"
       },
       {
         "id": "transport-08",
@@ -2617,7 +2617,7 @@
           "boat"
         ],
         "answer": null,
-        "say": "Which transport would you ride? train, bus, tram, or boat?"
+        "say": "Which transport would you ride? Train, bus, tram, or boat?"
       },
       {
         "id": "transport-09",
@@ -2629,7 +2629,7 @@
           "submarine"
         ],
         "answer": null,
-        "say": "Which transport would you draw? rocket, helicopter, airplane, or submarine?"
+        "say": "Which transport would you draw? Rocket, helicopter, airplane, or submarine?"
       },
       {
         "id": "transport-10",
@@ -2641,7 +2641,7 @@
           "ship"
         ],
         "answer": null,
-        "say": "Which transport would you try? bike, scooter, hot air balloon, or ship?"
+        "say": "Which transport would you try? Bike, scooter, hot air balloon, or ship?"
       }
     ]
   },
@@ -2659,7 +2659,7 @@
           "museum"
         ],
         "answer": "beach",
-        "say": "Which place has waves? park, beach, shop, or museum?"
+        "say": "Which place has waves? Park, beach, shop, or museum?"
       },
       {
         "id": "places-02",
@@ -2671,7 +2671,7 @@
           "airport"
         ],
         "answer": "hospital",
-        "say": "Which place has doctors? bakery, cinema, hospital, or airport?"
+        "say": "Which place has doctors? Bakery, cinema, hospital, or airport?"
       },
       {
         "id": "places-03",
@@ -2683,7 +2683,7 @@
           "library"
         ],
         "answer": "library",
-        "say": "Which place lends books? museum, restaurant, hotel, or library?"
+        "say": "Which place lends books? Museum, restaurant, hotel, or library?"
       },
       {
         "id": "places-04",
@@ -2695,7 +2695,7 @@
           "hotel"
         ],
         "answer": "airport",
-        "say": "Which place has airplanes? airport, station, stadium, or hotel?"
+        "say": "Which place has airplanes? Airport, station, stadium, or hotel?"
       },
       {
         "id": "places-05",
@@ -2707,7 +2707,7 @@
           "museum"
         ],
         "answer": "zoo",
-        "say": "Which place has wild animals? cinema, zoo, supermarket, or museum?"
+        "say": "Which place has wild animals? Cinema, zoo, supermarket, or museum?"
       },
       {
         "id": "places-06",
@@ -2719,7 +2719,7 @@
           "lake"
         ],
         "answer": "desert",
-        "say": "Which place has lots of sand? forest, city, desert, or lake?"
+        "say": "Which place has lots of sand? Forest, city, desert, or lake?"
       },
       {
         "id": "places-07",
@@ -2731,7 +2731,7 @@
           "stadium"
         ],
         "answer": "stadium",
-        "say": "Where can you watch a match? library, bakery, hospital, or stadium?"
+        "say": "Where can you watch a match? Library, bakery, hospital, or stadium?"
       },
       {
         "id": "places-08",
@@ -2743,7 +2743,7 @@
           "castle"
         ],
         "answer": null,
-        "say": "Which place would you visit? park, beach, museum, or castle?"
+        "say": "Which place would you visit? Park, beach, museum, or castle?"
       },
       {
         "id": "places-09",
@@ -2755,7 +2755,7 @@
           "forest"
         ],
         "answer": null,
-        "say": "Which place would you draw? mountain, river, island, or forest?"
+        "say": "Which place would you draw? Mountain, river, island, or forest?"
       },
       {
         "id": "places-10",
@@ -2767,7 +2767,7 @@
           "city"
         ],
         "answer": null,
-        "say": "Which place would you explore? cave, waterfall, village, or city?"
+        "say": "Which place would you explore? Cave, waterfall, village, or city?"
       }
     ]
   },
@@ -2785,7 +2785,7 @@
           "driver"
         ],
         "answer": "teacher",
-        "say": "Who helps children learn? chef, pilot, teacher, or driver?"
+        "say": "Who helps children learn? Chef, pilot, teacher, or driver?"
       },
       {
         "id": "jobs-02",
@@ -2797,7 +2797,7 @@
           "chef"
         ],
         "answer": "chef",
-        "say": "Who cooks in a kitchen? dentist, pilot, farmer, or chef?"
+        "say": "Who cooks in a kitchen? Dentist, pilot, farmer, or chef?"
       },
       {
         "id": "jobs-03",
@@ -2809,7 +2809,7 @@
           "artist"
         ],
         "answer": "pilot",
-        "say": "Who flies an airplane? pilot, nurse, farmer, or artist?"
+        "say": "Who flies an airplane? Pilot, nurse, farmer, or artist?"
       },
       {
         "id": "jobs-04",
@@ -2821,7 +2821,7 @@
           "chef"
         ],
         "answer": "firefighter",
-        "say": "Who rides a fire engine? singer, firefighter, vet, or chef?"
+        "say": "Who rides a fire engine? Singer, firefighter, vet, or chef?"
       },
       {
         "id": "jobs-05",
@@ -2833,7 +2833,7 @@
           "pilot"
         ],
         "answer": "farmer",
-        "say": "Who grows food on a farm? dentist, driver, farmer, or pilot?"
+        "say": "Who grows food on a farm? Dentist, driver, farmer, or pilot?"
       },
       {
         "id": "jobs-06",
@@ -2845,7 +2845,7 @@
           "vet"
         ],
         "answer": "vet",
-        "say": "Who helps sick animals? teacher, chef, singer, or vet?"
+        "say": "Who helps sick animals? Teacher, chef, singer, or vet?"
       },
       {
         "id": "jobs-07",
@@ -2857,7 +2857,7 @@
           "driver"
         ],
         "answer": "dentist",
-        "say": "Who checks your teeth? dentist, pilot, artist, or driver?"
+        "say": "Who checks your teeth? Dentist, pilot, artist, or driver?"
       },
       {
         "id": "jobs-08",
@@ -2869,7 +2869,7 @@
           "farmer"
         ],
         "answer": null,
-        "say": "Which job would you try? teacher, artist, chef, or farmer?"
+        "say": "Which job would you try? Teacher, artist, chef, or farmer?"
       },
       {
         "id": "jobs-09",
@@ -2881,7 +2881,7 @@
           "vet"
         ],
         "answer": null,
-        "say": "Which job would you draw? pilot, firefighter, nurse, or vet?"
+        "say": "Which job would you draw? Pilot, firefighter, nurse, or vet?"
       },
       {
         "id": "jobs-10",
@@ -2893,7 +2893,7 @@
           "singer"
         ],
         "answer": null,
-        "say": "Which job would you ask about? doctor, driver, astronaut, or singer?"
+        "say": "Which job would you ask about? Doctor, driver, astronaut, or singer?"
       }
     ]
   },
@@ -2911,7 +2911,7 @@
           "family"
         ],
         "answer": "family",
-        "say": "Which one shows a family? boy, girl, baby, or family?"
+        "say": "Which one shows a family? Boy, girl, baby, or family?"
       },
       {
         "id": "family-time-02",
@@ -2923,7 +2923,7 @@
           "sleep"
         ],
         "answer": "hug",
-        "say": "Which one shows a hug? hug, run, read, or sleep?"
+        "say": "Which one shows a hug? Hug, run, read, or sleep?"
       },
       {
         "id": "family-time-03",
@@ -2935,7 +2935,7 @@
           "eat"
         ],
         "answer": "talk",
-        "say": "Which one shows talking? draw, talk, swim, or eat?"
+        "say": "Which one shows talking? Draw, talk, swim, or eat?"
       },
       {
         "id": "family-time-04",
@@ -2947,7 +2947,7 @@
           "run"
         ],
         "answer": "cook",
-        "say": "Which one could make dinner? sing, skate, cook, or run?"
+        "say": "Which one could make dinner? Sing, skate, cook, or run?"
       },
       {
         "id": "family-time-05",
@@ -2959,7 +2959,7 @@
           "read"
         ],
         "answer": "read",
-        "say": "Which one shows reading? jump, swim, ride a bike, or read?"
+        "say": "Which one shows reading? Jump, swim, ride a bike, or read?"
       },
       {
         "id": "family-time-06",
@@ -2971,7 +2971,7 @@
           "write"
         ],
         "answer": "play",
-        "say": "Which one shows playing? play, sleep, wash, or write?"
+        "say": "Which one shows playing? Play, sleep, wash, or write?"
       },
       {
         "id": "family-time-07",
@@ -2983,7 +2983,7 @@
           "climb"
         ],
         "answer": "listen",
-        "say": "Which one shows listening? throw, listen, kick, or climb?"
+        "say": "Which one shows listening? Throw, listen, kick, or climb?"
       },
       {
         "id": "family-time-08",
@@ -2995,7 +2995,7 @@
           "walk"
         ],
         "answer": null,
-        "say": "Which family activity would you choose? cook, read, play, or walk?"
+        "say": "Which family activity would you choose? Cook, read, play, or walk?"
       },
       {
         "id": "family-time-09",
@@ -3007,7 +3007,7 @@
           "father"
         ],
         "answer": null,
-        "say": "Which family picture would you draw? family, baby, mother, or father?"
+        "say": "Which family picture would you draw? Family, baby, mother, or father?"
       },
       {
         "id": "family-time-10",
@@ -3019,7 +3019,7 @@
           "build"
         ],
         "answer": null,
-        "say": "Which thing would you do together? dance, sing, draw, or build?"
+        "say": "Which thing would you do together? Dance, sing, draw, or build?"
       }
     ]
   },
@@ -3037,7 +3037,7 @@
           "walk"
         ],
         "answer": "draw",
-        "say": "Which action makes a picture? draw, sleep, drink, or walk?"
+        "say": "Which action makes a picture? Draw, sleep, drink, or walk?"
       },
       {
         "id": "actions-02",
@@ -3049,7 +3049,7 @@
           "wash"
         ],
         "answer": "sing",
-        "say": "Which action makes music? eat, sing, write, or wash?"
+        "say": "Which action makes music? Eat, sing, write, or wash?"
       },
       {
         "id": "actions-03",
@@ -3061,7 +3061,7 @@
           "dance"
         ],
         "answer": "read",
-        "say": "Which action uses a book? run, swim, read, or dance?"
+        "say": "Which action uses a book? Run, swim, read, or dance?"
       },
       {
         "id": "actions-04",
@@ -3073,7 +3073,7 @@
           "swim"
         ],
         "answer": "swim",
-        "say": "Which action can make you wet? think, listen, sit, or swim?"
+        "say": "Which action can make you wet? Think, listen, sit, or swim?"
       },
       {
         "id": "actions-05",
@@ -3085,7 +3085,7 @@
           "sit"
         ],
         "answer": "shout",
-        "say": "Which action can wake someone? shout, whisper, smile, or sit?"
+        "say": "Which action can wake someone? Shout, whisper, smile, or sit?"
       },
       {
         "id": "actions-06",
@@ -3097,7 +3097,7 @@
           "ride-a-bike"
         ],
         "answer": "water-the-plants",
-        "say": "Which action helps a plant? throw, water the plants, catch, or ride a bike?"
+        "say": "Which action helps a plant? Throw, water the plants, catch, or ride a bike?"
       },
       {
         "id": "actions-07",
@@ -3109,7 +3109,7 @@
           "point"
         ],
         "answer": "sweep",
-        "say": "Which action can clean a floor? paint, clap, sweep, or point?"
+        "say": "Which action can clean a floor? Paint, clap, sweep, or point?"
       },
       {
         "id": "actions-08",
@@ -3121,7 +3121,7 @@
           "dance"
         ],
         "answer": null,
-        "say": "Which action would you choose? run, walk, jump, or dance?"
+        "say": "Which action would you choose? Run, walk, jump, or dance?"
       },
       {
         "id": "actions-09",
@@ -3133,7 +3133,7 @@
           "bake"
         ],
         "answer": null,
-        "say": "Which action would you try? draw, paint, build, or bake?"
+        "say": "Which action would you try? Draw, paint, build, or bake?"
       },
       {
         "id": "actions-10",
@@ -3145,7 +3145,7 @@
           "stand"
         ],
         "answer": null,
-        "say": "Which action would you show? clap, wave, smile, or stand?"
+        "say": "Which action would you show? Clap, wave, smile, or stand?"
       }
     ]
   },
@@ -3163,7 +3163,7 @@
           "scared"
         ],
         "answer": "happy",
-        "say": "Which one feels joyful? sad, happy, angry, or scared?"
+        "say": "Which one feels joyful? Sad, happy, angry, or scared?"
       },
       {
         "id": "feelings-02",
@@ -3175,7 +3175,7 @@
           "brave"
         ],
         "answer": "tired",
-        "say": "Which one needs some sleep? proud, silly, tired, or brave?"
+        "say": "Which one needs some sleep? Proud, silly, tired, or brave?"
       },
       {
         "id": "feelings-03",
@@ -3187,7 +3187,7 @@
           "hungry"
         ],
         "answer": "hungry",
-        "say": "Which one wants food? worried, surprised, cold, or hungry?"
+        "say": "Which one wants food? Worried, surprised, cold, or hungry?"
       },
       {
         "id": "feelings-04",
@@ -3199,7 +3199,7 @@
           "bored"
         ],
         "answer": "thirsty",
-        "say": "Which one wants water? thirsty, shy, angry, or bored?"
+        "say": "Which one wants water? Thirsty, shy, angry, or bored?"
       },
       {
         "id": "feelings-05",
@@ -3211,7 +3211,7 @@
           "excited"
         ],
         "answer": "scared",
-        "say": "Which one feels afraid? happy, scared, proud, or excited?"
+        "say": "Which one feels afraid? Happy, scared, proud, or excited?"
       },
       {
         "id": "feelings-06",
@@ -3223,7 +3223,7 @@
           "hungry"
         ],
         "answer": "hot",
-        "say": "Which one feels too warm? cold, sad, hot, or hungry?"
+        "say": "Which one feels too warm? Cold, sad, hot, or hungry?"
       },
       {
         "id": "feelings-07",
@@ -3235,7 +3235,7 @@
           "surprised"
         ],
         "answer": "surprised",
-        "say": "Which one did not expect that? bored, tired, angry, or surprised?"
+        "say": "Which one did not expect that? Bored, tired, angry, or surprised?"
       },
       {
         "id": "feelings-08",
@@ -3247,7 +3247,7 @@
           "surprised"
         ],
         "answer": null,
-        "say": "Which feeling would you draw? happy, sad, angry, or surprised?"
+        "say": "Which feeling would you draw? Happy, sad, angry, or surprised?"
       },
       {
         "id": "feelings-09",
@@ -3259,7 +3259,7 @@
           "silly"
         ],
         "answer": null,
-        "say": "Which feeling would you name? excited, shy, proud, or silly?"
+        "say": "Which feeling would you name? Excited, shy, proud, or silly?"
       },
       {
         "id": "feelings-10",
@@ -3271,7 +3271,7 @@
           "happy"
         ],
         "answer": null,
-        "say": "Which feeling would you talk about? worried, brave, scared, or happy?"
+        "say": "Which feeling would you talk about? Worried, brave, scared, or happy?"
       }
     ]
   },
@@ -3289,7 +3289,7 @@
           "strawberry"
         ],
         "answer": "banana",
-        "say": "Which one is yellow? tomato, broccoli, banana, or strawberry?"
+        "say": "Which one is yellow? Tomato, broccoli, banana, or strawberry?"
       },
       {
         "id": "colours-of-things-02",
@@ -3301,7 +3301,7 @@
           "strawberry"
         ],
         "answer": "strawberry",
-        "say": "Which one is red? lemon, broccoli, coconut, or strawberry?"
+        "say": "Which one is red? Lemon, broccoli, coconut, or strawberry?"
       },
       {
         "id": "colours-of-things-03",
@@ -3313,7 +3313,7 @@
           "cherry"
         ],
         "answer": "broccoli",
-        "say": "Which one is green? broccoli, carrot, egg, or cherry?"
+        "say": "Which one is green? Broccoli, carrot, egg, or cherry?"
       },
       {
         "id": "colours-of-things-04",
@@ -3325,7 +3325,7 @@
           "strawberry"
         ],
         "answer": "snowman",
-        "say": "Which one is white? sun, snowman, grass, or strawberry?"
+        "say": "Which one is white? Sun, snowman, grass, or strawberry?"
       },
       {
         "id": "colours-of-things-05",
@@ -3337,7 +3337,7 @@
           "strawberry"
         ],
         "answer": "carrot",
-        "say": "Which one is orange? broccoli, banana, carrot, or strawberry?"
+        "say": "Which one is orange? Broccoli, banana, carrot, or strawberry?"
       },
       {
         "id": "colours-of-things-06",
@@ -3349,7 +3349,7 @@
           "zebra"
         ],
         "answer": "zebra",
-        "say": "Which one is black and white? lion, elephant, hippo, or zebra?"
+        "say": "Which one is black and white? Lion, elephant, hippo, or zebra?"
       },
       {
         "id": "colours-of-things-07",
@@ -3361,7 +3361,7 @@
           "bat"
         ],
         "answer": "flamingo",
-        "say": "Which one is pink? flamingo, penguin, owl, or bat?"
+        "say": "Which one is pink? Flamingo, penguin, owl, or bat?"
       },
       {
         "id": "colours-of-things-08",
@@ -3373,7 +3373,7 @@
           "peacock"
         ],
         "answer": null,
-        "say": "Which colorful thing would you draw? rainbow, flower, butterfly, or peacock?"
+        "say": "Which colorful thing would you draw? Rainbow, flower, butterfly, or peacock?"
       },
       {
         "id": "colours-of-things-09",
@@ -3385,7 +3385,7 @@
           "kiwi"
         ],
         "answer": null,
-        "say": "Which color fruit would you choose? banana, strawberry, orange, or kiwi?"
+        "say": "Which color fruit would you choose? Banana, strawberry, orange, or kiwi?"
       },
       {
         "id": "colours-of-things-10",
@@ -3397,7 +3397,7 @@
           "ladybug"
         ],
         "answer": null,
-        "say": "Which color animal would you paint? flamingo, zebra, peacock, or ladybug?"
+        "say": "Which color animal would you paint? Flamingo, zebra, peacock, or ladybug?"
       }
     ]
   },
@@ -3415,7 +3415,7 @@
           "elephant"
         ],
         "answer": "elephant",
-        "say": "Which one is the biggest? mouse, ant, bee, or elephant?"
+        "say": "Which one is the biggest? Mouse, ant, bee, or elephant?"
       },
       {
         "id": "sizes-02",
@@ -3427,7 +3427,7 @@
           "cow"
         ],
         "answer": "ant",
-        "say": "Which one is the smallest? ant, elephant, horse, or cow?"
+        "say": "Which one is the smallest? Ant, elephant, horse, or cow?"
       },
       {
         "id": "sizes-03",
@@ -3439,7 +3439,7 @@
           "bee"
         ],
         "answer": "snake",
-        "say": "Which one is the longest? snail, snake, mouse, or bee?"
+        "say": "Which one is the longest? Snail, snake, mouse, or bee?"
       },
       {
         "id": "sizes-04",
@@ -3451,7 +3451,7 @@
           "dog"
         ],
         "answer": "giraffe",
-        "say": "Which one is the tallest? rabbit, fox, giraffe, or dog?"
+        "say": "Which one is the tallest? Rabbit, fox, giraffe, or dog?"
       },
       {
         "id": "sizes-05",
@@ -3463,7 +3463,7 @@
           "cherry"
         ],
         "answer": "cherry",
-        "say": "Which fruit is the smallest? watermelon, pineapple, coconut, or cherry?"
+        "say": "Which fruit is the smallest? Watermelon, pineapple, coconut, or cherry?"
       },
       {
         "id": "sizes-06",
@@ -3475,7 +3475,7 @@
           "ball"
         ],
         "answer": "bus",
-        "say": "Which one is bigger than a car? bus, bike, scooter, or ball?"
+        "say": "Which one is bigger than a car? Bus, bike, scooter, or ball?"
       },
       {
         "id": "sizes-07",
@@ -3487,7 +3487,7 @@
           "hippo"
         ],
         "answer": "ladybug",
-        "say": "Which one is tiny? cow, ladybug, horse, or hippo?"
+        "say": "Which one is tiny? Cow, ladybug, horse, or hippo?"
       },
       {
         "id": "sizes-08",
@@ -3499,7 +3499,7 @@
           "hippo"
         ],
         "answer": null,
-        "say": "Which big animal would you draw? elephant, whale, giraffe, or hippo?"
+        "say": "Which big animal would you draw? Elephant, whale, giraffe, or hippo?"
       },
       {
         "id": "sizes-09",
@@ -3511,7 +3511,7 @@
           "ladybug"
         ],
         "answer": null,
-        "say": "Which small animal would you draw? ant, bee, mouse, or ladybug?"
+        "say": "Which small animal would you draw? Ant, bee, mouse, or ladybug?"
       },
       {
         "id": "sizes-10",
@@ -3523,7 +3523,7 @@
           "rocket"
         ],
         "answer": null,
-        "say": "Which tall thing would you visit? mountain, castle, tree, or rocket?"
+        "say": "Which tall thing would you visit? Mountain, castle, tree, or rocket?"
       }
     ]
   },
@@ -3541,7 +3541,7 @@
           "potato"
         ],
         "answer": "cake",
-        "say": "Which one is a sweet party food? cake, carrot, cheese, or potato?"
+        "say": "Which one is a sweet party food? Cake, carrot, cheese, or potato?"
       },
       {
         "id": "birthday-party-02",
@@ -3553,7 +3553,7 @@
           "book"
         ],
         "answer": "balloon",
-        "say": "Which one floats above a party? puzzle, balloon, drum, or book?"
+        "say": "Which one floats above a party? Puzzle, balloon, drum, or book?"
       },
       {
         "id": "birthday-party-03",
@@ -3565,7 +3565,7 @@
           "shoes"
         ],
         "answer": "present",
-        "say": "Which one is a gift? pillow, spoon, present, or shoes?"
+        "say": "Which one is a gift? Pillow, spoon, present, or shoes?"
       },
       {
         "id": "birthday-party-04",
@@ -3577,7 +3577,7 @@
           "birthday"
         ],
         "answer": "birthday",
-        "say": "Which one shows a birthday? morning, night, summer, or birthday?"
+        "say": "Which one shows a birthday? Morning, night, summer, or birthday?"
       },
       {
         "id": "birthday-party-05",
@@ -3589,7 +3589,7 @@
           "school"
         ],
         "answer": "party",
-        "say": "Which one shows people celebrating? party, classroom, library, or school?"
+        "say": "Which one shows people celebrating? Party, classroom, library, or school?"
       },
       {
         "id": "birthday-party-06",
@@ -3601,7 +3601,7 @@
           "ball"
         ],
         "answer": "envelope",
-        "say": "Which one can carry an invitation? plate, envelope, broom, or ball?"
+        "say": "Which one can carry an invitation? Plate, envelope, broom, or ball?"
       },
       {
         "id": "birthday-party-07",
@@ -3613,7 +3613,7 @@
           "plate"
         ],
         "answer": "drum",
-        "say": "Which one makes a loud beat? spoon, cup, drum, or plate?"
+        "say": "Which one makes a loud beat? Spoon, cup, drum, or plate?"
       },
       {
         "id": "birthday-party-08",
@@ -3625,7 +3625,7 @@
           "ice-cream"
         ],
         "answer": null,
-        "say": "Which party food would you choose? cake, muffin, pie, or ice cream?"
+        "say": "Which party food would you choose? Cake, muffin, pie, or ice cream?"
       },
       {
         "id": "birthday-party-09",
@@ -3637,7 +3637,7 @@
           "candle"
         ],
         "answer": null,
-        "say": "Which party thing would you draw? balloon, present, party, or candle?"
+        "say": "Which party thing would you draw? Balloon, present, party, or candle?"
       },
       {
         "id": "birthday-party-10",
@@ -3649,7 +3649,7 @@
           "ball"
         ],
         "answer": null,
-        "say": "Which party game would you choose? board game, puzzle, marbles, or ball?"
+        "say": "Which party game would you choose? Board game, puzzle, marbles, or ball?"
       }
     ]
   },
@@ -3667,7 +3667,7 @@
           "golf"
         ],
         "answer": "basketball",
-        "say": "Which sport uses a hoop? football, basketball, tennis, or golf?"
+        "say": "Which sport uses a hoop? Football, basketball, tennis, or golf?"
       },
       {
         "id": "sports-02",
@@ -3679,7 +3679,7 @@
           "karate"
         ],
         "answer": "tennis",
-        "say": "Which sport uses a racket? football, golf, tennis, or karate?"
+        "say": "Which sport uses a racket? Football, golf, tennis, or karate?"
       },
       {
         "id": "sports-03",
@@ -3691,7 +3691,7 @@
           "golf"
         ],
         "answer": "golf",
-        "say": "Which sport uses a club? football, basketball, karate, or golf?"
+        "say": "Which sport uses a club? Football, basketball, karate, or golf?"
       },
       {
         "id": "sports-04",
@@ -3703,7 +3703,7 @@
           "golf"
         ],
         "answer": "surfing",
-        "say": "Which sport happens on water? surfing, tennis, karate, or golf?"
+        "say": "Which sport happens on water? Surfing, tennis, karate, or golf?"
       },
       {
         "id": "sports-05",
@@ -3715,7 +3715,7 @@
           "golf"
         ],
         "answer": "football",
-        "say": "Which sport uses kicking? tennis, football, baseball, or golf?"
+        "say": "Which sport uses kicking? Tennis, football, baseball, or golf?"
       },
       {
         "id": "sports-06",
@@ -3727,7 +3727,7 @@
           "surfing"
         ],
         "answer": "baseball",
-        "say": "Which sport uses a bat? tennis, karate, baseball, or surfing?"
+        "say": "Which sport uses a bat? Tennis, karate, baseball, or surfing?"
       },
       {
         "id": "sports-07",
@@ -3739,7 +3739,7 @@
           "karate"
         ],
         "answer": "karate",
-        "say": "Which sport needs no ball? football, tennis, golf, or karate?"
+        "say": "Which sport needs no ball? Football, tennis, golf, or karate?"
       },
       {
         "id": "sports-08",
@@ -3751,7 +3751,7 @@
           "baseball"
         ],
         "answer": null,
-        "say": "Which sport would you play? football, basketball, tennis, or baseball?"
+        "say": "Which sport would you play? Football, basketball, tennis, or baseball?"
       },
       {
         "id": "sports-09",
@@ -3763,7 +3763,7 @@
           "surfing"
         ],
         "answer": null,
-        "say": "Which sport would you watch? golf, hockey, karate, or surfing?"
+        "say": "Which sport would you watch? Golf, hockey, karate, or surfing?"
       },
       {
         "id": "sports-10",
@@ -3775,7 +3775,1267 @@
           "tennis"
         ],
         "answer": null,
-        "say": "Which sport would you draw? basketball, football, surfing, or tennis?"
+        "say": "Which sport would you draw? Basketball, football, surfing, or tennis?"
+      }
+    ]
+  },
+  {
+    "id": "nature",
+    "topic": "Nature",
+    "questions": [
+      {
+        "id": "nature-01",
+        "prompt": "Which one lights the day?",
+        "options": [
+          "rock",
+          "tree",
+          "sun",
+          "leaf"
+        ],
+        "answer": "sun",
+        "say": "Which one lights the day? Rock, tree, sun, or leaf?"
+      },
+      {
+        "id": "nature-02",
+        "prompt": "Which one can glow at night?",
+        "options": [
+          "sand",
+          "grass",
+          "flower",
+          "moon"
+        ],
+        "answer": "moon",
+        "say": "Which one can glow at night? Sand, grass, flower, or moon?"
+      },
+      {
+        "id": "nature-03",
+        "prompt": "Which one has a trunk?",
+        "options": [
+          "tree",
+          "cloud",
+          "rock",
+          "star"
+        ],
+        "answer": "tree",
+        "say": "Which one has a trunk? Tree, cloud, rock, or star?"
+      },
+      {
+        "id": "nature-04",
+        "prompt": "Which one has petals?",
+        "options": [
+          "sand",
+          "flower",
+          "moon",
+          "rock"
+        ],
+        "answer": "flower",
+        "say": "Which one has petals? Sand, flower, moon, or rock?"
+      },
+      {
+        "id": "nature-05",
+        "prompt": "Which one is hot inside?",
+        "options": [
+          "river",
+          "forest",
+          "volcano",
+          "cloud"
+        ],
+        "answer": "volcano",
+        "say": "Which one is hot inside? River, forest, volcano, or cloud?"
+      },
+      {
+        "id": "nature-06",
+        "prompt": "Which one falls from clouds?",
+        "options": [
+          "tree",
+          "rock",
+          "fire",
+          "rain"
+        ],
+        "answer": "rain",
+        "say": "Which one falls from clouds? Tree, rock, fire, or rain?"
+      },
+      {
+        "id": "nature-07",
+        "prompt": "Which one grows in a desert?",
+        "options": [
+          "cactus",
+          "shell",
+          "feather",
+          "acorn"
+        ],
+        "answer": "cactus",
+        "say": "Which one grows in a desert? Cactus, shell, feather, or acorn?"
+      },
+      {
+        "id": "nature-08",
+        "prompt": "Which nature picture would you draw?",
+        "options": [
+          "sun",
+          "moon",
+          "star",
+          "rainbow"
+        ],
+        "answer": null,
+        "say": "Which nature picture would you draw? Sun, moon, star, or rainbow?"
+      },
+      {
+        "id": "nature-09",
+        "prompt": "Which nature picture would you explore?",
+        "options": [
+          "mountain",
+          "river",
+          "forest",
+          "cave"
+        ],
+        "answer": null,
+        "say": "Which nature picture would you explore? Mountain, river, forest, or cave?"
+      },
+      {
+        "id": "nature-10",
+        "prompt": "Which nature thing would you watch?",
+        "options": [
+          "flower",
+          "tree",
+          "waterfall",
+          "cloud"
+        ],
+        "answer": null,
+        "say": "Which nature thing would you watch? Flower, tree, waterfall, or cloud?"
+      }
+    ]
+  },
+  {
+    "id": "opposites",
+    "topic": "Opposites",
+    "questions": [
+      {
+        "id": "opposites-01",
+        "prompt": "Which one is hot?",
+        "options": [
+          "ice",
+          "snow",
+          "cloud",
+          "fire"
+        ],
+        "answer": "fire",
+        "say": "Which one is hot? Ice, snow, cloud, or fire?"
+      },
+      {
+        "id": "opposites-02",
+        "prompt": "Which one is cold?",
+        "options": [
+          "ice",
+          "sun",
+          "fire",
+          "sand"
+        ],
+        "answer": "ice",
+        "say": "Which one is cold? Ice, sun, fire, or sand?"
+      },
+      {
+        "id": "opposites-03",
+        "prompt": "Which one feels happy?",
+        "options": [
+          "sad",
+          "happy",
+          "angry",
+          "scared"
+        ],
+        "answer": "happy",
+        "say": "Which one feels happy? Sad, happy, angry, or scared?"
+      },
+      {
+        "id": "opposites-04",
+        "prompt": "Which one is very big?",
+        "options": [
+          "mouse",
+          "ant",
+          "elephant",
+          "bee"
+        ],
+        "answer": "elephant",
+        "say": "Which one is very big? Mouse, ant, elephant, or bee?"
+      },
+      {
+        "id": "opposites-05",
+        "prompt": "Which one is very light?",
+        "options": [
+          "rock",
+          "hammer",
+          "ladder",
+          "feather"
+        ],
+        "answer": "feather",
+        "say": "Which one is very light? Rock, hammer, ladder, or feather?"
+      },
+      {
+        "id": "opposites-06",
+        "prompt": "Which action goes upward?",
+        "options": [
+          "climb",
+          "sit",
+          "sleep",
+          "fall"
+        ],
+        "answer": "climb",
+        "say": "Which action goes upward? Climb, sit, sleep, or fall?"
+      },
+      {
+        "id": "opposites-07",
+        "prompt": "Which one shows opening?",
+        "options": [
+          "close",
+          "open",
+          "run",
+          "walk"
+        ],
+        "answer": "open",
+        "say": "Which one shows opening? Close, open, run, or walk?"
+      },
+      {
+        "id": "opposites-08",
+        "prompt": "Which opposite would you act?",
+        "options": [
+          "hot",
+          "cold",
+          "happy",
+          "sad"
+        ],
+        "answer": null,
+        "say": "Which opposite would you act? Hot, cold, happy, or sad?"
+      },
+      {
+        "id": "opposites-09",
+        "prompt": "Which big or small thing would you draw?",
+        "options": [
+          "elephant",
+          "ant",
+          "whale",
+          "bee"
+        ],
+        "answer": null,
+        "say": "Which big or small thing would you draw? Elephant, ant, whale, or bee?"
+      },
+      {
+        "id": "opposites-10",
+        "prompt": "Which opposite picture would you choose?",
+        "options": [
+          "sun",
+          "snow",
+          "fire",
+          "ice"
+        ],
+        "answer": null,
+        "say": "Which opposite picture would you choose? Sun, snow, fire, or ice?"
+      }
+    ]
+  },
+  {
+    "id": "what-do-you-use",
+    "topic": "What Do You Use?",
+    "questions": [
+      {
+        "id": "what-do-you-use-01",
+        "prompt": "What do you use to write?",
+        "options": [
+          "pencil",
+          "spoon",
+          "hat",
+          "ball"
+        ],
+        "answer": "pencil",
+        "say": "What do you use to write? Pencil, spoon, hat, or ball?"
+      },
+      {
+        "id": "what-do-you-use-02",
+        "prompt": "What do you use in rain?",
+        "options": [
+          "fork",
+          "umbrella",
+          "pillow",
+          "book"
+        ],
+        "answer": "umbrella",
+        "say": "What do you use in rain? Fork, umbrella, pillow, or book?"
+      },
+      {
+        "id": "what-do-you-use-03",
+        "prompt": "What do you use for teeth?",
+        "options": [
+          "towel",
+          "shoes",
+          "toothbrush",
+          "ball"
+        ],
+        "answer": "toothbrush",
+        "say": "What do you use for teeth? Towel, shoes, toothbrush, or ball?"
+      },
+      {
+        "id": "what-do-you-use-04",
+        "prompt": "What do you use to cut paper?",
+        "options": [
+          "glue",
+          "crayon",
+          "clock",
+          "scissors"
+        ],
+        "answer": "scissors",
+        "say": "What do you use to cut paper? Glue, crayon, clock, or scissors?"
+      },
+      {
+        "id": "what-do-you-use-05",
+        "prompt": "What do you use for soup?",
+        "options": [
+          "spoon",
+          "ruler",
+          "pen",
+          "hammer"
+        ],
+        "answer": "spoon",
+        "say": "What do you use for soup? Spoon, ruler, pen, or hammer?"
+      },
+      {
+        "id": "what-do-you-use-06",
+        "prompt": "What do you use to open doors?",
+        "options": [
+          "leaf",
+          "key",
+          "cup",
+          "plate"
+        ],
+        "answer": "key",
+        "say": "What do you use to open doors? Leaf, key, cup, or plate?"
+      },
+      {
+        "id": "what-do-you-use-07",
+        "prompt": "What do you use in the dark?",
+        "options": [
+          "broom",
+          "rope",
+          "flashlight",
+          "box"
+        ],
+        "answer": "flashlight",
+        "say": "What do you use in the dark? Broom, rope, flashlight, or box?"
+      },
+      {
+        "id": "what-do-you-use-08",
+        "prompt": "Which tool would you try?",
+        "options": [
+          "paintbrush",
+          "hammer",
+          "calculator",
+          "camera"
+        ],
+        "answer": null,
+        "say": "Which tool would you try? Paintbrush, hammer, calculator, or camera?"
+      },
+      {
+        "id": "what-do-you-use-09",
+        "prompt": "Which school thing would you use?",
+        "options": [
+          "pencil",
+          "ruler",
+          "crayon",
+          "glue"
+        ],
+        "answer": null,
+        "say": "Which school thing would you use? Pencil, ruler, crayon, or glue?"
+      },
+      {
+        "id": "what-do-you-use-10",
+        "prompt": "Which home thing would you use?",
+        "options": [
+          "broom",
+          "bucket",
+          "ladder",
+          "flashlight"
+        ],
+        "answer": null,
+        "say": "Which home thing would you use? Broom, bucket, ladder, or flashlight?"
+      }
+    ]
+  },
+  {
+    "id": "where-do-you",
+    "topic": "Where Do You?",
+    "questions": [
+      {
+        "id": "where-do-you-01",
+        "prompt": "Where do you buy food?",
+        "options": [
+          "library",
+          "supermarket",
+          "hospital",
+          "stadium"
+        ],
+        "answer": "supermarket",
+        "say": "Where do you buy food? Library, supermarket, hospital, or stadium?"
+      },
+      {
+        "id": "where-do-you-02",
+        "prompt": "Where do you see a doctor?",
+        "options": [
+          "bakery",
+          "cinema",
+          "hospital",
+          "airport"
+        ],
+        "answer": "hospital",
+        "say": "Where do you see a doctor? Bakery, cinema, hospital, or airport?"
+      },
+      {
+        "id": "where-do-you-03",
+        "prompt": "Where do you swim in a pool?",
+        "options": [
+          "museum",
+          "farm",
+          "shop",
+          "swimming-pool"
+        ],
+        "answer": "swimming-pool",
+        "say": "Where do you swim in a pool? Museum, farm, shop, or swimming pool?"
+      },
+      {
+        "id": "where-do-you-04",
+        "prompt": "Where do you catch a train?",
+        "options": [
+          "station",
+          "castle",
+          "beach",
+          "forest"
+        ],
+        "answer": "station",
+        "say": "Where do you catch a train? Station, castle, beach, or forest?"
+      },
+      {
+        "id": "where-do-you-05",
+        "prompt": "Where can you borrow books?",
+        "options": [
+          "airport",
+          "library",
+          "stadium",
+          "farm"
+        ],
+        "answer": "library",
+        "say": "Where can you borrow books? Airport, library, stadium, or farm?"
+      },
+      {
+        "id": "where-do-you-06",
+        "prompt": "Where do you watch a film?",
+        "options": [
+          "hospital",
+          "bakery",
+          "cinema",
+          "bridge"
+        ],
+        "answer": "cinema",
+        "say": "Where do you watch a film? Hospital, bakery, cinema, or bridge?"
+      },
+      {
+        "id": "where-do-you-07",
+        "prompt": "Where might you sleep on a trip?",
+        "options": [
+          "road",
+          "station",
+          "restaurant",
+          "hotel"
+        ],
+        "answer": "hotel",
+        "say": "Where might you sleep on a trip? Road, station, restaurant, or hotel?"
+      },
+      {
+        "id": "where-do-you-08",
+        "prompt": "Where would you play?",
+        "options": [
+          "park",
+          "playground",
+          "beach",
+          "garden"
+        ],
+        "answer": null,
+        "say": "Where would you play? Park, playground, beach, or garden?"
+      },
+      {
+        "id": "where-do-you-09",
+        "prompt": "Where would you visit animals?",
+        "options": [
+          "zoo",
+          "farm",
+          "forest",
+          "sea"
+        ],
+        "answer": null,
+        "say": "Where would you visit animals? Zoo, farm, forest, or sea?"
+      },
+      {
+        "id": "where-do-you-10",
+        "prompt": "Where would you go today?",
+        "options": [
+          "museum",
+          "library",
+          "park",
+          "shop"
+        ],
+        "answer": null,
+        "say": "Where would you go today? Museum, library, park, or shop?"
+      }
+    ]
+  },
+  {
+    "id": "at-the-park",
+    "topic": "At the Park",
+    "questions": [
+      {
+        "id": "at-the-park-01",
+        "prompt": "Which one can you slide down?",
+        "options": [
+          "swing",
+          "chair",
+          "slide",
+          "kite"
+        ],
+        "answer": "slide",
+        "say": "Which one can you slide down? Swing, chair, slide, or kite?"
+      },
+      {
+        "id": "at-the-park-02",
+        "prompt": "Which one moves back and forth?",
+        "options": [
+          "slide",
+          "tree",
+          "ball",
+          "swing"
+        ],
+        "answer": "swing",
+        "say": "Which one moves back and forth? Slide, tree, ball, or swing?"
+      },
+      {
+        "id": "at-the-park-03",
+        "prompt": "Which one can you sit on?",
+        "options": [
+          "chair",
+          "flower",
+          "kite",
+          "balloon"
+        ],
+        "answer": "chair",
+        "say": "Which one can you sit on? Chair, flower, kite, or balloon?"
+      },
+      {
+        "id": "at-the-park-04",
+        "prompt": "Which one grows from an acorn?",
+        "options": [
+          "rock",
+          "tree",
+          "ball",
+          "cloud"
+        ],
+        "answer": "tree",
+        "say": "Which one grows from an acorn? Rock, tree, ball, or cloud?"
+      },
+      {
+        "id": "at-the-park-05",
+        "prompt": "Which one has petals?",
+        "options": [
+          "grass",
+          "rock",
+          "flower",
+          "chair"
+        ],
+        "answer": "flower",
+        "say": "Which one has petals? Grass, rock, flower, or chair?"
+      },
+      {
+        "id": "at-the-park-06",
+        "prompt": "Which one can bounce?",
+        "options": [
+          "leaf",
+          "flower",
+          "chair",
+          "ball"
+        ],
+        "answer": "ball",
+        "say": "Which one can bounce? Leaf, flower, chair, or ball?"
+      },
+      {
+        "id": "at-the-park-07",
+        "prompt": "Which one can fly on a string?",
+        "options": [
+          "kite",
+          "slide",
+          "swing",
+          "chair"
+        ],
+        "answer": "kite",
+        "say": "Which one can fly on a string? Kite, slide, swing, or chair?"
+      },
+      {
+        "id": "at-the-park-08",
+        "prompt": "Which park thing would you choose?",
+        "options": [
+          "slide",
+          "swing",
+          "ball",
+          "kite"
+        ],
+        "answer": null,
+        "say": "Which park thing would you choose? Slide, swing, ball, or kite?"
+      },
+      {
+        "id": "at-the-park-09",
+        "prompt": "Which park picture would you draw?",
+        "options": [
+          "tree",
+          "flower",
+          "grass",
+          "chair"
+        ],
+        "answer": null,
+        "say": "Which park picture would you draw? Tree, flower, grass, or chair?"
+      },
+      {
+        "id": "at-the-park-10",
+        "prompt": "Which park game would you play?",
+        "options": [
+          "catch",
+          "kick",
+          "run",
+          "clap"
+        ],
+        "answer": null,
+        "say": "Which park game would you play? Catch, kick, run, or clap?"
+      }
+    ]
+  },
+  {
+    "id": "at-the-beach",
+    "topic": "At the Beach",
+    "questions": [
+      {
+        "id": "at-the-beach-01",
+        "prompt": "Which one comes from a sea animal?",
+        "options": [
+          "car",
+          "book",
+          "hat",
+          "shell"
+        ],
+        "answer": "shell",
+        "say": "Which one comes from a sea animal? Car, book, hat, or shell?"
+      },
+      {
+        "id": "at-the-beach-02",
+        "prompt": "Which one is salty and wet?",
+        "options": [
+          "sea",
+          "sand",
+          "rock",
+          "grass"
+        ],
+        "answer": "sea",
+        "say": "Which one is salty and wet? Sea, sand, rock, or grass?"
+      },
+      {
+        "id": "at-the-beach-03",
+        "prompt": "Which one can pinch?",
+        "options": [
+          "fish",
+          "crab",
+          "whale",
+          "seal"
+        ],
+        "answer": "crab",
+        "say": "Which one can pinch? Fish, crab, whale, or seal?"
+      },
+      {
+        "id": "at-the-beach-04",
+        "prompt": "Which one can give shade?",
+        "options": [
+          "shell",
+          "bucket",
+          "umbrella",
+          "rope"
+        ],
+        "answer": "umbrella",
+        "say": "Which one can give shade? Shell, bucket, umbrella, or rope?"
+      },
+      {
+        "id": "at-the-beach-05",
+        "prompt": "Which one floats on water?",
+        "options": [
+          "rock",
+          "car",
+          "chair",
+          "boat"
+        ],
+        "answer": "boat",
+        "say": "Which one floats on water? Rock, car, chair, or boat?"
+      },
+      {
+        "id": "at-the-beach-06",
+        "prompt": "Which one is a sand building?",
+        "options": [
+          "sandcastle",
+          "house",
+          "castle",
+          "bridge"
+        ],
+        "answer": "sandcastle",
+        "say": "Which one is a sand building? Sandcastle, house, castle, or bridge?"
+      },
+      {
+        "id": "at-the-beach-07",
+        "prompt": "Which one warms the sand?",
+        "options": [
+          "moon",
+          "sun",
+          "star",
+          "cloud"
+        ],
+        "answer": "sun",
+        "say": "Which one warms the sand? Moon, sun, star, or cloud?"
+      },
+      {
+        "id": "at-the-beach-08",
+        "prompt": "Which beach thing would you choose?",
+        "options": [
+          "shell",
+          "sandcastle",
+          "ball",
+          "umbrella"
+        ],
+        "answer": null,
+        "say": "Which beach thing would you choose? Shell, sandcastle, ball, or umbrella?"
+      },
+      {
+        "id": "at-the-beach-09",
+        "prompt": "Which sea animal would you watch?",
+        "options": [
+          "crab",
+          "fish",
+          "dolphin",
+          "seal"
+        ],
+        "answer": null,
+        "say": "Which sea animal would you watch? Crab, fish, dolphin, or seal?"
+      },
+      {
+        "id": "at-the-beach-10",
+        "prompt": "Which beach picture would you draw?",
+        "options": [
+          "sea",
+          "sun",
+          "sand",
+          "boat"
+        ],
+        "answer": null,
+        "say": "Which beach picture would you draw? Sea, sun, sand, or boat?"
+      }
+    ]
+  },
+  {
+    "id": "music-and-art",
+    "topic": "Music and Art",
+    "questions": [
+      {
+        "id": "music-and-art-01",
+        "prompt": "Which one has strings you pluck?",
+        "options": [
+          "guitar",
+          "drum",
+          "flute",
+          "paintbrush"
+        ],
+        "answer": "guitar",
+        "say": "Which one has strings you pluck? Guitar, drum, flute, or paintbrush?"
+      },
+      {
+        "id": "music-and-art-02",
+        "prompt": "Which one has black and white keys?",
+        "options": [
+          "drum",
+          "piano",
+          "guitar",
+          "flute"
+        ],
+        "answer": "piano",
+        "say": "Which one has black and white keys? Drum, piano, guitar, or flute?"
+      },
+      {
+        "id": "music-and-art-03",
+        "prompt": "Which one do you blow into?",
+        "options": [
+          "drum",
+          "guitar",
+          "flute",
+          "piano"
+        ],
+        "answer": "flute",
+        "say": "Which one do you blow into? Drum, guitar, flute, or piano?"
+      },
+      {
+        "id": "music-and-art-04",
+        "prompt": "Which one do you hit for a beat?",
+        "options": [
+          "violin",
+          "flute",
+          "paintbrush",
+          "drum"
+        ],
+        "answer": "drum",
+        "say": "Which one do you hit for a beat? Violin, flute, paintbrush, or drum?"
+      },
+      {
+        "id": "music-and-art-05",
+        "prompt": "Which one puts paint on paper?",
+        "options": [
+          "paintbrush",
+          "eraser",
+          "ruler",
+          "book"
+        ],
+        "answer": "paintbrush",
+        "say": "Which one puts paint on paper? Paintbrush, eraser, ruler, or book?"
+      },
+      {
+        "id": "music-and-art-06",
+        "prompt": "Which one draws in bright colors?",
+        "options": [
+          "ruler",
+          "crayon",
+          "eraser",
+          "notebook"
+        ],
+        "answer": "crayon",
+        "say": "Which one draws in bright colors? Ruler, crayon, eraser, or notebook?"
+      },
+      {
+        "id": "music-and-art-07",
+        "prompt": "Which one makes your voice louder?",
+        "options": [
+          "guitar",
+          "drum",
+          "microphone",
+          "flute"
+        ],
+        "answer": "microphone",
+        "say": "Which one makes your voice louder? Guitar, drum, microphone, or flute?"
+      },
+      {
+        "id": "music-and-art-08",
+        "prompt": "Which instrument would you play?",
+        "options": [
+          "guitar",
+          "piano",
+          "drum",
+          "flute"
+        ],
+        "answer": null,
+        "say": "Which instrument would you play? Guitar, piano, drum, or flute?"
+      },
+      {
+        "id": "music-and-art-09",
+        "prompt": "Which art tool would you choose?",
+        "options": [
+          "crayon",
+          "paintbrush",
+          "pencil",
+          "pen"
+        ],
+        "answer": null,
+        "say": "Which art tool would you choose? Crayon, paintbrush, pencil, or pen?"
+      },
+      {
+        "id": "music-and-art-10",
+        "prompt": "Which sound would you choose?",
+        "options": [
+          "violin",
+          "trumpet",
+          "flute",
+          "drum"
+        ],
+        "answer": null,
+        "say": "Which sound would you choose? Violin, trumpet, flute, or drum?"
+      }
+    ]
+  },
+  {
+    "id": "bedtime",
+    "topic": "Bedtime",
+    "questions": [
+      {
+        "id": "bedtime-01",
+        "prompt": "Which one is for sleeping?",
+        "options": [
+          "table",
+          "bed",
+          "chair",
+          "door"
+        ],
+        "answer": "bed",
+        "say": "Which one is for sleeping? Table, bed, chair, or door?"
+      },
+      {
+        "id": "bedtime-02",
+        "prompt": "Which one goes under your head?",
+        "options": [
+          "rug",
+          "basket",
+          "pillow",
+          "box"
+        ],
+        "answer": "pillow",
+        "say": "Which one goes under your head? Rug, basket, pillow, or box?"
+      },
+      {
+        "id": "bedtime-03",
+        "prompt": "Which one can cover you?",
+        "options": [
+          "plate",
+          "clock",
+          "mirror",
+          "blanket"
+        ],
+        "answer": "blanket",
+        "say": "Which one can cover you? Plate, clock, mirror, or blanket?"
+      },
+      {
+        "id": "bedtime-04",
+        "prompt": "Which one gives light at night?",
+        "options": [
+          "lamp",
+          "broom",
+          "spoon",
+          "book"
+        ],
+        "answer": "lamp",
+        "say": "Which one gives light at night? Lamp, broom, spoon, or book?"
+      },
+      {
+        "id": "bedtime-05",
+        "prompt": "Which one shows the time?",
+        "options": [
+          "pillow",
+          "clock",
+          "bed",
+          "soap"
+        ],
+        "answer": "clock",
+        "say": "Which one shows the time? Pillow, clock, bed, or soap?"
+      },
+      {
+        "id": "bedtime-06",
+        "prompt": "Which one cleans teeth?",
+        "options": [
+          "blanket",
+          "lamp",
+          "toothbrush",
+          "book"
+        ],
+        "answer": "toothbrush",
+        "say": "Which one cleans teeth? Blanket, lamp, toothbrush, or book?"
+      },
+      {
+        "id": "bedtime-07",
+        "prompt": "Which one do you wear to sleep?",
+        "options": [
+          "coat",
+          "shorts",
+          "gloves",
+          "pajamas"
+        ],
+        "answer": "pajamas",
+        "say": "Which one do you wear to sleep? Coat, shorts, gloves, or pajamas?"
+      },
+      {
+        "id": "bedtime-08",
+        "prompt": "Which bedtime thing would you keep near?",
+        "options": [
+          "book",
+          "teddy-bear",
+          "blanket",
+          "lamp"
+        ],
+        "answer": null,
+        "say": "Which bedtime thing would you keep near? Book, teddy bear, blanket, or lamp?"
+      },
+      {
+        "id": "bedtime-09",
+        "prompt": "Which cozy thing would you choose?",
+        "options": [
+          "pillow",
+          "blanket",
+          "teddy-bear",
+          "rug"
+        ],
+        "answer": null,
+        "say": "Which cozy thing would you choose? Pillow, blanket, teddy bear, or rug?"
+      },
+      {
+        "id": "bedtime-10",
+        "prompt": "Which bedtime picture would you draw?",
+        "options": [
+          "moon",
+          "star",
+          "night",
+          "bed"
+        ],
+        "answer": null,
+        "say": "Which bedtime picture would you draw? Moon, star, night, or bed?"
+      }
+    ]
+  },
+  {
+    "id": "on-a-trip",
+    "topic": "On a Trip",
+    "questions": [
+      {
+        "id": "on-a-trip-01",
+        "prompt": "Which one carries your clothes?",
+        "options": [
+          "book",
+          "hat",
+          "bag",
+          "chair"
+        ],
+        "answer": "bag",
+        "say": "Which one carries your clothes? Book, hat, bag, or chair?"
+      },
+      {
+        "id": "on-a-trip-02",
+        "prompt": "Which one shows the way?",
+        "options": [
+          "cup",
+          "plate",
+          "clock",
+          "map"
+        ],
+        "answer": "map",
+        "say": "Which one shows the way? Cup, plate, clock, or map?"
+      },
+      {
+        "id": "on-a-trip-03",
+        "prompt": "Which one keeps off rain?",
+        "options": [
+          "umbrella",
+          "ball",
+          "book",
+          "spoon"
+        ],
+        "answer": "umbrella",
+        "say": "Which one keeps off rain? Umbrella, ball, book, or spoon?"
+      },
+      {
+        "id": "on-a-trip-04",
+        "prompt": "Which one shows the time?",
+        "options": [
+          "map",
+          "clock",
+          "bag",
+          "hat"
+        ],
+        "answer": "clock",
+        "say": "Which one shows the time? Map, clock, bag, or hat?"
+      },
+      {
+        "id": "on-a-trip-05",
+        "prompt": "Which one takes off from a runway?",
+        "options": [
+          "bus",
+          "train",
+          "airplane",
+          "ship"
+        ],
+        "answer": "airplane",
+        "say": "Which one takes off from a runway? Bus, train, airplane, or ship?"
+      },
+      {
+        "id": "on-a-trip-06",
+        "prompt": "Which one floats at sea?",
+        "options": [
+          "car",
+          "train",
+          "truck",
+          "ship"
+        ],
+        "answer": "ship",
+        "say": "Which one floats at sea? Car, train, truck, or ship?"
+      },
+      {
+        "id": "on-a-trip-07",
+        "prompt": "Which one is a place to stay?",
+        "options": [
+          "hotel",
+          "station",
+          "airport",
+          "road"
+        ],
+        "answer": "hotel",
+        "say": "Which one is a place to stay? Hotel, station, airport, or road?"
+      },
+      {
+        "id": "on-a-trip-08",
+        "prompt": "Which transport would you choose?",
+        "options": [
+          "bus",
+          "train",
+          "airplane",
+          "boat"
+        ],
+        "answer": null,
+        "say": "Which transport would you choose? Bus, train, airplane, or boat?"
+      },
+      {
+        "id": "on-a-trip-09",
+        "prompt": "Which place would you visit?",
+        "options": [
+          "beach",
+          "forest",
+          "city",
+          "island"
+        ],
+        "answer": null,
+        "say": "Which place would you visit? Beach, forest, city, or island?"
+      },
+      {
+        "id": "on-a-trip-10",
+        "prompt": "Which trip thing would you pack?",
+        "options": [
+          "camera",
+          "book",
+          "hat",
+          "umbrella"
+        ],
+        "answer": null,
+        "say": "Which trip thing would you pack? Camera, book, hat, or umbrella?"
+      }
+    ]
+  },
+  {
+    "id": "in-the-garden",
+    "topic": "In the Garden",
+    "questions": [
+      {
+        "id": "in-the-garden-01",
+        "prompt": "Which one can you water?",
+        "options": [
+          "rock",
+          "coin",
+          "shell",
+          "flower"
+        ],
+        "answer": "flower",
+        "say": "Which one can you water? Rock, coin, shell, or flower?"
+      },
+      {
+        "id": "in-the-garden-02",
+        "prompt": "Which one carries pollen?",
+        "options": [
+          "bee",
+          "worm",
+          "spider",
+          "snail"
+        ],
+        "answer": "bee",
+        "say": "Which one carries pollen? Bee, worm, spider, or snail?"
+      },
+      {
+        "id": "in-the-garden-03",
+        "prompt": "Which one can become a tree?",
+        "options": [
+          "rock",
+          "acorn",
+          "shell",
+          "coin"
+        ],
+        "answer": "acorn",
+        "say": "Which one can become a tree? Rock, acorn, shell, or coin?"
+      },
+      {
+        "id": "in-the-garden-04",
+        "prompt": "Which one can carry water?",
+        "options": [
+          "broom",
+          "hammer",
+          "bucket",
+          "rope"
+        ],
+        "answer": "bucket",
+        "say": "Which one can carry water? Broom, hammer, bucket, or rope?"
+      },
+      {
+        "id": "in-the-garden-05",
+        "prompt": "Which food grows below the soil?",
+        "options": [
+          "corn",
+          "peas",
+          "broccoli",
+          "carrot"
+        ],
+        "answer": "carrot",
+        "say": "Which food grows below the soil? Corn, peas, broccoli, or carrot?"
+      },
+      {
+        "id": "in-the-garden-06",
+        "prompt": "Which one can crawl in soil?",
+        "options": [
+          "worm",
+          "butterfly",
+          "bird",
+          "bee"
+        ],
+        "answer": "worm",
+        "say": "Which one can crawl in soil? Worm, butterfly, bird, or bee?"
+      },
+      {
+        "id": "in-the-garden-07",
+        "prompt": "Which one has green blades?",
+        "options": [
+          "rock",
+          "grass",
+          "sand",
+          "shell"
+        ],
+        "answer": "grass",
+        "say": "Which one has green blades? Rock, grass, sand, or shell?"
+      },
+      {
+        "id": "in-the-garden-08",
+        "prompt": "Which garden thing would you grow?",
+        "options": [
+          "flower",
+          "carrot",
+          "tree",
+          "grass"
+        ],
+        "answer": null,
+        "say": "Which garden thing would you grow? Flower, carrot, tree, or grass?"
+      },
+      {
+        "id": "in-the-garden-09",
+        "prompt": "Which small visitor would you watch?",
+        "options": [
+          "bee",
+          "butterfly",
+          "ladybug",
+          "ant"
+        ],
+        "answer": null,
+        "say": "Which small visitor would you watch? Bee, butterfly, ladybug, or ant?"
+      },
+      {
+        "id": "in-the-garden-10",
+        "prompt": "Which thing would you use outside?",
+        "options": [
+          "bucket",
+          "broom",
+          "rope",
+          "ladder"
+        ],
+        "answer": null,
+        "say": "Which thing would you use outside? Bucket, broom, rope, or ladder?"
       }
     ]
   }

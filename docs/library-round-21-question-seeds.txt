@@ -167,13 +167,13 @@ Which sky picture do you like? | - | sun,moon,cloud,star
 Which weather would you watch? | - | storm,snow,rain,rainbow
 
 seasons | Seasons
-Which season comes after spring? | summer | autumn,winter,morning
-Which season comes before winter? | autumn | spring,summer,night
-Which season comes after winter? | spring | autumn,summer,birthday
-Which season is between spring and autumn? | summer | winter,morning,night
-Which season can show falling leaves? | autumn | spring,summer,morning
-Which season can show new flowers? | spring | autumn,winter,night
-Which season can show snow? | winter | summer,autumn,birthday
+Which season comes after spring? | summer | autumn,winter,spring
+Which season comes before winter? | autumn | spring,summer,winter
+Which season comes after winter? | spring | autumn,summer,winter
+Which season is between spring and autumn? | summer | winter,spring,autumn
+Which season can show falling leaves? | autumn | spring,summer,winter
+Which season can show new flowers? | spring | autumn,winter,summer
+Which season can show snow? | winter | summer,autumn,spring
 Which season would you draw? | - | spring,summer,autumn,winter
 Which season would you choose? | - | winter,spring,summer,autumn
 Which season would you visit? | - | summer,autumn,winter,spring
@@ -357,3 +357,123 @@ Which sport needs no ball? | karate | football,tennis,golf
 Which sport would you play? | - | football,basketball,tennis,baseball
 Which sport would you watch? | - | golf,hockey,karate,surfing
 Which sport would you draw? | - | basketball,football,surfing,tennis
+
+nature | Nature
+Which one lights the day? | sun | rock,tree,leaf
+Which one can glow at night? | moon | sand,grass,flower
+Which one has a trunk? | tree | cloud,rock,star
+Which one has petals? | flower | sand,moon,rock
+Which one is hot inside? | volcano | river,forest,cloud
+Which one falls from clouds? | rain | tree,rock,fire
+Which one grows in a desert? | cactus | shell,feather,acorn
+Which nature picture would you draw? | - | sun,moon,star,rainbow
+Which nature picture would you explore? | - | mountain,river,forest,cave
+Which nature thing would you watch? | - | flower,tree,waterfall,cloud
+
+opposites | Opposites
+Which one is hot? | fire | ice,snow,cloud
+Which one is cold? | ice | sun,fire,sand
+Which one feels happy? | happy | sad,angry,scared
+Which one is very big? | elephant | mouse,ant,bee
+Which one is very light? | feather | rock,hammer,ladder
+Which action goes upward? | climb | sit,sleep,fall
+Which one shows opening? | open | close,run,walk
+Which opposite would you act? | - | hot,cold,happy,sad
+Which big or small thing would you draw? | - | elephant,ant,whale,bee
+Which opposite picture would you choose? | - | sun,snow,fire,ice
+
+what-do-you-use | What Do You Use?
+What do you use to write? | pencil | spoon,hat,ball
+What do you use in rain? | umbrella | fork,pillow,book
+What do you use for teeth? | toothbrush | towel,shoes,ball
+What do you use to cut paper? | scissors | glue,crayon,clock
+What do you use for soup? | spoon | ruler,pen,hammer
+What do you use to open doors? | key | leaf,cup,plate
+What do you use in the dark? | flashlight | broom,rope,box
+Which tool would you try? | - | paintbrush,hammer,calculator,camera
+Which school thing would you use? | - | pencil,ruler,crayon,glue
+Which home thing would you use? | - | broom,bucket,ladder,flashlight
+
+where-do-you | Where Do You?
+Where do you buy food? | supermarket | library,hospital,stadium
+Where do you see a doctor? | hospital | bakery,cinema,airport
+Where do you swim in a pool? | swimming-pool | museum,farm,shop
+Where do you catch a train? | station | castle,beach,forest
+Where can you borrow books? | library | airport,stadium,farm
+Where do you watch a film? | cinema | hospital,bakery,bridge
+Where might you sleep on a trip? | hotel | road,station,restaurant
+Where would you play? | - | park,playground,beach,garden
+Where would you visit animals? | - | zoo,farm,forest,sea
+Where would you go today? | - | museum,library,park,shop
+
+at-the-park | At the Park
+Which one can you slide down? | slide | swing,chair,kite
+Which one moves back and forth? | swing | slide,tree,ball
+Which one can you sit on? | chair | flower,kite,balloon
+Which one grows from an acorn? | tree | rock,ball,cloud
+Which one has petals? | flower | grass,rock,chair
+Which one can bounce? | ball | leaf,flower,chair
+Which one can fly on a string? | kite | slide,swing,chair
+Which park thing would you choose? | - | slide,swing,ball,kite
+Which park picture would you draw? | - | tree,flower,grass,chair
+Which park game would you play? | - | catch,kick,run,clap
+
+at-the-beach | At the Beach
+Which one comes from a sea animal? | shell | car,book,hat
+Which one is salty and wet? | sea | sand,rock,grass
+Which one can pinch? | crab | fish,whale,seal
+Which one can give shade? | umbrella | shell,bucket,rope
+Which one floats on water? | boat | rock,car,chair
+Which one is a sand building? | sandcastle | house,castle,bridge
+Which one warms the sand? | sun | moon,star,cloud
+Which beach thing would you choose? | - | shell,sandcastle,ball,umbrella
+Which sea animal would you watch? | - | crab,fish,dolphin,seal
+Which beach picture would you draw? | - | sea,sun,sand,boat
+
+music-and-art | Music and Art
+Which one has strings you pluck? | guitar | drum,flute,paintbrush
+Which one has black and white keys? | piano | drum,guitar,flute
+Which one do you blow into? | flute | drum,guitar,piano
+Which one do you hit for a beat? | drum | violin,flute,paintbrush
+Which one puts paint on paper? | paintbrush | eraser,ruler,book
+Which one draws in bright colors? | crayon | ruler,eraser,notebook
+Which one makes your voice louder? | microphone | guitar,drum,flute
+Which instrument would you play? | - | guitar,piano,drum,flute
+Which art tool would you choose? | - | crayon,paintbrush,pencil,pen
+Which sound would you choose? | - | violin,trumpet,flute,drum
+
+bedtime | Bedtime
+Which one is for sleeping? | bed | table,chair,door
+Which one goes under your head? | pillow | rug,basket,box
+Which one can cover you? | blanket | plate,clock,mirror
+Which one gives light at night? | lamp | broom,spoon,book
+Which one shows the time? | clock | pillow,bed,soap
+Which one cleans teeth? | toothbrush | blanket,lamp,book
+Which one do you wear to sleep? | pajamas | coat,shorts,gloves
+Which bedtime thing would you keep near? | - | book,teddy-bear,blanket,lamp
+Which cozy thing would you choose? | - | pillow,blanket,teddy-bear,rug
+Which bedtime picture would you draw? | - | moon,star,night,bed
+
+on-a-trip | On a Trip
+Which one carries your clothes? | bag | book,hat,chair
+Which one shows the way? | map | cup,plate,clock
+Which one keeps off rain? | umbrella | ball,book,spoon
+Which one shows the time? | clock | map,bag,hat
+Which one takes off from a runway? | airplane | bus,train,ship
+Which one floats at sea? | ship | car,train,truck
+Which one is a place to stay? | hotel | station,airport,road
+Which transport would you choose? | - | bus,train,airplane,boat
+Which place would you visit? | - | beach,forest,city,island
+Which trip thing would you pack? | - | camera,book,hat,umbrella
+
+in-the-garden | In the Garden
+Which one can you water? | flower | rock,coin,shell
+Which one carries pollen? | bee | worm,spider,snail
+Which one can become a tree? | acorn | rock,shell,coin
+Which one can carry water? | bucket | broom,hammer,rope
+Which food grows below the soil? | carrot | corn,peas,broccoli
+Which one can crawl in soil? | worm | butterfly,bird,bee
+Which one has green blades? | grass | rock,sand,shell
+Which garden thing would you grow? | - | flower,carrot,tree,grass
+Which small visitor would you watch? | - | bee,butterfly,ladybug,ant
+Which thing would you use outside? | - | bucket,broom,rope,ladder

@@ -5,11 +5,11 @@ import path from 'node:path';
 type Sticker = { id: string; word: string };
 type Question = { id?: unknown; prompt?: unknown; options?: unknown; answer?: unknown; say?: unknown };
 type SetRow = { id?: unknown; topic?: unknown; questions?: unknown };
-type Check = 'badSet' | 'setSize' | 'duplicateSetId' | 'badQuestion' | 'duplicateQuestionId' |
+type Check = 'bankSize' | 'badSet' | 'setSize' | 'duplicateSetId' | 'badQuestion' | 'duplicateQuestionId' |
   'badOptions' | 'unknownOption' | 'duplicateOption' | 'badAnswer' | 'longPrompt' |
   'duplicatePromptOptions' | 'badSay' | 'fixedAnswerSlot' | 'opinionMix';
 const checks: Record<Check, number> = {
-  badSet: 0, setSize: 0, duplicateSetId: 0, badQuestion: 0, duplicateQuestionId: 0,
+  bankSize: 0, badSet: 0, setSize: 0, duplicateSetId: 0, badQuestion: 0, duplicateQuestionId: 0,
   badOptions: 0, unknownOption: 0, duplicateOption: 0, badAnswer: 0, longPrompt: 0,
   duplicatePromptOptions: 0, badSay: 0, fixedAnswerSlot: 0, opinionMix: 0,
 };
@@ -49,7 +49,7 @@ if (process.argv.includes('--build')) {
       const spoken = words.length === 2 ? `${words[0]} or ${words[1]}` :
         `${words.slice(0, -1).join(', ')}, or ${words[words.length - 1]}`;
       return { id: `${id}-${String(index + 1).padStart(2, '0')}`, prompt, options, answer,
-        say: `${prompt} ${spoken}?` };
+        say: `${prompt} ${spoken.charAt(0).toUpperCase()}${spoken.slice(1)}?` };
     });
     return { id, topic, questions };
   });
@@ -121,9 +121,16 @@ for (const [setIndex, set] of Array.from(sets.entries())) {
     if (pairs.has(key)) fail('duplicatePromptOptions', where, 'repeated prompt and option set');
     pairs.add(key);
     const spoken = question.say.toLowerCase();
-    if (!spoken.startsWith(question.prompt.toLowerCase()) ||
-        optionStrings.some((option) => !spoken.includes((stickerNames.get(option) || option).toLowerCase()))) {
-      fail('badSay', where, 'say must contain the prompt and every option word');
+    let tail = spoken.startsWith(question.prompt.toLowerCase()) ? spoken.slice(question.prompt.length) : '';
+    let spokenInOrder = !!tail;
+    for (const option of optionStrings) {
+      const word = (stickerNames.get(option) || option).toLowerCase();
+      const index = tail.indexOf(word);
+      if (index < 0) { spokenInOrder = false; break; }
+      tail = tail.slice(index + word.length);
+    }
+    if (!spokenInOrder) {
+      fail('badSay', where, 'say must contain the prompt and every option word in order');
     }
   }
   if (answeredInSet > 0 && Math.max(...positions) > answeredInSet / 2) {
@@ -131,6 +138,9 @@ for (const [setIndex, set] of Array.from(sets.entries())) {
   }
 }
 const opinionShare = questions ? opinions / questions : 0;
+if (sets.length < 38 || sets.length > 42 || questions < 380 || questions > 420) {
+  fail('bankSize', file, `expected about 40 sets and 400 questions, found ${sets.length}/${questions}`);
+}
 if (questions && (opinionShare < 0.25 || opinionShare > 0.35)) {
   fail('opinionMix', file, `opinion share ${(opinionShare * 100).toFixed(1)}% is outside 25–35%`);
 }
