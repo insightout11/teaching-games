@@ -1,5 +1,7 @@
 import { createServerSupabase } from '@/lib/supabase/server';
 import { FLIGHT_RESULT_KEY, flightResultLine, sanitizeFlightResult } from '@/lib/flight-result';
+import { lessonEntry, sanitizeLessonMemory } from '@/lib/lesson-memory';
+import { createServiceClient } from '@/lib/supabase/service';
 
 /**
  * Home as the departures board (docs/home-page-concept.md): one row per class with what happens next. Read with
@@ -69,6 +71,19 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardRow[]> 
     }
   }
 
+  // What the last lessons covered (live memory), when there's no flight result. The table is server-only; these
+  // session ids came from the teacher's own RLS-checked query above.
+  const covered = new Map<string, string>();
+  const withoutResult = endedIds.filter((id) => !results.has(id));
+  if (withoutResult.length) {
+    const { data } = await createServiceClient().from('session_memory').select('session_id, payload').in('session_id', withoutResult);
+    for (const r of (data ?? []) as Array<{ session_id: string; payload: unknown }>) {
+      const e = lessonEntry(sanitizeLessonMemory(r.payload));
+      const line = e ? (e.topics.length ? e.topics.slice(-3).join(' → ') : e.activities.slice(0, 2).join(', ')) : '';
+      if (line) covered.set(r.session_id, e && e.words.length ? `${line} · ${e.words.length + e.moreWords} words` : line);
+    }
+  }
+
   // Courses this class has started (a lesson launched in one of its sessions) → that course's next planned lesson.
   const sessionClass = new Map(sessions.map((s) => [s.id, s.class_id]));
   const next = new Map<string, BoardRow['next']>();
@@ -106,7 +121,7 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardRow[]> 
         liveSessionId: lv?.id ?? null,
         liveTopic: lv ? lv.custom_topic || lv.topic || null : null,
         next: next.get(c.id) ?? null,
-        last: ended ? { at: ended.started_at, line: results.get(ended.id) ?? (topic ? `${topic}` : 'Lesson') } : null,
+        last: ended ? { at: ended.started_at, line: results.get(ended.id) ?? covered.get(ended.id) ?? (topic ? `${topic}` : 'Lesson') } : null,
         lastUsedAt: latest.get(c.id)?.started_at ?? c.created_at,
       };
     })

@@ -39,6 +39,30 @@ export async function GET(request: NextRequest) {
   if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') return NextResponse.json({ memory: null });
   const owned = await verifyTeacherOwnsSession(sessionId, teacher.id);
   if (owned.error) return owned.error;
-  const { data } = await createServiceClient().from('session_memory').select('payload').eq('session_id', sessionId).maybeSingle();
+  const service = createServiceClient();
+
+  // ?previous=1: the same class's most recent EARLIER lesson that has a record ("Last time", step 3).
+  if (request.nextUrl.searchParams.get('previous') === '1') {
+    const { data: current } = await service.from('sessions').select('class_id, started_at').eq('id', sessionId).maybeSingle();
+    if (!current) return NextResponse.json({ memory: null });
+    const { data: earlier } = await service
+      .from('sessions')
+      .select('id, started_at')
+      .eq('class_id', current.class_id)
+      .lt('started_at', current.started_at)
+      .order('started_at', { ascending: false })
+      .limit(10);
+    const ids = ((earlier ?? []) as Array<{ id: string; started_at: string }>).map((e) => e.id);
+    if (!ids.length) return NextResponse.json({ memory: null });
+    const { data: rows } = await service.from('session_memory').select('session_id, payload').in('session_id', ids);
+    const byId = new Map(((rows ?? []) as Array<{ session_id: string; payload: unknown }>).map((r) => [r.session_id, r.payload]));
+    for (const e of (earlier ?? []) as Array<{ id: string; started_at: string }>) {
+      const memory = sanitizeLessonMemory(byId.get(e.id) ?? null);
+      if (memory) return NextResponse.json({ memory, at: e.started_at });
+    }
+    return NextResponse.json({ memory: null });
+  }
+
+  const { data } = await service.from('session_memory').select('payload').eq('session_id', sessionId).maybeSingle();
   return NextResponse.json({ memory: sanitizeLessonMemory(data?.payload ?? null) });
 }

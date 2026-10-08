@@ -49,6 +49,7 @@ import { openRoomChannel } from '@/components/session/live-room/room-channel';
 import { roomItemToSource } from '@/components/session/live-room/room-source';
 import { useDeckDrag, type DeckDrop } from '@/components/session/live-room/use-deck-drag';
 import { useLessonMemory } from '@/hooks/use-lesson-memory';
+import { lessonEntry, sanitizeLessonMemory, type LessonEntry } from '@/lib/lesson-memory';
 
 /**
  * The Live Room flight deck. The windscreen is what the class sees (the teacher
@@ -642,6 +643,22 @@ export function FlightDeck({
     setFocusId(id);
     flash(req.credit ? `New topic from ${req.credit}` : 'New topic');
   }, [addItem, sessionId, flash]);
+  // "Last time" (live memory step 3): the class's previous lesson, offered at the gate. Suggestions only:
+  // nothing changes until the teacher taps one.
+  const [lastTime, setLastTime] = useState<{ entry: LessonEntry; at: string } | null>(null);
+  const [lastTimeDismissed, setLastTimeDismissed] = useState(false);
+  useEffect(() => {
+    let live = true;
+    void fetch(`/api/session/lesson-memory?sessionId=${encodeURIComponent(sessionId)}&previous=1`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { memory?: unknown; at?: string } | null) => {
+        const entry = lessonEntry(sanitizeLessonMemory(d?.memory ?? null));
+        if (live && entry) setLastTime({ entry, at: d?.at ?? '' });
+      })
+      .catch(() => {});
+    return () => { live = false; };
+  }, [sessionId]);
+
   const setMakeFocus = useFocusBus((s) => s.setMakeFocus);
   useEffect(() => {
     setMakeFocus(makeFocus);
@@ -1422,6 +1439,29 @@ export function FlightDeck({
           <div className="flex items-center gap-3 rounded-full border border-cyan-300/40 bg-slate-950/85 py-1.5 pl-4 pr-1.5 text-sm text-cyan-50 shadow-xl backdrop-blur-md">
             <span>{citySuggestion.text}</span>
             <button type="button" onClick={() => setChosenId(citySuggestion.fly.id)} className="rounded-full bg-cyan-300 px-4 py-1.5 text-xs font-semibold text-slate-950">Fly to {citySuggestion.fly.city}</button>
+          </div>
+        </div>
+      )}
+
+      {lastTime && !lastTimeDismissed && flightStage === 'gate' && !cinematic && !pendingPlan && (
+        <div className={`absolute inset-x-0 z-20 flex justify-center px-4 ${citySuggestion ? 'top-28' : 'top-16'}`}>
+          <div className="flex max-w-3xl flex-wrap items-center gap-2 rounded-2xl border border-emerald-300/40 bg-slate-950/85 py-1.5 pl-4 pr-1.5 text-sm text-emerald-50 shadow-xl backdrop-blur-md">
+            <span className="min-w-0">
+              <b className="font-mono text-[10px] uppercase tracking-[0.16em] text-emerald-300">Last time</b>&nbsp;
+              {lastTime.entry.topics.length ? lastTime.entry.topics.slice(-3).join(' → ') : lastTime.entry.activities.slice(0, 2).join(', ')}
+              {lastTime.entry.words.length > 0 && <span className="text-emerald-100/70"> · {lastTime.entry.words.length + lastTime.entry.moreWords} words</span>}
+            </span>
+            {lastTime.entry.topics.length > 0 && (
+              <button type="button" onClick={() => { makeFocus({ title: lastTime.entry.topics[lastTime.entry.topics.length - 1] }); setLastTimeDismissed(true); }} className="rounded-full bg-emerald-300 px-3 py-1 text-xs font-semibold text-slate-950">
+                Pick up {lastTime.entry.topics[lastTime.entry.topics.length - 1].slice(0, 28)}
+              </button>
+            )}
+            {lastTime.entry.words.length >= 3 && (
+              <button type="button" onClick={() => { makeFocus({ title: "Last lesson's words", text: `Review these words from last lesson: ${lastTime.entry.words.join(', ')}.` }); setLastTimeDismissed(true); }} className="rounded-full border border-emerald-300/60 px-3 py-1 text-xs font-semibold text-emerald-100 hover:bg-emerald-300/10">
+                Warm up with its words
+              </button>
+            )}
+            <button type="button" aria-label="Dismiss last time" onClick={() => setLastTimeDismissed(true)} className="rounded-full px-2 py-1 text-xs text-emerald-100/60 hover:text-emerald-50">Not now</button>
           </div>
         </div>
       )}

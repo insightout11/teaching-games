@@ -85,3 +85,12 @@ surveillance warning), names on anything that's shared or public.
 - **End-of-lesson summary**: "What this lesson covered" (teacher view), from this browser's copy first, then the server.
 - **Class page**: the Class Logbook card shows what the latest two lessons covered, read server-side after the
   class's RLS ownership check.
+
+## Built: step 3 (Oct 8 2026)
+- **"Last time" in the room** (at the gate, before takeoff): the class's previous lesson with a record (same class,
+  earlier start; `GET /api/session/lesson-memory?previous=1`): its last topics and word count, with two suggestions
+  that do nothing until tapped: **Pick up <last topic>** (sets it as the Focus) and **Warm up with its words**
+  (a Focus built from last lesson's words, so briefing, activities and phones follow). "Not now" dismisses it.
+- **Home board**: the "Last" line uses the lesson record (topics · word count) when the lesson has no flight result.
+- Not yet: the in-room Logbook drawer and "back to an earlier topic" (step 4); course "next lesson" already shows on
+  the board.
