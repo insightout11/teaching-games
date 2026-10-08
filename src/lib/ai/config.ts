@@ -1,4 +1,4 @@
-export type ProviderName = 'gemini' | 'openai' | 'groq';
+export type ProviderName = 'gemini' | 'openai' | 'groq' | 'anthropic';
 
 export function getProviderName(): ProviderName {
   const provider = (process.env.AI_PROVIDER || 'gemini').toLowerCase();
@@ -14,7 +14,17 @@ export function getProviderApiKey(provider: ProviderName): string {
       return process.env.OPENAI_API_KEY || '';
     case 'groq':
       return process.env.GROQ_API_KEY || '';
+    case 'anthropic':
+      return process.env.ANTHROPIC_API_KEY || '';
   }
+}
+
+/**
+ * Claude model for the 'writing' task class. Claude Haiku 5.5 (released Oct 7 2026): fast, $0.10 / $0.50 per
+ * million tokens under 100k-token prompts. Env-overridable (ANTHROPIC_MODEL), e.g. claude-sonnet-5-5 for harder writing.
+ */
+export function getAnthropicModel(): string {
+  return process.env.ANTHROPIC_MODEL || 'claude-haiku-5-5';
 }
 
 // --- Model selection ---

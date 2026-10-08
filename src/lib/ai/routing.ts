@@ -5,7 +5,9 @@ export type TaskClass =
   | 'evaluation'
   | 'game-logic'
   | 'activity-facilitation'
-  | 'bulk-generation';
+  | 'bulk-generation'
+  /** Writing that has to be right for children (retellings, reading packs, topic briefings): Claude first. */
+  | 'writing';
 
 export type RetryPromptVariant = 'strict' | 'normal';
 
@@ -44,6 +46,13 @@ export const TASK_CLASS_CONFIG: Record<TaskClass, TaskClassConfig> = {
   'bulk-generation': {
     providers: ['gemini', 'groq', 'openai'],
     timeoutMs: 30_000,
+    retryTemperature: 0.7,
+    retryPromptVariant: 'normal',
+  },
+  // Claude first; without ANTHROPIC_API_KEY it's skipped and Gemini writes as before.
+  writing: {
+    providers: ['anthropic', 'gemini', 'openai'],
+    timeoutMs: 45_000,
     retryTemperature: 0.7,
     retryPromptVariant: 'normal',
   },

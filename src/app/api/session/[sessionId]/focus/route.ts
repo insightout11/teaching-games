@@ -96,7 +96,7 @@ ${PHRASEBOOK_FIELDS_PROMPT}
 
   let brief: FocusBrief;
   try {
-    brief = bankedLevel ? (bankedLevel as FocusBrief) : await generateJSON<FocusBrief>(prompt, schema, { taskClass: 'content-generation' });
+    brief = bankedLevel ? (bankedLevel as FocusBrief) : await generateJSON<FocusBrief>(prompt, schema, { taskClass: 'writing' });
   } catch {
     // The topic still changes (phones show it); the reference panel keeps its previous words.
     await service.from('sessions').update({ custom_topic: title.slice(0, 120) }).eq('id', params.sessionId);

@@ -2,6 +2,7 @@ import { getProviderApiKey, type ProviderName } from './config';
 import { GeminiProvider } from './providers/gemini';
 import { OpenAIProvider } from './providers/openai';
 import { GroqProvider } from './providers/groq';
+import { AnthropicProvider } from './providers/anthropic';
 import { resolveTaskClass, TASK_CLASS_CONFIG } from './routing';
 import { classifyError, type ErrorClass } from './errors';
 import type { AIProvider, AISchema, GenerateJSONOptions } from './types';
@@ -25,6 +26,9 @@ function getProvider(name: ProviderName): AIProvider | null {
       break;
     case 'groq':
       provider = new GroqProvider(key);
+      break;
+    case 'anthropic':
+      provider = new AnthropicProvider(key);
       break;
     default:
       provider = new GeminiProvider(key);

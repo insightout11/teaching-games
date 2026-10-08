@@ -1430,7 +1430,7 @@ RULES:
 - About 60-80% of the original length. Paragraphs separated by a blank line.
 TEXT:
 ${text}`;
-    const parsed = await generateJSON<{ text?: string }>(prompt, schema);
+    const parsed = await generateJSON<{ text?: string }>(prompt, schema, { taskClass: 'writing' });
     return validSimplified(text, parsed?.text);
   } catch {
     return null;
@@ -1471,7 +1471,7 @@ Return:
 
 PREVIOUS PART ("${prev.title}"):
 ${prev.text}` : ''}`;
-    const parsed = await generateJSON<Record<string, unknown>>(prompt, schema);
+    const parsed = await generateJSON<Record<string, unknown>>(prompt, schema, { taskClass: 'writing' });
     const pack = validReadingPack(parsed, text);
     if (pack) return { bookTitle, lessonTitle, text, pack, ...(parsed.previous ? { previous: parsed.previous } : {}) };
   } catch { /* fall back below */ }
