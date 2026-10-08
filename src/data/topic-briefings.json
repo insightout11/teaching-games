@@ -22983,15 +22983,15 @@
       "B1": {
         "briefing": "A player learns a game by testing its rules, not just reading them. The same level can feel different when played with friends. Small design choices influence whether a challenge feels fair.",
         "facts": [
-          "Some games reward planning rather than speed.",
-          "A difficulty setting can change a player's challenge.",
-          "Cooperative games ask players to share goals.",
-          "Game sound can signal a change before visuals do."
+          "A checkpoint lets players restart near a difficult moment.",
+          "A co-op task can require players to share information.",
+          "Controllers make the same action feel different across devices.",
+          "A difficulty curve can teach a skill before testing it."
         ],
         "angles": [
-          "Should games reward practice or natural skill more?",
-          "When does a challenge stop being fun?",
-          "Can a game teach something without a lesson?"
+          "Should a game let players skip a frustrating level? Why?",
+          "What makes playing with friends better or worse?",
+          "When does a quest feel worth finishing?"
         ],
         "vocab": [
           {
@@ -23074,15 +23074,15 @@
       "B2": {
         "briefing": "Games create feedback loops in which every action changes the next decision. A carefully balanced system can offer freedom without losing a clear purpose. The social setting around a game may shape its meaning as much as the code.",
         "facts": [
-          "Some games reward planning rather than speed.",
-          "A difficulty setting can change a player's challenge.",
-          "Cooperative games ask players to share goals.",
-          "Game sound can signal a change before visuals do."
+          "Feedback loops can reward experimentation or trap players in repetitive play.",
+          "An adjustable challenge may widen access without changing a game's core goal.",
+          "Some games use uncertainty to keep a player's attention longer than intended.",
+          "The meaning of a game may depend on whether players compete or cooperate."
         ],
         "angles": [
-          "Should games reward practice or natural skill more?",
-          "When does a challenge stop being fun?",
-          "Can a game teach something without a lesson?"
+          "Should designers disclose systems built to keep players playing?",
+          "Can a difficult game be fair to a broad audience?",
+          "Who should decide what counts as success in cooperative play?"
         ],
         "vocab": [
           {
@@ -23179,15 +23179,15 @@
       "B1": {
         "briefing": "Designers start with a question about what players should do. A rough paper version can test an idea early. Watching a confused player reveals problems hidden from the creator.",
         "facts": [
-          "Rules determine what actions a player can try.",
-          "Playtesting reveals confusing instructions or unfair challenges.",
-          "Feedback helps players understand their progress.",
-          "Designers revise games after watching real players."
+          "A paper prototype can test rules before any code is written.",
+          "A playtest reveals where players misunderstand a mechanic.",
+          "A tutorial works best when the player can act immediately.",
+          "Level design can introduce a challenge before increasing its difficulty."
         ],
         "angles": [
-          "Should a game explain every rule at the start?",
-          "Which matters more: freedom or clear goals?",
-          "Can a frustrating game still be well designed?"
+          "Which rule would you test first in a new game?",
+          "Should a designer explain every mechanic at the start?",
+          "What would you ask players after a failed playtest?"
         ],
         "vocab": [
           {
@@ -23270,15 +23270,15 @@
       "B2": {
         "briefing": "Good design separates a player's meaningful choices from needless complexity. Repeated playtests expose patterns that one enthusiastic tester may miss. A mechanic becomes interesting when players can use it in several ways.",
         "facts": [
-          "Rules determine what actions a player can try.",
-          "Playtesting reveals confusing instructions or unfair challenges.",
-          "Feedback helps players understand their progress.",
-          "Designers revise games after watching real players."
+          "Balance is not the same as making every choice equally powerful.",
+          "Repeated tests with different players can reveal hidden assumptions.",
+          "Removing a feature sometimes clarifies the choices that remain.",
+          "Player feedback is evidence, but a designer must still interpret it."
         ],
         "angles": [
-          "Should a game explain every rule at the start?",
-          "Which matters more: freedom or clear goals?",
-          "Can a frustrating game still be well designed?"
+          "When should designers ignore requests from their most devoted players?",
+          "Is surprise worth the risk of confusing a new player?",
+          "What makes a game system fair when players have unequal experience?"
         ],
         "vocab": [
           {
@@ -23375,15 +23375,15 @@
       "B1": {
         "briefing": "Competitive players study opponents as well as their own moves. A team can lose despite one player's excellent performance. The audience often follows decisions that happen in seconds.",
         "facts": [
-          "Teams practice communication as well as game skills.",
-          "Competition rules aim to make matches fair.",
-          "Spectators can follow tactics during a match.",
-          "Training includes rest as well as practice."
+          "A roster names the players available to compete.",
+          "Teams use scrimmages to practice against real opponents.",
+          "A commentator can make a fast strategic choice understandable.",
+          "Sportsmanship rules matter after close losses as well as wins."
         ],
         "angles": [
-          "Should esports count as sport?",
-          "Does team strategy matter more than reflexes?",
-          "How should players handle losing publicly?"
+          "Should an esports team practice communication more than speed?",
+          "How could commentators welcome new viewers?",
+          "What makes an esports tournament fair?"
         ],
         "vocab": [
           {
@@ -23466,15 +23466,15 @@
       "B2": {
         "briefing": "Esports blends individual skill with communication under pressure. Rules and equipment standards help make comparisons more meaningful. Public attention can make recovery after a loss unusually difficult.",
         "facts": [
-          "Teams practice communication as well as game skills.",
-          "Competition rules aim to make matches fair.",
-          "Spectators can follow tactics during a match.",
-          "Training includes rest as well as practice."
+          "A tournament bracket can reward early results or make one mistake costly.",
+          "Teams may review recordings to separate individual errors from system problems.",
+          "Reaction time matters, but coordination can decide an entire match.",
+          "Competition schedules and recovery time affect performance and wellbeing."
         ],
         "angles": [
-          "Should esports count as sport?",
-          "Does team strategy matter more than reflexes?",
-          "How should players handle losing publicly?"
+          "Should young players face limits on competitive training hours?",
+          "Can esports have the same community value as other sports?",
+          "How should a team handle a player's public mistake?"
         ],
         "vocab": [
           {
@@ -23572,15 +23572,15 @@
       "B1": {
         "briefing": "A feed can make an ordinary day seem full of dramatic moments. People choose a small part of life to put online. A private joke can reach an unintended audience.",
         "facts": [
-          "A feed selects which posts users see.",
-          "A short post can travel beyond its first audience.",
-          "Comments can change the tone of a discussion.",
-          "People choose what parts of life to share."
+          "A feed chooses which posts a person sees first.",
+          "A caption can change how viewers interpret the same image.",
+          "Privacy settings limit some audiences but cannot stop every screenshot.",
+          "A repost can bring a message to people outside its original group."
         ],
         "angles": [
-          "Should feeds show newest posts or chosen posts?",
-          "Can online sharing strengthen real friendships?",
-          "What should someone think before posting?"
+          "Should users see why a post appears in their feed?",
+          "When is sharing a friend's picture okay?",
+          "How do captions affect what people believe?"
         ],
         "vocab": [
           {
@@ -23663,15 +23663,15 @@
       "B2": {
         "briefing": "Platforms reward some forms of attention while leaving other experiences unseen. A post's context can disappear when it is reshared. Users negotiate between connection, privacy, and the wish to be noticed.",
         "facts": [
-          "A feed selects which posts users see.",
-          "A short post can travel beyond its first audience.",
-          "Comments can change the tone of a discussion.",
-          "People choose what parts of life to share."
+          "Engagement measures can reward strong emotion over careful explanation.",
+          "Context collapse occurs when different audiences meet around one post.",
+          "A platform's design influences which voices gain attention.",
+          "Deleting a post may not remove copies shared elsewhere."
         ],
         "angles": [
-          "Should feeds show newest posts or chosen posts?",
-          "Can online sharing strengthen real friendships?",
-          "What should someone think before posting?"
+          "Should platforms hide public engagement counts?",
+          "Who is responsible when a private joke reaches a broad audience?",
+          "Can a social feed be both personal and fair?"
         ],
         "vocab": [
           {
@@ -23768,15 +23768,15 @@
       "B1": {
         "briefing": "Information can spread even from a small group chat. An old account may still hold personal details. Someone can copy a picture without asking.",
         "facts": [
-          "A strong password helps protect an account.",
-          "Privacy settings limit some kinds of sharing.",
-          "Screenshots can preserve a post after deletion.",
-          "Sharing less information can reduce unwanted attention."
+          "A long passphrase can be easier to remember than random characters.",
+          "Two-factor login adds a second check after a password.",
+          "A screenshot can preserve information after a message disappears.",
+          "App permissions may allow access beyond what a feature needs."
         ],
         "angles": [
-          "Should accounts start with strict privacy settings?",
-          "Who should decide what a friend shares?",
-          "Is convenience worth giving up some privacy?"
+          "Which account would you protect first, and why?",
+          "How would you check an app's permissions?",
+          "When should someone ask before sharing a screenshot?"
         ],
         "vocab": [
           {
@@ -23859,15 +23859,15 @@
       "B2": {
         "briefing": "Privacy is partly about deciding who sees information and when. Security tools help, but social choices affect exposure too. A single public detail can become more revealing when combined with others.",
         "facts": [
-          "A strong password helps protect an account.",
-          "Privacy settings limit some kinds of sharing.",
-          "Screenshots can preserve a post after deletion.",
-          "Sharing less information can reduce unwanted attention."
+          "A data trail can connect actions across several services.",
+          "Account recovery methods can become a weak point if poorly protected.",
+          "Privacy depends partly on other people's choices about sharing.",
+          "A profile can reveal patterns even without a person's full name."
         ],
         "angles": [
-          "Should accounts start with strict privacy settings?",
-          "Who should decide what a friend shares?",
-          "Is convenience worth giving up some privacy?"
+          "Should privacy be the default rather than a setting?",
+          "Who should control information inferred from a data trail?",
+          "How can schools teach privacy without creating fear?"
         ],
         "vocab": [
           {
@@ -23964,15 +23964,15 @@
       "B1": {
         "briefing": "Two hours on a screen can hold very different activities. A video call may leave someone energized. Mindless scrolling may feel tiring even without effort.",
         "facts": [
-          "The purpose of a screen session matters.",
-          "A call with friends differs from endless scrolling.",
-          "Breaks can help eyes and bodies rest.",
-          "Notifications can interrupt a difficult task."
+          "A notification can interrupt an activity even when unanswered.",
+          "Scrolling can make a break longer than planned.",
+          "An app timer shows duration but not whether the time felt useful.",
+          "A video call can support a relationship across distance."
         ],
         "angles": [
-          "Should homework screen time count differently?",
-          "Which device habit would you change first?",
-          "Can a screen help people spend time together?"
+          "Which phone notification would you turn off first?",
+          "When does a screen break help you feel rested?",
+          "Should homework time always be phone-free?"
         ],
         "vocab": [
           {
@@ -24055,15 +24055,15 @@
       "B2": {
         "briefing": "Counting minutes alone misses the purpose and quality of digital activity. Interruptions can matter more than total time when studying. A useful boundary should fit a person's work, friendships, and rest.",
         "facts": [
-          "The purpose of a screen session matters.",
-          "A call with friends differs from endless scrolling.",
-          "Breaks can help eyes and bodies rest.",
-          "Notifications can interrupt a difficult task."
+          "Attention is affected by the timing and meaning of interruptions.",
+          "Counting minutes alone treats a creative task like passive browsing.",
+          "Digital boundaries work better when social expectations are discussed.",
+          "A focus mode can reduce alerts without solving every source of distraction."
         ],
         "angles": [
-          "Should homework screen time count differently?",
-          "Which device habit would you change first?",
-          "Can a screen help people spend time together?"
+          "Should schools set screen rules for students' evenings?",
+          "Is time spent with friends online less valuable than face-to-face time?",
+          "What should a useful measure of digital wellbeing include?"
         ],
         "vocab": [
           {
@@ -24160,15 +24160,15 @@
       "B1": {
         "briefing": "A casual comment can be found long after it was written. Photos may reveal more than their captions say. People can change, while old posts remain visible.",
         "facts": [
-          "Public comments may remain easy to find.",
-          "Search results can show old posts without context.",
-          "Private messages can still be copied.",
-          "People can review their accounts before sharing more."
+          "A public comment can remain visible after a conversation ends.",
+          "A tag connects a person to someone else's post.",
+          "Search results may display old pages without their original context.",
+          "Metadata can reveal when or where a file was made."
         ],
         "angles": [
-          "Should old posts represent who someone is now?",
-          "Who owns a picture posted by a friend?",
-          "How much should schools consider online history?"
+          "How should someone respond to an unwanted tag?",
+          "Would you delete or explain an old public comment?",
+          "What would you check before sharing a photo?"
         ],
         "vocab": [
           {
@@ -24251,15 +24251,15 @@
       "B2": {
         "briefing": "Searchable traces can flatten years of growth into a few isolated moments. Deleting a post does not ensure every copy disappears. A thoughtful footprint includes what we choose not to share.",
         "facts": [
-          "Public comments may remain easy to find.",
-          "Search results can show old posts without context.",
-          "Private messages can still be copied.",
-          "People can review their accounts before sharing more."
+          "An archived post can outlast the account that first published it.",
+          "A digital trail may be assembled from many small harmless details.",
+          "Reputation can be shaped by what others share, not only personal choices.",
+          "Search results are ordered by systems that may change over time."
         ],
         "angles": [
-          "Should old posts represent who someone is now?",
-          "Who owns a picture posted by a friend?",
-          "How much should schools consider online history?"
+          "Should people have a right to remove old mistakes from searches?",
+          "Who owns the story told by a shared digital trail?",
+          "How much should schools consider a student's public posts?"
         ],
         "vocab": [
           {
@@ -24356,15 +24356,15 @@
       "B1": {
         "briefing": "A meme changes as people add new captions. A funny picture can mean different things to different groups. Some jokes need background knowledge to make sense.",
         "facts": [
-          "An image can gain new meanings through captions.",
-          "A joke often depends on shared background knowledge.",
-          "Memes spread when people make their own versions.",
-          "A funny post can still exclude someone."
+          "A meme template gives people a familiar pattern to change.",
+          "A caption can reverse the meaning of one reaction image.",
+          "An inside joke may be confusing outside its original group.",
+          "A remix can spread without naming its first creator."
         ],
         "angles": [
-          "When does a meme become a kind joke?",
-          "Should creators receive credit for meme ideas?",
-          "Can a meme explain an important idea well?"
+          "What makes a meme funny to your group?",
+          "When should a remix credit its source?",
+          "Could you explain an inside joke to a newcomer?"
         ],
         "vocab": [
           {
@@ -24447,15 +24447,15 @@
       "B2": {
         "briefing": "Memes act like small pieces of shared culture that people continually remake. A new caption can reverse the meaning of an old image. Speed of sharing can make it hard to trace who created an idea.",
         "facts": [
-          "An image can gain new meanings through captions.",
-          "A joke often depends on shared background knowledge.",
-          "Memes spread when people make their own versions.",
-          "A funny post can still exclude someone."
+          "Viral spread can separate an image from the person pictured.",
+          "Shared templates make fast participation possible but limit nuance.",
+          "A joke's effect changes when it crosses language or cultural boundaries.",
+          "Credit can become difficult when many people alter the same idea."
         ],
         "angles": [
-          "When does a meme become a kind joke?",
-          "Should creators receive credit for meme ideas?",
-          "Can a meme explain an important idea well?"
+          "Should platforms make it easier to trace a meme's creator?",
+          "When does remixing become unfair copying?",
+          "Can a meme make a serious point responsibly?"
         ],
         "vocab": [
           {
@@ -24553,15 +24553,15 @@
       "B1": {
         "briefing": "An AI tool can produce a convincing answer from patterns. It may miss a fact that a person would check. The user still decides what to trust.",
         "facts": [
-          "Training examples shape what a system learns.",
-          "An AI answer can sound confident and be wrong.",
-          "People still choose how to use the output.",
-          "Checking sources matters when decisions have consequences."
+          "Training data gives a model examples from which to learn patterns.",
+          "A prompt changes what kind of response a tool produces.",
+          "A hallucination can sound confident while inventing a source.",
+          "A source check asks whether a claim has support beyond the output."
         ],
         "angles": [
-          "Should students disclose help from AI tools?",
-          "Which tasks need a human final decision?",
-          "Can AI creativity be judged like human creativity?"
+          "Which school tasks should AI tools help with?",
+          "How would you check a confident AI answer?",
+          "When should a person write without a model?"
         ],
         "vocab": [
           {
@@ -24644,15 +24644,15 @@
       "B2": {
         "briefing": "AI systems can generate plausible text without directly verifying its truth. Training data influences which patterns a model finds familiar. The value of an output depends on the task and the human review around it.",
         "facts": [
-          "Training examples shape what a system learns.",
-          "An AI answer can sound confident and be wrong.",
-          "People still choose how to use the output.",
-          "Checking sources matters when decisions have consequences."
+          "Bias can arise from the examples chosen and the goal a system optimizes.",
+          "Human oversight is useful only when reviewers can question an output.",
+          "A model may produce plausible language without understanding its truth.",
+          "Independent evaluation matters because a good demo can hide weak cases."
         ],
         "angles": [
-          "Should students disclose help from AI tools?",
-          "Which tasks need a human final decision?",
-          "Can AI creativity be judged like human creativity?"
+          "Who should be accountable for a harmful automated decision?",
+          "Should students disclose when they use AI assistance?",
+          "What evidence would make you trust an AI tool for a high-stakes task?"
         ],
         "vocab": [
           {
@@ -24749,15 +24749,15 @@
       "B1": {
         "briefing": "A robot can do one repeated factory movement accurately. People still inspect and repair the machines. Changing a task can require a new program.",
         "facts": [
-          "Sensors can help robots respond to surroundings.",
-          "Factories use robots for precise repeated movements.",
-          "People maintain and program automated systems.",
-          "Changing tasks can reshape what workers do."
+          "A robot arm can repeat a precise motion on an assembly line.",
+          "Sensors help machines notice a part's position.",
+          "Maintenance keeps small faults from stopping a whole system.",
+          "A programmer must define what the machine should do when a step fails."
         ],
         "angles": [
-          "Which repetitive task should robots handle?",
-          "What work should always involve people?",
-          "Can automation make a job more interesting?"
+          "Which repetitive job would you automate first?",
+          "How should workers learn to use a new robot?",
+          "When would a human do a task better?"
         ],
         "vocab": [
           {
@@ -24840,15 +24840,15 @@
       "B2": {
         "briefing": "Automation shifts work instead of simply making it disappear. Sensors and software help machines respond to limited changes. Workers need a voice in how a new system changes their jobs.",
         "facts": [
-          "Sensors can help robots respond to surroundings.",
-          "Factories use robots for precise repeated movements.",
-          "People maintain and program automated systems.",
-          "Changing tasks can reshape what workers do."
+          "Precision in a controlled factory does not guarantee success in a messy home.",
+          "Automation can replace some tasks while creating different monitoring work.",
+          "Worker training needs time and a voice in how systems are introduced.",
+          "A system's failure may come from bad assumptions rather than broken hardware."
         ],
         "angles": [
-          "Which repetitive task should robots handle?",
-          "What work should always involve people?",
-          "Can automation make a job more interesting?"
+          "Who should share the gains when automation raises productivity?",
+          "Should people have the right to refuse an automated decision?",
+          "How can workplaces introduce robots without ignoring workers' expertise?"
         ],
         "vocab": [
           {
@@ -24946,15 +24946,15 @@
       "B1": {
         "briefing": "A headset can make a room look like another place. Turning your head changes the view. Some people feel uncomfortable after a long session.",
         "facts": [
-          "Headsets track movement to change the view.",
-          "A shared virtual space can connect distant people.",
-          "Simulation can help people practice unfamiliar tasks.",
-          "Comfort and accessibility differ between users."
+          "A headset shows a different image to each eye for depth.",
+          "An avatar represents a person in a virtual room.",
+          "Hand controllers can let users pick up simulated objects.",
+          "Some users feel motion sickness when visual and body signals disagree."
         ],
         "angles": [
-          "Is a virtual visit as valuable as a real one?",
-          "What should designers do for motion discomfort?",
-          "Where could a simulation help learning?"
+          "What would you explore first in a virtual museum?",
+          "How should a VR class help someone who feels dizzy?",
+          "Would you choose a realistic or playful avatar?"
         ],
         "vocab": [
           {
@@ -25037,15 +25037,15 @@
       "B2": {
         "briefing": "Virtual reality connects visual movement with body movement to create presence. A convincing simulation can support practice without real-world risk. Designers must account for motion comfort and different physical abilities.",
         "facts": [
-          "Headsets track movement to change the view.",
-          "A shared virtual space can connect distant people.",
-          "Simulation can help people practice unfamiliar tasks.",
-          "Comfort and accessibility differ between users."
+          "Immersion can support practice without recreating every real-world consequence.",
+          "A simulation may teach a procedure while missing social pressure.",
+          "Accessible virtual rooms need options for movement and sensory comfort.",
+          "Shared VR spaces raise questions about behavior and personal boundaries."
         ],
         "angles": [
-          "Is a virtual visit as valuable as a real one?",
-          "What should designers do for motion discomfort?",
-          "Where could a simulation help learning?"
+          "Should VR practice count as preparation for real emergencies?",
+          "Can a virtual visit replace travel to a real place?",
+          "Who should set rules for conduct in shared virtual spaces?"
         ],
         "vocab": [
           {
@@ -25142,15 +25142,15 @@
       "B1": {
         "briefing": "A program follows instructions in a chosen order. A missing symbol can change what happens. The programmer tests a small piece before moving on.",
         "facts": [
-          "Programs use steps, choices, and repeated actions.",
-          "A small error can change an output.",
-          "Testing helps programmers find and fix problems.",
-          "Readable code helps people work together."
+          "A variable stores a value that may change while code runs.",
+          "A loop repeats instructions under chosen conditions.",
+          "A syntax error stops some programs before they begin.",
+          "A test case checks what happens for one selected input."
         ],
         "angles": [
-          "Should everyone learn basic coding?",
-          "Which matters more: speed or clarity?",
-          "Can debugging teach patience?"
+          "What small program would you build for your class?",
+          "How would you search for a bug you cannot see?",
+          "When is a loop more useful than repeated lines?"
         ],
         "vocab": [
           {
@@ -25233,15 +25233,15 @@
       "B2": {
         "briefing": "Code translates a human idea into steps a machine can perform. Clear names and structure help other people understand a program. Debugging often means checking an assumption rather than guessing at random.",
         "facts": [
-          "Programs use steps, choices, and repeated actions.",
-          "A small error can change an output.",
-          "Testing helps programmers find and fix problems.",
-          "Readable code helps people work together."
+          "Readable functions make it easier to change one behavior safely.",
+          "Debugging often begins by reproducing a failure consistently.",
+          "A passing test cannot prove every possible input will work.",
+          "Program design includes choices about people affected by the output."
         ],
         "angles": [
-          "Should everyone learn basic coding?",
-          "Which matters more: speed or clarity?",
-          "Can debugging teach patience?"
+          "Should beginner coders learn to read code before writing much?",
+          "When is a rewrite better than another small fix?",
+          "Who should review a program used in a serious decision?"
         ],
         "vocab": [
           {
@@ -25339,15 +25339,15 @@
       "B1": {
         "briefing": "A fake message may ask for an urgent click. A software update can close a known weakness. An extra login step makes stealing an account harder.",
         "facts": [
-          "Updates can repair known software weaknesses.",
-          "Extra login checks reduce account takeovers.",
-          "Suspicious links may lead to fake pages.",
-          "Good security depends on human habits too."
+          "Phishing messages often create urgency to push a quick action.",
+          "A password manager can generate different passwords for different accounts.",
+          "A security update may close a known software weakness.",
+          "A backup helps restore work after a device problem."
         ],
         "angles": [
-          "Should schools require extra login checks?",
-          "How much convenience should safety cost?",
-          "Who should teach young people about scams?"
+          "What clue would make you question a message?",
+          "How would you teach a friend about safer passwords?",
+          "Which files would you back up first?"
         ],
         "vocab": [
           {
@@ -25430,15 +25430,15 @@
       "B2": {
         "briefing": "Security depends on people, procedures, and technology working together. Attackers exploit rushed decisions as often as technical flaws. A simple habit of checking the sender can prevent a costly mistake.",
         "facts": [
-          "Updates can repair known software weaknesses.",
-          "Extra login checks reduce account takeovers.",
-          "Suspicious links may lead to fake pages.",
-          "Good security depends on human habits too."
+          "A verification code should not be shared with someone claiming to offer help.",
+          "Account recovery can bypass strong passwords if its checks are weak.",
+          "Security depends on clear processes as well as careful users.",
+          "A suspicious link may point to a familiar-looking but different address."
         ],
         "angles": [
-          "Should schools require extra login checks?",
-          "How much convenience should safety cost?",
-          "Who should teach young people about scams?"
+          "Should companies compensate users after preventable data leaks?",
+          "How much security friction is reasonable for everyday accounts?",
+          "Who is responsible when a convincing scam succeeds?"
         ],
         "vocab": [
           {
@@ -25535,15 +25535,15 @@
       "B1": {
         "briefing": "A recorded lesson lets a student pause and replay. A live class can answer a question immediately. A quiet learner may prefer typing first.",
         "facts": [
-          "Recorded lessons let students pause and replay.",
-          "Live discussions can build a sense of class.",
-          "Unequal internet access changes who can join.",
-          "Clear instructions matter when help is distant."
+          "A recording lets learners replay a difficult explanation.",
+          "A live session gives space for immediate questions.",
+          "A chat box may help someone ask before speaking aloud.",
+          "Internet access affects whether a student can join reliably."
         ],
         "angles": [
-          "Should students choose online or classroom lessons?",
-          "When is a recording better than a live class?",
-          "How can an online class include quiet learners?"
+          "When would you choose a live lesson over a recording?",
+          "How could a teacher notice quiet confusion online?",
+          "What makes a breakout room useful?"
         ],
         "vocab": [
           {
@@ -25626,15 +25626,15 @@
       "B2": {
         "briefing": "Online learning changes how students ask for help and show confusion. Good lessons combine clear independent tasks with chances to talk. Reliable access and a suitable place to study are part of the learning environment.",
         "facts": [
-          "Recorded lessons let students pause and replay.",
-          "Live discussions can build a sense of class.",
-          "Unequal internet access changes who can join.",
-          "Clear instructions matter when help is distant."
+          "Self-paced work helps only when learners know how to judge progress.",
+          "A discussion board can give more time for thoughtful replies.",
+          "Participation measures can miss students who learn while staying quiet.",
+          "Course design should account for shared devices and unstable connections."
         ],
         "angles": [
-          "Should students choose online or classroom lessons?",
-          "When is a recording better than a live class?",
-          "How can an online class include quiet learners?"
+          "Should online courses require cameras during discussion?",
+          "How can remote classes create real peer relationships?",
+          "What should schools provide when internet access is unequal?"
         ],
         "vocab": [
           {
@@ -25731,15 +25731,15 @@
       "B1": {
         "briefing": "An artist can work on separate layers of one image. Undo makes a risky experiment easier. A tablet pen can respond to pressure.",
         "facts": [
-          "Layers let artists revise separate parts of images.",
-          "A stylus can imitate a pencil or brush.",
-          "Undo tools encourage experiments without losing earlier work.",
-          "The finished work still reflects human choices."
+          "A layer lets an artist revise one element without erasing others.",
+          "A stylus may respond to pressure with a thicker line.",
+          "Opacity controls how much of a lower color shows through.",
+          "Canvas size affects how much detail an image can hold."
         ],
         "angles": [
-          "Does an undo button change creativity?",
-          "Should digital and painted art be judged alike?",
-          "Which tool best helps an artist experiment?"
+          "What would you paint on a separate layer first?",
+          "When is undo helpful, and when is it limiting?",
+          "Would you choose a stylus or mouse for drawing?"
         ],
         "vocab": [
           {
@@ -25822,15 +25822,15 @@
       "B2": {
         "briefing": "Digital tools change how easily an artist revises a picture. A layer can separate light, color, and line without losing earlier work. The choices behind the image still belong to its maker.",
         "facts": [
-          "Layers let artists revise separate parts of images.",
-          "A stylus can imitate a pencil or brush.",
-          "Undo tools encourage experiments without losing earlier work.",
-          "The finished work still reflects human choices."
+          "A brush preset reproduces a texture but cannot choose its meaning.",
+          "A pixel image may lose sharpness when enlarged beyond its detail.",
+          "Unlimited revision can encourage experiments or delay a final decision.",
+          "Digital files require formats and storage choices for future access."
         ],
         "angles": [
-          "Does an undo button change creativity?",
-          "Should digital and painted art be judged alike?",
-          "Which tool best helps an artist experiment?"
+          "Should digital art be valued differently from physical painting?",
+          "Who owns a work made with shared software tools?",
+          "When does easy editing improve an artwork, and when does it weaken it?"
         ],
         "vocab": [
           {
