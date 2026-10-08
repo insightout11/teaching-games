@@ -2,6 +2,7 @@
   {
     "id": "topic-kids-cats",
     "title": "Cats",
+    "pictureWords": ["cat","kitten","mouse","fish","bed","sofa"],
     "aliases": [
       "cats",
       "cat",
@@ -290,6 +291,7 @@
   {
     "id": "topic-kids-dogs",
     "title": "Dogs",
+    "pictureWords": ["dog","puppy","ball","walk","park","feed-the-dog"],
     "aliases": [
       "dogs",
       "dog",
@@ -578,6 +580,7 @@
   {
     "id": "topic-kids-horses",
     "title": "Horses",
+    "pictureWords": ["horse","foal","farm","farmer","grass","carrot"],
     "aliases": [
       "horses",
       "horse",
@@ -866,6 +869,7 @@
   {
     "id": "topic-kids-elephants",
     "title": "Elephants",
+    "pictureWords": ["elephant","tree","water","river","grass","zoo"],
     "aliases": [
       "elephants",
       "elephant",
@@ -1153,6 +1157,7 @@
   {
     "id": "topic-kids-giraffes",
     "title": "Giraffes",
+    "pictureWords": ["giraffe","tree","leaf","grass","zoo","zebra"],
     "aliases": [
       "giraffes",
       "giraffe",
@@ -1440,6 +1445,7 @@
   {
     "id": "topic-kids-zebras",
     "title": "Zebras",
+    "pictureWords": ["zebra","grass","lion","tree","zoo","horse"],
     "aliases": [
       "zebras",
       "zebra",
@@ -1727,6 +1733,7 @@
   {
     "id": "topic-kids-lions",
     "title": "Lions",
+    "pictureWords": ["lion","grass","tree","zoo","tiger","deer"],
     "aliases": [
       "lions",
       "lion",
@@ -2014,6 +2021,7 @@
   {
     "id": "topic-kids-tigers",
     "title": "Tigers",
+    "pictureWords": ["tiger","forest","tree","deer","zoo","lion"],
     "aliases": [
       "tigers",
       "tiger",
@@ -2301,6 +2309,7 @@
   {
     "id": "topic-kids-pandas",
     "title": "Pandas",
+    "pictureWords": ["panda","bear","forest","tree","leaf","zoo"],
     "aliases": [
       "pandas",
       "panda",
@@ -2588,6 +2597,7 @@
   {
     "id": "topic-kids-koalas",
     "title": "Koalas",
+    "pictureWords": ["koala","tree","leaf","forest","bear","zoo"],
     "aliases": [
       "koalas",
       "koala",
@@ -2875,6 +2885,7 @@
   {
     "id": "topic-kids-kangaroos",
     "title": "Kangaroos",
+    "pictureWords": ["kangaroo","baby","grass","tree","zoo","rabbit"],
     "aliases": [
       "kangaroos",
       "kangaroo",
@@ -3162,6 +3173,7 @@
   {
     "id": "topic-kids-penguins",
     "title": "Penguins",
+    "pictureWords": ["penguin","ice","snow","fish","sea","swim"],
     "aliases": [
       "penguins",
       "penguin",
@@ -3449,6 +3461,7 @@
   {
     "id": "topic-kids-polar-bears",
     "title": "Polar Bears",
+    "pictureWords": ["polar-bear","ice","snow","sea","fish","cold"],
     "aliases": [
       "polar bears",
       "polar bear",
@@ -3736,6 +3749,7 @@
   {
     "id": "topic-kids-dolphins",
     "title": "Dolphins",
+    "pictureWords": ["dolphin","sea","fish","swim","boat","wave"],
     "aliases": [
       "dolphins",
       "dolphin",
@@ -4023,6 +4037,7 @@
   {
     "id": "topic-kids-whales",
     "title": "Whales",
+    "pictureWords": ["whale","sea","fish","boat","water","swim"],
     "aliases": [
       "whales",
       "whale",
@@ -4310,6 +4325,7 @@
   {
     "id": "topic-kids-sharks",
     "title": "Sharks",
+    "pictureWords": ["shark","sea","fish","boat","swim","teeth"],
     "aliases": [
       "sharks",
       "shark",
@@ -4599,6 +4615,7 @@
   {
     "id": "topic-kids-sea-turtles",
     "title": "Sea Turtles",
+    "pictureWords": ["turtle","sea","shell","sand","beach","swim"],
     "aliases": [
       "sea turtles",
       "sea turtle",
@@ -4886,6 +4903,7 @@
   {
     "id": "topic-kids-frogs",
     "title": "Frogs",
+    "pictureWords": ["frog","lake","rain","water","jump","worm"],
     "aliases": [
       "frogs",
       "frog",
@@ -5173,6 +5191,7 @@
   {
     "id": "topic-kids-butterflies",
     "title": "Butterflies",
+    "pictureWords": ["butterfly","flower","garden","leaf","bee","ladybug"],
     "aliases": [
       "butterflies",
       "butterfly",
@@ -5460,6 +5479,7 @@
   {
     "id": "topic-kids-bees",
     "title": "Bees",
+    "pictureWords": ["bee","flower","honey","garden","tree","butterfly"],
     "aliases": [
       "bees",
       "bee",
@@ -5747,6 +5767,7 @@
   {
     "id": "topic-kids-dinosaurs",
     "title": "Dinosaurs",
+    "pictureWords": ["dinosaur","rock","egg","tree","forest","museum"],
     "aliases": [
       "dinosaurs",
       "dinosaur",
@@ -6036,6 +6057,7 @@
   {
     "id": "topic-kids-fossils",
     "title": "Fossils",
+    "pictureWords": ["dinosaur","rock","sand","museum","shovel","cave"],
     "aliases": [
       "fossils",
       "fossil",
@@ -6323,6 +6345,7 @@
   {
     "id": "topic-kids-the-moon",
     "title": "The Moon",
+    "pictureWords": ["moon","night","sky","star","earth","rocket"],
     "aliases": [
       "the moon",
       "moon",
@@ -6611,6 +6634,7 @@
   {
     "id": "topic-kids-the-sun",
     "title": "The Sun",
+    "pictureWords": ["sun","sky","hot","summer","beach","sunscreen"],
     "aliases": [
       "the sun",
       "sun",
@@ -6898,6 +6922,7 @@
   {
     "id": "topic-kids-planets",
     "title": "Planets",
+    "pictureWords": ["planet","earth","moon","star","sun","rocket"],
     "aliases": [
       "planets",
       "planet",
@@ -7185,6 +7210,7 @@
   {
     "id": "topic-kids-stars",
     "title": "Stars",
+    "pictureWords": ["star","night","sky","moon","sun","planet"],
     "aliases": [
       "stars",
       "star",
@@ -7472,6 +7498,7 @@
   {
     "id": "topic-kids-rockets",
     "title": "Rockets",
+    "pictureWords": ["rocket","astronaut","moon","planet","sky","star"],
     "aliases": [
       "rockets",
       "rocket",
@@ -7759,6 +7786,7 @@
   {
     "id": "topic-kids-astronauts",
     "title": "Astronauts",
+    "pictureWords": ["astronaut","rocket","moon","planet","earth","star"],
     "aliases": [
       "astronauts",
       "astronaut",
@@ -8046,6 +8074,7 @@
   {
     "id": "topic-kids-volcanoes",
     "title": "Volcanoes",
+    "pictureWords": ["volcano","mountain","fire","rock","island","map"],
     "aliases": [
       "volcanoes",
       "volcano",
@@ -8334,6 +8363,7 @@
   {
     "id": "topic-kids-earthquakes",
     "title": "Earthquakes",
+    "pictureWords": ["earth","rock","house","road","bridge","mountain"],
     "aliases": [
       "earthquakes",
       "earthquake",
@@ -8621,6 +8651,7 @@
   {
     "id": "topic-kids-mountains",
     "title": "Mountains",
+    "pictureWords": ["mountain","rock","snow","tree","climb","map"],
     "aliases": [
       "mountains",
       "mountain",
@@ -8908,6 +8939,7 @@
   {
     "id": "topic-kids-rivers",
     "title": "Rivers",
+    "pictureWords": ["river","water","bridge","fish","boat","waterfall"],
     "aliases": [
       "rivers",
       "river",
@@ -9195,6 +9227,7 @@
   {
     "id": "topic-kids-oceans",
     "title": "Oceans",
+    "pictureWords": ["sea","fish","whale","shark","boat","island"],
     "aliases": [
       "oceans",
       "ocean",
@@ -9482,6 +9515,7 @@
   {
     "id": "topic-kids-coral-reefs",
     "title": "Coral Reefs",
+    "pictureWords": ["sea","fish","turtle","shark","octopus","crab"],
     "aliases": [
       "coral reefs",
       "coral reef",
@@ -9769,6 +9803,7 @@
   {
     "id": "topic-kids-rainforests",
     "title": "Rainforests",
+    "pictureWords": ["forest","tree","rain","monkey","parrot","leaf"],
     "aliases": [
       "rainforests",
       "rainforest",
@@ -10056,6 +10091,7 @@
   {
     "id": "topic-kids-deserts",
     "title": "Deserts",
+    "pictureWords": ["desert","sand","cactus","camel","sun","hot"],
     "aliases": [
       "deserts",
       "desert",
@@ -10343,6 +10379,7 @@
   {
     "id": "topic-kids-forests",
     "title": "Forests",
+    "pictureWords": ["forest","tree","leaf","fox","deer","bird"],
     "aliases": [
       "forests",
       "forest",
@@ -10630,6 +10667,7 @@
   {
     "id": "topic-kids-seasons",
     "title": "Seasons",
+    "pictureWords": ["spring","summer","autumn","winter","sun","snow"],
     "aliases": [
       "seasons",
       "season",
@@ -10917,6 +10955,7 @@
   {
     "id": "topic-kids-rain",
     "title": "Rain",
+    "pictureWords": ["rain","cloud","raindrop","umbrella","puddle","raincoat"],
     "aliases": [
       "rain",
       "raindrops",
@@ -11203,6 +11242,7 @@
   {
     "id": "topic-kids-snow",
     "title": "Snow",
+    "pictureWords": ["snow","snowflake","snowman","ice","mitten","cold"],
     "aliases": [
       "snow",
       "snowflakes",
@@ -11489,6 +11529,7 @@
   {
     "id": "topic-kids-wind",
     "title": "Wind",
+    "pictureWords": ["wind","kite","tree","leaf","cloud","storm"],
     "aliases": [
       "wind",
       "breezes",
@@ -11775,6 +11816,7 @@
   {
     "id": "topic-kids-clouds",
     "title": "Clouds",
+    "pictureWords": ["cloud","sky","rain","sun","storm","rainbow"],
     "aliases": [
       "clouds",
       "cloud",
@@ -12062,6 +12104,7 @@
   {
     "id": "topic-kids-rainbows",
     "title": "Rainbows",
+    "pictureWords": ["rainbow","rain","cloud","sun","sky","puddle"],
     "aliases": [
       "rainbows",
       "rainbow",
@@ -12349,6 +12392,7 @@
   {
     "id": "topic-kids-water-cycle",
     "title": "Water Cycle",
+    "pictureWords": ["water","sun","cloud","rain","river","sea"],
     "aliases": [
       "water cycle",
       "evaporation and rain",
@@ -12635,6 +12679,7 @@
   {
     "id": "topic-kids-plant-growth",
     "title": "Plant Growth",
+    "pictureWords": ["seed","seedling","flower","leaf","tree","watering-can"],
     "aliases": [
       "plant growth",
       "growing plants",
@@ -12922,6 +12967,7 @@
   {
     "id": "topic-kids-cooking",
     "title": "Cooking",
+    "pictureWords": ["kitchen","cook","frying-pan","spatula","oven","plate"],
     "aliases": [
       "cooking",
       "cook",
@@ -13209,6 +13255,7 @@
   {
     "id": "topic-kids-baking",
     "title": "Baking",
+    "pictureWords": ["bake","oven","cake","rolling-pin","muffin","sugar"],
     "aliases": [
       "baking",
       "bake",
@@ -13496,6 +13543,7 @@
   {
     "id": "topic-kids-fruits",
     "title": "Fruits",
+    "pictureWords": ["apple","banana","orange","grapes","strawberry","mango"],
     "aliases": [
       "fruits",
       "fruit",
@@ -13783,6 +13831,7 @@
   {
     "id": "topic-kids-vegetables",
     "title": "Vegetables",
+    "pictureWords": ["carrot","broccoli","potato","tomato","corn","peas"],
     "aliases": [
       "vegetables",
       "vegetable",
@@ -14070,6 +14119,7 @@
   {
     "id": "topic-kids-breakfast",
     "title": "Breakfast",
+    "pictureWords": ["cereal","milk","egg","bread","pancake","juice"],
     "aliases": [
       "breakfast",
       "morning meal",
@@ -14357,6 +14407,7 @@
   {
     "id": "topic-kids-school-lunch",
     "title": "School Lunch",
+    "pictureWords": ["lunchbox","sandwich","apple","water","school","table"],
     "aliases": [
       "school lunch",
       "lunch at school",
@@ -14644,6 +14695,7 @@
   {
     "id": "topic-kids-caring-for-pets",
     "title": "Caring for Pets",
+    "pictureWords": ["dog","cat","rabbit","fish","feed-the-dog","water"],
     "aliases": [
       "caring for pets",
       "pet care",
@@ -14931,6 +14983,7 @@
   {
     "id": "topic-kids-school-day",
     "title": "School Day",
+    "pictureWords": ["school","classroom","teacher","desk","book","backpack"],
     "aliases": [
       "school day",
       "a day at school",
@@ -15218,6 +15271,7 @@
   {
     "id": "topic-kids-classroom-rules",
     "title": "Classroom Rules",
+    "pictureWords": ["classroom","teacher","listen","hand","book","tidy-up"],
     "aliases": [
       "classroom rules",
       "class rules",
@@ -15505,6 +15559,7 @@
   {
     "id": "topic-kids-making-friends",
     "title": "Making Friends",
+    "pictureWords": ["friend","smile","talk","play","hug","happy"],
     "aliases": [
       "making friends",
       "new friends",
@@ -15792,6 +15847,7 @@
   {
     "id": "topic-kids-family-traditions",
     "title": "Family Traditions",
+    "pictureWords": ["family","mother","father","grandmother","party","cake"],
     "aliases": [
       "family traditions",
       "family customs",
@@ -16079,6 +16135,7 @@
   {
     "id": "topic-kids-birthday-parties",
     "title": "Birthday Parties",
+    "pictureWords": ["birthday","cake","balloon","present","party","candle"],
     "aliases": [
       "birthday parties",
       "birthday party",
@@ -16366,6 +16423,7 @@
   {
     "id": "topic-kids-festivals-around-the-world",
     "title": "Festivals Around the World",
+    "pictureWords": ["party","flag","drum","dance","cake","family"],
     "aliases": [
       "festivals around the world",
       "world festivals",
@@ -16653,6 +16711,7 @@
   {
     "id": "topic-kids-holidays",
     "title": "Holidays",
+    "pictureWords": ["airplane","beach","hotel","camera","family","map"],
     "aliases": [
       "holidays",
       "school holidays",
@@ -16940,6 +16999,7 @@
   {
     "id": "topic-kids-jobs-people-do",
     "title": "Jobs People Do",
+    "pictureWords": ["doctor","teacher","chef","pilot","farmer","firefighter"],
     "aliases": [
       "jobs people do",
       "community jobs",
@@ -17227,6 +17287,7 @@
   {
     "id": "topic-kids-soccer",
     "title": "Soccer",
+    "pictureWords": ["football","goalpost","ball","kick","stadium","shoes"],
     "aliases": [
       "soccer",
       "football game",
@@ -17515,6 +17576,7 @@
   {
     "id": "topic-kids-basketball",
     "title": "Basketball",
+    "pictureWords": ["basketball","ball","throw","catch","stadium","run"],
     "aliases": [
       "basketball",
       "basketball game",
@@ -17803,6 +17865,7 @@
   {
     "id": "topic-kids-swimming",
     "title": "Swimming",
+    "pictureWords": ["swim","swimming-pool","swimsuit","water","lifebuoy","snorkel"],
     "aliases": [
       "swimming",
       "swim",
@@ -18090,6 +18153,7 @@
   {
     "id": "topic-kids-cycling",
     "title": "Cycling",
+    "pictureWords": ["bike","ride-a-bike","road","park","shoes","seat-belt"],
     "aliases": [
       "cycling",
       "ride a bike",
@@ -18377,6 +18441,7 @@
   {
     "id": "topic-kids-running",
     "title": "Running",
+    "pictureWords": ["run","shoes","park","road","foot","stadium"],
     "aliases": [
       "running",
       "run",
@@ -18664,6 +18729,7 @@
   {
     "id": "topic-kids-dancing",
     "title": "Dancing",
+    "pictureWords": ["dance","singer","drum","clap","party","guitar"],
     "aliases": [
       "dancing",
       "dance",
@@ -18951,6 +19017,7 @@
   {
     "id": "topic-kids-board-games",
     "title": "Board Games",
+    "pictureWords": ["board-game","table","friend","play","count","marbles"],
     "aliases": [
       "board games",
       "board game",
@@ -19238,6 +19305,7 @@
   {
     "id": "topic-kids-puzzles",
     "title": "Puzzles",
+    "pictureWords": ["puzzle","table","blocks","think","play","friend"],
     "aliases": [
       "puzzles",
       "puzzle",
@@ -19525,6 +19593,7 @@
   {
     "id": "topic-kids-building-blocks",
     "title": "Building Blocks",
+    "pictureWords": ["blocks","build","house","toy-car","play","robot"],
     "aliases": [
       "building blocks",
       "blocks",
@@ -19812,6 +19881,7 @@
   {
     "id": "topic-kids-kites",
     "title": "Kites",
+    "pictureWords": ["kite","wind","sky","park","beach","flag"],
     "aliases": [
       "kites",
       "kite",
@@ -20099,6 +20169,7 @@
   {
     "id": "topic-kids-playgrounds",
     "title": "Playgrounds",
+    "pictureWords": ["playground","swing","slide","seesaw","sandbox","climbing-frame"],
     "aliases": [
       "playgrounds",
       "playground",
@@ -20386,6 +20457,7 @@
   {
     "id": "topic-kids-superheroes",
     "title": "Superheroes",
+    "pictureWords": ["crown","brave","firefighter","robot","police-officer","jump"],
     "aliases": [
       "superheroes",
       "superhero",
@@ -20673,6 +20745,7 @@
   {
     "id": "topic-kids-robots",
     "title": "Robots",
+    "pictureWords": ["robot","computer","build","toy-car","lightbulb","button"],
     "aliases": [
       "robots",
       "robot",
@@ -20960,6 +21033,7 @@
   {
     "id": "topic-kids-trains",
     "title": "Trains",
+    "pictureWords": ["train","station","road","bridge","driver","tram"],
     "aliases": [
       "trains",
       "train",
@@ -21247,6 +21321,7 @@
   {
     "id": "topic-kids-airplanes",
     "title": "Airplanes",
+    "pictureWords": ["airplane","airport","pilot","sky","map","globe"],
     "aliases": [
       "airplanes",
       "airplane",
@@ -21535,6 +21610,7 @@
   {
     "id": "topic-kids-boats",
     "title": "Boats",
+    "pictureWords": ["boat","ship","sailboat","canoe","river","sea"],
     "aliases": [
       "boats",
       "boat",
@@ -21823,6 +21899,7 @@
   {
     "id": "topic-kids-musical-instruments",
     "title": "Musical Instruments",
+    "pictureWords": ["drum","guitar","piano","trumpet","violin","flute"],
     "aliases": [
       "musical instruments",
       "instrument",
@@ -22110,6 +22187,7 @@
   {
     "id": "topic-kids-drawing",
     "title": "Drawing",
+    "pictureWords": ["draw","pencil","crayon","paper","artist","eraser"],
     "aliases": [
       "drawing",
       "draw",
@@ -22397,6 +22475,7 @@
   {
     "id": "topic-kids-painting",
     "title": "Painting",
+    "pictureWords": ["paint","paintbrush","paper","artist","crayon","draw"],
     "aliases": [
       "painting",
       "paint",
@@ -22684,6 +22763,7 @@
   {
     "id": "topic-kids-the-five-senses",
     "title": "The Five Senses",
+    "pictureWords": ["eye","ear","nose","mouth","hand","tongue"],
     "aliases": [
       "the five senses",
       "body senses",
@@ -22971,6 +23051,7 @@
   {
     "id": "topic-teens-video-games",
     "title": "Video Games",
+    "pictureWords": ["video-game","computer","phone","headphones","friend","robot"],
     "aliases": [
       "video games",
       "gaming",
@@ -23167,6 +23248,7 @@
   {
     "id": "topic-teens-game-design",
     "title": "Game Design",
+    "pictureWords": ["video-game","computer","robot","pencil","paper","puzzle"],
     "aliases": [
       "game design",
       "designing games",
@@ -23363,6 +23445,7 @@
   {
     "id": "topic-teens-esports",
     "title": "Esports",
+    "pictureWords": ["video-game","computer","headphones","microphone","friend","stadium"],
     "aliases": [
       "esports",
       "competitive gaming",
@@ -23559,6 +23642,7 @@
   {
     "id": "topic-teens-social-media",
     "title": "Social Media",
+    "pictureWords": ["phone","camera","friend","take-a-photo","talk"],
     "aliases": [
       "social media",
       "social networks",
@@ -23756,6 +23840,7 @@
   {
     "id": "topic-teens-online-privacy",
     "title": "Online Privacy",
+    "pictureWords": ["phone","computer","camera"],
     "aliases": [
       "online privacy",
       "privacy online",
@@ -23952,6 +24037,7 @@
   {
     "id": "topic-teens-screen-time",
     "title": "Screen Time",
+    "pictureWords": ["phone","computer","television","clock","book","sleep"],
     "aliases": [
       "screen time",
       "time on screens",
@@ -24148,6 +24234,7 @@
   {
     "id": "topic-teens-digital-footprints",
     "title": "Digital Footprints",
+    "pictureWords": ["phone","computer","camera","take-a-photo"],
     "aliases": [
       "digital footprints",
       "online trace",
@@ -24344,6 +24431,7 @@
   {
     "id": "topic-teens-internet-memes",
     "title": "Internet Memes",
+    "pictureWords": ["phone","computer","camera","laugh","friend"],
     "aliases": [
       "internet memes",
       "meme",
@@ -24540,6 +24628,7 @@
   {
     "id": "topic-teens-artificial-intelligence",
     "title": "Artificial Intelligence",
+    "pictureWords": ["computer","robot","phone"],
     "aliases": [
       "artificial intelligence",
       "AI tools",
@@ -24737,6 +24826,7 @@
   {
     "id": "topic-teens-robots-and-automation",
     "title": "Robots and Automation",
+    "pictureWords": ["robot","computer","build","car","button","lightbulb"],
     "aliases": [
       "robots and automation",
       "automation",
@@ -24933,6 +25023,7 @@
   {
     "id": "topic-teens-virtual-reality",
     "title": "Virtual Reality",
+    "pictureWords": ["headphones","glasses","video-game","computer","look"],
     "aliases": [
       "virtual reality",
       "VR headsets",
@@ -25130,6 +25221,7 @@
   {
     "id": "topic-teens-coding",
     "title": "Coding",
+    "pictureWords": ["computer","robot","button"],
     "aliases": [
       "coding",
       "computer code",
@@ -25326,6 +25418,7 @@
   {
     "id": "topic-teens-cybersecurity",
     "title": "Cybersecurity",
+    "pictureWords": ["computer","phone","key"],
     "aliases": [
       "cybersecurity",
       "online security",
@@ -25523,6 +25616,7 @@
   {
     "id": "topic-teens-online-learning",
     "title": "Online Learning",
+    "pictureWords": ["computer","phone","teacher","book","headphones","notebook"],
     "aliases": [
       "online learning",
       "learning online",
@@ -25719,6 +25813,7 @@
   {
     "id": "topic-teens-digital-art",
     "title": "Digital Art",
+    "pictureWords": ["computer","phone","paintbrush","draw","artist","crayon"],
     "aliases": [
       "digital art",
       "art on tablets",
@@ -25915,6 +26010,7 @@
   {
     "id": "topic-teens-friendship",
     "title": "Friendship",
+    "pictureWords": ["friend","talk","smile","hug","play","happy"],
     "aliases": [
       "friendship",
       "close friends",
@@ -26111,6 +26207,7 @@
   {
     "id": "topic-teens-peer-pressure",
     "title": "Peer Pressure",
+    "pictureWords": ["friend","worried","scared","talk","brave"],
     "aliases": [
       "peer pressure",
       "pressure from friends",
@@ -26307,6 +26404,7 @@
   {
     "id": "topic-teens-teamwork",
     "title": "Teamwork",
+    "pictureWords": ["friend","ball","build","talk","listen","carry"],
     "aliases": [
       "teamwork",
       "working together",
@@ -26503,6 +26601,7 @@
   {
     "id": "topic-teens-music-genres",
     "title": "Music Genres",
+    "pictureWords": ["guitar","drum","piano","singer","headphones","dance"],
     "aliases": [
       "music genres",
       "styles of music",
@@ -26699,6 +26798,7 @@
   {
     "id": "topic-teens-live-music",
     "title": "Live Music",
+    "pictureWords": ["singer","microphone","guitar","drum","stadium","clap"],
     "aliases": [
       "live music",
       "concerts",
@@ -26895,6 +26995,7 @@
   {
     "id": "topic-teens-songwriting",
     "title": "Songwriting",
+    "pictureWords": ["singer","microphone","piano","guitar","notebook","pen"],
     "aliases": [
       "songwriting",
       "writing songs",
@@ -27091,6 +27192,7 @@
   {
     "id": "topic-teens-film-genres",
     "title": "Film Genres",
+    "pictureWords": ["cinema","camera","television","scared","laugh","popcorn"],
     "aliases": [
       "film genres",
       "types of films",
@@ -27287,6 +27389,7 @@
   {
     "id": "topic-teens-film-making",
     "title": "Film Making",
+    "pictureWords": ["camera","cinema","microphone","lightbulb","draw"],
     "aliases": [
       "film making",
       "making films",
@@ -27483,6 +27586,7 @@
   {
     "id": "topic-teens-fashion",
     "title": "Fashion",
+    "pictureWords": ["shirt","dress","jeans","shoes","hat","jacket"],
     "aliases": [
       "fashion",
       "clothing trends",
@@ -27679,6 +27783,7 @@
   {
     "id": "topic-teens-personal-style",
     "title": "Personal Style",
+    "pictureWords": ["shirt","jeans","jacket","shoes","glasses","hat"],
     "aliases": [
       "personal style",
       "individual style",
@@ -27875,6 +27980,7 @@
   {
     "id": "topic-teens-food-culture",
     "title": "Food Culture",
+    "pictureWords": ["rice","noodles","bread","chopsticks","plate","family"],
     "aliases": [
       "food culture",
       "food traditions",
@@ -28071,6 +28177,7 @@
   {
     "id": "topic-teens-cooking-skills",
     "title": "Cooking Skills",
+    "pictureWords": ["cook","knife","frying-pan","spatula","oven","plate"],
     "aliases": [
       "cooking skills",
       "learning to cook",
@@ -28267,6 +28374,7 @@
   {
     "id": "topic-teens-language-learning",
     "title": "Language Learning",
+    "pictureWords": ["book","pen","talk","listen","teacher","friend"],
     "aliases": [
       "language learning",
       "learning languages",
@@ -28463,6 +28571,7 @@
   {
     "id": "topic-teens-travel-etiquette",
     "title": "Travel Etiquette",
+    "pictureWords": ["airplane","hotel","map","talk","smile","bag"],
     "aliases": [
       "travel etiquette",
       "travel manners",
@@ -28659,6 +28768,7 @@
   {
     "id": "topic-teens-local-traditions",
     "title": "Local Traditions",
+    "pictureWords": ["family","party","cake","dance","flag","drum"],
     "aliases": [
       "local traditions",
       "local customs",
@@ -28855,6 +28965,7 @@
   {
     "id": "topic-teens-exams",
     "title": "Exams",
+    "pictureWords": ["school","pen","paper","book","desk","clock"],
     "aliases": [
       "exams",
       "school exams",
@@ -29051,6 +29162,7 @@
   {
     "id": "topic-teens-homework",
     "title": "Homework",
+    "pictureWords": ["notebook","pencil","book","desk","school","clock"],
     "aliases": [
       "homework",
       "homework habits",
@@ -29247,6 +29359,7 @@
   {
     "id": "topic-teens-school-clubs",
     "title": "School Clubs",
+    "pictureWords": ["school","friend","ball","guitar","book","robot"],
     "aliases": [
       "school clubs",
       "after-school clubs",
@@ -29443,6 +29556,7 @@
   {
     "id": "topic-teens-part-time-jobs",
     "title": "Part-Time Jobs",
+    "pictureWords": ["shop","restaurant","chef","coin","clock","driver"],
     "aliases": [
       "part-time jobs",
       "after-school jobs",
@@ -29639,6 +29753,7 @@
   {
     "id": "topic-teens-future-jobs",
     "title": "Future Jobs",
+    "pictureWords": ["doctor","teacher","robot","computer","chef","pilot"],
     "aliases": [
       "future jobs",
       "jobs of the future",
@@ -29835,6 +29950,7 @@
   {
     "id": "topic-teens-entrepreneurship",
     "title": "Entrepreneurship",
+    "pictureWords": ["shop","coin","computer","calculator"],
     "aliases": [
       "entrepreneurship",
       "starting a small business",
@@ -30031,6 +30147,7 @@
   {
     "id": "topic-teens-money-and-saving",
     "title": "Money and Saving",
+    "pictureWords": ["coin","box","shop","basket","count"],
     "aliases": [
       "money and saving",
       "saving money",
@@ -30227,6 +30344,7 @@
   {
     "id": "topic-teens-budgeting",
     "title": "Budgeting",
+    "pictureWords": ["coin","calculator","notebook","shop"],
     "aliases": [
       "budgeting",
       "making a budget",
@@ -30423,6 +30541,7 @@
   {
     "id": "topic-teens-volunteering",
     "title": "Volunteering",
+    "pictureWords": ["friend","park","tree","shovel","bag","sweep"],
     "aliases": [
       "volunteering",
       "community service",
@@ -30619,6 +30738,7 @@
   {
     "id": "topic-teens-public-speaking",
     "title": "Public Speaking",
+    "pictureWords": ["microphone","talk","classroom","teacher","friend","clap"],
     "aliases": [
       "public speaking",
       "giving a speech",
@@ -30815,6 +30935,7 @@
   {
     "id": "topic-teens-study-habits",
     "title": "Study Habits",
+    "pictureWords": ["book","notebook","pen","clock","desk","pencil"],
     "aliases": [
       "study habits",
       "how to study",
@@ -31011,6 +31132,7 @@
   {
     "id": "topic-teens-sleep-and-learning",
     "title": "Sleep and Learning",
+    "pictureWords": ["bed","pillow","blanket","clock","book","sleep"],
     "aliases": [
       "sleep and learning",
       "sleep for students",
@@ -31207,6 +31329,7 @@
   {
     "id": "topic-teens-choosing-subjects",
     "title": "Choosing Subjects",
+    "pictureWords": ["book","school","teacher","calculator","paintbrush","globe"],
     "aliases": [
       "choosing subjects",
       "school subject choices",
@@ -31403,6 +31526,7 @@
   {
     "id": "topic-teens-gap-years",
     "title": "Gap Years",
+    "pictureWords": ["bag","airplane","map","hotel","camera","train"],
     "aliases": [
       "gap years",
       "year before college",
@@ -31599,6 +31723,7 @@
   {
     "id": "topic-teens-career-skills",
     "title": "Career Skills",
+    "pictureWords": ["computer","talk","listen","book","clock","notebook"],
     "aliases": [
       "career skills",
       "workplace skills",
@@ -31795,6 +31920,7 @@
   {
     "id": "topic-teens-climate-change",
     "title": "Climate Change",
+    "pictureWords": ["earth","sun","storm","ice","tree","snow"],
     "aliases": [
       "climate change",
       "global warming",
@@ -31992,6 +32118,7 @@
   {
     "id": "topic-teens-renewable-energy",
     "title": "Renewable Energy",
+    "pictureWords": ["sun","wind","water","lightbulb","earth","river"],
     "aliases": [
       "renewable energy",
       "clean energy",
@@ -32189,6 +32316,7 @@
   {
     "id": "topic-teens-plastic-waste",
     "title": "Plastic Waste",
+    "pictureWords": ["bottle","bag","sea","fish","beach","turtle"],
     "aliases": [
       "plastic waste",
       "plastic pollution",
@@ -32385,6 +32513,7 @@
   {
     "id": "topic-teens-wildlife-conservation",
     "title": "Wildlife Conservation",
+    "pictureWords": ["forest","tree","elephant","tiger","bird","panda"],
     "aliases": [
       "wildlife conservation",
       "protecting wildlife",
@@ -32581,6 +32710,7 @@
   {
     "id": "topic-teens-urban-nature",
     "title": "Urban Nature",
+    "pictureWords": ["city","park","tree","bird","garden","flower"],
     "aliases": [
       "urban nature",
       "nature in cities",
@@ -32777,6 +32907,7 @@
   {
     "id": "topic-teens-public-transport",
     "title": "Public Transport",
+    "pictureWords": ["bus","train","tram","station","road","taxi"],
     "aliases": [
       "public transport",
       "buses and trains",
@@ -32975,6 +33106,7 @@
   {
     "id": "topic-teens-cities-of-the-future",
     "title": "Cities of the Future",
+    "pictureWords": ["city","robot","bus","tree","computer","tram"],
     "aliases": [
       "cities of the future",
       "future cities",
@@ -33171,6 +33303,7 @@
   {
     "id": "topic-teens-space-exploration",
     "title": "Space Exploration",
+    "pictureWords": ["rocket","astronaut","moon","planet","star","earth"],
     "aliases": [
       "space exploration",
       "exploring space",
@@ -33367,6 +33500,7 @@
   {
     "id": "topic-teens-mars-missions",
     "title": "Mars Missions",
+    "pictureWords": ["rocket","astronaut","planet","rock","map","earth"],
     "aliases": [
       "mars missions",
       "travel to Mars",
@@ -33563,6 +33697,7 @@
   {
     "id": "topic-teens-satellites",
     "title": "Satellites",
+    "pictureWords": ["rocket","earth","planet","star","computer","moon"],
     "aliases": [
       "satellites",
       "satellite",
@@ -33759,6 +33894,7 @@
   {
     "id": "topic-teens-inventions",
     "title": "Inventions",
+    "pictureWords": ["lightbulb","robot","computer","bike","hammer","magnet"],
     "aliases": [
       "inventions",
       "inventors",
@@ -33955,6 +34091,7 @@
   {
     "id": "topic-teens-medical-technology",
     "title": "Medical Technology",
+    "pictureWords": ["hospital","doctor","nurse","thermometer","wheelchair","bandage"],
     "aliases": [
       "medical technology",
       "tools in medicine",
@@ -34152,6 +34289,7 @@
   {
     "id": "topic-teens-food-waste",
     "title": "Food Waste",
+    "pictureWords": ["apple","banana","plate","basket","bread","carrot"],
     "aliases": [
       "food waste",
       "wasted food",
@@ -34348,6 +34486,7 @@
   {
     "id": "topic-teens-sustainable-fashion",
     "title": "Sustainable Fashion",
+    "pictureWords": ["shirt","jeans","jacket","shoes","button","dress"],
     "aliases": [
       "sustainable fashion",
       "clothes and the environment",
@@ -34544,6 +34683,7 @@
   {
     "id": "topic-teens-water-conservation",
     "title": "Water Conservation",
+    "pictureWords": ["water","sink","shower","river","bottle","rain"],
     "aliases": [
       "water conservation",
       "saving water",
@@ -34740,6 +34880,7 @@
   {
     "id": "topic-teens-team-sports",
     "title": "Team Sports",
+    "pictureWords": ["football","basketball","ball","goalpost","friend","stadium"],
     "aliases": [
       "team sports",
       "sports teams",
@@ -34937,6 +35078,7 @@
   {
     "id": "topic-teens-solo-sports",
     "title": "Solo Sports",
+    "pictureWords": ["run","swim","bike","tennis","shoes","racket"],
     "aliases": [
       "solo sports",
       "individual sports",
@@ -35134,6 +35276,7 @@
   {
     "id": "topic-teens-fitness",
     "title": "Fitness",
+    "pictureWords": ["run","jump","swim","bike","water","shoes"],
     "aliases": [
       "fitness",
       "staying fit",
@@ -35330,6 +35473,7 @@
   {
     "id": "topic-teens-outdoor-adventures",
     "title": "Outdoor Adventures",
+    "pictureWords": ["mountain","forest","tent","rope","map","climb"],
     "aliases": [
       "outdoor adventures",
       "hiking and camping",
@@ -35526,6 +35670,7 @@
   {
     "id": "topic-teens-mysteries-and-clues",
     "title": "Mysteries and Clues",
+    "pictureWords": ["key","flashlight","map","door","box","envelope"],
     "aliases": [
       "mysteries and clues",
       "solving mysteries",
@@ -35722,6 +35867,7 @@
   {
     "id": "topic-teens-unexplained-places",
     "title": "Unexplained Places",
+    "pictureWords": ["cave","castle","island","mountain","map","forest"],
     "aliases": [
       "unexplained places",
       "strange places",
@@ -35918,6 +36064,7 @@
   {
     "id": "topic-teens-optical-illusions",
     "title": "Optical Illusions",
+    "pictureWords": ["eye","mirror","circle","look","glasses","triangle"],
     "aliases": [
       "optical illusions",
       "visual tricks",
@@ -36114,6 +36261,7 @@
   {
     "id": "topic-teens-healthy-eating",
     "title": "Healthy Eating",
+    "pictureWords": ["apple","carrot","water","salad","bread","fish"],
     "aliases": [
       "healthy eating",
       "balanced meals",
@@ -36310,6 +36458,7 @@
   {
     "id": "topic-teens-stress-management",
     "title": "Stress Management",
+    "pictureWords": ["worried","tired","sleep","walk","friend","smile"],
     "aliases": [
       "stress management",
       "managing stress",
@@ -36506,6 +36655,7 @@
   {
     "id": "topic-teens-travel-planning",
     "title": "Travel Planning",
+    "pictureWords": ["map","bag","airplane","hotel","camera","train"],
     "aliases": [
       "travel planning",
       "planning a trip",
