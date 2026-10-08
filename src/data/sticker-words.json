@@ -2392,6 +2392,386 @@
   "hint": "a snowy tree and snowflakes"
  },
  {
+  "word": "bench",
+  "id": "bench",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "seesaw",
+  "id": "seesaw",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "climbing frame",
+  "id": "climbing-frame",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "sandbox",
+  "id": "sandbox",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "merry-go-round",
+  "id": "merry-go-round",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "seagull",
+  "id": "seagull",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "raindrop",
+  "id": "raindrop",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "snowflake",
+  "id": "snowflake",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "icicle",
+  "id": "icicle",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "fog",
+  "id": "fog",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "thick grey fog hiding a small tree and a lamp post"
+ },
+ {
+  "word": "seed",
+  "id": "seed",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "a few seeds in an open hand-free pile on soil"
+ },
+ {
+  "word": "seedling",
+  "id": "seedling",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "a tiny green seedling sprouting from soil"
+ },
+ {
+  "word": "lifebuoy",
+  "id": "lifebuoy",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "snorkel",
+  "id": "snorkel",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "sunscreen",
+  "id": "sunscreen",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "beach towel",
+  "id": "beach-towel",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "watering can",
+  "id": "watering-can",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "shovel",
+  "id": "shovel",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "rake",
+  "id": "rake",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "hose",
+  "id": "hose",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a green garden hose"
+ },
+ {
+  "word": "wheelbarrow",
+  "id": "wheelbarrow",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "bandage",
+  "id": "bandage",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "thermometer",
+  "id": "thermometer",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "tissue",
+  "id": "tissue",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a box of tissues"
+ },
+ {
+  "word": "comb",
+  "id": "comb",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "hairbrush",
+  "id": "hairbrush",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "chopsticks",
+  "id": "chopsticks",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "spatula",
+  "id": "spatula",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "whisk",
+  "id": "whisk",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "rolling pin",
+  "id": "rolling-pin",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a wooden rolling pin"
+ },
+ {
+  "word": "napkin",
+  "id": "napkin",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a folded paper napkin"
+ },
+ {
+  "word": "straw",
+  "id": "straw",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a striped drinking straw in a glass"
+ },
+ {
+  "word": "stroller",
+  "id": "stroller",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "high chair",
+  "id": "high-chair",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "bib",
+  "id": "bib",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a baby bib"
+ },
+ {
+  "word": "crib",
+  "id": "crib",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a baby's crib"
+ },
+ {
+  "word": "wheelchair",
+  "id": "wheelchair",
+  "category": "home",
+  "kind": "thing",
+  "hint": "an empty wheelchair"
+ },
+ {
+  "word": "hearing aid",
+  "id": "hearing-aid",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a small hearing aid"
+ },
+ {
+  "word": "button",
+  "id": "button",
+  "category": "clothes",
+  "kind": "thing",
+  "hint": "one round clothing button"
+ },
+ {
+  "word": "zipper",
+  "id": "zipper",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "shoelace",
+  "id": "shoelace",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "slippers",
+  "id": "slippers",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "mitten",
+  "id": "mitten",
+  "category": "clothes",
+  "kind": "thing",
+  "hint": "one warm mitten"
+ },
+ {
+  "word": "lunchbox",
+  "id": "lunchbox",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "pencil case",
+  "id": "pencil-case",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "folder",
+  "id": "folder",
+  "category": "school",
+  "kind": "thing",
+  "hint": "a paper folder for school"
+ },
+ {
+  "word": "stapler",
+  "id": "stapler",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "school bus",
+  "id": "school-bus",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "traffic light",
+  "id": "traffic-light",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "crosswalk",
+  "id": "crosswalk",
+  "category": "transport",
+  "kind": "thing",
+  "hint": "a zebra crossing with white stripes on a road"
+ },
+ {
+  "word": "seat belt",
+  "id": "seat-belt",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "bus stop",
+  "id": "bus-stop",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "ferry",
+  "id": "ferry",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "goalpost",
+  "id": "goalpost",
+  "category": "sports",
+  "kind": "thing"
+ },
+ {
+  "word": "racket",
+  "id": "racket",
+  "category": "sports",
+  "kind": "thing",
+  "hint": "a tennis racket"
+ },
+ {
+  "word": "baseball bat",
+  "id": "baseball-bat",
+  "category": "sports",
+  "kind": "thing"
+ },
+ {
+  "word": "surfboard",
+  "id": "surfboard",
+  "category": "sports",
+  "kind": "thing"
+ },
+ {
+  "word": "foal",
+  "id": "foal",
+  "category": "animals",
+  "kind": "thing",
+  "hint": "a baby horse (foal)"
+ },
+ {
+  "word": "calf",
+  "id": "calf",
+  "category": "animals",
+  "kind": "thing",
+  "hint": "a baby cow (calf)"
+ },
+ {
+  "word": "chick",
+  "id": "chick",
+  "category": "animals",
+  "kind": "thing",
+  "hint": "a small yellow baby chick"
+ },
+ {
   "word": "mother",
   "id": "mother",
   "category": "people",

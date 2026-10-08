@@ -96,11 +96,27 @@ const THING = {
   tent: 'a camping tent', cactus: 'a green cactus in a pot', acorn: 'an acorn', snowman: 'a snowman with a carrot nose and scarf',
 };
 
+// Round 21 (Codex) missing-word list, Oct 9 2026.
+const EXTRA = {
+  places: 'bench seesaw climbing_frame sandbox merry-go-round', nature: 'seagull raindrop snowflake icicle fog seed seedling',
+  toys: 'lifebuoy snorkel', home: 'sunscreen beach_towel watering_can shovel rake hose wheelbarrow bandage thermometer tissue comb hairbrush chopsticks spatula whisk rolling_pin napkin straw stroller high_chair bib crib',
+  people: 'wheelchair hearing_aid', clothes: 'button zipper shoelace slippers mitten', school: 'lunchbox pencil_case folder stapler',
+  transport: 'school_bus traffic_light crosswalk seat_belt bus_stop ferry', sports: 'goalpost racket baseball_bat surfboard', animals: 'foal calf chick',
+};
+Object.assign(THING, {
+  seed: 'a few seeds in an open hand-free pile on soil', seedling: 'a tiny green seedling sprouting from soil', fog: 'thick grey fog hiding a small tree and a lamp post', napkin: 'a folded paper napkin', rolling_pin: 'a wooden rolling pin',
+  straw: 'a striped drinking straw in a glass', button: 'one round clothing button', crosswalk: 'a zebra crossing with white stripes on a road',
+  racket: 'a tennis racket', foal: 'a baby horse (foal)', calf: 'a baby cow (calf)', chick: 'a small yellow baby chick',
+  folder: 'a paper folder for school', mitten: 'one warm mitten', hose: 'a green garden hose', tissue: 'a box of tissues',
+  wheelchair: 'an empty wheelchair', hearing_aid: 'a small hearing aid', bib: 'a baby bib', crib: "a baby's crib",
+});
+
 const out = [];
 const add = (w, category, kind, hint) =>
   out.push({ word: w.replace(/_/g, ' '), id: w.replace(/_/g, '-'), category, kind, ...(hint ? { hint } : {}) });
 for (const [cat, list] of Object.entries(things))
   for (const w of list.split(' ')) BODY_PERSON[w] ? add(w, cat, 'person', BODY_PERSON[w]) : add(w, cat, 'thing', THING[w]);
+for (const [cat, list] of Object.entries(EXTRA)) for (const w of list.split(' ')) add(w, cat === 'people' ? 'home' : cat, 'thing', THING[w]);
 for (const w of people.split(' ')) add(w, 'people', 'person', PERSON[w] ?? `a ${w.replace(/_/g, ' ')}`);
 for (const w of actions.split(' ')) add(w, 'actions', 'action', `a child ${ING[w] ?? w + 'ing'}`);
 for (const w of feelings.split(' ')) add(w, 'feelings', 'feeling', `a child looking ${FEEL[w] ?? w}`);
