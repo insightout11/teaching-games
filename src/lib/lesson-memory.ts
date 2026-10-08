@@ -72,3 +72,21 @@ export function sanitizeLessonMemory(raw: unknown): LessonMemory | null {
 }
 
 export const lessonMemoryStorageKey = (sessionId: string) => `lc-lesson-memory-${sessionId}`;
+
+/** Step 2: the logbook entry for one lesson, plain data (no AI): what was talked about, words, what was done. */
+export interface LessonEntry {
+  topics: string[];
+  words: string[];
+  moreWords: number;
+  activities: string[];
+  explored: number;
+}
+
+export function lessonEntry(m: LessonMemory | null): LessonEntry | null {
+  if (!m) return null;
+  const uniq = (xs: string[]) => xs.filter((x, i) => xs.findIndex((y) => y.toLowerCase() === x.toLowerCase()) === i);
+  const topics = uniq(m.topics.map((t) => t.title)).slice(0, 5);
+  const activities = uniq(m.activities.map((a) => a.name)).slice(0, 6);
+  if (!topics.length && !activities.length && !m.words.length) return null;
+  return { topics, words: m.words.slice(0, 10), moreWords: Math.max(0, m.words.length - 10), activities, explored: m.material.length };
+}

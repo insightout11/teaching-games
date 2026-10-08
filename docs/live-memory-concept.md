@@ -76,6 +76,12 @@ surveillance warning), names on anything that's shared or public.
   the room (`flight-deck.tsx`): each Focus topic, the briefing's words, material opened (not typed notes), every
   activity launched and flight plan started.
 - Saved through `/api/session/lesson-memory` to the teacher-only table `session_memory`
-  (**`supabase/migrations/058_session_memory.sql`, not applied yet: needs the owner's OK** to write to production).
-  Until it's applied, saves fail quietly and the lesson is unaffected.
-- Not yet: the logbook entry (step 2), "Last time" at boarding (step 3), the in-room drawer (step 4).
+  (`supabase/migrations/058_session_memory.sql`, **applied Oct 8 2026** with the owner's OK; anon access refused).
+- Not yet: "Last time" at boarding (step 3), the in-room drawer (step 4).
+
+## Built: step 2 (Oct 8 2026)
+- `lessonEntry()` turns the record into a plain entry (no AI call): talked about (topics in order), words (10 + count),
+  did (activities and flights), explored (Sources items). `LessonEntryLines` shows it.
+- **End-of-lesson summary**: "What this lesson covered" (teacher view), from this browser's copy first, then the server.
+- **Class page**: the Class Logbook card shows what the latest two lessons covered, read server-side after the
+  class's RLS ownership check.

@@ -15,6 +15,8 @@ import { getPlaneAsset, getPlaneTier, type PlaneEntry } from '@/lib/plane-progre
 import { play } from '@/lib/audio/manager';
 import { FlightResultLines } from '@/components/class/flight-result-lines';
 import { sanitizeFlightResult, type FlightResult } from '@/lib/flight-result';
+import { lessonEntry, lessonMemoryStorageKey, sanitizeLessonMemory, type LessonEntry } from '@/lib/lesson-memory';
+import { LessonEntryLines } from '@/components/class/lesson-entry-lines';
 import { ClassLogbookDepositCard } from '@/components/class/class-logbook-card';
 import type { ClassLogbookSummary } from '@/lib/class-logbook';
 import { trackEvent } from '@/lib/analytics/posthog';
@@ -78,6 +80,25 @@ export function EndSessionSummary({
     void fetch(`/api/session/flight-result?sessionId=${encodeURIComponent(sessionId)}`, { cache: 'no-store' })
       .then((r) => (r.ok ? r.json() : null))
       .then((d: { payload?: unknown } | null) => { if (!cancelled) setSessionResult(sanitizeFlightResult(d?.payload ?? null)); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [teacherView, previewMode, sessionId]);
+  // What this lesson covered (live memory): this browser's copy first (the last save may still be in flight),
+  // then the server's.
+  const [coveredEntry, setCoveredEntry] = useState<LessonEntry | null>(null);
+  useEffect(() => {
+    if (!teacherView || previewMode || !sessionId) return;
+    try {
+      const raw = localStorage.getItem(lessonMemoryStorageKey(sessionId));
+      if (raw) setCoveredEntry(lessonEntry(sanitizeLessonMemory(JSON.parse(raw))));
+    } catch { /* storage unavailable */ }
+    let cancelled = false;
+    void fetch(`/api/session/lesson-memory?sessionId=${encodeURIComponent(sessionId)}`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { memory?: unknown } | null) => {
+        const e = lessonEntry(sanitizeLessonMemory(d?.memory ?? null));
+        if (!cancelled && e) setCoveredEntry((cur) => cur ?? e);
+      })
       .catch(() => {});
     return () => { cancelled = true; };
   }, [teacherView, previewMode, sessionId]);
@@ -420,6 +441,13 @@ export function EndSessionSummary({
         {teacherView && sessionResult && (
           <div className="mx-auto mb-6 max-w-xl rounded-2xl border border-emerald-400/25 bg-emerald-500/[0.06] p-4 text-left">
             <FlightResultLines results={[sessionResult]} title="This lesson, before → after" />
+          </div>
+        )}
+
+        {teacherView && coveredEntry && (
+          <div className="mx-auto mb-6 max-w-xl rounded-2xl border border-cyan-300/20 bg-cyan-400/[0.04] p-4 text-left">
+            <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">What this lesson covered</p>
+            <LessonEntryLines entry={coveredEntry} />
           </div>
         )}
 

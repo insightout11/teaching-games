@@ -6,18 +6,23 @@ import type { ClassLogbookSummary } from '@/lib/class-logbook';
 import { ClassLogbookShareControl } from '@/components/class/class-logbook-share-control';
 import { FlightResultLines } from '@/components/class/flight-result-lines';
 import type { FlightResult } from '@/lib/flight-result';
+import type { LessonEntry } from '@/lib/lesson-memory';
+import { LessonEntryLines } from '@/components/class/lesson-entry-lines';
 
 export function ClassLogbookHubCard({
   summary,
   shareEnabled,
   shareToken,
   flightResults = [],
+  recentEntries = [],
 }: {
   summary: ClassLogbookSummary;
   shareEnabled: boolean;
   shareToken: string | null;
   /** Recent flights' before → after (teacher-only; not on the public page). */
   flightResults?: FlightResult[];
+  /** What the latest lessons covered (live memory; teacher-only). */
+  recentEntries?: Array<{ at: string; entry: LessonEntry }>;
 }) {
   return (
     <Card className="flex flex-col p-5">
@@ -38,6 +43,19 @@ export function ClassLogbookHubCard({
       </div>
 
       {flightResults.length > 0 && <div className="mt-3"><FlightResultLines results={flightResults} /></div>}
+
+      {recentEntries.length > 0 && (
+        <div className="mt-3 space-y-3">
+          {recentEntries.map((e) => (
+            <div key={e.at} className="space-y-1">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-lc-text3">
+                {e.at ? new Date(e.at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'Recent lesson'}
+              </p>
+              <LessonEntryLines entry={e.entry} compact />
+            </div>
+          ))}
+        </div>
+      )}
 
       {summary.recentTopics.length > 0 ? (
         <div className="mt-3 space-y-1.5">

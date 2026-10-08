@@ -1,4 +1,6 @@
 import { FLIGHT_RESULT_KEY, sanitizeFlightResult, type FlightResult } from '@/lib/flight-result';
+import { lessonEntry, sanitizeLessonMemory, type LessonEntry } from '@/lib/lesson-memory';
+import { createServiceClient } from '@/lib/supabase/service';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { RosterEditor } from '@/components/class/roster-editor';
@@ -65,6 +67,23 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
       .slice(0, 4);
   }
 
+  // What recent lessons covered (live memory). The table is server-only; these session ids came from the
+  // teacher's own RLS-checked query above, so reading them with the service client is safe.
+  let recentEntries: Array<{ at: string; entry: LessonEntry }> = [];
+  if (logbookSessionIds.length > 0) {
+    const recentIds = logbookSessionIds.slice(0, 12);
+    const { data: memoryRows } = await createServiceClient()
+      .from('session_memory')
+      .select('session_id, payload')
+      .in('session_id', recentIds) as { data: Array<{ session_id: string; payload: unknown }> | null };
+    const startedAt = new Map(logbookSessionRows.map((s) => [s.id, s.started_at]));
+    recentEntries = (memoryRows ?? [])
+      .sort((a, b) => recentIds.indexOf(a.session_id) - recentIds.indexOf(b.session_id))
+      .map((row) => ({ at: startedAt.get(row.session_id) ?? '', entry: lessonEntry(sanitizeLessonMemory(row.payload)) }))
+      .filter((e): e is { at: string; entry: LessonEntry } => e.entry !== null)
+      .slice(0, 2);
+  }
+
   let moduleCountBySession = new Map<string, number>();
   let accuracy: number | null = null;
   let topStreak = 0;
@@ -128,6 +147,7 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
           shareEnabled={cls.logbook_share_enabled}
           shareToken={cls.logbook_share_token}
           flightResults={flightResults}
+          recentEntries={recentEntries}
         />
         <ClassJourneyCard
           classId={cls.id}

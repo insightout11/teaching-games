@@ -27,3 +27,17 @@ describe('lesson memory', () => {
     expect(sanitizeLessonMemory('x')).toBeNull();
   });
 });
+
+import { lessonEntry } from './lesson-memory';
+
+describe('lesson entry (step 2)', () => {
+  it('summarises topics, words, activities and material, or nothing for an empty lesson', () => {
+    let m = emptyLessonMemory();
+    expect(lessonEntry(m)).toBeNull();
+    m = addTopic(addTopic(m, 'Volcanoes', 'note'), 'Bali', 'place');
+    m = addWords(m, Array.from({ length: 13 }, (_, i) => `word${i}`));
+    m = addActivity(addActivity(addActivity(m, 'Static'), 'Static'), 'Black Box');
+    m = addMaterial(m, 'Mount Batur', 'article');
+    expect(lessonEntry(m)).toEqual({ topics: ['Volcanoes', 'Bali'], words: m.words.slice(0, 10), moreWords: 3, activities: ['Static', 'Black Box'], explored: 1 });
+  });
+});
