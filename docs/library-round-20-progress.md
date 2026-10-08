@@ -1,0 +1,25 @@
+# Library round 20 progress
+
+2026-10-08 · Started `codex/library-round-20` from freshly fetched `origin/main`. Read Round 20 and the inherited Round 18–19 briefs. The source bank has 150 topics and 380 levels.
+
+Added a pairwise level audit using normalized token order and an 80% longest-common-subsequence threshold. Baseline: **150 topics** have repeated facts across levels; **150 topics** have repeated angles. The Round 19 writing checks remain at zero. The batch commits will replace facts and angles while preserving briefings, vocabulary and expressions.
+
+Batch 1: rewrote four facts and three discussion questions at every level for all 20 animal topics. The Round 19 audit remains six zeros. Round 20 repeated-fact and repeated-angle topic counts each fell from 150 to 130. A detailed diagnostic script identifies near duplicates within authored batches before commit.
+
+Batch 2: rewrote 15 Earth and space topics, from dinosaurs through rainforests. Repeated-fact and repeated-angle counts each fell to 115. All six Round 19 checks remain zero.
+
+Batch 3: rewrote 10 weather and nature topics, from deserts through plant growth. Repeated-fact and repeated-angle counts each fell to 105. Corrected two near matches identified by the 80% check; Round 19 checks remain zero.
+
+Batch 4: rewrote 15 everyday topics, from cooking through community jobs. Repeated-fact and repeated-angle counts each fell to 90. Corrected one A2 sentence-length issue; Round 19 checks remain zero.
+
+Batch 5: rewrote 20 play and creativity topics, from soccer through the five senses. All 80 kids' topics now have A1, A2 and B1 facts and questions written separately. Repeated-fact and repeated-angle counts each fell to 70; the six Round 19 checks remain zero.
+
+Batch 6: rewrote 15 teen digital life topics at B1 and B2. Repeated-fact and repeated-angle counts each fell to 55; the six Round 19 checks remain zero.
+
+Batch 7: rewrote 15 relationships and culture topics, from friendship through local traditions. Repeated-fact and repeated-angle counts each fell to 40; Round 19 checks remain zero.
+
+Batch 8: rewrote 15 school and work topics, from exams through career skills. Repeated-fact and repeated-angle counts each fell to 25; Round 19 checks remain zero.
+
+Batch 9: rewrote 15 science and environment topics, from climate through water conservation. Repeated-fact and repeated-angle counts each fell to 10; Round 19 checks remain zero.
+
+Batch 10: rewrote the final 10 wellbeing and adventure topics. **Round 20 audit: 0 topics with identical or 80%-similar facts across levels; 0 topics with identical or 80%-similar angles across levels.** The six Round 19 writing checks remain 0. The bank has 150 topics and 380 levels (A1 80, A2 80, B1 150, B2 70). `npx tsx scripts/validate-library.ts` passes (1,388 items across 28 files); `pnpm test src/lib` passes (84 files, 386 tests). `npx tsc --noEmit -p .` was run but cannot pass in this worktree because its installed dependencies lack the declared `@anthropic-ai/sdk`; the resulting three diagnostics are in the existing `src/lib/ai/providers/anthropic.ts`. No packages were installed.

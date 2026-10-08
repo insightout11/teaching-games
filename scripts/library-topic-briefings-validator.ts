@@ -6,6 +6,7 @@ type Counts = {
   topics: number; kids: number; teens: number; A1: number; A2: number; B1: number; B2: number;
   briefingFactOverlap: number; titleAliasVocab: number; genericVocab: number;
   overusedVocab: number; expressionFactOverlap: number; crossTopicSentences: number;
+  identicalFactsAcrossLevels: number; identicalAnglesAcrossLevels: number;
 };
 const isText = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
 const countWords = (text: string) => text.trim().split(/\s+/).filter(Boolean).length;
@@ -28,10 +29,24 @@ function factCopiedIntoExample(fact: string, example: string): boolean {
   return false;
 }
 
+function mostlySameAcrossLevels(left: string, right: string): boolean {
+  const a = tokens(left);
+  const b = tokens(right);
+  if (!a.length || !b.length) return false;
+  const rows: number[][] = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+  for (let i = 1; i <= a.length; i += 1) {
+    for (let j = 1; j <= b.length; j += 1) {
+      rows[i][j] = a[i - 1] === b[j - 1] ? rows[i - 1][j - 1] + 1 : Math.max(rows[i - 1][j], rows[i][j - 1]);
+    }
+  }
+  return rows[a.length][b.length] >= Math.ceil(Math.min(a.length, b.length) * 0.8);
+}
+
 export function validateTopicBriefings(dataDir: string, fail: (where: string, message: string) => void): Counts {
   const counts: Counts = { topics: 0, kids: 0, teens: 0, A1: 0, A2: 0, B1: 0, B2: 0,
     briefingFactOverlap: 0, titleAliasVocab: 0, genericVocab: 0,
-    overusedVocab: 0, expressionFactOverlap: 0, crossTopicSentences: 0 };
+    overusedVocab: 0, expressionFactOverlap: 0, crossTopicSentences: 0,
+    identicalFactsAcrossLevels: 0, identicalAnglesAcrossLevels: 0 };
   const file = path.join(dataDir, 'topic-briefings.json');
   if (!fs.existsSync(file)) { fail('topic-briefings.json', 'required Focus bank is missing'); return counts; }
   let raw: unknown;
@@ -155,6 +170,18 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
         sentenceOwners.get(key)?.add(String(topic.id));
       }
     }
+    for (const field of ['facts', 'angles'] as const) {
+      let repeated = false;
+      for (let i = 0; i < wanted.length && !repeated; i += 1) {
+        for (let j = i + 1; j < wanted.length && !repeated; j += 1) {
+          const first = (levels[wanted[i]] as Record<string, unknown> | undefined)?.[field];
+          const second = (levels[wanted[j]] as Record<string, unknown> | undefined)?.[field];
+          if (!Array.isArray(first) || !Array.isArray(second)) continue;
+          repeated = first.some((a) => isText(a) && second.some((b) => isText(b) && mostlySameAcrossLevels(a, b)));
+        }
+      }
+      if (repeated) counts[field === 'facts' ? 'identicalFactsAcrossLevels' : 'identicalAnglesAcrossLevels'] += 1;
+    }
   }
   if (counts.topics !== 150 || counts.kids !== 80 || counts.teens !== 70) {
     fail('topic-briefings.json', `expected 150 topics, 80 kids and 70 teens (found ${counts.topics}/${counts.kids}/${counts.teens})`);
@@ -166,6 +193,9 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
   counts.crossTopicSentences = Array.from(sentenceOwners.values()).filter((owners) => owners.size > 1).length;
   for (const key of ['briefingFactOverlap', 'titleAliasVocab', 'genericVocab', 'overusedVocab', 'expressionFactOverlap', 'crossTopicSentences'] as const) {
     if (counts[key] !== 0) fail('topic-briefings.json', `Round 19 ${key}: ${counts[key]} (expected 0)`);
+  }
+  for (const key of ['identicalFactsAcrossLevels', 'identicalAnglesAcrossLevels'] as const) {
+    if (counts[key] !== 0) fail('topic-briefings.json', `Round 20 ${key}: ${counts[key]} (expected 0)`);
   }
   return counts;
 }
