@@ -41,7 +41,7 @@ function validLevel(l: unknown): l is TopicBriefingLevel {
 }
 
 /** The bank entry for a typed topic: exact match on the title or an alias (after topicKey), else null. */
-export function findTopicBriefing(title: string, entries: TopicBriefing[] = bank as TopicBriefing[]): TopicBriefing | null {
+export function findTopicBriefing(title: string, entries: TopicBriefing[] = bank as unknown as TopicBriefing[]): TopicBriefing | null {
   const key = topicKey(title);
   if (!key || key.split(' ').length > 5) return null;
   return entries.find((e) => [e.title, ...(e.aliases ?? [])].some((a) => topicKey(a) === key)) ?? null;
