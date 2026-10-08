@@ -11,13 +11,17 @@ import { spaceLevelCopyB } from './library-round-20-space-b';
 import { earthLevelCopyC } from './library-round-20-earth-c';
 import { natureLevelCopyA } from './library-round-20-nature-a';
 import { natureLevelCopyB } from './library-round-20-nature-b';
+import { everydayLevelCopyA } from './library-round-20-everyday-a';
+import { everydayLevelCopyB } from './library-round-20-everyday-b';
+import { everydayLevelCopyC } from './library-round-20-everyday-c';
 
 type DataLevel = { facts: string[]; angles: string[] };
 type DataTopic = { title: string; levels: Record<string, DataLevel> };
 const dataPath = path.resolve('src/data/topic-briefings.json');
 const topics = JSON.parse(fs.readFileSync(dataPath, 'utf8')) as DataTopic[];
 const batches: TopicCopy[][] = [animalLevelCopyA, animalLevelCopyB, animalLevelCopyC, animalLevelCopyD,
-  spaceLevelCopyA, spaceLevelCopyB, earthLevelCopyC, natureLevelCopyA, natureLevelCopyB];
+  spaceLevelCopyA, spaceLevelCopyB, earthLevelCopyC, natureLevelCopyA, natureLevelCopyB,
+  everydayLevelCopyA, everydayLevelCopyB, everydayLevelCopyC];
 const copy = batches.flat();
 const seen = new Set<string>();
 for (const item of copy) {
