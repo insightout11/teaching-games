@@ -117,3 +117,123 @@ Which one is made from grains? | cereal | banana,egg,cheese
 Which breakfast would you choose? | - | pancake,cereal,egg,bread
 Which drink would you choose? | - | milk,water,juice,tea
 Which fruit would you add? | - | banana,strawberry,apple,grapes
+
+body-parts | Body Parts
+Which one helps you see? | eye | ear,nose,hand
+Which one helps you hear? | ear | eye,foot,tongue
+Which one helps you smell? | nose | knee,arm,teeth
+Which one helps you taste? | tongue | finger,shoulder,hair
+Which one can hold a pencil? | hand | foot,ear,neck
+Which one bends in your leg? | knee | nose,eye,shoulder
+Which one helps you walk? | foot | mouth,hand,ear
+Which body part would you draw? | - | eye,ear,nose,mouth
+Which action feels fun? | - | jump,clap,dance,run
+Which game action would you choose? | - | catch,kick,throw,clap
+
+clothes | Clothes
+Which one goes on your head? | hat | shoes,skirt,gloves
+Which one goes on your hands? | gloves | scarf,shorts,cap
+Which one goes on your feet? | shoes | jacket,hat,shirt
+Which one can keep off rain? | raincoat | sandals,skirt,ring
+Which one goes around your neck? | scarf | boots,jeans,socks
+Which one is for sleeping? | pajamas | coat,watch,hat
+Which one helps you see clearly? | glasses | belt,shirt,gloves
+Which clothes would you choose? | - | dress,shirt,jeans,shorts
+Which one would you wear? | - | boots,sandals,shoes,socks
+Which warm thing would you choose? | - | coat,sweater,scarf,gloves
+
+getting-dressed | Getting Dressed
+Which one goes around your waist? | belt | gloves,cap,boots
+Which one keeps hands warm? | gloves | sandals,shorts,skirt
+Which one is for swimming? | swimsuit | coat,sweater,jeans
+Which one shades your face? | cap | socks,belt,boots
+Which one keeps feet dry in rain? | boots | sandals,gloves,hat
+Which one covers your legs? | trousers | cap,scarf,gloves
+Which one is warm for cold weather? | coat | sandals,shorts,ring
+Which clothes would you pack? | - | raincoat,sweater,shirt,shorts
+Which one would you wear today? | - | dress,jeans,skirt,trousers
+Which one would you choose first? | - | hat,shoes,jacket,glasses
+
+weather | Weather
+Which one falls as water? | rain | wind,sun,cloud
+Which one falls as ice? | snow | rain,wind,sun
+Which one moves a kite? | wind | snow,rain,moon
+Which one has many colors? | rainbow | cloud,snow,wind
+Which one flashes in a storm? | lightning | snow,sun,rain
+Which one warms the ground? | sun | wind,cloud,snow
+Which one can hide the sun? | cloud | rain,snow,wind
+Which weather would you draw? | - | rain,snow,wind,rainbow
+Which sky picture do you like? | - | sun,moon,cloud,star
+Which weather would you watch? | - | storm,snow,rain,rainbow
+
+seasons | Seasons
+Which season comes after spring? | summer | autumn,winter,morning
+Which season comes before winter? | autumn | spring,summer,night
+Which season comes after winter? | spring | autumn,summer,birthday
+Which season is between spring and autumn? | summer | winter,morning,night
+Which season can show falling leaves? | autumn | spring,summer,morning
+Which season can show new flowers? | spring | autumn,winter,night
+Which season can show snow? | winter | summer,autumn,birthday
+Which season would you draw? | - | spring,summer,autumn,winter
+Which season would you choose? | - | winter,spring,summer,autumn
+Which season would you visit? | - | summer,autumn,winter,spring
+
+home | Home
+Which one is for sleeping? | bed | table,door,lamp
+Which one is for sitting? | chair | window,fridge,stairs
+Which one gives light? | lamp | bed,sofa,basket
+Which one opens to a room? | door | rug,clock,spoon
+Which one lets you see outside? | window | sofa,bath,oven
+Which one takes you upstairs? | stairs | mirror,blanket,fridge
+Which one keeps food cold? | fridge | bed,chair,clock
+Which home thing would you draw? | - | house,door,window,garden
+Which room would you choose? | - | kitchen,bathroom,bedroom,garden
+Which cozy thing would you choose? | - | pillow,blanket,rug,sofa
+
+kitchen-things | Kitchen Things
+Which one helps eat soup? | spoon | knife,fork,plate
+Which one picks up food? | fork | cup,oven,sink
+Which one can cut food? | knife | bowl,plate,cup
+Which one bakes bread? | oven | fridge,table,chair
+Which one keeps milk cold? | fridge | oven,lamp,bookshelf
+Which one holds a meal? | plate | broom,hammer,ladder
+Which one holds a drink? | cup | chair,pillow,door
+Which kitchen thing would you use? | - | spoon,fork,plate,bowl
+Which one would you draw? | - | oven,fridge,sink,teapot
+Which one would you choose? | - | cup,bottle,bowl,plate
+
+bathroom-things | Bathroom Things
+Which one cleans teeth? | toothbrush | towel,mirror,soap
+Which one makes hands soapy? | soap | pillow,clock,book
+Which one dries wet hands? | towel | mirror,toilet,bath
+Which one shows your face? | mirror | sink,shower,soap
+Which one lets water fall on you? | shower | lamp,bed,sofa
+Which one is for a bath? | bath | bookshelf,oven,fridge
+Which one holds water for washing? | sink | table,bed,chair
+Which one would you put by a sink? | - | soap,toothbrush,toothpaste,towel
+Which bathroom thing would you draw? | - | mirror,shower,bath,sink
+Which one would you use first? | - | soap,towel,toothbrush,mirror
+
+school-things | School Things
+Which one makes pencil marks? | pencil | eraser,ruler,glue
+Which one removes pencil marks? | eraser | crayon,scissors,pen
+Which one measures a line? | ruler | book,paintbrush,glue
+Which one cuts paper? | scissors | pencil,notebook,crayon
+Which one sticks paper together? | glue | ruler,backpack,map
+Which one adds color to a drawing? | crayon | eraser,globe,desk
+Which one carries your books? | backpack | pencil,glue,ruler
+Which school thing would you use? | - | pencil,crayon,paintbrush,pen
+Which one would you draw? | - | book,map,globe,backpack
+Which one would you choose? | - | puzzle,notebook,calculator,scissors
+
+toys | Toys
+Which one can you kick? | ball | doll,blocks,puzzle
+Which one is soft to cuddle? | teddy-bear | toy-car,blocks,robot
+Which one flies on a string? | kite | doll,ball,marbles
+Which one floats in the air? | balloon | board-game,drum,puzzle
+Which one builds a tower? | blocks | yo-yo,microphone,doll
+Which one has many pieces? | puzzle | teddy-bear,ball,kite
+Which one can roll on wheels? | toy-car | doll,drum,balloon
+Which toy would you choose? | - | ball,doll,teddy-bear,blocks
+Which toy would you share? | - | puzzle,board-game,marbles,kite
+Which toy would you draw? | - | robot,balloon,toy-car,yo-yo
