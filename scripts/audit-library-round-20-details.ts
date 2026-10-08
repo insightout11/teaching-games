@@ -14,7 +14,8 @@ function similar(first: string, second: string): boolean {
   return cells[a.length][b.length] >= Math.ceil(Math.min(a.length, b.length) * 0.8);
 }
 const through = Number(process.argv[2] || topics.length);
-for (const topic of topics.slice(0, through)) {
+const from = Number(process.argv[3] || 0);
+for (const topic of topics.slice(from, through)) {
   const names = Object.keys(topic.levels);
   for (const name of names) {
     const level = topic.levels[name];

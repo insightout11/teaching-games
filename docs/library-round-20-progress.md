@@ -7,3 +7,5 @@ Added a pairwise level audit using normalized token order and an 80% longest-com
 Batch 1: rewrote four facts and three discussion questions at every level for all 20 animal topics. The Round 19 audit remains six zeros. Round 20 repeated-fact and repeated-angle topic counts each fell from 150 to 130. A detailed diagnostic script identifies near duplicates within authored batches before commit.
 
 Batch 2: rewrote 15 Earth and space topics, from dinosaurs through rainforests. Repeated-fact and repeated-angle counts each fell to 115. All six Round 19 checks remain zero.
+
+Batch 3: rewrote 10 weather and nature topics, from deserts through plant growth. Repeated-fact and repeated-angle counts each fell to 105. Corrected two near matches identified by the 80% check; Round 19 checks remain zero.
