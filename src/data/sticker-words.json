@@ -1,0 +1,3111 @@
+[
+ {
+  "word": "cat",
+  "id": "cat",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "dog",
+  "id": "dog",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "bird",
+  "id": "bird",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "fish",
+  "id": "fish",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "rabbit",
+  "id": "rabbit",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "horse",
+  "id": "horse",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "cow",
+  "id": "cow",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "pig",
+  "id": "pig",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "sheep",
+  "id": "sheep",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "goat",
+  "id": "goat",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "chicken",
+  "id": "chicken",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "duck",
+  "id": "duck",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "mouse",
+  "id": "mouse",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "frog",
+  "id": "frog",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "turtle",
+  "id": "turtle",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "snake",
+  "id": "snake",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "lion",
+  "id": "lion",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "tiger",
+  "id": "tiger",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "elephant",
+  "id": "elephant",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "giraffe",
+  "id": "giraffe",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "monkey",
+  "id": "monkey",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "bear",
+  "id": "bear",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "zebra",
+  "id": "zebra",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "panda",
+  "id": "panda",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "kangaroo",
+  "id": "kangaroo",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "penguin",
+  "id": "penguin",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "owl",
+  "id": "owl",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "dolphin",
+  "id": "dolphin",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "whale",
+  "id": "whale",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "shark",
+  "id": "shark",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "crocodile",
+  "id": "crocodile",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "hippo",
+  "id": "hippo",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "camel",
+  "id": "camel",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "fox",
+  "id": "fox",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "wolf",
+  "id": "wolf",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "deer",
+  "id": "deer",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "squirrel",
+  "id": "squirrel",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "butterfly",
+  "id": "butterfly",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "bee",
+  "id": "bee",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "ant",
+  "id": "ant",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "spider",
+  "id": "spider",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "snail",
+  "id": "snail",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "octopus",
+  "id": "octopus",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "crab",
+  "id": "crab",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "parrot",
+  "id": "parrot",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "eagle",
+  "id": "eagle",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "bat",
+  "id": "bat",
+  "category": "animals",
+  "kind": "thing",
+  "hint": "a bat (the flying animal)"
+ },
+ {
+  "word": "koala",
+  "id": "koala",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "jellyfish",
+  "id": "jellyfish",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "ladybug",
+  "id": "ladybug",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "lamb",
+  "id": "lamb",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "puppy",
+  "id": "puppy",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "kitten",
+  "id": "kitten",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "seal",
+  "id": "seal",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "polar bear",
+  "id": "polar-bear",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "peacock",
+  "id": "peacock",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "flamingo",
+  "id": "flamingo",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "hedgehog",
+  "id": "hedgehog",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "worm",
+  "id": "worm",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "dinosaur",
+  "id": "dinosaur",
+  "category": "animals",
+  "kind": "thing"
+ },
+ {
+  "word": "apple",
+  "id": "apple",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "banana",
+  "id": "banana",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "orange",
+  "id": "orange",
+  "category": "food",
+  "kind": "thing",
+  "hint": "an orange (the fruit)"
+ },
+ {
+  "word": "grapes",
+  "id": "grapes",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "strawberry",
+  "id": "strawberry",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "watermelon",
+  "id": "watermelon",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "pear",
+  "id": "pear",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "pineapple",
+  "id": "pineapple",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "lemon",
+  "id": "lemon",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "cherry",
+  "id": "cherry",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "mango",
+  "id": "mango",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "peach",
+  "id": "peach",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "carrot",
+  "id": "carrot",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "tomato",
+  "id": "tomato",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "potato",
+  "id": "potato",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "onion",
+  "id": "onion",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "corn",
+  "id": "corn",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "broccoli",
+  "id": "broccoli",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "cucumber",
+  "id": "cucumber",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "mushroom",
+  "id": "mushroom",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "bread",
+  "id": "bread",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "rice",
+  "id": "rice",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "egg",
+  "id": "egg",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "cheese",
+  "id": "cheese",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "milk",
+  "id": "milk",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "water",
+  "id": "water",
+  "category": "food",
+  "kind": "thing",
+  "hint": "a glass of water"
+ },
+ {
+  "word": "juice",
+  "id": "juice",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "tea",
+  "id": "tea",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "coffee",
+  "id": "coffee",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "cake",
+  "id": "cake",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "cookie",
+  "id": "cookie",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "candy",
+  "id": "candy",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "chocolate",
+  "id": "chocolate",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "ice cream",
+  "id": "ice-cream",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "pizza",
+  "id": "pizza",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "sandwich",
+  "id": "sandwich",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "hamburger",
+  "id": "hamburger",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "hot dog",
+  "id": "hot-dog",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "french fries",
+  "id": "french-fries",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "noodles",
+  "id": "noodles",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "soup",
+  "id": "soup",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "salad",
+  "id": "salad",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "meat",
+  "id": "meat",
+  "category": "food",
+  "kind": "thing",
+  "hint": "a steak"
+ },
+ {
+  "word": "sausage",
+  "id": "sausage",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "butter",
+  "id": "butter",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "honey",
+  "id": "honey",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "jam",
+  "id": "jam",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "cereal",
+  "id": "cereal",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "popcorn",
+  "id": "popcorn",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "pancake",
+  "id": "pancake",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "yogurt",
+  "id": "yogurt",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "sugar",
+  "id": "sugar",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "salt",
+  "id": "salt",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "avocado",
+  "id": "avocado",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "coconut",
+  "id": "coconut",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "kiwi",
+  "id": "kiwi",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "pumpkin",
+  "id": "pumpkin",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "peas",
+  "id": "peas",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "beans",
+  "id": "beans",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "pasta",
+  "id": "pasta",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "donut",
+  "id": "donut",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "pie",
+  "id": "pie",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "muffin",
+  "id": "muffin",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "lollipop",
+  "id": "lollipop",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "garlic",
+  "id": "garlic",
+  "category": "food",
+  "kind": "thing"
+ },
+ {
+  "word": "head",
+  "id": "head",
+  "category": "body",
+  "kind": "thing",
+  "hint": "a cartoon head (no body)"
+ },
+ {
+  "word": "face",
+  "id": "face",
+  "category": "body",
+  "kind": "person",
+  "hint": "a smiling child face"
+ },
+ {
+  "word": "eye",
+  "id": "eye",
+  "category": "body",
+  "kind": "thing",
+  "hint": "one cartoon eye"
+ },
+ {
+  "word": "ear",
+  "id": "ear",
+  "category": "body",
+  "kind": "thing",
+  "hint": "one cartoon ear"
+ },
+ {
+  "word": "nose",
+  "id": "nose",
+  "category": "body",
+  "kind": "thing",
+  "hint": "a cartoon nose"
+ },
+ {
+  "word": "mouth",
+  "id": "mouth",
+  "category": "body",
+  "kind": "thing",
+  "hint": "a smiling cartoon mouth"
+ },
+ {
+  "word": "teeth",
+  "id": "teeth",
+  "category": "body",
+  "kind": "person",
+  "hint": "a child with a big smile showing white teeth"
+ },
+ {
+  "word": "hair",
+  "id": "hair",
+  "category": "body",
+  "kind": "person",
+  "hint": "a child with long flowing hair"
+ },
+ {
+  "word": "hand",
+  "id": "hand",
+  "category": "body",
+  "kind": "thing",
+  "hint": "one open child's hand with five fingers, palm forward"
+ },
+ {
+  "word": "arm",
+  "id": "arm",
+  "category": "body",
+  "kind": "thing"
+ },
+ {
+  "word": "leg",
+  "id": "leg",
+  "category": "body",
+  "kind": "thing"
+ },
+ {
+  "word": "foot",
+  "id": "foot",
+  "category": "body",
+  "kind": "thing"
+ },
+ {
+  "word": "finger",
+  "id": "finger",
+  "category": "body",
+  "kind": "person",
+  "hint": "a child holding up one finger"
+ },
+ {
+  "word": "knee",
+  "id": "knee",
+  "category": "body",
+  "kind": "person",
+  "hint": "a child pointing at their knee"
+ },
+ {
+  "word": "shoulder",
+  "id": "shoulder",
+  "category": "body",
+  "kind": "person",
+  "hint": "a child with hands on their shoulders"
+ },
+ {
+  "word": "neck",
+  "id": "neck",
+  "category": "body",
+  "kind": "person",
+  "hint": "a child pointing to their neck"
+ },
+ {
+  "word": "tongue",
+  "id": "tongue",
+  "category": "body",
+  "kind": "person",
+  "hint": "a child sticking out their tongue"
+ },
+ {
+  "word": "toe",
+  "id": "toe",
+  "category": "body",
+  "kind": "person",
+  "hint": "a child pointing at their big toe"
+ },
+ {
+  "word": "tummy",
+  "id": "tummy",
+  "category": "body",
+  "kind": "person",
+  "hint": "a child pointing at their tummy"
+ },
+ {
+  "word": "shirt",
+  "id": "shirt",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "dress",
+  "id": "dress",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "skirt",
+  "id": "skirt",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "trousers",
+  "id": "trousers",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "shorts",
+  "id": "shorts",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "jeans",
+  "id": "jeans",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "jacket",
+  "id": "jacket",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "coat",
+  "id": "coat",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "sweater",
+  "id": "sweater",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "hat",
+  "id": "hat",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "cap",
+  "id": "cap",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "scarf",
+  "id": "scarf",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "gloves",
+  "id": "gloves",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "socks",
+  "id": "socks",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "shoes",
+  "id": "shoes",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "boots",
+  "id": "boots",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "sandals",
+  "id": "sandals",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "pajamas",
+  "id": "pajamas",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "glasses",
+  "id": "glasses",
+  "category": "clothes",
+  "kind": "thing",
+  "hint": "a pair of eyeglasses"
+ },
+ {
+  "word": "bag",
+  "id": "bag",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "umbrella",
+  "id": "umbrella",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "belt",
+  "id": "belt",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "watch",
+  "id": "watch",
+  "category": "clothes",
+  "kind": "thing",
+  "hint": "a wristwatch"
+ },
+ {
+  "word": "swimsuit",
+  "id": "swimsuit",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "raincoat",
+  "id": "raincoat",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "crown",
+  "id": "crown",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "necklace",
+  "id": "necklace",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "ring",
+  "id": "ring",
+  "category": "clothes",
+  "kind": "thing"
+ },
+ {
+  "word": "house",
+  "id": "house",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "door",
+  "id": "door",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "window",
+  "id": "window",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "bed",
+  "id": "bed",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "chair",
+  "id": "chair",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "table",
+  "id": "table",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "sofa",
+  "id": "sofa",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "lamp",
+  "id": "lamp",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "clock",
+  "id": "clock",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "television",
+  "id": "television",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "computer",
+  "id": "computer",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "phone",
+  "id": "phone",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "kitchen",
+  "id": "kitchen",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "bathroom",
+  "id": "bathroom",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "bedroom",
+  "id": "bedroom",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "garden",
+  "id": "garden",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "stairs",
+  "id": "stairs",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "fridge",
+  "id": "fridge",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "oven",
+  "id": "oven",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "sink",
+  "id": "sink",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "bath",
+  "id": "bath",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "shower",
+  "id": "shower",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "toilet",
+  "id": "toilet",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "towel",
+  "id": "towel",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "soap",
+  "id": "soap",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "toothbrush",
+  "id": "toothbrush",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "toothpaste",
+  "id": "toothpaste",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "cup",
+  "id": "cup",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "plate",
+  "id": "plate",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "bowl",
+  "id": "bowl",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "spoon",
+  "id": "spoon",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "fork",
+  "id": "fork",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "knife",
+  "id": "knife",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "bottle",
+  "id": "bottle",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "box",
+  "id": "box",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "key",
+  "id": "key",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "mirror",
+  "id": "mirror",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "pillow",
+  "id": "pillow",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "blanket",
+  "id": "blanket",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "bookshelf",
+  "id": "bookshelf",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "basket",
+  "id": "basket",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "rug",
+  "id": "rug",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "washing machine",
+  "id": "washing-machine",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "candle",
+  "id": "candle",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "teapot",
+  "id": "teapot",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "frying pan",
+  "id": "frying-pan",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "broom",
+  "id": "broom",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "bucket",
+  "id": "bucket",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "hammer",
+  "id": "hammer",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "ladder",
+  "id": "ladder",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "bell",
+  "id": "bell",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "flag",
+  "id": "flag",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "envelope",
+  "id": "envelope",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "camera",
+  "id": "camera",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "headphones",
+  "id": "headphones",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "lightbulb",
+  "id": "lightbulb",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "magnet",
+  "id": "magnet",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "flashlight",
+  "id": "flashlight",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "rope",
+  "id": "rope",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "coin",
+  "id": "coin",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "school",
+  "id": "school",
+  "category": "school",
+  "kind": "thing",
+  "hint": "a simple school building with a bell tower"
+ },
+ {
+  "word": "classroom",
+  "id": "classroom",
+  "category": "school",
+  "kind": "thing",
+  "hint": "a classroom with desks and a board"
+ },
+ {
+  "word": "book",
+  "id": "book",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "pen",
+  "id": "pen",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "pencil",
+  "id": "pencil",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "eraser",
+  "id": "eraser",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "ruler",
+  "id": "ruler",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "crayon",
+  "id": "crayon",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "paper",
+  "id": "paper",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "notebook",
+  "id": "notebook",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "backpack",
+  "id": "backpack",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "scissors",
+  "id": "scissors",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "glue",
+  "id": "glue",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "desk",
+  "id": "desk",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "whiteboard",
+  "id": "whiteboard",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "map",
+  "id": "map",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "globe",
+  "id": "globe",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "calculator",
+  "id": "calculator",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "paintbrush",
+  "id": "paintbrush",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "library",
+  "id": "library",
+  "category": "school",
+  "kind": "thing",
+  "hint": "shelves of books"
+ },
+ {
+  "word": "playground",
+  "id": "playground",
+  "category": "school",
+  "kind": "thing"
+ },
+ {
+  "word": "ball",
+  "id": "ball",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "doll",
+  "id": "doll",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "teddy bear",
+  "id": "teddy-bear",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "kite",
+  "id": "kite",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "balloon",
+  "id": "balloon",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "puzzle",
+  "id": "puzzle",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "robot",
+  "id": "robot",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "blocks",
+  "id": "blocks",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "toy car",
+  "id": "toy-car",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "yo-yo",
+  "id": "yo-yo",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "skateboard",
+  "id": "skateboard",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "bike",
+  "id": "bike",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "scooter",
+  "id": "scooter",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "swing",
+  "id": "swing",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "slide",
+  "id": "slide",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "drum",
+  "id": "drum",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "guitar",
+  "id": "guitar",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "piano",
+  "id": "piano",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "trumpet",
+  "id": "trumpet",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "video game",
+  "id": "video-game",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "marbles",
+  "id": "marbles",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "board game",
+  "id": "board-game",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "trampoline",
+  "id": "trampoline",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "sandcastle",
+  "id": "sandcastle",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "bubbles",
+  "id": "bubbles",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "violin",
+  "id": "violin",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "flute",
+  "id": "flute",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "microphone",
+  "id": "microphone",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "car",
+  "id": "car",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "bus",
+  "id": "bus",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "train",
+  "id": "train",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "airplane",
+  "id": "airplane",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "boat",
+  "id": "boat",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "ship",
+  "id": "ship",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "motorbike",
+  "id": "motorbike",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "truck",
+  "id": "truck",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "taxi",
+  "id": "taxi",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "helicopter",
+  "id": "helicopter",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "rocket",
+  "id": "rocket",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "tractor",
+  "id": "tractor",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "ambulance",
+  "id": "ambulance",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "fire engine",
+  "id": "fire-engine",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "police car",
+  "id": "police-car",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "van",
+  "id": "van",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "submarine",
+  "id": "submarine",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "hot air balloon",
+  "id": "hot-air-balloon",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "tram",
+  "id": "tram",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "canoe",
+  "id": "canoe",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "sailboat",
+  "id": "sailboat",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "park",
+  "id": "park",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "beach",
+  "id": "beach",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "zoo",
+  "id": "zoo",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "farm",
+  "id": "farm",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "hospital",
+  "id": "hospital",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "shop",
+  "id": "shop",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "supermarket",
+  "id": "supermarket",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "restaurant",
+  "id": "restaurant",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "cinema",
+  "id": "cinema",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "museum",
+  "id": "museum",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "airport",
+  "id": "airport",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "station",
+  "id": "station",
+  "category": "places",
+  "kind": "thing",
+  "hint": "a train station platform with a train"
+ },
+ {
+  "word": "swimming pool",
+  "id": "swimming-pool",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "city",
+  "id": "city",
+  "category": "places",
+  "kind": "thing",
+  "hint": "a small city skyline"
+ },
+ {
+  "word": "village",
+  "id": "village",
+  "category": "places",
+  "kind": "thing",
+  "hint": "a few small houses with trees"
+ },
+ {
+  "word": "mountain",
+  "id": "mountain",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "river",
+  "id": "river",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "lake",
+  "id": "lake",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "sea",
+  "id": "sea",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "forest",
+  "id": "forest",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "island",
+  "id": "island",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "desert",
+  "id": "desert",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "castle",
+  "id": "castle",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "bridge",
+  "id": "bridge",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "road",
+  "id": "road",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "bakery",
+  "id": "bakery",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "hotel",
+  "id": "hotel",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "police station",
+  "id": "police-station",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "fire station",
+  "id": "fire-station",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "stadium",
+  "id": "stadium",
+  "category": "places",
+  "kind": "thing"
+ },
+ {
+  "word": "sun",
+  "id": "sun",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "moon",
+  "id": "moon",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "star",
+  "id": "star",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "a yellow five-pointed star"
+ },
+ {
+  "word": "cloud",
+  "id": "cloud",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "rain",
+  "id": "rain",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "a grey-blue cloud with raindrops falling"
+ },
+ {
+  "word": "snow",
+  "id": "snow",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "wind",
+  "id": "wind",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "a tree bending in the wind with swirls of air"
+ },
+ {
+  "word": "storm",
+  "id": "storm",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "rainbow",
+  "id": "rainbow",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "tree",
+  "id": "tree",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "flower",
+  "id": "flower",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "grass",
+  "id": "grass",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "leaf",
+  "id": "leaf",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "rock",
+  "id": "rock",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "sand",
+  "id": "sand",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "fire",
+  "id": "fire",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "a campfire"
+ },
+ {
+  "word": "volcano",
+  "id": "volcano",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "sky",
+  "id": "sky",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "a blue sky with one small cloud"
+ },
+ {
+  "word": "ice",
+  "id": "ice",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "ice cubes"
+ },
+ {
+  "word": "snowman",
+  "id": "snowman",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "lightning",
+  "id": "lightning",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "tent",
+  "id": "tent",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "shell",
+  "id": "shell",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "cactus",
+  "id": "cactus",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "waterfall",
+  "id": "waterfall",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "cave",
+  "id": "cave",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "planet",
+  "id": "planet",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "earth",
+  "id": "earth",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "puddle",
+  "id": "puddle",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "acorn",
+  "id": "acorn",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "feather",
+  "id": "feather",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "circle",
+  "id": "circle",
+  "category": "shapes",
+  "kind": "thing"
+ },
+ {
+  "word": "square",
+  "id": "square",
+  "category": "shapes",
+  "kind": "thing"
+ },
+ {
+  "word": "triangle",
+  "id": "triangle",
+  "category": "shapes",
+  "kind": "thing"
+ },
+ {
+  "word": "heart",
+  "id": "heart",
+  "category": "shapes",
+  "kind": "thing"
+ },
+ {
+  "word": "rectangle",
+  "id": "rectangle",
+  "category": "shapes",
+  "kind": "thing"
+ },
+ {
+  "word": "oval",
+  "id": "oval",
+  "category": "shapes",
+  "kind": "thing"
+ },
+ {
+  "word": "diamond",
+  "id": "diamond",
+  "category": "shapes",
+  "kind": "thing",
+  "hint": "a diamond shape (the geometric shape)"
+ },
+ {
+  "word": "football",
+  "id": "football",
+  "category": "sports",
+  "kind": "thing",
+  "hint": "a soccer ball"
+ },
+ {
+  "word": "basketball",
+  "id": "basketball",
+  "category": "sports",
+  "kind": "thing"
+ },
+ {
+  "word": "tennis",
+  "id": "tennis",
+  "category": "sports",
+  "kind": "thing"
+ },
+ {
+  "word": "baseball",
+  "id": "baseball",
+  "category": "sports",
+  "kind": "thing"
+ },
+ {
+  "word": "golf",
+  "id": "golf",
+  "category": "sports",
+  "kind": "thing",
+  "hint": "a golf club and ball"
+ },
+ {
+  "word": "hockey",
+  "id": "hockey",
+  "category": "sports",
+  "kind": "thing",
+  "hint": "an ice hockey stick and puck"
+ },
+ {
+  "word": "karate",
+  "id": "karate",
+  "category": "sports",
+  "kind": "person",
+  "hint": "a child in a white karate uniform doing a kick"
+ },
+ {
+  "word": "surfing",
+  "id": "surfing",
+  "category": "sports",
+  "kind": "thing",
+  "hint": "a surfboard on a wave"
+ },
+ {
+  "word": "morning",
+  "id": "morning",
+  "category": "time",
+  "kind": "thing",
+  "hint": "a sunrise over hills"
+ },
+ {
+  "word": "night",
+  "id": "night",
+  "category": "time",
+  "kind": "thing",
+  "hint": "a dark blue night sky with a moon and stars"
+ },
+ {
+  "word": "birthday",
+  "id": "birthday",
+  "category": "time",
+  "kind": "thing",
+  "hint": "a birthday cake with candles"
+ },
+ {
+  "word": "party",
+  "id": "party",
+  "category": "time",
+  "kind": "thing",
+  "hint": "party balloons and a party hat"
+ },
+ {
+  "word": "present",
+  "id": "present",
+  "category": "time",
+  "kind": "thing",
+  "hint": "a wrapped gift box with a bow"
+ },
+ {
+  "word": "spring",
+  "id": "spring",
+  "category": "time",
+  "kind": "thing"
+ },
+ {
+  "word": "summer",
+  "id": "summer",
+  "category": "time",
+  "kind": "thing"
+ },
+ {
+  "word": "autumn",
+  "id": "autumn",
+  "category": "time",
+  "kind": "thing"
+ },
+ {
+  "word": "winter",
+  "id": "winter",
+  "category": "time",
+  "kind": "thing"
+ },
+ {
+  "word": "mother",
+  "id": "mother",
+  "category": "people",
+  "kind": "person",
+  "hint": "a mother (adult woman) smiling"
+ },
+ {
+  "word": "father",
+  "id": "father",
+  "category": "people",
+  "kind": "person",
+  "hint": "a father (adult man) smiling"
+ },
+ {
+  "word": "baby",
+  "id": "baby",
+  "category": "people",
+  "kind": "person",
+  "hint": "a baby"
+ },
+ {
+  "word": "brother",
+  "id": "brother",
+  "category": "people",
+  "kind": "person",
+  "hint": "a young boy, the brother, next to his little sister"
+ },
+ {
+  "word": "sister",
+  "id": "sister",
+  "category": "people",
+  "kind": "person",
+  "hint": "a young girl, the sister, next to her little brother"
+ },
+ {
+  "word": "grandmother",
+  "id": "grandmother",
+  "category": "people",
+  "kind": "person",
+  "hint": "a kind grandmother with grey hair in a bun and glasses"
+ },
+ {
+  "word": "grandfather",
+  "id": "grandfather",
+  "category": "people",
+  "kind": "person",
+  "hint": "a kind grandfather with grey hair and glasses"
+ },
+ {
+  "word": "family",
+  "id": "family",
+  "category": "people",
+  "kind": "person",
+  "hint": "a family: mother, father and two children together"
+ },
+ {
+  "word": "friend",
+  "id": "friend",
+  "category": "people",
+  "kind": "person",
+  "hint": "two children as friends, arm in arm"
+ },
+ {
+  "word": "boy",
+  "id": "boy",
+  "category": "people",
+  "kind": "person",
+  "hint": "a boy"
+ },
+ {
+  "word": "girl",
+  "id": "girl",
+  "category": "people",
+  "kind": "person",
+  "hint": "a girl"
+ },
+ {
+  "word": "man",
+  "id": "man",
+  "category": "people",
+  "kind": "person",
+  "hint": "an adult man"
+ },
+ {
+  "word": "woman",
+  "id": "woman",
+  "category": "people",
+  "kind": "person",
+  "hint": "an adult woman"
+ },
+ {
+  "word": "teacher",
+  "id": "teacher",
+  "category": "people",
+  "kind": "person",
+  "hint": "an adult teacher holding a book"
+ },
+ {
+  "word": "doctor",
+  "id": "doctor",
+  "category": "people",
+  "kind": "person",
+  "hint": "a doctor with a stethoscope"
+ },
+ {
+  "word": "nurse",
+  "id": "nurse",
+  "category": "people",
+  "kind": "person",
+  "hint": "a nurse in scrubs"
+ },
+ {
+  "word": "police officer",
+  "id": "police-officer",
+  "category": "people",
+  "kind": "person",
+  "hint": "a police officer in uniform"
+ },
+ {
+  "word": "firefighter",
+  "id": "firefighter",
+  "category": "people",
+  "kind": "person",
+  "hint": "a firefighter in a helmet"
+ },
+ {
+  "word": "farmer",
+  "id": "farmer",
+  "category": "people",
+  "kind": "person",
+  "hint": "a farmer in a straw hat"
+ },
+ {
+  "word": "chef",
+  "id": "chef",
+  "category": "people",
+  "kind": "person",
+  "hint": "a chef in a white hat"
+ },
+ {
+  "word": "pilot",
+  "id": "pilot",
+  "category": "people",
+  "kind": "person",
+  "hint": "a pilot in a captain's cap and uniform"
+ },
+ {
+  "word": "dentist",
+  "id": "dentist",
+  "category": "people",
+  "kind": "person",
+  "hint": "a dentist holding a giant toothbrush"
+ },
+ {
+  "word": "astronaut",
+  "id": "astronaut",
+  "category": "people",
+  "kind": "person",
+  "hint": "an astronaut in a space suit"
+ },
+ {
+  "word": "singer",
+  "id": "singer",
+  "category": "people",
+  "kind": "person",
+  "hint": "a singer with a microphone"
+ },
+ {
+  "word": "driver",
+  "id": "driver",
+  "category": "people",
+  "kind": "person",
+  "hint": "a driver at a steering wheel"
+ },
+ {
+  "word": "vet",
+  "id": "vet",
+  "category": "people",
+  "kind": "person",
+  "hint": "a vet holding a puppy"
+ },
+ {
+  "word": "artist",
+  "id": "artist",
+  "category": "people",
+  "kind": "person",
+  "hint": "an artist with a paint palette"
+ },
+ {
+  "word": "run",
+  "id": "run",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child running"
+ },
+ {
+  "word": "walk",
+  "id": "walk",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child walking"
+ },
+ {
+  "word": "jump",
+  "id": "jump",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child jumping in the air"
+ },
+ {
+  "word": "swim",
+  "id": "swim",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child swimming"
+ },
+ {
+  "word": "dance",
+  "id": "dance",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child dancing"
+ },
+ {
+  "word": "sing",
+  "id": "sing",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child singing with music notes"
+ },
+ {
+  "word": "eat",
+  "id": "eat",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child eating a sandwich"
+ },
+ {
+  "word": "drink",
+  "id": "drink",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child drinking a glass of water"
+ },
+ {
+  "word": "sleep",
+  "id": "sleep",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child sleeping in bed"
+ },
+ {
+  "word": "read",
+  "id": "read",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child reading a book"
+ },
+ {
+  "word": "write",
+  "id": "write",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child writing in a notebook"
+ },
+ {
+  "word": "draw",
+  "id": "draw",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child drawing a picture with a crayon"
+ },
+ {
+  "word": "paint",
+  "id": "paint",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child painting at an easel"
+ },
+ {
+  "word": "cook",
+  "id": "cook",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child cooking with a pan"
+ },
+ {
+  "word": "climb",
+  "id": "climb",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child climbing a ladder"
+ },
+ {
+  "word": "ride a bike",
+  "id": "ride-a-bike",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child riding a bike"
+ },
+ {
+  "word": "play",
+  "id": "play",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child playing with toys"
+ },
+ {
+  "word": "cry",
+  "id": "cry",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child crying"
+ },
+ {
+  "word": "laugh",
+  "id": "laugh",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child laughing"
+ },
+ {
+  "word": "smile",
+  "id": "smile",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child smiling"
+ },
+ {
+  "word": "talk",
+  "id": "talk",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child talking with a friend, speech bubble with no words"
+ },
+ {
+  "word": "listen",
+  "id": "listen",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child listening with a hand behind one ear"
+ },
+ {
+  "word": "look",
+  "id": "look",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child looking through binoculars"
+ },
+ {
+  "word": "clap",
+  "id": "clap",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child clapping hands"
+ },
+ {
+  "word": "wave",
+  "id": "wave",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child waving hello"
+ },
+ {
+  "word": "sit",
+  "id": "sit",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child sitting on a chair"
+ },
+ {
+  "word": "stand",
+  "id": "stand",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child standing up straight"
+ },
+ {
+  "word": "throw",
+  "id": "throw",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child throwing a ball"
+ },
+ {
+  "word": "catch",
+  "id": "catch",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child catching a ball"
+ },
+ {
+  "word": "kick",
+  "id": "kick",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child kicking a ball"
+ },
+ {
+  "word": "push",
+  "id": "push",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child pushing a big box"
+ },
+ {
+  "word": "pull",
+  "id": "pull",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child pulling a wagon"
+ },
+ {
+  "word": "open",
+  "id": "open",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child opening a door"
+ },
+ {
+  "word": "close",
+  "id": "close",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child closing a door"
+ },
+ {
+  "word": "wash",
+  "id": "wash",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child washing hands with soap"
+ },
+ {
+  "word": "brush teeth",
+  "id": "brush-teeth",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child brushing their teeth"
+ },
+ {
+  "word": "wake up",
+  "id": "wake-up",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child waking up and stretching in bed"
+ },
+ {
+  "word": "get dressed",
+  "id": "get-dressed",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child getting dressed, pulling on a sweater"
+ },
+ {
+  "word": "carry",
+  "id": "carry",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child carrying a big box"
+ },
+ {
+  "word": "cut",
+  "id": "cut",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child cutting paper with scissors"
+ },
+ {
+  "word": "build",
+  "id": "build",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child building a tower of blocks"
+ },
+ {
+  "word": "ski",
+  "id": "ski",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child skiing down snow"
+ },
+ {
+  "word": "skate",
+  "id": "skate",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child ice skating"
+ },
+ {
+  "word": "hug",
+  "id": "hug",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child hugging a friend"
+ },
+ {
+  "word": "shout",
+  "id": "shout",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child shouting with hands around the mouth"
+ },
+ {
+  "word": "whisper",
+  "id": "whisper",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child whispering into a friend's ear"
+ },
+ {
+  "word": "think",
+  "id": "think",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child thinking, finger on chin, with a small thought bubble"
+ },
+ {
+  "word": "count",
+  "id": "count",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child counting on their fingers"
+ },
+ {
+  "word": "tidy up",
+  "id": "tidy-up",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child tidying up toys into a box"
+ },
+ {
+  "word": "point",
+  "id": "point",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child pointing at something"
+ },
+ {
+  "word": "knock",
+  "id": "knock",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child knocking on a door"
+ },
+ {
+  "word": "pour",
+  "id": "pour",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child pouring juice into a cup"
+ },
+ {
+  "word": "sweep",
+  "id": "sweep",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child sweeping with a broom"
+ },
+ {
+  "word": "water the plants",
+  "id": "water-the-plants",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child watering plants with a watering can"
+ },
+ {
+  "word": "feed the dog",
+  "id": "feed-the-dog",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child feeding a dog from a bowl"
+ },
+ {
+  "word": "take a photo",
+  "id": "take-a-photo",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child taking a photo with a camera"
+ },
+ {
+  "word": "go shopping",
+  "id": "go-shopping",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child shopping with a basket of food"
+ },
+ {
+  "word": "go fishing",
+  "id": "go-fishing",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child fishing with a rod by water"
+ },
+ {
+  "word": "bake",
+  "id": "bake",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child baking cookies with an oven mitt"
+ },
+ {
+  "word": "fall",
+  "id": "fall",
+  "category": "actions",
+  "kind": "action",
+  "hint": "a child falling over (not hurt)"
+ },
+ {
+  "word": "happy",
+  "id": "happy",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking happy"
+ },
+ {
+  "word": "sad",
+  "id": "sad",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking sad"
+ },
+ {
+  "word": "angry",
+  "id": "angry",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking angry"
+ },
+ {
+  "word": "scared",
+  "id": "scared",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking scared"
+ },
+ {
+  "word": "surprised",
+  "id": "surprised",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking surprised"
+ },
+ {
+  "word": "tired",
+  "id": "tired",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking tired, slumped with heavy eyes"
+ },
+ {
+  "word": "hungry",
+  "id": "hungry",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking hungry, holding their tummy"
+ },
+ {
+  "word": "thirsty",
+  "id": "thirsty",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking thirsty, reaching for a glass of water"
+ },
+ {
+  "word": "sick",
+  "id": "sick",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking sick in bed with a thermometer"
+ },
+ {
+  "word": "bored",
+  "id": "bored",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking bored, chin resting on one hand"
+ },
+ {
+  "word": "excited",
+  "id": "excited",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking excited"
+ },
+ {
+  "word": "sleepy",
+  "id": "sleepy",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking sleepy, yawning"
+ },
+ {
+  "word": "shy",
+  "id": "shy",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking shy, hiding a little behind their hands"
+ },
+ {
+  "word": "proud",
+  "id": "proud",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking proud, holding up a gold medal"
+ },
+ {
+  "word": "hot",
+  "id": "hot",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking very hot, sweating under the sun"
+ },
+ {
+  "word": "cold",
+  "id": "cold",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking cold, shivering in a scarf"
+ },
+ {
+  "word": "worried",
+  "id": "worried",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking worried, biting their lip"
+ },
+ {
+  "word": "silly",
+  "id": "silly",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking silly, pulling a funny face"
+ },
+ {
+  "word": "brave",
+  "id": "brave",
+  "category": "feelings",
+  "kind": "feeling",
+  "hint": "a child looking brave, standing tall like a hero with a cape"
+ }
+]

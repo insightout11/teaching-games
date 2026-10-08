@@ -31,6 +31,7 @@ import { SceneScriptPanel } from './scene-script-panel';
 import { TimeMachinePanel } from './time-machine-panel';
 import { SpeakingFramePanel } from './speaking-frame-panel';
 import { HeardItPanel } from './heard-it-panel';
+import { stickerUrlFor } from '@/lib/stickers';
 import { BriefingMissionPanel } from './briefing-mission-panel';
 import {
   binaryOptionClassName,
@@ -621,6 +622,7 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId,
   const [submitted, setSubmitted] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const { timeLeft, isExpired, timerSeconds, answersOpen, opensIn } = useInputTimer(spec, submitted, clockOffsetMs);
+  const quizPictures = useMemo(() => optionPictures(spec, 4), [spec]);
 
   // Sector Strike team gating: only the active team answers; the defending team watches the board.
   const myTeam = studentId ? spec.sectorTeamByStudentId?.[studentId] : undefined;
@@ -704,7 +706,13 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId,
         <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />
-      {/* 2×2 answer grid */}
+      {quizPictures ? (
+        <div className="grid grid-cols-2 gap-3">
+          {quizPictures.map((src, i) => (
+            <PictureTile key={i} src={src} label={spec.options?.[i] ?? ''} onClick={() => handlePick(i)} disabled={isSubmitting || isExpired} />
+          ))}
+        </div>
+      ) : (
       <div className="grid grid-cols-1 gap-3 min-[390px]:grid-cols-2">
         {(spec.options ?? []).slice(0, 4).map((option, i) => (
           <button
@@ -718,7 +726,34 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId,
           </button>
         ))}
       </div>
+      )}
     </div>
+  );
+}
+
+/** Sticker URLs for a choice spec's options when pictures are on and every option has one, else null. */
+function optionPictures(spec: InputSpec, max: number): string[] | null {
+  if (!spec.pictureOptions) return null;
+  const options = (spec.options ?? []).slice(0, max);
+  if (options.length < 2) return null;
+  const urls = options.map((o) => stickerUrlFor(o));
+  return urls.every((u): u is string => !!u) ? urls : null;
+}
+
+/** A big picture answer tile: the sticker on a white card, one word under it. */
+function PictureTile({ src, label, selected, onClick, disabled }: { src: string; label: string; selected?: boolean; onClick: () => void; disabled?: boolean }) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`flex flex-col items-center gap-2 rounded-2xl border-2 p-3 transition-all active:scale-95 disabled:opacity-50 ${
+        selected ? 'border-amber-400 bg-amber-400/15' : 'border-lc-border bg-lc-card hover:border-lc-text3'
+      }`}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt="" className="aspect-square w-full rounded-xl bg-white object-contain" />
+      <span className="text-lg font-bold text-lc-text">{label}</span>
+    </button>
   );
 }
 
@@ -732,6 +767,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
     if (initialResponse) setSelected(initialResponse);
   }, [initialResponse]);
 
+  const choicePictures = useMemo(() => optionPictures(spec, 6), [spec]);
   const submitValue = writeInMode ? writeInText.trim() : selected;
   const canSubmit = !!submitValue
     && !isSubmitting
@@ -764,7 +800,21 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
         <PhonePrompt>{spec.prompt}</PhonePrompt>
       )}
       {spec.instruction && <p className="text-sm text-lc-text2">{spec.instruction}</p>}
-      {!writeInMode && (
+      {!writeInMode && choicePictures && (
+        <div className="grid grid-cols-2 gap-3">
+          {choicePictures.map((src, index) => (
+            <PictureTile
+              key={index}
+              src={src}
+              label={spec.optionLabels?.[index] ?? spec.options?.[index] ?? ''}
+              selected={selected === spec.options?.[index]}
+              onClick={() => setSelected(spec.options?.[index] ?? null)}
+              disabled={isSubmitting || submitStatus === 'success'}
+            />
+          ))}
+        </div>
+      )}
+      {!writeInMode && !choicePictures && (
         <div className="space-y-2">
           {spec.options?.map((option, index) => (
             <button
