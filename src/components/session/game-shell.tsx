@@ -405,6 +405,8 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
     }
   }, [sessionId, students, supabase, recordScore, game]);
 
+  const junior = useSessionStore((s) => s.junior);
+
   const handleRevealTop3 = useCallback(async () => {
     if (!sessionId) return;
     const { data } = await supabase
@@ -440,7 +442,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
               <div className="flex items-center gap-3">
                 <h2 className="text-lg font-bold">{game.name}</h2>
               </div>
-              {autoApprove && (
+              {autoApprove && !junior && (
                 <button
                   onClick={handleRevealTop3}
                   className="px-3 py-1.5 text-xs font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded-lg hover:bg-cyan-500/30 transition-all"

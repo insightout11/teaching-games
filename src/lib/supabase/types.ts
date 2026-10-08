@@ -32,6 +32,7 @@ export interface Class {
   logbook_share_token: string;
   logbook_share_enabled: boolean;
   is_demo: boolean;
+  junior?: boolean;
   created_at: string;
   updated_at: string;
 }

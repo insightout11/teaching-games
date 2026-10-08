@@ -23,7 +23,7 @@ const actions = 'run walk jump swim dance sing eat drink sleep read write draw p
 const feelings = 'happy sad angry scared surprised tired hungry thirsty sick bored excited sleepy shy proud hot cold worried silly brave';
 
 const ING = {
-  run: 'running', swim: 'swimming', sit: 'sitting on a chair', cut: 'cutting paper with scissors', skate: 'ice skating',
+  run: 'running', swim: 'swimming', sit: 'sitting on a chair', cut: 'cutting a sheet of paper in half with scissors', skate: 'ice skating',
   write: 'writing in a notebook', ride_a_bike: 'riding a bike', brush_teeth: 'brushing their teeth',
   wake_up: 'waking up and stretching in bed', get_dressed: 'getting dressed, pulling on a sweater',
   tidy_up: 'tidying up toys into a box', dance: 'dancing', smile: 'smiling', close: 'closing a door',
@@ -46,7 +46,7 @@ const FEEL = {
   hot: 'very hot, sweating under the sun', cold: 'cold, shivering in a scarf',
   hungry: 'hungry, holding their tummy', thirsty: 'thirsty, reaching for a glass of water',
   sick: 'sick in bed with a thermometer', sleepy: 'sleepy, yawning', tired: 'tired, slumped with heavy eyes',
-  shy: 'shy, hiding a little behind their hands', proud: 'proud, holding up a gold medal',
+  shy: 'shy, hiding a little behind their hands', proud: 'proud, smiling, with a gold medal hanging on their chest',
   bored: 'bored, chin resting on one hand', silly: 'silly, pulling a funny face', brave: 'brave, standing tall like a hero with a cape',
   worried: 'worried, biting their lip',
 };
@@ -66,7 +66,7 @@ const PERSON = {
 };
 // Body words are drawn as crew characters pointing at the part.
 const BODY_PERSON = {
-  tummy: 'a child pointing at their tummy', toe: 'a child pointing at their big toe', finger: 'a child holding up one finger',
+  tummy: 'a child pointing at their tummy', toe: 'a bare foot with five toes, the big toe shown clearly', finger: 'a child holding up one finger',
   face: 'a smiling child face', hair: 'a child with long flowing hair', teeth: 'a child with a big smile showing white teeth',
   tongue: 'a child sticking out their tongue', knee: 'a child pointing at their knee', shoulder: 'a child with hands on their shoulders',
   neck: 'a child pointing to their neck', karate: 'a child in a white karate uniform doing a kick',
@@ -81,10 +81,19 @@ const THING = {
   golf: 'a golf club and ball', hockey: 'an ice hockey stick and puck', surfing: 'a surfboard on a wave',
   football: 'a soccer ball', meat: 'a steak', city: 'a small city skyline', village: 'a few small houses with trees',
   station: 'a train station platform with a train', classroom: 'a classroom with desks and a board',
-  library: 'shelves of books', diamond: 'a diamond shape (the geometric shape)', rain: 'a grey-blue cloud with raindrops falling',
+  library: 'tall shelves full of colourful books, no signs', diamond: 'a diamond shape (the geometric shape)', rain: 'a grey-blue cloud with raindrops falling',
   school: 'a simple school building with a bell tower', hand: "one open child's hand with five fingers, palm forward",
   eye: 'one cartoon eye', ear: 'one cartoon ear', mouth: 'a smiling cartoon mouth',
   nose: 'a cartoon nose', head: 'a cartoon head (no body)',
+  kiwi: 'a kiwi fruit cut in half, green inside', hat: 'a sun hat with a wide brim', flag: 'a plain red flag on a pole (not a country flag)',
+  spider: 'a friendly black spider with eight legs', egg: 'one whole white egg', spoon: 'one metal spoon',
+  square: 'one blue square shape', rectangle: 'one green rectangle shape', oval: 'one purple oval shape', circle: 'one red circle shape',
+  summer: 'a sunny beach with an umbrella and the sea', spring: 'a small tree with pink blossom and tulips',
+  autumn: 'a tree with orange leaves falling', winter: 'a snowy tree and snowflakes',
+  sky: 'a wide blue sky with a sun and two small clouds', ice: 'three blue-white ice cubes', earth: 'the planet Earth seen from space',
+  planet: 'the planet Saturn with its rings', lightning: 'a yellow lightning bolt from a dark cloud', puddle: 'a blue rain puddle with ripples',
+  cave: 'the entrance of a rocky cave', waterfall: 'a waterfall falling over rocks into a pool', shell: 'a pink seashell',
+  tent: 'a camping tent', cactus: 'a green cactus in a pot', acorn: 'an acorn', snowman: 'a snowman with a carrot nose and scarf',
 };
 
 const out = [];

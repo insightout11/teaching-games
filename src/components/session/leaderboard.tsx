@@ -35,12 +35,15 @@ const FALLBACK_TEAM_PALETTE = [
 ];
 
 export function Leaderboard({
-  displayMode = 'competitive',
+  displayMode: requestedDisplayMode = 'competitive',
   activityParticipation = null,
 }: {
   displayMode?: 'class' | 'team' | 'competitive';
   activityParticipation?: ActivityParticipationMetrics | null;
 }) {
+  // Junior classes never rank children: class totals instead.
+  const junior = useSessionStore((s) => s.junior);
+  const displayMode = junior ? 'class' : requestedDisplayMode;
   const students = useSessionStore((s) => s.students);
   const scores = useSessionStore((s) => s.scores);
   const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);

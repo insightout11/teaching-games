@@ -168,6 +168,7 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
           initialDifficulty={cls.default_difficulty}
           initialTone={cls.default_tone}
           initialStudentDeviceMode={cls.student_device_mode}
+          initialJunior={cls.junior === true}
         />
       </div>
 

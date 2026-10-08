@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Card } from '@/components/ui/card';
 import { Select } from '@/components/ui/select';
-import { Settings2 } from 'lucide-react';
+import { Baby, Settings2 } from 'lucide-react';
 import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
 import { TONES, type Tone } from '@/stores/session-store';
 
@@ -13,18 +13,21 @@ export function ClassDefaultsCard({
   initialDifficulty,
   initialTone,
   initialStudentDeviceMode,
+  initialJunior = false,
 }: {
   classId: string;
   initialDifficulty: string | null;
   initialTone: string | null;
   initialStudentDeviceMode?: 'devices' | 'shared-screen';
+  initialJunior?: boolean;
 }) {
   const [difficulty, setDifficulty] = useState(initialDifficulty ?? '');
   const [tone, setTone] = useState(initialTone ?? '');
   const [studentDeviceMode, setStudentDeviceMode] = useState(initialStudentDeviceMode ?? 'devices');
+  const [junior, setJunior] = useState(initialJunior);
   const supabase = createClient();
 
-  const updatePreset = async (patch: { default_difficulty?: string | null; default_tone?: string | null; student_device_mode?: string }) => {
+  const updatePreset = async (patch: { default_difficulty?: string | null; default_tone?: string | null; student_device_mode?: string; junior?: boolean }) => {
     await supabase.from('classes').update(patch).eq('id', classId);
   };
 
@@ -89,6 +92,25 @@ export function ClassDefaultsCard({
               : 'Used to warn you before launching a game that needs student devices.'}
           </p>
         </div>
+        <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-lc-border p-3">
+          <input
+            type="checkbox"
+            checked={junior}
+            onChange={(e) => {
+              setJunior(e.target.checked);
+              updatePreset({ junior: e.target.checked });
+            }}
+            className="mt-0.5 h-4 w-4 accent-amber-400"
+          />
+          <span>
+            <span className="flex items-center gap-1.5 text-sm font-medium text-lc-text">
+              <Baby className="h-4 w-4 text-lc-text3" aria-hidden /> Junior class (about ages 5–9)
+            </span>
+            <span className="mt-0.5 block text-[11px] text-lc-text3">
+              Picture answers on phones and no rankings, for kids who don&apos;t read much yet.
+            </span>
+          </span>
+        </label>
       </div>
     </Card>
   );

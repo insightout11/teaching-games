@@ -1102,6 +1102,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   useEffect(() => {
     if (!initDone.current) {
       initSession(session.id, cls.id, []);
+      useSessionStore.getState().setJunior(cls.junior === true);
       existingScores.forEach((s) => useSessionStore.getState().addRealtimeScore(s));
       const persistedPlan = lesson.lessonPlanContent;
       // Apply class presets (difficulty/tone/scoringMode) — overrides stale localStorage defaults.

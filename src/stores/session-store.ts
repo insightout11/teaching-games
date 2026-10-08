@@ -178,6 +178,9 @@ export interface TripLogEntry {
 interface SessionState {
   sessionId: string | null;
   classId: string | null;
+  /** Junior class (classes.junior): picture answers on phones, no rankings. */
+  junior: boolean;
+  setJunior: (junior: boolean) => void;
   students: Student[];
   scores: Score[];
   streaks: Record<string, number>;
@@ -367,9 +370,13 @@ function selectWeightedRandom(): TurnModifier {
   return WHEEL_SEGMENTS[0].modifier;
 }
 
+const juniorSpecCache = new WeakMap<InputSpec, InputSpec>();
+
 export const useSessionStore = create<SessionState>((set, get) => ({
   sessionId: null,
   classId: null,
+  junior: false,
+  setJunior: (junior: boolean) => set({ junior }),
   students: [],
   scores: [],
   streaks: {},
@@ -625,8 +632,15 @@ export const useSessionStore = create<SessionState>((set, get) => ({
 
   setActiveGame: (gameKey: string | null) => set({ activeGameKey: gameKey }),
 
-  setInputSpec: async (spec: InputSpec | null, suppliedActivityInstanceIdentity) => {
-    const { sessionId, inputSpec: current } = get();
+  setInputSpec: async (rawSpec: InputSpec | null, suppliedActivityInstanceIdentity) => {
+    const { sessionId, inputSpec: current, junior } = get();
+    // Junior classes: choice answers become picture tiles where every option has a sticker.
+    // Cached per spec object so re-sending the same spec stays a no-op.
+    let spec = rawSpec;
+    if (junior && rawSpec && rawSpec.type === 'choice' && rawSpec.pictureOptions === undefined) {
+      spec = juniorSpecCache.get(rawSpec) ?? { ...rawSpec, pictureOptions: true };
+      juniorSpecCache.set(rawSpec, spec);
+    }
     // Skip no-op updates to avoid triggering unnecessary re-renders
     if (spec === current) return;
     if (spec === null && current === null) return;
@@ -769,6 +783,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     set({
       sessionId: null,
       classId: null,
+      junior: false,
       students: [],
       scores: [],
       streaks: {},

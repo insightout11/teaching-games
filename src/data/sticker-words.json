@@ -243,7 +243,8 @@
   "word": "spider",
   "id": "spider",
   "category": "animals",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a friendly black spider with eight legs"
  },
  {
   "word": "snail",
@@ -497,7 +498,8 @@
   "word": "egg",
   "id": "egg",
   "category": "food",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "one whole white egg"
  },
  {
   "word": "cheese",
@@ -697,7 +699,8 @@
   "word": "kiwi",
   "id": "kiwi",
   "category": "food",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a kiwi fruit cut in half, green inside"
  },
  {
   "word": "pumpkin",
@@ -874,7 +877,7 @@
   "id": "toe",
   "category": "body",
   "kind": "person",
-  "hint": "a child pointing at their big toe"
+  "hint": "a bare foot with five toes, the big toe shown clearly"
  },
  {
   "word": "tummy",
@@ -941,7 +944,8 @@
   "word": "hat",
   "id": "hat",
   "category": "clothes",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a sun hat with a wide brim"
  },
  {
   "word": "cap",
@@ -1237,7 +1241,8 @@
   "word": "spoon",
   "id": "spoon",
   "category": "home",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "one metal spoon"
  },
  {
   "word": "fork",
@@ -1363,7 +1368,8 @@
   "word": "flag",
   "id": "flag",
   "category": "home",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a plain red flag on a pole (not a country flag)"
  },
  {
   "word": "envelope",
@@ -1534,7 +1540,7 @@
   "id": "library",
   "category": "school",
   "kind": "thing",
-  "hint": "shelves of books"
+  "hint": "tall shelves full of colourful books, no signs"
  },
  {
   "word": "playground",
@@ -2130,80 +2136,91 @@
   "id": "sky",
   "category": "nature",
   "kind": "thing",
-  "hint": "a blue sky with one small cloud"
+  "hint": "a wide blue sky with a sun and two small clouds"
  },
  {
   "word": "ice",
   "id": "ice",
   "category": "nature",
   "kind": "thing",
-  "hint": "ice cubes"
+  "hint": "three blue-white ice cubes"
  },
  {
   "word": "snowman",
   "id": "snowman",
   "category": "nature",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a snowman with a carrot nose and scarf"
  },
  {
   "word": "lightning",
   "id": "lightning",
   "category": "nature",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a yellow lightning bolt from a dark cloud"
  },
  {
   "word": "tent",
   "id": "tent",
   "category": "nature",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a camping tent"
  },
  {
   "word": "shell",
   "id": "shell",
   "category": "nature",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a pink seashell"
  },
  {
   "word": "cactus",
   "id": "cactus",
   "category": "nature",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a green cactus in a pot"
  },
  {
   "word": "waterfall",
   "id": "waterfall",
   "category": "nature",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a waterfall falling over rocks into a pool"
  },
  {
   "word": "cave",
   "id": "cave",
   "category": "nature",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "the entrance of a rocky cave"
  },
  {
   "word": "planet",
   "id": "planet",
   "category": "nature",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "the planet Saturn with its rings"
  },
  {
   "word": "earth",
   "id": "earth",
   "category": "nature",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "the planet Earth seen from space"
  },
  {
   "word": "puddle",
   "id": "puddle",
   "category": "nature",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a blue rain puddle with ripples"
  },
  {
   "word": "acorn",
   "id": "acorn",
   "category": "nature",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "an acorn"
  },
  {
   "word": "feather",
@@ -2215,13 +2232,15 @@
   "word": "circle",
   "id": "circle",
   "category": "shapes",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "one red circle shape"
  },
  {
   "word": "square",
   "id": "square",
   "category": "shapes",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "one blue square shape"
  },
  {
   "word": "triangle",
@@ -2239,13 +2258,15 @@
   "word": "rectangle",
   "id": "rectangle",
   "category": "shapes",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "one green rectangle shape"
  },
  {
   "word": "oval",
   "id": "oval",
   "category": "shapes",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "one purple oval shape"
  },
  {
   "word": "diamond",
@@ -2346,25 +2367,29 @@
   "word": "spring",
   "id": "spring",
   "category": "time",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a small tree with pink blossom and tulips"
  },
  {
   "word": "summer",
   "id": "summer",
   "category": "time",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a sunny beach with an umbrella and the sea"
  },
  {
   "word": "autumn",
   "id": "autumn",
   "category": "time",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a tree with orange leaves falling"
  },
  {
   "word": "winter",
   "id": "winter",
   "category": "time",
-  "kind": "thing"
+  "kind": "thing",
+  "hint": "a snowy tree and snowflakes"
  },
  {
   "word": "mother",
@@ -2833,7 +2858,7 @@
   "id": "cut",
   "category": "actions",
   "kind": "action",
-  "hint": "a child cutting paper with scissors"
+  "hint": "a child cutting a sheet of paper in half with scissors"
  },
  {
   "word": "build",
@@ -3071,7 +3096,7 @@
   "id": "proud",
   "category": "feelings",
   "kind": "feeling",
-  "hint": "a child looking proud, holding up a gold medal"
+  "hint": "a child looking proud, smiling, with a gold medal hanging on their chest"
  },
  {
   "word": "hot",
