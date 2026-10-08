@@ -30,6 +30,8 @@ import { schoolLevelCopyC } from './library-round-20-school-c';
 import { scienceLevelCopyA } from './library-round-20-science-a';
 import { scienceLevelCopyB } from './library-round-20-science-b';
 import { scienceLevelCopyC } from './library-round-20-science-c';
+import { wellbeingLevelCopyA } from './library-round-20-wellbeing-a';
+import { wellbeingLevelCopyB } from './library-round-20-wellbeing-b';
 
 type DataLevel = { facts: string[]; angles: string[] };
 type DataTopic = { title: string; levels: Record<string, DataLevel> };
@@ -42,8 +44,10 @@ const batches: TopicCopy[][] = [animalLevelCopyA, animalLevelCopyB, animalLevelC
   digitalLevelCopyA, digitalLevelCopyB, digitalLevelCopyC,
   cultureLevelCopyA, cultureLevelCopyB, cultureLevelCopyC,
   schoolLevelCopyA, schoolLevelCopyB, schoolLevelCopyC,
-  scienceLevelCopyA, scienceLevelCopyB, scienceLevelCopyC];
+  scienceLevelCopyA, scienceLevelCopyB, scienceLevelCopyC,
+  wellbeingLevelCopyA, wellbeingLevelCopyB];
 const copy = batches.flat();
+if (copy.length !== 150) throw new Error(`Round 20 requires 150 topics, found ${copy.length}`);
 const seen = new Set<string>();
 for (const item of copy) {
   if (seen.has(item.title)) throw new Error(`Duplicate Round 20 topic: ${item.title}`);

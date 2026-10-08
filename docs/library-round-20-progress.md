@@ -21,3 +21,5 @@ Batch 7: rewrote 15 relationships and culture topics, from friendship through lo
 Batch 8: rewrote 15 school and work topics, from exams through career skills. Repeated-fact and repeated-angle counts each fell to 25; Round 19 checks remain zero.
 
 Batch 9: rewrote 15 science and environment topics, from climate through water conservation. Repeated-fact and repeated-angle counts each fell to 10; Round 19 checks remain zero.
+
+Batch 10: rewrote the final 10 wellbeing and adventure topics. **Round 20 audit: 0 topics with identical or 80%-similar facts across levels; 0 topics with identical or 80%-similar angles across levels.** The six Round 19 writing checks remain 0. The bank has 150 topics and 380 levels (A1 80, A2 80, B1 150, B2 70). `npx tsx scripts/validate-library.ts` passes (1,388 items across 28 files); `pnpm test src/lib` passes (84 files, 386 tests). `npx tsc --noEmit -p .` was run but cannot pass in this worktree because its installed dependencies lack the declared `@anthropic-ai/sdk`; the resulting three diagnostics are in the existing `src/lib/ai/providers/anthropic.ts`. No packages were installed.
