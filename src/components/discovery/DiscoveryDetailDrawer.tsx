@@ -9,8 +9,7 @@
 // Launch flow mirrors ExploreClient so behavior stays consistent across the app.
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Clock, Users, Plus, ListPlus, ChevronLeft, Plane, Paperclip } from 'lucide-react';
+import { Clock, Users, Plus, ChevronLeft, Plane, Paperclip } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { Input } from '@/components/ui/input';
@@ -56,8 +55,6 @@ function readLastClass(): ClassRow | null {
 }
 
 export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem | null; onClose: () => void }) {
-  const router = useRouter();
-  const seedWithModule = usePlannerStore((s) => s.seedWithModule);
   const sourceAttached = usePlannerStore((s) => s.sourceMaterial);
   const { loading: tierLoading, isPro, credits } = useTeacherTier();
 
@@ -206,12 +203,6 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
     setCreatingClass(false);
   }
 
-  function addToPlan() {
-    if (!item) return;
-    seedWithModule(item.key, item.meta?.slotFit?.[0] ?? 'practice');
-    router.push('/lesson-planner');
-  }
-
   const glyphs = item ? getInteractionGlyphs(item) : [];
   const selectedName = classes.find((c) => c.id === selectedClassId)?.name ?? '';
 
@@ -274,13 +265,6 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                   >
                     <Plane className="h-4 w-4" aria-hidden />
                     Run now
-                  </button>
-                  <button
-                    onClick={addToPlan}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-lc-border bg-lc-surface px-4 py-2.5 text-sm font-medium text-lc-text2 transition-colors hover:border-lc-amber/50 hover:text-lc-text"
-                  >
-                    <ListPlus className="h-4 w-4" aria-hidden />
-                    Add to plan
                   </button>
                 </div>
               </>

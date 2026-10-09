@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, type ComponentType } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { resolveClassLaunchListState } from '@/lib/class-launch-list-state';
-import { ChevronDown, Plus, Search, X, UserRound, MonitorOff } from 'lucide-react';
+import { ChevronDown, Search, X, UserRound, MonitorOff } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { Input } from '@/components/ui/input';
@@ -21,8 +21,6 @@ import type { GameCategory } from '@/games/types';
 import type { ActivityCategory } from '@/activities/types';
 import { TOPICS, DIFFICULTIES } from '@/stores/session-store';
 import type { Topic, Difficulty } from '@/stores/session-store';
-import { usePlannerStore } from '@/stores/planner-store';
-import type { SlotType } from '@/lib/flight-plan-config';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { trackEvent } from '@/lib/analytics/posthog';
 import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
@@ -100,7 +98,6 @@ function ModuleCard({
   color,
   presetFootnote,
   onLaunch,
-  onAddToPlan,
 }: {
   icon: ComponentType<{ className?: string }>;
   name: string;
@@ -111,7 +108,6 @@ function ModuleCard({
   color: string;
   presetFootnote?: string;
   onLaunch: () => void;
-  onAddToPlan: () => void;
 }) {
   const visibleSkills = skills.slice(0, 2);
   const extraCount = skills.length - visibleSkills.length;
@@ -147,15 +143,7 @@ function ModuleCard({
           )}
         </div>
       </button>
-      <div className="px-4 pb-3 pt-1 border-t border-lc-border/40 flex items-center justify-between gap-2">
-        <button
-          onClick={onAddToPlan}
-          aria-label="Add to lesson plan"
-          title="Add to lesson plan"
-          className="p-1.5 rounded-lg text-lc-text3 hover:text-lc-amber hover:bg-lc-surface transition-colors"
-        >
-          <Plus className="w-4 h-4" />
-        </button>
+      <div className="px-4 pb-3 pt-1 border-t border-lc-border/40 flex items-center justify-end gap-2">
         <Button onClick={onLaunch} size="sm" className="px-3 py-1.5 text-xs">
           Launch
         </Button>
@@ -233,7 +221,6 @@ function SkillPopover({ value, onChange }: { value: SkillFilter; onChange: (v: S
 
 export function ExploreClient() {
   const router = useRouter();
-  const { seedWithModule } = usePlannerStore();
   const { loading: tierLoading, isPro, credits } = useTeacherTier();
   const { loading: profileLoading, profile } = useTeacherProfile();
   const games: GamePlugin[] = getAllGames().filter((g) => !g.flightPlanOnly);
@@ -465,15 +452,6 @@ export function ExploreClient() {
   const gameCategoryOrder: GameCategory[] = ['quiz', 'vocabulary', 'grammar-writing', 'logic-puzzles'];
   const activityCategoryOrder: ActivityCategory[] = ['icebreaker', 'learning', 'practice', 'debate', 'closing'];
 
-  function handleAddToPlan(key: string, slotType: SlotType) {
-    if (!isAuthenticated) {
-      router.push('/login');
-      return;
-    }
-    seedWithModule(key, slotType);
-    router.push('/lesson-planner');
-  }
-
   function handleLaunchItem(item: { name: string; key: string; type: 'game' | 'activity' }) {
     if (!isAuthenticated) {
       router.push('/login');
@@ -625,7 +603,6 @@ export function ExploreClient() {
                     color={info.color}
                     presetFootnote={PRESET_NAME_BY_MODULE_KEY[game.key]}
                     onLaunch={() => handleLaunchItem({ name: game.name, key: game.key, type: 'game' })}
-                    onAddToPlan={() => handleAddToPlan(game.key, game.pppStage)}
                   />
                 ))}
               </div>
@@ -661,7 +638,6 @@ export function ExploreClient() {
                     color={info.color}
                     presetFootnote={PRESET_NAME_BY_MODULE_KEY[activity.key]}
                     onLaunch={() => handleLaunchItem({ name: activity.name, key: activity.key, type: 'activity' })}
-                    onAddToPlan={() => handleAddToPlan(activity.key, activity.pppStage)}
                   />
                 ))}
               </div>
