@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FLAP_FONT } from '@/components/ui/split-flap';
 import { Card } from '@/components/ui/card';
 import { Globe2, Plane, Stamp } from 'lucide-react';
 import { getDestinationById } from '@/data/world-flight/destinations';
@@ -24,10 +25,10 @@ export function ClassJourneyCard({
   const planeTierLabel = getPlaneTier(planeTier).label;
 
   return (
-    <Card className="p-5 flex flex-col">
+    <Card className="border-white/[0.07] bg-[#0a121e]/85 p-5 flex flex-col">
       <div className="flex items-center gap-2 mb-3">
         <Globe2 className="w-4 h-4 text-lc-blue shrink-0" />
-        <h2 className="text-sm font-semibold text-lc-text">Journey</h2>
+        <h2 className="text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>World Flight</h2>
       </div>
 
       {destination ? (

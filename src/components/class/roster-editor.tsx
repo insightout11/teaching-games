@@ -5,6 +5,7 @@ import { studentFirstName } from '@/lib/student-name';
 import { createClient } from '@/lib/supabase/client';
 import type { Student } from '@/lib/supabase/types';
 import { Button } from '@/components/ui/button';
+import { FLAP_FONT } from '@/components/ui/split-flap';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -239,11 +240,11 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
   };
 
   return (
-    <Card>
+    <Card className="border-white/[0.07] bg-[#0a121e]/85 p-5">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Users className="w-4 h-4 text-lc-text3 shrink-0" />
-          <h2 className="text-base font-semibold text-lc-text">Students</h2>
+          <h2 className="text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>Students</h2>
           {students.length > 0 && (
             <span className="text-xs text-lc-text3 tabular-nums">{students.length}</span>
           )}

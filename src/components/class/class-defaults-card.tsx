@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { FLAP_FONT } from '@/components/ui/split-flap';
 import { Card } from '@/components/ui/card';
 import { Select } from '@/components/ui/select';
 import { Baby, Settings2 } from 'lucide-react';
@@ -32,10 +33,10 @@ export function ClassDefaultsCard({
   };
 
   return (
-    <Card className="p-5">
+    <Card className="border-white/[0.07] bg-[#0a121e]/85 p-5">
       <div className="flex items-center gap-2 mb-3">
         <Settings2 className="w-4 h-4 text-lc-text3 shrink-0" />
-        <h2 className="text-sm font-semibold text-lc-text">Defaults</h2>
+        <h2 className="text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>Settings</h2>
       </div>
       <p className="text-xs text-lc-text3 mb-3">Used when starting a new session for this class.</p>
       <div className="space-y-2">
