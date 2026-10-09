@@ -150,14 +150,19 @@ for (const [index, situation] of Array.from(situations.entries())) {
 }
 const kids = situations.filter((row) => row.ageBand === 'kids').length;
 const teens = situations.filter((row) => row.ageBand === 'teens').length;
+const original = situations.filter((row) => typeof row.id === 'string' && !row.id.startsWith('speak-r27-') && row.ageBand !== 'junior').length;
 const teenB2New = situations.filter((row) => typeof row.id === 'string' && row.id.startsWith('speak-r27-') && row.ageBand === 'teens' && row.cefr === 'B2').length;
-if (situations.length !== 171 || kids !== 77 || teens !== 64 || juniors !== 30) {
-  fail('speakCount', speakFile, `expected 171 situations (77 kids, 64 teens, 30 junior), found ${situations.length} (${kids}/${teens}/${juniors})`);
+if (situations.length !== 171 || kids !== 77 || teens !== 64 || juniors !== 30 || original !== 80) {
+  fail('speakCount', speakFile, `expected 171 situations (77 kids, 64 teens, 30 junior, 80 original), found ${situations.length} (${kids}/${teens}/${juniors}/${original})`);
 }
 for (const row of briefingRows) if (!coveredTopics.has(row.id)) fail('topicCoverage', row.id, 'no age-matched Speak situation');
 console.log(`Junior Speak: ${juniors}/30 situations, ${repliesChecked} replies checked, ${picturesUsed.size} distinct stickers; natural slots before ${beforeSlots.join('/')}, after ${afterSlots.join('/')}.`);
 console.log(`Speak topic links: ${linked}/${situations.length} situations linked; ${briefingRows.length} briefing IDs available.`);
-console.log(`Speak coverage: ${coveredTopics.size}/${briefingRows.length} topics; kids ${kids}, teens ${teens}, junior ${juniors}; new teen B2 ${teenB2New}/24.`);
+const cefrByAge = ['kids', 'teens', 'junior'].map((age) => {
+  const counts = ['A1', 'A2', 'B1', 'B2'].map((level) => `${level} ${situations.filter((row) => row.ageBand === age && row.cefr === level).length}`);
+  return `${age} ${counts.join('/')}`;
+});
+console.log(`Speak coverage: ${coveredTopics.size}/${briefingRows.length} topics; ${cefrByAge.join('; ')}; new teen B2 ${teenB2New}/24; original reviewed ${original}/80.`);
 console.log(`Speak checker counts: ${Object.entries(checks).map(([name, count]) => `${name} ${count}`).join(', ')}.`);
 if (errors.length) {
   console.error(`Speaking bank validation failed with ${errors.length} error(s):\n${errors.slice(0, 80).join('\n')}`);

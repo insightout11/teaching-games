@@ -267,7 +267,7 @@
     "after": {
       "replies": [
         "We going play inside because raining.",
-        "Let us stay inside and play a board game.",
+        "Let's stay inside and play a board game.",
         "Rain is happening perhaps so no.",
         "I request indoor recreational relocation."
       ],
@@ -854,7 +854,7 @@
       "replies": [
         "I missing connection because train late.",
         "Train late. Fix.",
-        "The delay may disrupt my onward itinerary.",
+        "I travel yesterday tomorrow.",
         "I might miss my connection. Is there another route?"
       ],
       "natural": 3
@@ -894,7 +894,7 @@
     },
     "after": {
       "replies": [
-        "The current meteorological forecast warrants relocation.",
+        "Rain good, library next.",
         "Could we move the meeting indoors?",
         "Rain means you should stay home alone.",
         "If rain will happen, we meet inside maybe."
@@ -981,7 +981,7 @@
     "canDo": "Describe a symptom and its duration",
     "before": {
       "replies": [
-        "I have experienced pharyngeal discomfort for 72 hours.",
+        "The clinic waiting room is full.",
         "My throat is sore since three days.",
         "Throat bad for time.",
         "My throat has been sore for three days, especially at night."
@@ -1149,7 +1149,7 @@
         "Your event loses.",
         "I would love to come, but I have another plan. Is Sunday possible?",
         "I have another plan so Sunday we meeting?",
-        "I am unavailable due to a prior engagement."
+        "My friend am other plan."
       ],
       "natural": 1
     },
@@ -1341,7 +1341,7 @@
         "Wait there, woman.",
         "Your communication request shall be conveyed.",
         "I tell she you call.",
-        "Please wait a second. I will tell her you called."
+        "Please wait. I'll give her the phone."
       ],
       "natural": 3
     },
@@ -1801,7 +1801,7 @@
     "before": {
       "replies": [
         "We watch space because it is excitingly.",
-        "Let us watch the space film because we all like adventures.",
+        "Let's watch the space film; we all like adventures.",
         "Space film. No argument.",
         "My cinematic preference concerns outer space."
       ],
@@ -2086,7 +2086,7 @@
       "replies": [
         "We must recalibrate deliverables without compromising rigor.",
         "We keeping research and shorter the slides.",
-        "Let us keep the research but shorten the presentation instead.",
+        "Let's keep the research but shorten the presentation instead.",
         "Research is boring. Skip it."
       ],
       "natural": 2
@@ -2355,7 +2355,7 @@
     "after": {
       "replies": [
         "Your habits are the problem.",
-        "A reduction in cooling-system runtime is advisable.",
+        "The air conditioner is blue.",
         "We can trying less air-condition hours.",
         "Let us try shorter air-conditioning hours for two weeks."
       ],
@@ -2418,7 +2418,7 @@
     "after": {
       "replies": [
         "I cannot Friday but Saturday I could works.",
-        "I cannot work Friday because of my exam. Is Saturday useful?",
+        "I cannot work Friday because of my exam. Could I work Saturday instead?",
         "Find somebody else.",
         "My academic commitment supersedes this shift requirement."
       ],
@@ -2472,7 +2472,7 @@
     "canDo": "Acknowledge an idea and build on it",
     "before": {
       "replies": [
-        "Your proposal substantially improves communicative clarity.",
+        "The survey is made of pencils.",
         "Your idea make results clear; we add example?",
         "That makes the results clearer. Could we add one example?",
         "I already thought of that."
