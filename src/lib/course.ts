@@ -90,7 +90,11 @@ export interface CourseOutlineLesson {
   keywords?: string[];
   goal: GoalTag;
   /** Best library match for this lesson's topic (from recommendSources), if any. */
-  suggestedSource?: { kind: 'video' | 'reading'; sourceType: SourceType; id: string; title: string } | null;
+  suggestedSource?: { kind: 'video' | 'reading'; sourceType: SourceType; id: string; title: string; listening?: boolean } | null;
+  /** Teacher's own material for this lesson (pasted text), used instead of a library source. */
+  ownMaterial?: { title: string; text: string } | null;
+  /** Course arc: the first lesson sets this simple task, the last repeats it. */
+  arcRole?: 'baseline' | 'compare';
   /** Fly this lesson with a specific flight (e.g. 'reading-60' for book courses) instead of the goal's default. */
   flightPresetId?: string;
 }
@@ -100,4 +104,6 @@ export interface CourseOutline {
   theme: string;
   difficulty: Difficulty;
   lessons: CourseOutlineLesson[];
+  /** Course arc: one simple task the class does in lesson 1 and again in the last lesson ("Say three things about food"). */
+  arcTask?: string;
 }

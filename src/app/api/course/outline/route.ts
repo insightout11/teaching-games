@@ -6,6 +6,8 @@ import { DIFFICULTIES, difficultyDescriptions, type Difficulty } from '@/lib/dif
 import { recommendSource } from '@/lib/source-library';
 import type { SourceType } from '@/types/source-material';
 import type { CourseOutline, CourseOutlineLesson } from '@/lib/course';
+import { LESSON_TYPES, lessonTypeBlocker, lessonTypeById } from '@/lib/course-lesson-types';
+import { getLibraryEntry } from '@/lib/library-source-material';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -25,13 +27,15 @@ function clampCount(n: unknown): number {
 
 interface RawOutline {
   courseTitle?: string;
-  lessons?: Array<{ title?: string; topic?: string; keywords?: string[]; goal?: string }>;
+  arcTask?: string;
+  lessons?: Array<{ title?: string; topic?: string; keywords?: string[]; goal?: string; type?: string }>;
 }
 
 const SCHEMA = {
   type: 'object' as const,
   properties: {
     courseTitle: { type: 'string' as const },
+    arcTask: { type: 'string' as const },
     lessons: {
       type: 'array' as const,
       items: {
@@ -44,15 +48,18 @@ const SCHEMA = {
             items: { type: 'string' as const },
           },
           goal: { type: 'string' as const },
+          type: { type: 'string' as const },
         },
-        required: ['title', 'topic', 'keywords', 'goal'],
+        required: ['title', 'topic', 'keywords', 'goal', 'type'],
       },
     },
   },
-  required: ['courseTitle', 'lessons'],
+  required: ['courseTitle', 'arcTask', 'lessons'],
 };
 
-function buildPrompt(theme: string, lessonCount: number, difficulty: Difficulty): string {
+const JUNIOR_LINE = '\n- The class is young children (about 5-9): keep every topic concrete, playful and visual.';
+
+function buildPrompt(theme: string, lessonCount: number, difficulty: Difficulty, junior: boolean): string {
   return `Design a coherent multi-lesson ESL course outline.
 
 Theme: "${theme}"
@@ -71,8 +78,15 @@ Each lesson:
   jobs, objects, or processes; avoid abstract/connective words like "relationships", "world",
   "sharing", "efforts", "people", or "society".
 - goal - exactly one of: ${GOAL_TAGS.join(', ')}
+- type - the kind of lesson, exactly one of: speak (practise one real conversation), reading (read a text
+  together), listening (listen to a clip), ${junior ? '' : 'debate (argue a question with evidence), grammar (one grammar point), '}mix (a varied
+  lesson of games and activities). Use a sensible mix across the course; most lessons should be speak or mix.
 
-Also: courseTitle - a short, specific course title.
+Also:
+- courseTitle - a short, specific course title.
+- arcTask - ONE simple speaking task the class can do in 2-3 minutes in the first lesson and again in the last
+  lesson, so everyone sees how far they came (e.g. "Say three things about the food you like"). Plain words for
+  this level.${junior ? JUNIOR_LINE : ''}
 
 Return JSON only.`;
 }
@@ -82,7 +96,7 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
   if (authError) return authError;
 
-  let body: { theme?: string; lessonCount?: number; level?: string };
+  let body: { theme?: string; lessonCount?: number; level?: string; junior?: boolean };
   try {
     body = await request.json();
   } catch {
@@ -100,7 +114,8 @@ export async function POST(request: NextRequest) {
   const lessonCount = clampCount(body.lessonCount);
 
   try {
-    const raw = await generateJSON<RawOutline>(buildPrompt(theme, lessonCount, difficulty), SCHEMA, {
+    const junior = body.junior === true;
+    const raw = await generateJSON<RawOutline>(buildPrompt(theme, lessonCount, difficulty, junior), SCHEMA, {
       taskClass: 'bulk-generation',
     });
 
@@ -114,15 +129,26 @@ export async function POST(request: NextRequest) {
           .filter((k) => k.length > 0)
           .slice(0, 4);
         // Attach the best library source for this lesson's concrete keywords (Find).
-        const match = recommendSource({ topic, keywords, context: theme }, { level: difficulty });
+        const match = recommendSource({ topic, keywords, context: theme }, { level: difficulty, allowKids: junior });
+        const suggestedSource = match
+          ? {
+              kind: match.kind,
+              sourceType: match.sourceType as SourceType,
+              id: match.id,
+              title: match.title,
+              ...(getLibraryEntry(match.sourceType, match.id)?.listeningPack ? { listening: true } : {}),
+            }
+          : null;
+        // The proposed lesson type, if this lesson's material allows it (Reading needs a text, Listening a clip).
+        let type = lessonTypeById(l.type) ?? LESSON_TYPES[5];
+        if ((junior && type.juniorHidden) || lessonTypeBlocker(type, suggestedSource)) type = LESSON_TYPES[5];
         return {
           title: (l.title ?? '').trim().slice(0, 80) || topic,
           topic,
           keywords,
-          goal: clampGoal(l.goal),
-          suggestedSource: match
-            ? { kind: match.kind, sourceType: match.sourceType as SourceType, id: match.id, title: match.title }
-            : null,
+          goal: type.id === 'mix' ? clampGoal(l.goal) : type.goal,
+          flightPresetId: type.flightPresetId,
+          suggestedSource,
         };
       });
 
@@ -130,11 +156,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Could not build an outline. Try a clearer theme.' }, { status: 502 });
     }
 
+    if (lessons.length > 1) {
+      lessons[0] = { ...lessons[0], arcRole: 'baseline' };
+      lessons[lessons.length - 1] = { ...lessons[lessons.length - 1], arcRole: 'compare' };
+    }
     const outline: CourseOutline = {
       title: (raw.courseTitle ?? '').trim().slice(0, 100) || theme,
       theme,
       difficulty,
       lessons,
+      arcTask: (raw.arcTask ?? '').trim().slice(0, 200) || undefined,
     };
     return NextResponse.json(outline);
   } catch (err) {
