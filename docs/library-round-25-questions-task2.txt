@@ -1,0 +1,119 @@
+animals-2|Animal Clues|elephants giraffes zebras lions tigers pandas
+Which animal has a trunk?|elephant|tiger,zebra,panda
+Which animal has a very long neck?|giraffe|lion,horse,pig
+Which animal wears black and white stripes?|zebra|bear,cow,rabbit
+Which wild cat has stripes?|tiger|lion,fox,wolf
+Which wild cat has a mane?|lion|tiger,panda,camel
+Which bear eats bamboo?|panda|polar-bear,koala,fox
+Which animal might hop with its baby?|kangaroo|giraffe,whale,shark
+Which animal would you photograph?| - |elephant,giraffe,zebra,panda
+Which animal would visit your story?| - |lion,tiger,koala,kangaroo
+Where would you watch animals?| - |zoo,forest,farm,sea
+
+food-2|Food From the Garden|fruits vegetables bees
+Which vegetable grows under soil?|carrot|apple,banana,grapes
+Which fruit grows on a tree?|pear|corn,onion,potato
+What might a bee make?|honey|butter,rice,cheese
+Which food has orange peel?|orange|strawberry,grapes,kiwi
+Which vegetable has green florets?|broccoli|tomato,lemon,peach
+What can hold lunch outside?|basket|clock,shoes,book
+Which tool can dig garden soil?|shovel|fork,knife,whisk
+Which fruit would you slice?| - |apple,pear,kiwi,mango
+Which vegetable would you grow?| - |corn,carrot,peas,pumpkin
+What would you bring to a picnic?| - |bread,cheese,grapes,water
+
+family-2|Family Games|family-traditions board-games
+Who is your parent's mother?|grandmother|sister,baby,brother
+Who is your parent's father?|grandfather|brother,teacher,friend
+What could everyone play at home?|board-game|bus,ladder,oven
+What can mark a family celebration?|candle|rock,broom,coin
+Where can people sit together?|sofa|road,river,tree
+What could record a family trip?|camera|fork,spoon,shoes
+Which piece can belong to a game?|blocks|soap,towel,glue
+Which family game would you choose?| - |board-game,puzzle,marbles,blocks
+Who would you invite to play?| - |mother,father,sister,brother
+Where would you play together?| - |house,garden,park,beach
+
+school-2|School Helpers|classroom-rules puzzles the-five-senses
+What can children use to solve shapes?|puzzle|milk,rain,wind
+What should you raise before speaking?|hand|foot,knee,neck
+Which sense part hears the bell?|ear|eye,nose,tongue
+Which sense part smells a flower?|nose|ear,foot,finger
+Where can a teacher draw words?|whiteboard|window,door,desk
+What keeps loose papers together?|folder|ball,hat,cup
+What can help find a word's spelling?|book|ball,drum,shovel
+Who would you ask for help at school?| - |teacher,friend,sister,brother
+What would you build after class?| - |puzzle,blocks,robot,kite
+Which tool would you use to learn?| - |book,globe,paintbrush,calculator
+
+weather-2|Weather Watch|seasons snow clouds
+What may cover the sky before rain?|cloud|chair,car,boat
+What can fall during winter?|snow|sand,rock,leaf
+What might bend in strong wind?|tree|house,road,lake
+What can help you stay dry?|raincoat|swimsuit,sandals,shorts
+Which sky sight can follow rain?|rainbow|moon,star,sun
+What can melt when weather warms?|snowman|mountain,bridge,castle
+What might show a cold morning?|icicle|cactus,sunscreen,sandals
+Which weather would you draw?| - |rain,snow,cloud,rainbow
+What would you wear outside?| - |coat,boots,hat,umbrella
+Where would you play today?| - |park,garden,house,playground
+
+transport-2|Ways to Travel|airplanes trains boats
+Which vehicle leaves an airport runway?|airplane|boat,train,truck
+Which vehicle moves along tracks?|train|canoe,airplane,bike
+Which vehicle crosses a river?|boat|bus,taxi,scooter
+What do passengers wear in a car?|seat-belt|scarf,watch,crown
+Who flies a passenger plane?|pilot|chef,vet,farmer
+Where does a train stop?|station|island,forest,beach
+What can show the road ahead?|map|plate,pillow,drum
+Which ride would you choose?| - |airplane,train,ship,bus
+Who would travel with you?| - |friend,mother,father,sister
+What would you pack for a trip?| - |book,camera,water,hat
+
+ocean-2|Life Under the Waves|oceans dolphins whales sharks coral-reefs
+Which sea animal is the largest?|whale|dolphin,crab,seal
+Which animal has many sharp teeth?|shark|turtle,crab,octopus
+Which sea animal can leap from water?|dolphin|octopus,crab,snail
+What makes colorful homes underwater?|coral|rock,sand,ice
+Which animal carries a hard shell?|turtle|jellyfish,whale,dolphin
+What might a diver wear on their face?|snorkel|scarf,gloves,watch
+Which boat can travel below waves?|submarine|canoe,ship,sailboat
+Which sea creature would you draw?| - |whale,dolphin,shark,octopus
+What would you look for underwater?| - |coral,shell,seaweed,fish
+Which place would you explore?| - |sea,island,beach,river
+
+pets-2|Caring for Friends|caring-for-pets frogs horses
+Which animal needs a food bowl?|dog|tree,car,chair
+What can lead a dog on walks?|leash|ladder,rope,ruler
+What can a thirsty pet drink?|water|paint,sand,soap
+Which small animal can hop near ponds?|frog|cow,goat,horse
+Which animal may live in a stable?|horse|fish,parrot,kitten
+Who can help when a pet is sick?|vet|chef,pilot,actor
+Where can a kitten sleep softly?|basket|road,river,hill
+Which pet would you care for?| - |cat,dog,rabbit,fish
+What would you give a pet?| - |water,food-bowl,bed,ball
+Where would you take a walk?| - |park,forest,garden,beach
+
+sports-2|Games and Moves|basketball swimming running dancing
+What do players throw toward a hoop?|basketball|tennis,football,baseball
+Where can children swim with a teacher?|swimming-pool|stadium,forest,museum
+Which action can start a footrace?|run|sleep,sit,read
+Which action follows music?|dance|wash,count,cook
+What should swimmers wear near water?|swimsuit|raincoat,coat,scarf
+What marks a soccer score?|goalpost|lamp,door,window
+Which thing helps a tennis player hit?|racket|spoon,broom,shovel
+Which sport would you try?| - |basketball,tennis,football,swim
+How would you move to music?| - |dance,jump,clap,walk
+Where would you practice a sport?| - |stadium,park,swimming-pool,playground
+
+birthdays-2|Birthday Surprises|birthday-parties
+What may hide inside birthday wrapping?|present|puddle,cloud,rock
+What can sit on top of a cake?|candle|broom,spoon,shoes
+What can float above a party?|balloon|pillow,chair,table
+What could friends sing together?|sing|sleep,cry,fall
+What can guests wear on their heads?|hat|boots,gloves,socks
+What can hold slices for guests?|plate|ladder,drum,scarf
+What action can show thanks?|hug|throw,push,shout
+Which party treat would you choose?| - |cake,cookie,pie,ice-cream
+Who would you invite?| - |friend,sister,brother,grandmother
+What game would you play?| - |puzzle,board-game,blocks,kite

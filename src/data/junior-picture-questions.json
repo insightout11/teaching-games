@@ -2,7 +2,28 @@
   {
     "id": "animals",
     "topic": "Animals",
-    "topicIds": ["topic-kids-cats","topic-kids-dogs","topic-kids-horses","topic-kids-elephants","topic-kids-giraffes","topic-kids-zebras","topic-kids-lions","topic-kids-tigers","topic-kids-pandas","topic-kids-koalas","topic-kids-kangaroos","topic-kids-penguins","topic-kids-polar-bears","topic-kids-dolphins","topic-kids-whales","topic-kids-sharks","topic-kids-sea-turtles","topic-kids-frogs","topic-kids-butterflies","topic-kids-bees"],
+    "topicIds": [
+      "topic-kids-cats",
+      "topic-kids-dogs",
+      "topic-kids-horses",
+      "topic-kids-elephants",
+      "topic-kids-giraffes",
+      "topic-kids-zebras",
+      "topic-kids-lions",
+      "topic-kids-tigers",
+      "topic-kids-pandas",
+      "topic-kids-koalas",
+      "topic-kids-kangaroos",
+      "topic-kids-penguins",
+      "topic-kids-polar-bears",
+      "topic-kids-dolphins",
+      "topic-kids-whales",
+      "topic-kids-sharks",
+      "topic-kids-sea-turtles",
+      "topic-kids-frogs",
+      "topic-kids-butterflies",
+      "topic-kids-bees"
+    ],
     "questions": [
       {
         "id": "animals-01",
@@ -129,7 +150,11 @@
   {
     "id": "pet-animals",
     "topic": "Pet Animals",
-    "topicIds": ["topic-kids-cats","topic-kids-dogs","topic-kids-caring-for-pets"],
+    "topicIds": [
+      "topic-kids-cats",
+      "topic-kids-dogs",
+      "topic-kids-caring-for-pets"
+    ],
     "questions": [
       {
         "id": "pet-animals-01",
@@ -256,7 +281,9 @@
   {
     "id": "farm-animals",
     "topic": "Farm Animals",
-    "topicIds": ["topic-kids-horses"],
+    "topicIds": [
+      "topic-kids-horses"
+    ],
     "questions": [
       {
         "id": "farm-animals-01",
@@ -383,7 +410,19 @@
   {
     "id": "wild-animals",
     "topic": "Wild Animals",
-    "topicIds": ["topic-kids-elephants","topic-kids-giraffes","topic-kids-zebras","topic-kids-lions","topic-kids-tigers","topic-kids-pandas","topic-kids-koalas","topic-kids-kangaroos","topic-kids-polar-bears","topic-kids-rainforests","topic-kids-forests"],
+    "topicIds": [
+      "topic-kids-elephants",
+      "topic-kids-giraffes",
+      "topic-kids-zebras",
+      "topic-kids-lions",
+      "topic-kids-tigers",
+      "topic-kids-pandas",
+      "topic-kids-koalas",
+      "topic-kids-kangaroos",
+      "topic-kids-polar-bears",
+      "topic-kids-rainforests",
+      "topic-kids-forests"
+    ],
     "questions": [
       {
         "id": "wild-animals-01",
@@ -510,7 +549,14 @@
   {
     "id": "sea-animals",
     "topic": "Sea Animals",
-    "topicIds": ["topic-kids-dolphins","topic-kids-whales","topic-kids-sharks","topic-kids-sea-turtles","topic-kids-oceans","topic-kids-coral-reefs"],
+    "topicIds": [
+      "topic-kids-dolphins",
+      "topic-kids-whales",
+      "topic-kids-sharks",
+      "topic-kids-sea-turtles",
+      "topic-kids-oceans",
+      "topic-kids-coral-reefs"
+    ],
     "questions": [
       {
         "id": "sea-animals-01",
@@ -637,7 +683,13 @@
   {
     "id": "small-animals",
     "topic": "Small Animals",
-    "topicIds": ["topic-kids-frogs","topic-kids-butterflies","topic-kids-bees","topic-kids-forests","topic-kids-rainforests"],
+    "topicIds": [
+      "topic-kids-frogs",
+      "topic-kids-butterflies",
+      "topic-kids-bees",
+      "topic-kids-forests",
+      "topic-kids-rainforests"
+    ],
     "questions": [
       {
         "id": "small-animals-01",
@@ -764,7 +816,14 @@
   {
     "id": "food",
     "topic": "Food",
-    "topicIds": ["topic-kids-cooking","topic-kids-baking","topic-kids-fruits","topic-kids-vegetables","topic-kids-breakfast","topic-kids-school-lunch"],
+    "topicIds": [
+      "topic-kids-cooking",
+      "topic-kids-baking",
+      "topic-kids-fruits",
+      "topic-kids-vegetables",
+      "topic-kids-breakfast",
+      "topic-kids-school-lunch"
+    ],
     "questions": [
       {
         "id": "food-01",
@@ -891,7 +950,11 @@
   {
     "id": "fruit",
     "topic": "Fruit",
-    "topicIds": ["topic-kids-fruits","topic-kids-breakfast","topic-teens-healthy-eating"],
+    "topicIds": [
+      "topic-kids-fruits",
+      "topic-kids-breakfast",
+      "topic-teens-healthy-eating"
+    ],
     "questions": [
       {
         "id": "fruit-01",
@@ -1018,7 +1081,12 @@
   {
     "id": "vegetables",
     "topic": "Vegetables",
-    "topicIds": ["topic-kids-vegetables","topic-kids-cooking","topic-kids-plant-growth","topic-teens-healthy-eating"],
+    "topicIds": [
+      "topic-kids-vegetables",
+      "topic-kids-cooking",
+      "topic-kids-plant-growth",
+      "topic-teens-healthy-eating"
+    ],
     "questions": [
       {
         "id": "vegetables-01",
@@ -1145,7 +1213,12 @@
   {
     "id": "breakfast",
     "topic": "Breakfast",
-    "topicIds": ["topic-kids-breakfast","topic-kids-cooking","topic-kids-baking","topic-teens-healthy-eating"],
+    "topicIds": [
+      "topic-kids-breakfast",
+      "topic-kids-cooking",
+      "topic-kids-baking",
+      "topic-teens-healthy-eating"
+    ],
     "questions": [
       {
         "id": "breakfast-01",
@@ -1272,7 +1345,9 @@
   {
     "id": "body-parts",
     "topic": "Body Parts",
-    "topicIds": ["topic-kids-the-five-senses"],
+    "topicIds": [
+      "topic-kids-the-five-senses"
+    ],
     "questions": [
       {
         "id": "body-parts-01",
@@ -1399,7 +1474,11 @@
   {
     "id": "clothes",
     "topic": "Clothes",
-    "topicIds": ["topic-teens-fashion","topic-teens-personal-style","topic-teens-sustainable-fashion"],
+    "topicIds": [
+      "topic-teens-fashion",
+      "topic-teens-personal-style",
+      "topic-teens-sustainable-fashion"
+    ],
     "questions": [
       {
         "id": "clothes-01",
@@ -1526,7 +1605,10 @@
   {
     "id": "getting-dressed",
     "topic": "Getting Dressed",
-    "topicIds": ["topic-teens-fashion","topic-teens-personal-style"],
+    "topicIds": [
+      "topic-teens-fashion",
+      "topic-teens-personal-style"
+    ],
     "questions": [
       {
         "id": "getting-dressed-01",
@@ -1653,7 +1735,15 @@
   {
     "id": "weather",
     "topic": "Weather",
-    "topicIds": ["topic-kids-rain","topic-kids-snow","topic-kids-wind","topic-kids-clouds","topic-kids-rainbows","topic-kids-seasons","topic-kids-water-cycle"],
+    "topicIds": [
+      "topic-kids-rain",
+      "topic-kids-snow",
+      "topic-kids-wind",
+      "topic-kids-clouds",
+      "topic-kids-rainbows",
+      "topic-kids-seasons",
+      "topic-kids-water-cycle"
+    ],
     "questions": [
       {
         "id": "weather-01",
@@ -1780,7 +1870,12 @@
   {
     "id": "seasons",
     "topic": "Seasons",
-    "topicIds": ["topic-kids-seasons","topic-kids-snow","topic-kids-rain","topic-kids-plant-growth"],
+    "topicIds": [
+      "topic-kids-seasons",
+      "topic-kids-snow",
+      "topic-kids-rain",
+      "topic-kids-plant-growth"
+    ],
     "questions": [
       {
         "id": "seasons-01",
@@ -2034,7 +2129,11 @@
   {
     "id": "kitchen-things",
     "topic": "Kitchen Things",
-    "topicIds": ["topic-kids-cooking","topic-kids-baking","topic-teens-cooking-skills"],
+    "topicIds": [
+      "topic-kids-cooking",
+      "topic-kids-baking",
+      "topic-teens-cooking-skills"
+    ],
     "questions": [
       {
         "id": "kitchen-things-01",
@@ -2161,7 +2260,10 @@
   {
     "id": "bathroom-things",
     "topic": "Bathroom Things",
-    "topicIds": ["topic-kids-the-five-senses","topic-teens-water-conservation"],
+    "topicIds": [
+      "topic-kids-the-five-senses",
+      "topic-teens-water-conservation"
+    ],
     "questions": [
       {
         "id": "bathroom-things-01",
@@ -2288,7 +2390,12 @@
   {
     "id": "school-things",
     "topic": "School Things",
-    "topicIds": ["topic-kids-school-day","topic-kids-classroom-rules","topic-teens-homework","topic-teens-study-habits"],
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-classroom-rules",
+      "topic-teens-homework",
+      "topic-teens-study-habits"
+    ],
     "questions": [
       {
         "id": "school-things-01",
@@ -2415,7 +2522,14 @@
   {
     "id": "toys",
     "topic": "Toys",
-    "topicIds": ["topic-kids-board-games","topic-kids-puzzles","topic-kids-building-blocks","topic-kids-kites","topic-kids-playgrounds","topic-kids-robots"],
+    "topicIds": [
+      "topic-kids-board-games",
+      "topic-kids-puzzles",
+      "topic-kids-building-blocks",
+      "topic-kids-kites",
+      "topic-kids-playgrounds",
+      "topic-kids-robots"
+    ],
     "questions": [
       {
         "id": "toys-01",
@@ -2542,7 +2656,13 @@
   {
     "id": "transport",
     "topic": "Transport",
-    "topicIds": ["topic-kids-trains","topic-kids-airplanes","topic-kids-boats","topic-kids-cycling","topic-teens-public-transport"],
+    "topicIds": [
+      "topic-kids-trains",
+      "topic-kids-airplanes",
+      "topic-kids-boats",
+      "topic-kids-cycling",
+      "topic-teens-public-transport"
+    ],
     "questions": [
       {
         "id": "transport-01",
@@ -2669,7 +2789,11 @@
   {
     "id": "places",
     "topic": "Places",
-    "topicIds": ["topic-kids-holidays","topic-kids-jobs-people-do","topic-teens-travel-planning"],
+    "topicIds": [
+      "topic-kids-holidays",
+      "topic-kids-jobs-people-do",
+      "topic-teens-travel-planning"
+    ],
     "questions": [
       {
         "id": "places-01",
@@ -2796,7 +2920,12 @@
   {
     "id": "jobs",
     "topic": "Jobs",
-    "topicIds": ["topic-kids-jobs-people-do","topic-teens-future-jobs","topic-teens-part-time-jobs","topic-teens-career-skills"],
+    "topicIds": [
+      "topic-kids-jobs-people-do",
+      "topic-teens-future-jobs",
+      "topic-teens-part-time-jobs",
+      "topic-teens-career-skills"
+    ],
     "questions": [
       {
         "id": "jobs-01",
@@ -2923,7 +3052,11 @@
   {
     "id": "family-time",
     "topic": "Family Time",
-    "topicIds": ["topic-kids-family-traditions","topic-kids-holidays","topic-kids-birthday-parties"],
+    "topicIds": [
+      "topic-kids-family-traditions",
+      "topic-kids-holidays",
+      "topic-kids-birthday-parties"
+    ],
     "questions": [
       {
         "id": "family-time-01",
@@ -3177,7 +3310,11 @@
   {
     "id": "feelings",
     "topic": "Feelings",
-    "topicIds": ["topic-kids-making-friends","topic-teens-friendship","topic-teens-stress-management"],
+    "topicIds": [
+      "topic-kids-making-friends",
+      "topic-teens-friendship",
+      "topic-teens-stress-management"
+    ],
     "questions": [
       {
         "id": "feelings-01",
@@ -3304,7 +3441,12 @@
   {
     "id": "colours-of-things",
     "topic": "Colours of Things",
-    "topicIds": ["topic-kids-drawing","topic-kids-painting","topic-kids-rainbows","topic-teens-digital-art"],
+    "topicIds": [
+      "topic-kids-drawing",
+      "topic-kids-painting",
+      "topic-kids-rainbows",
+      "topic-teens-digital-art"
+    ],
     "questions": [
       {
         "id": "colours-of-things-01",
@@ -3558,7 +3700,10 @@
   {
     "id": "birthday-party",
     "topic": "Birthday Party",
-    "topicIds": ["topic-kids-birthday-parties","topic-kids-family-traditions"],
+    "topicIds": [
+      "topic-kids-birthday-parties",
+      "topic-kids-family-traditions"
+    ],
     "questions": [
       {
         "id": "birthday-party-01",
@@ -3685,7 +3830,16 @@
   {
     "id": "sports",
     "topic": "Sports",
-    "topicIds": ["topic-kids-soccer","topic-kids-basketball","topic-kids-swimming","topic-kids-cycling","topic-kids-running","topic-teens-team-sports","topic-teens-solo-sports","topic-teens-fitness"],
+    "topicIds": [
+      "topic-kids-soccer",
+      "topic-kids-basketball",
+      "topic-kids-swimming",
+      "topic-kids-cycling",
+      "topic-kids-running",
+      "topic-teens-team-sports",
+      "topic-teens-solo-sports",
+      "topic-teens-fitness"
+    ],
     "questions": [
       {
         "id": "sports-01",
@@ -3812,7 +3966,13 @@
   {
     "id": "nature",
     "topic": "Nature",
-    "topicIds": ["topic-kids-forests","topic-kids-plant-growth","topic-kids-mountains","topic-kids-rivers","topic-kids-oceans"],
+    "topicIds": [
+      "topic-kids-forests",
+      "topic-kids-plant-growth",
+      "topic-kids-mountains",
+      "topic-kids-rivers",
+      "topic-kids-oceans"
+    ],
     "questions": [
       {
         "id": "nature-01",
@@ -4193,7 +4353,9 @@
   {
     "id": "where-do-you",
     "topic": "Where Do You?",
-    "topicIds": ["topic-teens-travel-planning"],
+    "topicIds": [
+      "topic-teens-travel-planning"
+    ],
     "questions": [
       {
         "id": "where-do-you-01",
@@ -4320,7 +4482,13 @@
   {
     "id": "at-the-park",
     "topic": "At the Park",
-    "topicIds": ["topic-kids-playgrounds","topic-kids-running","topic-kids-cycling","topic-kids-making-friends","topic-teens-urban-nature"],
+    "topicIds": [
+      "topic-kids-playgrounds",
+      "topic-kids-running",
+      "topic-kids-cycling",
+      "topic-kids-making-friends",
+      "topic-teens-urban-nature"
+    ],
     "questions": [
       {
         "id": "at-the-park-01",
@@ -4447,7 +4615,11 @@
   {
     "id": "at-the-beach",
     "topic": "At the Beach",
-    "topicIds": ["topic-kids-oceans","topic-kids-sea-turtles","topic-kids-holidays"],
+    "topicIds": [
+      "topic-kids-oceans",
+      "topic-kids-sea-turtles",
+      "topic-kids-holidays"
+    ],
     "questions": [
       {
         "id": "at-the-beach-01",
@@ -4574,7 +4746,14 @@
   {
     "id": "music-and-art",
     "topic": "Music and Art",
-    "topicIds": ["topic-kids-musical-instruments","topic-kids-drawing","topic-kids-painting","topic-kids-dancing","topic-teens-music-genres","topic-teens-live-music"],
+    "topicIds": [
+      "topic-kids-musical-instruments",
+      "topic-kids-drawing",
+      "topic-kids-painting",
+      "topic-kids-dancing",
+      "topic-teens-music-genres",
+      "topic-teens-live-music"
+    ],
     "questions": [
       {
         "id": "music-and-art-01",
@@ -4701,7 +4880,9 @@
   {
     "id": "bedtime",
     "topic": "Bedtime",
-    "topicIds": ["topic-teens-sleep-and-learning"],
+    "topicIds": [
+      "topic-teens-sleep-and-learning"
+    ],
     "questions": [
       {
         "id": "bedtime-01",
@@ -4828,7 +5009,13 @@
   {
     "id": "on-a-trip",
     "topic": "On a Trip",
-    "topicIds": ["topic-kids-holidays","topic-kids-trains","topic-kids-airplanes","topic-kids-boats","topic-teens-travel-planning"],
+    "topicIds": [
+      "topic-kids-holidays",
+      "topic-kids-trains",
+      "topic-kids-airplanes",
+      "topic-kids-boats",
+      "topic-teens-travel-planning"
+    ],
     "questions": [
       {
         "id": "on-a-trip-01",
@@ -4955,7 +5142,12 @@
   {
     "id": "in-the-garden",
     "topic": "In the Garden",
-    "topicIds": ["topic-kids-plant-growth","topic-kids-butterflies","topic-kids-bees","topic-kids-forests"],
+    "topicIds": [
+      "topic-kids-plant-growth",
+      "topic-kids-butterflies",
+      "topic-kids-bees",
+      "topic-kids-forests"
+    ],
     "questions": [
       {
         "id": "in-the-garden-01",
@@ -5076,6 +5268,2741 @@
         ],
         "answer": null,
         "say": "Which thing would you use outside? Bucket, broom, rope, or ladder?"
+      }
+    ]
+  },
+  {
+    "id": "dinosaurs",
+    "topic": "Dinosaurs",
+    "topicIds": [
+      "topic-kids-dinosaurs"
+    ],
+    "questions": [
+      {
+        "id": "dinosaurs-01",
+        "prompt": "Which animal lived long ago?",
+        "options": [
+          "dinosaur",
+          "dog",
+          "duck",
+          "horse"
+        ],
+        "answer": "dinosaur",
+        "say": "Which animal lived long ago? Dinosaur, dog, duck, or horse?"
+      },
+      {
+        "id": "dinosaurs-02",
+        "prompt": "What might hide old footprints?",
+        "options": [
+          "cloud",
+          "mud",
+          "pillow",
+          "cake"
+        ],
+        "answer": "mud",
+        "say": "What might hide old footprints? Cloud, mud, pillow, or cake?"
+      },
+      {
+        "id": "dinosaurs-03",
+        "prompt": "Where could you find ancient tracks?",
+        "options": [
+          "sofa",
+          "bus",
+          "rock",
+          "cup"
+        ],
+        "answer": "rock",
+        "say": "Where could you find ancient tracks? Sofa, bus, rock, or cup?"
+      },
+      {
+        "id": "dinosaurs-04",
+        "prompt": "Which tool helps uncover a buried print?",
+        "options": [
+          "spoon",
+          "hat",
+          "ball",
+          "shovel"
+        ],
+        "answer": "shovel",
+        "say": "Which tool helps uncover a buried print? Spoon, hat, ball, or shovel?"
+      },
+      {
+        "id": "dinosaurs-05",
+        "prompt": "What could a dinosaur eat from a tree?",
+        "options": [
+          "leaf",
+          "boots",
+          "coin",
+          "soap"
+        ],
+        "answer": "leaf",
+        "say": "What could a dinosaur eat from a tree? Leaf, boots, coin, or soap?"
+      },
+      {
+        "id": "dinosaurs-06",
+        "prompt": "Which thing can show a dinosaur picture?",
+        "options": [
+          "plate",
+          "book",
+          "boots",
+          "clock"
+        ],
+        "answer": "book",
+        "say": "Which thing can show a dinosaur picture? Plate, book, boots, or clock?"
+      },
+      {
+        "id": "dinosaurs-07",
+        "prompt": "Which place could hold old dinosaur bones?",
+        "options": [
+          "bakery",
+          "airport",
+          "museum",
+          "cinema"
+        ],
+        "answer": "museum",
+        "say": "Which place could hold old dinosaur bones? Bakery, airport, museum, or cinema?"
+      },
+      {
+        "id": "dinosaurs-08",
+        "prompt": "Which dinosaur would you draw?",
+        "options": [
+          "dinosaur",
+          "parrot",
+          "turtle",
+          "fox"
+        ],
+        "answer": null,
+        "say": "Which dinosaur would you draw? Dinosaur, parrot, turtle, or fox?"
+      },
+      {
+        "id": "dinosaurs-09",
+        "prompt": "Where would you look for tracks?",
+        "options": [
+          "rock",
+          "mud",
+          "sand",
+          "grass"
+        ],
+        "answer": null,
+        "say": "Where would you look for tracks? Rock, mud, sand, or grass?"
+      },
+      {
+        "id": "dinosaurs-10",
+        "prompt": "What would you bring on a dig?",
+        "options": [
+          "shovel",
+          "flashlight",
+          "map",
+          "paintbrush"
+        ],
+        "answer": null,
+        "say": "What would you bring on a dig? Shovel, flashlight, map, or paintbrush?"
+      }
+    ]
+  },
+  {
+    "id": "fossils",
+    "topic": "Fossils",
+    "topicIds": [
+      "topic-kids-fossils"
+    ],
+    "questions": [
+      {
+        "id": "fossils-01",
+        "prompt": "Where might an old animal mark remain?",
+        "options": [
+          "pillow",
+          "rock",
+          "balloon",
+          "soup"
+        ],
+        "answer": "rock",
+        "say": "Where might an old animal mark remain? Pillow, rock, balloon, or soup?"
+      },
+      {
+        "id": "fossils-02",
+        "prompt": "What could cover a print over time?",
+        "options": [
+          "scarf",
+          "juice",
+          "sand",
+          "bread"
+        ],
+        "answer": "sand",
+        "say": "What could cover a print over time? Scarf, juice, sand, or bread?"
+      },
+      {
+        "id": "fossils-03",
+        "prompt": "Which tool brushes dirt from a rock?",
+        "options": [
+          "racket",
+          "drum",
+          "spoon",
+          "paintbrush"
+        ],
+        "answer": "paintbrush",
+        "say": "Which tool brushes dirt from a rock? Racket, drum, spoon, or paintbrush?"
+      },
+      {
+        "id": "fossils-04",
+        "prompt": "Which animal could leave an old shell?",
+        "options": [
+          "snail",
+          "dog",
+          "bee",
+          "bird"
+        ],
+        "answer": "snail",
+        "say": "Which animal could leave an old shell? Snail, dog, bee, or bird?"
+      },
+      {
+        "id": "fossils-05",
+        "prompt": "What might a scientist dig carefully?",
+        "options": [
+          "cake",
+          "rock",
+          "sofa",
+          "coat"
+        ],
+        "answer": "rock",
+        "say": "What might a scientist dig carefully? Cake, rock, sofa, or coat?"
+      },
+      {
+        "id": "fossils-06",
+        "prompt": "Where can a class see ancient remains?",
+        "options": [
+          "restaurant",
+          "station",
+          "museum",
+          "playground"
+        ],
+        "answer": "museum",
+        "say": "Where can a class see ancient remains? Restaurant, station, museum, or playground?"
+      },
+      {
+        "id": "fossils-07",
+        "prompt": "Which picture shows an ancient animal?",
+        "options": [
+          "kitten",
+          "puppy",
+          "lamb",
+          "dinosaur"
+        ],
+        "answer": "dinosaur",
+        "say": "Which picture shows an ancient animal? Kitten, puppy, lamb, or dinosaur?"
+      },
+      {
+        "id": "fossils-08",
+        "prompt": "Which rock would you inspect?",
+        "options": [
+          "rock",
+          "sand",
+          "mud",
+          "shell"
+        ],
+        "answer": null,
+        "say": "Which rock would you inspect? Rock, sand, mud, or shell?"
+      },
+      {
+        "id": "fossils-09",
+        "prompt": "What would you carry to a dig?",
+        "options": [
+          "shovel",
+          "paintbrush",
+          "notebook",
+          "flashlight"
+        ],
+        "answer": null,
+        "say": "What would you carry to a dig? Shovel, paintbrush, notebook, or flashlight?"
+      },
+      {
+        "id": "fossils-10",
+        "prompt": "Which old creature would you investigate?",
+        "options": [
+          "dinosaur",
+          "snail",
+          "fish",
+          "turtle"
+        ],
+        "answer": null,
+        "say": "Which old creature would you investigate? Dinosaur, snail, fish, or turtle?"
+      }
+    ]
+  },
+  {
+    "id": "the-sun",
+    "topic": "The Sun",
+    "topicIds": [
+      "topic-kids-the-sun"
+    ],
+    "questions": [
+      {
+        "id": "the-sun-01",
+        "prompt": "What lights the daytime sky?",
+        "options": [
+          "moon",
+          "star",
+          "sun",
+          "cloud"
+        ],
+        "answer": "sun",
+        "say": "What lights the daytime sky? Moon, star, sun, or cloud?"
+      },
+      {
+        "id": "the-sun-02",
+        "prompt": "What gives shade on a sunny day?",
+        "options": [
+          "rain",
+          "snow",
+          "wind",
+          "tree"
+        ],
+        "answer": "tree",
+        "say": "What gives shade on a sunny day? Rain, snow, wind, or tree?"
+      },
+      {
+        "id": "the-sun-03",
+        "prompt": "Which thing helps protect sunny skin?",
+        "options": [
+          "sunscreen",
+          "soap",
+          "glue",
+          "paint"
+        ],
+        "answer": "sunscreen",
+        "say": "Which thing helps protect sunny skin? Sunscreen, soap, glue, or paint?"
+      },
+      {
+        "id": "the-sun-04",
+        "prompt": "What can block bright sunlight?",
+        "options": [
+          "spoon",
+          "umbrella",
+          "rope",
+          "ball"
+        ],
+        "answer": "umbrella",
+        "say": "What can block bright sunlight? Spoon, umbrella, rope, or ball?"
+      },
+      {
+        "id": "the-sun-05",
+        "prompt": "Which plant needs sunlight to grow?",
+        "options": [
+          "chair",
+          "truck",
+          "flower",
+          "clock"
+        ],
+        "answer": "flower",
+        "say": "Which plant needs sunlight to grow? Chair, truck, flower, or clock?"
+      },
+      {
+        "id": "the-sun-06",
+        "prompt": "When do you usually see the sun?",
+        "options": [
+          "night",
+          "winter",
+          "autumn",
+          "morning"
+        ],
+        "answer": "morning",
+        "say": "When do you usually see the sun? Night, winter, autumn, or morning?"
+      },
+      {
+        "id": "the-sun-07",
+        "prompt": "What might melt in strong sunshine?",
+        "options": [
+          "ice",
+          "rock",
+          "book",
+          "shoes"
+        ],
+        "answer": "ice",
+        "say": "What might melt in strong sunshine? Ice, rock, book, or shoes?"
+      },
+      {
+        "id": "the-sun-08",
+        "prompt": "Where would you enjoy sunshine?",
+        "options": [
+          "beach",
+          "park",
+          "garden",
+          "island"
+        ],
+        "answer": null,
+        "say": "Where would you enjoy sunshine? Beach, park, garden, or island?"
+      },
+      {
+        "id": "the-sun-09",
+        "prompt": "What would you wear in bright sun?",
+        "options": [
+          "hat",
+          "cap",
+          "glasses",
+          "swimsuit"
+        ],
+        "answer": null,
+        "say": "What would you wear in bright sun? Hat, cap, glasses, or swimsuit?"
+      },
+      {
+        "id": "the-sun-10",
+        "prompt": "What would you grow in sunlight?",
+        "options": [
+          "flower",
+          "tree",
+          "seedling",
+          "grass"
+        ],
+        "answer": null,
+        "say": "What would you grow in sunlight? Flower, tree, seedling, or grass?"
+      }
+    ]
+  },
+  {
+    "id": "planets",
+    "topic": "Planets",
+    "topicIds": [
+      "topic-kids-planets",
+      "topic-kids-the-moon",
+      "topic-kids-stars"
+    ],
+    "questions": [
+      {
+        "id": "planets-01",
+        "prompt": "Which picture shows our home planet?",
+        "options": [
+          "moon",
+          "sun",
+          "star",
+          "earth"
+        ],
+        "answer": "earth",
+        "say": "Which picture shows our home planet? Moon, sun, star, or earth?"
+      },
+      {
+        "id": "planets-02",
+        "prompt": "What circles our planet nearby?",
+        "options": [
+          "moon",
+          "cloud",
+          "bird",
+          "airplane"
+        ],
+        "answer": "moon",
+        "say": "What circles our planet nearby? Moon, cloud, bird, or airplane?"
+      },
+      {
+        "id": "planets-03",
+        "prompt": "What shines far beyond our planet?",
+        "options": [
+          "lamp",
+          "star",
+          "flashlight",
+          "candle"
+        ],
+        "answer": "star",
+        "say": "What shines far beyond our planet? Lamp, star, flashlight, or candle?"
+      },
+      {
+        "id": "planets-04",
+        "prompt": "Which thing can travel beyond Earth?",
+        "options": [
+          "train",
+          "boat",
+          "rocket",
+          "bus"
+        ],
+        "answer": "rocket",
+        "say": "Which thing can travel beyond Earth? Train, boat, rocket, or bus?"
+      },
+      {
+        "id": "planets-05",
+        "prompt": "What can show where planets are?",
+        "options": [
+          "fork",
+          "scarf",
+          "drum",
+          "map"
+        ],
+        "answer": "map",
+        "say": "What can show where planets are? Fork, scarf, drum, or map?"
+      },
+      {
+        "id": "planets-06",
+        "prompt": "Which object is a planet picture?",
+        "options": [
+          "planet",
+          "balloon",
+          "apple",
+          "ball"
+        ],
+        "answer": "planet",
+        "say": "Which object is a planet picture? Planet, balloon, apple, or ball?"
+      },
+      {
+        "id": "planets-07",
+        "prompt": "Which sky object lights our planet?",
+        "options": [
+          "moon",
+          "sun",
+          "cloud",
+          "rainbow"
+        ],
+        "answer": "sun",
+        "say": "Which sky object lights our planet? Moon, sun, cloud, or rainbow?"
+      },
+      {
+        "id": "planets-08",
+        "prompt": "Which sky picture would you draw?",
+        "options": [
+          "earth",
+          "moon",
+          "star",
+          "planet"
+        ],
+        "answer": null,
+        "say": "Which sky picture would you draw? Earth, moon, star, or planet?"
+      },
+      {
+        "id": "planets-09",
+        "prompt": "Where would you pretend to travel?",
+        "options": [
+          "earth",
+          "moon",
+          "planet",
+          "star"
+        ],
+        "answer": null,
+        "say": "Where would you pretend to travel? Earth, moon, planet, or star?"
+      },
+      {
+        "id": "planets-10",
+        "prompt": "What would you take on a space trip?",
+        "options": [
+          "rocket",
+          "map",
+          "book",
+          "camera"
+        ],
+        "answer": null,
+        "say": "What would you take on a space trip? Rocket, map, book, or camera?"
+      }
+    ]
+  },
+  {
+    "id": "rockets",
+    "topic": "Rockets",
+    "topicIds": [
+      "topic-kids-rockets",
+      "topic-kids-the-moon"
+    ],
+    "questions": [
+      {
+        "id": "rockets-01",
+        "prompt": "Which vehicle goes into space?",
+        "options": [
+          "rocket",
+          "bus",
+          "tram",
+          "ship"
+        ],
+        "answer": "rocket",
+        "say": "Which vehicle goes into space? Rocket, bus, tram, or ship?"
+      },
+      {
+        "id": "rockets-02",
+        "prompt": "What can a rocket pass above?",
+        "options": [
+          "chair",
+          "cloud",
+          "river",
+          "road"
+        ],
+        "answer": "cloud",
+        "say": "What can a rocket pass above? Chair, cloud, river, or road?"
+      },
+      {
+        "id": "rockets-03",
+        "prompt": "Which person may ride in a rocket?",
+        "options": [
+          "chef",
+          "farmer",
+          "astronaut",
+          "vet"
+        ],
+        "answer": "astronaut",
+        "say": "Which person may ride in a rocket? Chef, farmer, astronaut, or vet?"
+      },
+      {
+        "id": "rockets-04",
+        "prompt": "Which planet can a rocket leave?",
+        "options": [
+          "sun",
+          "moon",
+          "star",
+          "earth"
+        ],
+        "answer": "earth",
+        "say": "Which planet can a rocket leave? Sun, moon, star, or earth?"
+      },
+      {
+        "id": "rockets-05",
+        "prompt": "What may a rocket visit nearby?",
+        "options": [
+          "moon",
+          "tree",
+          "lake",
+          "castle"
+        ],
+        "answer": "moon",
+        "say": "What may a rocket visit nearby? Moon, tree, lake, or castle?"
+      },
+      {
+        "id": "rockets-06",
+        "prompt": "Where might you see a rocket exhibit?",
+        "options": [
+          "bakery",
+          "museum",
+          "hospital",
+          "stadium"
+        ],
+        "answer": "museum",
+        "say": "Where might you see a rocket exhibit? Bakery, museum, hospital, or stadium?"
+      },
+      {
+        "id": "rockets-07",
+        "prompt": "What makes a paper rocket model?",
+        "options": [
+          "bread",
+          "sand",
+          "paper",
+          "ice"
+        ],
+        "answer": "paper",
+        "say": "What makes a paper rocket model? Bread, sand, paper, or ice?"
+      },
+      {
+        "id": "rockets-08",
+        "prompt": "Where would your pretend rocket go?",
+        "options": [
+          "moon",
+          "planet",
+          "star",
+          "earth"
+        ],
+        "answer": null,
+        "say": "Where would your pretend rocket go? Moon, planet, star, or earth?"
+      },
+      {
+        "id": "rockets-09",
+        "prompt": "What would you put in a rocket?",
+        "options": [
+          "book",
+          "camera",
+          "water",
+          "flashlight"
+        ],
+        "answer": null,
+        "say": "What would you put in a rocket? Book, camera, water, or flashlight?"
+      },
+      {
+        "id": "rockets-10",
+        "prompt": "Which vehicle would you draw beside it?",
+        "options": [
+          "rocket",
+          "airplane",
+          "helicopter",
+          "hot-air-balloon"
+        ],
+        "answer": null,
+        "say": "Which vehicle would you draw beside it? Rocket, airplane, helicopter, or hot air balloon?"
+      }
+    ]
+  },
+  {
+    "id": "astronauts",
+    "topic": "Astronauts",
+    "topicIds": [
+      "topic-kids-astronauts"
+    ],
+    "questions": [
+      {
+        "id": "astronauts-01",
+        "prompt": "Who might travel in a rocket?",
+        "options": [
+          "doctor",
+          "astronaut",
+          "driver",
+          "chef"
+        ],
+        "answer": "astronaut",
+        "say": "Who might travel in a rocket? Doctor, astronaut, driver, or chef?"
+      },
+      {
+        "id": "astronauts-02",
+        "prompt": "What can an astronaut photograph from space?",
+        "options": [
+          "sofa",
+          "oven",
+          "earth",
+          "bridge"
+        ],
+        "answer": "earth",
+        "say": "What can an astronaut photograph from space? Sofa, oven, earth, or bridge?"
+      },
+      {
+        "id": "astronauts-03",
+        "prompt": "Which vehicle carries an astronaut upward?",
+        "options": [
+          "boat",
+          "bus",
+          "bike",
+          "rocket"
+        ],
+        "answer": "rocket",
+        "say": "Which vehicle carries an astronaut upward? Boat, bus, bike, or rocket?"
+      },
+      {
+        "id": "astronauts-04",
+        "prompt": "What might an astronaut see nearby?",
+        "options": [
+          "moon",
+          "forest",
+          "shop",
+          "farm"
+        ],
+        "answer": "moon",
+        "say": "What might an astronaut see nearby? Moon, forest, shop, or farm?"
+      },
+      {
+        "id": "astronauts-05",
+        "prompt": "What does an astronaut need to drink?",
+        "options": [
+          "sand",
+          "water",
+          "paint",
+          "soap"
+        ],
+        "answer": "water",
+        "say": "What does an astronaut need to drink? Sand, water, paint, or soap?"
+      },
+      {
+        "id": "astronauts-06",
+        "prompt": "Which tool helps record a space trip?",
+        "options": [
+          "rake",
+          "whisk",
+          "camera",
+          "racket"
+        ],
+        "answer": "camera",
+        "say": "Which tool helps record a space trip? Rake, whisk, camera, or racket?"
+      },
+      {
+        "id": "astronauts-07",
+        "prompt": "What might help in a dark cabin?",
+        "options": [
+          "umbrella",
+          "shovel",
+          "ball",
+          "flashlight"
+        ],
+        "answer": "flashlight",
+        "say": "What might help in a dark cabin? Umbrella, shovel, ball, or flashlight?"
+      },
+      {
+        "id": "astronauts-08",
+        "prompt": "What would you pack for space?",
+        "options": [
+          "water",
+          "book",
+          "camera",
+          "map"
+        ],
+        "answer": null,
+        "say": "What would you pack for space? Water, book, camera, or map?"
+      },
+      {
+        "id": "astronauts-09",
+        "prompt": "Which view would you photograph?",
+        "options": [
+          "earth",
+          "moon",
+          "planet",
+          "star"
+        ],
+        "answer": null,
+        "say": "Which view would you photograph? Earth, moon, planet, or star?"
+      },
+      {
+        "id": "astronauts-10",
+        "prompt": "Who would join your pretend crew?",
+        "options": [
+          "astronaut",
+          "pilot",
+          "friend",
+          "teacher"
+        ],
+        "answer": null,
+        "say": "Who would join your pretend crew? Astronaut, pilot, friend, or teacher?"
+      }
+    ]
+  },
+  {
+    "id": "volcanoes",
+    "topic": "Volcanoes",
+    "topicIds": [
+      "topic-kids-volcanoes"
+    ],
+    "questions": [
+      {
+        "id": "volcanoes-01",
+        "prompt": "Which landform can erupt?",
+        "options": [
+          "lake",
+          "bridge",
+          "volcano",
+          "forest"
+        ],
+        "answer": "volcano",
+        "say": "Which landform can erupt? Lake, bridge, volcano, or forest?"
+      },
+      {
+        "id": "volcanoes-02",
+        "prompt": "What hot thing may glow during eruption?",
+        "options": [
+          "ice",
+          "snow",
+          "water",
+          "fire"
+        ],
+        "answer": "fire",
+        "say": "What hot thing may glow during eruption? Ice, snow, water, or fire?"
+      },
+      {
+        "id": "volcanoes-03",
+        "prompt": "What may rise above an erupting mountain?",
+        "options": [
+          "cloud",
+          "rug",
+          "pillow",
+          "table"
+        ],
+        "answer": "cloud",
+        "say": "What may rise above an erupting mountain? Cloud, rug, pillow, or table?"
+      },
+      {
+        "id": "volcanoes-04",
+        "prompt": "Which place could be near a volcano?",
+        "options": [
+          "bedroom",
+          "island",
+          "station",
+          "kitchen"
+        ],
+        "answer": "island",
+        "say": "Which place could be near a volcano? Bedroom, island, station, or kitchen?"
+      },
+      {
+        "id": "volcanoes-05",
+        "prompt": "What should walkers use to leave safely?",
+        "options": [
+          "sofa",
+          "boat",
+          "road",
+          "ladder"
+        ],
+        "answer": "road",
+        "say": "What should walkers use to leave safely? Sofa, boat, road, or ladder?"
+      },
+      {
+        "id": "volcanoes-06",
+        "prompt": "Who can help people during danger?",
+        "options": [
+          "singer",
+          "artist",
+          "chef",
+          "firefighter"
+        ],
+        "answer": "firefighter",
+        "say": "Who can help people during danger? Singer, artist, chef, or firefighter?"
+      },
+      {
+        "id": "volcanoes-07",
+        "prompt": "Which object can show a safe route?",
+        "options": [
+          "map",
+          "clock",
+          "plate",
+          "hat"
+        ],
+        "answer": "map",
+        "say": "Which object can show a safe route? Map, clock, plate, or hat?"
+      },
+      {
+        "id": "volcanoes-08",
+        "prompt": "Where would you watch from safety?",
+        "options": [
+          "hill",
+          "beach",
+          "boat",
+          "city"
+        ],
+        "answer": null,
+        "say": "Where would you watch from safety? Hill, beach, boat, or city?"
+      },
+      {
+        "id": "volcanoes-09",
+        "prompt": "What would you carry on a walk?",
+        "options": [
+          "map",
+          "water",
+          "phone",
+          "backpack"
+        ],
+        "answer": null,
+        "say": "What would you carry on a walk? Map, water, phone, or backpack?"
+      },
+      {
+        "id": "volcanoes-10",
+        "prompt": "Which land shape would you model?",
+        "options": [
+          "volcano",
+          "mountain",
+          "hill",
+          "island"
+        ],
+        "answer": null,
+        "say": "Which land shape would you model? Volcano, mountain, hill, or island?"
+      }
+    ]
+  },
+  {
+    "id": "earthquakes",
+    "topic": "Earthquakes",
+    "topicIds": [
+      "topic-kids-earthquakes"
+    ],
+    "questions": [
+      {
+        "id": "earthquakes-01",
+        "prompt": "What may shake in an earthquake?",
+        "options": [
+          "cloud",
+          "sun",
+          "moon",
+          "house"
+        ],
+        "answer": "house",
+        "say": "What may shake in an earthquake? Cloud, sun, moon, or house?"
+      },
+      {
+        "id": "earthquakes-02",
+        "prompt": "What should children get under indoors?",
+        "options": [
+          "table",
+          "window",
+          "tree",
+          "road"
+        ],
+        "answer": "table",
+        "say": "What should children get under indoors? Table, window, tree, or road?"
+      },
+      {
+        "id": "earthquakes-03",
+        "prompt": "What may fall from a shelf?",
+        "options": [
+          "river",
+          "book",
+          "rainbow",
+          "wind"
+        ],
+        "answer": "book",
+        "say": "What may fall from a shelf? River, book, rainbow, or wind?"
+      },
+      {
+        "id": "earthquakes-04",
+        "prompt": "Who can help after a strong shake?",
+        "options": [
+          "actor",
+          "chef",
+          "firefighter",
+          "singer"
+        ],
+        "answer": "firefighter",
+        "say": "Who can help after a strong shake? Actor, chef, firefighter, or singer?"
+      },
+      {
+        "id": "earthquakes-05",
+        "prompt": "Which place is open and clear outside?",
+        "options": [
+          "cave",
+          "kitchen",
+          "bedroom",
+          "park"
+        ],
+        "answer": "park",
+        "say": "Which place is open and clear outside? Cave, kitchen, bedroom, or park?"
+      },
+      {
+        "id": "earthquakes-06",
+        "prompt": "What can a family use to call?",
+        "options": [
+          "phone",
+          "spoon",
+          "drum",
+          "shoes"
+        ],
+        "answer": "phone",
+        "say": "What can a family use to call? Phone, spoon, drum, or shoes?"
+      },
+      {
+        "id": "earthquakes-07",
+        "prompt": "What shows a way to a safe place?",
+        "options": [
+          "pillow",
+          "map",
+          "cake",
+          "scarf"
+        ],
+        "answer": "map",
+        "say": "What shows a way to a safe place? Pillow, map, cake, or scarf?"
+      },
+      {
+        "id": "earthquakes-08",
+        "prompt": "Who would you help first?",
+        "options": [
+          "baby",
+          "friend",
+          "dog",
+          "cat"
+        ],
+        "answer": null,
+        "say": "Who would you help first? Baby, friend, dog, or cat?"
+      },
+      {
+        "id": "earthquakes-09",
+        "prompt": "What would you keep ready?",
+        "options": [
+          "water",
+          "flashlight",
+          "phone",
+          "blanket"
+        ],
+        "answer": null,
+        "say": "What would you keep ready? Water, flashlight, phone, or blanket?"
+      },
+      {
+        "id": "earthquakes-10",
+        "prompt": "Where would your family meet outdoors?",
+        "options": [
+          "park",
+          "garden",
+          "playground",
+          "stadium"
+        ],
+        "answer": null,
+        "say": "Where would your family meet outdoors? Park, garden, playground, or stadium?"
+      }
+    ]
+  },
+  {
+    "id": "deserts",
+    "topic": "Deserts",
+    "topicIds": [
+      "topic-kids-deserts"
+    ],
+    "questions": [
+      {
+        "id": "deserts-01",
+        "prompt": "Which plant grows in dry places?",
+        "options": [
+          "cactus",
+          "seaweed",
+          "coral",
+          "flower"
+        ],
+        "answer": "cactus",
+        "say": "Which plant grows in dry places? Cactus, seaweed, coral, or flower?"
+      },
+      {
+        "id": "deserts-02",
+        "prompt": "Which animal can cross hot sand?",
+        "options": [
+          "penguin",
+          "camel",
+          "dolphin",
+          "seal"
+        ],
+        "answer": "camel",
+        "say": "Which animal can cross hot sand? Penguin, camel, dolphin, or seal?"
+      },
+      {
+        "id": "deserts-03",
+        "prompt": "What covers many desert paths?",
+        "options": [
+          "snow",
+          "ice",
+          "sand",
+          "grass"
+        ],
+        "answer": "sand",
+        "say": "What covers many desert paths? Snow, ice, sand, or grass?"
+      },
+      {
+        "id": "deserts-04",
+        "prompt": "What must walkers carry to drink?",
+        "options": [
+          "paint",
+          "soap",
+          "glue",
+          "water"
+        ],
+        "answer": "water",
+        "say": "What must walkers carry to drink? Paint, soap, glue, or water?"
+      },
+      {
+        "id": "deserts-05",
+        "prompt": "What shines strongly above a desert?",
+        "options": [
+          "sun",
+          "moon",
+          "star",
+          "cloud"
+        ],
+        "answer": "sun",
+        "say": "What shines strongly above a desert? Sun, moon, star, or cloud?"
+      },
+      {
+        "id": "deserts-06",
+        "prompt": "Which thing can give a walker shade?",
+        "options": [
+          "spoon",
+          "hat",
+          "socks",
+          "watch"
+        ],
+        "answer": "hat",
+        "say": "Which thing can give a walker shade? Spoon, hat, socks, or watch?"
+      },
+      {
+        "id": "deserts-07",
+        "prompt": "What could a desert traveler follow?",
+        "options": [
+          "pillow",
+          "plate",
+          "map",
+          "drum"
+        ],
+        "answer": "map",
+        "say": "What could a desert traveler follow? Pillow, plate, map, or drum?"
+      },
+      {
+        "id": "deserts-08",
+        "prompt": "Which desert sight would you draw?",
+        "options": [
+          "cactus",
+          "camel",
+          "sand",
+          "sun"
+        ],
+        "answer": null,
+        "say": "Which desert sight would you draw? Cactus, camel, sand, or sun?"
+      },
+      {
+        "id": "deserts-09",
+        "prompt": "What would you pack for a hot walk?",
+        "options": [
+          "water",
+          "hat",
+          "map",
+          "sunscreen"
+        ],
+        "answer": null,
+        "say": "What would you pack for a hot walk? Water, hat, map, or sunscreen?"
+      },
+      {
+        "id": "deserts-10",
+        "prompt": "Where would you rest in shade?",
+        "options": [
+          "tent",
+          "tree",
+          "house",
+          "bridge"
+        ],
+        "answer": null,
+        "say": "Where would you rest in shade? Tent, tree, house, or bridge?"
+      }
+    ]
+  },
+  {
+    "id": "festivals-around-the-world",
+    "topic": "Festivals Around the World",
+    "topicIds": [
+      "topic-kids-festivals-around-the-world"
+    ],
+    "questions": [
+      {
+        "id": "festivals-around-the-world-01",
+        "prompt": "What might friends hang for a festival?",
+        "options": [
+          "toothbrush",
+          "flag",
+          "ladder",
+          "spoon"
+        ],
+        "answer": "flag",
+        "say": "What might friends hang for a festival? Toothbrush, flag, ladder, or spoon?"
+      },
+      {
+        "id": "festivals-around-the-world-02",
+        "prompt": "What could a family share at a celebration?",
+        "options": [
+          "soap",
+          "glue",
+          "cake",
+          "sand"
+        ],
+        "answer": "cake",
+        "say": "What could a family share at a celebration? Soap, glue, cake, or sand?"
+      },
+      {
+        "id": "festivals-around-the-world-03",
+        "prompt": "Which instrument can lead a parade?",
+        "options": [
+          "ruler",
+          "broom",
+          "scarf",
+          "drum"
+        ],
+        "answer": "drum",
+        "say": "Which instrument can lead a parade? Ruler, broom, scarf, or drum?"
+      },
+      {
+        "id": "festivals-around-the-world-04",
+        "prompt": "What can people wear for a performance?",
+        "options": [
+          "costume",
+          "towel",
+          "slippers",
+          "raincoat"
+        ],
+        "answer": "costume",
+        "say": "What can people wear for a performance? Costume, towel, slippers, or raincoat?"
+      },
+      {
+        "id": "festivals-around-the-world-05",
+        "prompt": "What might light a family table?",
+        "options": [
+          "rock",
+          "candle",
+          "ball",
+          "coin"
+        ],
+        "answer": "candle",
+        "say": "What might light a family table? Rock, candle, ball, or coin?"
+      },
+      {
+        "id": "festivals-around-the-world-06",
+        "prompt": "Which action can people do together?",
+        "options": [
+          "sleep",
+          "cry",
+          "dance",
+          "fall"
+        ],
+        "answer": "dance",
+        "say": "Which action can people do together? Sleep, cry, dance, or fall?"
+      },
+      {
+        "id": "festivals-around-the-world-07",
+        "prompt": "Who might sing at a celebration?",
+        "options": [
+          "pilot",
+          "dentist",
+          "farmer",
+          "singer"
+        ],
+        "answer": "singer",
+        "say": "Who might sing at a celebration? Pilot, dentist, farmer, or singer?"
+      },
+      {
+        "id": "festivals-around-the-world-08",
+        "prompt": "Which festival sound would you choose?",
+        "options": [
+          "drum",
+          "guitar",
+          "flute",
+          "violin"
+        ],
+        "answer": null,
+        "say": "Which festival sound would you choose? Drum, guitar, flute, or violin?"
+      },
+      {
+        "id": "festivals-around-the-world-09",
+        "prompt": "What would you bring to share?",
+        "options": [
+          "cake",
+          "apple",
+          "flower",
+          "present"
+        ],
+        "answer": null,
+        "say": "What would you bring to share? Cake, apple, flower, or present?"
+      },
+      {
+        "id": "festivals-around-the-world-10",
+        "prompt": "How would you celebrate with friends?",
+        "options": [
+          "dance",
+          "sing",
+          "clap",
+          "draw"
+        ],
+        "answer": null,
+        "say": "How would you celebrate with friends? Dance, sing, clap, or draw?"
+      }
+    ]
+  },
+  {
+    "id": "superheroes",
+    "topic": "Superheroes",
+    "topicIds": [
+      "topic-kids-superheroes"
+    ],
+    "questions": [
+      {
+        "id": "superheroes-01",
+        "prompt": "Who helps put out a fire?",
+        "options": [
+          "actor",
+          "chef",
+          "firefighter",
+          "artist"
+        ],
+        "answer": "firefighter",
+        "say": "Who helps put out a fire? Actor, chef, firefighter, or artist?"
+      },
+      {
+        "id": "superheroes-02",
+        "prompt": "Who helps an injured friend?",
+        "options": [
+          "singer",
+          "farmer",
+          "driver",
+          "nurse"
+        ],
+        "answer": "nurse",
+        "say": "Who helps an injured friend? Singer, farmer, driver, or nurse?"
+      },
+      {
+        "id": "superheroes-03",
+        "prompt": "What can a hero carry to someone thirsty?",
+        "options": [
+          "water",
+          "sand",
+          "paint",
+          "glue"
+        ],
+        "answer": "water",
+        "say": "What can a hero carry to someone thirsty? Water, sand, paint, or glue?"
+      },
+      {
+        "id": "superheroes-04",
+        "prompt": "What helps a small child across safely?",
+        "options": [
+          "river",
+          "crosswalk",
+          "lake",
+          "forest"
+        ],
+        "answer": "crosswalk",
+        "say": "What helps a small child across safely? River, crosswalk, lake, or forest?"
+      },
+      {
+        "id": "superheroes-05",
+        "prompt": "What could cover a friend's scraped knee?",
+        "options": [
+          "scarf",
+          "button",
+          "bandage",
+          "zipper"
+        ],
+        "answer": "bandage",
+        "say": "What could cover a friend's scraped knee? Scarf, button, bandage, or zipper?"
+      },
+      {
+        "id": "superheroes-06",
+        "prompt": "What action can lift a fallen box?",
+        "options": [
+          "sleep",
+          "read",
+          "sing",
+          "carry"
+        ],
+        "answer": "carry",
+        "say": "What action can lift a fallen box? Sleep, read, sing, or carry?"
+      },
+      {
+        "id": "superheroes-07",
+        "prompt": "What feeling helps someone offer help?",
+        "options": [
+          "brave",
+          "bored",
+          "sleepy",
+          "hungry"
+        ],
+        "answer": "brave",
+        "say": "What feeling helps someone offer help? Brave, bored, sleepy, or hungry?"
+      },
+      {
+        "id": "superheroes-08",
+        "prompt": "Who is a hero in your town?",
+        "options": [
+          "nurse",
+          "doctor",
+          "firefighter",
+          "teacher"
+        ],
+        "answer": null,
+        "say": "Who is a hero in your town? Nurse, doctor, firefighter, or teacher?"
+      },
+      {
+        "id": "superheroes-09",
+        "prompt": "What kind act would you try?",
+        "options": [
+          "hug",
+          "carry",
+          "listen",
+          "wave"
+        ],
+        "answer": null,
+        "say": "What kind act would you try? Hug, carry, listen, or wave?"
+      },
+      {
+        "id": "superheroes-10",
+        "prompt": "Who would your story hero help?",
+        "options": [
+          "baby",
+          "friend",
+          "dog",
+          "cat"
+        ],
+        "answer": null,
+        "say": "Who would your story hero help? Baby, friend, dog, or cat?"
+      }
+    ]
+  },
+  {
+    "id": "animals-2",
+    "topic": "Animal Clues",
+    "topicIds": [
+      "topic-kids-elephants",
+      "topic-kids-giraffes",
+      "topic-kids-zebras",
+      "topic-kids-lions",
+      "topic-kids-tigers",
+      "topic-kids-pandas"
+    ],
+    "questions": [
+      {
+        "id": "animals-2-01",
+        "prompt": "Which animal has a trunk?",
+        "options": [
+          "elephant",
+          "tiger",
+          "zebra",
+          "panda"
+        ],
+        "answer": "elephant",
+        "say": "Which animal has a trunk? Elephant, tiger, zebra, or panda?"
+      },
+      {
+        "id": "animals-2-02",
+        "prompt": "Which animal has a very long neck?",
+        "options": [
+          "lion",
+          "giraffe",
+          "horse",
+          "pig"
+        ],
+        "answer": "giraffe",
+        "say": "Which animal has a very long neck? Lion, giraffe, horse, or pig?"
+      },
+      {
+        "id": "animals-2-03",
+        "prompt": "Which animal wears black and white stripes?",
+        "options": [
+          "bear",
+          "cow",
+          "zebra",
+          "rabbit"
+        ],
+        "answer": "zebra",
+        "say": "Which animal wears black and white stripes? Bear, cow, zebra, or rabbit?"
+      },
+      {
+        "id": "animals-2-04",
+        "prompt": "Which wild cat has stripes?",
+        "options": [
+          "lion",
+          "fox",
+          "wolf",
+          "tiger"
+        ],
+        "answer": "tiger",
+        "say": "Which wild cat has stripes? Lion, fox, wolf, or tiger?"
+      },
+      {
+        "id": "animals-2-05",
+        "prompt": "Which wild cat has a mane?",
+        "options": [
+          "lion",
+          "tiger",
+          "panda",
+          "camel"
+        ],
+        "answer": "lion",
+        "say": "Which wild cat has a mane? Lion, tiger, panda, or camel?"
+      },
+      {
+        "id": "animals-2-06",
+        "prompt": "Which bear eats bamboo?",
+        "options": [
+          "polar-bear",
+          "panda",
+          "koala",
+          "fox"
+        ],
+        "answer": "panda",
+        "say": "Which bear eats bamboo? Polar bear, panda, koala, or fox?"
+      },
+      {
+        "id": "animals-2-07",
+        "prompt": "Which animal might hop with its baby?",
+        "options": [
+          "giraffe",
+          "whale",
+          "kangaroo",
+          "shark"
+        ],
+        "answer": "kangaroo",
+        "say": "Which animal might hop with its baby? Giraffe, whale, kangaroo, or shark?"
+      },
+      {
+        "id": "animals-2-08",
+        "prompt": "Which animal would you photograph?",
+        "options": [
+          "elephant",
+          "giraffe",
+          "zebra",
+          "panda"
+        ],
+        "answer": null,
+        "say": "Which animal would you photograph? Elephant, giraffe, zebra, or panda?"
+      },
+      {
+        "id": "animals-2-09",
+        "prompt": "Which animal would visit your story?",
+        "options": [
+          "lion",
+          "tiger",
+          "koala",
+          "kangaroo"
+        ],
+        "answer": null,
+        "say": "Which animal would visit your story? Lion, tiger, koala, or kangaroo?"
+      },
+      {
+        "id": "animals-2-10",
+        "prompt": "Where would you watch animals?",
+        "options": [
+          "zoo",
+          "forest",
+          "farm",
+          "sea"
+        ],
+        "answer": null,
+        "say": "Where would you watch animals? Zoo, forest, farm, or sea?"
+      }
+    ]
+  },
+  {
+    "id": "food-2",
+    "topic": "Food From the Garden",
+    "topicIds": [
+      "topic-kids-fruits",
+      "topic-kids-vegetables",
+      "topic-kids-bees"
+    ],
+    "questions": [
+      {
+        "id": "food-2-01",
+        "prompt": "Which vegetable grows under soil?",
+        "options": [
+          "apple",
+          "carrot",
+          "banana",
+          "grapes"
+        ],
+        "answer": "carrot",
+        "say": "Which vegetable grows under soil? Apple, carrot, banana, or grapes?"
+      },
+      {
+        "id": "food-2-02",
+        "prompt": "Which fruit grows on a tree?",
+        "options": [
+          "corn",
+          "onion",
+          "pear",
+          "potato"
+        ],
+        "answer": "pear",
+        "say": "Which fruit grows on a tree? Corn, onion, pear, or potato?"
+      },
+      {
+        "id": "food-2-03",
+        "prompt": "What might a bee make?",
+        "options": [
+          "butter",
+          "rice",
+          "cheese",
+          "honey"
+        ],
+        "answer": "honey",
+        "say": "What might a bee make? Butter, rice, cheese, or honey?"
+      },
+      {
+        "id": "food-2-04",
+        "prompt": "Which food has orange peel?",
+        "options": [
+          "orange",
+          "strawberry",
+          "grapes",
+          "kiwi"
+        ],
+        "answer": "orange",
+        "say": "Which food has orange peel? Orange, strawberry, grapes, or kiwi?"
+      },
+      {
+        "id": "food-2-05",
+        "prompt": "Which vegetable has green florets?",
+        "options": [
+          "tomato",
+          "broccoli",
+          "lemon",
+          "peach"
+        ],
+        "answer": "broccoli",
+        "say": "Which vegetable has green florets? Tomato, broccoli, lemon, or peach?"
+      },
+      {
+        "id": "food-2-06",
+        "prompt": "What can hold lunch outside?",
+        "options": [
+          "clock",
+          "shoes",
+          "basket",
+          "book"
+        ],
+        "answer": "basket",
+        "say": "What can hold lunch outside? Clock, shoes, basket, or book?"
+      },
+      {
+        "id": "food-2-07",
+        "prompt": "Which tool can dig garden soil?",
+        "options": [
+          "fork",
+          "knife",
+          "whisk",
+          "shovel"
+        ],
+        "answer": "shovel",
+        "say": "Which tool can dig garden soil? Fork, knife, whisk, or shovel?"
+      },
+      {
+        "id": "food-2-08",
+        "prompt": "Which fruit would you slice?",
+        "options": [
+          "apple",
+          "pear",
+          "kiwi",
+          "mango"
+        ],
+        "answer": null,
+        "say": "Which fruit would you slice? Apple, pear, kiwi, or mango?"
+      },
+      {
+        "id": "food-2-09",
+        "prompt": "Which vegetable would you grow?",
+        "options": [
+          "corn",
+          "carrot",
+          "peas",
+          "pumpkin"
+        ],
+        "answer": null,
+        "say": "Which vegetable would you grow? Corn, carrot, peas, or pumpkin?"
+      },
+      {
+        "id": "food-2-10",
+        "prompt": "What would you bring to a picnic?",
+        "options": [
+          "bread",
+          "cheese",
+          "grapes",
+          "water"
+        ],
+        "answer": null,
+        "say": "What would you bring to a picnic? Bread, cheese, grapes, or water?"
+      }
+    ]
+  },
+  {
+    "id": "family-2",
+    "topic": "Family Games",
+    "topicIds": [
+      "topic-kids-family-traditions",
+      "topic-kids-board-games"
+    ],
+    "questions": [
+      {
+        "id": "family-2-01",
+        "prompt": "Who is your parent's mother?",
+        "options": [
+          "sister",
+          "baby",
+          "grandmother",
+          "brother"
+        ],
+        "answer": "grandmother",
+        "say": "Who is your parent's mother? Sister, baby, grandmother, or brother?"
+      },
+      {
+        "id": "family-2-02",
+        "prompt": "Who is your parent's father?",
+        "options": [
+          "brother",
+          "teacher",
+          "friend",
+          "grandfather"
+        ],
+        "answer": "grandfather",
+        "say": "Who is your parent's father? Brother, teacher, friend, or grandfather?"
+      },
+      {
+        "id": "family-2-03",
+        "prompt": "What could everyone play at home?",
+        "options": [
+          "board-game",
+          "bus",
+          "ladder",
+          "oven"
+        ],
+        "answer": "board-game",
+        "say": "What could everyone play at home? Board game, bus, ladder, or oven?"
+      },
+      {
+        "id": "family-2-04",
+        "prompt": "What can mark a family celebration?",
+        "options": [
+          "rock",
+          "candle",
+          "broom",
+          "coin"
+        ],
+        "answer": "candle",
+        "say": "What can mark a family celebration? Rock, candle, broom, or coin?"
+      },
+      {
+        "id": "family-2-05",
+        "prompt": "Where can people sit together?",
+        "options": [
+          "road",
+          "river",
+          "sofa",
+          "tree"
+        ],
+        "answer": "sofa",
+        "say": "Where can people sit together? Road, river, sofa, or tree?"
+      },
+      {
+        "id": "family-2-06",
+        "prompt": "What could record a family trip?",
+        "options": [
+          "fork",
+          "spoon",
+          "shoes",
+          "camera"
+        ],
+        "answer": "camera",
+        "say": "What could record a family trip? Fork, spoon, shoes, or camera?"
+      },
+      {
+        "id": "family-2-07",
+        "prompt": "Which piece can belong to a game?",
+        "options": [
+          "blocks",
+          "soap",
+          "towel",
+          "glue"
+        ],
+        "answer": "blocks",
+        "say": "Which piece can belong to a game? Blocks, soap, towel, or glue?"
+      },
+      {
+        "id": "family-2-08",
+        "prompt": "Which family game would you choose?",
+        "options": [
+          "board-game",
+          "puzzle",
+          "marbles",
+          "blocks"
+        ],
+        "answer": null,
+        "say": "Which family game would you choose? Board game, puzzle, marbles, or blocks?"
+      },
+      {
+        "id": "family-2-09",
+        "prompt": "Who would you invite to play?",
+        "options": [
+          "mother",
+          "father",
+          "sister",
+          "brother"
+        ],
+        "answer": null,
+        "say": "Who would you invite to play? Mother, father, sister, or brother?"
+      },
+      {
+        "id": "family-2-10",
+        "prompt": "Where would you play together?",
+        "options": [
+          "house",
+          "garden",
+          "park",
+          "beach"
+        ],
+        "answer": null,
+        "say": "Where would you play together? House, garden, park, or beach?"
+      }
+    ]
+  },
+  {
+    "id": "school-2",
+    "topic": "School Helpers",
+    "topicIds": [
+      "topic-kids-classroom-rules",
+      "topic-kids-puzzles",
+      "topic-kids-the-five-senses"
+    ],
+    "questions": [
+      {
+        "id": "school-2-01",
+        "prompt": "What can children use to solve shapes?",
+        "options": [
+          "milk",
+          "rain",
+          "wind",
+          "puzzle"
+        ],
+        "answer": "puzzle",
+        "say": "What can children use to solve shapes? Milk, rain, wind, or puzzle?"
+      },
+      {
+        "id": "school-2-02",
+        "prompt": "What should you raise before speaking?",
+        "options": [
+          "hand",
+          "foot",
+          "knee",
+          "neck"
+        ],
+        "answer": "hand",
+        "say": "What should you raise before speaking? Hand, foot, knee, or neck?"
+      },
+      {
+        "id": "school-2-03",
+        "prompt": "Which sense part hears the bell?",
+        "options": [
+          "eye",
+          "ear",
+          "nose",
+          "tongue"
+        ],
+        "answer": "ear",
+        "say": "Which sense part hears the bell? Eye, ear, nose, or tongue?"
+      },
+      {
+        "id": "school-2-04",
+        "prompt": "Which sense part smells a flower?",
+        "options": [
+          "ear",
+          "foot",
+          "nose",
+          "finger"
+        ],
+        "answer": "nose",
+        "say": "Which sense part smells a flower? Ear, foot, nose, or finger?"
+      },
+      {
+        "id": "school-2-05",
+        "prompt": "Where can a teacher draw words?",
+        "options": [
+          "window",
+          "door",
+          "desk",
+          "whiteboard"
+        ],
+        "answer": "whiteboard",
+        "say": "Where can a teacher draw words? Window, door, desk, or whiteboard?"
+      },
+      {
+        "id": "school-2-06",
+        "prompt": "What keeps loose papers together?",
+        "options": [
+          "folder",
+          "ball",
+          "hat",
+          "cup"
+        ],
+        "answer": "folder",
+        "say": "What keeps loose papers together? Folder, ball, hat, or cup?"
+      },
+      {
+        "id": "school-2-07",
+        "prompt": "What can help find a word's spelling?",
+        "options": [
+          "ball",
+          "book",
+          "drum",
+          "shovel"
+        ],
+        "answer": "book",
+        "say": "What can help find a word's spelling? Ball, book, drum, or shovel?"
+      },
+      {
+        "id": "school-2-08",
+        "prompt": "Who would you ask for help at school?",
+        "options": [
+          "teacher",
+          "friend",
+          "sister",
+          "brother"
+        ],
+        "answer": null,
+        "say": "Who would you ask for help at school? Teacher, friend, sister, or brother?"
+      },
+      {
+        "id": "school-2-09",
+        "prompt": "What would you build after class?",
+        "options": [
+          "puzzle",
+          "blocks",
+          "robot",
+          "kite"
+        ],
+        "answer": null,
+        "say": "What would you build after class? Puzzle, blocks, robot, or kite?"
+      },
+      {
+        "id": "school-2-10",
+        "prompt": "Which tool would you use to learn?",
+        "options": [
+          "book",
+          "globe",
+          "paintbrush",
+          "calculator"
+        ],
+        "answer": null,
+        "say": "Which tool would you use to learn? Book, globe, paintbrush, or calculator?"
+      }
+    ]
+  },
+  {
+    "id": "weather-2",
+    "topic": "Weather Watch",
+    "topicIds": [
+      "topic-kids-seasons",
+      "topic-kids-snow",
+      "topic-kids-clouds"
+    ],
+    "questions": [
+      {
+        "id": "weather-2-01",
+        "prompt": "What may cover the sky before rain?",
+        "options": [
+          "cloud",
+          "chair",
+          "car",
+          "boat"
+        ],
+        "answer": "cloud",
+        "say": "What may cover the sky before rain? Cloud, chair, car, or boat?"
+      },
+      {
+        "id": "weather-2-02",
+        "prompt": "What can fall during winter?",
+        "options": [
+          "sand",
+          "snow",
+          "rock",
+          "leaf"
+        ],
+        "answer": "snow",
+        "say": "What can fall during winter? Sand, snow, rock, or leaf?"
+      },
+      {
+        "id": "weather-2-03",
+        "prompt": "What might bend in strong wind?",
+        "options": [
+          "house",
+          "road",
+          "tree",
+          "lake"
+        ],
+        "answer": "tree",
+        "say": "What might bend in strong wind? House, road, tree, or lake?"
+      },
+      {
+        "id": "weather-2-04",
+        "prompt": "What can help you stay dry?",
+        "options": [
+          "swimsuit",
+          "sandals",
+          "shorts",
+          "raincoat"
+        ],
+        "answer": "raincoat",
+        "say": "What can help you stay dry? Swimsuit, sandals, shorts, or raincoat?"
+      },
+      {
+        "id": "weather-2-05",
+        "prompt": "Which sky sight can follow rain?",
+        "options": [
+          "rainbow",
+          "moon",
+          "star",
+          "sun"
+        ],
+        "answer": "rainbow",
+        "say": "Which sky sight can follow rain? Rainbow, moon, star, or sun?"
+      },
+      {
+        "id": "weather-2-06",
+        "prompt": "What can melt when weather warms?",
+        "options": [
+          "mountain",
+          "snowman",
+          "bridge",
+          "castle"
+        ],
+        "answer": "snowman",
+        "say": "What can melt when weather warms? Mountain, snowman, bridge, or castle?"
+      },
+      {
+        "id": "weather-2-07",
+        "prompt": "What might show a cold morning?",
+        "options": [
+          "cactus",
+          "sunscreen",
+          "icicle",
+          "sandals"
+        ],
+        "answer": "icicle",
+        "say": "What might show a cold morning? Cactus, sunscreen, icicle, or sandals?"
+      },
+      {
+        "id": "weather-2-08",
+        "prompt": "Which weather would you draw?",
+        "options": [
+          "rain",
+          "snow",
+          "cloud",
+          "rainbow"
+        ],
+        "answer": null,
+        "say": "Which weather would you draw? Rain, snow, cloud, or rainbow?"
+      },
+      {
+        "id": "weather-2-09",
+        "prompt": "What would you wear outside?",
+        "options": [
+          "coat",
+          "boots",
+          "hat",
+          "umbrella"
+        ],
+        "answer": null,
+        "say": "What would you wear outside? Coat, boots, hat, or umbrella?"
+      },
+      {
+        "id": "weather-2-10",
+        "prompt": "Where would you play today?",
+        "options": [
+          "park",
+          "garden",
+          "house",
+          "playground"
+        ],
+        "answer": null,
+        "say": "Where would you play today? Park, garden, house, or playground?"
+      }
+    ]
+  },
+  {
+    "id": "transport-2",
+    "topic": "Ways to Travel",
+    "topicIds": [
+      "topic-kids-airplanes",
+      "topic-kids-trains",
+      "topic-kids-boats"
+    ],
+    "questions": [
+      {
+        "id": "transport-2-01",
+        "prompt": "Which vehicle leaves an airport runway?",
+        "options": [
+          "boat",
+          "airplane",
+          "train",
+          "truck"
+        ],
+        "answer": "airplane",
+        "say": "Which vehicle leaves an airport runway? Boat, airplane, train, or truck?"
+      },
+      {
+        "id": "transport-2-02",
+        "prompt": "Which vehicle moves along tracks?",
+        "options": [
+          "canoe",
+          "airplane",
+          "train",
+          "bike"
+        ],
+        "answer": "train",
+        "say": "Which vehicle moves along tracks? Canoe, airplane, train, or bike?"
+      },
+      {
+        "id": "transport-2-03",
+        "prompt": "Which vehicle crosses a river?",
+        "options": [
+          "bus",
+          "taxi",
+          "scooter",
+          "boat"
+        ],
+        "answer": "boat",
+        "say": "Which vehicle crosses a river? Bus, taxi, scooter, or boat?"
+      },
+      {
+        "id": "transport-2-04",
+        "prompt": "What do passengers wear in a car?",
+        "options": [
+          "seat-belt",
+          "scarf",
+          "watch",
+          "crown"
+        ],
+        "answer": "seat-belt",
+        "say": "What do passengers wear in a car? Seat belt, scarf, watch, or crown?"
+      },
+      {
+        "id": "transport-2-05",
+        "prompt": "Who flies a passenger plane?",
+        "options": [
+          "chef",
+          "pilot",
+          "vet",
+          "farmer"
+        ],
+        "answer": "pilot",
+        "say": "Who flies a passenger plane? Chef, pilot, vet, or farmer?"
+      },
+      {
+        "id": "transport-2-06",
+        "prompt": "Where does a train stop?",
+        "options": [
+          "island",
+          "forest",
+          "station",
+          "beach"
+        ],
+        "answer": "station",
+        "say": "Where does a train stop? Island, forest, station, or beach?"
+      },
+      {
+        "id": "transport-2-07",
+        "prompt": "What can show the road ahead?",
+        "options": [
+          "plate",
+          "pillow",
+          "drum",
+          "map"
+        ],
+        "answer": "map",
+        "say": "What can show the road ahead? Plate, pillow, drum, or map?"
+      },
+      {
+        "id": "transport-2-08",
+        "prompt": "Which ride would you choose?",
+        "options": [
+          "airplane",
+          "train",
+          "ship",
+          "bus"
+        ],
+        "answer": null,
+        "say": "Which ride would you choose? Airplane, train, ship, or bus?"
+      },
+      {
+        "id": "transport-2-09",
+        "prompt": "Who would travel with you?",
+        "options": [
+          "friend",
+          "mother",
+          "father",
+          "sister"
+        ],
+        "answer": null,
+        "say": "Who would travel with you? Friend, mother, father, or sister?"
+      },
+      {
+        "id": "transport-2-10",
+        "prompt": "What would you pack for a trip?",
+        "options": [
+          "book",
+          "camera",
+          "water",
+          "hat"
+        ],
+        "answer": null,
+        "say": "What would you pack for a trip? Book, camera, water, or hat?"
+      }
+    ]
+  },
+  {
+    "id": "ocean-2",
+    "topic": "Life Under the Waves",
+    "topicIds": [
+      "topic-kids-oceans",
+      "topic-kids-dolphins",
+      "topic-kids-whales",
+      "topic-kids-sharks",
+      "topic-kids-coral-reefs"
+    ],
+    "questions": [
+      {
+        "id": "ocean-2-01",
+        "prompt": "Which sea animal is the largest?",
+        "options": [
+          "dolphin",
+          "crab",
+          "whale",
+          "seal"
+        ],
+        "answer": "whale",
+        "say": "Which sea animal is the largest? Dolphin, crab, whale, or seal?"
+      },
+      {
+        "id": "ocean-2-02",
+        "prompt": "Which animal has many sharp teeth?",
+        "options": [
+          "turtle",
+          "crab",
+          "octopus",
+          "shark"
+        ],
+        "answer": "shark",
+        "say": "Which animal has many sharp teeth? Turtle, crab, octopus, or shark?"
+      },
+      {
+        "id": "ocean-2-03",
+        "prompt": "Which sea animal can leap from water?",
+        "options": [
+          "dolphin",
+          "octopus",
+          "crab",
+          "snail"
+        ],
+        "answer": "dolphin",
+        "say": "Which sea animal can leap from water? Dolphin, octopus, crab, or snail?"
+      },
+      {
+        "id": "ocean-2-04",
+        "prompt": "What makes colorful homes underwater?",
+        "options": [
+          "rock",
+          "coral",
+          "sand",
+          "ice"
+        ],
+        "answer": "coral",
+        "say": "What makes colorful homes underwater? Rock, coral, sand, or ice?"
+      },
+      {
+        "id": "ocean-2-05",
+        "prompt": "Which animal carries a hard shell?",
+        "options": [
+          "jellyfish",
+          "whale",
+          "turtle",
+          "dolphin"
+        ],
+        "answer": "turtle",
+        "say": "Which animal carries a hard shell? Jellyfish, whale, turtle, or dolphin?"
+      },
+      {
+        "id": "ocean-2-06",
+        "prompt": "What might a diver wear on their face?",
+        "options": [
+          "scarf",
+          "gloves",
+          "watch",
+          "snorkel"
+        ],
+        "answer": "snorkel",
+        "say": "What might a diver wear on their face? Scarf, gloves, watch, or snorkel?"
+      },
+      {
+        "id": "ocean-2-07",
+        "prompt": "Which boat can travel below waves?",
+        "options": [
+          "submarine",
+          "canoe",
+          "ship",
+          "sailboat"
+        ],
+        "answer": "submarine",
+        "say": "Which boat can travel below waves? Submarine, canoe, ship, or sailboat?"
+      },
+      {
+        "id": "ocean-2-08",
+        "prompt": "Which sea creature would you draw?",
+        "options": [
+          "whale",
+          "dolphin",
+          "shark",
+          "octopus"
+        ],
+        "answer": null,
+        "say": "Which sea creature would you draw? Whale, dolphin, shark, or octopus?"
+      },
+      {
+        "id": "ocean-2-09",
+        "prompt": "What would you look for underwater?",
+        "options": [
+          "coral",
+          "shell",
+          "seaweed",
+          "fish"
+        ],
+        "answer": null,
+        "say": "What would you look for underwater? Coral, shell, seaweed, or fish?"
+      },
+      {
+        "id": "ocean-2-10",
+        "prompt": "Which place would you explore?",
+        "options": [
+          "sea",
+          "island",
+          "beach",
+          "river"
+        ],
+        "answer": null,
+        "say": "Which place would you explore? Sea, island, beach, or river?"
+      }
+    ]
+  },
+  {
+    "id": "pets-2",
+    "topic": "Caring for Friends",
+    "topicIds": [
+      "topic-kids-caring-for-pets",
+      "topic-kids-frogs",
+      "topic-kids-horses"
+    ],
+    "questions": [
+      {
+        "id": "pets-2-01",
+        "prompt": "Which animal needs a food bowl?",
+        "options": [
+          "tree",
+          "car",
+          "chair",
+          "dog"
+        ],
+        "answer": "dog",
+        "say": "Which animal needs a food bowl? Tree, car, chair, or dog?"
+      },
+      {
+        "id": "pets-2-02",
+        "prompt": "What can lead a dog on walks?",
+        "options": [
+          "leash",
+          "ladder",
+          "rope",
+          "ruler"
+        ],
+        "answer": "leash",
+        "say": "What can lead a dog on walks? Leash, ladder, rope, or ruler?"
+      },
+      {
+        "id": "pets-2-03",
+        "prompt": "What can a thirsty pet drink?",
+        "options": [
+          "paint",
+          "water",
+          "sand",
+          "soap"
+        ],
+        "answer": "water",
+        "say": "What can a thirsty pet drink? Paint, water, sand, or soap?"
+      },
+      {
+        "id": "pets-2-04",
+        "prompt": "Which small animal can hop near ponds?",
+        "options": [
+          "cow",
+          "goat",
+          "frog",
+          "horse"
+        ],
+        "answer": "frog",
+        "say": "Which small animal can hop near ponds? Cow, goat, frog, or horse?"
+      },
+      {
+        "id": "pets-2-05",
+        "prompt": "Which animal may live in a stable?",
+        "options": [
+          "fish",
+          "parrot",
+          "kitten",
+          "horse"
+        ],
+        "answer": "horse",
+        "say": "Which animal may live in a stable? Fish, parrot, kitten, or horse?"
+      },
+      {
+        "id": "pets-2-06",
+        "prompt": "Who can help when a pet is sick?",
+        "options": [
+          "vet",
+          "chef",
+          "pilot",
+          "actor"
+        ],
+        "answer": "vet",
+        "say": "Who can help when a pet is sick? Vet, chef, pilot, or actor?"
+      },
+      {
+        "id": "pets-2-07",
+        "prompt": "Where can a kitten sleep softly?",
+        "options": [
+          "road",
+          "basket",
+          "river",
+          "hill"
+        ],
+        "answer": "basket",
+        "say": "Where can a kitten sleep softly? Road, basket, river, or hill?"
+      },
+      {
+        "id": "pets-2-08",
+        "prompt": "Which pet would you care for?",
+        "options": [
+          "cat",
+          "dog",
+          "rabbit",
+          "fish"
+        ],
+        "answer": null,
+        "say": "Which pet would you care for? Cat, dog, rabbit, or fish?"
+      },
+      {
+        "id": "pets-2-09",
+        "prompt": "What would you give a pet?",
+        "options": [
+          "water",
+          "food-bowl",
+          "bed",
+          "ball"
+        ],
+        "answer": null,
+        "say": "What would you give a pet? Water, food bowl, bed, or ball?"
+      },
+      {
+        "id": "pets-2-10",
+        "prompt": "Where would you take a walk?",
+        "options": [
+          "park",
+          "forest",
+          "garden",
+          "beach"
+        ],
+        "answer": null,
+        "say": "Where would you take a walk? Park, forest, garden, or beach?"
+      }
+    ]
+  },
+  {
+    "id": "sports-2",
+    "topic": "Games and Moves",
+    "topicIds": [
+      "topic-kids-basketball",
+      "topic-kids-swimming",
+      "topic-kids-running",
+      "topic-kids-dancing"
+    ],
+    "questions": [
+      {
+        "id": "sports-2-01",
+        "prompt": "What do players throw toward a hoop?",
+        "options": [
+          "basketball",
+          "tennis",
+          "football",
+          "baseball"
+        ],
+        "answer": "basketball",
+        "say": "What do players throw toward a hoop? Basketball, tennis, football, or baseball?"
+      },
+      {
+        "id": "sports-2-02",
+        "prompt": "Where can children swim with a teacher?",
+        "options": [
+          "stadium",
+          "swimming-pool",
+          "forest",
+          "museum"
+        ],
+        "answer": "swimming-pool",
+        "say": "Where can children swim with a teacher? Stadium, swimming pool, forest, or museum?"
+      },
+      {
+        "id": "sports-2-03",
+        "prompt": "Which action can start a footrace?",
+        "options": [
+          "sleep",
+          "sit",
+          "run",
+          "read"
+        ],
+        "answer": "run",
+        "say": "Which action can start a footrace? Sleep, sit, run, or read?"
+      },
+      {
+        "id": "sports-2-04",
+        "prompt": "Which action follows music?",
+        "options": [
+          "wash",
+          "count",
+          "cook",
+          "dance"
+        ],
+        "answer": "dance",
+        "say": "Which action follows music? Wash, count, cook, or dance?"
+      },
+      {
+        "id": "sports-2-05",
+        "prompt": "What should swimmers wear near water?",
+        "options": [
+          "swimsuit",
+          "raincoat",
+          "coat",
+          "scarf"
+        ],
+        "answer": "swimsuit",
+        "say": "What should swimmers wear near water? Swimsuit, raincoat, coat, or scarf?"
+      },
+      {
+        "id": "sports-2-06",
+        "prompt": "What marks a soccer score?",
+        "options": [
+          "lamp",
+          "goalpost",
+          "door",
+          "window"
+        ],
+        "answer": "goalpost",
+        "say": "What marks a soccer score? Lamp, goalpost, door, or window?"
+      },
+      {
+        "id": "sports-2-07",
+        "prompt": "Which thing helps a tennis player hit?",
+        "options": [
+          "spoon",
+          "broom",
+          "racket",
+          "shovel"
+        ],
+        "answer": "racket",
+        "say": "Which thing helps a tennis player hit? Spoon, broom, racket, or shovel?"
+      },
+      {
+        "id": "sports-2-08",
+        "prompt": "Which sport would you try?",
+        "options": [
+          "basketball",
+          "tennis",
+          "football",
+          "swim"
+        ],
+        "answer": null,
+        "say": "Which sport would you try? Basketball, tennis, football, or swim?"
+      },
+      {
+        "id": "sports-2-09",
+        "prompt": "How would you move to music?",
+        "options": [
+          "dance",
+          "jump",
+          "clap",
+          "walk"
+        ],
+        "answer": null,
+        "say": "How would you move to music? Dance, jump, clap, or walk?"
+      },
+      {
+        "id": "sports-2-10",
+        "prompt": "Where would you practice a sport?",
+        "options": [
+          "stadium",
+          "park",
+          "swimming-pool",
+          "playground"
+        ],
+        "answer": null,
+        "say": "Where would you practice a sport? Stadium, park, swimming pool, or playground?"
+      }
+    ]
+  },
+  {
+    "id": "birthdays-2",
+    "topic": "Birthday Surprises",
+    "topicIds": [
+      "topic-kids-birthday-parties"
+    ],
+    "questions": [
+      {
+        "id": "birthdays-2-01",
+        "prompt": "What may hide inside birthday wrapping?",
+        "options": [
+          "puddle",
+          "present",
+          "cloud",
+          "rock"
+        ],
+        "answer": "present",
+        "say": "What may hide inside birthday wrapping? Puddle, present, cloud, or rock?"
+      },
+      {
+        "id": "birthdays-2-02",
+        "prompt": "What can sit on top of a cake?",
+        "options": [
+          "broom",
+          "spoon",
+          "candle",
+          "shoes"
+        ],
+        "answer": "candle",
+        "say": "What can sit on top of a cake? Broom, spoon, candle, or shoes?"
+      },
+      {
+        "id": "birthdays-2-03",
+        "prompt": "What can float above a party?",
+        "options": [
+          "pillow",
+          "chair",
+          "table",
+          "balloon"
+        ],
+        "answer": "balloon",
+        "say": "What can float above a party? Pillow, chair, table, or balloon?"
+      },
+      {
+        "id": "birthdays-2-04",
+        "prompt": "What could friends sing together?",
+        "options": [
+          "sing",
+          "sleep",
+          "cry",
+          "fall"
+        ],
+        "answer": "sing",
+        "say": "What could friends sing together? Sing, sleep, cry, or fall?"
+      },
+      {
+        "id": "birthdays-2-05",
+        "prompt": "What can guests wear on their heads?",
+        "options": [
+          "boots",
+          "hat",
+          "gloves",
+          "socks"
+        ],
+        "answer": "hat",
+        "say": "What can guests wear on their heads? Boots, hat, gloves, or socks?"
+      },
+      {
+        "id": "birthdays-2-06",
+        "prompt": "What can hold slices for guests?",
+        "options": [
+          "ladder",
+          "drum",
+          "plate",
+          "scarf"
+        ],
+        "answer": "plate",
+        "say": "What can hold slices for guests? Ladder, drum, plate, or scarf?"
+      },
+      {
+        "id": "birthdays-2-07",
+        "prompt": "What action can show thanks?",
+        "options": [
+          "throw",
+          "push",
+          "shout",
+          "hug"
+        ],
+        "answer": "hug",
+        "say": "What action can show thanks? Throw, push, shout, or hug?"
+      },
+      {
+        "id": "birthdays-2-08",
+        "prompt": "Which party treat would you choose?",
+        "options": [
+          "cake",
+          "cookie",
+          "pie",
+          "ice-cream"
+        ],
+        "answer": null,
+        "say": "Which party treat would you choose? Cake, cookie, pie, or ice cream?"
+      },
+      {
+        "id": "birthdays-2-09",
+        "prompt": "Who would you invite?",
+        "options": [
+          "friend",
+          "sister",
+          "brother",
+          "grandmother"
+        ],
+        "answer": null,
+        "say": "Who would you invite? Friend, sister, brother, or grandmother?"
+      },
+      {
+        "id": "birthdays-2-10",
+        "prompt": "What game would you play?",
+        "options": [
+          "puzzle",
+          "board-game",
+          "blocks",
+          "kite"
+        ],
+        "answer": null,
+        "say": "What game would you play? Puzzle, board game, blocks, or kite?"
       }
     ]
   }

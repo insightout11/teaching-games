@@ -1,0 +1,131 @@
+dinosaurs|Dinosaurs|dinosaurs
+Which animal lived long ago?|dinosaur|dog,duck,horse
+What might hide old footprints?|mud|cloud,pillow,cake
+Where could you find ancient tracks?|rock|sofa,bus,cup
+Which tool helps uncover a buried print?|shovel|spoon,hat,ball
+What could a dinosaur eat from a tree?|leaf|boots,coin,soap
+Which thing can show a dinosaur picture?|book|plate,boots,clock
+Which place could hold old dinosaur bones?|museum|bakery,airport,cinema
+Which dinosaur would you draw?| - |dinosaur,parrot,turtle,fox
+Where would you look for tracks?| - |rock,mud,sand,grass
+What would you bring on a dig?| - |shovel,flashlight,map,paintbrush
+
+fossils|Fossils|fossils
+Where might an old animal mark remain?|rock|pillow,balloon,soup
+What could cover a print over time?|sand|scarf,juice,bread
+Which tool brushes dirt from a rock?|paintbrush|racket,drum,spoon
+Which animal could leave an old shell?|snail|dog,bee,bird
+What might a scientist dig carefully?|rock|cake,sofa,coat
+Where can a class see ancient remains?|museum|restaurant,station,playground
+Which picture shows an ancient animal?|dinosaur|kitten,puppy,lamb
+Which rock would you inspect?| - |rock,sand,mud,shell
+What would you carry to a dig?| - |shovel,paintbrush,notebook,flashlight
+Which old creature would you investigate?| - |dinosaur,snail,fish,turtle
+
+the-sun|The Sun|the-sun
+What lights the daytime sky?|sun|moon,star,cloud
+What gives shade on a sunny day?|tree|rain,snow,wind
+Which thing helps protect sunny skin?|sunscreen|soap,glue,paint
+What can block bright sunlight?|umbrella|spoon,rope,ball
+Which plant needs sunlight to grow?|flower|chair,truck,clock
+When do you usually see the sun?|morning|night,winter,autumn
+What might melt in strong sunshine?|ice|rock,book,shoes
+Where would you enjoy sunshine?| - |beach,park,garden,island
+What would you wear in bright sun?| - |hat,cap,glasses,swimsuit
+What would you grow in sunlight?| - |flower,tree,seedling,grass
+
+planets|Planets|planets the-moon stars
+Which picture shows our home planet?|earth|moon,sun,star
+What circles our planet nearby?|moon|cloud,bird,airplane
+What shines far beyond our planet?|star|lamp,flashlight,candle
+Which thing can travel beyond Earth?|rocket|train,boat,bus
+What can show where planets are?|map|fork,scarf,drum
+Which object is a planet picture?|planet|balloon,apple,ball
+Which sky object lights our planet?|sun|moon,cloud,rainbow
+Which sky picture would you draw?| - |earth,moon,star,planet
+Where would you pretend to travel?| - |earth,moon,planet,star
+What would you take on a space trip?| - |rocket,map,book,camera
+
+rockets|Rockets|rockets the-moon
+Which vehicle goes into space?|rocket|bus,tram,ship
+What can a rocket pass above?|cloud|chair,river,road
+Which person may ride in a rocket?|astronaut|chef,farmer,vet
+Which planet can a rocket leave?|earth|sun,moon,star
+What may a rocket visit nearby?|moon|tree,lake,castle
+Where might you see a rocket exhibit?|museum|bakery,hospital,stadium
+What makes a paper rocket model?|paper|bread,sand,ice
+Where would your pretend rocket go?| - |moon,planet,star,earth
+What would you put in a rocket?| - |book,camera,water,flashlight
+Which vehicle would you draw beside it?| - |rocket,airplane,helicopter,hot-air-balloon
+
+astronauts|Astronauts|astronauts
+Who might travel in a rocket?|astronaut|doctor,driver,chef
+What can an astronaut photograph from space?|earth|sofa,oven,bridge
+Which vehicle carries an astronaut upward?|rocket|boat,bus,bike
+What might an astronaut see nearby?|moon|forest,shop,farm
+What does an astronaut need to drink?|water|sand,paint,soap
+Which tool helps record a space trip?|camera|rake,whisk,racket
+What might help in a dark cabin?|flashlight|umbrella,shovel,ball
+What would you pack for space?| - |water,book,camera,map
+Which view would you photograph?| - |earth,moon,planet,star
+Who would join your pretend crew?| - |astronaut,pilot,friend,teacher
+
+volcanoes|Volcanoes|volcanoes
+Which landform can erupt?|volcano|lake,bridge,forest
+What hot thing may glow during eruption?|fire|ice,snow,water
+What may rise above an erupting mountain?|cloud|rug,pillow,table
+Which place could be near a volcano?|island|bedroom,station,kitchen
+What should walkers use to leave safely?|road|sofa,boat,ladder
+Who can help people during danger?|firefighter|singer,artist,chef
+Which object can show a safe route?|map|clock,plate,hat
+Where would you watch from safety?| - |hill,beach,boat,city
+What would you carry on a walk?| - |map,water,phone,backpack
+Which land shape would you model?| - |volcano,mountain,hill,island
+
+earthquakes|Earthquakes|earthquakes
+What may shake in an earthquake?|house|cloud,sun,moon
+What should children get under indoors?|table|window,tree,road
+What may fall from a shelf?|book|river,rainbow,wind
+Who can help after a strong shake?|firefighter|actor,chef,singer
+Which place is open and clear outside?|park|cave,kitchen,bedroom
+What can a family use to call?|phone|spoon,drum,shoes
+What shows a way to a safe place?|map|pillow,cake,scarf
+Who would you help first?| - |baby,friend,dog,cat
+What would you keep ready?| - |water,flashlight,phone,blanket
+Where would your family meet outdoors?| - |park,garden,playground,stadium
+
+deserts|Deserts|deserts
+Which plant grows in dry places?|cactus|seaweed,coral,flower
+Which animal can cross hot sand?|camel|penguin,dolphin,seal
+What covers many desert paths?|sand|snow,ice,grass
+What must walkers carry to drink?|water|paint,soap,glue
+What shines strongly above a desert?|sun|moon,star,cloud
+Which thing can give a walker shade?|hat|spoon,socks,watch
+What could a desert traveler follow?|map|pillow,plate,drum
+Which desert sight would you draw?| - |cactus,camel,sand,sun
+What would you pack for a hot walk?| - |water,hat,map,sunscreen
+Where would you rest in shade?| - |tent,tree,house,bridge
+
+festivals-around-the-world|Festivals Around the World|festivals-around-the-world
+What might friends hang for a festival?|flag|toothbrush,ladder,spoon
+What could a family share at a celebration?|cake|soap,glue,sand
+Which instrument can lead a parade?|drum|ruler,broom,scarf
+What can people wear for a performance?|costume|towel,slippers,raincoat
+What might light a family table?|candle|rock,ball,coin
+Which action can people do together?|dance|sleep,cry,fall
+Who might sing at a celebration?|singer|pilot,dentist,farmer
+Which festival sound would you choose?| - |drum,guitar,flute,violin
+What would you bring to share?| - |cake,apple,flower,present
+How would you celebrate with friends?| - |dance,sing,clap,draw
+
+superheroes|Superheroes|superheroes
+Who helps put out a fire?|firefighter|actor,chef,artist
+Who helps an injured friend?|nurse|singer,farmer,driver
+What can a hero carry to someone thirsty?|water|sand,paint,glue
+What helps a small child across safely?|crosswalk|river,lake,forest
+What could cover a friend's scraped knee?|bandage|scarf,button,zipper
+What action can lift a fallen box?|carry|sleep,read,sing
+What feeling helps someone offer help?|brave|bored,sleepy,hungry
+Who is a hero in your town?| - |nurse,doctor,firefighter,teacher
+What kind act would you try?| - |hug,carry,listen,wave
+Who would your story hero help?| - |baby,friend,dog,cat

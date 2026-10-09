@@ -1,0 +1,120 @@
+dino-tracks|Mina Finds the Tracks|A1|dinosaurs|girl father|dinosaur mud rock shovel book museum
+P|Mina sees three big marks in mud.|girl mud
+P|She thinks a dinosaur made them.|girl dinosaur
+P|Dad says dinosaurs lived long ago.|father dinosaur
+P|They make new tracks with a toy dinosaur.|girl dinosaur mud
+P|Mina draws the tracks in her book.|girl book
+P|At the museum, she finds real old tracks.|girl museum rock
+Q|Where are Mina's first tracks?|mud sand snow|mud
+Q|What does Mina draw in?|book map paper|book
+Q|Where does Mina see old tracks?|museum bakery park|museum
+
+shell-in-stone|The Shell in the Stone|A1|fossils|boy grandmother|rock shell shovel paintbrush museum book
+P|Leo finds a shell shape in a rock.|boy rock shell
+P|He cannot pull the shell out.|boy rock
+P|Grandma says the old mark is a fossil.|grandmother rock
+P|Leo brushes away the loose sand.|boy paintbrush sand
+P|They carry the rock to a museum.|boy grandmother museum
+P|Leo leaves the old shell safely inside.|boy rock shell
+Q|What shape is in the rock?|shell leaf star|shell
+Q|What does Leo brush away?|sand snow flour|sand
+Q|Where does Leo take the rock?|museum shop zoo|museum
+
+sunflower-shade|The Hot Garden|A1|the-sun seasons|girl mother|sun flower tree water hat seedling
+P|The sun makes Nia's garden hot.|girl sun garden
+P|One small flower bends its head.|flower sun
+P|Nia gives the flower some water.|girl water flower
+P|Mum moves its pot beside a tree.|mother tree flower
+P|The tree gives the flower cool shade.|tree flower
+P|The flower stands tall in the morning.|flower morning sun
+Q|What is hot above the garden?|sun moon cloud|sun
+Q|What does Nia give the flower?|water milk juice|water
+Q|What gives the flower shade?|tree bus chair|tree
+
+planet-ball|The Lost Blue Planet|A1|planets the-moon stars|boy sister|earth planet ball moon star rocket
+P|Oli makes a blue Earth from a ball.|boy ball earth
+P|His sister makes the moon from paper.|sister moon paper
+P|Oli puts the planets beside the window.|boy planet window
+P|A strong wind rolls Earth away.|wind earth
+P|His sister finds it under the sofa.|sister sofa earth
+P|They put Earth back beside the moon.|earth moon boy
+Q|What is Oli's blue planet?|earth moon sun|earth
+Q|Where does Earth roll?|sofa bed table|sofa
+Q|Who makes the paper moon?|sister mother teacher|sister
+
+paper-rocket|The Paper Rocket|A1|rockets|girl brother|rocket paper moon tree wind glue
+P|Ada builds a rocket from paper.|girl paper rocket
+P|Her brother draws a moon on it.|brother moon rocket
+P|They send the rocket across the garden.|girl rocket garden
+P|The wind puts it in a tree.|wind rocket tree
+P|Her brother reaches it with a ladder.|brother ladder rocket
+P|They fix the wing and fly it again.|girl brother rocket
+Q|What is Ada's rocket made from?|paper tree rock|paper
+Q|What is drawn on the rocket?|moon sun star|moon
+Q|Where does the wind put it?|tree house road|tree
+
+space-camera|An Astronaut's Photo|A1|astronauts|girl father|astronaut camera earth rocket moon window
+P|Ivy pretends to be an astronaut.|girl astronaut
+P|Dad makes a rocket from a box.|father box rocket
+P|Ivy sees Earth through the window.|girl earth window
+P|Her camera falls behind the seat.|camera chair
+P|Dad finds it beside her boot.|father camera boots
+P|Ivy takes her space photo at last.|girl camera earth
+Q|What does Ivy pretend to be?|astronaut pilot chef|astronaut
+Q|What does Dad use for the rocket?|box basket bag|box
+Q|What does Ivy lose?|camera book hat|camera
+
+volcano-walk|The Volcano Walk|A1|volcanoes rainforests|boy mother|volcano island map hill water cloud
+P|Tari and Mum walk through a rainforest.|boy mother forest
+P|They see a volcano beyond the hill.|volcano hill
+P|A dark cloud rises from the top.|cloud volcano
+P|Mum says it is time to leave.|mother boy
+P|They follow their map back to the boat.|map boat island
+P|Tari draws the volcano from far away.|boy volcano boat
+Q|Where do Tari and Mum walk?|island city farm|island
+Q|What rises above the volcano?|cloud rainbow star|cloud
+Q|What do they follow back?|map clock flag|map
+
+shaky-shelf|The Shaky Shelf|A1|earthquakes|girl teacher|table book classroom flashlight water phone
+P|Lina feels the classroom floor shake.|girl classroom
+P|A book falls from the shelf.|book bookshelf
+P|Teacher tells everyone to get under tables.|teacher table
+P|The shaking stops after a little while.|girl table
+P|They walk together to the playground.|teacher girl playground
+P|Lina helps her friend find a shoe.|girl friend shoes
+Q|What falls from the shelf?|book ball cup|book
+Q|Where do the children get?|table bed car|table
+Q|Where do they meet outside?|playground kitchen bathroom|playground
+
+camel-water|The Camel's Water|A1|deserts|boy grandmother|camel water cactus sand sun hat
+P|A camel walks beside Sami in the desert.|camel boy sand
+P|Sami's water bottle is almost empty.|boy bottle water
+P|Grandma points to a shady tent.|grandmother tent
+P|They rest there and fill the bottle.|boy grandmother water
+P|Sami gives the camel a drink.|boy camel water
+P|The camel walks on beside them.|camel boy sand
+Q|Which animal walks with Sami?|camel horse sheep|camel
+Q|Where do they rest?|tent boat school|tent
+Q|What does Sami share?|water cake milk|water
+
+festival-drum|The Quiet Festival Drum|A1|festivals-around-the-world|girl grandfather|drum flag candle dance cake rope
+P|Noor brings her drum to the festival.|girl drum flag
+P|The drum makes no sound at all.|girl drum
+P|Grandpa finds a loose rope underneath.|grandfather drum rope
+P|He ties the rope tight again.|grandfather rope drum
+P|Noor plays while the neighbors dance.|girl drum dance
+P|Everyone shares cake after the music.|cake girl grandfather
+Q|What does Noor bring?|drum guitar flute|drum
+Q|What is loose underneath?|rope button zipper|rope
+Q|What do people share afterward?|cake soup bread|cake
+
+small-hero|The Smallest Hero|A1|superheroes|boy baby|baby ball road crosswalk father carry
+P|Pip wants to be a superhero.|boy crown
+P|He sees a baby drop her ball.|baby ball
+P|The ball rolls toward the road.|ball road
+P|Pip asks Dad to stop the baby.|boy father baby
+P|Dad picks up the ball safely.|father ball
+P|The baby smiles at her small hero.|baby boy smile
+Q|What does the baby drop?|ball book doll|ball
+Q|Who helps Pip stop the baby?|father mother teacher|father
+Q|How does the baby feel?|happy sad scared|happy

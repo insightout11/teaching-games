@@ -1,0 +1,119 @@
+zoo-map|The Map at the Zoo|A2|elephants giraffes zebras lions tigers pandas|girl father|map zoo elephant giraffe zebra panda
+P|Amira and Dad visited the zoo with a map.|girl father zoo
+P|They watched an elephant and a tall giraffe.|elephant giraffe
+P|Two zebras ran past the lion's quiet home.|zebra lion
+P|At the tiger enclosure, Amira lost her map.|girl tiger map
+P|Dad looked beside a bench but found nothing.|father bench
+P|A keeper found the map near the pandas.|panda map
+P|Amira thanked her and chose their next stop.|girl map zoo
+Q|What did Amira lose?|map camera hat|map
+Q|Where was the map found?|panda tiger elephant|panda
+Q|Who went with Amira?|father mother sister|father
+
+garden-basket|The Garden Basket|A2|fruits vegetables bees|boy grandmother|basket apple carrot bee flower rabbit
+P|Ben picked apples and carrots with Grandma.|boy grandmother basket
+P|He left their basket beside a flower.|basket flower
+P|A rabbit nibbled one carrot and ran away.|rabbit carrot
+P|Ben worried there would be no lunch.|boy carrot
+P|Grandma showed him more carrots in the garden.|grandmother garden carrot
+P|A bee visited the flowers above their heads.|bee flower
+P|They filled the basket and shared lunch outside.|boy grandmother basket
+Q|What did the rabbit nibble?|carrot apple pear|carrot
+Q|Who showed Ben more vegetables?|grandmother father teacher|grandmother
+Q|What visited the flowers?|bee butterfly bird|bee
+
+autumn-game|The Missing Game Piece|A2|family-traditions seasons board-games|girl brother|autumn board-game sister sofa blanket puzzle
+P|Cold autumn rain kept Tara's family indoors.|girl rain house
+P|Her brother brought out their favorite board game.|brother board-game
+P|One small piece was missing from the box.|box board-game
+P|Tara looked beneath the table and rug.|girl table rug
+P|Her sister lifted the blanket from the sofa.|sister blanket sofa
+P|The missing piece rolled out at her feet.|board-game foot
+P|They played until the rain stopped outside.|girl brother board-game
+Q|What season was it?|autumn summer spring|autumn
+Q|What was missing?|board-game spoon balloon|board-game
+Q|Where did the piece hide?|blanket fridge garden|blanket
+
+bell-puzzle|The Bell Puzzle|A2|school-day classroom-rules puzzles the-five-senses|girl teacher|puzzle ear eye bell desk classroom
+P|Maya's class heard a bell behind the desk.|girl ear desk
+P|Teacher asked everyone to listen and take turns.|teacher classroom
+P|Maya used her ears to find the sound.|girl ear bell
+P|Her friend used her eyes to spot clues.|friend eye
+P|They put three puzzle pieces together.|puzzle girl friend
+P|The picture showed a bell beneath the desk.|bell desk
+P|Maya found it and rang it for class.|girl bell classroom
+Q|What did Maya hear?|bell drum guitar|bell
+Q|What did the children put together?|puzzle blocks marbles|puzzle
+Q|Where was the bell?|desk table bookshelf|desk
+
+snowy-zoo|Snow at the Zoo|A2|snow penguins polar-bears|boy mother|snow zoo penguin polar-bear scarf map
+P|Snow fell before Luca's trip to the zoo.|boy snow zoo
+P|He feared every animal would stay inside.|boy mother
+P|The penguins still waddled beside their pool.|penguin swimming-pool
+P|A polar bear played in a separate snowy space.|polar-bear snow
+P|Luca dropped his scarf near the penguin sign.|boy scarf penguin
+P|Mum followed their footprints and found it.|mother snow scarf
+P|Luca watched the animals with warm hands.|boy penguin polar-bear
+Q|What fell before the zoo trip?|snow rain leaf|snow
+Q|What did Luca drop?|scarf hat gloves|scarf
+Q|Who found the scarf?|mother teacher father|mother
+
+airport-ticket|The Ticket at the Airport|A2|airplanes jobs-people-do|girl pilot|airport airplane pilot station-worker paper bag
+P|Suri carried her bag into the busy airport.|girl bag airport
+P|Her paper ticket slipped from her hand.|girl paper
+P|She could not find it by the gate.|girl door
+P|A station worker spotted it near a chair.|station-worker chair paper
+P|Suri thanked him and hurried to the plane.|girl airplane
+P|The pilot welcomed everyone on board.|pilot airplane
+P|Suri sat down and watched the runway pass.|girl airplane window
+Q|What did Suri lose?|paper map book|paper
+Q|Who found the lost ticket?|station-worker pilot chef|station-worker
+Q|Who welcomed the passengers?|pilot driver farmer|pilot
+
+reef-sketch|The Hidden Reef|A2|oceans dolphins whales sharks coral-reefs|boy father|boat coral whale dolphin shark camera
+P|Noah and Dad sailed over a coral reef.|boy father boat
+P|Cloudy water hid the colors below them.|cloud sea
+P|A dolphin leaped beside their boat.|dolphin boat
+P|Farther away, they spotted a whale's tail.|whale sea
+P|Their guide pointed out a passing shark.|shark sea
+P|The boat moved where the water looked clear.|boat sea
+P|Noah finally saw coral and took a picture.|boy coral camera
+Q|What hid the reef colors?|water sand ice|water
+Q|What leaped beside the boat?|dolphin whale shark|dolphin
+Q|What did Noah finally photograph?|coral tree car|coral
+
+horse-and-frog|The Frog in the Bucket|A2|caring-for-pets horses frogs|girl father|horse frog bucket water farm grass
+P|Elia helped Dad feed their horse at the farm.|girl father horse
+P|She heard a small splash inside a bucket.|girl bucket
+P|A frog was trapped in the deep water.|frog bucket water
+P|Elia held the bucket low and tipped it.|girl bucket
+P|The frog hopped out onto the grass.|frog grass
+P|Dad gave the horse fresh food and water.|father horse water
+P|Elia watched the frog hop safely away.|girl frog farm
+Q|Which animal needed help?|frog horse cow|frog
+Q|Where was it trapped?|bucket basket box|bucket
+Q|Which animal did Elia feed?|horse rabbit goat|horse
+
+four-games|The Four Sports|A2|basketball swimming running dancing|boy friend|basketball swimming-pool run dance shoes ball
+P|Kai joined a school sports day with Imani.|boy friend stadium
+P|First, he ran too fast and lost a shoe.|boy run shoes
+P|Imani carried it back before the basketball game.|friend basketball shoes
+P|Kai passed the ball instead of rushing.|boy basketball
+P|At the pool, they swam with their teacher.|boy friend swimming-pool
+P|The final event was a dance together.|boy friend dance
+P|Kai thanked Imani for saving his day.|boy friend smile
+Q|What did Kai lose?|shoes ball cap|shoes
+Q|Which game came after the race?|basketball tennis football|basketball
+Q|Where did the class swim?|swimming-pool sea lake|swimming-pool
+
+zoo-birthday|Birthday at the Zoo|A2|birthday-parties koalas kangaroos|girl mother|birthday koala kangaroo cake candle basket
+P|Mila chose the zoo for her birthday party.|girl birthday zoo
+P|She watched a koala rest in a tree.|koala tree
+P|Then a kangaroo jumped with its baby.|kangaroo baby
+P|Mum opened the cake box but found no candle.|mother cake box
+P|Mila looked worried until a friend arrived.|girl friend
+P|Her friend had carried the candle in a basket.|friend candle basket
+P|Everyone sang while the kangaroos hopped nearby.|cake kangaroo girl
+Q|Which animal rested in a tree?|koala kangaroo panda|koala
+Q|What was missing from the cake?|candle cherry cookie|candle
+Q|Where did the friend carry it?|basket bag box|basket
