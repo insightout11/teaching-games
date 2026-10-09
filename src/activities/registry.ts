@@ -3,6 +3,7 @@ import { isRetired } from '@/lib/retired-plugins';
 import type { ActivityPlugin, ActivityCategory } from './types';
 import { wouldYouRatherPlugin } from './would-you-rather';
 import { pictureQuizPlugin } from './picture-quiz';
+import { pictureStoriesPlugin } from './picture-stories';
 import { hotTakeArenaPlugin } from './hot-take-arena';
 import { twoTruthsPlugin } from './two-truths';
 import { rankItPlugin } from './rank-it';
@@ -131,6 +132,7 @@ const activities: ActivityPlugin[] = [
   sceneIgniterPlugin,
   wouldYouRatherPlugin,
   pictureQuizPlugin,
+  pictureStoriesPlugin,
   twoTruthsPlugin,
   rankItPlugin,
   // Learning modules

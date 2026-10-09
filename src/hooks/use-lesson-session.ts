@@ -420,8 +420,8 @@ export function useLessonSession(
       return { ...switchedSuitcase, topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
     }
     // Picture Quiz runs from the Junior picture-question bank — no AI generation.
-    if (activity.key === 'picture-quiz') {
-      return { activityKey: 'picture-quiz', topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
+    if (activity.key === 'picture-quiz' || activity.key === 'picture-stories') {
+      return { activityKey: activity.key, topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
     }
     // Trip Recap seeds itself from the session trip log — no AI generation.
     if (activity.key === 'trip-recap') {
