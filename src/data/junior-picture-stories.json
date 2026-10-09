@@ -1,0 +1,3924 @@
+[
+  {
+    "id": "lost-kite",
+    "title": "Ana and the Lost Kite",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-kites",
+      "topic-kids-wind"
+    ],
+    "cast": [
+      "girl",
+      "dog"
+    ],
+    "pages": [
+      {
+        "text": "Ana has a red kite.",
+        "pictures": [
+          "girl",
+          "kite"
+        ]
+      },
+      {
+        "text": "The wind takes the kite away.",
+        "pictures": [
+          "wind",
+          "kite"
+        ]
+      },
+      {
+        "text": "The kite sits in a tree.",
+        "pictures": [
+          "kite",
+          "tree"
+        ]
+      },
+      {
+        "text": "Ana's dog looks up and barks.",
+        "pictures": [
+          "dog",
+          "tree"
+        ]
+      },
+      {
+        "text": "Dad brings a ladder and gets the kite.",
+        "pictures": [
+          "father",
+          "ladder",
+          "kite"
+        ]
+      },
+      {
+        "text": "Ana and her dog fly it again.",
+        "pictures": [
+          "girl",
+          "dog",
+          "kite"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Ana lose?",
+        "options": [
+          "kite",
+          "ball",
+          "book"
+        ],
+        "answer": "kite"
+      },
+      {
+        "prompt": "Where does the kite land?",
+        "options": [
+          "tree",
+          "house",
+          "bus"
+        ],
+        "answer": "tree"
+      },
+      {
+        "prompt": "What does Dad bring?",
+        "options": [
+          "ladder",
+          "rope",
+          "bike"
+        ],
+        "answer": "ladder"
+      }
+    ],
+    "words": [
+      "kite",
+      "wind",
+      "tree",
+      "dog",
+      "ladder",
+      "father"
+    ]
+  },
+  {
+    "id": "rainy-boots",
+    "title": "Kofi's Rainy Boots",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-rain",
+      "topic-kids-school-day"
+    ],
+    "cast": [
+      "boy",
+      "mother"
+    ],
+    "pages": [
+      {
+        "text": "Kofi sees rain outside his window.",
+        "pictures": [
+          "boy",
+          "rain",
+          "window"
+        ]
+      },
+      {
+        "text": "He wants his boots for school.",
+        "pictures": [
+          "boy",
+          "boots",
+          "school"
+        ]
+      },
+      {
+        "text": "Kofi's boots are not by the door.",
+        "pictures": [
+          "boots",
+          "door"
+        ]
+      },
+      {
+        "text": "Mum finds them under the bed.",
+        "pictures": [
+          "mother",
+          "bed",
+          "boots"
+        ]
+      },
+      {
+        "text": "Kofi puts on both boots.",
+        "pictures": [
+          "boy",
+          "boots"
+        ]
+      },
+      {
+        "text": "He jumps over a puddle and laughs.",
+        "pictures": [
+          "boy",
+          "puddle",
+          "laugh"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What is outside Kofi's window?",
+        "options": [
+          "rain",
+          "snow",
+          "sun"
+        ],
+        "answer": "rain"
+      },
+      {
+        "prompt": "Where is the missing boot?",
+        "options": [
+          "bed",
+          "table",
+          "car"
+        ],
+        "answer": "bed"
+      },
+      {
+        "prompt": "What does Kofi jump over?",
+        "options": [
+          "puddle",
+          "rock",
+          "box"
+        ],
+        "answer": "puddle"
+      }
+    ],
+    "words": [
+      "rain",
+      "boots",
+      "bed",
+      "mother",
+      "puddle",
+      "school"
+    ]
+  },
+  {
+    "id": "kitten-basket",
+    "title": "Mei Finds the Kitten",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-cats",
+      "topic-kids-caring-for-pets"
+    ],
+    "cast": [
+      "girl",
+      "kitten"
+    ],
+    "pages": [
+      {
+        "text": "Mei's kitten is not on the bed.",
+        "pictures": [
+          "girl",
+          "kitten",
+          "bed"
+        ]
+      },
+      {
+        "text": "Mei looks behind the sofa.",
+        "pictures": [
+          "girl",
+          "sofa"
+        ]
+      },
+      {
+        "text": "She hears a small meow in the kitchen.",
+        "pictures": [
+          "girl",
+          "kitchen",
+          "kitten"
+        ]
+      },
+      {
+        "text": "The kitten sleeps in a basket.",
+        "pictures": [
+          "kitten",
+          "basket",
+          "sleep"
+        ]
+      },
+      {
+        "text": "Mei puts water beside the basket.",
+        "pictures": [
+          "girl",
+          "water",
+          "basket"
+        ]
+      },
+      {
+        "text": "The kitten wakes and rubs Mei's hand.",
+        "pictures": [
+          "kitten",
+          "girl",
+          "hand"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "Who is missing?",
+        "options": [
+          "kitten",
+          "puppy",
+          "rabbit"
+        ],
+        "answer": "kitten"
+      },
+      {
+        "prompt": "Where does the kitten sleep?",
+        "options": [
+          "basket",
+          "bed",
+          "box"
+        ],
+        "answer": "basket"
+      },
+      {
+        "prompt": "What does Mei bring?",
+        "options": [
+          "water",
+          "milk",
+          "juice"
+        ],
+        "answer": "water"
+      }
+    ],
+    "words": [
+      "kitten",
+      "basket",
+      "bed",
+      "water",
+      "girl",
+      "hand"
+    ]
+  },
+  {
+    "id": "shared-lunch",
+    "title": "Omar Shares Lunch",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-school-lunch",
+      "topic-kids-making-friends"
+    ],
+    "cast": [
+      "boy",
+      "girl"
+    ],
+    "pages": [
+      {
+        "text": "Omar opens his lunchbox at school.",
+        "pictures": [
+          "boy",
+          "lunchbox",
+          "school"
+        ]
+      },
+      {
+        "text": "His sandwich is not there.",
+        "pictures": [
+          "lunchbox",
+          "sandwich"
+        ]
+      },
+      {
+        "text": "Omar feels hungry and sits alone.",
+        "pictures": [
+          "boy",
+          "hungry",
+          "table"
+        ]
+      },
+      {
+        "text": "Lila sees Omar and brings an apple.",
+        "pictures": [
+          "girl",
+          "apple",
+          "boy"
+        ]
+      },
+      {
+        "text": "They share Lila's sandwich at a table.",
+        "pictures": [
+          "girl",
+          "boy",
+          "sandwich"
+        ]
+      },
+      {
+        "text": "Omar smiles and shares his orange.",
+        "pictures": [
+          "boy",
+          "girl",
+          "orange"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What is missing from Omar's lunchbox?",
+        "options": [
+          "sandwich",
+          "apple",
+          "cookie"
+        ],
+        "answer": "sandwich"
+      },
+      {
+        "prompt": "What does Lila bring first?",
+        "options": [
+          "apple",
+          "banana",
+          "cake"
+        ],
+        "answer": "apple"
+      },
+      {
+        "prompt": "What does Omar share at the end?",
+        "options": [
+          "orange",
+          "bread",
+          "cheese"
+        ],
+        "answer": "orange"
+      }
+    ],
+    "words": [
+      "lunchbox",
+      "sandwich",
+      "apple",
+      "orange",
+      "table",
+      "girl"
+    ]
+  },
+  {
+    "id": "little-seed",
+    "title": "Lila's Little Seed",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-plant-growth"
+    ],
+    "cast": [
+      "girl"
+    ],
+    "pages": [
+      {
+        "text": "Lila puts a seed in the garden.",
+        "pictures": [
+          "girl",
+          "seed",
+          "garden"
+        ]
+      },
+      {
+        "text": "She looks for a flower the next day.",
+        "pictures": [
+          "girl",
+          "flower"
+        ]
+      },
+      {
+        "text": "There is no flower yet.",
+        "pictures": [
+          "garden",
+          "flower"
+        ]
+      },
+      {
+        "text": "Lila gives the seed water each morning.",
+        "pictures": [
+          "girl",
+          "watering-can",
+          "seed"
+        ]
+      },
+      {
+        "text": "A small seedling comes up.",
+        "pictures": [
+          "seedling",
+          "garden"
+        ]
+      },
+      {
+        "text": "Soon Lila sees a yellow flower.",
+        "pictures": [
+          "girl",
+          "flower",
+          "sun"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Lila plant?",
+        "options": [
+          "seed",
+          "rock",
+          "acorn"
+        ],
+        "answer": "seed"
+      },
+      {
+        "prompt": "What does Lila give it?",
+        "options": [
+          "water",
+          "juice",
+          "milk"
+        ],
+        "answer": "water"
+      },
+      {
+        "prompt": "What grows first?",
+        "options": [
+          "seedling",
+          "tree",
+          "cactus"
+        ],
+        "answer": "seedling"
+      }
+    ],
+    "words": [
+      "seed",
+      "garden",
+      "watering-can",
+      "seedling",
+      "flower",
+      "sun"
+    ]
+  },
+  {
+    "id": "dog-shoe",
+    "title": "Sam's Silly Shoe",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-dogs",
+      "topic-kids-caring-for-pets"
+    ],
+    "cast": [
+      "boy",
+      "dog"
+    ],
+    "pages": [
+      {
+        "text": "Sam has one shoe by the door.",
+        "pictures": [
+          "boy",
+          "shoes",
+          "door"
+        ]
+      },
+      {
+        "text": "His other shoe is gone.",
+        "pictures": [
+          "boy",
+          "shoes"
+        ]
+      },
+      {
+        "text": "Sam looks under his bed.",
+        "pictures": [
+          "boy",
+          "bed"
+        ]
+      },
+      {
+        "text": "His dog runs past with the shoe.",
+        "pictures": [
+          "dog",
+          "shoes",
+          "run"
+        ]
+      },
+      {
+        "text": "Sam offers the dog a ball.",
+        "pictures": [
+          "boy",
+          "dog",
+          "ball"
+        ]
+      },
+      {
+        "text": "The dog drops the shoe and takes the ball.",
+        "pictures": [
+          "dog",
+          "shoes",
+          "ball"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Sam lose?",
+        "options": [
+          "shoes",
+          "hat",
+          "bag"
+        ],
+        "answer": "shoes"
+      },
+      {
+        "prompt": "Who has the shoe?",
+        "options": [
+          "dog",
+          "cat",
+          "bird"
+        ],
+        "answer": "dog"
+      },
+      {
+        "prompt": "What does Sam offer?",
+        "options": [
+          "ball",
+          "bag",
+          "book"
+        ],
+        "answer": "ball"
+      }
+    ],
+    "words": [
+      "dog",
+      "shoes",
+      "bed",
+      "door",
+      "boy",
+      "ball"
+    ]
+  },
+  {
+    "id": "puddle-boat",
+    "title": "Nia's Paper Boat",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-rain",
+      "topic-kids-boats"
+    ],
+    "cast": [
+      "girl"
+    ],
+    "pages": [
+      {
+        "text": "Nia makes a boat from paper.",
+        "pictures": [
+          "girl",
+          "paper",
+          "boat"
+        ]
+      },
+      {
+        "text": "Rain fills a puddle outside.",
+        "pictures": [
+          "rain",
+          "puddle"
+        ]
+      },
+      {
+        "text": "Nia puts her boat on the water.",
+        "pictures": [
+          "girl",
+          "boat",
+          "puddle"
+        ]
+      },
+      {
+        "text": "The wind pushes it far away.",
+        "pictures": [
+          "wind",
+          "boat"
+        ]
+      },
+      {
+        "text": "Nia reaches out and catches the boat.",
+        "pictures": [
+          "girl",
+          "hand",
+          "boat"
+        ]
+      },
+      {
+        "text": "She lets it sail beside her again.",
+        "pictures": [
+          "girl",
+          "boat",
+          "smile"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Nia make?",
+        "options": [
+          "boat",
+          "kite",
+          "hat"
+        ],
+        "answer": "boat"
+      },
+      {
+        "prompt": "What fills the puddle?",
+        "options": [
+          "rain",
+          "snow",
+          "sand"
+        ],
+        "answer": "rain"
+      },
+      {
+        "prompt": "What pushes the boat away?",
+        "options": [
+          "wind",
+          "dog",
+          "fish"
+        ],
+        "answer": "wind"
+      }
+    ],
+    "words": [
+      "paper",
+      "boat",
+      "rain",
+      "puddle",
+      "hand",
+      "smile"
+    ]
+  },
+  {
+    "id": "new-ball-friend",
+    "title": "Jo and the New Friend",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-making-friends",
+      "topic-kids-playgrounds"
+    ],
+    "cast": [
+      "boy",
+      "girl"
+    ],
+    "pages": [
+      {
+        "text": "Jo takes a ball to the playground.",
+        "pictures": [
+          "boy",
+          "ball",
+          "playground"
+        ]
+      },
+      {
+        "text": "The ball rolls away from him.",
+        "pictures": [
+          "ball",
+          "playground"
+        ]
+      },
+      {
+        "text": "A new girl catches it.",
+        "pictures": [
+          "girl",
+          "catch",
+          "ball"
+        ]
+      },
+      {
+        "text": "Jo asks her to play.",
+        "pictures": [
+          "boy",
+          "girl",
+          "talk"
+        ]
+      },
+      {
+        "text": "They throw the ball to each other.",
+        "pictures": [
+          "girl",
+          "boy",
+          "throw"
+        ]
+      },
+      {
+        "text": "Jo has a new friend at the end.",
+        "pictures": [
+          "boy",
+          "girl",
+          "friend"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Jo bring?",
+        "options": [
+          "ball",
+          "kite",
+          "book"
+        ],
+        "answer": "ball"
+      },
+      {
+        "prompt": "Who catches the ball?",
+        "options": [
+          "girl",
+          "dog",
+          "teacher"
+        ],
+        "answer": "girl"
+      },
+      {
+        "prompt": "What do they do together?",
+        "options": [
+          "throw",
+          "sleep",
+          "cook"
+        ],
+        "answer": "throw"
+      }
+    ],
+    "words": [
+      "ball",
+      "playground",
+      "friend",
+      "play",
+      "throw",
+      "catch"
+    ]
+  },
+  {
+    "id": "lost-teddy",
+    "title": "Taro's Teddy at Bedtime",
+    "level": "A1",
+    "topicIds": [
+      "topic-teens-sleep-and-learning"
+    ],
+    "cast": [
+      "boy",
+      "teddy-bear"
+    ],
+    "pages": [
+      {
+        "text": "Taro puts his teddy on the bed.",
+        "pictures": [
+          "boy",
+          "teddy-bear",
+          "bed"
+        ]
+      },
+      {
+        "text": "The teddy falls behind the sofa.",
+        "pictures": [
+          "teddy-bear",
+          "sofa"
+        ]
+      },
+      {
+        "text": "Taro looks on the pillow first.",
+        "pictures": [
+          "boy",
+          "pillow"
+        ]
+      },
+      {
+        "text": "Dad brings a flashlight to help.",
+        "pictures": [
+          "father",
+          "flashlight"
+        ]
+      },
+      {
+        "text": "They find the teddy behind the sofa.",
+        "pictures": [
+          "boy",
+          "teddy-bear",
+          "sofa"
+        ]
+      },
+      {
+        "text": "Taro hugs it and goes to sleep.",
+        "pictures": [
+          "boy",
+          "teddy-bear",
+          "sleep"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Taro lose?",
+        "options": [
+          "teddy-bear",
+          "ball",
+          "robot"
+        ],
+        "answer": "teddy-bear"
+      },
+      {
+        "prompt": "Where is the teddy?",
+        "options": [
+          "sofa",
+          "bath",
+          "garden"
+        ],
+        "answer": "sofa"
+      },
+      {
+        "prompt": "What does Dad bring?",
+        "options": [
+          "flashlight",
+          "candle",
+          "lamp"
+        ],
+        "answer": "flashlight"
+      }
+    ],
+    "words": [
+      "teddy-bear",
+      "bed",
+      "sofa",
+      "flashlight",
+      "pillow",
+      "sleep"
+    ]
+  },
+  {
+    "id": "picnic-ants",
+    "title": "Ravi and the Picnic Ants",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-forests",
+      "topic-kids-holidays"
+    ],
+    "cast": [
+      "boy",
+      "ant"
+    ],
+    "pages": [
+      {
+        "text": "Ravi puts a sandwich on a plate.",
+        "pictures": [
+          "boy",
+          "sandwich",
+          "plate"
+        ]
+      },
+      {
+        "text": "Small ants walk toward the food.",
+        "pictures": [
+          "ant",
+          "sandwich"
+        ]
+      },
+      {
+        "text": "Ravi moves the plate away.",
+        "pictures": [
+          "boy",
+          "plate"
+        ]
+      },
+      {
+        "text": "He sees an apple under a tree.",
+        "pictures": [
+          "apple",
+          "tree"
+        ]
+      },
+      {
+        "text": "Ravi puts the apple in his basket.",
+        "pictures": [
+          "boy",
+          "apple",
+          "basket"
+        ]
+      },
+      {
+        "text": "Ravi eats as the ants march away.",
+        "pictures": [
+          "boy",
+          "sandwich",
+          "ant"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What walks toward the food?",
+        "options": [
+          "ant",
+          "bee",
+          "spider"
+        ],
+        "answer": "ant"
+      },
+      {
+        "prompt": "What does Ravi move?",
+        "options": [
+          "plate",
+          "chair",
+          "box"
+        ],
+        "answer": "plate"
+      },
+      {
+        "prompt": "What goes in the basket?",
+        "options": [
+          "apple",
+          "sandwich",
+          "cookie"
+        ],
+        "answer": "apple"
+      }
+    ],
+    "words": [
+      "ant",
+      "sandwich",
+      "plate",
+      "apple",
+      "basket",
+      "tree"
+    ]
+  },
+  {
+    "id": "red-balloon",
+    "title": "Amina's Red Balloon",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-birthday-parties",
+      "topic-kids-wind"
+    ],
+    "cast": [
+      "girl",
+      "mother"
+    ],
+    "pages": [
+      {
+        "text": "Amina carries a balloon to a party.",
+        "pictures": [
+          "girl",
+          "balloon",
+          "party"
+        ]
+      },
+      {
+        "text": "The wind pulls it from her hand.",
+        "pictures": [
+          "wind",
+          "balloon",
+          "hand"
+        ]
+      },
+      {
+        "text": "Amina watches it float above Mum.",
+        "pictures": [
+          "girl",
+          "balloon",
+          "mother"
+        ]
+      },
+      {
+        "text": "Mum reaches up and catches the string.",
+        "pictures": [
+          "mother",
+          "hand",
+          "balloon"
+        ]
+      },
+      {
+        "text": "She gives the balloon back to Amina.",
+        "pictures": [
+          "mother",
+          "girl",
+          "balloon"
+        ]
+      },
+      {
+        "text": "Amina holds it tight and dances.",
+        "pictures": [
+          "girl",
+          "balloon",
+          "dance"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Amina carry?",
+        "options": [
+          "balloon",
+          "kite",
+          "bag"
+        ],
+        "answer": "balloon"
+      },
+      {
+        "prompt": "What pulls it away?",
+        "options": [
+          "wind",
+          "dog",
+          "bus"
+        ],
+        "answer": "wind"
+      },
+      {
+        "prompt": "Who catches it?",
+        "options": [
+          "mother",
+          "father",
+          "teacher"
+        ],
+        "answer": "mother"
+      }
+    ],
+    "words": [
+      "balloon",
+      "wind",
+      "mother",
+      "hand",
+      "party",
+      "dance"
+    ]
+  },
+  {
+    "id": "pencil-under-book",
+    "title": "Luz's Lost Pencil",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-making-friends"
+    ],
+    "cast": [
+      "girl",
+      "teacher"
+    ],
+    "pages": [
+      {
+        "text": "Luz puts a pencil on her desk.",
+        "pictures": [
+          "girl",
+          "pencil",
+          "desk"
+        ]
+      },
+      {
+        "text": "The pencil is gone after reading time.",
+        "pictures": [
+          "pencil",
+          "book"
+        ]
+      },
+      {
+        "text": "Luz looks in her backpack.",
+        "pictures": [
+          "girl",
+          "backpack"
+        ]
+      },
+      {
+        "text": "Her teacher lifts a big book.",
+        "pictures": [
+          "teacher",
+          "book"
+        ]
+      },
+      {
+        "text": "The pencil is under the book.",
+        "pictures": [
+          "pencil",
+          "book"
+        ]
+      },
+      {
+        "text": "Luz thanks her teacher and draws a cat.",
+        "pictures": [
+          "girl",
+          "draw",
+          "cat"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Luz lose?",
+        "options": [
+          "pencil",
+          "ruler",
+          "crayon"
+        ],
+        "answer": "pencil"
+      },
+      {
+        "prompt": "Who lifts the book?",
+        "options": [
+          "teacher",
+          "doctor",
+          "chef"
+        ],
+        "answer": "teacher"
+      },
+      {
+        "prompt": "What does Luz draw?",
+        "options": [
+          "cat",
+          "dog",
+          "bird"
+        ],
+        "answer": "cat"
+      }
+    ],
+    "words": [
+      "pencil",
+      "book",
+      "desk",
+      "teacher",
+      "draw",
+      "cat"
+    ]
+  },
+  {
+    "id": "new-chick",
+    "title": "Bo Meets a Chick",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-caring-for-pets"
+    ],
+    "cast": [
+      "boy",
+      "chicken",
+      "chick"
+    ],
+    "pages": [
+      {
+        "text": "Bo sees an egg at the farm.",
+        "pictures": [
+          "boy",
+          "egg",
+          "farm"
+        ]
+      },
+      {
+        "text": "The egg rolls toward the road.",
+        "pictures": [
+          "egg",
+          "road"
+        ]
+      },
+      {
+        "text": "Bo puts a basket in its path.",
+        "pictures": [
+          "boy",
+          "basket",
+          "egg"
+        ]
+      },
+      {
+        "text": "The egg stops safely in the basket.",
+        "pictures": [
+          "egg",
+          "basket"
+        ]
+      },
+      {
+        "text": "The egg opens and a chick comes out.",
+        "pictures": [
+          "egg",
+          "chick"
+        ]
+      },
+      {
+        "text": "The mother chicken sits beside her chick.",
+        "pictures": [
+          "chicken",
+          "chick"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What moves at the farm?",
+        "options": [
+          "egg",
+          "rock",
+          "box"
+        ],
+        "answer": "egg"
+      },
+      {
+        "prompt": "What comes out?",
+        "options": [
+          "chick",
+          "duck",
+          "frog"
+        ],
+        "answer": "chick"
+      },
+      {
+        "prompt": "Who sits near the chick?",
+        "options": [
+          "chicken",
+          "cow",
+          "sheep"
+        ],
+        "answer": "chicken"
+      }
+    ],
+    "words": [
+      "egg",
+      "chick",
+      "chicken",
+      "farm",
+      "basket",
+      "road"
+    ]
+  },
+  {
+    "id": "shell-home",
+    "title": "Imani and the Shell",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-sea-turtles",
+      "topic-kids-oceans"
+    ],
+    "cast": [
+      "girl",
+      "crab"
+    ],
+    "pages": [
+      {
+        "text": "Imani finds a shell on the beach.",
+        "pictures": [
+          "girl",
+          "shell",
+          "beach"
+        ]
+      },
+      {
+        "text": "She lifts it from the sand.",
+        "pictures": [
+          "girl",
+          "hand",
+          "shell"
+        ]
+      },
+      {
+        "text": "A small crab moves inside.",
+        "pictures": [
+          "crab",
+          "shell"
+        ]
+      },
+      {
+        "text": "Imani puts the shell back down.",
+        "pictures": [
+          "girl",
+          "shell",
+          "sand"
+        ]
+      },
+      {
+        "text": "The crab walks toward the sea.",
+        "pictures": [
+          "crab",
+          "sea"
+        ]
+      },
+      {
+        "text": "Imani waves and finds an empty shell.",
+        "pictures": [
+          "girl",
+          "wave",
+          "shell"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Imani find?",
+        "options": [
+          "shell",
+          "rock",
+          "flower"
+        ],
+        "answer": "shell"
+      },
+      {
+        "prompt": "Who lives inside?",
+        "options": [
+          "crab",
+          "snail",
+          "turtle"
+        ],
+        "answer": "crab"
+      },
+      {
+        "prompt": "Where does the crab walk?",
+        "options": [
+          "sea",
+          "forest",
+          "school"
+        ],
+        "answer": "sea"
+      }
+    ],
+    "words": [
+      "shell",
+      "crab",
+      "beach",
+      "sand",
+      "girl",
+      "sea"
+    ]
+  },
+  {
+    "id": "missing-sugar",
+    "title": "Ada Bakes Muffins",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-baking",
+      "topic-kids-cooking"
+    ],
+    "cast": [
+      "girl",
+      "sister"
+    ],
+    "pages": [
+      {
+        "text": "Ada makes muffins in the kitchen.",
+        "pictures": [
+          "girl",
+          "muffin",
+          "kitchen"
+        ]
+      },
+      {
+        "text": "She cannot find the sugar.",
+        "pictures": [
+          "girl",
+          "sugar"
+        ]
+      },
+      {
+        "text": "Her sister looks in a cupboard.",
+        "pictures": [
+          "sister",
+          "kitchen"
+        ]
+      },
+      {
+        "text": "The sugar is behind a bowl.",
+        "pictures": [
+          "sugar",
+          "bowl"
+        ]
+      },
+      {
+        "text": "Ada puts the muffins in the oven.",
+        "pictures": [
+          "girl",
+          "muffin",
+          "oven"
+        ]
+      },
+      {
+        "text": "The sisters eat warm muffins together.",
+        "pictures": [
+          "girl",
+          "sister",
+          "muffin"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Ada make?",
+        "options": [
+          "muffin",
+          "pie",
+          "cookie"
+        ],
+        "answer": "muffin"
+      },
+      {
+        "prompt": "What is missing?",
+        "options": [
+          "sugar",
+          "salt",
+          "butter"
+        ],
+        "answer": "sugar"
+      },
+      {
+        "prompt": "Where are the muffins cooked?",
+        "options": [
+          "oven",
+          "fridge",
+          "sink"
+        ],
+        "answer": "oven"
+      }
+    ],
+    "words": [
+      "muffin",
+      "oven",
+      "sugar",
+      "sister",
+      "kitchen",
+      "bowl"
+    ]
+  },
+  {
+    "id": "muddy-bike",
+    "title": "Kai and the Muddy Bike",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-cycling",
+      "topic-kids-making-friends"
+    ],
+    "cast": [
+      "boy",
+      "girl"
+    ],
+    "pages": [
+      {
+        "text": "Kai rides his bike along the road.",
+        "pictures": [
+          "boy",
+          "bike",
+          "road"
+        ]
+      },
+      {
+        "text": "One wheel stops in a puddle.",
+        "pictures": [
+          "bike",
+          "puddle"
+        ]
+      },
+      {
+        "text": "Kai pulls, but the bike stays there.",
+        "pictures": [
+          "boy",
+          "pull",
+          "bike"
+        ]
+      },
+      {
+        "text": "His friend Mei comes to help.",
+        "pictures": [
+          "girl",
+          "friend",
+          "boy"
+        ]
+      },
+      {
+        "text": "They pull the bike out together.",
+        "pictures": [
+          "girl",
+          "boy",
+          "bike"
+        ]
+      },
+      {
+        "text": "Kai walks beside Mei and smiles.",
+        "pictures": [
+          "boy",
+          "girl",
+          "smile"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What gets stuck?",
+        "options": [
+          "bike",
+          "bus",
+          "train"
+        ],
+        "answer": "bike"
+      },
+      {
+        "prompt": "Where does it stop?",
+        "options": [
+          "puddle",
+          "beach",
+          "garden"
+        ],
+        "answer": "puddle"
+      },
+      {
+        "prompt": "Who helps Kai?",
+        "options": [
+          "girl",
+          "dog",
+          "teacher"
+        ],
+        "answer": "girl"
+      }
+    ],
+    "words": [
+      "bike",
+      "puddle",
+      "friend",
+      "pull",
+      "road",
+      "smile"
+    ]
+  },
+  {
+    "id": "snowman-hat",
+    "title": "Mila's Snowman Hat",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-snow",
+      "topic-kids-wind"
+    ],
+    "cast": [
+      "girl",
+      "dog"
+    ],
+    "pages": [
+      {
+        "text": "Mila puts a hat on her snowman.",
+        "pictures": [
+          "girl",
+          "hat",
+          "snowman"
+        ]
+      },
+      {
+        "text": "A cold wind blows the hat away.",
+        "pictures": [
+          "wind",
+          "hat",
+          "snow"
+        ]
+      },
+      {
+        "text": "Her dog runs after it.",
+        "pictures": [
+          "dog",
+          "run",
+          "hat"
+        ]
+      },
+      {
+        "text": "The dog brings back the hat.",
+        "pictures": [
+          "dog",
+          "hat"
+        ]
+      },
+      {
+        "text": "Mila puts it on the snowman again.",
+        "pictures": [
+          "girl",
+          "snowman",
+          "hat"
+        ]
+      },
+      {
+        "text": "The dog wears the hat for one funny moment.",
+        "pictures": [
+          "dog",
+          "hat",
+          "laugh"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What blows away?",
+        "options": [
+          "hat",
+          "scarf",
+          "gloves"
+        ],
+        "answer": "hat"
+      },
+      {
+        "prompt": "Who brings it back?",
+        "options": [
+          "dog",
+          "cat",
+          "bird"
+        ],
+        "answer": "dog"
+      },
+      {
+        "prompt": "Who wears it at the end?",
+        "options": [
+          "dog",
+          "snowman",
+          "girl"
+        ],
+        "answer": "dog"
+      }
+    ],
+    "words": [
+      "snowman",
+      "hat",
+      "wind",
+      "dog",
+      "snow",
+      "laugh"
+    ]
+  },
+  {
+    "id": "robot-blocks",
+    "title": "Yuri's Block Robot",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-robots",
+      "topic-kids-building-blocks"
+    ],
+    "cast": [
+      "boy",
+      "robot"
+    ],
+    "pages": [
+      {
+        "text": "Yuri asks his toy robot to build.",
+        "pictures": [
+          "boy",
+          "robot",
+          "blocks"
+        ]
+      },
+      {
+        "text": "The robot stacks three blocks.",
+        "pictures": [
+          "robot",
+          "blocks"
+        ]
+      },
+      {
+        "text": "The blocks fall on the floor.",
+        "pictures": [
+          "blocks"
+        ]
+      },
+      {
+        "text": "Yuri picks them up with the robot.",
+        "pictures": [
+          "boy",
+          "robot",
+          "blocks"
+        ]
+      },
+      {
+        "text": "They build a small house together.",
+        "pictures": [
+          "boy",
+          "robot",
+          "house"
+        ]
+      },
+      {
+        "text": "Yuri claps, and the robot waves.",
+        "pictures": [
+          "boy",
+          "clap",
+          "robot"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does the robot stack?",
+        "options": [
+          "blocks",
+          "book",
+          "plate"
+        ],
+        "answer": "blocks"
+      },
+      {
+        "prompt": "What do they build?",
+        "options": [
+          "house",
+          "boat",
+          "train"
+        ],
+        "answer": "house"
+      },
+      {
+        "prompt": "What does Yuri do at the end?",
+        "options": [
+          "clap",
+          "sleep",
+          "cry"
+        ],
+        "answer": "clap"
+      }
+    ],
+    "words": [
+      "robot",
+      "blocks",
+      "build",
+      "boy",
+      "clap",
+      "house"
+    ]
+  },
+  {
+    "id": "moon-cloud",
+    "title": "Hana Waits for the Moon",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-the-moon",
+      "topic-kids-clouds"
+    ],
+    "cast": [
+      "girl",
+      "father"
+    ],
+    "pages": [
+      {
+        "text": "Hana looks for the moon at night.",
+        "pictures": [
+          "girl",
+          "moon",
+          "night"
+        ]
+      },
+      {
+        "text": "A cloud hides the moon.",
+        "pictures": [
+          "cloud",
+          "moon"
+        ]
+      },
+      {
+        "text": "Hana waits beside the window.",
+        "pictures": [
+          "girl",
+          "window"
+        ]
+      },
+      {
+        "text": "Dad points to one bright star.",
+        "pictures": [
+          "father",
+          "star"
+        ]
+      },
+      {
+        "text": "The cloud moves, and the moon appears.",
+        "pictures": [
+          "cloud",
+          "moon"
+        ]
+      },
+      {
+        "text": "Hana and Dad wave at the moon.",
+        "pictures": [
+          "girl",
+          "father",
+          "moon"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What hides the moon?",
+        "options": [
+          "cloud",
+          "tree",
+          "house"
+        ],
+        "answer": "cloud"
+      },
+      {
+        "prompt": "Where does Hana wait?",
+        "options": [
+          "window",
+          "door",
+          "car"
+        ],
+        "answer": "window"
+      },
+      {
+        "prompt": "What does Dad point to first?",
+        "options": [
+          "star",
+          "sun",
+          "planet"
+        ],
+        "answer": "star"
+      }
+    ],
+    "words": [
+      "moon",
+      "cloud",
+      "window",
+      "night",
+      "star",
+      "father"
+    ]
+  },
+  {
+    "id": "bus-bag",
+    "title": "Davi's Bag on the Bus",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-teens-public-transport"
+    ],
+    "cast": [
+      "boy",
+      "driver"
+    ],
+    "pages": [
+      {
+        "text": "Davi rides the bus to school.",
+        "pictures": [
+          "boy",
+          "bus",
+          "school"
+        ]
+      },
+      {
+        "text": "He leaves his bag on a seat.",
+        "pictures": [
+          "boy",
+          "bag",
+          "bus"
+        ]
+      },
+      {
+        "text": "Davi sees his empty hands outside.",
+        "pictures": [
+          "boy",
+          "hand"
+        ]
+      },
+      {
+        "text": "The bus driver calls his name.",
+        "pictures": [
+          "driver",
+          "bus",
+          "boy"
+        ]
+      },
+      {
+        "text": "The driver gives the bag back.",
+        "pictures": [
+          "driver",
+          "boy",
+          "bag"
+        ]
+      },
+      {
+        "text": "Davi waves and goes to class.",
+        "pictures": [
+          "boy",
+          "wave",
+          "classroom"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Davi leave behind?",
+        "options": [
+          "bag",
+          "hat",
+          "book"
+        ],
+        "answer": "bag"
+      },
+      {
+        "prompt": "Where does he leave it?",
+        "options": [
+          "bus",
+          "train",
+          "taxi"
+        ],
+        "answer": "bus"
+      },
+      {
+        "prompt": "Who gives it back?",
+        "options": [
+          "driver",
+          "teacher",
+          "doctor"
+        ],
+        "answer": "driver"
+      }
+    ],
+    "words": [
+      "bus",
+      "bag",
+      "driver",
+      "school",
+      "classroom",
+      "wave"
+    ]
+  },
+  {
+    "id": "fox-at-river",
+    "title": "Zuri and the River Fox",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-rivers",
+      "topic-kids-forests"
+    ],
+    "cast": [
+      "girl",
+      "fox"
+    ],
+    "pages": [
+      {
+        "text": "Zuri saw a fox beside the river.",
+        "pictures": [
+          "girl",
+          "fox",
+          "river"
+        ]
+      },
+      {
+        "text": "The fox wanted to cross, but the water rushed.",
+        "pictures": [
+          "fox",
+          "river"
+        ]
+      },
+      {
+        "text": "Zuri noticed a little bridge upstream.",
+        "pictures": [
+          "girl",
+          "bridge",
+          "river"
+        ]
+      },
+      {
+        "text": "She walked there and waited quietly.",
+        "pictures": [
+          "girl",
+          "bridge"
+        ]
+      },
+      {
+        "text": "The fox followed the path and crossed the bridge.",
+        "pictures": [
+          "fox",
+          "bridge"
+        ]
+      },
+      {
+        "text": "Zuri smiled as it ran into the forest.",
+        "pictures": [
+          "girl",
+          "fox",
+          "forest"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "Which animal needed a way across?",
+        "options": [
+          "fox",
+          "deer",
+          "rabbit"
+        ],
+        "answer": "fox"
+      },
+      {
+        "prompt": "What did Zuri find?",
+        "options": [
+          "bridge",
+          "boat",
+          "ladder"
+        ],
+        "answer": "bridge"
+      },
+      {
+        "prompt": "Where did the fox run?",
+        "options": [
+          "forest",
+          "city",
+          "school"
+        ],
+        "answer": "forest"
+      }
+    ],
+    "words": [
+      "fox",
+      "river",
+      "forest",
+      "bridge",
+      "girl",
+      "smile"
+    ]
+  },
+  {
+    "id": "library-map",
+    "title": "Omar's Library Map",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-teens-mysteries-and-clues"
+    ],
+    "cast": [
+      "boy",
+      "girl"
+    ],
+    "pages": [
+      {
+        "text": "Omar lost his library book before class.",
+        "pictures": [
+          "boy",
+          "book",
+          "school"
+        ]
+      },
+      {
+        "text": "He found a little map inside his bag.",
+        "pictures": [
+          "boy",
+          "map",
+          "bag"
+        ]
+      },
+      {
+        "text": "The map showed three tall bookshelves.",
+        "pictures": [
+          "map",
+          "bookshelf"
+        ]
+      },
+      {
+        "text": "His friend Mei checked the last shelf.",
+        "pictures": [
+          "girl",
+          "bookshelf"
+        ]
+      },
+      {
+        "text": "She found Omar's book behind a globe.",
+        "pictures": [
+          "girl",
+          "book",
+          "globe"
+        ]
+      },
+      {
+        "text": "Omar thanked Mei and read with her.",
+        "pictures": [
+          "boy",
+          "girl",
+          "book"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Omar lose?",
+        "options": [
+          "book",
+          "map",
+          "pencil"
+        ],
+        "answer": "book"
+      },
+      {
+        "prompt": "What showed him where to look?",
+        "options": [
+          "map",
+          "clock",
+          "key"
+        ],
+        "answer": "map"
+      },
+      {
+        "prompt": "Where was the book hidden?",
+        "options": [
+          "globe",
+          "sofa",
+          "tree"
+        ],
+        "answer": "globe"
+      }
+    ],
+    "words": [
+      "book",
+      "map",
+      "bookshelf",
+      "library",
+      "friend",
+      "globe"
+    ]
+  },
+  {
+    "id": "pancake-milk",
+    "title": "Mei's Thick Pancakes",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-breakfast",
+      "topic-kids-cooking"
+    ],
+    "cast": [
+      "girl",
+      "mother"
+    ],
+    "pages": [
+      {
+        "text": "Mei mixed eggs and milk for pancakes.",
+        "pictures": [
+          "girl",
+          "egg",
+          "milk"
+        ]
+      },
+      {
+        "text": "She added too much flour to the bowl.",
+        "pictures": [
+          "girl",
+          "bowl"
+        ]
+      },
+      {
+        "text": "The mix stayed thick on the spoon.",
+        "pictures": [
+          "bowl",
+          "spoon"
+        ]
+      },
+      {
+        "text": "Mum added more milk and stirred it.",
+        "pictures": [
+          "mother",
+          "milk",
+          "bowl"
+        ]
+      },
+      {
+        "text": "They cooked small pancakes in a frying pan.",
+        "pictures": [
+          "girl",
+          "frying-pan",
+          "pancake"
+        ]
+      },
+      {
+        "text": "Mei shared the soft pancakes with Mum.",
+        "pictures": [
+          "girl",
+          "mother",
+          "pancake"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Mei make?",
+        "options": [
+          "pancake",
+          "soup",
+          "pie"
+        ],
+        "answer": "pancake"
+      },
+      {
+        "prompt": "What did Mum add?",
+        "options": [
+          "milk",
+          "water",
+          "tea"
+        ],
+        "answer": "milk"
+      },
+      {
+        "prompt": "What did they cook in?",
+        "options": [
+          "frying-pan",
+          "oven",
+          "fridge"
+        ],
+        "answer": "frying-pan"
+      }
+    ],
+    "words": [
+      "pancake",
+      "milk",
+      "egg",
+      "frying-pan",
+      "mother",
+      "bowl"
+    ]
+  },
+  {
+    "id": "lost-mitten",
+    "title": "Niko's Missing Mitten",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-snow",
+      "topic-kids-wind"
+    ],
+    "cast": [
+      "boy",
+      "dog"
+    ],
+    "pages": [
+      {
+        "text": "Niko took his dog into the snow.",
+        "pictures": [
+          "boy",
+          "dog",
+          "snow"
+        ]
+      },
+      {
+        "text": "One mitten slipped off near the snowman.",
+        "pictures": [
+          "mitten",
+          "snowman"
+        ]
+      },
+      {
+        "text": "Niko searched behind a tree.",
+        "pictures": [
+          "boy",
+          "tree"
+        ]
+      },
+      {
+        "text": "His dog sniffed beside the snowman.",
+        "pictures": [
+          "dog",
+          "snowman"
+        ]
+      },
+      {
+        "text": "The dog pulled the mitten from the snow.",
+        "pictures": [
+          "dog",
+          "mitten",
+          "snow"
+        ]
+      },
+      {
+        "text": "Niko put it on and laughed at the dog.",
+        "pictures": [
+          "boy",
+          "mitten",
+          "dog"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Niko lose?",
+        "options": [
+          "mitten",
+          "hat",
+          "scarf"
+        ],
+        "answer": "mitten"
+      },
+      {
+        "prompt": "Who found it?",
+        "options": [
+          "dog",
+          "cat",
+          "fox"
+        ],
+        "answer": "dog"
+      },
+      {
+        "prompt": "Where was it?",
+        "options": [
+          "snow",
+          "sand",
+          "grass"
+        ],
+        "answer": "snow"
+      }
+    ],
+    "words": [
+      "mitten",
+      "snowman",
+      "dog",
+      "snow",
+      "tree",
+      "laugh"
+    ]
+  },
+  {
+    "id": "turtle-rock",
+    "title": "Ana and the Turtle Path",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-sea-turtles",
+      "topic-kids-oceans"
+    ],
+    "cast": [
+      "girl",
+      "turtle"
+    ],
+    "pages": [
+      {
+        "text": "Ana watched a turtle crawl across the beach.",
+        "pictures": [
+          "girl",
+          "turtle",
+          "beach"
+        ]
+      },
+      {
+        "text": "A large rock blocked its path to the sea.",
+        "pictures": [
+          "rock",
+          "turtle",
+          "sea"
+        ]
+      },
+      {
+        "text": "The turtle stopped and turned around.",
+        "pictures": [
+          "turtle",
+          "rock"
+        ]
+      },
+      {
+        "text": "Ana rolled the loose rock away carefully.",
+        "pictures": [
+          "girl",
+          "rock"
+        ]
+      },
+      {
+        "text": "The turtle reached the water and swam off.",
+        "pictures": [
+          "turtle",
+          "sea",
+          "swim"
+        ]
+      },
+      {
+        "text": "Ana waved, then left the beach clean.",
+        "pictures": [
+          "girl",
+          "wave",
+          "beach"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What blocked the turtle?",
+        "options": [
+          "rock",
+          "box",
+          "boat"
+        ],
+        "answer": "rock"
+      },
+      {
+        "prompt": "Where did it want to go?",
+        "options": [
+          "sea",
+          "forest",
+          "farm"
+        ],
+        "answer": "sea"
+      },
+      {
+        "prompt": "What did Ana move?",
+        "options": [
+          "rock",
+          "shell",
+          "sand"
+        ],
+        "answer": "rock"
+      }
+    ],
+    "words": [
+      "turtle",
+      "beach",
+      "rock",
+      "sea",
+      "girl",
+      "wave"
+    ]
+  },
+  {
+    "id": "quiet-drum",
+    "title": "Kofi's Quiet Drum",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-musical-instruments",
+      "topic-kids-family-traditions"
+    ],
+    "cast": [
+      "boy",
+      "baby"
+    ],
+    "pages": [
+      {
+        "text": "Kofi played his drum beside the crib.",
+        "pictures": [
+          "boy",
+          "drum",
+          "crib"
+        ]
+      },
+      {
+        "text": "His baby brother woke and cried.",
+        "pictures": [
+          "baby",
+          "cry",
+          "crib"
+        ]
+      },
+      {
+        "text": "Kofi stopped and listened to Mum.",
+        "pictures": [
+          "boy",
+          "mother",
+          "listen"
+        ]
+      },
+      {
+        "text": "He played a soft beat in another room.",
+        "pictures": [
+          "boy",
+          "drum"
+        ]
+      },
+      {
+        "text": "The baby slept while Mum clapped quietly.",
+        "pictures": [
+          "baby",
+          "mother",
+          "clap"
+        ]
+      },
+      {
+        "text": "Kofi danced without making a loud sound.",
+        "pictures": [
+          "boy",
+          "dance",
+          "drum"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What woke the baby?",
+        "options": [
+          "drum",
+          "bell",
+          "guitar"
+        ],
+        "answer": "drum"
+      },
+      {
+        "prompt": "Who cried?",
+        "options": [
+          "baby",
+          "boy",
+          "dog"
+        ],
+        "answer": "baby"
+      },
+      {
+        "prompt": "What did Kofi do at the end?",
+        "options": [
+          "dance",
+          "shout",
+          "run"
+        ],
+        "answer": "dance"
+      }
+    ],
+    "words": [
+      "drum",
+      "baby",
+      "brother",
+      "clap",
+      "dance",
+      "crib"
+    ]
+  },
+  {
+    "id": "patched-kite",
+    "title": "Lila Patches the Kite",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-kites",
+      "topic-kids-making-friends"
+    ],
+    "cast": [
+      "girl",
+      "boy"
+    ],
+    "pages": [
+      {
+        "text": "Lila's kite tore on a windy day.",
+        "pictures": [
+          "girl",
+          "kite",
+          "wind"
+        ]
+      },
+      {
+        "text": "She carried it home and felt sad.",
+        "pictures": [
+          "girl",
+          "kite",
+          "sad"
+        ]
+      },
+      {
+        "text": "Sam brought paper and glue to her table.",
+        "pictures": [
+          "boy",
+          "paper",
+          "glue"
+        ]
+      },
+      {
+        "text": "They patched the hole together.",
+        "pictures": [
+          "girl",
+          "glue",
+          "kite"
+        ]
+      },
+      {
+        "text": "The kite flew above the playground again.",
+        "pictures": [
+          "kite",
+          "playground",
+          "wind"
+        ]
+      },
+      {
+        "text": "Lila let Sam hold the string first.",
+        "pictures": [
+          "girl",
+          "boy",
+          "kite"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What tore in the wind?",
+        "options": [
+          "kite",
+          "book",
+          "shirt"
+        ],
+        "answer": "kite"
+      },
+      {
+        "prompt": "What did Sam bring?",
+        "options": [
+          "glue",
+          "water",
+          "milk"
+        ],
+        "answer": "glue"
+      },
+      {
+        "prompt": "Where did the kite fly again?",
+        "options": [
+          "playground",
+          "kitchen",
+          "station"
+        ],
+        "answer": "playground"
+      }
+    ],
+    "words": [
+      "kite",
+      "paper",
+      "glue",
+      "girl",
+      "wind",
+      "playground"
+    ]
+  },
+  {
+    "id": "birthday-candle",
+    "title": "Zara's Birthday Candle",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-birthday-parties",
+      "topic-kids-family-traditions"
+    ],
+    "cast": [
+      "girl",
+      "grandmother"
+    ],
+    "pages": [
+      {
+        "text": "Zara's family made a birthday cake.",
+        "pictures": [
+          "girl",
+          "family",
+          "cake"
+        ]
+      },
+      {
+        "text": "They could not find one candle.",
+        "pictures": [
+          "cake",
+          "candle"
+        ]
+      },
+      {
+        "text": "Grandma checked a box in the kitchen.",
+        "pictures": [
+          "grandmother",
+          "box",
+          "kitchen"
+        ]
+      },
+      {
+        "text": "She found a candle under the napkins.",
+        "pictures": [
+          "grandmother",
+          "candle",
+          "napkin"
+        ]
+      },
+      {
+        "text": "Grandma lit it, and everyone sang.",
+        "pictures": [
+          "grandmother",
+          "candle",
+          "sing"
+        ]
+      },
+      {
+        "text": "Zara blew it out and shared the cake.",
+        "pictures": [
+          "girl",
+          "cake",
+          "family"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What was missing?",
+        "options": [
+          "candle",
+          "present",
+          "balloon"
+        ],
+        "answer": "candle"
+      },
+      {
+        "prompt": "Who found it?",
+        "options": [
+          "grandmother",
+          "teacher",
+          "sister"
+        ],
+        "answer": "grandmother"
+      },
+      {
+        "prompt": "What did Zara share?",
+        "options": [
+          "cake",
+          "cookie",
+          "pie"
+        ],
+        "answer": "cake"
+      }
+    ],
+    "words": [
+      "cake",
+      "candle",
+      "grandmother",
+      "family",
+      "birthday",
+      "sing"
+    ]
+  },
+  {
+    "id": "station-lunch",
+    "title": "Sam's Station Lunch",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-trains",
+      "topic-kids-school-lunch"
+    ],
+    "cast": [
+      "boy",
+      "driver"
+    ],
+    "pages": [
+      {
+        "text": "Sam waited for a train with Dad.",
+        "pictures": [
+          "boy",
+          "father",
+          "train"
+        ]
+      },
+      {
+        "text": "He left his lunchbox on a station bench.",
+        "pictures": [
+          "boy",
+          "lunchbox",
+          "bench"
+        ]
+      },
+      {
+        "text": "The train arrived, and Sam noticed his empty hand.",
+        "pictures": [
+          "train",
+          "boy",
+          "hand"
+        ]
+      },
+      {
+        "text": "A train driver waved from the platform.",
+        "pictures": [
+          "driver",
+          "wave",
+          "station"
+        ]
+      },
+      {
+        "text": "The driver handed Sam his lunchbox.",
+        "pictures": [
+          "driver",
+          "lunchbox",
+          "boy"
+        ]
+      },
+      {
+        "text": "Sam ate his sandwich on the train.",
+        "pictures": [
+          "boy",
+          "sandwich",
+          "train"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Sam leave behind?",
+        "options": [
+          "lunchbox",
+          "bag",
+          "hat"
+        ],
+        "answer": "lunchbox"
+      },
+      {
+        "prompt": "Where did he leave it?",
+        "options": [
+          "bench",
+          "table",
+          "chair"
+        ],
+        "answer": "bench"
+      },
+      {
+        "prompt": "Where did Sam eat?",
+        "options": [
+          "train",
+          "bus",
+          "boat"
+        ],
+        "answer": "train"
+      }
+    ],
+    "words": [
+      "train",
+      "station",
+      "lunchbox",
+      "driver",
+      "sandwich",
+      "wave"
+    ]
+  },
+  {
+    "id": "thirsty-flower",
+    "title": "Hana's Thirsty Flower",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-plant-growth",
+      "topic-kids-water-cycle"
+    ],
+    "cast": [
+      "girl",
+      "worm"
+    ],
+    "pages": [
+      {
+        "text": "Hana saw a drooping flower in her garden.",
+        "pictures": [
+          "girl",
+          "flower",
+          "garden"
+        ]
+      },
+      {
+        "text": "The soil felt dry under the hot sun.",
+        "pictures": [
+          "sun",
+          "garden"
+        ]
+      },
+      {
+        "text": "She filled a watering can at the sink.",
+        "pictures": [
+          "girl",
+          "watering-can",
+          "sink"
+        ]
+      },
+      {
+        "text": "Hana watered the flower and waited.",
+        "pictures": [
+          "girl",
+          "watering-can",
+          "flower"
+        ]
+      },
+      {
+        "text": "A worm came out of the damp soil.",
+        "pictures": [
+          "worm",
+          "garden"
+        ]
+      },
+      {
+        "text": "By evening, the flower stood tall again.",
+        "pictures": [
+          "flower",
+          "girl",
+          "smile"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What looked droopy?",
+        "options": [
+          "flower",
+          "tree",
+          "cactus"
+        ],
+        "answer": "flower"
+      },
+      {
+        "prompt": "What did Hana fill?",
+        "options": [
+          "watering-can",
+          "bottle",
+          "bowl"
+        ],
+        "answer": "watering-can"
+      },
+      {
+        "prompt": "What came out of the soil?",
+        "options": [
+          "worm",
+          "ant",
+          "bee"
+        ],
+        "answer": "worm"
+      }
+    ],
+    "words": [
+      "flower",
+      "garden",
+      "watering-can",
+      "worm",
+      "sun",
+      "girl"
+    ]
+  },
+  {
+    "id": "painted-butterfly",
+    "title": "Asha's Paint Spot",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-painting",
+      "topic-kids-butterflies"
+    ],
+    "cast": [
+      "girl",
+      "teacher"
+    ],
+    "pages": [
+      {
+        "text": "Asha spilled blue paint on her paper.",
+        "pictures": [
+          "girl",
+          "paint",
+          "paper"
+        ]
+      },
+      {
+        "text": "She worried that her picture was ruined.",
+        "pictures": [
+          "girl",
+          "worried",
+          "paper"
+        ]
+      },
+      {
+        "text": "Her teacher gave her a paintbrush.",
+        "pictures": [
+          "teacher",
+          "paintbrush"
+        ]
+      },
+      {
+        "text": "Asha painted wings around the blue spot.",
+        "pictures": [
+          "girl",
+          "paintbrush",
+          "paper"
+        ]
+      },
+      {
+        "text": "The spot became a bright butterfly.",
+        "pictures": [
+          "butterfly",
+          "paper",
+          "paint"
+        ]
+      },
+      {
+        "text": "Asha showed her new picture to everyone.",
+        "pictures": [
+          "girl",
+          "butterfly",
+          "smile"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Asha spill?",
+        "options": [
+          "paint",
+          "water",
+          "juice"
+        ],
+        "answer": "paint"
+      },
+      {
+        "prompt": "What did the teacher give her?",
+        "options": [
+          "paintbrush",
+          "pencil",
+          "crayon"
+        ],
+        "answer": "paintbrush"
+      },
+      {
+        "prompt": "What did the spot become?",
+        "options": [
+          "butterfly",
+          "bee",
+          "bird"
+        ],
+        "answer": "butterfly"
+      }
+    ],
+    "words": [
+      "paint",
+      "paper",
+      "butterfly",
+      "paintbrush",
+      "teacher",
+      "smile"
+    ]
+  },
+  {
+    "id": "foggy-island",
+    "title": "Ravi's Foggy Boat Trip",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-boats",
+      "topic-kids-oceans"
+    ],
+    "cast": [
+      "boy",
+      "father"
+    ],
+    "pages": [
+      {
+        "text": "Ravi and Dad sailed toward an island.",
+        "pictures": [
+          "boy",
+          "boat",
+          "island"
+        ]
+      },
+      {
+        "text": "Thick fog hid the island from view.",
+        "pictures": [
+          "fog",
+          "boat",
+          "island"
+        ]
+      },
+      {
+        "text": "Dad slowed the boat and waited.",
+        "pictures": [
+          "father",
+          "boat"
+        ]
+      },
+      {
+        "text": "A dolphin jumped close to them.",
+        "pictures": [
+          "dolphin",
+          "boat"
+        ]
+      },
+      {
+        "text": "The sun came out, and the fog lifted.",
+        "pictures": [
+          "sun",
+          "fog"
+        ]
+      },
+      {
+        "text": "Ravi saw the island and waved at the dolphin.",
+        "pictures": [
+          "boy",
+          "island",
+          "dolphin"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What hid the island?",
+        "options": [
+          "fog",
+          "rain",
+          "snow"
+        ],
+        "answer": "fog"
+      },
+      {
+        "prompt": "Which animal jumped nearby?",
+        "options": [
+          "dolphin",
+          "shark",
+          "whale"
+        ],
+        "answer": "dolphin"
+      },
+      {
+        "prompt": "What made the fog lift?",
+        "options": [
+          "sun",
+          "moon",
+          "star"
+        ],
+        "answer": "sun"
+      }
+    ],
+    "words": [
+      "boat",
+      "island",
+      "fog",
+      "dolphin",
+      "sun",
+      "father"
+    ]
+  },
+  {
+    "id": "grandmas-soup",
+    "title": "Nia's Soup for Grandma",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-cooking",
+      "topic-kids-family-traditions"
+    ],
+    "cast": [
+      "girl",
+      "grandmother"
+    ],
+    "pages": [
+      {
+        "text": "Nia cooked soup for her grandmother.",
+        "pictures": [
+          "girl",
+          "soup",
+          "grandmother"
+        ]
+      },
+      {
+        "text": "She tasted it and made a face.",
+        "pictures": [
+          "girl",
+          "spoon"
+        ]
+      },
+      {
+        "text": "Nia had put in too much salt.",
+        "pictures": [
+          "salt",
+          "soup"
+        ]
+      },
+      {
+        "text": "Grandma added water and stirred the pot.",
+        "pictures": [
+          "grandmother",
+          "water",
+          "spoon"
+        ]
+      },
+      {
+        "text": "They tasted the soup again together.",
+        "pictures": [
+          "girl",
+          "grandmother",
+          "soup"
+        ]
+      },
+      {
+        "text": "Nia smiled as Grandma asked for more.",
+        "pictures": [
+          "girl",
+          "grandmother",
+          "soup"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Nia cook?",
+        "options": [
+          "soup",
+          "cake",
+          "noodles"
+        ],
+        "answer": "soup"
+      },
+      {
+        "prompt": "What was there too much of?",
+        "options": [
+          "salt",
+          "sugar",
+          "butter"
+        ],
+        "answer": "salt"
+      },
+      {
+        "prompt": "What did Grandma add?",
+        "options": [
+          "water",
+          "milk",
+          "juice"
+        ],
+        "answer": "water"
+      }
+    ],
+    "words": [
+      "soup",
+      "salt",
+      "water",
+      "grandmother",
+      "spoon",
+      "smile"
+    ]
+  },
+  {
+    "id": "hill-picnic",
+    "title": "Jo's Windy Hill Picnic",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-mountains",
+      "topic-kids-holidays"
+    ],
+    "cast": [
+      "boy",
+      "girl"
+    ],
+    "pages": [
+      {
+        "text": "Jo and Mei climbed a grassy hill.",
+        "pictures": [
+          "boy",
+          "girl",
+          "mountain"
+        ]
+      },
+      {
+        "text": "A strong wind pushed their picnic basket.",
+        "pictures": [
+          "wind",
+          "basket"
+        ]
+      },
+      {
+        "text": "The basket rolled toward a tree.",
+        "pictures": [
+          "basket",
+          "tree"
+        ]
+      },
+      {
+        "text": "Mei ran ahead and caught it.",
+        "pictures": [
+          "girl",
+          "run",
+          "basket"
+        ]
+      },
+      {
+        "text": "They sat under the tree and ate sandwiches.",
+        "pictures": [
+          "tree",
+          "sandwich",
+          "boy"
+        ]
+      },
+      {
+        "text": "Jo thanked Mei for saving their lunch.",
+        "pictures": [
+          "boy",
+          "girl",
+          "basket"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What rolled away?",
+        "options": [
+          "basket",
+          "ball",
+          "hat"
+        ],
+        "answer": "basket"
+      },
+      {
+        "prompt": "Who caught it?",
+        "options": [
+          "girl",
+          "dog",
+          "teacher"
+        ],
+        "answer": "girl"
+      },
+      {
+        "prompt": "Where did they eat?",
+        "options": [
+          "tree",
+          "bus",
+          "classroom"
+        ],
+        "answer": "tree"
+      }
+    ],
+    "words": [
+      "mountain",
+      "basket",
+      "wind",
+      "tree",
+      "sandwich",
+      "grass"
+    ]
+  },
+  {
+    "id": "paper-crown",
+    "title": "Kofi's Paper Crown",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-drawing"
+    ],
+    "cast": [
+      "boy",
+      "girl"
+    ],
+    "pages": [
+      {
+        "text": "Kofi lost his crown before the school play.",
+        "pictures": [
+          "boy",
+          "crown",
+          "school"
+        ]
+      },
+      {
+        "text": "He searched his bag and found nothing.",
+        "pictures": [
+          "boy",
+          "bag"
+        ]
+      },
+      {
+        "text": "His friend Luz folded a crown from paper.",
+        "pictures": [
+          "girl",
+          "paper",
+          "crown"
+        ]
+      },
+      {
+        "text": "Kofi put the new crown on his head.",
+        "pictures": [
+          "boy",
+          "crown",
+          "head"
+        ]
+      },
+      {
+        "text": "He walked onstage and spoke his line.",
+        "pictures": [
+          "boy",
+          "crown",
+          "talk"
+        ]
+      },
+      {
+        "text": "The class clapped for Kofi and Luz.",
+        "pictures": [
+          "clap",
+          "boy",
+          "girl"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Kofi lose?",
+        "options": [
+          "crown",
+          "hat",
+          "cap"
+        ],
+        "answer": "crown"
+      },
+      {
+        "prompt": "What did Luz use?",
+        "options": [
+          "paper",
+          "book",
+          "sand"
+        ],
+        "answer": "paper"
+      },
+      {
+        "prompt": "What did the class do?",
+        "options": [
+          "clap",
+          "cry",
+          "sleep"
+        ],
+        "answer": "clap"
+      }
+    ],
+    "words": [
+      "crown",
+      "paper",
+      "school",
+      "friend",
+      "head",
+      "clap"
+    ]
+  },
+  {
+    "id": "tent-flashlight",
+    "title": "Mila's Tent Light",
+    "level": "A2",
+    "topicIds": [
+      "topic-teens-outdoor-adventures",
+      "topic-kids-stars"
+    ],
+    "cast": [
+      "girl",
+      "father"
+    ],
+    "pages": [
+      {
+        "text": "Mila and Dad slept in a tent.",
+        "pictures": [
+          "girl",
+          "father",
+          "tent"
+        ]
+      },
+      {
+        "text": "Mila could not find the flashlight.",
+        "pictures": [
+          "girl",
+          "flashlight",
+          "tent"
+        ]
+      },
+      {
+        "text": "They looked under their blankets.",
+        "pictures": [
+          "girl",
+          "father",
+          "blanket"
+        ]
+      },
+      {
+        "text": "Dad spotted it beside his shoes.",
+        "pictures": [
+          "father",
+          "flashlight",
+          "shoes"
+        ]
+      },
+      {
+        "text": "Mila shone it on a little map.",
+        "pictures": [
+          "girl",
+          "flashlight",
+          "map"
+        ]
+      },
+      {
+        "text": "Then she turned it off to see the stars.",
+        "pictures": [
+          "girl",
+          "star",
+          "night"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What could Mila not find?",
+        "options": [
+          "flashlight",
+          "candle",
+          "lamp"
+        ],
+        "answer": "flashlight"
+      },
+      {
+        "prompt": "Where was it?",
+        "options": [
+          "shoes",
+          "blanket",
+          "pillow"
+        ],
+        "answer": "shoes"
+      },
+      {
+        "prompt": "What did Mila see at the end?",
+        "options": [
+          "star",
+          "sun",
+          "cloud"
+        ],
+        "answer": "star"
+      }
+    ],
+    "words": [
+      "tent",
+      "flashlight",
+      "night",
+      "father",
+      "star",
+      "shoes"
+    ]
+  },
+  {
+    "id": "second-kick",
+    "title": "Mei's Second Kick",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-soccer",
+      "topic-teens-team-sports"
+    ],
+    "cast": [
+      "girl",
+      "boy"
+    ],
+    "pages": [
+      {
+        "text": "Mei kicked the football toward the goal.",
+        "pictures": [
+          "girl",
+          "kick",
+          "football"
+        ]
+      },
+      {
+        "text": "The ball missed, and Mei looked down.",
+        "pictures": [
+          "football",
+          "goalpost",
+          "girl"
+        ]
+      },
+      {
+        "text": "Her friend Omar passed it back.",
+        "pictures": [
+          "boy",
+          "football",
+          "girl"
+        ]
+      },
+      {
+        "text": "Mei took a breath and tried again.",
+        "pictures": [
+          "girl",
+          "football"
+        ]
+      },
+      {
+        "text": "This time the ball went into the goal.",
+        "pictures": [
+          "football",
+          "goalpost"
+        ]
+      },
+      {
+        "text": "Mei thanked Omar, and the team cheered.",
+        "pictures": [
+          "girl",
+          "boy",
+          "clap"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What missed the goal first?",
+        "options": [
+          "football",
+          "basketball",
+          "tennis"
+        ],
+        "answer": "football"
+      },
+      {
+        "prompt": "Who passed it back?",
+        "options": [
+          "boy",
+          "teacher",
+          "dog"
+        ],
+        "answer": "boy"
+      },
+      {
+        "prompt": "What went into the goal?",
+        "options": [
+          "football",
+          "basketball",
+          "baseball"
+        ],
+        "answer": "football"
+      }
+    ],
+    "words": [
+      "football",
+      "goalpost",
+      "kick",
+      "friend",
+      "boy",
+      "clap"
+    ]
+  },
+  {
+    "id": "cave-echo",
+    "title": "Ben and the Cave Echo",
+    "level": "A2",
+    "topicIds": [
+      "topic-teens-outdoor-adventures",
+      "topic-teens-unexplained-places"
+    ],
+    "cast": [
+      "boy",
+      "father"
+    ],
+    "pages": [
+      {
+        "text": "Ben and Dad walked into a shallow cave.",
+        "pictures": [
+          "boy",
+          "father",
+          "cave"
+        ]
+      },
+      {
+        "text": "Ben called hello, and a voice called back.",
+        "pictures": [
+          "boy",
+          "shout",
+          "cave"
+        ]
+      },
+      {
+        "text": "He felt scared and held Dad's hand.",
+        "pictures": [
+          "boy",
+          "scared",
+          "father"
+        ]
+      },
+      {
+        "text": "Dad called out, and the cave answered.",
+        "pictures": [
+          "father",
+          "shout",
+          "cave"
+        ]
+      },
+      {
+        "text": "Ben tried his own call and heard it return.",
+        "pictures": [
+          "boy",
+          "shout",
+          "cave"
+        ]
+      },
+      {
+        "text": "They laughed and walked back into the sun.",
+        "pictures": [
+          "boy",
+          "father",
+          "sun"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "Where did Ben hear the voice?",
+        "options": [
+          "cave",
+          "school",
+          "bus"
+        ],
+        "answer": "cave"
+      },
+      {
+        "prompt": "Who showed him the echo?",
+        "options": [
+          "father",
+          "teacher",
+          "friend"
+        ],
+        "answer": "father"
+      },
+      {
+        "prompt": "How did Ben feel at first?",
+        "options": [
+          "scared",
+          "happy",
+          "sleepy"
+        ],
+        "answer": "scared"
+      }
+    ],
+    "words": [
+      "cave",
+      "scared",
+      "father",
+      "shout",
+      "laugh",
+      "sun"
+    ]
+  },
+  {
+    "id": "box-meow",
+    "title": "Ana's Mystery Box",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-cats",
+      "topic-teens-mysteries-and-clues"
+    ],
+    "cast": [
+      "girl",
+      "kitten"
+    ],
+    "pages": [
+      {
+        "text": "Ana heard a soft sound behind the door.",
+        "pictures": [
+          "girl",
+          "ear",
+          "door"
+        ]
+      },
+      {
+        "text": "She found a box covered with paper.",
+        "pictures": [
+          "girl",
+          "box",
+          "paper"
+        ]
+      },
+      {
+        "text": "Something inside the box moved.",
+        "pictures": [
+          "box"
+        ]
+      },
+      {
+        "text": "Ana opened it slowly with Mum.",
+        "pictures": [
+          "girl",
+          "mother",
+          "box"
+        ]
+      },
+      {
+        "text": "A kitten jumped out and meowed.",
+        "pictures": [
+          "kitten",
+          "box",
+          "jump"
+        ]
+      },
+      {
+        "text": "Ana gave it water and a soft blanket.",
+        "pictures": [
+          "girl",
+          "kitten",
+          "water"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What made the sound?",
+        "options": [
+          "kitten",
+          "puppy",
+          "chick"
+        ],
+        "answer": "kitten"
+      },
+      {
+        "prompt": "What covered the box?",
+        "options": [
+          "paper",
+          "blanket",
+          "scarf"
+        ],
+        "answer": "paper"
+      },
+      {
+        "prompt": "What did Ana give the kitten?",
+        "options": [
+          "water",
+          "juice",
+          "tea"
+        ],
+        "answer": "water"
+      }
+    ],
+    "words": [
+      "box",
+      "kitten",
+      "door",
+      "paper",
+      "girl",
+      "water"
+    ]
+  },
+  {
+    "id": "rainbow-umbrella",
+    "title": "Timo's Rainbow Umbrella",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-rainbows",
+      "topic-kids-rain"
+    ],
+    "cast": [
+      "boy",
+      "girl"
+    ],
+    "pages": [
+      {
+        "text": "Timo walked home when rain began.",
+        "pictures": [
+          "boy",
+          "rain",
+          "walk"
+        ]
+      },
+      {
+        "text": "He left his umbrella beside a shop.",
+        "pictures": [
+          "boy",
+          "umbrella",
+          "shop"
+        ]
+      },
+      {
+        "text": "Timo ran back, but it was gone.",
+        "pictures": [
+          "boy",
+          "run",
+          "shop"
+        ]
+      },
+      {
+        "text": "His friend Zara held it across the road.",
+        "pictures": [
+          "girl",
+          "umbrella",
+          "road"
+        ]
+      },
+      {
+        "text": "She shared the umbrella with Timo.",
+        "pictures": [
+          "girl",
+          "boy",
+          "umbrella"
+        ]
+      },
+      {
+        "text": "They crossed a puddle beneath a rainbow.",
+        "pictures": [
+          "boy",
+          "puddle",
+          "rainbow"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Timo leave behind?",
+        "options": [
+          "umbrella",
+          "bag",
+          "hat"
+        ],
+        "answer": "umbrella"
+      },
+      {
+        "prompt": "Who found it?",
+        "options": [
+          "girl",
+          "dog",
+          "driver"
+        ],
+        "answer": "girl"
+      },
+      {
+        "prompt": "What appeared at the end?",
+        "options": [
+          "rainbow",
+          "moon",
+          "star"
+        ],
+        "answer": "rainbow"
+      }
+    ],
+    "words": [
+      "umbrella",
+      "rain",
+      "rainbow",
+      "friend",
+      "puddle",
+      "shop"
+    ]
+  }
+]

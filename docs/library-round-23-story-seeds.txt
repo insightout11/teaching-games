@@ -1,0 +1,439 @@
+lost-kite|Ana and the Lost Kite|A1|kites wind|girl dog|kite wind tree dog ladder father
+P|Ana has a red kite.|girl kite
+P|The wind takes the kite away.|wind kite
+P|The kite sits in a tree.|kite tree
+P|Ana's dog looks up and barks.|dog tree
+P|Dad brings a ladder and gets the kite.|father ladder kite
+P|Ana and her dog fly it again.|girl dog kite
+Q|What does Ana lose?|kite ball book|kite
+Q|Where does the kite land?|tree house bus|tree
+Q|What does Dad bring?|ladder rope bike|ladder
+
+rainy-boots|Kofi's Rainy Boots|A1|rain school-day|boy mother|rain boots bed mother puddle school
+P|Kofi sees rain outside his window.|boy rain window
+P|He wants his boots for school.|boy boots school
+P|Kofi's boots are not by the door.|boots door
+P|Mum finds them under the bed.|mother bed boots
+P|Kofi puts on both boots.|boy boots
+P|He jumps over a puddle and laughs.|boy puddle laugh
+Q|What is outside Kofi's window?|rain snow sun|rain
+Q|Where is the missing boot?|bed table car|bed
+Q|What does Kofi jump over?|puddle rock box|puddle
+
+kitten-basket|Mei Finds the Kitten|A1|cats caring-for-pets|girl kitten|kitten basket bed water girl hand
+P|Mei's kitten is not on the bed.|girl kitten bed
+P|Mei looks behind the sofa.|girl sofa
+P|She hears a small meow in the kitchen.|girl kitchen kitten
+P|The kitten sleeps in a basket.|kitten basket sleep
+P|Mei puts water beside the basket.|girl water basket
+P|The kitten wakes and rubs Mei's hand.|kitten girl hand
+Q|Who is missing?|kitten puppy rabbit|kitten
+Q|Where does the kitten sleep?|basket bed box|basket
+Q|What does Mei bring?|water milk juice|water
+
+shared-lunch|Omar Shares Lunch|A1|school-lunch making-friends|boy girl|lunchbox sandwich apple orange table girl
+P|Omar opens his lunchbox at school.|boy lunchbox school
+P|His sandwich is not there.|lunchbox sandwich
+P|Omar feels hungry and sits alone.|boy hungry table
+P|Lila sees Omar and brings an apple.|girl apple boy
+P|They share Lila's sandwich at a table.|girl boy sandwich
+P|Omar smiles and shares his orange.|boy girl orange
+Q|What is missing from Omar's lunchbox?|sandwich apple cookie|sandwich
+Q|What does Lila bring first?|apple banana cake|apple
+Q|What does Omar share at the end?|orange bread cheese|orange
+
+little-seed|Lila's Little Seed|A1|plant-growth|girl|seed garden watering-can seedling flower sun
+P|Lila puts a seed in the garden.|girl seed garden
+P|She looks for a flower the next day.|girl flower
+P|There is no flower yet.|garden flower
+P|Lila gives the seed water each morning.|girl watering-can seed
+P|A small seedling comes up.|seedling garden
+P|Soon Lila sees a yellow flower.|girl flower sun
+Q|What does Lila plant?|seed rock acorn|seed
+Q|What does Lila give it?|water juice milk|water
+Q|What grows first?|seedling tree cactus|seedling
+
+dog-shoe|Sam's Silly Shoe|A1|dogs caring-for-pets|boy dog|dog shoes bed door boy ball
+P|Sam has one shoe by the door.|boy shoes door
+P|His other shoe is gone.|boy shoes
+P|Sam looks under his bed.|boy bed
+P|His dog runs past with the shoe.|dog shoes run
+P|Sam offers the dog a ball.|boy dog ball
+P|The dog drops the shoe and takes the ball.|dog shoes ball
+Q|What does Sam lose?|shoes hat bag|shoes
+Q|Who has the shoe?|dog cat bird|dog
+Q|What does Sam offer?|ball bag book|ball
+
+puddle-boat|Nia's Paper Boat|A1|rain boats|girl|paper boat rain puddle hand smile
+P|Nia makes a boat from paper.|girl paper boat
+P|Rain fills a puddle outside.|rain puddle
+P|Nia puts her boat on the water.|girl boat puddle
+P|The wind pushes it far away.|wind boat
+P|Nia reaches out and catches the boat.|girl hand boat
+P|She lets it sail beside her again.|girl boat smile
+Q|What does Nia make?|boat kite hat|boat
+Q|What fills the puddle?|rain snow sand|rain
+Q|What pushes the boat away?|wind dog fish|wind
+
+new-ball-friend|Jo and the New Friend|A1|making-friends playgrounds|boy girl|ball playground friend play throw catch
+P|Jo takes a ball to the playground.|boy ball playground
+P|The ball rolls away from him.|ball playground
+P|A new girl catches it.|girl catch ball
+P|Jo asks her to play.|boy girl talk
+P|They throw the ball to each other.|girl boy throw
+P|Jo has a new friend at the end.|boy girl friend
+Q|What does Jo bring?|ball kite book|ball
+Q|Who catches the ball?|girl dog teacher|girl
+Q|What do they do together?|throw sleep cook|throw
+
+lost-teddy|Taro's Teddy at Bedtime|A1|sleep-and-learning|boy teddy-bear|teddy-bear bed sofa flashlight pillow sleep
+P|Taro puts his teddy on the bed.|boy teddy-bear bed
+P|The teddy falls behind the sofa.|teddy-bear sofa
+P|Taro looks on the pillow first.|boy pillow
+P|Dad brings a flashlight to help.|father flashlight
+P|They find the teddy behind the sofa.|boy teddy-bear sofa
+P|Taro hugs it and goes to sleep.|boy teddy-bear sleep
+Q|What does Taro lose?|teddy-bear ball robot|teddy-bear
+Q|Where is the teddy?|sofa bath garden|sofa
+Q|What does Dad bring?|flashlight candle lamp|flashlight
+
+picnic-ants|Ravi and the Picnic Ants|A1|forests holidays|boy ant|ant sandwich plate apple basket tree
+P|Ravi puts a sandwich on a plate.|boy sandwich plate
+P|Small ants walk toward the food.|ant sandwich
+P|Ravi moves the plate away.|boy plate
+P|He sees an apple under a tree.|apple tree
+P|Ravi puts the apple in his basket.|boy apple basket
+P|Ravi eats as the ants march away.|boy sandwich ant
+Q|What walks toward the food?|ant bee spider|ant
+Q|What does Ravi move?|plate chair box|plate
+Q|What goes in the basket?|apple sandwich cookie|apple
+
+red-balloon|Amina's Red Balloon|A1|birthday-parties wind|girl mother|balloon wind mother hand party dance
+P|Amina carries a balloon to a party.|girl balloon party
+P|The wind pulls it from her hand.|wind balloon hand
+P|Amina watches it float above Mum.|girl balloon mother
+P|Mum reaches up and catches the string.|mother hand balloon
+P|She gives the balloon back to Amina.|mother girl balloon
+P|Amina holds it tight and dances.|girl balloon dance
+Q|What does Amina carry?|balloon kite bag|balloon
+Q|What pulls it away?|wind dog bus|wind
+Q|Who catches it?|mother father teacher|mother
+
+pencil-under-book|Luz's Lost Pencil|A1|school-day making-friends|girl teacher|pencil book desk teacher draw cat
+P|Luz puts a pencil on her desk.|girl pencil desk
+P|The pencil is gone after reading time.|pencil book
+P|Luz looks in her backpack.|girl backpack
+P|Her teacher lifts a big book.|teacher book
+P|The pencil is under the book.|pencil book
+P|Luz thanks her teacher and draws a cat.|girl draw cat
+Q|What does Luz lose?|pencil ruler crayon|pencil
+Q|Who lifts the book?|teacher doctor chef|teacher
+Q|What does Luz draw?|cat dog bird|cat
+
+new-chick|Bo Meets a Chick|A1|caring-for-pets|boy chicken chick|egg chick chicken farm basket road
+P|Bo sees an egg at the farm.|boy egg farm
+P|The egg rolls toward the road.|egg road
+P|Bo puts a basket in its path.|boy basket egg
+P|The egg stops safely in the basket.|egg basket
+P|The egg opens and a chick comes out.|egg chick
+P|The mother chicken sits beside her chick.|chicken chick
+Q|What moves at the farm?|egg rock box|egg
+Q|What comes out?|chick duck frog|chick
+Q|Who sits near the chick?|chicken cow sheep|chicken
+
+shell-home|Imani and the Shell|A1|sea-turtles oceans|girl crab|shell crab beach sand girl sea
+P|Imani finds a shell on the beach.|girl shell beach
+P|She lifts it from the sand.|girl hand shell
+P|A small crab moves inside.|crab shell
+P|Imani puts the shell back down.|girl shell sand
+P|The crab walks toward the sea.|crab sea
+P|Imani waves and finds an empty shell.|girl wave shell
+Q|What does Imani find?|shell rock flower|shell
+Q|Who lives inside?|crab snail turtle|crab
+Q|Where does the crab walk?|sea forest school|sea
+
+missing-sugar|Ada Bakes Muffins|A1|baking cooking|girl sister|muffin oven sugar sister kitchen bowl
+P|Ada makes muffins in the kitchen.|girl muffin kitchen
+P|She cannot find the sugar.|girl sugar
+P|Her sister looks in a cupboard.|sister kitchen
+P|The sugar is behind a bowl.|sugar bowl
+P|Ada puts the muffins in the oven.|girl muffin oven
+P|The sisters eat warm muffins together.|girl sister muffin
+Q|What does Ada make?|muffin pie cookie|muffin
+Q|What is missing?|sugar salt butter|sugar
+Q|Where are the muffins cooked?|oven fridge sink|oven
+
+muddy-bike|Kai and the Muddy Bike|A1|cycling making-friends|boy girl|bike puddle friend pull road smile
+P|Kai rides his bike along the road.|boy bike road
+P|One wheel stops in a puddle.|bike puddle
+P|Kai pulls, but the bike stays there.|boy pull bike
+P|His friend Mei comes to help.|girl friend boy
+P|They pull the bike out together.|girl boy bike
+P|Kai walks beside Mei and smiles.|boy girl smile
+Q|What gets stuck?|bike bus train|bike
+Q|Where does it stop?|puddle beach garden|puddle
+Q|Who helps Kai?|girl dog teacher|girl
+
+snowman-hat|Mila's Snowman Hat|A1|snow wind|girl dog|snowman hat wind dog snow laugh
+P|Mila puts a hat on her snowman.|girl hat snowman
+P|A cold wind blows the hat away.|wind hat snow
+P|Her dog runs after it.|dog run hat
+P|The dog brings back the hat.|dog hat
+P|Mila puts it on the snowman again.|girl snowman hat
+P|The dog wears the hat for one funny moment.|dog hat laugh
+Q|What blows away?|hat scarf gloves|hat
+Q|Who brings it back?|dog cat bird|dog
+Q|Who wears it at the end?|dog snowman girl|dog
+
+robot-blocks|Yuri's Block Robot|A1|robots building-blocks|boy robot|robot blocks build boy clap house
+P|Yuri asks his toy robot to build.|boy robot blocks
+P|The robot stacks three blocks.|robot blocks
+P|The blocks fall on the floor.|blocks
+P|Yuri picks them up with the robot.|boy robot blocks
+P|They build a small house together.|boy robot house
+P|Yuri claps, and the robot waves.|boy clap robot
+Q|What does the robot stack?|blocks book plate|blocks
+Q|What do they build?|house boat train|house
+Q|What does Yuri do at the end?|clap sleep cry|clap
+
+moon-cloud|Hana Waits for the Moon|A1|the-moon clouds|girl father|moon cloud window night star father
+P|Hana looks for the moon at night.|girl moon night
+P|A cloud hides the moon.|cloud moon
+P|Hana waits beside the window.|girl window
+P|Dad points to one bright star.|father star
+P|The cloud moves, and the moon appears.|cloud moon
+P|Hana and Dad wave at the moon.|girl father moon
+Q|What hides the moon?|cloud tree house|cloud
+Q|Where does Hana wait?|window door car|window
+Q|What does Dad point to first?|star sun planet|star
+
+bus-bag|Davi's Bag on the Bus|A1|school-day public-transport|boy driver|bus bag driver school classroom wave
+P|Davi rides the bus to school.|boy bus school
+P|He leaves his bag on a seat.|boy bag bus
+P|Davi sees his empty hands outside.|boy hand
+P|The bus driver calls his name.|driver bus boy
+P|The driver gives the bag back.|driver boy bag
+P|Davi waves and goes to class.|boy wave classroom
+Q|What does Davi leave behind?|bag hat book|bag
+Q|Where does he leave it?|bus train taxi|bus
+Q|Who gives it back?|driver teacher doctor|driver
+
+fox-at-river|Zuri and the River Fox|A2|rivers forests|girl fox|fox river forest bridge girl smile
+P|Zuri saw a fox beside the river.|girl fox river
+P|The fox wanted to cross, but the water rushed.|fox river
+P|Zuri noticed a little bridge upstream.|girl bridge river
+P|She walked there and waited quietly.|girl bridge
+P|The fox followed the path and crossed the bridge.|fox bridge
+P|Zuri smiled as it ran into the forest.|girl fox forest
+Q|Which animal needed a way across?|fox deer rabbit|fox
+Q|What did Zuri find?|bridge boat ladder|bridge
+Q|Where did the fox run?|forest city school|forest
+
+library-map|Omar's Library Map|A2|school-day mysteries-and-clues|boy girl|book map bookshelf library friend globe
+P|Omar lost his library book before class.|boy book school
+P|He found a little map inside his bag.|boy map bag
+P|The map showed three tall bookshelves.|map bookshelf
+P|His friend Mei checked the last shelf.|girl bookshelf
+P|She found Omar's book behind a globe.|girl book globe
+P|Omar thanked Mei and read with her.|boy girl book
+Q|What did Omar lose?|book map pencil|book
+Q|What showed him where to look?|map clock key|map
+Q|Where was the book hidden?|globe sofa tree|globe
+
+pancake-milk|Mei's Thick Pancakes|A2|breakfast cooking|girl mother|pancake milk egg frying-pan mother bowl
+P|Mei mixed eggs and milk for pancakes.|girl egg milk
+P|She added too much flour to the bowl.|girl bowl
+P|The mix stayed thick on the spoon.|bowl spoon
+P|Mum added more milk and stirred it.|mother milk bowl
+P|They cooked small pancakes in a frying pan.|girl frying-pan pancake
+P|Mei shared the soft pancakes with Mum.|girl mother pancake
+Q|What did Mei make?|pancake soup pie|pancake
+Q|What did Mum add?|milk water tea|milk
+Q|What did they cook in?|frying-pan oven fridge|frying-pan
+
+lost-mitten|Niko's Missing Mitten|A2|snow wind|boy dog|mitten snowman dog snow tree laugh
+P|Niko took his dog into the snow.|boy dog snow
+P|One mitten slipped off near the snowman.|mitten snowman
+P|Niko searched behind a tree.|boy tree
+P|His dog sniffed beside the snowman.|dog snowman
+P|The dog pulled the mitten from the snow.|dog mitten snow
+P|Niko put it on and laughed at the dog.|boy mitten dog
+Q|What did Niko lose?|mitten hat scarf|mitten
+Q|Who found it?|dog cat fox|dog
+Q|Where was it?|snow sand grass|snow
+
+turtle-rock|Ana and the Turtle Path|A2|sea-turtles oceans|girl turtle|turtle beach rock sea girl wave
+P|Ana watched a turtle crawl across the beach.|girl turtle beach
+P|A large rock blocked its path to the sea.|rock turtle sea
+P|The turtle stopped and turned around.|turtle rock
+P|Ana rolled the loose rock away carefully.|girl rock
+P|The turtle reached the water and swam off.|turtle sea swim
+P|Ana waved, then left the beach clean.|girl wave beach
+Q|What blocked the turtle?|rock box boat|rock
+Q|Where did it want to go?|sea forest farm|sea
+Q|What did Ana move?|rock shell sand|rock
+
+quiet-drum|Kofi's Quiet Drum|A2|musical-instruments family-traditions|boy baby|drum baby brother clap dance crib
+P|Kofi played his drum beside the crib.|boy drum crib
+P|His baby brother woke and cried.|baby cry crib
+P|Kofi stopped and listened to Mum.|boy mother listen
+P|He played a soft beat in another room.|boy drum
+P|The baby slept while Mum clapped quietly.|baby mother clap
+P|Kofi danced without making a loud sound.|boy dance drum
+Q|What woke the baby?|drum bell guitar|drum
+Q|Who cried?|baby boy dog|baby
+Q|What did Kofi do at the end?|dance shout run|dance
+
+patched-kite|Lila Patches the Kite|A2|kites making-friends|girl boy|kite paper glue girl wind playground
+P|Lila's kite tore on a windy day.|girl kite wind
+P|She carried it home and felt sad.|girl kite sad
+P|Sam brought paper and glue to her table.|boy paper glue
+P|They patched the hole together.|girl glue kite
+P|The kite flew above the playground again.|kite playground wind
+P|Lila let Sam hold the string first.|girl boy kite
+Q|What tore in the wind?|kite book shirt|kite
+Q|What did Sam bring?|glue water milk|glue
+Q|Where did the kite fly again?|playground kitchen station|playground
+
+birthday-candle|Zara's Birthday Candle|A2|birthday-parties family-traditions|girl grandmother|cake candle grandmother family birthday sing
+P|Zara's family made a birthday cake.|girl family cake
+P|They could not find one candle.|cake candle
+P|Grandma checked a box in the kitchen.|grandmother box kitchen
+P|She found a candle under the napkins.|grandmother candle napkin
+P|Grandma lit it, and everyone sang.|grandmother candle sing
+P|Zara blew it out and shared the cake.|girl cake family
+Q|What was missing?|candle present balloon|candle
+Q|Who found it?|grandmother teacher sister|grandmother
+Q|What did Zara share?|cake cookie pie|cake
+
+station-lunch|Sam's Station Lunch|A2|trains school-lunch|boy driver|train station lunchbox driver sandwich wave
+P|Sam waited for a train with Dad.|boy father train
+P|He left his lunchbox on a station bench.|boy lunchbox bench
+P|The train arrived, and Sam noticed his empty hand.|train boy hand
+P|A train driver waved from the platform.|driver wave station
+P|The driver handed Sam his lunchbox.|driver lunchbox boy
+P|Sam ate his sandwich on the train.|boy sandwich train
+Q|What did Sam leave behind?|lunchbox bag hat|lunchbox
+Q|Where did he leave it?|bench table chair|bench
+Q|Where did Sam eat?|train bus boat|train
+
+thirsty-flower|Hana's Thirsty Flower|A2|plant-growth water-cycle|girl worm|flower garden watering-can worm sun girl
+P|Hana saw a drooping flower in her garden.|girl flower garden
+P|The soil felt dry under the hot sun.|sun garden
+P|She filled a watering can at the sink.|girl watering-can sink
+P|Hana watered the flower and waited.|girl watering-can flower
+P|A worm came out of the damp soil.|worm garden
+P|By evening, the flower stood tall again.|flower girl smile
+Q|What looked droopy?|flower tree cactus|flower
+Q|What did Hana fill?|watering-can bottle bowl|watering-can
+Q|What came out of the soil?|worm ant bee|worm
+
+painted-butterfly|Asha's Paint Spot|A2|painting butterflies|girl teacher|paint paper butterfly paintbrush teacher smile
+P|Asha spilled blue paint on her paper.|girl paint paper
+P|She worried that her picture was ruined.|girl worried paper
+P|Her teacher gave her a paintbrush.|teacher paintbrush
+P|Asha painted wings around the blue spot.|girl paintbrush paper
+P|The spot became a bright butterfly.|butterfly paper paint
+P|Asha showed her new picture to everyone.|girl butterfly smile
+Q|What did Asha spill?|paint water juice|paint
+Q|What did the teacher give her?|paintbrush pencil crayon|paintbrush
+Q|What did the spot become?|butterfly bee bird|butterfly
+
+foggy-island|Ravi's Foggy Boat Trip|A2|boats oceans|boy father|boat island fog dolphin sun father
+P|Ravi and Dad sailed toward an island.|boy boat island
+P|Thick fog hid the island from view.|fog boat island
+P|Dad slowed the boat and waited.|father boat
+P|A dolphin jumped close to them.|dolphin boat
+P|The sun came out, and the fog lifted.|sun fog
+P|Ravi saw the island and waved at the dolphin.|boy island dolphin
+Q|What hid the island?|fog rain snow|fog
+Q|Which animal jumped nearby?|dolphin shark whale|dolphin
+Q|What made the fog lift?|sun moon star|sun
+
+grandmas-soup|Nia's Soup for Grandma|A2|cooking family-traditions|girl grandmother|soup salt water grandmother spoon smile
+P|Nia cooked soup for her grandmother.|girl soup grandmother
+P|She tasted it and made a face.|girl spoon
+P|Nia had put in too much salt.|salt soup
+P|Grandma added water and stirred the pot.|grandmother water spoon
+P|They tasted the soup again together.|girl grandmother soup
+P|Nia smiled as Grandma asked for more.|girl grandmother soup
+Q|What did Nia cook?|soup cake noodles|soup
+Q|What was there too much of?|salt sugar butter|salt
+Q|What did Grandma add?|water milk juice|water
+
+hill-picnic|Jo's Windy Hill Picnic|A2|mountains holidays|boy girl|mountain basket wind tree sandwich grass
+P|Jo and Mei climbed a grassy hill.|boy girl mountain
+P|A strong wind pushed their picnic basket.|wind basket
+P|The basket rolled toward a tree.|basket tree
+P|Mei ran ahead and caught it.|girl run basket
+P|They sat under the tree and ate sandwiches.|tree sandwich boy
+P|Jo thanked Mei for saving their lunch.|boy girl basket
+Q|What rolled away?|basket ball hat|basket
+Q|Who caught it?|girl dog teacher|girl
+Q|Where did they eat?|tree bus classroom|tree
+
+paper-crown|Kofi's Paper Crown|A2|school-day drawing|boy girl|crown paper school friend head clap
+P|Kofi lost his crown before the school play.|boy crown school
+P|He searched his bag and found nothing.|boy bag
+P|His friend Luz folded a crown from paper.|girl paper crown
+P|Kofi put the new crown on his head.|boy crown head
+P|He walked onstage and spoke his line.|boy crown talk
+P|The class clapped for Kofi and Luz.|clap boy girl
+Q|What did Kofi lose?|crown hat cap|crown
+Q|What did Luz use?|paper book sand|paper
+Q|What did the class do?|clap cry sleep|clap
+
+tent-flashlight|Mila's Tent Light|A2|outdoor-adventures stars|girl father|tent flashlight night father star shoes
+P|Mila and Dad slept in a tent.|girl father tent
+P|Mila could not find the flashlight.|girl flashlight tent
+P|They looked under their blankets.|girl father blanket
+P|Dad spotted it beside his shoes.|father flashlight shoes
+P|Mila shone it on a little map.|girl flashlight map
+P|Then she turned it off to see the stars.|girl star night
+Q|What could Mila not find?|flashlight candle lamp|flashlight
+Q|Where was it?|shoes blanket pillow|shoes
+Q|What did Mila see at the end?|star sun cloud|star
+
+second-kick|Mei's Second Kick|A2|soccer team-sports|girl boy|football goalpost kick friend boy clap
+P|Mei kicked the football toward the goal.|girl kick football
+P|The ball missed, and Mei looked down.|football goalpost girl
+P|Her friend Omar passed it back.|boy football girl
+P|Mei took a breath and tried again.|girl football
+P|This time the ball went into the goal.|football goalpost
+P|Mei thanked Omar, and the team cheered.|girl boy clap
+Q|What missed the goal first?|football basketball tennis|football
+Q|Who passed it back?|boy teacher dog|boy
+Q|What went into the goal?|football basketball baseball|football
+
+cave-echo|Ben and the Cave Echo|A2|outdoor-adventures unexplained-places|boy father|cave scared father shout laugh sun
+P|Ben and Dad walked into a shallow cave.|boy father cave
+P|Ben called hello, and a voice called back.|boy shout cave
+P|He felt scared and held Dad's hand.|boy scared father
+P|Dad called out, and the cave answered.|father shout cave
+P|Ben tried his own call and heard it return.|boy shout cave
+P|They laughed and walked back into the sun.|boy father sun
+Q|Where did Ben hear the voice?|cave school bus|cave
+Q|Who showed him the echo?|father teacher friend|father
+Q|How did Ben feel at first?|scared happy sleepy|scared
+
+box-meow|Ana's Mystery Box|A2|cats mysteries-and-clues|girl kitten|box kitten door paper girl water
+P|Ana heard a soft sound behind the door.|girl ear door
+P|She found a box covered with paper.|girl box paper
+P|Something inside the box moved.|box
+P|Ana opened it slowly with Mum.|girl mother box
+P|A kitten jumped out and meowed.|kitten box jump
+P|Ana gave it water and a soft blanket.|girl kitten water
+Q|What made the sound?|kitten puppy chick|kitten
+Q|What covered the box?|paper blanket scarf|paper
+Q|What did Ana give the kitten?|water juice tea|water
+
+rainbow-umbrella|Timo's Rainbow Umbrella|A2|rainbows rain|boy girl|umbrella rain rainbow friend puddle shop
+P|Timo walked home when rain began.|boy rain walk
+P|He left his umbrella beside a shop.|boy umbrella shop
+P|Timo ran back, but it was gone.|boy run shop
+P|His friend Zara held it across the road.|girl umbrella road
+P|She shared the umbrella with Timo.|girl boy umbrella
+P|They crossed a puddle beneath a rainbow.|boy puddle rainbow
+Q|What did Timo leave behind?|umbrella bag hat|umbrella
+Q|Who found it?|girl dog driver|girl
+Q|What appeared at the end?|rainbow moon star|rainbow
