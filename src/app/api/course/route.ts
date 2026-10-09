@@ -23,7 +23,47 @@ export async function GET() {
     console.error('[api/course] list error:', dbError.message);
     return NextResponse.json({ error: dbError.message }, { status: 500 });
   }
-  return NextResponse.json({ courses: (data as DbCourse[] ?? []).map((c) => toCourse(c)) });
+  const courses = (data as DbCourse[] ?? []);
+  // Progress for the teacher's own courses: lessons done, the next planned lesson, and the class flying it
+  // (the class of the latest launched lesson's session).
+  const own = courses.filter((c) => c.teacher_id === teacher.id).map((c) => c.id);
+  const progress = new Map<string, CourseProgress>();
+  if (own.length) {
+    const { data: lessons } = await supabase
+      .from('course_lessons')
+      .select('course_id, id, title, order_index, status, session_id')
+      .in('course_id', own)
+      .order('order_index', { ascending: true });
+    const rows = (lessons ?? []) as Array<{ course_id: string; id: string; title: string; order_index: number; status: string; session_id: string | null }>;
+    const sessionIds = Array.from(new Set(rows.map((r) => r.session_id).filter((x): x is string => !!x)));
+    const classBySession = new Map<string, { id: string; name: string }>();
+    if (sessionIds.length) {
+      const { data: sess } = await supabase.from('sessions').select('id, started_at, classes(id, name)').in('id', sessionIds);
+      for (const s of (sess ?? []) as unknown as Array<{ id: string; classes: { id: string; name: string } | null }>) if (s.classes) classBySession.set(s.id, s.classes);
+    }
+    for (const id of own) {
+      const ls = rows.filter((r) => r.course_id === id);
+      const next = ls.find((r) => r.status === 'planned') ?? null;
+      const launched = [...ls].reverse().find((r) => r.session_id && classBySession.has(r.session_id));
+      const cls = launched?.session_id ? classBySession.get(launched.session_id) ?? null : null;
+      progress.set(id, {
+        total: ls.length,
+        done: ls.filter((r) => r.status !== 'planned').length,
+        next: next ? { lessonId: next.id, title: next.title, index: ls.indexOf(next) + 1 } : null,
+        className: cls?.name ?? null,
+        classId: cls?.id ?? null,
+      });
+    }
+  }
+  return NextResponse.json({ courses: courses.map((c) => ({ ...toCourse(c), progress: progress.get(c.id) ?? null })) });
+}
+
+export interface CourseProgress {
+  total: number;
+  done: number;
+  next: { lessonId: string; title: string; index: number } | null;
+  className: string | null;
+  classId: string | null;
 }
 
 interface CreateBody {
