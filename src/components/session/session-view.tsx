@@ -2672,7 +2672,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             onResolved={handlePoolResolved}
           />
         ) : viewMode === 'game' && selectedGame ? (
-          isCuratedFlight && flightConfig ? (
+          isCuratedFlight && flightConfig && !roomActive ? (
             <FlightSessionView
               slots={lesson.lessonSlots}
               currentSlotIndex={lesson.currentSlotIndex}
@@ -2780,7 +2780,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
           )
         ) : viewMode === 'activity' && selectedActivity ? (
-          isCuratedFlight && flightConfig ? (
+          isCuratedFlight && flightConfig && !roomActive ? (
             <FlightSessionView
               slots={lesson.lessonSlots}
               currentSlotIndex={lesson.currentSlotIndex}
