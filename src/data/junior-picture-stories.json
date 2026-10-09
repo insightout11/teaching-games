@@ -93,7 +93,8 @@
       "dog",
       "ladder",
       "father"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "rainy-boots",
@@ -191,7 +192,8 @@
       "mother",
       "puddle",
       "school"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "kitten-basket",
@@ -290,7 +292,8 @@
       "water",
       "girl",
       "hand"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "shared-lunch",
@@ -389,7 +392,8 @@
       "orange",
       "table",
       "girl"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "little-seed",
@@ -484,7 +488,8 @@
       "seedling",
       "flower",
       "sun"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "dog-shoe",
@@ -582,7 +587,8 @@
       "door",
       "boy",
       "ball"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "puddle-boat",
@@ -679,7 +685,8 @@
       "puddle",
       "hand",
       "smile"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "new-ball-friend",
@@ -778,7 +785,8 @@
       "play",
       "throw",
       "catch"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "lost-teddy",
@@ -874,7 +882,8 @@
       "flashlight",
       "pillow",
       "sleep"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "picnic-ants",
@@ -971,7 +980,8 @@
       "apple",
       "basket",
       "tree"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "red-balloon",
@@ -1071,7 +1081,8 @@
       "hand",
       "party",
       "dance"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "pencil-under-book",
@@ -1167,7 +1178,8 @@
       "teacher",
       "draw",
       "cat"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "new-chick",
@@ -1263,7 +1275,8 @@
       "farm",
       "basket",
       "road"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "shell-home",
@@ -1361,7 +1374,8 @@
       "sand",
       "girl",
       "sea"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "missing-sugar",
@@ -1458,7 +1472,8 @@
       "sister",
       "kitchen",
       "bowl"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "muddy-bike",
@@ -1557,7 +1572,8 @@
       "pull",
       "road",
       "smile"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "snowman-hat",
@@ -1656,7 +1672,8 @@
       "dog",
       "snow",
       "laugh"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "robot-blocks",
@@ -1753,7 +1770,8 @@
       "boy",
       "clap",
       "house"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "moon-cloud",
@@ -1849,7 +1867,8 @@
       "night",
       "star",
       "father"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "bus-bag",
@@ -1948,7 +1967,8 @@
       "school",
       "classroom",
       "wave"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "fox-at-river",
@@ -2045,7 +2065,8 @@
       "bridge",
       "girl",
       "smile"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "library-map",
@@ -2143,7 +2164,8 @@
       "library",
       "friend",
       "globe"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "pancake-milk",
@@ -2241,7 +2263,8 @@
       "frying-pan",
       "mother",
       "bowl"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "lost-mitten",
@@ -2338,7 +2361,8 @@
       "snow",
       "tree",
       "laugh"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "turtle-rock",
@@ -2436,7 +2460,8 @@
       "sea",
       "girl",
       "wave"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "quiet-drum",
@@ -2535,7 +2560,8 @@
       "clap",
       "dance",
       "crib"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "patched-kite",
@@ -2635,7 +2661,8 @@
       "girl",
       "wind",
       "playground"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "birthday-candle",
@@ -2734,7 +2761,8 @@
       "family",
       "birthday",
       "sing"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "station-lunch",
@@ -2834,7 +2862,8 @@
       "driver",
       "sandwich",
       "wave"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "thirsty-flower",
@@ -2932,7 +2961,8 @@
       "worm",
       "sun",
       "girl"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "painted-butterfly",
@@ -3031,7 +3061,8 @@
       "paintbrush",
       "teacher",
       "smile"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "foggy-island",
@@ -3128,7 +3159,8 @@
       "dolphin",
       "sun",
       "father"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "grandmas-soup",
@@ -3226,7 +3258,8 @@
       "grandmother",
       "spoon",
       "smile"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "hill-picnic",
@@ -3324,7 +3357,8 @@
       "tree",
       "sandwich",
       "grass"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "paper-crown",
@@ -3423,7 +3457,8 @@
       "friend",
       "head",
       "clap"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "tent-flashlight",
@@ -3523,7 +3558,8 @@
       "father",
       "star",
       "shoes"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "second-kick",
@@ -3621,7 +3657,8 @@
       "friend",
       "boy",
       "clap"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "cave-echo",
@@ -3721,7 +3758,8 @@
       "shout",
       "laugh",
       "sun"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "box-meow",
@@ -3819,7 +3857,8 @@
       "paper",
       "girl",
       "water"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "rainbow-umbrella",
@@ -3919,7 +3958,8 @@
       "friend",
       "puddle",
       "shop"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "dino-tracks",
@@ -4014,7 +4054,8 @@
       "shovel",
       "book",
       "museum"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "shell-in-stone",
@@ -4111,7 +4152,8 @@
       "paintbrush",
       "museum",
       "book"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "sunflower-shade",
@@ -4209,7 +4251,8 @@
       "water",
       "hat",
       "seedling"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "planet-ball",
@@ -4309,7 +4352,8 @@
       "moon",
       "star",
       "rocket"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "paper-rocket",
@@ -4408,7 +4452,8 @@
       "tree",
       "wind",
       "glue"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "space-camera",
@@ -4505,7 +4550,8 @@
       "rocket",
       "moon",
       "window"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "volcano-walk",
@@ -4602,7 +4648,8 @@
       "hill",
       "water",
       "cloud"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "shaky-shelf",
@@ -4697,7 +4744,8 @@
       "flashlight",
       "water",
       "phone"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "camel-water",
@@ -4795,7 +4843,8 @@
       "sand",
       "sun",
       "hat"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "festival-drum",
@@ -4893,7 +4942,8 @@
       "dance",
       "cake",
       "rope"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "small-hero",
@@ -4988,7 +5038,8 @@
       "crosswalk",
       "father",
       "carry"
-    ]
+    ],
+    "length": "short"
   },
   {
     "id": "zoo-map",
@@ -5096,7 +5147,8 @@
       "giraffe",
       "zebra",
       "panda"
-    ]
+    ],
+    "length": "standard"
   },
   {
     "id": "garden-basket",
@@ -5201,7 +5253,8 @@
       "bee",
       "flower",
       "rabbit"
-    ]
+    ],
+    "length": "standard"
   },
   {
     "id": "autumn-game",
@@ -5307,7 +5360,8 @@
       "sofa",
       "blanket",
       "puzzle"
-    ]
+    ],
+    "length": "standard"
   },
   {
     "id": "bell-puzzle",
@@ -5414,7 +5468,8 @@
       "bell",
       "desk",
       "classroom"
-    ]
+    ],
+    "length": "standard"
   },
   {
     "id": "snowy-zoo",
@@ -5520,7 +5575,8 @@
       "polar-bear",
       "scarf",
       "map"
-    ]
+    ],
+    "length": "standard"
   },
   {
     "id": "airport-ticket",
@@ -5624,7 +5680,8 @@
       "station-worker",
       "paper",
       "bag"
-    ]
+    ],
+    "length": "standard"
   },
   {
     "id": "reef-sketch",
@@ -5730,7 +5787,8 @@
       "dolphin",
       "shark",
       "camera"
-    ]
+    ],
+    "length": "standard"
   },
   {
     "id": "horse-and-frog",
@@ -5836,7 +5894,8 @@
       "water",
       "farm",
       "grass"
-    ]
+    ],
+    "length": "standard"
   },
   {
     "id": "four-games",
@@ -5945,7 +6004,8 @@
       "dance",
       "shoes",
       "ball"
-    ]
+    ],
+    "length": "standard"
   },
   {
     "id": "zoo-birthday",
@@ -6051,6 +6111,7 @@
       "cake",
       "candle",
       "basket"
-    ]
+    ],
+    "length": "standard"
   }
 ]

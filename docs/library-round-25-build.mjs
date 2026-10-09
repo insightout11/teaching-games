@@ -66,7 +66,8 @@ const newStories = blocks(`docs/library-round-25-stories-${phase}.txt`).map((lin
     return { prompt, options: options.split(' '), answer: answer === '-' ? null : answer };
   });
   return { id, title, level, topicIds: idsFor(suffixes, id), cast: castField.split(' '), pages, questions,
-    words: wordsField.split(' ') };
+    words: wordsField.split(' '), length: pages.length === 6 && pages.every((page) =>
+      (page.text.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.filter(Boolean).length || 0) === 1) ? 'short' : 'standard' };
 });
 const storyIds = new Set(newStories.map((row) => row.id));
 stories = stories.filter((row) => !storyIds.has(row.id)).concat(newStories);

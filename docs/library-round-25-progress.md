@@ -14,4 +14,8 @@ Added ten second sets (100 new questions) and ten A2 stories for animals, food, 
 
 ## Task 3 — lengths and full validation
 
-Pending.
+Marked all 61 stories by length: **51 short** (six pages, one sentence each) and **10 standard** (seven pages). The existing 40 stories already met the short definition, so no extra short stories were required. Both Junior checkers now fail for missing kids-topic coverage; the story checker also fails for missing or mismatched length. The `--build` modes retain newer Round 25 rows.
+
+Final checker counts: 61 sets, 610 questions (183 opinion, 30.0%), 61 stories, 376 pages, 51 short / 10 standard, kids topics covered 80/80 in each bank. **Every Junior check is 0.** Library validator passes (1,388 items). `pnpm test src/lib` passes (86 files, 390 tests).
+
+`npx tsc --noEmit -p .` reports no Round 25 errors after a checker type fix. It remains blocked by the checkout's missing declared `@anthropic-ai/sdk` package: two TS2307 errors in `src/lib/ai/providers/anthropic.ts` and a related TS7006 callback parameter. No package was installed or changed.

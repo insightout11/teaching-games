@@ -4,20 +4,20 @@ import path from 'node:path';
 
 type Story = {
   id?: unknown; title?: unknown; level?: unknown; topicIds?: unknown; cast?: unknown;
-  pages?: unknown; questions?: unknown; words?: unknown;
+  pages?: unknown; questions?: unknown; words?: unknown; length?: unknown;
 };
 type Page = { text?: unknown; pictures?: unknown };
 type Question = { prompt?: unknown; options?: unknown; answer?: unknown };
 type Check = 'bankSize' | 'badStory' | 'duplicateId' | 'duplicateTitle' | 'badLevel' |
   'badTopicId' | 'badCast' | 'pageCount' | 'badPage' | 'sentenceLength' |
   'repeatedPage' | 'questionCount' | 'badQuestion' | 'badOption' |
-  'badAnswer' | 'tooManyOpinions' | 'badWords';
+  'badAnswer' | 'tooManyOpinions' | 'badWords' | 'badLength' | 'topicCoverage';
 
 const checks: Record<Check, number> = {
   bankSize: 0, badStory: 0, duplicateId: 0, duplicateTitle: 0, badLevel: 0,
   badTopicId: 0, badCast: 0, pageCount: 0, badPage: 0, sentenceLength: 0,
   repeatedPage: 0, questionCount: 0, badQuestion: 0, badOption: 0,
-  badAnswer: 0, tooManyOpinions: 0, badWords: 0,
+  badAnswer: 0, tooManyOpinions: 0, badWords: 0, badLength: 0, topicCoverage: 0,
 };
 const errors: string[] = [];
 function fail(check: Check, where: string, message: string): void {
@@ -29,6 +29,7 @@ const stickers = JSON.parse(fs.readFileSync(path.join(dataDir, 'sticker-words.js
 const stickerIds = new Set(stickers.map((row) => row.id));
 const topics = JSON.parse(fs.readFileSync(path.join(dataDir, 'topic-briefings.json'), 'utf8')) as { id: string }[];
 const topicIds = new Set(topics.map((row) => row.id));
+const kidsTopicIds = topics.map((row) => row.id).filter((id) => id.startsWith('topic-kids-'));
 const topicBySuffix = new Map(topics.map((row) => [row.id.replace(/^topic-(?:kids|teens)-/, ''), row.id]));
 const file = path.join(dataDir, 'junior-picture-stories.json');
 
@@ -58,8 +59,14 @@ if (process.argv.includes('--build')) {
     return { id, title, level, topicIds: mappedTopics, cast: castField.split(' '), pages, questions,
       words: wordField.split(' ') };
   });
-  fs.writeFileSync(file, JSON.stringify(built, null, 2) + '\n');
-  console.log(`Built ${built.length} Junior picture stories from reviewed seeds.`);
+  const existing = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) as Story[] : [];
+  const builtIds = new Set(built.map((row) => row.id));
+  const retained = existing.filter((row) => typeof row.id === 'string' && !builtIds.has(row.id));
+  const withLengths = built.concat(retained as typeof built).map((row) => ({ ...row,
+    length: row.pages.length === 6 && row.pages.every((page) =>
+      (page.text.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.filter(Boolean).length || 0) === 1) ? 'short' : 'standard' }));
+  fs.writeFileSync(file, JSON.stringify(withLengths, null, 2) + '\n');
+  console.log(`Built ${built.length} Junior picture stories and retained ${retained.length} newer stories.`);
 }
 
 let raw: unknown;
@@ -71,8 +78,11 @@ const storyIds = new Set<string>();
 const titles = new Set<string>();
 const pageTexts = new Set<string>();
 const usedStickers = new Set<string>();
+const coveredKidsTopics = new Set<string>();
 const levels = { A1: 0, A2: 0 };
 let pagesTotal = 0;
+let shortStories = 0;
+let standardStories = 0;
 
 function checkSticker(value: unknown, check: Check, where: string): void {
   if (typeof value !== 'string' || !stickerIds.has(value)) fail(check, where, `unknown sticker id ${String(value)}`);
@@ -105,10 +115,19 @@ for (const [index, story] of Array.from(stories.entries())) {
   if (!Array.isArray(story.topicIds)) fail('badTopicId', at, 'topicIds must be an array');
   else {
     if (new Set(story.topicIds).size !== story.topicIds.length) fail('badTopicId', at, 'duplicate topicId');
-    for (const id of story.topicIds) if (typeof id !== 'string' || !topicIds.has(id)) {
-      fail('badTopicId', at, `unknown topicId ${String(id)}`);
+    for (const id of story.topicIds) {
+      if (typeof id !== 'string' || !topicIds.has(id)) fail('badTopicId', at, `unknown topicId ${String(id)}`);
+      else if (id.startsWith('topic-kids-')) coveredKidsTopics.add(id);
     }
   }
+  const isShort = Array.isArray(story.pages) && story.pages.length === 6 && story.pages.every((rawPage) => {
+    const page = rawPage as Page;
+    return typeof page?.text === 'string' &&
+      (page.text.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map((part) => part.trim()).filter(Boolean).length || 0) === 1;
+  });
+  if (story.length !== (isShort ? 'short' : 'standard')) fail('badLength', at, `length must be ${isShort ? 'short' : 'standard'}`);
+  else if (isShort) shortStories += 1;
+  else standardStories += 1;
   checkStickerList(story.cast, 'badCast', `${at}.cast`, 1, 3);
   if (!Array.isArray(story.pages) || story.pages.length < 6 || story.pages.length > 8) {
     fail('pageCount', at, 'expected 6–8 pages');
@@ -149,11 +168,12 @@ for (const [index, story] of Array.from(stories.entries())) {
   }
   checkStickerList(story.words, 'badWords', `${at}.words`, 4, 6);
 }
-if (!((stories.length === 51 && levels.A1 === 31 && levels.A2 === 20) ||
-      (stories.length === 61 && levels.A1 === 31 && levels.A2 === 30))) {
-  fail('bankSize', file, `expected 51 stories split 31/20 or 61 split 31/30, found ${stories.length} split ${levels.A1}/${levels.A2}`);
+if (stories.length !== 61 || levels.A1 !== 31 || levels.A2 !== 30) {
+  fail('bankSize', file, `expected 61 stories split 31/30, found ${stories.length} split ${levels.A1}/${levels.A2}`);
 }
-console.log(`Junior picture stories: ${stories.length} stories, ${pagesTotal} pages, A1 ${levels.A1}, A2 ${levels.A2}, ${usedStickers.size} distinct sticker IDs used.`);
+for (const id of kidsTopicIds) if (!coveredKidsTopics.has(id)) fail('topicCoverage', id, 'kids topic has no Junior story');
+console.log(`Junior picture stories: ${stories.length} stories (${shortStories} short, ${standardStories} standard), ${pagesTotal} pages, A1 ${levels.A1}, A2 ${levels.A2}, ${usedStickers.size} distinct sticker IDs used.`);
+console.log(`Kids topic story coverage: ${coveredKidsTopics.size}/${kidsTopicIds.length}.`);
 console.log(`Junior story checks: ${Object.entries(checks).map(([key, value]) => `${key} ${value}`).join(', ')}.`);
 if (errors.length) {
   console.error(`Junior story validation failed with ${errors.length} error(s):\n${errors.slice(0, 80).join('\n')}`);

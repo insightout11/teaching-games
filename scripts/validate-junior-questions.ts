@@ -7,11 +7,11 @@ type Question = { id?: unknown; prompt?: unknown; options?: unknown; answer?: un
 type SetRow = { id?: unknown; topic?: unknown; topicIds?: unknown; questions?: unknown };
 type Check = 'bankSize' | 'badSet' | 'setSize' | 'duplicateSetId' | 'badQuestion' | 'duplicateQuestionId' |
   'badOptions' | 'unknownOption' | 'duplicateOption' | 'badAnswer' | 'longPrompt' |
-  'duplicatePromptOptions' | 'badSay' | 'fixedAnswerSlot' | 'opinionMix' | 'badTopicIds';
+  'duplicatePromptOptions' | 'badSay' | 'fixedAnswerSlot' | 'opinionMix' | 'badTopicIds' | 'topicCoverage';
 const checks: Record<Check, number> = {
   bankSize: 0, badSet: 0, setSize: 0, duplicateSetId: 0, badQuestion: 0, duplicateQuestionId: 0,
   badOptions: 0, unknownOption: 0, duplicateOption: 0, badAnswer: 0, longPrompt: 0,
-  duplicatePromptOptions: 0, badSay: 0, fixedAnswerSlot: 0, opinionMix: 0, badTopicIds: 0,
+  duplicatePromptOptions: 0, badSay: 0, fixedAnswerSlot: 0, opinionMix: 0, badTopicIds: 0, topicCoverage: 0,
 };
 const errors: string[] = [];
 function fail(check: Check, where: string, message: string): void {
@@ -23,6 +23,7 @@ const stickers = JSON.parse(fs.readFileSync(path.join(dataDir, 'sticker-words.js
 const stickerNames = new Map(stickers.map((sticker) => [sticker.id, sticker.word]));
 const briefingRows = JSON.parse(fs.readFileSync(path.join(dataDir, 'topic-briefings.json'), 'utf8')) as { id: string }[];
 const briefingIds = new Set(briefingRows.map((row) => row.id));
+const kidsTopicIds = briefingRows.map((row) => row.id).filter((id) => id.startsWith('topic-kids-'));
 const file = path.join(dataDir, 'junior-picture-questions.json');
 if (process.argv.includes('--build')) {
   const existing = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) as SetRow[] : [];
@@ -57,8 +58,10 @@ if (process.argv.includes('--build')) {
     });
     return { id, topic, topicIds: existingTopicIds.get(id) || [], questions };
   });
-  fs.writeFileSync(file, JSON.stringify(built, null, 2) + '\n');
-  console.log(`Built ${built.length} Junior topic sets from the reviewed seeds.`);
+  const builtIds = new Set(built.map((row) => row.id));
+  const retained = existing.filter((row) => typeof row.id === 'string' && !builtIds.has(row.id));
+  fs.writeFileSync(file, JSON.stringify([...built, ...retained], null, 2) + '\n');
+  console.log(`Built ${built.length} Junior topic sets and retained ${retained.length} newer sets.`);
 }
 if (!fs.existsSync(file)) {
   fail('badSet', file, 'question bank is missing');
@@ -74,6 +77,7 @@ const setIds = new Set<string>();
 const questionIds = new Set<string>();
 const pairs = new Set<string>();
 const used = new Set<string>();
+const coveredKidsTopics = new Set<string>();
 let questions = 0;
 let opinions = 0;
 let emptyTopicIds = 0;
@@ -90,8 +94,9 @@ for (const [setIndex, set] of Array.from(sets.entries())) {
   else {
     if (set.topicIds.length === 0) emptyTopicIds += 1;
     if (new Set(set.topicIds).size !== set.topicIds.length) fail('badTopicIds', at, 'topicIds must not repeat');
-    for (const id of set.topicIds) if (typeof id !== 'string' || !briefingIds.has(id)) {
-      fail('badTopicIds', at, `unknown briefing id ${String(id)}`);
+    for (const id of set.topicIds) {
+      if (typeof id !== 'string' || !briefingIds.has(id)) fail('badTopicIds', at, `unknown briefing id ${String(id)}`);
+      else if (id.startsWith('topic-kids-')) coveredKidsTopics.add(id);
     }
   }
   const rows = set.questions as Question[];
@@ -151,14 +156,16 @@ for (const [setIndex, set] of Array.from(sets.entries())) {
   }
 }
 const opinionShare = questions ? opinions / questions : 0;
-if (![51, 61].includes(sets.length) || questions !== sets.length * 10) {
-  fail('bankSize', file, `expected 51 or 61 sets of ten questions, found ${sets.length}/${questions}`);
+if (sets.length !== 61 || questions !== 610) {
+  fail('bankSize', file, `expected 61 sets and 610 questions, found ${sets.length}/${questions}`);
 }
+for (const id of kidsTopicIds) if (!coveredKidsTopics.has(id)) fail('topicCoverage', id, 'kids topic has no Junior question set');
 if (questions && (opinionShare < 0.25 || opinionShare > 0.35)) {
   fail('opinionMix', file, `opinion share ${(opinionShare * 100).toFixed(1)}% is outside 25–35%`);
 }
 console.log(`Junior picture questions: ${sets.length} sets, ${questions} questions, ${opinions} opinion (${(opinionShare * 100).toFixed(1)}%), ${used.size} sticker words used.`);
 console.log(`Round 22 Junior topics: ${emptyTopicIds} sets with no topicIds.`);
+console.log(`Kids topic question coverage: ${coveredKidsTopics.size}/${kidsTopicIds.length}.`);
 console.log(`Junior checks: ${Object.entries(checks).map(([key, value]) => `${key} ${value}`).join(', ')}.`);
 if (errors.length) {
   console.error(`Junior validation failed with ${errors.length} error(s):\n${errors.slice(0, 50).join('\n')}`);
