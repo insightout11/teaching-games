@@ -21,10 +21,10 @@ export function PlannerShell() {
         intensity="subtle"
         showEarth={false}
         showCityLights={false}
-        className="!left-64"
+       
       />
       <div
-        className="fixed inset-0 pointer-events-none bg-gradient-to-t from-[#070b14]/70 via-[#080c16]/45 to-[#080c16]/20 !left-64"
+        className="fixed inset-0 pointer-events-none bg-gradient-to-t from-[#070b14]/70 via-[#080c16]/45 to-[#080c16]/20"
         style={{ zIndex: 0 }}
         aria-hidden
       />

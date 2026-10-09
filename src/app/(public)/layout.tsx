@@ -1,5 +1,5 @@
 import { createServerSupabase } from '@/lib/supabase/server';
-import { Sidebar } from '@/components/ui/sidebar';
+import { TopBar } from '@/components/ui/top-bar';
 import { MarketingNav } from '@/components/homepage/MarketingNav';
 import { MarketingFooter } from '@/components/homepage/MarketingFooter';
 import { SkyBackground } from '@/components/ui/sky-background';
@@ -24,9 +24,9 @@ export default async function PublicLayout({ children }: { children: React.React
   if (user) {
     return (
       <div className="relative min-h-screen flex text-lc-text">
-        <SkyBackground weatherState="golden" altitude={0.75} intensity="subtle" className="!left-64" />
-        <div className="relative z-10 flex flex-1 min-w-0">
-          <Sidebar user={user} />
+        <SkyBackground weatherState="golden" altitude={0.75} intensity="subtle" />
+        <div className="relative z-10 flex flex-1 min-w-0 flex-col">
+          <TopBar user={user} />
           <div className="flex-1 flex flex-col min-w-0">
             <main className="flex-1 p-6 lg:p-8 overflow-auto">
               {children}

@@ -2,6 +2,7 @@ import { createServerSupabase } from '@/lib/supabase/server';
 import { FLIGHT_RESULT_KEY, flightResultLine, sanitizeFlightResult } from '@/lib/flight-result';
 import { lessonEntry, sanitizeLessonMemory } from '@/lib/lesson-memory';
 import { createServiceClient } from '@/lib/supabase/service';
+import { getDestinationById } from '@/data/world-flight/destinations';
 
 /**
  * Home as the departures board (docs/home-page-concept.md): one row per class with what happens next. Read with
@@ -19,24 +20,47 @@ export interface BoardRow {
   /** One line about the last lesson: the flight result if there is one, else its topic. */
   last: { at: string; line: string } | null;
   lastUsedAt: string | null;
+  /** Board identity, stable per class: gate by creation order (A1…), flight number from the class id (LC 100-999). */
+  gate: string;
+  flight: string;
+  junior: boolean;
+  /** Up to 5 students for the crew avatars (seed + first name; teacher-only page). */
+  crew: Array<{ seed: string; name: string }>;
+}
+
+export interface BoardSummary {
+  rows: BoardRow[];
+  /** This calendar month across the teacher's classes. */
+  stats: { lessonsThisMonth: number; students: number; cities: number };
+  /** Latest logbook lines across classes (class counts only). */
+  log: Array<{ className: string; line: string; at: string }>;
+  /** The most recently used class's World Flight position, if it has one. */
+  journey: { className: string; city: string; stamps: number } | null;
+}
+
+function flightNumber(id: string): string {
+  let h = 0;
+  for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return `LC ${100 + (h % 900)}`;
 }
 
 // An "active" session older than this was left open, not live.
 const LIVE_WINDOW_MS = 6 * 3600 * 1000;
 
-export async function getDepartureBoard(teacherId: string): Promise<BoardRow[]> {
+export async function getDepartureBoard(teacherId: string): Promise<BoardSummary> {
   const supabase = createServerSupabase();
   const { data: classes } = await supabase
     .from('classes')
-    .select('id, name, created_at')
+    .select('id, name, created_at, junior')
     .eq('teacher_id', teacherId)
     .eq('is_demo', false);
-  const rows = (classes ?? []) as Array<{ id: string; name: string; created_at: string }>;
-  if (!rows.length) return [];
+  const rows = ((classes ?? []) as Array<{ id: string; name: string; created_at: string; junior?: boolean }>)
+    .sort((a, b) => a.created_at.localeCompare(b.created_at));
+  if (!rows.length) return { rows: [], stats: { lessonsThisMonth: 0, students: 0, cities: 0 }, log: [], journey: null };
   const ids = rows.map((c) => c.id);
 
   const [studentsRes, sessionsRes] = await Promise.all([
-    supabase.from('students').select('class_id').in('class_id', ids),
+    supabase.from('students').select('class_id, name, avatar_seed').in('class_id', ids),
     supabase
       .from('sessions')
       .select('id, class_id, status, started_at, topic, custom_topic')
@@ -47,7 +71,13 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardRow[]> 
   const sessions = (sessionsRes.data ?? []) as Array<{ id: string; class_id: string; status: string; started_at: string; topic: string | null; custom_topic: string | null }>;
 
   const students = new Map<string, number>();
-  for (const s of (studentsRes.data ?? []) as Array<{ class_id: string }>) students.set(s.class_id, (students.get(s.class_id) ?? 0) + 1);
+  const crew = new Map<string, Array<{ seed: string; name: string }>>();
+  for (const s of (studentsRes.data ?? []) as Array<{ class_id: string; name: string; avatar_seed: string }>) {
+    students.set(s.class_id, (students.get(s.class_id) ?? 0) + 1);
+    const list = crew.get(s.class_id) ?? [];
+    if (list.length < 5) list.push({ seed: s.avatar_seed, name: s.name.split(' ')[0] });
+    crew.set(s.class_id, list);
+  }
 
   // Latest session per class, the live one, and the last finished one.
   const latest = new Map<string, (typeof sessions)[number]>();
@@ -109,8 +139,8 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardRow[]> 
     });
   }
 
-  return rows
-    .map((c) => {
+  const boardRows: BoardRow[] = rows
+    .map((c, i) => {
       const lv = live.get(c.id) ?? null;
       const ended = lastEnded.get(c.id) ?? null;
       const topic = ended ? ended.custom_topic || ended.topic : null;
@@ -123,8 +153,54 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardRow[]> 
         next: next.get(c.id) ?? null,
         last: ended ? { at: ended.started_at, line: results.get(ended.id) ?? covered.get(ended.id) ?? (topic ? `${topic}` : 'Lesson') } : null,
         lastUsedAt: latest.get(c.id)?.started_at ?? c.created_at,
+        gate: `${String.fromCharCode(65 + Math.floor(i / 9) % 26)}${(i % 9) + 1}`,
+        flight: flightNumber(c.id),
+        junior: c.junior === true,
+        crew: crew.get(c.id) ?? [],
       };
     })
     // Live classes first, then the class used most recently.
     .sort((a, b) => Number(!!b.liveSessionId) - Number(!!a.liveSessionId) || (b.lastUsedAt ?? '').localeCompare(a.lastUsedAt ?? ''));
+
+  // This month's numbers and the logbook strip.
+  const monthStart = new Date();
+  monthStart.setUTCDate(1);
+  monthStart.setUTCHours(0, 0, 0, 0);
+  const lessonsThisMonth = sessions.filter((s) => Date.parse(s.started_at) >= monthStart.getTime()).length;
+  const names = new Map(rows.map((c) => [c.id, c.name]));
+  const log = Array.from(lastEnded.values())
+    .map((s) => {
+      const line = results.get(s.id) ?? covered.get(s.id) ?? null;
+      return line ? { className: names.get(s.class_id) ?? 'Class', line, at: s.started_at } : null;
+    })
+    .filter((x): x is { className: string; line: string; at: string } => !!x)
+    .sort((a, b) => b.at.localeCompare(a.at))
+    .slice(0, 3);
+
+  const [{ data: legs }, { data: wf }] = await Promise.all([
+    supabase.from('class_world_flight_legs').select('class_id').in('class_id', ids).eq('status', 'completed'),
+    supabase.from('class_world_flight_state').select('class_id, current_destination_id').in('class_id', ids),
+  ]);
+  const stampsByClass = new Map<string, number>();
+  for (const l of (legs ?? []) as Array<{ class_id: string }>) stampsByClass.set(l.class_id, (stampsByClass.get(l.class_id) ?? 0) + 1);
+  let journey: BoardSummary['journey'] = null;
+  for (const r of boardRows) {
+    const state = ((wf ?? []) as Array<{ class_id: string; current_destination_id: string | null }>).find((w) => w.class_id === r.classId);
+    const dest = state?.current_destination_id ? getDestinationById(state.current_destination_id) : null;
+    if (dest) {
+      journey = { className: r.name, city: dest.city, stamps: stampsByClass.get(r.classId) ?? 0 };
+      break;
+    }
+  }
+
+  return {
+    rows: boardRows,
+    stats: {
+      lessonsThisMonth,
+      students: Array.from(students.values()).reduce((a, b) => a + b, 0),
+      cities: Array.from(stampsByClass.values()).reduce((a, b) => a + b, 0),
+    },
+    log,
+    journey,
+  };
 }

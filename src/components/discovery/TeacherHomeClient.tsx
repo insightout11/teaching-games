@@ -190,10 +190,10 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
         showRunwayMarkings
         showSkyline
         intensity="subtle"
-        className="md:!left-64"
+       
       />
       {/* Gate / apron glow — warms the airfield into a lit "departure lounge" */}
-      <div aria-hidden className="pointer-events-none fixed inset-x-0 bottom-0 z-[1] h-[55vh] md:!left-64">
+      <div aria-hidden className="pointer-events-none fixed inset-x-0 bottom-0 z-[1] h-[55vh]">
         <div className="absolute -bottom-[12%] left-[14%] h-[45vh] w-[42%] rounded-full bg-[radial-gradient(closest-side,rgba(245,158,11,0.13),transparent)] blur-3xl" />
         <div className="absolute -bottom-[8%] right-[12%] h-[38vh] w-[36%] rounded-full bg-[radial-gradient(closest-side,rgba(34,211,238,0.10),transparent)] blur-3xl" />
       </div>

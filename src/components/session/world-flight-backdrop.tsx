@@ -12,7 +12,7 @@ interface WorldFlightArrivalBackdropProps {
   altitude?: number;
   timeOfDay?: TimeOfDay;
   planeKey?: string | null;
-  /** Full-screen (no sidebar) vs. offset by the 256px dashboard sidebar. */
+  /** Full-screen session (kept for callers; the app no longer has a sidebar offset). */
   isFullScreen?: boolean;
 }
 
@@ -33,7 +33,6 @@ export function WorldFlightArrivalBackdrop({
   altitude,
   timeOfDay,
   planeKey,
-  isFullScreen,
 }: WorldFlightArrivalBackdropProps) {
   return (
     <>
@@ -44,9 +43,9 @@ export function WorldFlightArrivalBackdrop({
         showEarth={false}
         showMoon={timeOfDay === 'night'}
         intensity="moderate"
-        className={isFullScreen ? '' : '!left-64'}
+        
       />
-      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 1, left: isFullScreen ? 0 : 256 }}>
+      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 1, left: 0 }}>
         <DestinationArrivalScene
           destinationId={destinationId}
           scene={scene}

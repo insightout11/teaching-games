@@ -12,6 +12,6 @@ export default async function HomePage() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return null;
-  const rows = await getDepartureBoard(user.id);
-  return <DepartureBoard rows={rows} />;
+  const summary = await getDepartureBoard(user.id);
+  return <DepartureBoard summary={summary} />;
 }

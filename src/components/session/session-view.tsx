@@ -1835,7 +1835,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   if (!mounted) {
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-        <SkyBackground intensity="subtle" className={isFullScreen ? '' : '!left-64'} />
+        <SkyBackground intensity="subtle" />
         <div className="relative z-10 flex items-center justify-center pt-24">
           <div className="w-12 h-12 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin" />
         </div>
@@ -1853,14 +1853,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     return (
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
         {/* Sky only — the airfield scene owns the ground (z-base) */}
-        <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" showEarth={false} showMoon className={isFullScreen ? '' : '!left-64'} />
+        <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" showEarth={false} showMoon />
         {/* Consolidated airfield: ground + hangar + plane + tower + windsock + distant
             planes in one scaling SVG, so they stay locked together at any screen size (z-1).
             When an origin city exists (World Flight, prior leg), theme the horizon to the
             city we're departing FROM; otherwise fall back to the generic home airfield. */}
         <div
           className="fixed inset-0 overflow-hidden pointer-events-none"
-          style={{ zIndex: 1, left: isFullScreen ? 0 : 256 }}
+          style={{ zIndex: 1, left: 0 }}
         >
           {wfOrigin ? (
             <LobbyAirfieldScene
@@ -2223,11 +2223,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             altitude={altitude}
             earthState={earthState}
             intensity="moderate"
-            className={isFullScreen ? '' : '!left-64'}
+           
           />
           {/* Plane on runway — left taxiway (takeoff) or right taxiway (landing) */}
           {(earthState === 'takeoff' || earthState === 'landing') && (
-            <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
+            <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: 0 }}>
               <div className={`absolute bottom-0 ${earthState === 'takeoff' ? 'left-[38%]' : 'left-[62%]'} -translate-x-1/2`}>
                 <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} frontFacing frontVariant="3q" />
               </div>
