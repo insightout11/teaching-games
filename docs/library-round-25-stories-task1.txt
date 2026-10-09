@@ -64,8 +64,8 @@ Q|What does Ivy pretend to be?|astronaut pilot chef|astronaut
 Q|What does Dad use for the rocket?|box basket bag|box
 Q|What does Ivy lose?|camera book hat|camera
 
-volcano-walk|The Volcano Walk|A1|volcanoes|boy mother|volcano island map hill water cloud
-P|Tari and Mum walk on an island.|boy mother island
+volcano-walk|The Volcano Walk|A1|volcanoes rainforests|boy mother|volcano island map hill water cloud
+P|Tari and Mum walk through a rainforest.|boy mother forest
 P|They see a volcano beyond the hill.|volcano hill
 P|A dark cloud rises from the top.|cloud volcano
 P|Mum says it is time to leave.|mother boy

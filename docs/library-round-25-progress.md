@@ -10,7 +10,7 @@ Picture words requested for a future sticker pass (all absent from the 578-word 
 
 ## Task 2 — busiest topics
 
-Pending.
+Added ten second sets (100 new questions) and ten A2 stories for animals, food, family, school, weather, transport, the ocean, pets, sports, and birthdays. All prompts and page texts are new. The two Junior validators pass at **61 sets / 610 questions** and **61 stories / 376 pages**. All 80 kids topics now have both a question set and a story by topic ID; the volcano story was revised to include its rainforest setting.
 
 ## Task 3 — lengths and full validation
 

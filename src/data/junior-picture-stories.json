@@ -4512,7 +4512,8 @@
     "title": "The Volcano Walk",
     "level": "A1",
     "topicIds": [
-      "topic-kids-volcanoes"
+      "topic-kids-volcanoes",
+      "topic-kids-rainforests"
     ],
     "cast": [
       "boy",
@@ -4520,11 +4521,11 @@
     ],
     "pages": [
       {
-        "text": "Tari and Mum walk on an island.",
+        "text": "Tari and Mum walk through a rainforest.",
         "pictures": [
           "boy",
           "mother",
-          "island"
+          "forest"
         ]
       },
       {
@@ -4987,6 +4988,1069 @@
       "crosswalk",
       "father",
       "carry"
+    ]
+  },
+  {
+    "id": "zoo-map",
+    "title": "The Map at the Zoo",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-elephants",
+      "topic-kids-giraffes",
+      "topic-kids-zebras",
+      "topic-kids-lions",
+      "topic-kids-tigers",
+      "topic-kids-pandas"
+    ],
+    "cast": [
+      "girl",
+      "father"
+    ],
+    "pages": [
+      {
+        "text": "Amira and Dad visited the zoo with a map.",
+        "pictures": [
+          "girl",
+          "father",
+          "zoo"
+        ]
+      },
+      {
+        "text": "They watched an elephant and a tall giraffe.",
+        "pictures": [
+          "elephant",
+          "giraffe"
+        ]
+      },
+      {
+        "text": "Two zebras ran past the lion's quiet home.",
+        "pictures": [
+          "zebra",
+          "lion"
+        ]
+      },
+      {
+        "text": "At the tiger enclosure, Amira lost her map.",
+        "pictures": [
+          "girl",
+          "tiger",
+          "map"
+        ]
+      },
+      {
+        "text": "Dad looked beside a bench but found nothing.",
+        "pictures": [
+          "father",
+          "bench"
+        ]
+      },
+      {
+        "text": "A keeper found the map near the pandas.",
+        "pictures": [
+          "panda",
+          "map"
+        ]
+      },
+      {
+        "text": "Amira thanked her and chose their next stop.",
+        "pictures": [
+          "girl",
+          "map",
+          "zoo"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Amira lose?",
+        "options": [
+          "map",
+          "camera",
+          "hat"
+        ],
+        "answer": "map"
+      },
+      {
+        "prompt": "Where was the map found?",
+        "options": [
+          "panda",
+          "tiger",
+          "elephant"
+        ],
+        "answer": "panda"
+      },
+      {
+        "prompt": "Who went with Amira?",
+        "options": [
+          "father",
+          "mother",
+          "sister"
+        ],
+        "answer": "father"
+      }
+    ],
+    "words": [
+      "map",
+      "zoo",
+      "elephant",
+      "giraffe",
+      "zebra",
+      "panda"
+    ]
+  },
+  {
+    "id": "garden-basket",
+    "title": "The Garden Basket",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-fruits",
+      "topic-kids-vegetables",
+      "topic-kids-bees"
+    ],
+    "cast": [
+      "boy",
+      "grandmother"
+    ],
+    "pages": [
+      {
+        "text": "Ben picked apples and carrots with Grandma.",
+        "pictures": [
+          "boy",
+          "grandmother",
+          "basket"
+        ]
+      },
+      {
+        "text": "He left their basket beside a flower.",
+        "pictures": [
+          "basket",
+          "flower"
+        ]
+      },
+      {
+        "text": "A rabbit nibbled one carrot and ran away.",
+        "pictures": [
+          "rabbit",
+          "carrot"
+        ]
+      },
+      {
+        "text": "Ben worried there would be no lunch.",
+        "pictures": [
+          "boy",
+          "carrot"
+        ]
+      },
+      {
+        "text": "Grandma showed him more carrots in the garden.",
+        "pictures": [
+          "grandmother",
+          "garden",
+          "carrot"
+        ]
+      },
+      {
+        "text": "A bee visited the flowers above their heads.",
+        "pictures": [
+          "bee",
+          "flower"
+        ]
+      },
+      {
+        "text": "They filled the basket and shared lunch outside.",
+        "pictures": [
+          "boy",
+          "grandmother",
+          "basket"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did the rabbit nibble?",
+        "options": [
+          "carrot",
+          "apple",
+          "pear"
+        ],
+        "answer": "carrot"
+      },
+      {
+        "prompt": "Who showed Ben more vegetables?",
+        "options": [
+          "grandmother",
+          "father",
+          "teacher"
+        ],
+        "answer": "grandmother"
+      },
+      {
+        "prompt": "What visited the flowers?",
+        "options": [
+          "bee",
+          "butterfly",
+          "bird"
+        ],
+        "answer": "bee"
+      }
+    ],
+    "words": [
+      "basket",
+      "apple",
+      "carrot",
+      "bee",
+      "flower",
+      "rabbit"
+    ]
+  },
+  {
+    "id": "autumn-game",
+    "title": "The Missing Game Piece",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-family-traditions",
+      "topic-kids-seasons",
+      "topic-kids-board-games"
+    ],
+    "cast": [
+      "girl",
+      "brother"
+    ],
+    "pages": [
+      {
+        "text": "Cold autumn rain kept Tara's family indoors.",
+        "pictures": [
+          "girl",
+          "rain",
+          "house"
+        ]
+      },
+      {
+        "text": "Her brother brought out their favorite board game.",
+        "pictures": [
+          "brother",
+          "board-game"
+        ]
+      },
+      {
+        "text": "One small piece was missing from the box.",
+        "pictures": [
+          "box",
+          "board-game"
+        ]
+      },
+      {
+        "text": "Tara looked beneath the table and rug.",
+        "pictures": [
+          "girl",
+          "table",
+          "rug"
+        ]
+      },
+      {
+        "text": "Her sister lifted the blanket from the sofa.",
+        "pictures": [
+          "sister",
+          "blanket",
+          "sofa"
+        ]
+      },
+      {
+        "text": "The missing piece rolled out at her feet.",
+        "pictures": [
+          "board-game",
+          "foot"
+        ]
+      },
+      {
+        "text": "They played until the rain stopped outside.",
+        "pictures": [
+          "girl",
+          "brother",
+          "board-game"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What season was it?",
+        "options": [
+          "autumn",
+          "summer",
+          "spring"
+        ],
+        "answer": "autumn"
+      },
+      {
+        "prompt": "What was missing?",
+        "options": [
+          "board-game",
+          "spoon",
+          "balloon"
+        ],
+        "answer": "board-game"
+      },
+      {
+        "prompt": "Where did the piece hide?",
+        "options": [
+          "blanket",
+          "fridge",
+          "garden"
+        ],
+        "answer": "blanket"
+      }
+    ],
+    "words": [
+      "autumn",
+      "board-game",
+      "sister",
+      "sofa",
+      "blanket",
+      "puzzle"
+    ]
+  },
+  {
+    "id": "bell-puzzle",
+    "title": "The Bell Puzzle",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-classroom-rules",
+      "topic-kids-puzzles",
+      "topic-kids-the-five-senses"
+    ],
+    "cast": [
+      "girl",
+      "teacher"
+    ],
+    "pages": [
+      {
+        "text": "Maya's class heard a bell behind the desk.",
+        "pictures": [
+          "girl",
+          "ear",
+          "desk"
+        ]
+      },
+      {
+        "text": "Teacher asked everyone to listen and take turns.",
+        "pictures": [
+          "teacher",
+          "classroom"
+        ]
+      },
+      {
+        "text": "Maya used her ears to find the sound.",
+        "pictures": [
+          "girl",
+          "ear",
+          "bell"
+        ]
+      },
+      {
+        "text": "Her friend used her eyes to spot clues.",
+        "pictures": [
+          "friend",
+          "eye"
+        ]
+      },
+      {
+        "text": "They put three puzzle pieces together.",
+        "pictures": [
+          "puzzle",
+          "girl",
+          "friend"
+        ]
+      },
+      {
+        "text": "The picture showed a bell beneath the desk.",
+        "pictures": [
+          "bell",
+          "desk"
+        ]
+      },
+      {
+        "text": "Maya found it and rang it for class.",
+        "pictures": [
+          "girl",
+          "bell",
+          "classroom"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Maya hear?",
+        "options": [
+          "bell",
+          "drum",
+          "guitar"
+        ],
+        "answer": "bell"
+      },
+      {
+        "prompt": "What did the children put together?",
+        "options": [
+          "puzzle",
+          "blocks",
+          "marbles"
+        ],
+        "answer": "puzzle"
+      },
+      {
+        "prompt": "Where was the bell?",
+        "options": [
+          "desk",
+          "table",
+          "bookshelf"
+        ],
+        "answer": "desk"
+      }
+    ],
+    "words": [
+      "puzzle",
+      "ear",
+      "eye",
+      "bell",
+      "desk",
+      "classroom"
+    ]
+  },
+  {
+    "id": "snowy-zoo",
+    "title": "Snow at the Zoo",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-snow",
+      "topic-kids-penguins",
+      "topic-kids-polar-bears"
+    ],
+    "cast": [
+      "boy",
+      "mother"
+    ],
+    "pages": [
+      {
+        "text": "Snow fell before Luca's trip to the zoo.",
+        "pictures": [
+          "boy",
+          "snow",
+          "zoo"
+        ]
+      },
+      {
+        "text": "He feared every animal would stay inside.",
+        "pictures": [
+          "boy",
+          "mother"
+        ]
+      },
+      {
+        "text": "The penguins still waddled beside their pool.",
+        "pictures": [
+          "penguin",
+          "swimming-pool"
+        ]
+      },
+      {
+        "text": "A polar bear played in a separate snowy space.",
+        "pictures": [
+          "polar-bear",
+          "snow"
+        ]
+      },
+      {
+        "text": "Luca dropped his scarf near the penguin sign.",
+        "pictures": [
+          "boy",
+          "scarf",
+          "penguin"
+        ]
+      },
+      {
+        "text": "Mum followed their footprints and found it.",
+        "pictures": [
+          "mother",
+          "snow",
+          "scarf"
+        ]
+      },
+      {
+        "text": "Luca watched the animals with warm hands.",
+        "pictures": [
+          "boy",
+          "penguin",
+          "polar-bear"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What fell before the zoo trip?",
+        "options": [
+          "snow",
+          "rain",
+          "leaf"
+        ],
+        "answer": "snow"
+      },
+      {
+        "prompt": "What did Luca drop?",
+        "options": [
+          "scarf",
+          "hat",
+          "gloves"
+        ],
+        "answer": "scarf"
+      },
+      {
+        "prompt": "Who found the scarf?",
+        "options": [
+          "mother",
+          "teacher",
+          "father"
+        ],
+        "answer": "mother"
+      }
+    ],
+    "words": [
+      "snow",
+      "zoo",
+      "penguin",
+      "polar-bear",
+      "scarf",
+      "map"
+    ]
+  },
+  {
+    "id": "airport-ticket",
+    "title": "The Ticket at the Airport",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-airplanes",
+      "topic-kids-jobs-people-do"
+    ],
+    "cast": [
+      "girl",
+      "pilot"
+    ],
+    "pages": [
+      {
+        "text": "Suri carried her bag into the busy airport.",
+        "pictures": [
+          "girl",
+          "bag",
+          "airport"
+        ]
+      },
+      {
+        "text": "Her paper ticket slipped from her hand.",
+        "pictures": [
+          "girl",
+          "paper"
+        ]
+      },
+      {
+        "text": "She could not find it by the gate.",
+        "pictures": [
+          "girl",
+          "door"
+        ]
+      },
+      {
+        "text": "A station worker spotted it near a chair.",
+        "pictures": [
+          "station-worker",
+          "chair",
+          "paper"
+        ]
+      },
+      {
+        "text": "Suri thanked him and hurried to the plane.",
+        "pictures": [
+          "girl",
+          "airplane"
+        ]
+      },
+      {
+        "text": "The pilot welcomed everyone on board.",
+        "pictures": [
+          "pilot",
+          "airplane"
+        ]
+      },
+      {
+        "text": "Suri sat down and watched the runway pass.",
+        "pictures": [
+          "girl",
+          "airplane",
+          "window"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Suri lose?",
+        "options": [
+          "paper",
+          "map",
+          "book"
+        ],
+        "answer": "paper"
+      },
+      {
+        "prompt": "Who found the lost ticket?",
+        "options": [
+          "station-worker",
+          "pilot",
+          "chef"
+        ],
+        "answer": "station-worker"
+      },
+      {
+        "prompt": "Who welcomed the passengers?",
+        "options": [
+          "pilot",
+          "driver",
+          "farmer"
+        ],
+        "answer": "pilot"
+      }
+    ],
+    "words": [
+      "airport",
+      "airplane",
+      "pilot",
+      "station-worker",
+      "paper",
+      "bag"
+    ]
+  },
+  {
+    "id": "reef-sketch",
+    "title": "The Hidden Reef",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-oceans",
+      "topic-kids-dolphins",
+      "topic-kids-whales",
+      "topic-kids-sharks",
+      "topic-kids-coral-reefs"
+    ],
+    "cast": [
+      "boy",
+      "father"
+    ],
+    "pages": [
+      {
+        "text": "Noah and Dad sailed over a coral reef.",
+        "pictures": [
+          "boy",
+          "father",
+          "boat"
+        ]
+      },
+      {
+        "text": "Cloudy water hid the colors below them.",
+        "pictures": [
+          "cloud",
+          "sea"
+        ]
+      },
+      {
+        "text": "A dolphin leaped beside their boat.",
+        "pictures": [
+          "dolphin",
+          "boat"
+        ]
+      },
+      {
+        "text": "Farther away, they spotted a whale's tail.",
+        "pictures": [
+          "whale",
+          "sea"
+        ]
+      },
+      {
+        "text": "Their guide pointed out a passing shark.",
+        "pictures": [
+          "shark",
+          "sea"
+        ]
+      },
+      {
+        "text": "The boat moved where the water looked clear.",
+        "pictures": [
+          "boat",
+          "sea"
+        ]
+      },
+      {
+        "text": "Noah finally saw coral and took a picture.",
+        "pictures": [
+          "boy",
+          "coral",
+          "camera"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What hid the reef colors?",
+        "options": [
+          "water",
+          "sand",
+          "ice"
+        ],
+        "answer": "water"
+      },
+      {
+        "prompt": "What leaped beside the boat?",
+        "options": [
+          "dolphin",
+          "whale",
+          "shark"
+        ],
+        "answer": "dolphin"
+      },
+      {
+        "prompt": "What did Noah finally photograph?",
+        "options": [
+          "coral",
+          "tree",
+          "car"
+        ],
+        "answer": "coral"
+      }
+    ],
+    "words": [
+      "boat",
+      "coral",
+      "whale",
+      "dolphin",
+      "shark",
+      "camera"
+    ]
+  },
+  {
+    "id": "horse-and-frog",
+    "title": "The Frog in the Bucket",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-caring-for-pets",
+      "topic-kids-horses",
+      "topic-kids-frogs"
+    ],
+    "cast": [
+      "girl",
+      "father"
+    ],
+    "pages": [
+      {
+        "text": "Elia helped Dad feed their horse at the farm.",
+        "pictures": [
+          "girl",
+          "father",
+          "horse"
+        ]
+      },
+      {
+        "text": "She heard a small splash inside a bucket.",
+        "pictures": [
+          "girl",
+          "bucket"
+        ]
+      },
+      {
+        "text": "A frog was trapped in the deep water.",
+        "pictures": [
+          "frog",
+          "bucket",
+          "water"
+        ]
+      },
+      {
+        "text": "Elia held the bucket low and tipped it.",
+        "pictures": [
+          "girl",
+          "bucket"
+        ]
+      },
+      {
+        "text": "The frog hopped out onto the grass.",
+        "pictures": [
+          "frog",
+          "grass"
+        ]
+      },
+      {
+        "text": "Dad gave the horse fresh food and water.",
+        "pictures": [
+          "father",
+          "horse",
+          "water"
+        ]
+      },
+      {
+        "text": "Elia watched the frog hop safely away.",
+        "pictures": [
+          "girl",
+          "frog",
+          "farm"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "Which animal needed help?",
+        "options": [
+          "frog",
+          "horse",
+          "cow"
+        ],
+        "answer": "frog"
+      },
+      {
+        "prompt": "Where was it trapped?",
+        "options": [
+          "bucket",
+          "basket",
+          "box"
+        ],
+        "answer": "bucket"
+      },
+      {
+        "prompt": "Which animal did Elia feed?",
+        "options": [
+          "horse",
+          "rabbit",
+          "goat"
+        ],
+        "answer": "horse"
+      }
+    ],
+    "words": [
+      "horse",
+      "frog",
+      "bucket",
+      "water",
+      "farm",
+      "grass"
+    ]
+  },
+  {
+    "id": "four-games",
+    "title": "The Four Sports",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-basketball",
+      "topic-kids-swimming",
+      "topic-kids-running",
+      "topic-kids-dancing"
+    ],
+    "cast": [
+      "boy",
+      "friend"
+    ],
+    "pages": [
+      {
+        "text": "Kai joined a school sports day with Imani.",
+        "pictures": [
+          "boy",
+          "friend",
+          "stadium"
+        ]
+      },
+      {
+        "text": "First, he ran too fast and lost a shoe.",
+        "pictures": [
+          "boy",
+          "run",
+          "shoes"
+        ]
+      },
+      {
+        "text": "Imani carried it back before the basketball game.",
+        "pictures": [
+          "friend",
+          "basketball",
+          "shoes"
+        ]
+      },
+      {
+        "text": "Kai passed the ball instead of rushing.",
+        "pictures": [
+          "boy",
+          "basketball"
+        ]
+      },
+      {
+        "text": "At the pool, they swam with their teacher.",
+        "pictures": [
+          "boy",
+          "friend",
+          "swimming-pool"
+        ]
+      },
+      {
+        "text": "The final event was a dance together.",
+        "pictures": [
+          "boy",
+          "friend",
+          "dance"
+        ]
+      },
+      {
+        "text": "Kai thanked Imani for saving his day.",
+        "pictures": [
+          "boy",
+          "friend",
+          "smile"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What did Kai lose?",
+        "options": [
+          "shoes",
+          "ball",
+          "cap"
+        ],
+        "answer": "shoes"
+      },
+      {
+        "prompt": "Which game came after the race?",
+        "options": [
+          "basketball",
+          "tennis",
+          "football"
+        ],
+        "answer": "basketball"
+      },
+      {
+        "prompt": "Where did the class swim?",
+        "options": [
+          "swimming-pool",
+          "sea",
+          "lake"
+        ],
+        "answer": "swimming-pool"
+      }
+    ],
+    "words": [
+      "basketball",
+      "swimming-pool",
+      "run",
+      "dance",
+      "shoes",
+      "ball"
+    ]
+  },
+  {
+    "id": "zoo-birthday",
+    "title": "Birthday at the Zoo",
+    "level": "A2",
+    "topicIds": [
+      "topic-kids-birthday-parties",
+      "topic-kids-koalas",
+      "topic-kids-kangaroos"
+    ],
+    "cast": [
+      "girl",
+      "mother"
+    ],
+    "pages": [
+      {
+        "text": "Mila chose the zoo for her birthday party.",
+        "pictures": [
+          "girl",
+          "birthday",
+          "zoo"
+        ]
+      },
+      {
+        "text": "She watched a koala rest in a tree.",
+        "pictures": [
+          "koala",
+          "tree"
+        ]
+      },
+      {
+        "text": "Then a kangaroo jumped with its baby.",
+        "pictures": [
+          "kangaroo",
+          "baby"
+        ]
+      },
+      {
+        "text": "Mum opened the cake box but found no candle.",
+        "pictures": [
+          "mother",
+          "cake",
+          "box"
+        ]
+      },
+      {
+        "text": "Mila looked worried until a friend arrived.",
+        "pictures": [
+          "girl",
+          "friend"
+        ]
+      },
+      {
+        "text": "Her friend had carried the candle in a basket.",
+        "pictures": [
+          "friend",
+          "candle",
+          "basket"
+        ]
+      },
+      {
+        "text": "Everyone sang while the kangaroos hopped nearby.",
+        "pictures": [
+          "cake",
+          "kangaroo",
+          "girl"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "Which animal rested in a tree?",
+        "options": [
+          "koala",
+          "kangaroo",
+          "panda"
+        ],
+        "answer": "koala"
+      },
+      {
+        "prompt": "What was missing from the cake?",
+        "options": [
+          "candle",
+          "cherry",
+          "cookie"
+        ],
+        "answer": "candle"
+      },
+      {
+        "prompt": "Where did the friend carry it?",
+        "options": [
+          "basket",
+          "bag",
+          "box"
+        ],
+        "answer": "basket"
+      }
+    ],
+    "words": [
+      "birthday",
+      "koala",
+      "kangaroo",
+      "cake",
+      "candle",
+      "basket"
     ]
   }
 ]
