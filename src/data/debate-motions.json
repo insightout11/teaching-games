@@ -29,7 +29,11 @@
         "source": "OECD, PISA 2022 Results Volume II"
       }
     ],
-    "pulse": "Do you think homework should be optional?"
+    "pulse": "Do you think homework should be optional?",
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-classroom-rules"
+    ]
   },
   {
     "id": "debate-r12-02",
@@ -61,7 +65,11 @@
         "source": "OECD, PISA 2022 Results Volume II"
       }
     ],
-    "pulse": "Do you think schools should give less homework?"
+    "pulse": "Do you think schools should give less homework?",
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-classroom-rules"
+    ]
   },
   {
     "id": "debate-r12-03",
@@ -93,7 +101,11 @@
         "source": "OECD, PISA 2018 Results Volume V"
       }
     ],
-    "pulse": "Do you think schools should open homework rooms after class?"
+    "pulse": "Do you think schools should open homework rooms after class?",
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-classroom-rules"
+    ]
   },
   {
     "id": "debate-r12-04",
@@ -125,7 +137,11 @@
         "source": "CDC and SHAPE America, Strategies for Recess in Schools"
       }
     ],
-    "pulse": "Do you think schools should have two play breaks each day?"
+    "pulse": "Do you think schools should have two play breaks each day?",
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-classroom-rules"
+    ]
   },
   {
     "id": "debate-r12-05",
@@ -157,7 +173,11 @@
         "source": "CDC and SHAPE America, Strategies for Recess in Schools"
       }
     ],
-    "pulse": "Do you think play break should never be taken away?"
+    "pulse": "Do you think play break should never be taken away?",
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-classroom-rules"
+    ]
   },
   {
     "id": "debate-r12-06",
@@ -189,7 +209,11 @@
         "source": "CDC, Classroom Physical Activity Breaks"
       }
     ],
-    "pulse": "Do you think classrooms should have a movement break?"
+    "pulse": "Do you think classrooms should have a movement break?",
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-classroom-rules"
+    ]
   },
   {
     "id": "debate-r12-07",
@@ -221,7 +245,11 @@
         "source": "WHO, Guidelines on Physical Activity and Sedentary Behaviour"
       }
     ],
-    "pulse": "Do you think every child should try a school sport?"
+    "pulse": "Do you think every child should try a school sport?",
+    "topicIds": [
+      "topic-kids-soccer",
+      "topic-kids-basketball"
+    ]
   },
   {
     "id": "debate-r12-08",
@@ -253,7 +281,12 @@
         "source": "UNICEF Data, The Power of Play"
       }
     ],
-    "pulse": "Do you think walking games are better than sitting games at school?"
+    "pulse": "Do you think walking games are better than sitting games at school?",
+    "topicIds": [
+      "topic-kids-board-games",
+      "topic-kids-puzzles",
+      "topic-kids-playgrounds"
+    ]
   },
   {
     "id": "debate-r12-09",
@@ -285,7 +318,11 @@
         "source": "CDC, Strategies for School and Youth Programs"
       }
     ],
-    "pulse": "Do you think schools should offer more than one kind of PE?"
+    "pulse": "Do you think schools should offer more than one kind of PE?",
+    "topicIds": [
+      "topic-kids-soccer",
+      "topic-kids-basketball"
+    ]
   },
   {
     "id": "debate-r12-10",
@@ -317,7 +354,11 @@
         "source": "USDA, Plate Waste in School Nutrition Programs"
       }
     ],
-    "pulse": "Do you think schools should serve fruit every day?"
+    "pulse": "Do you think schools should serve fruit every day?",
+    "topicIds": [
+      "topic-kids-fruits",
+      "topic-kids-school-lunch"
+    ]
   },
   {
     "id": "debate-r12-11",
@@ -349,7 +390,10 @@
         "source": "WHO, Policies and Interventions to Create Healthy School Food Environments"
       }
     ],
-    "pulse": "Do you think schools should stop selling sugary drinks?"
+    "pulse": "Do you think schools should stop selling sugary drinks?",
+    "topicIds": [
+      "topic-kids-school-lunch"
+    ]
   },
   {
     "id": "debate-r12-12",
@@ -381,7 +425,10 @@
         "source": "WHO, Policies and Interventions to Create Healthy School Food Environments"
       }
     ],
-    "pulse": "Do you think children should help choose school lunches?"
+    "pulse": "Do you think children should help choose school lunches?",
+    "topicIds": [
+      "topic-kids-school-lunch"
+    ]
   },
   {
     "id": "debate-r12-13",
@@ -413,7 +460,10 @@
         "source": "US EPA, Student Food Waste Audit Guide"
       }
     ],
-    "pulse": "Do you think schools should weigh their lunch waste?"
+    "pulse": "Do you think schools should weigh their lunch waste?",
+    "topicIds": [
+      "topic-kids-school-lunch"
+    ]
   },
   {
     "id": "debate-r12-14",
@@ -445,7 +495,10 @@
         "source": "US EPA, Composting at Home"
       }
     ],
-    "pulse": "Do you think every school should compost food scraps?"
+    "pulse": "Do you think every school should compost food scraps?",
+    "topicIds": [
+      "topic-kids-school-lunch"
+    ]
   },
   {
     "id": "debate-r12-15",
@@ -477,7 +530,10 @@
         "source": "USDA, School Meal Patterns"
       }
     ],
-    "pulse": "Do you think schools should give smaller lunch portions first?"
+    "pulse": "Do you think schools should give smaller lunch portions first?",
+    "topicIds": [
+      "topic-kids-school-lunch"
+    ]
   },
   {
     "id": "debate-r12-16",
@@ -509,7 +565,10 @@
         "source": "CDC, Everyday Actions for Schools to Prevent Infections"
       }
     ],
-    "pulse": "Do you think schools should lend reusable water bottles?"
+    "pulse": "Do you think schools should lend reusable water bottles?",
+    "topicIds": [
+      "topic-kids-school-lunch"
+    ]
   },
   {
     "id": "debate-r12-17",
@@ -541,7 +600,11 @@
         "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
       }
     ],
-    "pulse": "Do you think class parties should avoid throwaway plates?"
+    "pulse": "Do you think class parties should avoid throwaway plates?",
+    "topicIds": [
+      "topic-kids-birthday-parties",
+      "topic-kids-festivals-around-the-world"
+    ]
   },
   {
     "id": "debate-r12-18",
@@ -573,7 +636,11 @@
         "source": "CDC, Everyday Actions for Schools to Prevent Infections"
       }
     ],
-    "pulse": "Do you think schools should repair toys before buying new ones?"
+    "pulse": "Do you think schools should repair toys before buying new ones?",
+    "topicIds": [
+      "topic-kids-building-blocks",
+      "topic-kids-robots"
+    ]
   },
   {
     "id": "debate-r12-19",
@@ -605,7 +672,12 @@
         "source": "US EPA, School Environmental Health Guidelines"
       }
     ],
-    "pulse": "Do you think every school should have a small garden?"
+    "pulse": "Do you think every school should have a small garden?",
+    "topicIds": [
+      "topic-kids-plant-growth",
+      "topic-kids-bees",
+      "topic-kids-butterflies"
+    ]
   },
   {
     "id": "debate-r12-20",
@@ -637,7 +709,11 @@
         "source": "WHO Europe, Valuing Urban Green and Blue Spaces"
       }
     ],
-    "pulse": "Do you think cities should build more playgrounds?"
+    "pulse": "Do you think cities should build more playgrounds?",
+    "topicIds": [
+      "topic-kids-playgrounds",
+      "topic-kids-running"
+    ]
   },
   {
     "id": "debate-r12-21",
@@ -669,7 +745,12 @@
         "source": "US EPA, School Environmental Health Guidelines"
       }
     ],
-    "pulse": "Do you think schoolyards should have more trees?"
+    "pulse": "Do you think schoolyards should have more trees?",
+    "topicIds": [
+      "topic-kids-forests",
+      "topic-kids-rainforests",
+      "topic-kids-plant-growth"
+    ]
   },
   {
     "id": "debate-r12-22",
@@ -701,7 +782,19 @@
         "source": "Smithsonian National Zoo, Cheetah Breeding Program"
       }
     ],
-    "pulse": "Do you think zoos should close?"
+    "pulse": "Do you think zoos should close?",
+    "topicIds": [
+      "topic-kids-elephants",
+      "topic-kids-giraffes",
+      "topic-kids-zebras",
+      "topic-kids-lions",
+      "topic-kids-tigers",
+      "topic-kids-pandas",
+      "topic-kids-koalas",
+      "topic-kids-kangaroos",
+      "topic-kids-penguins",
+      "topic-kids-polar-bears"
+    ]
   },
   {
     "id": "debate-r12-23",
@@ -733,7 +826,19 @@
         "source": "UK Department for Environment, Standards of Modern Zoo Practice"
       }
     ],
-    "pulse": "Do you think zoos should focus only on endangered animals?"
+    "pulse": "Do you think zoos should focus only on endangered animals?",
+    "topicIds": [
+      "topic-kids-elephants",
+      "topic-kids-giraffes",
+      "topic-kids-zebras",
+      "topic-kids-lions",
+      "topic-kids-tigers",
+      "topic-kids-pandas",
+      "topic-kids-koalas",
+      "topic-kids-kangaroos",
+      "topic-kids-penguins",
+      "topic-kids-polar-bears"
+    ]
   },
   {
     "id": "debate-r12-24",
@@ -765,7 +870,19 @@
         "source": "Smithsonian, Zoo Visitor Effects on Gorillas"
       }
     ],
-    "pulse": "Do you think children should visit zoos to learn about animals?"
+    "pulse": "Do you think children should visit zoos to learn about animals?",
+    "topicIds": [
+      "topic-kids-elephants",
+      "topic-kids-giraffes",
+      "topic-kids-zebras",
+      "topic-kids-lions",
+      "topic-kids-tigers",
+      "topic-kids-pandas",
+      "topic-kids-koalas",
+      "topic-kids-kangaroos",
+      "topic-kids-penguins",
+      "topic-kids-polar-bears"
+    ]
   },
   {
     "id": "debate-r12-25",
@@ -797,7 +914,8 @@
         "source": "UNESCO, 2023 Global Education Monitoring Report"
       }
     ],
-    "pulse": "Do you think phones should stay in school bags?"
+    "pulse": "Do you think phones should stay in school bags?",
+    "topicIds": []
   },
   {
     "id": "debate-r12-26",
@@ -829,7 +947,8 @@
         "source": "UNICEF Innocenti, Debunking Four Myths About Children’s Safety Online"
       }
     ],
-    "pulse": "Do you think children should have some screen-free play time?"
+    "pulse": "Do you think children should have some screen-free play time?",
+    "topicIds": []
   },
   {
     "id": "debate-r12-27",
@@ -861,7 +980,8 @@
         "source": "UNICEF Innocenti, Childhood in a Digital World"
       }
     ],
-    "pulse": "Do you think schools should teach safe internet habits early?"
+    "pulse": "Do you think schools should teach safe internet habits early?",
+    "topicIds": []
   },
   {
     "id": "debate-r12-28",
@@ -893,7 +1013,12 @@
         "source": "CDC and SHAPE America, Strategies for Recess in Schools"
       }
     ],
-    "pulse": "Do you think children should choose some classroom games?"
+    "pulse": "Do you think children should choose some classroom games?",
+    "topicIds": [
+      "topic-kids-board-games",
+      "topic-kids-puzzles",
+      "topic-kids-playgrounds"
+    ]
   },
   {
     "id": "debate-r12-29",
@@ -925,7 +1050,12 @@
         "source": "UNICEF Data, The Power of Play"
       }
     ],
-    "pulse": "Do you think schools should keep a box of simple play materials?"
+    "pulse": "Do you think schools should keep a box of simple play materials?",
+    "topicIds": [
+      "topic-kids-board-games",
+      "topic-kids-puzzles",
+      "topic-kids-playgrounds"
+    ]
   },
   {
     "id": "debate-r12-30",
@@ -957,7 +1087,11 @@
         "source": "UNICEF Innocenti, Worlds of Influence Report Card"
       }
     ],
-    "pulse": "Do you think families should make time to play together?"
+    "pulse": "Do you think families should make time to play together?",
+    "topicIds": [
+      "topic-kids-family-traditions",
+      "topic-kids-making-friends"
+    ]
   },
   {
     "id": "debate-r12-31",
@@ -989,7 +1123,11 @@
         "source": "CDC, School Start Times MMWR"
       }
     ],
-    "pulse": "Do you think high schools should start later?"
+    "pulse": "Do you think high schools should start later?",
+    "topicIds": [
+      "topic-teens-sleep-and-learning",
+      "topic-teens-stress-management"
+    ]
   },
   {
     "id": "debate-r12-32",
@@ -1021,7 +1159,12 @@
         "source": "OECD, PISA 2022 Results Volume II"
       }
     ],
-    "pulse": "Do you think schools should cap homework at one hour?"
+    "pulse": "Do you think schools should cap homework at one hour?",
+    "topicIds": [
+      "topic-teens-homework",
+      "topic-teens-study-habits",
+      "topic-teens-stress-management"
+    ]
   },
   {
     "id": "debate-r12-33",
@@ -1053,7 +1196,12 @@
         "source": "OECD, PISA 2018 Results Volume V"
       }
     ],
-    "pulse": "Do you think homework clubs should replace most home assignments?"
+    "pulse": "Do you think homework clubs should replace most home assignments?",
+    "topicIds": [
+      "topic-teens-homework",
+      "topic-teens-study-habits",
+      "topic-teens-stress-management"
+    ]
   },
   {
     "id": "debate-r12-34",
@@ -1085,7 +1233,11 @@
         "source": "UNESCO, Guidance for Generative AI in Education"
       }
     ],
-    "pulse": "Do you think schools should allow AI for homework planning?"
+    "pulse": "Do you think schools should allow AI for homework planning?",
+    "topicIds": [
+      "topic-teens-artificial-intelligence",
+      "topic-teens-online-learning"
+    ]
   },
   {
     "id": "debate-r12-35",
@@ -1117,7 +1269,11 @@
         "source": "UNESCO, Guidance for Generative AI in Education"
       }
     ],
-    "pulse": "Do you think students should disclose AI help on assignments?"
+    "pulse": "Do you think students should disclose AI help on assignments?",
+    "topicIds": [
+      "topic-teens-artificial-intelligence",
+      "topic-teens-online-learning"
+    ]
   },
   {
     "id": "debate-r12-36",
@@ -1149,7 +1305,11 @@
         "source": "UNESCO, AI Competency Framework for Students"
       }
     ],
-    "pulse": "Do you think aI literacy should be a required subject?"
+    "pulse": "Do you think aI literacy should be a required subject?",
+    "topicIds": [
+      "topic-teens-artificial-intelligence",
+      "topic-teens-online-learning"
+    ]
   },
   {
     "id": "debate-r12-37",
@@ -1181,7 +1341,11 @@
         "source": "UNESCO, 2023 Global Education Monitoring Report"
       }
     ],
-    "pulse": "Do you think schools should ban phones during lessons?"
+    "pulse": "Do you think schools should ban phones during lessons?",
+    "topicIds": [
+      "topic-teens-screen-time",
+      "topic-teens-study-habits"
+    ]
   },
   {
     "id": "debate-r12-38",
@@ -1213,7 +1377,11 @@
         "source": "UNESCO, 2023 Global Education Monitoring Report"
       }
     ],
-    "pulse": "Do you think all school textbooks should be digital?"
+    "pulse": "Do you think all school textbooks should be digital?",
+    "topicIds": [
+      "topic-teens-online-learning",
+      "topic-teens-digital-art"
+    ]
   },
   {
     "id": "debate-r12-39",
@@ -1245,7 +1413,11 @@
         "source": "UNESCO, 2023 Global Education Monitoring Report"
       }
     ],
-    "pulse": "Do you think schools should teach with fewer screens?"
+    "pulse": "Do you think schools should teach with fewer screens?",
+    "topicIds": [
+      "topic-teens-screen-time",
+      "topic-teens-study-habits"
+    ]
   },
   {
     "id": "debate-r12-40",
@@ -1277,7 +1449,12 @@
         "source": "UNICEF, Is Social Media Bad for Teens?"
       }
     ],
-    "pulse": "Do you think social media should have a teen time limit?"
+    "pulse": "Do you think social media should have a teen time limit?",
+    "topicIds": [
+      "topic-teens-social-media",
+      "topic-teens-screen-time",
+      "topic-teens-digital-footprints"
+    ]
   },
   {
     "id": "debate-r12-41",
@@ -1309,7 +1486,12 @@
         "source": "UNICEF Innocenti, Predictive Analytics for Children"
       }
     ],
-    "pulse": "Do you think platforms should explain recommendation algorithms to teens?"
+    "pulse": "Do you think platforms should explain recommendation algorithms to teens?",
+    "topicIds": [
+      "topic-teens-social-media",
+      "topic-teens-screen-time",
+      "topic-teens-digital-footprints"
+    ]
   },
   {
     "id": "debate-r12-42",
@@ -1341,7 +1523,12 @@
         "source": "UNICEF Innocenti, Childhood in a Digital World"
       }
     ],
-    "pulse": "Do you think online safety lessons should begin before secondary school?"
+    "pulse": "Do you think online safety lessons should begin before secondary school?",
+    "topicIds": [
+      "topic-teens-online-privacy",
+      "topic-teens-cybersecurity",
+      "topic-teens-digital-footprints"
+    ]
   },
   {
     "id": "debate-r12-43",
@@ -1373,7 +1560,11 @@
         "source": "USDA, School Meal Patterns"
       }
     ],
-    "pulse": "Do you think school meals should offer a plant-based choice daily?"
+    "pulse": "Do you think school meals should offer a plant-based choice daily?",
+    "topicIds": [
+      "topic-teens-healthy-eating",
+      "topic-teens-food-culture"
+    ]
   },
   {
     "id": "debate-r12-44",
@@ -1405,7 +1596,11 @@
         "source": "WHO, Policies and Interventions to Create Healthy School Food Environments"
       }
     ],
-    "pulse": "Do you think schools should remove sugary drinks from vending machines?"
+    "pulse": "Do you think schools should remove sugary drinks from vending machines?",
+    "topicIds": [
+      "topic-teens-healthy-eating",
+      "topic-teens-food-culture"
+    ]
   },
   {
     "id": "debate-r12-45",
@@ -1437,7 +1632,11 @@
         "source": "WHO, Policies and Interventions to Create Healthy School Food Environments"
       }
     ],
-    "pulse": "Do you think students should help design cafeteria menus?"
+    "pulse": "Do you think students should help design cafeteria menus?",
+    "topicIds": [
+      "topic-teens-healthy-eating",
+      "topic-teens-food-culture"
+    ]
   },
   {
     "id": "debate-r12-46",
@@ -1469,7 +1668,10 @@
         "source": "US EPA, Student Food Waste Audit Guide"
       }
     ],
-    "pulse": "Do you think schools should publish food waste totals?"
+    "pulse": "Do you think schools should publish food waste totals?",
+    "topicIds": [
+      "topic-teens-food-waste"
+    ]
   },
   {
     "id": "debate-r12-47",
@@ -1501,7 +1703,10 @@
         "source": "US EPA, Composting at Home"
       }
     ],
-    "pulse": "Do you think cafeterias should compost leftover food?"
+    "pulse": "Do you think cafeterias should compost leftover food?",
+    "topicIds": [
+      "topic-teens-food-waste"
+    ]
   },
   {
     "id": "debate-r12-48",
@@ -1533,7 +1738,10 @@
         "source": "US EPA, Benefits of Using Compost"
       }
     ],
-    "pulse": "Do you think schools should prevent food waste before composting?"
+    "pulse": "Do you think schools should prevent food waste before composting?",
+    "topicIds": [
+      "topic-teens-food-waste"
+    ]
   },
   {
     "id": "debate-r12-49",
@@ -1565,7 +1773,10 @@
         "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
       }
     ],
-    "pulse": "Do you think school events should use reusable cups?"
+    "pulse": "Do you think school events should use reusable cups?",
+    "topicIds": [
+      "topic-teens-plastic-waste"
+    ]
   },
   {
     "id": "debate-r12-50",
@@ -1597,7 +1808,10 @@
         "source": "UNEP, Single-Use Plastics: A Roadmap for Sustainability"
       }
     ],
-    "pulse": "Do you think school shops should avoid single-use plastic packaging?"
+    "pulse": "Do you think school shops should avoid single-use plastic packaging?",
+    "topicIds": [
+      "topic-teens-plastic-waste"
+    ]
   },
   {
     "id": "debate-r12-51",
@@ -1629,7 +1843,11 @@
         "source": "US EPA, Lithium-Ion Battery Recycling FAQ"
       }
     ],
-    "pulse": "Do you think schools should run a repair club?"
+    "pulse": "Do you think schools should run a repair club?",
+    "topicIds": [
+      "topic-teens-school-clubs",
+      "topic-teens-sustainable-fashion"
+    ]
   },
   {
     "id": "debate-r12-52",
@@ -1661,7 +1879,11 @@
         "source": "WHO Europe, Valuing Urban Green and Blue Spaces"
       }
     ],
-    "pulse": "Do you think cities should replace some parking with parks?"
+    "pulse": "Do you think cities should replace some parking with parks?",
+    "topicIds": [
+      "topic-teens-urban-nature",
+      "topic-teens-cities-of-the-future"
+    ]
   },
   {
     "id": "debate-r12-53",
@@ -1693,7 +1915,11 @@
         "source": "WHO Europe, Valuing Urban Green and Blue Spaces"
       }
     ],
-    "pulse": "Do you think every neighbourhood should have a public play space?"
+    "pulse": "Do you think every neighbourhood should have a public play space?",
+    "topicIds": [
+      "topic-teens-urban-nature",
+      "topic-teens-cities-of-the-future"
+    ]
   },
   {
     "id": "debate-r12-54",
@@ -1725,7 +1951,11 @@
         "source": "UNICEF, Guidance on Consultations with Young People"
       }
     ],
-    "pulse": "Do you think students should help plan local parks?"
+    "pulse": "Do you think students should help plan local parks?",
+    "topicIds": [
+      "topic-teens-urban-nature",
+      "topic-teens-cities-of-the-future"
+    ]
   },
   {
     "id": "debate-r12-55",
@@ -1757,7 +1987,10 @@
         "source": "Smithsonian National Zoo, Oryx Recovery"
       }
     ],
-    "pulse": "Do you think zoos should fund more habitat protection?"
+    "pulse": "Do you think zoos should fund more habitat protection?",
+    "topicIds": [
+      "topic-teens-wildlife-conservation"
+    ]
   },
   {
     "id": "debate-r12-56",
@@ -1789,7 +2022,10 @@
         "source": "UK Department for Environment, Standards of Modern Zoo Practice"
       }
     ],
-    "pulse": "Do you think conservation breeding should be a zoo priority?"
+    "pulse": "Do you think conservation breeding should be a zoo priority?",
+    "topicIds": [
+      "topic-teens-wildlife-conservation"
+    ]
   },
   {
     "id": "debate-r12-57",
@@ -1821,7 +2057,10 @@
         "source": "Smithsonian, Zoo Exhibition Visitor Study"
       }
     ],
-    "pulse": "Do you think wildlife lessons should happen outside zoos when possible?"
+    "pulse": "Do you think wildlife lessons should happen outside zoos when possible?",
+    "topicIds": [
+      "topic-teens-wildlife-conservation"
+    ]
   },
   {
     "id": "debate-r12-58",
@@ -1853,7 +2092,11 @@
         "source": "UNESCO, Language Matters: The Role and Power of Multilingualism"
       }
     ],
-    "pulse": "Do you think schools should teach in students’ home languages when possible?"
+    "pulse": "Do you think schools should teach in students’ home languages when possible?",
+    "topicIds": [
+      "topic-teens-language-learning",
+      "topic-teens-local-traditions"
+    ]
   },
   {
     "id": "debate-r12-59",
@@ -1885,7 +2128,11 @@
         "source": "UNESCO, Language Matters: The Role and Power of Multilingualism"
       }
     ],
-    "pulse": "Do you think students should be allowed to study more languages?"
+    "pulse": "Do you think students should be allowed to study more languages?",
+    "topicIds": [
+      "topic-teens-language-learning",
+      "topic-teens-local-traditions"
+    ]
   },
   {
     "id": "debate-r12-60",
@@ -1917,7 +2164,15 @@
         "source": "OECD, PISA 2018 Results Volume V"
       }
     ],
-    "pulse": "Do you think arts should receive as much class time as science?"
+    "pulse": "Do you think arts should receive as much class time as science?",
+    "topicIds": [
+      "topic-teens-digital-art",
+      "topic-teens-music-genres",
+      "topic-teens-songwriting",
+      "topic-teens-film-making",
+      "topic-teens-live-music",
+      "topic-teens-film-genres"
+    ]
   },
   {
     "id": "debate-r14-01",
@@ -1949,7 +2204,10 @@
         "source": "UNICEF, How to Teach Your Child to Love Reading"
       }
     ],
-    "pulse": "Do you think every class should have a reading corner?"
+    "pulse": "Do you think every class should have a reading corner?",
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "debate-r14-02",
@@ -1981,7 +2239,10 @@
         "source": "UNICEF, How to Teach Your Child to Love Reading"
       }
     ],
-    "pulse": "Do you think children should pick one library book every week?"
+    "pulse": "Do you think children should pick one library book every week?",
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "debate-r14-03",
@@ -2013,7 +2274,10 @@
         "source": "UNICEF, How to Teach Your Child to Love Reading"
       }
     ],
-    "pulse": "Do you think teachers should read stories aloud every day?"
+    "pulse": "Do you think teachers should read stories aloud every day?",
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "debate-r14-04",
@@ -2045,7 +2309,11 @@
         "source": "UNESCO, State of the Education Report for India 2024"
       }
     ],
-    "pulse": "Do you think class plays should have parts for everyone?"
+    "pulse": "Do you think class plays should have parts for everyone?",
+    "topicIds": [
+      "topic-kids-drawing",
+      "topic-kids-painting"
+    ]
   },
   {
     "id": "debate-r14-05",
@@ -2077,7 +2345,11 @@
         "source": "UNESCO, State of the Education Report for India 2024"
       }
     ],
-    "pulse": "Do you think children should draw their own story endings?"
+    "pulse": "Do you think children should draw their own story endings?",
+    "topicIds": [
+      "topic-kids-drawing",
+      "topic-kids-painting"
+    ]
   },
   {
     "id": "debate-r14-06",
@@ -2109,7 +2381,12 @@
         "source": "CDC, Ways to Stay Healthy Around Animals"
       }
     ],
-    "pulse": "Do you think every family should have a pet?"
+    "pulse": "Do you think every family should have a pet?",
+    "topicIds": [
+      "topic-kids-cats",
+      "topic-kids-dogs",
+      "topic-kids-caring-for-pets"
+    ]
   },
   {
     "id": "debate-r14-07",
@@ -2141,7 +2418,12 @@
         "source": "CDC, Ways to Stay Healthy Around Animals"
       }
     ],
-    "pulse": "Do you think schools should allow a class pet?"
+    "pulse": "Do you think schools should allow a class pet?",
+    "topicIds": [
+      "topic-kids-cats",
+      "topic-kids-dogs",
+      "topic-kids-caring-for-pets"
+    ]
   },
   {
     "id": "debate-r14-08",
@@ -2173,7 +2455,12 @@
         "source": "CDC, Ways to Stay Healthy Around Animals"
       }
     ],
-    "pulse": "Do you think families should research a pet before adopting?"
+    "pulse": "Do you think families should research a pet before adopting?",
+    "topicIds": [
+      "topic-kids-cats",
+      "topic-kids-dogs",
+      "topic-kids-caring-for-pets"
+    ]
   },
   {
     "id": "debate-r14-09",
@@ -2205,7 +2492,10 @@
         "source": "USDA, School Nutrition and Meal Cost Study"
       }
     ],
-    "pulse": "Do you think schools should offer water with every lunch?"
+    "pulse": "Do you think schools should offer water with every lunch?",
+    "topicIds": [
+      "topic-kids-school-lunch"
+    ]
   },
   {
     "id": "debate-r14-10",
@@ -2237,7 +2527,11 @@
         "source": "CDC, Handwashing as a Healthy Habit in the Kitchen"
       }
     ],
-    "pulse": "Do you think children should help prepare one family meal weekly?"
+    "pulse": "Do you think children should help prepare one family meal weekly?",
+    "topicIds": [
+      "topic-kids-cooking",
+      "topic-kids-baking"
+    ]
   },
   {
     "id": "debate-r14-11",
@@ -2269,7 +2563,11 @@
         "source": "USDA, School Foodservice Costs: Location Matters"
       }
     ],
-    "pulse": "Do you think school lunches should include a local fruit?"
+    "pulse": "Do you think school lunches should include a local fruit?",
+    "topicIds": [
+      "topic-kids-fruits",
+      "topic-kids-school-lunch"
+    ]
   },
   {
     "id": "debate-r14-12",
@@ -2301,7 +2599,10 @@
         "source": "USDA, School Nutrition and Meal Cost Study"
       }
     ],
-    "pulse": "Do you think children should choose between two lunch sizes?"
+    "pulse": "Do you think children should choose between two lunch sizes?",
+    "topicIds": [
+      "topic-kids-school-lunch"
+    ]
   },
   {
     "id": "debate-r14-13",
@@ -2333,7 +2634,10 @@
         "source": "CDC, Bicycle Safety"
       }
     ],
-    "pulse": "Do you think schools should teach safe cycling in PE?"
+    "pulse": "Do you think schools should teach safe cycling in PE?",
+    "topicIds": [
+      "topic-kids-cycling"
+    ]
   },
   {
     "id": "debate-r14-14",
@@ -2365,7 +2669,11 @@
         "source": "CDC, Physical Education and Activity Strategies"
       }
     ],
-    "pulse": "Do you think every child should try a team game?"
+    "pulse": "Do you think every child should try a team game?",
+    "topicIds": [
+      "topic-kids-soccer",
+      "topic-kids-basketball"
+    ]
   },
   {
     "id": "debate-r14-15",
@@ -2397,7 +2705,10 @@
         "source": "CDC, Physical Education and Activity Strategies"
       }
     ],
-    "pulse": "Do you think schools should hold a weekly dance break?"
+    "pulse": "Do you think schools should hold a weekly dance break?",
+    "topicIds": [
+      "topic-kids-dancing"
+    ]
   },
   {
     "id": "debate-r14-16",
@@ -2429,7 +2740,11 @@
         "source": "CDC, Safe Routes to School"
       }
     ],
-    "pulse": "Do you think children should walk short school trips?"
+    "pulse": "Do you think children should walk short school trips?",
+    "topicIds": [
+      "topic-kids-running",
+      "topic-kids-cycling"
+    ]
   },
   {
     "id": "debate-r14-17",
@@ -2461,7 +2776,12 @@
         "source": "UNICEF, The Power of Play"
       }
     ],
-    "pulse": "Do you think family game night should happen every week?"
+    "pulse": "Do you think family game night should happen every week?",
+    "topicIds": [
+      "topic-kids-board-games",
+      "topic-kids-puzzles",
+      "topic-kids-playgrounds"
+    ]
   },
   {
     "id": "debate-r14-18",
@@ -2493,7 +2813,10 @@
         "source": "UNICEF, The Power of Play"
       }
     ],
-    "pulse": "Do you think digital games should count as play?"
+    "pulse": "Do you think digital games should count as play?",
+    "topicIds": [
+      "topic-kids-board-games"
+    ]
   },
   {
     "id": "debate-r14-19",
@@ -2525,7 +2848,12 @@
         "source": "UNICEF, The Power of Play"
       }
     ],
-    "pulse": "Do you think schools should lend board games at break?"
+    "pulse": "Do you think schools should lend board games at break?",
+    "topicIds": [
+      "topic-kids-board-games",
+      "topic-kids-puzzles",
+      "topic-kids-playgrounds"
+    ]
   },
   {
     "id": "debate-r14-20",
@@ -2557,7 +2885,8 @@
         "source": "UNICEF Innocenti, Childhood in a Digital World"
       }
     ],
-    "pulse": "Do you think parents should choose children’s screen time together?"
+    "pulse": "Do you think parents should choose children’s screen time together?",
+    "topicIds": []
   },
   {
     "id": "debate-r14-21",
@@ -2589,7 +2918,12 @@
         "source": "US EPA, EnviroAtlas Educational Materials"
       }
     ],
-    "pulse": "Do you think children should be allowed to keep a nature diary?"
+    "pulse": "Do you think children should be allowed to keep a nature diary?",
+    "topicIds": [
+      "topic-kids-forests",
+      "topic-kids-rainforests",
+      "topic-kids-plant-growth"
+    ]
   },
   {
     "id": "debate-r14-22",
@@ -2621,7 +2955,12 @@
         "source": "USDA NRCS, Pollinator Biology and Habitat"
       }
     ],
-    "pulse": "Do you think classes should plant flowers for insects?"
+    "pulse": "Do you think classes should plant flowers for insects?",
+    "topicIds": [
+      "topic-kids-plant-growth",
+      "topic-kids-bees",
+      "topic-kids-butterflies"
+    ]
   },
   {
     "id": "debate-r14-23",
@@ -2653,7 +2992,11 @@
         "source": "US National Park Service, Night Sky-Friendly Lighting"
       }
     ],
-    "pulse": "Do you think schools should turn off outdoor lights earlier?"
+    "pulse": "Do you think schools should turn off outdoor lights earlier?",
+    "topicIds": [
+      "topic-kids-stars",
+      "topic-kids-the-moon"
+    ]
   },
   {
     "id": "debate-r14-24",
@@ -2685,7 +3028,11 @@
         "source": "CDC, Safe Routes to School"
       }
     ],
-    "pulse": "Do you think families should take one screen-free walk weekly?"
+    "pulse": "Do you think families should take one screen-free walk weekly?",
+    "topicIds": [
+      "topic-kids-playgrounds",
+      "topic-kids-running"
+    ]
   },
   {
     "id": "debate-r14-25",
@@ -2717,7 +3064,11 @@
         "source": "UNICEF, Meaningful Consultations with Young People"
       }
     ],
-    "pulse": "Do you think children should help set one family rule?"
+    "pulse": "Do you think children should help set one family rule?",
+    "topicIds": [
+      "topic-kids-classroom-rules",
+      "topic-kids-family-traditions"
+    ]
   },
   {
     "id": "debate-r14-26",
@@ -2749,7 +3100,10 @@
         "source": "UNESCO, Recommendation on Museums and Collections"
       }
     ],
-    "pulse": "Do you think holidays should include a local day trip?"
+    "pulse": "Do you think holidays should include a local day trip?",
+    "topicIds": [
+      "topic-kids-holidays"
+    ]
   },
   {
     "id": "debate-r14-27",
@@ -2781,7 +3135,10 @@
         "source": "UNICEF, Meaningful Consultations with Young People"
       }
     ],
-    "pulse": "Do you think children should help plan a holiday day?"
+    "pulse": "Do you think children should help plan a holiday day?",
+    "topicIds": [
+      "topic-kids-holidays"
+    ]
   },
   {
     "id": "debate-r14-28",
@@ -2813,7 +3170,12 @@
         "source": "NASA Earthdata, Land Processes Archive"
       }
     ],
-    "pulse": "Do you think space lessons should show real satellite images?"
+    "pulse": "Do you think space lessons should show real satellite images?",
+    "topicIds": [
+      "topic-kids-the-moon",
+      "topic-kids-rockets",
+      "topic-kids-astronauts"
+    ]
   },
   {
     "id": "debate-r14-29",
@@ -2845,7 +3207,12 @@
         "source": "NASA, Risks of Human Spaceflight"
       }
     ],
-    "pulse": "Do you think children should design a pretend Moon base?"
+    "pulse": "Do you think children should design a pretend Moon base?",
+    "topicIds": [
+      "topic-kids-the-moon",
+      "topic-kids-rockets",
+      "topic-kids-astronauts"
+    ]
   },
   {
     "id": "debate-r14-30",
@@ -2877,7 +3244,10 @@
         "source": "UNESCO, State of the Education Report for India 2024"
       }
     ],
-    "pulse": "Do you think superhero stories should include ordinary helpers?"
+    "pulse": "Do you think superhero stories should include ordinary helpers?",
+    "topicIds": [
+      "topic-kids-superheroes"
+    ]
   },
   {
     "id": "debate-r14-31",
@@ -2909,7 +3279,12 @@
         "source": "WHO, Safe Environments and Mobility"
       }
     ],
-    "pulse": "Do you think cities should make buses free for teenagers?"
+    "pulse": "Do you think cities should make buses free for teenagers?",
+    "topicIds": [
+      "topic-teens-public-transport",
+      "topic-teens-cities-of-the-future",
+      "topic-teens-climate-change"
+    ]
   },
   {
     "id": "debate-r14-32",
@@ -2941,7 +3316,12 @@
         "source": "WHO, Safe Environments and Mobility"
       }
     ],
-    "pulse": "Do you think cities should charge for busy road space?"
+    "pulse": "Do you think cities should charge for busy road space?",
+    "topicIds": [
+      "topic-teens-public-transport",
+      "topic-teens-cities-of-the-future",
+      "topic-teens-climate-change"
+    ]
   },
   {
     "id": "debate-r14-33",
@@ -2973,7 +3353,11 @@
         "source": "UNESCO, Recommendation on Museums and Collections"
       }
     ],
-    "pulse": "Do you think museums should offer free entry to teenagers?"
+    "pulse": "Do you think museums should offer free entry to teenagers?",
+    "topicIds": [
+      "topic-teens-local-traditions",
+      "topic-teens-unexplained-places"
+    ]
   },
   {
     "id": "debate-r14-34",
@@ -3005,7 +3389,11 @@
         "source": "UNESCO, Recommendation on Museums and Collections"
       }
     ],
-    "pulse": "Do you think museums should lend objects to local schools?"
+    "pulse": "Do you think museums should lend objects to local schools?",
+    "topicIds": [
+      "topic-teens-local-traditions",
+      "topic-teens-unexplained-places"
+    ]
   },
   {
     "id": "debate-r14-35",
@@ -3037,7 +3425,12 @@
         "source": "UNESCO, World Heritage Sustainable Tourism Toolkit"
       }
     ],
-    "pulse": "Do you think visitors should choose local guides on heritage trips?"
+    "pulse": "Do you think visitors should choose local guides on heritage trips?",
+    "topicIds": [
+      "topic-teens-travel-etiquette",
+      "topic-teens-local-traditions",
+      "topic-teens-travel-planning"
+    ]
   },
   {
     "id": "debate-r14-36",
@@ -3069,7 +3462,12 @@
         "source": "UNESCO, World Heritage Sustainable Tourism Toolkit"
       }
     ],
-    "pulse": "Do you think popular heritage sites should limit daily visitors?"
+    "pulse": "Do you think popular heritage sites should limit daily visitors?",
+    "topicIds": [
+      "topic-teens-travel-etiquette",
+      "topic-teens-local-traditions",
+      "topic-teens-travel-planning"
+    ]
   },
   {
     "id": "debate-r14-37",
@@ -3101,7 +3499,12 @@
         "source": "ILO, Internships: Head Start or Labour Trap?"
       }
     ],
-    "pulse": "Do you think teen internships should always be paid?"
+    "pulse": "Do you think teen internships should always be paid?",
+    "topicIds": [
+      "topic-teens-part-time-jobs",
+      "topic-teens-career-skills",
+      "topic-teens-gap-years"
+    ]
   },
   {
     "id": "debate-r14-38",
@@ -3133,7 +3536,14 @@
         "source": "ILO, Quality Apprenticeships Recommendation 2023"
       }
     ],
-    "pulse": "Do you think schools should expand apprenticeships instead of exams?"
+    "pulse": "Do you think schools should expand apprenticeships instead of exams?",
+    "topicIds": [
+      "topic-teens-exams",
+      "topic-teens-future-jobs",
+      "topic-teens-career-skills",
+      "topic-teens-choosing-subjects",
+      "topic-teens-gap-years"
+    ]
   },
   {
     "id": "debate-r14-39",
@@ -3165,7 +3575,12 @@
         "source": "UNESCO, Media and Information Literacy for Global Communication and Learning"
       }
     ],
-    "pulse": "Do you think news lessons should teach misleading images?"
+    "pulse": "Do you think news lessons should teach misleading images?",
+    "topicIds": [
+      "topic-teens-social-media",
+      "topic-teens-optical-illusions",
+      "topic-teens-digital-footprints"
+    ]
   },
   {
     "id": "debate-r14-40",
@@ -3197,7 +3612,12 @@
         "source": "UNESCO, Media and Information Literacy for Global Communication and Learning"
       }
     ],
-    "pulse": "Do you think platforms should label edited news images?"
+    "pulse": "Do you think platforms should label edited news images?",
+    "topicIds": [
+      "topic-teens-social-media",
+      "topic-teens-optical-illusions",
+      "topic-teens-digital-footprints"
+    ]
   },
   {
     "id": "debate-r14-41",
@@ -3229,7 +3649,11 @@
         "source": "ALA YALSA, The Need for Teen Spaces in Public Libraries"
       }
     ],
-    "pulse": "Do you think libraries should stay open after school?"
+    "pulse": "Do you think libraries should stay open after school?",
+    "topicIds": [
+      "topic-teens-study-habits",
+      "topic-teens-online-learning"
+    ]
   },
   {
     "id": "debate-r14-42",
@@ -3261,7 +3685,11 @@
         "source": "UNESCO, Open Educational Resources Guidance"
       }
     ],
-    "pulse": "Do you think libraries should offer printed and digital lessons?"
+    "pulse": "Do you think libraries should offer printed and digital lessons?",
+    "topicIds": [
+      "topic-teens-study-habits",
+      "topic-teens-online-learning"
+    ]
   },
   {
     "id": "debate-r14-43",
@@ -3293,7 +3721,11 @@
         "source": "WHO, Safe Environments and Mobility"
       }
     ],
-    "pulse": "Do you think school trips should offer accessible routes?"
+    "pulse": "Do you think school trips should offer accessible routes?",
+    "topicIds": [
+      "topic-teens-travel-planning",
+      "topic-teens-public-transport"
+    ]
   },
   {
     "id": "debate-r14-44",
@@ -3325,7 +3757,11 @@
         "source": "WHO, Safe Environments and Mobility"
       }
     ],
-    "pulse": "Do you think cities should give accessible information at every transit stop?"
+    "pulse": "Do you think cities should give accessible information at every transit stop?",
+    "topicIds": [
+      "topic-teens-travel-planning",
+      "topic-teens-public-transport"
+    ]
   },
   {
     "id": "debate-r14-45",
@@ -3357,7 +3793,12 @@
         "source": "NASA Earthdata, Land Processes Archive"
       }
     ],
-    "pulse": "Do you think schools should use free satellite images in science?"
+    "pulse": "Do you think schools should use free satellite images in science?",
+    "topicIds": [
+      "topic-teens-satellites",
+      "topic-teens-space-exploration",
+      "topic-teens-climate-change"
+    ]
   },
   {
     "id": "debate-r14-46",
@@ -3389,7 +3830,12 @@
         "source": "NASA, Why Go to Space"
       }
     ],
-    "pulse": "Do you think more space budgets should support Earth observation?"
+    "pulse": "Do you think more space budgets should support Earth observation?",
+    "topicIds": [
+      "topic-teens-satellites",
+      "topic-teens-space-exploration",
+      "topic-teens-climate-change"
+    ]
   },
   {
     "id": "debate-r14-47",
@@ -3421,7 +3867,12 @@
         "source": "IEA, Integrating Solar and Wind"
       }
     ],
-    "pulse": "Do you think schools should install solar panels when roofs allow?"
+    "pulse": "Do you think schools should install solar panels when roofs allow?",
+    "topicIds": [
+      "topic-teens-renewable-energy",
+      "topic-teens-climate-change",
+      "topic-teens-cities-of-the-future"
+    ]
   },
   {
     "id": "debate-r14-48",
@@ -3453,7 +3904,12 @@
         "source": "IEA, Integrating Solar and Wind"
       }
     ],
-    "pulse": "Do you think cities should pair new solar projects with storage?"
+    "pulse": "Do you think cities should pair new solar projects with storage?",
+    "topicIds": [
+      "topic-teens-renewable-energy",
+      "topic-teens-climate-change",
+      "topic-teens-cities-of-the-future"
+    ]
   },
   {
     "id": "debate-r14-49",
@@ -3485,7 +3941,11 @@
         "source": "WHO, Drinking-Water Guidelines"
       }
     ],
-    "pulse": "Do you think public places should offer water refill points?"
+    "pulse": "Do you think public places should offer water refill points?",
+    "topicIds": [
+      "topic-teens-water-conservation",
+      "topic-teens-cities-of-the-future"
+    ]
   },
   {
     "id": "debate-r14-50",
@@ -3517,7 +3977,11 @@
         "source": "WHO, Potable Reuse Guidance"
       }
     ],
-    "pulse": "Do you think cities should reuse treated water for public gardens?"
+    "pulse": "Do you think cities should reuse treated water for public gardens?",
+    "topicIds": [
+      "topic-teens-water-conservation",
+      "topic-teens-cities-of-the-future"
+    ]
   },
   {
     "id": "debate-r14-51",
@@ -3549,7 +4013,11 @@
         "source": "NASA, GLOBE Citizen Science Data Quality"
       }
     ],
-    "pulse": "Do you think students should collect local weather observations?"
+    "pulse": "Do you think students should collect local weather observations?",
+    "topicIds": [
+      "topic-teens-climate-change",
+      "topic-teens-urban-nature"
+    ]
   },
   {
     "id": "debate-r14-52",
@@ -3581,7 +4049,11 @@
         "source": "NASA, GLOBE Citizen Science Data Quality"
       }
     ],
-    "pulse": "Do you think citizen science projects should publish their methods?"
+    "pulse": "Do you think citizen science projects should publish their methods?",
+    "topicIds": [
+      "topic-teens-climate-change",
+      "topic-teens-urban-nature"
+    ]
   },
   {
     "id": "debate-r14-53",
@@ -3613,7 +4085,11 @@
         "source": "US EPA, Lithium-Ion Battery Recycling FAQ"
       }
     ],
-    "pulse": "Do you think shops should give customers simple repair guides?"
+    "pulse": "Do you think shops should give customers simple repair guides?",
+    "topicIds": [
+      "topic-teens-sustainable-fashion",
+      "topic-teens-inventions"
+    ]
   },
   {
     "id": "debate-r14-54",
@@ -3645,7 +4121,11 @@
         "source": "US EPA, Lithium-Ion Battery Recycling FAQ"
       }
     ],
-    "pulse": "Do you think products should show likely repair costs at purchase?"
+    "pulse": "Do you think products should show likely repair costs at purchase?",
+    "topicIds": [
+      "topic-teens-sustainable-fashion",
+      "topic-teens-inventions"
+    ]
   },
   {
     "id": "debate-r14-55",
@@ -3677,7 +4157,12 @@
         "source": "UNESCO, State of the Education Report for India 2024"
       }
     ],
-    "pulse": "Do you think every town should offer free public art walks?"
+    "pulse": "Do you think every town should offer free public art walks?",
+    "topicIds": [
+      "topic-teens-digital-art",
+      "topic-teens-film-making",
+      "topic-teens-local-traditions"
+    ]
   },
   {
     "id": "debate-r14-56",
@@ -3709,7 +4194,12 @@
         "source": "UNESCO, State of the Education Report for India 2024"
       }
     ],
-    "pulse": "Do you think cities should reserve wall space for community murals?"
+    "pulse": "Do you think cities should reserve wall space for community murals?",
+    "topicIds": [
+      "topic-teens-digital-art",
+      "topic-teens-film-making",
+      "topic-teens-local-traditions"
+    ]
   },
   {
     "id": "debate-r14-57",
@@ -3741,7 +4231,11 @@
         "source": "WHO, Improving Care of the Injured"
       }
     ],
-    "pulse": "Do you think schools should teach practical first aid?"
+    "pulse": "Do you think schools should teach practical first aid?",
+    "topicIds": [
+      "topic-teens-medical-technology",
+      "topic-teens-healthy-eating"
+    ]
   },
   {
     "id": "debate-r14-58",
@@ -3773,7 +4267,11 @@
         "source": "WHO, Health Literacy"
       }
     ],
-    "pulse": "Do you think public health messages should use two reading levels?"
+    "pulse": "Do you think public health messages should use two reading levels?",
+    "topicIds": [
+      "topic-teens-medical-technology",
+      "topic-teens-healthy-eating"
+    ]
   },
   {
     "id": "debate-r14-59",
@@ -3805,7 +4303,12 @@
         "source": "WHO, Safe Environments and Mobility"
       }
     ],
-    "pulse": "Do you think school streets should have quiet traffic hours?"
+    "pulse": "Do you think school streets should have quiet traffic hours?",
+    "topicIds": [
+      "topic-teens-public-transport",
+      "topic-teens-urban-nature",
+      "topic-teens-stress-management"
+    ]
   },
   {
     "id": "debate-r14-60",
@@ -3837,6 +4340,421 @@
         "source": "WHO, Safe Environments and Mobility"
       }
     ],
-    "pulse": "Do you think cities should map noise before adding major roads?"
+    "pulse": "Do you think cities should map noise before adding major roads?",
+    "topicIds": [
+      "topic-teens-public-transport",
+      "topic-teens-urban-nature",
+      "topic-teens-stress-management"
+    ]
+  },
+  {
+    "id": "debate-r28-01",
+    "motion": "Schools should use cooperative video games to teach teamwork",
+    "topics": [
+      "games",
+      "technology"
+    ],
+    "topicIds": [
+      "topic-teens-video-games",
+      "topic-teens-game-design",
+      "topic-teens-esports"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Players must share information to solve a challenge.",
+      "A game designer can reward helpful behavior.",
+      "Esports teams already practice communication."
+    ],
+    "againstPoints": [
+      "A game can reward speed over listening.",
+      "Not every student enjoys gaming.",
+      "Teachers need time to check the game mechanics."
+    ],
+    "evidence": [
+      {
+        "fact": "OECD notes that educational games can include collaboration, inquiry, and problem solving.",
+        "side": "for",
+        "source": "OECD, PISA 2022 ICT Framework (https://www.oecd.org/en/publications/pisa-2022-assessment-and-analytical-framework_dfe0bf9c-en/full-report/component-7.html)"
+      },
+      {
+        "fact": "PISA 2015 found students who played video games scored lower on collaborative problem solving than non-players; this is an association.",
+        "side": "against",
+        "source": "OECD, PISA 2015 Results Vol. V (https://www.oecd.org/content/dam/oecd/en/publications/reports/2017/11/pisa-2015-results-volume-v_g1g83e07/9789264285521-en.pdf)"
+      }
+    ],
+    "pulse": "Do you think schools should use cooperative video games to teach teamwork?"
+  },
+  {
+    "id": "debate-r28-02",
+    "motion": "Schools should teach media literacy through internet memes",
+    "topics": [
+      "media",
+      "technology"
+    ],
+    "topicIds": [
+      "topic-teens-internet-memes"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Memes make claims quickly with images and captions.",
+      "Students can compare the original and edited context.",
+      "Humor gives a familiar entry to source checking."
+    ],
+    "againstPoints": [
+      "Memes alone miss longer news formats.",
+      "A joke is not always a factual claim.",
+      "Teachers need examples that do not target classmates."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO included memes among creative formats for youth media-literacy workshops.",
+        "side": "for",
+        "source": "UNESCO, Stimulate youth civic engagement through media and information literacy (https://www.unesco.org/en/articles/stimulate-youth-civic-engagement-through-media-and-information-literacy)"
+      },
+      {
+        "fact": "UNESCO defines media literacy to include critical engagement with information and safe online navigation; meme study alone is narrower.",
+        "side": "against",
+        "source": "UNESCO, Media and Information Literacy for Global Communication and Learning (https://www.unesco.org/en/media-information-literacy)"
+      }
+    ],
+    "pulse": "Do you think schools should teach media literacy through internet memes?"
+  },
+  {
+    "id": "debate-r28-03",
+    "motion": "Schools should use virtual simulations in coding and robotics lessons",
+    "topics": [
+      "technology",
+      "science"
+    ],
+    "topicIds": [
+      "topic-teens-robots-and-automation",
+      "topic-teens-virtual-reality",
+      "topic-teens-coding"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Students can test a robot before building it.",
+      "A simulation lets beginners safely repeat mistakes.",
+      "Virtual worlds can make invisible code effects visible."
+    ],
+    "againstPoints": [
+      "Headsets and computers cost money.",
+      "A simulation cannot replace hands-on hardware.",
+      "Teachers need training to judge learning gains."
+    ],
+    "evidence": [
+      {
+        "fact": "A classroom virtual-robotics study reports that beginners used simulated robots for programming challenges and debugging.",
+        "side": "for",
+        "source": "Frontiers in Computer Science, Browser-based simulation for novice-friendly classroom robotics (https://www.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2022.1031572/full)"
+      },
+      {
+        "fact": "UNESCO reports little robust evidence on educational technology’s added value and warns of hidden costs.",
+        "side": "against",
+        "source": "UNESCO, 2023 GEM Report (https://gem-report-2023.unesco.org/)"
+      }
+    ],
+    "pulse": "Do you think schools should use virtual simulations in coding and robotics lessons?"
+  },
+  {
+    "id": "debate-r28-04",
+    "motion": "Schools should practice peer decisions through team projects",
+    "topics": [
+      "relationships",
+      "school"
+    ],
+    "topicIds": [
+      "topic-teens-friendship",
+      "topic-teens-peer-pressure",
+      "topic-teens-teamwork"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Students can rehearse saying no respectfully.",
+      "Group work lets friends hear other views.",
+      "Shared tasks reveal how pressure affects choices."
+    ],
+    "againstPoints": [
+      "A team can also silence quieter students.",
+      "Private friendship problems need a safe setting.",
+      "Groups need clear participation rules."
+    ],
+    "evidence": [
+      {
+        "fact": "CDC reports stronger school engagement among students who enjoy working with peers on class projects.",
+        "side": "for",
+        "source": "CDC, Peer Connection and Support (https://www.cdc.gov/classroom-management/approaches/peer-connection-support.html)"
+      },
+      {
+        "fact": "UNICEF advises group rules so every adolescent can participate and benefit equally; unstructured projects may exclude some.",
+        "side": "against",
+        "source": "UNICEF, Adolescent Kit group rules (https://www.unicef.org/adolescentkit/reports/tool-dos-and-donts-setting-group-rules)"
+      }
+    ],
+    "pulse": "Do you think schools should practice peer decisions through team projects?"
+  },
+  {
+    "id": "debate-r28-05",
+    "motion": "Fashion lessons should teach clothing repair and restyling",
+    "topics": [
+      "fashion",
+      "environment"
+    ],
+    "topicIds": [
+      "topic-teens-fashion",
+      "topic-teens-personal-style",
+      "topic-teens-sustainable-fashion"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Repair gives an old item a new life.",
+      "Restyling lets students express identity.",
+      "Students can see the material cost of fashion."
+    ],
+    "againstPoints": [
+      "Low-quality fabric may not last after repair.",
+      "Some techniques need equipment and supervision.",
+      "A personal repair cannot solve overproduction."
+    ],
+    "evidence": [
+      {
+        "fact": "UNEP says reuse can prevent a textile becoming waste and avoid impacts of making a replacement.",
+        "side": "for",
+        "source": "UNEP, Transforming the Textile Industry (https://wedocs.unep.org/items/44b5ed72-939d-4db5-8b3c-7e306c13208d)"
+      },
+      {
+        "fact": "UNEP reports falling textile quality and cheap synthetic materials, limiting what repair alone can achieve.",
+        "side": "against",
+        "source": "UNEP, Transforming the Textile Industry (https://wedocs.unep.org/items/44b5ed72-939d-4db5-8b3c-7e306c13208d)"
+      }
+    ],
+    "pulse": "Do you think fashion lessons should teach clothing repair and restyling?"
+  },
+  {
+    "id": "debate-r28-06",
+    "motion": "Schools should teach every teenager basic cooking",
+    "topics": [
+      "food",
+      "life-skills"
+    ],
+    "topicIds": [
+      "topic-teens-cooking-skills"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Students can prepare a simple meal safely.",
+      "Food skills help them judge ingredients.",
+      "Practice can build independence at home."
+    ],
+    "againstPoints": [
+      "A kitchen requires equipment and supervision.",
+      "Allergies and hygiene need careful planning.",
+      "School time is limited."
+    ],
+    "evidence": [
+      {
+        "fact": "WHO school food policy recommends age-appropriate food preparation skills for children and adolescents.",
+        "side": "for",
+        "source": "WHO, Food and nutrition policy for schools (https://iris.who.int/bitstream/handle/10665/107797/E89501.pdf)"
+      },
+      {
+        "fact": "WHO school guidance calls for trained staff, safe kitchens, and food-hygiene procedures for preparation classes.",
+        "side": "against",
+        "source": "WHO, Approaches for schools (https://iris.who.int/bitstream/10665/331947/1/9789240005020-eng.pdf)"
+      }
+    ],
+    "pulse": "Do you think schools should teach every teenager basic cooking?"
+  },
+  {
+    "id": "debate-r28-07",
+    "motion": "Schools should teach budgets through student-run projects",
+    "topics": [
+      "money",
+      "school"
+    ],
+    "topicIds": [
+      "topic-teens-entrepreneurship",
+      "topic-teens-money-and-saving",
+      "topic-teens-budgeting"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Real choices make a budget concrete.",
+      "A project can reveal hidden costs.",
+      "Teams can compare plans before spending."
+    ],
+    "againstPoints": [
+      "Students may not have equal starting resources.",
+      "Project income can distract from careful saving.",
+      "A classroom simulation may be fairer."
+    ],
+    "evidence": [
+      {
+        "fact": "In PISA 2022, students reporting school finance tasks and retained terms scored higher in financial literacy after controls.",
+        "side": "for",
+        "source": "OECD, PISA 2022 Financial Literacy Vol. IV (https://www.oecd.org/en/publications/pisa-2022-results-volume-iv_5a849c2a-en/full-report/component-12.html)"
+      },
+      {
+        "fact": "PISA 2022 found an 87-point financial-literacy gap between advantaged and disadvantaged students on average.",
+        "side": "against",
+        "source": "OECD, PISA 2022 Financial Literacy Vol. IV (https://www.oecd.org/en/publications/pisa-2022-results-volume-iv_5a849c2a-en/full-report/component-10.html)"
+      }
+    ],
+    "pulse": "Do you think schools should teach budgets through student-run projects?"
+  },
+  {
+    "id": "debate-r28-08",
+    "motion": "Schools should offer community projects with public presentations",
+    "topics": [
+      "community",
+      "school"
+    ],
+    "topicIds": [
+      "topic-teens-volunteering",
+      "topic-teens-public-speaking"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Students can choose a local need.",
+      "A presentation gives their work an audience.",
+      "Community partners can offer practical feedback."
+    ],
+    "againstPoints": [
+      "Unpaid time may exclude busy students.",
+      "Some students need other ways to communicate.",
+      "Projects require support beyond a single speech."
+    ],
+    "evidence": [
+      {
+        "fact": "UNICEF youth-participation guidance provides public-speaking tools for adolescents to present their own proposals.",
+        "side": "for",
+        "source": "UNICEF, Engaged and Heard! Guidelines (https://www.unicef.org/youthledaction/documents/engaged-and-heard-guidelines)"
+      },
+      {
+        "fact": "UNICEF Innocenti reports that costs, disability access, and unequal free time can block meaningful youth volunteering.",
+        "side": "against",
+        "source": "UNICEF Innocenti, Meaningful Youth Engagement (https://www.unicef.org/innocenti/media/9701/file/UNICEF-Innocenti-Meaningful-Youth-Engagement-2024.pdf)"
+      }
+    ],
+    "pulse": "Do you think schools should offer community projects with public presentations?"
+  },
+  {
+    "id": "debate-r28-09",
+    "motion": "Space budgets should prioritize Mars missions",
+    "topics": [
+      "space",
+      "science"
+    ],
+    "topicIds": [
+      "topic-teens-mars-missions"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Mars can reveal whether life once existed elsewhere.",
+      "Rovers can study ancient water.",
+      "Long missions advance remote exploration tools."
+    ],
+    "againstPoints": [
+      "Other space science also needs funding.",
+      "A Mars mission can face large cost overruns.",
+      "Earth observation gives nearer-term benefits."
+    ],
+    "evidence": [
+      {
+        "fact": "NASA lists the search for past life and water-related habitable conditions among Mars exploration goals.",
+        "side": "for",
+        "source": "NASA, Mars Exploration Science Goals (https://science.nasa.gov/planetary-science/programs/mars-exploration/science-goals/)"
+      },
+      {
+        "fact": "NASA’s FY26 budget announcement called Mars Sample Return financially unsustainable while shifting resources to other priorities.",
+        "side": "against",
+        "source": "NASA, FY26 Budget News (https://www.nasa.gov/news-release/president-trumps-fy26-budget-revitalizes-human-space-exploration/)"
+      }
+    ],
+    "pulse": "Do you think space budgets should prioritize Mars missions?"
+  },
+  {
+    "id": "debate-r28-10",
+    "motion": "PE should include solo sports and outdoor fitness",
+    "topics": [
+      "sports",
+      "health"
+    ],
+    "topicIds": [
+      "topic-teens-team-sports",
+      "topic-teens-solo-sports",
+      "topic-teens-fitness",
+      "topic-teens-outdoor-adventures"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "forPoints": [
+      "Solo options welcome students who avoid competition.",
+      "Outdoor movement offers more than team games.",
+      "A varied PE menu may build lasting habits."
+    ],
+    "againstPoints": [
+      "Outdoor spaces are not accessible everywhere.",
+      "Weather can interrupt a planned class.",
+      "Teachers must keep team sports available too."
+    ],
+    "evidence": [
+      {
+        "fact": "CDC recommends school activity opportunities before, during, and after class alongside high-quality PE.",
+        "side": "for",
+        "source": "CDC, Student Physical Education and Physical Activity (https://www.cdc.gov/physical-activity-education/about/)"
+      },
+      {
+        "fact": "CDC reports that inaccessible schoolyards and extreme weather can prevent equal participation in outdoor activity.",
+        "side": "against",
+        "source": "CDC, Schoolyard Infrastructure and Accessibility (https://www.cdc.gov/pcd/issues/2025/25_0121.htm)"
+      }
+    ],
+    "pulse": "Do you think pE should include solo sports and outdoor fitness?"
+  },
+  {
+    "id": "debate-r28-11",
+    "motion": "Schools should teach detective reasoning with real-life claims",
+    "topics": [
+      "media",
+      "reasoning"
+    ],
+    "topicIds": [
+      "topic-teens-mysteries-and-clues"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "forPoints": [
+      "Checking a clue practices source evaluation.",
+      "Students can compare rival explanations.",
+      "Real claims show why evidence matters."
+    ],
+    "againstPoints": [
+      "A dramatic story may reward quick guesses.",
+      "Private cases could harm real people.",
+      "Teachers must choose reliable, safe examples."
+    ],
+    "evidence": [
+      {
+        "fact": "UNESCO media-literacy guidance includes checking information and responding to misinformation.",
+        "side": "for",
+        "source": "UNESCO, Media and Information Literacy for Global Communication and Learning (https://www.unesco.org/en/media-information-literacy)"
+      },
+      {
+        "fact": "UNESCO supports wider media-literacy curricula and resources; a detective exercise alone covers only part of the skills.",
+        "side": "against",
+        "source": "UNESCO, Media and Information Literacy for Global Communication and Learning (https://www.unesco.org/en/media-information-literacy)"
+      }
+    ],
+    "pulse": "Do you think schools should teach detective reasoning with real-life claims?"
   }
 ]

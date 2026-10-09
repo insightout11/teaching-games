@@ -53,9 +53,10 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
     identicalFactsAcrossLevels: 0, identicalAnglesAcrossLevels: 0,
     grammarFits: 0, grammarTargets: {} };
   const validTargets = new Set<string>(Object.keys(GRAMMAR_TARGET_GROUPS).reduce<string[]>((all, group) => all.concat(GRAMMAR_TARGET_GROUPS[group]), []));
-  const kidsRestricted = new Set<string>([
-    GrammarTarget.PresentPerfectContinuous, GrammarTarget.PastPerfect,
-    GrammarTarget.FutureContinuous, GrammarTarget.Passive, GrammarTarget.ReportedSpeech,
+  const kidsAllowed = new Set<string>([
+    GrammarTarget.PresentSimple, GrammarTarget.PresentContinuous, GrammarTarget.PastSimple,
+    GrammarTarget.FutureWill, GrammarTarget.FutureGoingTo,
+    GrammarTarget.Comparatives, GrammarTarget.QuestionForms,
   ]);
   const file = path.join(dataDir, 'topic-briefings.json');
   if (!fs.existsSync(file)) { fail('topic-briefings.json', 'required Focus bank is missing'); return counts; }
@@ -125,7 +126,7 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
           if (used.has(fit.target)) fail(at, 'duplicate grammar target');
           used.add(fit.target);
           counts.grammarTargets[fit.target] = (counts.grammarTargets[fit.target] || 0) + 1;
-          if (ageBand === 'kids' && kidsRestricted.has(fit.target)) fail(at, 'target is beyond A2 for kids');
+          if (ageBand === 'kids' && !kidsAllowed.has(fit.target)) fail(at, 'target is beyond A2 for kids');
         }
         if (!isText(fit.why) || countWords(fit.why) > 10) fail(at, 'why must have 1–10 words');
         if (!isText(fit.example) || countWords(fit.example) > 14 || sentences(String(fit.example || '')).length !== 1) fail(at, 'example must be one sentence of at most 14 words');
@@ -151,7 +152,7 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
       const at = `${where}.levels.${level}`;
       const rawLevel = levels[level];
       if (!rawLevel || typeof rawLevel !== 'object' || Array.isArray(rawLevel)) { fail(at, 'level object is required'); continue; }
-      counts[level as keyof Counts] += 1;
+      counts[level as 'A1' | 'A2' | 'B1' | 'B2'] += 1;
       const item = rawLevel as Record<string, unknown>;
       if (!isText(item.briefing)) fail(at, 'briefing is required');
       else if (sentences(item.briefing).length < 3 || sentences(item.briefing).length > 4) fail(at, 'briefing must have 3–4 sentences');

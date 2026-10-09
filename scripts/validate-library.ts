@@ -719,6 +719,14 @@ if (bookCourseItemCount < 56) fail('book-library.json', `expected at least 56 bo
 if (readingPackCount !== bookCourseItemCount * 2 + 24) fail('book-library.json', `expected two packs per lesson plus 24 A1 versions (found ${readingPackCount})`);
 
 const debatePath = path.join(dataDir, 'debate-motions.json');
+const briefingAgeById = new Map<string, string>();
+try {
+  const briefingRows = JSON.parse(fs.readFileSync(path.join(dataDir, 'topic-briefings.json'), 'utf8')) as Array<{ id: string; ageBand: string }>;
+  for (const row of briefingRows) briefingAgeById.set(row.id, row.ageBand);
+} catch (error) { fail('topic-briefings.json', `cannot check debate links: ${String(error)}`); }
+const linkedTeenTopics = new Set<string>();
+const linkedKidsTopics = new Set<string>();
+let round28MotionCount = 0;
 if (!fs.existsSync(debatePath)) fail('debate-motions.json', 'required debate motions bank is missing');
 else {
   let bank: unknown;
@@ -733,6 +741,7 @@ else {
       const where = `debate-motions.json[${index}]`;
       if (!raw || typeof raw !== 'object' || Array.isArray(raw)) { fail(where, 'must be an object'); continue; }
       const motion = raw as Record<string, unknown>;
+      if (typeof motion.id === 'string' && motion.id.indexOf('debate-r28-') === 0) round28MotionCount += 1;
       if (!nonEmpty(motion.id) || seenMotionIds.has(String(motion.id))) fail(where, 'id must be non-empty and unique');
       else seenMotionIds.add(motion.id);
       if (!nonEmpty(motion.motion) || motion.motion.trim().split(/\s+/).length > 12
@@ -744,6 +753,19 @@ else {
       }
       if (!Array.isArray(motion.topics) || motion.topics.length === 0
         || motion.topics.some((tag) => !nonEmpty(tag))) fail(where, 'topics must be a non-empty string array');
+      if (!Array.isArray(motion.topicIds)) fail(where, 'topicIds must be an array');
+      else {
+        const linkedHere = new Set<string>();
+        for (const topicId of motion.topicIds) {
+          if (typeof topicId !== 'string' || !briefingAgeById.has(topicId)) fail(where, `unknown topicId ${String(topicId)}`);
+          else if (briefingAgeById.get(topicId) !== motion.ageBand) fail(where, `topicId ${topicId} has the wrong age band`);
+          else if (linkedHere.has(topicId)) fail(where, `duplicate topicId ${topicId}`);
+          else {
+            linkedHere.add(topicId);
+            (motion.ageBand === 'teens' ? linkedTeenTopics : linkedKidsTopics).add(topicId);
+          }
+        }
+      }
       if (motion.ageBand === 'kids' && (motion.cefr === 'A2' || motion.cefr === 'B1')) debateCohorts.kids += 1;
       else if (motion.ageBand === 'teens' && (motion.cefr === 'B1' || motion.cefr === 'B2')) debateCohorts.teens += 1;
       else fail(where, 'kids require A2–B1 and teens require B1–B2');
@@ -777,9 +799,12 @@ else {
       }
       if (!nonEmpty(motion.pulse) || !motion.pulse.trim().endsWith('?')) fail(where, 'pulse must be a question');
     }
-    if (debateMotionCount !== 120 || debateCohorts.kids !== 60 || debateCohorts.teens !== 60) {
-      fail('debate-motions.json', `expected 120 motions, 60 kids and 60 teens (found ${debateMotionCount}/${debateCohorts.kids}/${debateCohorts.teens})`);
+    if (debateMotionCount < 120 || debateCohorts.kids < 60 || debateCohorts.teens < 60) {
+      fail('debate-motions.json', `expected at least 120 motions, 60 kids and 60 teens (found ${debateMotionCount}/${debateCohorts.kids}/${debateCohorts.teens})`);
     }
+    const teenBriefingCount = Array.from(briefingAgeById.values()).filter((age) => age === 'teens').length;
+    if (linkedTeenTopics.size !== teenBriefingCount) fail('debate-motions.json', `every teen topic needs a motion (covered ${linkedTeenTopics.size}/${teenBriefingCount})`);
+    if (linkedKidsTopics.size < 30) fail('debate-motions.json', `expected at least 30 kids topics covered (found ${linkedKidsTopics.size})`);
     if (round14DebateCounts.kidsA2 !== 30 || round14DebateCounts.teensB1 !== 15 || round14DebateCounts.teensB2 !== 15) fail('debate-motions.json', `Round 14 expected kids A2 30, teens B1 15, teens B2 15 (found ${round14DebateCounts.kidsA2}/${round14DebateCounts.teensB1}/${round14DebateCounts.teensB2})`);
     if (round14TeenTopics.size < 15) fail('debate-motions.json', `Round 14 teen motions need at least 15 topic areas (found ${round14TeenTopics.size})`);
     if (debateEvidenceCount < 240) fail('debate-motions.json', `expected at least 240 evidence facts (found ${debateEvidenceCount})`);
@@ -788,6 +813,7 @@ else {
 
 const topicBriefingCounts = validateTopicBriefings(dataDir, fail);
 console.log(`Round 28 grammar fits: ${topicBriefingCounts.grammarFits} topics; targets ${Object.keys(topicBriefingCounts.grammarTargets).sort().map((target) => `${target} ${topicBriefingCounts.grammarTargets[target]}`).join(', ')}.`);
+console.log(`Round 28 debate links: ${round28MotionCount} motions added; teen topics ${linkedTeenTopics.size}/70, kids topics ${linkedKidsTopics.size}/80.`);
 console.log(`Round 22 picture words: ${topicBriefingCounts.shortPictureWords} topics below six, average ${topicBriefingCounts.averagePictureWords.toFixed(2)} per topic.`);
 console.log(`Round 19 writing audit: briefing/fact overlap ${topicBriefingCounts.briefingFactOverlap}, title/alias vocab ${topicBriefingCounts.titleAliasVocab}, generic vocab ${topicBriefingCounts.genericVocab}, overused vocab ${topicBriefingCounts.overusedVocab}, expression/fact overlap ${topicBriefingCounts.expressionFactOverlap}, cross-topic sentences ${topicBriefingCounts.crossTopicSentences}.`);
 console.log(`Round 20 level audit: identical facts ${topicBriefingCounts.identicalFactsAcrossLevels}, identical angles ${topicBriefingCounts.identicalAnglesAcrossLevels}.`);
