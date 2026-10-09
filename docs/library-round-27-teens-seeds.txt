@@ -1,0 +1,95 @@
+esports-rule|teens|B2|game-design esports|Your esports club designed a new game rule, but a teammate says it may make matches unfair.|Suggest a fair way to test a rule
+B|Let's test it with both teams before deciding.|My rule is perfect; stop complaining.|The rule test fair we doing.|I forgot my history notes.
+A|We could run a short trial and compare results.|Use it anyway; fairness is boring.|Teams testing rule was more fairer.|I need to charge my phone.
+
+late-memes|teens|B1|screen-time internet-memes sleep-and-learning|A friend keeps sending memes late at night before an exam and asks why you stopped replying.|Explain a screen-time boundary kindly
+B|I need sleep tonight; I'll reply tomorrow.|Stop sending me anything ever.|I am sleep need for exam.|My headphones are in my bag.
+A|The memes are funny, but I'm logging off.|Your jokes are stupid at night.|I will sleeping and reply after.|The bus leaves at seven.
+
+ai-robot|teens|B2|artificial-intelligence robots-and-automation|Your school robot uses AI to sort recycling. A classmate says it can now replace every worker.|Qualify a claim about an AI robot
+B|It still needs people to check its decisions.|Yes, all workers are useless now.|The AI replacing everyone already does.|We painted the bins green.
+A|Automation helps, but humans must handle mistakes.|Stop asking; the machine knows best.|Robot decisions checking humans still need is.|Our project starts on Monday.
+
+vr-bug|teens|B2|virtual-reality coding|At coding club, your virtual-reality game makes players feel dizzy. A teammate asks what to change.|Suggest a safe fix for a VR game
+B|Let's slow the movement and test again.|Ignore it; players can cope.|The code making dizzy players is.|I lost my lunch card.
+A|We should fix the camera motion before release.|Publish it and blame their headsets.|Movement slower code we should changed.|The art room is upstairs.
+
+class-login|teens|B1|cybersecurity online-learning|During an online lesson, a classmate asks you to send them your password because their login failed.|Refuse an unsafe password request politely
+B|I can't share my password; ask the teacher.|Just use mine for today.|I no sharing password because security.|The video starts soon.
+A|Let's ask support to reset your login.|Take my account if you need it.|Password giving you not safe is.|My camera is off.
+
+film-art|teens|B2|digital-art film-making|Your group is making a short film, and a friend wants to put your digital drawing in every scene.|Give feedback on a visual film choice
+B|It would work better in the opening scene.|Put it everywhere; I don't care.|The drawing in scene all is.|My tablet battery is low.
+A|Let's use it where the story needs emphasis.|Keep your art out of my film.|Digital image must every frame using.|Our soundtrack is nearly finished.
+
+peer-pressure|teens|B1|peer-pressure|Friends urge you to skip a club meeting so you can join them at the mall.|Decline peer pressure without insulting friends
+B|Thanks, but I promised to attend the club.|You are all bad friends.|I am promise club must going.|The mall closes at nine.
+A|I can't miss the meeting; let's meet later.|Fine, I'll lie to the teacher.|I won't going club because you.|I need new headphones.
+
+concert-styles|teens|B1|music-genres live-music|At a live music festival, a friend asks whether to see the jazz group or the hip-hop act.|Compare two live music choices
+B|Let's hear jazz first, then try hip-hop.|Only my music taste matters.|Jazz more good than hip-hop is.|I left my ticket at home.
+A|I'd choose the hip-hop show for its energy.|Both are terrible; go away.|Hip-hop I choosing because energetic it.|The stage lights are blue.
+
+reuse-fashion|teens|B2|fashion personal-style sustainable-fashion|A friend wants a new outfit for a party but also wants to waste less clothing.|Suggest a personal style choice with less waste
+B|Try styling something you already own differently.|Just buy three cheap outfits.|Old clothes never stylish can be.|The party starts at eight.
+A|A secondhand jacket could express your style.|Wear anything; nobody cares.|Secondhand style more sustainable is betterer.|My sister has a sewing kit.
+
+healthy-dinner|teens|B1|cooking-skills healthy-eating|A friend wants to cook dinner but thinks a healthy meal must be difficult.|Suggest a manageable healthy meal
+B|Let's make rice with vegetables and eggs.|Order sweets and call it dinner.|Healthy cooking too hard it is.|I washed the plates already.
+A|We could cook a simple vegetable soup.|Don't bother learning to cook.|Soup healthy make we can easy.|The recipe book is new.
+
+language-practice|teens|B1|language-learning|Your friend studies English but feels embarrassed to speak it outside class.|Encourage realistic language practice
+B|Let's practise short conversations together first.|Just speak perfectly or don't try.|You must to speak English better.|The library has a new printer.
+A|We can start with one question a day.|Stop worrying; it is silly.|Practise little every day we can.|My exam is next week.
+
+future-business|teens|B2|future-jobs entrepreneurship|At a careers event, a friend suggests starting a small repair service and asks whether that could be a future job.|Evaluate a small business idea
+B|It could work if we test local demand first.|We will be rich by Friday.|The job future repairing is money.|I need another notebook.
+A|Let's ask customers what they would pay.|Start selling before checking anything.|Customers asks we what pay would.|The bus is crowded today.
+
+charity-speech|teens|B1|volunteering public-speaking|Your volunteer group needs someone to explain its food drive at an assembly. A friend is nervous about speaking.|Offer support for a short public speech
+B|I'll practise the speech with you first.|Just read it and stop worrying.|The speech we volunteering talk.|I can bring more boxes.
+A|We can share the speaking parts.|Do it alone; I won't help.|Speaking parts share us can.|The hall is nearly full.
+
+subjects-gap|teens|B2|choosing-subjects gap-years|A friend is choosing next year's subjects while considering a gap year after school. They ask whether to drop languages now.|Discuss a subject choice without closing options
+B|Keep languages if they support your future plans.|Drop them; gap years need nothing.|Languages choosing gap year not is.|The timetable came yesterday.
+A|Let's compare course requirements before you decide.|Pick the easiest subjects and forget it.|Gap year plans subjects depends it.|My cousin travelled last summer.
+
+solar-school|teens|B2|climate-change renewable-energy|The climate club proposes solar panels for school. A teammate says one roof cannot matter.|Defend a small climate action with limits
+B|It won't solve everything, but it can cut emissions.|You're wrong; panels fix climate change.|Solar school emissions cutting are.|Our club meets on Tuesday.
+A|Let's estimate the energy saved before promising results.|Just call it green and stop asking.|Panels saving climate all will.|The roof has two chimneys.
+
+cafeteria-waste|teens|B1|plastic-waste food-waste|At lunch, a classmate throws away half a meal and several plastic wrappers. They ask how to waste less.|Suggest a practical change at lunch
+B|Take smaller portions and use a refillable box.|Just stop eating lunch.|Plastic food waste less we can.|The café has new tables.
+A|We could save leftovers and avoid extra packaging.|Throw it all away faster.|Leftovers keeping packaging no we.|My lunch smells delicious.
+
+leaking-tap|teens|B1|water-conservation|A school tap keeps dripping. Your friend says the leak is too small to report.|Suggest a way to save water
+B|Let's tell staff so they can fix it.|Leave it; water is endless.|The tap dripping no matter is.|The bathroom door is blue.
+A|Even small leaks waste water over time.|Ignore it until it breaks.|Water saving tap fix we should.|I forgot my sports shoes.
+
+city-hedgehog|teens|B2|wildlife-conservation urban-nature|A city park plans bright lights near hedgehog nests. A volunteer asks for your view.|Protect urban wildlife while considering people
+B|Could we light the path away from the nests?|Turn off every light in town.|Hedgehog nests lights dangerous more.|I saw a fox yesterday.
+A|Let's test dimmer lighting along the park edge.|Ignore the animals; people come first.|Urban wildlife light avoiding need.|The new benches are wooden.
+
+smart-shelter|teens|B2|cities-of-the-future inventions|In a future-city design contest, your team invents a smart bus shelter. A friend wants to add more screens.|Evaluate a city invention for everyday use
+B|Let's check whether riders can use it easily.|More screens always mean better cities.|Shelter smart is screens adding.|Our model uses cardboard.
+A|An accessible timetable matters more than another display.|Add flashing adverts everywhere.|Riders using invention must simple.|The contest ends tomorrow.
+
+mars-map|teens|B2|space-exploration mars-missions satellites|Your space club proposes using satellite pictures to choose a safe Mars landing site. A teammate asks what to check.|Explain evidence for a space mission choice
+B|We should compare terrain images before choosing.|Any red patch will do.|Satellite Mars landing pictures choosing is.|My telescope is at home.
+A|Let's check slopes and dust in several images.|Just point to the brightest spot.|Mission site satellite photo decide.|The rocket model is finished.
+
+health-monitor|teens|B2|medical-technology|At a clinic visit, a friend says a wrist health monitor can diagnose every illness without a doctor.|Qualify a claim about medical technology
+B|It gives useful data, but a doctor interprets it.|Yes, doctors are no longer needed.|Monitor illness all knowing is.|My appointment is on Friday.
+A|The readings help; they cannot explain everything alone.|Trust the device over every expert.|Technology medical deciding all can.|The waiting room is quiet.
+
+solo-exercise|teens|B1|solo-sports fitness|A friend dislikes team games but wants to become fitter. They ask what they could try alone.|Suggest an individual exercise plan
+B|Try a short run and build up slowly.|Run ten hours tomorrow.|Fitness alone sport doing is.|I bought a new football.
+A|Swimming alone could be a good start.|If you hate teams, do nothing.|Solo fitness swimming try you.|My coach lives nearby.
+
+old-building-clue|teens|B1|mysteries-and-clues unexplained-places|On a history walk, an old building makes a strange sound. A friend says it must be haunted.|Investigate a strange place using clues
+B|Let's find where the sound comes from.|Yes, run away and scream.|Mystery building noise ghost is.|The guide wears a blue hat.
+A|Could the wind be moving a loose window?|It is haunted; no need to check.|Clues in place we finding should.|The museum closes soon.
+
+moving-picture|teens|B1|optical-illusions|At an art show, a still picture seems to move. Your friend asks whether the paper is moving.|Explain a visual trick simply
+B|No, the pattern tricks our eyes.|Yes, the paper is alive.|Eyes moving picture makes are.|I prefer the painting next door.
+A|I think the shapes create an illusion.|Stop staring; it is obvious.|The paper move because looking.|The frame is made of wood.

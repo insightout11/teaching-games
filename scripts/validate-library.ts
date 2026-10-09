@@ -95,10 +95,11 @@ const speakAgeCounts: Record<string, number> = { kids: 0, teens: 0, junior: 0 };
 const speakPositions = { before: [0, 0, 0, 0], after: [0, 0, 0, 0] };
 const round12Speak = { kids: 0, teens: 0, teenB2: 0 };
 const speakCanDoVerbs = new Set(['Accept', 'Acknowledge', 'Answer', 'Apologize', 'Ask',
-  'Borrow', 'Buy', 'Cancel', 'Comfort', 'Correct', 'Decline', 'Describe', 'Disagree', 'Explain',
-  'Express', 'Give', 'Greet', 'Introduce', 'Invite', 'Name', 'Negotiate', 'Offer', 'Order',
-  'Praise', 'Propose', 'Request', 'Respond', 'Return', 'State', 'Suggest', 'Take', 'Tell',
-  'Thank', 'Volunteer', 'Wish']);
+  'Borrow', 'Buy', 'Cancel', 'Choose', 'Comfort', 'Compare', 'Correct', 'Decline', 'Defend',
+  'Describe', 'Disagree', 'Discuss', 'Encourage', 'Evaluate', 'Explain', 'Express', 'Give',
+  'Greet', 'Introduce', 'Investigate', 'Invite', 'Name', 'Negotiate', 'Offer', 'Order', 'Place',
+  'Plan', 'Praise', 'Propose', 'Protect', 'Qualify', 'Refuse', 'Request', 'Respond', 'Return',
+  'State', 'Suggest', 'Take', 'Talk', 'Tell', 'Thank', 'Volunteer', 'Wish']);
 let listeningPackCount = 0;
 let listeningSegmentCount = 0;
 let listeningGistCount = 0;
@@ -647,8 +648,8 @@ else {
       if (Number.isInteger(before?.natural) && Number(before?.natural) >= 0 && Number(before?.natural) < 4) speakPositions.before[Number(before?.natural)] += 1;
       if (Number.isInteger(after?.natural) && Number(after?.natural) >= 0 && Number(after?.natural) < 4) speakPositions.after[Number(after?.natural)] += 1;
     }
-    if (speakSituationCount !== 110) fail('speak-situations.json', `expected 110 situations (found ${speakSituationCount})`);
-    if (speakAgeCounts.kids !== 40 || speakAgeCounts.teens !== 40 || speakAgeCounts.junior !== 30) fail('speak-situations.json', 'expected 40 kids, 40 teens, and 30 junior situations');
+    if (speakSituationCount !== 171) fail('speak-situations.json', `expected 171 situations (found ${speakSituationCount})`);
+    if (speakAgeCounts.kids !== 77 || speakAgeCounts.teens !== 64 || speakAgeCounts.junior !== 30) fail('speak-situations.json', 'expected 77 kids, 64 teens, and 30 junior situations');
     if (round12Speak.kids !== 20 || round12Speak.teens !== 20 || round12Speak.teenB2 < 8) fail('speak-situations.json', `Round 12 requires 20 kids, 20 teens and 8 B2 teens (found ${round12Speak.kids}/${round12Speak.teens}/${round12Speak.teenB2})`);
     if (speakPositions.before.some((count) => count > speakSituationCount * 0.35)
       || speakPositions.after.some((count) => count > speakSituationCount * 0.35)) fail('speak-situations.json', 'natural reply positions must each be at most 35% before and after');
