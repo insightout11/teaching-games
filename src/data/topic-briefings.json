@@ -12,6 +12,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Cats sleep for many hours each day."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a sleeping cat or kitten?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Cats sleep for many hours each day. They wash their fur with their tongues. Many cats enjoy sitting above the ground.",
@@ -301,6 +313,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "A leash helps keep a dog near its person."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you play fetch or take a walk?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Dogs can learn the sound of their names. Many dogs enjoy games with familiar people. A dog's tail can show excitement or worry.",
@@ -590,6 +614,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "A horse has one hoof on each leg."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you brush a mane or carry hay?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Horses can sleep for short times lying down. A horse's eyes sit on the sides of its head. Horses talk with their ears and bodies.",
@@ -878,6 +914,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "They use mud to keep their skin cool."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a trunk or big ears?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Elephants can pick up tiny things with their trunks. They use mud to keep their skin cool. An elephant calf stays near its family.",
@@ -1166,6 +1214,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Giraffes sleep for only short periods."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw spots or very long legs?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Giraffes sleep for only short periods. Their legs are long as well as their necks. A baby giraffe can stand soon after birth.",
@@ -1454,6 +1514,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Zebras use their tails to swat away flies."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw thin stripes or wide stripes?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Zebras use their tails to swat away flies. Foals can follow their mothers soon after birth. A zebra's black and white coat looks bold.",
@@ -1742,6 +1814,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "A young lion is called a cub."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a cub asleep or awake?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Lion cubs often tumble over one another. A lion's roar can travel a long way. Lions spend hot hours resting in shade.",
@@ -2030,6 +2114,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "A tiger's tail helps it keep balance."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a tiger by trees or water?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Tigers can make soft sounds to greet one another. A tiger's tail helps it keep balance. Most tigers spend time away from other adults.",
@@ -2318,6 +2414,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Pandas have black patches around their eyes."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would your toy panda climb or roll?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Pandas have black patches around their eyes. They can climb trees when they are young. A panda often sits while it eats.",
@@ -2606,6 +2714,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Koalas have two thumbs on each front paw."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a koala high or low?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Koalas have two thumbs on each front paw. Their thick fur helps them stay dry. A koala makes rough sounds that surprise people.",
@@ -2894,6 +3014,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Kangaroos use their tails while standing and moving."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you hop like a kangaroo or frog?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Kangaroos use their tails while standing and moving. Some kangaroos can leap over wide spaces. A baby kangaroo is called a joey.",
@@ -3182,6 +3314,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Penguins have feathers packed close together."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you watch a penguin dive or walk?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Penguins have feathers packed close together. They slide on their bellies across snow. Penguins can look clumsy on land but graceful underwater.",
@@ -3470,6 +3614,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Polar bears have black skin under their pale fur."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a bear swimming or walking?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Polar bears have black skin under their pale fur. Their paws help them walk on slippery ice. A young bear learns to follow its mother.",
@@ -3758,6 +3914,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "They move their tails up and down to swim."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you hear clicks or watch a jump?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Dolphins can rest half their brain at once. They move their tails up and down to swim. A dolphin calf stays near its mother.",
@@ -4046,6 +4214,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Some whales have long flippers."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a tail above or below water?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Whales can make calls that travel through water. A whale lifts its tail before some deep dives. Young whales follow adults on long journeys.",
@@ -4336,6 +4516,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Many sharks need to keep water moving past their gills."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a shark near a reef?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Many sharks need to keep water moving past their gills. A shark's skin can feel rough in one direction. Baby sharks grow inside eggs or their mothers.",
@@ -4624,6 +4816,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Its shell grows as the turtle grows."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a turtle swimming or resting?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Sea turtles can travel far between feeding areas. A turtle must reach the surface for air. Its shell grows as the turtle grows.",
@@ -4912,6 +5116,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Frogs have moist skin that needs care."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a frog or tadpole?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Frogs have moist skin that needs care. Some frogs live in trees, not ponds. A frog's eyes sit high on its head.",
@@ -5200,6 +5416,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "A caterpillar eats leaves."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a wing or caterpillar?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Butterflies taste with their feet. They rest with wings open or closed. Some butterflies travel between warm places.",
@@ -5488,6 +5716,18 @@
     ],
     "ageBand": "kids",
     "category": "animals",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an animal feature or habit.",
+        "example": "Bees have fuzzy bodies that catch flower dust."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask classmates about an animal choice.",
+        "example": "Would you draw a bee or a flower?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Bees have fuzzy bodies that catch flower dust. Some bees make honey for their colony. A bee can visit many flowers in one trip.",
@@ -5778,6 +6018,23 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "Fossils help us learn about dinosaurs."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you draw a dinosaur egg or footprint?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare dinosaur sizes.",
+        "example": "Some dinosaurs were smaller than a child."
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Some dinosaurs were smaller than a child. Many laid eggs in nests. We know their colors only from a few clues.",
@@ -6066,6 +6323,23 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "Other fossils show tracks or leaf marks."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you hunt for a shell or leaf imprint?"
+      },
+      {
+        "target": "past simple",
+        "why": "Describe how a trace formed.",
+        "example": "A track fossil marks where something walked."
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A fossil can be a mark, not a bone. Mud can cover a print and later become rock. Finding one can take a lot of patience.",
@@ -6355,6 +6629,18 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "The Moon looks bright because it reflects sunlight."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you draw a full Moon or crescent?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "The Moon looks bright because it reflects sunlight. There is no air to carry sound there. Footprints can last a long time on its ground.",
@@ -6643,6 +6929,23 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "The Sun is much bigger than Earth."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you draw sunrise or sunset?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare the Sun and Earth.",
+        "example": "The Sun is much bigger than Earth."
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "The Sun is much bigger than Earth. Its light takes time to reach us. We never look straight at it.",
@@ -6931,6 +7234,18 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "Each planet has its own kind of sky."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you visit a blue or red planet?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Each planet has its own kind of sky. Some planets have many moons. You cannot stand on every planet's surface.",
@@ -7219,6 +7534,23 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "They seem still, but they move through space."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you draw one bright star or many?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare stars by temperature.",
+        "example": "Blue stars can be hotter than red ones."
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Stars shine in many colors. Blue stars can be hotter than red ones. They seem still, but they move through space.",
@@ -7507,6 +7839,18 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "Fuel gives a rocket energy."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you draw a rocket on land or in sky?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A rocket starts with a loud push. It must carry everything it needs at launch. The front can hold a small spacecraft.",
@@ -7795,6 +8139,18 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "Astronauts eat food from special packages."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you float or look out the window?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Astronauts eat food from special packages. They sleep in bags attached to a wall. Small things can float away from them.",
@@ -8084,6 +8440,18 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "Some volcanoes have quiet green slopes."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you draw a round crater or tall slope?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Some volcanoes have quiet green slopes. The ground nearby can feel warm. New rock can build land over time.",
@@ -8372,6 +8740,18 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "An earthquake makes the ground shake."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you practice under a table or outdoors?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Earth can shake for only a short time. People practice moving to safer spots. A strong table can give cover indoors.",
@@ -8660,6 +9040,23 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "A mountain has a high peak."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you walk a valley or hill trail?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Describe the highest parts of mountains.",
+        "example": "Clouds sometimes cover the highest parts."
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Mountain paths can turn sharply. Clouds sometimes cover the highest parts. Small flowers can grow between rocks.",
@@ -8948,6 +9345,18 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "A river has two banks."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you cross a bridge or ride a boat?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A river can be narrow or wide. Its water may move slowly around a bend. Small stones roll along its bottom.",
@@ -9236,6 +9645,18 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "A beach is where land meets the sea."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you watch waves or look in a rock pool?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "The ocean can look blue or green. Light reaches only the upper water. A beach is where land meets the sea.",
@@ -9524,6 +9945,18 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "Tiny coral animals live close together."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you draw a reef fish or polyp?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Reefs can look like colorful underwater gardens. Tiny coral animals live close together. Fish hide in small gaps between coral shapes.",
@@ -9812,6 +10245,23 @@
     ],
     "ageBand": "kids",
     "category": "earth and space",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a feature of the natural world.",
+        "example": "Some leaves are bigger than dinner plates."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask what the class would explore.",
+        "example": "Would you look up at leaves or down at mushrooms?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare leaf sizes.",
+        "example": "Some leaves are bigger than dinner plates."
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Rainforests can feel warm and damp. Some leaves are bigger than dinner plates. Sounds come from above and below.",
@@ -10100,6 +10550,18 @@
     ],
     "ageBand": "kids",
     "category": "weather and nature",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a natural pattern or process.",
+        "example": "Some deserts have rocky ground instead of sand."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to imagine a nature choice.",
+        "example": "Would you draw a dune or oasis?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Some deserts have rocky ground instead of sand. Small animals hide below the surface. Rain may come only after long waits.",
@@ -10388,6 +10850,18 @@
     ],
     "ageBand": "kids",
     "category": "weather and nature",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a natural pattern or process.",
+        "example": "A sapling is a young tree."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to imagine a nature choice.",
+        "example": "Would you draw a tall tree or sapling?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A forest floor can smell earthy after rain. Tree roots spread under our feet. Mushrooms may grow on old wood.",
@@ -10676,6 +11150,18 @@
     ],
     "ageBand": "kids",
     "category": "weather and nature",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a natural pattern or process.",
+        "example": "Long summer days give more hours of light."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to imagine a nature choice.",
+        "example": "Would you choose a rainy or sunny season?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Long summer days give more hours of light. Some animals grow thicker coats before winter. People change clothes as the weather shifts.",
@@ -10963,6 +11449,23 @@
     ],
     "ageBand": "kids",
     "category": "weather and nature",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a natural pattern or process.",
+        "example": "Puddles show where water gathers."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to imagine a nature choice.",
+        "example": "Would you jump over or around a puddle?"
+      },
+      {
+        "target": "past simple",
+        "why": "Recall what rain changed in a garden.",
+        "example": "The soil scent made the garden feel fresh."
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Rain can tap softly or pound loudly. Puddles show where water gathers. A coat can keep us dry outside.",
@@ -11250,6 +11753,18 @@
     ],
     "ageBand": "kids",
     "category": "weather and nature",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a natural pattern or process.",
+        "example": "Snow covers streets and gardens in winter."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to imagine a nature choice.",
+        "example": "Would you make a snowball or snow angel?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Fresh snow can make a street quiet. A snowflake may melt on your hand. Animals leave clear tracks in soft snow.",
@@ -11537,6 +12052,18 @@
     ],
     "ageBand": "kids",
     "category": "weather and nature",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a natural pattern or process.",
+        "example": "A breeze feels gentle."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to imagine a nature choice.",
+        "example": "Would you fly a kite or sail a toy boat?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Wind can make tree leaves turn over. A strong gust may lift loose paper. We can feel moving air on our faces.",
@@ -11825,6 +12352,18 @@
     ],
     "ageBand": "kids",
     "category": "weather and nature",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a natural pattern or process.",
+        "example": "They move at different speeds."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to imagine a nature choice.",
+        "example": "Would you draw a puffy or thin cloud?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Clouds can look thin, thick, or fluffy. They move at different speeds. A cloud's shadow can cross a field.",
@@ -12113,6 +12652,18 @@
     ],
     "ageBand": "kids",
     "category": "weather and nature",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a natural pattern or process.",
+        "example": "Moving your feet changes what you see."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to imagine a nature choice.",
+        "example": "Would you paint a small or wide rainbow?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A rainbow can appear in spray near a waterfall. You see its colors in a curved band. Moving your feet changes what you see.",
@@ -12400,6 +12951,18 @@
     ],
     "ageBand": "kids",
     "category": "weather and nature",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a natural pattern or process.",
+        "example": "Rain is one kind of precipitation."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to imagine a nature choice.",
+        "example": "Would you follow water from cloud or puddle?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A drop can leave a puddle as vapor. It can join a cloud later. The same water keeps moving in new ways.",
@@ -12688,6 +13251,18 @@
     ],
     "ageBand": "kids",
     "category": "weather and nature",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a natural pattern or process.",
+        "example": "A root grows into soil."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to imagine a nature choice.",
+        "example": "Would you plant a bean or sunflower seed?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A seed holds a tiny new plant. The first leaves may look different later. A young stem bends toward the light.",
@@ -12976,6 +13551,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "Clean tools help keep a kitchen safe."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you chop carrots or stir soup?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A sharp smell can tell us food is ready. A cook tastes a dish before serving it. Clean tools help keep a kitchen safe.",
@@ -13264,6 +13851,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "A warm oven makes dough change."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you bake a loaf or small rolls?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A warm oven makes dough change. Bread can grow larger before it goes inside. A baked loaf has a firm crust.",
@@ -13552,6 +14151,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "Some fruits have one big stone inside."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you eat a berry or slice of melon?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A fruit can taste sweet or sour. Some fruits have one big stone inside. Others hold many tiny seeds.",
@@ -13840,6 +14451,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "We eat many different plant parts."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you roast carrots or eat them raw?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "We eat many different plant parts. A potato grows below the soil. A pea grows inside a pod.",
@@ -14128,6 +14751,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "Some families eat together before school."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you eat warm porridge or cold cereal?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Morning food can be warm or cold. Some families eat together before school. A quick meal can still feel special.",
@@ -14416,6 +15051,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "Lunch time gives a break from lessons."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you bring food or choose a school meal?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Lunch time gives a break from lessons. Friends can sit and talk together. A lunchbox keeps food in one place.",
@@ -14704,6 +15351,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "A pet needs care even on busy days."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you care for a cat or rabbit?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A pet needs care even on busy days. Its bowl should be clean. A quiet corner can help it rest.",
@@ -14992,6 +15651,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "Some lessons need books, others need art tools."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you start with art or reading?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A bell may tell students when to move. Some lessons need books, others need art tools. A short break can refresh everyone.",
@@ -15280,6 +15951,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "A quiet signal helps us listen."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you make a rule for talking or sharing?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Rules can help quiet students speak. A turn lets one person finish an idea. A class can change a rule that fails.",
@@ -15568,6 +16251,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "Playing together helps people relax."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you invite someone to draw or play?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A simple hello can begin a friendship. Playing together helps people relax. A new friend may like different things.",
@@ -15856,6 +16551,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "Our bedtime story is a ritual."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you make food or tell a story together?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A family may repeat a favorite story. Some people cook together on special days. A tradition can start with one small choice.",
@@ -16144,6 +16851,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "A small game helps guests meet."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you play a game or decorate a cake?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A birthday can be quiet or noisy. A small game helps guests meet. A kind card can feel important.",
@@ -16432,6 +17151,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "A parade moves along a street."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you carry a lantern or wave at a parade?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Some festivals fill streets with color. Others happen at home with family. People may prepare food for many days.",
@@ -16720,6 +17451,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "Families visit parks on holidays."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you picnic by water or trees?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A holiday can happen close to home. Some people rest while others explore. A free afternoon can become a small adventure.",
@@ -17008,6 +17751,18 @@
     ],
     "ageBand": "kids",
     "category": "everyday life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a familiar routine or custom.",
+        "example": "Many jobs help a town run."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a real-life preference.",
+        "example": "Would you help a baker or mechanic?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Many jobs help a town run. A baker works while others sleep. A driver may know many streets.",
@@ -17297,6 +18052,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A soccer field has two goals."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you pass or shoot first?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A soccer field has two goals. Players need space to pass safely. A game can end with no goals.",
@@ -17586,6 +18353,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A basketball court has lines and two hoops."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you pass or shoot from close?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A basketball court has lines and two hoops. Players can pass above or below their shoulders. A close game can change quickly.",
@@ -17874,6 +18653,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A pool has a shallow and deep end."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you float or kick first?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Water holds part of a swimmer's weight. Floating can feel easier with calm breathing. A pool has a shallow and deep end.",
@@ -18162,6 +18953,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A bicycle moves when pedals turn the wheels."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you ride to a park or shop?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A bicycle moves when pedals turn the wheels. A bell can warn someone nearby. A rider checks the path ahead.",
@@ -18450,6 +19253,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "Running makes your heart beat faster."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you sprint or jog around a field?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Running makes your heart beat faster. A slow start can feel easier. Shoes help protect feet on rough ground.",
@@ -18738,6 +19553,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A beat helps feet move together."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you spin or clap first?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Dancers can move with or without music. A small step can start a pattern. Faces and hands can tell part of a story.",
@@ -19026,6 +19853,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "Players take turns."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you move a red or blue token?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A board game can use cards, dice, or pieces. Players wait for their turns. A clever move may change the whole game.",
@@ -19314,6 +20153,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A jigsaw has many pieces."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you start with corners or colors?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A puzzle can hide a picture or a pattern. A corner piece can be easy to find. Two friends may notice different clues.",
@@ -19602,6 +20453,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A tower falls when its balance changes."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you build a tower or bridge?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Blocks can stand tall on a wide base. Small pieces can fill gaps. A tower falls when its balance changes.",
@@ -19890,6 +20753,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A kite needs moving air to lift."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you make a diamond or bird kite?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A kite needs moving air to lift. Its string helps you guide it. A tail can stop it spinning too much.",
@@ -20178,6 +21053,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A bench gives people a place to rest."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you choose a slide or swing?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A playground can have quiet and active spaces. Some children like climbing; others like swinging. A bench gives people a place to rest.",
@@ -20466,6 +21353,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A hero sometimes needs a friend."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would your hero fly or swim?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A superhero can help without flying. A costume may hide a secret name. A hero sometimes needs a friend.",
@@ -20754,6 +21653,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A motor makes parts move."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would your robot roll or walk?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A robot can repeat the same action many times. Some robots roll instead of walking. A person decides what task it should try.",
@@ -21042,6 +21953,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A window shows towns passing by."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you sit by the window or aisle?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Train doors open at marked stops. Many carriages can travel together. A window shows towns passing by.",
@@ -21331,6 +22254,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "An airplane has two wings."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you sit by a window or aisle?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "An airplane climbs after leaving the runway. Clouds may look flat from above. A pilot checks many controls before flight.",
@@ -21620,6 +22555,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A paddle moves water behind it."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you paddle or sail?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A small boat can rock with waves. A paddle moves water behind it. Some boats carry many people.",
@@ -21908,6 +22855,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A drum makes sound when struck."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you play a drum or flute?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Different instruments can play the same song. A drum makes sound when struck. A string can make a high or low note.",
@@ -22196,6 +23155,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "An outline shows an edge."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you draw an animal or house?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "A pencil can make thin or thick lines. A drawing can begin with one circle. An artist may erase and try again.",
@@ -22484,6 +23455,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "A brush makes different marks as it turns."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you paint with blue or orange first?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Paint can be thick or watery. A brush makes different marks as it turns. Two colors can make a new shade.",
@@ -22772,6 +23755,18 @@
     ],
     "ageBand": "kids",
     "category": "play and creativity",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain how an activity or object works.",
+        "example": "Our skin feels warm and cold things."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a play or design choice.",
+        "example": "Would you listen to rain or birds?"
+      }
+    ],
     "levels": {
       "A1": {
         "briefing": "Our ears hear soft and loud sounds. Our skin feels warm and cold things. Smells can remind us of places.",
@@ -23060,6 +24055,18 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "A player learns a game by testing its rules, not just reading them."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "Should a game let players skip a frustrating level?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A player learns a game by testing its rules, not just reading them. The same level can feel different when played with friends. Small design choices influence whether a challenge feels fair.",
@@ -23257,6 +24264,23 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "The balance feels wrong here."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "Which rule would you test first in a new game?"
+      },
+      {
+        "target": "passive voice",
+        "why": "Focus on how a prototype is written.",
+        "example": "A paper prototype can test rules before any code is written."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Designers start with a question about what players should do. A rough paper version can test an idea early. Watching a confused player reveals problems hidden from the creator.",
@@ -23454,6 +24478,23 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "Competitive players study opponents as well as their own moves."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "Should an esports team practice communication more than speed?"
+      },
+      {
+        "target": "past simple",
+        "why": "Review a team decision.",
+        "example": "Our team call was too late."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Competitive players study opponents as well as their own moves. A team can lose despite one player's excellent performance. The audience often follows decisions that happen in seconds.",
@@ -23652,6 +24693,23 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "Engagement is not the same as trust."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "Should users see why a post appears in their feed?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare ways to respond online.",
+        "example": "A private message could be better than a public reply."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A feed can make an ordinary day seem full of dramatic moments. People choose a small part of life to put online. A private joke can reach an unintended audience.",
@@ -23849,6 +24907,23 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "A longer passphrase is easier to remember as a sentence."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "Which account would you protect first, and why?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare ways to remember passwords.",
+        "example": "A long passphrase can be easier to remember than random characters."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Information can spread even from a small group chat. An old account may still hold personal details. Someone can copy a picture without asking.",
@@ -24046,6 +25121,23 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "An app timer shows duration but not whether the time felt useful."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "Which phone notification would you turn off first?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare planned and actual breaks.",
+        "example": "Scrolling can make a break longer than planned."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Two hours on a screen can hold very different activities. A video call may leave someone energized. Mindless scrolling may feel tiring even without effort.",
@@ -24243,6 +25335,23 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "Old posts remain visible after their authors change."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "How should someone respond to an unwanted tag?"
+      },
+      {
+        "target": "passive voice",
+        "why": "Focus on what happens to an old comment.",
+        "example": "A casual comment can be found long after it was written."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A casual comment can be found long after it was written. Photos may reveal more than their captions say. People can change, while old posts remain visible.",
@@ -24440,6 +25549,18 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "A meme changes as people add new captions."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "What makes a meme funny to your group?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A meme changes as people add new captions. A funny picture can mean different things to different groups. Some jokes need background knowledge to make sense.",
@@ -24638,6 +25759,23 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "Training data gives a model examples from which to learn patterns."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "Which school tasks should AI tools help with?"
+      },
+      {
+        "target": "past simple",
+        "why": "Retell a test of a model.",
+        "example": "The model gave two answers."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "An AI tool can produce a convincing answer from patterns. It may miss a fact that a person would check. The user still decides what to trust.",
@@ -24835,6 +25973,18 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "Sensors help machines notice a part's position."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "Which repetitive job would you automate first?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A robot can do one repeated factory movement accurately. People still inspect and repair the machines. Changing a task can require a new program.",
@@ -25033,6 +26183,18 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "Turning your head changes the view."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "What would you explore first in a virtual museum?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A headset can make a room look like another place. Turning your head changes the view. Some people feel uncomfortable after a long session.",
@@ -25230,6 +26392,23 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "A syntax error stops some programs before they begin."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "What small program would you build for your class?"
+      },
+      {
+        "target": "relative clause",
+        "why": "Specify which program value changes.",
+        "example": "A variable stores a value that may change while code runs."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A program follows instructions in a chosen order. A missing symbol can change what happens. The programmer tests a small piece before moving on.",
@@ -25428,6 +26607,18 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "An extra login step makes stealing an account harder."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "What clue would make you question a message?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A fake message may ask for an urgent click. A software update can close a known weakness. An extra login step makes stealing an account harder.",
@@ -25625,6 +26816,18 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "A live session gives space for immediate questions."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "When would you choose a live lesson over a recording?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A recorded lesson lets a student pause and replay. A live class can answer a question immediately. A quiet learner may prefer typing first.",
@@ -25822,6 +27025,18 @@
     ],
     "ageBand": "teens",
     "category": "digital life",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe how a digital tool or practice works.",
+        "example": "Undo makes a risky experiment easier."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to weigh a digital choice.",
+        "example": "What would you paint on a separate layer first?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "An artist can work on separate layers of one image. Undo makes a risky experiment easier. A tablet pen can respond to pressure.",
@@ -26019,6 +27234,18 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "Trust grows when small promises are kept repeatedly."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "When should a friend tell an uncomfortable truth?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Friends often build trust through small promises kept over time. A friendship can survive disagreement when both people listen. The same friend may offer company one day and honest advice the next.",
@@ -26216,6 +27443,18 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "A prepared answer is easier to use under pressure."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "What could you say when friends want a risky choice?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A group can make a risky choice seem ordinary. Someone may agree simply to avoid being left out. A prepared answer is easier to use under pressure.",
@@ -26413,6 +27652,23 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "A group works better when everyone knows their part."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "How would you handle a teammate who misses a deadline?"
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify work a team has missed.",
+        "example": "Clear roles help a team notice work that is not being done."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A group works better when everyone knows their part. People can contribute different strengths to one task. A quick check can catch confusion before it spreads.",
@@ -26610,6 +27866,18 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "A genre gives listeners clues about rhythm and instruments."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "Which matters more to you: rhythm or lyrics?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A genre gives listeners clues about rhythm and instruments. Songs can cross genre lines without losing their identity. The same melody may feel different with another beat.",
@@ -26807,6 +28075,18 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "The acoustics of a venue change how voices and instruments carry."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "Would you choose a small venue or large festival?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Performers and listeners share the same moment. A singer may change a line in response to a crowd. A small venue can make quiet sounds feel close.",
@@ -27004,6 +28284,18 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "A hook is a short part listeners remember easily."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "Would you begin a song with words or melody?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A writer can begin with a line, a rhythm, or a tune. Repeating a phrase can give a song its center. Changing one word may change the feeling of a whole verse.",
@@ -27201,6 +28493,18 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "A plot twist works best when earlier details still make sense."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "Which genre would you choose for a short film?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A comedy invites one kind of expectation and a mystery another. Films can surprise us by mixing familiar styles. Music and lighting help signal what may happen next.",
@@ -27398,6 +28702,23 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "A short scene needs choices about camera position and sound."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "Which shot would you plan first in a mystery scene?"
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify which moments editing selects.",
+        "example": "Editing decides which moments the viewer sees."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A short scene needs choices about camera position and sound. One action may be filmed several times from different angles. Editing decides which moments the viewer sees.",
@@ -27595,6 +28916,18 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "Fabric texture affects comfort as well as appearance."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "Would you choose comfort or a bold trend for one day?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Clothes can signal a group, a job, or a mood. A fabric's feel may matter as much as its color. Styles often return with a different meaning.",
@@ -27792,6 +29125,23 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "People choose details that make an outfit feel like theirs."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "What item feels most like your style, and why?"
+      },
+      {
+        "target": "relative clause",
+        "why": "Describe details that express identity.",
+        "example": "People choose details that make an outfit feel like theirs."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "People choose details that make an outfit feel like theirs. Comfort can help someone act confidently. A favorite item may carry a memory.",
@@ -27989,6 +29339,18 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "Rice is a staple in many homes."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "Which family dish would you teach a friend?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Meals can mark celebrations or ordinary time together. The same ingredient may be prepared differently across families. A recipe can travel and change while keeping a link to home.",
@@ -28186,6 +29548,23 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "Cleaning as you go makes the last step easier."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "Which cooking skill would you teach a beginner first?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare safe knife choices.",
+        "example": "A sharp knife can be safer than a dull one when used carefully."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Measuring, tasting, and timing each solve a different problem. A sharp knife can be safer than a dull one when used carefully. Cleaning as you go makes the last step easier.",
@@ -28383,6 +29762,18 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "Small daily conversations offer repeated practice."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "Would you practice with a conversation partner or recording?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A learner may understand a word long before using it aloud. Small daily conversations offer repeated practice. Mistakes can show what a learner is ready to notice.",
@@ -28580,6 +29971,23 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "Watching before acting helps avoid an awkward mistake."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "What would you ask before visiting an unfamiliar home?"
+      },
+      {
+        "target": "relative clause",
+        "why": "Explain how greetings change across places.",
+        "example": "A greeting that feels polite in one place may feel distant elsewhere."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Visitors may need to learn how people greet one another. Quiet behavior in one place can be polite but unfriendly elsewhere. Watching before acting helps avoid an awkward mistake.",
@@ -28777,6 +30185,18 @@
     ],
     "ageBand": "teens",
     "category": "culture and relationships",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a social or creative practice.",
+        "example": "Children often learn by helping with preparations."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask about a cultural or personal choice.",
+        "example": "Which local custom would you teach a newcomer?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A repeated celebration can bring neighbors together. Families may keep the same tradition in different ways. Children often learn by helping with preparations.",
@@ -28974,6 +30394,23 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "Preparation works better when it reveals gaps early."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "Should students see the mark scheme before an exam?"
+      },
+      {
+        "target": "future (will)",
+        "why": "Predict how exam work will be judged.",
+        "example": "A rubric describes how work will be judged."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "An exam samples what a student can show on one day. Different questions test memory, explanation, or application. Preparation works better when it reveals gaps early.",
@@ -29171,6 +30608,23 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "A task is harder when instructions are unclear."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "What makes an assignment worth doing at home?"
+      },
+      {
+        "target": "future (will)",
+        "why": "Explain when completed work will be discussed.",
+        "example": "A deadline helps coordinate when work will be discussed."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Work at home can extend practice beyond a lesson. A task is harder when instructions are unclear. Students have different amounts of quiet time and help.",
@@ -29368,6 +30822,18 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "A club gives students a place to try an interest."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "Which new club would you start at school?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A club gives students a place to try an interest. Members can take turns leading an activity. A welcoming first meeting helps newcomers return.",
@@ -29565,6 +31031,18 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "Pay is only one part of deciding whether a job fits."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "What would you ask before accepting a first job?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A short shift can teach a teenager to manage time. Customers and coworkers may expect different things. Pay is only one part of deciding whether a job fits.",
@@ -29762,6 +31240,18 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "Some work needs care and judgment more than speed."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "Which job would you shadow for a day?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "New tools can change tasks inside an old job. Some work needs care and judgment more than speed. Students may try several roles before choosing a direction.",
@@ -29959,6 +31449,18 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "A small business begins by finding a problem people have."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "What everyday problem could a small business solve?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A small business begins by finding a problem people have. A good idea still needs costs and customers. Testing a simple version can prevent waste.",
@@ -30156,6 +31658,18 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "Saving means keeping some money for a later need or goal."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "What would make saving easier for a student?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Saving means keeping some money for a later need or goal. Small amounts can add up when set aside regularly. A goal becomes easier to track when it has a price and date.",
@@ -30353,6 +31867,23 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "Some costs are fixed while others vary."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "Which expense would you list first in a budget?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare fixed and variable costs.",
+        "example": "A fixed cost usually changes less often than a variable one."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A budget lists money coming in and going out. Some costs are fixed while others vary. Looking back at real spending can improve a plan.",
@@ -30550,6 +32081,23 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "Volunteers offer time to help with a community task."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "Which local task would you volunteer for?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare steady and one-off help.",
+        "example": "A steady commitment can be more useful than one busy afternoon."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Volunteers offer time to help with a community task. The organizer should explain what is needed. Reliable attendance can matter more than dramatic gestures.",
@@ -30747,6 +32295,18 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "Pauses give people time to understand."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "What would you do if you lost your place?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A speaker can help listeners follow one clear idea. Pauses give people time to understand. Practicing aloud reveals sentences that are hard to say.",
@@ -30944,6 +32504,18 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "My study session is short."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "Which study habit would you test for one week?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Short sessions can be easier to repeat than long bursts. Retrieving an answer helps reveal what was learned. A planned break can restore attention.",
@@ -31141,6 +32713,18 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "Sleep gives the brain time to process a busy day."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "Which evening habit would you change before an exam?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Sleep gives the brain time to process a busy day. A tired student may struggle to focus on familiar work. Regular timing can make mornings easier.",
@@ -31338,6 +32922,18 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "Advice from others helps when it leaves room for the student's interests."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "Which subject would you choose just from curiosity?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Students often choose subjects before knowing every future job. An enjoyable class can encourage deeper effort. Advice from others helps when it leaves room for the student's interests.",
@@ -31535,6 +33131,18 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "Some students take time between school and further study."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "What would you hope to learn from time away?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Some students take time between school and further study. They may work, travel, volunteer, or care for family. A plan helps make the time purposeful.",
@@ -31732,6 +33340,18 @@
     ],
     "ageBand": "teens",
     "category": "school and work",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Explain a study or work pattern.",
+        "example": "Many jobs need clear communication and dependable habits."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to consider a practical choice.",
+        "example": "Which project best shows a skill you have developed?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Many jobs need clear communication and dependable habits. People learn by trying tasks and getting feedback. A skill can grow in school, home, or community work.",
@@ -31930,6 +33550,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "A changing climate affects seasons, water, and growing conditions."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Which local change would you prepare for first?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A changing climate affects seasons, water, and growing conditions. The effects differ from one region to another. Choices about energy and land influence future warming.",
@@ -32128,6 +33760,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "A wind turbine works best where winds are suitable and steady."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Would your town benefit more from solar or wind?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Sun, wind, and moving water can provide power. Electricity must reach homes when it is needed. A community chooses an energy site for more than its output.",
@@ -32325,6 +33969,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "Plastic is useful because it is light and durable."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Which plastic item would you remove from school first?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Plastic is useful because it is light and durable. The same durability makes discarded pieces linger. Sorting waste helps only when collection systems can process it.",
@@ -32522,6 +34178,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "Animals need food, shelter, and room to move."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Which animal would you protect first in a local area?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Animals need food, shelter, and room to move. A protected area can help when nearby land also stays healthy. Local people often know changes in a habitat first.",
@@ -32719,6 +34387,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "Trees and gardens give city animals places to live."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Where would you plant a tree in your neighborhood?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Trees and gardens give city animals places to live. Shade can make a hot street easier to use. Even a small patch of soil can hold surprising life.",
@@ -32918,6 +34598,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "Frequency matters when a passenger has no flexible schedule."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Which bus route would improve your town most?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A bus or train carries many people along one route. Frequency matters when a passenger has no flexible schedule. A safe walk to the stop is part of the trip.",
@@ -33115,6 +34807,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "Homes, parks, and services need to fit together."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "What would you put within a short walk of home?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A city can change its streets as people grow and move. Homes, parks, and services need to fit together. A clever device cannot fix a badly planned neighborhood.",
@@ -33312,6 +35016,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "Space missions use instruments to learn about distant places."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Which question would you send a probe to investigate?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Space missions use instruments to learn about distant places. An unmanned probe can travel where people cannot safely go. Each mission has limited fuel, time, and power.",
@@ -33509,6 +35225,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "Mars is far away, and a message takes time to travel."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Where would you send a rover first?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Mars is far away, and a message takes time to travel. Robots can examine rocks before people arrive. Dust and cold make equipment difficult to maintain.",
@@ -33706,6 +35434,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "Navigation services use timing information from orbit."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Which problem on Earth could a satellite help study?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A satellite travels around Earth while collecting or sending information. Different instruments watch weather, land, or communication signals. Old equipment in orbit can become a hazard.",
@@ -33903,6 +35643,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "An invention begins with a problem someone notices."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Which everyday object would you improve first?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "An invention begins with a problem someone notices. Early versions often fail in useful ways. A new device may need other systems before people adopt it.",
@@ -34101,6 +35853,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "Clear instructions matter when patients use equipment at home."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "What would you ask before trusting a health device?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A medical device can help doctors see or measure a problem. Tests must show that a tool is safe enough to use. Clear instructions matter when patients use equipment at home.",
@@ -34298,6 +36062,23 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "This portion is too big."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Which leftovers would you turn into another meal?"
+      },
+      {
+        "target": "relative clause",
+        "why": "Specify which portions create waste.",
+        "example": "A portion that is too large may become uneaten food."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Food can be lost on farms, in shops, or at home. A date label may tell different things about safety and quality. Planning a meal can keep useful ingredients from being forgotten.",
@@ -34495,6 +36276,23 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "Clothes use materials, energy, and labor before reaching a shop."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "What item would you mend rather than replace?"
+      },
+      {
+        "target": "passive voice",
+        "why": "Focus on a garment’s whole life.",
+        "example": "A fiber’s source affects how it is made and disposed of."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Clothes use materials, energy, and labor before reaching a shop. Repair can keep a favorite garment useful longer. Buying fewer pieces may be easier when they last.",
@@ -34692,6 +36490,18 @@
     ],
     "ageBand": "teens",
     "category": "science and environment",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe a scientific or environmental process.",
+        "example": "Clean water needs to be collected, treated, and delivered."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask how people might respond.",
+        "example": "Where would you check for wasted water first?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Clean water needs to be collected, treated, and delivered. A dripping tap wastes water slowly but steadily. Farms, homes, and businesses use water differently.",
@@ -34890,6 +36700,18 @@
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an experience or healthy practice.",
+        "example": "Players share a goal but have different jobs on the field."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to make an informed choice.",
+        "example": "How would you help a teammate after a mistake?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Players share a goal but have different jobs on the field. A team must respond when its first plan stops working. Practice can improve communication as well as movement.",
@@ -35088,6 +36910,18 @@
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an experience or healthy practice.",
+        "example": "An individual athlete makes many decisions without teammates nearby."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to make an informed choice.",
+        "example": "What goal would you set beyond winning?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "An individual athlete makes many decisions without teammates nearby. Practice often repeats a small movement many times. A coach or training partner can still offer support.",
@@ -35285,6 +37119,18 @@
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an experience or healthy practice.",
+        "example": "A routine works better when it fits ordinary life."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to make an informed choice.",
+        "example": "What movement would you enjoy repeating each week?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Different activities strengthen different parts of the body. A routine works better when it fits ordinary life. Rest gives muscles time to recover after effort.",
@@ -35482,6 +37328,23 @@
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an experience or healthy practice.",
+        "example": "A hike or camp changes when weather changes."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to make an informed choice.",
+        "example": "Which item would you pack first for a day hike?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Plan for the slowest walker.",
+        "example": "A route needs enough time for the slowest person."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A hike or camp changes when weather changes. A route needs enough time for the slowest person. Small preparations can prevent a difficult day.",
@@ -35679,6 +37542,23 @@
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an experience or healthy practice.",
+        "example": "A clue points toward more than one possibility."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to make an informed choice.",
+        "example": "Which clue would you check before accusing anyone?"
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify which witness statement matters.",
+        "example": "A timeline can reveal that two accounts do not fit together."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A clue matters because it points toward more than one possibility. The first explanation can seem convincing but still be wrong. A careful question may reveal what a witness actually saw.",
@@ -35876,6 +37756,18 @@
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an experience or healthy practice.",
+        "example": "That legend has several versions."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to make an informed choice.",
+        "example": "What would you ask someone who lived near an old ruin?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "An unfamiliar site can attract stories before anyone studies it carefully. Old buildings may have lost their original purpose. Maps and local memories can offer different kinds of clues.",
@@ -36073,6 +37965,23 @@
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an experience or healthy practice.",
+        "example": "The brain uses context to interpret what the eyes receive."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to make an informed choice.",
+        "example": "Which illusion fooled you even after an explanation?"
+      },
+      {
+        "target": "past simple",
+        "why": "Describe an illusion you experienced.",
+        "example": "Perspective made one line seem longer."
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "An image can make two equal lines look different. The brain uses context to interpret what the eyes receive. Looking again can reveal a hidden pattern.",
@@ -36270,6 +38179,18 @@
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an experience or healthy practice.",
+        "example": "Meals give the body energy and materials for growth."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to make an informed choice.",
+        "example": "What satisfying meal could you make with simple ingredients?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Meals give the body energy and materials for growth. A mix of foods can offer different nutrients. Eating patterns need to fit culture, access, and appetite.",
@@ -36467,6 +38388,18 @@
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an experience or healthy practice.",
+        "example": "A support network offers people to ask for help."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to make an informed choice.",
+        "example": "What would you notice first when pressure grows?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "Stress can make a familiar task feel harder. A short pause may help someone notice what they need. Talking to a trusted person can make a problem less lonely.",
@@ -36664,6 +38597,18 @@
     ],
     "ageBand": "teens",
     "category": "wellbeing and adventure",
+    "grammarFits": [
+      {
+        "target": "present simple",
+        "why": "Describe an experience or healthy practice.",
+        "example": "A trip begins with decisions about time, money, and transport."
+      },
+      {
+        "target": "question forms",
+        "why": "Ask students to make an informed choice.",
+        "example": "Which part of a trip would you plan first?"
+      }
+    ],
     "levels": {
       "B1": {
         "briefing": "A trip begins with decisions about time, money, and transport. A flexible plan leaves room for delays and discoveries. Travelers need to check what everyone in the group can manage.",

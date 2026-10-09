@@ -1,6 +1,7 @@
 /** Round 18 Focus bank checks; shared with the existing library validation command. */
 import fs from 'node:fs';
 import path from 'node:path';
+import { GRAMMAR_TARGET_GROUPS, GrammarTarget } from '../src/lib/grammar';
 
 type Counts = {
   topics: number; kids: number; teens: number; A1: number; A2: number; B1: number; B2: number;
@@ -8,6 +9,7 @@ type Counts = {
   briefingFactOverlap: number; titleAliasVocab: number; genericVocab: number;
   overusedVocab: number; expressionFactOverlap: number; crossTopicSentences: number;
   identicalFactsAcrossLevels: number; identicalAnglesAcrossLevels: number;
+  grammarFits: number; grammarTargets: Record<string, number>;
 };
 const isText = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
 const countWords = (text: string) => text.trim().split(/\s+/).filter(Boolean).length;
@@ -48,7 +50,13 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
     shortPictureWords: 0, averagePictureWords: 0,
     briefingFactOverlap: 0, titleAliasVocab: 0, genericVocab: 0,
     overusedVocab: 0, expressionFactOverlap: 0, crossTopicSentences: 0,
-    identicalFactsAcrossLevels: 0, identicalAnglesAcrossLevels: 0 };
+    identicalFactsAcrossLevels: 0, identicalAnglesAcrossLevels: 0,
+    grammarFits: 0, grammarTargets: {} };
+  const validTargets = new Set<string>(Object.keys(GRAMMAR_TARGET_GROUPS).reduce<string[]>((all, group) => all.concat(GRAMMAR_TARGET_GROUPS[group]), []));
+  const kidsRestricted = new Set<string>([
+    GrammarTarget.PresentPerfectContinuous, GrammarTarget.PastPerfect,
+    GrammarTarget.FutureContinuous, GrammarTarget.Passive, GrammarTarget.ReportedSpeech,
+  ]);
   const file = path.join(dataDir, 'topic-briefings.json');
   if (!fs.existsSync(file)) { fail('topic-briefings.json', 'required Focus bank is missing'); return counts; }
   let raw: unknown;
@@ -103,6 +111,26 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
     if (ageBand === 'kids') counts.kids += 1;
     else if (ageBand === 'teens') counts.teens += 1;
     else fail(where, 'ageBand must be kids or teens');
+    if (!Array.isArray(topic.grammarFits) || topic.grammarFits.length < 2 || topic.grammarFits.length > 3) {
+      fail(where, 'grammarFits must have 2–3 entries');
+    } else {
+      counts.grammarFits += 1;
+      const used = new Set<string>();
+      for (const [fitIndex, rawFit] of Array.from(topic.grammarFits.entries())) {
+        const at = `${where}.grammarFits[${fitIndex}]`;
+        if (!rawFit || typeof rawFit !== 'object' || Array.isArray(rawFit)) { fail(at, 'must be an object'); continue; }
+        const fit = rawFit as Record<string, unknown>;
+        if (!isText(fit.target) || !validTargets.has(fit.target)) fail(at, 'target must be a GrammarTarget value');
+        else {
+          if (used.has(fit.target)) fail(at, 'duplicate grammar target');
+          used.add(fit.target);
+          counts.grammarTargets[fit.target] = (counts.grammarTargets[fit.target] || 0) + 1;
+          if (ageBand === 'kids' && kidsRestricted.has(fit.target)) fail(at, 'target is beyond A2 for kids');
+        }
+        if (!isText(fit.why) || countWords(fit.why) > 10) fail(at, 'why must have 1–10 words');
+        if (!isText(fit.example) || countWords(fit.example) > 14 || sentences(String(fit.example || '')).length !== 1) fail(at, 'example must be one sentence of at most 14 words');
+      }
+    }
     if (!Array.isArray(topic.aliases) || topic.aliases.length < 3 || topic.aliases.length > 8) {
       fail(where, 'aliases must contain 3–8 phrases');
     } else for (const alias of topic.aliases) {
