@@ -1,3 +1,4 @@
+import { findTopicBriefing } from '@/lib/topic-briefings';
 import { bookLevelFor, fallbackPassages, mergeCast, validPrevious, validReadingPack, validSimplified, type ReadingPack, type ReadingPreviously } from '@/lib/reading-pack';
 import { bankMotionFor, fallbackMotion, validMotion, type DebateMotion } from '@/lib/debate-motion';
 import { earlierBookLessons, getLibraryEntry, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
@@ -2122,7 +2123,7 @@ Rules: max 18 words; about the student's own life or opinion; not yes/no; kids/t
 async function generateSpeakCheck(topic: string, difficulty: Difficulty, sourceCtx: string, junior = false): Promise<Record<string, unknown>> {
   // No source material: a hand-checked situation for the topic beats a generated one. Junior classes always get a
   // Junior situation (short replies, scene pictures).
-  const banked = sourceCtx && !junior ? null : bankSituationFor(topic, difficulty, junior);
+  const banked = sourceCtx && !junior ? null : bankSituationFor(topic, difficulty, junior, findTopicBriefing(topic)?.id);
   if (banked) return { activityKey: 'speak-check', topicContext: topic, ...banked };
   const set: AISchema = { type: 'object', properties: { replies: { type: 'array', items: { type: 'string' } }, natural: { type: 'number' } }, required: ['replies', 'natural'] };
   const schema: AISchema = { type: 'object', properties: { situation: { type: 'string' }, canDo: { type: 'string' }, before: set, after: set }, required: ['situation', 'canDo', 'before', 'after'] };

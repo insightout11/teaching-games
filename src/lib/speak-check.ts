@@ -77,7 +77,7 @@ export const CONFIDENCE_LABELS = ['Not yet', 'A bit', 'Confident'];
 
 // ─── The checked situations bank (src/data/speak-situations.json, library round 11) ──────────
 
-interface BankSituation extends SpeakSituation { id: string; topics: string[]; ageBand: 'kids' | 'teens' | 'junior'; cefr: string }
+interface BankSituation extends SpeakSituation { id: string; topics: string[]; topicIds?: string[]; ageBand: 'kids' | 'teens' | 'junior'; cefr: string }
 
 const words = (s: string) => (s.toLowerCase().match(/[a-zé]{3,}/g) ?? []).map((w) => (w.length > 4 && w.endsWith('s') ? w.slice(0, -1) : w));
 const LEVEL_CEFR: Record<string, string[]> = { Beginner: ['A1'], Easy: ['A1', 'A2'], Intermediate: ['A2', 'B1'], Advanced: ['B1', 'B2'], Expert: ['B2'] };
@@ -105,13 +105,19 @@ export function shuffleReplySet(set: SpeakReplySet, seed: number): SpeakReplySet
  * situation's topic tags (strong) and text (weak); prefers the lesson's level. Reply order is
  * shuffled per topic so the natural reply isn't always in the same place.
  */
-export function bankSituationFor(topic: string, difficulty?: string, junior = false): SpeakSituation | null {
+/** `topicId`: the banked topic's id (server-side lookup, keeps the topic bank off the client). */
+export function bankSituationFor(topic: string, difficulty?: string, junior = false, topicId?: string | null): SpeakSituation | null {
   const q = words(topic);
   const pool = (situationsBank as BankSituation[]).filter((s) => (junior ? s.ageBand === 'junior' : s.ageBand !== 'junior'));
   // Junior classes always get a Junior situation (short replies, pictures): the best topic match, else one by topic seed.
   if (junior && pool.length && !q.length) return fromBank(pool[hash(topic.toLowerCase()) % pool.length], topic);
   if (!q.length) return null;
   const levels = (difficulty && LEVEL_CEFR[difficulty]) || [];
+  // A banked topic (Codex round 27 linked every topic): its own situation, preferring the lesson's level.
+  if (topicId) {
+    const linked = pool.filter((s) => s.topicIds?.includes(topicId));
+    if (linked.length) return fromBank(linked.find((s) => levels.includes(s.cefr)) ?? linked[0], topic);
+  }
   let best: { s: BankSituation; score: number } | null = null;
   for (const s of pool) {
     const tags = s.topics.flatMap(words);

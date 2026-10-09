@@ -19,3 +19,9 @@ describe('Junior speak situations', () => {
     expect(bankSituationFor('quantum physics', 'Beginner')).toBeNull();
   });
 });
+
+describe('Speak situations by topic link', () => {
+  it('a banked topic gets its linked situation', () => {
+    expect(bankSituationFor('volcanoes', 'Easy', false, 'topic-kids-volcanoes')).not.toBeNull();
+  });
+});
