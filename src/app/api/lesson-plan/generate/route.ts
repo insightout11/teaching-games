@@ -2119,9 +2119,10 @@ Rules: max 18 words; about the student's own life or opinion; not yes/no; kids/t
   return { activityKey: 'say-it-again', topicContext: topic, question: fallbackSayItAgain(topic) };
 }
 
-async function generateSpeakCheck(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<Record<string, unknown>> {
-  // No source material: a hand-checked situation for the topic beats a generated one.
-  const banked = sourceCtx ? null : bankSituationFor(topic, difficulty);
+async function generateSpeakCheck(topic: string, difficulty: Difficulty, sourceCtx: string, junior = false): Promise<Record<string, unknown>> {
+  // No source material: a hand-checked situation for the topic beats a generated one. Junior classes always get a
+  // Junior situation (short replies, scene pictures).
+  const banked = sourceCtx && !junior ? null : bankSituationFor(topic, difficulty, junior);
   if (banked) return { activityKey: 'speak-check', topicContext: topic, ...banked };
   const set: AISchema = { type: 'object', properties: { replies: { type: 'array', items: { type: 'string' } }, natural: { type: 'number' } }, required: ['replies', 'natural'] };
   const schema: AISchema = { type: 'object', properties: { situation: { type: 'string' }, canDo: { type: 'string' }, before: set, after: set }, required: ['situation', 'canDo', 'before', 'after'] };
@@ -3550,6 +3551,8 @@ export async function POST(request: NextRequest) {
       struggles?: Array<{ text: string; fix?: string }>;
       /** Captain's Flight: the question the lesson investigates. */
       flightQuestion?: string;
+      /** Junior class (classes.junior): Junior Speak situations. */
+      junior?: boolean;
     };
 
     const {
@@ -3986,7 +3989,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateQuickFire(customTopic, diff, kitSourceCtx).then((r) => { content[activityKey] = r as unknown as ActivityGeneratedContent; }));
             break;
           case 'speak-check': {
-            const p = generateSpeakCheck(customTopic, diff, kitSourceCtx);
+            const p = generateSpeakCheck(customTopic, diff, kitSourceCtx, body.junior === true);
             speakCheckP = p;
             generators.push(p.then((r) => { content[activityKey] = r as unknown as ActivityGeneratedContent; }));
             break;

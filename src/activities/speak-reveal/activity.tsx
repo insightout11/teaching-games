@@ -114,6 +114,14 @@ export function SpeakRevealActivity({ students, onSetInputSpec, onRegisterRemote
           <span className="text-sm text-slate-400">{after.n} answered</span>
         </div>
         <div className="rounded-2xl border-2 border-emerald-500/30 bg-emerald-500/[0.08] p-6 text-center">
+          {situation.pictures?.length ? (
+            <div className="flex justify-center gap-3">
+              {situation.pictures.map((p) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={p} src={`/stickers/${p}.webp`} alt="" className="h-24 w-24 rounded-2xl bg-white object-contain" />
+              ))}
+            </div>
+          ) : null}
           <p className="text-2xl font-game text-white">{situation.situation}</p>
           <p className="mt-3 text-sm text-slate-300">New replies on your phone this time. Which would you use now?</p>
         </div>

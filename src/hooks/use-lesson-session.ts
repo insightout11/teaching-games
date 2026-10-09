@@ -355,6 +355,7 @@ export function useLessonSession(
       ...(sceneKitRef.current ? { sceneContext: sceneKitRef.current } : {}),
       ...(kitStruggles?.length ? { struggles: kitStruggles } : {}),
       ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
+      ...(useSessionStore.getState().junior ? { junior: true } : {}),
     };
     const body = isLanding
       ? { activityKey: key, topic: effectiveTopic, difficulty: settings.difficulty, ...(sourceMaterial ? { sourceKey: sourceMaterial.sourceKey ?? sourceMaterial.title } : {}), ...(missionContext.length > 0 ? { missionContext } : {}) }

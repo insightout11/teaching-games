@@ -1,5 +1,6 @@
 import bookLibrary from '@/data/book-library.json';
 import readyCourses from '@/data/ready-courses.json';
+import courseArcTasks from '@/data/course-arc-tasks.json';
 import { LESSON_TYPES } from '@/lib/course-lesson-types';
 import type { SourceType } from '@/types/source-material';
 import type { CourseOutlineLesson } from '@/lib/course';
@@ -466,6 +467,16 @@ function bookCoursePresets(): CoursePreset[] {
 
 /** Reading courses built from the library books (shown alongside COURSE_PRESETS in the course builder). */
 export const READING_COURSE_PRESETS: CoursePreset[] = bookCoursePresets();
+
+// Course tasks for the older ready courses (Codex round 26): done in lesson 1 and again in the last lesson.
+const ARC_TASKS = courseArcTasks as Record<string, string>;
+for (const p of [...COURSE_PRESETS, ...READING_COURSE_PRESETS]) {
+  if (!p.arcTask && ARC_TASKS[p.id]) p.arcTask = ARC_TASKS[p.id];
+  if (p.arcTask && p.lessons.length > 1) {
+    p.lessons[0] = { ...p.lessons[0], arcRole: 'baseline' };
+    p.lessons[p.lessons.length - 1] = { ...p.lessons[p.lessons.length - 1], arcRole: 'compare' };
+  }
+}
 
 const READING_SOURCE_TYPES = new Set(['books', 'stories', 'picture-books', 'storyweaver', 'voa', 'discussion']);
 const SKILL_IDS = /listening|debate|cities|confidence/i;

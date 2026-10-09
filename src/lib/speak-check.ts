@@ -19,6 +19,8 @@ export interface SpeakSituation {
   canDo: string;
   before: SpeakReplySet;
   after: SpeakReplySet;
+  /** Junior situations: sticker ids that show the scene (src/data/sticker-words.json). */
+  pictures?: string[];
 }
 
 /** One phone's answer: reply index, confidence 0–2, can-do yes/no. */
@@ -50,7 +52,8 @@ export function validSpeakSituation(raw: unknown): SpeakSituation | null {
   if (!okSet(r.before) || !okSet(r.after)) return null;
   const overlap = r.before.replies.some((x) => r.after!.replies.indexOf(x) >= 0);
   if (overlap) return null;
-  return { situation: r.situation.trim(), canDo: r.canDo.trim().replace(/[.?]$/, ''), before: r.before, after: r.after };
+  const pictures = Array.isArray(r.pictures) ? r.pictures.filter((x): x is string => typeof x === 'string').slice(0, 3) : [];
+  return { situation: r.situation.trim(), canDo: r.canDo.trim().replace(/[.?]$/, ''), before: r.before, after: r.after, ...(pictures.length ? { pictures } : {}) };
 }
 
 /** Deterministic fallback from the topic, so the takeoff never blocks on AI. */
@@ -74,7 +77,7 @@ export const CONFIDENCE_LABELS = ['Not yet', 'A bit', 'Confident'];
 
 // ─── The checked situations bank (src/data/speak-situations.json, library round 11) ──────────
 
-interface BankSituation extends SpeakSituation { id: string; topics: string[]; ageBand: 'kids' | 'teens'; cefr: string }
+interface BankSituation extends SpeakSituation { id: string; topics: string[]; ageBand: 'kids' | 'teens' | 'junior'; cefr: string }
 
 const words = (s: string) => (s.toLowerCase().match(/[a-zé]{3,}/g) ?? []).map((w) => (w.length > 4 && w.endsWith('s') ? w.slice(0, -1) : w));
 const LEVEL_CEFR: Record<string, string[]> = { Beginner: ['A1'], Easy: ['A1', 'A2'], Intermediate: ['A2', 'B1'], Advanced: ['B1', 'B2'], Expert: ['B2'] };
@@ -102,12 +105,15 @@ export function shuffleReplySet(set: SpeakReplySet, seed: number): SpeakReplySet
  * situation's topic tags (strong) and text (weak); prefers the lesson's level. Reply order is
  * shuffled per topic so the natural reply isn't always in the same place.
  */
-export function bankSituationFor(topic: string, difficulty?: string): SpeakSituation | null {
+export function bankSituationFor(topic: string, difficulty?: string, junior = false): SpeakSituation | null {
   const q = words(topic);
+  const pool = (situationsBank as BankSituation[]).filter((s) => (junior ? s.ageBand === 'junior' : s.ageBand !== 'junior'));
+  // Junior classes always get a Junior situation (short replies, pictures): the best topic match, else one by topic seed.
+  if (junior && pool.length && !q.length) return fromBank(pool[hash(topic.toLowerCase()) % pool.length], topic);
   if (!q.length) return null;
   const levels = (difficulty && LEVEL_CEFR[difficulty]) || [];
   let best: { s: BankSituation; score: number } | null = null;
-  for (const s of situationsBank as BankSituation[]) {
+  for (const s of pool) {
     const tags = s.topics.flatMap(words);
     const text = words(`${s.situation} ${s.canDo}`);
     let score = 0;
@@ -116,8 +122,12 @@ export function bankSituationFor(topic: string, difficulty?: string): SpeakSitua
     if (levels.indexOf(s.cefr) >= 0) score += 2;
     if (!best || score > best.score) best = { s, score };
   }
-  if (!best) return null;
+  if (!best) return junior && pool.length ? fromBank(pool[hash(topic.toLowerCase()) % pool.length], topic) : null;
+  return fromBank(best.s, topic);
+}
+
+function fromBank(s: BankSituation, topic: string): SpeakSituation {
   const seed = hash(topic.toLowerCase());
-  const { situation, canDo, before, after } = best.s;
-  return { situation, canDo, before: shuffleReplySet(before, seed), after: shuffleReplySet(after, seed + 7) };
+  const { situation, canDo, before, after, pictures } = s;
+  return { situation, canDo, before: shuffleReplySet(before, seed), after: shuffleReplySet(after, seed + 7), ...(pictures?.length ? { pictures } : {}) };
 }
