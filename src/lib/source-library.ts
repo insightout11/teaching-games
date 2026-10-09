@@ -180,6 +180,11 @@ export interface LibraryRecommendation extends LibraryItem {
   score: number;
 }
 
+/** Every library item (server-side; the Library page's shelves). */
+export function allLibraryItems(): LibraryItem[] {
+  return ALL_ITEMS;
+}
+
 /** Map any level label (lesson Difficulty or library difficultyLevel) to a 1–5 band. */
 function levelRank(label: string): number {
   const l = label.toLowerCase();
