@@ -151,8 +151,8 @@ for (const [setIndex, set] of Array.from(sets.entries())) {
   }
 }
 const opinionShare = questions ? opinions / questions : 0;
-if (sets.length < 38 || sets.length > 42 || questions < 380 || questions > 420) {
-  fail('bankSize', file, `expected about 40 sets and 400 questions, found ${sets.length}/${questions}`);
+if (![51, 61].includes(sets.length) || questions !== sets.length * 10) {
+  fail('bankSize', file, `expected 51 or 61 sets of ten questions, found ${sets.length}/${questions}`);
 }
 if (questions && (opinionShare < 0.25 || opinionShare > 0.35)) {
   fail('opinionMix', file, `opinion share ${(opinionShare * 100).toFixed(1)}% is outside 25–35%`);

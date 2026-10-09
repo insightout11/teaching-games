@@ -3920,5 +3920,1073 @@
       "puddle",
       "shop"
     ]
+  },
+  {
+    "id": "dino-tracks",
+    "title": "Mina Finds the Tracks",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-dinosaurs"
+    ],
+    "cast": [
+      "girl",
+      "father"
+    ],
+    "pages": [
+      {
+        "text": "Mina sees three big marks in mud.",
+        "pictures": [
+          "girl",
+          "mud"
+        ]
+      },
+      {
+        "text": "She thinks a dinosaur made them.",
+        "pictures": [
+          "girl",
+          "dinosaur"
+        ]
+      },
+      {
+        "text": "Dad says dinosaurs lived long ago.",
+        "pictures": [
+          "father",
+          "dinosaur"
+        ]
+      },
+      {
+        "text": "They make new tracks with a toy dinosaur.",
+        "pictures": [
+          "girl",
+          "dinosaur",
+          "mud"
+        ]
+      },
+      {
+        "text": "Mina draws the tracks in her book.",
+        "pictures": [
+          "girl",
+          "book"
+        ]
+      },
+      {
+        "text": "At the museum, she finds real old tracks.",
+        "pictures": [
+          "girl",
+          "museum",
+          "rock"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "Where are Mina's first tracks?",
+        "options": [
+          "mud",
+          "sand",
+          "snow"
+        ],
+        "answer": "mud"
+      },
+      {
+        "prompt": "What does Mina draw in?",
+        "options": [
+          "book",
+          "map",
+          "paper"
+        ],
+        "answer": "book"
+      },
+      {
+        "prompt": "Where does Mina see old tracks?",
+        "options": [
+          "museum",
+          "bakery",
+          "park"
+        ],
+        "answer": "museum"
+      }
+    ],
+    "words": [
+      "dinosaur",
+      "mud",
+      "rock",
+      "shovel",
+      "book",
+      "museum"
+    ]
+  },
+  {
+    "id": "shell-in-stone",
+    "title": "The Shell in the Stone",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-fossils"
+    ],
+    "cast": [
+      "boy",
+      "grandmother"
+    ],
+    "pages": [
+      {
+        "text": "Leo finds a shell shape in a rock.",
+        "pictures": [
+          "boy",
+          "rock",
+          "shell"
+        ]
+      },
+      {
+        "text": "He cannot pull the shell out.",
+        "pictures": [
+          "boy",
+          "rock"
+        ]
+      },
+      {
+        "text": "Grandma says the old mark is a fossil.",
+        "pictures": [
+          "grandmother",
+          "rock"
+        ]
+      },
+      {
+        "text": "Leo brushes away the loose sand.",
+        "pictures": [
+          "boy",
+          "paintbrush",
+          "sand"
+        ]
+      },
+      {
+        "text": "They carry the rock to a museum.",
+        "pictures": [
+          "boy",
+          "grandmother",
+          "museum"
+        ]
+      },
+      {
+        "text": "Leo leaves the old shell safely inside.",
+        "pictures": [
+          "boy",
+          "rock",
+          "shell"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What shape is in the rock?",
+        "options": [
+          "shell",
+          "leaf",
+          "star"
+        ],
+        "answer": "shell"
+      },
+      {
+        "prompt": "What does Leo brush away?",
+        "options": [
+          "sand",
+          "snow",
+          "flour"
+        ],
+        "answer": "sand"
+      },
+      {
+        "prompt": "Where does Leo take the rock?",
+        "options": [
+          "museum",
+          "shop",
+          "zoo"
+        ],
+        "answer": "museum"
+      }
+    ],
+    "words": [
+      "rock",
+      "shell",
+      "shovel",
+      "paintbrush",
+      "museum",
+      "book"
+    ]
+  },
+  {
+    "id": "sunflower-shade",
+    "title": "The Hot Garden",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-the-sun",
+      "topic-kids-seasons"
+    ],
+    "cast": [
+      "girl",
+      "mother"
+    ],
+    "pages": [
+      {
+        "text": "The sun makes Nia's garden hot.",
+        "pictures": [
+          "girl",
+          "sun",
+          "garden"
+        ]
+      },
+      {
+        "text": "One small flower bends its head.",
+        "pictures": [
+          "flower",
+          "sun"
+        ]
+      },
+      {
+        "text": "Nia gives the flower some water.",
+        "pictures": [
+          "girl",
+          "water",
+          "flower"
+        ]
+      },
+      {
+        "text": "Mum moves its pot beside a tree.",
+        "pictures": [
+          "mother",
+          "tree",
+          "flower"
+        ]
+      },
+      {
+        "text": "The tree gives the flower cool shade.",
+        "pictures": [
+          "tree",
+          "flower"
+        ]
+      },
+      {
+        "text": "The flower stands tall in the morning.",
+        "pictures": [
+          "flower",
+          "morning",
+          "sun"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What is hot above the garden?",
+        "options": [
+          "sun",
+          "moon",
+          "cloud"
+        ],
+        "answer": "sun"
+      },
+      {
+        "prompt": "What does Nia give the flower?",
+        "options": [
+          "water",
+          "milk",
+          "juice"
+        ],
+        "answer": "water"
+      },
+      {
+        "prompt": "What gives the flower shade?",
+        "options": [
+          "tree",
+          "bus",
+          "chair"
+        ],
+        "answer": "tree"
+      }
+    ],
+    "words": [
+      "sun",
+      "flower",
+      "tree",
+      "water",
+      "hat",
+      "seedling"
+    ]
+  },
+  {
+    "id": "planet-ball",
+    "title": "The Lost Blue Planet",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-planets",
+      "topic-kids-the-moon",
+      "topic-kids-stars"
+    ],
+    "cast": [
+      "boy",
+      "sister"
+    ],
+    "pages": [
+      {
+        "text": "Oli makes a blue Earth from a ball.",
+        "pictures": [
+          "boy",
+          "ball",
+          "earth"
+        ]
+      },
+      {
+        "text": "His sister makes the moon from paper.",
+        "pictures": [
+          "sister",
+          "moon",
+          "paper"
+        ]
+      },
+      {
+        "text": "Oli puts the planets beside the window.",
+        "pictures": [
+          "boy",
+          "planet",
+          "window"
+        ]
+      },
+      {
+        "text": "A strong wind rolls Earth away.",
+        "pictures": [
+          "wind",
+          "earth"
+        ]
+      },
+      {
+        "text": "His sister finds it under the sofa.",
+        "pictures": [
+          "sister",
+          "sofa",
+          "earth"
+        ]
+      },
+      {
+        "text": "They put Earth back beside the moon.",
+        "pictures": [
+          "earth",
+          "moon",
+          "boy"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What is Oli's blue planet?",
+        "options": [
+          "earth",
+          "moon",
+          "sun"
+        ],
+        "answer": "earth"
+      },
+      {
+        "prompt": "Where does Earth roll?",
+        "options": [
+          "sofa",
+          "bed",
+          "table"
+        ],
+        "answer": "sofa"
+      },
+      {
+        "prompt": "Who makes the paper moon?",
+        "options": [
+          "sister",
+          "mother",
+          "teacher"
+        ],
+        "answer": "sister"
+      }
+    ],
+    "words": [
+      "earth",
+      "planet",
+      "ball",
+      "moon",
+      "star",
+      "rocket"
+    ]
+  },
+  {
+    "id": "paper-rocket",
+    "title": "The Paper Rocket",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-rockets"
+    ],
+    "cast": [
+      "girl",
+      "brother"
+    ],
+    "pages": [
+      {
+        "text": "Ada builds a rocket from paper.",
+        "pictures": [
+          "girl",
+          "paper",
+          "rocket"
+        ]
+      },
+      {
+        "text": "Her brother draws a moon on it.",
+        "pictures": [
+          "brother",
+          "moon",
+          "rocket"
+        ]
+      },
+      {
+        "text": "They send the rocket across the garden.",
+        "pictures": [
+          "girl",
+          "rocket",
+          "garden"
+        ]
+      },
+      {
+        "text": "The wind puts it in a tree.",
+        "pictures": [
+          "wind",
+          "rocket",
+          "tree"
+        ]
+      },
+      {
+        "text": "Her brother reaches it with a ladder.",
+        "pictures": [
+          "brother",
+          "ladder",
+          "rocket"
+        ]
+      },
+      {
+        "text": "They fix the wing and fly it again.",
+        "pictures": [
+          "girl",
+          "brother",
+          "rocket"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What is Ada's rocket made from?",
+        "options": [
+          "paper",
+          "tree",
+          "rock"
+        ],
+        "answer": "paper"
+      },
+      {
+        "prompt": "What is drawn on the rocket?",
+        "options": [
+          "moon",
+          "sun",
+          "star"
+        ],
+        "answer": "moon"
+      },
+      {
+        "prompt": "Where does the wind put it?",
+        "options": [
+          "tree",
+          "house",
+          "road"
+        ],
+        "answer": "tree"
+      }
+    ],
+    "words": [
+      "rocket",
+      "paper",
+      "moon",
+      "tree",
+      "wind",
+      "glue"
+    ]
+  },
+  {
+    "id": "space-camera",
+    "title": "An Astronaut's Photo",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-astronauts"
+    ],
+    "cast": [
+      "girl",
+      "father"
+    ],
+    "pages": [
+      {
+        "text": "Ivy pretends to be an astronaut.",
+        "pictures": [
+          "girl",
+          "astronaut"
+        ]
+      },
+      {
+        "text": "Dad makes a rocket from a box.",
+        "pictures": [
+          "father",
+          "box",
+          "rocket"
+        ]
+      },
+      {
+        "text": "Ivy sees Earth through the window.",
+        "pictures": [
+          "girl",
+          "earth",
+          "window"
+        ]
+      },
+      {
+        "text": "Her camera falls behind the seat.",
+        "pictures": [
+          "camera",
+          "chair"
+        ]
+      },
+      {
+        "text": "Dad finds it beside her boot.",
+        "pictures": [
+          "father",
+          "camera",
+          "boots"
+        ]
+      },
+      {
+        "text": "Ivy takes her space photo at last.",
+        "pictures": [
+          "girl",
+          "camera",
+          "earth"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Ivy pretend to be?",
+        "options": [
+          "astronaut",
+          "pilot",
+          "chef"
+        ],
+        "answer": "astronaut"
+      },
+      {
+        "prompt": "What does Dad use for the rocket?",
+        "options": [
+          "box",
+          "basket",
+          "bag"
+        ],
+        "answer": "box"
+      },
+      {
+        "prompt": "What does Ivy lose?",
+        "options": [
+          "camera",
+          "book",
+          "hat"
+        ],
+        "answer": "camera"
+      }
+    ],
+    "words": [
+      "astronaut",
+      "camera",
+      "earth",
+      "rocket",
+      "moon",
+      "window"
+    ]
+  },
+  {
+    "id": "volcano-walk",
+    "title": "The Volcano Walk",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-volcanoes"
+    ],
+    "cast": [
+      "boy",
+      "mother"
+    ],
+    "pages": [
+      {
+        "text": "Tari and Mum walk on an island.",
+        "pictures": [
+          "boy",
+          "mother",
+          "island"
+        ]
+      },
+      {
+        "text": "They see a volcano beyond the hill.",
+        "pictures": [
+          "volcano",
+          "hill"
+        ]
+      },
+      {
+        "text": "A dark cloud rises from the top.",
+        "pictures": [
+          "cloud",
+          "volcano"
+        ]
+      },
+      {
+        "text": "Mum says it is time to leave.",
+        "pictures": [
+          "mother",
+          "boy"
+        ]
+      },
+      {
+        "text": "They follow their map back to the boat.",
+        "pictures": [
+          "map",
+          "boat",
+          "island"
+        ]
+      },
+      {
+        "text": "Tari draws the volcano from far away.",
+        "pictures": [
+          "boy",
+          "volcano",
+          "boat"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "Where do Tari and Mum walk?",
+        "options": [
+          "island",
+          "city",
+          "farm"
+        ],
+        "answer": "island"
+      },
+      {
+        "prompt": "What rises above the volcano?",
+        "options": [
+          "cloud",
+          "rainbow",
+          "star"
+        ],
+        "answer": "cloud"
+      },
+      {
+        "prompt": "What do they follow back?",
+        "options": [
+          "map",
+          "clock",
+          "flag"
+        ],
+        "answer": "map"
+      }
+    ],
+    "words": [
+      "volcano",
+      "island",
+      "map",
+      "hill",
+      "water",
+      "cloud"
+    ]
+  },
+  {
+    "id": "shaky-shelf",
+    "title": "The Shaky Shelf",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-earthquakes"
+    ],
+    "cast": [
+      "girl",
+      "teacher"
+    ],
+    "pages": [
+      {
+        "text": "Lina feels the classroom floor shake.",
+        "pictures": [
+          "girl",
+          "classroom"
+        ]
+      },
+      {
+        "text": "A book falls from the shelf.",
+        "pictures": [
+          "book",
+          "bookshelf"
+        ]
+      },
+      {
+        "text": "Teacher tells everyone to get under tables.",
+        "pictures": [
+          "teacher",
+          "table"
+        ]
+      },
+      {
+        "text": "The shaking stops after a little while.",
+        "pictures": [
+          "girl",
+          "table"
+        ]
+      },
+      {
+        "text": "They walk together to the playground.",
+        "pictures": [
+          "teacher",
+          "girl",
+          "playground"
+        ]
+      },
+      {
+        "text": "Lina helps her friend find a shoe.",
+        "pictures": [
+          "girl",
+          "friend",
+          "shoes"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What falls from the shelf?",
+        "options": [
+          "book",
+          "ball",
+          "cup"
+        ],
+        "answer": "book"
+      },
+      {
+        "prompt": "Where do the children get?",
+        "options": [
+          "table",
+          "bed",
+          "car"
+        ],
+        "answer": "table"
+      },
+      {
+        "prompt": "Where do they meet outside?",
+        "options": [
+          "playground",
+          "kitchen",
+          "bathroom"
+        ],
+        "answer": "playground"
+      }
+    ],
+    "words": [
+      "table",
+      "book",
+      "classroom",
+      "flashlight",
+      "water",
+      "phone"
+    ]
+  },
+  {
+    "id": "camel-water",
+    "title": "The Camel's Water",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-deserts"
+    ],
+    "cast": [
+      "boy",
+      "grandmother"
+    ],
+    "pages": [
+      {
+        "text": "A camel walks beside Sami in the desert.",
+        "pictures": [
+          "camel",
+          "boy",
+          "sand"
+        ]
+      },
+      {
+        "text": "Sami's water bottle is almost empty.",
+        "pictures": [
+          "boy",
+          "bottle",
+          "water"
+        ]
+      },
+      {
+        "text": "Grandma points to a shady tent.",
+        "pictures": [
+          "grandmother",
+          "tent"
+        ]
+      },
+      {
+        "text": "They rest there and fill the bottle.",
+        "pictures": [
+          "boy",
+          "grandmother",
+          "water"
+        ]
+      },
+      {
+        "text": "Sami gives the camel a drink.",
+        "pictures": [
+          "boy",
+          "camel",
+          "water"
+        ]
+      },
+      {
+        "text": "The camel walks on beside them.",
+        "pictures": [
+          "camel",
+          "boy",
+          "sand"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "Which animal walks with Sami?",
+        "options": [
+          "camel",
+          "horse",
+          "sheep"
+        ],
+        "answer": "camel"
+      },
+      {
+        "prompt": "Where do they rest?",
+        "options": [
+          "tent",
+          "boat",
+          "school"
+        ],
+        "answer": "tent"
+      },
+      {
+        "prompt": "What does Sami share?",
+        "options": [
+          "water",
+          "cake",
+          "milk"
+        ],
+        "answer": "water"
+      }
+    ],
+    "words": [
+      "camel",
+      "water",
+      "cactus",
+      "sand",
+      "sun",
+      "hat"
+    ]
+  },
+  {
+    "id": "festival-drum",
+    "title": "The Quiet Festival Drum",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-festivals-around-the-world"
+    ],
+    "cast": [
+      "girl",
+      "grandfather"
+    ],
+    "pages": [
+      {
+        "text": "Noor brings her drum to the festival.",
+        "pictures": [
+          "girl",
+          "drum",
+          "flag"
+        ]
+      },
+      {
+        "text": "The drum makes no sound at all.",
+        "pictures": [
+          "girl",
+          "drum"
+        ]
+      },
+      {
+        "text": "Grandpa finds a loose rope underneath.",
+        "pictures": [
+          "grandfather",
+          "drum",
+          "rope"
+        ]
+      },
+      {
+        "text": "He ties the rope tight again.",
+        "pictures": [
+          "grandfather",
+          "rope",
+          "drum"
+        ]
+      },
+      {
+        "text": "Noor plays while the neighbors dance.",
+        "pictures": [
+          "girl",
+          "drum",
+          "dance"
+        ]
+      },
+      {
+        "text": "Everyone shares cake after the music.",
+        "pictures": [
+          "cake",
+          "girl",
+          "grandfather"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does Noor bring?",
+        "options": [
+          "drum",
+          "guitar",
+          "flute"
+        ],
+        "answer": "drum"
+      },
+      {
+        "prompt": "What is loose underneath?",
+        "options": [
+          "rope",
+          "button",
+          "zipper"
+        ],
+        "answer": "rope"
+      },
+      {
+        "prompt": "What do people share afterward?",
+        "options": [
+          "cake",
+          "soup",
+          "bread"
+        ],
+        "answer": "cake"
+      }
+    ],
+    "words": [
+      "drum",
+      "flag",
+      "candle",
+      "dance",
+      "cake",
+      "rope"
+    ]
+  },
+  {
+    "id": "small-hero",
+    "title": "The Smallest Hero",
+    "level": "A1",
+    "topicIds": [
+      "topic-kids-superheroes"
+    ],
+    "cast": [
+      "boy",
+      "baby"
+    ],
+    "pages": [
+      {
+        "text": "Pip wants to be a superhero.",
+        "pictures": [
+          "boy",
+          "crown"
+        ]
+      },
+      {
+        "text": "He sees a baby drop her ball.",
+        "pictures": [
+          "baby",
+          "ball"
+        ]
+      },
+      {
+        "text": "The ball rolls toward the road.",
+        "pictures": [
+          "ball",
+          "road"
+        ]
+      },
+      {
+        "text": "Pip asks Dad to stop the baby.",
+        "pictures": [
+          "boy",
+          "father",
+          "baby"
+        ]
+      },
+      {
+        "text": "Dad picks up the ball safely.",
+        "pictures": [
+          "father",
+          "ball"
+        ]
+      },
+      {
+        "text": "The baby smiles at her small hero.",
+        "pictures": [
+          "baby",
+          "boy",
+          "smile"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "What does the baby drop?",
+        "options": [
+          "ball",
+          "book",
+          "doll"
+        ],
+        "answer": "ball"
+      },
+      {
+        "prompt": "Who helps Pip stop the baby?",
+        "options": [
+          "father",
+          "mother",
+          "teacher"
+        ],
+        "answer": "father"
+      },
+      {
+        "prompt": "How does the baby feel?",
+        "options": [
+          "happy",
+          "sad",
+          "scared"
+        ],
+        "answer": "happy"
+      }
+    ],
+    "words": [
+      "baby",
+      "ball",
+      "road",
+      "crosswalk",
+      "father",
+      "carry"
+    ]
   }
 ]

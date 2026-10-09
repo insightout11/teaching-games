@@ -149,8 +149,9 @@ for (const [index, story] of Array.from(stories.entries())) {
   }
   checkStickerList(story.words, 'badWords', `${at}.words`, 4, 6);
 }
-if (stories.length !== 40 || levels.A1 !== 20 || levels.A2 !== 20) {
-  fail('bankSize', file, `expected 40 stories split 20/20, found ${stories.length} split ${levels.A1}/${levels.A2}`);
+if (!((stories.length === 51 && levels.A1 === 31 && levels.A2 === 20) ||
+      (stories.length === 61 && levels.A1 === 31 && levels.A2 === 30))) {
+  fail('bankSize', file, `expected 51 stories split 31/20 or 61 split 31/30, found ${stories.length} split ${levels.A1}/${levels.A2}`);
 }
 console.log(`Junior picture stories: ${stories.length} stories, ${pagesTotal} pages, A1 ${levels.A1}, A2 ${levels.A2}, ${usedStickers.size} distinct sticker IDs used.`);
 console.log(`Junior story checks: ${Object.entries(checks).map(([key, value]) => `${key} ${value}`).join(', ')}.`);
