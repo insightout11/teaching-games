@@ -1,0 +1,147 @@
+farm-cat-horse|kids|A1|cats horses|At a farm, a cat walks between a horse's legs. Your friend asks if that is safe.|Tell a friend how to keep animals safe
+B|Let's give the horse some room.|Push the cat closer.|The horse are a cat.|I need a blue pencil.
+A|Let's move the cat away gently.|Shout at the horse now.|Cat walking horse under is.|My cake is very sweet.
+
+zoo-tall|kids|A1|elephants giraffes|At the zoo, your friend asks whether to see the elephant or giraffe first.|Give a reason for an animal choice
+B|Let's see the giraffe first, please.|Go to the elephant. Hurry!|We seeing giraffe first is.|I left my sandwich home.
+A|I would choose the elephant first.|Stop asking and follow me.|Elephant first I choosing am.|That bus is red.
+
+zebra-lion|kids|A2|zebras lions|At the zoo, a younger child points to a striped zebra and calls it a lion.|Correct an animal name kindly
+B|That's a zebra; the lion is there.|Wrong! You know nothing.|That zebra are one lion.|My shoes are at school.
+A|I think you mean the zebra.|No, just be quiet.|The stripes is on lion.|The ticket costs five dollars.
+
+tiger-panda|kids|A2|tigers pandas|Your friend wants to feed a tiger and a panda at the zoo.|Explain a zoo rule politely
+B|Let's ask the keeper first.|Just throw them some food.|We must asking tiger food.|I fed my bike yesterday.
+A|Visitors should not feed either animal.|Feed them; nobody will see.|The panda eat are visitors.|The museum closes at six.
+
+australian-animals|kids|A1|koalas kangaroos|At an animal park, your friend asks whether to draw the koala or the kangaroo.|Choose an animal to draw
+B|I want to draw the koala.|Draw the kangaroo for me.|I drawing koala want.|Please pass the soup.
+A|I'll sketch the jumping kangaroo.|Stop talking and draw it.|Kangaroo I am draw now.|The moon is bright tonight.
+
+cold-animal-poster|kids|A2|penguins polar-bears|Your class poster puts penguins and polar bears in the same wild home. A friend asks if that is right.|Explain where two cold-weather animals live
+B|They live in different parts of the world.|Of course they live together!|Penguins lives with polar bear always.|My poster needs more glue.
+A|Polar bears live north; penguins live south.|They are both white, so yes.|The bear living with penguin are.|Let's buy another notebook.
+
+sea-giants|kids|A1|dolphins whales|On a boat, your friend spots a dolphin and then a whale. They ask what you saw.|Describe two sea animals
+B|I saw a dolphin and a whale.|Look yourself. I'm busy.|I seeing whale and dolphin.|I had toast for breakfast.
+A|The dolphin jumped near the big whale.|Stop asking me about animals.|Dolphin jump whale big near.|That jacket belongs to Dad.
+
+shark-turtle|kids|A2|sharks sea-turtles|At an aquarium, your friend wants to tap the glass near a shark and sea turtle.|Ask a friend to respect aquarium animals
+B|Let's watch quietly without tapping.|Bang harder on the glass.|We tapping not glass must.|I need a new umbrella.
+A|Please leave the shark and turtle calm.|Tap it again for me.|The turtle are glass shark.|My homework is about trees.
+
+garden-visitors|kids|A1|frogs butterflies bees|A frog, butterfly, and bee visit your garden. A friend asks which one to catch.|Suggest a kind way to watch small animals
+B|Let's watch them without catching them.|Catch all three for me.|We watch them no catch is.|My train leaves at noon.
+A|Please let the little visitors stay free.|Put them in a box now.|The bee and frog is flying.|I bought a green hat.
+
+old-footprint|kids|A2|dinosaurs fossils|At a museum, a friend points to a dinosaur footprint in rock and asks what it is.|Explain a fossil simply
+B|It's an old dinosaur footprint.|It's just a silly rock.|Dinosaur foot made old is.|I can ride my bike.
+A|That fossil shows where a dinosaur stepped.|Don't ask me again.|A fossil are a fresh foot.|We have soup at home.
+
+day-night-poster|kids|A1|the-moon the-sun|For a day-and-night poster, a friend asks where to draw the sun and moon.|Place two sky pictures
+B|Put the sun on the daytime side.|Draw them anywhere. Hurry!|Moon is sun at day.|I want a banana.
+A|The moon can go on the night side.|You should know this already.|Sun at night side putting.|My dog likes to swim.
+
+night-sky|kids|A2|planets stars|At a sky club, your friend points to a bright planet and asks whether it is a star.|Compare a planet and a star
+B|That one is a planet, not a star.|Everything bright is a star.|A planet are star same.|My torch has new batteries.
+A|Stars make light; planets reflect it.|Stop looking at the sky.|Planet making own light always.|We missed the school bus.
+
+space-fair|kids|A1|rockets astronauts|At a space fair, your friend asks who rides inside the model rocket.|Name a space traveller
+B|An astronaut can ride in a rocket.|Only I may answer.|Rocket ride astronaut in is.|I left my lunchbox.
+A|The astronaut sits inside the rocket.|That is a silly question.|Astronaut sitting rocket inside are.|My cake has strawberries.
+
+volcano-model|kids|A2|volcanoes|At a science fair, your model volcano spills pretend lava. A friend asks what to do.|Respond safely to a spill
+B|Let's step back and tell the teacher.|Put your hand in it.|Lava spilling is I touch.|My drawing uses blue paint.
+A|Please keep clear while we clean it.|Walk through it quickly.|The volcano spill we cleaning.|I found a lost glove.
+
+shaking-drill|kids|A2|earthquakes|The classroom starts shaking during a drill. A friend asks what to do first.|Tell a friend the first safety step
+B|Get under the desk with me.|Run into the road now.|Desk under we get first.|My notebook has ten pages.
+A|Stay low until the shaking stops.|Stand beside the tall shelf.|The floor shake we running.|I prefer the red pencil.
+
+mountain-river|kids|A2|mountains rivers|On a hike, a river blocks the path below a mountain. Your friend asks where to cross.|Choose a safe hiking route
+B|Let's use the bridge on our map.|Jump across the river now.|Mountain river crossing we map.|I bought new school shoes.
+A|The marked bridge is safer than jumping.|Ignore the signs and run.|River crossing bridge we goes.|My sister likes oranges.
+
+ocean-reef|kids|A2|oceans coral-reefs|While snorkeling in the ocean, a friend wants to take coral from the reef.|Ask a friend to leave coral alone
+B|Please leave the coral where it grows.|Take some for my bag.|Coral we taking no is.|I forgot my bus ticket.
+A|Let's photograph the reef instead.|Break off the bright piece.|Ocean coral take I now.|My cat sleeps on the sofa.
+
+two-forests|kids|A2|rainforests forests|On a class map, your friend asks why a rainforest looks wetter than the nearby forest.|Compare two kinds of forest
+B|Rainforests receive much more rain.|Because I said so.|Rainforest rain more getting is.|My favorite sport is tennis.
+A|That forest is drier than the rainforest.|Both forests are exactly dry.|The wet forest more rain have.|We need another paintbrush.
+
+desert-water|kids|A1|deserts|On a desert walk, your friend forgot a water bottle and asks what to do.|Offer help on a hot walk
+B|You can share my water.|Walk without any water.|I sharing water you can.|My book is on the table.
+A|Let's stop and drink in the shade.|Run across the sand first.|Shade drinking we stop is.|I like the blue kite.
+
+winter-coat|kids|A1|seasons snow|Snow starts falling on the first winter day. A friend asks what to wear outside.|Choose clothes for snowy weather
+B|Wear your warm coat and boots.|Go outside without shoes.|Winter coat wear you is.|I ate an apple yesterday.
+A|Let's put on hats before we go.|Leave your coat at home.|Snowy day hat putting we.|The train has six seats.
+
+windy-rainbow|kids|A1|wind rainbows|After a windy shower, a rainbow appears. Your friend asks if it is time to fly a kite.|Talk about weather before play
+B|Let's wait for the wind to slow.|Fly it in the storm now.|Rainbow kite wind is fly.|My sandwich is in my bag.
+A|The sky is clearing; let's try soon.|Ignore that strong wind.|Kite flying rainbow after we.|I need a new eraser.
+
+rain-jar|kids|A2|water-cycle|At a science table, drops form on a jar lid. Your friend asks where the water came from.|Explain where water drops come from
+B|The warm water rose and cooled.|The jar made new water.|Water up cool making drops.|My grandmother lives nearby.
+A|It changed to vapor, then to drops.|Don't ask about the lid.|Drops water rising cold is.|The ball rolled downstairs.
+
+seedling-light|kids|A1|plant-growth|Your class seedling is bending toward a window. A friend asks what it needs.|Suggest how to care for a plant
+B|Let's give it light and water.|Hide it in a dark box.|Plant grow light want is.|I can count to twenty.
+A|Move it closer to the sunny window.|Pull off all its leaves.|Seedling window grow it need.|The rabbit is under the chair.
+
+kitchen-choice|kids|A2|cooking baking|In a school kitchen, a friend wants to bake bread and cook soup at the same time.|Plan two kitchen jobs safely
+B|Let's ask which job to do first.|Turn every hot pan on.|Bread cook oven soup bake.|My sister is at the park.
+A|We can bake bread after the soup.|Touch the oven without help.|Soup first baking we is.|That movie starts at noon.
+
+market-basket|kids|A1|fruits vegetables|At a market, your friend asks for one fruit and one vegetable for a picnic.|Choose two foods for a picnic
+B|Let's buy an apple and carrot.|Buy everything for me.|Apple and carrot buys we.|My coat is too small.
+A|A pear and cucumber would be good.|Get the biggest rock instead.|Fruit vegetable we pear is.|I lost my library card.
+
+two-meals|kids|A2|breakfast school-lunch|Before school, your friend skipped breakfast and forgot their lunchbox. They ask for help.|Offer food help at school
+B|Tell the teacher so we can help.|Just stay hungry all day.|Breakfast lunch no eat you.|Our dog sleeps outside.
+A|We can ask about school lunch together.|Take my food without asking.|Lunchbox forget breakfast is.|I brought my toy train.
+
+holiday-plan|kids|A1|holidays|School holidays begin tomorrow. Your friend asks what you want to do.|Describe a holiday plan
+B|I want to visit the beach.|You must come with me.|I beach visit wanting.|My pencil is green.
+A|I'll play outside with my family.|Stay home and be quiet.|Holiday play family with I.|The soup is too hot.
+
+two-ball-games|kids|A2|soccer basketball|At sports club, your friend asks whether to bring a soccer ball or basketball first.|Choose a team game politely
+B|Let's play soccer before basketball.|Bring both and stop talking.|Basketball soccer first play is.|My turtle likes lettuce.
+A|Could we start with basketball today?|Only my game matters.|Soccer after basketball we playing.|The moon looks very bright.
+
+pool-bike|kids|A2|swimming cycling|At summer club, your friend asks whether to swim or ride bikes first.|Plan two safe activities
+B|Let's swim first, then wear helmets for cycling.|Ride straight into the pool.|Swimming bike helmet first we.|I forgot my science book.
+A|We can cycle after the pool closes.|No helmets; let's race downhill.|Bike after swim we are go.|The flowers need water.
+
+race-dance|kids|A1|running dancing|Sports day has a running race and a dance. Your friend asks which to join.|Choose an activity with a friend
+B|Let's run first and dance later.|Do exactly what I say.|Dance run later we first.|I ate a yellow banana.
+A|I would like the dance after the race.|You cannot join either.|Running dance I later want.|My aunt has a cat.
+
+rainy-games|kids|A1|board-games puzzles|Rain keeps you indoors. A friend asks whether to choose a board game or a puzzle.|Suggest an indoor game
+B|Let's try the puzzle together.|Play my game or leave.|Puzzle game board we is.|I saw a big elephant.
+A|Could we play the board game first?|Your puzzle is boring.|Board first game play we.|The bus is at the stop.
+
+block-robot|kids|A2|building-blocks robots|At playtime, your block robot falls apart. A friend asks how to fix it.|Suggest a way to rebuild a toy
+B|Let's make the robot's base wider.|Throw the blocks away.|Robot blocks fix wide is.|I need a new raincoat.
+A|We could use two more blocks below.|Push it over again.|The robot base more blocks have.|My lunch is rice and eggs.
+
+kite-slide|kids|A1|kites playgrounds|At the playground, a kite string is caught on the slide. Your friend asks what to do.|Ask for safe help with a kite
+B|Let's ask an adult to help.|Climb the slide roof now.|Kite slide string on is.|I painted a blue fish.
+A|Please wait while I get a teacher.|Pull harder until it breaks.|Help teacher kite get me.|The shop sells bread.
+
+hero-cape|kids|A1|superheroes|A child wearing a superhero cape wants to jump from a high wall. They ask you to watch.|Suggest a safer pretend game
+B|Let's play heroes on the ground.|Jump higher so I can see.|Cape hero wall jump safe.|My homework is in my bag.
+A|Please climb down and play with us.|Go on; try to fly!|Hero playing ground we down.|I saw a red train.
+
+travel-modes|kids|A2|trains airplanes boats|Your class plans a trip across the sea. A friend asks if they can go by train, airplane, or boat.|Compare ways to cross the sea
+B|A plane or boat can cross it.|Take the train over the water.|Train sea flying boat is.|I brought three crayons.
+A|We could fly there, then ride a train.|A boat is just a car.|Airplane train sea cross we.|My brother likes swimming.
+
+art-music|kids|A1|musical-instruments painting|At an art show, your friend asks whether to paint a drum or play it.|Choose an art or music activity
+B|Let's play the drum after painting it.|Hit the wet paint now.|Painting drum playing is me.|I lost my blue sock.
+A|I would paint first, then make music.|You have to do both alone.|Drum paint music after we.|The river is very wide.
+
+senses-fruit|kids|A2|the-five-senses|In science class, your friend closes their eyes to guess a fruit by smell and touch.|Describe two ways to sense fruit
+B|You can smell and feel it first.|Taste it without asking.|Nose and hand seeing fruit.|My shoes are by the door.
+A|Try its scent and its shape.|Just shout the fruit's name.|Touch smelling fruit we is.|The turtle is in the pond.

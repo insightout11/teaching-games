@@ -3605,5 +3605,2002 @@
     "topicIds": [
       "topic-kids-making-friends"
     ]
+  },
+  {
+    "id": "speak-r27-farm-cat-horse",
+    "topics": [
+      "cats",
+      "horses"
+    ],
+    "topicIds": [
+      "topic-kids-cats",
+      "topic-kids-horses"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "At a farm, a cat walks between a horse's legs. Your friend asks if that is safe.",
+    "canDo": "Tell a friend how to keep animals safe",
+    "before": {
+      "replies": [
+        "Let's give the horse some room.",
+        "Push the cat closer.",
+        "The horse are a cat.",
+        "I need a blue pencil."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Shout at the horse now.",
+        "Let's move the cat away gently.",
+        "Cat walking horse under is.",
+        "My cake is very sweet."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-zoo-tall",
+    "topics": [
+      "elephants",
+      "giraffes"
+    ],
+    "topicIds": [
+      "topic-kids-elephants",
+      "topic-kids-giraffes"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "At the zoo, your friend asks whether to see the elephant or giraffe first.",
+    "canDo": "Give a reason for an animal choice",
+    "before": {
+      "replies": [
+        "Go to the elephant. Hurry!",
+        "Let's see the giraffe first, please.",
+        "We seeing giraffe first is.",
+        "I left my sandwich home."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Stop asking and follow me.",
+        "Elephant first I choosing am.",
+        "I would choose the elephant first.",
+        "That bus is red."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-zebra-lion",
+    "topics": [
+      "zebras",
+      "lions"
+    ],
+    "topicIds": [
+      "topic-kids-zebras",
+      "topic-kids-lions"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At the zoo, a younger child points to a striped zebra and calls it a lion.",
+    "canDo": "Correct an animal name kindly",
+    "before": {
+      "replies": [
+        "Wrong! You know nothing.",
+        "That zebra are one lion.",
+        "That's a zebra; the lion is there.",
+        "My shoes are at school."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "No, just be quiet.",
+        "The stripes is on lion.",
+        "The ticket costs five dollars.",
+        "I think you mean the zebra."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-tiger-panda",
+    "topics": [
+      "tigers",
+      "pandas"
+    ],
+    "topicIds": [
+      "topic-kids-tigers",
+      "topic-kids-pandas"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "Your friend wants to feed a tiger and a panda at the zoo.",
+    "canDo": "Explain a zoo rule politely",
+    "before": {
+      "replies": [
+        "Just throw them some food.",
+        "We must asking tiger food.",
+        "I fed my bike yesterday.",
+        "Let's ask the keeper first."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Visitors should not feed either animal.",
+        "Feed them; nobody will see.",
+        "The panda eat are visitors.",
+        "The museum closes at six."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-australian-animals",
+    "topics": [
+      "koalas",
+      "kangaroos"
+    ],
+    "topicIds": [
+      "topic-kids-koalas",
+      "topic-kids-kangaroos"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "At an animal park, your friend asks whether to draw the koala or the kangaroo.",
+    "canDo": "Choose an animal to draw",
+    "before": {
+      "replies": [
+        "I want to draw the koala.",
+        "Draw the kangaroo for me.",
+        "I drawing koala want.",
+        "Please pass the soup."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Stop talking and draw it.",
+        "I'll sketch the jumping kangaroo.",
+        "Kangaroo I am draw now.",
+        "The moon is bright tonight."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-cold-animal-poster",
+    "topics": [
+      "penguins",
+      "polar bears"
+    ],
+    "topicIds": [
+      "topic-kids-penguins",
+      "topic-kids-polar-bears"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "Your class poster puts penguins and polar bears in the same wild home. A friend asks if that is right.",
+    "canDo": "Explain where two cold-weather animals live",
+    "before": {
+      "replies": [
+        "Of course they live together!",
+        "They live in different parts of the world.",
+        "Penguins lives with polar bear always.",
+        "My poster needs more glue."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "They are both white, so yes.",
+        "The bear living with penguin are.",
+        "Polar bears live north; penguins live south.",
+        "Let's buy another notebook."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-sea-giants",
+    "topics": [
+      "dolphins",
+      "whales"
+    ],
+    "topicIds": [
+      "topic-kids-dolphins",
+      "topic-kids-whales"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "On a boat, your friend spots a dolphin and then a whale. They ask what you saw.",
+    "canDo": "Describe two sea animals",
+    "before": {
+      "replies": [
+        "Look yourself. I'm busy.",
+        "I seeing whale and dolphin.",
+        "I saw a dolphin and a whale.",
+        "I had toast for breakfast."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Stop asking me about animals.",
+        "Dolphin jump whale big near.",
+        "That jacket belongs to Dad.",
+        "The dolphin jumped near the big whale."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-shark-turtle",
+    "topics": [
+      "sharks",
+      "sea turtles"
+    ],
+    "topicIds": [
+      "topic-kids-sharks",
+      "topic-kids-sea-turtles"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At an aquarium, your friend wants to tap the glass near a shark and sea turtle.",
+    "canDo": "Ask a friend to respect aquarium animals",
+    "before": {
+      "replies": [
+        "Bang harder on the glass.",
+        "We tapping not glass must.",
+        "I need a new umbrella.",
+        "Let's watch quietly without tapping."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Please leave the shark and turtle calm.",
+        "Tap it again for me.",
+        "The turtle are glass shark.",
+        "My homework is about trees."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-garden-visitors",
+    "topics": [
+      "frogs",
+      "butterflies",
+      "bees"
+    ],
+    "topicIds": [
+      "topic-kids-frogs",
+      "topic-kids-butterflies",
+      "topic-kids-bees"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "A frog, butterfly, and bee visit your garden. A friend asks which one to catch.",
+    "canDo": "Suggest a kind way to watch small animals",
+    "before": {
+      "replies": [
+        "Let's watch them without catching them.",
+        "Catch all three for me.",
+        "We watch them no catch is.",
+        "My train leaves at noon."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Put them in a box now.",
+        "Please let the little visitors stay free.",
+        "The bee and frog is flying.",
+        "I bought a green hat."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-old-footprint",
+    "topics": [
+      "dinosaurs",
+      "fossils"
+    ],
+    "topicIds": [
+      "topic-kids-dinosaurs",
+      "topic-kids-fossils"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At a museum, a friend points to a dinosaur footprint in rock and asks what it is.",
+    "canDo": "Explain a fossil simply",
+    "before": {
+      "replies": [
+        "It's just a silly rock.",
+        "It's an old dinosaur footprint.",
+        "Dinosaur foot made old is.",
+        "I can ride my bike."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Don't ask me again.",
+        "A fossil are a fresh foot.",
+        "That fossil shows where a dinosaur stepped.",
+        "We have soup at home."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-day-night-poster",
+    "topics": [
+      "the moon",
+      "the sun"
+    ],
+    "topicIds": [
+      "topic-kids-the-moon",
+      "topic-kids-the-sun"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "For a day-and-night poster, a friend asks where to draw the sun and moon.",
+    "canDo": "Place two sky pictures",
+    "before": {
+      "replies": [
+        "Draw them anywhere. Hurry!",
+        "Moon is sun at day.",
+        "Put the sun on the daytime side.",
+        "I want a banana."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "You should know this already.",
+        "Sun at night side putting.",
+        "My dog likes to swim.",
+        "The moon can go on the night side."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-night-sky",
+    "topics": [
+      "planets",
+      "stars"
+    ],
+    "topicIds": [
+      "topic-kids-planets",
+      "topic-kids-stars"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At a sky club, your friend points to a bright planet and asks whether it is a star.",
+    "canDo": "Compare a planet and a star",
+    "before": {
+      "replies": [
+        "Everything bright is a star.",
+        "A planet are star same.",
+        "My torch has new batteries.",
+        "That one is a planet, not a star."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Stars make light; planets reflect it.",
+        "Stop looking at the sky.",
+        "Planet making own light always.",
+        "We missed the school bus."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-space-fair",
+    "topics": [
+      "rockets",
+      "astronauts"
+    ],
+    "topicIds": [
+      "topic-kids-rockets",
+      "topic-kids-astronauts"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "At a space fair, your friend asks who rides inside the model rocket.",
+    "canDo": "Name a space traveller",
+    "before": {
+      "replies": [
+        "An astronaut can ride in a rocket.",
+        "Only I may answer.",
+        "Rocket ride astronaut in is.",
+        "I left my lunchbox."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "That is a silly question.",
+        "The astronaut sits inside the rocket.",
+        "Astronaut sitting rocket inside are.",
+        "My cake has strawberries."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-volcano-model",
+    "topics": [
+      "volcanoes"
+    ],
+    "topicIds": [
+      "topic-kids-volcanoes"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At a science fair, your model volcano spills pretend lava. A friend asks what to do.",
+    "canDo": "Respond safely to a spill",
+    "before": {
+      "replies": [
+        "Put your hand in it.",
+        "Let's step back and tell the teacher.",
+        "Lava spilling is I touch.",
+        "My drawing uses blue paint."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Walk through it quickly.",
+        "The volcano spill we cleaning.",
+        "Please keep clear while we clean it.",
+        "I found a lost glove."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-shaking-drill",
+    "topics": [
+      "earthquakes"
+    ],
+    "topicIds": [
+      "topic-kids-earthquakes"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "The classroom starts shaking during a drill. A friend asks what to do first.",
+    "canDo": "Tell a friend the first safety step",
+    "before": {
+      "replies": [
+        "Run into the road now.",
+        "Desk under we get first.",
+        "Get under the desk with me.",
+        "My notebook has ten pages."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Stand beside the tall shelf.",
+        "The floor shake we running.",
+        "I prefer the red pencil.",
+        "Stay low until the shaking stops."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-mountain-river",
+    "topics": [
+      "mountains",
+      "rivers"
+    ],
+    "topicIds": [
+      "topic-kids-mountains",
+      "topic-kids-rivers"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "On a hike, a river blocks the path below a mountain. Your friend asks where to cross.",
+    "canDo": "Choose a safe hiking route",
+    "before": {
+      "replies": [
+        "Jump across the river now.",
+        "Mountain river crossing we map.",
+        "I bought new school shoes.",
+        "Let's use the bridge on our map."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "The marked bridge is safer than jumping.",
+        "Ignore the signs and run.",
+        "River crossing bridge we goes.",
+        "My sister likes oranges."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-ocean-reef",
+    "topics": [
+      "oceans",
+      "coral reefs"
+    ],
+    "topicIds": [
+      "topic-kids-oceans",
+      "topic-kids-coral-reefs"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "While snorkeling in the ocean, a friend wants to take coral from the reef.",
+    "canDo": "Ask a friend to leave coral alone",
+    "before": {
+      "replies": [
+        "Please leave the coral where it grows.",
+        "Take some for my bag.",
+        "Coral we taking no is.",
+        "I forgot my bus ticket."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Break off the bright piece.",
+        "Let's photograph the reef instead.",
+        "Ocean coral take I now.",
+        "My cat sleeps on the sofa."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-two-forests",
+    "topics": [
+      "rainforests",
+      "forests"
+    ],
+    "topicIds": [
+      "topic-kids-rainforests",
+      "topic-kids-forests"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "On a class map, your friend asks why a rainforest looks wetter than the nearby forest.",
+    "canDo": "Compare two kinds of forest",
+    "before": {
+      "replies": [
+        "Because I said so.",
+        "Rainforests receive much more rain.",
+        "Rainforest rain more getting is.",
+        "My favorite sport is tennis."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Both forests are exactly dry.",
+        "The wet forest more rain have.",
+        "That forest is drier than the rainforest.",
+        "We need another paintbrush."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-desert-water",
+    "topics": [
+      "deserts"
+    ],
+    "topicIds": [
+      "topic-kids-deserts"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "On a desert walk, your friend forgot a water bottle and asks what to do.",
+    "canDo": "Offer help on a hot walk",
+    "before": {
+      "replies": [
+        "Walk without any water.",
+        "I sharing water you can.",
+        "You can share my water.",
+        "My book is on the table."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Run across the sand first.",
+        "Shade drinking we stop is.",
+        "I like the blue kite.",
+        "Let's stop and drink in the shade."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-winter-coat",
+    "topics": [
+      "seasons",
+      "snow"
+    ],
+    "topicIds": [
+      "topic-kids-seasons",
+      "topic-kids-snow"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "Snow starts falling on the first winter day. A friend asks what to wear outside.",
+    "canDo": "Choose clothes for snowy weather",
+    "before": {
+      "replies": [
+        "Go outside without shoes.",
+        "Winter coat wear you is.",
+        "I ate an apple yesterday.",
+        "Wear your warm coat and boots."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Let's put on hats before we go.",
+        "Leave your coat at home.",
+        "Snowy day hat putting we.",
+        "The train has six seats."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-windy-rainbow",
+    "topics": [
+      "wind",
+      "rainbows"
+    ],
+    "topicIds": [
+      "topic-kids-wind",
+      "topic-kids-rainbows"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "After a windy shower, a rainbow appears. Your friend asks if it is time to fly a kite.",
+    "canDo": "Talk about weather before play",
+    "before": {
+      "replies": [
+        "Let's wait for the wind to slow.",
+        "Fly it in the storm now.",
+        "Rainbow kite wind is fly.",
+        "My sandwich is in my bag."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Ignore that strong wind.",
+        "The sky is clearing; let's try soon.",
+        "Kite flying rainbow after we.",
+        "I need a new eraser."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-rain-jar",
+    "topics": [
+      "water cycle"
+    ],
+    "topicIds": [
+      "topic-kids-water-cycle"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At a science table, drops form on a jar lid. Your friend asks where the water came from.",
+    "canDo": "Explain where water drops come from",
+    "before": {
+      "replies": [
+        "The jar made new water.",
+        "The warm water rose and cooled.",
+        "Water up cool making drops.",
+        "My grandmother lives nearby."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Don't ask about the lid.",
+        "Drops water rising cold is.",
+        "It changed to vapor, then to drops.",
+        "The ball rolled downstairs."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-seedling-light",
+    "topics": [
+      "plant growth"
+    ],
+    "topicIds": [
+      "topic-kids-plant-growth"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "Your class seedling is bending toward a window. A friend asks what it needs.",
+    "canDo": "Suggest how to care for a plant",
+    "before": {
+      "replies": [
+        "Hide it in a dark box.",
+        "Plant grow light want is.",
+        "Let's give it light and water.",
+        "I can count to twenty."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Pull off all its leaves.",
+        "Seedling window grow it need.",
+        "The rabbit is under the chair.",
+        "Move it closer to the sunny window."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-kitchen-choice",
+    "topics": [
+      "cooking",
+      "baking"
+    ],
+    "topicIds": [
+      "topic-kids-cooking",
+      "topic-kids-baking"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "In a school kitchen, a friend wants to bake bread and cook soup at the same time.",
+    "canDo": "Plan two kitchen jobs safely",
+    "before": {
+      "replies": [
+        "Turn every hot pan on.",
+        "Bread cook oven soup bake.",
+        "My sister is at the park.",
+        "Let's ask which job to do first."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "We can bake bread after the soup.",
+        "Touch the oven without help.",
+        "Soup first baking we is.",
+        "That movie starts at noon."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-market-basket",
+    "topics": [
+      "fruits",
+      "vegetables"
+    ],
+    "topicIds": [
+      "topic-kids-fruits",
+      "topic-kids-vegetables"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "At a market, your friend asks for one fruit and one vegetable for a picnic.",
+    "canDo": "Choose two foods for a picnic",
+    "before": {
+      "replies": [
+        "Let's buy an apple and carrot.",
+        "Buy everything for me.",
+        "Apple and carrot buys we.",
+        "My coat is too small."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Get the biggest rock instead.",
+        "A pear and cucumber would be good.",
+        "Fruit vegetable we pear is.",
+        "I lost my library card."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-two-meals",
+    "topics": [
+      "breakfast",
+      "school lunch"
+    ],
+    "topicIds": [
+      "topic-kids-breakfast",
+      "topic-kids-school-lunch"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "Before school, your friend skipped breakfast and forgot their lunchbox. They ask for help.",
+    "canDo": "Offer food help at school",
+    "before": {
+      "replies": [
+        "Just stay hungry all day.",
+        "Tell the teacher so we can help.",
+        "Breakfast lunch no eat you.",
+        "Our dog sleeps outside."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Take my food without asking.",
+        "Lunchbox forget breakfast is.",
+        "We can ask about school lunch together.",
+        "I brought my toy train."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-holiday-plan",
+    "topics": [
+      "holidays"
+    ],
+    "topicIds": [
+      "topic-kids-holidays"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "School holidays begin tomorrow. Your friend asks what you want to do.",
+    "canDo": "Describe a holiday plan",
+    "before": {
+      "replies": [
+        "You must come with me.",
+        "I beach visit wanting.",
+        "I want to visit the beach.",
+        "My pencil is green."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Stay home and be quiet.",
+        "Holiday play family with I.",
+        "The soup is too hot.",
+        "I'll play outside with my family."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-two-ball-games",
+    "topics": [
+      "soccer",
+      "basketball"
+    ],
+    "topicIds": [
+      "topic-kids-soccer",
+      "topic-kids-basketball"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At sports club, your friend asks whether to bring a soccer ball or basketball first.",
+    "canDo": "Choose a team game politely",
+    "before": {
+      "replies": [
+        "Bring both and stop talking.",
+        "Basketball soccer first play is.",
+        "My turtle likes lettuce.",
+        "Let's play soccer before basketball."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Could we start with basketball today?",
+        "Only my game matters.",
+        "Soccer after basketball we playing.",
+        "The moon looks very bright."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-pool-bike",
+    "topics": [
+      "swimming",
+      "cycling"
+    ],
+    "topicIds": [
+      "topic-kids-swimming",
+      "topic-kids-cycling"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At summer club, your friend asks whether to swim or ride bikes first.",
+    "canDo": "Plan two safe activities",
+    "before": {
+      "replies": [
+        "Let's swim first, then wear helmets for cycling.",
+        "Ride straight into the pool.",
+        "Swimming bike helmet first we.",
+        "I forgot my science book."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "No helmets; let's race downhill.",
+        "We can cycle after the pool closes.",
+        "Bike after swim we are go.",
+        "The flowers need water."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-race-dance",
+    "topics": [
+      "running",
+      "dancing"
+    ],
+    "topicIds": [
+      "topic-kids-running",
+      "topic-kids-dancing"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "Sports day has a running race and a dance. Your friend asks which to join.",
+    "canDo": "Choose an activity with a friend",
+    "before": {
+      "replies": [
+        "Do exactly what I say.",
+        "Let's run first and dance later.",
+        "Dance run later we first.",
+        "I ate a yellow banana."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "You cannot join either.",
+        "Running dance I later want.",
+        "I would like the dance after the race.",
+        "My aunt has a cat."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-rainy-games",
+    "topics": [
+      "board games",
+      "puzzles"
+    ],
+    "topicIds": [
+      "topic-kids-board-games",
+      "topic-kids-puzzles"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "Rain keeps you indoors. A friend asks whether to choose a board game or a puzzle.",
+    "canDo": "Suggest an indoor game",
+    "before": {
+      "replies": [
+        "Play my game or leave.",
+        "Puzzle game board we is.",
+        "Let's try the puzzle together.",
+        "I saw a big elephant."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Your puzzle is boring.",
+        "Board first game play we.",
+        "The bus is at the stop.",
+        "Could we play the board game first?"
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-block-robot",
+    "topics": [
+      "building blocks",
+      "robots"
+    ],
+    "topicIds": [
+      "topic-kids-building-blocks",
+      "topic-kids-robots"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "At playtime, your block robot falls apart. A friend asks how to fix it.",
+    "canDo": "Suggest a way to rebuild a toy",
+    "before": {
+      "replies": [
+        "Throw the blocks away.",
+        "Robot blocks fix wide is.",
+        "I need a new raincoat.",
+        "Let's make the robot's base wider."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "We could use two more blocks below.",
+        "Push it over again.",
+        "The robot base more blocks have.",
+        "My lunch is rice and eggs."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-kite-slide",
+    "topics": [
+      "kites",
+      "playgrounds"
+    ],
+    "topicIds": [
+      "topic-kids-kites",
+      "topic-kids-playgrounds"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "At the playground, a kite string is caught on the slide. Your friend asks what to do.",
+    "canDo": "Ask for safe help with a kite",
+    "before": {
+      "replies": [
+        "Let's ask an adult to help.",
+        "Climb the slide roof now.",
+        "Kite slide string on is.",
+        "I painted a blue fish."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Pull harder until it breaks.",
+        "Please wait while I get a teacher.",
+        "Help teacher kite get me.",
+        "The shop sells bread."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-hero-cape",
+    "topics": [
+      "superheroes"
+    ],
+    "topicIds": [
+      "topic-kids-superheroes"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "A child wearing a superhero cape wants to jump from a high wall. They ask you to watch.",
+    "canDo": "Suggest a safer pretend game",
+    "before": {
+      "replies": [
+        "Jump higher so I can see.",
+        "Let's play heroes on the ground.",
+        "Cape hero wall jump safe.",
+        "My homework is in my bag."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Go on; try to fly!",
+        "Hero playing ground we down.",
+        "Please climb down and play with us.",
+        "I saw a red train."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-travel-modes",
+    "topics": [
+      "trains",
+      "airplanes",
+      "boats"
+    ],
+    "topicIds": [
+      "topic-kids-trains",
+      "topic-kids-airplanes",
+      "topic-kids-boats"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "Your class plans a trip across the sea. A friend asks if they can go by train, airplane, or boat.",
+    "canDo": "Compare ways to cross the sea",
+    "before": {
+      "replies": [
+        "Take the train over the water.",
+        "Train sea flying boat is.",
+        "A plane or boat can cross it.",
+        "I brought three crayons."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "A boat is just a car.",
+        "Airplane train sea cross we.",
+        "My brother likes swimming.",
+        "We could fly there, then ride a train."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-art-music",
+    "topics": [
+      "musical instruments",
+      "painting"
+    ],
+    "topicIds": [
+      "topic-kids-musical-instruments",
+      "topic-kids-painting"
+    ],
+    "ageBand": "kids",
+    "cefr": "A1",
+    "situation": "At an art show, your friend asks whether to paint a drum or play it.",
+    "canDo": "Choose an art or music activity",
+    "before": {
+      "replies": [
+        "Hit the wet paint now.",
+        "Painting drum playing is me.",
+        "I lost my blue sock.",
+        "Let's play the drum after painting it."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "I would paint first, then make music.",
+        "You have to do both alone.",
+        "Drum paint music after we.",
+        "The river is very wide."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-senses-fruit",
+    "topics": [
+      "the five senses"
+    ],
+    "topicIds": [
+      "topic-kids-the-five-senses"
+    ],
+    "ageBand": "kids",
+    "cefr": "A2",
+    "situation": "In science class, your friend closes their eyes to guess a fruit by smell and touch.",
+    "canDo": "Describe two ways to sense fruit",
+    "before": {
+      "replies": [
+        "You can smell and feel it first.",
+        "Taste it without asking.",
+        "Nose and hand seeing fruit.",
+        "My shoes are by the door."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Just shout the fruit's name.",
+        "Try its scent and its shape.",
+        "Touch smelling fruit we is.",
+        "The turtle is in the pond."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-esports-rule",
+    "topics": [
+      "game design",
+      "esports"
+    ],
+    "topicIds": [
+      "topic-teens-game-design",
+      "topic-teens-esports"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "Your esports club designed a new game rule, but a teammate says it may make matches unfair.",
+    "canDo": "Suggest a fair way to test a rule",
+    "before": {
+      "replies": [
+        "My rule is perfect; stop complaining.",
+        "Let's test it with both teams before deciding.",
+        "The rule test fair we doing.",
+        "I forgot my history notes."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Use it anyway; fairness is boring.",
+        "Teams testing rule was more fairer.",
+        "We could run a short trial and compare results.",
+        "I need to charge my phone."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-late-memes",
+    "topics": [
+      "screen time",
+      "internet memes",
+      "sleep and learning"
+    ],
+    "topicIds": [
+      "topic-teens-screen-time",
+      "topic-teens-internet-memes",
+      "topic-teens-sleep-and-learning"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "A friend keeps sending memes late at night before an exam and asks why you stopped replying.",
+    "canDo": "Explain a screen-time boundary kindly",
+    "before": {
+      "replies": [
+        "Stop sending me anything ever.",
+        "I am sleep need for exam.",
+        "I need sleep tonight; I'll reply tomorrow.",
+        "My headphones are in my bag."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Your jokes are stupid at night.",
+        "I will sleeping and reply after.",
+        "The bus leaves at seven.",
+        "The memes are funny, but I'm logging off."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-ai-robot",
+    "topics": [
+      "artificial intelligence",
+      "robots and automation"
+    ],
+    "topicIds": [
+      "topic-teens-artificial-intelligence",
+      "topic-teens-robots-and-automation"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "Your school robot uses AI to sort recycling. A classmate says it can now replace every worker.",
+    "canDo": "Qualify a claim about an AI robot",
+    "before": {
+      "replies": [
+        "Yes, all workers are useless now.",
+        "The AI replacing everyone already does.",
+        "We painted the bins green.",
+        "It still needs people to check its decisions."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Automation helps, but humans must handle mistakes.",
+        "Stop asking; the machine knows best.",
+        "Robot decisions checking humans still need is.",
+        "Our project starts on Monday."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-vr-bug",
+    "topics": [
+      "virtual reality",
+      "coding"
+    ],
+    "topicIds": [
+      "topic-teens-virtual-reality",
+      "topic-teens-coding"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "At coding club, your virtual-reality game makes players feel dizzy. A teammate asks what to change.",
+    "canDo": "Suggest a safe fix for a VR game",
+    "before": {
+      "replies": [
+        "Let's slow the movement and test again.",
+        "Ignore it; players can cope.",
+        "The code making dizzy players is.",
+        "I lost my lunch card."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Publish it and blame their headsets.",
+        "We should fix the camera motion before release.",
+        "Movement slower code we should changed.",
+        "The art room is upstairs."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-class-login",
+    "topics": [
+      "cybersecurity",
+      "online learning"
+    ],
+    "topicIds": [
+      "topic-teens-cybersecurity",
+      "topic-teens-online-learning"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "During an online lesson, a classmate asks you to send them your password because their login failed.",
+    "canDo": "Refuse an unsafe password request politely",
+    "before": {
+      "replies": [
+        "Just use mine for today.",
+        "I can't share my password; ask the teacher.",
+        "I no sharing password because security.",
+        "The video starts soon."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Take my account if you need it.",
+        "Password giving you not safe is.",
+        "Let's ask support to reset your login.",
+        "My camera is off."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-film-art",
+    "topics": [
+      "digital art",
+      "film making"
+    ],
+    "topicIds": [
+      "topic-teens-digital-art",
+      "topic-teens-film-making"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "Your group is making a short film, and a friend wants to put your digital drawing in every scene.",
+    "canDo": "Give feedback on a visual film choice",
+    "before": {
+      "replies": [
+        "Put it everywhere; I don't care.",
+        "The drawing in scene all is.",
+        "It would work better in the opening scene.",
+        "My tablet battery is low."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Keep your art out of my film.",
+        "Digital image must every frame using.",
+        "Our soundtrack is nearly finished.",
+        "Let's use it where the story needs emphasis."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-peer-pressure",
+    "topics": [
+      "peer pressure"
+    ],
+    "topicIds": [
+      "topic-teens-peer-pressure"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "Friends urge you to skip a club meeting so you can join them at the mall.",
+    "canDo": "Decline peer pressure without insulting friends",
+    "before": {
+      "replies": [
+        "You are all bad friends.",
+        "I am promise club must going.",
+        "The mall closes at nine.",
+        "Thanks, but I promised to attend the club."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "I can't miss the meeting; let's meet later.",
+        "Fine, I'll lie to the teacher.",
+        "I won't going club because you.",
+        "I need new headphones."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-concert-styles",
+    "topics": [
+      "music genres",
+      "live music"
+    ],
+    "topicIds": [
+      "topic-teens-music-genres",
+      "topic-teens-live-music"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "At a live music festival, a friend asks whether to see the jazz group or the hip-hop act.",
+    "canDo": "Compare two live music choices",
+    "before": {
+      "replies": [
+        "Let's hear jazz first, then try hip-hop.",
+        "Only my music taste matters.",
+        "Jazz more good than hip-hop is.",
+        "I left my ticket at home."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Both are terrible; go away.",
+        "I'd choose the hip-hop show for its energy.",
+        "Hip-hop I choosing because energetic it.",
+        "The stage lights are blue."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-reuse-fashion",
+    "topics": [
+      "fashion",
+      "personal style",
+      "sustainable fashion"
+    ],
+    "topicIds": [
+      "topic-teens-fashion",
+      "topic-teens-personal-style",
+      "topic-teens-sustainable-fashion"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "A friend wants a new outfit for a party but also wants to waste less clothing.",
+    "canDo": "Suggest a personal style choice with less waste",
+    "before": {
+      "replies": [
+        "Just buy three cheap outfits.",
+        "Try styling something you already own differently.",
+        "Old clothes never stylish can be.",
+        "The party starts at eight."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Wear anything; nobody cares.",
+        "Secondhand style more sustainable is betterer.",
+        "A secondhand jacket could express your style.",
+        "My sister has a sewing kit."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-healthy-dinner",
+    "topics": [
+      "cooking skills",
+      "healthy eating"
+    ],
+    "topicIds": [
+      "topic-teens-cooking-skills",
+      "topic-teens-healthy-eating"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "A friend wants to cook dinner but thinks a healthy meal must be difficult.",
+    "canDo": "Suggest a manageable healthy meal",
+    "before": {
+      "replies": [
+        "Order sweets and call it dinner.",
+        "Healthy cooking too hard it is.",
+        "Let's make rice with vegetables and eggs.",
+        "I washed the plates already."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Don't bother learning to cook.",
+        "Soup healthy make we can easy.",
+        "The recipe book is new.",
+        "We could cook a simple vegetable soup."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-language-practice",
+    "topics": [
+      "language learning"
+    ],
+    "topicIds": [
+      "topic-teens-language-learning"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "Your friend studies English but feels embarrassed to speak it outside class.",
+    "canDo": "Encourage realistic language practice",
+    "before": {
+      "replies": [
+        "Just speak perfectly or don't try.",
+        "You must to speak English better.",
+        "The library has a new printer.",
+        "Let's practise short conversations together first."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "We can start with one question a day.",
+        "Stop worrying; it is silly.",
+        "Practise little every day we can.",
+        "My exam is next week."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-future-business",
+    "topics": [
+      "future jobs",
+      "entrepreneurship"
+    ],
+    "topicIds": [
+      "topic-teens-future-jobs",
+      "topic-teens-entrepreneurship"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "At a careers event, a friend suggests starting a small repair service and asks whether that could be a future job.",
+    "canDo": "Evaluate a small business idea",
+    "before": {
+      "replies": [
+        "It could work if we test local demand first.",
+        "We will be rich by Friday.",
+        "The job future repairing is money.",
+        "I need another notebook."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Start selling before checking anything.",
+        "Let's ask customers what they would pay.",
+        "Customers asks we what pay would.",
+        "The bus is crowded today."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-charity-speech",
+    "topics": [
+      "volunteering",
+      "public speaking"
+    ],
+    "topicIds": [
+      "topic-teens-volunteering",
+      "topic-teens-public-speaking"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "Your volunteer group needs someone to explain its food drive at an assembly. A friend is nervous about speaking.",
+    "canDo": "Offer support for a short public speech",
+    "before": {
+      "replies": [
+        "Just read it and stop worrying.",
+        "I'll practise the speech with you first.",
+        "The speech we volunteering talk.",
+        "I can bring more boxes."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Do it alone; I won't help.",
+        "Speaking parts share us can.",
+        "We can share the speaking parts.",
+        "The hall is nearly full."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-subjects-gap",
+    "topics": [
+      "choosing subjects",
+      "gap years"
+    ],
+    "topicIds": [
+      "topic-teens-choosing-subjects",
+      "topic-teens-gap-years"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "A friend is choosing next year's subjects while considering a gap year after school. They ask whether to drop languages now.",
+    "canDo": "Discuss a subject choice without closing options",
+    "before": {
+      "replies": [
+        "Drop them; gap years need nothing.",
+        "Languages choosing gap year not is.",
+        "Keep languages if they support your future plans.",
+        "The timetable came yesterday."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Pick the easiest subjects and forget it.",
+        "Gap year plans subjects depends it.",
+        "My cousin travelled last summer.",
+        "Let's compare course requirements before you decide."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-solar-school",
+    "topics": [
+      "climate change",
+      "renewable energy"
+    ],
+    "topicIds": [
+      "topic-teens-climate-change",
+      "topic-teens-renewable-energy"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "The climate club proposes solar panels for school. A teammate says one roof cannot matter.",
+    "canDo": "Defend a small climate action with limits",
+    "before": {
+      "replies": [
+        "You're wrong; panels fix climate change.",
+        "Solar school emissions cutting are.",
+        "Our club meets on Tuesday.",
+        "It won't solve everything, but it can cut emissions."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Let's estimate the energy saved before promising results.",
+        "Just call it green and stop asking.",
+        "Panels saving climate all will.",
+        "The roof has two chimneys."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-cafeteria-waste",
+    "topics": [
+      "plastic waste",
+      "food waste"
+    ],
+    "topicIds": [
+      "topic-teens-plastic-waste",
+      "topic-teens-food-waste"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "At lunch, a classmate throws away half a meal and several plastic wrappers. They ask how to waste less.",
+    "canDo": "Suggest a practical change at lunch",
+    "before": {
+      "replies": [
+        "Take smaller portions and use a refillable box.",
+        "Just stop eating lunch.",
+        "Plastic food waste less we can.",
+        "The café has new tables."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Throw it all away faster.",
+        "We could save leftovers and avoid extra packaging.",
+        "Leftovers keeping packaging no we.",
+        "My lunch smells delicious."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-leaking-tap",
+    "topics": [
+      "water conservation"
+    ],
+    "topicIds": [
+      "topic-teens-water-conservation"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "A school tap keeps dripping. Your friend says the leak is too small to report.",
+    "canDo": "Suggest a way to save water",
+    "before": {
+      "replies": [
+        "Leave it; water is endless.",
+        "Let's tell staff so they can fix it.",
+        "The tap dripping no matter is.",
+        "The bathroom door is blue."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Ignore it until it breaks.",
+        "Water saving tap fix we should.",
+        "Even small leaks waste water over time.",
+        "I forgot my sports shoes."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-city-hedgehog",
+    "topics": [
+      "wildlife conservation",
+      "urban nature"
+    ],
+    "topicIds": [
+      "topic-teens-wildlife-conservation",
+      "topic-teens-urban-nature"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "A city park plans bright lights near hedgehog nests. A volunteer asks for your view.",
+    "canDo": "Protect urban wildlife while considering people",
+    "before": {
+      "replies": [
+        "Turn off every light in town.",
+        "Hedgehog nests lights dangerous more.",
+        "Could we light the path away from the nests?",
+        "I saw a fox yesterday."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Ignore the animals; people come first.",
+        "Urban wildlife light avoiding need.",
+        "The new benches are wooden.",
+        "Let's test dimmer lighting along the park edge."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-smart-shelter",
+    "topics": [
+      "cities of the future",
+      "inventions"
+    ],
+    "topicIds": [
+      "topic-teens-cities-of-the-future",
+      "topic-teens-inventions"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "In a future-city design contest, your team invents a smart bus shelter. A friend wants to add more screens.",
+    "canDo": "Evaluate a city invention for everyday use",
+    "before": {
+      "replies": [
+        "More screens always mean better cities.",
+        "Shelter smart is screens adding.",
+        "Our model uses cardboard.",
+        "Let's check whether riders can use it easily."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "An accessible timetable matters more than another display.",
+        "Add flashing adverts everywhere.",
+        "Riders using invention must simple.",
+        "The contest ends tomorrow."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-mars-map",
+    "topics": [
+      "space exploration",
+      "mars missions",
+      "satellites"
+    ],
+    "topicIds": [
+      "topic-teens-space-exploration",
+      "topic-teens-mars-missions",
+      "topic-teens-satellites"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "Your space club proposes using satellite pictures to choose a safe Mars landing site. A teammate asks what to check.",
+    "canDo": "Explain evidence for a space mission choice",
+    "before": {
+      "replies": [
+        "We should compare terrain images before choosing.",
+        "Any red patch will do.",
+        "Satellite Mars landing pictures choosing is.",
+        "My telescope is at home."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Just point to the brightest spot.",
+        "Let's check slopes and dust in several images.",
+        "Mission site satellite photo decide.",
+        "The rocket model is finished."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-r27-health-monitor",
+    "topics": [
+      "medical technology"
+    ],
+    "topicIds": [
+      "topic-teens-medical-technology"
+    ],
+    "ageBand": "teens",
+    "cefr": "B2",
+    "situation": "At a clinic visit, a friend says a wrist health monitor can diagnose every illness without a doctor.",
+    "canDo": "Qualify a claim about medical technology",
+    "before": {
+      "replies": [
+        "Yes, doctors are no longer needed.",
+        "It gives useful data, but a doctor interprets it.",
+        "Monitor illness all knowing is.",
+        "My appointment is on Friday."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Trust the device over every expert.",
+        "Technology medical deciding all can.",
+        "The readings help; they cannot explain everything alone.",
+        "The waiting room is quiet."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-r27-solo-exercise",
+    "topics": [
+      "solo sports",
+      "fitness"
+    ],
+    "topicIds": [
+      "topic-teens-solo-sports",
+      "topic-teens-fitness"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "A friend dislikes team games but wants to become fitter. They ask what they could try alone.",
+    "canDo": "Suggest an individual exercise plan",
+    "before": {
+      "replies": [
+        "Run ten hours tomorrow.",
+        "Fitness alone sport doing is.",
+        "Try a short run and build up slowly.",
+        "I bought a new football."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "If you hate teams, do nothing.",
+        "Solo fitness swimming try you.",
+        "My coach lives nearby.",
+        "Swimming alone could be a good start."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-r27-old-building-clue",
+    "topics": [
+      "mysteries and clues",
+      "unexplained places"
+    ],
+    "topicIds": [
+      "topic-teens-mysteries-and-clues",
+      "topic-teens-unexplained-places"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "On a history walk, an old building makes a strange sound. A friend says it must be haunted.",
+    "canDo": "Investigate a strange place using clues",
+    "before": {
+      "replies": [
+        "Yes, run away and scream.",
+        "Mystery building noise ghost is.",
+        "The guide wears a blue hat.",
+        "Let's find where the sound comes from."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Could the wind be moving a loose window?",
+        "It is haunted; no need to check.",
+        "Clues in place we finding should.",
+        "The museum closes soon."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-r27-moving-picture",
+    "topics": [
+      "optical illusions"
+    ],
+    "topicIds": [
+      "topic-teens-optical-illusions"
+    ],
+    "ageBand": "teens",
+    "cefr": "B1",
+    "situation": "At an art show, a still picture seems to move. Your friend asks whether the paper is moving.",
+    "canDo": "Explain a visual trick simply",
+    "before": {
+      "replies": [
+        "No, the pattern tricks our eyes.",
+        "Yes, the paper is alive.",
+        "Eyes moving picture makes are.",
+        "I prefer the painting next door."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Stop staring; it is obvious.",
+        "I think the shapes create an illusion.",
+        "The paper move because looking.",
+        "The frame is made of wood."
+      ],
+      "natural": 1
+    }
   }
 ]

@@ -6,11 +6,11 @@ import { validSpeakSituation } from '../src/lib/speak-check';
 
 type Check = 'badArcBank' | 'missingArc' | 'unknownArc' | 'badArcTask' |
   'badSpeakBank' | 'speakCount' | 'duplicateSpeakId' | 'badJuniorFields' |
-  'unknownPicture' | 'badReplyRound' | 'longReply' | 'ambiguousReplies' | 'badTopicIds';
+  'unknownPicture' | 'badReplyRound' | 'longReply' | 'ambiguousReplies' | 'badTopicIds' | 'topicCoverage';
 const checks: Record<Check, number> = {
   badArcBank: 0, missingArc: 0, unknownArc: 0, badArcTask: 0,
   badSpeakBank: 0, speakCount: 0, duplicateSpeakId: 0, badJuniorFields: 0,
-  unknownPicture: 0, badReplyRound: 0, longReply: 0, ambiguousReplies: 0, badTopicIds: 0,
+  unknownPicture: 0, badReplyRound: 0, longReply: 0, ambiguousReplies: 0, badTopicIds: 0, topicCoverage: 0,
 };
 const errors: string[] = [];
 function fail(check: Check, where: string, message: string): void {
@@ -60,6 +60,7 @@ if (!Array.isArray(speakRaw)) {
 }
 const situations = speakRaw as SpeakSituation[];
 const situationIds = new Set<string>();
+const coveredTopics = new Set<string>();
 let juniors = 0;
 let linked = 0;
 let repliesChecked = 0;
@@ -79,9 +80,30 @@ for (const [index, situation] of Array.from(situations.entries())) {
     fail('badTopicIds', at, 'topicIds must be an array without duplicates');
   } else {
     if (situation.topicIds.length) linked += 1;
-    for (const id of situation.topicIds) if (typeof id !== 'string' || !briefingIds.has(id)) {
-      fail('badTopicIds', at, `unknown topic id ${String(id)}`);
+    for (const id of situation.topicIds) {
+      if (typeof id !== 'string' || !briefingIds.has(id)) {
+        fail('badTopicIds', at, `unknown topic id ${String(id)}`);
+      } else {
+        const expectedAge = situation.ageBand === 'junior' ? 'kids' : situation.ageBand;
+        if (!id.startsWith(`topic-${expectedAge}-`)) fail('badTopicIds', at, `topic ${id} does not match age band`);
+        if (situation.ageBand === 'kids' || situation.ageBand === 'teens') coveredTopics.add(id);
+      }
     }
+  }
+  if ((situation.ageBand !== 'kids' && situation.ageBand !== 'teens' && situation.ageBand !== 'junior') ||
+      (situation.ageBand === 'junior' && situation.cefr !== 'A1') ||
+      (situation.ageBand === 'kids' && situation.cefr !== 'A1' && situation.cefr !== 'A2') ||
+      (situation.ageBand === 'teens' && situation.cefr !== 'A2' && situation.cefr !== 'B1' && situation.cefr !== 'B2')) {
+    fail('badSpeakBank', at, 'ageBand and cefr are inconsistent');
+  }
+  if (!validSpeakSituation(situation)) fail('badReplyRound', at, 'situation must meet Speak shape with no before/after overlap');
+  const beforeRound = situation.before as ReplyRound | undefined;
+  const afterRound = situation.after as ReplyRound | undefined;
+  if (!Array.isArray(beforeRound?.replies) || beforeRound.replies.length !== 4 ||
+      !Array.isArray(afterRound?.replies) || afterRound.replies.length !== 4 ||
+      !Number.isInteger(beforeRound?.natural) || !Number.isInteger(afterRound?.natural) ||
+      beforeRound?.natural === afterRound?.natural) {
+    fail('badReplyRound', at, 'before and after need four replies and different integer natural positions');
   }
   if (situation.ageBand !== 'junior') continue;
   juniors += 1;
@@ -91,7 +113,6 @@ for (const [index, situation] of Array.from(situations.entries())) {
       typeof situation.canDo !== 'string' || !situation.canDo.trim()) {
     fail('badJuniorFields', at, 'Junior rows need A1, topics, a situation and a canDo');
   }
-  if (!validSpeakSituation(situation)) fail('badReplyRound', at, 'situation must meet the existing Speak shape and use distinct before/after replies');
   if (!Array.isArray(situation.pictures) || situation.pictures.length < 1 || situation.pictures.length > 3 ||
       new Set(situation.pictures).size !== situation.pictures.length) {
     fail('badJuniorFields', at, 'pictures need 1–3 distinct sticker ids');
@@ -127,11 +148,16 @@ for (const [index, situation] of Array.from(situations.entries())) {
     fail('ambiguousReplies', at, 'before and after natural replies must differ');
   }
 }
-if (situations.length !== 110 || juniors !== 30) {
-  fail('speakCount', speakFile, `expected 110 situations including 30 Junior, found ${situations.length}/${juniors}`);
+const kids = situations.filter((row) => row.ageBand === 'kids').length;
+const teens = situations.filter((row) => row.ageBand === 'teens').length;
+const teenB2New = situations.filter((row) => typeof row.id === 'string' && row.id.startsWith('speak-r27-') && row.ageBand === 'teens' && row.cefr === 'B2').length;
+if (situations.length !== 171 || kids !== 77 || teens !== 64 || juniors !== 30) {
+  fail('speakCount', speakFile, `expected 171 situations (77 kids, 64 teens, 30 junior), found ${situations.length} (${kids}/${teens}/${juniors})`);
 }
+for (const row of briefingRows) if (!coveredTopics.has(row.id)) fail('topicCoverage', row.id, 'no age-matched Speak situation');
 console.log(`Junior Speak: ${juniors}/30 situations, ${repliesChecked} replies checked, ${picturesUsed.size} distinct stickers; natural slots before ${beforeSlots.join('/')}, after ${afterSlots.join('/')}.`);
 console.log(`Speak topic links: ${linked}/${situations.length} situations linked; ${briefingRows.length} briefing IDs available.`);
+console.log(`Speak coverage: ${coveredTopics.size}/${briefingRows.length} topics; kids ${kids}, teens ${teens}, junior ${juniors}; new teen B2 ${teenB2New}/24.`);
 console.log(`Speak checker counts: ${Object.entries(checks).map(([name, count]) => `${name} ${count}`).join(', ')}.`);
 if (errors.length) {
   console.error(`Speaking bank validation failed with ${errors.length} error(s):\n${errors.slice(0, 80).join('\n')}`);
