@@ -8,6 +8,9 @@ import { createClient } from '@/lib/supabase/client';
 import { launchCourseLesson } from '@/lib/launch-course-lesson';
 import { startClassSession } from '@/lib/start-class';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
+import { PrepareSheet } from '@/components/home/prepare-sheet';
+import { launchPreparedLesson } from '@/lib/prepared-lesson';
+import { useSearchParams } from 'next/navigation';
 import { flapFont, Flaps, FlapStyles } from '@/components/ui/split-flap';
 import type { BoardRow, BoardSummary } from '@/lib/home-board';
 import type { CourseLesson } from '@/lib/course';
@@ -27,17 +30,26 @@ function shortDate(iso: string): string {
 type Status = { label: string; color: string; led: string; blink?: boolean };
 function statusOf(r: BoardRow): Status {
   if (r.liveSessionId) return { label: 'Boarding', color: 'text-emerald-300', led: 'bg-emerald-400 shadow-[0_0_10px_#34d399]', blink: true };
-  if (r.next) return { label: 'On time', color: 'text-amber-300', led: 'bg-amber-300' };
+  if (r.prepared || r.next) return { label: 'On time', color: 'text-amber-300', led: 'bg-amber-300' };
   return { label: 'Scheduled', color: 'text-white/45', led: 'bg-white/25' };
 }
 
 /** Start a plan-free session for a class through the server (counted in the free monthly lessons). */
 const board = (classId: string) => startClassSession(classId);
 
-const COLS = 'grid-cols-[4.5rem_minmax(0,1.25fr)_minmax(0,1.7fr)_8rem_8.5rem_7rem]';
+const COLS = 'grid-cols-[4.5rem_minmax(0,1.2fr)_minmax(0,1.6fr)_7.5rem_8rem_11rem]';
 
 export function DepartureBoard({ summary }: { summary: BoardSummary }) {
-  const { rows, stats, log, journey } = summary;
+  const { stats, log, journey } = summary;
+  const [rows, setRows] = useState(summary.rows);
+  const [prepareFor, setPrepareFor] = useState<BoardRow | null>(null);
+  const searchParams = useSearchParams();
+  // /home?prepare=<classId> (from the class page) opens the sheet for that class.
+  useEffect(() => {
+    const id = searchParams.get('prepare');
+    const row = id ? summary.rows.find((r) => r.classId === id) : null;
+    if (row) setPrepareFor(row);
+  }, [searchParams, summary.rows]);
   const router = useRouter();
   const [now, setNow] = useState<Date | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
@@ -56,7 +68,8 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
   };
 
   const boardClass = (classId: string) => go(`board-${classId}`, async () => {
-    router.push(`/sessions/${await board(classId)}`);
+    const prepared = rows.find((r) => r.classId === classId)?.prepared;
+    router.push(`/sessions/${prepared ? await launchPreparedLesson(classId, prepared) : await board(classId)}`);
   });
 
   const boardNext = (row: BoardRow) => go(`next-${row.classId}`, async () => {
@@ -81,7 +94,7 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
   // Enter boards the first class (live classes are listed first, so Enter rejoins one).
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Enter' || busy || !rows.length) return;
+      if (e.key !== 'Enter' || busy || prepareFor || !rows.length) return;
       const target = e.target as HTMLElement | null;
       if (target && ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(target.tagName)) return;
       const first = rows[0];
@@ -172,6 +185,8 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
                     <div className="min-w-0">
                       {r.liveSessionId ? (
                         <p className="truncate text-[15px] font-bold uppercase text-emerald-200">In the air{r.liveTopic ? ` · ${r.liveTopic}` : ''}</p>
+                      ) : r.prepared ? (
+                        <button type="button" onClick={() => setPrepareFor(r)} title="Change the prepared lesson" className="block max-w-full truncate text-left text-[15px] font-bold uppercase text-[#fff4dc] hover:text-cyan-200">{r.prepared.title}</button>
                       ) : r.next ? (
                         <button type="button" onClick={() => void boardNext(r)} disabled={!!busy} title={`Board with ${r.next.courseTitle}: ${r.next.title}`} className="flex max-w-full items-center gap-1.5 text-left text-[15px] font-bold uppercase text-[#fff4dc] hover:text-cyan-200 disabled:opacity-50">
                           {busy === `next-${r.classId}` ? <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" /> : <BookOpen className="h-3.5 w-3.5 shrink-0 text-cyan-300" />}
@@ -181,7 +196,8 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
                         <p className="text-[15px] font-bold uppercase text-white/40">Free flight</p>
                       )}
                       <p className="mt-1 truncate font-sans text-xs text-white/45">
-                        {r.next && !r.liveSessionId && <span className="text-cyan-300/80">{r.next.courseTitle} · </span>}
+                        {r.prepared && !r.liveSessionId && <span className="text-cyan-300/80">prepared{r.prepared.materialTitle ? ` · ${r.prepared.materialTitle}` : ''} · </span>}
+                        {!r.prepared && r.next && !r.liveSessionId && <span className="text-cyan-300/80">{r.next.courseTitle} · </span>}
                         {r.last ? <>last: {now ? shortDate(r.last.at) : ''} · {r.last.line}</> : !r.next && !r.liveSessionId ? 'choose in the room' : null}
                       </p>
                     </div>
@@ -194,7 +210,12 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
                     <span className={`flex items-center gap-2 text-[13px] font-bold uppercase tracking-[0.14em] ${st.color}`}>
                       <span className={`h-2 w-2 rounded-full ${st.led} ${st.blink ? 'lc-led-blink' : ''}`} />{st.label}
                     </span>
-                    <div className="flex justify-end font-sans">
+                    <div className="flex justify-end gap-2 font-sans">
+                      {!r.liveSessionId && (
+                        <button type="button" onClick={() => setPrepareFor(r)} className="rounded-lg border border-amber-300/35 bg-amber-300/10 px-3 py-2 text-sm font-semibold text-amber-200 hover:bg-amber-300/20">
+                          {r.prepared ? 'Change' : 'Prepare'}
+                        </button>
+                      )}
                       {r.liveSessionId ? (
                         <Link href={`/sessions/${r.liveSessionId}`} className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-400 px-4 py-2 text-sm font-semibold text-[#03261a] hover:bg-emerald-300"><Radio className="h-4 w-4" />Rejoin</Link>
                       ) : (
@@ -248,7 +269,7 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
           <h2 className="text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: flapFont.style.fontFamily }}>Prepare ahead</h2>
           <div className="grid grid-cols-2 gap-2">
             {[
-              { href: '/lesson-planner', label: 'Plan a lesson', Icon: PenLine },
+              { href: '/courses/new', label: 'Build a course', Icon: PenLine },
               { href: '/courses/book', label: 'Upload a book', Icon: BookUp },
               { href: '/explore', label: 'Explore flights', Icon: Compass },
               { href: '/library', label: 'Library', Icon: Library },
@@ -260,6 +281,16 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
           </div>
         </section>
       </div>
+      {prepareFor && (
+        <PrepareSheet
+          row={prepareFor}
+          onClose={() => setPrepareFor(null)}
+          onSaved={(lesson) => {
+            setRows((prev) => prev.map((r) => (r.classId === prepareFor.classId ? { ...r, prepared: lesson } : r)));
+            setPrepareFor(null);
+          }}
+        />
+      )}
     </div>
   );
 }

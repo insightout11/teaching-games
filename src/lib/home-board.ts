@@ -3,6 +3,8 @@ import { FLIGHT_RESULT_KEY, flightResultLine, sanitizeFlightResult } from '@/lib
 import { lessonEntry, sanitizeLessonMemory } from '@/lib/lesson-memory';
 import { createServiceClient } from '@/lib/supabase/service';
 import { getDestinationById } from '@/data/world-flight/destinations';
+import topicBank from '@/data/topic-briefings.json';
+import type { PreparedLesson } from '@/lib/prepared-lesson';
 
 /**
  * Home as the departures board (docs/home-page-concept.md): one row per class with what happens next. Read with
@@ -32,6 +34,12 @@ export interface BoardRow {
   stamps: number;
   nextCity: string | null;
   createdAt: string;
+  /** For "Prepare the next lesson": the class level, what it did last, fresh topics, and the prepared lesson. */
+  level: string | null;
+  lastTopic: string | null;
+  lastWords: string[];
+  freshTopics: string[];
+  prepared: PreparedLesson | null;
 }
 
 export interface BoardSummary {
@@ -42,6 +50,20 @@ export interface BoardSummary {
   log: Array<{ className: string; line: string; at: string }>;
   /** The most recently used class's World Flight position, if it has one. */
   journey: { className: string; city: string; stamps: number } | null;
+}
+
+/** Four topics from the ready bank for "something new", Junior-aware, changing daily, never the last topic. */
+function freshTopics(classId: string, junior: boolean, last: string | null): string[] {
+  const all = (topicBank as unknown as Array<{ title: string; ageBand?: string }>).filter((t) => (junior ? t.ageBand === 'kids' : true));
+  const day = Math.floor(Date.now() / 86_400_000);
+  let h = day;
+  for (const ch of classId) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  const out: string[] = [];
+  for (let k = 0; out.length < 4 && k < all.length; k++) {
+    const t = all[(h + k * 37) % all.length].title;
+    if (t.toLowerCase() !== (last ?? '').toLowerCase() && !out.includes(t)) out.push(t);
+  }
+  return out;
 }
 
 /** A class's gate from its position by creation date (A1…A9, B1…). */
@@ -63,10 +85,10 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardSummary
   const supabase = createServerSupabase();
   const { data: classes } = await supabase
     .from('classes')
-    .select('id, name, created_at, junior')
+    .select('id, name, created_at, junior, default_difficulty, next_lesson')
     .eq('teacher_id', teacherId)
     .eq('is_demo', false);
-  const rows = ((classes ?? []) as Array<{ id: string; name: string; created_at: string; junior?: boolean }>)
+  const rows = ((classes ?? []) as Array<{ id: string; name: string; created_at: string; junior?: boolean; default_difficulty?: string | null; next_lesson?: PreparedLesson | null }>)
     .sort((a, b) => a.created_at.localeCompare(b.created_at));
   if (!rows.length) return { rows: [], stats: { lessonsThisMonth: 0, students: 0, cities: 0 }, log: [], journey: null };
   const ids = rows.map((c) => c.id);
@@ -116,11 +138,13 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardSummary
   // What the last lessons covered (live memory), when there's no flight result. The table is server-only; these
   // session ids came from the teacher's own RLS-checked query above.
   const covered = new Map<string, string>();
-  const withoutResult = endedIds.filter((id) => !results.has(id));
-  if (withoutResult.length) {
-    const { data } = await createServiceClient().from('session_memory').select('session_id, payload').in('session_id', withoutResult);
+  const entryBySession = new Map<string, NonNullable<ReturnType<typeof lessonEntry>>>();
+  if (endedIds.length) {
+    const { data } = await createServiceClient().from('session_memory').select('session_id, payload').in('session_id', endedIds);
     for (const r of (data ?? []) as Array<{ session_id: string; payload: unknown }>) {
       const e = lessonEntry(sanitizeLessonMemory(r.payload));
+      if (e) entryBySession.set(r.session_id, e);
+      if (results.has(r.session_id)) continue;
       const line = e ? (e.topics.length ? e.topics.slice(-3).join(' → ') : e.activities.slice(0, 2).join(', ')) : '';
       if (line) covered.set(r.session_id, e && e.words.length ? `${line} · ${e.words.length + e.moreWords} words` : line);
     }
@@ -173,6 +197,11 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardSummary
         stamps: 0,
         nextCity: null,
         createdAt: c.created_at,
+        level: c.default_difficulty ?? null,
+        lastTopic: (ended && entryBySession.get(ended.id)?.topics.at(-1)) || topic || null,
+        lastWords: (ended && entryBySession.get(ended.id)?.words) || [],
+        freshTopics: freshTopics(c.id, c.junior === true, (ended && entryBySession.get(ended.id)?.topics.at(-1)) || topic),
+        prepared: c.next_lesson ?? null,
       };
     })
     // Live classes first, then the class used most recently.

@@ -102,8 +102,8 @@ export function ClassHeader({ cls, studentCount, gate, flight }: { cls: Class; s
         <Link href={`/classes/${cls.id}/control-room`} className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 px-3 py-2 text-sm font-semibold text-white/80 transition-colors hover:border-white/30 hover:text-white">
           <Gauge className="h-3.5 w-3.5" />Control Room
         </Link>
-        <Link href="/lesson-planner" className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 px-3 py-2 text-sm font-semibold text-white/80 transition-colors hover:border-white/30 hover:text-white">
-          <PenLine className="h-3.5 w-3.5" />Plan a lesson
+        <Link href={`/home?prepare=${cls.id}`} className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 px-3 py-2 text-sm font-semibold text-white/80 transition-colors hover:border-white/30 hover:text-white">
+          <PenLine className="h-3.5 w-3.5" />Prepare next lesson
         </Link>
         <SessionStarter classId={cls.id} studentCount={studentCount} label="Board" />
         <ClassMenu onDelete={handleDelete} />

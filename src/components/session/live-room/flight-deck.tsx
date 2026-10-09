@@ -1,5 +1,6 @@
 'use client';
 
+import { preparedFocusKey } from '@/lib/prepared-lesson';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
@@ -645,6 +646,16 @@ export function FlightDeck({
     setFocusId(id);
     flash(req.credit ? `New topic from ${req.credit}` : 'New topic');
   }, [addItem, sessionId, flash]);
+  // Prepared on Home ("Prepare the next lesson", free talk): open with its topic as the Focus, once.
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(preparedFocusKey(sessionId));
+      if (!raw) return;
+      sessionStorage.removeItem(preparedFocusKey(sessionId));
+      const focus = JSON.parse(raw) as { title?: string; text?: string };
+      if (focus.title) makeFocus({ title: focus.title, ...(focus.text ? { text: focus.text } : {}) });
+    } catch { /* storage unavailable or bad JSON: open as usual */ }
+  }, [sessionId, makeFocus]);
   // "Last time" (live memory step 3): the class's previous lesson, offered at the gate. Suggestions only:
   // nothing changes until the teacher taps one.
   const [lastTime, setLastTime] = useState<{ entry: LessonEntry; at: string } | null>(null);
