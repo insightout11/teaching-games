@@ -18,7 +18,6 @@ import { CreditBadge } from './credit-badge';
 const NAV = [
   { href: '/home', label: 'Home' },
   { href: '/classes', label: 'Classes' },
-  { href: '/lesson-planner', label: 'Plan' },
   { href: '/courses', label: 'Courses' },
   { href: '/library', label: 'Library' },
   { href: '/explore', label: 'Explore' },
