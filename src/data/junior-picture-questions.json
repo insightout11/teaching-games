@@ -5304,15 +5304,15 @@
       },
       {
         "id": "dinosaurs-03",
-        "prompt": "Where could you find ancient tracks?",
+        "prompt": "Which picture shows an ancient track?",
         "options": [
           "sofa",
           "bus",
-          "rock",
+          "dinosaur-footprint",
           "cup"
         ],
-        "answer": "rock",
-        "say": "Where could you find ancient tracks? Sofa, bus, rock, or cup?"
+        "answer": "dinosaur-footprint",
+        "say": "Which picture shows an ancient track? Sofa, bus, dinosaur footprint, or cup?"
       },
       {
         "id": "dinosaurs-04",
@@ -5409,15 +5409,15 @@
     "questions": [
       {
         "id": "fossils-01",
-        "prompt": "Where might an old animal mark remain?",
+        "prompt": "Which picture shows an ancient animal mark?",
         "options": [
           "pillow",
-          "rock",
+          "fossil",
           "balloon",
           "soup"
         ],
-        "answer": "rock",
-        "say": "Where might an old animal mark remain? Pillow, rock, balloon, or soup?"
+        "answer": "fossil",
+        "say": "Which picture shows an ancient animal mark? Pillow, fossil, balloon, or soup?"
       },
       {
         "id": "fossils-02",
@@ -5460,12 +5460,12 @@
         "prompt": "What might a scientist dig carefully?",
         "options": [
           "cake",
-          "rock",
+          "fossil",
           "sofa",
           "coat"
         ],
-        "answer": "rock",
-        "say": "What might a scientist dig carefully? Cake, rock, sofa, or coat?"
+        "answer": "fossil",
+        "say": "What might a scientist dig carefully? Cake, fossil, sofa, or coat?"
       },
       {
         "id": "fossils-06",
@@ -5717,15 +5717,15 @@
       },
       {
         "id": "planets-05",
-        "prompt": "What can show where planets are?",
+        "prompt": "What helps us see distant planets?",
         "options": [
           "fork",
           "scarf",
           "drum",
-          "map"
+          "telescope"
         ],
-        "answer": "map",
-        "say": "What can show where planets are? Fork, scarf, drum, or map?"
+        "answer": "telescope",
+        "say": "What helps us see distant planets? Fork, scarf, drum, or telescope?"
       },
       {
         "id": "planets-06",
@@ -6017,10 +6017,10 @@
           "water",
           "book",
           "camera",
-          "map"
+          "astronaut-helmet"
         ],
         "answer": null,
-        "say": "What would you pack for space? Water, book, camera, or map?"
+        "say": "What would you pack for space? Water, book, camera, or astronaut helmet?"
       },
       {
         "id": "astronauts-09",
@@ -6074,10 +6074,10 @@
           "ice",
           "snow",
           "water",
-          "fire"
+          "lava"
         ],
-        "answer": "fire",
-        "say": "What hot thing may glow during eruption? Ice, snow, water, or fire?"
+        "answer": "lava",
+        "say": "What hot thing may glow during eruption? Ice, snow, water, or lava?"
       },
       {
         "id": "volcanoes-03",
@@ -6186,15 +6186,15 @@
     "questions": [
       {
         "id": "earthquakes-01",
-        "prompt": "What may shake in an earthquake?",
+        "prompt": "Which picture shows the ground shaking?",
         "options": [
           "cloud",
           "sun",
           "moon",
-          "house"
+          "earthquake"
         ],
-        "answer": "house",
-        "say": "What may shake in an earthquake? Cloud, sun, moon, or house?"
+        "answer": "earthquake",
+        "say": "Which picture shows the ground shaking? Cloud, sun, moon, or earthquake?"
       },
       {
         "id": "earthquakes-02",
@@ -6339,15 +6339,15 @@
       },
       {
         "id": "deserts-03",
-        "prompt": "What covers many desert paths?",
+        "prompt": "Which picture shows a desert sand hill?",
         "options": [
           "snow",
           "ice",
-          "sand",
+          "sand-dune",
           "grass"
         ],
-        "answer": "sand",
-        "say": "What covers many desert paths? Snow, ice, sand, or grass?"
+        "answer": "sand-dune",
+        "say": "Which picture shows a desert sand hill? Snow, ice, sand dune, or grass?"
       },
       {
         "id": "deserts-04",
@@ -6447,12 +6447,12 @@
         "prompt": "What might friends hang for a festival?",
         "options": [
           "toothbrush",
-          "flag",
+          "festival-lantern",
           "ladder",
           "spoon"
         ],
-        "answer": "flag",
-        "say": "What might friends hang for a festival? Toothbrush, flag, ladder, or spoon?"
+        "answer": "festival-lantern",
+        "say": "What might friends hang for a festival? Toothbrush, festival lantern, ladder, or spoon?"
       },
       {
         "id": "festivals-around-the-world-02",
