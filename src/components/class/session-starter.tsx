@@ -10,10 +10,12 @@ export function SessionStarter({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   studentCount,
   size = 'lg',
+  label = 'Start Session',
 }: {
   classId: string;
   studentCount: number;
   size?: 'sm' | 'md' | 'lg' | 'compact' | 'icon';
+  label?: string;
 }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,7 +37,7 @@ export function SessionStarter({
   return (
     <span className="inline-flex flex-col items-end gap-1">
       <Button onClick={startSession} disabled={loading} size={size}>
-        {loading ? 'Starting...' : 'Start Session'}
+        {loading ? 'Starting...' : label}
       </Button>
       {error && (
         <span role="alert" className="max-w-xs text-right text-xs text-red-300">

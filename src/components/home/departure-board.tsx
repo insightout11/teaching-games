@@ -3,19 +3,17 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { B612_Mono } from 'next/font/google';
 import { BookOpen, BookUp, Compass, Library, Loader2, PenLine, PlaneTakeoff, Plus, Radio } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { launchCourseLesson } from '@/lib/launch-course-lesson';
 import { startClassSession } from '@/lib/start-class';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
+import { flapFont, Flaps, FlapStyles } from '@/components/ui/split-flap';
 import type { BoardRow, BoardSummary } from '@/lib/home-board';
 import type { CourseLesson } from '@/lib/course';
 
 // Home = the departures board (docs/home-page-concept.md): one click from sign-in to a live class. Choosing the
-// flight happens inside the Live Room ("where are we flying next?"), so Home never asks. Split-flap look (Oct 2026):
-// B612 Mono is the typeface Airbus designed for cockpit screens.
-const flapFont = B612_Mono({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
+// flight happens inside the Live Room ("where are we flying next?"), so Home never asks. Split-flap look (Oct 2026).
 
 function greeting(d: Date): string {
   const h = d.getHours();
@@ -24,26 +22,6 @@ function greeting(d: Date): string {
 
 function shortDate(iso: string): string {
   return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-}
-
-/** Split-flap letters: each tile flips down into place once, left to right. */
-function Flaps({ text, tone = 'cream', max = 14, size = 'md' }: { text: string; tone?: 'cream' | 'amber'; max?: number; size?: 'md' | 'lg' }) {
-  const chars = text.toUpperCase().slice(0, max).split('');
-  const box = size === 'lg' ? 'h-9 w-6 text-xl leading-9' : 'h-7 w-[18px] text-[15px] leading-7';
-  return (
-    <span className="inline-flex gap-[2px]" aria-label={text}>
-      {chars.map((c, i) => (
-        <span
-          key={`${i}-${c}`}
-          aria-hidden
-          className={`lc-flap relative inline-block rounded-[3px] text-center font-bold ${box} ${tone === 'amber' ? 'text-amber-300' : 'text-[#fff4dc]'}`}
-          style={{ animationDelay: `${i * 35}ms`, background: 'linear-gradient(#141b24 0 49%, #000 49% 51%, #19212b 51%)' }}
-        >
-          {c === ' ' ? ' ' : c}
-        </span>
-      ))}
-    </span>
-  );
 }
 
 type Status = { label: string; color: string; led: string; blink?: boolean };
@@ -119,13 +97,7 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 pb-16">
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes lc-flap-in { 0% { transform: rotateX(90deg); filter: brightness(1.8); } 60% { transform: rotateX(-12deg); } 100% { transform: rotateX(0); } }
-        .lc-flap { animation: lc-flap-in 420ms cubic-bezier(.2,.7,.3,1) both; transform-origin: 50% 50%; font-family: ${flapFont.style.fontFamily}; }
-        @keyframes lc-led { 50% { opacity: .25; } }
-        .lc-led-blink { animation: lc-led 1.4s infinite; }
-        @media (prefers-reduced-motion: reduce) { .lc-flap, .lc-led-blink { animation: none; } }
-      ` }} />
+      <FlapStyles />
 
       <header className="flex flex-wrap items-end justify-between gap-6 pt-2">
         <div>

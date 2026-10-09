@@ -4,9 +4,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
-import { Gauge, MoreVertical, Plane, Trash2 } from 'lucide-react';
+import { Gauge, MoreVertical, PenLine, Trash2 } from 'lucide-react';
 import type { Class } from '@/lib/supabase/types';
 import { SessionStarter } from '@/components/class/session-starter';
+import { FLAP_FONT, Flaps, FlapStyles } from '@/components/ui/split-flap';
 
 function ClassMenu({ onDelete }: { onDelete: () => void }) {
   const [open, setOpen] = useState(false);
@@ -15,20 +16,20 @@ function ClassMenu({ onDelete }: { onDelete: () => void }) {
     <div className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="p-2 rounded-lg text-lc-text3 hover:text-lc-text hover:bg-lc-surface transition-colors"
+        className="rounded-lg p-2 text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
         aria-label="Class options"
       >
-        <MoreVertical className="w-4 h-4" />
+        <MoreVertical className="h-4 w-4" />
       </button>
       {open && (
         <>
           <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-full mt-1 w-44 rounded-xl border border-lc-border bg-lc-card shadow-lg z-20 py-1">
+          <div className="absolute right-0 top-full z-20 mt-1 w-44 rounded-xl border border-lc-border bg-lc-card py-1 shadow-lg">
             <button
               onClick={() => { setOpen(false); onDelete(); }}
-              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-lc-danger hover:bg-lc-danger/10 transition-colors"
+              className="flex w-full items-center gap-2 px-3 py-2 text-sm text-lc-danger transition-colors hover:bg-lc-danger/10"
             >
-              <Trash2 className="w-3.5 h-3.5" />
+              <Trash2 className="h-3.5 w-3.5" />
               Delete class
             </button>
           </div>
@@ -38,7 +39,8 @@ function ClassMenu({ onDelete }: { onDelete: () => void }) {
   );
 }
 
-export function ClassHeader({ cls, studentCount }: { cls: Class; studentCount: number }) {
+/** The class's flight strip (Oct 2026): gate, name (click to rename), flight number, and the actions. */
+export function ClassHeader({ cls, studentCount, gate, flight }: { cls: Class; studentCount: number; gate: string; flight: string }) {
   const [name, setName] = useState(cls.name);
   const [editing, setEditing] = useState(false);
   const supabase = createClient();
@@ -46,7 +48,7 @@ export function ClassHeader({ cls, studentCount }: { cls: Class; studentCount: n
 
   const saveName = async () => {
     const trimmed = name.trim();
-    if (!trimmed) { setName(cls.name); return; }
+    if (!trimmed) { setName(cls.name); setEditing(false); return; }
     if (trimmed !== cls.name) {
       await supabase.from('classes').update({ name: trimmed }).eq('id', cls.id);
       router.refresh();
@@ -61,12 +63,10 @@ export function ClassHeader({ cls, studentCount }: { cls: Class; studentCount: n
   };
 
   return (
-    <div className="flex items-start justify-between gap-4">
-      <div className="min-w-0">
-        <div className="flex items-center gap-2 mb-0.5">
-          <Plane className="w-4 h-4 text-lc-blue shrink-0" />
-          <span className="text-xs font-semibold uppercase tracking-widest text-lc-blue">Class</span>
-        </div>
+    <div className="flex flex-wrap items-center gap-5 rounded-2xl border border-[#1d2632] bg-[#05080d] px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_20px_50px_rgba(0,0,0,0.45)]">
+      <FlapStyles />
+      <Flaps text={gate} tone="amber" max={3} size="lg" />
+      <div className="min-w-0 flex-1">
         {editing ? (
           <input
             autoFocus
@@ -77,30 +77,35 @@ export function ClassHeader({ cls, studentCount }: { cls: Class; studentCount: n
               if (e.key === 'Enter') saveName();
               if (e.key === 'Escape') { setName(cls.name); setEditing(false); }
             }}
-            className="text-2xl font-bold bg-transparent border-b-2 border-lc-blue text-lc-text focus:outline-none w-full"
+            className="w-full border-b-2 border-cyan-300 bg-transparent text-2xl font-bold uppercase text-[#fff4dc] focus:outline-none"
+            style={{ fontFamily: FLAP_FONT }}
+            aria-label="Class name"
           />
         ) : (
           <h1
-            className="text-2xl font-bold text-lc-text cursor-text hover:text-lc-blue transition-colors"
+            className="cursor-text truncate text-2xl font-bold uppercase tracking-[0.03em] text-[#fff4dc] transition-colors hover:text-cyan-200"
+            style={{ fontFamily: FLAP_FONT }}
             onClick={() => setEditing(true)}
             title="Click to rename"
           >
             {name}
           </h1>
         )}
-        <div className="flex items-center gap-2 mt-1.5">
-          <span className="text-sm text-lc-text3 font-instrument">{studentCount} student{studentCount !== 1 ? 's' : ''}</span>
-        </div>
+        <p className="mt-1 flex items-center gap-2 text-[13px] text-white/50">
+          {cls.junior && <span className="rounded bg-amber-300/15 px-1.5 py-px text-[10px] font-bold tracking-[0.12em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>JUNIOR</span>}
+          <span style={{ fontFamily: FLAP_FONT }}>{flight}</span>
+          <span>· {studentCount} student{studentCount === 1 ? '' : 's'}</span>
+          {cls.default_difficulty && <span>· {cls.default_difficulty}</span>}
+        </p>
       </div>
-      <div className="shrink-0 flex items-center gap-2">
-        <Link
-          href={`/classes/${cls.id}/control-room`}
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-lc-blue hover:text-lc-blue-hover px-3 py-2 rounded-lg border border-lc-blue/30 hover:border-lc-blue/60 bg-lc-surface transition-colors"
-        >
-          <Gauge className="w-3.5 h-3.5" />
-          Control Room
+      <div className="flex shrink-0 items-center gap-2">
+        <Link href={`/classes/${cls.id}/control-room`} className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 px-3 py-2 text-sm font-semibold text-white/80 transition-colors hover:border-white/30 hover:text-white">
+          <Gauge className="h-3.5 w-3.5" />Control Room
         </Link>
-        <SessionStarter classId={cls.id} studentCount={studentCount} />
+        <Link href="/lesson-planner" className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 px-3 py-2 text-sm font-semibold text-white/80 transition-colors hover:border-white/30 hover:text-white">
+          <PenLine className="h-3.5 w-3.5" />Plan a lesson
+        </Link>
+        <SessionStarter classId={cls.id} studentCount={studentCount} label="Board" />
         <ClassMenu onDelete={handleDelete} />
       </div>
     </div>

@@ -26,6 +26,12 @@ export interface BoardRow {
   junior: boolean;
   /** Up to 5 students for the crew avatars (seed + first name; teacher-only page). */
   crew: Array<{ seed: string; name: string }>;
+  /** Lessons started for this class (up to the last 300 across classes). */
+  flown: number;
+  /** World Flight: completed legs and the city the class is heading for. */
+  stamps: number;
+  nextCity: string | null;
+  createdAt: string;
 }
 
 export interface BoardSummary {
@@ -38,7 +44,13 @@ export interface BoardSummary {
   journey: { className: string; city: string; stamps: number } | null;
 }
 
-function flightNumber(id: string): string {
+/** A class's gate from its position by creation date (A1…A9, B1…). */
+export function gateFor(index: number): string {
+  return `${String.fromCharCode(65 + (Math.floor(index / 9) % 26))}${(index % 9) + 1}`;
+}
+
+/** A class's flight number, stable for its id (LC 100-999). */
+export function flightNumber(id: string): string {
   let h = 0;
   for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
   return `LC ${100 + (h % 900)}`;
@@ -153,10 +165,14 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardSummary
         next: next.get(c.id) ?? null,
         last: ended ? { at: ended.started_at, line: results.get(ended.id) ?? covered.get(ended.id) ?? (topic ? `${topic}` : 'Lesson') } : null,
         lastUsedAt: latest.get(c.id)?.started_at ?? c.created_at,
-        gate: `${String.fromCharCode(65 + Math.floor(i / 9) % 26)}${(i % 9) + 1}`,
+        gate: gateFor(i),
         flight: flightNumber(c.id),
         junior: c.junior === true,
         crew: crew.get(c.id) ?? [],
+        flown: sessions.filter((s) => s.class_id === c.id).length,
+        stamps: 0,
+        nextCity: null,
+        createdAt: c.created_at,
       };
     })
     // Live classes first, then the class used most recently.
@@ -187,10 +203,9 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardSummary
   for (const r of boardRows) {
     const state = ((wf ?? []) as Array<{ class_id: string; current_destination_id: string | null }>).find((w) => w.class_id === r.classId);
     const dest = state?.current_destination_id ? getDestinationById(state.current_destination_id) : null;
-    if (dest) {
-      journey = { className: r.name, city: dest.city, stamps: stampsByClass.get(r.classId) ?? 0 };
-      break;
-    }
+    r.stamps = stampsByClass.get(r.classId) ?? 0;
+    r.nextCity = dest?.city ?? null;
+    if (dest && !journey) journey = { className: r.name, city: dest.city, stamps: r.stamps };
   }
 
   return {

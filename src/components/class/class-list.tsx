@@ -1,191 +1,151 @@
 'use client';
 
-import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import type { Class } from '@/lib/supabase/types';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Modal } from '@/components/ui/modal';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Globe2, Plane, Users } from 'lucide-react';
-import { getDestinationById } from '@/data/world-flight/destinations';
-import { getPlaneTier } from '@/lib/plane-progression';
-import { SessionStarter } from '@/components/class/session-starter';
+import { useRouter } from 'next/navigation';
+import { Loader2, PlaneTakeoff, Radio } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import { startClassSession } from '@/lib/start-class';
+import { CrewAvatar } from '@/components/ui/crew-avatar';
+import { FLAP_FONT, Flaps, FlapStyles } from '@/components/ui/split-flap';
+import type { BoardRow } from '@/lib/home-board';
 
-export interface ClassCardSummary {
-  id: string;
-  crewCount: number;
-  flightCount: number;
-  lastFlightAt: string | null;
-  currentDestinationId: string | null;
-  planeTier: number;
-  stampCount: number;
-}
+// Classes = the hangar (Oct 2026 redesign): one cream boarding pass per class, the same gates and flight numbers as
+// the Home board. The stub is where you board.
 
-function formatLastFlight(iso: string | null) {
-  if (!iso) return 'no flights yet';
+const PASS = '#fff6e4';
+const INK = '#1b2233';
+const FAINT = '#8a7a5a';
+
+function shortDate(iso: string): string {
   return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
-function ClassCard({ cls, summary }: { cls: Class; summary: ClassCardSummary }) {
-  const destination = summary.currentDestinationId ? getDestinationById(summary.currentDestinationId) : null;
-  const planeTierLabel = getPlaneTier(summary.planeTier).label;
-
+function Meta({ label, value }: { label: string; value: string }) {
   return (
-    <div className="panel-card p-6 group overflow-hidden relative flex flex-col">
-      <Link href={`/classes/${cls.id}`} className="block absolute inset-0" aria-label={cls.name} />
-
-      {/* Flight arc background */}
-      <svg
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.07]"
-        preserveAspectRatio="none"
-        viewBox="0 0 300 140"
-        aria-hidden="true"
-      >
-        <path
-          className="flight-arc-path"
-          d="M 20,120 Q 140,50 280,18"
-          fill="none"
-          stroke="#4DA3FF"
-          strokeWidth="1.5"
-          strokeDasharray="5,7"
-          pathLength="1"
-        />
-        <circle cx="20" cy="120" r="3" fill="#4DA3FF"/>
-        <circle cx="280" cy="18" r="3" fill="#4DA3FF"/>
-      </svg>
-      <div className="absolute top-4 right-5 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
-        <Plane className="w-12 h-12 text-lc-blue -rotate-12" />
-      </div>
-
-      <div className="relative pointer-events-none">
-        <h3 className="font-semibold text-lc-text group-hover:text-lc-blue transition-colors">
-          {cls.name}
-        </h3>
-        <p className="text-sm text-lc-text3 mt-2 flex items-center gap-1.5 font-instrument">
-          <Users className="w-3.5 h-3.5" />
-          {summary.crewCount} student{summary.crewCount === 1 ? '' : 's'} · {summary.flightCount} lesson{summary.flightCount === 1 ? '' : 's'} · last lesson: {formatLastFlight(summary.lastFlightAt)}
-        </p>
-
-        {destination && (
-          <div className="mt-3 pt-3 border-t border-lc-border/60">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-lc-text3 mb-1">
-              World Flight
-            </p>
-            <p className="text-sm text-lc-text2 flex items-center gap-1.5 font-instrument">
-              <Globe2 className="w-3.5 h-3.5 text-lc-blue" />
-              {destination.city} · {planeTierLabel} · {summary.stampCount} stamp{summary.stampCount === 1 ? '' : 's'}
-            </p>
-          </div>
-        )}
-      </div>
-
-      <div className="relative mt-5 flex items-center justify-between pointer-events-none">
-        <span className="pointer-events-auto">
-          <SessionStarter classId={cls.id} studentCount={summary.crewCount} size="compact" />
-        </span>
-        <Link
-          href={`/classes/${cls.id}/control-room`}
-          className="pointer-events-auto text-xs font-semibold text-lc-blue hover:text-lc-blue-hover px-3 py-1.5 rounded-lg border border-lc-blue/30 hover:border-lc-blue/60 bg-lc-surface transition-colors"
-        >
-          Control Room →
-        </Link>
-      </div>
+    <div className="min-w-0">
+      <small className="block text-[9px] font-bold tracking-[0.16em]" style={{ color: FAINT, fontFamily: FLAP_FONT }}>{label}</small>
+      <b className="block truncate text-[15px] uppercase" style={{ fontFamily: FLAP_FONT }}>{value}</b>
     </div>
   );
 }
 
-export function ClassList({
-  initialClasses,
-  summaries,
-}: {
-  initialClasses: Class[];
-  summaries: ClassCardSummary[];
-}) {
-  const [classes, setClasses] = useState(initialClasses);
-  const [showCreate, setShowCreate] = useState(false);
+function ClassPass({ r }: { r: BoardRow }) {
+  const router = useRouter();
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  // Dates only after mount: server and browser time zones differ.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const boardNow = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      router.push(`/sessions/${await startClassSession(r.classId)}`);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not start the class.');
+      setBusy(false);
+    }
+  };
+
+  const third = r.next
+    ? { label: 'COURSE', value: r.next.title }
+    : r.nextCity
+      ? { label: 'NEXT CITY', value: r.nextCity }
+      : { label: 'STUDENTS', value: String(r.students) };
+
+  return (
+    <article className="flex flex-col overflow-hidden rounded-2xl shadow-[0_14px_30px_rgba(0,0,0,0.35)]" style={{ background: PASS, color: INK }}>
+      <div className="flex items-center justify-between bg-[#14202f] px-4 py-3">
+        <Flaps text={r.gate} tone="amber" max={3} />
+        <span className="text-[11px] font-bold tracking-[0.18em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>{r.flight}</span>
+      </div>
+      <Link href={`/classes/${r.classId}`} className="flex flex-1 flex-col gap-2.5 px-4 pb-3 pt-3.5 hover:bg-black/[0.02]">
+        <h2 className="truncate text-xl font-bold uppercase tracking-[0.02em]" style={{ fontFamily: FLAP_FONT }}>{r.name}</h2>
+        <div className="flex min-h-[30px] items-center gap-2">
+          {r.junior && <span className="rounded bg-[#ffe9b8] px-1.5 py-px text-[10px] font-bold tracking-[0.12em] text-[#8a5a00]" style={{ fontFamily: FLAP_FONT }}>JUNIOR</span>}
+          <span className="flex items-center">
+            {r.crew.slice(0, 4).map((c, i) => (
+              <span key={i} className={`rounded-full ring-2 ring-[#fff6e4] ${i ? '-ml-2.5' : ''}`}><CrewAvatar seed={c.seed} name={c.name} size={28} /></span>
+            ))}
+          </span>
+          <span className="text-xs font-bold" style={{ color: FAINT, fontFamily: FLAP_FONT }}>
+            {r.students > Math.min(4, r.crew.length) ? `+${r.students - Math.min(4, r.crew.length)}` : r.students === 0 ? 'No students yet' : ''}
+          </span>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          <Meta label="FLOWN" value={String(r.flown)} />
+          <Meta label="STAMPS" value={String(r.stamps)} />
+          <Meta label={third.label} value={third.value} />
+        </div>
+        <p className="truncate text-[13px] text-[#5b5240]">
+          {r.liveSessionId ? <span className="font-semibold text-emerald-700">In the air now{r.liveTopic ? ` · ${r.liveTopic}` : ''}</span>
+            : r.last ? <>Last: {mounted ? shortDate(r.last.at) : ''} · {r.last.line}</> : 'No lessons yet'}
+        </p>
+      </Link>
+      <div className="relative flex items-center justify-between border-t-2 border-dashed border-[#d8c9a8] px-4 py-2.5">
+        <Link href={`/classes/${r.classId}`} className="text-[13px] font-semibold text-[#0b6b85] hover:underline">Open class</Link>
+        {r.liveSessionId ? (
+          <Link href={`/sessions/${r.liveSessionId}`} className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3.5 py-1.5 text-sm font-semibold text-white hover:bg-emerald-600"><Radio className="h-4 w-4" />Rejoin</Link>
+        ) : (
+          <button type="button" onClick={() => void boardNow()} disabled={busy} className="inline-flex items-center gap-1.5 rounded-lg bg-cyan-500 px-3.5 py-1.5 text-sm font-semibold text-[#03202a] hover:bg-cyan-400 disabled:opacity-50">
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <PlaneTakeoff className="h-4 w-4" />}Board
+          </button>
+        )}
+      </div>
+      {error && (
+        <p role="alert" className="px-4 pb-3 text-xs text-red-700">
+          {error} {error.includes('free lessons') && <a href="/pro" className="underline">See Pro</a>}
+        </p>
+      )}
+    </article>
+  );
+}
+
+export function ClassList({ rows }: { rows: BoardRow[] }) {
+  const router = useRouter();
   const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
-  const supabase = createClient();
+  const [creating, setCreating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  // Gate order (oldest class first), the same gates as the Home board.
+  const ordered = [...rows].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
 
-  const summaryByClass = new Map(summaries.map((s) => [s.id, s]));
-  const emptySummary = (id: string): ClassCardSummary => ({
-    id,
-    crewCount: 0,
-    flightCount: 0,
-    lastFlightAt: null,
-    currentDestinationId: null,
-    planeTier: 0,
-    stampCount: 0,
-  });
-
-  const handleCreate = async (e: React.FormEvent) => {
+  const create = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return;
-    setLoading(true);
-
+    setCreating(true);
+    setError(null);
+    const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    const { data } = await supabase
-      .from('classes')
-      .insert({ name: name.trim(), teacher_id: user.id })
-      .select()
-      .single();
-
-    if (data) {
-      setClasses([data, ...classes]);
-      setName('');
-      setShowCreate(false);
-    }
-    setLoading(false);
+    if (!user) { setError('Please sign in again.'); setCreating(false); return; }
+    const { data } = await supabase.from('classes').insert({ name: name.trim(), teacher_id: user.id }).select('id').single();
+    if (!data) { setError('Could not create the class. Please try again.'); setCreating(false); return; }
+    router.push(`/classes/${(data as { id: string }).id}`);
   };
 
   return (
     <>
-      <Button onClick={() => setShowCreate(true)} className="mb-6">
-        + New Class
-      </Button>
-
-      {classes.length === 0 ? (
-        <div className="text-center py-16 text-lc-text3">
-          <Plane className="w-10 h-10 mx-auto mb-3 text-lc-text3/50 -rotate-12" />
-          <p className="text-lg">Your hangar is empty.</p>
-          <p className="text-sm mt-1">Create your first class to get started.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {classes.map((cls) => (
-            <ClassCard
-              key={cls.id}
-              cls={cls}
-              summary={summaryByClass.get(cls.id) ?? emptySummary(cls.id)}
-            />
-          ))}
-        </div>
-      )}
-
-      <Modal open={showCreate} onClose={() => setShowCreate(false)} title="Create Class">
-        <form onSubmit={handleCreate} className="space-y-4">
-          <Input
-            type="text"
+      <FlapStyles />
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        {ordered.map((r) => <ClassPass key={r.classId} r={r} />)}
+        <form onSubmit={create} className="flex min-h-[250px] flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-white/15 p-6 text-center">
+          <span className="text-xs font-bold tracking-[0.18em] text-white/50" style={{ fontFamily: FLAP_FONT }}>NEW CLASS</span>
+          <input
+            id="new-class-name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Class name"
-            inputSize="lg"
-            className="py-2 focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
-            autoFocus
+            aria-label="Class name"
+            className="w-full max-w-[16rem] rounded-lg border border-white/15 bg-white/[0.06] px-3 py-2 text-sm text-lc-text placeholder:text-white/35 focus:border-cyan-300/60 focus:outline-none"
           />
-          <div className="flex justify-end gap-2">
-            <Button type="button" variant="secondary" onClick={() => setShowCreate(false)}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={loading || !name.trim()}>
-              {loading ? 'Creating...' : 'Create'}
-            </Button>
-          </div>
+          <button type="submit" disabled={creating || !name.trim()} className="inline-flex items-center gap-1.5 rounded-lg bg-cyan-400 px-4 py-2 text-sm font-semibold text-[#03202a] hover:bg-cyan-300 disabled:opacity-40">
+            {creating && <Loader2 className="h-4 w-4 animate-spin" />}Create
+          </button>
+          <span className="text-xs text-white/40">Add students later, or let them join with the code.</span>
+          {error && <span role="alert" className="text-xs text-red-300">{error}</span>}
         </form>
-      </Modal>
+      </div>
     </>
   );
 }
