@@ -6,11 +6,11 @@ import { validSpeakSituation } from '../src/lib/speak-check';
 
 type Check = 'badArcBank' | 'missingArc' | 'unknownArc' | 'badArcTask' |
   'badSpeakBank' | 'speakCount' | 'duplicateSpeakId' | 'badJuniorFields' |
-  'unknownPicture' | 'badReplyRound' | 'longReply' | 'ambiguousReplies';
+  'unknownPicture' | 'badReplyRound' | 'longReply' | 'ambiguousReplies' | 'badTopicIds';
 const checks: Record<Check, number> = {
   badArcBank: 0, missingArc: 0, unknownArc: 0, badArcTask: 0,
   badSpeakBank: 0, speakCount: 0, duplicateSpeakId: 0, badJuniorFields: 0,
-  unknownPicture: 0, badReplyRound: 0, longReply: 0, ambiguousReplies: 0,
+  unknownPicture: 0, badReplyRound: 0, longReply: 0, ambiguousReplies: 0, badTopicIds: 0,
 };
 const errors: string[] = [];
 function fail(check: Check, where: string, message: string): void {
@@ -43,11 +43,13 @@ console.log(`Course arc tasks: ${valid}/${expectedIds.length} valid (${COURSE_PR
 
 type ReplyRound = { replies?: unknown; natural?: unknown };
 type SpeakSituation = {
-  id?: unknown; topics?: unknown; ageBand?: unknown; cefr?: unknown; situation?: unknown;
+  id?: unknown; topics?: unknown; topicIds?: unknown; ageBand?: unknown; cefr?: unknown; situation?: unknown;
   canDo?: unknown; pictures?: unknown; before?: unknown; after?: unknown;
 };
 const stickerRows = JSON.parse(fs.readFileSync(path.resolve('src/data/sticker-words.json'), 'utf8')) as { id: string }[];
 const stickerIds = new Set(stickerRows.map((row) => row.id));
+const briefingRows = JSON.parse(fs.readFileSync(path.resolve('src/data/topic-briefings.json'), 'utf8')) as { id: string }[];
+const briefingIds = new Set(briefingRows.map((row) => row.id));
 const speakFile = path.resolve('src/data/speak-situations.json');
 let speakRaw: unknown;
 try { speakRaw = JSON.parse(fs.readFileSync(speakFile, 'utf8')); }
@@ -59,6 +61,7 @@ if (!Array.isArray(speakRaw)) {
 const situations = speakRaw as SpeakSituation[];
 const situationIds = new Set<string>();
 let juniors = 0;
+let linked = 0;
 let repliesChecked = 0;
 const picturesUsed = new Set<string>();
 const beforeSlots = [0, 0, 0, 0];
@@ -72,6 +75,14 @@ for (const [index, situation] of Array.from(situations.entries())) {
   }
   if (situationIds.has(situation.id)) fail('duplicateSpeakId', at, `duplicate id ${situation.id}`);
   situationIds.add(situation.id);
+  if (!Array.isArray(situation.topicIds) || new Set(situation.topicIds).size !== situation.topicIds.length) {
+    fail('badTopicIds', at, 'topicIds must be an array without duplicates');
+  } else {
+    if (situation.topicIds.length) linked += 1;
+    for (const id of situation.topicIds) if (typeof id !== 'string' || !briefingIds.has(id)) {
+      fail('badTopicIds', at, `unknown topic id ${String(id)}`);
+    }
+  }
   if (situation.ageBand !== 'junior') continue;
   juniors += 1;
   if (situation.cefr !== 'A1' || !Array.isArray(situation.topics) || situation.topics.length === 0 ||
@@ -120,6 +131,7 @@ if (situations.length !== 110 || juniors !== 30) {
   fail('speakCount', speakFile, `expected 110 situations including 30 Junior, found ${situations.length}/${juniors}`);
 }
 console.log(`Junior Speak: ${juniors}/30 situations, ${repliesChecked} replies checked, ${picturesUsed.size} distinct stickers; natural slots before ${beforeSlots.join('/')}, after ${afterSlots.join('/')}.`);
+console.log(`Speak topic links: ${linked}/${situations.length} situations linked; ${briefingRows.length} briefing IDs available.`);
 console.log(`Speak checker counts: ${Object.entries(checks).map(([name, count]) => `${name} ${count}`).join(', ')}.`);
 if (errors.length) {
   console.error(`Speaking bank validation failed with ${errors.length} error(s):\n${errors.slice(0, 80).join('\n')}`);

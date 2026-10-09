@@ -26,7 +26,8 @@
         "One orange juice to me."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-kids-restaurant-allergy",
@@ -55,7 +56,8 @@
         "Food nuts no."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-kids-shop-size",
@@ -84,7 +86,8 @@
         "Could I try a larger size, please?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-kids-school-pencil",
@@ -112,7 +115,11 @@
         "I can borrowing pencil?"
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-classroom-rules"
+    ]
   },
   {
     "id": "speak-kids-friend-plan",
@@ -141,7 +148,10 @@
         "I have to making homework."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-making-friends"
+    ]
   },
   {
     "id": "speak-kids-hobby-drawing",
@@ -170,7 +180,10 @@
         "I like paint pictures because they is fun."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-kids-drawing"
+    ]
   },
   {
     "id": "speak-kids-sport-team",
@@ -199,7 +212,8 @@
         "Do you want to play with us?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-kids-travel-directions",
@@ -228,7 +242,8 @@
         "I would appreciate navigational guidance concerning transit."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-kids-weather-plan",
@@ -257,7 +272,11 @@
         "I request indoor recreational relocation."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-clouds",
+      "topic-kids-rain"
+    ]
   },
   {
     "id": "speak-kids-family-introduce",
@@ -285,7 +304,8 @@
         "Maya she my sister be."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-kids-tech-help",
@@ -314,7 +334,8 @@
         "The activity will not load on my tablet."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-kids-doctor-headache",
@@ -343,7 +364,10 @@
         "Pain in head."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-kids-jobs-people-do"
+    ]
   },
   {
     "id": "speak-kids-lost-pet",
@@ -372,7 +396,11 @@
         "I am experiencing the loss of a canine."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-dogs",
+      "topic-kids-caring-for-pets"
+    ]
   },
   {
     "id": "speak-kids-music-choice",
@@ -401,7 +429,8 @@
         "Fast song is best, obviously."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-kids-festival-invite",
@@ -430,7 +459,11 @@
         "Could you join us for the celebration?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-festivals-around-the-world",
+      "topic-kids-family-traditions"
+    ]
   },
   {
     "id": "speak-kids-recycle",
@@ -459,7 +492,8 @@
         "Can you putting bottle there instead?"
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-kids-weekend-activity",
@@ -488,7 +522,8 @@
         "It was nice."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-kids-cafe-price",
@@ -518,7 +553,8 @@
         "How much it costing?"
       ],
       "natural": 2
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-kids-animal-care",
@@ -547,7 +583,10 @@
         "Please give her some fresh vegetables instead."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-caring-for-pets"
+    ]
   },
   {
     "id": "speak-kids-school-question",
@@ -576,7 +615,10 @@
         "I not understood what doing."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-teens-cafe-order-change",
@@ -605,7 +647,8 @@
         "It appears that beverage fulfillment was erroneous."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-teens-restaurant-split-bill",
@@ -634,7 +677,11 @@
         "Separate billing would be optimally appropriate."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-teens-budgeting",
+      "topic-teens-money-and-saving"
+    ]
   },
   {
     "id": "speak-teens-shop-return",
@@ -663,7 +710,8 @@
         "I bought this yesterday, and the zip will not close. Could I swap it?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-teens-school-deadline",
@@ -692,7 +740,11 @@
         "My illness adversely impacted task delivery."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-teens-homework",
+      "topic-teens-study-habits"
+    ]
   },
   {
     "id": "speak-teens-friend-cancel",
@@ -721,7 +773,10 @@
         "This social arrangement requires temporal relocation."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-teens-friendship"
+    ]
   },
   {
     "id": "speak-teens-hobby-invite",
@@ -750,7 +805,10 @@
         "You would like visit club in Tuesday?"
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-teens-school-clubs"
+    ]
   },
   {
     "id": "speak-teens-sport-injury",
@@ -779,7 +837,8 @@
         "I twisted my ankle yesterday. Could I rest this match?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-teens-travel-delay",
@@ -808,7 +867,11 @@
         "Which other route I can to take?"
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-teens-public-transport",
+      "topic-teens-travel-planning"
+    ]
   },
   {
     "id": "speak-teens-weather-event",
@@ -837,7 +900,10 @@
         "If rain will happen, we meet inside maybe."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-teens-outdoor-adventures"
+    ]
   },
   {
     "id": "speak-teens-family-rule",
@@ -866,7 +932,8 @@
         "I needing home before nine because family rule was."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-teens-tech-privacy",
@@ -895,7 +962,12 @@
         "Could you leave me out of the post? I am not comfortable sharing it."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-teens-online-privacy",
+      "topic-teens-social-media",
+      "topic-teens-digital-footprints"
+    ]
   },
   {
     "id": "speak-teens-doctor-symptom",
@@ -924,7 +996,8 @@
         "It hurted from Monday and swallow hard."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-teens-pet-rescue",
@@ -953,7 +1026,8 @@
         "Animal accommodation is presently infeasible."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-teens-music-feedback",
@@ -982,7 +1056,10 @@
         "Whatever, I have heard better."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-teens-songwriting"
+    ]
   },
   {
     "id": "speak-teens-festival-custom",
@@ -1012,7 +1089,11 @@
         "It helps us make guests feel welcome."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-teens-local-traditions",
+      "topic-teens-food-culture"
+    ]
   },
   {
     "id": "speak-teens-environment-project",
@@ -1041,7 +1122,8 @@
         "A schoolwide circularity intervention is indicated."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-teens-weekend-conflict",
@@ -1070,7 +1152,10 @@
         "I am unavailable due to a prior engagement."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-teens-friendship"
+    ]
   },
   {
     "id": "speak-teens-shop-budget",
@@ -1099,7 +1184,11 @@
         "Your suggestion is stupid."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-teens-budgeting",
+      "topic-teens-money-and-saving"
+    ]
   },
   {
     "id": "speak-teens-school-group",
@@ -1128,7 +1217,10 @@
         "We could pause and hear your idea before deciding."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-teens-teamwork"
+    ]
   },
   {
     "id": "speak-teens-travel-host",
@@ -1157,7 +1249,11 @@
         "I would try, but what it contains?"
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-teens-travel-etiquette",
+      "topic-teens-food-culture"
+    ]
   },
   {
     "id": "speak-r12-kids-directions-library",
@@ -1186,7 +1282,10 @@
         "The library facility is situated proximally."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-r12-kids-directions-park",
@@ -1215,7 +1314,8 @@
         "You go straight then the park it beside bakery."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-kids-phone-answer",
@@ -1244,7 +1344,8 @@
         "Please wait a second. I will tell her you called."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-kids-phone-message",
@@ -1273,7 +1374,8 @@
         "Your message may be documented for subsequent delivery."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-kids-invite-party",
@@ -1302,7 +1404,11 @@
         "Come. Bring gift."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-birthday-parties",
+      "topic-kids-making-friends"
+    ]
   },
   {
     "id": "speak-r12-kids-invite-game",
@@ -1331,7 +1437,8 @@
         "You should know this already."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-kids-apology-bump",
@@ -1360,7 +1467,11 @@
         "I did not mean to bump you. Can I help?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-making-friends",
+      "topic-kids-classroom-rules"
+    ]
   },
   {
     "id": "speak-r12-kids-apology-late",
@@ -1389,7 +1500,10 @@
         "I made you waiting because bus late."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-kids-making-friends"
+    ]
   },
   {
     "id": "speak-r12-kids-compliment-drawing",
@@ -1418,7 +1532,10 @@
         "Your artwork demonstrates chromatic excellence."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-drawing"
+    ]
   },
   {
     "id": "speak-r12-kids-compliment-effort",
@@ -1447,7 +1564,10 @@
         "It appears to reflect substantial effort expenditure."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-r12-kids-borrow-ruler",
@@ -1476,7 +1596,11 @@
         "May I use your extra ruler for this exercise?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day",
+      "topic-kids-classroom-rules"
+    ]
   },
   {
     "id": "speak-r12-kids-borrow-ball",
@@ -1505,7 +1629,8 @@
         "Would you let we use ball?"
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-kids-project-role",
@@ -1534,7 +1659,10 @@
         "That is your job, not mine."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-r12-kids-team-substitute",
@@ -1563,7 +1691,8 @@
         "Get off, I play."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-kids-game-tip",
@@ -1592,7 +1721,8 @@
         "Wait for the green door before you move."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-kids-feelings-nervous",
@@ -1621,7 +1751,10 @@
         "I am exciting and scare too."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-r12-kids-feelings-cheer-up",
@@ -1650,7 +1783,10 @@
         "Your disappointment is an understandable affect."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-making-friends"
+    ]
   },
   {
     "id": "speak-r12-kids-cinema-choice",
@@ -1679,7 +1815,8 @@
         "The zoological film satisfies familial preferences."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-kids-home-lights",
@@ -1708,7 +1845,8 @@
         "Could you switch off the light? The room is empty."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-kids-home-water",
@@ -1737,7 +1875,8 @@
         "We should fill cup and tap close."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-teens-directions-transfer",
@@ -1766,7 +1905,11 @@
         "Navigate the concourse toward the rail interface."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-teens-public-transport",
+      "topic-teens-travel-planning"
+    ]
   },
   {
     "id": "speak-r12-teens-phone-appointment",
@@ -1795,7 +1938,8 @@
         "You booked wrong day."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-teens-invite-new-student",
@@ -1824,7 +1968,10 @@
         "There is a seat here if you would like to join us."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-teens-friendship"
+    ]
   },
   {
     "id": "speak-r12-teens-apology-message",
@@ -1853,7 +2000,12 @@
         "I have deleted, so why you still upset?"
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-teens-online-privacy",
+      "topic-teens-social-media",
+      "topic-teens-digital-footprints"
+    ]
   },
   {
     "id": "speak-r12-teens-compliment-work",
@@ -1882,7 +2034,10 @@
         "The graphical clarity is duly acknowledged."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-teens-teamwork"
+    ]
   },
   {
     "id": "speak-r12-teens-borrow-notes",
@@ -1911,7 +2066,11 @@
         "I will just photograph them without asking."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-teens-homework",
+      "topic-teens-study-habits"
+    ]
   },
   {
     "id": "speak-r12-teens-project-deadline",
@@ -1940,7 +2099,11 @@
         "Could we split the sources tonight and cut the extra slides?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-teens-teamwork",
+      "topic-teens-study-habits"
+    ]
   },
   {
     "id": "speak-r12-teens-team-bench",
@@ -1969,7 +2132,10 @@
         "I like play later but understand."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-teens-team-sports"
+    ]
   },
   {
     "id": "speak-r12-teens-game-spending",
@@ -1998,7 +2164,12 @@
         "My expenditure priorities preclude this purchase."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-teens-video-games",
+      "topic-teens-budgeting",
+      "topic-teens-money-and-saving"
+    ]
   },
   {
     "id": "speak-r12-teens-social-photo",
@@ -2027,7 +2198,12 @@
         "You always ruin everything."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-teens-social-media",
+      "topic-teens-online-privacy",
+      "topic-teens-digital-footprints"
+    ]
   },
   {
     "id": "speak-r12-teens-money-split",
@@ -2056,7 +2232,11 @@
         "Let us divide the total equally and pay you back today."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-teens-budgeting",
+      "topic-teens-money-and-saving"
+    ]
   },
   {
     "id": "speak-r12-teens-chores-trade",
@@ -2085,7 +2265,8 @@
         "I will cleaning kitchen if you help."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-teens-feelings-exam",
@@ -2114,7 +2295,11 @@
         "My outcome has produced adverse affect."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-teens-exams",
+      "topic-teens-stress-management"
+    ]
   },
   {
     "id": "speak-r12-teens-cinema-disagree",
@@ -2143,7 +2328,10 @@
         "You all have terrible taste."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-teens-film-genres"
+    ]
   },
   {
     "id": "speak-r12-teens-home-energy",
@@ -2172,7 +2360,8 @@
         "Let us try shorter air-conditioning hours for two weeks."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-r12-teens-job-interview",
@@ -2201,7 +2390,11 @@
         "I enjoying people and can helps Saturdays."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-teens-part-time-jobs",
+      "topic-teens-career-skills"
+    ]
   },
   {
     "id": "speak-r12-teens-job-shift",
@@ -2230,7 +2423,10 @@
         "My academic commitment supersedes this shift requirement."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-teens-part-time-jobs"
+    ]
   },
   {
     "id": "speak-r12-teens-apology-group",
@@ -2259,7 +2455,10 @@
         "It was not my fault you planned early."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-teens-teamwork"
+    ]
   },
   {
     "id": "speak-r12-teens-compliment-idea",
@@ -2288,7 +2487,10 @@
         "I like your chart idea; perhaps we could label the main trend."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-teens-teamwork"
+    ]
   },
   {
     "id": "speak-r12-teens-phone-complaint",
@@ -2317,7 +2519,8 @@
         "The order damaged and I wanting new."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-junior-ask-doll",
@@ -2350,7 +2553,8 @@
         "Play doll to me."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-junior-return-toy",
@@ -2383,7 +2587,10 @@
         "Thank you for sharing your ball."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-making-friends"
+    ]
   },
   {
     "id": "speak-junior-say-sorry",
@@ -2416,7 +2623,10 @@
         "Me not see sorry."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-kids-making-friends"
+    ]
   },
   {
     "id": "speak-junior-invite-play",
@@ -2450,7 +2660,11 @@
         "Us with play come."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-playgrounds",
+      "topic-kids-making-friends"
+    ]
   },
   {
     "id": "speak-junior-join-game",
@@ -2483,7 +2697,11 @@
         "Play too me may."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-kids-building-blocks",
+      "topic-kids-making-friends"
+    ]
   },
   {
     "id": "speak-junior-doctor-tummy",
@@ -2516,7 +2734,10 @@
         "I have a sore tummy."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-jobs-people-do"
+    ]
   },
   {
     "id": "speak-junior-buy-ice-cream",
@@ -2549,7 +2770,8 @@
         "Have cream I may."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-junior-birthday-greeting",
@@ -2582,7 +2804,10 @@
         "Hope fun you I."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-birthday-parties"
+    ]
   },
   {
     "id": "speak-junior-teacher-help",
@@ -2615,7 +2840,10 @@
         "Read help this me."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-junior-lost-dog",
@@ -2648,7 +2876,11 @@
         "Please help me find my dog."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-dogs",
+      "topic-kids-caring-for-pets"
+    ]
   },
   {
     "id": "speak-junior-cafe-cake",
@@ -2681,7 +2913,8 @@
         "Have I cake may."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-junior-bus-stop",
@@ -2714,7 +2947,8 @@
         "Stop please next at."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-junior-borrow-pencil",
@@ -2747,7 +2981,10 @@
         "Use pencil your can I."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-junior-ask-water",
@@ -2780,7 +3017,10 @@
         "Can I have water, please?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-junior-share-crayons",
@@ -2813,7 +3053,11 @@
         "Like crayon a would."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-kids-drawing",
+      "topic-kids-classroom-rules"
+    ]
   },
   {
     "id": "speak-junior-swing-turn",
@@ -2846,7 +3090,10 @@
         "After swing can you."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-playgrounds"
+    ]
   },
   {
     "id": "speak-junior-hurt-friend",
@@ -2880,7 +3127,11 @@
         "Teacher a get shall."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-kids-playgrounds",
+      "topic-kids-making-friends"
+    ]
   },
   {
     "id": "speak-junior-find-toilet",
@@ -2913,7 +3164,10 @@
         "Please show me the toilet."
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-junior-library-book",
@@ -2946,7 +3200,8 @@
         "Take book can I."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-junior-missing-spoon",
@@ -2979,7 +3234,10 @@
         "Borrow spoon I may."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-lunch"
+    ]
   },
   {
     "id": "speak-junior-spilled-water",
@@ -3013,7 +3271,10 @@
         "Towel I get sorry."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-kids-classroom-rules"
+    ]
   },
   {
     "id": "speak-junior-greet-new-child",
@@ -3047,7 +3308,11 @@
         "Hi! Would you like to sit?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-making-friends",
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-junior-ask-coat",
@@ -3080,7 +3345,8 @@
         "Reach coat please can."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": []
   },
   {
     "id": "speak-junior-thank-driver",
@@ -3113,7 +3379,10 @@
         "Help your thanks for."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-jobs-people-do"
+    ]
   },
   {
     "id": "speak-junior-apple-price",
@@ -3146,7 +3415,10 @@
         "Price the tell please."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-kids-fruits"
+    ]
   },
   {
     "id": "speak-junior-pet-water",
@@ -3180,7 +3452,11 @@
         "Can we give the puppy water?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-dogs",
+      "topic-kids-caring-for-pets"
+    ]
   },
   {
     "id": "speak-junior-repeat-word",
@@ -3214,7 +3490,10 @@
         "Repeat you can it."
       ],
       "natural": 0
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-junior-thank-gift",
@@ -3248,7 +3527,10 @@
         "Love it I thanks."
       ],
       "natural": 1
-    }
+    },
+    "topicIds": [
+      "topic-kids-birthday-parties"
+    ]
   },
   {
     "id": "speak-junior-borrow-eraser",
@@ -3282,7 +3564,10 @@
         "Borrow eraser may I."
       ],
       "natural": 2
-    }
+    },
+    "topicIds": [
+      "topic-kids-school-day"
+    ]
   },
   {
     "id": "speak-junior-bus-seat",
@@ -3316,6 +3601,9 @@
         "Can I sit here, please?"
       ],
       "natural": 3
-    }
+    },
+    "topicIds": [
+      "topic-kids-making-friends"
+    ]
   }
 ]
