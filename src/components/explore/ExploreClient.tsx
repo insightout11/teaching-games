@@ -1,5 +1,6 @@
 'use client';
 
+import { FLAP_FONT } from '@/components/ui/split-flap';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -113,7 +114,7 @@ function ModuleCard({
   const extraCount = skills.length - visibleSkills.length;
 
   return (
-    <div className="panel-card p-0 overflow-hidden flex flex-col">
+    <div className="flex flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0a121e]/85 transition-colors hover:border-cyan-300/30">
       <button
         onClick={onLaunch}
         aria-label={`${name} – ${typeLabel}, ${estimatedMinutes} min`}
@@ -475,13 +476,14 @@ export function ExploreClient() {
 
   return (
     <div className="-mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-6 lg:px-8 lg:pt-8 pb-12 min-h-full">
-      <div className="mb-5">
-        <h1 className="text-2xl font-bold text-lc-text">Browse</h1>
-        <p className="text-lc-text2 mt-1">✈ Run a game or activity with your class</p>
-      </div>
+      <header className="mx-auto mb-5 max-w-6xl pt-2">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-300/90" style={{ fontFamily: FLAP_FONT }}>Explore</p>
+        <h1 className="mt-2 font-display text-4xl text-white sm:text-5xl">Every game and <em className="text-amber-300">activity</em></h1>
+        <p className="mt-2 text-white/60">Launch any of them with a class, or open one to see how it works.</p>
+      </header>
 
       {/* Toolbar: search + type segmented control + skill popover */}
-      <div className="sticky top-0 z-20 -mx-6 px-6 lg:-mx-8 lg:px-8 py-3 mb-6 bg-lc-bg/95 backdrop-blur border-b border-lc-border-subtle">
+      <div className="sticky top-14 z-20 -mx-6 px-6 lg:-mx-8 lg:px-8 py-3 mb-6 bg-[#060b14]/90 backdrop-blur border-b border-white/[0.07]">
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative flex-1 min-w-[200px] max-w-md">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-lc-text3" aria-hidden />
