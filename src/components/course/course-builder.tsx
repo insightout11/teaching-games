@@ -12,7 +12,7 @@ import {
   getCourseSourceKind,
 } from '@/lib/course-flight-preset';
 import { buildCourseLessonContext } from '@/lib/course-context';
-import { COURSE_PRESETS as TOPIC_COURSE_PRESETS, READING_COURSE_PRESETS, type CoursePreset } from '@/lib/course-presets';
+import { COURSE_PRESETS as TOPIC_COURSE_PRESETS, READING_COURSE_PRESETS, READY_COURSE_PRESETS, type CoursePreset } from '@/lib/course-presets';
 import { LESSON_TYPES, lessonTypeBlocker, lessonTypeOf, type LessonType } from '@/lib/course-lesson-types';
 import { createClient } from '@/lib/supabase/client';
 import { FLAP_FONT } from '@/components/ui/split-flap';
@@ -24,7 +24,7 @@ import { ArrowDown, ArrowLeft, ArrowUp, BookOpen, BookUp, FileText, Film, Flag, 
 // ready course; each lesson gets a lesson type (a flight) chosen directly, its material (library or your own text),
 // and the course arc (one task in lesson 1, repeated in the last lesson).
 
-const COURSE_PRESETS: CoursePreset[] = [...TOPIC_COURSE_PRESETS, ...READING_COURSE_PRESETS];
+const COURSE_PRESETS: CoursePreset[] = [...READY_COURSE_PRESETS, ...TOPIC_COURSE_PRESETS, ...READING_COURSE_PRESETS];
 
 type EditableLesson = CourseOutlineLesson & { _id: string };
 type TeacherClass = { id: string; name: string; default_difficulty: string | null; junior?: boolean };
@@ -206,7 +206,7 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
     setLevel(preset.level);
     setLessonCount(preset.lessons.length);
     setCourseTitle(preset.title);
-    setArcTask('');
+    setArcTask(preset.arcTask ?? '');
     setLessons(withArcRoles(preset.lessons.map((lesson, i) => ({ ...lesson, _id: `${preset.id}-${i}` }))));
     setError(null);
     setPhase('outline');

@@ -1,4 +1,7 @@
 import bookLibrary from '@/data/book-library.json';
+import readyCourses from '@/data/ready-courses.json';
+import { LESSON_TYPES } from '@/lib/course-lesson-types';
+import type { SourceType } from '@/types/source-material';
 import type { CourseOutlineLesson } from '@/lib/course';
 import type { Difficulty } from '@/lib/difficulty';
 
@@ -9,6 +12,9 @@ export interface CoursePreset {
   level: Difficulty;
   blurb: string;
   lessons: CourseOutlineLesson[];
+  /** Ready courses (Codex round 24): who it's for and the course task done in lesson 1 and the last lesson. */
+  audience?: 'kids' | 'teens' | 'skills' | 'exam';
+  arcTask?: string;
 }
 
 export const COURSE_PRESETS: CoursePreset[] = [
@@ -460,3 +466,48 @@ function bookCoursePresets(): CoursePreset[] {
 
 /** Reading courses built from the library books (shown alongside COURSE_PRESETS in the course builder). */
 export const READING_COURSE_PRESETS: CoursePreset[] = bookCoursePresets();
+
+const READING_SOURCE_TYPES = new Set(['books', 'stories', 'picture-books', 'storyweaver', 'voa', 'discussion']);
+const SKILL_IDS = /listening|debate|cities|confidence/i;
+
+interface ReadyCourse {
+  id: string;
+  title: string;
+  audience: 'kids' | 'teens';
+  level: Difficulty;
+  blurb: string;
+  theme: string;
+  arcTask?: string;
+  lessons: Array<{ title: string; topic: string; keywords?: string[]; flight: string; arc?: 'baseline' | 'compare'; source?: { sourceType: string; id: string; title: string } }>;
+}
+
+/** 24 ready courses from src/data/ready-courses.json (kids and teen themes, skills, exam-style speaking). */
+export const READY_COURSE_PRESETS: CoursePreset[] = (readyCourses as unknown as ReadyCourse[]).map((c) => ({
+  id: `ready-${c.id}`,
+  title: c.title,
+  theme: c.theme,
+  level: c.level,
+  blurb: c.blurb,
+  arcTask: c.arcTask,
+  audience: /style speaking/i.test(c.title) ? 'exam' : SKILL_IDS.test(c.id) || SKILL_IDS.test(c.title) ? 'skills' : c.audience,
+  lessons: c.lessons.map((l) => {
+    const type = LESSON_TYPES.find((t) => t.flightPresetId === l.flight) ?? LESSON_TYPES[5];
+    return {
+      title: l.title,
+      topic: l.topic,
+      keywords: l.keywords ?? [],
+      goal: type.goal,
+      flightPresetId: type.flightPresetId,
+      ...(l.arc ? { arcRole: l.arc } : {}),
+      suggestedSource: l.source
+        ? {
+            kind: READING_SOURCE_TYPES.has(l.source.sourceType) ? ('reading' as const) : ('video' as const),
+            sourceType: l.source.sourceType as SourceType,
+            id: l.source.id,
+            title: l.source.title,
+            ...(type.id === 'listening' ? { listening: true } : {}),
+          }
+        : null,
+    };
+  }),
+}));

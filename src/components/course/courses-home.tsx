@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import type { Course } from '@/lib/course';
 import type { CourseProgress } from '@/app/api/course/route';
-import { COURSE_PRESETS, READING_COURSE_PRESETS, type CoursePreset } from '@/lib/course-presets';
+import { COURSE_PRESETS, READING_COURSE_PRESETS, READY_COURSE_PRESETS, type CoursePreset } from '@/lib/course-presets';
 import { FLAP_FONT } from '@/components/ui/split-flap';
 import { BookOpen, BookUp, Layers, Loader2, Plus, Sparkles } from 'lucide-react';
 
@@ -161,10 +161,30 @@ export function CoursesHome() {
         </a>
         <a href="#theme-courses" className="flex flex-col gap-2 rounded-2xl border border-white/[0.07] bg-[#0a121e]/85 p-5 hover:border-cyan-300/30">
           <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>Theme courses</span>
-          <h2 className="text-lg font-semibold text-white">{COURSE_PRESETS.length} six-lesson themes</h2>
-          <p className="text-sm text-white/65">Travel, food, animals, technology and more. Pick one, edit the lessons, save.</p>
+          <h2 className="text-lg font-semibold text-white">{COURSE_PRESETS.length + READY_COURSE_PRESETS.length} ready courses</h2>
+          <p className="text-sm text-white/65">Kids and teen themes, skills, and exam-style speaking. Pick one, edit the lessons, save.</p>
         </a>
       </section>
+
+      <div id="theme-courses" className="scroll-mt-20 space-y-8">
+        {([
+          ['kids', 'For kids'],
+          ['teens', 'For teens'],
+          ['skills', 'Skills'],
+          ['exam', 'Exam-style speaking'],
+        ] as const).map(([key, title]) => {
+          const list = READY_COURSE_PRESETS.filter((p) => p.audience === key);
+          if (!list.length) return null;
+          return (
+            <section key={key} className="space-y-3">
+              <h2 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: FLAP_FONT }}><Layers className="h-3.5 w-3.5" />{title}</h2>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {list.map((p) => <PresetTile key={p.id} preset={p} />)}
+              </div>
+            </section>
+          );
+        })}
+      </div>
 
       <section id="reading-courses" className="scroll-mt-20 space-y-3">
         <h2 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: FLAP_FONT }}><BookOpen className="h-3.5 w-3.5" />Reading courses</h2>
@@ -173,8 +193,8 @@ export function CoursesHome() {
         </div>
       </section>
 
-      <section id="theme-courses" className="scroll-mt-20 space-y-3">
-        <h2 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: FLAP_FONT }}><Layers className="h-3.5 w-3.5" />Theme courses</h2>
+      <section className="space-y-3">
+        <h2 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: FLAP_FONT }}><Layers className="h-3.5 w-3.5" />More themes</h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {COURSE_PRESETS.map((p) => <PresetTile key={p.id} preset={p} />)}
         </div>
