@@ -8,7 +8,7 @@ Replaced the Round 25 picture stand-ins with all nine new sticker IDs in the rel
 
 ## Task 2 — older course arc tasks
 
-Pending.
+Added 22 course arc tasks in `src/data/course-arc-tasks.json`: eight original theme presets and fourteen reading courses. Each is a simple speaking task of at most 20 words. The new speaking bank checker derives the expected IDs from the course presets and reports 22/22 valid tasks; all four course-task checks are zero.
 
 ## Task 3 — Junior speaking situations
 
