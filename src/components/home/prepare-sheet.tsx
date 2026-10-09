@@ -10,6 +10,7 @@ import {
   PREPARED_TYPE_LABEL,
   PREPARED_TYPE_PREVIEW,
   savePreparedLesson,
+  prepareFirstStage,
   type PreparedLesson,
   type PreparedType,
 } from '@/lib/prepared-lesson';
@@ -41,6 +42,8 @@ export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: Bo
   const [grammar, setGrammar] = useState<GrammarTarget | ''>((p?.payload?.grammarTarget as GrammarTarget | undefined) ?? '');
   const [material, setMaterial] = useState<MaterialLesson>({ _id: 'prep', title: initialSource?.title ?? p?.materialTitle ?? '', topic: initialSource?.title ?? p?.topic ?? '', suggestedSource: initialSource ?? null, ownMaterial: null });
   const [saving, setSaving] = useState(false);
+  const [readyNow, setReadyNow] = useState(true);
+  const [readying, setReadying] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -81,8 +84,13 @@ export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: Bo
         focusText,
         grammarTarget: grammar || null,
       });
-      await savePreparedLesson(row.classId, lesson);
-      onSaved(lesson);
+      let saved = lesson;
+      if (readyNow && lesson.payload) {
+        setReadying(true);
+        saved = await prepareFirstStage(lesson, row.students);
+      }
+      await savePreparedLesson(row.classId, saved);
+      onSaved(saved);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not save the lesson.');
       setSaving(false);
@@ -208,6 +216,13 @@ export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: Bo
           </ol>
         </section>
 
+        {type !== 'free' && (
+          <label className="flex cursor-pointer items-center gap-3 text-sm text-white/80">
+            <input type="checkbox" checked={readyNow} onChange={(e) => setReadyNow(e.target.checked)} className="h-4 w-4 accent-cyan-400" />
+            Get the first activity ready now, so the lesson starts without waiting
+          </label>
+        )}
+
         {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-2">
@@ -222,7 +237,7 @@ export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: Bo
             disabled={saving || !topic.trim() || (type === 'grammar' && !grammar) || (!!typeDef?.needs && !!lessonTypeBlocker(typeDef, material.suggestedSource, !!material.ownMaterial))}
             className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-2.5 font-semibold text-[#03202a] hover:bg-cyan-300 disabled:opacity-40"
           >
-            {saving && <Loader2 className="h-4 w-4 animate-spin" />}Save as next flight
+            {saving && <Loader2 className="h-4 w-4 animate-spin" />}{readying ? 'Getting it ready…' : 'Save as next flight'}
           </button>
         </div>
       </div>

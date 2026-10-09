@@ -221,7 +221,7 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
                         <p className="text-[15px] font-bold uppercase text-white/40">Free flight</p>
                       )}
                       <p className="mt-1 truncate font-sans text-xs text-white/45">
-                        {r.prepared && !r.liveSessionId && <span className="text-cyan-300/80">prepared{r.prepared.materialTitle ? ` · ${r.prepared.materialTitle}` : ''} · </span>}
+                        {r.prepared && !r.liveSessionId && <span className="text-cyan-300/80">prepared{r.prepared.ready ? ' · ready' : ''}{r.prepared.materialTitle ? ` · ${r.prepared.materialTitle}` : ''} · </span>}
                         {!r.prepared && r.next && !r.liveSessionId && <span className="text-cyan-300/80">{r.next.courseTitle} · </span>}
                         {r.last ? <>last: {now ? shortDate(r.last.at) : ''} · {r.last.line}</> : !r.next && !r.liveSessionId ? 'choose in the room' : null}
                       </p>

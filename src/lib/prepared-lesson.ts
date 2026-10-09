@@ -29,6 +29,8 @@ export interface PreparedLesson {
   /** Free talk: the room's Focus when it opens (title, optional text such as last lesson's words). */
   focus?: { title: string; text?: string };
   preparedAt: string;
+  /** "Get it ready now" made the first stage's content. */
+  ready?: boolean;
 }
 
 export const PREPARED_TYPE_LABEL: Record<PreparedType, string> = {
@@ -112,6 +114,36 @@ export async function launchPreparedLesson(classId: string, lesson: PreparedLess
   } catch { /* storage unavailable: the room opens without the prepared topic */ }
   await savePreparedLesson(classId, null).catch(() => {});
   return data.sessionId;
+}
+
+/**
+ * "Get it ready now": make the first stage's content at prepare time, so Board opens without the first wait (the
+ * room already prepares each next stage while the current one runs). Best effort: on failure the room makes it
+ * on the day as usual. Skips games (they make their own content), landings and stages seeded from the room.
+ */
+export async function prepareFirstStage(lesson: PreparedLesson, studentCount: number): Promise<PreparedLesson> {
+  const first = lesson.payload?.slots[0];
+  if (!lesson.payload || !first || first.type !== 'activity' || ['speak-reveal', 'trip-recap', 'final-answer'].includes(first.key)) return lesson;
+  try {
+    const res = await fetch('/api/lesson-plan/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customTopic: lesson.payload.customTopic,
+        difficulty: lesson.payload.difficulty,
+        activities: [first.key],
+        studentCount: Math.max(1, studentCount),
+        ...(lesson.payload.sourceMaterial ? { sourceMaterial: lesson.payload.sourceMaterial } : {}),
+        ...(lesson.payload.grammarTarget ? { grammarTarget: lesson.payload.grammarTarget } : {}),
+      }),
+    });
+    const data = (await res.json().catch(() => null)) as { success?: boolean; content?: Record<string, unknown> } | null;
+    const content = data?.content?.[first.key];
+    if (!res.ok || !content) return lesson;
+    return { ...lesson, payload: { ...lesson.payload, generatedContent: { ...lesson.payload.generatedContent, [first.key]: content } }, ready: true };
+  } catch {
+    return lesson;
+  }
 }
 
 /** The room reads this once at the gate and opens with the prepared topic as its Focus. */
