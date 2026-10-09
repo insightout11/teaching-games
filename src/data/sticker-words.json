@@ -2772,6 +2772,170 @@
   "hint": "a small yellow baby chick"
  },
  {
+  "word": "hill",
+  "id": "hill",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "mud",
+  "id": "mud",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "nest",
+  "id": "nest",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "bamboo",
+  "id": "bamboo",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "burrow",
+  "id": "burrow",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "a rabbit hole in a grassy bank"
+ },
+ {
+  "word": "seaweed",
+  "id": "seaweed",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "coral",
+  "id": "coral",
+  "category": "nature",
+  "kind": "thing"
+ },
+ {
+  "word": "cupboard",
+  "id": "cupboard",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "jar",
+  "id": "jar",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "flour",
+  "id": "flour",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a bag of flour"
+ },
+ {
+  "word": "easel",
+  "id": "easel",
+  "category": "home",
+  "kind": "thing"
+ },
+ {
+  "word": "food bowl",
+  "id": "food-bowl",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a pet food bowl with food"
+ },
+ {
+  "word": "collar",
+  "id": "collar",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a dog collar"
+ },
+ {
+  "word": "leash",
+  "id": "leash",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a dog leash"
+ },
+ {
+  "word": "picnic mat",
+  "id": "picnic-mat",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a checked picnic blanket on grass"
+ },
+ {
+  "word": "paper boat",
+  "id": "paper-boat",
+  "category": "toys",
+  "kind": "thing"
+ },
+ {
+  "word": "kite string",
+  "id": "kite-string",
+  "category": "toys",
+  "kind": "thing",
+  "hint": "a ball of kite string"
+ },
+ {
+  "word": "toy tower",
+  "id": "toy-tower",
+  "category": "toys",
+  "kind": "thing",
+  "hint": "a tall tower of toy blocks"
+ },
+ {
+  "word": "train ticket",
+  "id": "train-ticket",
+  "category": "transport",
+  "kind": "thing",
+  "hint": "a small paper train ticket"
+ },
+ {
+  "word": "road sign",
+  "id": "road-sign",
+  "category": "transport",
+  "kind": "thing",
+  "hint": "a round road sign on a post"
+ },
+ {
+  "word": "bike wheel",
+  "id": "bike-wheel",
+  "category": "transport",
+  "kind": "thing"
+ },
+ {
+  "word": "stage",
+  "id": "stage",
+  "category": "places",
+  "kind": "thing",
+  "hint": "an empty theatre stage with red curtains"
+ },
+ {
+  "word": "costume",
+  "id": "costume",
+  "category": "clothes",
+  "kind": "thing",
+  "hint": "a colourful dress-up costume on a hanger"
+ },
+ {
+  "word": "actor",
+  "id": "actor",
+  "category": "people",
+  "kind": "person",
+  "hint": "an actor on stage taking a bow"
+ },
+ {
+  "word": "station worker",
+  "id": "station-worker",
+  "category": "people",
+  "kind": "person",
+  "hint": "a train station worker in uniform with a whistle"
+ },
+ {
   "word": "mother",
   "id": "mother",
   "category": "people",

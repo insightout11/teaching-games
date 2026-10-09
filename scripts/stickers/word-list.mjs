@@ -111,12 +111,27 @@ Object.assign(THING, {
   wheelchair: 'an empty wheelchair', hearing_aid: 'a small hearing aid', bib: 'a baby bib', crib: "a baby's crib",
 });
 
+// Round 23 (Codex) story words, Oct 9 2026.
+const EXTRA2 = {
+  nature: 'hill mud nest bamboo burrow seaweed coral', home: 'cupboard jar flour easel food_bowl collar leash picnic_mat',
+  toys: 'paper_boat kite_string toy_tower', transport: 'train_ticket road_sign bike_wheel', places: 'stage', clothes: 'costume',
+};
+Object.assign(THING, {
+  burrow: 'a rabbit hole in a grassy bank', flour: 'a bag of flour', collar: 'a dog collar', leash: 'a dog leash',
+  kite_string: 'a ball of kite string', toy_tower: 'a tall tower of toy blocks', stage: 'an empty theatre stage with red curtains',
+  costume: 'a colourful dress-up costume on a hanger', food_bowl: 'a pet food bowl with food', picnic_mat: 'a checked picnic blanket on grass',
+  road_sign: 'a round road sign on a post', train_ticket: 'a small paper train ticket',
+});
+const EXTRA_PEOPLE = { actor: 'an actor on stage taking a bow', station_worker: 'a train station worker in uniform with a whistle' };
+
 const out = [];
 const add = (w, category, kind, hint) =>
   out.push({ word: w.replace(/_/g, ' '), id: w.replace(/_/g, '-'), category, kind, ...(hint ? { hint } : {}) });
 for (const [cat, list] of Object.entries(things))
   for (const w of list.split(' ')) BODY_PERSON[w] ? add(w, cat, 'person', BODY_PERSON[w]) : add(w, cat, 'thing', THING[w]);
 for (const [cat, list] of Object.entries(EXTRA)) for (const w of list.split(' ')) add(w, cat === 'people' ? 'home' : cat, 'thing', THING[w]);
+for (const [cat, list] of Object.entries(EXTRA2)) for (const w of list.split(' ')) add(w, cat, 'thing', THING[w]);
+for (const [w, hint] of Object.entries(EXTRA_PEOPLE)) add(w, 'people', 'person', hint);
 for (const w of people.split(' ')) add(w, 'people', 'person', PERSON[w] ?? `a ${w.replace(/_/g, ' ')}`);
 for (const w of actions.split(' ')) add(w, 'actions', 'action', `a child ${ING[w] ?? w + 'ing'}`);
 for (const w of feelings.split(' ')) add(w, 'feelings', 'feeling', `a child looking ${FEEL[w] ?? w}`);
