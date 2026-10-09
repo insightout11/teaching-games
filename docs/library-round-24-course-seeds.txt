@@ -1,0 +1,167 @@
+kids-family|My Family and Me|kids|Beginner|Five gentle flights from the people who care for us to the things we do together.|People, homes and caring routines|Say three things people do together.
+People Around Me|name and describe people who care for us|family,people,care|speak-60|-
+Home Routines|tell what people do in the morning and evening|home,morning,routines|speak-60|-
+A Little Help|read about patience and helping at home|family,help,patience|reading-60|storyweaver:storyweaver-33-not-now-not-now
+Our Shared Day|plan a day with activities for different people|family,activities,planning|all-around-flight-60|-
+What We Can Say Now|describe people and shared routines more clearly|family,describe,routines|speak-60|-
+
+kids-animals|Animals Around the World|kids|Easy|Meet pets, big cats and sea animals, then explain how each lives.|Animal homes, features and care|Describe one animal with three facts.
+Meet an Animal|describe a familiar animal's body and home|animal,body,home|speak-60|kids:kids_home_sweet_habitat
+Two Animal Friends|read how two animals become friends|pets,friendship,story|reading-60|storyweaver:storyweaver-149-timmy-and-pepe
+Big Cats|compare the features of wild cats|cats,stripes,habitats|speak-60|kids:kids_8cqmky_wqao
+Life in the Sea|explain how an ocean animal moves and eats|ocean,shark,adaptation|all-around-flight-60|kids:kids_zfk0xhqt5fq
+My Animal Guide|present an animal's home, food and movement|animal,habitat,food|speak-60|-
+
+kids-food|Food We Love|kids|Easy|Talk about meals, read a food story and design a balanced lunch.|Food, sharing and simple choices|Describe one meal with three words.
+My Favourite Meal|name foods and explain one choice|meal,favourite,food|speak-60|-
+Fruit or Vegetable|sort familiar foods and say why|fruit,vegetable,plant|speak-60|kids:kids_dtk_uwx_vqo
+Too Many Bananas|read a story about using extra fruit|banana,sharing,story|reading-60|storyweaver:storyweaver-208-too-many-bananas
+Make a Lunch|choose foods for a lunch and explain the choices|lunch,choice,plate|all-around-flight-60|kids:kids_science_of_lunch
+Our Food Table|describe a meal with clearer food and taste words|meal,taste,describe|speak-60|-
+
+kids-weather|Seasons and Weather|kids|Easy|Follow wind, rain and sunshine through stories and daily plans.|Seasons, forecasts and what we wear|Describe today's weather in three sentences.
+The Weather Today|say what the sky and air are like now|weather,sky,temperature|speak-60|-
+Wind at Work|read a story with wind as a character|wind,story,weather|reading-60|storyweaver:storyweaver-16-vayu-the-wind
+Will It Rain?|notice clues that rain may be coming|cloud,rain,forecast|speak-60|kids:kids_dlq0lhpyzd8
+The Sun and Seasons|connect sunlight to seasonal changes|sun,seasons,change|all-around-flight-60|kids:kids_seasons_sun
+Our Weather Report|give a fuller weather report and compare it with lesson one|weather,report,compare|speak-60|-
+
+kids-space|Space Explorers|kids|Easy|Travel from the night sky to the Moon and imagine a safe space journey.|Moon, Earth and space travel|Say three things about the Moon and space.
+Look Up Tonight|describe the Moon and stars from Earth|moon,stars,night|speak-60|-
+A Trip to the Moon|read an imaginative journey to the Moon|moon,journey,story|reading-60|storyweaver:storyweaver-2985-aditi-s-trip-to-moon
+Moon Walk|explain what an astronaut needs on the Moon|astronaut,moon,gravity|speak-60|kids:kids_over_to_moon
+Earth from Space|connect day and night to Earth's movement|earth,day,rotation|all-around-flight-60|kids:kids_earth_rotation_revolution
+Our Space Guide|present a Moon journey using new space words|moon,astronaut,journey|speak-60|-
+
+kids-dinosaurs|Dinosaurs|kids|Easy|Ask what dinosaurs looked like, how we know and what remains today.|Dinosaurs, evidence and change|Describe a dinosaur in three sentences.
+Meet a Dinosaur|describe a dinosaur using size and body words|dinosaur,size,body|speak-60|-
+Clues in the Ground|explain what rocks can tell us about the past|rocks,clues,past|speak-60|-
+Birds and Dinosaurs|compare a living bird with a dinosaur|bird,dinosaur,features|all-around-flight-60|kids:kids_syawnjolnv8
+Water Long Ago|follow water from long ago to today|water,cycle,dinosaur|speak-60|kids:kids_dinosaur_pee
+My Dinosaur Museum|give a short museum talk with evidence words|dinosaur,evidence,museum|speak-60|-
+
+kids-school|At School|kids|Beginner|Begin with the first day, then practise classroom talk and making things together.|School routines, friends and creating|Say three things about a school day.
+My School Day|name places, people and things at school|school,teacher,classroom|speak-60|-
+Rani's First Day|read about a child's first school day|school,friend,first-day|reading-60|storyweaver:storyweaver-98-rani-s-first-day-at-school
+Ask and Answer|practise asking for help and taking turns|questions,help,turns|speak-60|-
+Paper Play|read and make something from paper|paper,craft,school|reading-60|storyweaver:storyweaver-156-paper-play
+Our Class Guide|explain a school day to a new student|school,routines,guide|all-around-flight-60|-
+
+kids-helpers|Helpers in Our Town|kids|Easy|Explore how everyday helpers solve problems and make places work.|Community jobs and helpful actions|Describe how one person helps a town.
+People Who Help|name a helper and describe a useful action|helper,job,community|speak-60|-
+Build a Better Place|notice what a town needs to work well|city,design,community|all-around-flight-60|kids:kids_gnnuid8hof0
+A Kind Detective|read about helping by noticing clues|detective,clues,kindness|reading-60|storyweaver:storyweaver-2171-kaushik-the-kind-detective
+Solve a Small Problem|choose who could help in everyday situations|problem,helper,choice|speak-60|kids:kids_defining_problem
+Thank a Helper|describe a helper's work with a clear example|helper,work,example|speak-60|-
+
+teens-social-media|Social Media and Me|teens|Intermediate|Move from personal habits to influence, wellbeing and fair platform rules.|Online habits, influence and responsibility|Explain one change you would make to your online habits.
+My Online Day|describe when and why we use social platforms|social-media,habits,time|speak-60|-
+People Who Influence Us|explain how an influencer can shape choices|influencer,choices,trust|speak-60|bbc:bbc_real_easy_social_media_influencer
+Health and Screens|discuss how social media can affect teenage wellbeing|health,screens,wellbeing|all-around-flight-60|bbc:bbc_6me_social_media_teen_health
+Rules for Platforms|argue for or against a teen time limit|time-limit,platforms,fairness|debate-60|-|debate-r12-40
+My Better Online Day|propose a personal online routine with reasons|routine,balance,change|speak-60|-
+
+teens-future-jobs|Future Jobs|teens|Intermediate|Explore useful skills, changing workplaces and fair first steps into work.|Work, technology and choice|Describe one job you could try and why.
+A Job I Could Try|describe a role and the skills it needs|job,skills,interest|speak-60|-
+Work Is Changing|explain one way jobs are changing|work,technology,change|all-around-flight-60|bbc:bbc_tech_future_of_work
+Predicting Future Work|use future forms for realistic job predictions|future,work,predictions|grammar-60|grammar:grammar-r2-lGcXggbeLH8
+A Fair First Job|argue whether teen internships should be paid|internship,pay,fairness|debate-60|-|debate-r14-37
+My Next Step|present a job idea and a skill-building plan|job,plan,skills|speak-60|-
+
+teens-sport|Sport and Us|teens|Intermediate|Talk about participation, pressure and the place of sport in our lives.|Sport, teamwork and wellbeing|Explain why one sport might suit you.
+One Sport for Me|describe a sport and the people who play it|sport,players,choice|speak-60|-
+Body and Brain|explain how playing sport can affect wellbeing|exercise,brain,health|all-around-flight-60|teded:teded_hmfqqjmf_f0
+Pressure in a Match|discuss how players handle a difficult moment|pressure,match,team|speak-60|bbc:bbc_msjmjxd1udk
+More Ways to Join|argue for a wider choice of school sports|school,sport,access|debate-60|-|debate-r12-09
+My Sport Invitation|invite a newcomer to try a suitable sport|invitation,sport,confidence|speak-60|-
+
+teens-music|Music and Meaning|teens|Intermediate|Follow music from personal taste to history, practice and live performance.|Music, culture and expression|Describe a piece of music and why it matters to you.
+The Music I Choose|describe a favourite sound or song|music,choice,feeling|speak-60|-
+Jazz Has a Story|explain how jazz developed and spread|jazz,history,culture|speak-60|voa:voa-history-of-jazz
+Hip-Hop Voices|discuss how hip-hop tells stories|hip-hop,lyrics,identity|all-around-flight-60|voa:voa-history-of-hip-hop
+Practice and Performance|compare private practice with public performance|practice,performance,skill|speak-60|bbc:bbc_6me_becoming_musician
+My Music Introduction|introduce a piece with clearer detail and reasons|music,introduction,reasons|speak-60|-
+
+teens-film|Film and Series Talk|teens|Intermediate|Build from personal viewing choices to story, scenes and respectful reviews.|Screen stories, choices and reviews|Describe a screen story and give one reason to watch it.
+What I Watch|describe a film or series without spoilers|film,series,genre|speak-60|-
+A Movie Plan|plan a movie choice with another person|movie,plans,choice|speak-60|voa:voa-level2-lesson-19-movie-night
+Talk about Film Choices|compare television and movie preferences|television,movies,opinion|speak-60|listening:listening-r7-english-file-tv-movies
+Compare Two Scenes|use comparative words to explain a preference|scenes,comparatives,reason|grammar-60|grammar:grammar-r3-wXiD0FdON7k
+My Short Review|give a spoiler-free review with stronger reasons|review,story,recommendation|speak-60|-
+
+teens-mysteries|Mysteries and the Unexplained|teens|Advanced|Read clues, test explanations and tell a fair mystery story.|Evidence, inference and storytelling|Explain a mystery using three clues.
+A Puzzling Scene|describe a strange scene and suggest explanations|mystery,clues,explanation|speak-60|-
+The Savanna Puzzle|test a solution against evidence|savanna,mystery,evidence|all-around-flight-60|teded:teded_savanna_mystery
+Holmes Looks Closely|read how a detective notices a decisive clue|detective,observation,inference|reading-60|books:book-sherlock-1
+Another Suspect|compare two plausible accounts of the same event|suspect,account,evidence|speak-60|books:book-sherlock-2
+My Fair Solution|explain a mystery with clues and an alternative|mystery,clues,solution|speak-60|-
+
+teens-money|Money and Spending|teens|Intermediate|Practise price talk, budgeting, choices and the value of work.|Money choices in everyday life|Explain one spending choice and its trade-off.
+A Choice to Make|compare two things you might buy|price,choice,trade-off|speak-60|-
+Finding Cash|listen to a practical money and directions exchange|atm,directions,money|listening-60|listening:listening-r8-aef-looking-for-atm
+When Budgets Shrink|explain decisions after a budget cut|budget,cost,priority|speak-60|voa:voa-level2-lesson-1-budget-cuts
+Work and Income|discuss what a second job gives and costs|income,time,work|all-around-flight-60|bbc:bbc_6me_second_job
+My Spending Plan|present a revised choice with a reason and limit|budget,choice,limit|speak-60|-
+
+teens-planet|Our Planet's Future|teens|Intermediate|Connect weather, waste, water and local energy choices.|Environment and practical responses|Name one local action and explain its effect.
+One Change Near Us|describe an environmental issue in a familiar place|environment,local,change|speak-60|-
+Weather and Climate|explain why one extreme event is not the whole climate story|weather,climate,evidence|all-around-flight-60|voa:voa-climate-change-weather
+The Plastic Trail|trace what happens to a discarded plastic item|plastic,waste,ocean|speak-60|bbc:bbc_climate_without_plastic
+Water for Everyone|compare ways to use less water fairly|water,saving,fairness|all-around-flight-60|bbc:bbc_climate_saving_water
+A Local Plan|present an action with its benefit and possible cost|action,benefit,cost|speak-60|-
+
+skills-listening|Listening for Real Life|teens|Easy|Five short transcript-backed clips move from names to plans and public information.|Listening for gist, detail and purpose|Say who is speaking, where and why.
+First Introductions|hear names and basic personal details|names,introductions,details|listening-60|listening:listening-r7-english-file-introductions
+Likes and Reasons|hear what a speaker likes and one reason|likes,reasons,opinion|listening-60|listening:listening-r7-english-file-likes-dislikes-1
+Making a Plan|follow a short conversation about a shared plan|plan,time,agreement|listening-60|listening:listening-r7-american-english-file-esl-making-a-plan
+School News|pick the main message from a school announcement|announcement,school,main-idea|listening-60|listening:listening-r8-school-registration
+Travel Details|identify a travel problem and the needed action|travel,problem,action|listening-60|listening:listening-r7-american-english-file-esl-reporting-lost-luggage
+
+skills-debate|Debate with Evidence|teens|Intermediate|Build a claim, compare evidence, answer a challenge and give a fair closing.|School decisions and supported arguments|Give a claim, evidence and reply about a school rule.
+One Clear Claim|argue whether schools should cap homework|homework,claim,reason|debate-60|-|debate-r12-32
+Two Sides of AI|compare reasons for and against AI planning help|ai,planning,schools|debate-60|-|debate-r12-34
+Evidence on Screens|support a view about screens in lessons|screens,evidence,learning|debate-60|-|debate-r12-39
+A Fair Reply|answer an objection about paid internships|internships,pay,rebuttal|debate-60|-|debate-r14-37
+Make the Case Again|give a balanced closing about home languages|language,school,closing|debate-60|-|debate-r12-58
+
+skills-travel|Five Cities, Five Journeys|teens|Intermediate|Visit Bangkok, Tokyo, Paris, Cairo and Rio through place, food and daily travel.|Cities, movement and local life|Describe one city using place, food and transport.
+Bangkok by River|describe a city journey that uses a river boat|bangkok,river,boat|travel-60|world-flight:world-flight-bangkok-river-transport-video
+Tokyo in Motion|explain how a busy metro helps people move|tokyo,metro,transport|travel-60|world-flight:world-flight-tokyo-metro-economics-video
+Paris at a Cafe|compare ways people spend time in public spaces|paris,cafe,public-life|travel-60|world-flight:world-flight-paris-cafe-culture-video
+Cairo and Its River|connect a city's daily life to its river|cairo,nile,city-life|travel-60|world-flight:world-flight-cairo-nile-explainer-video
+Rio Tells Its Story|describe a city through a place, event and route|rio,history,journey|travel-60|world-flight:world-flight-rio-de-janeiro-city-history-video
+
+skills-speaking|Speaking with Confidence|teens|Easy|Five supportive flights build from short answers to a clear personal story.|Speaking in turns and giving reasons|Introduce yourself and give two reasons for a choice.
+My First Answer|introduce yourself and make a simple choice|introductions,choice,reasons|speak-60|listening:listening-r7-english-file-introductions
+Keep It Going|ask a follow-up question and listen to the reply|follow-up,question,reply|speak-60|listening:listening-r7-english-file-names
+Describe a Moment|tell a small personal story in order|story,sequence,detail|speak-60|-
+Speak with a Partner|share turns and respond to another view|turns,partner,response|all-around-flight-60|-
+My Stronger Answer|introduce yourself and explain a choice more fully|introductions,choice,progress|speak-60|-
+
+exam-movers-style|Movers-style Speaking Practice|kids|Beginner|Five original picture and personal-question tasks for young speakers.|Simple pictures, people and familiar places|Introduce yourself and answer three personal questions.
+About Me First|say your name and answer familiar questions|name,home,favourites|speak-60|-
+Find and Name|point to objects and name what you can see|pictures,objects,names|speak-60|-
+One Busy Picture|describe people and actions in one scene|people,actions,place|speak-60|-
+Choose a Picture|say which of two pictures you like and why|pictures,choice,reason|speak-60|-
+About Me Again|answer familiar questions with more detail|name,interests,detail|speak-60|-
+
+exam-flyers-style|Flyers-style Speaking Practice|kids|Easy|Five original tasks practise fuller picture descriptions and short exchanges.|Picture details, differences and reasons|Describe a picture and explain one choice.
+A First Picture Talk|describe a scene and give one reason|picture,scene,reason|speak-60|-
+Notice the Differences|compare two pictures using clear details|pictures,differences,details|speak-60|-
+Ask for Information|ask and answer questions about an event|event,questions,answers|speak-60|-
+Tell the Picture Story|connect several pictures into a short story|sequence,story,pictures|speak-60|-
+Picture Talk Again|describe a new scene with stronger comparisons|picture,comparison,progress|speak-60|-
+
+exam-a2-style|A2 Key-style Speaking Practice|teens|Easy|Five original partner tasks practise personal answers, pictures and choices.|Everyday topics and partner exchange|Answer a personal question and explain one choice.
+First Partner Talk|answer a personal question and state a preference|personal,preference,reason|speak-60|-
+Describe a Photo|say what people are doing in an everyday scene|photo,people,actions|speak-60|-
+Ask Back|ask a partner about plans and respond naturally|plans,questions,reply|speak-60|-
+Choose Together|discuss options and reach one shared choice|options,discussion,agreement|speak-60|-
+Partner Talk Again|answer and explain a new everyday choice|personal,choice,progress|speak-60|-
+
+exam-b1-style|B1 Preliminary-style Speaking Practice|teens|Intermediate|Five original partner tasks build detailed answers, comparisons and follow-up questions.|Pictures, viewpoints and discussion|Compare two options and give a reasoned preference.
+First Comparison|compare two options and state a preference|options,comparison,reason|speak-60|-
+Photo Details|describe a photo and make a cautious guess|photo,details,inference|speak-60|-
+Plan with a Partner|weigh choices and decide together|planning,trade-offs,agreement|speak-60|-
+Develop an Opinion|give a reason and respond to another view|opinion,reason,response|speak-60|-
+Compare Again|compare fresh options with clearer support|options,comparison,progress|speak-60|-

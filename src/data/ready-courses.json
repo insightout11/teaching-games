@@ -1,0 +1,1792 @@
+[
+  {
+    "id": "kids-family",
+    "title": "My Family and Me",
+    "audience": "kids",
+    "level": "Beginner",
+    "blurb": "Five gentle flights from the people who care for us to the things we do together.",
+    "theme": "People, homes and caring routines",
+    "arcTask": "Say three things people do together.",
+    "lessons": [
+      {
+        "title": "People Around Me",
+        "topic": "name and describe people who care for us",
+        "keywords": [
+          "family",
+          "people",
+          "care"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Home Routines",
+        "topic": "tell what people do in the morning and evening",
+        "keywords": [
+          "home",
+          "morning",
+          "routines"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "A Little Help",
+        "topic": "read about patience and helping at home",
+        "keywords": [
+          "family",
+          "help",
+          "patience"
+        ],
+        "flight": "reading-60",
+        "source": {
+          "sourceType": "storyweaver",
+          "id": "storyweaver-33-not-now-not-now",
+          "title": "Not Now, Not Now!"
+        }
+      },
+      {
+        "title": "Our Shared Day",
+        "topic": "plan a day with activities for different people",
+        "keywords": [
+          "family",
+          "activities",
+          "planning"
+        ],
+        "flight": "all-around-flight-60"
+      },
+      {
+        "title": "What We Can Say Now",
+        "topic": "describe people and shared routines more clearly",
+        "keywords": [
+          "family",
+          "describe",
+          "routines"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "kids-animals",
+    "title": "Animals Around the World",
+    "audience": "kids",
+    "level": "Easy",
+    "blurb": "Meet pets, big cats and sea animals, then explain how each lives.",
+    "theme": "Animal homes, features and care",
+    "arcTask": "Describe one animal with three facts.",
+    "lessons": [
+      {
+        "title": "Meet an Animal",
+        "topic": "describe a familiar animal's body and home",
+        "keywords": [
+          "animal",
+          "body",
+          "home"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_home_sweet_habitat",
+          "title": "Home Sweet Habitat"
+        }
+      },
+      {
+        "title": "Two Animal Friends",
+        "topic": "read how two animals become friends",
+        "keywords": [
+          "pets",
+          "friendship",
+          "story"
+        ],
+        "flight": "reading-60",
+        "source": {
+          "sourceType": "storyweaver",
+          "id": "storyweaver-149-timmy-and-pepe",
+          "title": "Timmy and Pepe"
+        }
+      },
+      {
+        "title": "Big Cats",
+        "topic": "compare the features of wild cats",
+        "keywords": [
+          "cats",
+          "stripes",
+          "habitats"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_8cqmky_wqao",
+          "title": "Roar! Meet the Big Cats! | Animal Science for Kids"
+        }
+      },
+      {
+        "title": "Life in the Sea",
+        "topic": "explain how an ocean animal moves and eats",
+        "keywords": [
+          "ocean",
+          "shark",
+          "adaptation"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_zfk0xhqt5fq",
+          "title": "Super Sharks! | Amazing Animals! | SciShow Kids"
+        }
+      },
+      {
+        "title": "My Animal Guide",
+        "topic": "present an animal's home, food and movement",
+        "keywords": [
+          "animal",
+          "habitat",
+          "food"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "kids-food",
+    "title": "Food We Love",
+    "audience": "kids",
+    "level": "Easy",
+    "blurb": "Talk about meals, read a food story and design a balanced lunch.",
+    "theme": "Food, sharing and simple choices",
+    "arcTask": "Describe one meal with three words.",
+    "lessons": [
+      {
+        "title": "My Favourite Meal",
+        "topic": "name foods and explain one choice",
+        "keywords": [
+          "meal",
+          "favourite",
+          "food"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Fruit or Vegetable",
+        "topic": "sort familiar foods and say why",
+        "keywords": [
+          "fruit",
+          "vegetable",
+          "plant"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_dtk_uwx_vqo",
+          "title": "What's the Difference Between Fruits and Vegetables?"
+        }
+      },
+      {
+        "title": "Too Many Bananas",
+        "topic": "read a story about using extra fruit",
+        "keywords": [
+          "banana",
+          "sharing",
+          "story"
+        ],
+        "flight": "reading-60",
+        "source": {
+          "sourceType": "storyweaver",
+          "id": "storyweaver-208-too-many-bananas",
+          "title": "Too Many Bananas"
+        }
+      },
+      {
+        "title": "Make a Lunch",
+        "topic": "choose foods for a lunch and explain the choices",
+        "keywords": [
+          "lunch",
+          "choice",
+          "plate"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_science_of_lunch",
+          "title": "The Science of Lunch"
+        }
+      },
+      {
+        "title": "Our Food Table",
+        "topic": "describe a meal with clearer food and taste words",
+        "keywords": [
+          "meal",
+          "taste",
+          "describe"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "kids-weather",
+    "title": "Seasons and Weather",
+    "audience": "kids",
+    "level": "Easy",
+    "blurb": "Follow wind, rain and sunshine through stories and daily plans.",
+    "theme": "Seasons, forecasts and what we wear",
+    "arcTask": "Describe today's weather in three sentences.",
+    "lessons": [
+      {
+        "title": "The Weather Today",
+        "topic": "say what the sky and air are like now",
+        "keywords": [
+          "weather",
+          "sky",
+          "temperature"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Wind at Work",
+        "topic": "read a story with wind as a character",
+        "keywords": [
+          "wind",
+          "story",
+          "weather"
+        ],
+        "flight": "reading-60",
+        "source": {
+          "sourceType": "storyweaver",
+          "id": "storyweaver-16-vayu-the-wind",
+          "title": "Vayu, the Wind"
+        }
+      },
+      {
+        "title": "Will It Rain?",
+        "topic": "notice clues that rain may be coming",
+        "keywords": [
+          "cloud",
+          "rain",
+          "forecast"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_dlq0lhpyzd8",
+          "title": "How Do We Know When It Will Rain? | Weather Science"
+        }
+      },
+      {
+        "title": "The Sun and Seasons",
+        "topic": "connect sunlight to seasonal changes",
+        "keywords": [
+          "sun",
+          "seasons",
+          "change"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_seasons_sun",
+          "title": "Seasons and the Sun"
+        }
+      },
+      {
+        "title": "Our Weather Report",
+        "topic": "give a fuller weather report and compare it with lesson one",
+        "keywords": [
+          "weather",
+          "report",
+          "compare"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "kids-space",
+    "title": "Space Explorers",
+    "audience": "kids",
+    "level": "Easy",
+    "blurb": "Travel from the night sky to the Moon and imagine a safe space journey.",
+    "theme": "Moon, Earth and space travel",
+    "arcTask": "Say three things about the Moon and space.",
+    "lessons": [
+      {
+        "title": "Look Up Tonight",
+        "topic": "describe the Moon and stars from Earth",
+        "keywords": [
+          "moon",
+          "stars",
+          "night"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "A Trip to the Moon",
+        "topic": "read an imaginative journey to the Moon",
+        "keywords": [
+          "moon",
+          "journey",
+          "story"
+        ],
+        "flight": "reading-60",
+        "source": {
+          "sourceType": "storyweaver",
+          "id": "storyweaver-2985-aditi-s-trip-to-moon",
+          "title": "Aditi's Trip To Moon"
+        }
+      },
+      {
+        "title": "Moon Walk",
+        "topic": "explain what an astronaut needs on the Moon",
+        "keywords": [
+          "astronaut",
+          "moon",
+          "gravity"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_over_to_moon",
+          "title": "Over (to) The Moon"
+        }
+      },
+      {
+        "title": "Earth from Space",
+        "topic": "connect day and night to Earth's movement",
+        "keywords": [
+          "earth",
+          "day",
+          "rotation"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_earth_rotation_revolution",
+          "title": "Earth's Rotation and Revolution"
+        }
+      },
+      {
+        "title": "Our Space Guide",
+        "topic": "present a Moon journey using new space words",
+        "keywords": [
+          "moon",
+          "astronaut",
+          "journey"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "kids-dinosaurs",
+    "title": "Dinosaurs",
+    "audience": "kids",
+    "level": "Easy",
+    "blurb": "Ask what dinosaurs looked like, how we know and what remains today.",
+    "theme": "Dinosaurs, evidence and change",
+    "arcTask": "Describe a dinosaur in three sentences.",
+    "lessons": [
+      {
+        "title": "Meet a Dinosaur",
+        "topic": "describe a dinosaur using size and body words",
+        "keywords": [
+          "dinosaur",
+          "size",
+          "body"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Clues in the Ground",
+        "topic": "explain what rocks can tell us about the past",
+        "keywords": [
+          "rocks",
+          "clues",
+          "past"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Birds and Dinosaurs",
+        "topic": "compare a living bird with a dinosaur",
+        "keywords": [
+          "bird",
+          "dinosaur",
+          "features"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_syawnjolnv8",
+          "title": "It's a Bird! It's a Plane! It's a DINOSAUR!"
+        }
+      },
+      {
+        "title": "Water Long Ago",
+        "topic": "follow water from long ago to today",
+        "keywords": [
+          "water",
+          "cycle",
+          "dinosaur"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_dinosaur_pee",
+          "title": "Dinosaur Pee? — The Water Cycle"
+        }
+      },
+      {
+        "title": "My Dinosaur Museum",
+        "topic": "give a short museum talk with evidence words",
+        "keywords": [
+          "dinosaur",
+          "evidence",
+          "museum"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "kids-school",
+    "title": "At School",
+    "audience": "kids",
+    "level": "Beginner",
+    "blurb": "Begin with the first day, then practise classroom talk and making things together.",
+    "theme": "School routines, friends and creating",
+    "arcTask": "Say three things about a school day.",
+    "lessons": [
+      {
+        "title": "My School Day",
+        "topic": "name places, people and things at school",
+        "keywords": [
+          "school",
+          "teacher",
+          "classroom"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Rani's First Day",
+        "topic": "read about a child's first school day",
+        "keywords": [
+          "school",
+          "friend",
+          "first-day"
+        ],
+        "flight": "reading-60",
+        "source": {
+          "sourceType": "storyweaver",
+          "id": "storyweaver-98-rani-s-first-day-at-school",
+          "title": "Rani's First Day at School"
+        }
+      },
+      {
+        "title": "Ask and Answer",
+        "topic": "practise asking for help and taking turns",
+        "keywords": [
+          "questions",
+          "help",
+          "turns"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Paper Play",
+        "topic": "read and make something from paper",
+        "keywords": [
+          "paper",
+          "craft",
+          "school"
+        ],
+        "flight": "reading-60",
+        "source": {
+          "sourceType": "storyweaver",
+          "id": "storyweaver-156-paper-play",
+          "title": "Paper Play"
+        }
+      },
+      {
+        "title": "Our Class Guide",
+        "topic": "explain a school day to a new student",
+        "keywords": [
+          "school",
+          "routines",
+          "guide"
+        ],
+        "flight": "all-around-flight-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "kids-helpers",
+    "title": "Helpers in Our Town",
+    "audience": "kids",
+    "level": "Easy",
+    "blurb": "Explore how everyday helpers solve problems and make places work.",
+    "theme": "Community jobs and helpful actions",
+    "arcTask": "Describe how one person helps a town.",
+    "lessons": [
+      {
+        "title": "People Who Help",
+        "topic": "name a helper and describe a useful action",
+        "keywords": [
+          "helper",
+          "job",
+          "community"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Build a Better Place",
+        "topic": "notice what a town needs to work well",
+        "keywords": [
+          "city",
+          "design",
+          "community"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_gnnuid8hof0",
+          "title": "Let’s Build a City: Crash Course Kids #48.1"
+        }
+      },
+      {
+        "title": "A Kind Detective",
+        "topic": "read about helping by noticing clues",
+        "keywords": [
+          "detective",
+          "clues",
+          "kindness"
+        ],
+        "flight": "reading-60",
+        "source": {
+          "sourceType": "storyweaver",
+          "id": "storyweaver-2171-kaushik-the-kind-detective",
+          "title": "Kaushik, the Kind Detective"
+        }
+      },
+      {
+        "title": "Solve a Small Problem",
+        "topic": "choose who could help in everyday situations",
+        "keywords": [
+          "problem",
+          "helper",
+          "choice"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "kids",
+          "id": "kids_defining_problem",
+          "title": "Defining a Problem"
+        }
+      },
+      {
+        "title": "Thank a Helper",
+        "topic": "describe a helper's work with a clear example",
+        "keywords": [
+          "helper",
+          "work",
+          "example"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "teens-social-media",
+    "title": "Social Media and Me",
+    "audience": "teens",
+    "level": "Intermediate",
+    "blurb": "Move from personal habits to influence, wellbeing and fair platform rules.",
+    "theme": "Online habits, influence and responsibility",
+    "arcTask": "Explain one change you would make to your online habits.",
+    "lessons": [
+      {
+        "title": "My Online Day",
+        "topic": "describe when and why we use social platforms",
+        "keywords": [
+          "social-media",
+          "habits",
+          "time"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "People Who Influence Us",
+        "topic": "explain how an influencer can shape choices",
+        "keywords": [
+          "influencer",
+          "choices",
+          "trust"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "bbc",
+          "id": "bbc_real_easy_social_media_influencer",
+          "title": "What is a social media influencer?"
+        }
+      },
+      {
+        "title": "Health and Screens",
+        "topic": "discuss how social media can affect teenage wellbeing",
+        "keywords": [
+          "health",
+          "screens",
+          "wellbeing"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "bbc",
+          "id": "bbc_6me_social_media_teen_health",
+          "title": "Social media and teenage health"
+        }
+      },
+      {
+        "title": "Rules for Platforms",
+        "topic": "argue for or against a teen time limit",
+        "keywords": [
+          "time-limit",
+          "platforms",
+          "fairness"
+        ],
+        "flight": "debate-60",
+        "motionId": "debate-r12-40"
+      },
+      {
+        "title": "My Better Online Day",
+        "topic": "propose a personal online routine with reasons",
+        "keywords": [
+          "routine",
+          "balance",
+          "change"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "teens-future-jobs",
+    "title": "Future Jobs",
+    "audience": "teens",
+    "level": "Intermediate",
+    "blurb": "Explore useful skills, changing workplaces and fair first steps into work.",
+    "theme": "Work, technology and choice",
+    "arcTask": "Describe one job you could try and why.",
+    "lessons": [
+      {
+        "title": "A Job I Could Try",
+        "topic": "describe a role and the skills it needs",
+        "keywords": [
+          "job",
+          "skills",
+          "interest"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Work Is Changing",
+        "topic": "explain one way jobs are changing",
+        "keywords": [
+          "work",
+          "technology",
+          "change"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "bbc",
+          "id": "bbc_tech_future_of_work",
+          "title": "What Is the Future of Work?"
+        }
+      },
+      {
+        "title": "Predicting Future Work",
+        "topic": "use future forms for realistic job predictions",
+        "keywords": [
+          "future",
+          "work",
+          "predictions"
+        ],
+        "flight": "grammar-60",
+        "source": {
+          "sourceType": "grammar",
+          "id": "grammar-r2-lGcXggbeLH8",
+          "title": "Future Forms — Grammar Snacks"
+        }
+      },
+      {
+        "title": "A Fair First Job",
+        "topic": "argue whether teen internships should be paid",
+        "keywords": [
+          "internship",
+          "pay",
+          "fairness"
+        ],
+        "flight": "debate-60",
+        "motionId": "debate-r14-37"
+      },
+      {
+        "title": "My Next Step",
+        "topic": "present a job idea and a skill-building plan",
+        "keywords": [
+          "job",
+          "plan",
+          "skills"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "teens-sport",
+    "title": "Sport and Us",
+    "audience": "teens",
+    "level": "Intermediate",
+    "blurb": "Talk about participation, pressure and the place of sport in our lives.",
+    "theme": "Sport, teamwork and wellbeing",
+    "arcTask": "Explain why one sport might suit you.",
+    "lessons": [
+      {
+        "title": "One Sport for Me",
+        "topic": "describe a sport and the people who play it",
+        "keywords": [
+          "sport",
+          "players",
+          "choice"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Body and Brain",
+        "topic": "explain how playing sport can affect wellbeing",
+        "keywords": [
+          "exercise",
+          "brain",
+          "health"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "teded",
+          "id": "teded_hmfqqjmf_f0",
+          "title": "How playing sports benefits your body ... and your brain - Leah Lagos and Jaspal Ricky Singh"
+        }
+      },
+      {
+        "title": "Pressure in a Match",
+        "topic": "discuss how players handle a difficult moment",
+        "keywords": [
+          "pressure",
+          "match",
+          "team"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "bbc",
+          "id": "bbc_msjmjxd1udk",
+          "title": "How do footballers cope with high-pressure scenarios? 6 Minute English"
+        }
+      },
+      {
+        "title": "More Ways to Join",
+        "topic": "argue for a wider choice of school sports",
+        "keywords": [
+          "school",
+          "sport",
+          "access"
+        ],
+        "flight": "debate-60",
+        "motionId": "debate-r12-09"
+      },
+      {
+        "title": "My Sport Invitation",
+        "topic": "invite a newcomer to try a suitable sport",
+        "keywords": [
+          "invitation",
+          "sport",
+          "confidence"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "teens-music",
+    "title": "Music and Meaning",
+    "audience": "teens",
+    "level": "Intermediate",
+    "blurb": "Follow music from personal taste to history, practice and live performance.",
+    "theme": "Music, culture and expression",
+    "arcTask": "Describe a piece of music and why it matters to you.",
+    "lessons": [
+      {
+        "title": "The Music I Choose",
+        "topic": "describe a favourite sound or song",
+        "keywords": [
+          "music",
+          "choice",
+          "feeling"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Jazz Has a Story",
+        "topic": "explain how jazz developed and spread",
+        "keywords": [
+          "jazz",
+          "history",
+          "culture"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "voa",
+          "id": "voa-history-of-jazz",
+          "title": "The History of Jazz"
+        }
+      },
+      {
+        "title": "Hip-Hop Voices",
+        "topic": "discuss how hip-hop tells stories",
+        "keywords": [
+          "hip-hop",
+          "lyrics",
+          "identity"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "voa",
+          "id": "voa-history-of-hip-hop",
+          "title": "The History of Hip-Hop"
+        }
+      },
+      {
+        "title": "Practice and Performance",
+        "topic": "compare private practice with public performance",
+        "keywords": [
+          "practice",
+          "performance",
+          "skill"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "bbc",
+          "id": "bbc_6me_becoming_musician",
+          "title": "Becoming a musician"
+        }
+      },
+      {
+        "title": "My Music Introduction",
+        "topic": "introduce a piece with clearer detail and reasons",
+        "keywords": [
+          "music",
+          "introduction",
+          "reasons"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "teens-film",
+    "title": "Film and Series Talk",
+    "audience": "teens",
+    "level": "Intermediate",
+    "blurb": "Build from personal viewing choices to story, scenes and respectful reviews.",
+    "theme": "Screen stories, choices and reviews",
+    "arcTask": "Describe a screen story and give one reason to watch it.",
+    "lessons": [
+      {
+        "title": "What I Watch",
+        "topic": "describe a film or series without spoilers",
+        "keywords": [
+          "film",
+          "series",
+          "genre"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "A Movie Plan",
+        "topic": "plan a movie choice with another person",
+        "keywords": [
+          "movie",
+          "plans",
+          "choice"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "voa",
+          "id": "voa-level2-lesson-19-movie-night",
+          "title": "Movie Night"
+        }
+      },
+      {
+        "title": "Talk about Film Choices",
+        "topic": "compare television and movie preferences",
+        "keywords": [
+          "television",
+          "movies",
+          "opinion"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "listening",
+          "id": "listening-r7-english-file-tv-movies",
+          "title": "English File – TV & Movies"
+        }
+      },
+      {
+        "title": "Compare Two Scenes",
+        "topic": "use comparative words to explain a preference",
+        "keywords": [
+          "scenes",
+          "comparatives",
+          "reason"
+        ],
+        "flight": "grammar-60",
+        "source": {
+          "sourceType": "grammar",
+          "id": "grammar-r3-wXiD0FdON7k",
+          "title": "Comparative Adjectives — English Grammar Lessons"
+        }
+      },
+      {
+        "title": "My Short Review",
+        "topic": "give a spoiler-free review with stronger reasons",
+        "keywords": [
+          "review",
+          "story",
+          "recommendation"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "teens-mysteries",
+    "title": "Mysteries and the Unexplained",
+    "audience": "teens",
+    "level": "Advanced",
+    "blurb": "Read clues, test explanations and tell a fair mystery story.",
+    "theme": "Evidence, inference and storytelling",
+    "arcTask": "Explain a mystery using three clues.",
+    "lessons": [
+      {
+        "title": "A Puzzling Scene",
+        "topic": "describe a strange scene and suggest explanations",
+        "keywords": [
+          "mystery",
+          "clues",
+          "explanation"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "The Savanna Puzzle",
+        "topic": "test a solution against evidence",
+        "keywords": [
+          "savanna",
+          "mystery",
+          "evidence"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "teded",
+          "id": "teded_savanna_mystery",
+          "title": "Can you figure out the savanna mystery?"
+        }
+      },
+      {
+        "title": "Holmes Looks Closely",
+        "topic": "read how a detective notices a decisive clue",
+        "keywords": [
+          "detective",
+          "observation",
+          "inference"
+        ],
+        "flight": "reading-60",
+        "source": {
+          "sourceType": "books",
+          "id": "book-sherlock-1",
+          "title": "A Scandal in Bohemia"
+        }
+      },
+      {
+        "title": "Another Suspect",
+        "topic": "compare two plausible accounts of the same event",
+        "keywords": [
+          "suspect",
+          "account",
+          "evidence"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "books",
+          "id": "book-sherlock-2",
+          "title": "The Red-Headed League"
+        }
+      },
+      {
+        "title": "My Fair Solution",
+        "topic": "explain a mystery with clues and an alternative",
+        "keywords": [
+          "mystery",
+          "clues",
+          "solution"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "teens-money",
+    "title": "Money and Spending",
+    "audience": "teens",
+    "level": "Intermediate",
+    "blurb": "Practise price talk, budgeting, choices and the value of work.",
+    "theme": "Money choices in everyday life",
+    "arcTask": "Explain one spending choice and its trade-off.",
+    "lessons": [
+      {
+        "title": "A Choice to Make",
+        "topic": "compare two things you might buy",
+        "keywords": [
+          "price",
+          "choice",
+          "trade-off"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Finding Cash",
+        "topic": "listen to a practical money and directions exchange",
+        "keywords": [
+          "atm",
+          "directions",
+          "money"
+        ],
+        "flight": "listening-60",
+        "source": {
+          "sourceType": "listening",
+          "id": "listening-r8-aef-looking-for-atm",
+          "title": "American English File — Looking for an ATM"
+        }
+      },
+      {
+        "title": "When Budgets Shrink",
+        "topic": "explain decisions after a budget cut",
+        "keywords": [
+          "budget",
+          "cost",
+          "priority"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "voa",
+          "id": "voa-level2-lesson-1-budget-cuts",
+          "title": "Budget Cuts"
+        }
+      },
+      {
+        "title": "Work and Income",
+        "topic": "discuss what a second job gives and costs",
+        "keywords": [
+          "income",
+          "time",
+          "work"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "bbc",
+          "id": "bbc_6me_second_job",
+          "title": "Do you have a second job?"
+        }
+      },
+      {
+        "title": "My Spending Plan",
+        "topic": "present a revised choice with a reason and limit",
+        "keywords": [
+          "budget",
+          "choice",
+          "limit"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "teens-planet",
+    "title": "Our Planet's Future",
+    "audience": "teens",
+    "level": "Intermediate",
+    "blurb": "Connect weather, waste, water and local energy choices.",
+    "theme": "Environment and practical responses",
+    "arcTask": "Name one local action and explain its effect.",
+    "lessons": [
+      {
+        "title": "One Change Near Us",
+        "topic": "describe an environmental issue in a familiar place",
+        "keywords": [
+          "environment",
+          "local",
+          "change"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Weather and Climate",
+        "topic": "explain why one extreme event is not the whole climate story",
+        "keywords": [
+          "weather",
+          "climate",
+          "evidence"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "voa",
+          "id": "voa-climate-change-weather",
+          "title": "Climate Change and Extreme Weather"
+        }
+      },
+      {
+        "title": "The Plastic Trail",
+        "topic": "trace what happens to a discarded plastic item",
+        "keywords": [
+          "plastic",
+          "waste",
+          "ocean"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "bbc",
+          "id": "bbc_climate_without_plastic",
+          "title": "Can We Live Without Plastic?"
+        }
+      },
+      {
+        "title": "Water for Everyone",
+        "topic": "compare ways to use less water fairly",
+        "keywords": [
+          "water",
+          "saving",
+          "fairness"
+        ],
+        "flight": "all-around-flight-60",
+        "source": {
+          "sourceType": "bbc",
+          "id": "bbc_climate_saving_water",
+          "title": "Saving Water in the Driest Place on Earth"
+        }
+      },
+      {
+        "title": "A Local Plan",
+        "topic": "present an action with its benefit and possible cost",
+        "keywords": [
+          "action",
+          "benefit",
+          "cost"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "skills-listening",
+    "title": "Listening for Real Life",
+    "audience": "teens",
+    "level": "Easy",
+    "blurb": "Five short transcript-backed clips move from names to plans and public information.",
+    "theme": "Listening for gist, detail and purpose",
+    "arcTask": "Say who is speaking, where and why.",
+    "lessons": [
+      {
+        "title": "First Introductions",
+        "topic": "hear names and basic personal details",
+        "keywords": [
+          "names",
+          "introductions",
+          "details"
+        ],
+        "flight": "listening-60",
+        "arc": "baseline",
+        "source": {
+          "sourceType": "listening",
+          "id": "listening-r7-english-file-introductions",
+          "title": "English File – Introductions"
+        }
+      },
+      {
+        "title": "Likes and Reasons",
+        "topic": "hear what a speaker likes and one reason",
+        "keywords": [
+          "likes",
+          "reasons",
+          "opinion"
+        ],
+        "flight": "listening-60",
+        "source": {
+          "sourceType": "listening",
+          "id": "listening-r7-english-file-likes-dislikes-1",
+          "title": "English File – Likes & Dislikes (1)"
+        }
+      },
+      {
+        "title": "Making a Plan",
+        "topic": "follow a short conversation about a shared plan",
+        "keywords": [
+          "plan",
+          "time",
+          "agreement"
+        ],
+        "flight": "listening-60",
+        "source": {
+          "sourceType": "listening",
+          "id": "listening-r7-american-english-file-esl-making-a-plan",
+          "title": "American English File (ESL) – Making a Plan"
+        }
+      },
+      {
+        "title": "School News",
+        "topic": "pick the main message from a school announcement",
+        "keywords": [
+          "announcement",
+          "school",
+          "main-idea"
+        ],
+        "flight": "listening-60",
+        "source": {
+          "sourceType": "listening",
+          "id": "listening-r8-school-registration",
+          "title": "School public-address announcement — school registration"
+        }
+      },
+      {
+        "title": "Travel Details",
+        "topic": "identify a travel problem and the needed action",
+        "keywords": [
+          "travel",
+          "problem",
+          "action"
+        ],
+        "flight": "listening-60",
+        "arc": "compare",
+        "source": {
+          "sourceType": "listening",
+          "id": "listening-r7-american-english-file-esl-reporting-lost-luggage",
+          "title": "American English File (ESL) – Reporting Lost Luggage"
+        }
+      }
+    ]
+  },
+  {
+    "id": "skills-debate",
+    "title": "Debate with Evidence",
+    "audience": "teens",
+    "level": "Intermediate",
+    "blurb": "Build a claim, compare evidence, answer a challenge and give a fair closing.",
+    "theme": "School decisions and supported arguments",
+    "arcTask": "Give a claim, evidence and reply about a school rule.",
+    "lessons": [
+      {
+        "title": "One Clear Claim",
+        "topic": "argue whether schools should cap homework",
+        "keywords": [
+          "homework",
+          "claim",
+          "reason"
+        ],
+        "flight": "debate-60",
+        "arc": "baseline",
+        "motionId": "debate-r12-32"
+      },
+      {
+        "title": "Two Sides of AI",
+        "topic": "compare reasons for and against AI planning help",
+        "keywords": [
+          "ai",
+          "planning",
+          "schools"
+        ],
+        "flight": "debate-60",
+        "motionId": "debate-r12-34"
+      },
+      {
+        "title": "Evidence on Screens",
+        "topic": "support a view about screens in lessons",
+        "keywords": [
+          "screens",
+          "evidence",
+          "learning"
+        ],
+        "flight": "debate-60",
+        "motionId": "debate-r12-39"
+      },
+      {
+        "title": "A Fair Reply",
+        "topic": "answer an objection about paid internships",
+        "keywords": [
+          "internships",
+          "pay",
+          "rebuttal"
+        ],
+        "flight": "debate-60",
+        "motionId": "debate-r14-37"
+      },
+      {
+        "title": "Make the Case Again",
+        "topic": "give a balanced closing about home languages",
+        "keywords": [
+          "language",
+          "school",
+          "closing"
+        ],
+        "flight": "debate-60",
+        "arc": "compare",
+        "motionId": "debate-r12-58"
+      }
+    ]
+  },
+  {
+    "id": "skills-travel",
+    "title": "Five Cities, Five Journeys",
+    "audience": "teens",
+    "level": "Intermediate",
+    "blurb": "Visit Bangkok, Tokyo, Paris, Cairo and Rio through place, food and daily travel.",
+    "theme": "Cities, movement and local life",
+    "arcTask": "Describe one city using place, food and transport.",
+    "lessons": [
+      {
+        "title": "Bangkok by River",
+        "topic": "describe a city journey that uses a river boat",
+        "keywords": [
+          "bangkok",
+          "river",
+          "boat"
+        ],
+        "flight": "travel-60",
+        "arc": "baseline",
+        "source": {
+          "sourceType": "world-flight",
+          "id": "world-flight-bangkok-river-transport-video",
+          "title": "How to Use the Chao Phraya Express Boat in Bangkok"
+        }
+      },
+      {
+        "title": "Tokyo in Motion",
+        "topic": "explain how a busy metro helps people move",
+        "keywords": [
+          "tokyo",
+          "metro",
+          "transport"
+        ],
+        "flight": "travel-60",
+        "source": {
+          "sourceType": "world-flight",
+          "id": "world-flight-tokyo-metro-economics-video",
+          "title": "Why Tokyo's Metro Is Profitable"
+        }
+      },
+      {
+        "title": "Paris at a Cafe",
+        "topic": "compare ways people spend time in public spaces",
+        "keywords": [
+          "paris",
+          "cafe",
+          "public-life"
+        ],
+        "flight": "travel-60",
+        "source": {
+          "sourceType": "world-flight",
+          "id": "world-flight-paris-cafe-culture-video",
+          "title": "Paris - Cafe Culture and Public Life"
+        }
+      },
+      {
+        "title": "Cairo and Its River",
+        "topic": "connect a city's daily life to its river",
+        "keywords": [
+          "cairo",
+          "nile",
+          "city-life"
+        ],
+        "flight": "travel-60",
+        "source": {
+          "sourceType": "world-flight",
+          "id": "world-flight-cairo-nile-explainer-video",
+          "title": "Cairo - The Nile Explained"
+        }
+      },
+      {
+        "title": "Rio Tells Its Story",
+        "topic": "describe a city through a place, event and route",
+        "keywords": [
+          "rio",
+          "history",
+          "journey"
+        ],
+        "flight": "travel-60",
+        "arc": "compare",
+        "source": {
+          "sourceType": "world-flight",
+          "id": "world-flight-rio-de-janeiro-city-history-video",
+          "title": "Rio - The City's History"
+        }
+      }
+    ]
+  },
+  {
+    "id": "skills-speaking",
+    "title": "Speaking with Confidence",
+    "audience": "teens",
+    "level": "Easy",
+    "blurb": "Five supportive flights build from short answers to a clear personal story.",
+    "theme": "Speaking in turns and giving reasons",
+    "arcTask": "Introduce yourself and give two reasons for a choice.",
+    "lessons": [
+      {
+        "title": "My First Answer",
+        "topic": "introduce yourself and make a simple choice",
+        "keywords": [
+          "introductions",
+          "choice",
+          "reasons"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline",
+        "source": {
+          "sourceType": "listening",
+          "id": "listening-r7-english-file-introductions",
+          "title": "English File – Introductions"
+        }
+      },
+      {
+        "title": "Keep It Going",
+        "topic": "ask a follow-up question and listen to the reply",
+        "keywords": [
+          "follow-up",
+          "question",
+          "reply"
+        ],
+        "flight": "speak-60",
+        "source": {
+          "sourceType": "listening",
+          "id": "listening-r7-english-file-names",
+          "title": "English File – Names"
+        }
+      },
+      {
+        "title": "Describe a Moment",
+        "topic": "tell a small personal story in order",
+        "keywords": [
+          "story",
+          "sequence",
+          "detail"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Speak with a Partner",
+        "topic": "share turns and respond to another view",
+        "keywords": [
+          "turns",
+          "partner",
+          "response"
+        ],
+        "flight": "all-around-flight-60"
+      },
+      {
+        "title": "My Stronger Answer",
+        "topic": "introduce yourself and explain a choice more fully",
+        "keywords": [
+          "introductions",
+          "choice",
+          "progress"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "exam-movers-style",
+    "title": "Movers-style Speaking Practice",
+    "audience": "kids",
+    "level": "Beginner",
+    "blurb": "Five original picture and personal-question tasks for young speakers.",
+    "theme": "Simple pictures, people and familiar places",
+    "arcTask": "Introduce yourself and answer three personal questions.",
+    "lessons": [
+      {
+        "title": "About Me First",
+        "topic": "say your name and answer familiar questions",
+        "keywords": [
+          "name",
+          "home",
+          "favourites"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Find and Name",
+        "topic": "point to objects and name what you can see",
+        "keywords": [
+          "pictures",
+          "objects",
+          "names"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "One Busy Picture",
+        "topic": "describe people and actions in one scene",
+        "keywords": [
+          "people",
+          "actions",
+          "place"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Choose a Picture",
+        "topic": "say which of two pictures you like and why",
+        "keywords": [
+          "pictures",
+          "choice",
+          "reason"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "About Me Again",
+        "topic": "answer familiar questions with more detail",
+        "keywords": [
+          "name",
+          "interests",
+          "detail"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "exam-flyers-style",
+    "title": "Flyers-style Speaking Practice",
+    "audience": "kids",
+    "level": "Easy",
+    "blurb": "Five original tasks practise fuller picture descriptions and short exchanges.",
+    "theme": "Picture details, differences and reasons",
+    "arcTask": "Describe a picture and explain one choice.",
+    "lessons": [
+      {
+        "title": "A First Picture Talk",
+        "topic": "describe a scene and give one reason",
+        "keywords": [
+          "picture",
+          "scene",
+          "reason"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Notice the Differences",
+        "topic": "compare two pictures using clear details",
+        "keywords": [
+          "pictures",
+          "differences",
+          "details"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Ask for Information",
+        "topic": "ask and answer questions about an event",
+        "keywords": [
+          "event",
+          "questions",
+          "answers"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Tell the Picture Story",
+        "topic": "connect several pictures into a short story",
+        "keywords": [
+          "sequence",
+          "story",
+          "pictures"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Picture Talk Again",
+        "topic": "describe a new scene with stronger comparisons",
+        "keywords": [
+          "picture",
+          "comparison",
+          "progress"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "exam-a2-style",
+    "title": "A2 Key-style Speaking Practice",
+    "audience": "teens",
+    "level": "Easy",
+    "blurb": "Five original partner tasks practise personal answers, pictures and choices.",
+    "theme": "Everyday topics and partner exchange",
+    "arcTask": "Answer a personal question and explain one choice.",
+    "lessons": [
+      {
+        "title": "First Partner Talk",
+        "topic": "answer a personal question and state a preference",
+        "keywords": [
+          "personal",
+          "preference",
+          "reason"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Describe a Photo",
+        "topic": "say what people are doing in an everyday scene",
+        "keywords": [
+          "photo",
+          "people",
+          "actions"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Ask Back",
+        "topic": "ask a partner about plans and respond naturally",
+        "keywords": [
+          "plans",
+          "questions",
+          "reply"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Choose Together",
+        "topic": "discuss options and reach one shared choice",
+        "keywords": [
+          "options",
+          "discussion",
+          "agreement"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Partner Talk Again",
+        "topic": "answer and explain a new everyday choice",
+        "keywords": [
+          "personal",
+          "choice",
+          "progress"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  },
+  {
+    "id": "exam-b1-style",
+    "title": "B1 Preliminary-style Speaking Practice",
+    "audience": "teens",
+    "level": "Intermediate",
+    "blurb": "Five original partner tasks build detailed answers, comparisons and follow-up questions.",
+    "theme": "Pictures, viewpoints and discussion",
+    "arcTask": "Compare two options and give a reasoned preference.",
+    "lessons": [
+      {
+        "title": "First Comparison",
+        "topic": "compare two options and state a preference",
+        "keywords": [
+          "options",
+          "comparison",
+          "reason"
+        ],
+        "flight": "speak-60",
+        "arc": "baseline"
+      },
+      {
+        "title": "Photo Details",
+        "topic": "describe a photo and make a cautious guess",
+        "keywords": [
+          "photo",
+          "details",
+          "inference"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Plan with a Partner",
+        "topic": "weigh choices and decide together",
+        "keywords": [
+          "planning",
+          "trade-offs",
+          "agreement"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Develop an Opinion",
+        "topic": "give a reason and respond to another view",
+        "keywords": [
+          "opinion",
+          "reason",
+          "response"
+        ],
+        "flight": "speak-60"
+      },
+      {
+        "title": "Compare Again",
+        "topic": "compare fresh options with clearer support",
+        "keywords": [
+          "options",
+          "comparison",
+          "progress"
+        ],
+        "flight": "speak-60",
+        "arc": "compare"
+      }
+    ]
+  }
+]
