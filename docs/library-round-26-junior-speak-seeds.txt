@@ -1,0 +1,119 @@
+junior-ask-doll|toys,friends|Your friend has a doll. You want a turn.|Ask for a toy politely|friend doll
+B|Can I play with it, please?|Give me that doll.|Can I eat the doll?|Doll me play now.
+A|May I have a turn, please?|Hand it over now.|May I wear the doll?|Play doll to me.
+
+junior-return-toy|toys,friends|You finish playing with your friend's ball.|Return a toy and say thanks|friend ball
+B|Here's your ball. Thank you!|Take it back now.|Here's your shoe. Goodbye!|Ball you take me.
+A|Thank you for sharing your ball.|Go away with your ball.|Thank you for the soup.|Your ball I thank.
+
+junior-say-sorry|friends,playground|You bump into a friend by accident.|Apologize to a friend|friend playground
+B|I'm sorry. Are you okay?|Move out of my way.|I'm hungry. Are you okay?|Sorry I bumping you.
+A|Sorry! I did not see you.|That was your fault.|Sorry! I lost my spoon.|Me not see sorry.
+
+junior-invite-play|friends,playground|A child is sitting alone at playtime.|Invite someone to play|boy girl playground
+B|Would you like to play?|Play with me. Hurry!|Would you like to sleep?|You play like with.
+A|Come play with us, please.|You cannot play here.|Come eat this chair.|Us with play come.
+
+junior-join-game|friends,games|Some children are playing with blocks.|Ask to join a game|friend blocks
+B|Can I join you, please?|I will take your blocks.|Can I drive your blocks?|Join me your can.
+A|May I play too, please?|Let me in right now.|May I wash your blocks?|Play too me may.
+
+junior-doctor-tummy|health,doctor|At the doctor, your tummy hurts.|Tell a doctor what hurts|doctor tummy
+B|My tummy hurts, doctor.|Fix me right now.|My pencil hurts, doctor.|Tummy my hurt is.
+A|I have a sore tummy.|You must make me better.|I have a sore chair.|Have sore I tummy.
+
+junior-buy-ice-cream|food,shop|At a shop, you want an ice cream.|Buy an ice cream politely|shop ice-cream
+B|One ice cream, please.|Give me that now.|One hot shoe, please.|Cream ice one me.
+A|May I have an ice cream?|Ice cream. Now!|May I have a bus?|Have cream I may.
+
+junior-birthday-greeting|birthdays,friends|It is your friend's birthday today.|Wish a friend happy birthday|friend birthday
+B|Happy birthday to you!|Where is my present?|Happy breakfast to you!|Birthday happy you to.
+A|I hope you have fun!|Give me your cake.|I hope you have socks.|Hope fun you I.
+
+junior-teacher-help|school,help|You cannot read a word in class.|Ask the teacher for help|teacher book
+B|Can you help me, please?|Read it for me. Now!|Can you cook my book?|Help can you me?
+A|Please help me read this.|Just tell me the answer.|Please help me eat this.|Read help this me.
+
+junior-lost-dog|pets,help|Your dog is missing at the park.|Ask an adult about a lost pet|dog park
+B|Have you seen my dog?|Find my dog for me!|Have you eaten my dog?|Seen dog you my?
+A|Please help me find my dog.|You lost my dog!|Please find my red bus.|My dog help find please.
+
+junior-cafe-cake|food,cafe|At a café, you want a small cake.|Order a cake politely|restaurant cake
+B|A small cake, please.|Cake. Give it here.|A small chair, please.|Cake small me give.
+A|May I have a cake, please?|Get me cake now.|May I have a shoe?|Have I cake may.
+
+junior-bus-stop|travel,bus|You want to get off at the next stop.|Tell the bus driver your stop|bus driver
+B|Next stop, please.|Stop this bus now!|Next cake, please.|Stop next me bus.
+A|Please stop at the next stop.|Let me off right now.|Please stop at the zoo cake.|Stop please next at.
+
+junior-borrow-pencil|school,friends|You need a pencil. Your friend has two.|Borrow a pencil politely|friend pencil
+B|May I borrow a pencil?|Give me both pencils.|May I borrow your shoe?|Pencil borrow me may.
+A|Can I use your spare pencil?|I need it. Hand it over.|Can I use your sandwich?|Use pencil your can I.
+
+junior-ask-water|school,needs|You feel thirsty during class.|Ask the teacher for water|teacher water
+B|May I drink some water?|Give me water now.|May I drink this pencil?|Water some drink may.
+A|Can I have water, please?|I want water. Hurry!|Can I have some sand?|Have water I can.
+
+junior-share-crayons|school,sharing|Your friend has no crayons for drawing.|Offer to share your crayons|friend crayon
+B|You can use my crayons.|Take these and leave.|You can eat my crayons.|Crayons my use you.
+A|Would you like a crayon?|Stop asking for my things.|Would you like a car?|Like crayon a would.
+
+junior-swing-turn|playground,sharing|You want a turn on the swing.|Ask a child for a turn|swing boy
+B|May I have a turn?|Get off the swing now.|May I have your hat?|Turn have I may.
+A|Can I swing after you?|That swing is mine!|Can I sleep after you?|After swing can you.
+
+junior-hurt-friend|playground,help|Your friend falls and scrapes a knee.|Offer help to a hurt friend|friend knee bandage
+B|Are you okay? I can help.|Stop crying. Get up.|Are you hungry? I can dance.|Help okay I you.
+A|Shall I get a teacher?|Do not bother me.|Shall I get some cake?|Teacher a get shall.
+
+junior-find-toilet|school,needs|You need the toilet at school.|Ask where the toilet is|school toilet
+B|Where is the toilet, please?|Tell me the toilet. Now!|Where is the moon, please?|Toilet where is me.
+A|Please show me the toilet.|Hurry and show me.|Please show me the zoo.|Me show toilet please.
+
+junior-library-book|library,books|At the library, you want a book.|Ask for a book politely|library book
+B|May I borrow this book?|Give me every book.|May I borrow this spoon?|Book this borrow may.
+A|Can I take this book, please?|This book is mine now.|Can I take this lamp?|Take book can I.
+
+junior-missing-spoon|food,school-lunch|At lunch, you have no spoon.|Ask for a spoon politely|lunchbox spoon
+B|Could I have a spoon, please?|Get me a spoon. Fast!|Could I have a cloud?|Spoon a have could.
+A|May I borrow a spoon?|Hand over your spoon.|May I borrow a tree?|Borrow spoon I may.
+
+junior-spilled-water|school,sorry|You spill water on a table.|Apologize and offer to clean up|water table towel
+B|I'm sorry. I'll clean it.|Clean my mess now.|I'm sorry. I'll fly away.|Sorry clean I table.
+A|Sorry! May I get a towel?|You should clean that.|Sorry! May I get a rocket?|Towel I get sorry.
+
+junior-greet-new-child|school,friends|A new child arrives in your class.|Greet a new classmate|boy girl school
+B|Hello! My name is Ana.|Who are you? Go away.|Hello! My name is table.|Name my Ana hello.
+A|Hi! Would you like to sit?|Sit somewhere else.|Hi! Would you like soap?|You sit like would.
+
+junior-ask-coat|family,clothes|Your coat is too high to reach.|Ask a parent for your coat|mother coat
+B|Please help me get my coat.|Get it for me. Now!|Please help me eat my coat.|Coat my get help.
+A|Can you reach my coat, please?|Give me my coat!|Can you reach my soup?|Reach coat please can.
+
+junior-thank-driver|travel,bus|The bus driver helps you step down.|Thank the bus driver|bus driver
+B|Thank you for helping me.|Drive faster next time.|Thank you for the cake.|Helping thank me for.
+A|Thanks for your help!|That took too long.|Thanks for your pencil!|Help your thanks for.
+
+junior-apple-price|shop,food|At a shop, you want to know an apple's price.|Ask the price politely|shop apple
+B|How much is this apple?|Give me the apple free.|How tall is this apple?|Apple much how this?
+A|Please tell me the price.|Do your job. Tell me.|Please tell me the moon.|Price the tell please.
+
+junior-pet-water|pets,family|Your puppy's water bowl is empty.|Tell a parent what the pet needs|puppy food-bowl water
+B|The puppy needs more water.|Fill it. Right now!|The puppy needs more paper.|Water puppy more needs.
+A|Can we give the puppy water?|You forgot the puppy again.|Can we give the puppy paint?|Give puppy water we can.
+
+junior-repeat-word|school,help|You did not hear the teacher's word.|Ask the teacher to repeat it|teacher ear book
+B|Please say that word again.|Speak louder right now!|Please paint that word again.|Word again say please.
+A|Can you repeat it, please?|You talk too quietly.|Can you eat it, please?|Repeat you can it.
+
+junior-thank-gift|birthdays,family|A relative gives you a birthday present.|Thank someone for a gift|birthday present grandmother
+B|Thank you for the gift!|Is that all I get?|Thank you for the rain!|Gift the thanks you.
+A|I love it. Thank you!|I wanted a bigger one.|I love the bus. Thank you!|Love it I thanks.
+
+junior-borrow-eraser|school,friends|Your pencil mark is wrong. A friend has an eraser.|Borrow an eraser politely|pencil eraser friend
+B|Could I use your eraser?|Give me that eraser now.|Could I use your sandwich?|Eraser use I could.
+A|May I borrow the eraser?|I will take your eraser.|May I borrow the window?|Borrow eraser may I.
+
+junior-bus-seat|travel,friends|On the bus, you want to sit beside a friend.|Ask to sit beside a friend|bus friend chair
+B|May I sit beside you?|Move over. This is mine.|May I sit under you?|Sit beside may you.
+A|Can I sit here, please?|That seat belongs to me.|Can I eat here, please?|Here sit I can.

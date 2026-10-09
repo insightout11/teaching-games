@@ -3977,7 +3977,7 @@
         "text": "Mina sees three big marks in mud.",
         "pictures": [
           "girl",
-          "mud"
+          "dinosaur-footprint"
         ]
       },
       {
@@ -4014,7 +4014,7 @@
         "pictures": [
           "girl",
           "museum",
-          "rock"
+          "dinosaur-footprint"
         ]
       }
     ],
@@ -4050,7 +4050,7 @@
     "words": [
       "dinosaur",
       "mud",
-      "rock",
+      "dinosaur-footprint",
       "shovel",
       "book",
       "museum"
@@ -4074,7 +4074,7 @@
         "pictures": [
           "boy",
           "rock",
-          "shell"
+          "fossil"
         ]
       },
       {
@@ -4088,7 +4088,7 @@
         "text": "Grandma says the old mark is a fossil.",
         "pictures": [
           "grandmother",
-          "rock"
+          "fossil"
         ]
       },
       {
@@ -4148,7 +4148,7 @@
     "words": [
       "rock",
       "shell",
-      "shovel",
+      "fossil",
       "paintbrush",
       "museum",
       "book"
@@ -4471,7 +4471,7 @@
         "text": "Ivy pretends to be an astronaut.",
         "pictures": [
           "girl",
-          "astronaut"
+          "astronaut-helmet"
         ]
       },
       {
@@ -4548,7 +4548,7 @@
       "camera",
       "earth",
       "rocket",
-      "moon",
+      "astronaut-helmet",
       "window"
     ],
     "length": "short"
@@ -4582,10 +4582,10 @@
         ]
       },
       {
-        "text": "A dark cloud rises from the top.",
+        "text": "Hot lava glows below a dark cloud.",
         "pictures": [
           "cloud",
-          "volcano"
+          "lava"
         ]
       },
       {
@@ -4646,7 +4646,7 @@
       "island",
       "map",
       "hill",
-      "water",
+      "lava",
       "cloud"
     ],
     "length": "short"
@@ -4667,7 +4667,7 @@
         "text": "Lina feels the classroom floor shake.",
         "pictures": [
           "girl",
-          "classroom"
+          "earthquake"
         ]
       },
       {
@@ -4741,7 +4741,7 @@
       "table",
       "book",
       "classroom",
-      "flashlight",
+      "earthquake",
       "water",
       "phone"
     ],
@@ -4764,7 +4764,7 @@
         "pictures": [
           "camel",
           "boy",
-          "sand"
+          "sand-dune"
         ]
       },
       {
@@ -4803,7 +4803,7 @@
         "pictures": [
           "camel",
           "boy",
-          "sand"
+          "sand-dune"
         ]
       }
     ],
@@ -4840,7 +4840,7 @@
       "camel",
       "water",
       "cactus",
-      "sand",
+      "sand-dune",
       "sun",
       "hat"
     ],
@@ -4863,7 +4863,7 @@
         "pictures": [
           "girl",
           "drum",
-          "flag"
+          "festival-lantern"
         ]
       },
       {
@@ -4937,7 +4937,7 @@
     ],
     "words": [
       "drum",
-      "flag",
+      "festival-lantern",
       "candle",
       "dance",
       "cake",
@@ -4961,7 +4961,7 @@
         "text": "Pip wants to be a superhero.",
         "pictures": [
           "boy",
-          "crown"
+          "superhero-cape"
         ]
       },
       {
@@ -5035,7 +5035,7 @@
       "baby",
       "ball",
       "road",
-      "crosswalk",
+      "superhero-cape",
       "father",
       "carry"
     ],

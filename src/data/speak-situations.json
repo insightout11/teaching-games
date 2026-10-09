@@ -2318,5 +2318,1004 @@
       ],
       "natural": 0
     }
+  },
+  {
+    "id": "speak-junior-ask-doll",
+    "topics": [
+      "toys",
+      "friends"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "Your friend has a doll. You want a turn.",
+    "canDo": "Ask for a toy politely",
+    "pictures": [
+      "friend",
+      "doll"
+    ],
+    "before": {
+      "replies": [
+        "Can I play with it, please?",
+        "Give me that doll.",
+        "Can I eat the doll?",
+        "Doll me play now."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Hand it over now.",
+        "May I wear the doll?",
+        "May I have a turn, please?",
+        "Play doll to me."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-junior-return-toy",
+    "topics": [
+      "toys",
+      "friends"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "You finish playing with your friend's ball.",
+    "canDo": "Return a toy and say thanks",
+    "pictures": [
+      "friend",
+      "ball"
+    ],
+    "before": {
+      "replies": [
+        "Take it back now.",
+        "Here's your ball. Thank you!",
+        "Here's your shoe. Goodbye!",
+        "Ball you take me."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Go away with your ball.",
+        "Thank you for the soup.",
+        "Your ball I thank.",
+        "Thank you for sharing your ball."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-junior-say-sorry",
+    "topics": [
+      "friends",
+      "playground"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "You bump into a friend by accident.",
+    "canDo": "Apologize to a friend",
+    "pictures": [
+      "friend",
+      "playground"
+    ],
+    "before": {
+      "replies": [
+        "Move out of my way.",
+        "I'm hungry. Are you okay?",
+        "I'm sorry. Are you okay?",
+        "Sorry I bumping you."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Sorry! I did not see you.",
+        "That was your fault.",
+        "Sorry! I lost my spoon.",
+        "Me not see sorry."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-junior-invite-play",
+    "topics": [
+      "friends",
+      "playground"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "A child is sitting alone at playtime.",
+    "canDo": "Invite someone to play",
+    "pictures": [
+      "boy",
+      "girl",
+      "playground"
+    ],
+    "before": {
+      "replies": [
+        "Play with me. Hurry!",
+        "Would you like to sleep?",
+        "You play like with.",
+        "Would you like to play?"
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "You cannot play here.",
+        "Come play with us, please.",
+        "Come eat this chair.",
+        "Us with play come."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-junior-join-game",
+    "topics": [
+      "friends",
+      "games"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "Some children are playing with blocks.",
+    "canDo": "Ask to join a game",
+    "pictures": [
+      "friend",
+      "blocks"
+    ],
+    "before": {
+      "replies": [
+        "Can I join you, please?",
+        "I will take your blocks.",
+        "Can I drive your blocks?",
+        "Join me your can."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Let me in right now.",
+        "May I wash your blocks?",
+        "May I play too, please?",
+        "Play too me may."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-junior-doctor-tummy",
+    "topics": [
+      "health",
+      "doctor"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "At the doctor, your tummy hurts.",
+    "canDo": "Tell a doctor what hurts",
+    "pictures": [
+      "doctor",
+      "tummy"
+    ],
+    "before": {
+      "replies": [
+        "Fix me right now.",
+        "My tummy hurts, doctor.",
+        "My pencil hurts, doctor.",
+        "Tummy my hurt is."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "You must make me better.",
+        "I have a sore chair.",
+        "Have sore I tummy.",
+        "I have a sore tummy."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-junior-buy-ice-cream",
+    "topics": [
+      "food",
+      "shop"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "At a shop, you want an ice cream.",
+    "canDo": "Buy an ice cream politely",
+    "pictures": [
+      "shop",
+      "ice-cream"
+    ],
+    "before": {
+      "replies": [
+        "Give me that now.",
+        "One hot shoe, please.",
+        "One ice cream, please.",
+        "Cream ice one me."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "May I have an ice cream?",
+        "Ice cream. Now!",
+        "May I have a bus?",
+        "Have cream I may."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-junior-birthday-greeting",
+    "topics": [
+      "birthdays",
+      "friends"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "It is your friend's birthday today.",
+    "canDo": "Wish a friend happy birthday",
+    "pictures": [
+      "friend",
+      "birthday"
+    ],
+    "before": {
+      "replies": [
+        "Where is my present?",
+        "Happy breakfast to you!",
+        "Birthday happy you to.",
+        "Happy birthday to you!"
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Give me your cake.",
+        "I hope you have fun!",
+        "I hope you have socks.",
+        "Hope fun you I."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-junior-teacher-help",
+    "topics": [
+      "school",
+      "help"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "You cannot read a word in class.",
+    "canDo": "Ask the teacher for help",
+    "pictures": [
+      "teacher",
+      "book"
+    ],
+    "before": {
+      "replies": [
+        "Can you help me, please?",
+        "Read it for me. Now!",
+        "Can you cook my book?",
+        "Help can you me?"
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Just tell me the answer.",
+        "Please help me eat this.",
+        "Please help me read this.",
+        "Read help this me."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-junior-lost-dog",
+    "topics": [
+      "pets",
+      "help"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "Your dog is missing at the park.",
+    "canDo": "Ask an adult about a lost pet",
+    "pictures": [
+      "dog",
+      "park"
+    ],
+    "before": {
+      "replies": [
+        "Find my dog for me!",
+        "Have you seen my dog?",
+        "Have you eaten my dog?",
+        "Seen dog you my?"
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "You lost my dog!",
+        "Please find my red bus.",
+        "My dog help find please.",
+        "Please help me find my dog."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-junior-cafe-cake",
+    "topics": [
+      "food",
+      "cafe"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "At a café, you want a small cake.",
+    "canDo": "Order a cake politely",
+    "pictures": [
+      "restaurant",
+      "cake"
+    ],
+    "before": {
+      "replies": [
+        "Cake. Give it here.",
+        "A small chair, please.",
+        "A small cake, please.",
+        "Cake small me give."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "May I have a cake, please?",
+        "Get me cake now.",
+        "May I have a shoe?",
+        "Have I cake may."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-junior-bus-stop",
+    "topics": [
+      "travel",
+      "bus"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "You want to get off at the next stop.",
+    "canDo": "Tell the bus driver your stop",
+    "pictures": [
+      "bus",
+      "driver"
+    ],
+    "before": {
+      "replies": [
+        "Stop this bus now!",
+        "Next cake, please.",
+        "Stop next me bus.",
+        "Next stop, please."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Let me off right now.",
+        "Please stop at the next stop.",
+        "Please stop at the zoo cake.",
+        "Stop please next at."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-junior-borrow-pencil",
+    "topics": [
+      "school",
+      "friends"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "You need a pencil. Your friend has two.",
+    "canDo": "Borrow a pencil politely",
+    "pictures": [
+      "friend",
+      "pencil"
+    ],
+    "before": {
+      "replies": [
+        "May I borrow a pencil?",
+        "Give me both pencils.",
+        "May I borrow your shoe?",
+        "Pencil borrow me may."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "I need it. Hand it over.",
+        "Can I use your sandwich?",
+        "Can I use your spare pencil?",
+        "Use pencil your can I."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-junior-ask-water",
+    "topics": [
+      "school",
+      "needs"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "You feel thirsty during class.",
+    "canDo": "Ask the teacher for water",
+    "pictures": [
+      "teacher",
+      "water"
+    ],
+    "before": {
+      "replies": [
+        "Give me water now.",
+        "May I drink some water?",
+        "May I drink this pencil?",
+        "Water some drink may."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "I want water. Hurry!",
+        "Can I have some sand?",
+        "Have water I can.",
+        "Can I have water, please?"
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-junior-share-crayons",
+    "topics": [
+      "school",
+      "sharing"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "Your friend has no crayons for drawing.",
+    "canDo": "Offer to share your crayons",
+    "pictures": [
+      "friend",
+      "crayon"
+    ],
+    "before": {
+      "replies": [
+        "Take these and leave.",
+        "You can eat my crayons.",
+        "You can use my crayons.",
+        "Crayons my use you."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Would you like a crayon?",
+        "Stop asking for my things.",
+        "Would you like a car?",
+        "Like crayon a would."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-junior-swing-turn",
+    "topics": [
+      "playground",
+      "sharing"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "You want a turn on the swing.",
+    "canDo": "Ask a child for a turn",
+    "pictures": [
+      "swing",
+      "boy"
+    ],
+    "before": {
+      "replies": [
+        "Get off the swing now.",
+        "May I have your hat?",
+        "Turn have I may.",
+        "May I have a turn?"
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "That swing is mine!",
+        "Can I swing after you?",
+        "Can I sleep after you?",
+        "After swing can you."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-junior-hurt-friend",
+    "topics": [
+      "playground",
+      "help"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "Your friend falls and scrapes a knee.",
+    "canDo": "Offer help to a hurt friend",
+    "pictures": [
+      "friend",
+      "knee",
+      "bandage"
+    ],
+    "before": {
+      "replies": [
+        "Are you okay? I can help.",
+        "Stop crying. Get up.",
+        "Are you hungry? I can dance.",
+        "Help okay I you."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Do not bother me.",
+        "Shall I get some cake?",
+        "Shall I get a teacher?",
+        "Teacher a get shall."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-junior-find-toilet",
+    "topics": [
+      "school",
+      "needs"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "You need the toilet at school.",
+    "canDo": "Ask where the toilet is",
+    "pictures": [
+      "school",
+      "toilet"
+    ],
+    "before": {
+      "replies": [
+        "Tell me the toilet. Now!",
+        "Where is the toilet, please?",
+        "Where is the moon, please?",
+        "Toilet where is me."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Hurry and show me.",
+        "Please show me the zoo.",
+        "Me show toilet please.",
+        "Please show me the toilet."
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-junior-library-book",
+    "topics": [
+      "library",
+      "books"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "At the library, you want a book.",
+    "canDo": "Ask for a book politely",
+    "pictures": [
+      "library",
+      "book"
+    ],
+    "before": {
+      "replies": [
+        "Give me every book.",
+        "May I borrow this spoon?",
+        "May I borrow this book?",
+        "Book this borrow may."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Can I take this book, please?",
+        "This book is mine now.",
+        "Can I take this lamp?",
+        "Take book can I."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-junior-missing-spoon",
+    "topics": [
+      "food",
+      "school-lunch"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "At lunch, you have no spoon.",
+    "canDo": "Ask for a spoon politely",
+    "pictures": [
+      "lunchbox",
+      "spoon"
+    ],
+    "before": {
+      "replies": [
+        "Get me a spoon. Fast!",
+        "Could I have a cloud?",
+        "Spoon a have could.",
+        "Could I have a spoon, please?"
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "Hand over your spoon.",
+        "May I borrow a spoon?",
+        "May I borrow a tree?",
+        "Borrow spoon I may."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-junior-spilled-water",
+    "topics": [
+      "school",
+      "sorry"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "You spill water on a table.",
+    "canDo": "Apologize and offer to clean up",
+    "pictures": [
+      "water",
+      "table",
+      "towel"
+    ],
+    "before": {
+      "replies": [
+        "I'm sorry. I'll clean it.",
+        "Clean my mess now.",
+        "I'm sorry. I'll fly away.",
+        "Sorry clean I table."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "You should clean that.",
+        "Sorry! May I get a rocket?",
+        "Sorry! May I get a towel?",
+        "Towel I get sorry."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-junior-greet-new-child",
+    "topics": [
+      "school",
+      "friends"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "A new child arrives in your class.",
+    "canDo": "Greet a new classmate",
+    "pictures": [
+      "boy",
+      "girl",
+      "school"
+    ],
+    "before": {
+      "replies": [
+        "Who are you? Go away.",
+        "Hello! My name is Ana.",
+        "Hello! My name is table.",
+        "Name my Ana hello."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "Sit somewhere else.",
+        "Hi! Would you like soap?",
+        "You sit like would.",
+        "Hi! Would you like to sit?"
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-junior-ask-coat",
+    "topics": [
+      "family",
+      "clothes"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "Your coat is too high to reach.",
+    "canDo": "Ask a parent for your coat",
+    "pictures": [
+      "mother",
+      "coat"
+    ],
+    "before": {
+      "replies": [
+        "Get it for me. Now!",
+        "Please help me eat my coat.",
+        "Please help me get my coat.",
+        "Coat my get help."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Can you reach my coat, please?",
+        "Give me my coat!",
+        "Can you reach my soup?",
+        "Reach coat please can."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-junior-thank-driver",
+    "topics": [
+      "travel",
+      "bus"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "The bus driver helps you step down.",
+    "canDo": "Thank the bus driver",
+    "pictures": [
+      "bus",
+      "driver"
+    ],
+    "before": {
+      "replies": [
+        "Drive faster next time.",
+        "Thank you for the cake.",
+        "Helping thank me for.",
+        "Thank you for helping me."
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "That took too long.",
+        "Thanks for your help!",
+        "Thanks for your pencil!",
+        "Help your thanks for."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-junior-apple-price",
+    "topics": [
+      "shop",
+      "food"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "At a shop, you want to know an apple's price.",
+    "canDo": "Ask the price politely",
+    "pictures": [
+      "shop",
+      "apple"
+    ],
+    "before": {
+      "replies": [
+        "How much is this apple?",
+        "Give me the apple free.",
+        "How tall is this apple?",
+        "Apple much how this?"
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "Do your job. Tell me.",
+        "Please tell me the moon.",
+        "Please tell me the price.",
+        "Price the tell please."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-junior-pet-water",
+    "topics": [
+      "pets",
+      "family"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "Your puppy's water bowl is empty.",
+    "canDo": "Tell a parent what the pet needs",
+    "pictures": [
+      "puppy",
+      "food-bowl",
+      "water"
+    ],
+    "before": {
+      "replies": [
+        "Fill it. Right now!",
+        "The puppy needs more water.",
+        "The puppy needs more paper.",
+        "Water puppy more needs."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "You forgot the puppy again.",
+        "Can we give the puppy paint?",
+        "Give puppy water we can.",
+        "Can we give the puppy water?"
+      ],
+      "natural": 3
+    }
+  },
+  {
+    "id": "speak-junior-repeat-word",
+    "topics": [
+      "school",
+      "help"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "You did not hear the teacher's word.",
+    "canDo": "Ask the teacher to repeat it",
+    "pictures": [
+      "teacher",
+      "ear",
+      "book"
+    ],
+    "before": {
+      "replies": [
+        "Speak louder right now!",
+        "Please paint that word again.",
+        "Please say that word again.",
+        "Word again say please."
+      ],
+      "natural": 2
+    },
+    "after": {
+      "replies": [
+        "Can you repeat it, please?",
+        "You talk too quietly.",
+        "Can you eat it, please?",
+        "Repeat you can it."
+      ],
+      "natural": 0
+    }
+  },
+  {
+    "id": "speak-junior-thank-gift",
+    "topics": [
+      "birthdays",
+      "family"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "A relative gives you a birthday present.",
+    "canDo": "Thank someone for a gift",
+    "pictures": [
+      "birthday",
+      "present",
+      "grandmother"
+    ],
+    "before": {
+      "replies": [
+        "Is that all I get?",
+        "Thank you for the rain!",
+        "Gift the thanks you.",
+        "Thank you for the gift!"
+      ],
+      "natural": 3
+    },
+    "after": {
+      "replies": [
+        "I wanted a bigger one.",
+        "I love it. Thank you!",
+        "I love the bus. Thank you!",
+        "Love it I thanks."
+      ],
+      "natural": 1
+    }
+  },
+  {
+    "id": "speak-junior-borrow-eraser",
+    "topics": [
+      "school",
+      "friends"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "Your pencil mark is wrong. A friend has an eraser.",
+    "canDo": "Borrow an eraser politely",
+    "pictures": [
+      "pencil",
+      "eraser",
+      "friend"
+    ],
+    "before": {
+      "replies": [
+        "Could I use your eraser?",
+        "Give me that eraser now.",
+        "Could I use your sandwich?",
+        "Eraser use I could."
+      ],
+      "natural": 0
+    },
+    "after": {
+      "replies": [
+        "I will take your eraser.",
+        "May I borrow the window?",
+        "May I borrow the eraser?",
+        "Borrow eraser may I."
+      ],
+      "natural": 2
+    }
+  },
+  {
+    "id": "speak-junior-bus-seat",
+    "topics": [
+      "travel",
+      "friends"
+    ],
+    "ageBand": "junior",
+    "cefr": "A1",
+    "situation": "On the bus, you want to sit beside a friend.",
+    "canDo": "Ask to sit beside a friend",
+    "pictures": [
+      "bus",
+      "friend",
+      "chair"
+    ],
+    "before": {
+      "replies": [
+        "Move over. This is mine.",
+        "May I sit beside you?",
+        "May I sit under you?",
+        "Sit beside may you."
+      ],
+      "natural": 1
+    },
+    "after": {
+      "replies": [
+        "That seat belongs to me.",
+        "Can I eat here, please?",
+        "Here sit I can.",
+        "Can I sit here, please?"
+      ],
+      "natural": 3
+    }
   }
 ]
