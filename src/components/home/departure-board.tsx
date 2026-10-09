@@ -44,9 +44,28 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
   const [rows, setRows] = useState(summary.rows);
   const [prepareFor, setPrepareFor] = useState<BoardRow | null>(null);
   const searchParams = useSearchParams();
-  // /home?prepare=<classId> (from the class page) opens the sheet for that class.
+  // From the Library: the picked item, waiting for a class (one class: straight into its sheet).
+  const [picked, setPicked] = useState<NonNullable<React.ComponentProps<typeof PrepareSheet>['initialSource']> | null>(null);
+  const [choosing, setChoosing] = useState(false);
+  // /home?prepare=<classId> (class page) opens the sheet for that class;
+  // /home?prepare=pick&st=<sourceType>&id=<id> (Library) asks which class, then opens it with that material.
   useEffect(() => {
     const id = searchParams.get('prepare');
+    if (id === 'pick') {
+      const st = searchParams.get('st');
+      const itemId = searchParams.get('id');
+      if (!st || !itemId) return;
+      void (async () => {
+        const res = await fetch(`/api/library/material?sourceType=${encodeURIComponent(st)}&id=${encodeURIComponent(itemId)}`);
+        if (!res.ok) { setError("Couldn't load that library item."); return; }
+        const data = (await res.json()) as { material: { title: string }; listening?: boolean };
+        const reading = ['books', 'stories', 'picture-books', 'storyweaver', 'voa', 'discussion', 'text'].includes(st);
+        setPicked({ kind: reading ? 'reading' : 'video', sourceType: st as never, id: itemId, title: data.material.title, ...(data.listening ? { listening: true } : {}) });
+        if (summary.rows.length === 1) setPrepareFor(summary.rows[0]);
+        else setChoosing(true);
+      })();
+      return;
+    }
     const row = id ? summary.rows.find((r) => r.classId === id) : null;
     if (row) setPrepareFor(row);
   }, [searchParams, summary.rows]);
@@ -287,13 +306,32 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
           </div>
         </section>
       </div>
+      {choosing && picked && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Choose a class">
+          <button type="button" aria-label="Close" onClick={() => setChoosing(false)} className="absolute inset-0 bg-black/55" />
+          <div className="relative w-full max-w-md space-y-3 rounded-2xl border border-white/10 bg-[#0a121e] p-5">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-amber-300">Plan a lesson with</p>
+            <h2 className="text-lg font-semibold text-white">{picked.title}</h2>
+            <p className="text-sm text-white/55">Which class is it for?</p>
+            <div className="space-y-1.5">
+              {rows.map((r) => (
+                <button key={r.classId} type="button" onClick={() => { setChoosing(false); setPrepareFor(r); }} className="flex w-full items-center justify-between rounded-xl border border-white/10 px-3 py-2.5 text-left text-sm text-white/85 hover:border-cyan-300/40">
+                  <span className="font-semibold">{r.name}</span><span className="text-xs text-white/45">{r.gate} · {r.flight}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       {prepareFor && (
         <PrepareSheet
           row={prepareFor}
-          onClose={() => setPrepareFor(null)}
+          initialSource={picked ?? undefined}
+          onClose={() => { setPrepareFor(null); setPicked(null); }}
           onSaved={(lesson) => {
             setRows((prev) => prev.map((r) => (r.classId === prepareFor.classId ? { ...r, prepared: lesson } : r)));
             setPrepareFor(null);
+            setPicked(null);
           }}
         />
       )}

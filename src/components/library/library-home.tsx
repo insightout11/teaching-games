@@ -5,10 +5,8 @@ import { useRouter } from 'next/navigation';
 import { BookOpen, FileText, Film, Headphones, Loader2, Search, X } from 'lucide-react';
 import { VideoLibraryModal } from '@/components/planner/video-library-modal';
 import { TextLibraryModal } from '@/components/planner/text-library-modal';
-import { usePlannerStore } from '@/stores/planner-store';
 import { FLAP_FONT } from '@/components/ui/split-flap';
 import type { Shelf, ShelfItem } from '@/lib/library-shelves';
-import type { SourceMaterial } from '@/types/source-material';
 
 // Library (Oct 2026 redesign): one search over everything, rows of picks, and the full video/text browsers behind
 // "Browse all". Picking an item plans a lesson with it; a book opens its reading course.
@@ -46,13 +44,11 @@ function Tile({ item, onPick, busy }: { item: ShelfItem & { listening?: boolean 
 
 export function LibraryHome({ shelves }: { shelves: Shelf[] }) {
   const router = useRouter();
-  const { setSourceMaterial, setTopic } = usePlannerStore();
   const [view, setView] = useState<View>('overview');
   const [q, setQ] = useState('');
   const [kids, setKids] = useState(false);
   const [results, setResults] = useState<ShelfItem[] | null>(null);
   const [searching, setSearching] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function search() {
@@ -67,41 +63,9 @@ export function LibraryHome({ shelves }: { shelves: Shelf[] }) {
     }
   }
 
-  /** Load the item as lesson material and open the planner with it (same path the old Library used). */
-  async function planWith(id: string, source: string) {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch('/api/source/extract', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: source, payload: id }),
-      });
-      const data = await res.json().catch(() => null);
-      if (!res.ok || !data) {
-        setError((data && typeof data.error === 'string' && data.error) || "Couldn't load that. It may be unavailable for a moment; try another or try again.");
-        return;
-      }
-      const material: SourceMaterial = {
-        sourceType: data.sourceType,
-        sourceKey: data.sourceKey,
-        title: data.title,
-        summary: data.summary,
-        duration: data.duration,
-        ...(data.rawText ? { rawText: data.rawText } : {}),
-        ...(data.slides ? { slides: data.slides } : {}),
-      };
-      setSourceMaterial(material);
-      setTopic(data.title);
-      router.push('/lesson-planner');
-    } catch {
-      setError("Couldn't load that. Check your connection and try again.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const pick = (i: ShelfItem) => (i.presetId ? router.push(`/courses/new?preset=${encodeURIComponent(i.presetId)}`) : void planWith(i.id, i.sourceType));
+  /** Plan a lesson with an item: Home's prepare sheet for the chosen class, with the item as material. */
+  const prepareWith = (id: string, sourceType: string) => router.push(`/home?prepare=pick&st=${encodeURIComponent(sourceType)}&id=${encodeURIComponent(id)}`);
+  const pick = (i: ShelfItem) => (i.presetId ? router.push(`/courses/new?preset=${encodeURIComponent(i.presetId)}`) : prepareWith(i.id, i.sourceType));
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 pb-16">
@@ -124,14 +88,8 @@ export function LibraryHome({ shelves }: { shelves: Shelf[] }) {
         </p>
       )}
 
-      {loading && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60">
-          <span className="flex items-center gap-3 rounded-xl bg-[#0a121e] px-5 py-3 text-sm text-white"><Loader2 className="h-4 w-4 animate-spin" />Getting it ready…</span>
-        </div>
-      )}
-
-      {view === 'videos' && <div className="h-[75vh] overflow-hidden rounded-2xl border border-white/[0.07]"><VideoLibraryModal mode="page" onSelect={(id, src) => void planWith(id, src)} /></div>}
-      {view === 'texts' && <div className="h-[75vh] overflow-hidden rounded-2xl border border-white/[0.07]"><TextLibraryModal mode="page" onSelect={(id, src) => void planWith(id, src)} /></div>}
+      {view === 'videos' && <div className="h-[75vh] overflow-hidden rounded-2xl border border-white/[0.07]"><VideoLibraryModal mode="page" onSelect={(id, src) => prepareWith(id, src)} /></div>}
+      {view === 'texts' && <div className="h-[75vh] overflow-hidden rounded-2xl border border-white/[0.07]"><TextLibraryModal mode="page" onSelect={(id, src) => prepareWith(id, src)} /></div>}
 
       {view === 'overview' && (
         <>
@@ -153,7 +111,7 @@ export function LibraryHome({ shelves }: { shelves: Shelf[] }) {
               {results.length === 0 ? (
                 <p className="text-sm text-white/55">Nothing found. Try another word, or browse all videos and texts.</p>
               ) : (
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{results.map((r) => <Tile key={`${r.sourceType}-${r.id}`} item={r} onPick={pick} busy={loading} />)}</div>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{results.map((r) => <Tile key={`${r.sourceType}-${r.id}`} item={r} onPick={pick} busy={false} />)}</div>
               )}
             </section>
           )}
@@ -170,7 +128,7 @@ export function LibraryHome({ shelves }: { shelves: Shelf[] }) {
                   <button onClick={() => setView('videos')} className="text-sm text-cyan-300 hover:text-cyan-200">Browse all videos</button>
                 )}
               </div>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{s.items.map((i) => <Tile key={`${i.sourceType}-${i.id}`} item={i} onPick={pick} busy={loading} />)}</div>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{s.items.map((i) => <Tile key={`${i.sourceType}-${i.id}`} item={i} onPick={pick} busy={false} />)}</div>
             </section>
           ))}
           <p className="text-xs text-white/40">Pick anything to plan a lesson with it. Books open as a reading course you can edit.</p>

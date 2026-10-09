@@ -32,14 +32,14 @@ const DESCRIPTIONS: Record<PreparedType, string> = {
 };
 const ORDER: PreparedType[] = ['speak', 'reading', 'listening', 'mix', 'free', 'debate', 'grammar'];
 
-export function PrepareSheet({ row, onClose, onSaved }: { row: BoardRow; onClose: () => void; onSaved: (lesson: PreparedLesson | null) => void }) {
+export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: BoardRow; onClose: () => void; onSaved: (lesson: PreparedLesson | null) => void; /** From the Library: the picked item as this lesson's material. */ initialSource?: MaterialLesson['suggestedSource'] }) {
   const level: Difficulty = row.level && DIFFICULTIES.includes(row.level as Difficulty) ? (row.level as Difficulty) : 'Intermediate';
   const p = row.prepared;
-  const [type, setType] = useState<PreparedType>(p?.type ?? (row.junior ? 'mix' : 'speak'));
-  const [topic, setTopic] = useState(p?.topic ?? '');
+  const [type, setType] = useState<PreparedType>(initialSource?.listening ? 'listening' : initialSource?.kind === 'reading' ? 'reading' : p?.type ?? (row.junior ? 'mix' : 'speak'));
+  const [topic, setTopic] = useState(initialSource?.title ?? p?.topic ?? '');
   const [focusText, setFocusText] = useState<string | undefined>(p?.focus?.text);
   const [grammar, setGrammar] = useState<GrammarTarget | ''>((p?.payload?.grammarTarget as GrammarTarget | undefined) ?? '');
-  const [material, setMaterial] = useState<MaterialLesson>({ _id: 'prep', title: p?.materialTitle ?? '', topic: p?.topic ?? '', suggestedSource: null, ownMaterial: null });
+  const [material, setMaterial] = useState<MaterialLesson>({ _id: 'prep', title: initialSource?.title ?? p?.materialTitle ?? '', topic: initialSource?.title ?? p?.topic ?? '', suggestedSource: initialSource ?? null, ownMaterial: null });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
