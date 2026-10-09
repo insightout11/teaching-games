@@ -97,6 +97,8 @@ export interface CourseOutlineLesson {
   ownMaterial?: { title: string; text: string } | null;
   /** Course arc: the first lesson sets this simple task, the last repeats it. */
   arcRole?: 'baseline' | 'compare';
+  /** Grammar lessons: the grammar point (the Grammar flight needs it). */
+  grammarTarget?: string;
   /** Fly this lesson with a specific flight (e.g. 'reading-60' for book courses) instead of the goal's default. */
   flightPresetId?: string;
 }

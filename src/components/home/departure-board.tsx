@@ -68,7 +68,13 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
   };
 
   const boardClass = (classId: string) => go(`board-${classId}`, async () => {
-    const prepared = rows.find((r) => r.classId === classId)?.prepared;
+    const row = rows.find((r) => r.classId === classId);
+    const prepared = row?.prepared;
+    // A Grammar lesson needs its grammar point; older prepared lessons may lack it: finish it in the sheet first.
+    if (prepared?.type === 'grammar' && !prepared.payload?.grammarTarget && row) {
+      setPrepareFor(row);
+      throw new Error('Choose the grammar point for this lesson, then board.');
+    }
     router.push(`/sessions/${prepared ? await launchPreparedLesson(classId, prepared) : await board(classId)}`);
   });
 

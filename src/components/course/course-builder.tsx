@@ -16,6 +16,7 @@ import { COURSE_PRESETS as TOPIC_COURSE_PRESETS, READING_COURSE_PRESETS, READY_C
 import { LESSON_TYPES, lessonTypeBlocker, lessonTypeOf, type LessonType } from '@/lib/course-lesson-types';
 import { createClient } from '@/lib/supabase/client';
 import { LessonMaterial } from '@/components/course/lesson-material';
+import { GRAMMAR_TARGET_GROUPS, type GrammarTarget } from '@/lib/grammar';
 import { FLAP_FONT } from '@/components/ui/split-flap';
 import type { CourseOutline, CourseOutlineLesson, CourseSourceRef } from '@/lib/course';
 import type { SourceMaterial } from '@/types/source-material';
@@ -154,7 +155,7 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
         const modules = buildCourseModulesFromPreset(preset, sourceKind);
         const courseContext = buildCourseLessonContext({ courseTitle: courseTitle.trim(), courseTheme: theme.trim(), lessons, index: i, arcTask: task });
         const lessonPayload = buildCourseLessonPayload(
-          { topic: l.topic, difficulty: level, goal: type.goal, durationMinutes: 60, courseContext },
+          { topic: l.topic, difficulty: level, goal: type.goal, durationMinutes: 60, courseContext, ...(type.id === 'grammar' && l.grammarTarget ? { grammarTarget: l.grammarTarget as GrammarTarget } : {}) },
           modules,
         );
         const flightConfig = buildFlightConfigForCourseSlots(preset.flightConfig, lessonPayload.slots);
@@ -340,6 +341,14 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
                           );
                         })}
                       </div>
+                      {current.id === 'grammar' && (
+                        <select value={l.grammarTarget ?? ''} onChange={(e) => updateLesson(l._id, { grammarTarget: e.target.value || undefined })} aria-label={`Lesson ${i + 1} grammar point`} className={`${field} text-xs`}>
+                          <option value="">Choose the grammar point…</option>
+                          {Object.entries(GRAMMAR_TARGET_GROUPS).map(([group, targets]) => (
+                            <optgroup key={group} label={group}>{targets.map((t) => <option key={t} value={t}>{t}</option>)}</optgroup>
+                          ))}
+                        </select>
+                      )}
                       <LessonMaterial lesson={l} level={level} junior={junior} onChange={(patch) => updateLesson(l._id, patch)} />
                     </div>
                     <button type="button" onClick={() => removeLesson(l._id)} aria-label="Remove lesson" className="pt-1 text-white/40 hover:text-red-300"><Trash2 className="h-4 w-4" /></button>
@@ -349,6 +358,7 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
             })}
           </ol>
 
+          {lessons.some((x) => lessonTypeOf(x).id === 'grammar' && !x.grammarTarget) && <p className="text-sm text-amber-200">Choose the grammar point for each Grammar lesson before saving.</p>}
           {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
 
           <div className="flex items-center justify-between gap-3">
@@ -356,7 +366,7 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
             <button
               type="button"
               onClick={handleSave}
-              disabled={saving || lessons.length === 0 || !courseTitle.trim()}
+              disabled={saving || lessons.length === 0 || !courseTitle.trim() || lessons.some((x) => lessonTypeOf(x).id === 'grammar' && !x.grammarTarget)}
               className="flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-2.5 font-semibold text-[#03202a] hover:bg-cyan-300 disabled:opacity-50"
             >
               {saving && <Loader2 className="h-4 w-4 animate-spin" />}

@@ -8,6 +8,7 @@ import { buildCourseModulesFromPreset, buildFlightConfigForCourseSlots, getCours
 import { lessonTypeById, type LessonTypeId } from '@/lib/course-lesson-types';
 import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 import { createClient } from '@/lib/supabase/client';
+import type { GrammarTarget } from '@/lib/grammar';
 
 /**
  * Prepare the next lesson (Oct 2026, replaces the old planner): one prepared lesson per class (classes.next_lesson),
@@ -54,6 +55,8 @@ export function buildPreparedLesson(input: {
   sourceMaterial?: SourceMaterial | null;
   ownText?: { title: string; text: string } | null;
   focusText?: string;
+  /** Grammar lessons: the grammar point (the flight's activities need it). */
+  grammarTarget?: GrammarTarget | null;
 }): PreparedLesson {
   const topic = input.topic.trim();
   const now = new Date().toISOString();
@@ -67,7 +70,7 @@ export function buildPreparedLesson(input: {
   const material: SourceMaterial | undefined = input.ownText
     ? { sourceType: 'text', title: input.ownText.title, summary: input.ownText.text.slice(0, 500), rawText: input.ownText.text, originalText: input.ownText.text }
     : input.sourceMaterial ?? undefined;
-  const payload = buildCourseLessonPayload({ topic, difficulty: input.level, goal: type.goal, durationMinutes: 60, ...(material ? { sourceMaterial: material } : {}) }, modules);
+  const payload = buildCourseLessonPayload({ topic, difficulty: input.level, goal: type.goal, durationMinutes: 60, ...(material ? { sourceMaterial: material } : {}), ...(input.type === 'grammar' && input.grammarTarget ? { grammarTarget: input.grammarTarget } : {}) }, modules);
   const flightConfig = buildFlightConfigForCourseSlots(preset.flightConfig, payload.slots);
   if (flightConfig) {
     payload.flightPresetId = preset.id;
@@ -76,7 +79,7 @@ export function buildPreparedLesson(input: {
   return {
     type: input.type,
     topic,
-    title: `${type.label} · ${topic}`,
+    title: input.type === 'grammar' && input.grammarTarget ? `Grammar · ${input.grammarTarget} · ${topic}` : `${type.label} · ${topic}`,
     ...(input.ownText ? { materialTitle: input.ownText.title } : input.source ? { materialTitle: input.source.title } : {}),
     payload,
     preparedAt: now,

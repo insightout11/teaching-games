@@ -16,6 +16,7 @@ import {
 import { LessonMaterial, type MaterialLesson } from '@/components/course/lesson-material';
 import { FLAP_FONT } from '@/components/ui/split-flap';
 import type { SourceMaterial } from '@/types/source-material';
+import { GRAMMAR_TARGET_GROUPS, type GrammarTarget } from '@/lib/grammar';
 
 // "Prepare the next lesson" (Oct 2026, replaces the old planner): suggestions from the class's own history first,
 // then three questions (what kind, about what, material), a plain-words preview, and Save as the class's next flight.
@@ -37,6 +38,7 @@ export function PrepareSheet({ row, onClose, onSaved }: { row: BoardRow; onClose
   const [type, setType] = useState<PreparedType>(p?.type ?? (row.junior ? 'mix' : 'speak'));
   const [topic, setTopic] = useState(p?.topic ?? '');
   const [focusText, setFocusText] = useState<string | undefined>(p?.focus?.text);
+  const [grammar, setGrammar] = useState<GrammarTarget | ''>((p?.payload?.grammarTarget as GrammarTarget | undefined) ?? '');
   const [material, setMaterial] = useState<MaterialLesson>({ _id: 'prep', title: p?.materialTitle ?? '', topic: p?.topic ?? '', suggestedSource: null, ownMaterial: null });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -77,6 +79,7 @@ export function PrepareSheet({ row, onClose, onSaved }: { row: BoardRow; onClose
         sourceMaterial,
         ownText: type === 'free' ? null : material.ownMaterial ?? null,
         focusText,
+        grammarTarget: grammar || null,
       });
       await savePreparedLesson(row.classId, lesson);
       onSaved(lesson);
@@ -176,6 +179,18 @@ export function PrepareSheet({ row, onClose, onSaved }: { row: BoardRow; onClose
           </div>
         </section>
 
+        {type === 'grammar' && (
+          <section className="space-y-2">
+            <label htmlFor="prep-grammar" className="block text-[11px] font-bold uppercase tracking-[0.2em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>Grammar point</label>
+            <select id="prep-grammar" value={grammar} onChange={(e) => setGrammar(e.target.value as GrammarTarget | '')} className="w-full rounded-lg border border-white/12 bg-white/[0.05] px-3 py-2.5 text-sm text-lc-text focus:border-cyan-300/60 focus:outline-none">
+              <option value="">Choose the grammar point…</option>
+              {Object.entries(GRAMMAR_TARGET_GROUPS).map(([group, targets]) => (
+                <optgroup key={group} label={group}>{targets.map((t) => <option key={t} value={t}>{t}</option>)}</optgroup>
+              ))}
+            </select>
+          </section>
+        )}
+
         {type !== 'free' && (
           <section className="space-y-2">
             <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>3 · Material <span className="normal-case tracking-normal text-white/40">(optional)</span></h3>
@@ -204,7 +219,7 @@ export function PrepareSheet({ row, onClose, onSaved }: { row: BoardRow; onClose
           <button
             type="button"
             onClick={() => void save()}
-            disabled={saving || !topic.trim() || (!!typeDef?.needs && !!lessonTypeBlocker(typeDef, material.suggestedSource, !!material.ownMaterial))}
+            disabled={saving || !topic.trim() || (type === 'grammar' && !grammar) || (!!typeDef?.needs && !!lessonTypeBlocker(typeDef, material.suggestedSource, !!material.ownMaterial))}
             className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-2.5 font-semibold text-[#03202a] hover:bg-cyan-300 disabled:opacity-40"
           >
             {saving && <Loader2 className="h-4 w-4 animate-spin" />}Save as next flight
