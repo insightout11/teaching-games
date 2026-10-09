@@ -24065,6 +24065,11 @@
         "target": "question forms",
         "why": "Ask students to weigh a digital choice.",
         "example": "Should a game let players skip a frustrating level?"
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe experience with a difficult game.",
+        "example": "I have played this level twice, but I still miss the hidden path."
       }
     ],
     "levels": {
@@ -25559,6 +25564,11 @@
         "target": "question forms",
         "why": "Ask students to weigh a digital choice.",
         "example": "What makes a meme funny to your group?"
+      },
+      {
+        "target": "reported speech",
+        "why": "Retell a classmate’s changing reaction.",
+        "example": "Mia said the meme was funny until she learned its context."
       }
     ],
     "levels": {
@@ -25983,6 +25993,11 @@
         "target": "question forms",
         "why": "Ask students to weigh a digital choice.",
         "example": "Which repetitive job would you automate first?"
+      },
+      {
+        "target": "passive voice",
+        "why": "Focus on a robot’s programmed task.",
+        "example": "The factory robots are programmed to lift heavy parts."
       }
     ],
     "levels": {
@@ -26193,6 +26208,11 @@
         "target": "question forms",
         "why": "Ask students to weigh a digital choice.",
         "example": "What would you explore first in a virtual museum?"
+      },
+      {
+        "target": "conditional",
+        "why": "Discuss a safe response to discomfort.",
+        "example": "If the headset makes me dizzy, I will take a break."
       }
     ],
     "levels": {
@@ -26617,6 +26637,11 @@
         "target": "question forms",
         "why": "Ask students to weigh a digital choice.",
         "example": "What clue would make you question a message?"
+      },
+      {
+        "target": "passive voice",
+        "why": "Describe what happens to stolen credentials.",
+        "example": "A stolen password is used to enter an account."
       }
     ],
     "levels": {
@@ -26826,6 +26851,11 @@
         "target": "question forms",
         "why": "Ask students to weigh a digital choice.",
         "example": "When would you choose a live lesson over a recording?"
+      },
+      {
+        "target": "present perfect",
+        "why": "Share progress from an online lesson.",
+        "example": "I have learned three new words in today’s online lesson."
       }
     ],
     "levels": {
@@ -27035,6 +27065,11 @@
         "target": "question forms",
         "why": "Ask students to weigh a digital choice.",
         "example": "What would you paint on a separate layer first?"
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain how an image was changed.",
+        "example": "The image was edited on separate layers."
       }
     ],
     "levels": {
@@ -27244,6 +27279,11 @@
         "target": "question forms",
         "why": "Ask about a cultural or personal choice.",
         "example": "When should a friend tell an uncomfortable truth?"
+      },
+      {
+        "target": "conditional",
+        "why": "Describe how you might repair trust.",
+        "example": "If my friend apologizes, I will listen."
       }
     ],
     "levels": {
@@ -27453,6 +27493,11 @@
         "target": "question forms",
         "why": "Ask about a cultural or personal choice.",
         "example": "What could you say when friends want a risky choice?"
+      },
+      {
+        "target": "reported speech",
+        "why": "Relay a student’s account of pressure.",
+        "example": "She said she felt pushed to skip practice."
       }
     ],
     "levels": {
@@ -27876,6 +27921,11 @@
         "target": "question forms",
         "why": "Ask about a cultural or personal choice.",
         "example": "Which matters more to you: rhythm or lyrics?"
+      },
+      {
+        "target": "relative clause",
+        "why": "Specify a genre through its rhythm.",
+        "example": "A genre that uses strong beats makes me want to dance."
       }
     ],
     "levels": {
@@ -28085,6 +28135,11 @@
         "target": "question forms",
         "why": "Ask about a cultural or personal choice.",
         "example": "Would you choose a small venue or large festival?"
+      },
+      {
+        "target": "past continuous",
+        "why": "Set the scene at a concert.",
+        "example": "The band was playing when the lights went out."
       }
     ],
     "levels": {
@@ -28294,6 +28349,11 @@
         "target": "question forms",
         "why": "Ask about a cultural or personal choice.",
         "example": "Would you begin a song with words or melody?"
+      },
+      {
+        "target": "present perfect",
+        "why": "Explain a revision to a song.",
+        "example": "I have changed the chorus to fit the melody."
       }
     ],
     "levels": {
@@ -28503,6 +28563,11 @@
         "target": "question forms",
         "why": "Ask about a cultural or personal choice.",
         "example": "Which genre would you choose for a short film?"
+      },
+      {
+        "target": "conditional",
+        "why": "Speculate about a mixed-genre film.",
+        "example": "If the film mixes comedy and mystery, I will watch it."
       }
     ],
     "levels": {
@@ -28926,6 +28991,11 @@
         "target": "question forms",
         "why": "Ask about a cultural or personal choice.",
         "example": "Would you choose comfort or a bold trend for one day?"
+      },
+      {
+        "target": "reported speech",
+        "why": "Report someone’s reason for an outfit.",
+        "example": "He said his jacket showed his style."
       }
     ],
     "levels": {
@@ -29349,6 +29419,11 @@
         "target": "question forms",
         "why": "Ask about a cultural or personal choice.",
         "example": "Which family dish would you teach a friend?"
+      },
+      {
+        "target": "passive voice",
+        "why": "Focus on a recipe’s shared tradition.",
+        "example": "The family recipe is shared at every festival."
       }
     ],
     "levels": {
@@ -29772,6 +29847,11 @@
         "target": "question forms",
         "why": "Ask about a cultural or personal choice.",
         "example": "Would you practice with a conversation partner or recording?"
+      },
+      {
+        "target": "present perfect continuous",
+        "why": "Describe ongoing language practice.",
+        "example": "I have been practicing English with my cousin for months."
       }
     ],
     "levels": {
@@ -30195,6 +30275,11 @@
         "target": "question forms",
         "why": "Ask about a cultural or personal choice.",
         "example": "Which local custom would you teach a newcomer?"
+      },
+      {
+        "target": "reported speech",
+        "why": "Retell a family memory of a festival.",
+        "example": "Grandma said the parade began when she was a child."
       }
     ],
     "levels": {
@@ -30832,6 +30917,11 @@
         "target": "question forms",
         "why": "Ask students to consider a practical choice.",
         "example": "Which new club would you start at school?"
+      },
+      {
+        "target": "future (going to)",
+        "why": "Announce a plan for a new club.",
+        "example": "We are going to start a photography club next term."
       }
     ],
     "levels": {
@@ -31041,6 +31131,11 @@
         "target": "question forms",
         "why": "Ask students to consider a practical choice.",
         "example": "What would you ask before accepting a first job?"
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe work experience up to now.",
+        "example": "I have worked at the cafe for two months."
       }
     ],
     "levels": {
@@ -31250,6 +31345,11 @@
         "target": "question forms",
         "why": "Ask students to consider a practical choice.",
         "example": "Which job would you shadow for a day?"
+      },
+      {
+        "target": "future continuous",
+        "why": "Imagine work in a future workplace.",
+        "example": "Robots will be helping nurses with routine tasks next year."
       }
     ],
     "levels": {
@@ -31459,6 +31559,11 @@
         "target": "question forms",
         "why": "Ask students to consider a practical choice.",
         "example": "What everyday problem could a small business solve?"
+      },
+      {
+        "target": "conditional",
+        "why": "Connect a useful idea to customers.",
+        "example": "If we solve a real problem, customers will return."
       }
     ],
     "levels": {
@@ -31668,6 +31773,11 @@
         "target": "question forms",
         "why": "Ask students to consider a practical choice.",
         "example": "What would make saving easier for a student?"
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe progress toward a savings goal.",
+        "example": "I have saved enough for a new bicycle."
       }
     ],
     "levels": {
@@ -32305,6 +32415,11 @@
         "target": "question forms",
         "why": "Ask students to consider a practical choice.",
         "example": "What would you do if you lost your place?"
+      },
+      {
+        "target": "past continuous",
+        "why": "Describe an interruption during a speech.",
+        "example": "I was speaking when I lost my place."
       }
     ],
     "levels": {
@@ -32514,6 +32629,11 @@
         "target": "question forms",
         "why": "Ask students to consider a practical choice.",
         "example": "Which study habit would you test for one week?"
+      },
+      {
+        "target": "present perfect",
+        "why": "Reflect on a strategy already tried.",
+        "example": "I have tested flashcards, and they helped me remember."
       }
     ],
     "levels": {
@@ -32723,6 +32843,11 @@
         "target": "question forms",
         "why": "Ask students to consider a practical choice.",
         "example": "Which evening habit would you change before an exam?"
+      },
+      {
+        "target": "conditional",
+        "why": "Predict the benefit of enough sleep.",
+        "example": "If I sleep enough, I will remember more of my lessons."
       }
     ],
     "levels": {
@@ -32932,6 +33057,11 @@
         "target": "question forms",
         "why": "Ask students to consider a practical choice.",
         "example": "Which subject would you choose just from curiosity?"
+      },
+      {
+        "target": "reported speech",
+        "why": "Relay advice about a subject choice.",
+        "example": "My teacher said biology would help me understand living things."
       }
     ],
     "levels": {
@@ -33141,6 +33271,11 @@
         "target": "question forms",
         "why": "Ask students to consider a practical choice.",
         "example": "What would you hope to learn from time away?"
+      },
+      {
+        "target": "past perfect",
+        "why": "Sequence saving and a gap year.",
+        "example": "She had saved money before her gap year began."
       }
     ],
     "levels": {
@@ -33350,6 +33485,11 @@
         "target": "question forms",
         "why": "Ask students to consider a practical choice.",
         "example": "Which project best shows a skill you have developed?"
+      },
+      {
+        "target": "relative clause",
+        "why": "Describe the portfolio employers can inspect.",
+        "example": "A portfolio that shows real projects can help employers."
       }
     ],
     "levels": {
@@ -33560,6 +33700,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "Which local change would you prepare for first?"
+      },
+      {
+        "target": "passive voice",
+        "why": "Focus on the people facing heat.",
+        "example": "Homes are affected by longer heatwaves."
       }
     ],
     "levels": {
@@ -33770,6 +33915,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "Would your town benefit more from solar or wind?"
+      },
+      {
+        "target": "future (going to)",
+        "why": "Describe a school’s energy plan.",
+        "example": "Our school is going to install solar panels."
       }
     ],
     "levels": {
@@ -33979,6 +34129,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "Which plastic item would you remove from school first?"
+      },
+      {
+        "target": "passive voice",
+        "why": "Trace plastic after an event.",
+        "example": "Plastic bottles are collected after the festival."
       }
     ],
     "levels": {
@@ -34188,6 +34343,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "Which animal would you protect first in a local area?"
+      },
+      {
+        "target": "conditional",
+        "why": "Link habitat protection to animals’ needs.",
+        "example": "If we protect the forest, the animals will have shelter."
       }
     ],
     "levels": {
@@ -34397,6 +34557,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "Where would you plant a tree in your neighborhood?"
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe a recent change to street trees.",
+        "example": "Our street has lost two trees this year."
       }
     ],
     "levels": {
@@ -34608,6 +34773,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "Which bus route would improve your town most?"
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare frequency with a lower fare.",
+        "example": "A frequent bus is more useful than a cheaper bus that rarely comes."
       }
     ],
     "levels": {
@@ -34817,6 +34987,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "What would you put within a short walk of home?"
+      },
+      {
+        "target": "future (will)",
+        "why": "Imagine a walkable future district.",
+        "example": "The new district will have parks near homes."
       }
     ],
     "levels": {
@@ -35026,6 +35201,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "Which question would you send a probe to investigate?"
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe what missions have discovered.",
+        "example": "Space probes have sent us images of distant worlds."
       }
     ],
     "levels": {
@@ -35235,6 +35415,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "Where would you send a rover first?"
+      },
+      {
+        "target": "past perfect",
+        "why": "Sequence rover testing and launch.",
+        "example": "The rover had tested its camera before leaving Earth."
       }
     ],
     "levels": {
@@ -35444,6 +35629,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "Which problem on Earth could a satellite help study?"
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain a use for orbital data.",
+        "example": "Satellite data is used to track storms."
       }
     ],
     "levels": {
@@ -35653,6 +35843,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "Which everyday object would you improve first?"
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify an invention with daily impact.",
+        "example": "An invention that saves time can change a daily routine."
       }
     ],
     "levels": {
@@ -35863,6 +36058,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "What would you ask before trusting a health device?"
+      },
+      {
+        "target": "passive voice",
+        "why": "Follow how a scan informs treatment.",
+        "example": "The scan is checked by a doctor before treatment."
       }
     ],
     "levels": {
@@ -36500,6 +36700,11 @@
         "target": "question forms",
         "why": "Ask how people might respond.",
         "example": "Where would you check for wasted water first?"
+      },
+      {
+        "target": "conditional",
+        "why": "Predict the effect of repairing a leak.",
+        "example": "If we fix the leak, we will save water."
       }
     ],
     "levels": {
@@ -36710,6 +36915,11 @@
         "target": "question forms",
         "why": "Ask students to make an informed choice.",
         "example": "How would you help a teammate after a mistake?"
+      },
+      {
+        "target": "reported speech",
+        "why": "Share the captain’s view of the game.",
+        "example": "The captain said every player had helped the team."
       }
     ],
     "levels": {
@@ -36920,6 +37130,11 @@
         "target": "question forms",
         "why": "Ask students to make an informed choice.",
         "example": "What goal would you set beyond winning?"
+      },
+      {
+        "target": "present perfect continuous",
+        "why": "Describe a personal training routine.",
+        "example": "I have been training alone for six weeks."
       }
     ],
     "levels": {
@@ -37129,6 +37344,11 @@
         "target": "question forms",
         "why": "Ask students to make an informed choice.",
         "example": "What movement would you enjoy repeating each week?"
+      },
+      {
+        "target": "conditional",
+        "why": "Explain what helps a routine last.",
+        "example": "If the routine feels enjoyable, I will keep doing it."
       }
     ],
     "levels": {
@@ -37766,6 +37986,11 @@
         "target": "question forms",
         "why": "Ask students to make an informed choice.",
         "example": "What would you ask someone who lived near an old ruin?"
+      },
+      {
+        "target": "past perfect",
+        "why": "Sequence an old tale and later research.",
+        "example": "The villagers had told stories before researchers examined the site."
       }
     ],
     "levels": {
@@ -38189,6 +38414,11 @@
         "target": "question forms",
         "why": "Ask students to make an informed choice.",
         "example": "What satisfying meal could you make with simple ingredients?"
+      },
+      {
+        "target": "conditional",
+        "why": "Connect meal preparation with a healthy choice.",
+        "example": "If I prepare lunch early, I will eat more vegetables."
       }
     ],
     "levels": {
@@ -38398,6 +38628,11 @@
         "target": "question forms",
         "why": "Ask students to make an informed choice.",
         "example": "What would you notice first when pressure grows?"
+      },
+      {
+        "target": "present perfect",
+        "why": "Reflect on a change in wellbeing.",
+        "example": "I have felt calmer since I changed my evening routine."
       }
     ],
     "levels": {
@@ -38607,6 +38842,11 @@
         "target": "question forms",
         "why": "Ask students to make an informed choice.",
         "example": "Which part of a trip would you plan first?"
+      },
+      {
+        "target": "future (going to)",
+        "why": "Explain the next step in a trip.",
+        "example": "We are going to book tickets after choosing a route."
       }
     ],
     "levels": {

@@ -11,7 +11,11 @@
 - Added `topicIds` to all 120 existing motions. Four kids' phone/screen motions have empty links because the kids briefing bank has no matching digital-life topic; the field is explicit and valid.
 - Added 11 teen motions for the remaining topic gaps, each with three points per side, a pulse, and two evidence cards grounded in named primary sources. The new source references include their URLs in `source` for editorial checking.
 - Added library checks for valid, unique, age-matched topic links; all 70 teen topics and at least 30 kids topics must be covered. The original Round 12/14 motion cohort and evidence checks remain in force.
-- Checker counts: **150/150** topics with grammar fits; target distribution: present simple 150, question forms 150, comparatives and superlatives 12, relative clause 7, past simple 5, passive voice 3, future (will) 2. **11** motions added; **131** total (60 kids, 71 teens), **262** evidence cards. Debate coverage: **70/70** teen topics and **46/80** kids topics.
+- Checker counts after the editorial follow-up: **150/150** topics with grammar fits. Target distribution: present simple 150, question forms 150, comparatives and superlatives 13, relative clause 10, conditional 9, present perfect 9, reported speech 6, passive voice 11, past simple 5, past perfect 3, past continuous 2, present perfect continuous 2, future (will) 3, future (going to) 3, future continuous 1. **11** motions added; **131** total (60 kids, 71 teens), **262** evidence cards. Debate coverage: **70/70** teen topics and **46/80** kids topics.
+
+## Editorial follow-up
+
+- Added a third, topic-specific fit to the remaining 48 teen topics, so all 70 teen briefings now offer three choices. Examples use the target form in a single sentence of no more than 14 words.
 
 ## Checks
 
