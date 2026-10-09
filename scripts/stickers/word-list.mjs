@@ -124,6 +124,15 @@ Object.assign(THING, {
 });
 const EXTRA_PEOPLE = { actor: 'an actor on stage taking a bow', station_worker: 'a train station worker in uniform with a whistle' };
 
+// Round 25 (Codex) words, Oct 9 2026.
+const EXTRA3 = { nature: 'fossil dinosaur_footprint lava earthquake sand_dune', home: 'telescope festival_lantern', clothes: 'astronaut_helmet superhero_cape' };
+Object.assign(THING, {
+  fossil: 'a spiral ammonite fossil in a rock', dinosaur_footprint: 'a big three-toed dinosaur footprint in mud',
+  lava: 'glowing orange lava flowing', earthquake: 'a small house shaking with motion lines above a big zigzag crack in the ground', sand_dune: 'golden sand dunes under a blue sky',
+  telescope: 'a telescope on a tripod pointing at the sky', festival_lantern: 'a glowing paper festival lantern',
+  astronaut_helmet: 'an astronaut space helmet', superhero_cape: 'a red superhero cape',
+});
+
 const out = [];
 const add = (w, category, kind, hint) =>
   out.push({ word: w.replace(/_/g, ' '), id: w.replace(/_/g, '-'), category, kind, ...(hint ? { hint } : {}) });
@@ -132,6 +141,7 @@ for (const [cat, list] of Object.entries(things))
 for (const [cat, list] of Object.entries(EXTRA)) for (const w of list.split(' ')) add(w, cat === 'people' ? 'home' : cat, 'thing', THING[w]);
 for (const [cat, list] of Object.entries(EXTRA2)) for (const w of list.split(' ')) add(w, cat, 'thing', THING[w]);
 for (const [w, hint] of Object.entries(EXTRA_PEOPLE)) add(w, 'people', 'person', hint);
+for (const [cat, list] of Object.entries(EXTRA3)) for (const w of list.split(' ')) add(w, cat, 'thing', THING[w]);
 for (const w of people.split(' ')) add(w, 'people', 'person', PERSON[w] ?? `a ${w.replace(/_/g, ' ')}`);
 for (const w of actions.split(' ')) add(w, 'actions', 'action', `a child ${ING[w] ?? w + 'ing'}`);
 for (const w of feelings.split(' ')) add(w, 'feelings', 'feeling', `a child looking ${FEEL[w] ?? w}`);

@@ -2936,6 +2936,69 @@
   "hint": "a train station worker in uniform with a whistle"
  },
  {
+  "word": "fossil",
+  "id": "fossil",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "a spiral ammonite fossil in a rock"
+ },
+ {
+  "word": "dinosaur footprint",
+  "id": "dinosaur-footprint",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "a big three-toed dinosaur footprint in mud"
+ },
+ {
+  "word": "lava",
+  "id": "lava",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "glowing orange lava flowing"
+ },
+ {
+  "word": "earthquake",
+  "id": "earthquake",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "a small house shaking with motion lines above a big zigzag crack in the ground"
+ },
+ {
+  "word": "sand dune",
+  "id": "sand-dune",
+  "category": "nature",
+  "kind": "thing",
+  "hint": "golden sand dunes under a blue sky"
+ },
+ {
+  "word": "telescope",
+  "id": "telescope",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a telescope on a tripod pointing at the sky"
+ },
+ {
+  "word": "festival lantern",
+  "id": "festival-lantern",
+  "category": "home",
+  "kind": "thing",
+  "hint": "a glowing paper festival lantern"
+ },
+ {
+  "word": "astronaut helmet",
+  "id": "astronaut-helmet",
+  "category": "clothes",
+  "kind": "thing",
+  "hint": "an astronaut space helmet"
+ },
+ {
+  "word": "superhero cape",
+  "id": "superhero-cape",
+  "category": "clothes",
+  "kind": "thing",
+  "hint": "a red superhero cape"
+ },
+ {
   "word": "mother",
   "id": "mother",
   "category": "people",
