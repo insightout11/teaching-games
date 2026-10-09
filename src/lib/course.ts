@@ -78,6 +78,8 @@ export interface Course {
   theme: string;
   description: string | null;
   isTemplate: boolean;
+  /** The class flying this course (chosen in the builder); null = choose when boarding. */
+  classId: string | null;
   lessons: CourseLesson[];
 }
 

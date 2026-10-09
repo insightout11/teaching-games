@@ -41,11 +41,19 @@ export async function GET() {
       const { data: sess } = await supabase.from('sessions').select('id, started_at, classes(id, name)').in('id', sessionIds);
       for (const s of (sess ?? []) as unknown as Array<{ id: string; classes: { id: string; name: string } | null }>) if (s.classes) classBySession.set(s.id, s.classes);
     }
+    const fixedIds = Array.from(new Set(courses.map((c) => c.class_id).filter((x): x is string => !!x)));
+    const classNames = new Map<string, string>();
+    if (fixedIds.length) {
+      const { data: cl } = await supabase.from('classes').select('id, name').in('id', fixedIds);
+      for (const c of (cl ?? []) as Array<{ id: string; name: string }>) classNames.set(c.id, c.name);
+    }
     for (const id of own) {
       const ls = rows.filter((r) => r.course_id === id);
       const next = ls.find((r) => r.status === 'planned') ?? null;
       const launched = [...ls].reverse().find((r) => r.session_id && classBySession.has(r.session_id));
-      const cls = launched?.session_id ? classBySession.get(launched.session_id) ?? null : null;
+      const courseRow = courses.find((c) => c.id === id);
+      const fixed = courseRow?.class_id ? { id: courseRow.class_id, name: classNames.get(courseRow.class_id) ?? '' } : null;
+      const cls = fixed ?? (launched?.session_id ? classBySession.get(launched.session_id) ?? null : null);
       progress.set(id, {
         total: ls.length,
         done: ls.filter((r) => r.status !== 'planned').length,
@@ -70,6 +78,7 @@ interface CreateBody {
   title?: string;
   theme?: string;
   description?: string;
+  classId?: string | null;
   lessons?: Array<{ title: string; orderIndex: number; sourceRef?: CourseSourceRef; lessonPayload: CourseLessonPayload }>;
 }
 
@@ -88,6 +97,12 @@ export async function POST(request: NextRequest) {
   const title = (body.title ?? '').trim();
   const theme = (body.theme ?? '').trim();
   const lessons = Array.isArray(body.lessons) ? body.lessons : [];
+  // The class must be the teacher's own (the service client bypasses row-level security).
+  let classId: string | null = null;
+  if (typeof body.classId === 'string' && body.classId) {
+    const { data: cls } = await createServiceClient().from('classes').select('id').eq('id', body.classId).eq('teacher_id', teacher.id).maybeSingle();
+    classId = cls ? body.classId : null;
+  }
   if (!title || !theme) return NextResponse.json({ error: 'title and theme are required' }, { status: 400 });
   if (lessons.length === 0) return NextResponse.json({ error: 'A course needs at least one lesson' }, { status: 400 });
   // Uploaded-book reading courses can be long (one lesson per part of the book).
@@ -97,7 +112,7 @@ export async function POST(request: NextRequest) {
   const supabase = createServiceClient();
   const { data: course, error: courseErr } = await supabase
     .from('courses')
-    .insert({ teacher_id: teacher.id, title, theme, description: body.description ?? null, is_template: false })
+    .insert({ teacher_id: teacher.id, title, theme, description: body.description ?? null, is_template: false, class_id: classId })
     .select('*')
     .single();
   if (courseErr || !course) {

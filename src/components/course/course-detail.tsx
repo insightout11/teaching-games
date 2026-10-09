@@ -36,13 +36,18 @@ export function CourseDetail({ courseId }: { courseId: string }) {
     load();
   }, [courseId]);
 
+  // The course's own class (chosen in the builder) is preselected.
+  useEffect(() => {
+    if (course?.classId) setSelectedClassId(course.classId);
+  }, [course?.classId]);
+
   useEffect(() => {
     async function loadClasses() {
       const supabase = createClient();
       const { data } = await supabase.from('classes').select('id, name').order('name');
       const mapped = (data ?? []) as TeacherClass[];
       setClasses(mapped);
-      if (mapped.length === 1) setSelectedClassId(mapped[0].id);
+      if (mapped.length === 1) setSelectedClassId((cur) => cur ?? mapped[0].id);
     }
     loadClasses();
   }, []);

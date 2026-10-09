@@ -11,6 +11,7 @@ export interface DbCourse {
   theme: string;
   description: string | null;
   is_template: boolean;
+  class_id?: string | null;
 }
 export interface DbLesson {
   id: string;
@@ -53,6 +54,7 @@ export function toCourse(c: DbCourse, lessons: DbLesson[] = []): Course {
     theme: c.theme,
     description: c.description,
     isTemplate: c.is_template,
+    classId: c.class_id ?? null,
     lessons: lessons.map(toLesson),
   };
 }

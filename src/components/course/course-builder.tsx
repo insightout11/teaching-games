@@ -264,7 +264,7 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
       const res = await fetch('/api/course', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: courseTitle.trim(), theme: theme.trim(), description: task ? `Course task: ${task}` : undefined, lessons: payloadLessons }),
+        body: JSON.stringify({ title: courseTitle.trim(), theme: theme.trim(), description: task ? `Course task: ${task}` : undefined, classId: classId || null, lessons: payloadLessons }),
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({ error: 'Could not save the course.' }));
