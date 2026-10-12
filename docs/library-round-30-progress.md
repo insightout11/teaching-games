@@ -26,3 +26,4 @@ Texts are written individually for each lesson's topic and flight. Opening and c
 - exam-movers-style: 5 texts; course checker passes.
 - exam-flyers-style: 5 texts; course checker passes.
 - exam-a2-style: 5 texts; course checker passes.
+- exam-b1-style: 5 texts; course checker passes.

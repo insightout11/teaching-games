@@ -2865,5 +2865,240 @@
     "courseId": "exam-a2-style",
     "title": "Partner Talk Again",
     "level": "A2"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "Two students are choosing an after-school activity for a visiting classmate. One option is a drama rehearsal where visitors can try a short scene. The other is a design workshop where they can build a small object from card. Lina compares the activities before stating her preference. Drama offers movement and shared speaking, while design gives people more time to think before showing their work. Their visitor has said that she likes making things but feels shy about speaking to a large group. Lina therefore chooses the workshop. Her partner points out that a short drama scene could also help the visitor meet people. Lina accepts that benefit but thinks the workshop is a gentler first step. She explains the trade-off rather than calling one activity better for everyone. For the course task, she keeps a note of the two options, the visitor's needs and her reasoned choice. Later, she will make another comparison and check whether her explanation gives enough support.",
+    "words": [
+      {
+        "word": "rehearsal",
+        "meaning": "practice for a performance"
+      },
+      {
+        "word": "preference",
+        "meaning": "the option someone likes more"
+      },
+      {
+        "word": "benefit",
+        "meaning": "a useful or helpful result"
+      },
+      {
+        "word": "trade-off",
+        "meaning": "what is given up for a different gain"
+      },
+      {
+        "word": "reasoned",
+        "meaning": "supported by clear thinking and reasons"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What material is used in the design workshop?",
+        "a": "card"
+      },
+      {
+        "q": "What does the visitor like doing?",
+        "a": "making things"
+      },
+      {
+        "q": "Which activity does Lina choose?",
+        "a": "the workshop"
+      }
+    ],
+    "talk": [
+      "Which details would help you compare two activities for another person?",
+      "How could you explain a preference without dismissing the other option?"
+    ],
+    "courseId": "exam-b1-style",
+    "title": "First Comparison",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 1,
+    "text": "An original photo scene shows a group in a community hall. Two teenagers are arranging chairs in a circle. A woman near the door holds a sheet of paper, and another person is testing a small microphone. There are empty cups on a side table. Niko begins his description with the visible actions. He says where the people are standing and what they are holding. Then he makes a cautious guess: they might be preparing for a meeting or a workshop. His partner asks whether the cups show that an event has already finished. Niko considers that possibility. The group could be clearing up, although moving chairs into a circle seems more like preparation. He cannot know the event's purpose from these details alone. His description includes both what he can see and the language that marks an inference. He avoids inventing names, jobs or emotions for people whose background he does not know. One careful guess is more useful than a long unsupported story.",
+    "words": [
+      {
+        "word": "visible",
+        "meaning": "able to be seen"
+      },
+      {
+        "word": "cautious",
+        "meaning": "careful about accepting something too quickly"
+      },
+      {
+        "word": "preparation",
+        "meaning": "work done to get ready"
+      },
+      {
+        "word": "inference",
+        "meaning": "an idea drawn from what you notice"
+      },
+      {
+        "word": "unsupported",
+        "meaning": "without enough evidence"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What shape are the teenagers making with chairs?",
+        "a": "a circle"
+      },
+      {
+        "q": "What is someone testing?",
+        "a": "a small microphone"
+      },
+      {
+        "q": "What is on the side table?",
+        "a": "empty cups"
+      }
+    ],
+    "talk": [
+      "Which details support a cautious guess about the scene?",
+      "How would you make clear which part of your description is uncertain?"
+    ],
+    "courseId": "exam-b1-style",
+    "title": "Photo Details",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 2,
+    "text": "A class is planning an afternoon for younger visitors. The partners can organize a treasure-map activity, a music corner or a simple making station, but their room has space for only two. Erin suggests the music corner because people can join without reading long instructions. Pavel prefers the making station, where visitors could leave with something they created. They agree on those two activities, then notice a difficulty. Loud music might make it harder to explain the making task. Erin suggests moving the music to the far end of the room and using quiet instruments. Pavel asks whether they should run the corners at different times instead. They weigh both ideas against the visitors' age, the adults available and the length of the afternoon. Their final plan uses short turns, with one quiet welcome activity between them. Before finishing, each partner explains how the other person's suggestion improved the plan. The decision belongs to both of them, even though neither got exactly the first arrangement they imagined.",
+    "words": [
+      {
+        "word": "station",
+        "meaning": "a place set aside for one activity"
+      },
+      {
+        "word": "instructions",
+        "meaning": "directions explaining what to do"
+      },
+      {
+        "word": "arrangement",
+        "meaning": "the way activities or things are organized"
+      },
+      {
+        "word": "weigh",
+        "meaning": "consider the value of different choices"
+      },
+      {
+        "word": "available",
+        "meaning": "ready and able to be used"
+      }
+    ],
+    "questions": [
+      {
+        "q": "How many activities can fit in the room?",
+        "a": "two"
+      },
+      {
+        "q": "Which activity does Pavel prefer?",
+        "a": "the making station"
+      },
+      {
+        "q": "What comes between the short turns?",
+        "a": "one quiet welcome activity"
+      }
+    ],
+    "talk": [
+      "How could two partners compare practical problems before deciding?",
+      "What would show that both people contributed to a shared plan?"
+    ],
+    "courseId": "exam-b1-style",
+    "title": "Plan with a Partner",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 3,
+    "text": "A speaking group discusses whether the school library should stay open later. Rosa supports a later closing time because some students have a quiet place to work only at school. Her partner, Malik, worries about staff time and the journey home after dark. Rosa first repeats her original opinion, then notices that she has not answered his concern. She asks whether one later afternoon each week would be possible instead of changing every day. Malik thinks that might be easier to supervise, but says the school would still need to know who would use it. They suggest asking students about their needs before presenting a request. Rosa develops her opinion with a reason and a practical condition: a later opening should have enough staff and a safe way for students to leave. Malik can disagree about the plan without rejecting the need for quiet study space. Their exchange shows how an opinion becomes stronger when it responds to another person's concern rather than simply becoming louder.",
+    "words": [
+      {
+        "word": "concern",
+        "meaning": "something someone is worried about"
+      },
+      {
+        "word": "supervise",
+        "meaning": "watch and guide people or an activity"
+      },
+      {
+        "word": "condition",
+        "meaning": "something that must be true for a plan"
+      },
+      {
+        "word": "request",
+        "meaning": "something asked for politely"
+      },
+      {
+        "word": "rejecting",
+        "meaning": "refusing to accept an idea"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Which place might stay open later?",
+        "a": "the school library"
+      },
+      {
+        "q": "What does Malik worry about besides staff time?",
+        "a": "the journey home after dark"
+      },
+      {
+        "q": "How often does Rosa suggest a later afternoon?",
+        "a": "each week"
+      }
+    ],
+    "talk": [
+      "How would you add a practical condition to an opinion you hold?",
+      "What reply would address a concern rather than repeat your first reason?"
+    ],
+    "courseId": "exam-b1-style",
+    "title": "Develop an Opinion",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Lina makes a fresh comparison for the final speaking task. This time, a visitor can join either a neighborhood history walk or a museum craft session. The walk offers real places and stories along the route, while the session gives the visitor a chance to make an object and ask questions indoors. Lina's first task compared drama and design; now she knows to begin with the person's needs. The visitor has limited time and prefers an activity that does not depend on the weather. Lina chooses the craft session and supports her preference with those two details. Her partner argues that the walk would show more of the neighborhood. Lina acknowledges that advantage and suggests a short outdoor visit another day, rather than pretending the workshop offers everything. Her final answer compares both options, explains a preference and responds to the alternative. She can see how her reasoning has improved: she no longer lists attractive features without connecting them to the person who will actually take part.",
+    "words": [
+      {
+        "word": "route",
+        "meaning": "the path followed on a journey"
+      },
+      {
+        "word": "limited",
+        "meaning": "having only a certain amount"
+      },
+      {
+        "word": "acknowledges",
+        "meaning": "recognizes and mentions something"
+      },
+      {
+        "word": "alternative",
+        "meaning": "a different possible choice"
+      },
+      {
+        "word": "features",
+        "meaning": "important parts or qualities of something"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What two activities does Lina compare?",
+        "a": "a neighborhood history walk or a museum craft session"
+      },
+      {
+        "q": "What does the visitor have little of?",
+        "a": "time"
+      },
+      {
+        "q": "Which activity does Lina choose?",
+        "a": "the craft session"
+      }
+    ],
+    "talk": [
+      "How would you support a final preference with the person's needs?",
+      "What did your first comparison miss that you would include now?"
+    ],
+    "courseId": "exam-b1-style",
+    "title": "Compare Again",
+    "level": "B1"
   }
 ]
