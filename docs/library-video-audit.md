@@ -15,16 +15,17 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 3/18; judged entries: 317/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 4/18; judged entries: 406/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
 | Library | Entries | ok | mismatch | partial | weak-captions | no-captions | level-off |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | bbc-library.json | 115 | 86 | 1 | 9 | 19 | 0 | 0 |
+| grammar-library.json | 89 | 77 | 0 | 4 | 8 | 0 | 0 |
 | kids-library.json | 101 | 85 | 1 | 1 | 6 | 0 | 8 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
-| **TOTAL** | **317** | 223 | 2 | 10 | 74 | 0 | 8 |
+| **TOTAL** | **406** | 300 | 2 | 14 | 82 | 0 | 8 |
 
 ## Non-ok entries, grouped by library
 
@@ -61,6 +62,23 @@ Completed libraries: 3/18; judged entries: 317/641. Cached inventory captured at
 | bbc-grammar-r2-3dA7P5arkyc | Used to — 6 Minute Grammar | weak-captions | The 47-word cache asks about used to versus past simple and says “look at some examples first”, without providing those examples.  | Remove from video-caption lesson selection until a complete matching English transcript is cached. |
 | bbc-grammar-r2-38QqDrckyxM | Active and passive voice — 6 Minute Grammar | weak-captions | The 83-word cache explains only active voice, ending “So what is the passive voice?”, without transcribing the answer.  | Remove from video-caption lesson selection until a complete matching English transcript is cached. |
 | bbc-grammar-r2-foyWhOHhTT0 | Question tags — 6 Minute Grammar | weak-captions | The 85-word cache tells readers to “stay on this page” to learn question tags; the tag lesson itself is absent.  | Remove from video-caption lesson selection until a complete matching English transcript is cached. |
+
+### grammar-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| bbc-grammar-r2-HUXXgVElADg | Have to and must — 6 Minute Grammar | weak-captions | Only an 86-word webpage exercise headed The doctor’s advice is cached, referring readers to activity 2/session 1, not a six-minute speech transcript.  | Replace the cache with complete English speech captions before lesson use. |
+| bbc-grammar-r2-V2quIYo41Ig | Used to and would — 6 Minute Grammar | weak-captions | Only 86 words of webpage grammar notes are cached, starting with a reference to the last activity, not the six-minute dialogue.  | Replace the cache with complete English speech captions before lesson use. |
+| bbc-grammar-r2-j9b1CNN_rFU | Asking questions — 6 Minute Grammar | partial | The complete 263-word cache is Alice, Sophie and Amith asking personal questions; it models questions but contains no grammar explanation.  | Describe it as a question-and-answer model, or verify the six-minute lesson’s correct cache. |
+| bbc-grammar-r2-voQLMgJE-QE | Adverbs of frequency — 6 Minute Grammar | weak-captions | Only 52 words announcing what the session will teach are cached; no rules or worked examples follow.  | Replace the introductory webpage cache with full English speech captions. |
+| bbc-grammar-r2-tzEt4iwsIdo | Using like for preference and description — 6 Minute Grammar | weak-captions | Only 57 words about Ginger the cat are cached, without the promised preference-versus-description explanation.  | Verify the cache and replace it with full speech captions. |
+| bbc-grammar-r2-q-Jkx670rT8 | The definite article with abstract uncountable nouns — 6 Minute Grammar | weak-captions | The 147-word webpage extract introduces pens and air and ends at What about cheese; it does not reach definite articles with abstract nouns.  | Replace the incomplete webpage extract with the correct speech captions. |
+| bbc_grammar_question_tags | Grammar: Question Tags | partial | The full cache mentions rising or falling intonation but does not explain the promised difference; most of it teaches tag formation and exceptions.  | Narrow the description to tag formation and special cases. |
+| bbc_grammar_present_past | Grammar: Present to Talk About the Past | partial | The caption explicitly introduces Sian, not Dan; jokes, newspaper headlines and hearsay use the historical present.  | Correct the presenter to Sian and describe the examples actually covered. |
+| grammar-r7-vVtnwR7Ytn4 | Prepositions of Place for Kids | weak-captions | The 78-word cache is largely repeated isolated prepositions separated by music, with garbled in/among/across and no recoverable place examples.  | Verify English captions against the visual examples or withhold from caption-built lessons. |
+| grammar-r7-aF4tyqtzfuc | Reported Speech Exercises for Kids | weak-captions | The full exercise cache gives reported statements followed by yes/no without recoverable original prompts or correction explanations; several tenses are garbled.  | Verify the exercise captions and include the actual prompts/answers before caption-built use. |
+| grammar-r7-ZWfYIqY8BsU | Relative Clauses and Relative Pronouns for Kids | weak-captions | The lesson’s target words are mistranscribed as booze for whose and the call riches blue for the car which is blue, obscuring the relative-pronoun examples.  | Replace or correct the English caption cache before using it to generate grammar lessons. |
+| grammar-r7-HBQl0Nww0-g | Past Perfect Tense — English Grammar Quiz | partial | The complete cache contains fifteen past-perfect example sentences but no recoverable spoken question options or immediate answer checks.  | Describe it as a sentence-example reel, or verify the missing quiz prompts against the video. |
 
 ### kids-library.json
 
