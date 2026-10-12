@@ -63,7 +63,9 @@
     "cefr": "A2",
     "ageBand": "teens",
     "needsReview": true,
-    "reviewNote": "YouTube oEmbed identifies a BBC travel-and-tourism box set; stored transcript opens with Antarctica tourism, not restaurant ordering. Verify title, duration and summary."
+    "reviewNote": "YouTube oEmbed identifies a BBC travel-and-tourism box set; stored transcript opens with Antarctica tourism, not restaurant ordering. Verify title, duration and summary.",
+    "hidden": true,
+    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. The 4,687-word cache is a BBC compilation beginning with Antarctic tourism and continuing through heritage, time perception and other topics, not restaurant ordering/menu/payment. Suggested action: Verify the video/cache pairing before repl"
   },
   {
     "id": "travel-directions",
@@ -111,7 +113,9 @@
     "cefr": "A2",
     "ageBand": "teens",
     "needsReview": true,
-    "reviewNote": "YouTube oEmbed and stored transcript describe hotel check-in, not shopping. Verify title, tags and summary before classroom use."
+    "reviewNote": "YouTube oEmbed and stored transcript describe hotel check-in, not shopping. Verify title, tags and summary before classroom use.",
+    "hidden": true,
+    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. The caption explicitly teaches hotel check-in, booking, upgrades, pools and gyms, not shopping/bargaining/returns. Suggested action: Retitle to Hotel Check-In Phrases after verifying the video/cache identity."
   },
   {
     "id": "travel-transport",

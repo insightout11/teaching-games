@@ -187,7 +187,9 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Can music taste reveal much about someone’s personality?"
+    "flightQuestion": "Can music taste reveal much about someone’s personality?",
+    "hidden": true,
+    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. The cache discusses DNA, fingerprints, biometrics, government/corporate databases and privacy regulation, rather than personality cues from music, tidiness or walking. Suggested action: Retitle to Biometrics, Personal Data and Privacy and r"
   },
   {
     "id": "bbcideas_psychology_seduction",

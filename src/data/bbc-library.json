@@ -2356,7 +2356,9 @@
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "hidden": true,
+    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. the cache is a first-person Titanic survivor account describing the ship sinking and “people drowning”, rather than a BBC grammar explanation. Suggested action: Remove pending verification of the video/caption pairing; retitle to “A Titanic"
   },
   {
     "id": "bbc-grammar-r2-xFsYrTIndhI",

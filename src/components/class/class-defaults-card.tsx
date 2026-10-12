@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Select } from '@/components/ui/select';
 import { Baby, Settings2 } from 'lucide-react';
 import { DIFFICULTIES, LEVELS_EXPLAINED, levelLabel, type Difficulty } from '@/lib/difficulty';
+import { LevelHelp } from '@/components/ui/level-help';
 import { TONES, type Tone } from '@/stores/session-store';
 
 export function ClassDefaultsCard({
@@ -40,6 +41,7 @@ export function ClassDefaultsCard({
       </div>
       <p className="text-xs text-lc-text3 mb-3">Used when starting a new session for this class.</p>
       <div className="space-y-2">
+        <p className="flex items-center gap-1 text-xs text-lc-text2">Level <LevelHelp /></p>
         <Select
           value={difficulty}
           onChange={(e) => {

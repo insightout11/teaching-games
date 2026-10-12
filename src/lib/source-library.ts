@@ -53,7 +53,8 @@ interface RawEntry {
 }
 
 function take(raw: unknown, sourceType: string, kind: LibraryItemKind): LibraryItem[] {
-  return (raw as RawEntry[]).map((e) => ({
+  // `hidden` entries (a video found not to be what its title says) are never recommended.
+  return (raw as Array<RawEntry & { hidden?: boolean }>).filter((e) => !e.hidden).map((e) => ({
     id: e.id,
     sourceType,
     kind,

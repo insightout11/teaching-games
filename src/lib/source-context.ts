@@ -108,8 +108,16 @@ export function isUsableEnglishTranscript(rawTranscript: string): boolean {
   const letters = text.match(/[A-Za-zÀ-￿]/g) ?? [];
   if (letters.length < 40) return false;
   const latin = letters.filter((ch) => /[A-Za-z\u00C0-\u024F]/.test(ch)).length;
-  return latin / letters.length >= 0.85;
+  if (latin / letters.length < 0.85) return false;
+  // Latin script is not enough (a Spanish or French translation is Latin too): real English is full of a few very
+  // common words. In English speech they are well over a tenth of all words.
+  const words = text.toLowerCase().match(/[a-z']+/g) ?? [];
+  if (words.length < 12) return false;
+  const common = words.filter((w) => ENGLISH_COMMON.has(w)).length;
+  return common / words.length >= 0.08;
 }
+
+const ENGLISH_COMMON = new Set(['the', 'and', 'of', 'to', 'is', 'in', 'that', 'it', 'you', 'for', 'this', 'was', 'with', 'are', 'on', 'we', 'have', 'they', 'but', 'not']);
 
 export async function fetchSourceTranscript(source?: SourceMaterial): Promise<string | undefined> {
   if (!source?.sourceKey) return undefined;

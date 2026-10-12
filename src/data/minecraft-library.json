@@ -97,6 +97,8 @@
       "title": "A2 Teens: Minecraft Survival Skills",
       "order": 4
     },
-    "flightQuestion": "Could redstone circuits make a Minecraft house more useful?"
+    "flightQuestion": "Could redstone circuits make a Minecraft house more useful?",
+    "hidden": true,
+    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. Capp00 introduces starting Minecraft, wood planks, crafting and stone tools; the complete caption contains no redstone or circuit explanation. Suggested action: Retitle to Getting Started in Minecraft, or verify and replace the wrong video/"
   }
 ]

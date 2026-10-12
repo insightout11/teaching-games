@@ -29,7 +29,7 @@ import { rankLibrary, type LibraryEntry, type LibraryKind } from './library-sear
 type Raw = {
   id: string; title: string; speaker?: string; author?: string; url?: string; youtubeId?: string | null;
   durationSecs?: number; wordCount?: number; topicTags?: string[]; description?: string; summary?: string;
-  cefr?: string; ageBand?: string; needsReview?: boolean; genre?: string;
+  cefr?: string; ageBand?: string; needsReview?: boolean; /** Found not to be what its title says: never offered. */ hidden?: boolean; genre?: string;
 };
 
 const PUBLISHER: Record<string, string> = {
@@ -82,7 +82,7 @@ export function libraryCatalog() {
   const full = new Map<string, Raw>();
   for (const { source, kind, data } of SOURCES) {
     for (const r of data as Raw[]) {
-      if (r.needsReview) continue;
+      if (r.needsReview || r.hidden) continue;
       const key = `${source}:${r.id}`;
       if (full.has(key)) continue;
       full.set(key, r);

@@ -203,7 +203,9 @@
         ]
       }
     },
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "hidden": true,
+    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. Kaku says quantum uncertainty means in some sense we do have some kind of free will, directly opposite the description’s claim that quantum mechanics undermines free will. Suggested action: Rewrite the description to say uncertainty challen"
   },
   {
     "id": "bigthink_fermi_paradox",
@@ -290,7 +292,9 @@
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Should people plan happiness or let it surprise them?"
+    "flightQuestion": "Should people plan happiness or let it surprise them?",
+    "hidden": true,
+    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. The full caption explains receiving feedback through baseline, emotional swing, recovery and distortions; it is not a guide to predicting what makes us happy. Suggested action: Retitle to Why People React Differently to Feedback and rewrite"
   },
   {
     "id": "bigthink_evolution_intelligence",

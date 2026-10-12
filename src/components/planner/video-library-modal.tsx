@@ -113,7 +113,7 @@ import grammarRaw from '@/data/grammar-library.json';
 import hooksRaw from '@/data/hooks-library.json';
 
 function tag<K extends LibrarySourceKey>(raw: unknown[], key: K): LibraryEntry[] {
-  return (raw as LibraryEntry[]).map((e) => ({ ...e, sourceType: key }));
+  return (raw as Array<LibraryEntry & { hidden?: boolean }>).filter((e) => !e.hidden).map((e) => ({ ...e, sourceType: key }));
 }
 
 const ALL_ENTRIES: LibraryEntry[] = [

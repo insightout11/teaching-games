@@ -44,5 +44,7 @@ describe('stored captions', () => {
     expect(isUsableEnglishTranscript(english)).toBe(true);
     expect(isUsableEnglishTranscript(arabic)).toBe(false);
     expect(isUsableEnglishTranscript('[Music]')).toBe(false);
+    const spanish = JSON.stringify([{ text: 'Hasta hace poco, la gran mayoría de la población mundial vivía en pequeños pueblos y aldeas del campo, lejos de las grandes ciudades.', offset: 0, duration: 4000 }]);
+    expect(isUsableEnglishTranscript(spanish)).toBe(false);
   });
 });
