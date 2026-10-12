@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 4/18; judged entries: 406/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 5/18; judged entries: 466/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -23,9 +23,10 @@ Completed libraries: 4/18; judged entries: 406/641. Cached inventory captured at
 |---|---:|---:|---:|---:|---:|---:|---:|
 | bbc-library.json | 115 | 86 | 1 | 9 | 19 | 0 | 0 |
 | grammar-library.json | 89 | 77 | 0 | 4 | 8 | 0 | 0 |
+| hooks-library.json | 60 | 53 | 1 | 4 | 2 | 0 | 0 |
 | kids-library.json | 101 | 85 | 1 | 1 | 6 | 0 | 8 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
-| **TOTAL** | **406** | 300 | 2 | 14 | 82 | 0 | 8 |
+| **TOTAL** | **466** | 353 | 3 | 18 | 84 | 0 | 8 |
 
 ## Non-ok entries, grouped by library
 
@@ -79,6 +80,18 @@ Completed libraries: 4/18; judged entries: 406/641. Cached inventory captured at
 | grammar-r7-aF4tyqtzfuc | Reported Speech Exercises for Kids | weak-captions | The full exercise cache gives reported statements followed by yes/no without recoverable original prompts or correction explanations; several tenses are garbled.  | Verify the exercise captions and include the actual prompts/answers before caption-built use. |
 | grammar-r7-ZWfYIqY8BsU | Relative Clauses and Relative Pronouns for Kids | weak-captions | The lesson’s target words are mistranscribed as booze for whose and the call riches blue for the car which is blue, obscuring the relative-pronoun examples.  | Replace or correct the English caption cache before using it to generate grammar lessons. |
 | grammar-r7-HBQl0Nww0-g | Past Perfect Tense — English Grammar Quiz | partial | The complete cache contains fifteen past-perfect example sentences but no recoverable spoken question options or immediate answer checks.  | Describe it as a sentence-example reel, or verify the missing quiz prompts against the video. |
+
+### hooks-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| hook-r2-eT89nvkYNDM | Scorpion | partial | The child-oriented cache describes digesting prey on the outside and slurping it up, then eating each other with a joke about Uncle Brian; this is detailed cannibalistic predation.  | Remove from child-facing recommendations pending owner suitability review, or use an appropriate adult/teen audience label. |
+| hook-r2-W4og8g_X22o | Meerkat Mischief | partial | The narration says the meerkat bites off the stinger and praises the crunchy goodness of a freshly killed scorpion, giving explicit killing/eating detail.  | Remove from child-facing recommendations pending owner suitability review, or use an appropriate adult/teen audience label. |
+| hook-r2-7rOvmN-qfaA | Tarantula | partial | The caption says they bite victims, then liquefy their bodies and suck it all up like a straw; this explicitly describes bodily destruction/eating.  | Remove from child-facing recommendations pending owner suitability review. |
+| hook-r2-xB74swq2LlI | Christmas Crab | partial | The narrator says ants spray acid into the crab’s mouth and eyes, followed by pain dialogue and if you’re still alive; the attack is described in detail.  | Review suitability before recommending to young children. |
+| hook-r2-TQgRIJdp2c0 | Eggs-periments! | mismatch | The full cache demonstrates a homemade lava lamp using oil, water, colouring and salt; eggs only appear in the closing introduction to the next videos.  | Retitle to Homemade Lava Lamp and rewrite the description. |
+| hook-r2-LYa9VPVAJI8 | Jerusalem | weak-captions | The 86-word cache is an IMAX promotional trailer ending coming soon; it offers only generic conflict/culture/ritual teasers, without substantive historic details.  | Mark as a trailer and verify whether it supplies enough material for caption-built lessons. |
+| hook-r2-QOz6w7d9f94 | The National Geographic Society: Let’s Explore! | weak-captions | The 63-word cache is mostly promotional labels such as Trailblazers and World shakers interspersed with music and repeated lyrics; almost no explanatory science/geography content remains.  | Mark as promotional and withhold from caption-built lessons pending review. |
 
 ### kids-library.json
 

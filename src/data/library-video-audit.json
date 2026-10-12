@@ -815,6 +815,246 @@
     "status": "partial",
     "note": "Evidence: The complete cache contains fifteen past-perfect example sentences but no recoverable spoken question options or immediate answer checks. Suggested action: Describe it as a sentence-example reel, or verify the missing quiz prompts against the video."
   },
+  "hooks-library.json/hook-r2-9vQnKO_2kKk": {
+    "status": "ok",
+    "note": "Octopus habitat, arms, camouflage and feeding match the animal introduction; ordinary predation is not described graphically."
+  },
+  "hooks-library.json/hook-r2-ImUgAzHSyIc": {
+    "status": "ok",
+    "note": "King-cobra habitat, skin shedding, venom and feeding match survival features; the narration gives natural predation facts rather than graphic violence."
+  },
+  "hooks-library.json/hook-r2-J20eXhZTHEo": {
+    "status": "ok",
+    "note": "Cheetah sprinting, eyesight and cub learning match a fast predator; brief killing/stealing-prey mentions are not detailed violence."
+  },
+  "hooks-library.json/hook-r2-rHhSCO5-3Pg": {
+    "status": "ok",
+    "note": "Lowland habitat, food, silverback troops and play match gorilla behaviour."
+  },
+  "hooks-library.json/hook-r2-eT89nvkYNDM": {
+    "status": "partial",
+    "note": "Evidence: The child-oriented cache describes digesting prey on the outside and slurping it up, then eating each other with a joke about Uncle Brian; this is detailed cannibalistic predation. Suggested action: Remove from child-facing recommendations pending owner suitability review, or use an appropriate adult/teen audience label."
+  },
+  "hooks-library.json/hook-r2--nQzs_4WhO0": {
+    "status": "ok",
+    "note": "Eastern Australia, grass feeding, strong feet/tails and joey pouches match kangaroo life."
+  },
+  "hooks-library.json/hook-r2-XdCaBF8NJ00": {
+    "status": "ok",
+    "note": "Arctic sea ice, cub dens and size match the polar bear subject; cold-adaptation detail is limited but the broad introduction matches."
+  },
+  "hooks-library.json/hook-r2-Og0OKvMmnAc": {
+    "status": "ok",
+    "note": "Rainforest range, wingspan and hunting talons match the harpy eagle introduction."
+  },
+  "hooks-library.json/hook-r2-VjMn_dVCJyA": {
+    "status": "ok",
+    "note": "Pods, clicks, coordinated fishing and swimming match bottlenose dolphin interaction."
+  },
+  "hooks-library.json/hook-r2-1lViKrWgTYk": {
+    "status": "ok",
+    "note": "Urban feeding, agility and winter fat match raccoon food behaviours; toilet humour is not the specified adult-theme concern."
+  },
+  "hooks-library.json/hook-r2-O2FInaOCqoo": {
+    "status": "ok",
+    "note": "False Bay, electrical receptors and seal-decoy breaching match great white sharks; attacks are mentioned without graphic detail."
+  },
+  "hooks-library.json/hook-r2-W4og8g_X22o": {
+    "status": "partial",
+    "note": "Evidence: The narration says the meerkat bites off the stinger and praises the crunchy goodness of a freshly killed scorpion, giving explicit killing/eating detail. Suggested action: Remove from child-facing recommendations pending owner suitability review, or use an appropriate adult/teen audience label."
+  },
+  "hooks-library.json/hook-r2-_hRJJdSg8Hw": {
+    "status": "ok",
+    "note": "SWOT, the Earth System Observatory and Earth Information Center match new Earth observation."
+  },
+  "hooks-library.json/hook-r2-8DQeFmWUyd8": {
+    "status": "ok",
+    "note": "Satellites, connected ecosystems and climate observations match the Earth Day perspective."
+  },
+  "hooks-library.json/hook-r2-_eeZQw9PBc0": {
+    "status": "ok",
+    "note": "Astronauts preparing, countdown and liftoff match the Artemis II lunar-launch recap. This is cached-content matching, not an independent verification of mission history."
+  },
+  "hooks-library.json/hook-r2-f9F7yDjSdNA": {
+    "status": "ok",
+    "note": "Earth satellites, forecasts, models and shared data explain NASA’s Earth study."
+  },
+  "hooks-library.json/hook-r2-GUQAa1nRC7U": {
+    "status": "ok",
+    "note": "Terra measurements connect plants, carbon, surface heat and rainfall as claimed."
+  },
+  "hooks-library.json/hook-r2-3ynnrrXz_9I": {
+    "status": "ok",
+    "note": "Vents, ponds, chemistry and astrobiology research introduce unknown life origins."
+  },
+  "hooks-library.json/hook-r2-f0PvMmTAUAQ": {
+    "status": "ok",
+    "note": "Australia’s reef, Uluru, animals and seasons match its landscapes and wildlife."
+  },
+  "hooks-library.json/hook-r2-R35URiT_fm8": {
+    "status": "ok",
+    "note": "Amazon species, Ecuador orchids, Atacama and Angel Falls match landscapes. Culture is named but not developed in the sampled caption; the broad continent introduction still matches."
+  },
+  "hooks-library.json/hook-r2-xnu5htZpruE": {
+    "status": "ok",
+    "note": "Gentoo colonies, nests, fishing and fast swimming match the Antarctic penguin."
+  },
+  "hooks-library.json/hook-r2-1b87rwtXGzA": {
+    "status": "ok",
+    "note": "Milkweed eggs, caterpillars, pupae and migration match monarch life cycle."
+  },
+  "hooks-library.json/hook-r2-8OmRW4em_vA": {
+    "status": "ok",
+    "note": "Tiger markings, camouflage and range match wild hunting features."
+  },
+  "hooks-library.json/hook-r2-7rOvmN-qfaA": {
+    "status": "partial",
+    "note": "Evidence: The caption says they bite victims, then liquefy their bodies and suck it all up like a straw; this explicitly describes bodily destruction/eating. Suggested action: Remove from child-facing recommendations pending owner suitability review."
+  },
+  "hooks-library.json/hook-r2-jI6aFbBUqkY": {
+    "status": "ok",
+    "note": "Gila desert habitat, underground shelter and venom match food finding; ordinary predation and wrestling are not detailed violence."
+  },
+  "hooks-library.json/hook-r2-xB74swq2LlI": {
+    "status": "partial",
+    "note": "Evidence: The narrator says ants spray acid into the crab’s mouth and eyes, followed by pain dialogue and if you’re still alive; the attack is described in detail. Suggested action: Review suitability before recommending to young children."
+  },
+  "hooks-library.json/hook-r2-XVYaz-D2MYE": {
+    "status": "ok",
+    "note": "Hosts name planets, the Milky Way and other orbiting objects as claimed; it is a playlist introduction rather than a developed tour."
+  },
+  "hooks-library.json/hook-r2-TQgRIJdp2c0": {
+    "status": "mismatch",
+    "note": "Evidence: The full cache demonstrates a homemade lava lamp using oil, water, colouring and salt; eggs only appear in the closing introduction to the next videos. Suggested action: Retitle to Homemade Lava Lamp and rewrite the description."
+  },
+  "hooks-library.json/hook-r2-i7zpS4RkK2o": {
+    "status": "ok",
+    "note": "Insect examples, species counts and habitats match the brief introduction."
+  },
+  "hooks-library.json/hook-r2-xlXtt3IRckY": {
+    "status": "ok",
+    "note": "Cub spots, play and pride care match young-lion development."
+  },
+  "hooks-library.json/hook-r2-EFwx9_fZpbc": {
+    "status": "ok",
+    "note": "The rapid reel lists engineering, nature and materials facts as claimed; individual auto-caption glitches do not erase the subjects."
+  },
+  "hooks-library.json/hook-r2-cJghbzC4dAA": {
+    "status": "ok",
+    "note": "Chimp gestures, whale songs and ant scent trails match non-verbal animal signals."
+  },
+  "hooks-library.json/hook-r2-NYQl9-5FpQM": {
+    "status": "ok",
+    "note": "Julian explains hypotheses and experiment steps as an introduction, matching the invitation."
+  },
+  "hooks-library.json/hook-r2-kgrV3_g9rYY": {
+    "status": "ok",
+    "note": "The Pallas cat hunts in snow and the narrator links low success to its grumpy reputation; minor garbling leaves the main story usable."
+  },
+  "hooks-library.json/hook-r2-iufG3-wrFHA": {
+    "status": "ok",
+    "note": "Astronauts describe darkness, the atmosphere and connection to Earth as claimed."
+  },
+  "hooks-library.json/hook-r2-iTHUUjTA-LI": {
+    "status": "ok",
+    "note": "Named missions and viewing distances match a visual perspective on Earth; the caption is mostly labels but has concrete usable information."
+  },
+  "hooks-library.json/hook-r2-fshNptg_BxY": {
+    "status": "ok",
+    "note": "Jaden Smith introduces NASA satellites and human care for Earth as claimed."
+  },
+  "hooks-library.json/hook-r2-_aDeRFqZVgA": {
+    "status": "ok",
+    "note": "A new array of satellites and connected systems matches the Observatory preview."
+  },
+  "hooks-library.json/hook-r2-WeA7edXsU40": {
+    "status": "ok",
+    "note": "Historical missions and plans for Moon/Mars exploration match NASA’s work introduction."
+  },
+  "hooks-library.json/hook-r2-PPQ29WRT-rU": {
+    "status": "ok",
+    "note": "Artemis, aircraft, NISAR and other missions match the NASA exploration-goal montage."
+  },
+  "hooks-library.json/hook-r2-ezDiSkOU0wc": {
+    "status": "ok",
+    "note": "Petra’s carved sandstone, Nabataean history and visitor routes match the ancient site."
+  },
+  "hooks-library.json/hook-r2-SpOWgms2uto": {
+    "status": "ok",
+    "note": "Vietnam’s islands, karst formation and activities match Ha Long Bay landscapes."
+  },
+  "hooks-library.json/hook-r2-DTuJ93vSJ7o": {
+    "status": "ok",
+    "note": "Philippine rice terraces, weaving and hanging-coffin traditions match Cordillera heritage; burial is described respectfully, without graphic violence."
+  },
+  "hooks-library.json/hook-r2-kkYuOR8K1FU": {
+    "status": "ok",
+    "note": "Spanish-port history, plazas and architecture match Old Havana."
+  },
+  "hooks-library.json/hook-r2-LYa9VPVAJI8": {
+    "status": "weak-captions",
+    "note": "Evidence: The 86-word cache is an IMAX promotional trailer ending coming soon; it offers only generic conflict/culture/ritual teasers, without substantive historic details. Suggested action: Mark as a trailer and verify whether it supplies enough material for caption-built lessons."
+  },
+  "hooks-library.json/hook-r2-QOz6w7d9f94": {
+    "status": "weak-captions",
+    "note": "Evidence: The 63-word cache is mostly promotional labels such as Trailblazers and World shakers interspersed with music and repeated lyrics; almost no explanatory science/geography content remains. Suggested action: Mark as promotional and withhold from caption-built lessons pending review."
+  },
+  "hooks-library.json/hook-r2-Yge-2uR8j5g": {
+    "status": "ok",
+    "note": "Stupas, shared Buddhist/Hindu worship and temples match Kathmandu cultural life; funeral traditions are mentioned without graphic detail."
+  },
+  "hooks-library.json/hook-r2-o2FFtPPM3iY": {
+    "status": "ok",
+    "note": "Thrust, gravity, orbital speed and launch timing match sending spacecraft into space."
+  },
+  "hooks-library.json/hook-r2-GBMpeBXCRkk": {
+    "status": "ok",
+    "note": "The short but coherent caption discusses twenty years of filming, declining animals and conservation hope, matching the series introduction."
+  },
+  "hooks-library.json/hook-r2-dciLg3Zm1hI": {
+    "status": "ok",
+    "note": "Ocean range, enormous size, breathing and krill match blue whales."
+  },
+  "hooks-library.json/hook-r2-hvyvVL95ukY": {
+    "status": "ok",
+    "note": "Eight snakes, venom, camouflage and swimming match the wildlife feature; movement is one part, with no graphically described attack."
+  },
+  "hooks-library.json/hook-r2-E-njRqPqr3Y": {
+    "status": "ok",
+    "note": "Rocky reefs, kelp, jaws and paired cave life match wolf-eel habitat; a crab’s death is cartoon dialogue without graphic bodily detail."
+  },
+  "hooks-library.json/hook-r2-6oNoZb5Tzzg": {
+    "status": "ok",
+    "note": "Hot-air balloon views and carved cave homes match Cappadocia formations."
+  },
+  "hooks-library.json/hook-r2-XMktOXLINjk": {
+    "status": "ok",
+    "note": "A percentage-based walk through Dutch habitats matches the rapid landscape introduction."
+  },
+  "hooks-library.json/hook-r2--zDNMgeeQrc": {
+    "status": "ok",
+    "note": "Crops, peat bogs, woods, moors and pastures match UK park landscapes."
+  },
+  "hooks-library.json/hook-r2-78Ouaj0iLUk": {
+    "status": "ok",
+    "note": "Hikers describe Salkantay altitude, mountains, rainforest and Machu Picchu as claimed."
+  },
+  "hooks-library.json/hook-r2-sBZFKRsd2L4": {
+    "status": "ok",
+    "note": "Target/clicker training and cooperative health checks match animal well-being; this is training for care more than play enrichment."
+  },
+  "hooks-library.json/hook-r2-92k0U84wg0U": {
+    "status": "ok",
+    "note": "Wonder/engage/act/connect classroom resources and virtual zoo visits match the invitation."
+  },
+  "hooks-library.json/hook-r2-bnG1WQOBSzA": {
+    "status": "ok",
+    "note": "Meerkat, tamarin, tiger, sloth-bear and bustard babies match the zoo clip; hunting is mentioned without graphic detail."
+  },
+  "hooks-library.json/hook-r2-1wkPMUZ9vX4": {
+    "status": "ok",
+    "note": "Nature-viewing studies and mood changes match the nature/happiness subject."
+  },
   "kids-library.json/kids_gotta_eat": {
     "status": "weak-captions",
     "note": "Evidence: the stored text is an Arabic-script translation, beginning “(مقدمة) جميعنا نأكل صحيح؟ لكن هل”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
