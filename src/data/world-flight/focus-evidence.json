@@ -1222,5 +1222,316 @@
       "urban change",
       "urban planning"
     ]
+  },
+  "rio-de-janeiro/city-history-video": {
+    "keyIdea": "Rio's protected bay supported port trade, while nearby mineral discoveries helped the city grow into a center of government.",
+    "tradeoff": "The benefits of city growth sit beside large differences in wealth.",
+    "designUse": "Link port investment with opportunities for neighborhoods across different income levels.",
+    "investigationTags": [
+      "geography",
+      "economics",
+      "history"
+    ]
+  },
+  "rio-de-janeiro/favela-history-video": {
+    "keyIdea": "Rio's housing clearances pushed poorer residents towards hillside settlements when replacement homes were not provided.",
+    "tradeoff": "Removing old housing can displace people if no alternative homes are ready.",
+    "designUse": "Provide replacement homes before removing housing that people already rely on.",
+    "investigationTags": [
+      "housing",
+      "urban planning",
+      "cause and effect"
+    ]
+  },
+  "rio-de-janeiro/carnival-video": {
+    "keyIdea": "Rio's Carnival brings African-influenced music, costumes, and dance into a shared celebration prepared by community samba groups.",
+    "tradeoff": "Large parades require months of preparation before the public celebration.",
+    "designUse": "Give community festivals time to develop themes, costumes, and performances together.",
+    "investigationTags": [
+      "culture",
+      "identity",
+      "community"
+    ],
+    "tradeoffInferred": true
+  },
+  "rio-de-janeiro/tijuca-forest": {
+    "keyIdea": "Replanting damaged parts of Rio's Tijuca Forest shows how restoration can support water, shade, wildlife, and city identity.",
+    "tradeoff": "A restored forest still needs care alongside pressure from city use.",
+    "designUse": "Restore damaged green areas for water, shade, and wildlife as well as views.",
+    "investigationTags": [
+      "nature",
+      "water",
+      "climate"
+    ],
+    "tradeoffInferred": true
+  },
+  "rio-de-janeiro/beach-public-life": {
+    "keyIdea": "Rio's beaches combine swimming, work, exercise, music, and meeting friends in a shared natural public space.",
+    "tradeoff": "Differences in money, safety, and status can affect who enjoys that space.",
+    "designUse": "Leave beach space for several everyday activities with fair access and safety.",
+    "investigationTags": [
+      "public space",
+      "culture",
+      "daily life"
+    ]
+  },
+  "rio-de-janeiro/samba-schools": {
+    "keyIdea": "Rio's samba parades depend on designers, welders, musicians, families, and organizers working together long before the performance.",
+    "tradeoff": "The visible parade can hide the many workers and resources behind it.",
+    "designUse": "Divide festival work across creative and practical teams, recognizing each contribution.",
+    "investigationTags": [
+      "community",
+      "culture",
+      "economics"
+    ],
+    "tradeoffInferred": true
+  },
+  "mexico-city/complex-history-video": {
+    "keyIdea": "Mexico City's Spanish buildings stand above earlier Aztec places, letting guides show different histories within the same streets.",
+    "tradeoff": "Only a small part of the older city has been uncovered.",
+    "designUse": "Use guides and visible remains to explain what lies below modern streets.",
+    "investigationTags": [
+      "history",
+      "archaeology",
+      "heritage"
+    ]
+  },
+  "mexico-city/metro-tips-video": {
+    "keyIdea": "Mexico City's metro connects major arrival points, but passengers need to watch station names and prepare quickly to leave.",
+    "tradeoff": "Crowded carriages and brief stops make travel with large bags difficult.",
+    "designUse": "Place stop information where standing passengers can see it before exits open.",
+    "investigationTags": [
+      "transport",
+      "functional english"
+    ]
+  },
+  "mexico-city/street-food-video": {
+    "keyIdea": "Mexico City's street food brings ingredients and snacks from different traditions into small stands across its neighborhoods.",
+    "tradeoff": "Reaching scattered stalls means spending time traveling across a large city.",
+    "designUse": "Group neighborhood food routes by short walks rather than scattered highlights.",
+    "investigationTags": [
+      "food culture",
+      "place"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "mexico-city/xochimilco-chinampas": {
+    "keyIdea": "Mexico City's chinampas combine raised fields and canals, keeping an older food-growing system active within the city.",
+    "tradeoff": "Fields and canals need ongoing water care, not just attention from visitors.",
+    "designUse": "Keep heritage farming systems working through protected fields and maintained water routes.",
+    "investigationTags": [
+      "water",
+      "heritage",
+      "environment"
+    ],
+    "tradeoffInferred": true
+  },
+  "mexico-city/sinking-city": {
+    "keyIdea": "Removing groundwater beneath Mexico City compacts soft soils, causing sinking that affects streets, buildings, and water pipes.",
+    "tradeoff": "Getting water from below can damage the ground supporting essential city systems.",
+    "designUse": "Check how water extraction changes ground stability before planning new infrastructure.",
+    "investigationTags": [
+      "science",
+      "water",
+      "urban planning"
+    ]
+  },
+  "mexico-city/markets-and-memory": {
+    "keyIdea": "Mexico City's markets build repeated relationships, as sellers recognize families and connect regional ingredients with everyday routines.",
+    "tradeoff": "Protecting one version of market memory can leave other community stories less visible.",
+    "designUse": "Keep familiar sellers involved when documenting how families use a market.",
+    "investigationTags": [
+      "food culture",
+      "daily life",
+      "community"
+    ]
+  },
+  "buenos-aires/city-history-video": {
+    "keyIdea": "Buenos Aires' surrounding grasslands supported cattle and leather trade, helping commerce grow as the city became a capital.",
+    "tradeoff": "Trade restrictions also encouraged smuggling rather than bringing all business under official rules.",
+    "designUse": "Set trade rules that account for existing goods and local livelihoods.",
+    "investigationTags": [
+      "history",
+      "economics",
+      "government"
+    ]
+  },
+  "buenos-aires/tango-video": {
+    "keyIdea": "Tango's shared dance floor works through small steps, one direction, and enough space between people moving together.",
+    "tradeoff": "Large backward steps risk hitting someone dancing close behind you.",
+    "designUse": "Keep shared movement spaces predictable through direction, spacing, and small steps.",
+    "investigationTags": [
+      "culture",
+      "movement",
+      "daily life"
+    ]
+  },
+  "buenos-aires/landmarks-video": {
+    "keyIdea": "Buenos Aires uses the plaza around its Obelisk for cultural events, public messages, and shared football celebrations.",
+    "tradeoff": "Landmarks spread across the city can be difficult to fit into one visit.",
+    "designUse": "Let a landmark's surrounding space serve community events as well as viewing.",
+    "investigationTags": [
+      "public space",
+      "culture",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "buenos-aires/notable-bars": {
+    "keyIdea": "Buenos Aires' cafes and notable bars turn repeated conversation, reading, and meeting into part of the city's cultural life.",
+    "tradeoff": "A famous image can simplify the ordinary routines that give a place meaning.",
+    "designUse": "Protect time and space for ordinary conversation in valued social venues.",
+    "investigationTags": [
+      "culture",
+      "daily life",
+      "heritage"
+    ]
+  },
+  "buenos-aires/book-city": {
+    "keyIdea": "Buenos Aires' bookshops can serve as meeting places and quiet interiors, bringing reading into everyday city life.",
+    "tradeoff": "Choices about cultural visibility can leave some writers and histories less represented.",
+    "designUse": "Combine book selling with places to meet, browse, and read quietly.",
+    "investigationTags": [
+      "literature",
+      "public space",
+      "culture"
+    ]
+  },
+  "buenos-aires/la-boca-color": {
+    "keyIdea": "Buenos Aires' La Boca carries port and migration histories beyond the colorful tourist image of tango and football.",
+    "tradeoff": "Visitor attention can turn residents' complex lives into a simple performance.",
+    "designUse": "Present a colorful district through resident stories, work, and migration history.",
+    "investigationTags": [
+      "migration",
+      "identity",
+      "neighborhoods"
+    ]
+  },
+  "los-angeles/hollywood-history-video": {
+    "keyIdea": "Los Angeles attracted film production through suitable weather, varied nearby settings, and land that studios could afford.",
+    "tradeoff": "A concentrated studio industry can control production, distribution, and where films are shown.",
+    "designUse": "Locate creative workplaces near useful settings while checking who controls distribution.",
+    "investigationTags": [
+      "economics",
+      "geography",
+      "history"
+    ],
+    "tradeoffInferred": true
+  },
+  "los-angeles/metro-rail-video": {
+    "keyIdea": "Los Angeles' Metro combines payment tools, transfer rules, platform advice, and visible staff to help people use rail safely.",
+    "tradeoff": "Passengers unfamiliar with gates or validators must learn the payment steps before boarding.",
+    "designUse": "Explain payment and safety steps at the places where passengers perform them.",
+    "investigationTags": [
+      "transport",
+      "functional english",
+      "community"
+    ],
+    "tradeoffInferred": true
+  },
+  "los-angeles/smog-history-video": {
+    "keyIdea": "Sunlight reacts with fuel-related chemicals in Los Angeles' air, producing smog that damages plants and helps explain pollution.",
+    "tradeoff": "The harmful pollution is formed through interactions, not simply emitted as one substance.",
+    "designUse": "Study local air reactions before choosing which pollution sources to control.",
+    "investigationTags": [
+      "environment",
+      "science",
+      "cause and effect"
+    ]
+  },
+  "los-angeles/water-imports": {
+    "keyIdea": "Los Angeles' dry setting makes imported water, groundwater, saving, and recycling part of decisions about growth and daily habits.",
+    "tradeoff": "Drought limits supply while different users carry different water costs and risks.",
+    "designUse": "Connect growth plans with realistic water sources and responsible household use.",
+    "investigationTags": [
+      "water",
+      "environment",
+      "systems"
+    ],
+    "tradeoffInferred": true
+  },
+  "los-angeles/freeway-language": {
+    "keyIdea": "Los Angeles' freeways connect jobs and neighborhoods but also shape a city where car ownership can feel necessary.",
+    "tradeoff": "Roads can divide communities and increase pollution while shortening some journeys.",
+    "designUse": "Compare faster driving routes with their effects on nearby community connections.",
+    "investigationTags": [
+      "transport",
+      "environment",
+      "ethics"
+    ]
+  },
+  "los-angeles/murals-and-neighborhoods": {
+    "keyIdea": "Los Angeles' murals put memory, protest, and local pride on walls that people pass in daily life.",
+    "tradeoff": "Public artwork can be contested because people interpret neighborhood identity differently.",
+    "designUse": "Invite neighborhood voices to shape art on walls used in everyday routes.",
+    "investigationTags": [
+      "art",
+      "identity",
+      "daily life"
+    ]
+  },
+  "jakarta/historical-places-video": {
+    "keyIdea": "Jakarta's old town reuses colonial buildings as museums, cafes, and galleries, making earlier city layers visible through new uses.",
+    "tradeoff": "Visitor uses may show only part of the area's wider history.",
+    "designUse": "Keep reused historic buildings connected to explanations of their earlier roles.",
+    "investigationTags": [
+      "heritage",
+      "museums",
+      "urban change"
+    ],
+    "tradeoffInferred": true
+  },
+  "jakarta/flood-control-video": {
+    "keyIdea": "Jakarta uses pumps and canals to manage floodwater, but concrete surfaces and blocked river connections limit their effect.",
+    "tradeoff": "Widening rivers or linking canals can require relocation that residents dispute.",
+    "designUse": "Combine flood equipment with absorbent ground and fair agreements on needed land.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "urban planning"
+    ]
+  },
+  "jakarta/transport-video": {
+    "keyIdea": "Jakarta's rail expansion offers commuters a way around road congestion and aims to reach more of the wider urban region.",
+    "tradeoff": "New mass transport is costly, and many journeys still depend on roads.",
+    "designUse": "Expand rail toward commuters outside the center while planning its funding.",
+    "investigationTags": [
+      "transport",
+      "environment",
+      "economics"
+    ]
+  },
+  "jakarta/old-batavia": {
+    "keyIdea": "Jakarta's older port buildings and street names carry traces of trade and power through the fast-changing city.",
+    "tradeoff": "Choosing which traces to keep gives some histories more visibility than others.",
+    "designUse": "Explain older trade routes through warehouse sites, street names, and local accounts.",
+    "investigationTags": [
+      "history",
+      "heritage",
+      "urban change"
+    ],
+    "thin": true
+  },
+  "jakarta/new-capital-question": {
+    "keyIdea": "Indonesia's proposed new capital responds to pressures on Jakarta by moving some government functions away from the city.",
+    "tradeoff": "Relocation costs money and raises new environmental questions elsewhere.",
+    "designUse": "Compare relocating public offices with improving services in the existing capital.",
+    "investigationTags": [
+      "government",
+      "environment",
+      "urban planning"
+    ]
+  },
+  "jakarta/warung-life": {
+    "keyIdea": "Jakarta's small warung stalls offer food, quick services, and familiar conversation near people's homes or workplaces.",
+    "tradeoff": "Their usefulness depends on keeping daily services close to the people needing them.",
+    "designUse": "Keep small everyday service stalls within reach of homes and workplaces.",
+    "investigationTags": [
+      "food culture",
+      "daily life",
+      "community"
+    ],
+    "tradeoffInferred": true
   }
 }

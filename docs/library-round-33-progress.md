@@ -25,3 +25,7 @@ Authored 30 more entries (90 total) and read all corresponding texts/captions. T
 ## Batch 4: Vancouver, Toronto, Mumbai, Cape Town, Rome
 
 Authored 30 more entries (120 total) from each lesson’s own material. Strong mechanisms include Vancouver’s combined storm/sewage overflow, Mumbai’s coded lunchbox handovers, and Rome’s numbered arena entrances. Thin entries are identified where the source is a promotional montage, lacks translated interview speech, or provides only a short general link to city planning. Partial checks pass; every design instruction remains distinct.
+
+## Batch 5: Rio de Janeiro, Mexico City, Buenos Aires, Los Angeles, Jakarta
+
+Authored 30 more entries (150 total). Entries distinguish Carnival’s shared cultural influences from samba schools’ project work, and preserve Rio’s housing-clearance mechanism without presenting residents through a poverty stereotype. Mexico City’s food-tour interviews are untranslated in the English captions, so that entry stays narrow and thin. Jakarta’s flood evidence includes land/relocation disagreements actually stated in the report. Partial checks pass.
