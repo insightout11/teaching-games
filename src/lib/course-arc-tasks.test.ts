@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { COURSE_PRESETS, READING_COURSE_PRESETS, READY_COURSE_PRESETS } from './course-presets';
 import { bankSituationFor } from './speak-check';
+import { bankMotionFor } from './debate-motion';
 
 describe('course tasks', () => {
   it('every ready course has a course task', () => {
@@ -23,5 +24,12 @@ describe('Junior speak situations', () => {
 describe('Speak situations by topic link', () => {
   it('a banked topic gets its linked situation', () => {
     expect(bankSituationFor('volcanoes', 'Easy', false, 'topic-kids-volcanoes')).not.toBeNull();
+  });
+});
+
+describe('Debate motions by topic link', () => {
+  it('a banked teen topic gets its linked motion', () => {
+    expect(bankMotionFor('zzz', 'Intermediate', 'topic-teens-social-media')).not.toBeNull();
+    expect(bankMotionFor('zzz', 'Intermediate')).toBeNull();
   });
 });

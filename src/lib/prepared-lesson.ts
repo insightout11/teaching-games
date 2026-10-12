@@ -16,7 +16,7 @@ import type { GrammarTarget } from '@/lib/grammar';
  * - A typed lesson (Speak, Reading…) carries its lesson plan payload, built like a course lesson.
  * - Free talk carries only a topic: the room opens with it as the Focus.
  */
-export type PreparedType = LessonTypeId | 'free';
+export type PreparedType = LessonTypeId | 'free' | 'picture';
 
 export interface PreparedLesson {
   type: PreparedType;
@@ -34,7 +34,7 @@ export interface PreparedLesson {
 }
 
 export const PREPARED_TYPE_LABEL: Record<PreparedType, string> = {
-  speak: 'Speak', reading: 'Reading', listening: 'Listening', debate: 'Debate', grammar: 'Grammar', mix: 'Mix', free: 'Free talk',
+  speak: 'Speak', reading: 'Reading', listening: 'Listening', debate: 'Debate', grammar: 'Grammar', mix: 'Mix', free: 'Free talk', picture: 'Picture fun',
 };
 
 /** What students will do, in plain words, for the sheet's preview. */
@@ -45,6 +45,7 @@ export const PREPARED_TYPE_PREVIEW: Record<PreparedType, string[]> = {
   debate: ['Vote on a question', 'Read evidence cards', 'Argue in teams, switch sides', 'See how the room changed its mind'],
   grammar: ['Meet one grammar point in examples', 'Spot the mistakes', 'Build sentences with it', 'Prove it in a final round'],
   mix: ['A warm-up question on every phone', 'Words for the topic', 'Two or three games and activities', 'A short landing to finish'],
+  picture: ['A short picture story, read aloud page by page', 'Three picture questions about the story', 'A picture quiz on the topic: tap the right picture', 'Class counts only, no ranking'],
   free: ['The room opens on this topic', 'A short briefing, questions and words on the phones', 'You choose activities as you go'],
 };
 
@@ -64,6 +65,15 @@ export function buildPreparedLesson(input: {
   const now = new Date().toISOString();
   if (input.type === 'free') {
     return { type: 'free', topic, title: `Free talk · ${topic}`, focus: { title: topic, ...(input.focusText ? { text: input.focusText } : {}) }, preparedAt: now };
+  }
+  if (input.type === 'picture') {
+    // Junior: a Picture Story then a Picture Quiz on the same topic (both run from the Junior banks, no AI).
+    const modules = [
+      { id: 'pf-story', slotType: 'presentation' as const, key: 'picture-stories', isLocked: false, stageId: 'story', stageLabel: 'Story' },
+      { id: 'pf-quiz', slotType: 'practice' as const, key: 'picture-quiz', isLocked: false, stageId: 'quiz', stageLabel: 'Picture Quiz' },
+    ];
+    const payload = buildCourseLessonPayload({ topic, difficulty: input.level, goal: 'vocabulary-building', durationMinutes: 30 }, modules);
+    return { type: 'picture', topic, title: `Picture fun · ${topic}`, payload, preparedAt: now };
   }
   const type = lessonTypeById(input.type)!;
   const preset = getCourseFlightPreset(type.goal, type.flightPresetId);
@@ -123,7 +133,7 @@ export async function launchPreparedLesson(classId: string, lesson: PreparedLess
  */
 export async function prepareFirstStage(lesson: PreparedLesson, studentCount: number): Promise<PreparedLesson> {
   const first = lesson.payload?.slots[0];
-  if (!lesson.payload || !first || first.type !== 'activity' || ['speak-reveal', 'trip-recap', 'final-answer'].includes(first.key)) return lesson;
+  if (!lesson.payload || !first || first.type !== 'activity' || ['speak-reveal', 'trip-recap', 'final-answer', 'picture-stories', 'picture-quiz'].includes(first.key)) return lesson;
   try {
     const res = await fetch('/api/lesson-plan/generate', {
       method: 'POST',

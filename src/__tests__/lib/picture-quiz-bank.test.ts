@@ -11,6 +11,9 @@ describe('Picture Quiz bank', () => {
   it('picks a set for the lesson topic, or none', () => {
     expect(pickJuniorSet('animals')?.id).toBe('animals');
     expect(pickJuniorSet('General')).toBeNull();
+    // By Codex's topic links (ids carry a topic-kids- prefix).
+    expect(pickJuniorSet('Volcanoes')).not.toBeNull();
+    expect(pickJuniorSet('Dinosaurs')).not.toBeNull();
     expect(pickJuniorSet('quantum physics')).toBeNull();
   });
   it('labels stickers with their word', () => {

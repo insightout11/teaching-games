@@ -1350,7 +1350,8 @@ const RADIO_SEGMENT_SCHEMA = {
 
 /** Debate v2: the lesson's motion — a checked one when the topic matches, else generated, else a fallback. */
 async function generateDebateMotion(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<DebateMotion> {
-  const banked = sourceCtx ? null : bankMotionFor(topic, difficulty);
+  const topicId = findTopicBriefing(topic)?.id;
+  const banked = sourceCtx ? null : bankMotionFor(topic, difficulty, topicId);
   if (banked) return banked;
   try {
     const ev: AISchema = { type: 'object', properties: { fact: { type: 'string' }, side: { type: 'string' }, source: { type: 'string' } }, required: ['fact', 'side', 'source'] };
@@ -1369,7 +1370,7 @@ Return:
     const valid = validMotion(parsed);
     if (valid) return valid;
   } catch { /* fall back below */ }
-  return bankMotionFor(topic, difficulty) ?? fallbackMotion(topic);
+  return bankMotionFor(topic, difficulty, topicId) ?? fallbackMotion(topic);
 }
 
 /** Reading flight: the book lesson (library book course) at the class level, with its reading pack. */

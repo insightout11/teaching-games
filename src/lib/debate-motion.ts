@@ -16,7 +16,7 @@ export interface DebateMotion {
   evidence: DebateEvidence[];
 }
 
-interface BankMotion extends DebateMotion { id: string; topics: string[]; ageBand: 'kids' | 'teens'; cefr: string }
+interface BankMotion extends DebateMotion { id: string; topics: string[]; topicIds?: string[]; ageBand: 'kids' | 'teens'; cefr: string }
 
 const clean = (v: unknown, max: number) => (typeof v === 'string' ? v.replace(/\s+/g, ' ').trim().slice(0, max) : '');
 const strList = (v: unknown, n: number, max = 140) => (Array.isArray(v) ? v.map((x) => clean(x, max)).filter(Boolean).slice(0, n) : []);
@@ -43,10 +43,17 @@ const STOP = new Set(['should', 'the', 'and', 'for', 'are', 'more', 'than', 'wit
 const LEVEL_CEFR: Record<string, string[]> = { Beginner: ['A2'], Easy: ['A2'], Intermediate: ['A2', 'B1'], Advanced: ['B1', 'B2'], Expert: ['B2'] };
 
 /** A checked motion for the topic, or null: topic tags count most, then the motion's own words; level preferred. */
-export function bankMotionFor(topic: string, difficulty?: string): DebateMotion | null {
+export function bankMotionFor(topic: string, difficulty?: string, topicId?: string | null): DebateMotion | null {
+  const levels = (difficulty && LEVEL_CEFR[difficulty]) || [];
+  // A banked topic (Codex round 28 linked motions to topics; the id is looked up server-side): its own motion.
+  if (topicId) {
+    const linked = (motionsBank as BankMotion[]).filter((m) => m.topicIds?.includes(topicId));
+    const pick = linked.find((m) => levels.indexOf(m.cefr) >= 0) ?? linked[0];
+    const valid = pick ? validMotion(pick) : null;
+    if (valid) return valid;
+  }
   const q = words(topic).filter((w) => !STOP.has(w));
   if (!q.length) return null;
-  const levels = (difficulty && LEVEL_CEFR[difficulty]) || [];
   let best: { m: BankMotion; score: number } | null = null;
   for (const m of motionsBank as BankMotion[]) {
     const tags = m.topics.flatMap(words);

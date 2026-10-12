@@ -26,7 +26,7 @@ export function pickJuniorSet(topic: string | undefined, sets: JuniorSet[] = JUN
   const key = topicKey(topic);
   return (
     sets.find((s) => topicKey(s.topic) === key) ??
-    sets.find((s) => (s.topicIds ?? []).some((t) => topicKey(t.replace(/-/g, ' ')) === key)) ??
+    sets.find((s) => (s.topicIds ?? []).some((t) => topicKey(t.replace(/^topic-(kids|teens)-/, '').replace(/-/g, ' ')) === key)) ??
     sets.find((s) => topicKey(s.topic).includes(key) || key.includes(topicKey(s.topic))) ??
     null
   );

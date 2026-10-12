@@ -121,7 +121,8 @@ export function PictureStoriesActivity({ customTopic, onSetInputSpec, onRegister
   };
 
   if (phase === 'choose' || !story) {
-    const list = PICTURE_STORIES.filter((s) => level === 'all' || s.level === level);
+    // The story that fits the lesson topic comes first.
+    const list = PICTURE_STORIES.filter((s) => level === 'all' || s.level === level).sort((a, b) => Number(b.id === story?.id) - Number(a.id === story?.id));
     return (
       <div className="space-y-4">
         <div className="flex flex-wrap items-end justify-between gap-3">

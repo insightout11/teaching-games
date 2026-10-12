@@ -30,13 +30,15 @@ const DESCRIPTIONS: Record<PreparedType, string> = {
   grammar: 'one grammar point',
   mix: 'games and talk',
   free: 'decide in the room',
+  picture: 'story and picture quiz',
 };
 const ORDER: PreparedType[] = ['speak', 'reading', 'listening', 'mix', 'free', 'debate', 'grammar'];
+const JUNIOR_ORDER: PreparedType[] = ['picture', 'speak', 'reading', 'listening', 'mix', 'free'];
 
 export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: BoardRow; onClose: () => void; onSaved: (lesson: PreparedLesson | null) => void; /** From the Library: the picked item as this lesson's material. */ initialSource?: MaterialLesson['suggestedSource'] }) {
   const level: Difficulty = row.level && DIFFICULTIES.includes(row.level as Difficulty) ? (row.level as Difficulty) : 'Intermediate';
   const p = row.prepared;
-  const [type, setType] = useState<PreparedType>(initialSource?.listening ? 'listening' : initialSource?.kind === 'reading' ? 'reading' : p?.type ?? (row.junior ? 'mix' : 'speak'));
+  const [type, setType] = useState<PreparedType>(initialSource?.listening ? 'listening' : initialSource?.kind === 'reading' ? 'reading' : p?.type ?? (row.junior ? 'picture' : 'speak'));
   const [topic, setTopic] = useState(initialSource?.title ?? p?.topic ?? '');
   const [focusText, setFocusText] = useState<string | undefined>(p?.focus?.text);
   const [grammar, setGrammar] = useState<GrammarTarget | ''>((p?.payload?.grammarTarget as GrammarTarget | undefined) ?? '');
@@ -60,9 +62,9 @@ export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: Bo
   };
 
   const suggestions: Array<{ key: string; label: React.ReactNode; tag: string; run: () => void }> = [];
-  if (row.lastTopic) suggestions.push({ key: 'pickup', tag: 'LAST TIME', label: <><b>Pick up {row.lastTopic}</b> {row.junior ? 'with pictures and games' : 'with a Speak lesson'}</>, run: () => choose(row.junior ? 'mix' : 'speak', row.lastTopic!) });
+  if (row.lastTopic) suggestions.push({ key: 'pickup', tag: 'LAST TIME', label: <><b>Pick up {row.lastTopic}</b> {row.junior ? 'with a picture story and quiz' : 'with a Speak lesson'}</>, run: () => choose(row.junior ? 'picture' : 'speak', row.lastTopic!) });
   if (row.lastWords.length >= 3) suggestions.push({ key: 'review', tag: 'REVIEW', label: <><b>Review last lesson&apos;s {row.lastWords.length} words</b> in the room</>, run: () => choose('free', "Last lesson's words", `Review these words from last lesson: ${row.lastWords.join(', ')}.`) });
-  if (row.freshTopics[0]) suggestions.push({ key: 'new', tag: 'SOMETHING NEW', label: <><b>{row.freshTopics[0]}</b>, a topic this class hasn&apos;t done</>, run: () => choose(row.junior ? 'mix' : 'speak', row.freshTopics[0]) });
+  if (row.freshTopics[0]) suggestions.push({ key: 'new', tag: 'SOMETHING NEW', label: <><b>{row.freshTopics[0]}</b>, a topic this class hasn&apos;t done</>, run: () => choose(row.junior ? 'picture' : 'speak', row.freshTopics[0]) });
 
   const save = async () => {
     if (!topic.trim()) { setError('Add a topic first.'); return; }
@@ -148,7 +150,7 @@ export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: Bo
         <section className="space-y-2">
           <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>1 · What kind of lesson?</h3>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4" role="radiogroup" aria-label="Kind of lesson">
-            {ORDER.map((t) => {
+            {(row.junior ? JUNIOR_ORDER : ORDER).map((t) => {
               const def = LESSON_TYPES.find((x) => x.id === t);
               const blocked = def ? (row.junior && def.juniorHidden ? 'Not for Junior classes' : lessonTypeBlocker(def, material.suggestedSource, !!material.ownMaterial)) : null;
               const on = type === t;
@@ -199,7 +201,7 @@ export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: Bo
           </section>
         )}
 
-        {type !== 'free' && (
+        {type !== 'free' && type !== 'picture' && (
           <section className="space-y-2">
             <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>3 · Material <span className="normal-case tracking-normal text-white/40">(optional)</span></h3>
             <LessonMaterial lesson={material} level={level} junior={row.junior} onChange={(patch) => setMaterial((m) => ({ ...m, ...patch }))} />
@@ -216,7 +218,7 @@ export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: Bo
           </ol>
         </section>
 
-        {type !== 'free' && (
+        {type !== 'free' && type !== 'picture' && (
           <label className="flex cursor-pointer items-center gap-3 text-sm text-white/80">
             <input type="checkbox" checked={readyNow} onChange={(e) => setReadyNow(e.target.checked)} className="h-4 w-4 accent-cyan-400" />
             Get the first activity ready now, so the lesson starts without waiting

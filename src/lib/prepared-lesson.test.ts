@@ -20,4 +20,9 @@ describe('buildPreparedLesson', () => {
     expect(l.payload?.sourceMaterial?.title).toBe('My story');
     expect(l.materialTitle).toBe('My story');
   });
+  it('Picture fun is a story then a quiz, with no flight', () => {
+    const l = buildPreparedLesson({ type: 'picture', topic: 'Dinosaurs', level: 'Beginner' });
+    expect(l.payload?.slots.map((x) => x.key)).toEqual(['picture-stories', 'picture-quiz']);
+    expect(l.payload?.flightPresetId).toBeUndefined();
+  });
 });

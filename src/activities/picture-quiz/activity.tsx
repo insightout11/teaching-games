@@ -124,7 +124,7 @@ export function PictureQuizActivity({ customTopic, onSetInputSpec, onRegisterRem
           <p className="text-sm text-lc-text2">Pick a topic. Phones show big pictures, and each question is read aloud.</p>
         </div>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {JUNIOR_SETS.map((s) => (
+          {[...JUNIOR_SETS].sort((a, b) => Number(b.id === set?.id) - Number(a.id === set?.id)).map((s) => (
             <button
               key={s.id}
               onClick={() => start(s)}
