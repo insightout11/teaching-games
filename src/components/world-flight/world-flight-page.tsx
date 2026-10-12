@@ -14,6 +14,8 @@ import { inferSourceGenre, bestPresetForGenre } from '@/lib/preset-fit';
 import { buildTripPack } from '@/lib/world-flight/trip-pack';
 import { usePlannerStore } from '@/stores/planner-store';
 import { savePreparedLesson, type PreparedLesson } from '@/lib/prepared-lesson';
+import { buildPracticeDesignMission } from '@/lib/world-flight/practice-mission';
+import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 import type { CourseLessonPayload } from '@/lib/course';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, PLANE_TIERS, type PlaneEntry } from '@/lib/plane-progression';
@@ -2548,6 +2550,54 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
     }
   }
 
+  // A practice mission: the real mission flow with three library city lessons, launched as an ordinary lesson so
+  // nothing is recorded against the class's journey.
+  const [practiceBusyId, setPracticeBusyId] = useState<string | null>(null);
+  async function launchPracticeMission(investigationId: string) {
+    const mission = buildPracticeDesignMission(investigationId);
+    const preset = FLIGHT_PLAN_PRESETS.find((candidate) => candidate.id === 'design-studio-60');
+    if (!selectedClassId || !mission || !preset) {
+      setLaunchError(!selectedClassId ? 'Choose a class first.' : 'This practice mission is not available yet.');
+      return;
+    }
+    setPracticeBusyId(investigationId);
+    setLaunchError(null);
+    try {
+      const store = usePlannerStore.getState();
+      store.reset();
+      store.setTopic(mission.designMissionTitle);
+      store.loadPreset(preset);
+      const payload = store.buildLaunchPayload();
+      payload.generatedContent = {
+        ...payload.generatedContent,
+        'design-studio': {
+          activityKey: 'design-studio',
+          topicContext: mission.designMissionTitle,
+          challenge: `${mission.designMissionTitle}: ${mission.question}`,
+          openingPrompt: 'What should the class design using what these three cities show?',
+          successCriteria: mission.successCriteria,
+          maxDecisions: 4,
+          worldFlightMission: mission,
+        },
+      } as typeof payload.generatedContent;
+      store.reset();
+      const res = await fetch('/api/session/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ classId: selectedClassId, lessonPlanContent: payload }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { sessionId?: string; error?: string };
+      if (!res.ok || !data.sessionId) throw new Error(data.error ?? 'Could not start the practice mission. Please try again.');
+      const serialized = JSON.stringify(payload);
+      sessionStorage.setItem(lessonPlanStorageKey(data.sessionId), serialized);
+      sessionStorage.setItem('lessonPlanContent', serialized);
+      window.location.href = `/sessions/${data.sessionId}`;
+    } catch (e) {
+      setLaunchError(e instanceof Error ? e.message : 'Could not start the practice mission. Please try again.');
+      setPracticeBusyId(null);
+    }
+  }
+
   function selectFocusFilter(nextFilter: FocusFilter) {
     const nextVisible = publishedFocusOptions.filter((focus) => nextFilter === 'all' || focus.kind === nextFilter);
     if (nextVisible.length === 0) return;
@@ -2788,6 +2838,9 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
             <InvestigationProgressPanel
               investigations={selectedClass?.investigations ?? []}
               onLaunchDesignMission={launchDesignMission}
+              onPracticeMission={(id) => void launchPracticeMission(id)}
+              practiceBusyId={practiceBusyId}
+              practiceError={launchError}
             />
           )}
 

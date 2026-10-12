@@ -112,3 +112,40 @@ describe('POST /api/lesson-plan/generate — degraded mode', () => {
     expect(data.content['video-player'].comprehensionQuestions).toEqual([]);
   });
 });
+
+describe('POST /api/lesson-plan/generate — scene scripts', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("keeps the script when the AI labels lines with character names, and never shows a placeholder line", async () => {
+    mockGenerateJSON.mockResolvedValue({
+      title: 'Chasing the Magic',
+      context: 'Two friends look for a unicorn.',
+      genre: 'comedy',
+      cast: [
+        { id: 'A', name: 'Sarah', role: 'a hopeful explorer', want: 'wants to find a unicorn' },
+        { id: 'B', name: 'Leo', role: 'a doubtful friend', want: 'wants to go home' },
+      ],
+      improvPrompt: 'The scene continues: it starts to rain.',
+      improvScript: Array.from({ length: 8 }, (_, i) => ({ character: i % 2 ? 'Leo' : 'Sarah', text: 'I feel so ___ today!' })),
+      lines: Array.from({ length: 8 }, (_, i) => ({ lineIndex: i + 1, character: i % 2 ? 'Leo' : 'Sarah', text: `Real line ${i + 1}` })),
+    });
+    const res = await POST(makeRequest({ customTopic: 'Rainbows and Unicorns', difficulty: 'Easy', activities: ['scene-igniter'], studentCount: 2 }) as never);
+    const data = await res.json();
+    const scene = data.content['scene-igniter'].scenes[0];
+    expect(scene.lines.map((l: { text: string }) => l.text)).toEqual(Array.from({ length: 8 }, (_, i) => `Real line ${i + 1}`));
+    expect(scene.lines.map((l: { character: string }) => l.character)).toEqual(['A', 'B', 'A', 'B', 'A', 'B', 'A', 'B']);
+    expect(scene.cast.map((c: { name: string }) => c.name)).toEqual(['Sarah', 'Leo']);
+  });
+
+  it('falls back to a playable conversation, not one repeated placeholder, when the script is unusable', async () => {
+    mockGenerateJSON.mockResolvedValue({ title: 'x', context: 'x', genre: 'comedy', cast: [], improvPrompt: 'x', improvScript: [], lines: [] });
+    const res = await POST(makeRequest({ customTopic: 'Rainbows and Unicorns', difficulty: 'Easy', activities: ['scene-igniter'], studentCount: 2 }) as never);
+    const data = await res.json();
+    const texts = data.content['scene-igniter'].scenes[0].lines.map((l: { text: string }) => l.text);
+    expect(texts).toHaveLength(8);
+    expect(new Set(texts).size).toBe(8);
+    expect(texts.join(' ')).not.toContain('Something about');
+  });
+});

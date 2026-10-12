@@ -77,11 +77,15 @@ export function getLessonPlanContent(
   persistedContent?: LessonPlanPayload | null,
 ): LessonPlanPayload | null {
   if (typeof window === 'undefined') return resolveLessonPlanPayload(persistedContent);
-  return resolveLessonPlanPayload(
-    persistedContent,
-    sessionStorage.getItem(lessonPlanStorageKey(sessionId)),
-    sessionStorage.getItem('lessonPlanContent'),
-  );
+  // Only this session's own plan. The older shared 'lessonPlanContent' key is NOT read as a fallback: it holds
+  // whatever lesson was launched last in this browser tab, and a new class session used to inherit it (Oct 2026:
+  // a room talking about unicorns got activities about carbon emissions from an earlier lesson's plan).
+  const plan = resolveLessonPlanPayload(persistedContent, sessionStorage.getItem(lessonPlanStorageKey(sessionId)));
+  // A session with no plan of its own clears that shared key, so nothing else reads a stale plan from it either.
+  if (!plan) {
+    try { sessionStorage.removeItem('lessonPlanContent'); } catch { /* storage unavailable */ }
+  }
+  return plan;
 }
 
 // ─── Hook return type ──────────────────────────────────────────────────────
@@ -119,6 +123,9 @@ export interface LessonSession {
   loadPlan: (content: LessonPlanPayload) => void;
   /** Turbulence: put a short break (a micro-event) next; the caller then advances into it. */
   insertTurbulence: () => void;
+  /** Live Room: drop a finished flight plan's topic, material and prepared content. */
+  endPlan: () => void;
+  setPlanDormant: (dormant: boolean) => void;
   /** Replace the next slot in place, preserving stageId/stageLabel/isMicroEvent. */
   replaceNextSlot: (key: string, type: 'game' | 'activity', name: string) => void;
   /** Resolve the CURRENT slot to a concrete module after a pool spin (clears the pool). */
@@ -165,6 +172,9 @@ export function useLessonSession(
   // ─── Content prefetch ──────────────────────────────────────────────────
   const prefetchedContentRef = useRef<Record<string, ActivityGeneratedContent | GameGeneratedContent>>({});
   const prefetchingKeysRef = useRef<Set<string>>(new Set());
+  /** Live Room: the loaded flight plan is not speaking for the room: it has finished or been left (see endPlan), or it
+   *  is still waiting to start while the teacher runs something else from the room (see setPlanDormant). */
+  const planEndedRef = useRef(false);
 
   // ─── Canonical source vocab ─────────────────────────────────────────────
   const sourceVocabRef = useRef<SourceVocabItem[]>([]);
@@ -417,24 +427,27 @@ export function useLessonSession(
   }, [lessonPlanContent, settings.difficulty, settings.grammarTarget, studentCount, sessionId]);
 
   const selectActivityInner = useCallback(async (activity: ActivityPlugin): Promise<ActivityGeneratedContent | null> => {
+    // A flight plan that has ended in the Live Room no longer speaks for the room: its topic, material and prepared
+    // content must not leak into whatever the class talks about next.
+    const plan = planEndedRef.current ? null : lessonPlanContent;
     if (activity.key === 'cabin-mystery') {
-      return { ...switchedSuitcase, topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
+      return { ...switchedSuitcase, topicContext: plan?.customTopic?.trim() || getEffectiveTopic(settings) };
     }
     // Picture Quiz runs from the Junior picture-question bank — no AI generation.
     if (activity.key === 'picture-quiz' || activity.key === 'picture-stories') {
-      return { activityKey: activity.key, topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
+      return { activityKey: activity.key, topicContext: plan?.customTopic?.trim() || getEffectiveTopic(settings) };
     }
     // Trip Recap seeds itself from the session trip log — no AI generation.
     if (activity.key === 'trip-recap') {
-      return { activityKey: 'trip-recap', topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
+      return { activityKey: 'trip-recap', topicContext: plan?.customTopic?.trim() || getEffectiveTopic(settings) };
     }
 
     // Prefetched content
-    const prefetched = prefetchedContentRef.current[activity.key] as ActivityGeneratedContent | undefined;
+    const prefetched = planEndedRef.current ? undefined : prefetchedContentRef.current[activity.key] as ActivityGeneratedContent | undefined;
     if (prefetched) return prefetched;
 
     // Live Room: content prepared for the source that is still in focus.
-    if (!lessonPlanContent) {
+    if (!plan) {
       const prepared = roomPrefetchRef.current[activity.key];
       const current = useSessionStore.getState().sourceMaterial;
       if (prepared && current && prepared.sourceKey === (current.sourceKey ?? current.title)) {
@@ -447,8 +460,8 @@ export function useLessonSession(
     // Exception: grammar target-dependent activities (check-in, clarify, proof) are
     // pre-generated before the teacher picks the target in the check-in, so if the
     // confirmed target differs, skip the stale pre-gen and regenerate with the real target.
-    if (lessonPlanContent?.generatedContent[activity.key]) {
-      const pregen = lessonPlanContent.generatedContent[activity.key] as ActivityGeneratedContent & { grammarTarget?: string };
+    if (plan?.generatedContent[activity.key]) {
+      const pregen = plan.generatedContent[activity.key] as ActivityGeneratedContent & { grammarTarget?: string };
       const currentTarget = settings.grammarTarget;
       const targetDependent = activity.key === 'grammar-check-in' || activity.key === 'grammar-clarify' || activity.key === 'grammar-proof' || activity.key === 'fix-the-captain' || activity.key === 'grammar-spotlight';
       if (!targetDependent || !currentTarget || pregen.grammarTarget === currentTarget) {
@@ -469,17 +482,17 @@ export function useLessonSession(
       // Prefer the launch-time topic (source of truth from the lesson plan) over
     // settings.customTopic, which is populated asynchronously and can still be empty
     // when generation fires — that silently falls back to 'General' → off-topic content.
-    const effectiveTopic = lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings);
+    const effectiveTopic = plan?.customTopic?.trim() || getEffectiveTopic(settings);
       const missionContext = getMissionContext();
       const endpoint = isLanding ? '/api/landing/generate' : '/api/lesson-plan/generate';
       // Plan-free Live Room sessions carry their source (a shown article/image) in the
       // session store — the same place self-generating games already read it from.
-      const sourceMaterial = lessonPlanContent
-        ? lessonPlanContent.stageSources?.[activity.key] ?? lessonPlanContent.sourceMaterial
+      const sourceMaterial = plan
+        ? plan.stageSources?.[activity.key] ?? plan.sourceMaterial
         : useSessionStore.getState().sourceMaterial ?? undefined;
       const needsSourceVocab = lessonSlots.length > 1; // Lesson Kit: every stage of a flight plan shares the key phrases
       const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
-      const courseContextPayload = lessonPlanContent?.courseContext ? { courseContext: lessonPlanContent.courseContext } : {};
+      const courseContextPayload = plan?.courseContext ? { courseContext: plan.courseContext } : {};
       const body = isLanding
         ? JSON.stringify({ activityKey: activity.key, topic: effectiveTopic, difficulty: settings.difficulty, ...(sourceMaterial ? { sourceKey: sourceMaterial.sourceKey ?? sourceMaterial.title } : {}), ...(missionContext.length > 0 ? { missionContext } : {}) })
         : JSON.stringify({
@@ -506,7 +519,7 @@ export function useLessonSession(
       if (response.status === 402) {
         setCreditsExhausted(true);
         // Return minimal fallback — don't block the session
-        return { activityKey: activity.key, topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
+        return { activityKey: activity.key, topicContext: plan?.customTopic?.trim() || getEffectiveTopic(settings) };
       }
 
       const data: LessonPlanGenerateResponse = await response.json();
@@ -533,10 +546,10 @@ export function useLessonSession(
 
   // ─── Content resolution: game ──────────────────────────────────────────
   const selectGame = useCallback((game: GamePlugin): GameGeneratedContent | null => {
-    const prefetched = prefetchedContentRef.current[game.key] as GameGeneratedContent | undefined;
+    const prefetched = planEndedRef.current ? undefined : prefetchedContentRef.current[game.key] as GameGeneratedContent | undefined;
     if (prefetched) return prefetched;
 
-    if (lessonPlanContent?.generatedGameContent?.[game.key]) {
+    if (!planEndedRef.current && lessonPlanContent?.generatedGameContent?.[game.key]) {
       return lessonPlanContent.generatedGameContent[game.key];
     }
 
@@ -700,6 +713,7 @@ export function useLessonSession(
   // ─── Actions ───────────────────────────────────────────────────────────
 
   const beginLesson = useCallback(() => {
+    planEndedRef.current = false;
     const firstSlot = lessonSlots[0];
     const firstKey = firstSlot?.key ?? '';
     const startPhase = firstKey === 'mission-selector' ? 'mission-select'
@@ -726,6 +740,7 @@ export function useLessonSession(
   const loadPlan = useCallback((content: LessonPlanPayload) => {
     if (!content.slots?.length) return;
     // Same as the mount loader, but starts at once: the class is already in the room.
+    planEndedRef.current = false;
     prefetchedContentRef.current = {};
     sourceVocabRef.current = [];
     sceneKitRef.current = null;
@@ -836,7 +851,7 @@ export function useLessonSession(
 
       try {
         const storageKey = lessonPlanStorageKey(sessionId);
-        const stored = sessionStorage.getItem(storageKey) ?? sessionStorage.getItem('lessonPlanContent');
+        const stored = sessionStorage.getItem(storageKey);
         const parsed = stored ? JSON.parse(stored) : {};
         sessionStorage.setItem(
           storageKey,
@@ -858,6 +873,25 @@ export function useLessonSession(
   }, [sessionId]);
 
   const exitLesson = useCallback(() => {
+    clearLessonRuntimeSnapshot(sessionId);
+    setPhase('idle');
+  }, [sessionId]);
+
+  /**
+   * Live Room: the flight plan is over but the class stays in the room. Everything the plan prepared (its topic,
+   * its material, content made ahead for its stages) is dropped, so the next activity is built from the room's
+   * current topic. Without this, an activity launched later reused the old plan's content (Oct 2026: a class
+   * talking about a village in Bali got Fact Detective claims about carbon emissions).
+   */
+  /** Live Room: an activity launched from the room itself, while a plan waits unstarted, is built from the room's topic. */
+  const setPlanDormant = useCallback((dormant: boolean) => { planEndedRef.current = dormant; }, []);
+
+  const endPlan = useCallback(() => {
+    planEndedRef.current = true;
+    prefetchedContentRef.current = {};
+    prefetchingKeysRef.current.clear();
+    sourceVocabRef.current = [];
+    sceneKitRef.current = null;
     clearLessonRuntimeSnapshot(sessionId);
     setPhase('idle');
   }, [sessionId]);
@@ -890,6 +924,8 @@ export function useLessonSession(
     advanceSlot,
     insertAndPivotSlot,
     insertTurbulence,
+    endPlan,
+    setPlanDormant,
     loadPlan,
     replaceNextSlot,
     resolveCurrentSlot,

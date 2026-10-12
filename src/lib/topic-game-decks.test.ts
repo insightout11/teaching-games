@@ -7,6 +7,7 @@ describe('topic game decks', () => {
     expect(rounds).toHaveLength(6);
     for (const round of rounds) {
       expect(round.word).toBeTruthy();
+      expect(round.description.length).toBeGreaterThan(8);
       expect(round.forbiddenWords).toHaveLength(4);
       expect(round.forbiddenWords.map((w) => w.toLowerCase())).not.toContain(round.word.toLowerCase());
     }

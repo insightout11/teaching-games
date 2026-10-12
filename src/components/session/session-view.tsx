@@ -1690,7 +1690,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // the session row) so the room — not the flight's boarding — is what a
   // refresh reopens. Students stay joined throughout.
   const leaveRoomFlight = () => {
-    lesson.exitLesson();
+    lesson.endPlan();
     handleBackToSelection();
     sessionStorage.removeItem(lessonPlanStorageKey(session.id));
     sessionStorage.removeItem('lessonPlanContent');
@@ -2196,8 +2196,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             activities={activities}
             runningKey={roomRunningKey}
             moduleHost={<HostSlot el={roomModuleEl} />}
-            onLaunchGame={handleSelectGame}
-            onLaunchActivity={(a) => { void handleSelectActivity(a); }}
+            // Launched from the room itself, not as a stage of a running flight: built from the room's current topic,
+            // never from a plan that is waiting to start or has finished.
+            onLaunchGame={(g) => { if (!lesson.isLessonActive || lesson.phase === 'lobby') lesson.setPlanDormant(true); handleSelectGame(g); }}
+            onLaunchActivity={(a) => { if (!lesson.isLessonActive || lesson.phase === 'lobby') lesson.setPlanDormant(true); void handleSelectActivity(a); }}
             onReturn={handleBackToSelection}
             onEndSession={handleEndSession}
             onCompleteSession={handleCompleteSession}
