@@ -1,0 +1,190 @@
+[
+  {
+    "lessonIndex": 0,
+    "text": "Mina puts three pictures on the table. One shows her aunt. One shows her brother. One shows her friend. “These people care for me,” she says. “We read books together. We cook soup together. We water plants together.” Her friend points at the soup picture. “Who holds the spoon?” he asks. “I do,” says Mina. “My aunt holds the bowl.” Mina leaves space for another picture. She wants to add more words later.",
+    "words": [
+      {
+        "word": "pictures",
+        "meaning": "things drawn or shown"
+      },
+      {
+        "word": "care",
+        "meaning": "help someone feel safe and well"
+      },
+      {
+        "word": "together",
+        "meaning": "with another person"
+      },
+      {
+        "word": "spoon",
+        "meaning": "a tool for eating or stirring"
+      },
+      {
+        "word": "space",
+        "meaning": "an empty place"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Who is in the first picture?",
+        "a": "her aunt"
+      },
+      {
+        "q": "What do they cook?",
+        "a": "soup"
+      },
+      {
+        "q": "What does Mina hold?",
+        "a": "the spoon"
+      }
+    ],
+    "talk": [
+      "What do you enjoy doing with other people?",
+      "How can a person show they care?"
+    ],
+    "courseId": "kids-family",
+    "title": "People Around Me",
+    "level": "A1"
+  },
+  {
+    "lessonIndex": 1,
+    "text": "In the morning, Jo opens the curtains. His uncle makes breakfast. “Please pass the cups,” says his uncle. Jo puts two cups on the table. Then they eat and talk. In the evening, their jobs change. Jo washes the cups. His uncle dries them with a towel. “What comes next?” asks Jo. “Our book,” says his uncle. They sit on the sofa and read. Some days are busy, but they keep this quiet time.",
+    "words": [
+      {
+        "word": "curtains",
+        "meaning": "cloth that covers a window"
+      },
+      {
+        "word": "breakfast",
+        "meaning": "the first meal of the day"
+      },
+      {
+        "word": "dries",
+        "meaning": "takes water off something"
+      },
+      {
+        "word": "towel",
+        "meaning": "cloth for drying"
+      },
+      {
+        "word": "quiet",
+        "meaning": "with little noise"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Who opens the curtains?",
+        "a": "Jo"
+      },
+      {
+        "q": "What does Jo wash?",
+        "a": "the cups"
+      },
+      {
+        "q": "Where do they read?",
+        "a": "the sofa"
+      }
+    ],
+    "talk": [
+      "What do you do at the start of a day?",
+      "Which quiet activity would you share, and why?"
+    ],
+    "courseId": "kids-family",
+    "title": "Home Routines",
+    "level": "A1"
+  },
+  {
+    "lessonIndex": 3,
+    "text": "It is a free day. Ali wants to play outside. His cousin wants to draw. Their grandmother wants to rest. “We need a plan,” says Ali. His cousin brings some paper to the garden. Ali finds a ball. Their grandmother sits under a tree. First, the cousins draw the tree together. Next, they play with the ball. Later, they show their grandmother the picture. “We all have a part,” she says. Everyone smiles.",
+    "words": [
+      {
+        "word": "cousin",
+        "meaning": "a child of your aunt or uncle"
+      },
+      {
+        "word": "rest",
+        "meaning": "stop working and relax"
+      },
+      {
+        "word": "plan",
+        "meaning": "ideas for what to do"
+      },
+      {
+        "word": "garden",
+        "meaning": "a place where plants grow"
+      },
+      {
+        "word": "part",
+        "meaning": "something one person does"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Who wants to draw?",
+        "a": "His cousin"
+      },
+      {
+        "q": "Where does their grandmother sit?",
+        "a": "under a tree"
+      },
+      {
+        "q": "What do the cousins draw?",
+        "a": "the tree"
+      }
+    ],
+    "talk": [
+      "How would you plan a day for different people?",
+      "What activity could everyone enjoy together?"
+    ],
+    "courseId": "kids-family",
+    "title": "Our Shared Day",
+    "level": "A1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Mina finds her three pictures again. At first, she only named the people. Now she adds what each person does. “My aunt reads slowly with me,” she says. “My brother chops carrots while I stir soup.” She points at the last picture. “My friend carries water, and I water the plants.” Her friend listens. “We help each other in different ways,” he says. Mina writes that sentence under the pictures. Her little guide is ready.",
+    "words": [
+      {
+        "word": "named",
+        "meaning": "said what someone is called"
+      },
+      {
+        "word": "slowly",
+        "meaning": "not quickly"
+      },
+      {
+        "word": "chops",
+        "meaning": "cuts into small pieces"
+      },
+      {
+        "word": "stir",
+        "meaning": "move a spoon through food"
+      },
+      {
+        "word": "guide",
+        "meaning": "something that helps people understand"
+      }
+    ],
+    "questions": [
+      {
+        "q": "How does Mina's aunt read?",
+        "a": "slowly"
+      },
+      {
+        "q": "What does her brother chop?",
+        "a": "carrots"
+      },
+      {
+        "q": "What does her friend carry?",
+        "a": "water"
+      }
+    ],
+    "talk": [
+      "What can you explain more clearly about a shared activity?",
+      "How could you help someone join that activity?"
+    ],
+    "courseId": "kids-family",
+    "title": "What We Can Say Now",
+    "level": "A1"
+  }
+]
