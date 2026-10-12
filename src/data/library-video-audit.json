@@ -1232,12 +1232,12 @@
     "note": "Nature-viewing studies and mood changes match the nature/happiness subject."
   },
   "internet-memes-library.json/memes-history": {
-    "status": "mismatch",
-    "note": "Evidence: The cache discusses Richard Dawkins, memes as cultural replicators and a Celine Dion image joke; it is not an ARPANET-to-social-media history. Suggested action: Retitle to How Memes Spread and Shape Culture and rewrite the description."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The cache discusses Richard Dawkins, memes as cultural replicators and a Celine Dion image joke; it is not an ARPANET-to-social-media history. Changed fields: title, topicTags, description, summary, hidden, hiddenNote. Video identity and duration preserved."
   },
   "internet-memes-library.json/memes-viral": {
-    "status": "partial",
-    "note": "Evidence: The cache develops an internet cultural singularity analogy using Olympics/Mars remixes; it does not give the promised psychological comparison of why some content spreads and other content disappears. Suggested action: Retitle to Internet Culture and the Cultural Singularity and narrow the description."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The cache develops an internet cultural singularity analogy using Olympics/Mars remixes; it does not give the promised psychological comparison of why some content spreads and other content disappears. Changed fields: title, description, summary. Video identity and duration preserved."
   },
   "internet-memes-library.json/memes-language": {
     "status": "ok",

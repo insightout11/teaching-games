@@ -1,28 +1,26 @@
 [
   {
     "id": "memes-history",
-    "title": "A Brief History of the Internet",
+    "title": "How Memes Spread",
     "speaker": "BBC Ideas",
     "youtubeId": "4VS9cWmmu2k",
     "durationSecs": 298,
     "topicTags": [
       "internet",
-      "technology",
-      "history",
-      "culture"
+      "culture",
+      "communication",
+      "memes"
     ],
     "difficultyLevel": "Intermediate",
-    "description": "A fast-paced tour through the internet's origins — from ARPANET to social media — and how it changed human communication.",
-    "summary": "This BBC Ideas video offers a concise and engaging history of the *internet*, tracing its evolution from a Cold War military communication network to the global infrastructure that defines modern life. The video is animated and fast-paced, making complex technological history accessible to a general audience.\n\nThe story begins in the 1960s with *ARPANET* — the US Department of Defense's project to create a communications network that could survive a nuclear attack. Unlike traditional networks with a central hub, ARPANET used *packet switching*: breaking data into small packets and routing each independently across the network. This *decentralised* design is what makes the internet so resilient.\n\nThe 1970s saw the development of *TCP/IP* — the fundamental communication protocol that allows different computer networks to talk to each other. Computer scientist Vint Cerf and Bob Kahn are credited as the 'fathers of the internet' for this work. The concept of *email* emerged during this period, with the @ symbol being adopted to separate usernames from server addresses.\n\nIn 1991, Tim Berners-Lee invented the *World Wide Web* — a system of documents linked by *hyperlinks* and accessed via *browsers*. The web is often confused with the internet itself, but the video clarifies that the web is just one application running on the internet's infrastructure.\n\nThe 1990s brought the *dot-com boom*: a frenzy of investment in internet companies, many of which collapsed in the dot-com *bust* of 2000-2001. Survivors like Amazon and Google became trillion-dollar companies.\n\nThe 2000s saw the rise of *Web 2.0* — the shift from static websites to interactive platforms where users create content. Social networks like Facebook, Twitter, and YouTube transformed the internet from a read-only medium to a participatory one.\n\nThe video concludes by reflecting on the internet's contradictions: it has enabled unprecedented connection, knowledge-sharing, and commerce, but also *misinformation*, *surveillance*, addiction, and the concentration of power in a handful of technology companies. Suitable for B1–B2 learners interested in technology and culture.",
+    "description": "Speakers discuss memes as units of culture that spread and evolve, with examples of internet jokes and shared communities.",
+    "summary": "Speakers discuss memes as units of culture that spread and evolve, with examples of internet jokes and shared communities.",
     "genre": "expository",
     "cefr": "B1",
-    "ageBand": "teens",
-    "hidden": true,
-    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. The cache discusses Richard Dawkins, memes as cultural replicators and a Celine Dion image joke; it is not an ARPANET-to-social-media history. Suggested action: Retitle to How Memes Spread and Shape Culture and rewrite the description."
+    "ageBand": "teens"
   },
   {
     "id": "memes-viral",
-    "title": "Why Do Things Go Viral?",
+    "title": "Internet Culture and the Cultural Singularity",
     "speaker": "PBS Idea Channel",
     "youtubeId": "eNBOkp346G8",
     "durationSecs": 547,
@@ -34,8 +32,8 @@
       "social-media"
     ],
     "difficultyLevel": "Intermediate",
-    "description": "The psychology behind viral content — why some ideas spread like wildfire while others disappear instantly.",
-    "summary": "This PBS Idea Channel video explores the *psychology* of *virality* — what makes certain pieces of content spread rapidly across the internet while the vast majority disappear without a trace. The video draws on cultural theory, cognitive science, and media studies to answer a question that puzzles both internet users and marketing professionals.\n\nThe episode begins with Richard Dawkins' concept of the *meme* — introduced in his 1976 book *The Selfish Gene* — as a unit of cultural information that replicates and spreads from mind to mind, analogous to how genes spread biologically. The internet, the video argues, created the ideal environment for meme *evolution*: instant replication, global distribution, and rapid *mutation* as people remix and modify content.\n\nSeveral factors that increase *shareability* are examined. *Emotional arousal* is the most powerful: content that makes people feel strong emotions — whether awe, amusement, anger, or anxiety — is far more likely to be shared than neutral content. This is why outrage and cuteness both go viral: they both trigger strong physiological responses.\n\n*Social currency* is another key factor: we share things that make us look good — knowledgeable, funny, compassionate, or in-the-know. The video explores how sharing behaviour is fundamentally tied to *identity construction* and *social signalling*.\n\n*Timing and context* matter enormously. A video that goes viral is often perfectly timed to connect with existing cultural conversations or anxieties. The hosts discuss how *parasocial connections* to internet celebrities amplify sharing, and how algorithmic *recommendation systems* on YouTube, TikTok, and Twitter now play a massive role in deciding what gets seen.\n\nThe concept of *memetic fitness* — how well a piece of content adapts and survives as it spreads — is introduced. The most viral content is often the most *remixable*: it has a recognisable format that invites variation and creative adaptation. Targets B1–B2 learners interested in media and digital culture.",
+    "description": "A discussion connects rapid internet remixes and shared culture with the idea of a cultural singularity. It uses the Olympics, a Mars landing and online humour as examples.",
+    "summary": "A discussion connects rapid internet remixes and shared culture with the idea of a cultural singularity. It uses the Olympics, a Mars landing and online humour as examples.",
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens"
