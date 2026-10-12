@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 15/18; judged entries: 632/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 16/18; judged entries: 636/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -28,6 +28,7 @@ Completed libraries: 15/18; judged entries: 632/641. Cached inventory captured a
 | crash-course-library.json | 14 | 1 | 0 | 1 | 11 | 0 | 1 |
 | grammar-library.json | 89 | 77 | 0 | 4 | 8 | 0 | 0 |
 | hooks-library.json | 60 | 53 | 1 | 4 | 2 | 0 | 0 |
+| internet-memes-library.json | 4 | 2 | 1 | 1 | 0 | 0 | 0 |
 | kids-library.json | 101 | 85 | 1 | 1 | 6 | 0 | 8 |
 | kurzgesagt-library.json | 13 | 1 | 0 | 0 | 12 | 0 | 0 |
 | listening-library.json | 60 | 58 | 0 | 2 | 0 | 0 | 0 |
@@ -36,7 +37,7 @@ Completed libraries: 15/18; judged entries: 632/641. Cached inventory captured a
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
 | travel-english-library.json | 6 | 1 | 2 | 2 | 1 | 0 | 0 |
 | vox-library.json | 10 | 7 | 0 | 0 | 3 | 0 | 0 |
-| **TOTAL** | **632** | 440 | 11 | 29 | 141 | 0 | 11 |
+| **TOTAL** | **636** | 442 | 12 | 30 | 141 | 0 | 11 |
 
 ## Non-ok entries, grouped by library
 
@@ -149,6 +150,13 @@ Completed libraries: 15/18; judged entries: 632/641. Cached inventory captured a
 | hook-r2-TQgRIJdp2c0 | Eggs-periments! | mismatch | The full cache demonstrates a homemade lava lamp using oil, water, colouring and salt; eggs only appear in the closing introduction to the next videos.  | Retitle to Homemade Lava Lamp and rewrite the description. |
 | hook-r2-LYa9VPVAJI8 | Jerusalem | weak-captions | The 86-word cache is an IMAX promotional trailer ending coming soon; it offers only generic conflict/culture/ritual teasers, without substantive historic details.  | Mark as a trailer and verify whether it supplies enough material for caption-built lessons. |
 | hook-r2-QOz6w7d9f94 | The National Geographic Society: Let’s Explore! | weak-captions | The 63-word cache is mostly promotional labels such as Trailblazers and World shakers interspersed with music and repeated lyrics; almost no explanatory science/geography content remains.  | Mark as promotional and withhold from caption-built lessons pending review. |
+
+### internet-memes-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| memes-history | A Brief History of the Internet | mismatch | The cache discusses Richard Dawkins, memes as cultural replicators and a Celine Dion image joke; it is not an ARPANET-to-social-media history.  | Retitle to How Memes Spread and Shape Culture and rewrite the description. |
+| memes-viral | Why Do Things Go Viral? | partial | The cache develops an internet cultural singularity analogy using Olympics/Mars remixes; it does not give the promised psychological comparison of why some content spreads and other content disappears.  | Retitle to Internet Culture and the Cultural Singularity and narrow the description. |
 
 ### kids-library.json
 
