@@ -24476,8 +24476,8 @@
       },
       {
         "word": "buoy",
-        "level": "A1",
-        "description": "a floating marker showing a place in water"
+        "level": "A2",
+        "description": "a floating marker that shows a safe place"
       },
       {
         "word": "ship wheel",
@@ -24485,39 +24485,24 @@
         "description": "a turning handle that steers a large boat"
       },
       {
-        "word": "dinghy pump",
-        "level": "A2",
-        "description": "a tool that puts air into a small boat"
-      },
-      {
-        "word": "fishing boat",
-        "level": "A1",
-        "description": "a small craft used to catch fish"
-      },
-      {
-        "word": "canal boat",
-        "level": "A1",
-        "description": "a long narrow craft used on a canal"
-      },
-      {
         "word": "lifebuoy",
         "level": "A1",
         "description": "a floating ring thrown to someone in trouble"
       },
       {
-        "word": "port crane",
+        "word": "crane",
+        "level": "A1",
+        "description": "a machine that lifts heavy building pieces"
+      },
+      {
+        "word": "seat",
+        "level": "A1",
+        "description": "a place where one person can sit"
+      },
+      {
+        "word": "shed",
         "level": "A2",
-        "description": "a tall machine lifting goods near boats"
-      },
-      {
-        "word": "rowing seat",
-        "level": "A1",
-        "description": "a narrow place to sit while moving a boat"
-      },
-      {
-        "word": "boat shed",
-        "level": "A1",
-        "description": "a small building where boats are kept"
+        "description": "a small building for storing outdoor equipment"
       },
       {
         "word": "deck chair",
@@ -24526,8 +24511,23 @@
       },
       {
         "word": "waterproof bag",
+        "level": "A2",
+        "description": "a bag made to keep its contents dry"
+      },
+      {
+        "word": "pump",
         "level": "A1",
-        "description": "a bag that keeps its contents dry"
+        "description": "a tool that pushes air into a tyre"
+      },
+      {
+        "word": "fishing",
+        "level": "A1",
+        "description": "trying to catch animals that live in water"
+      },
+      {
+        "word": "canal",
+        "level": "A2",
+        "description": "an artificial channel built to carry water"
       }
     ],
     "imposter": [
@@ -24535,91 +24535,91 @@
         "word": "sailboat",
         "level": "A1",
         "description": "a small craft moved by cloth catching air",
-        "hint": "a water vehicle",
-        "crewQuestion": "What can cross a lake using a tall sail?",
-        "imposterQuestion": "What can cross a lake using a strong engine?"
+        "hint": "wind powered vessels",
+        "crewQuestion": "What would you bring for a sailboat trip?",
+        "imposterQuestion": "Which supplies belong on a seaside picnic?"
       },
       {
         "word": "rowboat",
         "level": "A1",
         "description": "a small craft moved with long wooden tools",
-        "hint": "a water vehicle",
-        "crewQuestion": "What can two people move by pulling oars?",
-        "imposterQuestion": "What can two people move by turning a wheel?"
+        "hint": "small rowing vessels",
+        "crewQuestion": "What helps you steer a rowboat?",
+        "imposterQuestion": "Which equipment could guide a small canoe?"
       },
       {
         "word": "ferry",
         "level": "A1",
         "description": "a large boat carrying passengers across water",
-        "hint": "a water vehicle",
-        "crewQuestion": "What can take people and cars to an island?",
-        "imposterQuestion": "What can take people and cars through a tunnel?"
+        "hint": "passenger crossing vessels",
+        "crewQuestion": "What could you do while waiting for a ferry?",
+        "imposterQuestion": "Which activities pass time at a bus station?"
       },
       {
         "word": "canoe",
         "level": "A1",
         "description": "a narrow light craft moved with a paddle",
-        "hint": "a water vehicle",
-        "crewQuestion": "What can one person steer down a quiet river?",
-        "imposterQuestion": "What can one person steer down a quiet road?"
+        "hint": "narrow river boats",
+        "crewQuestion": "What might you see from a canoe?",
+        "imposterQuestion": "Which sights could appear from a riverside path?"
       },
       {
         "word": "anchor",
         "level": "A1",
         "description": "a heavy object lowered to hold a boat still",
-        "hint": "boat equipment",
-        "crewQuestion": "What can stop a vessel from drifting away?",
-        "imposterQuestion": "What can help a vessel travel farther away?"
+        "hint": "heavy boat equipment",
+        "crewQuestion": "What could be near an anchor underwater?",
+        "imposterQuestion": "Which things might lie beneath a fishing pier?"
       },
       {
         "word": "compass",
         "level": "A1",
         "description": "a tool with a needle showing direction",
-        "hint": "navigation tool",
-        "crewQuestion": "What can help a sailor find north on a trip?",
-        "imposterQuestion": "What can help a hiker find north on a trip?"
+        "hint": "direction finding tools",
+        "crewQuestion": "When would you check a compass?",
+        "imposterQuestion": "Which situations make you look at a map?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "buoy",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "sailor",
+        "kind": "job",
+        "level": "A2"
       },
       {
-        "secret": "ship wheel",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "pelican",
+        "kind": "animal",
+        "level": "A2"
       },
       {
-        "secret": "fishing boat",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "jetty",
+        "kind": "place",
+        "level": "A2"
       },
       {
-        "secret": "canal boat",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "marina",
+        "kind": "place",
+        "level": "A2"
       },
       {
-        "secret": "port crane",
+        "secret": "periscope",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "lifebuoy",
+        "secret": "horn",
         "kind": "thing",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "boat shed",
-        "kind": "place",
-        "level": "A1"
+        "secret": "life raft",
+        "kind": "thing",
+        "level": "A2"
       },
       {
-        "secret": "waterproof bag",
+        "secret": "outboard",
         "kind": "thing",
-        "level": "A1"
+        "level": "A2"
       }
     ]
   },
@@ -24839,19 +24839,19 @@
         "description": "a metal tool that makes a steady note"
       },
       {
-        "word": "band leader",
+        "word": "leader",
         "level": "A1",
-        "description": "a person guiding a group of musicians"
+        "description": "a person who guides a group"
       },
       {
-        "word": "music room",
+        "word": "room",
         "level": "A1",
-        "description": "a place where people practise instruments"
+        "description": "a part of a building separated by walls"
       },
       {
-        "word": "instrument case",
-        "level": "A1",
-        "description": "a protective box for carrying an instrument"
+        "word": "case",
+        "level": "A2",
+        "description": "an outer covering that protects a machine"
       }
     ],
     "imposter": [
@@ -24859,89 +24859,89 @@
         "word": "guitar",
         "level": "A1",
         "description": "a stringed instrument played by plucking",
-        "hint": "an instrument",
-        "crewQuestion": "What might a musician hold across the body and strum?",
-        "imposterQuestion": "What might a musician hold across the body and blow?"
+        "hint": "plucked string instruments",
+        "crewQuestion": "What songs could you play on a guitar?",
+        "imposterQuestion": "Which tunes might you choose for a piano lesson?"
       },
       {
         "word": "drum",
         "level": "A1",
         "description": "a hollow object hit to make a beat",
-        "hint": "an instrument",
-        "crewQuestion": "What can a player tap with two sticks?",
-        "imposterQuestion": "What can a player tap with two hands?"
+        "hint": "beat making instruments",
+        "crewQuestion": "What might you play beside a drum?",
+        "imposterQuestion": "Which instruments could join a marching band?"
       },
       {
         "word": "flute",
         "level": "A1",
         "description": "a long tube played by blowing across a hole",
-        "hint": "an instrument",
-        "crewQuestion": "What can make a clear high note when someone blows?",
-        "imposterQuestion": "What can make a clear low note when someone blows?"
+        "hint": "small wind instruments",
+        "crewQuestion": "Where could you practise a flute quietly?",
+        "imposterQuestion": "Which places suit playing a recorder?"
       },
       {
         "word": "piano",
         "level": "A1",
         "description": "a large instrument played using rows of keys",
-        "hint": "an instrument",
-        "crewQuestion": "What can a musician play with both hands on keys?",
-        "imposterQuestion": "What can a musician play with both hands on strings?"
+        "hint": "large keyed instruments",
+        "crewQuestion": "What would you place beside a piano?",
+        "imposterQuestion": "Which things might be near a school keyboard?"
       },
       {
         "word": "trumpet",
         "level": "A1",
         "description": "a brass instrument played by buzzing the lips",
-        "hint": "an instrument",
-        "crewQuestion": "What can a musician raise to play a bright note?",
-        "imposterQuestion": "What can a musician lower to play a bright note?"
+        "hint": "brass blowing instruments",
+        "crewQuestion": "What might you wear in a trumpet band?",
+        "imposterQuestion": "Which clothes suit a school orchestra performance?"
       },
       {
         "word": "violin",
         "level": "A1",
         "description": "a small stringed instrument played with a bow",
-        "hint": "an instrument",
-        "crewQuestion": "What can a musician tuck under the chin and play?",
-        "imposterQuestion": "What can a musician tuck under the arm and play?"
+        "hint": "bowed string instruments",
+        "crewQuestion": "What could help you carry a violin safely?",
+        "imposterQuestion": "Which items protect a guitar on a bus trip?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "ukulele",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "music stand",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "cello",
+        "secret": "tambourine",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "castanets",
+        "secret": "oboe",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "instrument case",
+        "secret": "bassoon",
         "kind": "thing",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "band leader",
+        "secret": "saxophone",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "synthesizer",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "conductor",
         "kind": "job",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "music room",
+        "secret": "stage",
         "kind": "place",
         "level": "A1"
       },
       {
-        "secret": "tuning fork",
+        "secret": "metronome",
         "kind": "thing",
         "level": "A2"
       }
@@ -25108,19 +25108,14 @@
     ],
     "hotSeat": [
       {
-        "word": "drawing pin",
-        "level": "A1",
-        "description": "a small sharp tack holding paper in place"
-      },
-      {
-        "word": "graphite stick",
+        "word": "pin",
         "level": "A2",
-        "description": "a dark material used to make broad lines"
+        "description": "a small pointed piece used to hold paper"
       },
       {
-        "word": "colour pencil",
-        "level": "A1",
-        "description": "a coloured stick used for careful drawing"
+        "word": "graphite",
+        "level": "A2",
+        "description": "the dark material inside a pencil"
       },
       {
         "word": "paper clip",
@@ -25128,39 +25123,29 @@
         "description": "a bent metal piece holding sheets together"
       },
       {
-        "word": "drawing board",
+        "word": "board",
         "level": "A1",
-        "description": "a flat surface supporting paper while working"
+        "description": "a flat surface where a game is played"
       },
       {
-        "word": "blending stump",
+        "word": "pastel",
         "level": "A2",
-        "description": "a rolled paper tool for softening pencil marks"
+        "description": "a soft colored stick used by artists"
       },
       {
-        "word": "chalk pastel",
+        "word": "crumbs",
         "level": "A2",
-        "description": "a soft coloured stick leaving dusty marks"
+        "description": "tiny pieces left after rubbing out pencil marks"
       },
       {
-        "word": "eraser crumbs",
+        "word": "finger",
         "level": "A1",
-        "description": "small bits left after removing pencil lines"
+        "description": "one of the parts at the end of your hand"
       },
       {
-        "word": "artist glove",
+        "word": "stool",
         "level": "A2",
-        "description": "a light cover worn on the hand while drawing"
-      },
-      {
-        "word": "artist stool",
-        "level": "A1",
-        "description": "a seat used while making a picture"
-      },
-      {
-        "word": "line drawing",
-        "level": "A1",
-        "description": "a picture made mostly from lines"
+        "description": "a seat with no back or arms"
       },
       {
         "word": "comic strip",
@@ -25168,14 +25153,29 @@
         "description": "a short story told in picture boxes"
       },
       {
-        "word": "side view",
-        "level": "A2",
-        "description": "a picture showing one side of a face"
-      },
-      {
         "word": "tracing paper",
         "level": "A2",
         "description": "thin see-through sheets used to copy outlines"
+      },
+      {
+        "word": "line",
+        "level": "A1",
+        "description": "a long narrow mark on the ground"
+      },
+      {
+        "word": "view",
+        "level": "A1",
+        "description": "what you can see from a place"
+      },
+      {
+        "word": "blending",
+        "level": "A2",
+        "description": "mixing shades so they change smoothly"
+      },
+      {
+        "word": "texture",
+        "level": "A2",
+        "description": "how a surface feels to the hand"
       }
     ],
     "imposter": [
@@ -25183,89 +25183,89 @@
         "word": "pencil",
         "level": "A1",
         "description": "a tool with a dark centre that makes lines",
-        "hint": "art equipment",
-        "crewQuestion": "What can a student sharpen before making a sketch?",
-        "imposterQuestion": "What can a student erase after making a sketch?"
+        "hint": "thin drawing tools",
+        "crewQuestion": "What could you draw with a pencil?",
+        "imposterQuestion": "Which pictures might you make using charcoal?"
       },
       {
         "word": "crayon",
         "level": "A1",
         "description": "a coloured wax stick used to draw on paper",
-        "hint": "art equipment",
-        "crewQuestion": "What can a young artist use to colour a picture?",
-        "imposterQuestion": "What can a young artist use to cut a picture?"
+        "hint": "wax drawing materials",
+        "crewQuestion": "What colors would you choose for a crayon picture?",
+        "imposterQuestion": "Which shades suit a painting of a park?"
       },
       {
         "word": "eraser",
         "level": "A1",
         "description": "a tool that removes unwanted pencil marks",
-        "hint": "art equipment",
-        "crewQuestion": "What can clean up a line drawn by mistake?",
-        "imposterQuestion": "What can make a new line after a mistake?"
+        "hint": "mistake removing objects",
+        "crewQuestion": "Where might you keep an eraser?",
+        "imposterQuestion": "Which places could hold a small sharpener?"
       },
       {
         "word": "sketchbook",
         "level": "A1",
         "description": "a book with blank pages for pictures",
-        "hint": "art equipment",
-        "crewQuestion": "Where can an artist keep quick drawings together?",
-        "imposterQuestion": "Where can an artist keep finished paintings together?"
+        "hint": "personal drawing books",
+        "crewQuestion": "What might you put in a sketchbook?",
+        "imposterQuestion": "Which pictures belong in an artist's notebook?"
       },
       {
         "word": "portrait",
         "level": "A2",
         "description": "a picture showing a person’s face and shoulders",
-        "hint": "a type of picture",
-        "crewQuestion": "What picture might show someone sitting for an artist?",
-        "imposterQuestion": "What picture might show a mountain beside an artist?"
+        "hint": "pictures of people",
+        "crewQuestion": "Who might you choose for a portrait?",
+        "imposterQuestion": "Which people could appear in a family photograph?"
       },
       {
         "word": "sharpener",
         "level": "A1",
         "description": "a tool that makes a pencil point sharp",
-        "hint": "art equipment",
-        "crewQuestion": "What can prepare a pencil before drawing?",
-        "imposterQuestion": "What can smooth a line after drawing?"
+        "hint": "pencil shaping equipment",
+        "crewQuestion": "What could you find near a sharpener?",
+        "imposterQuestion": "Which objects might lie on an art desk?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "coloured pencil",
+        "secret": "ruler",
         "kind": "thing",
         "level": "A1"
       },
       {
-        "secret": "drawing board",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "blending stump",
+        "secret": "protractor",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "chalk pastel",
+        "secret": "canvas",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "paper clip",
+        "secret": "easel",
         "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "artist",
+        "kind": "job",
         "level": "A1"
       },
       {
-        "secret": "artist stool",
+        "secret": "statue",
         "kind": "thing",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "comic strip",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "gallery",
+        "kind": "place",
+        "level": "A2"
       },
       {
-        "secret": "sharpener",
+        "secret": "marker",
         "kind": "thing",
         "level": "A1"
       }
@@ -25432,14 +25432,14 @@
     ],
     "hotSeat": [
       {
-        "word": "paint roller",
-        "level": "A1",
-        "description": "a turning cylinder used to cover a large wall"
+        "word": "roller",
+        "level": "A2",
+        "description": "a turning cylinder used to cover walls with color"
       },
       {
-        "word": "water jar",
+        "word": "jar",
         "level": "A1",
-        "description": "a container used to rinse a brush"
+        "description": "a glass container with a wide mouth"
       },
       {
         "word": "apron",
@@ -25447,9 +25447,9 @@
         "description": "a cover worn to keep clothes clean"
       },
       {
-        "word": "paint tray",
+        "word": "tray",
         "level": "A1",
-        "description": "a shallow dish holding paint for a roller"
+        "description": "a flat metal dish used to hold food"
       },
       {
         "word": "masking tape",
@@ -25467,29 +25467,24 @@
         "description": "a cover protecting the floor from splashes"
       },
       {
-        "word": "paint tube",
-        "level": "A1",
-        "description": "a soft container squeezed to release colour"
+        "word": "tube",
+        "level": "A2",
+        "description": "a long hollow shape open at the ends"
       },
       {
-        "word": "wet paper",
+        "word": "wet",
         "level": "A1",
-        "description": "a sheet dampened before colour is added"
+        "description": "covered with water or another liquid"
       },
       {
-        "word": "colour chart",
-        "level": "A1",
-        "description": "a page showing different shades together"
+        "word": "chart",
+        "level": "A2",
+        "description": "a display showing different shades together"
       },
       {
-        "word": "paint sponge",
+        "word": "sponge",
         "level": "A1",
-        "description": "a soft tool that leaves a dotted mark"
-      },
-      {
-        "word": "artist canvas",
-        "level": "A1",
-        "description": "a strong cloth surface prepared for a picture"
+        "description": "a soft sea animal full of small holes"
       },
       {
         "word": "drying rack",
@@ -25497,9 +25492,14 @@
         "description": "a frame where wet artwork can rest"
       },
       {
-        "word": "paint marker",
-        "level": "A2",
-        "description": "a pen filled with coloured liquid"
+        "word": "marker",
+        "level": "A1",
+        "description": "a pen that makes thick colored lines"
+      },
+      {
+        "word": "artist",
+        "level": "A1",
+        "description": "a person who makes pictures or objects"
       }
     ],
     "imposter": [
@@ -25507,89 +25507,89 @@
         "word": "paintbrush",
         "level": "A1",
         "description": "a handled tool with hairs for spreading colour",
-        "hint": "art equipment",
-        "crewQuestion": "What can carry liquid colour onto a canvas?",
-        "imposterQuestion": "What can carry liquid soap onto a canvas?"
+        "hint": "color applying tools",
+        "crewQuestion": "What might you clean after using a paintbrush?",
+        "imposterQuestion": "Which objects would you wash after decorating a cake?"
       },
       {
         "word": "palette",
         "level": "A1",
         "description": "a flat surface used for mixing colours",
-        "hint": "art equipment",
-        "crewQuestion": "Where can an artist test two colours together?",
-        "imposterQuestion": "Where can an artist test two flavours together?"
+        "hint": "color mixing surfaces",
+        "crewQuestion": "What could you mix on a palette?",
+        "imposterQuestion": "Which shades might you test on scrap paper?"
       },
       {
         "word": "canvas",
         "level": "A1",
         "description": "a strong cloth surface used for a picture",
-        "hint": "art surface",
-        "crewQuestion": "What can an artist hang after painting on it?",
-        "imposterQuestion": "What can an artist hang before painting on it?"
+        "hint": "stretched painting fabrics",
+        "crewQuestion": "What might you paint on a large canvas?",
+        "imposterQuestion": "Which scenes could fill a classroom mural?"
       },
       {
         "word": "paint pot",
         "level": "A1",
         "description": "a small container holding liquid colour",
-        "hint": "art equipment",
-        "crewQuestion": "Where can a brush be dipped before painting?",
-        "imposterQuestion": "Where can a brush be cleaned after painting?"
+        "hint": "small color containers",
+        "crewQuestion": "Where could you store an open paint pot?",
+        "imposterQuestion": "Which places might hold a cup of dirty brush water?"
       },
       {
         "word": "easel",
         "level": "A2",
         "description": "a stand holding a picture while someone paints",
-        "hint": "art equipment",
-        "crewQuestion": "What can hold a canvas upright for an artist?",
-        "imposterQuestion": "What can hold a book upright for a reader?"
+        "hint": "upright art supports",
+        "crewQuestion": "What could you put near an easel?",
+        "imposterQuestion": "Which things belong beside an artist's drawing board?"
       },
       {
         "word": "watercolour",
         "level": "A2",
         "description": "paint made thin with water",
-        "hint": "a paint type",
-        "crewQuestion": "What can spread in soft colours on damp paper?",
-        "imposterQuestion": "What can spread in sharp lines on dry paper?"
+        "hint": "water mixed colors",
+        "crewQuestion": "What could you paint using watercolor?",
+        "imposterQuestion": "Which pictures might suit colored pencils?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "paint roller",
+        "secret": "poster",
         "kind": "thing",
         "level": "A1"
       },
       {
-        "secret": "water jar",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "gallery",
+        "kind": "place",
+        "level": "A2"
       },
       {
-        "secret": "paint tray",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "masking tape",
+        "secret": "mural",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "drop cloth",
+        "secret": "painter",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "gouache",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "paint tube",
+        "secret": "turpentine",
         "kind": "thing",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "drying rack",
+        "secret": "stool",
         "kind": "thing",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "paint sponge",
+        "secret": "paint",
         "kind": "thing",
         "level": "A1"
       }
@@ -25768,22 +25768,12 @@
       {
         "word": "stethoscope",
         "level": "A2",
-        "description": "a tool a doctor uses to listen inside a body"
-      },
-      {
-        "word": "scent bottle",
-        "level": "A1",
-        "description": "a small glass container holding a scented liquid"
-      },
-      {
-        "word": "taste test",
-        "level": "A1",
-        "description": "trying food to find out its flavour"
+        "description": "a tool doctors use to listen inside a body"
       },
       {
         "word": "feather",
-        "level": "A1",
-        "description": "a soft light covering from a bird"
+        "level": "A2",
+        "description": "the soft covering that grows on a bird"
       },
       {
         "word": "sandpaper",
@@ -25793,7 +25783,7 @@
       {
         "word": "bell",
         "level": "A1",
-        "description": "a hollow object making a ringing sound"
+        "description": "a sound telling students when class begins"
       },
       {
         "word": "music box",
@@ -25806,24 +25796,34 @@
         "description": "a washing bar with a noticeable smell"
       },
       {
-        "word": "lemon slice",
+        "word": "lemon",
         "level": "A1",
-        "description": "a thin piece of sour yellow fruit"
+        "description": "a yellow sour fruit used in drinks"
       },
       {
-        "word": "chilli pepper",
-        "level": "A1",
-        "description": "a hot red or green food"
-      },
-      {
-        "word": "warm mug",
-        "level": "A1",
-        "description": "a cup that feels hot in your hands"
-      },
-      {
-        "word": "buzzing phone",
+        "word": "chilli",
         "level": "A2",
-        "description": "a device shaking when a call arrives"
+        "description": "a small vegetable that can taste very hot"
+      },
+      {
+        "word": "mug",
+        "level": "A1",
+        "description": "a large cup with a handle"
+      },
+      {
+        "word": "phone",
+        "level": "A1",
+        "description": "a device used to call other people"
+      },
+      {
+        "word": "smooth",
+        "level": "A1",
+        "description": "having a surface without bumps or rough patches"
+      },
+      {
+        "word": "sweet",
+        "level": "A1",
+        "description": "tasting like sugar or honey"
       }
     ],
     "imposter": [
@@ -25831,91 +25831,91 @@
         "word": "sight",
         "level": "A1",
         "description": "the ability to notice things using the eyes",
-        "hint": "a sense",
-        "crewQuestion": "Which sense helps you see a bright rainbow?",
-        "imposterQuestion": "Which sense helps you hear a bright bell?"
+        "hint": "visual human abilities",
+        "crewQuestion": "What details can you notice with your eyes?",
+        "imposterQuestion": "Which things could you describe in a photograph?"
       },
       {
         "word": "hearing",
         "level": "A1",
         "description": "the ability to notice sounds with the ears",
-        "hint": "a sense",
-        "crewQuestion": "Which sense lets you notice music from a speaker?",
-        "imposterQuestion": "Which sense lets you notice perfume from a bottle?"
+        "hint": "sound noticing abilities",
+        "crewQuestion": "What sounds might you hear at a market?",
+        "imposterQuestion": "Which noises could reach you from a busy kitchen?"
       },
       {
         "word": "smell",
         "level": "A1",
         "description": "the ability to notice scents using the nose",
-        "hint": "a sense",
-        "crewQuestion": "Which sense can tell you fresh bread is nearby?",
-        "imposterQuestion": "Which sense can tell you warm bread is nearby?"
+        "hint": "scent sensing abilities",
+        "crewQuestion": "What smells might you notice in a garden?",
+        "imposterQuestion": "Which scents could fill a flower shop?"
       },
       {
         "word": "taste",
         "level": "A1",
         "description": "the ability to notice flavours in food",
-        "hint": "a sense",
-        "crewQuestion": "Which sense helps you know if a lemon is sour?",
-        "imposterQuestion": "Which sense helps you know if a lemon is soft?"
+        "hint": "food sensing abilities",
+        "crewQuestion": "What could taste sweet at breakfast?",
+        "imposterQuestion": "Which snacks might remind you of a dessert?"
       },
       {
         "word": "touch",
         "level": "A1",
         "description": "the ability to feel objects using the skin",
-        "hint": "a sense",
-        "crewQuestion": "Which sense tells you that sandpaper feels rough?",
-        "imposterQuestion": "Which sense tells you that a song sounds loud?"
+        "hint": "skin sensing abilities",
+        "crewQuestion": "What could feel rough in a playground?",
+        "imposterQuestion": "Which objects might be bumpy in an art room?"
       },
       {
         "word": "feather",
         "level": "A1",
         "description": "a soft light covering that grows on a bird",
-        "hint": "a thing you feel",
-        "crewQuestion": "What can brush your hand and feel very soft?",
-        "imposterQuestion": "What can brush your hand and feel very rough?"
+        "hint": "light bird coverings",
+        "crewQuestion": "What could you do with a soft feather?",
+        "imposterQuestion": "Which objects might tickle someone gently?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "blindfold",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "earmuffs",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "stethoscope",
-        "kind": "thing",
-        "level": "A2"
-      },
-      {
-        "secret": "feather",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "sandpaper",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "bell",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "lemon slice",
+        "secret": "orange",
         "kind": "food",
         "level": "A1"
       },
       {
-        "secret": "warm mug",
+        "secret": "velvet",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "drum",
         "kind": "thing",
         "level": "A1"
+      },
+      {
+        "secret": "mirror",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "cinnamon",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "rose",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "chocolate",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "ice cube",
+        "kind": "thing",
+        "level": "A2"
       }
     ]
   },
@@ -26080,29 +26080,19 @@
     ],
     "hotSeat": [
       {
-        "word": "headset mic",
+        "word": "menu",
         "level": "B1",
-        "description": "a small microphone worn near the mouth"
+        "description": "a list showing what food is available"
       },
       {
-        "word": "game menu",
+        "word": "screen",
         "level": "B1",
-        "description": "a screen listing choices before play"
+        "description": "the flat part showing words or pictures"
       },
       {
-        "word": "loading screen",
+        "word": "lobby",
         "level": "B1",
-        "description": "a picture shown while a game opens"
-      },
-      {
-        "word": "game lobby",
-        "level": "B2",
-        "description": "a waiting area before players join a match"
-      },
-      {
-        "word": "health bar",
-        "level": "B1",
-        "description": "a line showing how much strength remains"
+        "description": "a shared area where players gather before matches"
       },
       {
         "word": "checkpoint",
@@ -26110,14 +26100,14 @@
         "description": "a marked place where progress is saved"
       },
       {
-        "word": "game server",
+        "word": "server",
         "level": "B2",
-        "description": "a computer connecting players online"
+        "description": "a computer that handles requests from other machines"
       },
       {
-        "word": "controller cable",
+        "word": "cable",
         "level": "B1",
-        "description": "a wire linking a gamepad to a device"
+        "description": "a covered wire that carries electricity"
       },
       {
         "word": "voice chat",
@@ -26130,24 +26120,34 @@
         "description": "a contest that changes a player’s position"
       },
       {
-        "word": "game update",
-        "level": "B1",
-        "description": "new software changes added to a title"
-      },
-      {
         "word": "pixel art",
         "level": "B1",
         "description": "pictures made from small square dots"
       },
       {
-        "word": "game music",
+        "word": "music",
         "level": "B1",
-        "description": "sounds written to play during a title"
+        "description": "sounds arranged in tunes and rhythms"
       },
       {
-        "word": "player profile",
+        "word": "profile",
         "level": "B1",
-        "description": "a page showing one gamer’s details"
+        "description": "a page describing an account's owner"
+      },
+      {
+        "word": "joystick",
+        "level": "B1",
+        "description": "a control stick used to steer a game"
+      },
+      {
+        "word": "gamer",
+        "level": "B1",
+        "description": "someone who enjoys playing video games"
+      },
+      {
+        "word": "console",
+        "level": "B1",
+        "description": "a machine designed for playing video games"
       }
     ],
     "imposter": [
@@ -26155,89 +26155,89 @@
         "word": "avatar",
         "level": "B1",
         "description": "a player’s character shown on the screen",
-        "hint": "game character",
-        "crewQuestion": "Who can a player guide through a game world?",
-        "imposterQuestion": "Who can a player guide through a film scene?"
+        "hint": "player image characters",
+        "crewQuestion": "What might you change about a game avatar?",
+        "imposterQuestion": "Which details would you choose for a cartoon self-portrait?"
       },
       {
         "word": "controller",
         "level": "B1",
         "description": "a handheld device used to control a game",
-        "hint": "game equipment",
-        "crewQuestion": "What can someone hold to move a character?",
-        "imposterQuestion": "What can someone hold to move a camera?"
+        "hint": "handheld gaming devices",
+        "crewQuestion": "What makes a controller comfortable?",
+        "imposterQuestion": "Which features matter in a television remote?"
       },
       {
         "word": "quest",
         "level": "B2",
         "description": "a task or journey a player needs to complete",
-        "hint": "game task",
-        "crewQuestion": "What might lead a character through several challenges?",
-        "imposterQuestion": "What might lead a traveller through several cities?"
+        "hint": "game challenge journeys",
+        "crewQuestion": "What could be part of a game quest?",
+        "imposterQuestion": "Which tasks might belong in a school treasure hunt?"
       },
       {
         "word": "checkpoint",
         "level": "B1",
         "description": "a marked place where progress is saved",
-        "hint": "game feature",
-        "crewQuestion": "Where can someone return after losing a round?",
-        "imposterQuestion": "Where can someone return after finishing a round?"
+        "hint": "progress saving places",
+        "crewQuestion": "When would you want a checkpoint in a game?",
+        "imposterQuestion": "Which moments suit taking a break during a long project?"
       },
       {
         "word": "boss fight",
         "level": "B1",
         "description": "a difficult battle against a strong enemy",
-        "hint": "game event",
-        "crewQuestion": "What may appear near the end of a game level?",
-        "imposterQuestion": "What may appear near the end of a film?"
+        "hint": "major game opponents",
+        "crewQuestion": "What helps you prepare for a boss fight?",
+        "imposterQuestion": "Which habits suit facing the hardest part of a competition?"
       },
       {
         "word": "multiplayer",
         "level": "B1",
         "description": "a game mode for several people together",
-        "hint": "game mode",
-        "crewQuestion": "How can friends play on the same team online?",
-        "imposterQuestion": "How can friends watch on the same team online?"
+        "hint": "shared player modes",
+        "crewQuestion": "What helps a multiplayer team cooperate?",
+        "imposterQuestion": "Which habits make a group project work smoothly?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "controller",
+        "secret": "keyboard",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "gaming headset",
+        "secret": "mouse",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "health bar",
+        "secret": "headphones",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "game server",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "game menu",
+        "secret": "monitor",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "player profile",
+        "secret": "disc",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "ranked match",
-        "kind": "activity",
-        "level": "B2"
+        "secret": "arcade",
+        "kind": "place",
+        "level": "B1"
       },
       {
-        "secret": "game soundtrack",
+        "secret": "streamer",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "gamepad",
         "kind": "thing",
         "level": "B1"
       }
@@ -26404,14 +26404,14 @@
     ],
     "hotSeat": [
       {
-        "word": "design notebook",
+        "word": "journal",
         "level": "B1",
-        "description": "a book where ideas and sketches are collected"
+        "description": "a book recording observations and ideas over time"
       },
       {
-        "word": "whiteboard sketch",
+        "word": "sketch",
         "level": "B1",
-        "description": "a quick drawing made on a smooth board"
+        "description": "a quick simple picture made with lines"
       },
       {
         "word": "game engine",
@@ -26419,49 +26419,49 @@
         "description": "software used to build and run a game"
       },
       {
-        "word": "bug report",
-        "level": "B2",
-        "description": "a note describing a problem in software"
-      },
-      {
-        "word": "test build",
+        "word": "report",
         "level": "B1",
-        "description": "an early version used before release"
+        "description": "a written account of what you found"
       },
       {
-        "word": "art reference",
-        "level": "B2",
-        "description": "an image used to guide visual design"
-      },
-      {
-        "word": "menu screen",
+        "word": "build",
         "level": "B1",
-        "description": "a page showing choices before a game starts"
+        "description": "a working version of software prepared for testing"
       },
       {
-        "word": "dialogue tree",
+        "word": "reference",
         "level": "B2",
-        "description": "a chart showing possible conversation choices"
+        "description": "a person who can speak about someone’s work"
       },
       {
-        "word": "animation frame",
-        "level": "B2",
-        "description": "one still picture in a moving sequence"
-      },
-      {
-        "word": "level map",
+        "word": "menu",
         "level": "B1",
-        "description": "a drawing of rooms and paths in a stage"
+        "description": "a list showing what food is available"
       },
       {
-        "word": "control scheme",
-        "level": "B2",
-        "description": "the buttons used for each game action"
+        "word": "dialogue",
+        "level": "B1",
+        "description": "words spoken between characters in a story"
       },
       {
-        "word": "player survey",
+        "word": "animation",
+        "level": "B1",
+        "description": "moving pictures made from drawings or models"
+      },
+      {
+        "word": "layout",
         "level": "B2",
-        "description": "questions asking players what they think"
+        "description": "the arrangement of places and objects in a design"
+      },
+      {
+        "word": "controls",
+        "level": "B1",
+        "description": "buttons or keys used to operate a game"
+      },
+      {
+        "word": "survey",
+        "level": "B1",
+        "description": "a collection of questions asking people's opinions"
       },
       {
         "word": "gamepad",
@@ -26469,9 +26469,9 @@
         "description": "a handheld device with buttons for playing"
       },
       {
-        "word": "character sheet",
+        "word": "character",
         "level": "B1",
-        "description": "a page listing a person’s traits and look"
+        "description": "a person or creature in a story"
       }
     ],
     "imposter": [
@@ -26479,90 +26479,90 @@
         "word": "prototype",
         "level": "B1",
         "description": "an early version made to test an idea",
-        "hint": "design stage",
-        "crewQuestion": "What can a designer let players try before launch?",
-        "imposterQuestion": "What can a designer let players watch before launch?"
+        "hint": "early working models",
+        "crewQuestion": "What would you record while testing a prototype?",
+        "imposterQuestion": "Which notes help when trying a new homemade toy?"
       },
       {
         "word": "mechanic",
         "level": "B2",
         "description": "a rule explaining how a game action works",
-        "hint": "design idea",
-        "crewQuestion": "What decides what happens when a player jumps?",
-        "imposterQuestion": "What decides what happens when a player speaks?"
+        "hint": "game action systems",
+        "crewQuestion": "What could make a game mechanic confusing?",
+        "imposterQuestion": "Which problems might make board game rules hard to follow?"
       },
       {
         "word": "bug",
         "level": "B1",
         "description": "a software problem that causes something to go wrong",
-        "hint": "software issue",
-        "crewQuestion": "What can stop a game from working as planned?",
-        "imposterQuestion": "What can stop a phone from charging as planned?"
+        "hint": "unwanted software faults",
+        "crewQuestion": "What might tell you a game has a bug?",
+        "imposterQuestion": "Which signs suggest a phone app is not working properly?"
       },
       {
         "word": "playtest",
         "level": "B1",
         "description": "a trial where people try an unfinished game",
-        "hint": "design stage",
-        "crewQuestion": "What helps a designer learn from real players?",
-        "imposterQuestion": "What helps a designer learn from a finished review?"
+        "hint": "trial gaming sessions",
+        "crewQuestion": "Who could give useful playtest feedback?",
+        "imposterQuestion": "Which people would you ask to try a new board game?"
       },
       {
         "word": "storyboard",
         "level": "B2",
         "description": "a set of drawings planning a story",
-        "hint": "design tool",
-        "crewQuestion": "What can show each scene before a game is built?",
-        "imposterQuestion": "What can show each sound before a game is built?"
+        "hint": "sequence planning drawings",
+        "crewQuestion": "What could you draw in a storyboard?",
+        "imposterQuestion": "Which pictures would explain a short film plan?"
       },
       {
         "word": "game engine",
         "level": "B2",
         "description": "software used to build and run a game",
-        "hint": "software tool",
-        "crewQuestion": "What can a designer use to create a playable world?",
-        "imposterQuestion": "What can a designer use to create a printed book?"
+        "hint": "game building software",
+        "crewQuestion": "What tools could help you learn a game engine?",
+        "imposterQuestion": "Which resources might teach you to use animation software?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "design notebook",
+        "secret": "programmer",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "animator",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "desk lamp",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "game engine",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "bug report",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "menu screen",
+        "secret": "mouse",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "dialogue tree",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "level map",
+        "secret": "whiteboard",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "survey form",
+        "secret": "stylus",
         "kind": "thing",
-        "level": "B2"
+        "level": "B1"
       },
       {
-        "secret": "character sheet",
+        "secret": "tablet",
         "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "studio",
+        "kind": "place",
         "level": "B1"
       }
     ]
@@ -26728,9 +26728,9 @@
     ],
     "hotSeat": [
       {
-        "word": "team jersey",
+        "word": "jersey",
         "level": "B1",
-        "description": "a shirt worn by players with matching colours"
+        "description": "a shirt worn by a player"
       },
       {
         "word": "gaming chair",
@@ -26743,34 +26743,24 @@
         "description": "earphones and a microphone worn during play"
       },
       {
-        "word": "stage match",
-        "level": "B1",
-        "description": "one game played as part of a larger competition"
-      },
-      {
-        "word": "analyst desk",
+        "word": "analyst",
         "level": "B2",
-        "description": "a table where experts discuss game strategies"
+        "description": "someone who studies performances and explains patterns"
       },
       {
-        "word": "team logo",
+        "word": "logo",
         "level": "B1",
-        "description": "a picture used to represent a group"
+        "description": "a recognizable symbol used by an organization"
       },
       {
-        "word": "practice room",
+        "word": "trophy",
         "level": "B1",
-        "description": "a place where players train together"
+        "description": "a large prize awarded for winning a competition"
       },
       {
-        "word": "championship trophy",
-        "level": "B1",
-        "description": "a cup given to the strongest team"
-      },
-      {
-        "word": "game draft",
+        "word": "selection",
         "level": "B2",
-        "description": "a stage where teams choose characters"
+        "description": "the process of choosing players for a match"
       },
       {
         "word": "live chat",
@@ -26778,24 +26768,34 @@
         "description": "messages viewers send during an online show"
       },
       {
-        "word": "game replay",
+        "word": "replay",
         "level": "B1",
-        "description": "a recording that lets viewers watch again"
+        "description": "a recording shown again to examine what happened"
       },
       {
-        "word": "player list",
-        "level": "B2",
-        "description": "names of the people on one team"
+        "word": "list",
+        "level": "B1",
+        "description": "items written one after another"
       },
       {
-        "word": "referee whistle",
+        "word": "penalty",
         "level": "B1",
-        "description": "a small tool blown to stop play"
+        "description": "a punishment given for breaking a game rule"
       },
       {
         "word": "scoreboard",
         "level": "B1",
-        "description": "a display showing points and match results"
+        "description": "a display showing points and progress"
+      },
+      {
+        "word": "championship",
+        "level": "B1",
+        "description": "a competition to decide the best player or team"
+      },
+      {
+        "word": "audience",
+        "level": "B1",
+        "description": "people watching and listening to a show"
       }
     ],
     "imposter": [
@@ -26803,91 +26803,91 @@
         "word": "tournament",
         "level": "B1",
         "description": "a series of matches to choose a winner",
-        "hint": "a competition",
-        "crewQuestion": "What event brings teams together over several rounds?",
-        "imposterQuestion": "What event brings musicians together over several rounds?"
+        "hint": "competitive gaming events",
+        "crewQuestion": "What might you pack for a gaming tournament?",
+        "imposterQuestion": "Which items belong in a bag for a chess competition?"
       },
       {
         "word": "practice",
         "level": "B1",
         "description": "repeated work to improve a skill",
-        "hint": "a training activity",
-        "crewQuestion": "What helps players get better before a competition?",
-        "imposterQuestion": "What helps players get better after a competition?"
+        "hint": "repeated skill sessions",
+        "crewQuestion": "What makes practice useful for a team?",
+        "imposterQuestion": "Which habits help a band improve together?"
       },
       {
         "word": "commentator",
         "level": "B2",
         "description": "a person describing a game for people watching",
-        "hint": "a media role",
-        "crewQuestion": "Who explains the action while viewers watch a match?",
-        "imposterQuestion": "Who explains the action while players take a break?"
+        "hint": "live describing jobs",
+        "crewQuestion": "What might a commentator describe during a match?",
+        "imposterQuestion": "Which details could a sports reporter mention on radio?"
       },
       {
         "word": "streamer",
         "level": "B1",
         "description": "a person sharing gameplay live on the internet",
-        "hint": "a media role",
-        "crewQuestion": "Who can send a match to viewers in real time?",
-        "imposterQuestion": "Who can send a match to viewers after it ends?"
+        "hint": "online broadcasting jobs",
+        "crewQuestion": "What equipment might a streamer use?",
+        "imposterQuestion": "Which tools help someone make a video podcast?"
       },
       {
         "word": "coach",
         "level": "B1",
         "description": "a person who teaches a team how to improve",
-        "hint": "a team role",
-        "crewQuestion": "Who may help players make a better plan?",
-        "imposterQuestion": "Who may help viewers make a better plan?"
+        "hint": "team training jobs",
+        "crewQuestion": "What advice could a coach give before a match?",
+        "imposterQuestion": "Which reminders might a club leader give before a show?"
       },
       {
         "word": "championship trophy",
         "level": "B1",
         "description": "a cup given to the winning team",
-        "hint": "an award",
-        "crewQuestion": "What might players lift after winning a final?",
-        "imposterQuestion": "What might players lift before starting a final?"
+        "hint": "competition prize objects",
+        "crewQuestion": "Where could you display a championship trophy?",
+        "imposterQuestion": "Which places might hold a school award?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "gaming chair",
+        "secret": "keyboard",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "trophy",
+        "secret": "mouse",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "team logo",
+        "secret": "webcam",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "championship trophy",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "practice room",
+        "secret": "stage",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "game controller",
-        "kind": "activity",
-        "level": "B2"
+        "secret": "arena",
+        "kind": "place",
+        "level": "B1"
       },
       {
-        "secret": "live chat",
+        "secret": "sponsor",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "lanyard",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "team shirt",
+        "secret": "monitor",
         "kind": "thing",
-        "level": "B2"
+        "level": "B1"
       }
     ]
   },
@@ -27052,74 +27052,74 @@
     ],
     "hotSeat": [
       {
-        "word": "privacy menu",
+        "word": "privacy",
+        "level": "B1",
+        "description": "keeping personal information away from unwanted viewers"
+      },
+      {
+        "word": "archive",
         "level": "B2",
-        "description": "a screen where someone changes who can see things"
+        "description": "a collection of older material kept for reference"
       },
       {
-        "word": "story archive",
+        "word": "like",
+        "level": "B1",
+        "description": "a quick response showing approval of a post"
+      },
+      {
+        "word": "share",
+        "level": "B1",
+        "description": "letting another person use something too"
+      },
+      {
+        "word": "draft",
+        "level": "B1",
+        "description": "an unfinished version of a piece of writing"
+      },
+      {
+        "word": "caption",
+        "level": "B1",
+        "description": "words placed beside an image for meaning"
+      },
+      {
+        "word": "blocked",
+        "level": "B1",
+        "description": "prevented from contacting or viewing an account"
+      },
+      {
+        "word": "settings",
+        "level": "B1",
+        "description": "controls that change how an app behaves"
+      },
+      {
+        "word": "warning",
+        "level": "B1",
+        "description": "a message telling you about a possible problem"
+      },
+      {
+        "word": "search",
+        "level": "B1",
+        "description": "looking for information using chosen words"
+      },
+      {
+        "word": "biography",
         "level": "B2",
-        "description": "a saved collection of temporary posts"
+        "description": "a written description of someone's life"
       },
       {
-        "word": "like button",
+        "word": "report",
         "level": "B1",
-        "description": "a control showing that someone approves of a post"
+        "description": "a written account of what you found"
       },
       {
-        "word": "share icon",
+        "word": "reply",
         "level": "B1",
-        "description": "a small picture used to send content onward"
+        "description": "an answer sent after receiving a message"
       },
       {
-        "word": "draft post",
-        "level": "B1",
-        "description": "a message saved before being published"
-      },
-      {
-        "word": "caption box",
-        "level": "B1",
-        "description": "a space for writing words beside a picture"
-      },
-      {
-        "word": "blocked account",
+        "word": "usage",
         "level": "B2",
-        "description": "a user prevented from contacting someone"
-      },
-      {
-        "word": "account settings",
-        "level": "B1",
-        "description": "a screen for changing profile choices"
-      },
-      {
-        "word": "content warning",
-        "level": "B2",
-        "description": "a note describing difficult material in a post"
-      },
-      {
-        "word": "search bar",
-        "level": "B1",
-        "description": "a box used to look for names or topics"
-      },
-      {
-        "word": "profile bio",
-        "level": "B1",
-        "description": "a short description written about an account"
-      },
-      {
-        "word": "report button",
-        "level": "B1",
-        "description": "a control used to alert staff about a problem"
-      },
-      {
-        "word": "comment reply",
-        "level": "B1",
-        "description": "a written answer to another person’s message"
-      },
-      {
-        "word": "usage chart",
-        "level": "B2",
-        "description": "a display showing time spent on an app"
+        "description": "the amount or way something is used"
       }
     ],
     "imposter": [
@@ -27127,90 +27127,90 @@
         "word": "feed",
         "level": "B1",
         "description": "a stream of posts shown on an app",
-        "hint": "an app feature",
-        "crewQuestion": "Where might someone scroll to see new posts?",
-        "imposterQuestion": "Where might someone scroll to see old posts?"
+        "hint": "scrolling content streams",
+        "crewQuestion": "What could appear in your social feed?",
+        "imposterQuestion": "Which items might be on a school news page?"
       },
       {
         "word": "hashtag",
         "level": "B1",
         "description": "a word with a symbol grouping online posts",
-        "hint": "an app feature",
-        "crewQuestion": "What can help users find posts on one topic?",
-        "imposterQuestion": "What can help users hide posts on one topic?"
+        "hint": "searchable topic labels",
+        "crewQuestion": "What might you include in a hashtag?",
+        "imposterQuestion": "Which words could make a poster's headline clear?"
       },
       {
         "word": "follower",
         "level": "B1",
         "description": "a person who chooses to see an account’s posts",
-        "hint": "an online role",
-        "crewQuestion": "Who may receive updates from a public creator?",
-        "imposterQuestion": "Who may send updates to a public creator?"
+        "hint": "online audience members",
+        "crewQuestion": "Why might someone choose to follow a creator?",
+        "imposterQuestion": "What could make a student join a new school club?"
       },
       {
         "word": "direct message",
         "level": "B2",
         "description": "a private note sent to one account",
-        "hint": "online communication",
-        "crewQuestion": "What can someone send without posting it publicly?",
-        "imposterQuestion": "What can someone post without sending it privately?"
+        "hint": "private online messages",
+        "crewQuestion": "What might you send in a direct message?",
+        "imposterQuestion": "Which details belong in a private note to a friend?"
       },
       {
         "word": "notification",
         "level": "B1",
         "description": "a message telling someone something has happened",
-        "hint": "an app feature",
-        "crewQuestion": "What can appear when a friend sends a new note?",
-        "imposterQuestion": "What can disappear when a friend sends a new note?"
+        "hint": "automatic device alerts",
+        "crewQuestion": "When would you turn off notifications?",
+        "imposterQuestion": "Which situations make you silence a ringing phone?"
       },
       {
         "word": "algorithm",
         "level": "B2",
         "description": "a system choosing which posts a user sees",
-        "hint": "an app system",
-        "crewQuestion": "What may sort videos based on what someone watches?",
-        "imposterQuestion": "What may sort books based on what someone reads?"
+        "hint": "automatic selection systems",
+        "crewQuestion": "What could influence an algorithm's recommendations?",
+        "imposterQuestion": "Which details might help a librarian suggest a book?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "like button",
+        "secret": "smartphone",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "story archive",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "privacy menu",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "caption box",
+        "secret": "webcam",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "search bar",
+        "secret": "selfie stick",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "account settings",
+        "secret": "tripod",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "content creator",
+        "secret": "influencer",
         "kind": "job",
         "level": "B1"
       },
       {
-        "secret": "group chat",
-        "kind": "activity",
+        "secret": "computer",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "tablet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "microphone",
+        "kind": "thing",
         "level": "B1"
       }
     ]
@@ -27386,11 +27386,6 @@
         "description": "a small slider blocking a device lens"
       },
       {
-        "word": "app permission",
-        "level": "B1",
-        "description": "a choice allowing an app to use a feature"
-      },
-      {
         "word": "security question",
         "level": "B1",
         "description": "a personal prompt used to check an account owner"
@@ -27401,49 +27396,54 @@
         "description": "a list of pages opened before"
       },
       {
-        "word": "privacy policy",
-        "level": "B2",
-        "description": "a page explaining what happens to personal details"
-      },
-      {
         "word": "login alert",
         "level": "B1",
         "description": "a message about someone entering an account"
       },
       {
-        "word": "secure message",
-        "level": "B2",
-        "description": "a note protected from outside readers"
-      },
-      {
-        "word": "data download",
-        "level": "B2",
-        "description": "a copy of information saved from an account"
-      },
-      {
-        "word": "account recovery",
-        "level": "B2",
-        "description": "steps for getting back into a locked profile"
-      },
-      {
-        "word": "private window",
-        "level": "B2",
-        "description": "a browser mode that saves less local history"
-      },
-      {
-        "word": "location icon",
+        "word": "message",
         "level": "B1",
-        "description": "a symbol showing when an app uses place details"
+        "description": "words sent to another person electronically"
       },
       {
-        "word": "device list",
-        "level": "B1",
-        "description": "a page naming phones or computers using an account"
+        "word": "policy",
+        "level": "B2",
+        "description": "a written set of rules for handling information"
       },
       {
-        "word": "verification code",
+        "word": "recovery",
         "level": "B1",
-        "description": "a short number proving someone can sign in"
+        "description": "rest and repair after exercise"
+      },
+      {
+        "word": "verification",
+        "level": "B2",
+        "description": "a check that something or someone is genuine"
+      },
+      {
+        "word": "encryption",
+        "level": "B2",
+        "description": "changing information so others cannot read it"
+      },
+      {
+        "word": "identity",
+        "level": "B1",
+        "description": "the details that make you a particular person"
+      },
+      {
+        "word": "device",
+        "level": "B1",
+        "description": "an electronic object used for a purpose"
+      },
+      {
+        "word": "download",
+        "level": "B1",
+        "description": "moving a game onto a device from online"
+      },
+      {
+        "word": "account",
+        "level": "B1",
+        "description": "your personal access to an online service"
       }
     ],
     "imposter": [
@@ -27451,89 +27451,89 @@
         "word": "personal data",
         "level": "B1",
         "description": "details about someone that can identify them",
-        "hint": "online information",
-        "crewQuestion": "What might an app collect about a user?",
-        "imposterQuestion": "What might an app show about a user?"
+        "hint": "identifying personal information",
+        "crewQuestion": "What details could identify you online?",
+        "imposterQuestion": "Which information might someone find on a club signup form?"
       },
       {
         "word": "privacy setting",
         "level": "B1",
         "description": "a choice about who can see account details",
-        "hint": "account control",
-        "crewQuestion": "Where can someone limit who sees their posts?",
-        "imposterQuestion": "Where can someone choose who sees their posts?"
+        "hint": "information sharing controls",
+        "crewQuestion": "What would you check in privacy settings?",
+        "imposterQuestion": "Which controls matter before sharing a school photograph?"
       },
       {
         "word": "permission",
         "level": "B1",
         "description": "agreement that allows an action to happen",
-        "hint": "online choice",
-        "crewQuestion": "What should someone give before an app uses a camera?",
-        "imposterQuestion": "What should someone take away before an app uses a camera?"
+        "hint": "user agreement requests",
+        "crewQuestion": "When should an app ask permission?",
+        "imposterQuestion": "Which actions need agreement before using a friend's device?"
       },
       {
         "word": "secure password",
         "level": "B1",
         "description": "a secret word protecting access to an account",
-        "hint": "account safety",
-        "crewQuestion": "What should be hard for others to guess?",
-        "imposterQuestion": "What should be easy for others to guess?"
+        "hint": "account protection phrases",
+        "crewQuestion": "What makes a password difficult to guess?",
+        "imposterQuestion": "Which features would make a locker code harder to predict?"
       },
       {
         "word": "two-factor code",
         "level": "B2",
         "description": "a short number used with a password",
-        "hint": "account safety",
-        "crewQuestion": "What extra detail may arrive by text during sign-in?",
-        "imposterQuestion": "What extra detail may arrive after signing out?"
+        "hint": "extra login checks",
+        "crewQuestion": "Where would you keep a login code safely?",
+        "imposterQuestion": "Which places might protect a spare house key?"
       },
       {
         "word": "identity theft",
         "level": "B2",
         "description": "using someone’s details to pretend to be them",
-        "hint": "online risk",
-        "crewQuestion": "What crime happens when a person misuses another’s details?",
-        "imposterQuestion": "What crime happens when a person protects another’s details?"
+        "hint": "stolen personal identities",
+        "crewQuestion": "What signs might make you suspect identity theft?",
+        "imposterQuestion": "Which changes could suggest someone has used your phone?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "password manager",
+        "secret": "phone",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "laptop",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "webcam",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "router",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "USB drive",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "padlock",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "security key",
         "kind": "thing",
         "level": "B2"
       },
       {
-        "secret": "camera cover",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "security question",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "browser history",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "privacy policy",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "login alert",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "encrypted message",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "device list",
+        "secret": "shredder",
         "kind": "thing",
         "level": "B1"
       }
@@ -27700,74 +27700,74 @@
     ],
     "hotSeat": [
       {
-        "word": "phone dock",
+        "word": "dock",
         "level": "B1",
-        "description": "a stand that holds a phone while charging"
+        "description": "a holder where a device sits to charge"
       },
       {
-        "word": "charging station",
+        "word": "charger",
         "level": "B1",
-        "description": "a place where several devices can get power"
+        "description": "equipment that supplies electricity to a portable device"
       },
       {
-        "word": "focus timer",
+        "word": "timer",
         "level": "B1",
-        "description": "a clock counting down a work period"
+        "description": "a device that counts down cooking minutes"
       },
       {
-        "word": "analog clock",
+        "word": "clock",
         "level": "B1",
-        "description": "a timepiece with moving hands and numbers"
+        "description": "a device with hands that shows the time"
       },
       {
-        "word": "reading lamp",
+        "word": "lamp",
         "level": "B1",
-        "description": "a small light used while reading"
+        "description": "an object that gives light indoors"
       },
       {
-        "word": "paper planner",
+        "word": "planner",
         "level": "B1",
-        "description": "a notebook for writing future tasks"
+        "description": "a book for organizing appointments and tasks"
       },
       {
-        "word": "bedside table",
+        "word": "desk",
         "level": "B1",
-        "description": "a small piece of furniture beside a bed"
+        "description": "a piece of furniture used for work"
       },
       {
-        "word": "exercise mat",
+        "word": "mat",
         "level": "B1",
-        "description": "a soft surface used for stretches or floor work"
+        "description": "a flat pad used for stretching on the floor"
       },
       {
-        "word": "alert badge",
+        "word": "badge",
         "level": "B1",
-        "description": "a small mark showing a new message"
+        "description": "a small sign worn to show who you are"
       },
       {
-        "word": "weekly summary",
-        "level": "B2",
-        "description": "a report showing activity over seven days"
-      },
-      {
-        "word": "quiet mode",
-        "level": "B2",
-        "description": "a setting that silences alerts"
-      },
-      {
-        "word": "alarm clock",
+        "word": "summary",
         "level": "B1",
-        "description": "a device that makes a sound at a chosen time"
+        "description": "a short account of the most important details"
       },
       {
-        "word": "tablet stand",
+        "word": "alarm",
         "level": "B1",
-        "description": "a support holding a flat device upright"
+        "description": "a sound set to warn or wake you"
       },
       {
-        "word": "screen filter",
-        "level": "B2",
-        "description": "a cover that changes light from a display"
+        "word": "stand",
+        "level": "B1",
+        "description": "a support that holds a tablet upright"
+      },
+      {
+        "word": "filter",
+        "level": "B1",
+        "description": "something placed over a screen to change its light"
+      },
+      {
+        "word": "offline",
+        "level": "B1",
+        "description": "not connected to an internet service"
       }
     ],
     "imposter": [
@@ -27775,89 +27775,89 @@
         "word": "screen time",
         "level": "B1",
         "description": "the number of hours someone uses a device",
-        "hint": "digital habit",
-        "crewQuestion": "How long might someone spend on a phone each day?",
-        "imposterQuestion": "How long might someone spend on a book each day?"
+        "hint": "device usage time",
+        "crewQuestion": "When might you notice too much screen use?",
+        "imposterQuestion": "Which signs show you have sat reading for too long?"
       },
       {
         "word": "focus mode",
         "level": "B2",
         "description": "a setting that blocks distractions during work",
-        "hint": "device setting",
-        "crewQuestion": "What can help a student finish homework without alerts?",
-        "imposterQuestion": "What can help a student finish homework with alerts?"
+        "hint": "distraction reducing settings",
+        "crewQuestion": "What helps you concentrate with a phone nearby?",
+        "imposterQuestion": "Which habits help you study in a busy room?"
       },
       {
         "word": "daily limit",
         "level": "B1",
         "description": "the maximum amount allowed in one day",
-        "hint": "device setting",
-        "crewQuestion": "What can stop an app after a chosen period?",
-        "imposterQuestion": "What can start an app after a chosen period?"
+        "hint": "usage time limits",
+        "crewQuestion": "What could remind you to stop scrolling?",
+        "imposterQuestion": "Which signals might tell you to take a study break?"
       },
       {
         "word": "break reminder",
         "level": "B1",
         "description": "a message suggesting someone pause an activity",
-        "hint": "device message",
-        "crewQuestion": "What might appear after a long time looking at a display?",
-        "imposterQuestion": "What might appear before a long time looking at a display?"
+        "hint": "scheduled rest notices",
+        "crewQuestion": "When would you set a break reminder?",
+        "imposterQuestion": "Which activities might need a regular rest alarm?"
       },
       {
         "word": "eye strain",
         "level": "B2",
         "description": "sore or tired eyes after looking closely",
-        "hint": "a health effect",
-        "crewQuestion": "What might happen after reading small words for hours?",
-        "imposterQuestion": "What might happen after resting eyes for hours?"
+        "hint": "visual tiredness symptoms",
+        "crewQuestion": "What might help tired eyes feel better?",
+        "imposterQuestion": "Which habits make working under bright lights easier?"
       },
       {
         "word": "alarm clock",
         "level": "B1",
         "description": "a device making a sound at a chosen time",
-        "hint": "a household item",
-        "crewQuestion": "What can wake someone at a planned hour?",
-        "imposterQuestion": "What can help someone sleep at a planned hour?"
+        "hint": "wake up devices",
+        "crewQuestion": "Where would you put an alarm clock?",
+        "imposterQuestion": "Which places suit keeping a watch overnight?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "focus timer",
+        "secret": "book",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "analog clock",
+        "secret": "bicycle",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "reading lamp",
+        "secret": "board game",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "paper planner",
+        "secret": "guitar",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "exercise mat",
+        "secret": "hammock",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "weekly summary",
-        "kind": "thing",
-        "level": "B2"
+        "secret": "botanical garden",
+        "kind": "place",
+        "level": "B1"
       },
       {
-        "secret": "alarm clock",
+        "secret": "jigsaw",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "tablet stand",
+        "secret": "sketchbook",
         "kind": "thing",
         "level": "B1"
       }
@@ -28024,74 +28024,74 @@
     ],
     "hotSeat": [
       {
-        "word": "browser cache",
+        "word": "cache",
         "level": "B2",
-        "description": "saved pieces of web pages that load more quickly"
+        "description": "saved copies that help websites load again quickly"
       },
       {
-        "word": "old profile",
+        "word": "profile",
         "level": "B1",
-        "description": "an earlier account page with personal details"
+        "description": "a page describing an account's owner"
       },
       {
-        "word": "account history",
+        "word": "history",
         "level": "B1",
-        "description": "a list of actions taken on a profile"
+        "description": "a record of pages visited in the past"
       },
       {
-        "word": "photo tag",
+        "word": "tag",
         "level": "B1",
-        "description": "a label connecting a person to an image"
+        "description": "a small label showing a pet's name"
       },
       {
-        "word": "web search",
+        "word": "search",
         "level": "B1",
-        "description": "looking through websites for information"
+        "description": "looking for information using chosen words"
       },
       {
-        "word": "cookie settings",
+        "word": "cookie",
         "level": "B2",
-        "description": "choices about small files used by a site"
+        "description": "a small file used to remember website information"
       },
       {
-        "word": "data request",
-        "level": "B2",
-        "description": "a message asking for a copy of saved details"
-      },
-      {
-        "word": "public comment",
+        "word": "request",
         "level": "B1",
-        "description": "a response visible to other internet users"
+        "description": "a message asking for something to be done"
       },
       {
-        "word": "account deletion",
-        "level": "B2",
-        "description": "the removal of a profile from a service"
-      },
-      {
-        "word": "download folder",
+        "word": "comment",
         "level": "B1",
-        "description": "a place holding files saved from websites"
+        "description": "a written response beneath an online post"
       },
       {
-        "word": "location history",
+        "word": "deletion",
         "level": "B2",
-        "description": "a list of places recorded by a device"
+        "description": "the removal of a stored file or account"
       },
       {
-        "word": "profile link",
+        "word": "folder",
         "level": "B1",
-        "description": "a web address leading to someone’s account"
+        "description": "a place for grouping files on a computer"
       },
       {
-        "word": "archive button",
-        "level": "B2",
-        "description": "a control that stores a post out of view"
+        "word": "location",
+        "level": "B1",
+        "description": "the place where a person or device is"
       },
       {
-        "word": "online portfolio",
+        "word": "link",
+        "level": "B1",
+        "description": "a clickable connection to another online page"
+      },
+      {
+        "word": "archive",
         "level": "B2",
-        "description": "a website showing someone’s work"
+        "description": "a collection of older material kept for reference"
+      },
+      {
+        "word": "portfolio",
+        "level": "B1",
+        "description": "a collection showing examples of someone’s work"
       }
     ],
     "imposter": [
@@ -28099,90 +28099,90 @@
         "word": "digital footprint",
         "level": "B1",
         "description": "information left behind by using websites and apps",
-        "hint": "online information",
-        "crewQuestion": "What record can grow as someone visits more sites?",
-        "imposterQuestion": "What record can shrink as someone deletes old files?"
+        "hint": "online activity traces",
+        "crewQuestion": "What could reveal where you have been online?",
+        "imposterQuestion": "Which records might show your visits to a library website?"
       },
       {
         "word": "search history",
         "level": "B1",
         "description": "a list of pages opened in a browser",
-        "hint": "online information",
-        "crewQuestion": "Where could someone find what they looked up yesterday?",
-        "imposterQuestion": "Where could someone find what they saved yesterday?"
+        "hint": "past browsing records",
+        "crewQuestion": "What would you remove from a shared search history?",
+        "imposterQuestion": "Which details might you erase from a borrowed notebook?"
       },
       {
         "word": "metadata",
         "level": "B2",
         "description": "information describing when or how a file was made",
-        "hint": "file information",
-        "crewQuestion": "What details can stay inside a photo after sharing?",
-        "imposterQuestion": "What details can stay inside a box after shipping?"
+        "hint": "hidden file details",
+        "crewQuestion": "What could a photo's metadata reveal?",
+        "imposterQuestion": "Which information might be printed on a travel receipt?"
       },
       {
         "word": "tagged photo",
         "level": "B1",
         "description": "a picture connected to someone’s account name",
-        "hint": "online image",
-        "crewQuestion": "What might friends see after adding your name to a picture?",
-        "imposterQuestion": "What might friends see after removing your name from a picture?"
+        "hint": "named shared pictures",
+        "crewQuestion": "What would you check before tagging a photo?",
+        "imposterQuestion": "Which things matter before naming people in a school newsletter?"
       },
       {
         "word": "public post",
         "level": "B1",
         "description": "a message anyone online can read",
-        "hint": "online content",
-        "crewQuestion": "What can strangers see if an account is open?",
-        "imposterQuestion": "What can only friends see if an account is closed?"
+        "hint": "openly shared messages",
+        "crewQuestion": "What could make a public post embarrassing later?",
+        "imposterQuestion": "Which details might you regret including in a school speech?"
       },
       {
         "word": "browser cache",
         "level": "B2",
         "description": "saved page pieces that make sites load faster",
-        "hint": "browser data",
-        "crewQuestion": "What can a browser keep to open a page quickly again?",
-        "imposterQuestion": "What can a browser clear to open a page slowly again?"
+        "hint": "stored website copies",
+        "crewQuestion": "Why might you clear a browser cache?",
+        "imposterQuestion": "What problems could make you tidy a computer's download folder?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "browser cache",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "old profile",
+        "secret": "hard drive",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "photo tag",
+        "secret": "computer",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "cookie settings",
+        "secret": "smartphone",
         "kind": "thing",
-        "level": "B2"
+        "level": "B1"
       },
       {
-        "secret": "download folder",
+        "secret": "memory card",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "printer",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "scanner",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "USB drive",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "data centre",
         "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "location history",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "archive button",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "online portfolio",
-        "kind": "thing",
         "level": "B2"
       }
     ]
@@ -28348,74 +28348,74 @@
     ],
     "hotSeat": [
       {
-        "word": "meme page",
+        "word": "page",
         "level": "B1",
-        "description": "a website or account collecting shared jokes"
+        "description": "one part of a website shown on screen"
       },
       {
-        "word": "comment thread",
-        "level": "B1",
-        "description": "a line of replies below a post"
-      },
-      {
-        "word": "image editor",
+        "word": "thread",
         "level": "B2",
-        "description": "software for changing a picture"
+        "description": "a connected series of messages about one subject"
       },
       {
-        "word": "reaction sticker",
+        "word": "editor",
         "level": "B1",
-        "description": "a small image used to respond to a message"
+        "description": "someone who selects and improves material before publication"
       },
       {
-        "word": "funny screenshot",
+        "word": "sticker",
         "level": "B1",
-        "description": "a captured image showing something amusing"
+        "description": "a decorative image sent in an online message"
       },
       {
-        "word": "share button",
+        "word": "screenshot",
         "level": "B1",
-        "description": "a control used to send a post to others"
+        "description": "a saved image of what a screen shows"
       },
       {
-        "word": "viral clip",
+        "word": "button",
         "level": "B1",
-        "description": "a short video seen by many people quickly"
+        "description": "a small part pressed to start a machine"
       },
       {
-        "word": "comic panel",
+        "word": "clip",
         "level": "B1",
-        "description": "one framed picture in a drawn story"
+        "description": "a short section of video or audio"
+      },
+      {
+        "word": "panel",
+        "level": "B1",
+        "description": "a flat surface holding a machine's controls"
       },
       {
         "word": "caption box",
         "level": "B1",
-        "description": "a space where words can be added to a picture"
+        "description": "a space for writing words beside a picture"
       },
       {
-        "word": "trend chart",
-        "level": "B2",
-        "description": "a display tracking what becomes popular"
-      },
-      {
-        "word": "parody account",
-        "level": "B2",
-        "description": "a profile that imitates someone for comedy"
-      },
-      {
-        "word": "emoji reply",
+        "word": "chart",
         "level": "B1",
-        "description": "a response made with a small symbol"
+        "description": "a display showing different shades together"
       },
       {
-        "word": "post draft",
+        "word": "account",
         "level": "B1",
-        "description": "a saved message that is not published yet"
+        "description": "your personal access to an online service"
       },
       {
-        "word": "format gallery",
-        "level": "B2",
-        "description": "a collection showing different joke layouts"
+        "word": "emoji",
+        "level": "B1",
+        "description": "a small symbol showing a feeling or idea"
+      },
+      {
+        "word": "draft",
+        "level": "B1",
+        "description": "an unfinished version of a piece of writing"
+      },
+      {
+        "word": "gallery",
+        "level": "B1",
+        "description": "a collection of images arranged for viewing"
       }
     ],
     "imposter": [
@@ -28423,91 +28423,91 @@
         "word": "meme",
         "level": "B1",
         "description": "a funny image or phrase shared online",
-        "hint": "internet humour",
-        "crewQuestion": "What can people copy and change to make a joke?",
-        "imposterQuestion": "What can people copy and change to make a lesson?"
+        "hint": "shared internet jokes",
+        "crewQuestion": "What might make a meme funny to friends?",
+        "imposterQuestion": "Which details could make a cartoon entertaining to classmates?"
       },
       {
         "word": "caption",
         "level": "B1",
         "description": "words placed beside an image for meaning",
-        "hint": "internet content",
-        "crewQuestion": "What can explain a picture with a short joke?",
-        "imposterQuestion": "What can explain a picture with a long report?"
+        "hint": "picture explaining words",
+        "crewQuestion": "What could you add to an image caption?",
+        "imposterQuestion": "Which words might explain a picture in a scrapbook?"
       },
       {
         "word": "remix",
         "level": "B1",
         "description": "a changed version made from something existing",
-        "hint": "internet action",
-        "crewQuestion": "What can a user make from an old video clip?",
-        "imposterQuestion": "What can a user watch instead of an old video clip?"
+        "hint": "creative reused works",
+        "crewQuestion": "What would you change when remixing a clip?",
+        "imposterQuestion": "Which features might you alter in a song cover?"
       },
       {
         "word": "parody",
         "level": "B2",
         "description": "an imitation made to create comedy",
-        "hint": "internet humour",
-        "crewQuestion": "What can make fun of a famous style or person?",
-        "imposterQuestion": "What can praise a famous style or person?"
+        "hint": "comic imitation styles",
+        "crewQuestion": "What could a parody exaggerate?",
+        "imposterQuestion": "Which details might a cartoon make deliberately larger?"
       },
       {
         "word": "template",
         "level": "B1",
         "description": "a model others can copy to make a new item",
-        "hint": "internet content",
-        "crewQuestion": "What helps many people make versions of one joke?",
-        "imposterQuestion": "What helps many people delete versions of one joke?"
+        "hint": "reusable image layouts",
+        "crewQuestion": "What makes a meme template easy to reuse?",
+        "imposterQuestion": "Which features help people adapt a poster design?"
       },
       {
         "word": "reaction image",
         "level": "B2",
         "description": "a picture used to show a feeling or response",
-        "hint": "internet content",
-        "crewQuestion": "What might someone send instead of writing a reply?",
-        "imposterQuestion": "What might someone write instead of sending a reply?"
+        "hint": "visual feeling responses",
+        "crewQuestion": "When might you send a reaction image?",
+        "imposterQuestion": "Which situations could make you reply with an emoji?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "meme page",
+        "secret": "cat",
+        "kind": "animal",
+        "level": "B1"
+      },
+      {
+        "secret": "dog",
+        "kind": "animal",
+        "level": "B1"
+      },
+      {
+        "secret": "frog",
+        "kind": "animal",
+        "level": "B1"
+      },
+      {
+        "secret": "printer",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "image editor",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "reaction sticker",
+        "secret": "smartphone",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "funny screenshot",
+        "secret": "ring light",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "share button",
+        "secret": "megaphone",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "comic panel",
-        "kind": "thing",
+        "secret": "cartoonist",
+        "kind": "job",
         "level": "B1"
-      },
-      {
-        "secret": "trend chart",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "parody account",
-        "kind": "thing",
-        "level": "B2"
       }
     ]
   },
@@ -28672,14 +28672,14 @@
     ],
     "hotSeat": [
       {
-        "word": "chat window",
-        "level": "B1",
-        "description": "a box where someone writes messages to software"
+        "word": "interface",
+        "level": "B2",
+        "description": "the visible controls used to interact with software"
       },
       {
-        "word": "voice recorder",
+        "word": "recorder",
         "level": "B1",
-        "description": "a device saving spoken words as sound"
+        "description": "a small wooden tube played by blowing"
       },
       {
         "word": "robot arm",
@@ -28687,29 +28687,24 @@
         "description": "a mechanical limb that can move objects"
       },
       {
-        "word": "training example",
-        "level": "B2",
-        "description": "one sample used to teach a computer"
-      },
-      {
-        "word": "image prompt",
+        "word": "example",
         "level": "B1",
-        "description": "words describing a picture to create"
+        "description": "one instance used to show how something works"
       },
       {
-        "word": "translation tool",
+        "word": "translation",
         "level": "B1",
-        "description": "software changing words into another language"
+        "description": "words changed from one language into another"
       },
       {
-        "word": "AI assistant",
+        "word": "assistant",
         "level": "B1",
-        "description": "a computer program helping with requests"
+        "description": "a person or tool that helps with tasks"
       },
       {
-        "word": "data label",
-        "level": "B2",
-        "description": "a word naming what an example shows"
+        "word": "label",
+        "level": "B1",
+        "description": "a small note naming an object"
       },
       {
         "word": "smart speaker",
@@ -28717,29 +28712,34 @@
         "description": "a device that answers spoken requests"
       },
       {
-        "word": "human editor",
+        "word": "editor",
+        "level": "B1",
+        "description": "someone who selects and improves material before publication"
+      },
+      {
+        "word": "coder",
+        "level": "B1",
+        "description": "a person who writes instructions for computers"
+      },
+      {
+        "word": "picture",
+        "level": "B1",
+        "description": "an image showing a person place or object"
+      },
+      {
+        "word": "question",
+        "level": "B1",
+        "description": "words used to ask for information"
+      },
+      {
+        "word": "card",
+        "level": "B1",
+        "description": "a small stiff piece of paper"
+      },
+      {
+        "word": "recommendation",
         "level": "B2",
-        "description": "a person reviewing and changing written work"
-      },
-      {
-        "word": "code helper",
-        "level": "B1",
-        "description": "software suggesting computer instructions"
-      },
-      {
-        "word": "generated picture",
-        "level": "B1",
-        "description": "an image made by a computer system"
-      },
-      {
-        "word": "question box",
-        "level": "B1",
-        "description": "a space where someone enters a request"
-      },
-      {
-        "word": "model card",
-        "level": "B2",
-        "description": "a page describing how a computer model works"
+        "description": "a suggestion about something you might choose"
       }
     ],
     "imposter": [
@@ -28747,91 +28747,91 @@
         "word": "prompt",
         "level": "B1",
         "description": "words entered to request an answer or result",
-        "hint": "computer input",
-        "crewQuestion": "What can someone type before a system creates a picture?",
-        "imposterQuestion": "What can someone type after a system creates a picture?"
+        "hint": "written model instructions",
+        "crewQuestion": "What details make an AI prompt useful?",
+        "imposterQuestion": "Which instructions help a person follow a recipe?"
       },
       {
         "word": "chatbot",
         "level": "B1",
         "description": "software that replies to written questions",
-        "hint": "computer program",
-        "crewQuestion": "What can answer a message without being a person?",
-        "imposterQuestion": "What can ask a message without being a person?"
+        "hint": "conversational software tools",
+        "crewQuestion": "What might you ask a chatbot for help with?",
+        "imposterQuestion": "Which tasks could a school librarian support?"
       },
       {
         "word": "language model",
         "level": "B2",
         "description": "software trained to work with human language",
-        "hint": "computer system",
-        "crewQuestion": "What can suggest words when someone asks a question?",
-        "imposterQuestion": "What can remove words when someone asks a question?"
+        "hint": "text producing systems",
+        "crewQuestion": "What could make generated writing unhelpful?",
+        "imposterQuestion": "Which problems might spoil a copied study guide?"
       },
       {
         "word": "image generator",
         "level": "B1",
         "description": "software that creates pictures from instructions",
-        "hint": "computer tool",
-        "crewQuestion": "What can make a new image after a written request?",
-        "imposterQuestion": "What can describe an image after a written request?"
+        "hint": "picture producing software",
+        "crewQuestion": "What would you check in an AI-made image?",
+        "imposterQuestion": "Which details might you inspect in an edited photograph?"
       },
       {
         "word": "dataset",
         "level": "B2",
         "description": "an organised collection of examples or facts",
-        "hint": "computer information",
-        "crewQuestion": "What may teach a system from many labelled examples?",
-        "imposterQuestion": "What may test a system with many labelled examples?"
+        "hint": "organized training collections",
+        "crewQuestion": "What could be included in a dataset?",
+        "imposterQuestion": "Which items might a researcher collect for a class survey?"
       },
       {
         "word": "bias",
         "level": "B2",
         "description": "an unfair leaning toward one group or result",
-        "hint": "a problem",
-        "crewQuestion": "What can make a computer treat some people unfairly?",
-        "imposterQuestion": "What can make a computer treat all people fairly?"
+        "hint": "unequal judgment patterns",
+        "crewQuestion": "What could make an AI answer unfair?",
+        "imposterQuestion": "Which habits might make a school vote favor certain students?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "chat window",
+        "secret": "computer",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "voice recorder",
+        "secret": "microphone",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "robot arm",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "training example",
+        "secret": "server",
         "kind": "thing",
         "level": "B2"
       },
       {
-        "secret": "translation tool",
+        "secret": "robot",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "smart speaker",
+        "secret": "laptop",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "human editor",
+        "secret": "programmer",
         "kind": "job",
-        "level": "B2"
+        "level": "B1"
       },
       {
-        "secret": "model card",
+        "secret": "scanner",
         "kind": "thing",
-        "level": "B2"
+        "level": "B1"
+      },
+      {
+        "secret": "webcam",
+        "kind": "thing",
+        "level": "B1"
       }
     ]
   },
@@ -28996,14 +28996,14 @@
     ],
     "hotSeat": [
       {
-        "word": "robot cart",
+        "word": "cart",
         "level": "B1",
-        "description": "a small machine that carries items across a floor"
+        "description": "a wheeled vehicle used to move goods"
       },
       {
-        "word": "factory floor",
+        "word": "floor",
         "level": "B1",
-        "description": "the main work area inside a factory"
+        "description": "the bottom surface of a room or ocean"
       },
       {
         "word": "barcode scanner",
@@ -29011,14 +29011,14 @@
         "description": "a device reading lines on a product label"
       },
       {
-        "word": "robot gripper",
+        "word": "gripper",
         "level": "B2",
-        "description": "a mechanical hand that picks things up"
+        "description": "a machine part that closes around an object"
       },
       {
-        "word": "conveyor motor",
-        "level": "B2",
-        "description": "a machine making a moving belt run"
+        "word": "motor",
+        "level": "B1",
+        "description": "the part that makes a machine move"
       },
       {
         "word": "loading bay",
@@ -29026,14 +29026,14 @@
         "description": "a place where goods enter or leave a building"
       },
       {
-        "word": "assembly station",
-        "level": "B2",
-        "description": "one place where part of a product is added"
+        "word": "station",
+        "level": "B1",
+        "description": "a place where trains stop for passengers"
       },
       {
-        "word": "automatic gate",
+        "word": "entrance",
         "level": "B1",
-        "description": "an entrance that opens using a machine"
+        "description": "the place where people enter a building"
       },
       {
         "word": "warning light",
@@ -29041,29 +29041,29 @@
         "description": "a bright signal showing that something needs attention"
       },
       {
-        "word": "machine guard",
-        "level": "B2",
-        "description": "a cover protecting people from moving parts"
-      },
-      {
-        "word": "delivery bot",
+        "word": "guard",
         "level": "B1",
-        "description": "a small machine carrying orders to people"
+        "description": "someone who watches and protects a place"
       },
       {
-        "word": "robot technician",
-        "level": "B2",
-        "description": "a worker who repairs or checks robots"
-      },
-      {
-        "word": "sorting machine",
-        "level": "B2",
-        "description": "equipment that puts items into different groups"
-      },
-      {
-        "word": "factory shift",
+        "word": "delivery",
         "level": "B1",
-        "description": "a set period when workers do their jobs"
+        "description": "taking goods to the person who ordered them"
+      },
+      {
+        "word": "technician",
+        "level": "B1",
+        "description": "someone trained to maintain or fix equipment"
+      },
+      {
+        "word": "sorter",
+        "level": "B2",
+        "description": "a machine that separates objects into groups"
+      },
+      {
+        "word": "shift",
+        "level": "B1",
+        "description": "a period when someone works at a job"
       }
     ],
     "imposter": [
@@ -29071,91 +29071,91 @@
         "word": "automation",
         "level": "B1",
         "description": "using machines to complete work with little human action",
-        "hint": "industrial technology",
-        "crewQuestion": "What can help a factory repeat the same task quickly?",
-        "imposterQuestion": "What can help a worker repeat the same task slowly?"
+        "hint": "machine managed tasks",
+        "crewQuestion": "What chores could automation handle at home?",
+        "imposterQuestion": "Which tasks might you give a helpful machine?"
       },
       {
         "word": "robot arm",
         "level": "B1",
         "description": "a mechanical limb used to move objects",
-        "hint": "factory equipment",
-        "crewQuestion": "What can pick up a heavy part on a production line?",
-        "imposterQuestion": "What can put down a heavy part on a production line?"
+        "hint": "mechanical lifting limbs",
+        "crewQuestion": "What could a robot arm lift?",
+        "imposterQuestion": "Which objects might a warehouse worker move with a trolley?"
       },
       {
         "word": "sensor",
         "level": "B1",
         "description": "a device that detects movement, heat or distance",
-        "hint": "machine part",
-        "crewQuestion": "What can help a door notice someone approaching?",
-        "imposterQuestion": "What can help a door hide someone approaching?"
+        "hint": "machine detecting equipment",
+        "crewQuestion": "What might a factory sensor notice?",
+        "imposterQuestion": "Which changes could a worker spot while checking equipment?"
       },
       {
         "word": "conveyor belt",
         "level": "B1",
         "description": "a moving strip that carries items through a factory",
-        "hint": "factory equipment",
-        "crewQuestion": "What can move boxes past workers without carrying them?",
-        "imposterQuestion": "What can move workers past boxes without carrying them?"
+        "hint": "moving transport belts",
+        "crewQuestion": "What could travel on a conveyor belt?",
+        "imposterQuestion": "Which objects might be carried on a warehouse trolley?"
       },
       {
         "word": "warehouse robot",
         "level": "B1",
         "description": "a machine that moves goods around a storage building",
-        "hint": "factory equipment",
-        "crewQuestion": "What can carry boxes between shelves without a driver?",
-        "imposterQuestion": "What can carry boxes between shelves with a driver?"
+        "hint": "stock moving machines",
+        "crewQuestion": "Where might a warehouse robot stop?",
+        "imposterQuestion": "Which places would a delivery driver visit during a shift?"
       },
       {
         "word": "barcode scanner",
         "level": "B1",
         "description": "a device reading lines on a product label",
-        "hint": "machine tool",
-        "crewQuestion": "What can check an item at a shop counter?",
-        "imposterQuestion": "What can hide an item at a shop counter?"
+        "hint": "coded label readers",
+        "crewQuestion": "What could you check with a barcode scanner?",
+        "imposterQuestion": "Which details would you look for on a shop receipt?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "robot cart",
+        "secret": "forklift",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "barcode scanner",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "factory floor",
+        "secret": "warehouse",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "robot gripper",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "loading bay",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "warning light",
+        "secret": "drone",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "robot technician",
+        "secret": "engineer",
         "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "car",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "lift",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "turnstile",
+        "kind": "thing",
         "level": "B2"
       },
       {
-        "secret": "sorting machine",
+        "secret": "dishwasher",
         "kind": "thing",
-        "level": "B2"
+        "level": "B1"
       }
     ]
   },

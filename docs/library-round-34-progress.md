@@ -34,3 +34,7 @@ Rewrote 90 pairs and hints; reviewed 210 Hot Seat targets and separated 120 secr
 ## Batch 5: soccer through airplanes
 
 Rewrote 90 pairs and hints, reviewed 210 Hot Seat targets, and separated 120 secrets. Examples: platform / bus stop activities (read, wait, talk); goalkeeper / muddy-match clothes (gloves, boots, shirt); board game / jigsaw nearby objects (box, table, chair). Checker with --round34-count=75: all 19 error counts 0.
+
+## Batch 6: boats through robots and automation
+
+Rewrote 90 pairs and category hints, reviewed 210 Hot Seat targets, and separated 120 secrets. Overlap examples: streamer / podcast equipment (headset, microphone, camera); recipe / AI prompt instructions (steps, quantities, desired result); ferry / bus waiting (read, talk, check time). Checker with --round34-count=90: all 19 error counts 0.
