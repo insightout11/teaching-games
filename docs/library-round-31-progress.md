@@ -19,3 +19,5 @@ Cards are authored individually. A serialization helper only formats the explici
 - Batch 7: Virtual Reality through Digital Art complete. Total 95 topics / 4,180 cards; partial checker: all errors 0; teens B1 387 and B2 273. Progress count correction: Batch 6 added 10 topics (Video Games through Robots and Automation), taking the total to 90; Batch 7 added five more.
 
 - Batch 8: 15 culture, music and language topics (Friendship through Local Traditions), 110 topics total / 4,840 cards. Partial checker: all errors 0; kids A1 1,880, A2 1,640; teens B1 814, B2 506; 288 unique sticker matches, 866 target/decoy occurrences.
+
+- Batch 9: 15 school, money, work and speaking topics (Exams through Career Skills), 125 topics total / 5,500 cards. Partial checker: all errors 0; kids A1 1,880, A2 1,640; teens B1 1,300, B2 680; 290 unique sticker matches, 872 target/decoy occurrences.

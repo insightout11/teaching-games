@@ -31678,5 +31678,4325 @@
         "level": "B1"
       }
     ]
+  },
+  {
+    "topicId": "topic-teens-exams",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "revision",
+        "forbidden": [
+          "study",
+          "again",
+          "prepare",
+          "review"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "practice paper",
+        "forbidden": [
+          "questions",
+          "test",
+          "old",
+          "answer"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "exam hall",
+        "forbidden": [
+          "room",
+          "quiet",
+          "desk",
+          "students"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "invigilator",
+        "forbidden": [
+          "watch",
+          "adult",
+          "exam",
+          "supervise"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "multiple choice",
+        "forbidden": [
+          "options",
+          "select",
+          "answer",
+          "A B C"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "essay question",
+        "forbidden": [
+          "write",
+          "long",
+          "paragraph",
+          "explain"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mark scheme",
+        "forbidden": [
+          "points",
+          "answer",
+          "grade",
+          "teacher"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "time limit",
+        "forbidden": [
+          "minutes",
+          "finish",
+          "clock",
+          "exam"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "revision timetable",
+        "forbidden": [
+          "plan",
+          "days",
+          "study",
+          "subjects"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mock exam",
+        "forbidden": [
+          "practice",
+          "real",
+          "pretend",
+          "school"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "short answer",
+        "forbidden": [
+          "few",
+          "words",
+          "question",
+          "write"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "exam stress",
+        "forbidden": [
+          "worry",
+          "test",
+          "feel",
+          "nervous"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "calculator",
+        "forbidden": [
+          "numbers",
+          "maths",
+          "press",
+          "tool"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "results day",
+        "forbidden": [
+          "grades",
+          "marks",
+          "school",
+          "receive"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "exam paper",
+        "level": "B1"
+      },
+      {
+        "word": "answer booklet",
+        "level": "B1"
+      },
+      {
+        "word": "student ID",
+        "level": "B1"
+      },
+      {
+        "word": "exam desk",
+        "level": "B1"
+      },
+      {
+        "word": "wall clock",
+        "level": "B1"
+      },
+      {
+        "word": "highlighter",
+        "level": "B1"
+      },
+      {
+        "word": "revision card",
+        "level": "B1"
+      },
+      {
+        "word": "quiet sign",
+        "level": "B1"
+      },
+      {
+        "word": "spare pen",
+        "level": "B1"
+      },
+      {
+        "word": "exam timetable",
+        "level": "B1"
+      },
+      {
+        "word": "grade report",
+        "level": "B1"
+      },
+      {
+        "word": "study lamp",
+        "level": "B1"
+      },
+      {
+        "word": "calculator case",
+        "level": "B1"
+      },
+      {
+        "word": "revision folder",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "revision",
+        "decoy": "review",
+        "level": "B1"
+      },
+      {
+        "word": "practice paper",
+        "decoy": "mock exam",
+        "level": "B1"
+      },
+      {
+        "word": "invigilator",
+        "decoy": "examiner",
+        "level": "B2"
+      },
+      {
+        "word": "multiple choice",
+        "decoy": "short answer",
+        "level": "B1"
+      },
+      {
+        "word": "mark scheme",
+        "decoy": "grading rubric",
+        "level": "B2"
+      },
+      {
+        "word": "essay question",
+        "decoy": "long answer",
+        "level": "B1"
+      },
+      {
+        "word": "exam hall",
+        "decoy": "classroom",
+        "level": "B1"
+      },
+      {
+        "word": "exam stress",
+        "decoy": "test anxiety",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "exam paper",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "answer booklet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "student ID",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "wall clock",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "revision card",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "exam timetable",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "grade report",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "calculator",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-homework",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "assignment",
+        "forbidden": [
+          "task",
+          "teacher",
+          "finish",
+          "work"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "deadline",
+        "forbidden": [
+          "date",
+          "finish",
+          "time",
+          "due"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "research",
+        "forbidden": [
+          "find",
+          "information",
+          "read",
+          "topic"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "draft",
+        "forbidden": [
+          "first",
+          "version",
+          "write",
+          "edit"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "citation",
+        "forbidden": [
+          "source",
+          "credit",
+          "quote",
+          "reference"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "study space",
+        "forbidden": [
+          "quiet",
+          "desk",
+          "room",
+          "work"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "distraction",
+        "forbidden": [
+          "noise",
+          "phone",
+          "stop",
+          "focus"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "outline",
+        "forbidden": [
+          "plan",
+          "order",
+          "essay",
+          "points"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "feedback",
+        "forbidden": [
+          "comments",
+          "teacher",
+          "improve",
+          "work"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "extension",
+        "forbidden": [
+          "more",
+          "time",
+          "ask",
+          "deadline"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "group project",
+        "forbidden": [
+          "team",
+          "share",
+          "task",
+          "work"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "plagiarism",
+        "forbidden": [
+          "copy",
+          "source",
+          "words",
+          "wrong"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "homework planner",
+        "forbidden": [
+          "list",
+          "dates",
+          "organize",
+          "book"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "submission portal",
+        "forbidden": [
+          "upload",
+          "school",
+          "online",
+          "send"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "notebook",
+        "level": "B1"
+      },
+      {
+        "word": "desk lamp",
+        "level": "B1"
+      },
+      {
+        "word": "reference book",
+        "level": "B1"
+      },
+      {
+        "word": "research tab",
+        "level": "B2"
+      },
+      {
+        "word": "sticky note",
+        "level": "B1"
+      },
+      {
+        "word": "file folder",
+        "level": "B1"
+      },
+      {
+        "word": "study timer",
+        "level": "B1"
+      },
+      {
+        "word": "charging cable",
+        "level": "B1"
+      },
+      {
+        "word": "task list",
+        "level": "B1"
+      },
+      {
+        "word": "essay plan",
+        "level": "B1"
+      },
+      {
+        "word": "citation guide",
+        "level": "B2"
+      },
+      {
+        "word": "teacher comment",
+        "level": "B1"
+      },
+      {
+        "word": "work schedule",
+        "level": "B2"
+      },
+      {
+        "word": "quiet room",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "assignment",
+        "decoy": "homework",
+        "level": "B1"
+      },
+      {
+        "word": "deadline",
+        "decoy": "due date",
+        "level": "B1"
+      },
+      {
+        "word": "draft",
+        "decoy": "outline",
+        "level": "B1"
+      },
+      {
+        "word": "citation",
+        "decoy": "reference",
+        "level": "B2"
+      },
+      {
+        "word": "distraction",
+        "decoy": "interruption",
+        "level": "B2"
+      },
+      {
+        "word": "extension",
+        "decoy": "extra time",
+        "level": "B1"
+      },
+      {
+        "word": "group project",
+        "decoy": "team assignment",
+        "level": "B1"
+      },
+      {
+        "word": "plagiarism",
+        "decoy": "copyright infringement",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "desk lamp",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "reference book",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "sticky note",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "study timer",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "task list",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "citation guide",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "charging cable",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "quiet room",
+        "kind": "place",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-school-clubs",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "club meeting",
+        "forbidden": [
+          "members",
+          "after school",
+          "gather",
+          "evening"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "membership",
+        "forbidden": [
+          "join",
+          "belong",
+          "people",
+          "club"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "committee",
+        "forbidden": [
+          "plan",
+          "group",
+          "organize",
+          "leaders"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "treasurer",
+        "forbidden": [
+          "money",
+          "accounts",
+          "club",
+          "role"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "club fair",
+        "forbidden": [
+          "booths",
+          "join",
+          "school",
+          "event"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "fundraiser",
+        "forbidden": [
+          "collect",
+          "money",
+          "event",
+          "donate"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "agenda",
+        "forbidden": [
+          "topics",
+          "meeting",
+          "order",
+          "plan"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "volunteer",
+        "forbidden": [
+          "help",
+          "unpaid",
+          "people",
+          "work"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "club charter",
+        "forbidden": [
+          "rules",
+          "purpose",
+          "group",
+          "document"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "activity",
+        "forbidden": [
+          "do",
+          "club",
+          "task",
+          "meeting"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "poster campaign",
+        "forbidden": [
+          "signs",
+          "advertise",
+          "school",
+          "join"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "student council",
+        "forbidden": [
+          "representatives",
+          "school",
+          "meet",
+          "voice"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "club captain",
+        "forbidden": [
+          "lead",
+          "members",
+          "person",
+          "team"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "interest group",
+        "forbidden": [
+          "hobby",
+          "people",
+          "together",
+          "share"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "sign-up sheet",
+        "level": "B1"
+      },
+      {
+        "word": "club badge",
+        "level": "B1"
+      },
+      {
+        "word": "meeting room",
+        "level": "B1"
+      },
+      {
+        "word": "club newsletter",
+        "level": "B1"
+      },
+      {
+        "word": "snack table",
+        "level": "B1"
+      },
+      {
+        "word": "event calendar",
+        "level": "B1"
+      },
+      {
+        "word": "club budget",
+        "level": "B2"
+      },
+      {
+        "word": "notice board",
+        "level": "B1"
+      },
+      {
+        "word": "volunteer form",
+        "level": "B1"
+      },
+      {
+        "word": "school auditorium",
+        "level": "B1"
+      },
+      {
+        "word": "projector",
+        "level": "B1"
+      },
+      {
+        "word": "fundraising box",
+        "level": "B1"
+      },
+      {
+        "word": "member list",
+        "level": "B1"
+      },
+      {
+        "word": "club logo",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "committee",
+        "decoy": "council",
+        "level": "B2"
+      },
+      {
+        "word": "treasurer",
+        "decoy": "secretary",
+        "level": "B2"
+      },
+      {
+        "word": "club meeting",
+        "decoy": "team meeting",
+        "level": "B1"
+      },
+      {
+        "word": "club fair",
+        "decoy": "activity fair",
+        "level": "B1"
+      },
+      {
+        "word": "fundraiser",
+        "decoy": "charity event",
+        "level": "B1"
+      },
+      {
+        "word": "agenda",
+        "decoy": "schedule",
+        "level": "B1"
+      },
+      {
+        "word": "club charter",
+        "decoy": "club rules",
+        "level": "B2"
+      },
+      {
+        "word": "club captain",
+        "decoy": "team captain",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "sign-up sheet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "club badge",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "meeting room",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "club newsletter",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "event calendar",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "club budget",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "notice board",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "school auditorium",
+        "kind": "place",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-part-time-jobs",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "shift",
+        "forbidden": [
+          "work",
+          "hours",
+          "rota",
+          "job"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "pay slip",
+        "forbidden": [
+          "money",
+          "wages",
+          "earn",
+          "paper"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "interview",
+        "forbidden": [
+          "questions",
+          "employer",
+          "meet",
+          "job"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "availability",
+        "forbidden": [
+          "days",
+          "free",
+          "work",
+          "time"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "minimum wage",
+        "forbidden": [
+          "lowest",
+          "pay",
+          "law",
+          "hour"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "customer service",
+        "forbidden": [
+          "help",
+          "people",
+          "shop",
+          "polite"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "workplace",
+        "forbidden": [
+          "job",
+          "staff",
+          "shift",
+          "employer"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "break time",
+        "forbidden": [
+          "rest",
+          "food",
+          "minutes",
+          "work"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "supervisor",
+        "forbidden": [
+          "manager",
+          "lead",
+          "staff",
+          "check"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "job application",
+        "forbidden": [
+          "form",
+          "apply",
+          "work",
+          "write"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "uniform",
+        "forbidden": [
+          "clothes",
+          "job",
+          "wear",
+          "matching"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "tax form",
+        "forbidden": [
+          "government",
+          "pay",
+          "information",
+          "paper"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "reference",
+        "forbidden": [
+          "person",
+          "recommend",
+          "job",
+          "contact"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "work permit",
+        "forbidden": [
+          "legal",
+          "teen",
+          "permission",
+          "job"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "name badge",
+        "level": "B1"
+      },
+      {
+        "word": "staff room",
+        "level": "B1"
+      },
+      {
+        "word": "time clock",
+        "level": "B1"
+      },
+      {
+        "word": "cash register",
+        "level": "B1"
+      },
+      {
+        "word": "apron",
+        "level": "B1"
+      },
+      {
+        "word": "rota board",
+        "level": "B2"
+      },
+      {
+        "word": "employee handbook",
+        "level": "B2"
+      },
+      {
+        "word": "locker key",
+        "level": "B1"
+      },
+      {
+        "word": "break room",
+        "level": "B1"
+      },
+      {
+        "word": "job advert",
+        "level": "B1"
+      },
+      {
+        "word": "application form",
+        "level": "B1"
+      },
+      {
+        "word": "training shift",
+        "level": "B1"
+      },
+      {
+        "word": "staff discount",
+        "level": "B1"
+      },
+      {
+        "word": "payday calendar",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "shift",
+        "decoy": "work period",
+        "level": "B1"
+      },
+      {
+        "word": "pay slip",
+        "decoy": "wage statement",
+        "level": "B2"
+      },
+      {
+        "word": "interview",
+        "decoy": "audition",
+        "level": "B1"
+      },
+      {
+        "word": "availability",
+        "decoy": "schedule",
+        "level": "B1"
+      },
+      {
+        "word": "supervisor",
+        "decoy": "manager",
+        "level": "B1"
+      },
+      {
+        "word": "job application",
+        "decoy": "application form",
+        "level": "B1"
+      },
+      {
+        "word": "staff room",
+        "decoy": "break room",
+        "level": "B1"
+      },
+      {
+        "word": "work permit",
+        "decoy": "permission slip",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "name badge",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "staff room",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "time clock",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "cash register",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "rota board",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "employee handbook",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "job advert",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "locker key",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-future-jobs",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "career path",
+        "forbidden": [
+          "future",
+          "work",
+          "steps",
+          "job"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "apprenticeship",
+        "forbidden": [
+          "learn",
+          "paid",
+          "work",
+          "training"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "qualification",
+        "forbidden": [
+          "certificate",
+          "study",
+          "skill",
+          "earn"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "portfolio",
+        "forbidden": [
+          "examples",
+          "work",
+          "show",
+          "projects"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "internship",
+        "forbidden": [
+          "experience",
+          "temporary",
+          "work",
+          "learn"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "job market",
+        "forbidden": [
+          "employers",
+          "roles",
+          "available",
+          "work"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "transferable skill",
+        "forbidden": [
+          "useful",
+          "across",
+          "job",
+          "ability"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "career fair",
+        "forbidden": [
+          "employers",
+          "school",
+          "booths",
+          "meet"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mentor",
+        "forbidden": [
+          "advice",
+          "experienced",
+          "guide",
+          "person"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "resume",
+        "forbidden": [
+          "experience",
+          "skills",
+          "apply",
+          "document"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "cover letter",
+        "forbidden": [
+          "application",
+          "write",
+          "job",
+          "explain"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "work experience",
+        "forbidden": [
+          "learn",
+          "job",
+          "short",
+          "try"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "career change",
+        "forbidden": [
+          "new",
+          "job",
+          "switch",
+          "work"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "professional network",
+        "forbidden": [
+          "contacts",
+          "people",
+          "career",
+          "meet"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "job board",
+        "level": "B1"
+      },
+      {
+        "word": "career adviser",
+        "level": "B1"
+      },
+      {
+        "word": "interview room",
+        "level": "B1"
+      },
+      {
+        "word": "work portfolio",
+        "level": "B1"
+      },
+      {
+        "word": "training course",
+        "level": "B1"
+      },
+      {
+        "word": "office badge",
+        "level": "B1"
+      },
+      {
+        "word": "career website",
+        "level": "B1"
+      },
+      {
+        "word": "reference letter",
+        "level": "B2"
+      },
+      {
+        "word": "work uniform",
+        "level": "B1"
+      },
+      {
+        "word": "career map",
+        "level": "B2"
+      },
+      {
+        "word": "skill checklist",
+        "level": "B1"
+      },
+      {
+        "word": "job shadowing",
+        "level": "B2"
+      },
+      {
+        "word": "business card",
+        "level": "B1"
+      },
+      {
+        "word": "application email",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "apprenticeship",
+        "decoy": "internship",
+        "level": "B2"
+      },
+      {
+        "word": "qualification",
+        "decoy": "certificate",
+        "level": "B1"
+      },
+      {
+        "word": "portfolio",
+        "decoy": "resume",
+        "level": "B1"
+      },
+      {
+        "word": "mentor",
+        "decoy": "career adviser",
+        "level": "B1"
+      },
+      {
+        "word": "career fair",
+        "decoy": "job fair",
+        "level": "B1"
+      },
+      {
+        "word": "transferable skill",
+        "decoy": "soft skill",
+        "level": "B2"
+      },
+      {
+        "word": "cover letter",
+        "decoy": "application email",
+        "level": "B1"
+      },
+      {
+        "word": "career change",
+        "decoy": "job transfer",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "job board",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "career adviser",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "interview room",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "training course",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "reference letter",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "career website",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "skill checklist",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "business card",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-entrepreneurship",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "business idea",
+        "forbidden": [
+          "product",
+          "solve",
+          "need",
+          "plan"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "customer",
+        "forbidden": [
+          "buy",
+          "person",
+          "service",
+          "shop"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "startup",
+        "forbidden": [
+          "new",
+          "company",
+          "business",
+          "begin"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "revenue",
+        "forbidden": [
+          "money",
+          "sales",
+          "earn",
+          "income"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "profit",
+        "forbidden": [
+          "cost",
+          "earn",
+          "more",
+          "business"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "market research",
+        "forbidden": [
+          "ask",
+          "customers",
+          "find",
+          "information"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "pitch",
+        "forbidden": [
+          "present",
+          "idea",
+          "investor",
+          "speak"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "business plan",
+        "forbidden": [
+          "document",
+          "steps",
+          "company",
+          "write"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "prototype",
+        "forbidden": [
+          "early",
+          "model",
+          "test",
+          "first"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "investor",
+        "forbidden": [
+          "money",
+          "company",
+          "fund",
+          "person"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "competition",
+        "forbidden": [
+          "other",
+          "business",
+          "similar",
+          "market"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "target audience",
+        "forbidden": [
+          "group",
+          "customer",
+          "who",
+          "design"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "brand identity",
+        "forbidden": [
+          "name",
+          "logo",
+          "look",
+          "company"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "cash flow",
+        "forbidden": [
+          "money",
+          "in",
+          "out",
+          "business"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "pitch deck",
+        "level": "B1"
+      },
+      {
+        "word": "product sample",
+        "level": "B1"
+      },
+      {
+        "word": "business mentor",
+        "level": "B1"
+      },
+      {
+        "word": "market stall",
+        "level": "B1"
+      },
+      {
+        "word": "company logo",
+        "level": "B1"
+      },
+      {
+        "word": "customer survey",
+        "level": "B2"
+      },
+      {
+        "word": "price list",
+        "level": "B1"
+      },
+      {
+        "word": "online shop",
+        "level": "B1"
+      },
+      {
+        "word": "startup budget",
+        "level": "B2"
+      },
+      {
+        "word": "business card",
+        "level": "B1"
+      },
+      {
+        "word": "order form",
+        "level": "B1"
+      },
+      {
+        "word": "shop window",
+        "level": "B1"
+      },
+      {
+        "word": "investor meeting",
+        "level": "B2"
+      },
+      {
+        "word": "delivery box",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "startup",
+        "decoy": "small business",
+        "level": "B1"
+      },
+      {
+        "word": "revenue",
+        "decoy": "income",
+        "level": "B2"
+      },
+      {
+        "word": "profit",
+        "decoy": "earnings",
+        "level": "B1"
+      },
+      {
+        "word": "market research",
+        "decoy": "customer survey",
+        "level": "B2"
+      },
+      {
+        "word": "pitch",
+        "decoy": "presentation",
+        "level": "B1"
+      },
+      {
+        "word": "prototype",
+        "decoy": "sample",
+        "level": "B1"
+      },
+      {
+        "word": "investor",
+        "decoy": "shareholder",
+        "level": "B2"
+      },
+      {
+        "word": "cash flow",
+        "decoy": "budget",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "product sample",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "business mentor",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "market stall",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "company logo",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "price list",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "online shop",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "business card",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "investor meeting",
+        "kind": "activity",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-money-and-saving",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "budget",
+        "forbidden": [
+          "plan",
+          "money",
+          "spend",
+          "limit"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "savings goal",
+        "forbidden": [
+          "target",
+          "save",
+          "amount",
+          "reach"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "interest",
+        "forbidden": [
+          "bank",
+          "extra",
+          "money",
+          "earn"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "income",
+        "forbidden": [
+          "job",
+          "earn",
+          "pay",
+          "receive"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "expense",
+        "forbidden": [
+          "cost",
+          "pay",
+          "bill",
+          "spend"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "emergency fund",
+        "forbidden": [
+          "unexpected",
+          "save",
+          "need",
+          "money"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "bank account",
+        "forbidden": [
+          "deposit",
+          "card",
+          "save",
+          "number"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "compound interest",
+        "forbidden": [
+          "growth",
+          "rate",
+          "bank",
+          "earned"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "financial goal",
+        "forbidden": [
+          "money",
+          "plan",
+          "future",
+          "save"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "spending habit",
+        "forbidden": [
+          "buy",
+          "usual",
+          "choice",
+          "pattern"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "allowance",
+        "forbidden": [
+          "weekly",
+          "money",
+          "parent",
+          "receive"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "debit card",
+        "forbidden": [
+          "bank",
+          "pay",
+          "plastic",
+          "account"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "financial literacy",
+        "forbidden": [
+          "learn",
+          "money",
+          "skill",
+          "knowledge"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "rainy day fund",
+        "forbidden": [
+          "emergency",
+          "save",
+          "unexpected",
+          "spend"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "piggy bank",
+        "level": "B1"
+      },
+      {
+        "word": "savings jar",
+        "level": "B1"
+      },
+      {
+        "word": "bank app",
+        "level": "B1"
+      },
+      {
+        "word": "cash envelope",
+        "level": "B1"
+      },
+      {
+        "word": "wallet",
+        "level": "B1"
+      },
+      {
+        "word": "payday slip",
+        "level": "B1"
+      },
+      {
+        "word": "coin tray",
+        "level": "B1"
+      },
+      {
+        "word": "ATM card",
+        "level": "B1"
+      },
+      {
+        "word": "bank statement",
+        "level": "B2"
+      },
+      {
+        "word": "expense tracker",
+        "level": "B2"
+      },
+      {
+        "word": "money box",
+        "level": "B1"
+      },
+      {
+        "word": "cash machine",
+        "level": "B1"
+      },
+      {
+        "word": "savings account",
+        "level": "B1"
+      },
+      {
+        "word": "goal chart",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "income",
+        "decoy": "allowance",
+        "level": "B1"
+      },
+      {
+        "word": "expense",
+        "decoy": "bill",
+        "level": "B1"
+      },
+      {
+        "word": "emergency fund",
+        "decoy": "rainy day fund",
+        "level": "B2"
+      },
+      {
+        "word": "bank account",
+        "decoy": "savings account",
+        "level": "B1"
+      },
+      {
+        "word": "debit card",
+        "decoy": "credit card",
+        "level": "B1"
+      },
+      {
+        "word": "interest",
+        "decoy": "dividend",
+        "level": "B2"
+      },
+      {
+        "word": "budget",
+        "decoy": "spending plan",
+        "level": "B1"
+      },
+      {
+        "word": "financial goal",
+        "decoy": "savings goal",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "piggy bank",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "savings jar",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "bank app",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "wallet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "ATM card",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "bank statement",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "cash machine",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "goal chart",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-budgeting",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "fixed cost",
+        "forbidden": [
+          "same",
+          "bill",
+          "monthly",
+          "pay"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "variable cost",
+        "forbidden": [
+          "change",
+          "amount",
+          "shopping",
+          "spend"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "budget category",
+        "forbidden": [
+          "group",
+          "sort",
+          "money",
+          "plan"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "monthly budget",
+        "forbidden": [
+          "schedule",
+          "income",
+          "spending",
+          "plan"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "expense tracker",
+        "forbidden": [
+          "record",
+          "spending",
+          "list",
+          "app"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "needs and wants",
+        "forbidden": [
+          "buy",
+          "important",
+          "choice",
+          "difference"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "surplus",
+        "forbidden": [
+          "extra",
+          "left",
+          "money",
+          "save"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "shortfall",
+        "forbidden": [
+          "not enough",
+          "spend",
+          "more",
+          "need"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "price comparison",
+        "forbidden": [
+          "cost",
+          "shop",
+          "compare",
+          "cheaper"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "cash envelope",
+        "forbidden": [
+          "money",
+          "category",
+          "physical",
+          "limit"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "bill due date",
+        "forbidden": [
+          "pay",
+          "when",
+          "monthly",
+          "deadline"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "spending cap",
+        "forbidden": [
+          "purchases",
+          "money",
+          "outgoing",
+          "costs"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "sinking fund",
+        "forbidden": [
+          "save",
+          "planned",
+          "cost",
+          "monthly"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "budget review",
+        "forbidden": [
+          "check",
+          "month",
+          "change",
+          "plan"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "receipt folder",
+        "level": "B1"
+      },
+      {
+        "word": "calculator app",
+        "level": "B1"
+      },
+      {
+        "word": "monthly statement",
+        "level": "B1"
+      },
+      {
+        "word": "utility bill",
+        "level": "B1"
+      },
+      {
+        "word": "shopping list",
+        "level": "B1"
+      },
+      {
+        "word": "rent notice",
+        "level": "B2"
+      },
+      {
+        "word": "payment calendar",
+        "level": "B1"
+      },
+      {
+        "word": "budget worksheet",
+        "level": "B1"
+      },
+      {
+        "word": "coin jar",
+        "level": "B1"
+      },
+      {
+        "word": "bank balance",
+        "level": "B1"
+      },
+      {
+        "word": "expense column",
+        "level": "B2"
+      },
+      {
+        "word": "cash withdrawal",
+        "level": "B1"
+      },
+      {
+        "word": "price tag",
+        "level": "B1"
+      },
+      {
+        "word": "budget meeting",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "fixed cost",
+        "decoy": "regular expense",
+        "level": "B1"
+      },
+      {
+        "word": "variable cost",
+        "decoy": "flexible expense",
+        "level": "B2"
+      },
+      {
+        "word": "surplus",
+        "decoy": "profit",
+        "level": "B1"
+      },
+      {
+        "word": "shortfall",
+        "decoy": "deficit",
+        "level": "B2"
+      },
+      {
+        "word": "price comparison",
+        "decoy": "cost check",
+        "level": "B1"
+      },
+      {
+        "word": "cash envelope",
+        "decoy": "budget category",
+        "level": "B2"
+      },
+      {
+        "word": "sinking fund",
+        "decoy": "savings pot",
+        "level": "B2"
+      },
+      {
+        "word": "budget review",
+        "decoy": "financial audit",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "receipt folder",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "calculator app",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "utility bill",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "shopping list",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "payment calendar",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "budget worksheet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "price tag",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "bank balance",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-volunteering",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "volunteer",
+        "forbidden": [
+          "help",
+          "unpaid",
+          "community",
+          "work"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "community service",
+        "forbidden": [
+          "people",
+          "local",
+          "help",
+          "project"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "charity",
+        "forbidden": [
+          "donate",
+          "cause",
+          "money",
+          "help"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "fundraiser",
+        "forbidden": [
+          "collect",
+          "money",
+          "event",
+          "donate"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "food bank",
+        "forbidden": [
+          "parcels",
+          "needy",
+          "community",
+          "pantry"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "volunteer shift",
+        "forbidden": [
+          "hours",
+          "work",
+          "rota",
+          "serve"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "outreach",
+        "forbidden": [
+          "contact",
+          "public",
+          "community",
+          "invite"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "skills-based support",
+        "forbidden": [
+          "ability",
+          "offer",
+          "help",
+          "experience"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "event steward",
+        "forbidden": [
+          "guide",
+          "crowd",
+          "safety",
+          "person"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "donation drive",
+        "forbidden": [
+          "collect",
+          "items",
+          "give",
+          "organize"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "service project",
+        "forbidden": [
+          "group",
+          "task",
+          "community",
+          "plan"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "nonprofit",
+        "forbidden": [
+          "charitable",
+          "organization",
+          "mission",
+          "public"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "local shelter",
+        "forbidden": [
+          "safe",
+          "place",
+          "people",
+          "stay"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "volunteer coordinator",
+        "forbidden": [
+          "organize",
+          "people",
+          "role",
+          "schedule"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "sign-up desk",
+        "level": "B1"
+      },
+      {
+        "word": "donation box",
+        "level": "B1"
+      },
+      {
+        "word": "community garden",
+        "level": "B1"
+      },
+      {
+        "word": "food parcel",
+        "level": "B1"
+      },
+      {
+        "word": "event badge",
+        "level": "B1"
+      },
+      {
+        "word": "volunteer vest",
+        "level": "B1"
+      },
+      {
+        "word": "collection tin",
+        "level": "B1"
+      },
+      {
+        "word": "care home",
+        "level": "B1"
+      },
+      {
+        "word": "clean-up bag",
+        "level": "B1"
+      },
+      {
+        "word": "charity shop",
+        "level": "B1"
+      },
+      {
+        "word": "shift rota",
+        "level": "B2"
+      },
+      {
+        "word": "welcome table",
+        "level": "B1"
+      },
+      {
+        "word": "service certificate",
+        "level": "B2"
+      },
+      {
+        "word": "community notice",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "volunteer",
+        "decoy": "helper",
+        "level": "B1"
+      },
+      {
+        "word": "community service",
+        "decoy": "public service",
+        "level": "B2"
+      },
+      {
+        "word": "charity",
+        "decoy": "nonprofit",
+        "level": "B1"
+      },
+      {
+        "word": "food bank",
+        "decoy": "community pantry",
+        "level": "B2"
+      },
+      {
+        "word": "outreach",
+        "decoy": "engagement",
+        "level": "B2"
+      },
+      {
+        "word": "event steward",
+        "decoy": "usher",
+        "level": "B1"
+      },
+      {
+        "word": "donation drive",
+        "decoy": "fundraiser",
+        "level": "B1"
+      },
+      {
+        "word": "local shelter",
+        "decoy": "care home",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "sign-up desk",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "donation box",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "community garden",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "food parcel",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "event badge",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "care home",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "charity shop",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "service certificate",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-public-speaking",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "audience",
+        "forbidden": [
+          "people",
+          "listen",
+          "room",
+          "watch"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "opening line",
+        "forbidden": [
+          "first",
+          "words",
+          "start",
+          "say"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "speaker notes",
+        "forbidden": [
+          "bullet",
+          "read",
+          "card",
+          "remind"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "eye contact",
+        "forbidden": [
+          "look",
+          "people",
+          "face",
+          "connect"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "pace",
+        "forbidden": [
+          "speed",
+          "slow",
+          "fast",
+          "talk"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "pause",
+        "forbidden": [
+          "stop",
+          "quiet",
+          "brief",
+          "wait"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "gesture",
+        "forbidden": [
+          "hands",
+          "move",
+          "body",
+          "show"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "visual aid",
+        "forbidden": [
+          "slide",
+          "picture",
+          "screen",
+          "show"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "rehearsal",
+        "forbidden": [
+          "practice",
+          "again",
+          "prepare",
+          "speech"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "Q&A",
+        "forbidden": [
+          "questions",
+          "answer",
+          "audience",
+          "after"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "persuasive speech",
+        "forbidden": [
+          "convince",
+          "argument",
+          "audience",
+          "speak"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "voice projection",
+        "forbidden": [
+          "loud",
+          "room",
+          "reach",
+          "clear"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "signposting",
+        "forbidden": [
+          "structure",
+          "first",
+          "next",
+          "finally"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "stage fright",
+        "forbidden": [
+          "nervous",
+          "fear",
+          "speak",
+          "people"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "lectern",
+        "level": "B2"
+      },
+      {
+        "word": "microphone",
+        "level": "B1"
+      },
+      {
+        "word": "presentation clicker",
+        "level": "B1"
+      },
+      {
+        "word": "podium light",
+        "level": "B2"
+      },
+      {
+        "word": "slide deck",
+        "level": "B1"
+      },
+      {
+        "word": "timer screen",
+        "level": "B1"
+      },
+      {
+        "word": "question card",
+        "level": "B1"
+      },
+      {
+        "word": "speaker timer",
+        "level": "B1"
+      },
+      {
+        "word": "auditorium seat",
+        "level": "B1"
+      },
+      {
+        "word": "feedback sheet",
+        "level": "B1"
+      },
+      {
+        "word": "speech outline",
+        "level": "B1"
+      },
+      {
+        "word": "water glass",
+        "level": "B1"
+      },
+      {
+        "word": "name placard",
+        "level": "B2"
+      },
+      {
+        "word": "practice room",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "opening line",
+        "decoy": "conclusion",
+        "level": "B1"
+      },
+      {
+        "word": "eye contact",
+        "decoy": "body language",
+        "level": "B1"
+      },
+      {
+        "word": "pace",
+        "decoy": "tempo",
+        "level": "B2"
+      },
+      {
+        "word": "pause",
+        "decoy": "break",
+        "level": "B1"
+      },
+      {
+        "word": "visual aid",
+        "decoy": "slide deck",
+        "level": "B1"
+      },
+      {
+        "word": "rehearsal",
+        "decoy": "practice",
+        "level": "B1"
+      },
+      {
+        "word": "persuasive speech",
+        "decoy": "debate",
+        "level": "B2"
+      },
+      {
+        "word": "stage fright",
+        "decoy": "performance anxiety",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "lectern",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "microphone",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "presentation clicker",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "slide deck",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "question card",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "auditorium seat",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "feedback sheet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "speech outline",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-study-habits",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "study routine",
+        "forbidden": [
+          "plan",
+          "regular",
+          "learn",
+          "repeat"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "spaced repetition",
+        "forbidden": [
+          "review",
+          "time",
+          "memory",
+          "interval"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "active recall",
+        "forbidden": [
+          "remember",
+          "without",
+          "notes",
+          "test"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "flashcard",
+        "forbidden": [
+          "question",
+          "answer",
+          "study",
+          "deck"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "focus block",
+        "forbidden": [
+          "minutes",
+          "work",
+          "break",
+          "time"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "study group",
+        "forbidden": [
+          "friends",
+          "learn",
+          "together",
+          "session"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "revision notes",
+        "forbidden": [
+          "summarize",
+          "write",
+          "review",
+          "subject"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "distraction",
+        "forbidden": [
+          "phone",
+          "noise",
+          "attention",
+          "stop"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "practice test",
+        "forbidden": [
+          "questions",
+          "exam",
+          "try",
+          "prepare"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "learning goal",
+        "forbidden": [
+          "aim",
+          "skill",
+          "progress",
+          "plan"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "pomodoro",
+        "forbidden": [
+          "timer",
+          "work",
+          "break",
+          "method"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "study environment",
+        "forbidden": [
+          "room",
+          "light",
+          "quiet",
+          "desk"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "retrieval practice",
+        "forbidden": [
+          "remember",
+          "answer",
+          "without",
+          "look"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "weekly review",
+        "forbidden": [
+          "repeat",
+          "days",
+          "check",
+          "progress"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "flashcard box",
+        "level": "B1"
+      },
+      {
+        "word": "study calendar",
+        "level": "B1"
+      },
+      {
+        "word": "desk organizer",
+        "level": "B1"
+      },
+      {
+        "word": "highlighter set",
+        "level": "B1"
+      },
+      {
+        "word": "quiet library",
+        "level": "B1"
+      },
+      {
+        "word": "study playlist",
+        "level": "B1"
+      },
+      {
+        "word": "focus timer",
+        "level": "B1"
+      },
+      {
+        "word": "revision chart",
+        "level": "B1"
+      },
+      {
+        "word": "sticky tabs",
+        "level": "B1"
+      },
+      {
+        "word": "practice quiz",
+        "level": "B1"
+      },
+      {
+        "word": "study buddy",
+        "level": "B1"
+      },
+      {
+        "word": "notebook divider",
+        "level": "B2"
+      },
+      {
+        "word": "reading lamp",
+        "level": "B1"
+      },
+      {
+        "word": "weekly planner",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "study routine",
+        "decoy": "revision plan",
+        "level": "B1"
+      },
+      {
+        "word": "spaced repetition",
+        "decoy": "retrieval practice",
+        "level": "B2"
+      },
+      {
+        "word": "active recall",
+        "decoy": "practice test",
+        "level": "B2"
+      },
+      {
+        "word": "focus block",
+        "decoy": "pomodoro",
+        "level": "B2"
+      },
+      {
+        "word": "revision notes",
+        "decoy": "study guide",
+        "level": "B1"
+      },
+      {
+        "word": "learning goal",
+        "decoy": "study target",
+        "level": "B1"
+      },
+      {
+        "word": "study environment",
+        "decoy": "quiet space",
+        "level": "B1"
+      },
+      {
+        "word": "weekly review",
+        "decoy": "progress check",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "flashcard box",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "study calendar",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "desk organizer",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "quiet library",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "focus timer",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "practice quiz",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "notebook divider",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "weekly planner",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-sleep-and-learning",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "sleep cycle",
+        "forbidden": [
+          "night",
+          "stages",
+          "rest",
+          "body"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "circadian rhythm",
+        "forbidden": [
+          "clock",
+          "body",
+          "day",
+          "night"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "deep sleep",
+        "forbidden": [
+          "rest",
+          "stage",
+          "brain",
+          "hard"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "memory consolidation",
+        "forbidden": [
+          "remember",
+          "brain",
+          "store",
+          "learning"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "bedtime routine",
+        "forbidden": [
+          "before",
+          "sleep",
+          "habit",
+          "night"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "sleep debt",
+        "forbidden": [
+          "lost",
+          "hours",
+          "catch up",
+          "tired"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "screen light",
+        "forbidden": [
+          "phone",
+          "eyes",
+          "evening",
+          "blue"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "nap",
+        "forbidden": [
+          "short",
+          "sleep",
+          "day",
+          "rest"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "alertness",
+        "forbidden": [
+          "awake",
+          "focus",
+          "attention",
+          "ready"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "dream",
+        "forbidden": [
+          "night",
+          "images",
+          "brain",
+          "sleep"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "sleep schedule",
+        "forbidden": [
+          "time",
+          "bed",
+          "wake",
+          "regular"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "learning retention",
+        "forbidden": [
+          "remember",
+          "keep",
+          "knowledge",
+          "study"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "noise level",
+        "forbidden": [
+          "sound",
+          "quiet",
+          "room",
+          "decibels"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "wake-up alarm",
+        "forbidden": [
+          "morning",
+          "sound",
+          "clock",
+          "stop"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "alarm clock",
+        "level": "B1"
+      },
+      {
+        "word": "blackout curtain",
+        "level": "B1"
+      },
+      {
+        "word": "bedside lamp",
+        "level": "B1"
+      },
+      {
+        "word": "eye mask",
+        "level": "B1"
+      },
+      {
+        "word": "white noise app",
+        "level": "B2"
+      },
+      {
+        "word": "bedtime book",
+        "level": "B1"
+      },
+      {
+        "word": "sleep diary",
+        "level": "B2"
+      },
+      {
+        "word": "mattress",
+        "level": "B1"
+      },
+      {
+        "word": "morning light",
+        "level": "B1"
+      },
+      {
+        "word": "earplugs",
+        "level": "B1"
+      },
+      {
+        "word": "alarm setting",
+        "level": "B1"
+      },
+      {
+        "word": "study notes",
+        "level": "B1"
+      },
+      {
+        "word": "sleep tracker",
+        "level": "B2"
+      },
+      {
+        "word": "quiet bedroom",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "sleep cycle",
+        "decoy": "sleep stage",
+        "level": "B2"
+      },
+      {
+        "word": "deep sleep",
+        "decoy": "REM sleep",
+        "level": "B2"
+      },
+      {
+        "word": "circadian rhythm",
+        "decoy": "body clock",
+        "level": "B2"
+      },
+      {
+        "word": "nap",
+        "decoy": "rest break",
+        "level": "B1"
+      },
+      {
+        "word": "alertness",
+        "decoy": "attention",
+        "level": "B1"
+      },
+      {
+        "word": "sleep debt",
+        "decoy": "tiredness",
+        "level": "B2"
+      },
+      {
+        "word": "memory consolidation",
+        "decoy": "long-term memory",
+        "level": "B2"
+      },
+      {
+        "word": "bedtime routine",
+        "decoy": "sleep schedule",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "alarm clock",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "blackout curtain",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "bedside lamp",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "eye mask",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "sleep diary",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "mattress",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "earplugs",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "sleep tracker",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-choosing-subjects",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "elective",
+        "forbidden": [
+          "choose",
+          "optional",
+          "class",
+          "subject"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "prerequisite",
+        "forbidden": [
+          "before",
+          "need",
+          "course",
+          "entry"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "course catalogue",
+        "forbidden": [
+          "list",
+          "subjects",
+          "read",
+          "school"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "career goal",
+        "forbidden": [
+          "future",
+          "job",
+          "aim",
+          "work"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "assessment style",
+        "forbidden": [
+          "exam",
+          "project",
+          "grade",
+          "how"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "course load",
+        "forbidden": [
+          "classes",
+          "amount",
+          "work",
+          "term"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "interest",
+        "forbidden": [
+          "like",
+          "hobby",
+          "curious",
+          "subject"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "strength",
+        "forbidden": [
+          "good",
+          "skill",
+          "ability",
+          "subject"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "pathway",
+        "forbidden": [
+          "future",
+          "route",
+          "study",
+          "choice"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "academic adviser",
+        "forbidden": [
+          "teacher",
+          "help",
+          "plan",
+          "person"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "subject choice",
+        "forbidden": [
+          "pick",
+          "class",
+          "school",
+          "study"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "course credit",
+        "forbidden": [
+          "points",
+          "finish",
+          "program",
+          "earn"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "practical subject",
+        "forbidden": [
+          "hands-on",
+          "make",
+          "do",
+          "lesson"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "reading list",
+        "forbidden": [
+          "titles",
+          "sources",
+          "books",
+          "materials"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "option form",
+        "level": "B1"
+      },
+      {
+        "word": "course handbook",
+        "level": "B1"
+      },
+      {
+        "word": "subject fair",
+        "level": "B1"
+      },
+      {
+        "word": "adviser meeting",
+        "level": "B2"
+      },
+      {
+        "word": "class timetable",
+        "level": "B1"
+      },
+      {
+        "word": "grade sheet",
+        "level": "B1"
+      },
+      {
+        "word": "application portal",
+        "level": "B1"
+      },
+      {
+        "word": "course brochure",
+        "level": "B1"
+      },
+      {
+        "word": "career quiz",
+        "level": "B1"
+      },
+      {
+        "word": "subject taster",
+        "level": "B2"
+      },
+      {
+        "word": "planning worksheet",
+        "level": "B1"
+      },
+      {
+        "word": "parent meeting",
+        "level": "B1"
+      },
+      {
+        "word": "school prospectus",
+        "level": "B2"
+      },
+      {
+        "word": "elective list",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "elective",
+        "decoy": "option",
+        "level": "B1"
+      },
+      {
+        "word": "prerequisite",
+        "decoy": "requirement",
+        "level": "B2"
+      },
+      {
+        "word": "course catalogue",
+        "decoy": "subject list",
+        "level": "B1"
+      },
+      {
+        "word": "assessment style",
+        "decoy": "grading method",
+        "level": "B2"
+      },
+      {
+        "word": "course load",
+        "decoy": "workload",
+        "level": "B2"
+      },
+      {
+        "word": "pathway",
+        "decoy": "route",
+        "level": "B1"
+      },
+      {
+        "word": "academic adviser",
+        "decoy": "school counsellor",
+        "level": "B2"
+      },
+      {
+        "word": "course credit",
+        "decoy": "grade point",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "option form",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "course handbook",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "subject fair",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "adviser meeting",
+        "kind": "activity",
+        "level": "B2"
+      },
+      {
+        "secret": "class timetable",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "career quiz",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "planning worksheet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "elective list",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-gap-years",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "gap year",
+        "forbidden": [
+          "school",
+          "break",
+          "time",
+          "travel"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "volunteer placement",
+        "forbidden": [
+          "help",
+          "work",
+          "unpaid",
+          "community"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "work placement",
+        "forbidden": [
+          "job",
+          "experience",
+          "company",
+          "learn"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "travel budget",
+        "forbidden": [
+          "money",
+          "plan",
+          "cost",
+          "trip"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "defer admission",
+        "forbidden": [
+          "university",
+          "wait",
+          "place",
+          "delay"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "skill-building",
+        "forbidden": [
+          "learn",
+          "practice",
+          "ability",
+          "develop"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "host family",
+        "forbidden": [
+          "stay",
+          "home",
+          "local",
+          "people"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "travel insurance",
+        "forbidden": [
+          "trip",
+          "cover",
+          "emergency",
+          "pay"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "structured program",
+        "forbidden": [
+          "organized",
+          "course",
+          "planned",
+          "activity"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "independent travel",
+        "forbidden": [
+          "alone",
+          "plan",
+          "trip",
+          "choose"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "language immersion",
+        "forbidden": [
+          "speak",
+          "learn",
+          "local",
+          "phrases"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "return plan",
+        "forbidden": [
+          "come back",
+          "study",
+          "after",
+          "year"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "placement agency",
+        "forbidden": [
+          "organize",
+          "program",
+          "company",
+          "find"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "personal growth",
+        "forbidden": [
+          "change",
+          "learn",
+          "confidence",
+          "develop"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "passport wallet",
+        "level": "B1"
+      },
+      {
+        "word": "volunteer badge",
+        "level": "B1"
+      },
+      {
+        "word": "travel journal",
+        "level": "B1"
+      },
+      {
+        "word": "hostel bunk",
+        "level": "B1"
+      },
+      {
+        "word": "work placement form",
+        "level": "B2"
+      },
+      {
+        "word": "train pass",
+        "level": "B1"
+      },
+      {
+        "word": "travel adapter",
+        "level": "B1"
+      },
+      {
+        "word": "packing list",
+        "level": "B1"
+      },
+      {
+        "word": "budget sheet",
+        "level": "B1"
+      },
+      {
+        "word": "program calendar",
+        "level": "B1"
+      },
+      {
+        "word": "language class",
+        "level": "B1"
+      },
+      {
+        "word": "insurance card",
+        "level": "B1"
+      },
+      {
+        "word": "return ticket",
+        "level": "B1"
+      },
+      {
+        "word": "gap-year adviser",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "gap year",
+        "decoy": "sabbatical",
+        "level": "B2"
+      },
+      {
+        "word": "volunteer placement",
+        "decoy": "service trip",
+        "level": "B1"
+      },
+      {
+        "word": "work placement",
+        "decoy": "internship",
+        "level": "B1"
+      },
+      {
+        "word": "defer admission",
+        "decoy": "delay enrollment",
+        "level": "B2"
+      },
+      {
+        "word": "host family",
+        "decoy": "homestay",
+        "level": "B1"
+      },
+      {
+        "word": "structured program",
+        "decoy": "organized trip",
+        "level": "B2"
+      },
+      {
+        "word": "independent travel",
+        "decoy": "solo travel",
+        "level": "B1"
+      },
+      {
+        "word": "travel budget",
+        "decoy": "trip budget",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "passport wallet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "volunteer badge",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "travel journal",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "hostel bunk",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "train pass",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "travel adapter",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "packing list",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "gap-year adviser",
+        "kind": "job",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-career-skills",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "communication",
+        "forbidden": [
+          "speak",
+          "write",
+          "listen",
+          "share"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "problem-solving",
+        "forbidden": [
+          "challenge",
+          "answer",
+          "find",
+          "fix"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "time management",
+        "forbidden": [
+          "schedule",
+          "plan",
+          "deadline",
+          "organize"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "adaptability",
+        "forbidden": [
+          "change",
+          "flexible",
+          "new",
+          "situation"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "teamwork",
+        "forbidden": [
+          "members",
+          "task",
+          "people",
+          "collaborate"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "digital literacy",
+        "forbidden": [
+          "computer",
+          "online",
+          "skill",
+          "information"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "initiative",
+        "forbidden": [
+          "start",
+          "act",
+          "without",
+          "ask"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "critical thinking",
+        "forbidden": [
+          "evidence",
+          "question",
+          "judge",
+          "ideas"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "work ethic",
+        "forbidden": [
+          "effort",
+          "reliable",
+          "job",
+          "attitude"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "negotiation",
+        "forbidden": [
+          "discuss",
+          "agree",
+          "terms",
+          "deal"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "presentation skill",
+        "forbidden": [
+          "speak",
+          "audience",
+          "slides",
+          "explain"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "networking",
+        "forbidden": [
+          "contacts",
+          "meet",
+          "career",
+          "people"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "decision-making",
+        "forbidden": [
+          "choose",
+          "options",
+          "consider",
+          "select"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "feedback skill",
+        "forbidden": [
+          "listen",
+          "comments",
+          "improve",
+          "respond"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "meeting agenda",
+        "level": "B1"
+      },
+      {
+        "word": "project brief",
+        "level": "B1"
+      },
+      {
+        "word": "feedback sheet",
+        "level": "B1"
+      },
+      {
+        "word": "work portfolio",
+        "level": "B1"
+      },
+      {
+        "word": "team task",
+        "level": "B1"
+      },
+      {
+        "word": "calendar invite",
+        "level": "B1"
+      },
+      {
+        "word": "presentation slide",
+        "level": "B1"
+      },
+      {
+        "word": "job interview",
+        "level": "B1"
+      },
+      {
+        "word": "skills checklist",
+        "level": "B1"
+      },
+      {
+        "word": "professional email",
+        "level": "B1"
+      },
+      {
+        "word": "workplace scenario",
+        "level": "B2"
+      },
+      {
+        "word": "decision matrix",
+        "level": "B2"
+      },
+      {
+        "word": "contact list",
+        "level": "B1"
+      },
+      {
+        "word": "reference call",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "communication",
+        "decoy": "collaboration",
+        "level": "B1"
+      },
+      {
+        "word": "problem-solving",
+        "decoy": "troubleshooting",
+        "level": "B2"
+      },
+      {
+        "word": "time management",
+        "decoy": "organization",
+        "level": "B1"
+      },
+      {
+        "word": "adaptability",
+        "decoy": "flexibility",
+        "level": "B2"
+      },
+      {
+        "word": "initiative",
+        "decoy": "leadership",
+        "level": "B2"
+      },
+      {
+        "word": "critical thinking",
+        "decoy": "analysis",
+        "level": "B2"
+      },
+      {
+        "word": "work ethic",
+        "decoy": "professionalism",
+        "level": "B2"
+      },
+      {
+        "word": "negotiation",
+        "decoy": "mediation",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "meeting agenda",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "project brief",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "feedback sheet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "work portfolio",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "calendar invite",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "job interview",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "decision matrix",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "contact list",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
   }
 ]
