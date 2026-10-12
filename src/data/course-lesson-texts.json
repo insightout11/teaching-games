@@ -1690,5 +1690,99 @@
     "courseId": "teens-money",
     "title": "My Spending Plan",
     "level": "B1"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "A narrow path links Ivo's school with a small park. On windy mornings, light food wrappers collect against the fence. Ivo wants to suggest one local action for his course task. His first idea is to organize a clean-up every Friday. That would make the path clearer, but his partner asks where the wrappers come from. Ivo has not checked. He assumes people drop them, although an overflowing bin might also be involved. They walk past the area with a teacher and describe what they can see without touching the waste. Most wrappers lie near a bin whose lid does not close. Farther along the path, there are fewer. Ivo writes down the issue, his proposed action and its possible effect. He also notes a question: would cleaning the path solve the cause or only remove the result? His opening plan is useful but incomplete. He will keep looking for a small change that people can maintain, not simply a large promise about saving the planet.",
+    "words": [
+      {
+        "word": "wrappers",
+        "meaning": "covers around food or other items"
+      },
+      {
+        "word": "fence",
+        "meaning": "a barrier around a place"
+      },
+      {
+        "word": "overflowing",
+        "meaning": "too full to keep its contents inside"
+      },
+      {
+        "word": "proposed",
+        "meaning": "suggested for people to consider"
+      },
+      {
+        "word": "maintain",
+        "meaning": "keep working well over time"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What collects against the fence?",
+        "a": "light food wrappers"
+      },
+      {
+        "q": "What is Ivo's first idea?",
+        "a": "a clean-up every Friday"
+      },
+      {
+        "q": "What problem does the bin have?",
+        "a": "does not close"
+      }
+    ],
+    "talk": [
+      "How could you find the cause of a local environmental problem?",
+      "What effect would you expect from one small action near you?"
+    ],
+    "courseId": "teens-planet",
+    "title": "One Change Near Us",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Ivo brings his path notes to the school council. His first idea was a weekly clean-up, but he now proposes asking the park caretaker to repair the bin lid. A closed lid could keep light wrappers from blowing out before collection. He explains the benefit carefully: it would reduce one source of litter, not stop every piece of rubbish along the path. There is a cost too. Somebody must arrange the repair and check that the lid still closes after use. His partner suggests making a polite request with a drawing of the problem. They will also ask adults how the remaining waste can be handled safely. Ivo compares the new plan with his original one. Cleaning still has a place, but preventing rubbish from escaping may reduce repeated work. His final talk names one action, its expected effect and a possible difficulty. The council can now respond to a practical request instead of a general wish for a cleaner park.",
+    "words": [
+      {
+        "word": "caretaker",
+        "meaning": "a person who looks after a place"
+      },
+      {
+        "word": "reduce",
+        "meaning": "make something smaller or less"
+      },
+      {
+        "word": "source",
+        "meaning": "where something comes from"
+      },
+      {
+        "word": "preventing",
+        "meaning": "stopping something before it happens"
+      },
+      {
+        "word": "request",
+        "meaning": "something you politely ask someone to do"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Who might repair the lid?",
+        "a": "the park caretaker"
+      },
+      {
+        "q": "What could a closed lid keep from blowing out?",
+        "a": "light wrappers"
+      },
+      {
+        "q": "What will the students include with their request?",
+        "a": "a drawing of the problem"
+      }
+    ],
+    "talk": [
+      "How does your final local action address the cause of the problem?",
+      "What difficulty should you explain honestly when asking people to support it?"
+    ],
+    "courseId": "teens-planet",
+    "title": "A Local Plan",
+    "level": "B1"
   }
 ]

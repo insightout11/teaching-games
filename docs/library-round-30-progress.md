@@ -20,3 +20,4 @@ Texts are written individually for each lesson's topic and flight. Opening and c
 - teens-film: 2 texts; course checker passes.
 - teens-mysteries: 2 texts; course checker passes.
 - teens-money: 2 texts; course checker passes.
+- teens-planet: 2 texts; course checker passes.
