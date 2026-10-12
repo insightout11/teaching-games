@@ -6,6 +6,7 @@ import { difficultyDescriptions } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import { resolveSourceContext, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
+import { deckSecret } from '@/lib/topic-game-decks';
 
 export const maxDuration = 60;
 
@@ -22,12 +23,18 @@ export async function POST(request: NextRequest) {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
 
-  // This will hit the AI. Enforce the free-tier weekly cap.
-  const limited = await checkAndRecordAiUsage(teacher);
-  if (limited) return limited;
-
   try {
     const { topic, difficulty, sourceMaterial, lessonKit, avoid } = await request.json() as { topic: string; difficulty: Difficulty; sourceMaterial?: SourceMaterial; lessonKit?: LessonKit; avoid?: string[] };
+
+    // No lesson material: a ready secret for the topic, with no AI call (so it doesn't count against the weekly cap).
+    if (!sourceMaterial) {
+      const ready = deckSecret(topic, difficulty, Array.isArray(avoid) ? avoid.filter(Boolean) : []);
+      if (ready) return NextResponse.json(ready);
+    }
+
+    // This will hit the AI. Enforce the free-tier weekly cap.
+    const limited = await checkAndRecordAiUsage(teacher);
+    if (limited) return limited;
 
     // Draw the secret from the lesson's source material when one is attached.
     const sourceContext = await resolveSourceContext(sourceMaterial, lessonKit);

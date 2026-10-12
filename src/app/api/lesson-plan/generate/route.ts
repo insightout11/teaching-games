@@ -6,6 +6,7 @@ import { fallbackGist, isKidsLevel, listeningWindow, packBlackBox, packStaticRou
 import { fallbackSayItAgain } from '@/lib/say-it-again';
 import { fallbackPassTheLine, validPassTheLine } from '@/lib/pass-the-line';
 import { fallbackQuickFire } from '@/lib/quick-fire';
+import { deckHotSeatCards, deckTabooRounds } from '@/lib/topic-game-decks';
 import { bankSituationFor, fallbackSpeakSituation, speakSituationIsTalk, validSpeakSituation } from '@/lib/speak-check';
 import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-announcement/content';
 import { NextRequest, NextResponse } from 'next/server';
@@ -3961,6 +3962,11 @@ export async function POST(request: NextRequest) {
             generators.push(generateBluffDefinition(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'taboo-sprint':
+            // No video or text for this lesson: a ready deck for the topic (instant, on topic, at the class level).
+            if (!sourceMaterial) {
+              const deck = deckTabooRounds(customTopic, diff);
+              if (deck) { content[activityKey] = { activityKey: 'taboo-sprint', topicContext: customTopic, rounds: deck, topic: customTopic }; break; }
+            }
             generators.push(generateTabooSprint(customTopic, diff, kitSourceCtx, kitGrounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'static': {
@@ -4043,7 +4049,12 @@ export async function POST(request: NextRequest) {
             generators.push(generateRadioCheck(customTopic, diff, sourceMaterial, sourceRawTranscript, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'hot-seat':
-            // Same topic cards as Taboo (word + definition); the forbidden words go unused.
+            // A ready Hot Seat deck for the topic when there is one and no lesson material to draw on.
+            if (!sourceMaterial) {
+              const deck = deckHotSeatCards(customTopic, diff);
+              if (deck) { content[activityKey] = { activityKey: 'hot-seat', topicContext: customTopic, cards: deck, topic: customTopic }; break; }
+            }
+            // Otherwise the same topic cards as Taboo (word + definition); the forbidden words go unused.
             generators.push(generateTabooSprint(customTopic, diff, kitSourceCtx, kitGrounding).then((r) => {
               content[activityKey] = { activityKey: 'hot-seat', topicContext: r.topicContext, cards: r.rounds, topic: r.topic };
             }));
