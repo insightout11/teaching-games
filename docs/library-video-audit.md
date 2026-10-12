@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 7/18; judged entries: 546/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 8/18; judged entries: 559/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -25,10 +25,11 @@ Completed libraries: 7/18; judged entries: 546/641. Cached inventory captured at
 | grammar-library.json | 89 | 77 | 0 | 4 | 8 | 0 | 0 |
 | hooks-library.json | 60 | 53 | 1 | 4 | 2 | 0 | 0 |
 | kids-library.json | 101 | 85 | 1 | 1 | 6 | 0 | 8 |
+| kurzgesagt-library.json | 13 | 1 | 0 | 0 | 12 | 0 | 0 |
 | listening-library.json | 60 | 58 | 0 | 2 | 0 | 0 | 0 |
 | ted-library.json | 20 | 1 | 0 | 0 | 19 | 0 | 0 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
-| **TOTAL** | **546** | 412 | 3 | 20 | 103 | 0 | 8 |
+| **TOTAL** | **559** | 413 | 3 | 20 | 115 | 0 | 8 |
 
 ## Non-ok entries, grouped by library
 
@@ -115,6 +116,23 @@ Completed libraries: 7/18; judged entries: 546/641. Cached inventory captured at
 | kids_antarctica | Antarctica: The Coldest Place on Earth! | level-off | The 926-word explanation connects slanted sunlight, Earth’s shape and Antarctic dryness using extended causal clauses, beyond A1.  | Raise the language level to A2 after checking spoken pacing. |
 | kids_look_whos_talking | Look Who's Talking | partial | The full cache explains plant investigations, Venus flytrap sensing and Darwin’s stem-tip experiment; communication is mentioned only briefly, and no animal communication examples are given.  | Rewrite the description as investigating how plants sense their surroundings. |
 | kids_glow_on | Glow On | mismatch | The full cache explains nuclear fusion, stellar luminosity and Betelgeuse versus the Sun; it does not concern living things producing light.  | Retitle to Why Stars Glow and rewrite the description. |
+
+### kurzgesagt-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| kurzgesagt_optimistic_nihilism | Optimistic Nihilism | weak-captions | The cached body is Albanian translation (for example, Ekzistenca njerëzore është e frikshme dhe), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| kurzgesagt_the_egg | The Egg – A Short Story | weak-captions | the stored text is an Arabic-script translation, beginning “كنت في طريقك إلى المنزل عندما”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| kurzgesagt_how_small_is_an_atom | How Small Is an Atom? Spoiler: Very Small. | weak-captions | The cached body is Albanian translation (for example, Atomet janë qesharakë dhe jashtëzakonisht të), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| kurzgesagt_plastic_pollution | Plastic Pollution: How Humans are Turning the World into Plastic | weak-captions | the stored text is an Arabic-script translation, beginning “عندما منحت الآلهة الملك ميداس أمنية”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| kurzgesagt_what_is_something | What Is Something? | weak-captions | The cached body is Albanian translation (for example, Pyetjet e thjeshta janë ato më), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| kurzgesagt_loneliness | Loneliness | weak-captions | The cached body is Albanian translation (for example, Të gjithë ndihemi të vetmuar kohë), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| kurzgesagt_why_blue_whales_dont_get_cancer | Why Blue Whales Don't Get Cancer – Peto's Paradox | weak-captions | The cached body is Albanian translation (for example, Kanceri është diçka e frikshme dhe), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| kurzgesagt_overpopulation_africa | Overpopulation & Africa | weak-captions | The cached body is Afrikaans translation (for example, Vir die grootste deel van mensdom), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| kurzgesagt_why_are_you_alive | Why Are You Alive – Life, Energy & ATP | weak-captions | The cached body is Afrikaans translation (for example, Op hierdie sekonde is jy aan), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| kurzgesagt_universal_basic_income | Universal Basic Income Explained – Free Money for Everybody? | weak-captions | the stored text is an Arabic-script translation, beginning “ماذا لو غطت الدولة تكلفة معيشتك”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| kurzgesagt_selfish_argument | A Selfish Argument for Making the World a Better Place – Egoistic Altruism | weak-captions | the stored text is an Arabic-script translation, beginning “حتى وقت قريب, الغالبية العظمى من”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| kurzgesagt_nuclear_energy | Do We Need Nuclear Energy to Stop Climate Change? | weak-captions | The cached body is Azerbaijani translation (for example, İqlim dəyişikliyini dayandırmaq üçün nüvə enerjisinə), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
 
 ### listening-library.json
 

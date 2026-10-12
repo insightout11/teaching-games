@@ -1459,6 +1459,58 @@
     "status": "ok",
     "note": "Sun energy, liquid water and imagined alien food webs match conditions for life elsewhere."
   },
+  "kurzgesagt-library.json/kurzgesagt_optimistic_nihilism": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Ekzistenca njerëzore është e frikshme dhe), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "kurzgesagt-library.json/kurzgesagt_the_egg": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “كنت في طريقك إلى المنزل عندما”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "kurzgesagt-library.json/kurzgesagt_how_small_is_an_atom": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Atomet janë qesharakë dhe jashtëzakonisht të), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "kurzgesagt-library.json/kurzgesagt_plastic_pollution": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “عندما منحت الآلهة الملك ميداس أمنية”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "kurzgesagt-library.json/kurzgesagt_what_is_something": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Pyetjet e thjeshta janë ato më), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "kurzgesagt-library.json/kurzgesagt_loneliness": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Të gjithë ndihemi të vetmuar kohë), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "kurzgesagt-library.json/kurzgesagt_why_blue_whales_dont_get_cancer": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Kanceri është diçka e frikshme dhe), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "kurzgesagt-library.json/kurzgesagt_overpopulation_africa": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Afrikaans translation (for example, Vir die grootste deel van mensdom), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "kurzgesagt-library.json/kurzgesagt_why_are_you_alive": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Afrikaans translation (for example, Op hierdie sekonde is jy aan), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "kurzgesagt-library.json/kurzgesagt_universal_basic_income": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “ماذا لو غطت الدولة تكلفة معيشتك”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "kurzgesagt-library.json/kurzgesagt_selfish_argument": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “حتى وقت قريب, الغالبية العظمى من”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "kurzgesagt-library.json/kurzgesagt_addiction": {
+    "status": "ok",
+    "note": "Rat Park, drugged water and human social bonds match the connection/environment explanation of addiction; the audit does not verify the scientific claims."
+  },
+  "kurzgesagt-library.json/kurzgesagt_nuclear_energy": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Azerbaijani translation (for example, İqlim dəyişikliyini dayandırmaq üçün nüvə enerjisinə), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
   "listening-library.json/listening-r7-english-file-introductions": {
     "status": "ok",
     "note": "Birthplace, family, work and pets match basic introductions."
