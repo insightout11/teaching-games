@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 11/18; judged entries: 596/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 12/18; judged entries: 606/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -23,6 +23,7 @@ Completed libraries: 11/18; judged entries: 596/641. Cached inventory captured a
 |---|---:|---:|---:|---:|---:|---:|---:|
 | bbc-ideas-library.json | 10 | 7 | 1 | 1 | 0 | 0 | 1 |
 | bbc-library.json | 115 | 86 | 1 | 9 | 19 | 0 | 0 |
+| bigthink-library.json | 10 | 6 | 2 | 2 | 0 | 0 | 0 |
 | crash-course-library.json | 14 | 1 | 0 | 1 | 11 | 0 | 1 |
 | grammar-library.json | 89 | 77 | 0 | 4 | 8 | 0 | 0 |
 | hooks-library.json | 60 | 53 | 1 | 4 | 2 | 0 | 0 |
@@ -32,7 +33,7 @@ Completed libraries: 11/18; judged entries: 596/641. Cached inventory captured a
 | natgeo-library.json | 13 | 2 | 0 | 3 | 7 | 0 | 1 |
 | ted-library.json | 20 | 1 | 0 | 0 | 19 | 0 | 0 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
-| **TOTAL** | **596** | 423 | 4 | 25 | 133 | 0 | 11 |
+| **TOTAL** | **606** | 429 | 6 | 27 | 133 | 0 | 11 |
 
 ## Non-ok entries, grouped by library
 
@@ -77,6 +78,15 @@ Completed libraries: 11/18; judged entries: 596/641. Cached inventory captured a
 | bbc-grammar-r2-3dA7P5arkyc | Used to — 6 Minute Grammar | weak-captions | The 47-word cache asks about used to versus past simple and says “look at some examples first”, without providing those examples.  | Remove from video-caption lesson selection until a complete matching English transcript is cached. |
 | bbc-grammar-r2-38QqDrckyxM | Active and passive voice — 6 Minute Grammar | weak-captions | The 83-word cache explains only active voice, ending “So what is the passive voice?”, without transcribing the answer.  | Remove from video-caption lesson selection until a complete matching English transcript is cached. |
 | bbc-grammar-r2-foyWhOHhTT0 | Question tags — 6 Minute Grammar | weak-captions | The 85-word cache tells readers to “stay on this page” to learn question tags; the tag lesson itself is absent.  | Remove from video-caption lesson selection until a complete matching English transcript is cached. |
+
+### bigthink-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| bigthink_free_will_physics | Why Physics Ends the Free Will Debate | mismatch | Kaku says quantum uncertainty means in some sense we do have some kind of free will, directly opposite the description’s claim that quantum mechanics undermines free will.  | Rewrite the description to say uncertainty challenges determinism and leaves room for choice. |
+| bigthink_free_will_pinker | Free Will: Is It an Illusion? | partial | The full cache distinguishes conscious choices from reflexes and rejects a mysterious soul, but never discusses morality or law as promised.  | Narrow the description to brain processes, conscious choice and reflexes. |
+| bigthink_psychology_happiness | The Psychology of Happiness | mismatch | The full caption explains receiving feedback through baseline, emotional swing, recovery and distortions; it is not a guide to predicting what makes us happy.  | Retitle to Why People React Differently to Feedback and rewrite the description. |
+| bigthink_evolution_intelligence | The Evolution of Human Intelligence | partial | The full caption covers thumbs, predator eyesight, language and making chimpanzees more intelligent through genes; it never discusses artificial intelligence.  | Remove the AI promise and describe evolution plus hypothetical primate gene changes. |
 
 ### crash-course-library.json
 

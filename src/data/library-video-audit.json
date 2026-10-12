@@ -499,6 +499,46 @@
     "status": "ok",
     "note": "Dan contrasts hypothetical past/present time relationships and third-to-second or second-to-third conditionals, matching mixed conditionals."
   },
+  "bigthink-library.json/bigthink_free_will_physics": {
+    "status": "mismatch",
+    "note": "Evidence: Kaku says quantum uncertainty means in some sense we do have some kind of free will, directly opposite the description’s claim that quantum mechanics undermines free will. Suggested action: Rewrite the description to say uncertainty challenges determinism and leaves room for choice."
+  },
+  "bigthink-library.json/bigthink_fermi_paradox": {
+    "status": "ok",
+    "note": "Alien indifference, forest-clearing analogies and contact risk match the Fermi/contact argument."
+  },
+  "bigthink-library.json/bigthink_unconscious_decisions": {
+    "status": "ok",
+    "note": "Kandel discusses Libet experiments, conscious/unconscious decisions and choosing with incomplete information; creativity is not developed, but the principal decision-making claim matches."
+  },
+  "bigthink-library.json/bigthink_free_will_pinker": {
+    "status": "partial",
+    "note": "Evidence: The full cache distinguishes conscious choices from reflexes and rejects a mysterious soul, but never discusses morality or law as promised. Suggested action: Narrow the description to brain processes, conscious choice and reflexes."
+  },
+  "bigthink-library.json/bigthink_psychology_happiness": {
+    "status": "mismatch",
+    "note": "Evidence: The full caption explains receiving feedback through baseline, emotional swing, recovery and distortions; it is not a guide to predicting what makes us happy. Suggested action: Retitle to Why People React Differently to Feedback and rewrite the description."
+  },
+  "bigthink-library.json/bigthink_evolution_intelligence": {
+    "status": "partial",
+    "note": "Evidence: The full caption covers thumbs, predator eyesight, language and making chimpanzees more intelligent through genes; it never discusses artificial intelligence. Suggested action: Remove the AI promise and describe evolution plus hypothetical primate gene changes."
+  },
+  "bigthink-library.json/bigthink_reverse_unhappiness": {
+    "status": "ok",
+    "note": "Ben-Shahar describes personal unhappiness, generosity and repeated evidence-based practice as claimed."
+  },
+  "bigthink-library.json/bigthink_teenage_brain": {
+    "status": "ok",
+    "note": "Frontal-cortex development, novelty seeking and fluid versus crystallised intelligence match adolescent brain differences."
+  },
+  "bigthink-library.json/bigthink_neuroscience_creativity": {
+    "status": "ok",
+    "note": "Assumptions, uncertainty, perception and small conceptual steps match creative thinking."
+  },
+  "bigthink-library.json/bigthink_growth_mindset": {
+    "status": "ok",
+    "note": "Not yet, effort, learning from errors and growth-oriented classrooms match Dweck’s mindset talk; occasional caption errors do not erase its meaning."
+  },
   "crash-course-library.json/cc-ww1-overview": {
     "status": "weak-captions",
     "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبًا، أنا جون غرين وهذه سلسلة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
