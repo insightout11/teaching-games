@@ -122,7 +122,7 @@ import { getCachedContent, storeCachedContent, groundingVariant } from '@/lib/co
 import { validateDeck, lessonGroundedRatio } from '@/activities/cargo-hold/content-validation';
 import { buildFallbackDeck } from '@/activities/cargo-hold/fallback-deck';
 import type { SourceMaterial } from '@/types/source-material';
-import { buildSourceContext, extractPlainText, getGapFillMode, fetchSourceTranscript } from '@/lib/source-context';
+import { buildSourceContext, extractPlainText, getGapFillMode, fetchSourceTranscript, isUsableEnglishTranscript } from '@/lib/source-context';
 import { findGrammarClip } from '@/lib/grammar-clips';
 import { normalizePastedSourceMaterial } from '@/lib/pasted-source';
 import { buildSourceGroundingContract, type SourceGroundingContract } from '@/lib/source-grounding';
@@ -1315,7 +1315,7 @@ async function generateVideoComprehensionQuestions(source: SourceMaterial, diffi
         .eq('source_type', source.sourceType)
         .eq('source_key', source.sourceKey)
         .single();
-      if (data?.raw_transcript) {
+      if (data?.raw_transcript && isUsableEnglishTranscript(data.raw_transcript)) {
         contentBlock = formatTranscriptForAI(data.raw_transcript);
       }
     } catch { /* fall through to summary */ }

@@ -96,6 +96,21 @@ export function getGapFillMode(source?: SourceMaterial): 'listening' | 'reading'
  * IMPORTANT: transcripts are never fetched from YouTube on the fly — they are
  * prefetched by scripts/prefetch-library-transcripts.ts into source_extractions.
  */
+/**
+ * True when stored captions are English speech we can build a lesson from. A library audit (Oct 2026) found 112
+ * videos whose stored captions are a TRANSLATION in another script (Arabic, for example): an English lesson built
+ * from those is built from text nobody in the class hears. Such captions are ignored, and the lesson falls back to
+ * the video's summary, until they are fetched again in English.
+ */
+export function isUsableEnglishTranscript(rawTranscript: string): boolean {
+  const text = extractPlainText(rawTranscript);
+  // Letters of any script: ASCII letters plus everything above the Latin-1 punctuation block.
+  const letters = text.match(/[A-Za-zÀ-￿]/g) ?? [];
+  if (letters.length < 40) return false;
+  const latin = letters.filter((ch) => /[A-Za-z\u00C0-\u024F]/.test(ch)).length;
+  return latin / letters.length >= 0.85;
+}
+
 export async function fetchSourceTranscript(source?: SourceMaterial): Promise<string | undefined> {
   if (!source?.sourceKey) return undefined;
   try {
@@ -107,7 +122,7 @@ export async function fetchSourceTranscript(source?: SourceMaterial): Promise<st
       .eq('source_type', source.sourceType)
       .eq('source_key', source.sourceKey)
       .single();
-    if (data?.raw_transcript) return data.raw_transcript as string;
+    if (data?.raw_transcript && isUsableEnglishTranscript(data.raw_transcript as string)) return data.raw_transcript as string;
   } catch { /* continue — falls back to summary */ }
   return undefined;
 }

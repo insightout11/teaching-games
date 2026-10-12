@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildSourceContext } from '@/lib/source-context';
+import { buildSourceContext, isUsableEnglishTranscript } from '@/lib/source-context';
 
 describe('teaching notes in the source context', () => {
   const base = { sourceType: 'text' as const, title: 'Hello, Moon', summary: 'The Moon has craters.', rawText: 'The Moon has craters. A crater is a big round hole.' };
@@ -34,5 +34,15 @@ describe('a typed topic (background notes only)', () => {
   it('still treats real pasted text as the text', () => {
     const ctx = buildSourceContext({ sourceType: 'text', title: 'A Fair First Job', summary: 'Maya wants a job.', rawText: 'Maya wants a job.' });
     expect(ctx).toContain('ground ALL content ONLY in this source text');
+  });
+});
+
+describe('stored captions', () => {
+  it('uses English captions and ignores a translation in another script', () => {
+    const english = JSON.stringify([{ text: 'Not everybody likes the same kind of food, right? That is probably a good thing.', offset: 0, duration: 4000 }]);
+    const arabic = JSON.stringify([{ text: 'حتى وقت قريب, الغالبية العظمى من الناس كانوا يعيشون في القرى الصغيرة', offset: 0, duration: 4000 }]);
+    expect(isUsableEnglishTranscript(english)).toBe(true);
+    expect(isUsableEnglishTranscript(arabic)).toBe(false);
+    expect(isUsableEnglishTranscript('[Music]')).toBe(false);
   });
 });
