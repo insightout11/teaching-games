@@ -2459,5 +2459,320 @@
       "daily life",
       "economics"
     ]
+  },
+  "lisbon/city-guide-video": {
+    "keyIdea": "Lisbon's decorated stone pavements put skilled art into ordinary walking routes, while squares offer places to watch shared city life.",
+    "tradeoff": "Covering a city's many places on foot still takes time and effort.",
+    "designUse": "Bring durable local artwork into ordinary walking routes and meeting spaces.",
+    "investigationTags": [
+      "art",
+      "public space",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "lisbon/azulejos-video": {
+    "keyIdea": "Portuguese painted tiles decorate whole building fronts and tell stories through pictures, linking skilled craft with shared visible architecture.",
+    "tradeoff": "Detailed tile pictures can take many hours or even weeks to make.",
+    "designUse": "Allow time for skilled tile work when adding stories to building surfaces.",
+    "investigationTags": [
+      "art",
+      "architecture",
+      "heritage"
+    ],
+    "thin": true
+  },
+  "lisbon/fado-video": {
+    "keyIdea": "Portuguese fado grew around waterfront alleys and taverns, using song to express longing, struggle, love, and everyday feelings.",
+    "tradeoff": "Listeners who do not know Portuguese may feel emotion without understanding every word.",
+    "designUse": "Give music audiences ways to understand the lives and feelings behind songs.",
+    "investigationTags": [
+      "culture",
+      "art",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "lisbon/earthquake-rebuilding": {
+    "keyIdea": "Lisbon's earthquake recovery introduced broad streets, a regular grid, and building methods intended to resist future shaking.",
+    "tradeoff": "Rebuilding changed the city's earlier form and did not remove earthquake risk.",
+    "designUse": "Use disaster recovery to improve street organization and safer building methods.",
+    "investigationTags": [
+      "history",
+      "engineering",
+      "urban planning"
+    ]
+  },
+  "lisbon/tagus-and-empire": {
+    "keyIdea": "Lisbon's Tagus waterfront linked inland routes with ocean trade, bringing exchange and wealth through an unequal imperial system.",
+    "tradeoff": "Maritime wealth was also built through conquest, slavery, and forced labor.",
+    "designUse": "Explain port achievements alongside the people and places harmed by their growth.",
+    "investigationTags": [
+      "water",
+      "history",
+      "ethics"
+    ]
+  },
+  "lisbon/hills-and-neighborhoods": {
+    "keyIdea": "Lisbon's hills give neighborhoods distinct shapes, while stairs, lifts, and transport respond to the effort of moving between levels.",
+    "tradeoff": "Steep routes can exclude people with limited mobility or heavy goods.",
+    "designUse": "Connect hillside neighborhoods with accessible alternatives to steep stairs and streets.",
+    "investigationTags": [
+      "geography",
+      "transport",
+      "housing"
+    ]
+  },
+  "dublin/irish-dance-video": {
+    "keyIdea": "A beginner Irish dance activity uses repeated steps and welcomes mistakes, helping children join a cultural celebration through movement.",
+    "tradeoff": "Following the activity needs an open space where children can move safely.",
+    "designUse": "Make beginner cultural activities welcoming and provide clear space for movement.",
+    "investigationTags": [
+      "culture",
+      "movement"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "dublin/book-of-kells-video": {
+    "keyIdea": "Dublin's Book of Kells display and online scans offer different ways to view detailed pages of a protected old book.",
+    "tradeoff": "A physical display shows only a small part of the book at once.",
+    "designUse": "Complement protected book displays with detailed digital views of more pages.",
+    "investigationTags": [
+      "literature",
+      "art",
+      "heritage"
+    ],
+    "tradeoffInferred": true
+  },
+  "dublin/oscar-wilde-video": {
+    "keyIdea": "Dublin's Oscar Wilde archive uses letters, photographs, and personal objects to show both public fame and private experience.",
+    "tradeoff": "A single celebrity image can hide family life, suffering, and exile.",
+    "designUse": "Use personal records to show lives beyond a famous public image.",
+    "investigationTags": [
+      "literature",
+      "museums",
+      "history"
+    ],
+    "tradeoffInferred": true
+  },
+  "dublin/river-liffey": {
+    "keyIdea": "Dublin's port activity moved east, allowing former industrial riverfront land to become homes, offices, cultural places, and public routes.",
+    "tradeoff": "Riverfront redevelopment can raise land values and change nearby communities.",
+    "designUse": "Keep changing industrial riverfronts useful to existing communities as well as new businesses.",
+    "investigationTags": [
+      "water",
+      "urban change",
+      "urban planning"
+    ]
+  },
+  "dublin/irish-language-city": {
+    "keyIdea": "Dublin keeps Irish visible through schools, signs, and services, while everyday use needs welcoming opportunities for people to speak.",
+    "tradeoff": "Signs and formal rules alone cannot make a language natural in daily conversation.",
+    "designUse": "Create welcoming conversation settings alongside official language signs and education.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "community"
+    ]
+  },
+  "dublin/georgian-city": {
+    "keyIdea": "Dublin's Georgian houses keep recognizable street patterns while serving new uses that must meet modern building needs.",
+    "tradeoff": "Heritage protection can conflict with energy efficiency, access, safety, and maintenance costs.",
+    "designUse": "Update historic interiors for useful access and safety while retaining valued street features.",
+    "investigationTags": [
+      "architecture",
+      "heritage",
+      "urban change"
+    ]
+  },
+  "dakar/ladoum-sheep-video": {
+    "keyIdea": "Senegalese Ladoum sheep breeders use size, shape, and other traits in competitions that help establish the animals' high value.",
+    "tradeoff": "Valuable breeding animals need investment and secure places to keep them.",
+    "designUse": "Keep breeding criteria clear and invest in safe animal facilities.",
+    "investigationTags": [
+      "nature",
+      "economics"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "dakar/biennale-video": {
+    "keyIdea": "Dakar's biennale brings artists together across galleries, studios, private spaces, and streets, widening where contemporary art can be encountered.",
+    "tradeoff": "A shared festival still depends on choices about which artists receive support.",
+    "designUse": "Spread art events across public and private spaces with clear artist support.",
+    "investigationTags": [
+      "art",
+      "culture",
+      "public space"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "dakar/goree-electricity-video": {
+    "keyIdea": "An underwater cable connects Goree to Dakar's main electricity grid, replacing reliance on dirty and noisy diesel generators.",
+    "tradeoff": "A cable connection still depends on the mainland electricity supply it reaches.",
+    "designUse": "Compare an island grid link with local generation and maintenance needs.",
+    "investigationTags": [
+      "engineering",
+      "environment"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "dakar/fishing-city": {
+    "keyIdea": "Dakar's fishing links boats, processing, markets, and meals, so changes in catches affect work and food across the city.",
+    "tradeoff": "Industrial fleets, costs, and environmental change put small-scale fishers' livelihoods under pressure.",
+    "designUse": "Combine catch protection with the practical knowledge and needs of small fishers.",
+    "investigationTags": [
+      "nature",
+      "economics",
+      "food culture"
+    ]
+  },
+  "dakar/wolof-language": {
+    "keyIdea": "Dakar's speakers move between Wolof, French, and other languages, adapting communication to people, institutions, and everyday purposes.",
+    "tradeoff": "An institution's language can make participation harder for people more comfortable in another.",
+    "designUse": "Offer public communication in languages people actually use beyond formal institutions.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "migration"
+    ]
+  },
+  "dakar/teranga-hospitality": {
+    "keyIdea": "Dakar's teranga makes welcome a shared responsibility, expressed through greetings, food, attention, and reciprocal respect rather than a purchase.",
+    "tradeoff": "Hospitality requires resources and effort, and tourism branding can simplify its meaning.",
+    "designUse": "Build guest experiences around reciprocal respect and realistic community resources.",
+    "investigationTags": [
+      "culture",
+      "daily life",
+      "community"
+    ]
+  },
+  "recife/brazil-for-kids-video": {
+    "keyIdea": "Brazil's landscapes and traditions vary across wetlands, forests, coastal cities, and historic neighborhoods, rather than forming one uniform visitor experience.",
+    "tradeoff": "A brief national tour cannot explain Recife's own daily life or city systems.",
+    "designUse": "Introduce regional differences before choosing which local experiences to explore.",
+    "investigationTags": [
+      "geography",
+      "culture"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "recife/frevo-video": {
+    "keyIdea": "Recife's port migrants mixed African-influenced rhythms with local musicians, helping create frevo traditions still carried through community Carnival groups.",
+    "tradeoff": "Keeping the tradition active depends on younger people joining its practices.",
+    "designUse": "Bring generations together to practice local rhythms and develop new street performances.",
+    "investigationTags": [
+      "migration",
+      "culture",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "recife/silent-drums-video": {
+    "keyIdea": "Olinda's maracatu procession preserves Afro-Brazilian religious traditions that survived through cultural forms when those religions were outlawed.",
+    "tradeoff": "Treating it only as a Catholic celebration hides its African origins and resistance.",
+    "designUse": "Explain living celebrations through the communities and beliefs that sustained them.",
+    "investigationTags": [
+      "religion",
+      "culture",
+      "history"
+    ],
+    "thin": true
+  },
+  "recife/water-city": {
+    "keyIdea": "Recife's rivers and mangroves support connected districts, habitats, and sediment control, making water part of both settlement and protection.",
+    "tradeoff": "Development and polluted runoff damage mangroves and increase pressure on vulnerable waterfronts.",
+    "designUse": "Protect mangrove edges while connecting riverside districts with clean, accessible routes.",
+    "investigationTags": [
+      "water",
+      "nature",
+      "environment"
+    ]
+  },
+  "recife/sugar-and-slavery": {
+    "keyIdea": "Recife's sugar port generated wealth through enslaved labor, while African knowledge and resistance shaped lasting regional culture.",
+    "tradeoff": "Historic buildings can hide the workers and violence behind their visible wealth.",
+    "designUse": "Pair historic trade buildings with evidence of labor, resistance, and unequal power.",
+    "investigationTags": [
+      "history",
+      "ethics",
+      "identity"
+    ]
+  },
+  "recife/creative-city": {
+    "keyIdea": "Recife's creative scene mixes regional rhythms and histories with new media, relying on affordable venues, studios, and shared working spaces.",
+    "tradeoff": "Recognition can increase costs and push artists from the places they helped make attractive.",
+    "designUse": "Keep creative production spaces affordable as a cultural district gains attention.",
+    "investigationTags": [
+      "culture",
+      "economics",
+      "community"
+    ]
+  },
+  "panama-city/mola-art-video": {
+    "keyIdea": "Panamanian molas use layers of cloth and careful cutting to turn animal shapes and patterns into detailed cultural art.",
+    "tradeoff": "A paper version cannot show all the stitching skills involved in cloth pieces.",
+    "designUse": "Explain the craft behind a simple art activity rather than only copying shapes.",
+    "investigationTags": [
+      "art",
+      "culture"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "panama-city/canal-for-kids-video": {
+    "keyIdea": "The Panama Canal uses locks to raise and lower ships, giving trade a shorter route between two oceans.",
+    "tradeoff": "Construction involved disease, technical problems, heavy spending, and many lost lives.",
+    "designUse": "Count worker safety and construction difficulties when comparing major route shortcuts.",
+    "investigationTags": [
+      "engineering",
+      "transport",
+      "economics"
+    ]
+  },
+  "panama-city/amphibian-conservation-video": {
+    "keyIdea": "Panama's amphibian conservation center protects threatened frogs when a skin fungus makes survival in the wild difficult.",
+    "tradeoff": "Some species survive only in protected collections rather than their original habitats.",
+    "designUse": "Support threatened species while explaining why protected collections cannot replace healthy habitats.",
+    "investigationTags": [
+      "science",
+      "environment",
+      "nature"
+    ],
+    "thin": true
+  },
+  "panama-city/casco-viejo": {
+    "keyIdea": "Panama City's restored Casco Viejo attracts visitors and investment, but its heritage also depends on people continuing to live there.",
+    "tradeoff": "Rising property values can remove local residents and the relationships that keep a district alive.",
+    "designUse": "Measure heritage success through continued community life as well as restored buildings.",
+    "investigationTags": [
+      "heritage",
+      "housing",
+      "community"
+    ]
+  },
+  "panama-city/afro-panamanian-culture": {
+    "keyIdea": "Panama City's Afro-Panamanian communities built support networks and institutions while contributing labor and culture to a global trading center.",
+    "tradeoff": "Canal workers faced unequal pay, housing, rights, and treatment across racial and national groups.",
+    "designUse": "Recognize workers' institutions and rights within stories of major engineering projects.",
+    "investigationTags": [
+      "migration",
+      "history",
+      "ethics"
+    ]
+  },
+  "panama-city/canal-and-water": {
+    "keyIdea": "Panama's canal locks depend on watershed fresh water that is also needed by communities, ecosystems, and businesses.",
+    "tradeoff": "Drought can force limits on ship depth or daily traffic to protect supply.",
+    "designUse": "Balance shipping capacity with watershed health and local drinking-water needs.",
+    "investigationTags": [
+      "water",
+      "environment",
+      "economics"
+    ]
   }
 }

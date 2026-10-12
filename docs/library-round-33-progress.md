@@ -41,3 +41,7 @@ Authored 30 more entries (210 total), grounded in all associated captions/texts.
 ## Batch 8: Auckland, Suva, Ulaanbaatar, Almaty, Madrid
 
 Authored 30 more entries (240 total). Auckland’s ancestral-mountain management and Ulaanbaatar’s user-led transport upgrades use specific decision mechanisms. Suva’s national history and coral-coast village video are flagged thin for their city-specific connection and retain their actual regional setting. Almaty’s city-introduction evidence uses the mountain-camp example actually shown rather than invented garden policy. Partial checks pass.
+
+## Batch 9: Lisbon, Dublin, Dakar, Recife, Panama City
+
+Authored 30 more entries (270 total). Source limitations: Dublin’s dance activity is explicitly filmed in California; Lisbon’s tile video discusses Portuguese/Algarve craft generally; Recife’s kids introduction covers Brazil broadly; Recife’s silent-drums report is in Olinda; Panama’s frog center is in El Valle. These entries keep the actual setting and carry thin flags for the weak city connection. Dakar’s biennale and electricity captions are largely garbled: evidence uses only the clear passages (distributed art spaces and the Goree-to-Dakar grid cable), with thin and inferred flags. Partial checks pass.
