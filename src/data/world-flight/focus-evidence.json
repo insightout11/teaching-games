@@ -1,0 +1,304 @@
+{
+  "bangkok/creative-renaissance-video": {
+    "keyIdea": "Bangkok creatives restore older buildings and mix traditional culture with new art rather than replacing everything.",
+    "tradeoff": "Making art welcoming takes work beyond simply saving an old building.",
+    "designUse": "Turn restored buildings into welcoming places for local creative work.",
+    "investigationTags": [
+      "heritage",
+      "art",
+      "urban culture"
+    ],
+    "tradeoffInferred": true
+  },
+  "bangkok/food-identity-video": {
+    "keyIdea": "Bangkok's independent food shops help give the city a character that chain restaurants cannot easily replace.",
+    "tradeoff": "Independent shops are disappearing, putting their distinctive food and local character at risk.",
+    "designUse": "Reserve affordable space for independent cooks alongside larger food businesses.",
+    "investigationTags": [
+      "food culture",
+      "economics"
+    ],
+    "thin": true
+  },
+  "bangkok/river-boats-video": {
+    "keyIdea": "At Sathorn Pier, Bangkok's boats connect river trips with trains, nearby hotels, and places to visit.",
+    "tradeoff": "Different counters, flags, and waiting areas can make choosing the right boat confusing.",
+    "designUse": "Match signs at shared stops to each service and waiting area.",
+    "investigationTags": [
+      "transport",
+      "travel english"
+    ]
+  },
+  "bangkok/songkran-city-ritual": {
+    "keyIdea": "Bangkok's Songkran brings family and temple customs into streets shared by local people and visitors.",
+    "tradeoff": "A water-party image can hide the festival's family ties and deeper meanings.",
+    "designUse": "Explain a celebration's meaning alongside rules for sharing crowded streets.",
+    "investigationTags": [
+      "culture",
+      "community"
+    ]
+  },
+  "bangkok/green-escape": {
+    "keyIdea": "Bangkok's Benjakitti Park turns former industrial land into green public space with water, walking routes, and shade.",
+    "tradeoff": "Parks need valuable land and upkeep, reducing space available for short-term profit.",
+    "designUse": "Keep useful land for free green spaces that manage heat and water.",
+    "investigationTags": [
+      "urban design",
+      "public space",
+      "water"
+    ]
+  },
+  "bangkok/city-of-design": {
+    "keyIdea": "Bangkok treats design as a way to improve everyday streets, shops, and public spaces, not just luxury products.",
+    "tradeoff": "Beautiful or efficient designs may still create difficulties for other users.",
+    "designUse": "Ask ordinary users how redesigned spaces could make daily tasks easier.",
+    "investigationTags": [
+      "design",
+      "daily life",
+      "urban planning"
+    ]
+  },
+  "tokyo/metro-economics-video": {
+    "keyIdea": "Tokyo connects commuter trains directly with subway tracks, reducing transfers, while shared payment cards simplify journeys.",
+    "tradeoff": "Distance-based fares mean people making longer journeys must pay more.",
+    "designUse": "Join rail routes and payment systems so passengers change less often.",
+    "investigationTags": [
+      "transport",
+      "systems thinking",
+      "economics"
+    ]
+  },
+  "tokyo/vending-machines-video": {
+    "keyIdea": "Tokyo's vending machines provide goods around the clock, and some reuse cooling heat to warm drinks.",
+    "tradeoff": "Operators still refill machines, while convenience stores compete for customers and locations.",
+    "designUse": "Reuse waste heat inside equipment that offers services throughout the day.",
+    "investigationTags": [
+      "daily life",
+      "engineering",
+      "economics"
+    ]
+  },
+  "tokyo/urban-history-video": {
+    "keyIdea": "Tokyo's rebuilding after fires and earthquakes changed street layouts and expanded railways into new residential areas.",
+    "tradeoff": "The changes followed disasters that destroyed homes and large parts of the city.",
+    "designUse": "Use rebuilding plans to connect new homes with safe transport routes.",
+    "investigationTags": [
+      "urban history",
+      "cause and effect",
+      "transport"
+    ]
+  },
+  "tokyo/earthquake-readiness": {
+    "keyIdea": "Tokyo protects emergency roads by strengthening nearby buildings, linking city rescue plans with everyday household preparation.",
+    "tradeoff": "Dense housing, damaged services, and stranded commuters can still make disaster response difficult.",
+    "designUse": "Protect rescue routes while helping households plan supplies and communication.",
+    "investigationTags": [
+      "engineering",
+      "problem solving",
+      "community"
+    ]
+  },
+  "tokyo/harajuku-fashion": {
+    "keyIdea": "In Harajuku, young people mix different clothes and styles to show who they are in public.",
+    "tradeoff": "Tourism and big brands can turn many personal styles into one simple image.",
+    "designUse": "Leave public space for young people to display their own styles.",
+    "investigationTags": [
+      "identity",
+      "culture",
+      "public space"
+    ]
+  },
+  "tokyo/sento-neighborhoods": {
+    "keyIdea": "Tokyo's public bathhouses now offer shared local spaces, as more people have bathrooms in their own homes.",
+    "tradeoff": "Bathhouses cannot depend only on washing services when people can wash at home.",
+    "designUse": "Give older shared facilities new uses while keeping familiar local routines.",
+    "investigationTags": [
+      "daily life",
+      "community",
+      "heritage"
+    ]
+  },
+  "seoul/subway-system-video": {
+    "keyIdea": "Seoul's subway uses platform doors and camera inspections to improve safety, while stations also host shops and performances.",
+    "tradeoff": "Safety equipment alone cannot replace ongoing cleaning, inspection, and customer service.",
+    "designUse": "Combine transport safety features with regular checks and welcoming station spaces.",
+    "investigationTags": [
+      "transport",
+      "engineering",
+      "community"
+    ],
+    "tradeoffInferred": true
+  },
+  "seoul/gyeongbokgung-video": {
+    "keyIdea": "Seoul's Gyeongbokgung combines palace buildings, a guard ceremony, and museum displays to share parts of Korean history.",
+    "tradeoff": "A short ceremony can show only one part of the palace's past.",
+    "designUse": "Pair live demonstrations with displays that explain the history behind them.",
+    "investigationTags": [
+      "heritage",
+      "history",
+      "culture"
+    ],
+    "tradeoffInferred": true
+  },
+  "seoul/korea-history-video": {
+    "keyIdea": "Moving the royal capital to Seoul made the city part of a wider change in Korea's government.",
+    "tradeoff": "A change of capital shifts political activity away from the previous center.",
+    "designUse": "Show how changes in government move important places within a region.",
+    "investigationTags": [
+      "history",
+      "government",
+      "cause and effect"
+    ],
+    "tradeoffInferred": true
+  },
+  "seoul/hallyu-wave": {
+    "keyIdea": "Seoul's entertainment businesses spread Korean culture through training, online sharing, translation, and fans who introduce it to others.",
+    "tradeoff": "Workers can become vulnerable when demand or technology changes quickly.",
+    "designUse": "Help audiences discover local culture through translations and active fan communities.",
+    "investigationTags": [
+      "culture",
+      "language",
+      "economics"
+    ]
+  },
+  "seoul/cheonggyecheon-restoration": {
+    "keyIdea": "Seoul removed road infrastructure to uncover Cheonggyecheon, bringing water and pedestrian space back into the city center.",
+    "tradeoff": "Removing roads can affect drivers, nearby shops, and the public budget.",
+    "designUse": "Replace selected traffic spaces with water routes where people can walk and rest.",
+    "investigationTags": [
+      "urban design",
+      "water",
+      "urban change"
+    ]
+  },
+  "seoul/bukchon-hanok": {
+    "keyIdea": "In Bukchon, visiting hours and clear signs help tourists share old streets with people who live there.",
+    "tradeoff": "The same narrow streets that attract visitors also bring noise and privacy problems.",
+    "designUse": "Guide visitors through heritage areas without disrupting residents' homes and routines.",
+    "investigationTags": [
+      "heritage",
+      "ethics",
+      "community"
+    ]
+  },
+  "singapore/urban-design-video": {
+    "keyIdea": "Singapore's public housing puts schools, shops, parks, and transport near homes, making many daily needs easier to reach.",
+    "tradeoff": "Residents receive long leases, but the state still owns the apartments.",
+    "designUse": "Place everyday services near homes and connect them to public transport.",
+    "investigationTags": [
+      "housing",
+      "urban planning",
+      "transport"
+    ]
+  },
+  "singapore/hawker-culture-video": {
+    "keyIdea": "Singapore's hawker centers bring different food traditions together, with regular customers returning for particular cooks and dishes.",
+    "tradeoff": "Hard work and competition can discourage younger people from taking over stalls.",
+    "designUse": "Support new cooks in learning dishes from experienced local stallholders.",
+    "investigationTags": [
+      "food culture",
+      "community",
+      "economics"
+    ]
+  },
+  "singapore/changi-jewel-video": {
+    "keyIdea": "Singapore's Jewel airport complex opens indoor gardens to residents as well as travelers, without requiring a flight ticket.",
+    "tradeoff": "Crowds can make even short walks through the gardens take longer.",
+    "designUse": "Open attractive transport spaces to nearby residents as well as passengers.",
+    "investigationTags": [
+      "public space",
+      "design",
+      "travel english"
+    ]
+  },
+  "singapore/water-security": {
+    "keyIdea": "Singapore uses several water sources, including cleaned used water, to reduce dependence on any single supply.",
+    "tradeoff": "Desalination needs energy and infrastructure, while local water collection requires protected land.",
+    "designUse": "Combine different water supplies and protect the places that collect rain.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "geography"
+    ]
+  },
+  "singapore/language-policy": {
+    "keyIdea": "Singapore uses English across communities while teaching home languages to keep cultural identity and family connections.",
+    "tradeoff": "A common working language can weaken home languages and the memories they carry.",
+    "designUse": "Use a shared service language while keeping room for home languages.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "community"
+    ]
+  },
+  "singapore/gardens-by-the-bay": {
+    "keyIdea": "Singapore's Gardens by the Bay brings plants, buildings, and paths together to help visitors notice nature.",
+    "tradeoff": "Lights, tourist photos, and paid areas can make the garden feel artificial.",
+    "designUse": "Build green visitor spaces that show different plants and explain their needs.",
+    "investigationTags": [
+      "nature",
+      "design"
+    ]
+  },
+  "paris/city-history-video": {
+    "keyIdea": "Paris replaced many medieval streets with wide boulevards, changing how the city looked as it grew.",
+    "tradeoff": "New roads removed parts of the older street pattern and buildings.",
+    "designUse": "Explain which older features a street rebuilding project would replace.",
+    "investigationTags": [
+      "history",
+      "urban change",
+      "architecture"
+    ],
+    "tradeoffInferred": true
+  },
+  "paris/cafe-culture-video": {
+    "keyIdea": "Paris cafes give regular customers a place to meet and watch street life beyond their small homes.",
+    "tradeoff": "Visitors expecting quick service may find the relaxed pace frustrating.",
+    "designUse": "Make places to sit socially without rushing people through their visit.",
+    "investigationTags": [
+      "daily life",
+      "community"
+    ]
+  },
+  "paris/louvre-history-video": {
+    "keyIdea": "The Louvre changed from a fortress into a royal home and then a museum, reflecting changing public roles.",
+    "tradeoff": "Reusing the building involved repeated extensions and construction across many generations.",
+    "designUse": "Adapt important buildings for new public roles while showing earlier uses.",
+    "investigationTags": [
+      "history",
+      "architecture",
+      "museums"
+    ],
+    "tradeoffInferred": true
+  },
+  "paris/seine-world-heritage": {
+    "keyIdea": "The Seine's banks link bridges, old buildings, and walking routes, showing how Paris grew beside the river.",
+    "tradeoff": "Choosing which places to preserve can leave some groups' stories less visible.",
+    "designUse": "Connect riverside paths with signs explaining different layers of local history.",
+    "investigationTags": [
+      "water",
+      "heritage",
+      "architecture"
+    ]
+  },
+  "paris/cycling-city": {
+    "keyIdea": "Paris adds bike lanes, slower streets, and pedestrian areas to make short journeys easier without a car.",
+    "tradeoff": "Quieter streets can help residents but inconvenience drivers and delivery workers.",
+    "designUse": "Balance safer short journeys with practical access for deliveries and businesses.",
+    "investigationTags": [
+      "transport",
+      "urban design",
+      "debate"
+    ]
+  },
+  "paris/tourism-pressure": {
+    "keyIdea": "Paris tourism supports jobs and cultural places, but crowds and visitor expectations also disrupt ordinary city life.",
+    "tradeoff": "Crowds and short-term rentals can make neighborhoods harder for residents to live in.",
+    "designUse": "Plan visitor routes around the everyday needs of people living nearby.",
+    "investigationTags": [
+      "economics",
+      "daily life",
+      "community"
+    ]
+  }
+}
