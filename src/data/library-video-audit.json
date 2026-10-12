@@ -2486,5 +2486,45 @@
   "travel-english-library.json/travel-transport": {
     "status": "partial",
     "note": "Evidence: Neil and Georgie describe commuting, crowded trains and long-distance travel; the complete cache has no ticket-buying language promised by the description. Suggested action: Narrow the description to discussing commuting and transport experiences."
+  },
+  "vox-library.json/vox_world_maps_wrong": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “إذا أردنا أن نجعل هذه الكرة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "vox-library.json/vox_gerrymandering_overview": {
+    "status": "ok",
+    "note": "North Carolina vote/seat examples and Canadian independent commissions explain partisan district drawing."
+  },
+  "vox-library.json/vox_hostile_architecture": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored captions are Chinese-script translation (“為何城市中充滿著不舒服的長椅？ 這張”), so the English speech and level cannot be checked. Suggested action: Remove from English-caption selection until English captions are cached; recheck the stated topic where noted."
+  },
+  "vox-library.json/vox_gerrymandering_thomas": {
+    "status": "ok",
+    "note": "Packing/cracking, Hofeller’s district work and court challenges match election maps."
+  },
+  "vox-library.json/vox_affordable_housing": {
+    "status": "ok",
+    "note": "Bay Area single-family zoning, segregation and restricted supply match affordable housing."
+  },
+  "vox-library.json/vox_healthcare_cost": {
+    "status": "ok",
+    "note": "Public/private prices, bargaining power and lobbying explain healthcare costs; the full text explicitly says an expensive single-payer system is possible, supporting the description’s caveat."
+  },
+  "vox-library.json/vox_future_of_work": {
+    "status": "ok",
+    "note": "Automation, historical job creation, exponential hardware gains and policy choices map the work debate."
+  },
+  "vox-library.json/vox_america_superpower": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored captions are Chinese-script translation (“現代美國是人類歷史上最強大的國家。 ”), so the English speech and level cannot be checked. Suggested action: Remove from English-caption selection until English captions are cached; recheck the stated topic where noted."
+  },
+  "vox-library.json/vox_democracy_problem": {
+    "status": "ok",
+    "note": "House representation, Senate bias and reform principles match the democracy problem."
+  },
+  "vox-library.json/vox_super_el_nino_global_climate": {
+    "status": "ok",
+    "note": "ENSO/La Niña, Pacific shifts and seasonal storms match El Niño climate effects."
   }
 }

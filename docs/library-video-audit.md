@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 14/18; judged entries: 622/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 15/18; judged entries: 632/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -35,7 +35,8 @@ Completed libraries: 14/18; judged entries: 622/641. Cached inventory captured a
 | ted-library.json | 20 | 1 | 0 | 0 | 19 | 0 | 0 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
 | travel-english-library.json | 6 | 1 | 2 | 2 | 1 | 0 | 0 |
-| **TOTAL** | **622** | 433 | 11 | 29 | 138 | 0 | 11 |
+| vox-library.json | 10 | 7 | 0 | 0 | 3 | 0 | 0 |
+| **TOTAL** | **632** | 440 | 11 | 29 | 141 | 0 | 11 |
 
 ## Non-ok entries, grouped by library
 
@@ -297,6 +298,14 @@ Completed libraries: 14/18; judged entries: 622/641. Cached inventory captured a
 | travel-directions | Asking for and Giving Directions | weak-captions | the stored captions are Chinese-script translation (“嗨，我是Justin。 欢迎来到Ox”), so the English speech and level cannot be checked. The translated introduction describes airport travel rather than a directions lesson.  | Remove from English-caption selection until English captions are cached; recheck the stated topic where noted. |
 | travel-shopping | Shopping in English | mismatch | The caption explicitly teaches hotel check-in, booking, upgrades, pools and gyms, not shopping/bargaining/returns.  | Retitle to Hotel Check-In Phrases after verifying the video/cache identity. |
 | travel-transport | Talking About Public Transport | partial | Neil and Georgie describe commuting, crowded trains and long-distance travel; the complete cache has no ticket-buying language promised by the description.  | Narrow the description to discussing commuting and transport experiences. |
+
+### vox-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| vox_world_maps_wrong | Why All World Maps Are Wrong | weak-captions | the stored text is an Arabic-script translation, beginning “إذا أردنا أن نجعل هذه الكرة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| vox_hostile_architecture | Why Cities Are Full of Uncomfortable Benches | weak-captions | the stored captions are Chinese-script translation (“為何城市中充滿著不舒服的長椅？ 這張”), so the English speech and level cannot be checked.  | Remove from English-caption selection until English captions are cached; recheck the stated topic where noted. |
+| vox_america_superpower | How America Became a Superpower | weak-captions | the stored captions are Chinese-script translation (“現代美國是人類歷史上最強大的國家。 ”), so the English speech and level cannot be checked.  | Remove from English-caption selection until English captions are cached; recheck the stated topic where noted. |
 
 ## Mechanical checks (entire 641-entry inventory)
 
