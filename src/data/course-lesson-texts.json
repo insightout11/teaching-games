@@ -1784,5 +1784,240 @@
     "courseId": "teens-planet",
     "title": "A Local Plan",
     "level": "B1"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "The debate club begins with a school-rule question: should homework have a fixed time limit? Reva makes a clear claim. She thinks a limit would help students plan the rest of their evening. Instead of calling all homework useless, she describes a concrete problem from the club's practice story. A student finished one short task, then spent a long time guessing what a second task required. Reva argues that clear instructions and a reasonable limit could both help. Ben replies that some students need more practice than others. A single limit might reduce the time available to someone who wants extra help. Reva accepts that objection and suggests optional practice beyond the required task. The group labels three parts of her answer: claim, evidence and reply. Her example does not prove that one rule will work everywhere. It makes her reasoning visible. She keeps those labels on a card so she can use them again for a different school rule at the end of the course.",
+    "words": [
+      {
+        "word": "claim",
+        "meaning": "an idea you ask others to accept"
+      },
+      {
+        "word": "evidence",
+        "meaning": "information used to support an idea"
+      },
+      {
+        "word": "objection",
+        "meaning": "a reason for disagreeing"
+      },
+      {
+        "word": "optional",
+        "meaning": "something you may choose but need not do"
+      },
+      {
+        "word": "reasoning",
+        "meaning": "the steps connecting information to a conclusion"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What fixed limit does the club discuss?",
+        "a": "a fixed time limit"
+      },
+      {
+        "q": "What does Ben think some students need?",
+        "a": "more practice"
+      },
+      {
+        "q": "What does Reva suggest beyond the required task?",
+        "a": "optional practice"
+      }
+    ],
+    "talk": [
+      "What evidence would help you judge a homework rule?",
+      "How could you accept part of an objection without abandoning your claim?"
+    ],
+    "courseId": "skills-debate",
+    "title": "One Clear Claim",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 1,
+    "text": "A class considers allowing AI tools to help plan homework. Ellis supports using a tool to list possible steps before writing. In the class's example, a large project becomes easier to start when it is divided into smaller tasks. Ellis still wants the student to choose the steps and do the actual thinking. Priya worries that a polished plan can hide mistakes. A tool might suggest checking a source that does not exist or omit a part of the assignment. She would rather students ask a teacher when instructions are unclear. Ellis replies that checking the plan could itself be a learning task, but agrees that the teacher should see how the tool was used. They propose testing one sample plan together before choosing a rule. The debate turns on a distinction: receiving a suggestion is not the same as knowing it is reliable. Each side must explain where responsibility stays with the learner, and what support would make the proposed use fair.",
+    "words": [
+      {
+        "word": "omit",
+        "meaning": "leave something out"
+      },
+      {
+        "word": "assignment",
+        "meaning": "a piece of work someone must complete"
+      },
+      {
+        "word": "reliable",
+        "meaning": "able to be trusted for a purpose"
+      },
+      {
+        "word": "responsibility",
+        "meaning": "a duty to make or check a decision"
+      },
+      {
+        "word": "suggestion",
+        "meaning": "an idea offered for someone to consider"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does Ellis want the tool to list?",
+        "a": "possible steps"
+      },
+      {
+        "q": "Who does Priya prefer students to ask?",
+        "a": "a teacher"
+      },
+      {
+        "q": "What do the classmates propose testing?",
+        "a": "one sample plan"
+      }
+    ],
+    "talk": [
+      "Which parts of planning should stay with the student?",
+      "What check would make a proposed AI rule more convincing?"
+    ],
+    "courseId": "skills-debate",
+    "title": "Two Sides of AI",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 2,
+    "text": "Two groups argue about screens in lessons. One wants fewer screens because notifications and open tabs can pull attention away from a task. The other wants teachers to keep digital tools when they reveal something a printed page cannot. Their teacher gives them a fictional lesson record to examine. During a science activity, students used a close-up image to compare leaf edges. Later, several students opened unrelated messages while writing their observations. The same device supported one activity and interrupted another. Jo argues for deciding by purpose rather than counting every minute as equally useful. Amir replies that a purpose-based rule may be harder to supervise than a simple screen-free period. Jo suggests closing unnecessary tabs and putting devices away after the image task. The group notices that their evidence supports a narrow conclusion about this lesson, not a claim that screens always help or always harm. They revise their arguments to include that limit before preparing a reply to the other side.",
+    "words": [
+      {
+        "word": "notifications",
+        "meaning": "signals about new messages or events"
+      },
+      {
+        "word": "unrelated",
+        "meaning": "not connected to the subject"
+      },
+      {
+        "word": "observations",
+        "meaning": "things noticed and recorded"
+      },
+      {
+        "word": "supervise",
+        "meaning": "watch and guide an activity"
+      },
+      {
+        "word": "conclusion",
+        "meaning": "an idea reached after considering information"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What did students compare in the science activity?",
+        "a": "leaf edges"
+      },
+      {
+        "q": "What interrupted the later task?",
+        "a": "unrelated messages"
+      },
+      {
+        "q": "What does Jo suggest closing?",
+        "a": "unnecessary tabs"
+      }
+    ],
+    "talk": [
+      "How could a rule distinguish useful screen tasks from distractions?",
+      "What limit should you mention when using evidence from one lesson?"
+    ],
+    "courseId": "skills-debate",
+    "title": "Evidence on Screens",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 3,
+    "text": "At a practice debate, Wen argues that teenagers doing useful work during an internship should be paid. A partner objects that a small repair shop may spend more time teaching a beginner than receiving help. Wen first wants to answer, “That is unfair.” Then she realizes the reply does not address the concern. She asks what the student would actually do. Watching a skilled worker for an hour is different from completing tasks for several weeks. The partner agrees, but says supervision still has a cost. Wen suggests that a placement could describe teaching time and work time separately, with clear arrangements for each. She also asks whether travel costs would stop some students taking part. Her revised reply recognizes the shop's difficulty while keeping the question of access visible. The club cannot settle every payment detail from this example. It can practice a fair reply: state the objection accurately, answer it with a reason and explain which part of the original claim still stands.",
+    "words": [
+      {
+        "word": "internship",
+        "meaning": "a period of learning through workplace experience"
+      },
+      {
+        "word": "concern",
+        "meaning": "something someone is worried about"
+      },
+      {
+        "word": "supervision",
+        "meaning": "watching and guiding someone's work"
+      },
+      {
+        "word": "arrangements",
+        "meaning": "plans agreed for how something will happen"
+      },
+      {
+        "word": "accurately",
+        "meaning": "without changing or misrepresenting the information"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Which workplace does the partner mention?",
+        "a": "a small repair shop"
+      },
+      {
+        "q": "What cost may stop some students taking part?",
+        "a": "travel costs"
+      },
+      {
+        "q": "What should a fair reply state accurately?",
+        "a": "the objection"
+      }
+    ],
+    "talk": [
+      "How would you restate an opponent's concern fairly?",
+      "What information could change your view of a particular internship?"
+    ],
+    "courseId": "skills-debate",
+    "title": "A Fair Reply",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Reva takes out the claim, evidence and reply card from her first debate. This time, the school rule concerns using students' home languages when possible. She claims that learners should be able to explain a difficult idea in a familiar language before practicing the class language. Her evidence comes from a practice scenario: a student explains a science process to a partner, then tries the same explanation with newly learned terms. The first explanation reveals understanding that a short answer had hidden. Ben replies that a teacher may not know every language in the room and needs a way to check the work. Reva accepts the practical problem. She suggests a final explanation the teacher can follow, with a diagram or glossary if needed. Her closing statement includes a benefit, an example and a limit instead of pretending the rule has no costs. Compared with her first debate, she now makes the other side's strongest concern part of her answer. The card's three labels remain the same; the reasoning beneath them has grown.",
+    "words": [
+      {
+        "word": "familiar",
+        "meaning": "already known and understood"
+      },
+      {
+        "word": "terms",
+        "meaning": "words with particular meanings in a subject"
+      },
+      {
+        "word": "glossary",
+        "meaning": "a list explaining special words"
+      },
+      {
+        "word": "scenario",
+        "meaning": "an imagined situation used for discussion"
+      },
+      {
+        "word": "practical",
+        "meaning": "possible to do in the actual situation"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Which languages does the new rule concern?",
+        "a": "students' home languages"
+      },
+      {
+        "q": "What subject appears in the practice scenario?",
+        "a": "science"
+      },
+      {
+        "q": "What could help the teacher follow an explanation?",
+        "a": "a diagram or glossary"
+      }
+    ],
+    "talk": [
+      "How would you connect a claim, evidence and reply about a school rule?",
+      "Which part of your reasoning has improved since your first debate?"
+    ],
+    "courseId": "skills-debate",
+    "title": "Make the Case Again",
+    "level": "B1"
   }
 ]
