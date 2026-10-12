@@ -1596,5 +1596,99 @@
     "courseId": "teens-mysteries",
     "title": "My Fair Solution",
     "level": "B2"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "Talia has saved enough for either a drawing kit or a ticket to a weekend art workshop. The two choices cost about the same, but they offer different things. The kit would stay with her and let her practice whenever she has time. The workshop would give her a chance to ask an artist questions and try materials she has not used before. Her friend asks which choice is better. Talia says she needs to compare them with her own goal, not only their price. She wants to learn how to draw moving people. She already has ordinary pencils, but no one to give feedback on her sketches. A workshop may help with that, although it also needs a journey and a free afternoon. Talia writes a first spending choice with its trade-off: teaching for one day instead of new tools she could keep. She leaves the decision open until she checks the full cost and what the workshop actually includes.",
+    "words": [
+      {
+        "word": "kit",
+        "meaning": "a set of tools for an activity"
+      },
+      {
+        "word": "feedback",
+        "meaning": "comments that help someone improve"
+      },
+      {
+        "word": "trade-off",
+        "meaning": "what you give up to gain something"
+      },
+      {
+        "word": "includes",
+        "meaning": "has as one of its parts"
+      },
+      {
+        "word": "goal",
+        "meaning": "something you are trying to achieve"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What two choices is Talia comparing?",
+        "a": "a drawing kit or a ticket"
+      },
+      {
+        "q": "What does Talia want to learn to draw?",
+        "a": "moving people"
+      },
+      {
+        "q": "What does she already have?",
+        "a": "ordinary pencils"
+      }
+    ],
+    "talk": [
+      "What information matters besides price when choosing what to buy?",
+      "How would you explain the trade-off in one spending choice?"
+    ],
+    "courseId": "teens-money",
+    "title": "A Choice to Make",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Talia checks the art workshop before making her final spending plan. The ticket includes materials, but not transport. The session also focuses on painting landscapes rather than drawing people. She returns to her first note and changes her decision. Instead of buying the full kit or that ticket, she will keep using her pencils and save for a more suitable workshop. Her friend asks whether keeping the money means she has done nothing. Talia disagrees. She has learned to check the full cost, compare the offer with her goal and leave room for a journey in her budget. She sets a limit: any future ticket and transport together must fit within her savings. For now, she joins a free drawing group where members exchange sketches and comments. Her final explanation names what she wanted, what she found out and what she is giving up. She postpones new materials, but gains more time to practice and a clearer rule for her next purchase.",
+    "words": [
+      {
+        "word": "transport",
+        "meaning": "travel from one place to another"
+      },
+      {
+        "word": "landscapes",
+        "meaning": "pictures of outdoor places"
+      },
+      {
+        "word": "suitable",
+        "meaning": "right for someone's needs"
+      },
+      {
+        "word": "postpones",
+        "meaning": "moves something to a later time"
+      },
+      {
+        "word": "purchase",
+        "meaning": "something you buy"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is not included in the workshop ticket?",
+        "a": "transport"
+      },
+      {
+        "q": "What does the session focus on?",
+        "a": "painting landscapes"
+      },
+      {
+        "q": "What group does Talia join?",
+        "a": "a free drawing group"
+      }
+    ],
+    "talk": [
+      "How could new information change your first spending choice?",
+      "What limit would help you balance your goal with the full cost?"
+    ],
+    "courseId": "teens-money",
+    "title": "My Spending Plan",
+    "level": "B1"
   }
 ]
