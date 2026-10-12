@@ -15,13 +15,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Cats sleep for many hours each day."
+        "why": "Tell a partner about a pet cat's daily habits.",
+        "example": "My cat sleeps on the sofa every afternoon."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a sleeping cat or kitten?"
+        "target": "present continuous",
+        "why": "Describe what a cat is doing in a picture.",
+        "example": "The cat is hiding under the chair."
       }
     ],
     "levels": {
@@ -315,14 +315,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "A leash helps keep a dog near its person."
+        "target": "future (going to)",
+        "why": "Plan the next step in training a dog.",
+        "example": "I am going to teach my dog to sit."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you play fetch or take a walk?"
+        "target": "conditional",
+        "why": "Explain how a dog responds to a clear signal.",
+        "example": "If I call his name, my dog will come."
       }
     ],
     "levels": {
@@ -616,14 +616,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "A horse has one hoof on each leg."
+        "target": "comparatives & superlatives",
+        "why": "Compare a pony's height with a larger horse.",
+        "example": "This horse is taller than the pony."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you brush a mane or carry hay?"
+        "target": "present continuous",
+        "why": "Comment on a horse's movements beside its rider.",
+        "example": "The horse is walking beside its rider."
       }
     ],
     "levels": {
@@ -916,14 +916,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "They use mud to keep their skin cool."
+        "target": "comparatives & superlatives",
+        "why": "Compare an elephant calf with its mother.",
+        "example": "The mother elephant is bigger than her calf."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a trunk or big ears?"
+        "target": "present simple",
+        "why": "Explain how an elephant uses its trunk.",
+        "example": "An elephant lifts food with its trunk."
       }
     ],
     "levels": {
@@ -1216,14 +1216,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Giraffes sleep for only short periods."
+        "target": "comparatives & superlatives",
+        "why": "Compare giraffes' reach with other animals.",
+        "example": "A giraffe reaches higher branches than a zebra."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw spots or very long legs?"
+        "target": "present simple",
+        "why": "Describe how a giraffe eats from tall trees.",
+        "example": "A giraffe pulls leaves from branches."
       }
     ],
     "levels": {
@@ -1517,13 +1517,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Zebras use their tails to swat away flies."
+        "why": "Describe features that help someone recognize a zebra.",
+        "example": "A zebra has black and white stripes."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw thin stripes or wide stripes?"
+        "target": "present continuous",
+        "why": "Give a live description of a zebra herd.",
+        "example": "The zebras are moving across the grass."
       }
     ],
     "levels": {
@@ -1816,14 +1816,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "A young lion is called a cub."
+        "target": "present continuous",
+        "why": "Narrate a lion family's actions in a wildlife clip.",
+        "example": "The lion cubs are playing beside their mother."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a cub asleep or awake?"
+        "target": "past simple",
+        "why": "Retell a memorable lion sighting.",
+        "example": "We saw a lion resting under a tree."
       }
     ],
     "levels": {
@@ -2116,14 +2116,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "A tiger's tail helps it keep balance."
+        "target": "comparatives & superlatives",
+        "why": "Compare an adult tiger with a cub.",
+        "example": "The adult tiger is heavier than the cub."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a tiger by trees or water?"
+        "target": "conditional",
+        "why": "Predict a tiger's response to a splash in a story.",
+        "example": "If the fish splashes, the tiger will look at the water."
       }
     ],
     "levels": {
@@ -2417,13 +2417,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Pandas have black patches around their eyes."
+        "why": "Explain what pandas eat each day.",
+        "example": "Pandas eat bamboo for many hours."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would your toy panda climb or roll?"
+        "target": "present continuous",
+        "why": "Describe a panda's actions during feeding time.",
+        "example": "The panda is holding bamboo in its paws."
       }
     ],
     "levels": {
@@ -2717,13 +2717,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Koalas have two thumbs on each front paw."
+        "why": "Describe where koalas spend their time.",
+        "example": "Koalas rest in trees during the day."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a koala high or low?"
+        "target": "comparatives & superlatives",
+        "why": "Compare a koala's pace with a hopping animal.",
+        "example": "A koala moves more slowly than a kangaroo."
       }
     ],
     "levels": {
@@ -3016,14 +3016,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Kangaroos use their tails while standing and moving."
+        "target": "present continuous",
+        "why": "Describe a kangaroo moving with its joey.",
+        "example": "The kangaroo is carrying a joey in her pouch."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you hop like a kangaroo or frog?"
+        "target": "comparatives & superlatives",
+        "why": "Compare the jumps of two kangaroos.",
+        "example": "This kangaroo jumps farther than the little one."
       }
     ],
     "levels": {
@@ -3316,14 +3316,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Penguins have feathers packed close together."
+        "target": "present continuous",
+        "why": "Describe penguins moving between ice and water.",
+        "example": "The penguins are diving into the sea."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you watch a penguin dive or walk?"
+        "target": "past simple",
+        "why": "Tell the sequence of a penguin sighting.",
+        "example": "The penguin jumped into the water and swam away."
       }
     ],
     "levels": {
@@ -3616,14 +3616,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Polar bears have black skin under their pale fur."
+        "target": "comparatives & superlatives",
+        "why": "Compare a bear's size with its cub.",
+        "example": "The polar bear is much larger than its cub."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a bear swimming or walking?"
+        "target": "conditional",
+        "why": "Predict what a bear will do when ice breaks.",
+        "example": "If the ice breaks, the bear will swim."
       }
     ],
     "levels": {
@@ -3916,14 +3916,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "They move their tails up and down to swim."
+        "target": "past simple",
+        "why": "Retell what dolphins did during a boat trip.",
+        "example": "Two dolphins jumped beside our boat."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you hear clicks or watch a jump?"
+        "target": "present continuous",
+        "why": "Describe dolphins' movements as a clip plays.",
+        "example": "The dolphins are swimming together near the boat."
       }
     ],
     "levels": {
@@ -4216,14 +4216,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Some whales have long flippers."
+        "target": "comparatives & superlatives",
+        "why": "Compare a whale's size with a familiar sea animal.",
+        "example": "A blue whale is bigger than a dolphin."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a tail above or below water?"
+        "target": "present simple",
+        "why": "Explain why whales come to the surface.",
+        "example": "Whales come to the surface to breathe."
       }
     ],
     "levels": {
@@ -4518,14 +4518,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Many sharks need to keep water moving past their gills."
+        "target": "present continuous",
+        "why": "Describe a shark's movement around a reef.",
+        "example": "The shark is swimming past the coral."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a shark near a reef?"
+        "target": "comparatives & superlatives",
+        "why": "Compare sharks shown in two pictures.",
+        "example": "This shark is longer than that one."
       }
     ],
     "levels": {
@@ -4818,14 +4818,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Its shell grows as the turtle grows."
+        "target": "past simple",
+        "why": "Retell a hatchling's journey to the sea.",
+        "example": "The baby turtle crossed the sand and reached the sea."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a turtle swimming or resting?"
+        "target": "conditional",
+        "why": "Explain how removing litter can help a turtle.",
+        "example": "If we move the rubbish, the turtle will have a clear path."
       }
     ],
     "levels": {
@@ -5119,13 +5119,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Frogs have moist skin that needs care."
+        "why": "Describe the changes from tadpole to frog.",
+        "example": "A tadpole grows legs and loses its tail."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a frog or tadpole?"
+        "target": "present continuous",
+        "why": "Describe a frog catching food beside a pond.",
+        "example": "The frog is jumping toward a fly."
       }
     ],
     "levels": {
@@ -5418,14 +5418,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "A caterpillar eats leaves."
+        "target": "past simple",
+        "why": "Retell a butterfly's arrival in a garden.",
+        "example": "A butterfly landed on our red flower."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a wing or caterpillar?"
+        "target": "present continuous",
+        "why": "Describe a butterfly's movement between flowers.",
+        "example": "The butterfly is flying from flower to flower."
       }
     ],
     "levels": {
@@ -5719,13 +5719,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Bees have fuzzy bodies that catch flower dust."
+        "why": "Explain a bee's repeated trips to flowers.",
+        "example": "Bees carry pollen between flowers."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a bee or a flower?"
+        "target": "conditional",
+        "why": "Predict how planting flowers will attract bees.",
+        "example": "If we plant more flowers, bees will visit our garden."
       }
     ],
     "levels": {

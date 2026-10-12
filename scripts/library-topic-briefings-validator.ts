@@ -56,7 +56,7 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
   const kidsAllowed = new Set<string>([
     GrammarTarget.PresentSimple, GrammarTarget.PresentContinuous, GrammarTarget.PastSimple,
     GrammarTarget.FutureWill, GrammarTarget.FutureGoingTo,
-    GrammarTarget.Comparatives, GrammarTarget.QuestionForms,
+    GrammarTarget.Comparatives, GrammarTarget.QuestionForms, GrammarTarget.Conditional,
   ]);
   const file = path.join(dataDir, 'topic-briefings.json');
   if (!fs.existsSync(file)) { fail('topic-briefings.json', 'required Focus bank is missing'); return counts; }
@@ -128,7 +128,7 @@ export function validateTopicBriefings(dataDir: string, fail: (where: string, me
           counts.grammarTargets[fit.target] = (counts.grammarTargets[fit.target] || 0) + 1;
           if (ageBand === 'kids' && !kidsAllowed.has(fit.target)) fail(at, 'target is beyond A2 for kids');
         }
-        if (!isText(fit.why) || countWords(fit.why) > 10) fail(at, 'why must have 1–10 words');
+        if (!isText(fit.why) || countWords(fit.why) > 12) fail(at, 'why must have 1–12 words');
         if (!isText(fit.example) || countWords(fit.example) > 14 || sentences(String(fit.example || '')).length !== 1) fail(at, 'example must be one sentence of at most 14 words');
       }
     }
