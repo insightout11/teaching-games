@@ -1502,5 +1502,99 @@
     "courseId": "teens-film",
     "title": "My Short Review",
     "level": "B1"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "At the edge of the school courtyard, Sora notices a chalk circle around an empty patch of ground. A folded blue cloth lies on a bench nearby, and a single wet shoeprint leads away from the circle. The rest of the paving looks dry. Her friend Anton immediately suggests a treasure hunt. Perhaps the circle marks a place where someone has hidden a clue. Sora enjoys the idea, but asks what each detail actually supports. A circle could mark the size of an object. The cloth might belong to somebody who was cleaning. A wet print shows that a shoe was wet; it does not explain why.\n\nThey make three columns in a notebook: observation, possible explanation and question. Sora describes the circle without calling it a secret sign. Anton notes the cloth's colour without deciding who owned it. Together, they record the print's position and leave its cause open. Their first mystery account uses all three clues, but neither student thinks it is a solution yet. Before looking for more information, they explain the scene to a partner who has not seen it. If the partner can picture the courtyard without sharing their guesses, they have described it fairly. Later, they will return to their account and test whether an explanation can connect the clues without inventing missing events.",
+    "words": [
+      {
+        "word": "paving",
+        "meaning": "a hard surface made for walking"
+      },
+      {
+        "word": "observation",
+        "meaning": "something you notice directly"
+      },
+      {
+        "word": "supports",
+        "meaning": "gives a reason to accept an idea"
+      },
+      {
+        "word": "position",
+        "meaning": "the place where something is"
+      },
+      {
+        "word": "account",
+        "meaning": "a description of what happened"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What surrounds the empty patch?",
+        "a": "a chalk circle"
+      },
+      {
+        "q": "Where is the blue cloth?",
+        "a": "on a bench"
+      },
+      {
+        "q": "What does the print show for certain?",
+        "a": "a shoe was wet"
+      }
+    ],
+    "talk": [
+      "Which explanation fits the clues without adding too many assumptions?",
+      "What question would you ask before treating your explanation as a solution?"
+    ],
+    "courseId": "teens-mysteries",
+    "title": "A Puzzling Scene",
+    "level": "B2"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Sora and Anton return to their courtyard notes after speaking with the art teacher. The class had been planning a large drawing on the paving. The chalk circle marked space for its central pattern. The teacher had left a blue cloth on the bench while washing chalk from a student's hands. That student then crossed the courtyard with wet shoes. This account connects the circle, the cloth and the print without requiring a hidden treasure.\n\nSora prepares her final explanation, but Anton asks whether the teacher's account is enough. A garden group could also have marked a circle for a plant pot, used a cloth during cleaning and left wet footprints after watering. Sora agrees that the original clues alone would not distinguish those stories. The teacher's description adds information from someone who was there, while a sketch of the planned drawing provides another check.\n\nTheir final talk separates those layers. First, they state the three original observations. Next, they explain how the art activity could have produced each one. Finally, they acknowledge the gardening alternative and say what makes the art explanation stronger. Sora removes the phrase “obviously a treasure hunt” from their first notes. A fair solution does not need to sound certain at every step. It needs a clear connection between evidence and explanation, plus an honest account of what remains untested.",
+    "words": [
+      {
+        "word": "central",
+        "meaning": "in the middle"
+      },
+      {
+        "word": "requiring",
+        "meaning": "needing something to be true or present"
+      },
+      {
+        "word": "distinguish",
+        "meaning": "tell the difference between things"
+      },
+      {
+        "word": "acknowledge",
+        "meaning": "recognize and mention something"
+      },
+      {
+        "word": "untested",
+        "meaning": "not yet checked"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What did the circle mark?",
+        "a": "space for its central pattern"
+      },
+      {
+        "q": "What alternative do they consider?",
+        "a": "the gardening alternative"
+      },
+      {
+        "q": "What provides another check on the teacher's account?",
+        "a": "a sketch of the planned drawing"
+      }
+    ],
+    "talk": [
+      "How would you explain three clues while keeping observations separate from guesses?",
+      "What would make an alternative explanation strong enough to investigate?"
+    ],
+    "courseId": "teens-mysteries",
+    "title": "My Fair Solution",
+    "level": "B2"
   }
 ]
