@@ -24022,19 +24022,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "A player learns a game by testing its rules, not just reading them."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Should a game let players skip a frustrating level?"
-      },
-      {
         "target": "present perfect",
-        "why": "Describe experience with a difficult game.",
-        "example": "I have played this level twice, but I still miss the hidden path."
+        "why": "Compare players' experience of finishing a difficult level.",
+        "example": "I have beaten this level twice without losing a life."
+      },
+      {
+        "target": "past continuous",
+        "why": "Describe what was happening when a game suddenly stopped.",
+        "example": "We were crossing the bridge when the game froze."
+      },
+      {
+        "target": "conditional",
+        "why": "Explain how a changed game rule would affect players.",
+        "example": "If players had more lives, they would take bigger risks."
       }
     ],
     "levels": {
@@ -24236,19 +24236,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "The balance feels wrong here."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Which rule would you test first in a new game?"
-      },
-      {
         "target": "passive voice",
-        "why": "Focus on how a prototype is written.",
-        "example": "A paper prototype can test rules before any code is written."
+        "why": "Explain how rules and rewards are built into a game.",
+        "example": "Points are awarded when a player solves the puzzle."
+      },
+      {
+        "target": "relative clause",
+        "why": "Specify the game mechanic you want to change.",
+        "example": "The rule that rewards speed makes beginners rush."
+      },
+      {
+        "target": "past perfect",
+        "why": "Sequence early playtesting before a game design change.",
+        "example": "We had tested the paper game before we changed its rules."
       }
     ],
     "levels": {
@@ -24450,19 +24450,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Competitive players study opponents as well as their own moves."
+        "target": "reported speech",
+        "why": "Relay a teammate's instructions after an esports match.",
+        "example": "Our captain told us to protect the goal."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Should an esports team practice communication more than speed?"
+        "target": "past continuous",
+        "why": "Describe team actions at the moment a match changed.",
+        "example": "Our team was defending the base when the connection failed."
       },
       {
-        "target": "past simple",
-        "why": "Review a team decision.",
-        "example": "Our team call was too late."
+        "target": "present perfect continuous",
+        "why": "Describe how long an esports team has been practicing.",
+        "example": "We have been practicing our team calls for three weeks."
       }
     ],
     "levels": {
@@ -24665,19 +24665,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Engagement is not the same as trust."
+        "target": "reported speech",
+        "why": "Report a creator's explanation of an online post.",
+        "example": "The creator said the picture was a joke."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Should users see why a post appears in their feed?"
+        "target": "passive voice",
+        "why": "Explain how a post reaches people beyond its creator.",
+        "example": "Popular posts are shared beyond the creator's own followers."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Compare ways to respond online.",
-        "example": "A private message could be better than a public reply."
+        "target": "conditional",
+        "why": "Discuss what would change if a feed were chronological.",
+        "example": "If posts appeared in order, I would notice different stories."
       }
     ],
     "levels": {
@@ -24879,19 +24879,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "A longer passphrase is easier to remember as a sentence."
+        "target": "passive voice",
+        "why": "Explain what happens to information entered into an app.",
+        "example": "Your location is stored when you allow this permission."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Which account would you protect first, and why?"
+        "target": "relative clause",
+        "why": "Identify the app permission that worries you.",
+        "example": "The app that tracks my location needs a clear explanation."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Compare ways to remember passwords.",
-        "example": "A long passphrase can be easier to remember than random characters."
+        "target": "conditional",
+        "why": "Describe how you would respond to excessive data requests.",
+        "example": "If an app wanted my contacts, I would refuse."
       }
     ],
     "levels": {
@@ -25093,19 +25093,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "An app timer shows duration but not whether the time felt useful."
+        "target": "present perfect continuous",
+        "why": "Describe an ongoing habit of checking a phone.",
+        "example": "I have been checking my phone during every study break."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Which phone notification would you turn off first?"
+        "target": "present perfect",
+        "why": "Reflect on changes already made to screen habits.",
+        "example": "I have turned off the notifications that interrupt my homework."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Compare planned and actual breaks.",
-        "example": "Scrolling can make a break longer than planned."
+        "target": "conditional",
+        "why": "Predict how a screen limit could affect an evening.",
+        "example": "If I leave my phone downstairs, I will sleep earlier."
       }
     ],
     "levels": {
@@ -25307,19 +25307,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Old posts remain visible after their authors change."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "How should someone respond to an unwanted tag?"
+        "target": "present perfect",
+        "why": "Describe online traces left over time.",
+        "example": "I have posted photos that I no longer want online."
       },
       {
         "target": "passive voice",
-        "why": "Focus on what happens to an old comment.",
-        "example": "A casual comment can be found long after it was written."
+        "why": "Explain how a public photo can spread.",
+        "example": "My photo was copied before I changed the settings."
+      },
+      {
+        "target": "past perfect",
+        "why": "Sequence an old post before a later change of mind.",
+        "example": "I had shared the joke before I understood its meaning."
       }
     ],
     "levels": {
@@ -25521,19 +25521,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "A meme changes as people add new captions."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "What makes a meme funny to your group?"
+        "target": "relative clause",
+        "why": "Identify a meme by the context it depends on.",
+        "example": "The meme that uses our school joke confuses outsiders."
       },
       {
         "target": "reported speech",
-        "why": "Retell a classmate’s changing reaction.",
-        "example": "Mia said the meme was funny until she learned its context."
+        "why": "Report different people's readings of the same meme.",
+        "example": "My cousin said the caption meant something different to her."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain how a meme changes as it spreads.",
+        "example": "The same picture is reused with different captions."
       }
     ],
     "levels": {
@@ -25736,19 +25736,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Training data gives a model examples from which to learn patterns."
+        "target": "reported speech",
+        "why": "Report an AI claim before checking its source.",
+        "example": "The tool said the book was written in Japan."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Which school tasks should AI tools help with?"
+        "target": "passive voice",
+        "why": "Explain how examples become an AI tool's training material.",
+        "example": "The model is trained on many examples of text."
       },
       {
-        "target": "past simple",
-        "why": "Retell a test of a model.",
-        "example": "The model gave two answers."
+        "target": "conditional",
+        "why": "Discuss when you would reject an AI answer.",
+        "example": "If the answer had no source, I would check it elsewhere."
       }
     ],
     "levels": {
@@ -25950,19 +25950,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Sensors help machines notice a part's position."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Which repetitive job would you automate first?"
-      },
-      {
         "target": "passive voice",
-        "why": "Focus on a robot’s programmed task.",
-        "example": "The factory robots are programmed to lift heavy parts."
+        "why": "Describe a factory task without focusing on the human programmer.",
+        "example": "Heavy parts are lifted by the factory robot."
+      },
+      {
+        "target": "relative clause",
+        "why": "Specify which workplace tasks a robot could take over.",
+        "example": "A robot that repeats one movement could pack these boxes."
+      },
+      {
+        "target": "future continuous",
+        "why": "Imagine people and robots working together at a future time.",
+        "example": "Next year, robots will be sorting parcels beside human workers."
       }
     ],
     "levels": {
@@ -26165,19 +26165,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Turning your head changes the view."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "What would you explore first in a virtual museum?"
+        "target": "past continuous",
+        "why": "Retell a virtual experience interrupted by the real world.",
+        "example": "I was exploring a virtual museum when someone called my name."
       },
       {
         "target": "conditional",
-        "why": "Discuss a safe response to discomfort.",
-        "example": "If the headset makes me dizzy, I will take a break."
+        "why": "Explain how you would choose a useful virtual experience.",
+        "example": "If I could explore anywhere, I would choose an underwater reef."
+      },
+      {
+        "target": "present perfect",
+        "why": "Compare virtual experiences students have tried.",
+        "example": "I have visited a virtual gallery but never a virtual concert."
       }
     ],
     "levels": {
@@ -26379,19 +26379,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "A syntax error stops some programs before they begin."
+        "target": "past perfect",
+        "why": "Sequence a code change before a program failure.",
+        "example": "I had changed one symbol before the program stopped working."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "What small program would you build for your class?"
+        "target": "conditional",
+        "why": "Explain what a program does after a condition is met.",
+        "example": "If the score reaches ten, the program will end the game."
       },
       {
         "target": "relative clause",
-        "why": "Specify which program value changes.",
-        "example": "A variable stores a value that may change while code runs."
+        "why": "Identify the variable or instruction causing a coding problem.",
+        "example": "The variable that stores the score changes after each correct answer."
       }
     ],
     "levels": {
@@ -26594,19 +26594,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "An extra login step makes stealing an account harder."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "What clue would make you question a message?"
-      },
-      {
         "target": "passive voice",
-        "why": "Describe what happens to stolen credentials.",
-        "example": "A stolen password is used to enter an account."
+        "why": "Explain how an account can be attacked or protected.",
+        "example": "A stolen password is used to open the account."
+      },
+      {
+        "target": "past perfect",
+        "why": "Trace a mistaken click before a security problem appeared.",
+        "example": "I had opened the attachment before I noticed the strange address."
+      },
+      {
+        "target": "reported speech",
+        "why": "Relay a warning about a suspicious message.",
+        "example": "Our teacher told us not to open the unknown link."
       }
     ],
     "levels": {
@@ -26808,19 +26808,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "A live session gives space for immediate questions."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "When would you choose a live lesson over a recording?"
-      },
-      {
         "target": "present perfect",
-        "why": "Share progress from an online lesson.",
-        "example": "I have learned three new words in today’s online lesson."
+        "why": "Describe progress achieved through an online course.",
+        "example": "I have completed three lessons in my online Spanish course."
+      },
+      {
+        "target": "present perfect continuous",
+        "why": "Explain how long you have used an online learning routine.",
+        "example": "I have been watching a short lesson every evening."
+      },
+      {
+        "target": "relative clause",
+        "why": "Describe the online lesson format that helps you learn.",
+        "example": "A lesson that lets me ask questions feels easier to follow."
       }
     ],
     "levels": {
@@ -27022,19 +27022,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Undo makes a risky experiment easier."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "What would you paint on a separate layer first?"
-      },
-      {
         "target": "passive voice",
-        "why": "Explain how an image was changed.",
-        "example": "The image was edited on separate layers."
+        "why": "Explain the edits made to a digital image.",
+        "example": "The background was painted on a separate layer."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe revisions an artist has made so far.",
+        "example": "I have changed the colours but kept the original outline."
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare digital tools for a specific drawing task.",
+        "example": "This brush makes softer edges than the other brush."
       }
     ],
     "levels": {
