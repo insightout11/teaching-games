@@ -224,7 +224,10 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
         {shown ? (
           <motion.span initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} className={`rounded-md px-1 ${byClass ? 'bg-emerald-400/20 text-emerald-100' : 'bg-amber-300/25 text-amber-50'}`}>{tok}</motion.span>
         ) : (
-          <span className="inline-block min-w-[4.5ch] border-b-4 border-dashed border-white/40 text-transparent">{tok}</span>
+          <span className="inline-block min-w-[4.5ch] border-b-4 border-dashed border-white/40">
+            {/* Hidden outright, not just transparent: the text's shadow used to show the missing word through the gap. */}
+            <span className="invisible">{tok}</span>
+          </span>
         )}
       </span>
     );

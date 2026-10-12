@@ -1,3 +1,4 @@
+import { isJuniorRequest } from '@/lib/junior-request';
 import { createServiceClient } from './supabase/service';
 
 /**
@@ -41,6 +42,9 @@ export async function getCachedContent(
   schemaVersion: number = 1,
 ): Promise<CachedContent | null> {
   try {
+    // Junior content is saved apart: it is written for young children and must never be reused for an older class,
+    // nor an older class's content for a Junior one.
+    if (await isJuniorRequest()) variant = `${variant ?? ''}:junior`;
     const supabase = createServiceClient();
 
     // Build query — limit must come last since the mock (and real client) finalises on .limit()
@@ -97,6 +101,7 @@ export async function storeCachedContent(
   variant?: string,
 ): Promise<string | null> {
   try {
+    if (await isJuniorRequest()) variant = `${variant ?? ''}:junior`;
     const supabase = createServiceClient();
 
     const row: Record<string, unknown> = {
