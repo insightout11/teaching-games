@@ -2239,7 +2239,8 @@ Requirements:
 - A "direction" field on most lines (1–2 words describing how the line should be delivered, e.g. "nervously", "whispering", "excitedly", "sighing", "leaning in") — not every line needs one
 - A "genre" field: one of "comedy", "mystery", "drama", "adventure" — pick what suits the scene; kids love comedy and mystery.
 - A "cast" field: one entry per character (${charList}) with id (the letter), a memorable first NAME that fits the story, a short role (3–6 words, e.g. "a tired airline pilot"), and a want (what they want in this scene, one short sentence, e.g. "wants to get home before midnight"). Wants should pull against each other so the scene has tension.
-- Write it like a short MOVIE scene students will ACT: characters address each other by NAME (never by letter), each line sounds like something an actor would say, and the scene has a clear little arc (a problem, a turn, an ending or a cliffhanger).
+- In every line and improvScript line, the "character" field is the character's LETTER (${charList}), never the name. Names belong only in "cast" and inside the spoken text.
+- Write it like a short MOVIE scene students will ACT: inside the spoken text characters address each other by NAME (never by letter), each line sounds like something an actor would say, and the scene has a clear little arc (a problem, a turn, an ending or a cliffhanger).
 - An "improvPrompt" field: one sentence describing a fun twist for students to redo the scene in their own words, e.g. "The lights go out — what happens next?". Phrase it as "The scene continues…" twist that the actors will play WITHOUT a script, staying in character
 - An "improvScript" field: 8 dialogue lines using the same characters (${charList}).
   Each line's "text" must contain 1–2 blanks written as ___ where students improvise a word or phrase.
@@ -2262,13 +2263,43 @@ Return JSON: { title: string, context: string, genre: string, cast: Array<{ id: 
   }>(prompt, schema);
 
   const expectedChars = charCount === 4 ? ['A', 'B', 'C', 'D'] : charCount === 3 ? ['A', 'B', 'C'] : ['A', 'B'];
-  const fallbackLines = expectedChars.flatMap((char, ci) =>
-    Array.from({ length: linesEach }, (_, li) => ({
-      lineIndex: ci * linesEach + li + 1,
-      character: char,
-      text: `Something about ${topic}.`,
-    }))
-  );
+  // The model often labels lines with the character's NAME ("Sarah") or "Character A" where the letter is expected.
+  // Map those back to the letter: dropping them used to throw away the whole script and leave only placeholder
+  // lines ("Something about <topic>." on every line).
+  const letterByLabel = new Map<string, string>(expectedChars.map((id) => [id.toLowerCase(), id]));
+  for (const member of parsed.cast ?? []) {
+    const id = typeof member?.id === 'string' ? member.id.trim().toUpperCase().replace(/^CHARACTER\s+/, '') : '';
+    if (expectedChars.includes(id) && typeof member?.name === 'string' && member.name.trim()) letterByLabel.set(member.name.trim().toLowerCase(), id);
+  }
+  const toLetter = (label: unknown): string => {
+    if (typeof label !== 'string') return '';
+    const key = label.trim().toLowerCase().replace(/^character\s+/, '').replace(/[:.]$/, '');
+    return letterByLabel.get(key) ?? letterByLabel.get(key.split(/\s+/)[0]) ?? label;
+  };
+  parsed.lines = (parsed.lines ?? []).map((l) => ({ ...l, character: toLetter(l?.character) }));
+  if (Array.isArray(parsed.improvScript)) parsed.improvScript = parsed.improvScript.map((l) => ({ ...l, character: toLetter(l?.character) }));
+
+  // Last resort only (the script could not be used at all): a real, playable little conversation about the topic,
+  // never a placeholder repeated on every line.
+  const starter = [
+    `Have you heard about ${topic}?`,
+    `A little. What do you know about it?`,
+    `Not much, but I really want to find out more.`,
+    `Me too! What is the first thing you want to know?`,
+    `I want to know why people talk about ${topic} so much.`,
+    `Good question. I think it is more interesting than it sounds.`,
+    `Maybe. Tell me one thing you like about it.`,
+    `Okay, but then you have to tell me one too!`,
+    `Deal. Should we ask the others what they think?`,
+    `Yes! Let's see who knows the most about ${topic}.`,
+    `I think I am going to learn a lot today.`,
+    `Me too. Let's go and find out!`,
+  ];
+  const fallbackLines = Array.from({ length: lineCount }, (_, i) => ({
+    lineIndex: i + 1,
+    character: expectedChars[i % charCount],
+    text: starter[i % starter.length],
+  }));
 
   const validChars = new Set(expectedChars);
   const raw = parsed.lines ?? [];
@@ -2305,7 +2336,7 @@ Return JSON: { title: string, context: string, genre: string, cast: Array<{ id: 
     );
 
   const cast = expectedChars.map((id) => {
-    const c = (parsed.cast ?? []).find((x) => x?.id === id);
+    const c = (parsed.cast ?? []).find((x) => typeof x?.id === 'string' && x.id.trim().toUpperCase().replace(/^CHARACTER\s+/, '') === id);
     return { id, name: c?.name?.trim() || `Character ${id}`, role: c?.role?.trim() || '', want: c?.want?.trim() || '' };
   });
 
