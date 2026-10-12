@@ -40318,5 +40318,2885 @@
         "level": "B2"
       }
     ]
+  },
+  {
+    "topicId": "topic-teens-team-sports",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "team formation",
+        "forbidden": [
+          "players",
+          "positions",
+          "choose",
+          "group"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "captain",
+        "forbidden": [
+          "lead",
+          "team",
+          "person",
+          "armband"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "formation",
+        "forbidden": [
+          "shape",
+          "field",
+          "positions",
+          "arrangement"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "substitution",
+        "forbidden": [
+          "player",
+          "replace",
+          "bench",
+          "match"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "communication",
+        "forbidden": [
+          "call",
+          "signal",
+          "team",
+          "talk"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "teamwork",
+        "forbidden": [
+          "cooperate",
+          "group",
+          "help",
+          "together"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "defense",
+        "forbidden": [
+          "stop",
+          "opponent",
+          "protect",
+          "score"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "offense",
+        "forbidden": [
+          "attack",
+          "score",
+          "move",
+          "forward"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "strategy",
+        "forbidden": [
+          "plan",
+          "opponent",
+          "game",
+          "win"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "referee",
+        "forbidden": [
+          "rules",
+          "official",
+          "whistle",
+          "judge"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "timeout",
+        "forbidden": [
+          "pause",
+          "clock",
+          "coach",
+          "break"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "team chemistry",
+        "forbidden": [
+          "trust",
+          "players",
+          "work",
+          "together"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "playbook",
+        "forbidden": [
+          "moves",
+          "plays",
+          "plan",
+          "team"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "recovery",
+        "forbidden": [
+          "rest",
+          "injury",
+          "return",
+          "body"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "captain's band",
+        "level": "B1"
+      },
+      {
+        "word": "substitution board",
+        "level": "B2"
+      },
+      {
+        "word": "team bench",
+        "level": "B1"
+      },
+      {
+        "word": "coach clipboard",
+        "level": "B1"
+      },
+      {
+        "word": "scoreboard",
+        "level": "B1"
+      },
+      {
+        "word": "team jersey",
+        "level": "B1"
+      },
+      {
+        "word": "water cooler",
+        "level": "B1"
+      },
+      {
+        "word": "practice cone",
+        "level": "B1"
+      },
+      {
+        "word": "locker room",
+        "level": "B1"
+      },
+      {
+        "word": "match roster",
+        "level": "B1"
+      },
+      {
+        "word": "training plan",
+        "level": "B1"
+      },
+      {
+        "word": "warm-up jacket",
+        "level": "B1"
+      },
+      {
+        "word": "team huddle",
+        "level": "B1"
+      },
+      {
+        "word": "referee card",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "team formation",
+        "decoy": "starting lineup",
+        "level": "B2"
+      },
+      {
+        "word": "captain",
+        "decoy": "coach",
+        "level": "B1"
+      },
+      {
+        "word": "formation",
+        "decoy": "positioning",
+        "level": "B2"
+      },
+      {
+        "word": "substitution",
+        "decoy": "rotation",
+        "level": "B1"
+      },
+      {
+        "word": "defense",
+        "decoy": "guarding",
+        "level": "B1"
+      },
+      {
+        "word": "offense",
+        "decoy": "attack",
+        "level": "B1"
+      },
+      {
+        "word": "team chemistry",
+        "decoy": "teamwork",
+        "level": "B2"
+      },
+      {
+        "word": "playbook",
+        "decoy": "strategy sheet",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "substitution board",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "team bench",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "coach clipboard",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "scoreboard",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "locker room",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "match roster",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "training plan",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "team huddle",
+        "kind": "activity",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-solo-sports",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "personal best",
+        "forbidden": [
+          "record",
+          "own",
+          "time",
+          "improve"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "training plan",
+        "forbidden": [
+          "schedule",
+          "practice",
+          "goal",
+          "week"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "stamina",
+        "forbidden": [
+          "energy",
+          "last",
+          "long",
+          "exercise"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "technique",
+        "forbidden": [
+          "form",
+          "skill",
+          "method",
+          "correct"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "warm-up",
+        "forbidden": [
+          "stretch",
+          "before",
+          "body",
+          "prepare"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "cool-down",
+        "forbidden": [
+          "after",
+          "slow",
+          "stretch",
+          "finish"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "repetition",
+        "forbidden": [
+          "again",
+          "number",
+          "practice",
+          "repeat"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "pace",
+        "forbidden": [
+          "speed",
+          "steady",
+          "run",
+          "control"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "endurance",
+        "forbidden": [
+          "long",
+          "time",
+          "keep",
+          "going"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "recovery",
+        "forbidden": [
+          "rest",
+          "body",
+          "after",
+          "train"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "solo routine",
+        "forbidden": [
+          "alone",
+          "sequence",
+          "practice",
+          "personal"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "equipment check",
+        "forbidden": [
+          "gear",
+          "inspect",
+          "safe",
+          "before"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "training log",
+        "forbidden": [
+          "record",
+          "days",
+          "progress",
+          "write"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "focus",
+        "forbidden": [
+          "attention",
+          "goal",
+          "think",
+          "concentrate"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "sports watch",
+        "level": "B1"
+      },
+      {
+        "word": "stopwatch",
+        "level": "B1"
+      },
+      {
+        "word": "running belt",
+        "level": "B1"
+      },
+      {
+        "word": "balance pad",
+        "level": "B1"
+      },
+      {
+        "word": "training mat",
+        "level": "B1"
+      },
+      {
+        "word": "water bottle",
+        "level": "B1"
+      },
+      {
+        "word": "heart-rate strap",
+        "level": "B2"
+      },
+      {
+        "word": "race bib",
+        "level": "B1"
+      },
+      {
+        "word": "practice journal",
+        "level": "B1"
+      },
+      {
+        "word": "resistance band",
+        "level": "B1"
+      },
+      {
+        "word": "foam roller",
+        "level": "B1"
+      },
+      {
+        "word": "trail marker",
+        "level": "B1"
+      },
+      {
+        "word": "training shoe",
+        "level": "B1"
+      },
+      {
+        "word": "personal record chart",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "personal best",
+        "decoy": "record time",
+        "level": "B1"
+      },
+      {
+        "word": "stamina",
+        "decoy": "endurance",
+        "level": "B2"
+      },
+      {
+        "word": "technique",
+        "decoy": "form",
+        "level": "B1"
+      },
+      {
+        "word": "warm-up",
+        "decoy": "cool-down",
+        "level": "B1"
+      },
+      {
+        "word": "repetition",
+        "decoy": "set",
+        "level": "B2"
+      },
+      {
+        "word": "pace",
+        "decoy": "speed",
+        "level": "B1"
+      },
+      {
+        "word": "solo routine",
+        "decoy": "practice plan",
+        "level": "B2"
+      },
+      {
+        "word": "training log",
+        "decoy": "fitness tracker",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "sports watch",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "stopwatch",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "running belt",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "balance pad",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "training mat",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "heart-rate strap",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "race bib",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "resistance band",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-fitness",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "fitness goal",
+        "forbidden": [
+          "aim",
+          "exercise",
+          "improve",
+          "plan"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "strength training",
+        "forbidden": [
+          "muscle",
+          "weights",
+          "lift",
+          "exercise"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "cardio",
+        "forbidden": [
+          "heart",
+          "run",
+          "breathe",
+          "exercise"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "flexibility",
+        "forbidden": [
+          "stretch",
+          "bend",
+          "move",
+          "body"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "repetition",
+        "forbidden": [
+          "again",
+          "number",
+          "exercise",
+          "repeat"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "set",
+        "forbidden": [
+          "group",
+          "round",
+          "exercise",
+          "reps"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "heart rate",
+        "forbidden": [
+          "pulse",
+          "beats",
+          "minute",
+          "measure"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "rest day",
+        "forbidden": [
+          "exercise",
+          "pause",
+          "week",
+          "recover"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "progressive overload",
+        "forbidden": [
+          "weights",
+          "increase",
+          "gradually",
+          "training"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "mobility",
+        "forbidden": [
+          "joint",
+          "move",
+          "range",
+          "body"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "personal trainer",
+        "forbidden": [
+          "coach",
+          "exercise",
+          "guide",
+          "job"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "fitness assessment",
+        "forbidden": [
+          "test",
+          "measure",
+          "level",
+          "body"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "hydration",
+        "forbidden": [
+          "water",
+          "drink",
+          "exercise",
+          "body"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "training split",
+        "forbidden": [
+          "days",
+          "body",
+          "groups",
+          "plan"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "resistance band",
+        "level": "B1"
+      },
+      {
+        "word": "exercise mat",
+        "level": "B1"
+      },
+      {
+        "word": "dumbbell rack",
+        "level": "B1"
+      },
+      {
+        "word": "treadmill",
+        "level": "B1"
+      },
+      {
+        "word": "hydration station",
+        "level": "B1"
+      },
+      {
+        "word": "gym timer",
+        "level": "B1"
+      },
+      {
+        "word": "heart monitor",
+        "level": "B2"
+      },
+      {
+        "word": "weight plate",
+        "level": "B1"
+      },
+      {
+        "word": "foam roller",
+        "level": "B1"
+      },
+      {
+        "word": "fitness tracker",
+        "level": "B1"
+      },
+      {
+        "word": "training shoes",
+        "level": "B1"
+      },
+      {
+        "word": "gym towel",
+        "level": "B1"
+      },
+      {
+        "word": "exercise bike",
+        "level": "B1"
+      },
+      {
+        "word": "fitness chart",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "strength training",
+        "decoy": "weight training",
+        "level": "B1"
+      },
+      {
+        "word": "cardio",
+        "decoy": "aerobic exercise",
+        "level": "B2"
+      },
+      {
+        "word": "flexibility",
+        "decoy": "mobility",
+        "level": "B2"
+      },
+      {
+        "word": "repetition",
+        "decoy": "rep",
+        "level": "B1"
+      },
+      {
+        "word": "rest day",
+        "decoy": "recovery day",
+        "level": "B1"
+      },
+      {
+        "word": "progressive overload",
+        "decoy": "increased resistance",
+        "level": "B2"
+      },
+      {
+        "word": "fitness assessment",
+        "decoy": "fitness test",
+        "level": "B1"
+      },
+      {
+        "word": "hydration",
+        "decoy": "fluid intake",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "exercise mat",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "dumbbell rack",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "treadmill",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "gym timer",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "weight plate",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "heart monitor",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "exercise bike",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "personal trainer",
+        "kind": "job",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-outdoor-adventures",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "trail map",
+        "forbidden": [
+          "route",
+          "path",
+          "walk",
+          "find"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "hiking boots",
+        "forbidden": [
+          "shoes",
+          "feet",
+          "walk",
+          "sturdy"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "compass",
+        "forbidden": [
+          "north",
+          "direction",
+          "needle",
+          "find"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "weather check",
+        "forbidden": [
+          "forecast",
+          "clouds",
+          "look",
+          "before"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "daypack",
+        "forbidden": [
+          "carry",
+          "bag",
+          "back",
+          "hike"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "waterproof jacket",
+        "forbidden": [
+          "rain",
+          "wear",
+          "wet",
+          "coat"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "trail marker",
+        "forbidden": [
+          "sign",
+          "route",
+          "colour",
+          "follow"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "camp stove",
+        "forbidden": [
+          "cook",
+          "flame",
+          "portable",
+          "food"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "first-aid kit",
+        "forbidden": [
+          "bandage",
+          "injury",
+          "help",
+          "box"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "navigation",
+        "forbidden": [
+          "map",
+          "compass",
+          "direction",
+          "route"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "ridge walk",
+        "forbidden": [
+          "high",
+          "mountain",
+          "along",
+          "view"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "wild camping",
+        "forbidden": [
+          "tent",
+          "outside",
+          "overnight",
+          "remote"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "river crossing",
+        "forbidden": [
+          "water",
+          "step",
+          "ford",
+          "boots"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "emergency beacon",
+        "forbidden": [
+          "signal",
+          "help",
+          "remote",
+          "device"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "walking pole",
+        "level": "B1"
+      },
+      {
+        "word": "dry bag",
+        "level": "B1"
+      },
+      {
+        "word": "camp lantern",
+        "level": "B1"
+      },
+      {
+        "word": "trail register",
+        "level": "B2"
+      },
+      {
+        "word": "hiking sock",
+        "level": "B1"
+      },
+      {
+        "word": "thermal layer",
+        "level": "B1"
+      },
+      {
+        "word": "route sign",
+        "level": "B1"
+      },
+      {
+        "word": "camp mug",
+        "level": "B1"
+      },
+      {
+        "word": "rock pool",
+        "level": "B1"
+      },
+      {
+        "word": "viewpoint",
+        "level": "B1"
+      },
+      {
+        "word": "insect repellent",
+        "level": "B1"
+      },
+      {
+        "word": "head torch",
+        "level": "B1"
+      },
+      {
+        "word": "campground",
+        "level": "B1"
+      },
+      {
+        "word": "orienteering flag",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "trail map",
+        "decoy": "route map",
+        "level": "B1"
+      },
+      {
+        "word": "hiking boots",
+        "decoy": "walking shoes",
+        "level": "B1"
+      },
+      {
+        "word": "weather check",
+        "decoy": "weather forecast",
+        "level": "B1"
+      },
+      {
+        "word": "daypack",
+        "decoy": "rucksack",
+        "level": "B1"
+      },
+      {
+        "word": "trail marker",
+        "decoy": "waypoint",
+        "level": "B2"
+      },
+      {
+        "word": "navigation",
+        "decoy": "orientation",
+        "level": "B2"
+      },
+      {
+        "word": "wild camping",
+        "decoy": "backpacking",
+        "level": "B2"
+      },
+      {
+        "word": "river crossing",
+        "decoy": "stream crossing",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "walking pole",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "dry bag",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "camp lantern",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "trail register",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "camp mug",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "viewpoint",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "head torch",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "orienteering flag",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-mysteries-and-clues",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "evidence",
+        "forbidden": [
+          "facts",
+          "proof",
+          "find",
+          "case"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "witness",
+        "forbidden": [
+          "person",
+          "saw",
+          "interview",
+          "story"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "timeline",
+        "forbidden": [
+          "order",
+          "events",
+          "date",
+          "sequence"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "alibi",
+        "forbidden": [
+          "where",
+          "person",
+          "when",
+          "explain"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "fingerprint",
+        "forbidden": [
+          "hand",
+          "mark",
+          "identify",
+          "ridge"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "contradiction",
+        "forbidden": [
+          "different",
+          "statement",
+          "match",
+          "conflict"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "red herring",
+        "forbidden": [
+          "false",
+          "clue",
+          "distract",
+          "wrong"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "deduction",
+        "forbidden": [
+          "reason",
+          "clues",
+          "conclusion",
+          "think"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "case file",
+        "forbidden": [
+          "documents",
+          "detective",
+          "notes",
+          "folder"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "interview",
+        "forbidden": [
+          "ask",
+          "questions",
+          "person",
+          "answers"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "sequence",
+        "forbidden": [
+          "first",
+          "next",
+          "order",
+          "events"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "observation",
+        "forbidden": [
+          "notice",
+          "detail",
+          "look",
+          "see"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "hidden message",
+        "forbidden": [
+          "secret",
+          "read",
+          "decode",
+          "words"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "logic puzzle",
+        "forbidden": [
+          "think",
+          "solve",
+          "reason",
+          "answer"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "magnifying glass",
+        "level": "B1"
+      },
+      {
+        "word": "clue card",
+        "level": "B1"
+      },
+      {
+        "word": "case notebook",
+        "level": "B1"
+      },
+      {
+        "word": "security camera",
+        "level": "B1"
+      },
+      {
+        "word": "locked box",
+        "level": "B1"
+      },
+      {
+        "word": "scene photograph",
+        "level": "B1"
+      },
+      {
+        "word": "shoe print",
+        "level": "B1"
+      },
+      {
+        "word": "message envelope",
+        "level": "B1"
+      },
+      {
+        "word": "detective badge",
+        "level": "B1"
+      },
+      {
+        "word": "witness statement",
+        "level": "B2"
+      },
+      {
+        "word": "timeline chart",
+        "level": "B1"
+      },
+      {
+        "word": "evidence bag",
+        "level": "B1"
+      },
+      {
+        "word": "code wheel",
+        "level": "B1"
+      },
+      {
+        "word": "question list",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "evidence",
+        "decoy": "clue",
+        "level": "B1"
+      },
+      {
+        "word": "witness",
+        "decoy": "suspect",
+        "level": "B1"
+      },
+      {
+        "word": "alibi",
+        "decoy": "excuse",
+        "level": "B2"
+      },
+      {
+        "word": "contradiction",
+        "decoy": "inconsistency",
+        "level": "B2"
+      },
+      {
+        "word": "red herring",
+        "decoy": "false lead",
+        "level": "B2"
+      },
+      {
+        "word": "deduction",
+        "decoy": "inference",
+        "level": "B2"
+      },
+      {
+        "word": "case file",
+        "decoy": "case notes",
+        "level": "B1"
+      },
+      {
+        "word": "observation",
+        "decoy": "interpretation",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "magnifying glass",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "case notebook",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "locked box",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "scene photograph",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "shoe print",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "detective badge",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "code wheel",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "question list",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-unexplained-places",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "abandoned building",
+        "forbidden": [
+          "empty",
+          "old",
+          "people",
+          "enter"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "urban legend",
+        "forbidden": [
+          "story",
+          "city",
+          "believe",
+          "unusual"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "restricted area",
+        "forbidden": [
+          "closed",
+          "sign",
+          "enter",
+          "access"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "unusual sound",
+        "forbidden": [
+          "noise",
+          "hear",
+          "source",
+          "place"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "local rumour",
+        "forbidden": [
+          "people",
+          "say",
+          "story",
+          "neighbourhood"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "hidden passage",
+        "forbidden": [
+          "secret",
+          "door",
+          "under",
+          "way"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "unmarked road",
+        "forbidden": [
+          "map",
+          "sign",
+          "drive",
+          "route"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "strange light",
+        "forbidden": [
+          "night",
+          "bright",
+          "see",
+          "sky"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "empty station",
+        "forbidden": [
+          "train",
+          "closed",
+          "platform",
+          "people"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "closed tunnel",
+        "forbidden": [
+          "dark",
+          "road",
+          "under",
+          "blocked"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "forgotten town",
+        "forbidden": [
+          "old",
+          "empty",
+          "place",
+          "people"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "field report",
+        "forbidden": [
+          "research",
+          "notes",
+          "visit",
+          "record"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "site investigation",
+        "forbidden": [
+          "visit",
+          "clues",
+          "study",
+          "place"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "official explanation",
+        "forbidden": [
+          "reason",
+          "known",
+          "report",
+          "answer"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "warning sign",
+        "level": "B1"
+      },
+      {
+        "word": "old map",
+        "level": "B1"
+      },
+      {
+        "word": "locked gate",
+        "level": "B1"
+      },
+      {
+        "word": "field notebook",
+        "level": "B1"
+      },
+      {
+        "word": "empty ticket booth",
+        "level": "B1"
+      },
+      {
+        "word": "sealed doorway",
+        "level": "B2"
+      },
+      {
+        "word": "street photograph",
+        "level": "B1"
+      },
+      {
+        "word": "local newspaper",
+        "level": "B1"
+      },
+      {
+        "word": "survey marker",
+        "level": "B2"
+      },
+      {
+        "word": "radio recorder",
+        "level": "B2"
+      },
+      {
+        "word": "walking tour",
+        "level": "B1"
+      },
+      {
+        "word": "site plan",
+        "level": "B2"
+      },
+      {
+        "word": "information plaque",
+        "level": "B1"
+      },
+      {
+        "word": "visitor barrier",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "abandoned building",
+        "decoy": "empty house",
+        "level": "B1"
+      },
+      {
+        "word": "urban legend",
+        "decoy": "local myth",
+        "level": "B1"
+      },
+      {
+        "word": "restricted area",
+        "decoy": "closed site",
+        "level": "B1"
+      },
+      {
+        "word": "hidden passage",
+        "decoy": "secret tunnel",
+        "level": "B1"
+      },
+      {
+        "word": "strange light",
+        "decoy": "unusual glow",
+        "level": "B1"
+      },
+      {
+        "word": "empty station",
+        "decoy": "closed station",
+        "level": "B1"
+      },
+      {
+        "word": "forgotten town",
+        "decoy": "ghost town",
+        "level": "B2"
+      },
+      {
+        "word": "site investigation",
+        "decoy": "field study",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "warning sign",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "old map",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "locked gate",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "empty ticket booth",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "street photograph",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "local newspaper",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "survey marker",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "information plaque",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-optical-illusions",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "optical illusion",
+        "forbidden": [
+          "eyes",
+          "see",
+          "look",
+          "trick"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "afterimage",
+        "forbidden": [
+          "colour",
+          "remain",
+          "eyes",
+          "bright"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "perspective",
+        "forbidden": [
+          "view",
+          "angle",
+          "depth",
+          "look"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "contrast",
+        "forbidden": [
+          "light",
+          "dark",
+          "difference",
+          "colour"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "visual ambiguity",
+        "forbidden": [
+          "two",
+          "images",
+          "see",
+          "switch"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "impossible object",
+        "forbidden": [
+          "cannot",
+          "build",
+          "shape",
+          "draw"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "depth cue",
+        "forbidden": [
+          "distance",
+          "near",
+          "far",
+          "look"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "negative space",
+        "forbidden": [
+          "empty",
+          "shape",
+          "around",
+          "design"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "figure-ground",
+        "forbidden": [
+          "background",
+          "image",
+          "shape",
+          "see"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "motion illusion",
+        "forbidden": [
+          "still",
+          "image",
+          "appear",
+          "move"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "colour perception",
+        "forbidden": [
+          "eyes",
+          "hue",
+          "change",
+          "look"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "forced perspective",
+        "forbidden": [
+          "camera",
+          "angle",
+          "size",
+          "appear"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "visual puzzle",
+        "forbidden": [
+          "pattern",
+          "find",
+          "eyes",
+          "solve"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "stereogram",
+        "forbidden": [
+          "hidden",
+          "3D",
+          "image",
+          "look"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "flip card",
+        "level": "B1"
+      },
+      {
+        "word": "colour wheel",
+        "level": "B1"
+      },
+      {
+        "word": "pattern sheet",
+        "level": "B1"
+      },
+      {
+        "word": "stereo image",
+        "level": "B2"
+      },
+      {
+        "word": "mirror box",
+        "level": "B1"
+      },
+      {
+        "word": "rotating disk",
+        "level": "B2"
+      },
+      {
+        "word": "shadow drawing",
+        "level": "B1"
+      },
+      {
+        "word": "picture frame",
+        "level": "B1"
+      },
+      {
+        "word": "viewing lens",
+        "level": "B1"
+      },
+      {
+        "word": "checkerboard",
+        "level": "B1"
+      },
+      {
+        "word": "spiral image",
+        "level": "B1"
+      },
+      {
+        "word": "two-way image",
+        "level": "B1"
+      },
+      {
+        "word": "depth chart",
+        "level": "B2"
+      },
+      {
+        "word": "visual test",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "optical illusion",
+        "decoy": "visual illusion",
+        "level": "B1"
+      },
+      {
+        "word": "afterimage",
+        "decoy": "ghost image",
+        "level": "B2"
+      },
+      {
+        "word": "perspective",
+        "decoy": "viewpoint",
+        "level": "B1"
+      },
+      {
+        "word": "contrast",
+        "decoy": "difference",
+        "level": "B1"
+      },
+      {
+        "word": "visual ambiguity",
+        "decoy": "ambiguous image",
+        "level": "B2"
+      },
+      {
+        "word": "impossible object",
+        "decoy": "impossible figure",
+        "level": "B2"
+      },
+      {
+        "word": "depth cue",
+        "decoy": "perspective cue",
+        "level": "B2"
+      },
+      {
+        "word": "motion illusion",
+        "decoy": "apparent motion",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "flip card",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "colour wheel",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "pattern sheet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "stereo image",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "mirror box",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "rotating disk",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "checkerboard",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "viewing lens",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-healthy-eating",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "balanced meal",
+        "forbidden": [
+          "food",
+          "plate",
+          "groups",
+          "healthy"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "whole grain",
+        "forbidden": [
+          "bread",
+          "cereal",
+          "fibre",
+          "brown"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "portion size",
+        "forbidden": [
+          "amount",
+          "serve",
+          "plate",
+          "how much"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "protein source",
+        "forbidden": [
+          "beans",
+          "fish",
+          "eggs",
+          "nutrient"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "food label",
+        "forbidden": [
+          "package",
+          "read",
+          "ingredients",
+          "information"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "added sugar",
+        "forbidden": [
+          "sweet",
+          "extra",
+          "drink",
+          "ingredient"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "hydration",
+        "forbidden": [
+          "water",
+          "drink",
+          "body",
+          "fluid"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "meal routine",
+        "forbidden": [
+          "time",
+          "regular",
+          "eat",
+          "day"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "nutrient",
+        "forbidden": [
+          "food",
+          "body",
+          "vitamin",
+          "need"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "fibre",
+        "forbidden": [
+          "digest",
+          "whole grain",
+          "plants",
+          "food"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "food variety",
+        "forbidden": [
+          "different",
+          "colour",
+          "groups",
+          "choose"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mindful eating",
+        "forbidden": [
+          "slow",
+          "notice",
+          "hunger",
+          "taste"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "snack choice",
+        "forbidden": [
+          "between meals",
+          "food",
+          "select",
+          "small"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "nutrition guideline",
+        "forbidden": [
+          "advice",
+          "food",
+          "health",
+          "official"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "lunch plate",
+        "level": "B1"
+      },
+      {
+        "word": "ingredient list",
+        "level": "B1"
+      },
+      {
+        "word": "water glass",
+        "level": "B1"
+      },
+      {
+        "word": "fruit bowl",
+        "level": "B1"
+      },
+      {
+        "word": "portion scoop",
+        "level": "B1"
+      },
+      {
+        "word": "food pyramid",
+        "level": "B1"
+      },
+      {
+        "word": "meal planner",
+        "level": "B1"
+      },
+      {
+        "word": "nutrition chart",
+        "level": "B2"
+      },
+      {
+        "word": "wholegrain loaf",
+        "level": "B1"
+      },
+      {
+        "word": "snack box",
+        "level": "B1"
+      },
+      {
+        "word": "salad bowl",
+        "level": "B1"
+      },
+      {
+        "word": "measuring cup",
+        "level": "B1"
+      },
+      {
+        "word": "food diary",
+        "level": "B1"
+      },
+      {
+        "word": "grocery basket",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "balanced meal",
+        "decoy": "complete meal",
+        "level": "B1"
+      },
+      {
+        "word": "whole grain",
+        "decoy": "whole wheat",
+        "level": "B1"
+      },
+      {
+        "word": "protein source",
+        "decoy": "protein food",
+        "level": "B1"
+      },
+      {
+        "word": "added sugar",
+        "decoy": "natural sugar",
+        "level": "B2"
+      },
+      {
+        "word": "nutrient",
+        "decoy": "vitamin",
+        "level": "B1"
+      },
+      {
+        "word": "fibre",
+        "decoy": "roughage",
+        "level": "B2"
+      },
+      {
+        "word": "food variety",
+        "decoy": "diet diversity",
+        "level": "B2"
+      },
+      {
+        "word": "mindful eating",
+        "decoy": "intuitive eating",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "lunch plate",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "ingredient list",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "water glass",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "fruit bowl",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "food pyramid",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "meal planner",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "nutrition chart",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "grocery basket",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-stress-management",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "stress signal",
+        "forbidden": [
+          "body",
+          "notice",
+          "feeling",
+          "change"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "breathing exercise",
+        "forbidden": [
+          "inhale",
+          "slow",
+          "calm",
+          "air"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "grounding technique",
+        "forbidden": [
+          "present",
+          "notice",
+          "senses",
+          "focus"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "time pressure",
+        "forbidden": [
+          "deadline",
+          "rush",
+          "minutes",
+          "work"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "coping strategy",
+        "forbidden": [
+          "manage",
+          "plan",
+          "deal",
+          "feeling"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "support network",
+        "forbidden": [
+          "friends",
+          "help",
+          "people",
+          "contact"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mindfulness",
+        "forbidden": [
+          "attention",
+          "now",
+          "notice",
+          "thoughts"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "break routine",
+        "forbidden": [
+          "pause",
+          "work",
+          "rest",
+          "regular"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "self-talk",
+        "forbidden": [
+          "thoughts",
+          "inside",
+          "words",
+          "encourage"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "stress trigger",
+        "forbidden": [
+          "cause",
+          "react",
+          "feeling",
+          "event"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "relaxation",
+        "forbidden": [
+          "calm",
+          "rest",
+          "body",
+          "unwind"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "priority list",
+        "forbidden": [
+          "tasks",
+          "order",
+          "important",
+          "plan"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "recovery time",
+        "forbidden": [
+          "rest",
+          "after",
+          "energy",
+          "need"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "body scan",
+        "forbidden": [
+          "notice",
+          "muscles",
+          "attention",
+          "relax"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "breathing timer",
+        "level": "B1"
+      },
+      {
+        "word": "calm playlist",
+        "level": "B1"
+      },
+      {
+        "word": "support line",
+        "level": "B1"
+      },
+      {
+        "word": "priority chart",
+        "level": "B1"
+      },
+      {
+        "word": "quiet corner",
+        "level": "B1"
+      },
+      {
+        "word": "stress journal",
+        "level": "B1"
+      },
+      {
+        "word": "walking route",
+        "level": "B1"
+      },
+      {
+        "word": "water break",
+        "level": "B1"
+      },
+      {
+        "word": "relaxation app",
+        "level": "B2"
+      },
+      {
+        "word": "study calendar",
+        "level": "B1"
+      },
+      {
+        "word": "comfort object",
+        "level": "B1"
+      },
+      {
+        "word": "stretching mat",
+        "level": "B1"
+      },
+      {
+        "word": "help card",
+        "level": "B1"
+      },
+      {
+        "word": "mindfulness bell",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "stress signal",
+        "decoy": "warning sign",
+        "level": "B1"
+      },
+      {
+        "word": "breathing exercise",
+        "decoy": "relaxation exercise",
+        "level": "B1"
+      },
+      {
+        "word": "grounding technique",
+        "decoy": "mindfulness practice",
+        "level": "B2"
+      },
+      {
+        "word": "coping strategy",
+        "decoy": "stress response",
+        "level": "B2"
+      },
+      {
+        "word": "support network",
+        "decoy": "friend group",
+        "level": "B1"
+      },
+      {
+        "word": "self-talk",
+        "decoy": "inner dialogue",
+        "level": "B2"
+      },
+      {
+        "word": "stress trigger",
+        "decoy": "cause of stress",
+        "level": "B1"
+      },
+      {
+        "word": "body scan",
+        "decoy": "muscle relaxation",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "breathing timer",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "calm playlist",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "priority chart",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "quiet corner",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "stress journal",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "walking route",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "relaxation app",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "stretching mat",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-travel-planning",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "itinerary",
+        "forbidden": [
+          "trip",
+          "plan",
+          "days",
+          "route"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "travel budget",
+        "forbidden": [
+          "money",
+          "cost",
+          "spend",
+          "plan"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "booking confirmation",
+        "forbidden": [
+          "email",
+          "hotel",
+          "reservation",
+          "proof"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "departure time",
+        "forbidden": [
+          "leave",
+          "when",
+          "train",
+          "flight"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "connection",
+        "forbidden": [
+          "change",
+          "transfer",
+          "route",
+          "wait"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "travel document",
+        "forbidden": [
+          "passport",
+          "visa",
+          "identity",
+          "carry"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "accommodation",
+        "forbidden": [
+          "hotel",
+          "stay",
+          "room",
+          "book"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "travel insurance",
+        "forbidden": [
+          "cover",
+          "pay",
+          "emergency",
+          "trip"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "packing list",
+        "forbidden": [
+          "items",
+          "bag",
+          "check",
+          "clothes"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "exchange rate",
+        "forbidden": [
+          "currency",
+          "money",
+          "compare",
+          "conversion"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "local transport",
+        "forbidden": [
+          "bus",
+          "train",
+          "city",
+          "ride"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "backup plan",
+        "forbidden": [
+          "change",
+          "problem",
+          "alternative",
+          "ready"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "arrival time",
+        "forbidden": [
+          "reach",
+          "when",
+          "land",
+          "destination"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "travel advisory",
+        "forbidden": [
+          "warning",
+          "government",
+          "safety",
+          "place"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "passport holder",
+        "level": "B1"
+      },
+      {
+        "word": "train timetable",
+        "level": "B1"
+      },
+      {
+        "word": "hotel booking",
+        "level": "B1"
+      },
+      {
+        "word": "airport map",
+        "level": "B1"
+      },
+      {
+        "word": "travel adapter",
+        "level": "B1"
+      },
+      {
+        "word": "packing cube",
+        "level": "B1"
+      },
+      {
+        "word": "currency card",
+        "level": "B1"
+      },
+      {
+        "word": "route planner",
+        "level": "B1"
+      },
+      {
+        "word": "reservation number",
+        "level": "B1"
+      },
+      {
+        "word": "boarding gate",
+        "level": "B1"
+      },
+      {
+        "word": "city transit pass",
+        "level": "B1"
+      },
+      {
+        "word": "emergency contact card",
+        "level": "B1"
+      },
+      {
+        "word": "weather forecast",
+        "level": "B1"
+      },
+      {
+        "word": "day bag",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "itinerary",
+        "decoy": "schedule",
+        "level": "B1"
+      },
+      {
+        "word": "travel budget",
+        "decoy": "trip budget",
+        "level": "B1"
+      },
+      {
+        "word": "booking confirmation",
+        "decoy": "reservation email",
+        "level": "B1"
+      },
+      {
+        "word": "connection",
+        "decoy": "transfer",
+        "level": "B1"
+      },
+      {
+        "word": "accommodation",
+        "decoy": "lodging",
+        "level": "B1"
+      },
+      {
+        "word": "exchange rate",
+        "decoy": "conversion rate",
+        "level": "B2"
+      },
+      {
+        "word": "backup plan",
+        "decoy": "contingency plan",
+        "level": "B2"
+      },
+      {
+        "word": "travel advisory",
+        "decoy": "safety notice",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "passport holder",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "train timetable",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "hotel booking",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "airport map",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "travel adapter",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "packing cube",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "currency card",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "route planner",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
   }
 ]

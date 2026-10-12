@@ -40,14 +40,14 @@ for (const [index, value] of Array.from(raw.entries())) {
   const all = new Set<string>();
   const tabooAndSeat = new Set<string>();
   const pairWords = new Set<string>();
-  function addWord(word: string) {
+  const addWord = (word: string) => {
     const normalized = normalize(word);
     all.add(normalized);
     if (!owners.has(normalized)) owners.set(normalized, new Set<string>());
     owners.get(normalized)?.add(deck.topicId);
     const sticker = normalized.replace(/^(?:a|an|the) /, '');
     if (stickers.has(sticker)) { stickerOccurrences += 1; stickerWords.add(sticker); }
-  }
+  };
   for (const [field, size] of [['taboo', 14], ['hotSeat', 14], ['imposter', 8], ['twentyQuestions', 8]] as const) {
     const cards = deck[field];
     if (!Array.isArray(cards) || cards.length !== size) { fail('cardCount', deck.topicId, `${field} needs ${size} cards`); if (!Array.isArray(cards)) continue; }
