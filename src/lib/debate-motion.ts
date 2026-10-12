@@ -1,3 +1,4 @@
+import { coversTopic, matchWords, topicWords } from '@/lib/topic-match';
 import motionsBank from '@/data/debate-motions.json';
 
 /**
@@ -38,8 +39,7 @@ export function validMotion(raw: unknown): DebateMotion | null {
   return { motion, pulse: pulse.endsWith('?') ? pulse : `${pulse}?`, forPoints, againstPoints, evidence };
 }
 
-const words = (s: string) => (s.toLowerCase().match(/[a-z]{3,}/g) ?? []).map((w) => (w.length > 4 && w.endsWith('s') ? w.slice(0, -1) : w));
-const STOP = new Set(['should', 'the', 'and', 'for', 'are', 'more', 'than', 'with', 'their', 'have', 'every', 'all']);
+const words = matchWords;
 const LEVEL_CEFR: Record<string, string[]> = { Beginner: ['A2'], Easy: ['A2'], Intermediate: ['A2', 'B1'], Advanced: ['B1', 'B2'], Expert: ['B2'] };
 
 /** A checked motion for the topic, or null: topic tags count most, then the motion's own words; level preferred. */
@@ -52,15 +52,17 @@ export function bankMotionFor(topic: string, difficulty?: string, topicId?: stri
     const valid = pick ? validMotion(pick) : null;
     if (valid) return valid;
   }
-  const q = words(topic).filter((w) => !STOP.has(w));
+  const q = topicWords(topic);
   if (!q.length) return null;
   let best: { m: BankMotion; score: number } | null = null;
   for (const m of motionsBank as BankMotion[]) {
     const tags = m.topics.flatMap(words);
     const text = words(m.motion);
     let score = 0;
-    q.forEach((w) => { if (text.indexOf(w) >= 0) score += 3; else if (tags.indexOf(w) >= 0) score += 2; });
-    if (score < 3) continue;
+    let shared = 0;
+    q.forEach((w) => { if (text.indexOf(w) >= 0) { score += 3; shared += 1; } else if (tags.indexOf(w) >= 0) { score += 2; shared += 1; } });
+    // Must be about this topic: most of its meaningful words, not one word in passing.
+    if (score < 3 || !coversTopic(shared, q)) continue;
     if (levels.indexOf(m.cefr) >= 0) score += 1;
     if (!best || score > best.score) best = { m, score };
   }
