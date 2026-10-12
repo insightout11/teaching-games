@@ -40,16 +40,16 @@
     "note": "A psychiatrist and burlesque performer discuss seduction as social influence and directing attention, matching the adult subject."
   },
   "bbc-library.json/bbc_grammar_advanced_learner_mistakes": {
-    "status": "partial",
-    "note": "Evidence: Dan teaches indirect WH-clause order and general-reference articles (“relative pronouns”), rather than the promised preposition coverage. Suggested action: Rewrite description around WH clauses and articles."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Dan teaches indirect WH-clause order and general-reference articles (“relative pronouns”), rather than the promised preposition coverage. Changed fields: description. Video identity and duration preserved."
   },
   "bbc-library.json/bbc_grammar_formal_informal": {
-    "status": "partial",
-    "note": "Evidence: the presenter introduces herself as “Sian” and teaches formal/informal register, while the description names Dan. Suggested action: Rewrite description with Sian as presenter."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. the presenter introduces herself as “Sian” and teaches formal/informal register, while the description names Dan. Changed fields: description. Video identity and duration preserved."
   },
   "bbc-library.json/bbc_grammar_giving_emphasis": {
-    "status": "partial",
-    "note": "Evidence: the explanation covers it-clefts (“using a cleft sentence”), not the promised fronting and do-support. Suggested action: Rewrite description to describe it-cleft emphasis only."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. the explanation covers it-clefts (“using a cleft sentence”), not the promised fronting and do-support. Changed fields: description. Video identity and duration preserved."
   },
   "bbc-library.json/bbc_grammar_native_speaker_mistakes": {
     "status": "ok",
@@ -64,12 +64,12 @@
     "note": "Dan identifies advanced learner mistakes part two and contrasts come/go and bring/take; the broad mistakes description is supported."
   },
   "bbc-library.json/bbc_grammar_what_emphasis": {
-    "status": "partial",
-    "note": "Evidence: “Sian here” introduces what/all-clefts, matching the grammar topic but contradicting the named presenter Dan. Suggested action: Rewrite description with Sian as presenter."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. “Sian here” introduces what/all-clefts, matching the grammar topic but contradicting the named presenter Dan. Changed fields: description. Video identity and duration preserved."
   },
   "bbc-library.json/bbc_masterclass_conversation_phrases": {
-    "status": "partial",
-    "note": "Evidence: Sian introduces seven discourse markers, including “in other words”, while the description names Dan and advertises a broader phrase collection. Suggested action: Rewrite description with Sian and the seven covered markers."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Sian introduces seven discourse markers, including “in other words”, while the description names Dan and advertises a broader phrase collection. Changed fields: description. Video identity and duration preserved."
   },
   "bbc-library.json/bbc_masterclass_inversion_1": {
     "status": "ok",
@@ -77,15 +77,15 @@
   },
   "bbc-library.json/bbc_masterclass_inversion_2": {
     "status": "ok",
-    "note": "The captions cover inverted conditionals, place-first order and so/such emphasis. B2 is plausible for the explanation; the Expert label is broad, so I have not inferred a level fault from the grammar topic alone."
+    "note": "Round 36 metadata corrected from cached English evidence. The captions cover inverted conditionals, place-first order and so/such emphasis. B2 is plausible for the explanation; the Expert label is broad, so I have not inferred a level fault from the grammar topic alone. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "bbc-library.json/bbc_masterclass_linking_words": {
-    "status": "partial",
-    "note": "Evidence: “Sian here” introduces conversational signposting, including basically and by the way, rather than a Dan-led cause-and-effect linking-word lesson. Suggested action: Rewrite description around Sian and spoken discourse markers."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. “Sian here” introduces conversational signposting, including basically and by the way, rather than a Dan-led cause-and-effect linking-word lesson. Changed fields: description. Video identity and duration preserved."
   },
   "bbc-library.json/bbc_grammar_verb_patterns": {
-    "status": "partial",
-    "note": "Evidence: Sian explains stop, regret and go on (“stop buying” versus “stop to buy”); the description instead names Dan and promises remember and try. Suggested action: Rewrite description with the actual presenter and three covered verbs."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Sian explains stop, regret and go on (“stop buying” versus “stop to buy”); the description instead names Dan and promises remember and try. Changed fields: description. Video identity and duration preserved."
   },
   "bbc-library.json/bbc_food_street_food": {
     "status": "ok",
@@ -168,8 +168,8 @@
     "note": "The episode discusses plastic's persistence and possible plastic-eating microbes, matching plastic use and pollution."
   },
   "bbc-library.json/bbc_climate_saving_water": {
-    "status": "partial",
-    "note": "Evidence: The caption calls Yuma “one of the driest places” and shows desert date farming and water supply; it does not establish the title’s absolute driest-place claim. Suggested action: Retitle to Saving Water on Desert Date Farms, or qualify the driest-place wording."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The caption calls Yuma “one of the driest places” and shows desert date farming and water supply; it does not establish the title’s absolute driest-place claim. Changed fields: title, description. Video identity and duration preserved."
   },
   "bbc-library.json/bbc_climate_recycling_system": {
     "status": "ok",
@@ -225,7 +225,7 @@
   },
   "bbc-library.json/bbc_6me_social_media_teen_health": {
     "status": "ok",
-    "note": "The captions discuss social-media algorithms, revenue and parents' responsibility for teenage use, matching benefits/risks and mental wellbeing."
+    "note": "Round 36 metadata corrected from cached English evidence. The captions discuss social-media algorithms, revenue and parents' responsibility for teenage use, matching benefits/risks and mental wellbeing. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "bbc-library.json/bbc_real_easy_social_media_influencer": {
     "status": "ok",
@@ -237,7 +237,7 @@
   },
   "bbc-library.json/bbc_r3ovou_sxhe": {
     "status": "ok",
-    "note": "The Real Easy English conversation describes running, cricket, yoga and taking up hobbies; A2 is plausible despite the generic Intermediate difficulty label."
+    "note": "Round 36 metadata corrected from cached English evidence. The Real Easy English conversation describes running, cricket, yoga and taking up hobbies; A2 is plausible despite the generic Intermediate difficulty label. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "bbc-library.json/bbc_mn0mxeor0ug": {
     "status": "ok",
@@ -417,7 +417,7 @@
   },
   "bbc-library.json/bbc-grammar-r2-xFsYrTIndhI": {
     "status": "ok",
-    "note": "Sophie and Neil explain forms and uses of present simple/continuous and finish with a quiz, matching the description."
+    "note": "Round 36 metadata corrected from cached English evidence. Sophie and Neil explain forms and uses of present simple/continuous and finish with a quiz, matching the description. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "bbc-library.json/bbc-grammar-r2-tbru3bW2kVE": {
     "status": "weak-captions",
@@ -473,7 +473,7 @@
   },
   "bbc-library.json/bbc-grammar-r2-5UxMyCxQThE": {
     "status": "ok",
-    "note": "The cache explains too, enough and very with example forms, matching the topic. It is untimed reference-style prose with HTML entities, so alignment to the spoken video remains unverified; uncertainty is retained rather than claiming a proven mismatch."
+    "note": "Round 36 metadata corrected from cached English evidence. The cache explains too, enough and very with example forms, matching the topic. It is untimed reference-style prose with HTML entities, so alignment to the spoken video remains unverified; uncertainty is retained rather than claiming a proven mismatch. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "bbc-library.json/bbc-grammar-r2-B5hDy53iGNA": {
     "status": "partial",

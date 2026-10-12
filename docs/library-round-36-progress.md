@@ -839,3 +839,4 @@ Publisher/speaker attribution inconsistencies in protected fields also remain fo
 
 - Completed `src/data/african-storybook-library.json` metadata corrections and audit status update.
 - Completed `src/data/bbc-ideas-library.json` metadata corrections and audit status update.
+- Completed `src/data/bbc-library.json` metadata corrections and audit status update.

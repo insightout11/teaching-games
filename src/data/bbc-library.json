@@ -12,7 +12,7 @@
       "advanced"
     ],
     "difficultyLevel": "Advanced",
-    "description": "Dan explains the most common grammar mistakes made by advanced English learners — misuse of articles, prepositions, and complex tenses — and how to fix them.",
+    "description": "Dan explains two recurring grammar mistakes: word order in indirect WH clauses and using articles when talking generally.",
     "genre": "how-to",
     "cefr": "B2",
     "ageBand": "teens"
@@ -31,7 +31,7 @@
       "vocabulary"
     ],
     "difficultyLevel": "Intermediate",
-    "description": "Dan breaks down the key differences between formal and informal English — vocabulary choices, grammatical structures, and when to use each register.",
+    "description": "Sian compares formal and informal English and shows how wording changes with the situation.",
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
@@ -51,7 +51,7 @@
       "cleft-sentences"
     ],
     "difficultyLevel": "Advanced",
-    "description": "Dan teaches advanced emphasis structures — cleft sentences, fronting, and do-support — to make English more expressive and persuasive.",
+    "description": "Dan shows how it-cleft sentences give emphasis to different parts of a message.",
     "genre": "how-to",
     "cefr": "B2",
     "ageBand": "teens"
@@ -124,7 +124,7 @@
       "cleft-sentences"
     ],
     "difficultyLevel": "Advanced",
-    "description": "Dan dives into 'what' as a focus marker in cleft sentences — a powerful structure that adds emphasis and contrast, often misused by even advanced learners.",
+    "description": "Sian explains how what-clefts and all-clefts focus attention on particular information.",
     "genre": "how-to",
     "cefr": "B2",
     "ageBand": "teens"
@@ -143,7 +143,7 @@
       "vocabulary"
     ],
     "difficultyLevel": "Intermediate",
-    "description": "Dan shares a collection of the most useful phrases for natural English conversation — from agreeing and disagreeing to hedging, softening, and changing the subject.",
+    "description": "Sian introduces seven spoken discourse markers, including in other words, to help organise and clarify conversation.",
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
@@ -182,7 +182,7 @@
       "conditionals",
       "advanced"
     ],
-    "difficultyLevel": "Expert",
+    "difficultyLevel": "Advanced",
     "description": "Dan covers reduced conditionals ('Had I known...', 'Were I to...') and other advanced inversions — formal structures found in literary, academic, and professional English.",
     "genre": "how-to",
     "cefr": "B2",
@@ -202,7 +202,7 @@
       "writing"
     ],
     "difficultyLevel": "Intermediate",
-    "description": "Dan explains how to use discourse markers and linking words to structure arguments, add information, show cause and effect, and improve coherence in writing and speaking.",
+    "description": "Sian models conversational signposts such as basically and by the way and explains how they organise spoken information.",
     "genre": "how-to",
     "cefr": "B1",
     "ageBand": "teens"
@@ -221,7 +221,7 @@
       "infinitives"
     ],
     "difficultyLevel": "Intermediate",
-    "description": "Dan explains the difference between gerunds and infinitives after verbs like 'stop', 'remember', 'try', and 'regret' — verbs that change meaning depending on which form follows.",
+    "description": "Sian contrasts the meanings of stop, regret and go on when followed by an -ing form or to-infinitive.",
     "genre": "how-to",
     "cefr": "B1",
     "ageBand": "teens"
@@ -780,7 +780,7 @@
   },
   {
     "id": "bbc_climate_saving_water",
-    "title": "Saving Water in the Driest Place on Earth",
+    "title": "Saving Water on Desert Date Farms",
     "speaker": "BBC Learning English",
     "url": "https://www.youtube.com/watch?v=JFIhleM0Kbo",
     "youtubeId": "JFIhleM0Kbo",
@@ -799,7 +799,7 @@
       "listening:podcast"
     ],
     "difficultyLevel": "Intermediate",
-    "description": "A BBC 6 Minute English episode about saving water in extreme dry conditions, useful for lessons on drought, water scarcity, climate adaptation, and resource use.",
+    "description": "A report from Yuma, one of the driest places on Earth, looks at desert date farming and water use.",
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
@@ -1183,7 +1183,7 @@
       "digital-life",
       "teen-interests"
     ],
-    "difficultyLevel": "Upper-Intermediate",
+    "difficultyLevel": "Advanced",
     "cefr": "B2",
     "ageBand": "teens",
     "description": "A BBC discussion of social media’s benefits and risks for young people, including mental wellbeing.",
@@ -1274,7 +1274,7 @@
       "listening",
       "listening:dialogue"
     ],
-    "difficultyLevel": "Intermediate",
+    "difficultyLevel": "Easy",
     "cefr": "A2",
     "ageBand": "teens",
     "description": "A clear BBC conversation introduces everyday English for talking about exercise.",
@@ -2349,7 +2349,7 @@
       "grammar:past-continuous",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining past simple and past continuous with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2358,7 +2358,7 @@
     "place": null,
     "needsReview": false,
     "hidden": true,
-    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. the cache is a first-person Titanic survivor account describing the ship sinking and “people drowning”, rather than a BBC grammar explanation. Suggested action: Remove pending verification of the video/caption pairing; retitle to “A Titanic"
+    "hiddenNote": "The cached first-person Titanic survivor account includes “people drowning”; it is not a grammar lesson and does not belong in this grammar-labelled selection. Keep hidden pending an owner decision."
   },
   {
     "id": "bbc-grammar-r2-xFsYrTIndhI",
@@ -2374,7 +2374,7 @@
       "grammar:present-continuous",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining present simple and present continuous with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2397,7 +2397,7 @@
       "grammar:modals",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining using can, could, be able to and manage to with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2421,7 +2421,7 @@
       "grammar:past-simple",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining present perfect and past simple with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2443,7 +2443,7 @@
       "grammar:future-will-going-to",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining talking about the future with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2465,7 +2465,7 @@
       "grammar:past-simple",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining the past simple tense with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2509,7 +2509,7 @@
       "grammar:present-simple",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining state verbs with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2531,7 +2531,7 @@
       "grammar:present-perfect",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining the present perfect with just, already and yet with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2554,7 +2554,7 @@
       "grammar:conditionals",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining the first conditional with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2576,7 +2576,7 @@
       "grammar:conditionals",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining the second conditional with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2620,7 +2620,7 @@
       "grammar:present-perfect",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining present perfect with ever and never with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2643,7 +2643,7 @@
       "grammar:passive",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining present and past passive with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2665,7 +2665,7 @@
       "grammar:articles",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining articles with examples and a practice focus.",
     "genre": "expository",
     "kind": "video",
@@ -2687,7 +2687,7 @@
       "grammar:comparatives-superlatives",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining 'too', 'very' and 'enough' with examples.",
     "genre": "expository",
     "kind": "video",
@@ -2716,7 +2716,9 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "hidden": true,
+    "hiddenNote": "Only an untimed future-continuous grammar extract is cached; the be-plus-infinitive section and full video speech cannot be verified. Keep hidden until complete English captions establish the lesson scope."
   },
   {
     "id": "bbc-grammar-r2-U2DxNgQqDgQ",
@@ -2753,7 +2755,7 @@
       "grammar:past-simple",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining used to with examples.",
     "genre": "expository",
     "kind": "video",
@@ -2797,7 +2799,7 @@
       "grammar:questions",
       "english-learning"
     ],
-    "difficultyLevel": "Pre-Intermediate",
+    "difficultyLevel": "Easy",
     "description": "A short BBC lesson explaining question tags with examples.",
     "genre": "expository",
     "kind": "video",
