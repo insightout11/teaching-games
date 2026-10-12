@@ -13518,14 +13518,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Clean tools help keep a kitchen safe."
+        "target": "present continuous",
+        "why": "Describe each cook's actions during a shared meal.",
+        "example": "Dad is stirring soup while I am chopping carrots."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you chop carrots or stir soup?"
+        "target": "conditional",
+        "why": "Explain how an ingredient changes a dish.",
+        "example": "If we add more carrots, the soup will taste sweeter."
       }
     ],
     "levels": {
@@ -13818,14 +13818,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "A warm oven makes dough change."
+        "target": "future (going to)",
+        "why": "Plan the steps for a baking session.",
+        "example": "We are going to mix the flour and eggs first."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you bake a loaf or small rolls?"
+        "target": "conditional",
+        "why": "Predict what happens when dough goes into the oven.",
+        "example": "If we bake the dough, it will become bread."
       }
     ],
     "levels": {
@@ -14118,14 +14118,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Some fruits have one big stone inside."
+        "target": "comparatives & superlatives",
+        "why": "Compare fruit flavours before choosing a snack.",
+        "example": "This orange is sweeter than that lemon."
       },
       {
         "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you eat a berry or slice of melon?"
+        "why": "Survey classmates about the fruit they eat.",
+        "example": "Which fruit do you eat most often?"
       }
     ],
     "levels": {
@@ -14418,14 +14418,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "We eat many different plant parts."
+        "target": "comparatives & superlatives",
+        "why": "Compare vegetables' textures or sizes.",
+        "example": "A raw carrot is harder than a cooked carrot."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you roast carrots or eat them raw?"
+        "target": "present continuous",
+        "why": "Describe someone preparing vegetables for a meal.",
+        "example": "My sister is washing the vegetables."
       }
     ],
     "levels": {
@@ -14719,13 +14719,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Some families eat together before school."
+        "why": "Describe a normal morning meal.",
+        "example": "I eat toast and an egg for breakfast."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you eat warm porridge or cold cereal?"
+        "target": "past simple",
+        "why": "Tell a partner what you ate this morning.",
+        "example": "I ate porridge before school today."
       }
     ],
     "levels": {
@@ -15018,14 +15018,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Lunch time gives a break from lessons."
+        "target": "question forms",
+        "why": "Find out what classmates bring for lunch.",
+        "example": "What do you bring for school lunch?"
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you bring food or choose a school meal?"
+        "target": "future (going to)",
+        "why": "Explain a plan for tomorrow's lunch.",
+        "example": "I am going to pack rice and vegetables tomorrow."
       }
     ],
     "levels": {
@@ -15319,13 +15319,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "A pet needs care even on busy days."
+        "why": "Describe daily tasks that keep a pet well.",
+        "example": "I fill my rabbit's water bowl every morning."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you care for a cat or rabbit?"
+        "target": "future (going to)",
+        "why": "Arrange who will care for a pet during a trip.",
+        "example": "My brother is going to feed the cat while we travel."
       }
     ],
     "levels": {
@@ -15619,13 +15619,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Some lessons need books, others need art tools."
+        "why": "Explain the order of a usual school day.",
+        "example": "Our first lesson starts at nine every morning."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you start with art or reading?"
+        "target": "past simple",
+        "why": "Retell a school day that broke the usual routine.",
+        "example": "We had art before lunch and played outside afterward."
       }
     ],
     "levels": {
@@ -15918,14 +15918,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "A quiet signal helps us listen."
+        "target": "conditional",
+        "why": "Explain the consequence of a classroom choice.",
+        "example": "If everyone talks together, we will miss the instructions."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you make a rule for talking or sharing?"
+        "target": "past simple",
+        "why": "Describe how the class agreed on a rule.",
+        "example": "We agreed to put our books away after reading."
       }
     ],
     "levels": {
@@ -16218,14 +16218,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Playing together helps people relax."
+        "target": "past simple",
+        "why": "Tell how a new friendship began.",
+        "example": "I met Sam when we played a game together."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you invite someone to draw or play?"
+        "target": "future (going to)",
+        "why": "Plan a small invitation for a new classmate.",
+        "example": "I am going to invite the new student to play."
       }
     ],
     "levels": {
@@ -16519,13 +16519,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Our bedtime story is a ritual."
+        "why": "Explain a custom your family repeats.",
+        "example": "My family cooks noodles together every Sunday."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you make food or tell a story together?"
+        "target": "past simple",
+        "why": "Retell one special time your family followed a tradition.",
+        "example": "Last Sunday, Grandma taught me our family recipe."
       }
     ],
     "levels": {
@@ -16818,14 +16818,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "A small game helps guests meet."
+        "target": "future (going to)",
+        "why": "Describe preparations for a birthday celebration.",
+        "example": "We are going to decorate the room with paper stars."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you play a game or decorate a cake?"
+        "target": "future (will)",
+        "why": "Offer help while planning a party.",
+        "example": "I will bring the birthday cake to your party."
       }
     ],
     "levels": {
@@ -17118,14 +17118,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "A parade moves along a street."
+        "target": "past simple",
+        "why": "Retell a festival visit through memorable actions.",
+        "example": "We watched a parade and carried lanterns at the festival."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you carry a lantern or wave at a parade?"
+        "target": "present continuous",
+        "why": "Describe a festival procession as it passes.",
+        "example": "The dancers are moving through the street."
       }
     ],
     "levels": {
@@ -17418,14 +17418,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Families visit parks on holidays."
+        "target": "past simple",
+        "why": "Share events from a holiday you took.",
+        "example": "We visited the beach and built a sandcastle."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you picnic by water or trees?"
+        "target": "future (going to)",
+        "why": "Describe plans for the next holiday.",
+        "example": "We are going to visit my cousins during the holidays."
       }
     ],
     "levels": {
@@ -17719,13 +17719,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Many jobs help a town run."
+        "why": "Explain the regular work of a local worker.",
+        "example": "A baker makes bread early every morning."
       },
       {
         "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you help a baker or mechanic?"
+        "why": "Interview a worker about their working day.",
+        "example": "What time do you start work at the bakery?"
       }
     ],
     "levels": {
