@@ -33657,19 +33657,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "A changing climate affects seasons, water, and growing conditions."
+        "target": "present perfect",
+        "why": "Describe climate changes noticed over a period of time.",
+        "example": "Our town has experienced longer dry periods in recent years."
       },
       {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which local change would you prepare for first?"
+        "target": "conditional",
+        "why": "Discuss how a local response could reduce heat risks.",
+        "example": "If the street had more shade, summer walks would feel cooler."
       },
       {
         "target": "passive voice",
-        "why": "Focus on the people facing heat.",
-        "example": "Homes are affected by longer heatwaves."
+        "why": "Explain how people and places are affected by warming.",
+        "example": "Homes are damaged when heavy rain floods the river."
       }
     ],
     "levels": {
@@ -33872,19 +33872,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "A wind turbine works best where winds are suitable and steady."
+        "target": "passive voice",
+        "why": "Explain how sunlight or wind is turned into electricity.",
+        "example": "Electricity is generated when sunlight reaches the solar panels."
       },
       {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Would your town benefit more from solar or wind?"
+        "target": "comparatives & superlatives",
+        "why": "Compare energy sources for the conditions in a particular place.",
+        "example": "Solar panels are more useful here than wind turbines."
       },
       {
-        "target": "future (going to)",
-        "why": "Describe a school’s energy plan.",
-        "example": "Our school is going to install solar panels."
+        "target": "conditional",
+        "why": "Discuss what happens when renewable supply changes.",
+        "example": "If the wind drops, we will need another source of power."
       }
     ],
     "levels": {
@@ -34086,19 +34086,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Plastic is useful because it is light and durable."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which plastic item would you remove from school first?"
-      },
-      {
         "target": "passive voice",
-        "why": "Trace plastic after an event.",
-        "example": "Plastic bottles are collected after the festival."
+        "why": "Trace how plastic items are collected and sorted.",
+        "example": "Plastic bottles are sorted before they are recycled."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe changes already made to reduce plastic use.",
+        "example": "Our class has replaced disposable cups with reusable ones."
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify a plastic product by its use or lifespan.",
+        "example": "The packaging that protects one snack lasts longer than the snack."
       }
     ],
     "levels": {
@@ -34300,19 +34300,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Animals need food, shelter, and room to move."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which animal would you protect first in a local area?"
-      },
-      {
         "target": "conditional",
-        "why": "Link habitat protection to animals’ needs.",
-        "example": "If we protect the forest, the animals will have shelter."
+        "why": "Connect habitat protection with an animal's future.",
+        "example": "If we protect the nesting beach, more turtles will reach the sea."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain a conservation action without focusing on its organizers.",
+        "example": "The nesting area is protected during the breeding season."
+      },
+      {
+        "target": "present perfect",
+        "why": "Review actions taken to protect a local species.",
+        "example": "Volunteers have removed rubbish from the birds' nesting area."
       }
     ],
     "levels": {
@@ -34514,19 +34514,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Trees and gardens give city animals places to live."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Where would you plant a tree in your neighborhood?"
-      },
-      {
         "target": "present perfect",
-        "why": "Describe a recent change to street trees.",
-        "example": "Our street has lost two trees this year."
+        "why": "Describe a change to green space in a neighborhood.",
+        "example": "Our neighborhood has turned an empty lot into a garden."
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify city spaces that could support wildlife.",
+        "example": "A park that has flowering plants gives insects more food."
+      },
+      {
+        "target": "conditional",
+        "why": "Imagine how adding nature would change a busy street.",
+        "example": "If we planted trees here, the bus stop would have shade."
       }
     ],
     "levels": {
@@ -34730,19 +34730,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Frequency matters when a passenger has no flexible schedule."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which bus route would improve your town most?"
-      },
-      {
         "target": "comparatives & superlatives",
-        "why": "Compare frequency with a lower fare.",
-        "example": "A frequent bus is more useful than a cheaper bus that rarely comes."
+        "why": "Compare bus routes by frequency rather than price alone.",
+        "example": "The frequent bus is more convenient than the cheaper one."
+      },
+      {
+        "target": "conditional",
+        "why": "Explain how a transport change would affect your journey.",
+        "example": "If the last bus left later, I would stay for the club."
+      },
+      {
+        "target": "reported speech",
+        "why": "Report a passenger's problem with a bus service.",
+        "example": "The passenger said the early bus did not stop near her home."
       }
     ],
     "levels": {
@@ -34944,19 +34944,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Homes, parks, and services need to fit together."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "What would you put within a short walk of home?"
-      },
-      {
         "target": "future (will)",
-        "why": "Imagine a walkable future district.",
-        "example": "The new district will have parks near homes."
+        "why": "Predict a concrete feature of a future neighborhood.",
+        "example": "Future neighborhoods will have shops within walking distance of homes."
+      },
+      {
+        "target": "relative clause",
+        "why": "Describe the kind of city district you want to design.",
+        "example": "I want a district where children can walk safely to school."
+      },
+      {
+        "target": "future continuous",
+        "why": "Picture daily life at a specific future point.",
+        "example": "In twenty years, people will be cycling along these new streets."
       }
     ],
     "levels": {
@@ -35158,19 +35158,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Space missions use instruments to learn about distant places."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which question would you send a probe to investigate?"
+        "target": "past simple",
+        "why": "Retell the sequence of an exploration mission.",
+        "example": "The probe reached the planet and sent back pictures."
       },
       {
         "target": "present perfect",
-        "why": "Describe what missions have discovered.",
-        "example": "Space probes have sent us images of distant worlds."
+        "why": "Describe knowledge gained through missions over time.",
+        "example": "Space missions have revealed worlds we could not see clearly before."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain how distant places are studied remotely.",
+        "example": "Images are collected by cameras on the space probe."
       }
     ],
     "levels": {
@@ -35372,19 +35372,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Mars is far away, and a message takes time to travel."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Where would you send a rover first?"
-      },
-      {
         "target": "past perfect",
-        "why": "Sequence rover testing and launch.",
-        "example": "The rover had tested its camera before leaving Earth."
+        "why": "Sequence rover preparations before a mission began.",
+        "example": "Engineers had tested the rover before it left Earth."
+      },
+      {
+        "target": "future continuous",
+        "why": "Describe a rover's planned work during a future mission.",
+        "example": "Tomorrow, the rover will be collecting samples near the crater."
+      },
+      {
+        "target": "conditional",
+        "why": "Explain how a discovery could change the next mission step.",
+        "example": "If the rover found unusual rocks, scientists would examine them closely."
       }
     ],
     "levels": {
@@ -35586,19 +35586,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Navigation services use timing information from orbit."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which problem on Earth could a satellite help study?"
-      },
-      {
         "target": "passive voice",
-        "why": "Explain a use for orbital data.",
-        "example": "Satellite data is used to track storms."
+        "why": "Explain how satellite data is gathered and used.",
+        "example": "Weather images are sent from the satellite to Earth."
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify a satellite by the job it performs.",
+        "example": "A satellite that watches storms can help weather forecasters."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe what repeated satellite observations have revealed.",
+        "example": "Satellite pictures have shown changes in the coastline over time."
       }
     ],
     "levels": {
@@ -35800,19 +35800,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "An invention begins with a problem someone notices."
+        "target": "past simple",
+        "why": "Tell how an invention solved an earlier problem.",
+        "example": "The inventor built a tool that helped people carry water."
       },
       {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which everyday object would you improve first?"
+        "target": "passive voice",
+        "why": "Explain an invention's materials or production process.",
+        "example": "The handle is made from recycled plastic."
       },
       {
         "target": "relative clause",
-        "why": "Identify an invention with daily impact.",
-        "example": "An invention that saves time can change a daily routine."
+        "why": "Specify an invention through the problem it solves.",
+        "example": "An invention that saves water could help this garden."
       }
     ],
     "levels": {
@@ -36015,19 +36015,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Clear instructions matter when patients use equipment at home."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "What would you ask before trusting a health device?"
-      },
-      {
         "target": "passive voice",
-        "why": "Follow how a scan informs treatment.",
-        "example": "The scan is checked by a doctor before treatment."
+        "why": "Explain how medical equipment supports a diagnosis.",
+        "example": "The scan is checked before the doctor decides on treatment."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe how a device has helped a patient over time.",
+        "example": "The monitor has helped her notice changes in her heartbeat."
+      },
+      {
+        "target": "conditional",
+        "why": "Discuss a safeguard before trusting a health device.",
+        "example": "If the readings seemed unusual, I would ask a doctor."
       }
     ],
     "levels": {
@@ -36229,19 +36229,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "This portion is too big."
+        "target": "past perfect",
+        "why": "Trace the earlier decision that caused food to be wasted.",
+        "example": "We had cooked too much rice before we counted the guests."
       },
       {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which leftovers would you turn into another meal?"
+        "target": "conditional",
+        "why": "Connect meal planning with a reduction in waste.",
+        "example": "If we check the fridge first, we will buy less extra food."
       },
       {
-        "target": "relative clause",
-        "why": "Specify which portions create waste.",
-        "example": "A portion that is too large may become uneaten food."
+        "target": "passive voice",
+        "why": "Explain what happens to food after a meal.",
+        "example": "Uneaten food is weighed before it goes into the compost bin."
       }
     ],
     "levels": {
@@ -36443,19 +36443,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Clothes use materials, energy, and labor before reaching a shop."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "What item would you mend rather than replace?"
-      },
-      {
         "target": "passive voice",
-        "why": "Focus on a garment’s whole life.",
-        "example": "A fiber’s source affects how it is made and disposed of."
+        "why": "Explain a garment's journey through production and reuse.",
+        "example": "The jacket is repaired before it is sold again."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe changes made to buying and caring for clothes.",
+        "example": "I have mended two shirts instead of replacing them."
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare clothing choices by durability.",
+        "example": "This sturdy jacket will last longer than the thin one."
       }
     ],
     "levels": {
@@ -36657,19 +36657,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Clean water needs to be collected, treated, and delivered."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Where would you check for wasted water first?"
-      },
-      {
         "target": "conditional",
-        "why": "Predict the effect of repairing a leak.",
-        "example": "If we fix the leak, we will save water."
+        "why": "Predict the effect of a concrete water-saving action.",
+        "example": "If we repair the tap, we will waste less water."
+      },
+      {
+        "target": "present perfect",
+        "why": "Review water savings after a change in habits.",
+        "example": "Our class has stopped leaving the taps running."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain how water is prepared for use again.",
+        "example": "Used water is treated before it is sent to public gardens."
       }
     ],
     "levels": {
