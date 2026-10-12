@@ -8,3 +8,4 @@ Texts are written individually for each lesson's topic and flight. Opening and c
 - kids-family: 4 A1 texts; course checker passes.
 - kids-animals: 1 texts; course checker passes.
 - kids-food: 2 texts; course checker passes.
+- kids-weather: 2 texts; course checker passes.

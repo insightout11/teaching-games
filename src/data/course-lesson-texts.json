@@ -327,5 +327,99 @@
     "courseId": "kids-food",
     "title": "Our Food Table",
     "level": "A2"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "Ravi stands by the classroom window with a blank weather card. He needs three sentences about today. “The sky is grey,” he says. “The air feels cool. Light rain is falling.” His partner listens and looks outside too. She notices small drops on the glass. A tree moves gently in the wind. Ravi draws a cloud, a coat and a raindrop. The pictures help him remember his report. He writes his three sentences under them. He will keep this card until the course ends. Another day may look very different. For now, his report tells the class what he can see and feel.",
+    "words": [
+      {
+        "word": "grey",
+        "meaning": "a colour between black and white"
+      },
+      {
+        "word": "cool",
+        "meaning": "a little cold"
+      },
+      {
+        "word": "gently",
+        "meaning": "in a soft, calm way"
+      },
+      {
+        "word": "raindrop",
+        "meaning": "one small drop of rain"
+      },
+      {
+        "word": "report",
+        "meaning": "a short account of what you notice"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What colour is the sky?",
+        "a": "grey"
+      },
+      {
+        "q": "How does the air feel?",
+        "a": "cool"
+      },
+      {
+        "q": "What helps Ravi remember?",
+        "a": "The pictures"
+      }
+    ],
+    "talk": [
+      "What three sentences would describe the weather around you?",
+      "What signs could help you decide what to wear outside?"
+    ],
+    "courseId": "kids-weather",
+    "title": "The Weather Today",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Ravi brings back his first weather card. It shows grey clouds and light rain. Today, the sky looks different. “Thin clouds are moving past the Sun,” he reports. “The air feels warmer than before. A steady wind is moving the leaves.” His partner asks whether they need coats for their walk. Ravi looks at the clouds again. “I will bring a light coat,” he says. “The wind may feel cool in the shade.” He compares his new report with the old one. Both have three main sentences, but the new report gives more detail. The class can use it to plan their afternoon.",
+    "words": [
+      {
+        "word": "thin",
+        "meaning": "not thick"
+      },
+      {
+        "word": "steady",
+        "meaning": "continuing without much change"
+      },
+      {
+        "word": "shade",
+        "meaning": "a place away from direct sunlight"
+      },
+      {
+        "word": "compares",
+        "meaning": "looks at things to find differences"
+      },
+      {
+        "word": "detail",
+        "meaning": "a small piece of information"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is moving past the Sun?",
+        "a": "Thin clouds"
+      },
+      {
+        "q": "What will Ravi bring?",
+        "a": "a light coat"
+      },
+      {
+        "q": "How many main sentences does each report have?",
+        "a": "three"
+      }
+    ],
+    "talk": [
+      "How does today's weather compare with your first report?",
+      "Which extra detail would make a weather report more useful?"
+    ],
+    "courseId": "kids-weather",
+    "title": "Our Weather Report",
+    "level": "A2"
   }
 ]
