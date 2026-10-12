@@ -1,0 +1,462 @@
+{
+  "bbc-library.json/bbc_grammar_advanced_learner_mistakes": {
+    "status": "partial",
+    "note": "Evidence: Dan teaches indirect WH-clause order and general-reference articles (“relative pronouns”), rather than the promised preposition coverage. Suggested action: Rewrite description around WH clauses and articles."
+  },
+  "bbc-library.json/bbc_grammar_formal_informal": {
+    "status": "partial",
+    "note": "Evidence: the presenter introduces herself as “Sian” and teaches formal/informal register, while the description names Dan. Suggested action: Rewrite description with Sian as presenter."
+  },
+  "bbc-library.json/bbc_grammar_giving_emphasis": {
+    "status": "partial",
+    "note": "Evidence: the explanation covers it-clefts (“using a cleft sentence”), not the promised fronting and do-support. Suggested action: Rewrite description to describe it-cleft emphasis only."
+  },
+  "bbc-library.json/bbc_grammar_native_speaker_mistakes": {
+    "status": "ok",
+    "note": "Dan covers nonstandard past forms, pronoun ordering and split infinitives, ending with clear spoken communication over rigid rule-following; this matches the main claim."
+  },
+  "bbc-library.json/bbc_grammar_linking_words_contrast": {
+    "status": "ok",
+    "note": "The captions explain however, although, despite and while through contrasting examples about English stereotypes; the four promised structures are present."
+  },
+  "bbc-library.json/bbc_grammar_more_advanced_mistakes": {
+    "status": "ok",
+    "note": "Dan identifies advanced learner mistakes part two and contrasts come/go and bring/take; the broad mistakes description is supported."
+  },
+  "bbc-library.json/bbc_grammar_what_emphasis": {
+    "status": "partial",
+    "note": "Evidence: “Sian here” introduces what/all-clefts, matching the grammar topic but contradicting the named presenter Dan. Suggested action: Rewrite description with Sian as presenter."
+  },
+  "bbc-library.json/bbc_masterclass_conversation_phrases": {
+    "status": "partial",
+    "note": "Evidence: Sian introduces seven discourse markers, including “in other words”, while the description names Dan and advertises a broader phrase collection. Suggested action: Rewrite description with Sian and the seven covered markers."
+  },
+  "bbc-library.json/bbc_masterclass_inversion_1": {
+    "status": "ok",
+    "note": "The captions explain inverted auxiliary/subject order after negative or limiting adverbs and little, matching the title and description."
+  },
+  "bbc-library.json/bbc_masterclass_inversion_2": {
+    "status": "ok",
+    "note": "The captions cover inverted conditionals, place-first order and so/such emphasis. B2 is plausible for the explanation; the Expert label is broad, so I have not inferred a level fault from the grammar topic alone."
+  },
+  "bbc-library.json/bbc_masterclass_linking_words": {
+    "status": "partial",
+    "note": "Evidence: “Sian here” introduces conversational signposting, including basically and by the way, rather than a Dan-led cause-and-effect linking-word lesson. Suggested action: Rewrite description around Sian and spoken discourse markers."
+  },
+  "bbc-library.json/bbc_grammar_verb_patterns": {
+    "status": "partial",
+    "note": "Evidence: Sian explains stop, regret and go on (“stop buying” versus “stop to buy”); the description instead names Dan and promises remember and try. Suggested action: Rewrite description with the actual presenter and three covered verbs."
+  },
+  "bbc-library.json/bbc_food_street_food": {
+    "status": "ok",
+    "note": "Neil and Rob discuss street-food growth, freshness and authenticity, including provinces and microwaved food; the stated subject and vocabulary focus match."
+  },
+  "bbc-library.json/bbc_food_new_food_culture": {
+    "status": "ok",
+    "note": "The programme describes people adapting food habits after migration, including Tobago seasoning and trial and error; it supports the stated food-culture theme."
+  },
+  "bbc-library.json/bbc_food_waste": {
+    "status": "ok",
+    "note": "The captions discuss use-by dates, direct farmer sales and reducing waste, matching the food-waste and consumer-resource description."
+  },
+  "bbc-library.json/bbc_food_fast_food": {
+    "status": "ok",
+    "note": "The episode traces fast-food expansion and Icelandic burgers, with convenience and franchise culture; the health discussion is not its central focus, but the description frames that as a possible discussion connection, so no mismatch is inferred."
+  },
+  "bbc-library.json/bbc_food_future_food": {
+    "status": "ok",
+    "note": "The captions discuss UK food-supply risks, climate, agriculture and replacing some meat with plant proteins, matching the broad future-food/security claim."
+  },
+  "bbc-library.json/bbc_food_comfort_food": {
+    "status": "ok",
+    "note": "Comfort food is linked to childhood care, emotion and cultural differences; the main food-memory and wellbeing description matches."
+  },
+  "bbc-library.json/bbc_health_sleep": {
+    "status": "ok",
+    "note": "The programme connects sleep with learning, memory consolidation and health effects, matching the title and brain/sleep description."
+  },
+  "bbc-library.json/bbc_health_stress": {
+    "status": "ok",
+    "note": "The captions discuss modern stress, limited time and coping with an ongoing to-do list, matching the stated stress/wellbeing theme."
+  },
+  "bbc-library.json/bbc_health_sitting": {
+    "status": "ok",
+    "note": "The captions explain reduced muscle activity and circulation during sitting and discuss standing work, matching the stated sitting-health topic."
+  },
+  "bbc-library.json/bbc_health_flourishing": {
+    "status": "ok",
+    "note": "The captions define flourishing, discuss study findings and recommend gratitude, savouring and small wins, matching the wellbeing theme."
+  },
+  "bbc-library.json/bbc_health_workplace_mental_health": {
+    "status": "ok",
+    "note": "The programme explicitly discusses mental health at work, lost economic contribution and normalising personal stories. Some caption errors occur, but sustained meaning is recoverable."
+  },
+  "bbc-library.json/bbc_health_kindness": {
+    "status": "ok",
+    "note": "The captions connect kindness with reward, compassion and cooperative outcomes, matching the wellbeing and community description."
+  },
+  "bbc-library.json/bbc_tech_training_ai": {
+    "status": "ok",
+    "note": "The episode uses odd AI recipes, chat-up lines and deleted maths solutions to discuss training through trial and error, matching the claimed AI-training subject."
+  },
+  "bbc-library.json/bbc_tech_robot_companion": {
+    "status": "ok",
+    "note": "Grace Brown and Abi are discussed as humanoid companions for lonely care-home residents, matching the robot-companion subject."
+  },
+  "bbc-library.json/bbc_tech_future_of_work": {
+    "status": "ok",
+    "note": "The captions examine uncertain AI job predictions, disruption and the timing of new jobs, matching the future-work claim."
+  },
+  "bbc-library.json/bbc_tech_ai_call_centres": {
+    "status": "ok",
+    "note": "The programme discusses Philippines call-centre employment, displacement and human empathy, matching the AI/customer-service description."
+  },
+  "bbc-library.json/bbc_tech_better_web": {
+    "status": "ok",
+    "note": "The captions describe human-centric web science and public-health apps, matching the broad better-web subject."
+  },
+  "bbc-library.json/bbc_tech_era_of_distrust": {
+    "status": "ok",
+    "note": "The programme distinguishes gullibility from justified trust using honesty, competence and reliability, matching the distrust/fake-news description."
+  },
+  "bbc-library.json/bbc_climate_mental_health": {
+    "status": "ok",
+    "note": "The captions link disaster trauma, family support and community rebuilding with climate-related mental wellbeing, matching the description."
+  },
+  "bbc-library.json/bbc_climate_without_plastic": {
+    "status": "ok",
+    "note": "The episode discusses plastic's persistence and possible plastic-eating microbes, matching plastic use and pollution."
+  },
+  "bbc-library.json/bbc_climate_saving_water": {
+    "status": "partial",
+    "note": "Evidence: the captions call Yuma “one of the driest places on earth”, while the title claims the single driest place. Suggested action: Retitle to “Saving Water on Desert Date Farms” or retain “one of the driest places”."
+  },
+  "bbc-library.json/bbc_climate_recycling_system": {
+    "status": "ok",
+    "note": "The captions explicitly prioritise reduce/reuse and discuss virgin plastic and recycling costs, matching the recycling-systems theme."
+  },
+  "bbc-library.json/bbc_climate_animal_migration": {
+    "status": "ok",
+    "note": "The full captions explicitly say warming ocean temperatures change shark migration, then discuss migrating animals' role in carbon storage; the claimed link is present."
+  },
+  "bbc-library.json/bbc_climate_population": {
+    "status": "ok",
+    "note": "The programme compares consumption and carbon footprints in richer and poorer populations, matching the population/climate description."
+  },
+  "bbc-library.json/bbc_animals_zoos": {
+    "status": "ok",
+    "note": "Zoo conservation and research arguments are contrasted with confinement and zoochosis, matching the animal-welfare debate."
+  },
+  "bbc-library.json/bbc_animals_love_of_pets": {
+    "status": "ok",
+    "note": "The captions examine changing pet relationships, disposable income and Victorian attitudes to dogs, supporting the pet/human relationship theme."
+  },
+  "bbc-library.json/bbc_animals_octopus_intelligence": {
+    "status": "ok",
+    "note": "Cephalopod senses, distributed neurons and the octopus's changeable body are discussed, matching octopus intelligence."
+  },
+  "bbc-library.json/bbc_animals_ecotourism": {
+    "status": "ok",
+    "note": "The captions distinguish harmful wildlife tourism from sustainable community-led projects, matching the ecotourism debate."
+  },
+  "bbc-library.json/bbc_animals_black_and_white": {
+    "status": "ok",
+    "note": "The programme explains zebra fly avoidance, panda camouflage and penguin coloration, matching the black-and-white animal theme."
+  },
+  "bbc-library.json/bbc_animals_man_vs_beast": {
+    "status": "ok",
+    "note": "Straight human legs, elastic tendons, energy efficiency and muscle mass are compared with animal bodies, matching the description."
+  },
+  "bbc-library.json/bbc_6me_social_media_dead": {
+    "status": "ok",
+    "note": "AI-generated material and declining social-media engagement are discussed alongside smaller online communities, matching the claim."
+  },
+  "bbc-library.json/bbc_6me_second_job": {
+    "status": "ok",
+    "note": "Side hustles, craft work, creative balance and the grind of a second job are discussed, matching the stated subject."
+  },
+  "bbc-library.json/bbc_6me_creativity": {
+    "status": "ok",
+    "note": "The captions discuss creative application of skills, disparate ideas and headspace, matching creativity and future jobs."
+  },
+  "bbc-library.json/bbc_6me_becoming_musician": {
+    "status": "ok",
+    "note": "Josh's songwriting circles and busking experiences support the becoming-a-musician subject."
+  },
+  "bbc-library.json/bbc_6me_social_media_teen_health": {
+    "status": "ok",
+    "note": "The captions discuss social-media algorithms, revenue and parents' responsibility for teenage use, matching benefits/risks and mental wellbeing."
+  },
+  "bbc-library.json/bbc_real_easy_social_media_influencer": {
+    "status": "ok",
+    "note": "Neil and Feifei define influencers and discuss paid posts, followers and authority, matching the short-explainer description."
+  },
+  "bbc-library.json/bbc_fxh3hejvrhw": {
+    "status": "ok",
+    "note": "Tim Berners-Lee's discussion of neutral platforms, social networks and constructive incentives supports the internet benefits/drawbacks claim."
+  },
+  "bbc-library.json/bbc_r3ovou_sxhe": {
+    "status": "ok",
+    "note": "The Real Easy English conversation describes running, cricket, yoga and taking up hobbies; A2 is plausible despite the generic Intermediate difficulty label."
+  },
+  "bbc-library.json/bbc_mn0mxeor0ug": {
+    "status": "ok",
+    "note": "Adventure playgrounds and free play are connected with children's resilience and coping skills, matching the play-development subject."
+  },
+  "bbc-library.json/bbc_qsbsycvy_t8": {
+    "status": "ok",
+    "note": "The archive introduction gives February 2015 and discusses CV confidence, accuracy and concision, matching the archive-CV claim."
+  },
+  "bbc-library.json/bbc_msjmjxd1udk": {
+    "status": "ok",
+    "note": "Neymar's brain activity and relaxed focus during penalties illustrate how footballers handle pressure, matching the description."
+  },
+  "bbc-library.json/bbc_ebac4piqc2y": {
+    "status": "ok",
+    "note": "Earth's magnetic north, arbitrary direction and light-years are discussed as navigation problems in space, matching the claim."
+  },
+  "bbc-library.json/bbc_steb_wntlz0": {
+    "status": "ok",
+    "note": "The captions discuss large-sample research and concerns about addictive design, matching a balanced discussion of technology and young people."
+  },
+  "bbc-library.json/bbc_uoujhpvjse8": {
+    "status": "ok",
+    "note": "Digital assistants are described as active agents, with more direct user language and a new vernacular, matching talking to machines."
+  },
+  "bbc-library.json/bbc_9g5x11dh_lc": {
+    "status": "ok",
+    "note": "Translation apps, metaphors and human novelty/creativity are contrasted, matching the automated-translation limits description."
+  },
+  "bbc-library.json/bbc_p2uoo6l8rio": {
+    "status": "ok",
+    "note": "Renewable storage and wind-turbine digital twins demonstrate smart technology's climate applications, matching the subject."
+  },
+  "bbc-library.json/bbc_6r0wy4kwxes": {
+    "status": "ok",
+    "note": "Flexitarian diets, combined environmental measures and evidence from research are discussed, matching the diet/environment description."
+  },
+  "bbc-library.json/bbc__xcalxwxjvy": {
+    "status": "ok",
+    "note": "The captions compare language-app research with explicit teaching and immersion, including limits of a single-app study, matching the class/app comparison."
+  },
+  "bbc-library.json/bbc_n3ce1lo8ace": {
+    "status": "ok",
+    "note": "The programme examines UK shortages, low production and globalised food systems alongside biodiversity, matching the food-systems claim."
+  },
+  "bbc-library.json/bbc_y3vhuw97aia": {
+    "status": "ok",
+    "note": "A food futurologist discusses emerging foods, trends, safety and stringent regulation, matching changing future food and production."
+  },
+  "bbc-library.json/bbc_k_9_dtjpz9c": {
+    "status": "ok",
+    "note": "Moon craters and water/mineral evidence are presented as records of Earth's and the solar system's past, matching the claim."
+  },
+  "bbc-library.json/bbc_yasdexcyytg": {
+    "status": "ok",
+    "note": "Foreign-language speaking anxiety, self-perception and irrational beliefs are discussed with confidence resources, matching the description."
+  },
+  "bbc-library.json/bbc_fun_ltwaogu": {
+    "status": "ok",
+    "note": "Freelance and staff work are contrasted through autonomy, income and mental-health needs, matching the self-employment description."
+  },
+  "bbc-library.json/bbc_thzrxn_pvi8": {
+    "status": "ok",
+    "note": "LaMDA, sentience claims and anthropomorphism are examined, matching the independent-thinking AI question."
+  },
+  "bbc-library.json/bbc_dxr2waii1ck": {
+    "status": "ok",
+    "note": "The captions warn against treating fluent chatbot output as authoritative or sentient, matching the chatbot-use description."
+  },
+  "bbc-library.json/bbc_5zq65rbsab8": {
+    "status": "ok",
+    "note": "Young women's social-media experiences include political discussion, popularity and intimidation, matching the description."
+  },
+  "bbc-library.json/bbc_klz5u2ph_ym": {
+    "status": "ok",
+    "note": "Musicians and researchers discuss romantic heartbreak and getting over loss, matching music and difficult feelings."
+  },
+  "bbc-library.json/bbc_0uodakvdbmo": {
+    "status": "ok",
+    "note": "The programme compares US/China emissions and stresses cooperative climate action, matching the claim."
+  },
+  "bbc-library.json/bbc_xghbhwuql_w": {
+    "status": "ok",
+    "note": "Listening, understanding others and avoiding talking over people are discussed as good conversation, matching the title."
+  },
+  "bbc-library.json/bbc_gfnymyczjqa": {
+    "status": "ok",
+    "note": "Professional gaming, Fortnite and the esports scene are discussed, supporting the gaming-as-sport question."
+  },
+  "bbc-library.json/bbc_rcis5x0sgty": {
+    "status": "ok",
+    "note": "An online rejection challenge and social anxiety/perfectionism are discussed, matching the setbacks trend description."
+  },
+  "bbc-library.json/bbc_o3tp5y9lh88": {
+    "status": "ok",
+    "note": "The captions describe pearl milk tea's Taiwanese development, celebrity fans and growth, matching bubble-tea origins."
+  },
+  "bbc-library.json/bbc_h5bvbrz64bq": {
+    "status": "ok",
+    "note": "The programme describes allergy experiences, Australia's rates and possible causes, matching the rising-allergies question."
+  },
+  "bbc-library.json/bbc_c5ppkvg7xhi": {
+    "status": "ok",
+    "note": "Ethical banks, sustainable investing, pension transparency and spotlighting company actions match finance/environment choices."
+  },
+  "bbc-library.json/bbc_a66gx6c_zee": {
+    "status": "ok",
+    "note": "Young people's climate anxiety and regular family conversations are discussed, matching climate effects and responses."
+  },
+  "bbc-library.json/bbc_fwzd45xdqdo": {
+    "status": "ok",
+    "note": "Mushroom health claims are contrasted with evidence, clinical trials and ancient wisdom, matching the medicine-or-myth question."
+  },
+  "bbc-library.json/bbc_eoxv4jgwjem": {
+    "status": "ok",
+    "note": "The captions describe endangered Aboriginal languages, historical injustice and revival, matching preservation of languages with few speakers."
+  },
+  "bbc-library.json/bbc_fkg0nlaqzn4": {
+    "status": "ok",
+    "note": "Misophonia and strong reactions to ordinary sounds are explained, matching the stated subject."
+  },
+  "bbc-library.json/bbc_xf2rf9vx_g4": {
+    "status": "ok",
+    "note": "Solar car-park canopies and possible space-based solar power are discussed, matching space-saving solar generation."
+  },
+  "bbc-library.json/bbc_wav_vbhln3q": {
+    "status": "ok",
+    "note": "Male loneliness, nurturing friendships and social expectations are discussed, matching building connections."
+  },
+  "bbc-library.json/bbc_acg6qr4wawu": {
+    "status": "ok",
+    "note": "Indian housing heat-proofing, ventilation and subsidies illustrate heatwave adaptation, matching the description."
+  },
+  "bbc-library.json/bbc_ag7_u4ga9ma": {
+    "status": "ok",
+    "note": "The captions distinguish sympathy from apologies and discuss sincerity, caveats and public apologies, matching effective apologising."
+  },
+  "bbc-library.json/bbc_y681hxwwhqy": {
+    "status": "ok",
+    "note": "Idle ants, boredom and switching off are linked with rest and creativity, matching taking breaks."
+  },
+  "bbc-library.json/bbc_wnjqpn_slk8": {
+    "status": "ok",
+    "note": "Sound, music, mood and impulse buying are linked with tasting food, matching the multisensory-eating description."
+  },
+  "bbc-library.json/bbc_my1rk1polgm": {
+    "status": "ok",
+    "note": "The captions discuss female political leaders and collaborative versus masculine leadership expectations, matching representation in politics."
+  },
+  "bbc-library.json/bbc_ueh3orsgvxq": {
+    "status": "ok",
+    "note": "Disaster preparation, warnings, shelters and livelihoods are discussed as reducing impacts, matching prediction/preparedness."
+  },
+  "bbc-library.json/bbc_wunqz9sf4hu": {
+    "status": "ok",
+    "note": "Bangladeshi literacy projects and an adult learner's everyday reading difficulties support the literacy-opportunities description."
+  },
+  "bbc-library.json/bbc-grammar-r2-FBmjH6nh5-k": {
+    "status": "weak-captions",
+    "note": "Evidence: The cache is a 324-word untimed multi-word-verb overview; it asks “Do you need to learn them?” but does not supply the promised types 1–4 clip as a transcript. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-Gqu-bgwML00": {
+    "status": "ok",
+    "note": "Finn and Catherine explain phrasal/prepositional verbs, particle placement and a quiz, matching the grammar description."
+  },
+  "bbc-library.json/bbc-grammar-r2-r6XpFWmA7Gk": {
+    "status": "weak-captions",
+    "note": "Evidence: Only a 94-word introduction is cached, ending “But what are the differences?”, without the actual distinctions or full lesson. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-X6LuWwb9whM": {
+    "status": "weak-captions",
+    "note": "Evidence: Only 51 untimed words are cached, directing the reader to “grammar notes on this page” rather than transcribing the video. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-uTB5I8V9Eog": {
+    "status": "mismatch",
+    "note": "Evidence: the cache is a first-person Titanic survivor account describing the ship sinking and “people drowning”, rather than a BBC grammar explanation. Suggested action: Remove pending verification of the video/caption pairing; retitle to “A Titanic Survivor Remembers” only if this is the intended source."
+  },
+  "bbc-library.json/bbc-grammar-r2-xFsYrTIndhI": {
+    "status": "ok",
+    "note": "Sophie and Neil explain forms and uses of present simple/continuous and finish with a quiz, matching the description."
+  },
+  "bbc-library.json/bbc-grammar-r2-tbru3bW2kVE": {
+    "status": "weak-captions",
+    "note": "Evidence: The 63-word cache says “Read the grammar explanation” and try a quiz; the actual six-minute explanation is absent. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-jwmKjgwlMk8": {
+    "status": "weak-captions",
+    "note": "Evidence: The 58-word cache tells readers to work through an activity and “try the verb form quiz”, rather than transcribing the lesson. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-jcAX1RtKq3U": {
+    "status": "weak-captions",
+    "note": "Evidence: The 67-word cache says “read this explanation” and try an activity; it is an introductory page blurb, not a full transcript. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-PgsG98vByiw": {
+    "status": "weak-captions",
+    "note": "Evidence: The 104-word cache is a short cycling-accident account (“I fell off my bike”), not enough to substantiate the promised six-minute explanation and practice. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-elPHkXNxi2g": {
+    "status": "weak-captions",
+    "note": "Evidence: The 61-word cache promises “six different ways” later in a session but does not provide those explanations. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-3aQOLTfnAOc": {
+    "status": "weak-captions",
+    "note": "Evidence: Only a 73-word untimed sample conversation about London is cached; the claimed grammar explanation is missing. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-8_nhtAwI0dA": {
+    "status": "weak-captions",
+    "note": "Evidence: The 127-word cache refers to what “Finn said this in the video” and instructs a quiz, indicating webpage notes rather than speech captions. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-8VETylIxyhw": {
+    "status": "weak-captions",
+    "note": "Evidence: The cache contains only 82 words of example advice about pregnancy and a baby, not the six-minute explanation and practice. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-3OuqzHxlrHc": {
+    "status": "weak-captions",
+    "note": "Evidence: The cache contains 125 words of conditional example sentences, but no complete explanation/practice transcript for the 367-second entry. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-P4_kqBsj2sE": {
+    "status": "weak-captions",
+    "note": "Evidence: The 85-word cache announces “We’re going to do two activities” but contains neither activity or the full lesson. Suggested action: Remove from video-caption lesson selection until the complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-o-GWYDA4IQY": {
+    "status": "weak-captions",
+    "note": "Evidence: The 49-word cache tells readers to “look at the picture here” and describes tick/cross icons, not a present-perfect lesson transcript. Suggested action: Remove from video-caption lesson selection until a complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-nI5zaB6QL-o": {
+    "status": "weak-captions",
+    "note": "Evidence: The 66-word cache introduces passive voice, then says “Read the grammar explanation”; the actual video explanation is not supplied. Suggested action: Remove from video-caption lesson selection until a complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-ryRu8zFCKZE": {
+    "status": "weak-captions",
+    "note": "Evidence: Only a 138-word Facebook travel-story example is cached, rather than the full article explanation/practice transcript advertised for 364 seconds. Suggested action: Remove from video-caption lesson selection until a complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-5UxMyCxQThE": {
+    "status": "ok",
+    "note": "The cache explains too, enough and very with example forms, matching the topic. It is untimed reference-style prose with HTML entities, so alignment to the spoken video remains unverified; uncertainty is retained rather than claiming a proven mismatch."
+  },
+  "bbc-library.json/bbc-grammar-r2-B5hDy53iGNA": {
+    "status": "partial",
+    "note": "Evidence: the stored text explains only future continuous, including “I’ll be taking my driving test”, with no be-plus-infinitive section promised by the title. Suggested action: Rewrite description/title around future continuous or verify and replace the incomplete cache before use."
+  },
+  "bbc-library.json/bbc-grammar-r2-U2DxNgQqDgQ": {
+    "status": "ok",
+    "note": "Finn and Catherine explain comparative/superlative forms, journey examples and a quiz, matching the advertised grammar topic."
+  },
+  "bbc-library.json/bbc-grammar-r2-3dA7P5arkyc": {
+    "status": "weak-captions",
+    "note": "Evidence: The 47-word cache asks about used to versus past simple and says “look at some examples first”, without providing those examples. Suggested action: Remove from video-caption lesson selection until a complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-38QqDrckyxM": {
+    "status": "weak-captions",
+    "note": "Evidence: The 83-word cache explains only active voice, ending “So what is the passive voice?”, without transcribing the answer. Suggested action: Remove from video-caption lesson selection until a complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc-grammar-r2-foyWhOHhTT0": {
+    "status": "weak-captions",
+    "note": "Evidence: The 85-word cache tells readers to “stay on this page” to learn question tags; the tag lesson itself is absent. Suggested action: Remove from video-caption lesson selection until a complete matching English transcript is cached."
+  },
+  "bbc-library.json/bbc_grammar_mixing_conditionals": {
+    "status": "ok",
+    "note": "Dan contrasts hypothetical past/present time relationships and third-to-second or second-to-third conditionals, matching mixed conditionals."
+  }
+}
