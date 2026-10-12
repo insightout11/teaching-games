@@ -12,8 +12,8 @@ import { useSessionStore } from '@/stores/session-store';
 // ONE grammar mistake. Phones have a "Found it!" button; the first student to tap says the fix
 // out loud. Teacher: ✓ reveals the correction (and scores), ✗ passes to the next in the queue.
 // "Show the fix" when nobody gets it, which records the miss in the lesson thread (struggles).
-// It is a LISTENING activity: the words stay off the screen until the teacher shows them (or the fix is revealed),
-// except for beginner classes, who get the words from the start as reading support.
+// It is a LISTENING activity: the words stay off the screen while the class listens. They come up when a student
+// taps "Found it!" (or the teacher shows them, or the fix is revealed). Beginner classes get them from the start.
 
 type Phase = 'idle' | 'announce' | 'fixed' | 'done';
 type Buzz = { clientId: string; studentId: string | null; name: string };
@@ -75,6 +75,12 @@ export function FixTheCaptainActivity({ generatedContent, sessionSettings, onSet
 
   const item = items[idx];
   const speaker = queue[turn];
+  // The words come up the moment a student has found it (so they can point to the mistake and the class can
+  // follow the fix), and stay up for the rest of that announcement. Never while the class is still only listening.
+  const speakerId = speaker?.clientId ?? null;
+  useEffect(() => {
+    if (speakerId) setWordsShownFor(idx);
+  }, [speakerId, idx]);
 
   useEffect(() => { warmUpSpeech(); }, []);
   const stop = useCallback(() => { token.current += 1; try { window.speechSynthesis?.cancel(); } catch { /* none */ } }, []);
