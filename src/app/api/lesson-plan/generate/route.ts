@@ -3880,8 +3880,17 @@ export async function POST(request: NextRequest) {
           case 'video-player': {
             const youtubeLibraries = YOUTUBE_LIBRARIES;
             const isYouTubeLibrary = sourceMaterial?.sourceType != null && sourceMaterial.sourceType in youtubeLibraries;
-            if (sourceMaterial && (sourceMaterial.sourceType === 'youtube' || sourceMaterial.sourceType === 'ted' || sourceMaterial.sourceType === 'teded' || isYouTubeLibrary) && sourceMaterial.sourceKey) {
-              generators.push(generateVideoComprehensionQuestions(sourceMaterial, diff).then(({ questions, discussionPrompt }) => {
+            // Any other library video (e.g. a listening clip): find its YouTube id in the library entry.
+            const otherYoutubeId = sourceMaterial?.sourceKey && !isYouTubeLibrary
+              ? (getLibraryEntry(sourceMaterial.sourceType as string, sourceMaterial.sourceKey)?.youtubeId as string | undefined)
+              : undefined;
+            if (sourceMaterial && (sourceMaterial.sourceType === 'youtube' || sourceMaterial.sourceType === 'ted' || sourceMaterial.sourceType === 'teded' || isYouTubeLibrary || otherYoutubeId) && sourceMaterial.sourceKey) {
+              // The video is what the lesson is built on: it must play even when the questions can't be made.
+              const questionSet = generateVideoComprehensionQuestions(sourceMaterial, diff).catch((err) => {
+                console.error('[video-player] questions failed; playing the video without them:', err);
+                return { questions: [], discussionPrompt: undefined } as unknown as Awaited<ReturnType<typeof generateVideoComprehensionQuestions>>;
+              });
+              generators.push(questionSet.then(({ questions, discussionPrompt }) => {
                 let videoUrl: string;
                 if (sourceMaterial.sourceType === 'ted') {
                   const tedTalk = (tedLibrary as Array<{ id: string; url: string }>).find((t) => t.id === sourceMaterial.sourceKey);
@@ -3894,6 +3903,8 @@ export async function POST(request: NextRequest) {
                   const lib = youtubeLibraries[sourceMaterial.sourceType];
                   const entry = lib.find((t) => t.id === sourceMaterial.sourceKey);
                   videoUrl = `https://www.youtube.com/watch?v=${entry?.youtubeId ?? sourceMaterial.sourceKey}`;
+                } else if (otherYoutubeId) {
+                  videoUrl = `https://www.youtube.com/watch?v=${otherYoutubeId}`;
                 } else {
                   videoUrl = `https://www.youtube.com/watch?v=${sourceMaterial.sourceKey}`;
                 }

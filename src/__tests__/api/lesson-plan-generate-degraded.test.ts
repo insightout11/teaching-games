@@ -99,4 +99,16 @@ describe('POST /api/lesson-plan/generate — degraded mode', () => {
     expect(data.degraded).toBe(true);
     expect(data.failedCount).toBe(1);
   });
+  it('the video still plays when its questions cannot be generated', async () => {
+    mockGenerateJSON.mockRejectedValue(new Error('AI down'));
+    const res = await POST(makeRequest({
+      customTopic: 'At the airport',
+      difficulty: 'Easy',
+      activities: ['video-player'],
+      sourceMaterial: { sourceType: 'travel-english', sourceKey: 'travel-airport', title: 'At the Airport', summary: 'Checking in at the airport.' },
+    }) as never);
+    const data = await res.json();
+    expect(data.content?.['video-player']?.videoUrl).toBe('https://www.youtube.com/watch?v=z6E7t29sg0Y');
+    expect(data.content['video-player'].comprehensionQuestions).toEqual([]);
+  });
 });
