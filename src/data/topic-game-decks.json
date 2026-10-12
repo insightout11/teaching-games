@@ -3251,7 +3251,8 @@
           "baby",
           "legs"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large animal with strong back legs"
       },
       {
         "word": "hop",
@@ -3261,7 +3262,8 @@
           "move",
           "up"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a quick movement off the ground"
       },
       {
         "word": "open field",
@@ -3271,7 +3273,8 @@
           "land",
           "wide"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a wide grassy place with few trees"
       },
       {
         "word": "small head",
@@ -3281,7 +3284,8 @@
           "nose",
           "body"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the part above a kangaroo’s shoulders"
       },
       {
         "word": "joey",
@@ -3291,7 +3295,8 @@
           "young",
           "carry"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a young kangaroo in its mother’s care"
       },
       {
         "word": "pouch",
@@ -3301,17 +3306,19 @@
           "body",
           "carry"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "skin on the belly for carrying a baby"
       },
       {
-        "word": "tail balance",
+        "word": "steady stance",
         "forbidden": [
+          "balance",
           "stand",
-          "back",
-          "long",
-          "steady"
+          "still",
+          "ready"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the balanced way it stands before a jump"
       },
       {
         "word": "hind leg",
@@ -3321,7 +3328,8 @@
           "jump",
           "strong"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a back leg used for powerful jumps"
       },
       {
         "word": "leaping",
@@ -3331,7 +3339,8 @@
           "air",
           "move"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "moving through the air in a long jump"
       },
       {
         "word": "red kangaroo",
@@ -3341,7 +3350,8 @@
           "jump",
           "big"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a large kind found in central Australia"
       },
       {
         "word": "grey kangaroo",
@@ -3351,7 +3361,8 @@
           "jump",
           "smaller"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a smaller kind with grey fur"
       },
       {
         "word": "grazing",
@@ -3361,7 +3372,8 @@
           "ground",
           "head"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "eating grass while walking slowly"
       },
       {
         "word": "footprint",
@@ -3371,7 +3383,8 @@
           "step",
           "mud"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a mark left by a foot in soft earth"
       },
       {
         "word": "forepaw",
@@ -3381,107 +3394,130 @@
           "hand",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small front foot with fingers"
       }
     ],
     "hotSeat": [
       {
         "word": "long ears",
-        "level": "A1"
+        "level": "A1",
+        "description": "the tall parts on top of its head"
       },
       {
         "word": "big jump",
-        "level": "A1"
+        "level": "A1",
+        "description": "a leap that carries it far"
       },
       {
-        "word": "mother kangaroo",
-        "level": "A1"
+        "word": "adult female",
+        "level": "A1",
+        "description": "a grown female caring for her young"
       },
       {
-        "word": "drinking kangaroo",
-        "level": "A1"
+        "word": "waterhole",
+        "level": "A1",
+        "description": "a place where animals drink"
       },
       {
         "word": "left leg",
-        "level": "A1"
+        "level": "A1",
+        "description": "the limb on one side of its body"
       },
       {
         "word": "short arms",
-        "level": "A1"
+        "level": "A1",
+        "description": "small front limbs with little reach"
       },
       {
-        "word": "resting group",
-        "level": "A2"
+        "word": "mob",
+        "level": "A2",
+        "description": "a group of kangaroos together"
       },
       {
         "word": "bent knees",
-        "level": "A2"
+        "level": "A2",
+        "description": "joints folded before a jump"
       },
       {
         "word": "stretching",
-        "level": "A2"
+        "level": "A2",
+        "description": "making its body longer after rest"
       },
       {
-        "word": "jump distance",
-        "level": "A2"
+        "word": "long tail",
+        "level": "A2",
+        "description": "the heavy part behind its body"
       },
       {
-        "word": "tail tip",
-        "level": "A2"
+        "word": "heavy balance",
+        "level": "A2",
+        "description": "a strong body part that steadies every jump"
       },
       {
-        "word": "dry plain",
-        "level": "A2"
+        "word": "dust trail",
+        "level": "A2",
+        "description": "a line of loose earth left behind"
       },
       {
-        "word": "seeking water",
-        "level": "A2"
+        "word": "grass patch",
+        "level": "A2",
+        "description": "a small area where green plants grow"
       },
       {
-        "word": "sandy track",
-        "level": "A2"
+        "word": "shade tree",
+        "level": "A2",
+        "description": "a tree that keeps the sun off"
       }
     ],
     "imposter": [
       {
         "word": "kangaroo",
-        "decoy": "wallaby",
-        "level": "A2"
+        "level": "A2",
+        "description": "a large animal that carries its young",
+        "hint": "a wild animal",
+        "crewQuestion": "Where does this animal keep its young?",
+        "imposterQuestion": "Where does a rabbit keep its young?"
       },
       {
         "word": "joey",
-        "decoy": "cub",
-        "level": "A2"
+        "level": "A2",
+        "description": "a young animal carried by its mother",
+        "hint": "a young animal",
+        "crewQuestion": "What do you call a young kangaroo?",
+        "imposterQuestion": "What do you call a young bear?"
       },
       {
         "word": "pouch",
-        "decoy": "bag",
-        "level": "A2"
+        "level": "A2",
+        "description": "skin on the belly that holds a baby",
+        "hint": "a body part",
+        "crewQuestion": "Where can a baby kangaroo ride safely?",
+        "imposterQuestion": "Where can a baby ride on a person?"
       },
       {
         "word": "hop",
-        "decoy": "jump",
-        "level": "A1"
-      },
-      {
-        "word": "hind leg",
-        "decoy": "forepaw",
-        "level": "A2"
-      },
-      {
-        "word": "footprint",
-        "decoy": "handprint",
-        "level": "A2"
-      },
-      {
-        "word": "red kangaroo",
-        "decoy": "grey kangaroo",
-        "level": "A2"
+        "level": "A1",
+        "description": "a short jump made with both feet",
+        "hint": "a movement",
+        "crewQuestion": "How does this animal move across grass?",
+        "imposterQuestion": "How does a frog move across grass?"
       },
       {
         "word": "grassland",
-        "decoy": "forest",
-        "level": "A2"
+        "level": "A2",
+        "description": "a wide open place with many grasses",
+        "hint": "a habitat",
+        "crewQuestion": "Where might a kangaroo find plants to eat?",
+        "imposterQuestion": "Where might a cow find grass to eat?"
+      },
+      {
+        "word": "ears",
+        "level": "A1",
+        "description": "long parts on the sides of its head",
+        "hint": "a body part",
+        "crewQuestion": "Which parts help it hear sounds nearby?",
+        "imposterQuestion": "Which parts help a rabbit hear sounds nearby?"
       }
     ],
     "twentyQuestions": [
@@ -3539,7 +3575,8 @@
           "black",
           "white"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a black and white bird that swims but cannot fly"
       },
       {
         "word": "chick",
@@ -3549,7 +3586,8 @@
           "young",
           "small"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a young bird that has just come from an egg"
       },
       {
         "word": "egg",
@@ -3559,7 +3597,8 @@
           "baby",
           "nest"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round object with a baby bird inside"
       },
       {
         "word": "ice",
@@ -3569,7 +3608,8 @@
           "hard",
           "white"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "frozen water that is hard underfoot"
       },
       {
         "word": "flipper",
@@ -3579,7 +3619,8 @@
           "flat",
           "body"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat body part used to push through water"
       },
       {
         "word": "beak",
@@ -3589,7 +3630,8 @@
           "hard",
           "point"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the hard pointed part on the front of a bird"
       },
       {
         "word": "feather",
@@ -3599,7 +3641,8 @@
           "coat",
           "light"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the soft covering that grows on a bird"
       },
       {
         "word": "colony",
@@ -3609,7 +3652,8 @@
           "together",
           "home"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a large group of birds living close together"
       },
       {
         "word": "waddle",
@@ -3619,7 +3663,8 @@
           "feet",
           "slow"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "walking with short steps from side to side"
       },
       {
         "word": "fish",
@@ -3629,7 +3674,8 @@
           "swim",
           "catch"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "small animals caught in water for food"
       },
       {
         "word": "stone",
@@ -3639,7 +3685,8 @@
           "small",
           "grey"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard piece of earth smaller than a hand"
       },
       {
         "word": "nest",
@@ -3649,7 +3696,8 @@
           "bird",
           "stones"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a safe place where birds keep their eggs"
       },
       {
         "word": "huddle",
@@ -3659,7 +3707,8 @@
           "warm",
           "group"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "standing close together to stay warm"
       },
       {
         "word": "belly slide",
@@ -3669,107 +3718,130 @@
           "move",
           "down"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "sliding across ice while lying on the front"
       }
     ],
     "hotSeat": [
       {
         "word": "seal",
-        "level": "A1"
+        "level": "A1",
+        "description": "a smooth sea animal that rests on rocks"
       },
       {
         "word": "rocky beach",
-        "level": "A1"
+        "level": "A1",
+        "description": "a shore covered with hard pieces of stone"
       },
       {
         "word": "coast",
-        "level": "A2"
+        "level": "A2",
+        "description": "the land beside a sea"
       },
       {
         "word": "dive",
-        "level": "A1"
+        "level": "A1",
+        "description": "a quick trip down under water"
       },
       {
         "word": "webbed foot",
-        "level": "A2"
+        "level": "A2",
+        "description": "a foot joined by skin between the toes"
       },
       {
-        "word": "white breast",
-        "level": "A2"
+        "word": "white chest",
+        "level": "A2",
+        "description": "the pale front part of its body"
       },
       {
         "word": "black back",
-        "level": "A1"
+        "level": "A1",
+        "description": "the dark upper side of its body"
       },
       {
-        "word": "warming an egg",
-        "level": "A2"
+        "word": "parent bird",
+        "level": "A2",
+        "description": "a grown penguin caring for its young"
       },
       {
-        "word": "penguin parent",
-        "level": "A1"
+        "word": "ice cave",
+        "level": "A1",
+        "description": "a sheltered opening where a penguin can hide"
       },
       {
         "word": "small stone",
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard piece of rock you can lift"
       },
       {
-        "word": "feeding a chick",
-        "level": "A2"
+        "word": "fish meal",
+        "level": "A2",
+        "description": "food brought back for a young bird"
       },
       {
         "word": "surfacing",
-        "level": "A2"
+        "level": "A2",
+        "description": "coming back up to the top of water"
       },
       {
-        "word": "swimming bird",
-        "level": "A2"
+        "word": "ice floe",
+        "level": "A2",
+        "description": "a wide piece of ice floating at sea"
       },
       {
         "word": "icy shore",
-        "level": "A2"
+        "level": "A2",
+        "description": "a cold edge of land beside water"
       }
     ],
     "imposter": [
       {
         "word": "penguin",
-        "decoy": "seal",
-        "level": "A1"
+        "level": "A1",
+        "description": "a sea bird with a black and white body",
+        "hint": "a bird",
+        "crewQuestion": "Which bird waddles beside the cold sea?",
+        "imposterQuestion": "Which bird waddles beside a farm pond?"
       },
       {
         "word": "chick",
-        "decoy": "egg",
-        "level": "A1"
+        "level": "A1",
+        "description": "a baby bird that has just hatched",
+        "hint": "a young animal",
+        "crewQuestion": "What does a penguin parent protect in its nest?",
+        "imposterQuestion": "What does a chicken parent protect in its nest?"
       },
       {
-        "word": "beak",
-        "decoy": "snout",
-        "level": "A2"
+        "word": "egg",
+        "level": "A1",
+        "description": "a round shell holding a growing baby bird",
+        "hint": "an animal item",
+        "crewQuestion": "What do parents keep warm before a chick hatches?",
+        "imposterQuestion": "What do parents keep safe before a puppy is born?"
       },
       {
         "word": "flipper",
-        "decoy": "wing",
-        "level": "A2"
-      },
-      {
-        "word": "nest",
-        "decoy": "den",
-        "level": "A2"
-      },
-      {
-        "word": "ice",
-        "decoy": "water",
-        "level": "A1"
+        "level": "A2",
+        "description": "a flat limb used to push through water",
+        "hint": "a body part",
+        "crewQuestion": "What helps this bird swim under the waves?",
+        "imposterQuestion": "What helps a seal swim under the waves?"
       },
       {
         "word": "waddle",
-        "decoy": "walk",
-        "level": "A2"
+        "level": "A2",
+        "description": "a short walk with steps from side to side",
+        "hint": "a movement",
+        "crewQuestion": "How does a penguin cross the beach?",
+        "imposterQuestion": "How does a duck cross the beach?"
       },
       {
-        "word": "huddle",
-        "decoy": "herd",
-        "level": "A2"
+        "word": "fish",
+        "level": "A1",
+        "description": "a water animal often caught for food",
+        "hint": "a sea food",
+        "crewQuestion": "What might a parent bring back for its chick?",
+        "imposterQuestion": "What might a cat bring back for its kitten?"
       }
     ],
     "twentyQuestions": [
@@ -3827,7 +3899,8 @@
           "cold",
           "snow"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large white bear that lives far north"
       },
       {
         "word": "cub",
@@ -3837,7 +3910,8 @@
           "mother",
           "small"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a young bear still cared for by its mother"
       },
       {
         "word": "snow",
@@ -3847,7 +3921,8 @@
           "winter",
           "fall"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "soft white flakes that fall in winter"
       },
       {
         "word": "ice",
@@ -3857,7 +3932,8 @@
           "hard",
           "white"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "water made hard by freezing"
       },
       {
         "word": "bear paw",
@@ -3867,7 +3943,8 @@
           "soft",
           "step"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the padded foot of a large bear"
       },
       {
         "word": "seal",
@@ -3877,7 +3954,8 @@
           "food",
           "ocean"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sea animal with whiskers and flippers"
       },
       {
         "word": "thick fur",
@@ -3887,7 +3965,8 @@
           "coat",
           "soft"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a warm covering of hair on an animal"
       },
       {
         "word": "black skin",
@@ -3897,7 +3976,8 @@
           "body",
           "colour"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the dark layer beneath pale fur"
       },
       {
         "word": "sea ice",
@@ -3907,7 +3987,8 @@
           "float",
           "cold"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "frozen sea water that moves in large sheets"
       },
       {
         "word": "snow den",
@@ -3917,7 +3998,8 @@
           "inside",
           "mother"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a safe home dug into winter snow"
       },
       {
         "word": "swimming",
@@ -3927,7 +4009,8 @@
           "legs",
           "cross"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "moving through water using arms and legs"
       },
       {
         "word": "hunting",
@@ -3937,7 +4020,8 @@
           "smell",
           "animal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "looking for food and trying to catch it"
       },
       {
         "word": "white coat",
@@ -3947,7 +4031,8 @@
           "body",
           "colour"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "light hair covering an animal’s body"
       },
       {
         "word": "floating ice",
@@ -3957,107 +4042,130 @@
           "cold",
           "island"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sheet of ice moving over the sea"
       }
     ],
     "hotSeat": [
       {
         "word": "Arctic",
-        "level": "A2"
+        "level": "A2",
+        "description": "the cold region around the North Pole"
       },
       {
         "word": "cold sea",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large body of very chilly salt water"
       },
       {
         "word": "big foot",
-        "level": "A1"
+        "level": "A1",
+        "description": "the broad end of a bear’s leg"
       },
       {
-        "word": "bear mother",
-        "level": "A1"
+        "word": "mother bear",
+        "level": "A1",
+        "description": "the grown female caring for a cub"
       },
       {
-        "word": "long swim",
-        "level": "A1"
+        "word": "swim",
+        "level": "A1",
+        "description": "moving through water with the body"
       },
       {
-        "word": "fat layer",
-        "level": "A2"
+        "word": "fat",
+        "level": "A2",
+        "description": "a soft layer that helps keep an animal warm"
       },
       {
         "word": "ice edge",
-        "level": "A2"
+        "level": "A2",
+        "description": "the line where frozen water ends"
       },
       {
         "word": "wet fur",
-        "level": "A1"
+        "level": "A1",
+        "description": "animal hair covered with water"
       },
       {
         "word": "small snout",
-        "level": "A2"
+        "level": "A2",
+        "description": "the short front part of its face"
       },
       {
-        "word": "scent trail",
-        "level": "A2"
+        "word": "smell trail",
+        "level": "A2",
+        "description": "a scent left along an animal’s path"
       },
       {
-        "word": "den entrance",
-        "level": "A2"
+        "word": "den",
+        "level": "A2",
+        "description": "a sheltered home for a wild animal"
       },
       {
-        "word": "standing bear",
-        "level": "A1"
+        "word": "tall bear",
+        "level": "A1",
+        "description": "a large animal standing on its back legs"
       },
       {
-        "word": "snow track",
-        "level": "A2"
+        "word": "tracks",
+        "level": "A2",
+        "description": "marks left in snow by walking feet"
       },
       {
-        "word": "thawed ice",
-        "level": "A2"
+        "word": "meltwater",
+        "level": "A2",
+        "description": "water made when ice turns soft"
       }
     ],
     "imposter": [
       {
         "word": "polar bear",
-        "decoy": "brown bear",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large white bear from the far north",
+        "hint": "a wild animal",
+        "crewQuestion": "Where does this bear search for food?",
+        "imposterQuestion": "Where does a brown bear search for food?"
       },
       {
         "word": "cub",
-        "decoy": "chick",
-        "level": "A1"
-      },
-      {
-        "word": "snow den",
-        "decoy": "cave",
-        "level": "A2"
-      },
-      {
-        "word": "sea ice",
-        "decoy": "river ice",
-        "level": "A2"
+        "level": "A1",
+        "description": "a young bear cared for by its mother",
+        "hint": "a young animal",
+        "crewQuestion": "What stays close to a mother bear?",
+        "imposterQuestion": "What stays close to a mother lion?"
       },
       {
         "word": "seal",
-        "decoy": "walrus",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sea animal that rests on ice",
+        "hint": "a sea animal",
+        "crewQuestion": "Which animal might a bear hunt near the ice?",
+        "imposterQuestion": "Which animal might a shark hunt near the ice?"
       },
       {
-        "word": "bear paw",
-        "decoy": "seal flipper",
-        "level": "A2"
+        "word": "snow den",
+        "level": "A2",
+        "description": "a sheltered home made inside winter snow",
+        "hint": "an animal home",
+        "crewQuestion": "Where can a mother bear keep her cub warm?",
+        "imposterQuestion": "Where can a fox keep its cub warm?"
       },
       {
-        "word": "black skin",
-        "decoy": "white coat",
-        "level": "A2"
+        "word": "sea ice",
+        "level": "A2",
+        "description": "frozen salt water floating across the ocean",
+        "hint": "a habitat",
+        "crewQuestion": "What can a bear cross to reach a seal?",
+        "imposterQuestion": "What can a boat cross to reach an island?"
       },
       {
-        "word": "swimming",
-        "decoy": "walking",
-        "level": "A1"
+        "word": "paw",
+        "level": "A1",
+        "description": "the soft foot of a four-legged animal",
+        "hint": "a body part",
+        "crewQuestion": "What leaves wide marks in fresh snow?",
+        "imposterQuestion": "What leaves small marks beside a house?"
       }
     ],
     "twentyQuestions": [
@@ -4115,7 +4223,8 @@
           "swim",
           "jump"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a clever sea mammal that breathes air"
       },
       {
         "word": "fin",
@@ -4125,7 +4234,8 @@
           "body",
           "point"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat body part used to steer through water"
       },
       {
         "word": "blowhole",
@@ -4135,7 +4245,8 @@
           "breathe",
           "top"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an opening on its head for breathing"
       },
       {
         "word": "fish",
@@ -4145,7 +4256,8 @@
           "food",
           "tail"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small animal from the sea that can be eaten"
       },
       {
         "word": "jump",
@@ -4155,7 +4267,8 @@
           "water",
           "high"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a fast move from water into the air"
       },
       {
         "word": "ocean",
@@ -4165,7 +4278,8 @@
           "big",
           "blue"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a huge area of salty water"
       },
       {
         "word": "boat",
@@ -4175,7 +4289,8 @@
           "people",
           "travel"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a vessel that carries people across water"
       },
       {
         "word": "click",
@@ -4185,7 +4300,8 @@
           "hear",
           "find"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a short sharp sound made by a dolphin"
       },
       {
         "word": "pod",
@@ -4195,7 +4311,8 @@
           "animals",
           "swim"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a family group of dolphins travelling together"
       },
       {
         "word": "echo",
@@ -4205,7 +4322,8 @@
           "hear",
           "repeat"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sound heard again after it bounces off something"
       },
       {
         "word": "wave",
@@ -4215,7 +4333,8 @@
           "sea",
           "shore"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a line of water rising and falling at sea"
       },
       {
         "word": "dolphin calf",
@@ -4225,7 +4344,8 @@
           "small",
           "young"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a young dolphin that stays near its mother"
       },
       {
         "word": "surfacing",
@@ -4235,7 +4355,8 @@
           "air",
           "breathe"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "coming up for air at the water surface"
       },
       {
         "word": "flipper",
@@ -4245,107 +4366,130 @@
           "swim",
           "body"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat limb that helps a sea animal swim"
       }
     ],
     "hotSeat": [
       {
         "word": "swimming",
-        "level": "A1"
+        "level": "A1",
+        "description": "moving through water without touching the bottom"
       },
       {
         "word": "smooth skin",
-        "level": "A1"
+        "level": "A1",
+        "description": "a sleek outer covering with no fur"
       },
       {
         "word": "sea spray",
-        "level": "A1"
+        "level": "A1",
+        "description": "tiny drops blown from the top of a wave"
       },
       {
         "word": "small teeth",
-        "level": "A1"
+        "level": "A1",
+        "description": "hard white points inside its mouth"
       },
       {
         "word": "curved back",
-        "level": "A1"
+        "level": "A1",
+        "description": "the rounded upper line of its body"
       },
       {
-        "word": "dolphin trainer",
-        "level": "A2"
+        "word": "trainer",
+        "level": "A2",
+        "description": "a person who teaches an animal skills"
       },
       {
         "word": "breathing",
-        "level": "A2"
+        "level": "A2",
+        "description": "taking air into the body and letting it out"
       },
       {
         "word": "diving",
-        "level": "A2"
+        "level": "A2",
+        "description": "going down below the water surface"
       },
       {
-        "word": "fish school",
-        "level": "A2"
+        "word": "school",
+        "level": "A2",
+        "description": "a group of fish moving together"
       },
       {
         "word": "open sea",
-        "level": "A1"
+        "level": "A1",
+        "description": "salt water far from the shore"
       },
       {
-        "word": "river dolphin",
-        "level": "A2"
+        "word": "river animal",
+        "level": "A2",
+        "description": "a creature that lives in flowing fresh water"
       },
       {
-        "word": "tail fluke",
-        "level": "A2"
+        "word": "tail fin",
+        "level": "A2",
+        "description": "the flat end that pushes it forward"
       },
       {
-        "word": "dolphin mother",
-        "level": "A1"
+        "word": "mother",
+        "level": "A1",
+        "description": "the grown female caring for a young dolphin"
       },
       {
-        "word": "playful leap",
-        "level": "A2"
+        "word": "leap",
+        "level": "A2",
+        "description": "a jump high out of the water"
       }
     ],
     "imposter": [
       {
         "word": "dolphin",
-        "decoy": "seal",
-        "level": "A1"
-      },
-      {
-        "word": "click",
-        "decoy": "whistle",
-        "level": "A2"
-      },
-      {
-        "word": "fin",
-        "decoy": "flipper",
-        "level": "A2"
+        "level": "A1",
+        "description": "a clever mammal that lives in the sea",
+        "hint": "a sea animal",
+        "crewQuestion": "Which animal comes up for air after swimming?",
+        "imposterQuestion": "Which animal comes up for air after hunting?"
       },
       {
         "word": "blowhole",
-        "decoy": "nostril",
-        "level": "A2"
+        "level": "A2",
+        "description": "an opening on top used to breathe air",
+        "hint": "a body part",
+        "crewQuestion": "Where does a dolphin take in air?",
+        "imposterQuestion": "Where does a whale take in air?"
       },
       {
         "word": "pod",
-        "decoy": "fish school",
-        "level": "A2"
+        "level": "A2",
+        "description": "a family group travelling together in water",
+        "hint": "a group",
+        "crewQuestion": "What do you call dolphins swimming as a family?",
+        "imposterQuestion": "What do you call wolves travelling as a family?"
       },
       {
-        "word": "jump",
-        "decoy": "dive",
-        "level": "A1"
+        "word": "echo",
+        "level": "A2",
+        "description": "a sound that returns after hitting a surface",
+        "hint": "a sound",
+        "crewQuestion": "What helps this animal find things underwater?",
+        "imposterQuestion": "What helps a bat find things in a cave?"
       },
       {
-        "word": "smooth skin",
-        "decoy": "fur",
-        "level": "A2"
+        "word": "fin",
+        "level": "A2",
+        "description": "a flat part that helps steer through water",
+        "hint": "a body part",
+        "crewQuestion": "What helps it turn while swimming fast?",
+        "imposterQuestion": "What helps a fish turn while swimming fast?"
       },
       {
-        "word": "river dolphin",
-        "decoy": "ocean dolphin",
-        "level": "A2"
+        "word": "fish",
+        "level": "A1",
+        "description": "a small water animal that can be eaten",
+        "hint": "a sea food",
+        "crewQuestion": "What might a dolphin catch for dinner?",
+        "imposterQuestion": "What might a bear catch for dinner?"
       }
     ],
     "twentyQuestions": [
@@ -4403,7 +4547,8 @@
           "sea",
           "swim"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a huge sea mammal that breathes air"
       },
       {
         "word": "blue whale",
@@ -4413,7 +4558,8 @@
           "animal",
           "long"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very large kind with blue-grey skin"
       },
       {
         "word": "humpback whale",
@@ -4423,7 +4569,8 @@
           "sea",
           "animal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a kind known for its long songs and jumps"
       },
       {
         "word": "blowhole",
@@ -4433,7 +4580,8 @@
           "breathe",
           "top"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an opening on top for breathing air"
       },
       {
         "word": "spout",
@@ -4443,7 +4591,8 @@
           "blow",
           "up"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall burst of water and air above the sea"
       },
       {
         "word": "fluke",
@@ -4453,7 +4602,8 @@
           "back",
           "swim"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the flat end of its tail used to swim"
       },
       {
         "word": "tiny shrimp",
@@ -4463,7 +4613,8 @@
           "small",
           "pink"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "very small sea animals eaten by some whales"
       },
       {
         "word": "whale song",
@@ -4473,7 +4624,8 @@
           "call",
           "water"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "sounds made by whales under the water"
       },
       {
         "word": "ocean",
@@ -4483,7 +4635,8 @@
           "water",
           "deep"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a huge area of salty water"
       },
       {
         "word": "migration",
@@ -4493,7 +4646,8 @@
           "far",
           "route"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long journey between feeding places"
       },
       {
         "word": "mouth plates",
@@ -4503,7 +4657,8 @@
           "comb",
           "inside"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "comb-like parts that strain food from water"
       },
       {
         "word": "whale calf",
@@ -4513,7 +4668,8 @@
           "young",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a young whale that stays beside its mother"
       },
       {
         "word": "feeding ground",
@@ -4523,7 +4679,8 @@
           "sea",
           "eat"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sea area where animals find food"
       },
       {
         "word": "deep water",
@@ -4533,107 +4690,130 @@
           "down",
           "swim"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a deep part of the sea far below the surface"
       }
     ],
     "hotSeat": [
       {
         "word": "dolphin",
-        "level": "A1"
+        "level": "A1",
+        "description": "a smaller sea mammal with a curved mouth"
       },
       {
-        "word": "big mouth",
-        "level": "A1"
+        "word": "wide mouth",
+        "level": "A1",
+        "description": "the opening used to take in food"
       },
       {
-        "word": "long dive",
-        "level": "A1"
+        "word": "deep dive",
+        "level": "A1",
+        "description": "a long trip far under the surface"
       },
       {
         "word": "ship",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large boat that can cross an ocean"
       },
       {
-        "word": "whale watcher",
-        "level": "A2"
+        "word": "tourist",
+        "level": "A2",
+        "description": "a person visiting a place for fun"
       },
       {
         "word": "breaching",
-        "level": "A2"
+        "level": "A2",
+        "description": "rising fully out of the sea and falling back"
       },
       {
         "word": "bubbles",
-        "level": "A1"
+        "level": "A1",
+        "description": "round pockets of air under water"
       },
       {
         "word": "open ocean",
-        "level": "A1"
+        "level": "A1",
+        "description": "salt water far away from the shore"
       },
       {
-        "word": "whale pod",
-        "level": "A2"
+        "word": "whale group",
+        "level": "A2",
+        "description": "several huge sea mammals travelling together"
       },
       {
         "word": "side fin",
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat limb on the side of a body"
       },
       {
         "word": "tail wave",
-        "level": "A1"
+        "level": "A1",
+        "description": "a splash made by a moving tail"
       },
       {
         "word": "cold current",
-        "level": "A2"
+        "level": "A2",
+        "description": "a stream of chilly sea water"
       },
       {
-        "word": "whale recording",
-        "level": "A2"
+        "word": "whale call",
+        "level": "A2",
+        "description": "a sound recorded from below the sea"
       },
       {
         "word": "surface breath",
-        "level": "A2"
+        "level": "A2",
+        "description": "air taken after coming up for a moment"
       }
     ],
     "imposter": [
       {
         "word": "whale",
-        "decoy": "dolphin",
-        "level": "A1"
+        "level": "A1",
+        "description": "a huge sea mammal that breathes air",
+        "hint": "a sea animal",
+        "crewQuestion": "Which animal sends long sounds across the ocean?",
+        "imposterQuestion": "Which animal sends short calls across a forest?"
       },
       {
         "word": "blue whale",
-        "decoy": "humpback whale",
-        "level": "A2"
-      },
-      {
-        "word": "whale song",
-        "decoy": "whistle",
-        "level": "A2"
+        "level": "A1",
+        "description": "the largest animal ever known to live",
+        "hint": "a sea animal",
+        "crewQuestion": "Which whale can grow longer than a bus?",
+        "imposterQuestion": "Which shark can grow longer than a bus?"
       },
       {
         "word": "blowhole",
-        "decoy": "nostril",
-        "level": "A2"
-      },
-      {
-        "word": "mouth plates",
-        "decoy": "teeth",
-        "level": "A2"
-      },
-      {
-        "word": "tiny shrimp",
-        "decoy": "small fish",
-        "level": "A2"
-      },
-      {
-        "word": "breaching",
-        "decoy": "diving",
-        "level": "A2"
+        "level": "A2",
+        "description": "an opening on top used to breathe air",
+        "hint": "a body part",
+        "crewQuestion": "Where does a whale breathe after a deep dive?",
+        "imposterQuestion": "Where does a dolphin breathe after a deep dive?"
       },
       {
         "word": "spout",
-        "decoy": "wave",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall burst of water above the surface",
+        "hint": "a sea sign",
+        "crewQuestion": "What may appear when a whale breathes out?",
+        "imposterQuestion": "What may appear when a geyser sends water up?"
+      },
+      {
+        "word": "shrimp",
+        "level": "A2",
+        "description": "a tiny sea animal eaten by some whales",
+        "hint": "small sea food",
+        "crewQuestion": "What small animal can a whale filter from water?",
+        "imposterQuestion": "What small animal can a fish find in water?"
+      },
+      {
+        "word": "ship",
+        "level": "A1",
+        "description": "a large boat that travels across the sea",
+        "hint": "a vehicle",
+        "crewQuestion": "What might pass near a whale in open water?",
+        "imposterQuestion": "What might pass near a dolphin in open water?"
       }
     ],
     "twentyQuestions": [
