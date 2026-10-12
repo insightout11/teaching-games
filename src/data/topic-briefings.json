@@ -36872,19 +36872,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "Players share a goal but have different jobs on the field."
+        "target": "present perfect",
+        "why": "Review a team's progress across several matches.",
+        "example": "Our team has improved its passing since the season began."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "How would you help a teammate after a mistake?"
+        "target": "past continuous",
+        "why": "Describe players' actions when a match changed direction.",
+        "example": "We were defending the goal when our captain slipped."
       },
       {
         "target": "reported speech",
-        "why": "Share the captain’s view of the game.",
-        "example": "The captain said every player had helped the team."
+        "why": "Report a captain's feedback on shared performance.",
+        "example": "The captain said everyone had helped the team recover."
       }
     ],
     "levels": {
@@ -37087,19 +37087,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "An individual athlete makes many decisions without teammates nearby."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "What goal would you set beyond winning?"
-      },
-      {
         "target": "present perfect continuous",
-        "why": "Describe a personal training routine.",
-        "example": "I have been training alone for six weeks."
+        "why": "Describe sustained training toward an individual goal.",
+        "example": "I have been practicing my serve for six weeks."
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare your own performances rather than different athletes.",
+        "example": "My second swim was faster than my first."
+      },
+      {
+        "target": "conditional",
+        "why": "Explain how you would adapt an individual training plan.",
+        "example": "If my shoulder felt sore, I would change the exercise."
       }
     ],
     "levels": {
@@ -37301,19 +37301,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "A routine works better when it fits ordinary life."
+        "target": "present perfect continuous",
+        "why": "Describe how long you have followed a fitness routine.",
+        "example": "I have been walking after dinner every day this month."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "What movement would you enjoy repeating each week?"
+        "target": "present perfect",
+        "why": "Review changes made to make exercise easier to maintain.",
+        "example": "I have added short walks to my normal school day."
       },
       {
         "target": "conditional",
-        "why": "Explain what helps a routine last.",
-        "example": "If the routine feels enjoyable, I will keep doing it."
+        "why": "Connect an enjoyable routine with the chance of maintaining it.",
+        "example": "If I enjoy the activity, I will keep doing it."
       }
     ],
     "levels": {
@@ -37515,19 +37515,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "A hike or camp changes when weather changes."
+        "target": "past perfect",
+        "why": "Explain preparations completed before an outdoor trip.",
+        "example": "We had checked the route before we left the campsite."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "Which item would you pack first for a day hike?"
+        "target": "conditional",
+        "why": "Explain how your group would respond to changed outdoor conditions.",
+        "example": "If the path became flooded, we would turn back."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Plan for the slowest walker.",
-        "example": "A route needs enough time for the slowest person."
+        "target": "past continuous",
+        "why": "Set the scene for an unexpected moment on a hike.",
+        "example": "We were crossing the valley when the rain began."
       }
     ],
     "levels": {
@@ -37729,19 +37729,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "A clue points toward more than one possibility."
+        "target": "past perfect",
+        "why": "Place an earlier event on a mystery timeline.",
+        "example": "The visitor had left before the window broke."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "Which clue would you check before accusing anyone?"
+        "target": "reported speech",
+        "why": "Compare a witness's account with other evidence.",
+        "example": "The witness said she had seen a red coat."
       },
       {
-        "target": "relative clause",
-        "why": "Identify which witness statement matters.",
-        "example": "A timeline can reveal that two accounts do not fit together."
+        "target": "past continuous",
+        "why": "Explain what someone was doing at the key moment.",
+        "example": "I was reading upstairs when I heard the crash."
       }
     ],
     "levels": {
@@ -37943,19 +37943,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "That legend has several versions."
+        "target": "reported speech",
+        "why": "Retell a local account without claiming it is proven.",
+        "example": "The guide said people had heard music inside the empty house."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "What would you ask someone who lived near an old ruin?"
+        "target": "present perfect",
+        "why": "Describe what investigators have established so far.",
+        "example": "Researchers have found old tools beneath the ruined tower."
       },
       {
-        "target": "past perfect",
-        "why": "Sequence an old tale and later research.",
-        "example": "The villagers had told stories before researchers examined the site."
+        "target": "passive voice",
+        "why": "Separate what was physically found from stories about a site.",
+        "example": "The stone doorway was discovered beneath the newer wall."
       }
     ],
     "levels": {
@@ -38157,19 +38157,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "The brain uses context to interpret what the eyes receive."
+        "target": "comparatives & superlatives",
+        "why": "Compare an illusion's apparent sizes with its real sizes.",
+        "example": "The upper line looks longer than the lower line."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "Which illusion fooled you even after an explanation?"
+        "target": "passive voice",
+        "why": "Explain how an illusion's picture was arranged.",
+        "example": "The circles are placed beside different background patterns."
       },
       {
-        "target": "past simple",
-        "why": "Describe an illusion you experienced.",
-        "example": "Perspective made one line seem longer."
+        "target": "relative clause",
+        "why": "Identify the visual cue that changes your perception.",
+        "example": "The shadow that falls across the square makes it look darker."
       }
     ],
     "levels": {
@@ -38371,19 +38371,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "Meals give the body energy and materials for growth."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "What satisfying meal could you make with simple ingredients?"
-      },
-      {
         "target": "conditional",
-        "why": "Connect meal preparation with a healthy choice.",
-        "example": "If I prepare lunch early, I will eat more vegetables."
+        "why": "Explain how a meal plan changes a food choice.",
+        "example": "If I pack lunch early, I will include more vegetables."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe a food habit you have changed over time.",
+        "example": "I have started adding beans to my lunches."
+      },
+      {
+        "target": "relative clause",
+        "why": "Specify a meal by the ingredients it contains.",
+        "example": "A meal that includes vegetables and rice keeps me satisfied."
       }
     ],
     "levels": {
@@ -38585,19 +38585,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "A support network offers people to ask for help."
+        "target": "present perfect continuous",
+        "why": "Describe an ongoing source of pressure.",
+        "example": "I have been worrying about the presentation all week."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "What would you notice first when pressure grows?"
+        "target": "conditional",
+        "why": "Plan a response when pressure becomes difficult to manage.",
+        "example": "If I feel overwhelmed, I will ask someone for help."
       },
       {
-        "target": "present perfect",
-        "why": "Reflect on a change in wellbeing.",
-        "example": "I have felt calmer since I changed my evening routine."
+        "target": "reported speech",
+        "why": "Report supportive advice received during a stressful week.",
+        "example": "My friend told me to take one task at a time."
       }
     ],
     "levels": {
@@ -38799,19 +38799,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "A trip begins with decisions about time, money, and transport."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "Which part of a trip would you plan first?"
-      },
-      {
         "target": "future (going to)",
-        "why": "Explain the next step in a trip.",
-        "example": "We are going to book tickets after choosing a route."
+        "why": "Describe a concrete decision in an upcoming trip.",
+        "example": "We are going to book the train after choosing a hotel."
+      },
+      {
+        "target": "past perfect",
+        "why": "Explain which travel arrangement came before another decision.",
+        "example": "We had checked everyone's budget before we chose the hotel."
+      },
+      {
+        "target": "future continuous",
+        "why": "Picture the group at a particular time during the trip.",
+        "example": "Tomorrow afternoon, we will be traveling along the coast."
       }
     ],
     "levels": {
