@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Blend, BookOpen, Crosshair, ExternalLink, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, QrCode, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { Blend, BookOpen, Crosshair, ExternalLink, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -176,6 +176,13 @@ export function FlightDeck({
   planText,
 }: FlightDeckProps) {
   const [planOpen, setPlanOpen] = useState(false);
+  // "Land" in the top bar asks once more before it lands (it disarms itself after a few seconds).
+  const [landArmed, setLandArmed] = useState(false);
+  useEffect(() => {
+    if (!landArmed) return;
+    const t = setTimeout(() => setLandArmed(false), 4000);
+    return () => clearTimeout(t);
+  }, [landArmed]);
   const reduce = useReducedMotion();
   // Turbulence: the whole cockpit is thrown about for a few seconds, with the seatbelt sign and the rumble.
   const turbulenceAt = flightPlan?.turbulenceAt ?? 0;
@@ -313,6 +320,20 @@ export function FlightDeck({
     if (runningKey) onReturn();
     setFlightStage('landing');
     flash(`Beginning our descent into ${destination.city}`);
+  };
+  // The teacher lands the plane: from the button in the top bar (two taps, so it cannot happen by accident) or the menu.
+  const landNow = () => {
+    setPanel(null);
+    setLandArmed(false);
+    if (flightPlan) flightPlan.onEnd();
+    beginLanding();
+  };
+  // Ending without arriving (a quick test, a class cut short): the session ends and the class stays where it
+  // took off from, and it is not counted as a completed flight.
+  const endWithoutLanding = () => {
+    setPanel(null);
+    if (flightPlan) flightPlan.onEnd();
+    onEndSession(origin.id);
   };
   const planNext = () => {
     if (!flightPlan) return;
@@ -1742,6 +1763,16 @@ export function FlightDeck({
         <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Maximize2 className="h-3.5 w-3.5" /> Present
         </button>
+        {flightStage === 'flying' && (
+          <button
+            type="button"
+            onClick={() => (landArmed ? landNow() : setLandArmed(true))}
+            title={`Begin the descent into ${destination.city} and end the lesson there`}
+            className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition-colors ${landArmed ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-amber-300/50 text-amber-200 hover:bg-amber-300/10'}`}
+          >
+            <PlaneLanding className="h-3.5 w-3.5" /> {landArmed ? 'Tap again to land' : zoomLayout ? 'Land' : `Land in ${destination.city}`}
+          </button>
+        )}
         <div className="relative">
           <button type="button" onClick={() => setPanel(panel === 'menu' ? null : 'menu')} aria-label="Flight menu" className="rounded-lg border border-[#2A3854] p-1.5 text-white/75 hover:text-white">
             <Menu className="h-4 w-4" />
@@ -1750,22 +1781,22 @@ export function FlightDeck({
             <div className="absolute right-0 top-10 z-50 w-56 rounded-xl border border-[#2A3854] bg-[#0c1322] p-1.5 shadow-2xl">
               <button type="button" onClick={() => { setPanel(null); setPlanOpen(true); }} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-white/5"><Plane className="h-4 w-4" /> Launch a flight</button>
               <button type="button" onClick={() => setPanel('logbook')} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-white/5"><BookOpen className="h-4 w-4" /> Today&apos;s logbook</button>
-              <button
-                type="button"
-                onClick={() => {
-                  setPanel(null);
-                  if (flightStage === 'flying') {
-                    if (flightPlan) flightPlan.onEnd();
-                    beginLanding();
-                  } else {
-                    // Never took off: the class is still at its departure city.
-                    onEndSession(origin.id);
-                  }
-                }}
-                className="w-full rounded-lg px-3 py-2 text-left text-sm text-rose-300 hover:bg-rose-400/10"
-              >
-                {flightStage === 'flying' ? `Land in ${destination.city}` : 'End the session'}
-              </button>
+              {flightStage === 'flying' ? (
+                <>
+                  <button type="button" onClick={landNow} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-amber-200 hover:bg-amber-300/10">
+                    <PlaneLanding className="h-4 w-4" /> Land in {destination.city}
+                  </button>
+                  <button type="button" onClick={endWithoutLanding} className="w-full rounded-lg px-3 py-2 text-left text-sm text-rose-300 hover:bg-rose-400/10">
+                    End without landing
+                    <span className="block text-xs text-white/45">The class stays in {origin.city}.</span>
+                  </button>
+                </>
+              ) : (
+                // Never took off: the class is still at its departure city.
+                <button type="button" onClick={() => { setPanel(null); onEndSession(origin.id); }} className="w-full rounded-lg px-3 py-2 text-left text-sm text-rose-300 hover:bg-rose-400/10">
+                  End the session
+                </button>
+              )}
             </div>
           )}
         </div>
