@@ -44,7 +44,10 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient, weather }: S
 
   // Overcast cloud deck — a low, dark layer that thickens with cloudCover and
   // sits in front of the sun, so heavy skies actually read as heavy.
-  const deckFill = isMoon ? 'rgba(34,42,60,0.94)' : 'rgba(78,88,108,0.94)';
+  // Overcast is a pale grey ceiling, rain a heavier slate, storm nearly black-blue, snow a bright milky grey.
+  const deckFill = isMoon
+    ? 'rgba(34,42,60,0.94)'
+    : weather === 'overcast' ? 'rgba(148,156,170,0.94)' : weather === 'snow' ? 'rgba(174,182,196,0.94)' : weather === 'storm' ? 'rgba(54,62,82,0.95)' : 'rgba(92,102,122,0.94)';
   const deck =
     wx.cloudCover > 0.4
       ? Array.from({ length: 6 }, (_, i) => ({
@@ -196,7 +199,7 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient, weather }: S
       })}
 
       {/* Weather sky dim — darkens the sky (sun + clouds) for overcast/rain/storm */}
-      {wx.dim > 0 && <rect x="0" y="0" width={VIEWBOX.w} height={VIEWBOX.h} fill="rgb(20,28,46)" opacity={wx.dim} />}
+      {wx.dim > 0 && <rect x="0" y="0" width={VIEWBOX.w} height={VIEWBOX.h} fill={isMoon ? 'rgb(20,28,46)' : weather === 'overcast' ? 'rgb(132,140,152)' : weather === 'snow' ? 'rgb(176,186,202)' : 'rgb(20,28,46)'} opacity={weather === 'overcast' ? wx.dim * 1.15 : wx.dim} />}
 
       {/* Aurora ribbons — glow on top of the dimmed night sky */}
       {auroraBands.map((b, i) => {

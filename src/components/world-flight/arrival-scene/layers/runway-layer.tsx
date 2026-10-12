@@ -3,10 +3,12 @@ import { normalizeTerrain } from '../scene-registry';
 import { DEP_CITY_LEAD, DEP_ROLL, departureCameraPan } from '../cinematic-motion';
 import { BLEED_X, CONTENT_W, LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
 import { LcYacht } from './lc-yacht';
+import { WeatherGround } from './weather-layer';
 
 // A close side-profile airport foreground: destination-specific surroundings
 // sit between the city and a deep runway surface that fills the lower frame.
-export function RunwayLayer({ scene, palette, idPrefix, ambient, mode, progress }: SceneLayerProps) {
+export function RunwayLayer(props: SceneLayerProps) {
+  const { scene, palette, idPrefix, ambient, mode, progress } = props;
   // Takeoff: the nearest layer (the runway surface paint) scrolls left at the
   // full camera-pan rate, so the dashes/lights stream past = speed. The repeating
   // rows tile seamlessly (modulo their pitch); the one-off threshold keys recede
@@ -357,6 +359,9 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient, mode, progress 
           ),
         )}
       </g>
+
+      {/* Wet runway and puddles, or settled snow: behind the plane, in front of the runway paint */}
+      <WeatherGround {...props} />
     </g>
   );
 }
