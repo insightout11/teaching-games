@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 6/18; judged entries: 526/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 7/18; judged entries: 546/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -26,8 +26,9 @@ Completed libraries: 6/18; judged entries: 526/641. Cached inventory captured at
 | hooks-library.json | 60 | 53 | 1 | 4 | 2 | 0 | 0 |
 | kids-library.json | 101 | 85 | 1 | 1 | 6 | 0 | 8 |
 | listening-library.json | 60 | 58 | 0 | 2 | 0 | 0 | 0 |
+| ted-library.json | 20 | 1 | 0 | 0 | 19 | 0 | 0 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
-| **TOTAL** | **526** | 411 | 3 | 20 | 84 | 0 | 8 |
+| **TOTAL** | **546** | 412 | 3 | 20 | 103 | 0 | 8 |
 
 ## Non-ok entries, grouped by library
 
@@ -121,6 +122,30 @@ Completed libraries: 6/18; judged entries: 526/641. Cached inventory captured at
 |---|---|---|---|---|
 | listening-r8-school-equipment | School public-address announcement — school equipment | partial | The full cache announces a book fair/raffle and science-day reporting, not an equipment announcement.  | Retitle to School book fair and science-day announcement; verify the institution attribution. |
 | listening-r8-school-counselling-records | School public-address announcement — school counselling records | partial | The complete cache announces a special-education committee meeting at 12:10 on the third floor; it does not concern counselling records.  | Retitle to Special-education committee meeting announcement. |
+
+### ted-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| ken_robinson_schools_kill_creativity | Do Schools Kill Creativity? | weak-captions | The cached body is Afrikaans translation (for example, Goeie môre. Hoe gaan dit? (Gelag)), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| brene_brown_power_of_vulnerability | The Power of Vulnerability | weak-captions | The cached body is Albanian translation (for example, Po e filloj me një histori:), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| angela_duckworth_grit | Grit: The Power of Passion and Perseverance | weak-captions | The cached body is Albanian translation (for example, Kur isha 27 vjeç, hoqa dore), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| carol_dweck_power_of_believing | The Power of Believing That You Can Improve | weak-captions | The cached body is Albanian translation (for example, Fuqia e "ende". Dëgjova për një), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| shawn_achor_happy_secret | The Happy Secret to Better Work | weak-captions | The cached body is Albanian translation (for example, Kur une isha shtate vjece dhe), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| robert_waldinger_good_life | What Makes a Good Life? Lessons From the Longest Study on Happiness | weak-captions | the stored text is an Arabic-script translation, beginning “المترجم: Taycir Yahmed المدقّق: Mohammed Basheer”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| chimamanda_adichie_danger_single_story | The Danger of a Single Story | weak-captions | The cached body is Afrikaans translation (for example, Ek is ’n storieverteller. Ek wil), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| dan_pink_puzzle_of_motivation | The Puzzle of Motivation | weak-captions | the stored text is an Arabic-script translation, beginning “المترجم: Anwar Dafa-Alla المدقّق: Mahmoud Aghiorly”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| tim_urban_procrastinator | Inside the Mind of a Master Procrastinator | weak-captions | the stored text is an Arabic-script translation, beginning “المترجم: Ali Sumait المدقّق: Ahmad Abdelwahb”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| susan_cain_power_of_introverts | The Power of Introverts | weak-captions | The cached body is Albanian translation (for example, Kur isha 9 vjeçe për herë), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| amy_cuddy_body_language | Your Body Language May Shape Who You Are | weak-captions | The cached body is Albanian translation (for example, Dua t'ia filloj duke ju treguar), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| adam_grant_originals | The Surprising Habits of Original Thinkers | weak-captions | The cached body is Albanian translation (for example, Shtate vjet më parë, një student), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| jill_bolte_taylor_stroke | My Stroke of Insight | weak-captions | The cached body is Albanian translation (for example, U rrita duke studiuar trurin sepse), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| yuval_harari_why_humans_rule | What Explains the Rise of Humans? | weak-captions | The cached body is Albanian translation (for example, Shtatëdhjetë mijë vjet më parë, paraardhësit), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| elizabeth_gilbert_creative_genius | Your Elusive Creative Genius | weak-captions | The cached body is Albanian translation (for example, Unë jam shkrimtare. Shkrimi i librave), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| bill_gates_teachers_need_feedback | Teachers Need Real Feedback | weak-captions | The cached body is Albanian translation (for example, Çdokush ka nevojë për një trajner.), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| sal_khan_reinvent_education | Let's Use Video to Reinvent Education | weak-captions | the stored text is an Arabic-script translation, beginning “اشتهرت أكاديمية خان بمجموعة مقاطع فيديو”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| temple_grandin_all_kinds_of_minds | The World Needs All Kinds of Minds | weak-captions | The cached body is Albanian translation (for example, Mendoj që do filloj duke treguar), not English speech captions; the spoken English level cannot be judged.  | Replace with complete English speech captions before English lesson use. |
+| steven_johnson_where_good_ideas_come | Where Good Ideas Come From | weak-captions | the stored text is an Arabic-script translation, beginning “:منذ خمس سنوات وأنا أعمل على”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
 
 ### teded-library.json
 

@@ -1699,6 +1699,86 @@
     "status": "ok",
     "note": "Flood warnings, thunderstorms, fog and a football-day forecast match weather; occasional name/kickoff errors do not obscure the report."
   },
+  "ted-library.json/ken_robinson_schools_kill_creativity": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Afrikaans translation (for example, Goeie môre. Hoe gaan dit? (Gelag)), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/brene_brown_power_of_vulnerability": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Po e filloj me një histori:), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/angela_duckworth_grit": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Kur isha 27 vjeç, hoqa dore), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/carol_dweck_power_of_believing": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Fuqia e \"ende\". Dëgjova për një), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/shawn_achor_happy_secret": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Kur une isha shtate vjece dhe), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/robert_waldinger_good_life": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Taycir Yahmed المدقّق: Mohammed Basheer”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "ted-library.json/chimamanda_adichie_danger_single_story": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Afrikaans translation (for example, Ek is ’n storieverteller. Ek wil), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/dan_pink_puzzle_of_motivation": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Anwar Dafa-Alla المدقّق: Mahmoud Aghiorly”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "ted-library.json/tim_urban_procrastinator": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ali Sumait المدقّق: Ahmad Abdelwahb”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "ted-library.json/susan_cain_power_of_introverts": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Kur isha 9 vjeçe për herë), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/amy_cuddy_body_language": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Dua t'ia filloj duke ju treguar), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/adam_grant_originals": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Shtate vjet më parë, një student), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/hans_rosling_best_stats": {
+    "status": "ok",
+    "note": "Income, child mortality, regional development and animated comparisons match Rosling’s development-statistics talk. An unrelated car advertisement appears at the end; the main talk remains usable."
+  },
+  "ted-library.json/jill_bolte_taylor_stroke": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, U rrita duke studiuar trurin sepse), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/yuval_harari_why_humans_rule": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Shtatëdhjetë mijë vjet më parë, paraardhësit), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/elizabeth_gilbert_creative_genius": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Unë jam shkrimtare. Shkrimi i librave), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/bill_gates_teachers_need_feedback": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Çdokush ka nevojë për një trajner.), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/sal_khan_reinvent_education": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “اشتهرت أكاديمية خان بمجموعة مقاطع فيديو”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "ted-library.json/temple_grandin_all_kinds_of_minds": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached body is Albanian translation (for example, Mendoj që do filloj duke treguar), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+  },
+  "ted-library.json/steven_johnson_where_good_ideas_come": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “:منذ خمس سنوات وأنا أعمل على”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
   "teded-library.json/teded_how_sugar_affects_brain": {
     "status": "weak-captions",
     "note": "Evidence: the stored captions are Albanian rather than English (“biskota te ngrohta e te lengshme,”); their translation cannot establish the spoken English level. Suggested action: Remove from English-caption lesson selection until a matching English cache is supplied."
