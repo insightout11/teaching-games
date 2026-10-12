@@ -853,3 +853,4 @@ Publisher/speaker attribution inconsistencies in protected fields also remain fo
 - Completed `src/data/kurzgesagt-library.json` metadata corrections and audit status update.
 - Completed `src/data/listening-library.json` metadata corrections and audit status update.
 - Completed `src/data/minecraft-library.json` metadata corrections and audit status update.
+- Completed `src/data/natgeo-library.json` metadata corrections and audit status update.

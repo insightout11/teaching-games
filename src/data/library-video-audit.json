@@ -1964,8 +1964,8 @@
     "note": "Refreshed English cache: Yellowstone deer, vegetation and other animals explain trophic cascades."
   },
   "natgeo-library.json/natgeo-octopus-intelligence": {
-    "status": "partial",
-    "note": "Evidence: The cache explains ganglia, arm neurons and motor control, not the promised heart count or blue blood. Suggested action: Narrow the description and summary."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The cache explains ganglia, arm neurons and motor control, not the promised heart count or blue blood. Changed fields: description, summary. Video identity and duration preserved."
   },
   "natgeo-library.json/natgeo-deep-ocean": {
     "status": "ok",
@@ -1976,32 +1976,32 @@
     "note": "Refreshed English cache: Brain size, memory and animal intelligence match elephants."
   },
   "natgeo-library.json/natgeo-how-volcanoes-work": {
-    "status": "level-off",
-    "note": "Evidence: The explanation combines tectonic plates, molten mantle, calderas and logarithmic eruption magnitudes in extended scientific clauses, beyond the stored A2/Easy language level. Suggested action: Raise to B1 after checking pacing."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The explanation combines tectonic plates, molten mantle, calderas and logarithmic eruption magnitudes in extended scientific clauses, beyond the stored A2/Easy language level. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "natgeo-library.json/natgeo-human-brain": {
-    "status": "partial",
-    "note": "Evidence: The full cache describes mouse-brain tissue slicing and wiring diagrams; it gives neither the claimed 86-billion-neuron number nor a faster-than-computers comparison. Suggested action: Rewrite the description as mapping brain connections with thin tissue sections."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full cache describes mouse-brain tissue slicing and wiring diagrams; it gives neither the claimed 86-billion-neuron number nor a faster-than-computers comparison. Changed fields: description, summary. Video identity and duration preserved."
   },
   "natgeo-library.json/natgeo-amazon-rainforest": {
     "status": "ok",
     "note": "Refreshed English cache: Rainfall, deforestation and Indigenous protection match the Amazon."
   },
   "natgeo-library.json/natgeo-coral-reef-crisis": {
-    "status": "partial",
-    "note": "Evidence: The full cache concerns connected marine reserves, migration and recovery; neither the 1% nor 25% statistic is given. Suggested action: Narrow the description and summary."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full cache concerns connected marine reserves, migration and recovery; neither the 1% nor 25% statistic is given. Changed fields: description, summary. Video identity and duration preserved."
   },
   "natgeo-library.json/natgeo-ancient-egypt": {
-    "status": "partial",
-    "note": "Evidence: John Green names Crash Course World History and surveys kingdoms; no modern technology discovery is promised in the cache. Suggested action: Correct the entry to the actual subject."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. John Green names Crash Course World History and surveys kingdoms; no modern technology discovery is promised in the cache. Changed fields: title, description, summary. Video identity and duration preserved."
   },
   "natgeo-library.json/natgeo-climate-change": {
     "status": "ok",
     "note": "Greenhouse gases, crop/water challenges, health and renewable energy match climate-change impacts."
   },
   "natgeo-library.json/natgeo-plastic-pollution": {
-    "status": "partial",
-    "note": "Evidence: The full cache explains ocean plastics, circular packaging and agricultural nutrient pollution; the description’s 9%-recycled claim is absent. Suggested action: Rewrite the description around the actual ocean-pollution and packaging examples."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full cache explains ocean plastics, circular packaging and agricultural nutrient pollution; the description’s 9%-recycled claim is absent. Changed fields: description, summary. Video identity and duration preserved."
   },
   "natgeo-library.json/natgeo-sleep-science": {
     "status": "partial",
