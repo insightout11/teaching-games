@@ -2462,5 +2462,29 @@
   "teded-library.json/teded_1xcvwsezpbw": {
     "status": "ok",
     "note": "The speaker explores optical flow, predictive perception and visual demonstrations, matching the illusion subject. B1 may be demanding for the unscripted explanation, but visuals and delivery cannot be judged from the cache alone, so no definite level fault is assigned."
+  },
+  "travel-english-library.json/travel-airport": {
+    "status": "partial",
+    "note": "Evidence: The full cache has some check-in/gate vocabulary but mainly teaches travel idioms, sightseeing, budgets, jet lag and post-holiday blues; airport security is not covered. Suggested action: Retitle to Travel Vocabulary and Idioms and broaden the description; verify duration."
+  },
+  "travel-english-library.json/travel-hotel": {
+    "status": "ok",
+    "note": "Tom’s missing booking, a suite upgrade, registration and room directions match hotel check-in."
+  },
+  "travel-english-library.json/travel-restaurant": {
+    "status": "mismatch",
+    "note": "Evidence: The 4,687-word cache is a BBC compilation beginning with Antarctic tourism and continuing through heritage, time perception and other topics, not restaurant ordering/menu/payment. Suggested action: Verify the video/cache pairing before replacing the source or retitling."
+  },
+  "travel-english-library.json/travel-directions": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored captions are Chinese-script translation (“嗨，我是Justin。 欢迎来到Ox”), so the English speech and level cannot be checked. The translated introduction describes airport travel rather than a directions lesson. Suggested action: Remove from English-caption selection until English captions are cached; recheck the stated topic where noted."
+  },
+  "travel-english-library.json/travel-shopping": {
+    "status": "mismatch",
+    "note": "Evidence: The caption explicitly teaches hotel check-in, booking, upgrades, pools and gyms, not shopping/bargaining/returns. Suggested action: Retitle to Hotel Check-In Phrases after verifying the video/cache identity."
+  },
+  "travel-english-library.json/travel-transport": {
+    "status": "partial",
+    "note": "Evidence: Neil and Georgie describe commuting, crowded trains and long-distance travel; the complete cache has no ticket-buying language promised by the description. Suggested action: Narrow the description to discussing commuting and transport experiences."
   }
 }

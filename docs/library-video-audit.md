@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 13/18; judged entries: 616/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 14/18; judged entries: 622/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -34,7 +34,8 @@ Completed libraries: 13/18; judged entries: 616/641. Cached inventory captured a
 | natgeo-library.json | 13 | 2 | 0 | 3 | 7 | 0 | 1 |
 | ted-library.json | 20 | 1 | 0 | 0 | 19 | 0 | 0 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
-| **TOTAL** | **616** | 432 | 9 | 27 | 137 | 0 | 11 |
+| travel-english-library.json | 6 | 1 | 2 | 2 | 1 | 0 | 0 |
+| **TOTAL** | **622** | 433 | 11 | 29 | 138 | 0 | 11 |
 
 ## Non-ok entries, grouped by library
 
@@ -286,6 +287,16 @@ Completed libraries: 13/18; judged entries: 616/641. Cached inventory captured a
 | teded_myth_king_midas | The myth of King Midas and his golden touch | weak-captions | the stored text is an Arabic-script translation, beginning “المترجم: Rana Al-Mahameed المدقّق: Hussain Laghabi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
 | teded_myth_arachne | The myth of Arachne | weak-captions | the stored text is an Arabic-script translation, beginning “المترجم: Hani Eldalees من البحّارة الذين”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
 | teded_fairy_tale_origins | The dark origins of Disney fairy tales | weak-captions | the stored text is an Arabic-script translation, beginning “المترجم: Shimaa Nabil المدقّق: Selma Djaadi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+
+### travel-english-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| travel-airport | At the Airport | partial | The full cache has some check-in/gate vocabulary but mainly teaches travel idioms, sightseeing, budgets, jet lag and post-holiday blues; airport security is not covered.  | Retitle to Travel Vocabulary and Idioms and broaden the description; verify duration. |
+| travel-restaurant | Ordering Food at a Restaurant | mismatch | The 4,687-word cache is a BBC compilation beginning with Antarctic tourism and continuing through heritage, time perception and other topics, not restaurant ordering/menu/payment.  | Verify the video/cache pairing before replacing the source or retitling. |
+| travel-directions | Asking for and Giving Directions | weak-captions | the stored captions are Chinese-script translation (“嗨，我是Justin。 欢迎来到Ox”), so the English speech and level cannot be checked. The translated introduction describes airport travel rather than a directions lesson.  | Remove from English-caption selection until English captions are cached; recheck the stated topic where noted. |
+| travel-shopping | Shopping in English | mismatch | The caption explicitly teaches hotel check-in, booking, upgrades, pools and gyms, not shopping/bargaining/returns.  | Retitle to Hotel Check-In Phrases after verifying the video/cache identity. |
+| travel-transport | Talking About Public Transport | partial | Neil and Georgie describe commuting, crowded trains and long-distance travel; the complete cache has no ticket-buying language promised by the description.  | Narrow the description to discussing commuting and transport experiences. |
 
 ## Mechanical checks (entire 641-entry inventory)
 
