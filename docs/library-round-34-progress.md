@@ -19,3 +19,9 @@ The new validator uses word-level edit distance (insertions, deletions, substitu
 - Rewrote 90 more crew/imposter pairs and hints; replaced phrase-heavy Hot Seat lists and separated all 120 secrets from their decks' targets.
 - Overlap examples: telescope viewing / outdoor photography (clear sky, steady hands, light); fossil tools / shell collecting (brush, bag, magnifying glass); earthquake falling objects / bumped-table objects (cup, books, lamp).
 - `npx tsx scripts/validate-topic-game-decks.ts --round34-count=30`: all 19 error counts **0**, including the four-topic cap across the full bank.
+
+## Batch 3: mountains through plant growth
+
+- Rewrote all 90 pairs and hints; checked each as a standalone question. Examples of overlapping answers: mountain peak / city tower views (roads, buildings, hills); rainy street / street-cleaning truck (pavement, cars, shoes); seed planting / garden bulb placement (pot, garden bed, soil).
+- Kept established phrases such as mountain goat, pine tree and hair dryer; replaced ad hoc modifiers and added single-word targets. All 120 secrets are separated from their own decks' Taboo/Hot Seat lists.
+- `npx tsx scripts/validate-topic-game-decks.ts --round34-count=45`: all 19 error counts **0**.
