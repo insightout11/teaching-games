@@ -2630,5 +2630,240 @@
     "courseId": "exam-flyers-style",
     "title": "Picture Talk Again",
     "level": "A2"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "Rae meets a new speaking partner. She introduces herself and says she enjoys reading and walking. Her partner asks what she likes doing on a free afternoon. Rae chooses a walk in the park. She explains that she can move, talk and notice new things there. Her partner prefers reading indoors when the weather is wet. Rae asks which kind of book he enjoys. They exchange a question as well as an answer. For their first practice, each person writes one preference and a reason. They will return to this small task later with a different everyday choice.",
+    "words": [
+      {
+        "word": "introduces",
+        "meaning": "tells someone who a person is"
+      },
+      {
+        "word": "preference",
+        "meaning": "something you like more than another choice"
+      },
+      {
+        "word": "indoors",
+        "meaning": "inside a building"
+      },
+      {
+        "word": "exchange",
+        "meaning": "give something and receive something back"
+      },
+      {
+        "word": "notice",
+        "meaning": "see or become aware of something"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does Rae choose for a free afternoon?",
+        "a": "a walk in the park"
+      },
+      {
+        "q": "When does her partner prefer reading indoors?",
+        "a": "when the weather is wet"
+      },
+      {
+        "q": "What does each person write?",
+        "a": "one preference and a reason"
+      }
+    ],
+    "talk": [
+      "What would you choose for a free afternoon, and why?",
+      "What question could help you learn about your partner's preference?"
+    ],
+    "courseId": "exam-a2-style",
+    "title": "First Partner Talk",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 1,
+    "text": "An invented photo shows three people at a bus stop. A woman is holding an umbrella above a small child. The child is carrying a yellow bag. A teenager stands nearby and looks at a timetable. The road is wet, but no bus is visible. Sol describes what each person is doing before making a guess. He thinks they may be waiting for the same bus. His partner asks whether the photo proves that. Sol says it does not. They could have different journeys. He changes “They are going together” to “They might be waiting for a bus.”",
+    "words": [
+      {
+        "word": "umbrella",
+        "meaning": "something held overhead to keep rain off"
+      },
+      {
+        "word": "timetable",
+        "meaning": "a list showing when journeys or events happen"
+      },
+      {
+        "word": "visible",
+        "meaning": "able to be seen"
+      },
+      {
+        "word": "proves",
+        "meaning": "shows clearly that something is true"
+      },
+      {
+        "word": "journeys",
+        "meaning": "travel from one place to another"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does the woman hold?",
+        "a": "an umbrella"
+      },
+      {
+        "q": "What colour is the child's bag?",
+        "a": "yellow"
+      },
+      {
+        "q": "What is the teenager looking at?",
+        "a": "a timetable"
+      }
+    ],
+    "talk": [
+      "How would you separate what a photo shows from your guess?",
+      "What could you say when you are unsure about the people in a scene?"
+    ],
+    "courseId": "exam-a2-style",
+    "title": "Describe a Photo",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 2,
+    "text": "A partner asks Rae about her plans for Saturday. “I am going to visit the library,” she replies. “What about you?” Her partner plans to help at a garden club. Rae asks what he will do there. He explains that the group will plant seeds in small pots. He asks whether she will borrow anything special. Rae wants a book about growing vegetables. The two plans have something in common. They agree to tell each other one thing they learn. Each answer leads to a natural question. Their conversation grows without long speeches.",
+    "words": [
+      {
+        "word": "plans",
+        "meaning": "ideas about what you will do"
+      },
+      {
+        "word": "seeds",
+        "meaning": "small things from which plants grow"
+      },
+      {
+        "word": "pots",
+        "meaning": "containers used for growing plants"
+      },
+      {
+        "word": "borrow",
+        "meaning": "use something and give it back later"
+      },
+      {
+        "word": "conversation",
+        "meaning": "people taking turns to talk"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Where will Rae go on Saturday?",
+        "a": "the library"
+      },
+      {
+        "q": "What will the garden group plant?",
+        "a": "seeds"
+      },
+      {
+        "q": "What kind of book does Rae want?",
+        "a": "a book about growing vegetables"
+      }
+    ],
+    "talk": [
+      "How would you ask back naturally after answering a question about plans?",
+      "What shared interest could help a short conversation continue?"
+    ],
+    "courseId": "exam-a2-style",
+    "title": "Ask Back",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 3,
+    "text": "Two partners have a free hour before a club meeting. They could walk by the river or make cards indoors. Uma likes the walk because she has been sitting all morning. Cal prefers making cards because he wants a quiet activity. They compare the choices instead of repeating their own preference. The sky looks dark, and neither has a coat. Uma suggests a shorter walk near the building. Cal offers another idea: stretch outside briefly, then make cards together. They choose his plan. Both explain what they can accept. Reaching a shared choice does not mean one person's idea was wrong.",
+    "words": [
+      {
+        "word": "compare",
+        "meaning": "look at choices to find differences"
+      },
+      {
+        "word": "preference",
+        "meaning": "the option someone likes more"
+      },
+      {
+        "word": "briefly",
+        "meaning": "for a short time"
+      },
+      {
+        "word": "stretch",
+        "meaning": "extend your body to loosen your muscles"
+      },
+      {
+        "word": "accept",
+        "meaning": "agree that something is suitable"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Where could the partners walk?",
+        "a": "by the river"
+      },
+      {
+        "q": "What does Cal prefer making?",
+        "a": "cards"
+      },
+      {
+        "q": "What do neither of them have?",
+        "a": "a coat"
+      }
+    ],
+    "talk": [
+      "How would you respond to a partner's different preference?",
+      "What compromise could combine parts of two everyday choices?"
+    ],
+    "courseId": "exam-a2-style",
+    "title": "Choose Together",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Rae returns to the question about a free afternoon. This time, her partner offers two choices. They could have a picnic or an indoor craft session. Rae chooses the picnic if the weather is dry. She gives a fuller reason than before. She likes being outdoors, and a shared meal lets everyone talk. Then she asks what her partner would choose. He prefers crafts because he enjoys making something to keep. Rae suggests bringing paper to the picnic so they could do both. Her answer now includes a preference, a reason and a response to another idea. She has kept the conversation moving.",
+    "words": [
+      {
+        "word": "session",
+        "meaning": "a period spent doing one activity"
+      },
+      {
+        "word": "fuller",
+        "meaning": "with more information or detail"
+      },
+      {
+        "word": "shared",
+        "meaning": "done or used together"
+      },
+      {
+        "word": "crafts",
+        "meaning": "activities making things by hand"
+      },
+      {
+        "word": "suggests",
+        "meaning": "offers an idea for people to consider"
+      }
+    ],
+    "questions": [
+      {
+        "q": "When would Rae choose the picnic?",
+        "a": "if the weather is dry"
+      },
+      {
+        "q": "Why does her partner prefer crafts?",
+        "a": "he enjoys making something to keep"
+      },
+      {
+        "q": "What does Rae suggest bringing?",
+        "a": "paper"
+      }
+    ],
+    "talk": [
+      "How could you improve your first answer about an everyday choice?",
+      "What response would show that you considered your partner's reason?"
+    ],
+    "courseId": "exam-a2-style",
+    "title": "Partner Talk Again",
+    "level": "A2"
   }
 ]
