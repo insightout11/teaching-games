@@ -24,4 +24,5 @@ The new validator uses word-level edit distance (insertions, deletions, substitu
 
 - Rewrote all 90 pairs and hints; checked each as a standalone question. Examples of overlapping answers: mountain peak / city tower views (roads, buildings, hills); rainy street / street-cleaning truck (pavement, cars, shoes); seed planting / garden bulb placement (pot, garden bed, soil).
 - Kept established phrases such as mountain goat, pine tree and hair dryer; replaced ad hoc modifiers and added single-word targets. All 120 secrets are separated from their own decks' Taboo/Hot Seat lists.
-- `npx tsx scripts/validate-topic-game-decks.ts --round34-count=45`: all 19 error counts **0**.
+- The first `--round34-count=45` run had one remaining `lowestLevel` error in Rainforests. It was committed before that result was checked; the follow-up replaces pod with accessible A1 seed and reruns the checker. No history rewrite.
+`--round34-count=45` after the correction: all 19 error counts 0.
