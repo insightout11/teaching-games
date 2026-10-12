@@ -1706,6 +1706,14 @@ export function FlightDeck({
   return (
     <motion.div style={{ x: shake.x, y: shake.y, rotate: shake.rotate }} className={`relative grid h-[100dvh] ${zoomLayout ? 'grid-cols-[48px_minmax(0,1fr)_48px] grid-rows-[46px_minmax(0,1fr)_56px] gap-2' : 'grid-cols-[220px_minmax(0,1fr)_240px] grid-rows-[52px_minmax(0,1fr)_176px] gap-2.5'} bg-[radial-gradient(ellipse_120%_70%_at_50%_120%,#1b2438_0%,#0b1120_55%,#05070D_100%)] p-2.5 text-white`}>
       <SnapGuides hosts={snapHosts} />
+      {/* Until the class's city is known, cover the room: otherwise it shows LC International for a moment first. */}
+      <AnimatePresence>
+        {!position && (
+          <motion.div exit={{ opacity: 0 }} transition={{ duration: 0.35 }} className="absolute inset-0 z-[90] flex items-center justify-center bg-[#060b14]">
+            <span className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-white/50"><Plane className="h-4 w-4" /> Boarding</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <AnimatePresence>
         {shaking && (
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="pointer-events-none absolute inset-x-0 top-16 z-[70] flex justify-center">
