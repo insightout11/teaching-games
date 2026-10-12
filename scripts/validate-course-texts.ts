@@ -73,12 +73,18 @@ function sharedFraction(a: string[], b: string[]): number {
   }
   return previous[b.length] / Math.min(a.length, b.length);
 }
+let maximumSimilarity = 0;
+let mostSimilarPair = '';
 for (let i = 0; i < texts.length; i += 1) for (let j = i + 1; j < texts.length; j += 1) {
-  if (texts[i].normalized === texts[j].normalized) fail('repeatedText', texts[i].where, `repeats ${texts[j].where}`);
-  else if (sharedFraction(texts[i].tokens, texts[j].tokens) >= 0.60) fail('similarText', texts[i].where, `at least 60% shared text with ${texts[j].where}`);
+  const identical = texts[i].normalized === texts[j].normalized;
+  const similarity = identical ? 1 : sharedFraction(texts[i].tokens, texts[j].tokens);
+  if (similarity > maximumSimilarity) { maximumSimilarity = similarity; mostSimilarPair = `${texts[i].where} / ${texts[j].where}`; }
+  if (identical) fail('repeatedText', texts[i].where, `repeats ${texts[j].where}`);
+  else if (similarity >= 0.60) fail('similarText', texts[i].where, `at least 60% shared text with ${texts[j].where}`);
 }
 console.log(`Course texts: ${seen.size}/${expected.size} unsourced lessons${selected ? ` in ${selected}` : ''}. Levels: ${Object.keys(byLevel).map((level) => `${level} ${byLevel[level]}`).join(', ')}.`);
-for (const id of Object.keys(byCourse)) console.log(`${id}: ${byCourse[id]}`);
+for (const course of courses.filter((course) => !selected || course.id === selected)) console.log(`${course.id}: ${byCourse[course.id] || 0}`);
+console.log(`Maximum shared text: ${(maximumSimilarity * 100).toFixed(2)}% (${mostSimilarPair || 'no pairs'}); failure threshold 60%.`);
 console.log(`Course text checks: ${Object.keys(checks).map((check) => `${check} ${checks[check]}`).join(', ')}.`);
 if (errors.length) { console.error(errors.join('\n')); process.exitCode = 1; }
 else console.log('Course text validation passed.');
