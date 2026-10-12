@@ -459,6 +459,62 @@
     "status": "ok",
     "note": "Dan contrasts hypothetical past/present time relationships and third-to-second or second-to-third conditionals, matching mixed conditionals."
   },
+  "crash-course-library.json/cc-ww1-overview": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبًا، أنا جون غرين وهذه سلسلة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "crash-course-library.json/cc-ww2-overview": {
+    "status": "level-off",
+    "note": "Evidence: The 2,467-word caption uses unscaffolded terms such as Judeo-Bolshevism, non-aggression pact and totalitarian aggression within a dense account of military strategy, exceeding the stored B1 label. Suggested action: Raise to B2 after checking delivery."
+  },
+  "crash-course-library.json/cc-psychology-intro": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “ذلك الحلم عن الديناصور في ثوب”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "crash-course-library.json/cc-economics-supply-demand": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “أنا السيد كليفورد، وهذه أدريان هيل،”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "crash-course-library.json/cc-biology-evolution": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “،مرحبًا، أنا \"هانك\" وأنا إنسان .لكني”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "crash-course-library.json/cc-climate-science": {
+    "status": "partial",
+    "note": "Evidence: The climate mechanisms and consequences match, but the caption closes by naming SciShow, rather than the title’s Crash Course series. Suggested action: Correct the title/series attribution to a SciShow climate-change explainer after verifying the video/cache pairing."
+  },
+  "crash-course-library.json/cc-sociology-intro": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبًا بكم انا نيكول سوين, لدي”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "crash-course-library.json/cc-english-lit-hamlet": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحًبا، أنا جون غرين وهذا Crash”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "crash-course-library.json/cc-philosophy-intro": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “كراش كورس الفلسفة مُقدَّمة لك من”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "crash-course-library.json/cc-economics-globalisation": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبًا بكم في Crash Course Economics.”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "crash-course-library.json/cc-astronomy-solarsystem": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “النظام الشمسي هو الاسم الذي نطلقه”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "crash-course-library.json/cc-media-literacy": {
+    "status": "ok",
+    "note": "Jay Smooth explains consuming, interpreting and creating media and recognising messages, matching the media-literacy introduction."
+  },
+  "crash-course-library.json/cc-us-constitution": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبا، أنا Craig، وهذا \"كراش كورس\":”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "crash-course-library.json/cc-biology-cells": {
+    "status": "weak-captions",
+    "note": "Evidence: The cached cell-biology body is Albanian translation, beginning Qelizat janë njësit me të vogla, not English speech captions. Suggested action: Replace with full English speech captions and verify the Hank Green attribution."
+  },
   "grammar-library.json/grammar-r2-aizd-rWx1Zg": {
     "status": "ok",
     "note": "Time/place and dependent prepositions are explained in quiz rounds."
