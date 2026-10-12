@@ -458,5 +458,409 @@
   "bbc-library.json/bbc_grammar_mixing_conditionals": {
     "status": "ok",
     "note": "Dan contrasts hypothetical past/present time relationships and third-to-second or second-to-third conditionals, matching mixed conditionals."
+  },
+  "teded-library.json/teded_how_sugar_affects_brain": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored captions are Albanian rather than English (“biskota te ngrohta e te lengshme,”); their translation cannot establish the spoken English level. Suggested action: Remove from English-caption lesson selection until a matching English cache is supplied."
+  },
+  "teded-library.json/teded_why_do_we_dream": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Yazed AlMulhem المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_how_stress_affects_brain": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Shada Shaheen المدقّق: Ghalia Turki”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_what_is_depression": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Muhammad Samir المدقّق: Samar Mohamed”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_what_if_you_didnt_sleep": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Inas Mar المدقّق: Hussain Laghabi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_tragedy_of_the_commons": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mariam Aboud المدقّق: Mennatullah Mustafa”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_prisoner_hat_riddle": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ahmad Jarbou المدقّق: Hussain Laghabi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_psychology_of_narcissism": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored captions are Albanian rather than English (“përpara selfie-t të parë, grekët dhe”); their translation cannot establish the spoken English level. Suggested action: Remove from English-caption lesson selection until a matching English cache is supplied."
+  },
+  "teded-library.json/teded_antibiotic_resistance": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ahmad Wadan المدقّق: khalid marbou”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_how_to_practice_effectively": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mohammed Dz المدقّق: Eman Salah”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_immune_system": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored captions are Albanian rather than English (“nen rrezik. Miliarda bakterie, viruse dhe”); their translation cannot establish the spoken English level. Suggested action: Remove from English-caption lesson selection until a matching English cache is supplied."
+  },
+  "teded-library.json/teded_what_is_kafkaesque": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mohammad Houri المدقّق: Ghalia Turki”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_philosophy_of_stoicism": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: El Hacene BOULKROUNE المدقّق: Hani”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_how_memories_form": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ahmad Jarbou المدقّق: Hussain Laghabi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_plato_allegory_cave": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Amy Alzidan المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_what_makes_a_hero": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mahmoud Aghiorly المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_food_and_gut": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Maryam Eladdad المدقّق: Hani Eldalees”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_what_is_dna": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “Stated Clearly تقدم ما هو DNA”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_how_did_hitler_rise_to_power": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Hani Eldalees المدقّق: Muhammad Samir”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_bridge_riddle": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Muhammad Baraa Karazeh المدقّق: Mualla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_why_hard_to_cure_cancer": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Nada Shokry المدقّق: Mennatullah Mustafa”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_is_light_particle_or_wave": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mahmoud Aghiorly المدقّق: khalid marbou”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_what_is_entropy": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Nawal Sharabati المدقّق: Hani Eldalees”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_how_memories_can_be_manipulated": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Esraa Almoraifea المدقّق: Ayman Mahmoud”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_power_of_creative_constraints": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mohammed Abubaker المدقّق: Ayman Mahmoud”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_why_do_cats_act_so_weird": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Abeer Darweesh المدقّق: Hani Eldalees”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_what_makes_a_poem": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: somyah puth المدقّق: Rana Al-Mahameed”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_why_is_glass_transparent": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is Albanian translation (“Uji është pothuajse gjithkund, nga lagështia”), not usable English speech captions. The translated cache also opens with water in the body and hydration, rather than glass transparency. Suggested action: Remove from English-caption selection pending an English cache; verify the caption/video subject where noted."
+  },
+  "teded-library.json/teded_how_does_stock_market_work": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ahmed samy المدقّق: Nada Qanbar”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_how_do_vaccines_work": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Haroun SMIDA المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_how_did_english_evolve": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Razan Alrashed المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_what_is_consciousness": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Tarek Aamer المدقّق: AFRAA ALZOUBI”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_heisenberg_uncertainty_principle": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Nora Mohammad المدقّق: Abd Al-Rahman”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_what_is_imposter_syndrome": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Aseel Obeidi المدقّق: Abdellatif ZOUMHANE”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_history_of_world_according_to_cats": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: israa abdelkarim المدقّق: Fatima Zahra”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_how_does_money_laundering_work": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: khalid kittani المدقّق: Ayman Mahmoud”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_what_is_dyslexia": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Hussain Laghabi المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_evolution_of_human_eye": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Salih Ahmed المدقّق: khalid marbou”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_how_do_solar_panels_work": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: ahmed turk المدقّق: Abd Al-Rahman”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_benefits_of_bilingual_brain": {
+    "status": "ok",
+    "note": "The captions distinguish bilingual types and discuss brain structure, attention and age of acquisition, matching the bilingual-brain claim. The opening has minor recognition errors, but the argument remains recoverable."
+  },
+  "teded-library.json/teded_what_is_a_calorie": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Allam Zedan المدقّق: Lalla Khadija”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_why_do_we_feel_nostalgia": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Khaled Ali المدقّق: Fatima Zahra”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_science_of_attraction": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is Albanian translation (“Ne kemi deshire te mendojme per”), not usable English speech captions. Suggested action: Remove from English-caption selection pending an English cache; verify the caption/video subject where noted."
+  },
+  "teded-library.json/teded_what_causes_insomnia": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Kowthar Alasady المدقّق: Hussain Laghabi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_myth_prometheus": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Fatima Zahra El Hafa المدقّق:”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_myth_orpheus_eurydice": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mariam Aboud المدقّق: Fatima Zahra”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_myth_sisyphus": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is Albanian translation (“Qoftë i lidhur në një rrotë”), not usable English speech captions. Suggested action: Remove from English-caption selection pending an English cache; verify the caption/video subject where noted."
+  },
+  "teded-library.json/teded_myth_king_midas": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Rana Al-Mahameed المدقّق: Hussain Laghabi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_myth_arachne": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Hani Eldalees من البحّارة الذين”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_fairy_tale_origins": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Shimaa Nabil المدقّق: Selma Djaadi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "teded-library.json/teded_video_games_babies_learning": {
+    "status": "ok",
+    "note": "DeepMind DQN, novelty rewards and infant exploration connect babies' learning to game-playing AI, matching the broad claim; this is not a step-by-step guide for human gamers."
+  },
+  "teded-library.json/teded_brief_history_video_games_part_1": {
+    "status": "ok",
+    "note": "The captions trace Odyssey, Atari, Pac-Man and Nintendo to the growth of home consoles, matching early video-game history."
+  },
+  "teded-library.json/teded_african_american_social_dance_history": {
+    "status": "ok",
+    "note": "The Bop, enslaved Africans' rhythmic traditions, the Charleston, Twist and hip-hop support the social-dance history claim."
+  },
+  "teded-library.json/teded_instrument_music_brain_benefits": {
+    "status": "ok",
+    "note": "The captions discuss brain imaging, coordinated motor/auditory processing and memory benefits of instrument playing, matching the subject; technical vocabulary makes B1 a supported-learning label rather than a promise of effortless comprehension."
+  },
+  "teded-library.json/teded_earth_in_2125": {
+    "status": "ok",
+    "note": "The captions imagine transformed future cities and cite existing sustainable projects, matching a speculative future-Earth view."
+  },
+  "teded-library.json/teded_ai_change_world": {
+    "status": "ok",
+    "note": "Stuart Russell discusses goal specification, uncertainty, warehouse work and general-purpose AI timelines, matching societal/work effects."
+  },
+  "teded-library.json/teded_food_brain_effects": {
+    "status": "ok",
+    "note": "Lipids, amino acids, micronutrients and glucose are connected with brain function, matching the nutrition/brain description."
+  },
+  "teded-library.json/teded_perfect_cookies_science": {
+    "status": "ok",
+    "note": "The captions explain cookie transformations, salmonella, gas pockets, Maillard reactions and caramelisation, matching baking chemistry."
+  },
+  "teded-library.json/teded_food_expiration_dates": {
+    "status": "ok",
+    "note": "Open dating, food safety exceptions and food donations are discussed, matching what date labels mean."
+  },
+  "teded-library.json/teded_prolonged_space_travel": {
+    "status": "ok",
+    "note": "Radiation, microgravity and possible genetic/microbial adaptation are discussed, matching long-duration space-travel challenges."
+  },
+  "teded-library.json/teded_hibernation": {
+    "status": "ok",
+    "note": "The captions explain slowed metabolism, arousals and possible human applications of animal hibernation, matching the description."
+  },
+  "teded-library.json/teded_tardigrade_survival": {
+    "status": "ok",
+    "note": "Tardigrade drying survival, tun states and extreme environments support the survival claim."
+  },
+  "teded-library.json/teded_wildlife_climate_adaptation": {
+    "status": "ok",
+    "note": "Tawny owls, dragonflies, salmon and thyme illustrate climate adaptations and limits, matching the description."
+  },
+  "teded-library.json/teded_savanna_mystery": {
+    "status": "ok",
+    "note": "The captions explain an ant/acacia/elephant/lion chain in Kenya, matching the evidence-based savanna mystery; B1 is demanding because several ecological terms are unglossed, but a clear level error is not established from captions alone."
+  },
+  "teded-library.json/teded_fwtnmzk9vg4": {
+    "status": "ok",
+    "note": "The captions distinguish procrastination from laziness and explain fear, avoidance and smaller tasks, matching the psychology claim."
+  },
+  "teded-library.json/teded_n2uqwfv6jr4": {
+    "status": "ok",
+    "note": "Attention switching, recovery breaks, distraction control and conditions affecting focus support the attention-span advice claim."
+  },
+  "teded-library.json/teded_1jxq9779zwu": {
+    "status": "ok",
+    "note": "Psyche's metal-rich composition is related to planetary cores and scientific instruments, matching the mission description."
+  },
+  "teded-library.json/teded_fxpc_8f__xo": {
+    "status": "ok",
+    "note": "Sputnik, competing missions, Apollo-Soyuz cooperation and later technology benefits support the space-race history claim."
+  },
+  "teded-library.json/teded_dmmpykrrd4o": {
+    "status": "ok",
+    "note": "The captions offer a Mars geography/travel overview with opening survival requirements and weather hazards; the broad living-on-Mars topic matches, although this is not detailed settlement engineering."
+  },
+  "teded-library.json/teded_lkgogzpbrck": {
+    "status": "ok",
+    "note": "Ear bones, cochlear fluid, neural signals and source localisation support the hearing-system description."
+  },
+  "teded-library.json/teded__r307w05ijc": {
+    "status": "ok",
+    "note": "The captions discuss hair-cell damage, noise exposure, hearing checks and earplugs, matching loud-sound hearing risks."
+  },
+  "teded-library.json/teded_hmfqqjmf_f0": {
+    "status": "ok",
+    "note": "Exercise, endorphins, team confidence and growth mindset support body/brain benefits of sport."
+  },
+  "teded-library.json/teded_2tm1lffxekg": {
+    "status": "ok",
+    "note": "The captions describe muscle tension, fibre damage, repair, rest and nutrition, matching how exercise changes muscle growth."
+  },
+  "teded-library.json/teded_g1pb2ak2we4": {
+    "status": "ok",
+    "note": "Viscoelastic tissues, temporary elongation and sarcomeres support stretching/flexibility; technical vocabulary is demanding, but no obvious level fault is inferred solely from specialised terms."
+  },
+  "teded-library.json/teded_mknv3t5qbuc": {
+    "status": "ok",
+    "note": "The two-thirds guessing game, Nash equilibrium and k-level thinking match interactive choices and predicted behavior."
+  },
+  "teded-library.json/teded_0rijfcnay2q": {
+    "status": "ok",
+    "note": "The captions define absorbed flow, reduced self-judgment and balancing skill with challenge, matching conditions for flow."
+  },
+  "teded-library.json/teded_jyzpxry5mfg": {
+    "status": "ok",
+    "note": "Aquaculture's waste/feed problems are contrasted with lower-food-chain regenerative farming, matching ocean farming and climate."
+  },
+  "teded-library.json/teded_2uphazryvpy": {
+    "status": "ok",
+    "note": "Beat circles, coloured positions and cross-cultural patterns support the visual-rhythm description."
+  },
+  "teded-library.json/teded_wyq3o8u6smy": {
+    "status": "ok",
+    "note": "Hubble Deep Field images and scales from humans to galaxies support the universe-perspective description."
+  },
+  "teded-library.json/teded__6xlnywppb8": {
+    "status": "ok",
+    "note": "Three bottles follow landfill, ocean and recycling pathways, matching the described story."
+  },
+  "teded-library.json/teded_k93fmnfkwfi": {
+    "status": "ok",
+    "note": "The captions explain fight-or-flight, practice, breathing and adaptation to nerves, matching stage-fright science and management."
+  },
+  "teded-library.json/teded__r4c2nt4naq": {
+    "status": "ok",
+    "note": "Melanin, UV damage, vitamin D and migration are connected with skin-color adaptation, matching the description."
+  },
+  "teded-library.json/teded_qwg2f9dwwpy": {
+    "status": "ok",
+    "note": "Humpbacks, cleaner wrasse and meerkats illustrate direct/indirect cooperation and survival, matching animal cooperation."
+  },
+  "teded-library.json/teded_i7930fj3t54": {
+    "status": "ok",
+    "note": "Spectra, missing wavelengths and other telescope channels demonstrate stellar-study methods, matching the claim."
+  },
+  "teded-library.json/teded_tekihv_e8uw": {
+    "status": "ok",
+    "note": "Parker's corona passage, insulation and reflective/carbon shielding support the solar-probe engineering description."
+  },
+  "teded-library.json/teded_inyumbmqqzg": {
+    "status": "ok",
+    "note": "The captions define vocal/internal self-talk and discuss learning, emotional regulation and compassionate reflection, matching the psychology description."
+  },
+  "teded-library.json/teded_zkh6z0x6krw": {
+    "status": "ok",
+    "note": "A laboratory virus, room-by-room destruction and a Hamiltonian-path puzzle match the fictional virus riddle."
+  },
+  "teded-library.json/teded_blk23yzqxom": {
+    "status": "ok",
+    "note": "Musicians describe experimentation, rough ideas, mistakes and collaborative trust, matching developing stronger ideas from early attempts."
+  },
+  "teded-library.json/teded_2x3rjmbvb28": {
+    "status": "ok",
+    "note": "Writing one or two songs daily and learning through practice support the regular-writing claim."
+  },
+  "teded-library.json/teded_quqyf_irwlw": {
+    "status": "ok",
+    "note": "Vocal classifications, breath support, technique and emotional honesty support improving singing; specialist terms are present, but the instruction remains concrete enough that a clear level error is not established."
+  },
+  "teded-library.json/teded_yypnos84ndy": {
+    "status": "ok",
+    "note": "Matt Johnson and other musicians discuss keeping time, basic beats, percussion and repeated playing, matching drumming work."
+  },
+  "teded-library.json/teded_ytcpznbhwz0": {
+    "status": "ok",
+    "note": "Musicians discuss vocal range, phrasing, healthy practice and changing voices, matching skills and choices for singers."
+  },
+  "teded-library.json/teded_zrjhayc_9pg": {
+    "status": "ok",
+    "note": "Performers discuss audience response, professionalism, trust and preparation, matching the performance subject; the spoken cache does not identify/count all ten contributors, so that title detail is not independently verified here."
+  },
+  "teded-library.json/teded_ybfth3xsd0q": {
+    "status": "ok",
+    "note": "Personal instrument choices, sound, patience and connection support the choosing-an-instrument description."
+  },
+  "teded-library.json/teded_lq_tysgwtfm": {
+    "status": "ok",
+    "note": "Hooks, song structure, melody, lyrics and production are discussed, matching crafting pop songs."
+  },
+  "teded-library.json/teded_mbir652kzpe": {
+    "status": "ok",
+    "note": "Songwriters discuss specific details, accessible language, emotional meaning and unpredictable results, matching lyric choices."
+  },
+  "teded-library.json/teded_uddkgooencq": {
+    "status": "ok",
+    "note": "Writing teams, pitch songs and differing artistic intentions support the collaboration/roles description."
+  },
+  "teded-library.json/teded_wjhca12utsg": {
+    "status": "ok",
+    "note": "A parent discusses teenagers' circadian timing, sleep loss and later school starts, matching teenage-brain/sleep effects; it is a speaker's argument rather than a purely clinical overview."
+  },
+  "teded-library.json/teded_cqgmozfr_gm": {
+    "status": "ok",
+    "note": "Distraction and explicit monitoring are linked with choking, followed by practice and external focus, matching pressure/performance management."
+  },
+  "teded-library.json/teded_lmp0l5udnce": {
+    "status": "ok",
+    "note": "Compressed air, combustion, micro-engines and fuel-efficiency limits support the jetpack engineering claim."
+  },
+  "teded-library.json/teded_1xcvwsezpbw": {
+    "status": "ok",
+    "note": "The speaker explores optical flow, predictive perception and visual demonstrations, matching the illusion subject. B1 may be demanding for the unscripted explanation, but visuals and delivery cannot be judged from the cache alone, so no definite level fault is assigned."
   }
 }
