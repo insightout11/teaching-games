@@ -51,7 +51,8 @@ import { startMusic, stopMusic } from '@/lib/audio/manager';
 import { LOBBY_BED } from '@/lib/audio/sounds';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
-import { BrandSting } from '@/components/ui/brand-sting';
+import { BrandMomentOverlay } from '@/components/ui/brand-moment';
+import { takeoffVariant } from '@/lib/brand-moments';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { SharedTimerDisplay } from '@/components/session/shared-timer-display';
@@ -1793,7 +1794,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         <div
           className="pointer-events-none fixed inset-0 z-[5]"
           style={{
-            left: isFullScreen ? 0 : 256,
+            left: 0,
             background:
               'radial-gradient(ellipse 46% 80% at 50% 40%, rgba(3,7,16,0.80) 0%, rgba(3,7,16,0.46) 48%, transparent 74%)',
           }}
@@ -1811,6 +1812,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               {journeySaveStatus === 'error' && 'The lesson ended, but the class journey could not be saved. Reopen World Flight before planning the next route.'}
             </div>
           )}
+          {/* Landing: the short reveal as a bookend before the results (once per lesson). */}
+          <BrandMomentOverlay moment="landing" sessionId={session.id} />
           <EndSessionSummary
             classId={cls.id}
             className={cls.name}
@@ -3023,13 +3026,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       {/* Launch sting — full signature reveal as the class leaves the lobby. Click
           to skip; clears itself on completion. */}
       {showLaunchSting && (
-        <div
-          className="fixed inset-0 z-[120] cursor-pointer"
-          onClick={() => setShowLaunchSting(false)}
-          aria-hidden
-        >
-          <BrandSting variant="full" onComplete={() => setShowLaunchSting(false)} />
-        </div>
+        <BrandMomentOverlay moment="takeoff" sessionId={session.id} variant={takeoffVariant(priorSessionCount)} onDone={() => setShowLaunchSting(false)} />
       )}
 
       {/* Floating widget system */}

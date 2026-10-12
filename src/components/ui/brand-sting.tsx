@@ -36,6 +36,8 @@ export interface BrandStingProps {
   markSize?: number;
   /** Override the end-hold (ms) before fade-out. Defaults per variant. */
   holdMs?: number;
+  /** No chime (student phones: a room of phones must not all chime). */
+  silent?: boolean;
 }
 
 // ─── Timeline presets (seconds) ───────────────────────────────────────────────
@@ -188,6 +190,7 @@ export function BrandSting({
   tagline,
   markSize = 210,
   holdMs,
+  silent = false,
 }: BrandStingProps) {
   const prefersReducedMotion = useReducedMotion();
   const reduce = !!prefersReducedMotion;
@@ -211,8 +214,9 @@ export function BrandSting({
   // opens with a riser, so playback starts early enough for the chime to land
   // there. Reduced motion collapses the whole timeline, so play it straight away.
   useEffect(() => {
+    if (silent) return;
     return play('brandResolve', { delayMs: reduce ? 0 : brandResolveDelayMs(variant) });
-  }, [reduce, variant]);
+  }, [reduce, variant, silent]);
 
   useEffect(() => {
     const totalMs = reduce ? 1400 : revealDone * 1000 + hold;

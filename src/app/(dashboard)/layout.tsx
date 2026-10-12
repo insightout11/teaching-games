@@ -30,8 +30,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <div className="relative min-h-screen flex text-lc-text">
-      {/* Signature reveal — plays once per browser session on first app load. */}
-      <BrandStingGate variant="full" storageKey="lc-sting-splash" holdMs={320} />
+      {/* Signature reveal: once a day per browser on first app load (rules: src/lib/brand-moments.ts). */}
+      <BrandStingGate holdMs={320} />
       <TeacherIdentify />
       <LiveRoomOptIn />
       {/* Banks audio permission on first interaction so later cues can play. */}

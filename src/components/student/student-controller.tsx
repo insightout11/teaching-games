@@ -33,6 +33,7 @@ import { openHandChannel, HAND_HEARTBEAT_MS } from '@/lib/live-room/hands';
 import { openWordBankChannel } from '@/lib/live-room/word-bank';
 import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
+import { BrandMomentOverlay } from '@/components/ui/brand-moment';
 import { ActionBar, BoardingHeader, PhoneSheet, type PhoneStatus } from '@/components/student/phone-shell';
 import { OptionLetter, PhoneLabel, PhonePrompt, phoneOption } from '@/components/student/phone-kit';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
@@ -1450,6 +1451,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   return (
     <StudentSkyShell weather="cruising">
+      {/* The brand reveal once when a student joins: short and silent (rules: src/lib/brand-moments.ts). */}
+      <BrandMomentOverlay moment="phone-join" sessionId={sessionId} markSize={130} />
       <BoardingMoment
         sessionId={sessionId}
         name={studentSession.displayName}
