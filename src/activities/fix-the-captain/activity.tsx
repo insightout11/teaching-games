@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Check, Eye, Megaphone, RotateCcw, Trophy, Volume2, X } from 'lucide-react';
 import type { ActivityProps, FixTheCaptainContent, FixTheCaptainItem } from '../types';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
-import { speak, warmUpSpeech } from '@/lib/speech';
+import { prepareSpeech, speak, stopSpeech, warmUpSpeech } from '@/lib/speech';
 import { useSessionStore } from '@/stores/session-store';
 
 // Fix the Captain: the captain's cabin announcements (chime + voice) each hide
@@ -83,13 +83,15 @@ export function FixTheCaptainActivity({ generatedContent, sessionSettings, onSet
   }, [speakerId, idx]);
 
   useEffect(() => { warmUpSpeech(); }, []);
-  const stop = useCallback(() => { token.current += 1; try { window.speechSynthesis?.cancel(); } catch { /* none */ } }, []);
+  const stop = useCallback(() => { token.current += 1; stopSpeech(); }, []);
+  // The captain's natural voice: clips are asked for as the activity opens, so they are ready for each announcement.
+  useEffect(() => { prepareSpeech(items.map((it) => it.text), 'captain'); }, [items]);
   useEffect(() => () => stop(), [stop]);
 
   const readOut = useCallback((it: FixTheCaptainItem, withChime = true) => {
     stop();
     const t = token.current;
-    const go = () => { if (t === token.current) speak(it.text, 0.92); };
+    const go = () => { if (t === token.current) speak(it.text, 0.92, undefined, 'captain'); };
     if (withChime) chime(go); else go();
   }, [stop]);
 

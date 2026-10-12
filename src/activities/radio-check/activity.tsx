@@ -6,7 +6,7 @@ import { ArrowRight, Eye, EyeOff, Headphones, Play, Radio, RotateCcw, Snail, Vol
 import { useYouTubePlayer } from '../shared/use-youtube-player';
 import type { ActivityProps, RadioCheckContent, RadioCheckSegment } from '../types';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
-import { speak, warmUpSpeech } from '@/lib/speech';
+import { prepareSpeech, speak, stopSpeech, warmUpSpeech } from '@/lib/speech';
 import { useSessionStore } from '@/stores/session-store';
 
 // Radio Check: the class hears a short segment (a clip of the source video, or a passage
@@ -50,7 +50,7 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
     playToken.current += 1;
     if (stopTimer.current) { window.clearInterval(stopTimer.current); stopTimer.current = null; }
     try { playerRef.current?.pauseVideo(); } catch { /* not ready */ }
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+    stopSpeech();
     setPlaying(false);
   }, [playerRef]);
 
@@ -79,11 +79,17 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
         if (t >= end || heard >= length) stopAudio();
       }, 200);
     } else {
-      speak(s.script ?? s.keyLine, slow ? 0.72 : 0.9, () => { if (token === playToken.current) setPlaying(false); });
+      speak(s.script ?? s.keyLine, slow ? 0.72 : 0.9, () => { if (token === playToken.current) setPlaying(false); }, 'presenter');
     }
   }, [video, playerRef, playingSince, stopAudio]);
 
   useEffect(() => () => stopAudio(), [stopAudio]);
+
+  // Voice passages: ask for the natural-voice clips as soon as the activity opens (each takes a few seconds to
+  // make), so they are ready by the time the class listens. Until a clip is ready the browser voice reads it.
+  useEffect(() => {
+    if (!video) prepareSpeech(segments.map((s) => s.script ?? s.keyLine), 'presenter');
+  }, [video, segments]);
 
   // ─── Phones ───
   useEffect(() => {
