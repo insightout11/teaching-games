@@ -1676,8 +1676,8 @@
     "note": "Refreshed English cache: Social isolation, threat perception and connection match loneliness."
   },
   "kurzgesagt-library.json/kurzgesagt_why_blue_whales_dont_get_cancer": {
-    "status": "partial",
-    "note": "Evidence: The same-rate comparison is humans versus mice; the caption says whales seem to have much less cancer than expected. Suggested action: Narrow the description and summary."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The same-rate comparison is humans versus mice; the caption says whales seem to have much less cancer than expected. Changed fields: description, summary. Video identity and duration preserved."
   },
   "kurzgesagt-library.json/kurzgesagt_overpopulation_africa": {
     "status": "ok",
@@ -1700,8 +1700,8 @@
     "note": "Rat Park, drugged water and human social bonds match the connection/environment explanation of addiction; the audit does not verify the scientific claims."
   },
   "kurzgesagt-library.json/kurzgesagt_nuclear_energy": {
-    "status": "partial",
-    "note": "Evidence: The caption centres on low-carbon electricity and transition trade-offs and explicitly refers waste/accident concerns to other videos. Suggested action: Narrow the description and summary."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The caption centres on low-carbon electricity and transition trade-offs and explicitly refers waste/accident concerns to other videos. Changed fields: description, summary. Video identity and duration preserved."
   },
   "listening-library.json/listening-r7-english-file-introductions": {
     "status": "ok",
