@@ -21,3 +21,7 @@ Authored 30 more entries (60 total) from all six lesson materials per city. Impo
 ## Batch 3: Beijing, Shanghai, Berlin, Moscow, Istanbul
 
 Authored 30 more entries (90 total) and read all corresponding texts/captions. Thin flags identify Beijing’s heavily garbled hutong captions, Shanghai’s sightseeing montage and literary plot overview (little city-specific mechanism), and Moscow’s tower vlog with tentative explanations. Moscow’s lesson labelled city history actually contains a modern tower tour; evidence follows the captions rather than the title. Inferred limits are explicitly flagged, including winter upkeep and ceremonial building interpretation. Partial checks pass.
+
+## Batch 4: Vancouver, Toronto, Mumbai, Cape Town, Rome
+
+Authored 30 more entries (120 total) from each lesson’s own material. Strong mechanisms include Vancouver’s combined storm/sewage overflow, Mumbai’s coded lunchbox handovers, and Rome’s numbered arena entrances. Thin entries are identified where the source is a promotional montage, lacks translated interview speech, or provides only a short general link to city planning. Partial checks pass; every design instruction remains distinct.
