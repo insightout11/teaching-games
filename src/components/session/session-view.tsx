@@ -1526,6 +1526,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // Turbulence: insert a short break next, then fly into it once the slot exists (the turbulence
   // transition plays because the break is a micro-event).
   const turbulencePendingRef = useRef(false);
+  const [roomTurbulenceAt, setRoomTurbulenceAt] = useState(0);
   const handleTurbulence = useCallback(() => {
     turbulencePendingRef.current = true;
     lesson.insertTurbulence();
@@ -1575,8 +1576,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       const altFrom = totalSlots > 2 ? computeAltitude(currentIndex, totalSlots) : 0;
       const altTo   = totalSlots > 2 ? computeAltitude(nextIndex,    totalSlots) : 0;
       // In the Live Room the room's own flight is the flight: no preset take-off/cruise/descent
-      // overlays between stages (only the turbulence beat for breaks).
-      if (!isRoomSessionRef.current || nextSlot?.isMicroEvent) setModuleTransition({
+      // overlays between stages. A break shakes the room's own cockpit instead (see FlightDeck).
+      if (isRoomSessionRef.current && nextSlot?.isMicroEvent) setRoomTurbulenceAt(Date.now());
+      if (!isRoomSessionRef.current) setModuleTransition({
         from: fromName,
         to: toName,
         weatherState: toWeather,
@@ -2170,6 +2172,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     inBreak: !!lesson.currentSlot?.isMicroEvent,
     onNext: handleNextWithRouteChoice,
     onTurbulence: handleTurbulence,
+    turbulenceAt: roomTurbulenceAt,
     onEnd: leaveRoomFlight,
   } : null;
   const roomRunningKey = viewMode === 'game' ? selectedGame?.key ?? null

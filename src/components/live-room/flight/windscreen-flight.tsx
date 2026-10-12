@@ -14,6 +14,7 @@ import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CockpitSky, cockpitCloudTint } from '@/components/live-room/flight/cockpit-sky';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
+import { useCabinShake } from '@/components/session/turbulence-beat';
 
 /**
  * The Live Room windscreen as one flight (tuned in /dev/flight-lab).
@@ -60,14 +61,17 @@ export interface WindscreenFlightProps {
   cloudCover?: number;
   /** An activity or text is on screen: calmer, fewer clouds. */
   calm?: boolean;
+  /** Rough air: the view outside lurches (more than the cabin does) and cloud streams past. */
+  turbulence?: boolean;
   onLanded?: () => void;
   /** Reports whether the outside camera is showing (a cinematic owns the screen). */
   onCinematic?: (cinematic: boolean) => void;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, cloudCover, calm = false, onLanded, onCinematic }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, cloudCover, calm = false, turbulence = false, onLanded, onCinematic }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
+  const lurch = useCabinShake(turbulence, 1.6);
   const landedRef = useRef(onLanded);
   landedRef.current = onLanded;
 
@@ -161,7 +165,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             />
           </motion.div>
         ) : (
-          <motion.div key="cockpit" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+          <motion.div key="cockpit" className="absolute inset-[-4%]" style={{ x: lurch.x, y: lurch.y, rotate: lurch.rotate }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
             <CockpitSky palette={palette} timeOfDay={skyTime} altitude={altitude} spot={spot} />
             <CockpitWorld terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} />
             <div
@@ -182,7 +186,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             )}
             {(phase === 'climb' || phase === 'descent') && weather !== 'clear' && <WindscreenWeather weather={weather} />}
             {phase === 'cruise' && weather === 'aurora' && <WindscreenWeather weather="aurora" />}
-            <CockpitClouds speed={cloudSpeed} tint={cloudTint} density={calm && !diving ? 0.4 : cloudDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} />
+            <CockpitClouds speed={turbulence ? cloudSpeed + 1.6 : cloudSpeed} tint={cloudTint} density={turbulence ? 1 : calm && !diving ? 0.4 : cloudDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} />
           </motion.div>
         )}
       </AnimatePresence>

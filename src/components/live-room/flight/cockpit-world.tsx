@@ -5,7 +5,7 @@ import { useReducedMotion } from 'framer-motion';
 import type { ScenePalette } from '@/components/world-flight/arrival-scene/types';
 import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
 import { tileFor, type Terrain } from '@/components/live-room/flight/cockpit-ground';
-import { farmTexture, macroTexture } from '@/components/live-room/flight/ground-texture';
+import { desertTexture, farmTexture, macroTexture } from '@/components/live-room/flight/ground-texture';
 
 /**
  * The world below the cockpit, drawn through ONE camera so everything moves
@@ -26,8 +26,8 @@ interface Peak { x: number; z: number; h: number; w: number; tone: number; hill:
 interface Layer {
   terrain: Terrain;
   region: string | null;
-  /** The terrain texture at full, half, quarter… detail (mip levels), as patterns. */
-  patterns: CanvasPattern[];
+  /** The terrain texture pre-shrunk every way it will be seen (see ripChain), as patterns. */
+  rip: Rip | null;
   macroAlpha: number;
   /** World depth where this terrain begins (the previous one ends). */
   startZ: number;
@@ -47,24 +47,37 @@ const TILE_WORLD = 14;       // one texture pixel covers this many world units
 const MACRO_WORLD = 14 * 41; // the light/dark layer: a scale unrelated to the ground's, so no repeat lines up
 const SHORE = 4200;          // world units over which one terrain blends into the next
 
-/** Full detail plus halved copies, so distant ground never shimmers (mip levels). */
-const textureCache = new Map<string, HTMLCanvasElement[]>();
+/**
+ * Ground seen at a shallow angle is squashed far more in depth than sideways: one screen row near the horizon covers
+ * dozens of texture rows while each texel is still nearly a pixel wide. Sampling that from one "half size" copy
+ * either blurs the ground sideways or lets it shimmer and crawl as it scrolls. So the texture is pre-shrunk
+ * separately in each direction (a ripmap): levels[i][j] is 1/2^i wide and 1/2^j tall; each row picks the pair it needs.
+ */
+interface RipCanvases { w: number; h: number; levels: HTMLCanvasElement[][] }
+interface Rip { w: number; h: number; levels: Array<Array<{ pat: CanvasPattern; w: number; h: number }>> }
+const textureCache = new Map<string, RipCanvases>();
+const RIP_X = 5;
+const RIP_Y = 8;
 
-function mipChain(src: CanvasImageSource & { width: number; height: number }): HTMLCanvasElement[] {
-  const levels: HTMLCanvasElement[] = [];
-  let w = src.width, h = src.height;
-  let prev: CanvasImageSource = src;
-  for (let k = 0; k < 6 && w >= 8 && h >= 8; k++) {
-    const c = document.createElement('canvas');
-    c.width = w; c.height = h;
-    const g = c.getContext('2d')!;
-    g.imageSmoothingQuality = 'high';
-    g.drawImage(prev, 0, 0, w, h);
-    levels.push(c);
-    prev = c;
-    w = Math.floor(w / 2); h = Math.floor(h / 2);
+function shrink(src: HTMLCanvasElement, w: number, h: number): HTMLCanvasElement {
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const g = c.getContext('2d')!;
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(src, 0, 0, w, h);
+  return c;
+}
+
+function ripChain(src: HTMLCanvasElement): RipCanvases {
+  const levels: HTMLCanvasElement[][] = [];
+  let col = src;
+  for (let i = 0; i < RIP_X && col.width >= 16; i++) {
+    const row: HTMLCanvasElement[] = [col];
+    for (let j = 1; j < RIP_Y && row[j - 1].height >= 8; j++) row.push(shrink(row[j - 1], col.width, row[j - 1].height >> 1));
+    levels.push(row);
+    col = shrink(col, col.width >> 1, col.height);
   }
-  return levels;
+  return { w: src.width, h: src.height, levels };
 }
 
 function spawnPeak(p: Peak, camZ: number, far: boolean) {
@@ -112,7 +125,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
     const layer: Layer = same ? newest : {
       terrain,
       region: reg,
-      patterns: [],
+      rip: null,
       macroAlpha: terrain === 'ocean' ? 0.22 : terrain === 'ice' ? 0.18 : 0.4,
       startZ: newest ? cam.current + Z_FAR : -Infinity,
       peaks: [],
@@ -122,13 +135,20 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
 
     // Texture: generated farmland/city, or the terrain's SVG tile; cached.
     const key = `${terrain}|${reg}|${night}|${palette.terrainTop}|${palette.waterTop}|${palette.foliage}`;
-    const apply = (levels: HTMLCanvasElement[]) => {
-      layer.patterns = levels.map((c) => ctx.createPattern(c, 'repeat')).filter((p): p is CanvasPattern => !!p);
+    const apply = (rc: RipCanvases) => {
+      layer.rip = {
+        w: rc.w,
+        h: rc.h,
+        levels: rc.levels.map((row) => row.flatMap((c) => {
+          const pat = ctx.createPattern(c, 'repeat');
+          return pat ? [{ pat, w: c.width, h: c.height }] : [];
+        })),
+      };
     };
     const cached = textureCache.get(key);
     if (cached) apply(cached);
-    else if (terrain === 'farmland' || terrain === 'hills') {
-      const levels = mipChain(farmTexture(reg, palette, night));
+    else if (terrain === 'farmland' || terrain === 'hills' || terrain === 'desert') {
+      const levels = ripChain(terrain === 'desert' ? desertTexture(palette, night) : farmTexture(reg, palette, night));
       textureCache.set(key, levels);
       apply(levels);
     } else {
@@ -140,7 +160,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
         const c = document.createElement('canvas');
         c.width = size; c.height = Math.max(64, img.naturalHeight || size);
         c.getContext('2d')!.drawImage(img, 0, 0, c.width, c.height);
-        const levels = mipChain(c);
+        const levels = ripChain(c);
         textureCache.set(key, levels);
         apply(levels);
       };
@@ -174,13 +194,20 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
     const macro = ctx.createPattern(macroTexture(), 'repeat');
 
     let w = 0, h = 0, rowH = 2;
+    // One matrix reused for every row (a new one per row, twice, kept the garbage collector busy mid-flight).
+    const mtx = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 };
+    let hazeKey = '';
+    let hazeFill: CanvasGradient | null = null;
     const fit = () => {
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const r = canvas.getBoundingClientRect();
+      w = r.width; h = r.height;
+      // The ground is soft, hazy and always moving: it never needs a sharp display's full resolution, and drawing
+      // four times the pixels every frame is what made the flight stutter on big or high-density screens.
+      const dpr = Math.max(0.5, Math.min(1.25, window.devicePixelRatio || 1, 1600 / Math.max(1, w)));
       // Rows exactly 2 device pixels tall, so neighbouring rows never overlap
       // on half-pixels (overlaps doubled the haze into faint lines).
       rowH = 2 / dpr;
-      const r = canvas.getBoundingClientRect();
-      w = r.width; h = r.height;
+      hazeKey = '';
       canvas.width = w * dpr; canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
@@ -193,21 +220,33 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
     let drawnSpeed = live.current.speed;
 
     const paintRow = (layer: Layer, y: number, z: number, F: number, camZ: number, alpha: number, withMacro = true) => {
-      if (!layer.patterns.length) return;
-      const s = (F / z) * TILE_WORLD;              // screen px per full-detail texel
-      // Pick the detail level whose texels are about a pixel wide.
-      let lvl = 0;
-      while (lvl < layer.patterns.length - 1 && s * (1 << lvl) < 0.8) lvl++;
-      const pat = layer.patterns[lvl];
-      const k = s * (1 << lvl);
+      const rip = layer.rip;
+      if (!rip || !rip.levels.length) return;
+      const s = (F / z) * TILE_WORLD;              // screen px per full-detail texel, sideways
+      // Sideways: the copy whose texels are about a pixel wide.
+      let li = 0;
+      while (li < rip.levels.length - 1 && s * (1 << li) < 0.8) li++;
+      const row = rip.levels[li];
+      // In depth: this row covers `span` texture rows; use the copy already averaged over about that many.
+      const span = (z * z * rowH) / (CAM_HEIGHT * F * TILE_WORLD);
+      let lj = 0;
+      while (lj < row.length - 1 && span > 1.5 * (1 << lj)) lj++;
+      const lv = row[lj];
+      const sx = rip.w / lv.w, sy = rip.h / lv.h;  // full-detail texels per texel of this copy
+      const ky = (rowH / span) * sy;                // screen px per texel of this copy, in depth
+      // Depth wrapped to one tile so the numbers stay small (large offsets lose precision and judder).
+      const v = (((camZ + z) / TILE_WORLD) % rip.h) / sy;
+      mtx.a = s * sx; mtx.d = -ky;                  // texture depth runs up the screen
       // Offset sideways so the texture's wrap line (a farm lane) isn't dead ahead.
-      pat.setTransform(new DOMMatrix([k, 0, 0, k, w / 2 - 330 * s, y - ((camZ + z) / TILE_WORLD) * s]));
+      mtx.e = w / 2 - 330 * s; mtx.f = y + v * ky;
+      lv.pat.setTransform(mtx);
       ctx.globalAlpha = alpha;
-      ctx.fillStyle = pat;
+      ctx.fillStyle = lv.pat;
       ctx.fillRect(0, y, w, rowH);
       if (macro && withMacro) {
         const m = (F / z) * MACRO_WORLD;
-        macro.setTransform(new DOMMatrix([m, 0, 0, m, w / 2 + 3100 * (F / z), y - ((camZ + z) / MACRO_WORLD) * m]));
+        mtx.a = m; mtx.d = m; mtx.e = w / 2 + 3100 * (F / z); mtx.f = y - (((camZ + z) / MACRO_WORLD) % 256) * m;
+        macro.setTransform(mtx);
         ctx.globalCompositeOperation = 'overlay';
         ctx.globalAlpha = alpha * layer.macroAlpha;
         ctx.fillStyle = macro;
@@ -248,11 +287,23 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
           } else {
             paintRow(L[i], y, z, F, camZ, 1);
           }
-          // Aerial perspective. At night the air is dark: lights shine through further.
-          const fog = Math.min(1, z / Z_FAR);
-          ctx.fillStyle = `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, dark ? 0.9 : 0.55) * (dark ? 0.7 : 0.92)})`;
-          ctx.fillRect(0, y, w, rowH);
         }
+        // Aerial perspective, in one pass. At night the air is dark: lights shine through further.
+        const key = `${haze.join(',')}|${dark}|${h}|${w}`;
+        if (key !== hazeKey || !hazeFill) {
+          hazeKey = key;
+          hazeFill = ctx.createLinearGradient(0, horizonY, 0, h);
+          const STOPS = 28;
+          for (let k = 0; k <= STOPS; k++) {
+            // Stops crowd toward the horizon, where the haze changes fastest.
+            const t = Math.pow(k / STOPS, 2.2);
+            const zAt = (CAM_HEIGHT * F) / Math.max(0.5, t * (h - horizonY));
+            const fog = Math.min(1, zAt / Z_FAR);
+            hazeFill.addColorStop(t, `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, dark ? 0.9 : 0.55) * (dark ? 0.7 : 0.92)})`);
+          }
+        }
+        ctx.fillStyle = hazeFill;
+        ctx.fillRect(0, y0, w, h - y0);
       }
 
       // ── Mountains and hills standing on that ground ────────────────────

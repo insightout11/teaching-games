@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Zap, Link2, Link, Search, Ban, KeyRound, Gamepad2, LayoutGrid, Shuffle, Timer, HelpCircle, Swords } from 'lucide-react';
+import { Zap, Link2, Link, Search, Ban, KeyRound, Gamepad2, LayoutGrid, Shuffle, Timer, HelpCircle, Swords, Armchair, BookOpen } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import { getAllGames, getGame } from '@/games/registry';
@@ -9,6 +9,7 @@ import { getAllActivities, getActivity } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
 import type { Score } from '@/lib/supabase/types';
 import { isParticipantCompatible } from '@/lib/participant-compatibility';
+import { Flaps, FlapStyles } from '@/components/ui/split-flap';
 
 interface RouteChoicePanelProps {
   sessionId: string;
@@ -17,7 +18,7 @@ interface RouteChoicePanelProps {
   onRouteChosen: (key: string, type: 'game' | 'activity', name: string) => void;
 }
 
-type EndGameOption = { key: string; type: 'game' | 'activity'; name: string; Icon: LucideIcon };
+type EndGameOption = { key: string; type: 'game' | 'activity'; name: string; Icon: LucideIcon; blurb: string | null };
 
 const ICON_BY_KEY: Record<string, LucideIcon> = {
   'flash-quiz': Zap,
@@ -31,15 +32,32 @@ const ICON_BY_KEY: Record<string, LucideIcon> = {
   'vocab-sprint': Timer,
   'twenty-questions': HelpCircle,
   'sector-strike': Swords,
+  'hot-seat': Armchair,
+  'story-sprint': BookOpen,
 };
 
-const DEFAULT_POOL = ['flash-quiz', 'connections', 'word-chain', 'grid-rush'];
+/** What each game is, in a few words, so the class knows what it is voting for. */
+const BLURB_BY_KEY: Record<string, string> = {
+  'flash-quiz': 'Fast questions on today',
+  connections: 'Find the four that go together',
+  imposter: 'Who has the different word?',
+  'taboo-sprint': "Describe it, don't say it",
+  'grid-rush': 'Race to fill the grid',
+  'synonym-showdown': 'Same meaning, better word',
+  'vocab-sprint': "Race through today's words",
+  'twenty-questions': 'Ask questions, find the secret',
+  'sector-strike': 'Teams win the board',
+  'hot-seat': 'Clues from the whole class',
+  'story-sprint': 'One sentence each, out loud',
+};
+
+const DEFAULT_POOL = ['flash-quiz', 'connections', 'grid-rush'];
 
 function resolveOption(key: string): EndGameOption {
   const a = getAllActivities().find((act) => act.key === key);
-  if (a) return { key, type: 'activity', name: a.name, Icon: ICON_BY_KEY[key] ?? Gamepad2 };
+  if (a) return { key, type: 'activity', name: a.name, Icon: ICON_BY_KEY[key] ?? Gamepad2, blurb: BLURB_BY_KEY[key] ?? null };
   const g = getAllGames().find((gm) => gm.key === key);
-  return { key, type: 'game', name: g?.name ?? key, Icon: ICON_BY_KEY[key] ?? Gamepad2 };
+  return { key, type: 'game', name: g?.name ?? key, Icon: ICON_BY_KEY[key] ?? Gamepad2, blurb: BLURB_BY_KEY[key] ?? null };
 }
 
 function fitsParticipantCount(key: string, participantCount: number): boolean {
@@ -83,7 +101,7 @@ export function RouteChoicePanel({ sessionId, pool, onRouteChosen }: RouteChoice
   useEffect(() => { optionsRef.current = options; }, [options]);
 
   // Defined inline so it always closes over latest state via refs
-  function closeVote() {
+  function closeVote(forcedKey?: string) {
     if (hasClosedRef.current) return;
     hasClosedRef.current = true;
 
@@ -91,6 +109,7 @@ export function RouteChoicePanel({ sessionId, pool, onRouteChosen }: RouteChoice
     const opts = optionsRef.current;
     let winKey = opts[0]?.key ?? 'flash-quiz';
     let winVotes = -1;
+    if (forcedKey) { winKey = forcedKey; winVotes = Infinity; }
     for (const opt of opts) {
       const count = snapshot[opt.key] ?? 0;
       if (count > winVotes) {
@@ -112,13 +131,20 @@ export function RouteChoicePanel({ sessionId, pool, onRouteChosen }: RouteChoice
   // Stable ref so the countdown interval can call the latest closeVote
   const closeVoteRef = useRef(closeVote);
   closeVoteRef.current = closeVote;
+  const pickNow = (key: string) => closeVoteRef.current(key);
+
+  // Only one game fits this class: no vote to hold, just play it.
+  useEffect(() => {
+    if (options.length === 1) closeVoteRef.current(options[0].key);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Broadcast vote input to student devices
   useEffect(() => {
     setInputSpec({
       type: 'choice',
       gameKey: 'route-choice',
-      prompt: 'Vote for your end game!',
+      prompt: 'Which game shall we play?',
       options: optionKeys,
       optionLabels: options.map((o) => o.name),
     });
@@ -184,42 +210,38 @@ export function RouteChoicePanel({ sessionId, pool, onRouteChosen }: RouteChoice
     const winner = revealKey ? options.find((o) => o.key === revealKey) : null;
     const WinIcon = winner?.Icon ?? Gamepad2;
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-        <div className="text-center space-y-5">
-          <WinIcon className="mx-auto h-14 w-14 text-cyan-300" aria-hidden />
-          <p className="text-[13px] font-semibold uppercase tracking-widest text-cyan-300/60">
-            Class Chose
-          </p>
-          <h2 className="text-5xl font-extrabold text-white tracking-tight">
-            {winner?.name ?? 'End Game'}
-          </h2>
-          <p className="text-sm text-white/40">Loading…</p>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#05070d]/85 backdrop-blur-sm">
+        <FlapStyles />
+        <div className="space-y-5 text-center">
+          <WinIcon className="mx-auto h-12 w-12 text-amber-300" aria-hidden />
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-amber-300/80">The class chose</p>
+          <div className="flex justify-center"><Flaps text={winner?.name ?? 'Game'} size="lg" max={20} /></div>
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/40">Getting it ready</p>
         </div>
       </div>
     );
   }
 
   // ── Voting panel ──
+  const cols = options.length <= 2 ? 'grid-cols-2' : options.length === 4 ? 'grid-cols-2' : 'grid-cols-3';
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-      <div className={`w-full ${options.length > 4 ? 'max-w-2xl' : 'max-w-lg'} rounded-2xl border border-cyan-400/20 bg-[#0d1117] p-7 shadow-[0_24px_64px_rgba(0,0,0,0.6)] space-y-6`}>
-
-        {/* Header + countdown ring */}
-        <div className="flex items-center justify-between">
-          <div className="space-y-0.5">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-cyan-300/60">
-              Route Choice
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#05070d]/80 p-4 backdrop-blur-sm">
+      <div className={`w-full ${options.length > 4 ? 'max-w-3xl' : 'max-w-2xl'} space-y-5 rounded-2xl border border-white/[0.07] bg-[#0a121e]/95 p-6 shadow-[0_24px_64px_rgba(0,0,0,0.6)] sm:p-8`}>
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-amber-300/80">Class vote · last game</p>
+            <h2 className="mt-1 font-display text-3xl text-white sm:text-4xl">Which game shall we <em className="text-amber-300">play</em>?</h2>
+            <p className="mt-1 text-sm text-white/55">
+              {totalVotes === 0 ? 'Vote on your phone, or tell your teacher.' : `${totalVotes} vote${totalVotes !== 1 ? 's' : ''} in`}
             </p>
-            <h2 className="text-2xl font-bold text-white">Choose Your End Game</h2>
           </div>
-
-          <div className="relative flex items-center justify-center w-14 h-14 shrink-0">
+          <div className="relative flex h-14 w-14 shrink-0 items-center justify-center">
             <svg className="absolute inset-0 -rotate-90" width="56" height="56" viewBox="0 0 56 56">
               <circle cx="28" cy="28" r={RING_R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3" />
               <circle
                 cx="28" cy="28" r={RING_R}
                 fill="none"
-                stroke={isUrgent ? '#f87171' : '#22d3ee'}
+                stroke={isUrgent ? '#f87171' : '#fcd34d'}
                 strokeWidth="3"
                 strokeLinecap="round"
                 strokeDasharray={RING_CIRC}
@@ -227,66 +249,51 @@ export function RouteChoicePanel({ sessionId, pool, onRouteChosen }: RouteChoice
                 className="transition-all duration-1000 ease-linear"
               />
             </svg>
-            <span className={`text-lg font-bold tabular-nums ${isUrgent ? 'text-red-400' : 'text-white'}`}>
-              {secondsLeft}
-            </span>
+            <span className={`font-mono text-lg font-bold tabular-nums ${isUrgent ? 'text-red-400' : 'text-white'}`}>{secondsLeft}</span>
           </div>
         </div>
 
-        {/* Vote count */}
-        <p className="text-sm text-white/40 -mt-2">
-          {totalVotes === 0
-            ? 'Waiting for votes…'
-            : `${totalVotes} vote${totalVotes !== 1 ? 's' : ''} in`}
-        </p>
-
-        {/* Option cards — column count adapts so 4 tiles as 2×2 and 5–6 fill two rows of 3 */}
-        <div className={`grid gap-3 ${options.length === 4 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+        {/* The teacher can also just pick: tap a game to choose it for the class. */}
+        <div className={`grid gap-3 ${cols}`}>
           {options.map((opt) => {
             const count = tallies[opt.key] ?? 0;
             const pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
             const isLeading = count > 0 && count === maxVotes;
             const Icon = opt.Icon;
-
             return (
-              <div
+              <button
                 key={opt.key}
-                className={`relative flex flex-col items-center gap-2 rounded-xl border pb-5 pt-4 px-3 text-center transition-all duration-300 ${
-                  isLeading
-                    ? 'border-cyan-400/60 bg-cyan-400/10 shadow-[0_0_20px_rgba(34,211,238,0.12)]'
-                    : 'border-white/10 bg-white/5'
+                type="button"
+                onClick={() => pickNow(opt.key)}
+                title={`Play ${opt.name} now`}
+                className={`relative flex flex-col items-start gap-1.5 overflow-hidden rounded-xl border px-4 pb-5 pt-4 text-left transition-colors ${
+                  isLeading ? 'border-amber-300/60 bg-amber-300/10' : 'border-white/[0.09] bg-white/[0.03] hover:border-white/25'
                 }`}
               >
-                <Icon className={`h-7 w-7 ${isLeading ? 'text-cyan-300' : 'text-white/70'}`} aria-hidden />
-                <span className={`text-sm font-bold leading-snug ${isLeading ? 'text-cyan-300' : 'text-white/80'}`}>
-                  {opt.name}
+                <span className="flex w-full items-center justify-between gap-2">
+                  <Icon className={`h-6 w-6 ${isLeading ? 'text-amber-300' : 'text-white/70'}`} aria-hidden />
+                  <span className={`font-mono text-sm font-semibold tabular-nums ${isLeading ? 'text-amber-200' : 'text-white/45'}`}>{count}</span>
                 </span>
-                <span className={`text-xs tabular-nums ${isLeading ? 'text-cyan-300/70' : 'text-white/35'}`}>
-                  {count} {count === 1 ? 'vote' : 'votes'}
+                <span className="text-lg font-bold leading-tight text-white">{opt.name}</span>
+                {opt.blurb && <span className="text-sm leading-snug text-white/55">{opt.blurb}</span>}
+                <span className="absolute inset-x-0 bottom-0 h-1.5 bg-white/5">
+                  <span className={`block h-full transition-all duration-500 ${isLeading ? 'bg-amber-300' : 'bg-white/25'}`} style={{ width: `${pct}%` }} />
                 </span>
-                {/* thin vote bar pinned to bottom */}
-                <div className="absolute bottom-0 left-0 right-0 h-1.5 overflow-hidden rounded-b-xl bg-white/5">
-                  <div
-                    className={`h-full transition-all duration-500 ${isLeading ? 'bg-cyan-400' : 'bg-white/20'}`}
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-              </div>
+              </button>
             );
           })}
         </div>
 
-        <button
-          type="button"
-          onClick={() => closeVoteRef.current()}
-          className="w-full rounded-xl bg-cyan-500 px-4 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-400 active:bg-cyan-600"
-        >
-          Close Vote &amp; Continue
-        </button>
-
-        <p className="text-center text-xs text-white/30">
-          Ties and zero votes default to the first option
-        </p>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-xs text-white/40">Tap a game to pick it yourself. With no votes, the first one plays.</p>
+          <button
+            type="button"
+            onClick={() => closeVoteRef.current()}
+            className="rounded-xl bg-cyan-400 px-5 py-2.5 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-300"
+          >
+            Close the vote
+          </button>
+        </div>
       </div>
     </div>
   );

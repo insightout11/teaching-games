@@ -271,6 +271,93 @@ function cityTexture(g: CanvasRenderingContext2D, R: () => number, dim: (c: RGB)
   return g.canvas;
 }
 
+/** Smooth noise that repeats exactly every `cells` lattice cells, so textures built from it tile. */
+function tileNoise(cells: number, seed: number) {
+  const R = rng(seed);
+  const lattice = Array.from({ length: cells * cells }, () => R());
+  const smooth = (t: number) => t * t * (3 - 2 * t);
+  return (u: number, v: number) => {
+    const fx = u * cells, fy = v * cells;
+    const i = Math.floor(fx), j = Math.floor(fy), tx = smooth(fx - i), ty = smooth(fy - j);
+    const i0 = ((i % cells) + cells) % cells, j0 = ((j % cells) + cells) % cells;
+    const i1 = (i0 + 1) % cells, j1 = (j0 + 1) % cells;
+    const a = lattice[j0 * cells + i0], b = lattice[j0 * cells + i1], c = lattice[j1 * cells + i0], d = lattice[j1 * cells + i1];
+    return a + (b - a) * tx + (c - a) * ty + (a - b - c + d) * tx * ty;
+  };
+}
+
+/**
+ * Desert from the air: seas of dunes (long gentle windward slopes, short dark slip faces, crests that wander and
+ * merge) broken by flat gravel plains, dark rock outcrops and pale dry riverbeds. Lit from one side so the dunes
+ * read as shapes rather than lines. Tiles seamlessly.
+ */
+export function desertTexture(palette: ScenePalette, night: boolean): HTMLCanvasElement {
+  const N = 512, S = FARM_TEXTURE_SIZE;
+  const land = hexToRgb(palette.terrainTop);
+  const sand: RGB = mixRgb(land, [222, 178, 116], 0.78);
+  const lit: RGB = mixRgb(sand, [255, 234, 190], 0.4);
+  const slip: RGB = mixRgb(sand, [122, 78, 48], 0.6);
+  const gravel: RGB = mixRgb(sand, [150, 132, 112], 0.55);
+  const rock: RGB = mixRgb(sand, [84, 62, 52], 0.75);
+  const warpA = tileNoise(4, 11), warpB = tileNoise(9, 23), region = tileNoise(3, 37), blotch = tileNoise(12, 53), grain = tileNoise(96, 71);
+  const step = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  // +1 on a sunlit crest, falling to −1 on the short shadowed slip face behind it.
+  const face = (t: number) => (t < 0.74 ? 0.5 + 0.5 * (t / 0.74) : -1 + ((t - 0.74) / 0.26) * 0.9);
+
+  const small = document.createElement('canvas');
+  small.width = N; small.height = N;
+  const sg = small.getContext('2d')!;
+  const img = sg.createImageData(N, N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const u = x / N, v = y / N;
+    const warp = (warpA(u, v) - 0.5) * 2.6 + (warpB(u, v) - 0.5) * 0.9;
+    // Dune crests: whole numbers of waves across the tile, bent by the warp.
+    const f = (((v * 6 + u * 2 + warp) % 1) + 1) % 1;
+    const f2 = (((v * 17 + u * 4 + warp * 2.3 + 0.37) % 1) + 1) % 1;
+    const relief = face(f) * 0.8 + face(f2) * 0.25;
+    const dunes = step(0.36, 0.56, region(u, v) + (blotch(u, v) - 0.5) * 0.2);
+    const speck = grain(u, v) - 0.5;
+    const dune: RGB = relief >= 0 ? mixRgb(sand, lit, Math.min(1, relief)) : mixRgb(sand, slip, Math.min(1, -relief));
+    // Gravel plains between the dune seas, with dark rock where the plain is barest.
+    const plain = mixRgb(mixRgb(gravel, rock, step(0.58, 0.8, blotch(u + 0.31, v + 0.17)) * 0.85), sand, 0.25 + speck * 0.5);
+    const c = mixRgb(plain, dune, dunes);
+    const l = 1 + speck * 0.07;
+    const p = (y * N + x) * 4;
+    img.data[p] = Math.min(255, c[0] * l); img.data[p + 1] = Math.min(255, c[1] * l); img.data[p + 2] = Math.min(255, c[2] * l); img.data[p + 3] = 255;
+  }
+  sg.putImageData(img, 0, 0);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = S; canvas.height = S;
+  const g = canvas.getContext('2d')!;
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(small, 0, 0, S, S);
+
+  // Dry riverbeds: pale braided lines that fork, drawn with wrap-around copies so they cross the tile edge cleanly.
+  const R = rng(4721);
+  g.lineCap = 'round';
+  g.strokeStyle = 'rgba(244,226,190,0.34)';
+  const wadi = (x: number, y: number, angle: number, length: number, width: number, depth: number) => {
+    let px = x, py = y, a = angle;
+    for (let k = 0; k < length; k++) {
+      a += (R() - 0.5) * 0.7;
+      const nx = px + Math.cos(a) * 26, ny = py + Math.sin(a) * 26;
+      g.lineWidth = width;
+      for (const ox of [-S, 0, S]) for (const oy of [-S, 0, S]) {
+        g.beginPath(); g.moveTo(px + ox, py + oy); g.lineTo(nx + ox, ny + oy); g.stroke();
+      }
+      px = nx; py = ny;
+      if (depth < 2 && R() < 0.12) wadi(px, py, a + (R() < 0.5 ? 0.8 : -0.8), Math.floor(length * 0.4), width * 0.6, depth + 1);
+    }
+  };
+  for (let i = 0; i < 3; i++) wadi(R() * S, R() * S, R() * Math.PI * 2, 34, 5 + R() * 3, 0);
+  if (night) {
+    g.fillStyle = 'rgba(8,12,26,0.6)';
+    g.fillRect(0, 0, S, S);
+  }
+  return canvas;
+}
+
 /** Large, soft light/dark blotches (tileable value noise) drawn at a scale unrelated to the ground's. */
 let macroCache: HTMLCanvasElement | null = null;
 export function macroTexture(): HTMLCanvasElement {

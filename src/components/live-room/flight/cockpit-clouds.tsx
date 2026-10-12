@@ -23,7 +23,8 @@ export interface CockpitCloudsProps {
   dive?: boolean;
 }
 
-interface Cloud { x: number; y: number; z: number; size: number; sprite: number }
+/** `rank` decides which clouds a thinner sky keeps (fixed per cloud); `show` fades each in and out. */
+interface Cloud { x: number; y: number; z: number; size: number; sprite: number; rank: number; show: number }
 
 const SPRITES = 6;
 const FOCAL = 0.6;
@@ -99,16 +100,17 @@ export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive =
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     if (!sprites.current.length) sprites.current = Array.from({ length: SPRITES }, (_, i) => makeSprite(live.current.tint, i + 1));
-    const clouds: Cloud[] = Array.from({ length: 20 }, () => {
-      const c = { x: 0, y: 0, z: 0, size: 0, sprite: 0 };
+    const clouds: Cloud[] = Array.from({ length: 20 }, (_, i) => {
+      const c = { x: 0, y: 0, z: 0, size: 0, sprite: 0, rank: (i + 0.5) / 20, show: 0 };
       spawn(c, false);
       return c;
     });
     let w = 0;
     let h = 0;
     const fit = () => {
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
       const r = canvas.getBoundingClientRect();
+      // Clouds are soft: full resolution on a sharp screen is four times the drawing for nothing.
+      const dpr = Math.max(0.5, Math.min(1.25, window.devicePixelRatio || 1, 1600 / Math.max(1, r.width)));
       w = r.width;
       h = r.height;
       canvas.width = w * dpr;
@@ -132,7 +134,7 @@ export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive =
       const cx = w / 2;
       const cy = h * target.horizon - h * 0.06;
       const F = w * FOCAL;
-      const visible = Math.round(clouds.length * Math.max(0, Math.min(1, target.density)));
+      const density = Math.max(0, Math.min(1, target.density));
       clouds.sort((a, b) => b.z - a.z);
       for (let i = 0; i < clouds.length; i++) {
         const c = clouds[i];
@@ -141,7 +143,9 @@ export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive =
           spawn(c, true, target.dive);
           continue;
         }
-        if (i >= visible) continue;
+        // A thinner sky keeps the same clouds and fades the rest out: nothing blinks as clouds pass each other.
+        c.show += ((c.rank < density ? 1 : 0) - c.show) * Math.min(1, dt * 1.5);
+        if (c.show < 0.01) continue;
         const scale = F / c.z;
         const sw = c.size * scale * 2;
         const sh = sw * (140 / 320);
@@ -150,7 +154,7 @@ export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive =
         if (px > w || px + sw < 0) continue;
         const near = Math.min(1, Math.max(0, (c.z - 120) / 700));
         const far = Math.min(1, (3200 - c.z) / 1100);
-        ctx.globalAlpha = Math.max(0, Math.min(near, far)) * 0.75;
+        ctx.globalAlpha = Math.max(0, Math.min(near, far)) * 0.75 * c.show;
         ctx.drawImage(sprites.current[c.sprite], px, py, sw, sh);
       }
       ctx.globalAlpha = 1;

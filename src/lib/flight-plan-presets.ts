@@ -444,7 +444,8 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'static', stageId: 'turbulence', isMicroEvent: true, pool: ['static', 'would-you-rather'] },
       { slotType: 'production', key: 'pass-the-line', stageId: 'conversation' },
       { slotType: 'production', key: 'say-it-again', stageId: 'say-again' },
-      { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['connections', 'synonym-showdown', 'vocab-sprint', 'taboo-sprint', 'imposter'] },
+      // A Speak lesson ends on a game the class plays out loud (vocabulary quizzes belong to other lessons).
+      { slotType: 'practice', key: 'taboo-sprint', stageId: 'end-game', pool: ['taboo-sprint', 'hot-seat', 'imposter', 'twenty-questions', 'story-sprint'] },
     ],
     flightConfig: {
       stages: [
@@ -477,6 +478,9 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'vocab-sprint': 'end-game',
         'taboo-sprint': 'end-game',
         'imposter': 'end-game',
+        'hot-seat': 'end-game',
+        'twenty-questions': 'end-game',
+        'story-sprint': 'end-game',
         'final-word': 'landing',
         'speak-reveal': 'landing',
       },

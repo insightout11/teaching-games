@@ -59,7 +59,7 @@ describe('Speak v2', () => {
   it('flies one conversation, three tries: Try 1 to Better answers', () => {
     const speak = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'speak-60')!;
     const plan = buildRoomFlightPlan({ preset: speak, topic: 'Ordering at a café', difficulty: 'Intermediate' });
-    expect(plan.slots.map((s) => s.key)).toEqual(['speak-check', 'quick-fire', 'language-toolkit', 'scene-igniter', 'static', 'pass-the-line', 'say-it-again', 'imposter', 'speak-reveal']);
+    expect(plan.slots.map((s) => s.key)).toEqual(['speak-check', 'quick-fire', 'language-toolkit', 'scene-igniter', 'static', 'pass-the-line', 'say-it-again', 'taboo-sprint', 'speak-reveal']);
     expect(plan.flightConfig?.stages.map((s) => s.label)).toContain('Pass the Line');
   });
 });

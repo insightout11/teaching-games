@@ -583,7 +583,7 @@ export function FlightTransitionOverlay({
   // played at all, because the leg is chosen by POSITION rather than by the stage's
   // declared phase. Descent stays excluded so an arrival is never swallowed.
   const isMicroEventBeat = !!isMicroEvent && leg !== 'descent';
-  const turbulence = isMicroEventBeat && stageId === 'opinion-pulse';
+  const turbulence = isMicroEventBeat && (stageId === 'opinion-pulse' || stageId === 'turbulence');
   const checkVariant =
     isMicroEventBeat && stageId === 'accuracy-check'
       ? 'instrument'

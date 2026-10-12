@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Blend, BookOpen, Crosshair, ExternalLink, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, QrCode, Search, Shuffle, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { Blend, BookOpen, Crosshair, ExternalLink, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, QrCode, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -30,6 +30,8 @@ import { bearingDeg, offsetClock, solarClock, sunPosition } from '@/lib/live-roo
 import { cityNear, countryAt, loadCountries, type CountryShape } from '@/lib/live-room/places-below';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
+import { useCabinShake } from '@/components/session/turbulence-beat';
+import { play } from '@/lib/audio/manager';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { destinationsWithinRange, distanceBetweenCoordsKm } from '@/lib/world-flight/geo';
@@ -135,6 +137,8 @@ export interface RoomFlightPlanStatus {
   inBreak: boolean;
   onNext: () => void;
   onTurbulence: () => void;
+  /** When the last turbulence began (ms, 0 = never): the cockpit shakes for a few seconds from then. */
+  turbulenceAt?: number;
   onEnd: () => void;
 }
 
@@ -146,6 +150,8 @@ function fmtClock(ms: number) {
   const m = Math.max(0, Math.floor(ms / 60000));
   return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`;
 }
+
+const TURBULENCE_MS = 4500;
 
 export function FlightDeck({
   sessionId,
@@ -171,6 +177,19 @@ export function FlightDeck({
 }: FlightDeckProps) {
   const [planOpen, setPlanOpen] = useState(false);
   const reduce = useReducedMotion();
+  // Turbulence: the whole cockpit is thrown about for a few seconds, with the seatbelt sign and the rumble.
+  const turbulenceAt = flightPlan?.turbulenceAt ?? 0;
+  const [shaking, setShaking] = useState(false);
+  useEffect(() => {
+    if (!turbulenceAt) return;
+    const left = TURBULENCE_MS - (Date.now() - turbulenceAt);
+    if (left <= 0) return;
+    setShaking(true);
+    const stop = play('turbulence');
+    const t = setTimeout(() => setShaking(false), left);
+    return () => { clearTimeout(t); stop?.(); setShaking(false); };
+  }, [turbulenceAt]);
+  const shake = useCabinShake(shaking && !reduce);
   const scores = useSessionStore((s) => s.scores);
   const setSourceMaterial = useSessionStore((s) => s.setSourceMaterial);
   const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
@@ -1431,6 +1450,7 @@ export function FlightDeck({
         terrain={place.overCity ? 'farmland' : below.terrain}
         region={place.overCity ? `city:${place.overCity}` : below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : null}
         calm={view !== 'boarding' && view !== 'talk'}
+        turbulence={shaking}
         onCinematic={setCinematic}
         onLanded={() => setLanded(true)}
       />
@@ -1618,8 +1638,21 @@ export function FlightDeck({
   );
 
   return (
-    <div className={`relative grid h-[100dvh] ${zoomLayout ? 'grid-cols-[48px_minmax(0,1fr)_48px] grid-rows-[46px_minmax(0,1fr)_56px] gap-2' : 'grid-cols-[220px_minmax(0,1fr)_240px] grid-rows-[52px_minmax(0,1fr)_176px] gap-2.5'} bg-[radial-gradient(ellipse_120%_70%_at_50%_120%,#1b2438_0%,#0b1120_55%,#05070D_100%)] p-2.5 text-white`}>
+    <motion.div style={{ x: shake.x, y: shake.y, rotate: shake.rotate }} className={`relative grid h-[100dvh] ${zoomLayout ? 'grid-cols-[48px_minmax(0,1fr)_48px] grid-rows-[46px_minmax(0,1fr)_56px] gap-2' : 'grid-cols-[220px_minmax(0,1fr)_240px] grid-rows-[52px_minmax(0,1fr)_176px] gap-2.5'} bg-[radial-gradient(ellipse_120%_70%_at_50%_120%,#1b2438_0%,#0b1120_55%,#05070D_100%)] p-2.5 text-white`}>
       <SnapGuides hosts={snapHosts} />
+      <AnimatePresence>
+        {shaking && (
+          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="pointer-events-none absolute inset-x-0 top-16 z-[70] flex justify-center">
+            <motion.span
+              animate={reduce ? undefined : { opacity: [0.6, 1, 0.6] }}
+              transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut' }}
+              className="flex items-center gap-2 rounded-full border border-amber-300/60 bg-slate-950/85 px-5 py-2 font-mono text-sm font-semibold uppercase tracking-[0.16em] text-amber-200 shadow-2xl"
+            >
+              <TriangleAlert className="h-4 w-4" aria-hidden /> Fasten seatbelts · Turbulence
+            </motion.span>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <WidgetShell id={QR_WIDGET} label={`Board ${className}`} icon={<QrCode className="h-4 w-4" />} defaultOpen={false}>
         <div className="flex items-center gap-3 p-3">
           <span className="shrink-0 rounded-xl bg-white p-2"><QRCodeSVG value={joinUrl} size={132} level="M" includeMargin={false} /></span>
@@ -2058,7 +2091,7 @@ export function FlightDeck({
         </div>,
         document.body,
       )}
-    </div>
+    </motion.div>
   );
 }
 
