@@ -30,3 +30,7 @@ The new validator uses word-level edit distance (insertions, deletions, substitu
 ## Batch 4: cooking through jobs people do
 
 Rewrote 90 pairs and hints; reviewed 210 Hot Seat targets and separated 120 secrets. Overlap examples: lunchbox / picnic basket (sandwich, fruit, drink); cupcake / ice cream toppings (chocolate, fruit, sprinkles); doctor / nurse supplies (bandage, thermometer, notes). Checker with --round34-count=60: all 19 error counts 0.
+
+## Batch 5: soccer through airplanes
+
+Rewrote 90 pairs and hints, reviewed 210 Hot Seat targets, and separated 120 secrets. Examples: platform / bus stop activities (read, wait, talk); goalkeeper / muddy-match clothes (gloves, boots, shirt); board game / jigsaw nearby objects (box, table, chair). Checker with --round34-count=75: all 19 error counts 0.
