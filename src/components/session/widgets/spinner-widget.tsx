@@ -1,31 +1,78 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Crosshair, RotateCw } from 'lucide-react';
+import { Crosshair, Loader2, RefreshCw, RotateCw, X } from 'lucide-react';
 import type { Student } from '@/lib/supabase/types';
 import { useFocusBus } from '@/stores/focus-bus-store';
+import { useSessionStore } from '@/stores/session-store';
 import { KitButton, KitChip, KitReadout, KitSection } from '../widget-kit';
 
 /**
- * Spinner: a wheel for turns, topics or questions. Fill it with the class, or
- * with your own list (one per line). The result can become the topic.
+ * Spinner: a wheel for turns, topics or questions. Fill it with the class, with
+ * your own list (one per line), or with suggested topics (written live for what the
+ * room is talking about, fresh ones, or ones this class has done before). The result
+ * can become the topic with one tap: it never switches the room by itself.
  */
+type TopicFlavour = 'around' | 'new' | 'ours';
+const FLAVOURS: Array<{ id: TopicFlavour; label: string; hint: string }> = [
+  { id: 'around', label: 'Around our topic', hint: 'Parts of what we are talking about now' },
+  { id: 'new', label: 'Something new', hint: 'Fresh topics for this class' },
+  { id: 'ours', label: 'From our class', hint: 'Topics from earlier lessons' },
+];
 const SLICE_COLORS = ['#67e8f9', '#c4b5fd', '#6ee7b7', '#fcd34d', '#fda4af', '#93c5fd', '#f0abfc', '#5eead4'];
 
 export function SpinnerContent({ students }: { students: Student[] }) {
   const reduce = useReducedMotion();
   const makeFocus = useFocusBus((s) => s.makeFocus);
-  const [source, setSource] = useState<'class' | 'list'>(students.length ? 'class' : 'list');
+  const sessionId = useSessionStore((st) => st.sessionId);
+  const roomTopic = useSessionStore((st) => st.settings.customTopic);
+  const [source, setSource] = useState<'class' | 'list' | 'topics'>(students.length ? 'class' : 'list');
+  const [flavour, setFlavour] = useState<TopicFlavour>('around');
+  const [topics, setTopics] = useState<string[]>([]);
+  const [topicsBusy, setTopicsBusy] = useState(false);
+  const [topicsNote, setTopicsNote] = useState<string | null>(null);
   const [listText, setListText] = useState('');
   const [angle, setAngle] = useState(0);
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState<string | null>(null);
 
   const entries = useMemo(() => {
-    const raw = source === 'class' ? students.map((s) => s.name) : listText.split('\n');
+    const raw = source === 'class' ? students.map((s) => s.name) : source === 'topics' ? topics : listText.split('\n');
     return raw.map((e) => e.trim()).filter(Boolean).slice(0, 24);
-  }, [listText, source, students]);
+  }, [listText, source, students, topics]);
+
+  // Fill the wheel with suggested topics. `keep` are topics the teacher wants to stay (a reroll replaces the rest).
+  const loadTopics = useCallback(async (which: TopicFlavour, keep: string[] = []) => {
+    if (!sessionId) { setTopicsNote('Topics are available during a class.'); return; }
+    const topic = roomTopic?.trim() && roomTopic.trim().toLowerCase() !== 'general' ? roomTopic.trim() : '';
+    if (which === 'around' && !topic) { setTopics([]); setTopicsNote('Set a topic in the bar at the top first, or choose "Something new".'); return; }
+    setTopicsBusy(true);
+    setTopicsNote(null);
+    setResult(null);
+    try {
+      const res = await fetch(`/api/session/${encodeURIComponent(sessionId)}/spinner-topics`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ flavour: which, topic, avoid: keep }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { topics?: string[]; error?: string };
+      if (!res.ok) throw new Error(data.error ?? 'Could not get topics. Try again.');
+      const next = [...keep, ...(data.topics ?? [])].slice(0, 8);
+      setTopics(next);
+      if (next.length < 2) setTopicsNote(which === 'ours' ? 'This class has no earlier topics on record yet.' : 'Could not get topics. Try again.');
+    } catch (e) {
+      setTopicsNote(e instanceof Error ? e.message : 'Could not get topics. Try again.');
+    } finally {
+      setTopicsBusy(false);
+    }
+  }, [roomTopic, sessionId]);
+
+  const chooseTopics = (which: TopicFlavour) => {
+    setSource('topics');
+    setFlavour(which);
+    void loadTopics(which);
+  };
 
   const n = entries.length;
   const slice = n ? 360 / n : 360;
@@ -57,7 +104,47 @@ export function SpinnerContent({ students }: { students: Student[] }) {
       <div className="flex flex-wrap gap-1.5">
         <KitChip on={source === 'class'} onClick={() => setSource('class')}>The class ({students.length})</KitChip>
         <KitChip on={source === 'list'} onClick={() => setSource('list')}>My list</KitChip>
+        <KitChip on={source === 'topics'} onClick={() => (source === 'topics' ? undefined : chooseTopics(flavour))}>Topics</KitChip>
       </div>
+      {source === 'topics' && (
+        <KitSection label="Suggested topics">
+          <div className="flex flex-wrap gap-1.5">
+            {FLAVOURS.map((f) => (
+              <KitChip key={f.id} on={flavour === f.id} onClick={() => chooseTopics(f.id)}>
+                <span title={f.hint}>{f.label}</span>
+              </KitChip>
+            ))}
+          </div>
+          {/* On the wheel now: tap one to take it off before spinning. */}
+          {topics.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {topics.map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  disabled={spinning}
+                  onClick={() => { setTopics((prev) => prev.filter((x) => x !== t)); setResult(null); }}
+                  title="Take this one off the wheel"
+                  className="flex items-center gap-1 rounded-full border border-white/15 bg-white/[0.05] px-2.5 py-1 text-xs text-white/85 hover:border-white/35 disabled:opacity-50"
+                >
+                  {t}
+                  <X className="h-3 w-3 text-white/45" aria-hidden />
+                </button>
+              ))}
+            </div>
+          )}
+          {topicsNote && <p className="mt-2 text-xs text-amber-200/90">{topicsNote}</p>}
+          <KitButton
+            tone="plain"
+            className="mt-2"
+            disabled={topicsBusy || spinning}
+            icon={topicsBusy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
+            onClick={() => void loadTopics(flavour)}
+          >
+            {topicsBusy ? 'Thinking…' : 'New topics'}
+          </KitButton>
+        </KitSection>
+      )}
       {source === 'list' && (
         <KitSection label="One per line">
           <textarea
@@ -114,7 +201,7 @@ export function SpinnerContent({ students }: { students: Student[] }) {
       {result && (
         <div className="space-y-2 text-center">
           <KitReadout className="text-2xl">{result}</KitReadout>
-          {makeFocus && source === 'list' && (
+          {makeFocus && source !== 'class' && (
             <KitButton tone="amber" className="mx-auto" icon={<Crosshair className="h-3.5 w-3.5" />} onClick={() => makeFocus({ title: result, credit: 'the spinner' })}>
               Make it the topic
             </KitButton>
