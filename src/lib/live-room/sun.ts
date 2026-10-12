@@ -99,3 +99,21 @@ export function moonPosition(p: LatLng, date: Date): MoonPosition {
   const waxing = Math.sin(elong) > 0;
   return { elevation, azimuth, illumination: (1 - Math.cos(elong)) / 2, waxing, litOnRight: waxing === (p.lat >= 0) };
 }
+
+/**
+ * Is the plane keeping pace with the sun? Flying west about as fast as the sun appears to move, the sun hangs in the
+ * sky while the ground below passes through evening. Measured over `aheadMs` of flight: how far the sun's height
+ * changes at the plane's moving position, against how far it would change for someone standing still. It only counts
+ * when the sun really is moving for a person on the ground (at noon its height barely changes for anyone) and is up
+ * or close to the horizon.
+ */
+export function sunChase(here: LatLng, ahead: LatLng, at: Date, aheadMs: number): boolean {
+  const later = new Date(at.getTime() + aheadMs);
+  const now = sunPosition(here, at);
+  if (now.elevation < -6) return false;
+  const stillRate = Math.abs(sunPosition(here, later).elevation - now.elevation); // a stationary observer
+  const movingRate = Math.abs(sunPosition(ahead, later).elevation - now.elevation); // the plane, which has moved on
+  // The sun is moving for an observer on the ground, but hardly at all for the plane.
+  const perTwoMinutes = aheadMs / 120000;
+  return stillRate > 0.15 * perTwoMinutes && movingRate < stillRate * 0.4;
+}

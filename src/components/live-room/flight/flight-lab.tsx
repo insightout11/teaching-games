@@ -10,7 +10,7 @@ import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
 import type { SkyLight } from '@/components/world-flight/arrival-scene/sky-light';
 import { moonPosition, sunPosition } from '@/lib/live-room/sun';
-import { CockpitSky, cockpitCloudTint, mixRgb, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
+import { CockpitSky, LIGHT_POS, cockpitCloudTint, hexToRgb, mixRgb, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
 import { useEased, useEasedVector } from '@/components/live-room/flight/use-eased';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import { WindscreenWeather } from '@/components/session/cockpit-scene';
@@ -136,6 +136,11 @@ export function FlightLab() {
   const deckRgb = useEasedVector(weatherDeckTint(cloudTint, weather), 255, { seconds: 20 });
   const deck = deckRgb.map((c) => Math.round(c)).join(',');
   const cloudsTint = deckStrength > 0.01 ? mixRgb(cloudTint, deckRgb as [number, number, number], Math.min(1, deckStrength)) : cloudTint;
+  // The sun's (or moon's) glitter on the sea, from the fixed light position the lab's sky uses for each time of day.
+  const labGlint = useMemo(
+    () => ({ x: parseFloat(LIGHT_POS[tod].x) / 100, strength: tod === 'night' ? 0.28 : tod === 'day' ? 0.45 : 0.95, color: hexToRgb(palette.lightColor.startsWith('#') ? palette.lightColor : '#fff2c8') }),
+    [tod, palette.lightColor],
+  );
   const cloudSpeed = phase === 'climb' ? 1.4 : diving ? 1.2 + progress * 3 : 0.55;
 
   const run = (p: Phase) => setPhase(p);
@@ -165,7 +170,7 @@ export function FlightLab() {
             ) : (
               <motion.div key="cockpit" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
                 <CockpitSky palette={palette} timeOfDay={tod} altitude={cockpitAlt} />
-                <CockpitWorld key={`${terrain}|${region}`} cities={LAB_CITIES} terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={cloudSpeed} />
+                <CockpitWorld key={`${terrain}|${region}`} cities={LAB_CITIES} glint={labGlint} terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={cloudSpeed} />
                 {/* Broken cloud layer between us and the ground */}
                 <div
                   aria-hidden

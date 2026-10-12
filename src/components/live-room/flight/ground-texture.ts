@@ -448,13 +448,17 @@ export function desertTexture(palette: ScenePalette, night: boolean): HTMLCanvas
  */
 export function oceanTexture(palette: ScenePalette, night: boolean): HTMLCanvasElement {
   const N = 512, S = FARM_TEXTURE_SIZE;
-  const deep: RGB = mixRgb(hexToRgb(palette.waterBottom), [2, 22, 66], 0.92);
-  const shallow: RGB = mixRgb(hexToRgb(palette.waterTop), [10, 78, 134], 0.88);
-  const glint: RGB = [138, 196, 228];
-  const shade: RGB = [4, 24, 52];
+  // Deep sea is a saturated navy, mid water a rich blue, shallows a turquoise. The palette only tints them a touch: the
+  // warm haze at sunset is the engine's job, and must not turn the sea itself beige.
+  const tint = hexToRgb(palette.waterTop);
+  const deep: RGB = mixRgb([3, 36, 86], tint, 0.06);
+  const mid: RGB = mixRgb([6, 80, 132], tint, 0.08);
+  const shallow: RGB = mixRgb([22, 126, 152], tint, 0.1);
+  const crestC: RGB = [118, 186, 218];
+  const troughC: RGB = [2, 22, 60];
   const bands = tileNoise(3, 101), bandsFine = tileNoise(7, 103), warpA = tileNoise(4, 107), warpB = tileNoise(10, 109);
-  const patchA = tileNoise(3, 113), patchB = tileNoise(5, 127), foamZone = tileNoise(4, 131), cloud = tileNoise(2, 137);
-  const streak = tileNoise(8, 139), grain = tileNoise(128, 149), fleck = tileNoise(64, 151);
+  const windy = tileNoise(4, 131), patch = tileNoise(3, 113), cloud = tileNoise(2, 137), streak = tileNoise(8, 139);
+  const grain = tileNoise(128, 149), fleck = tileNoise(64, 151);
   const step = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
   const TAU = Math.PI * 2;
 
@@ -464,34 +468,32 @@ export function oceanTexture(palette: ScenePalette, night: boolean): HTMLCanvasE
   const img = sg.createImageData(N, N);
   for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
     const u = x / N, v = y / N;
-    const warp = (warpA(u, v) - 0.5) * 0.9 + (warpB(u, v) - 0.5) * 0.3;
-    // Depth: slow wide bands, deep to shallow.
-    const depth = step(0.3, 0.7, bands(u, v) * 0.75 + bandsFine(u, v) * 0.25);
-    const base = mixRgb(deep, shallow, depth * 0.85);
-    // Two swells at different angles. Each owns patches of sea and fades to a trace elsewhere.
-    const pa = step(0.3, 0.62, patchA(u, v)), pb = step(0.3, 0.62, patchB(u, v));
-    const fa = v * 5 + u * 2 + warp, fb = v * -2 + u * 6 + warp * 1.3 + 0.2;
-    const ha = Math.sin(fa * TAU) + 0.28 * Math.sin(fa * TAU * 2 + 1.1);
-    const hb = Math.sin(fb * TAU) + 0.28 * Math.sin(fb * TAU * 2 + 0.4);
-    // Slope facing the light: the wave's slope, bright on one side and dark on the other.
-    const sa = Math.cos(fa * TAU) * 1.45 * (0.35 + pa * 0.65);
-    const sb = Math.cos(fb * TAU) * -0.7 * (0.25 + pb * 0.75);
-    // Short chop riding on top, stronger in windy patches.
-    const windy = step(0.35, 0.7, foamZone(u + 0.2, v + 0.4));
-    const fc = v * 27 + u * 11 + warp * 3.1;
-    const chop = Math.cos(fc * TAU) * 0.14 * (0.3 + windy * 0.7);
-    const lane = streak(u, v * 4) - 0.5;
-    const light = Math.max(-1, Math.min(1, sa + sb + chop + lane * 0.5));
-    let c: RGB = light >= 0 ? mixRgb(base, glint, light * 0.7) : mixRgb(base, shade, -light * 0.85);
-    // Whitecaps: only on the high crests, only in the windy patches, broken up by flecks.
-    const crest = Math.max(ha * pa, hb * pb, Math.sin(fc * TAU) * windy * 0.8);
-    if (crest > 0.78) {
-      const foam = step(0.78, 1.15, crest) * step(0.42, 0.7, fleck(u, v) * 0.6 + grain(u, v) * 0.5) * (0.35 + windy * 0.65);
-      if (foam > 0) c = mixRgb(c, [236, 246, 250], Math.min(0.85, foam));
+    const warp = (warpA(u, v) - 0.5) * 0.7 + (warpB(u, v) - 0.5) * 0.22;
+    // Depth: slow wide bands from deep navy through blue to turquoise.
+    const depth = bands(u, v) * 0.7 + bandsFine(u, v) * 0.3;
+    const base = depth < 0.5 ? mixRgb(deep, mid, step(0.15, 0.5, depth)) : mixRgb(mid, shallow, step(0.5, 0.88, depth) * 0.8);
+    // One main swell with long, gently bending crests, and a smaller one running a little across it. Near-parallel, so
+    // they read as swell lines, not as the cells two crossing sets make.
+    const am = 0.55 + 0.45 * step(0.25, 0.7, patch(u, v));
+    const fa = v * 6 + u + warp, fb = v * 9 + u * 3 + warp * 1.2 + 0.3;
+    const ha = Math.sin(fa * TAU) + 0.3 * Math.sin(fa * TAU * 2 + 1);
+    const slope = Math.cos(fa * TAU) * am + Math.cos(fb * TAU) * 0.5;
+    // Short wind chop, and long streaks lying along the wind.
+    const windiness = step(0.35, 0.7, windy(u + 0.2, v + 0.4));
+    const fc = v * 27 + u * 9 + warp * 2.4;
+    const chop = Math.cos(fc * TAU) * 0.12 * (0.3 + windiness);
+    const lane = (streak(u, v * 5) - 0.5) * 0.25;
+    const light = Math.max(-1, Math.min(1, slope + chop + lane));
+    let c: RGB = light >= 0 ? mixRgb(base, crestC, light * 0.42) : mixRgb(base, troughC, -light * 0.5);
+    // Whitecaps: sparse, short, on the highest crests in the windy patches.
+    const crest = ha * am;
+    if (crest > 0.9 && windiness > 0.1) {
+      const foam = step(0.9, 1.25, crest) * step(0.45, 0.72, fleck(u, v) * 0.6 + grain(u, v) * 0.5) * (0.3 + windiness * 0.7);
+      if (foam > 0) c = mixRgb(c, [232, 244, 250], Math.min(0.8, foam));
     }
-    // Cloud shadows: a couple of big soft dark patches.
+    // A couple of big soft cloud shadows.
     const cb = cloud(u, v);
-    if (cb > 0.4) c = mixRgb(c, mixRgb(c, shade, 0.7), step(0.58, 0.8, cb + (warpA(u + 0.5, v + 0.5) - 0.5) * 0.3) * 0.45);
+    if (cb > 0.5) c = mixRgb(c, mixRgb(c, troughC, 0.7), step(0.62, 0.82, cb + (warpA(u + 0.5, v + 0.5) - 0.5) * 0.3) * 0.35);
     const p = (y * N + x) * 4;
     img.data[p] = c[0]; img.data[p + 1] = c[1]; img.data[p + 2] = c[2]; img.data[p + 3] = 255;
   }
