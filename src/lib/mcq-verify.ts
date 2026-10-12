@@ -19,6 +19,8 @@ export interface McqItem {
   question: string;
   options: string[];
   correctIndex: number;
+  /** What this one question is about (a listening passage, the line that gives the answer). */
+  context?: string;
 }
 
 export type McqVerdict =
@@ -57,7 +59,7 @@ export async function verifyMultipleChoice(items: McqItem[], opts: { material?: 
   if (!items.length) return pass;
 
   const block = items
-    .map((item, i) => `Question ${i + 1}: ${item.question}\n${item.options.map((option, j) => `  ${LETTERS[j]}. ${option}`).join('\n')}`)
+    .map((item, i) => `${item.context ? `Passage for question ${i + 1} (answer from this passage only): """${item.context.slice(0, 1500)}"""\n` : ''}Question ${i + 1}: ${item.question}\n${item.options.map((option, j) => `  ${LETTERS[j]}. ${option}`).join('\n')}`)
     .join('\n\n');
   const prompt = `You are checking multiple-choice questions written for an English class before students see them. For each question, decide which options are ACCEPTABLE answers.
 
