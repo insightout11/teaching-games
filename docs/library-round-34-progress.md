@@ -26,3 +26,7 @@ The new validator uses word-level edit distance (insertions, deletions, substitu
 - Kept established phrases such as mountain goat, pine tree and hair dryer; replaced ad hoc modifiers and added single-word targets. All 120 secrets are separated from their own decks' Taboo/Hot Seat lists.
 - The first `--round34-count=45` run had one remaining `lowestLevel` error in Rainforests. It was committed before that result was checked; the follow-up replaces pod with accessible A1 seed and reruns the checker. No history rewrite.
 `--round34-count=45` after the correction: all 19 error counts 0.
+
+## Batch 4: cooking through jobs people do
+
+Rewrote 90 pairs and hints; reviewed 210 Hot Seat targets and separated 120 secrets. Overlap examples: lunchbox / picnic basket (sandwich, fruit, drink); cupcake / ice cream toppings (chocolate, fruit, sprinkles); doctor / nurse supplies (bandage, thermometer, notes). Checker with --round34-count=60: all 19 error counts 0.

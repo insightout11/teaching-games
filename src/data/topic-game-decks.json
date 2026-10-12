@@ -14755,6 +14755,41 @@
         "description": "a deep spoon for serving soup"
       },
       {
+        "word": "timer",
+        "level": "A1",
+        "description": "a device that counts down cooking minutes"
+      },
+      {
+        "word": "peeler",
+        "level": "A2",
+        "description": "a small tool that removes fruit skin"
+      },
+      {
+        "word": "strainer",
+        "level": "A2",
+        "description": "a bowl with holes for draining water"
+      },
+      {
+        "word": "garlic",
+        "level": "A2",
+        "description": "a strong smelling bulb used in cooking"
+      },
+      {
+        "word": "fork",
+        "level": "A1",
+        "description": "a tool with points for picking up food"
+      },
+      {
+        "word": "lid",
+        "level": "A2",
+        "description": "a cover that closes a cooking pot"
+      },
+      {
+        "word": "sink",
+        "level": "A1",
+        "description": "a basin used to wash dishes"
+      },
+      {
         "word": "rolling pin",
         "level": "A1",
         "description": "a smooth tool for flattening dough"
@@ -14770,44 +14805,9 @@
         "description": "a thick cloth for carrying hot dishes"
       },
       {
-        "word": "timer",
-        "level": "A1",
-        "description": "a device that counts down cooking minutes"
-      },
-      {
-        "word": "peeler",
-        "level": "A2",
-        "description": "a small tool that removes fruit skin"
-      },
-      {
-        "word": "garlic press",
-        "level": "A2",
-        "description": "a hand tool that squeezes garlic into tiny pieces"
-      },
-      {
-        "word": "strainer",
-        "level": "A2",
-        "description": "a bowl with holes for draining water"
-      },
-      {
-        "word": "wooden spoon",
-        "level": "A1",
-        "description": "a stirring tool made from a tree material"
-      },
-      {
-        "word": "food thermometer",
-        "level": "A2",
-        "description": "a tool that checks how warm food is"
-      },
-      {
         "word": "can opener",
         "level": "A1",
         "description": "a tool that removes a metal lid"
-      },
-      {
-        "word": "recipe card",
-        "level": "A1",
-        "description": "a small paper with meal instructions"
       }
     ],
     "imposter": [
@@ -14815,91 +14815,91 @@
         "word": "recipe",
         "level": "A1",
         "description": "a set of steps for making food",
-        "hint": "food instructions",
-        "crewQuestion": "What helps you know how much to add?",
-        "imposterQuestion": "What helps you know how long to cook?"
+        "hint": "cooking instruction lists",
+        "crewQuestion": "What would help you follow a new recipe?",
+        "imposterQuestion": "Which things make assembling a toy easier?"
       },
       {
         "word": "pan",
         "level": "A1",
         "description": "a flat metal dish used to heat food",
-        "hint": "cooking equipment",
-        "crewQuestion": "What can you put on a stove to fry an egg?",
-        "imposterQuestion": "What can you put on a counter to cut an egg?"
+        "hint": "flat cooking vessels",
+        "crewQuestion": "What could you cook in a pan?",
+        "imposterQuestion": "Which foods might be made on a hot grill?"
       },
       {
         "word": "spoon",
         "level": "A1",
         "description": "a tool with a small round end for eating",
-        "hint": "cooking equipment",
-        "crewQuestion": "What can you use to taste a bowl of soup?",
-        "imposterQuestion": "What can you use to stir a bowl of soup?"
+        "hint": "small eating utensils",
+        "crewQuestion": "What might you serve with a spoon?",
+        "imposterQuestion": "Which foods belong in a small bowl?"
       },
       {
         "word": "oven",
         "level": "A1",
         "description": "a machine that cooks food with dry heat",
-        "hint": "cooking equipment",
-        "crewQuestion": "Where can a cake cook until it is ready?",
-        "imposterQuestion": "Where can a pot sit until it is ready?"
+        "hint": "heated kitchen appliances",
+        "crewQuestion": "What would you check before using an oven?",
+        "imposterQuestion": "Which checks matter before switching on a stove?"
       },
       {
         "word": "apron",
         "level": "A1",
         "description": "a cover worn to keep clothes clean",
-        "hint": "cooking clothes",
-        "crewQuestion": "What can a cook tie on before mixing flour?",
-        "imposterQuestion": "What can a cook tie on before washing dishes?"
+        "hint": "protective kitchen clothes",
+        "crewQuestion": "When could you wear an apron?",
+        "imposterQuestion": "Which jobs might make your clothes messy?"
       },
       {
         "word": "kettle",
         "level": "A1",
         "description": "a machine that heats water for a drink",
-        "hint": "kitchen equipment",
-        "crewQuestion": "What can boil water for tea?",
-        "imposterQuestion": "What can cool water for tea?"
+        "hint": "water heating vessels",
+        "crewQuestion": "What could you make using hot water from a kettle?",
+        "imposterQuestion": "Which drinks might you order in a cafe?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "spatula",
-        "kind": "thing",
+        "secret": "rice",
+        "kind": "food",
         "level": "A1"
       },
       {
-        "secret": "rolling pin",
-        "kind": "thing",
+        "secret": "chicken",
+        "kind": "food",
         "level": "A1"
       },
       {
-        "secret": "timer",
-        "kind": "thing",
+        "secret": "pasta",
+        "kind": "food",
         "level": "A1"
       },
       {
-        "secret": "oven",
-        "kind": "thing",
+        "secret": "tofu",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "chef",
+        "kind": "job",
         "level": "A1"
       },
       {
-        "secret": "cutting board",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "colander",
+        "secret": "blender",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "apron",
+        "secret": "fridge",
         "kind": "thing",
         "level": "A1"
       },
       {
-        "secret": "whisk",
+        "secret": "sieve",
         "kind": "thing",
-        "level": "A1"
+        "level": "A2"
       }
     ]
   },
@@ -15074,16 +15074,6 @@
         "description": "a small round piece of baked bread"
       },
       {
-        "word": "gingerbread person",
-        "level": "A2",
-        "description": "a sweet spiced biscuit shaped like someone"
-      },
-      {
-        "word": "pie crust",
-        "level": "A2",
-        "description": "a baked outer layer around a sweet filling"
-      },
-      {
         "word": "cake stand",
         "level": "A1",
         "description": "a raised plate used to show a cake"
@@ -15104,21 +15094,6 @@
         "description": "a thick hand cover for hot dishes"
       },
       {
-        "word": "icing bag",
-        "level": "A2",
-        "description": "a soft cone used to decorate cakes"
-      },
-      {
-        "word": "waffle iron",
-        "level": "A2",
-        "description": "a hot press that makes square marks in batter"
-      },
-      {
-        "word": "bread maker",
-        "level": "A2",
-        "description": "a machine that mixes and bakes a loaf"
-      },
-      {
         "word": "pastry",
         "level": "A2",
         "description": "a light baked food made from flour and fat"
@@ -15129,9 +15104,34 @@
         "description": "a crumbly sweet biscuit made with butter"
       },
       {
-        "word": "banana loaf",
+        "word": "sugar",
         "level": "A1",
-        "description": "a soft baked bread made with ripe fruit"
+        "description": "sweet crystals added to drinks and cakes"
+      },
+      {
+        "word": "butter",
+        "level": "A1",
+        "description": "a yellow spread made from cream"
+      },
+      {
+        "word": "milk",
+        "level": "A1",
+        "description": "a white drink produced by cows"
+      },
+      {
+        "word": "biscuit",
+        "level": "A1",
+        "description": "a small crisp baked snack"
+      },
+      {
+        "word": "brownie",
+        "level": "A2",
+        "description": "a small square of rich chocolate cake"
+      },
+      {
+        "word": "bun",
+        "level": "A1",
+        "description": "a small soft round bread"
       }
     ],
     "imposter": [
@@ -15139,89 +15139,89 @@
         "word": "flour",
         "level": "A1",
         "description": "a soft powder made from ground grain",
-        "hint": "baking food",
-        "crewQuestion": "What white ingredient helps make bread dough?",
-        "imposterQuestion": "What yellow ingredient helps make bread dough?"
+        "hint": "powdered baking ingredients",
+        "crewQuestion": "What could you bake with flour?",
+        "imposterQuestion": "Which foods could you buy at a bakery?"
       },
       {
         "word": "dough",
         "level": "A1",
         "description": "a soft mixture used to make bread or cakes",
-        "hint": "baking mixture",
-        "crewQuestion": "What can a baker shape before putting it in heat?",
-        "imposterQuestion": "What can a gardener shape before putting it in soil?"
+        "hint": "soft baking mixtures",
+        "crewQuestion": "What might you make with a ball of dough?",
+        "imposterQuestion": "Which shapes could you create with soft clay?"
       },
       {
         "word": "yeast",
         "level": "A2",
         "description": "tiny living grains that help bread become light",
-        "hint": "baking ingredient",
-        "crewQuestion": "What helps a loaf grow bigger before cooking?",
-        "imposterQuestion": "What helps a plant grow bigger before flowering?"
+        "hint": "bread raising ingredients",
+        "crewQuestion": "What might change while bread dough rises?",
+        "imposterQuestion": "Which changes would you notice in a growing cake?"
       },
       {
         "word": "cupcake",
         "level": "A1",
         "description": "a small sweet cake baked in a paper cup",
-        "hint": "baked food",
-        "crewQuestion": "What treat might have icing on top?",
-        "imposterQuestion": "What treat might have cheese on top?"
+        "hint": "small individual cakes",
+        "crewQuestion": "What could decorate a cupcake?",
+        "imposterQuestion": "Which things would look nice on a birthday biscuit?"
       },
       {
         "word": "icing",
         "level": "A2",
         "description": "a sweet soft topping spread over a cake",
-        "hint": "baking topping",
-        "crewQuestion": "What can decorate a cake with a smooth layer?",
-        "imposterQuestion": "What can decorate a pie with a smooth layer?"
+        "hint": "sweet cake coverings",
+        "crewQuestion": "What colors could you choose for icing?",
+        "imposterQuestion": "Which shades would suit a cake's paper decorations?"
       },
       {
         "word": "oven",
         "level": "A1",
         "description": "a machine that cooks food with dry heat",
-        "hint": "kitchen equipment",
-        "crewQuestion": "Where does a tray of cookies bake?",
-        "imposterQuestion": "Where does a tray of vegetables roast?"
+        "hint": "hot baking machines",
+        "crewQuestion": "What might you smell near a warm oven?",
+        "imposterQuestion": "Which scents could drift from a bakery doorway?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "muffin",
-        "kind": "food",
+        "secret": "baker",
+        "kind": "job",
         "level": "A1"
       },
       {
-        "secret": "pie crust",
+        "secret": "baguette",
         "kind": "food",
         "level": "A2"
       },
       {
-        "secret": "oven mitt",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "cake stand",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "bread maker",
-        "kind": "thing",
-        "level": "A2"
-      },
-      {
-        "secret": "banana bread",
+        "secret": "croissant",
         "kind": "food",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "waffle iron",
+        "secret": "scone",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "spatula",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "gingerbread person",
+        "secret": "whisk",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "scales",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "cinnamon",
         "kind": "food",
         "level": "A2"
       }
@@ -15463,89 +15463,89 @@
         "word": "apple",
         "level": "A1",
         "description": "a round fruit that can be red or green",
-        "hint": "a fruit",
-        "crewQuestion": "Which fruit can make a crisp sound when bitten?",
-        "imposterQuestion": "Which vegetable can make a crisp sound when bitten?"
+        "hint": "crisp round fruits",
+        "crewQuestion": "What could you put beside an apple in a snack box?",
+        "imposterQuestion": "Which foods would make a small fruit salad?"
       },
       {
         "word": "banana",
         "level": "A1",
         "description": "a long curved fruit with yellow skin",
-        "hint": "a fruit",
-        "crewQuestion": "Which fruit is easy to peel by hand?",
-        "imposterQuestion": "Which vegetable is easy to peel by hand?"
+        "hint": "long yellow fruits",
+        "crewQuestion": "What food would taste good with a banana?",
+        "imposterQuestion": "Which ingredients might go in a sweet smoothie?"
       },
       {
         "word": "orange",
         "level": "A1",
         "description": "a round fruit with juicy parts and thick skin",
-        "hint": "a fruit",
-        "crewQuestion": "Which fruit can give you a glass of juice?",
-        "imposterQuestion": "Which vegetable can give you a glass of juice?"
+        "hint": "round citrus fruits",
+        "crewQuestion": "What could you make from fresh oranges?",
+        "imposterQuestion": "Which drinks might you prepare with ripe lemons?"
       },
       {
         "word": "grape",
         "level": "A1",
         "description": "a small round fruit growing together in bunches",
-        "hint": "a fruit",
-        "crewQuestion": "Which fruit can be green or purple and very small?",
-        "imposterQuestion": "Which vegetable can be green or purple and very small?"
+        "hint": "small clustered fruits",
+        "crewQuestion": "Where might you find bunches of grapes?",
+        "imposterQuestion": "Which places could sell baskets of berries?"
       },
       {
         "word": "watermelon",
         "level": "A1",
         "description": "a very large fruit with a striped green outside",
-        "hint": "a fruit",
-        "crewQuestion": "Which fruit has a red middle and many black seeds?",
-        "imposterQuestion": "Which fruit has an orange middle and many black seeds?"
+        "hint": "large juicy fruits",
+        "crewQuestion": "What would you use to cut a watermelon?",
+        "imposterQuestion": "Which tools help divide a large birthday cake?"
       },
       {
         "word": "lemon",
         "level": "A1",
         "description": "a yellow sour fruit often added to drinks",
-        "hint": "a fruit",
-        "crewQuestion": "Which fruit can make water taste sharp and fresh?",
-        "imposterQuestion": "Which fruit can make water taste sweet and fresh?"
+        "hint": "sour yellow fruits",
+        "crewQuestion": "What could you add lemon juice to?",
+        "imposterQuestion": "Which foods might taste good with vinegar?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "coconut",
-        "kind": "food",
-        "level": "A1"
-      },
-      {
-        "secret": "lime",
-        "kind": "food",
-        "level": "A1"
-      },
-      {
-        "secret": "pomegranate",
+        "secret": "guava",
         "kind": "food",
         "level": "A2"
       },
       {
-        "secret": "fig",
+        "secret": "lychee",
         "kind": "food",
         "level": "A2"
       },
       {
-        "secret": "raspberry",
+        "secret": "passion fruit",
         "kind": "food",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "melon",
+        "secret": "orchard",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "greengrocer",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "smoothie",
         "kind": "food",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "fruit bowl",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "raisin",
+        "kind": "food",
+        "level": "A2"
       },
       {
-        "secret": "papaya",
+        "secret": "date",
         "kind": "food",
         "level": "A2"
       }
@@ -15787,89 +15787,89 @@
         "word": "carrot",
         "level": "A1",
         "description": "a long orange root that grows under the soil",
-        "hint": "a vegetable",
-        "crewQuestion": "Which crunchy food can a rabbit eat?",
-        "imposterQuestion": "Which crunchy food can a horse eat?"
+        "hint": "long orange vegetables",
+        "crewQuestion": "What would you serve beside cooked carrots?",
+        "imposterQuestion": "Which vegetables might go in a colorful soup?"
       },
       {
         "word": "potato",
         "level": "A1",
         "description": "a round root used in many warm meals",
-        "hint": "a vegetable",
-        "crewQuestion": "Which food can become fries or mash?",
-        "imposterQuestion": "Which food can become juice or jam?"
+        "hint": "underground food crops",
+        "crewQuestion": "What could you use to prepare potatoes?",
+        "imposterQuestion": "Which tools help turn vegetables into a smooth soup?"
       },
       {
         "word": "tomato",
         "level": "A1",
         "description": "a soft red fruit used in savoury meals",
-        "hint": "a vegetable",
-        "crewQuestion": "Which red food can make a pasta sauce?",
-        "imposterQuestion": "Which red food can make a berry smoothie?"
+        "hint": "round juicy vegetables",
+        "crewQuestion": "What food could you add sliced tomato to?",
+        "imposterQuestion": "Which meals might you decorate with cucumber?"
       },
       {
         "word": "lettuce",
         "level": "A1",
         "description": "a leafy green plant often used in salads",
-        "hint": "a vegetable",
-        "crewQuestion": "Which plant can make a fresh sandwich crisp?",
-        "imposterQuestion": "Which fruit can make a fresh sandwich sweet?"
+        "hint": "leafy salad vegetables",
+        "crewQuestion": "What could you put inside a lettuce leaf?",
+        "imposterQuestion": "Which ingredients would you place in a sandwich wrap?"
       },
       {
         "word": "corn",
         "level": "A1",
         "description": "yellow kernels growing together on a tall plant",
-        "hint": "a vegetable",
-        "crewQuestion": "Which food can be eaten from a cob?",
-        "imposterQuestion": "Which food can be eaten from a pod?"
+        "hint": "yellow kernel vegetables",
+        "crewQuestion": "What might you serve beside corn at a picnic?",
+        "imposterQuestion": "Which foods belong on a barbecue plate?"
       },
       {
         "word": "pumpkin",
         "level": "A2",
         "description": "a large orange fruit used in autumn meals",
-        "hint": "a vegetable",
-        "crewQuestion": "Which food is often carved for a fall celebration?",
-        "imposterQuestion": "Which food is often baked for a winter celebration?"
+        "hint": "large orange vegetables",
+        "crewQuestion": "What could you draw on a pumpkin?",
+        "imposterQuestion": "Which shapes might decorate a paper lantern?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "celery",
+        "secret": "pea",
         "kind": "food",
         "level": "A1"
       },
       {
-        "secret": "cabbage",
+        "secret": "mushroom",
         "kind": "food",
         "level": "A1"
       },
       {
-        "secret": "radish",
+        "secret": "chilli",
         "kind": "food",
         "level": "A2"
       },
       {
-        "secret": "sweet potato",
+        "secret": "allotment",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "greengrocer",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "salad",
         "kind": "food",
         "level": "A1"
       },
       {
-        "secret": "eggplant",
-        "kind": "food",
-        "level": "A2"
-      },
-      {
-        "secret": "green bean",
+        "secret": "soup",
         "kind": "food",
         "level": "A1"
       },
       {
-        "secret": "okra",
-        "kind": "food",
-        "level": "A2"
-      },
-      {
-        "secret": "parsnip",
+        "secret": "lentil",
         "kind": "food",
         "level": "A2"
       }
@@ -16046,34 +16046,9 @@
         "description": "a little spoon used to stir a drink"
       },
       {
-        "word": "milk jug",
-        "level": "A1",
-        "description": "a handled container used for pouring milk"
-      },
-      {
-        "word": "bread basket",
-        "level": "A1",
-        "description": "a container holding slices or rolls"
-      },
-      {
-        "word": "boiled egg",
-        "level": "A1",
-        "description": "an egg cooked in hot water"
-      },
-      {
-        "word": "fried egg",
-        "level": "A1",
-        "description": "an egg cooked in a little hot oil"
-      },
-      {
         "word": "omelette",
         "level": "A2",
         "description": "a folded dish made from cooked beaten eggs"
-      },
-      {
-        "word": "breakfast bar",
-        "level": "A2",
-        "description": "a small sweet snack made from grains"
       },
       {
         "word": "thermos",
@@ -16096,14 +16071,39 @@
         "description": "a list showing what food is available"
       },
       {
+        "word": "honeycomb",
+        "level": "A2",
+        "description": "many small wax cells joined together"
+      },
+      {
+        "word": "egg cup",
+        "level": "A2",
+        "description": "a small holder for a boiled breakfast food"
+      },
+      {
+        "word": "bowl",
+        "level": "A1",
+        "description": "a round dish for food or water"
+      },
+      {
+        "word": "plate",
+        "level": "A1",
+        "description": "a flat dish used to serve food"
+      },
+      {
+        "word": "milk jug",
+        "level": "A1",
+        "description": "a handled container used for pouring milk"
+      },
+      {
         "word": "coffee mug",
         "level": "A1",
         "description": "a large cup used for a hot drink"
       },
       {
-        "word": "honeycomb",
-        "level": "A2",
-        "description": "a wax structure with many small food cells"
+        "word": "bread basket",
+        "level": "A1",
+        "description": "a container holding slices or rolls"
       }
     ],
     "imposter": [
@@ -16111,89 +16111,89 @@
         "word": "cereal",
         "level": "A1",
         "description": "crisp grains often eaten with milk in the morning",
-        "hint": "breakfast food",
-        "crewQuestion": "What can someone pour into a bowl before eating?",
-        "imposterQuestion": "What can someone pour into a cup before drinking?"
+        "hint": "dry breakfast foods",
+        "crewQuestion": "What might you add to a bowl of cereal?",
+        "imposterQuestion": "Which foods would make yogurt taste sweeter?"
       },
       {
         "word": "toast",
         "level": "A1",
         "description": "bread heated until its surface becomes crisp",
-        "hint": "breakfast food",
-        "crewQuestion": "What can be covered with butter after heating?",
-        "imposterQuestion": "What can be covered with cheese before heating?"
+        "hint": "crisp breakfast bread",
+        "crewQuestion": "What could you spread on toast?",
+        "imposterQuestion": "Which toppings might taste good on a cracker?"
       },
       {
         "word": "pancake",
         "level": "A1",
         "description": "a flat round cake cooked in a pan",
-        "hint": "breakfast food",
-        "crewQuestion": "What can be stacked and topped with syrup?",
-        "imposterQuestion": "What can be stacked and topped with jam?"
+        "hint": "flat breakfast treats",
+        "crewQuestion": "What might you put on a pancake?",
+        "imposterQuestion": "Which things could go on top of a waffle?"
       },
       {
         "word": "porridge",
         "level": "A1",
         "description": "a warm soft meal made from cooked grain",
-        "hint": "breakfast food",
-        "crewQuestion": "What can you eat with a spoon on a cold morning?",
-        "imposterQuestion": "What can you drink from a mug on a cold morning?"
+        "hint": "warm grain breakfasts",
+        "crewQuestion": "What would you mix into warm porridge?",
+        "imposterQuestion": "Which foods could make a breakfast smoothie sweeter?"
       },
       {
         "word": "waffle",
         "level": "A1",
         "description": "a crisp square cake with a patterned surface",
-        "hint": "breakfast food",
-        "crewQuestion": "What food has many little square dips?",
-        "imposterQuestion": "What food has many little round holes?"
+        "hint": "grid shaped foods",
+        "crewQuestion": "What could you eat beside a waffle?",
+        "imposterQuestion": "Which foods might share a plate with a sweet muffin?"
       },
       {
         "word": "omelette",
         "level": "A2",
         "description": "a folded meal made with cooked beaten eggs",
-        "hint": "breakfast food",
-        "crewQuestion": "What can a cook fill with cheese and vegetables?",
-        "imposterQuestion": "What can a cook fill with fruit and cream?"
+        "hint": "cooked egg dishes",
+        "crewQuestion": "What could you put inside an omelette?",
+        "imposterQuestion": "Which ingredients would suit a cheese sandwich?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "omelette",
+        "secret": "banana",
         "kind": "food",
         "level": "A1"
       },
       {
-        "secret": "milk jug",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "avocado",
+        "kind": "food",
+        "level": "A2"
       },
       {
-        "secret": "thermos",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "bacon",
+        "kind": "food",
+        "level": "A2"
       },
       {
-        "secret": "honeycomb",
+        "secret": "bagel",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "kettle",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "fruit salad",
-        "kind": "food",
-        "level": "A1"
-      },
-      {
-        "secret": "waffle",
-        "kind": "food",
-        "level": "A1"
-      },
-      {
-        "secret": "teaspoon",
+        "secret": "toaster",
         "kind": "thing",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "breakfast bar",
+        "secret": "teapot",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "dates",
         "kind": "food",
         "level": "A2"
       }
@@ -16360,19 +16360,9 @@
     ],
     "hotSeat": [
       {
-        "word": "lunch tray",
-        "level": "A1",
-        "description": "a flat dish used to carry a meal"
-      },
-      {
         "word": "spork",
         "level": "A2",
         "description": "a tool with both spoon and fork ends"
-      },
-      {
-        "word": "bread roll",
-        "level": "A1",
-        "description": "a small round piece of baked bread"
       },
       {
         "word": "grapes",
@@ -16385,39 +16375,9 @@
         "description": "thin salty slices cooked until crunchy"
       },
       {
-        "word": "dipping sauce",
-        "level": "A2",
-        "description": "a liquid added by touching food into it"
-      },
-      {
-        "word": "picnic blanket",
+        "word": "bread roll",
         "level": "A1",
-        "description": "a cloth spread on grass for eating"
-      },
-      {
-        "word": "food container",
-        "level": "A2",
-        "description": "a box that can be used more than once"
-      },
-      {
-        "word": "cheese stick",
-        "level": "A1",
-        "description": "a narrow piece of dairy food"
-      },
-      {
-        "word": "juice carton",
-        "level": "A1",
-        "description": "a small paper box holding fruit drink"
-      },
-      {
-        "word": "lunch menu",
-        "level": "A1",
-        "description": "a list showing which meals are served"
-      },
-      {
-        "word": "compost bin",
-        "level": "A2",
-        "description": "a container for food scraps and leaves"
+        "description": "a small round piece of baked bread"
       },
       {
         "word": "ice pack",
@@ -16428,6 +16388,46 @@
         "word": "pasta salad",
         "level": "A2",
         "description": "a cold meal made with pasta and vegetables"
+      },
+      {
+        "word": "juice carton",
+        "level": "A1",
+        "description": "a small paper box holding fruit drink"
+      },
+      {
+        "word": "rice",
+        "level": "A1",
+        "description": "small white grains eaten with many meals"
+      },
+      {
+        "word": "dip",
+        "level": "A2",
+        "description": "a thick sauce for putting snacks into"
+      },
+      {
+        "word": "bean",
+        "level": "A1",
+        "description": "a seed and food that grows in a pod"
+      },
+      {
+        "word": "container",
+        "level": "A2",
+        "description": "something that holds food or other things"
+      },
+      {
+        "word": "fork",
+        "level": "A1",
+        "description": "a tool with points for picking up food"
+      },
+      {
+        "word": "salad",
+        "level": "A1",
+        "description": "a cold dish made with fresh vegetables"
+      },
+      {
+        "word": "yoghurt",
+        "level": "A1",
+        "description": "a thick food made from fermented milk"
       }
     ],
     "imposter": [
@@ -16435,91 +16435,91 @@
         "word": "lunchbox",
         "level": "A1",
         "description": "a small box used to carry food to school",
-        "hint": "a food container",
-        "crewQuestion": "What can a child open to eat a meal at school?",
-        "imposterQuestion": "What can a child open to eat a meal on a trip?"
+        "hint": "school food containers",
+        "crewQuestion": "What would you pack inside a lunchbox?",
+        "imposterQuestion": "Which foods belong in a picnic basket?"
       },
       {
         "word": "sandwich",
         "level": "A1",
         "description": "food placed between two pieces of bread",
-        "hint": "a lunch food",
-        "crewQuestion": "What can you pack with cheese inside?",
-        "imposterQuestion": "What can you pack with fruit inside?"
+        "hint": "filled bread meals",
+        "crewQuestion": "What could you put in a sandwich?",
+        "imposterQuestion": "Which ingredients would you choose for a wrap?"
       },
       {
         "word": "thermos",
         "level": "A1",
         "description": "a bottle that keeps a drink warm or cool",
-        "hint": "a lunch container",
-        "crewQuestion": "What can keep soup warm until lunchtime?",
-        "imposterQuestion": "What can keep fruit cool until lunchtime?"
+        "hint": "insulated drink containers",
+        "crewQuestion": "What would you keep hot in a thermos?",
+        "imposterQuestion": "Which drinks might you serve on a cold camping day?"
       },
       {
         "word": "cheese",
         "level": "A1",
         "description": "a food made from milk in many shapes",
-        "hint": "a lunch food",
-        "crewQuestion": "What can you put between slices of bread?",
-        "imposterQuestion": "What can you put between slices of cake?"
+        "hint": "milk based foods",
+        "crewQuestion": "What could you eat with cheese?",
+        "imposterQuestion": "Which snacks taste good with a savory dip?"
       },
       {
         "word": "carrot sticks",
         "level": "A1",
         "description": "thin pieces of orange root eaten raw",
-        "hint": "a lunch food",
-        "crewQuestion": "What crunchy orange snack can fit in a lunchbox?",
-        "imposterQuestion": "What crunchy yellow snack can fit in a lunchbox?"
+        "hint": "crisp vegetable snacks",
+        "crewQuestion": "What could you dip carrot sticks into?",
+        "imposterQuestion": "Which sauces would you serve with pieces of cucumber?"
       },
       {
         "word": "juice carton",
         "level": "A1",
         "description": "a small paper box holding a sweet drink",
-        "hint": "a lunch container",
-        "crewQuestion": "What can you sip through a straw at lunch?",
-        "imposterQuestion": "What can you sip through a straw at breakfast?"
+        "hint": "boxed fruit drinks",
+        "crewQuestion": "When might you drink from a juice carton?",
+        "imposterQuestion": "Which situations suit a small bottle of water?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "lunch tray",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "grapes",
-        "kind": "food",
-        "level": "A1"
-      },
-      {
-        "secret": "juice carton",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "picnic blanket",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "ice pack",
-        "kind": "thing",
-        "level": "A2"
-      },
-      {
-        "secret": "compost bin",
-        "kind": "thing",
-        "level": "A2"
-      },
-      {
-        "secret": "pasta salad",
+        "secret": "pita",
         "kind": "food",
         "level": "A2"
       },
       {
-        "secret": "reusable container",
+        "secret": "tangerine",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "bento",
         "kind": "thing",
         "level": "A2"
+      },
+      {
+        "secret": "cook",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "spoon",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "bottle",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "cafeteria",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "biscuit",
+        "kind": "food",
+        "level": "A1"
       }
     ]
   },
@@ -16684,34 +16684,19 @@
     ],
     "hotSeat": [
       {
-        "word": "litter tray",
-        "level": "A2",
-        "description": "a shallow box where a cat can go"
-      },
-      {
         "word": "leash",
-        "level": "A1",
-        "description": "a long strap used to guide a dog"
+        "level": "A2",
+        "description": "a strap held while walking an animal"
       },
       {
         "word": "kennel",
-        "level": "A1",
-        "description": "a small outdoor home for a dog"
-      },
-      {
-        "word": "cat flap",
         "level": "A2",
-        "description": "a little door a pet can push through"
+        "description": "a sheltered home where a dog can rest"
       },
       {
         "word": "hay",
         "level": "A1",
-        "description": "dry grass eaten by farm animals"
-      },
-      {
-        "word": "guinea pig",
-        "level": "A1",
-        "description": "a small furry pet with short legs"
+        "description": "dry cut grass often given to farm animals"
       },
       {
         "word": "parakeet",
@@ -16719,39 +16704,54 @@
         "description": "a small colourful bird often kept at home"
       },
       {
-        "word": "dog toy",
-        "level": "A1",
-        "description": "an object a dog can chew or chase"
+        "word": "stable",
+        "level": "A2",
+        "description": "a building where a horse rests at night"
       },
       {
-        "word": "flea comb",
+        "word": "litter tray",
         "level": "A2",
-        "description": "a fine tool used to clean an animal’s fur"
+        "description": "a shallow pan kept for a pet"
+      },
+      {
+        "word": "cat flap",
+        "level": "A2",
+        "description": "a small door pets push through"
+      },
+      {
+        "word": "guinea pig",
+        "level": "A1",
+        "description": "a small furry pet with short legs"
       },
       {
         "word": "name tag",
-        "level": "A1",
-        "description": "a small label showing who an animal belongs to"
-      },
-      {
-        "word": "pet passport",
         "level": "A2",
-        "description": "a booklet used when an animal travels"
+        "description": "a small label showing a person's or pet's name"
       },
       {
-        "word": "bird cage",
+        "word": "animal",
         "level": "A1",
-        "description": "a safe metal home for a pet bird"
+        "description": "a living creature that moves and eats"
       },
       {
-        "word": "stable",
+        "word": "owner",
         "level": "A1",
-        "description": "a building where a horse can rest"
+        "description": "the person a pet belongs to"
       },
       {
-        "word": "treat jar",
+        "word": "rabbit",
         "level": "A1",
-        "description": "a container holding small rewards for pets"
+        "description": "a small furry creature with long ears"
+      },
+      {
+        "word": "bird",
+        "level": "A1",
+        "description": "a feathered animal that can fly"
+      },
+      {
+        "word": "groomer",
+        "level": "A2",
+        "description": "someone who washes and trims pets' coats"
       }
     ],
     "imposter": [
@@ -16759,91 +16759,91 @@
         "word": "pet",
         "level": "A1",
         "description": "an animal cared for by people at home",
-        "hint": "an animal",
-        "crewQuestion": "Which animal might sleep in a family’s house?",
-        "imposterQuestion": "Which animal might sleep in a forest den?"
+        "hint": "animals kept indoors",
+        "crewQuestion": "What would you get ready for a new pet?",
+        "imposterQuestion": "Which supplies would help a puppy feel at home?"
       },
       {
         "word": "collar",
         "level": "A1",
         "description": "a band worn around an animal’s neck",
-        "hint": "a pet item",
-        "crewQuestion": "What can hold a tag around a dog’s neck?",
-        "imposterQuestion": "What can hold a bell around a cat’s neck?"
+        "hint": "pet neck bands",
+        "crewQuestion": "What might you attach to a collar?",
+        "imposterQuestion": "Which things could hang from a schoolbag strap?"
       },
       {
         "word": "vet",
         "level": "A1",
         "description": "a doctor who helps sick animals feel better",
-        "hint": "a job",
-        "crewQuestion": "Who checks a pet when it is not well?",
-        "imposterQuestion": "Who checks a child when it is not well?"
+        "hint": "animal helping jobs",
+        "crewQuestion": "What would you tell a vet about an unhappy pet?",
+        "imposterQuestion": "Which details might you give a doctor about feeling unwell?"
       },
       {
         "word": "fish tank",
         "level": "A1",
         "description": "a glass home filled with water for fish",
-        "hint": "a pet home",
-        "crewQuestion": "Where might a small fish swim safely at home?",
-        "imposterQuestion": "Where might a small bird sleep safely at home?"
+        "hint": "indoor aquatic homes",
+        "crewQuestion": "What could you put inside a fish tank?",
+        "imposterQuestion": "Which things would decorate a small garden pool?"
       },
       {
         "word": "guinea pig",
         "level": "A1",
         "description": "a small furry pet with short legs",
-        "hint": "a pet",
-        "crewQuestion": "Which animal can nibble hay inside a cage?",
-        "imposterQuestion": "Which animal can nibble leaves inside a cage?"
+        "hint": "small furry pets",
+        "crewQuestion": "What might a guinea pig eat?",
+        "imposterQuestion": "Which vegetables could you offer a pet rabbit?"
       },
       {
         "word": "kennel",
         "level": "A1",
         "description": "a sheltered home where a dog can rest",
-        "hint": "a pet home",
-        "crewQuestion": "Where might a dog sleep outside?",
-        "imposterQuestion": "Where might a horse sleep outside?"
+        "hint": "outdoor dog shelters",
+        "crewQuestion": "What makes a kennel comfortable?",
+        "imposterQuestion": "Which things would you put in a cat's sleeping corner?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "guinea pig",
-        "kind": "animal",
-        "level": "A1"
-      },
-      {
-        "secret": "parakeet",
+        "secret": "tortoise",
         "kind": "animal",
         "level": "A2"
       },
       {
-        "secret": "kennel",
-        "kind": "place",
-        "level": "A1"
+        "secret": "gerbil",
+        "kind": "animal",
+        "level": "A2"
       },
       {
-        "secret": "cat flap",
+        "secret": "canary",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "ferret",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "pet shop",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "cushion",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "dog toy",
-        "kind": "thing",
+        "secret": "hamster",
+        "kind": "animal",
         "level": "A1"
       },
       {
-        "secret": "hay",
+        "secret": "shampoo",
         "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "stable",
-        "kind": "place",
-        "level": "A1"
-      },
-      {
-        "secret": "treat jar",
-        "kind": "thing",
-        "level": "A1"
+        "level": "A2"
       }
     ]
   },
@@ -17008,9 +17008,9 @@
     ],
     "hotSeat": [
       {
-        "word": "pencil case",
+        "word": "pencil",
         "level": "A1",
-        "description": "a small bag holding pens and pencils"
+        "description": "a tool with a dark centre for making lines"
       },
       {
         "word": "whiteboard",
@@ -17018,54 +17018,49 @@
         "description": "a smooth board written on with special markers"
       },
       {
-        "word": "library card",
+        "word": "gate",
         "level": "A1",
-        "description": "a small card used to borrow books"
+        "description": "a door in a fence or wall"
       },
       {
-        "word": "playground duty",
+        "word": "pass",
+        "level": "A1",
+        "description": "sending the ball to another player"
+      },
+      {
+        "word": "hook",
         "level": "A2",
-        "description": "a job watching children during an outdoor break"
+        "description": "a curved piece used for hanging things"
       },
       {
-        "word": "school gate",
-        "level": "A1",
-        "description": "an entrance to the place where students learn"
-      },
-      {
-        "word": "bus pass",
-        "level": "A1",
-        "description": "a card that lets someone ride a school bus"
-      },
-      {
-        "word": "coat hook",
-        "level": "A1",
-        "description": "a small curved peg for hanging a jacket"
-      },
-      {
-        "word": "class register",
+        "word": "register",
         "level": "A2",
-        "description": "a list used to record who is in class"
+        "description": "a list showing who is present at school"
       },
       {
-        "word": "science lab",
-        "level": "A1",
-        "description": "a room for learning through experiments"
+        "word": "laboratory",
+        "level": "A2",
+        "description": "a room for doing scientific experiments"
       },
       {
-        "word": "art room",
-        "level": "A1",
-        "description": "a place for painting and making things"
+        "word": "studio",
+        "level": "A2",
+        "description": "a room where people make art"
       },
       {
-        "word": "water fountain",
+        "word": "fountain",
         "level": "A1",
-        "description": "a wall tool that sends up drinking water"
+        "description": "a place where water sprays upward and falls back"
       },
       {
-        "word": "school nurse",
+        "word": "nurse",
         "level": "A1",
-        "description": "a health worker who helps students"
+        "description": "someone who looks after people who are unwell"
+      },
+      {
+        "word": "pencil case",
+        "level": "A1",
+        "description": "a small bag holding pens and pencils"
       },
       {
         "word": "lost property",
@@ -17076,6 +17071,11 @@
         "word": "hall pass",
         "level": "A2",
         "description": "a card allowing a student to leave class"
+      },
+      {
+        "word": "library card",
+        "level": "A1",
+        "description": "a small card used to borrow books"
       }
     ],
     "imposter": [
@@ -17083,90 +17083,90 @@
         "word": "timetable",
         "level": "A1",
         "description": "a chart showing lessons and their times",
-        "hint": "a school item",
-        "crewQuestion": "What tells students which class comes next?",
-        "imposterQuestion": "What tells students which bus comes next?"
+        "hint": "school lesson schedules",
+        "crewQuestion": "What would you check on a school timetable?",
+        "imposterQuestion": "Which details matter when reading a bus schedule?"
       },
       {
         "word": "bell",
         "level": "A1",
         "description": "a sound that signals a time to begin",
-        "hint": "a school sound",
-        "crewQuestion": "What rings when it is time to change lessons?",
-        "imposterQuestion": "What rings when it is time to start a race?"
+        "hint": "school sound signals",
+        "crewQuestion": "What might you do when the school bell rings?",
+        "imposterQuestion": "Which actions could follow a teacher's hand signal?"
       },
       {
         "word": "backpack",
         "level": "A1",
         "description": "a bag carried over both shoulders",
-        "hint": "a school item",
-        "crewQuestion": "What can carry books from home to class?",
-        "imposterQuestion": "What can carry food from home to a picnic?"
+        "hint": "school carrying equipment",
+        "crewQuestion": "What could you carry in a backpack?",
+        "imposterQuestion": "Which items belong in a bag for a library visit?"
       },
       {
         "word": "desk",
         "level": "A1",
         "description": "a table where one student sits to work",
-        "hint": "classroom furniture",
-        "crewQuestion": "Where can a student write in a notebook?",
-        "imposterQuestion": "Where can a teacher write on a board?"
+        "hint": "classroom working furniture",
+        "crewQuestion": "What would you keep on your desk?",
+        "imposterQuestion": "Which things might you put on a homework table?"
       },
       {
         "word": "homework",
         "level": "A1",
         "description": "school work finished after the lesson ends",
-        "hint": "a school task",
-        "crewQuestion": "What may a student do at home after class?",
-        "imposterQuestion": "What may a student do at school before class?"
+        "hint": "school practice tasks",
+        "crewQuestion": "Who could help with difficult homework?",
+        "imposterQuestion": "Which people would you ask about a tricky board game?"
       },
       {
         "word": "school bus",
         "level": "A1",
         "description": "a vehicle carrying children to their lessons",
-        "hint": "school transport",
-        "crewQuestion": "What can take students from home to class?",
-        "imposterQuestion": "What can take students from class to a museum?"
+        "hint": "group travel vehicles",
+        "crewQuestion": "What might you see from a school bus?",
+        "imposterQuestion": "Which sights could appear on a walk to school?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "pencil case",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "library card",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "school gate",
-        "kind": "place",
-        "level": "A1"
-      },
-      {
-        "secret": "science lab",
-        "kind": "place",
-        "level": "A1"
-      },
-      {
-        "secret": "coat hook",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "water fountain",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "school bus",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "school nurse",
+        "secret": "principal",
         "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "caretaker",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "ruler",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "glue",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "calculator",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "library",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "cafeteria",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "gym",
+        "kind": "place",
         "level": "A1"
       }
     ]
@@ -17332,74 +17332,74 @@
     ],
     "hotSeat": [
       {
-        "word": "class helper",
-        "level": "A1",
-        "description": "a student chosen to help the group"
-      },
-      {
-        "word": "hand signal",
-        "level": "A2",
-        "description": "a movement that shares a message quietly"
-      },
-      {
-        "word": "talking stick",
-        "level": "A2",
-        "description": "an object passed to show whose turn it is"
-      },
-      {
-        "word": "book corner",
-        "level": "A1",
-        "description": "a quiet place for looking at stories"
-      },
-      {
-        "word": "quiet corner",
-        "level": "A1",
-        "description": "a calm space to sit and think"
-      },
-      {
-        "word": "tidy song",
-        "level": "A1",
-        "description": "a short tune sung while putting things away"
-      },
-      {
-        "word": "sharing box",
-        "level": "A1",
-        "description": "a container with items everyone can use"
-      },
-      {
         "word": "doorway",
         "level": "A1",
         "description": "the opening where people enter a room"
       },
       {
-        "word": "class promise",
+        "word": "promise",
         "level": "A2",
-        "description": "an agreement about how a group will act"
+        "description": "something you say you will definitely do"
       },
       {
-        "word": "turn card",
+        "word": "corner",
+        "level": "A1",
+        "description": "the place where two walls meet"
+      },
+      {
+        "word": "marker",
+        "level": "A1",
+        "description": "a pen that makes thick colored lines"
+      },
+      {
+        "word": "signal",
+        "level": "A1",
+        "description": "a coloured sign telling a train when to move"
+      },
+      {
+        "word": "song",
+        "level": "A1",
+        "description": "words and a tune performed together"
+      },
+      {
+        "word": "card",
+        "level": "A1",
+        "description": "a small stiff piece of paper"
+      },
+      {
+        "word": "table",
+        "level": "A1",
+        "description": "a piece of furniture with a flat top"
+      },
+      {
+        "word": "pet",
+        "level": "A1",
+        "description": "an animal that lives with a person at home"
+      },
+      {
+        "word": "whisper",
+        "level": "A1",
+        "description": "speaking very softly so few people hear"
+      },
+      {
+        "word": "floor",
+        "level": "A1",
+        "description": "the bottom surface of a room or ocean"
+      },
+      {
+        "word": "helper",
+        "level": "A1",
+        "description": "someone who gives a hand with a job"
+      },
+      {
+        "word": "reminder",
         "level": "A2",
-        "description": "a card showing who may speak next"
+        "description": "a message that stops you forgetting something"
       },
       {
-        "word": "group table",
+        "word": "chair",
         "level": "A1",
-        "description": "a desk where several students work together"
-      },
-      {
-        "word": "kindness chart",
-        "level": "A2",
-        "description": "a display recording helpful actions"
-      },
-      {
-        "word": "class pet",
-        "level": "A1",
-        "description": "an animal looked after by students"
-      },
-      {
-        "word": "floor marker",
-        "level": "A1",
-        "description": "a small sign showing where to stand"
+        "description": "a seat with a back for one person"
       }
     ],
     "imposter": [
@@ -17407,91 +17407,91 @@
         "word": "listen",
         "level": "A1",
         "description": "paying careful attention to sounds and words",
-        "hint": "a classroom action",
-        "crewQuestion": "What should students do while someone else is speaking?",
-        "imposterQuestion": "What should students do while someone else is writing?"
+        "hint": "careful hearing actions",
+        "crewQuestion": "What could help you hear someone speaking?",
+        "imposterQuestion": "Which actions make a quiet story easier to follow?"
       },
       {
         "word": "share",
         "level": "A1",
         "description": "letting another person use something as well",
-        "hint": "a classroom action",
-        "crewQuestion": "What can classmates do with crayons at one table?",
-        "imposterQuestion": "What can classmates do with chairs at one table?"
+        "hint": "kind group actions",
+        "crewQuestion": "What could classmates share during art?",
+        "imposterQuestion": "Which materials might friends use together at home?"
       },
       {
         "word": "line up",
         "level": "A1",
         "description": "standing one behind another in a neat row",
-        "hint": "a classroom action",
-        "crewQuestion": "What can students do before walking to lunch?",
-        "imposterQuestion": "What can students do before sitting down for lunch?"
+        "hint": "orderly waiting actions",
+        "crewQuestion": "Where might children wait in a line?",
+        "imposterQuestion": "Which places could have a queue on a school trip?"
       },
       {
         "word": "class helper",
         "level": "A1",
         "description": "a student chosen to help the group",
-        "hint": "a classroom role",
-        "crewQuestion": "Who might pass out books before a lesson?",
-        "imposterQuestion": "Who might pass out food before a lesson?"
+        "hint": "school helping roles",
+        "crewQuestion": "What jobs might a class helper do?",
+        "imposterQuestion": "Which tasks could a student do before visitors arrive?"
       },
       {
         "word": "talking stick",
         "level": "A2",
         "description": "an object passed to show whose turn it is",
-        "hint": "a classroom object",
-        "crewQuestion": "What can help a group take turns speaking?",
-        "imposterQuestion": "What can help a group take turns drawing?"
+        "hint": "turn taking objects",
+        "crewQuestion": "When might you pass a talking stick?",
+        "imposterQuestion": "Which situations make people take turns to speak?"
       },
       {
         "word": "book corner",
         "level": "A1",
         "description": "a quiet place for looking at stories",
-        "hint": "a classroom place",
-        "crewQuestion": "Where can a student sit to read quietly?",
-        "imposterQuestion": "Where can a student stand to sing loudly?"
+        "hint": "class reading places",
+        "crewQuestion": "What might you keep in a book corner?",
+        "imposterQuestion": "Which objects would make a reading nook comfortable?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "class helper",
+        "secret": "eraser",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "bin",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "clock",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "headphones",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "book",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "ruler",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "library",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "caretaker",
         "kind": "job",
-        "level": "A1"
-      },
-      {
-        "secret": "talking stick",
-        "kind": "thing",
         "level": "A2"
-      },
-      {
-        "secret": "book corner",
-        "kind": "place",
-        "level": "A1"
-      },
-      {
-        "secret": "sharing box",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "doorway",
-        "kind": "place",
-        "level": "A1"
-      },
-      {
-        "secret": "class pet",
-        "kind": "animal",
-        "level": "A1"
-      },
-      {
-        "secret": "kindness chart",
-        "kind": "thing",
-        "level": "A2"
-      },
-      {
-        "secret": "floor marker",
-        "kind": "thing",
-        "level": "A1"
       }
     ]
   },
@@ -17658,7 +17658,7 @@
       {
         "word": "wave",
         "level": "A1",
-        "description": "a hand movement used to say hello"
+        "description": "a line of water rising and falling at sea"
       },
       {
         "word": "high five",
@@ -17666,54 +17666,9 @@
         "description": "a greeting made by touching raised hands"
       },
       {
-        "word": "party card",
-        "level": "A1",
-        "description": "a note asking someone to come celebrate"
-      },
-      {
-        "word": "team captain",
-        "level": "A1",
-        "description": "the person who leads a group of players"
-      },
-      {
-        "word": "conversation starter",
-        "level": "A2",
-        "description": "a question or idea that begins a chat"
-      },
-      {
-        "word": "shared game",
-        "level": "A1",
-        "description": "an activity played together with others"
-      },
-      {
-        "word": "thanks card",
-        "level": "A1",
-        "description": "a short message showing you are grateful"
-      },
-      {
-        "word": "club meeting",
-        "level": "A1",
-        "description": "a time when a group gets together"
-      },
-      {
         "word": "friendship bracelet",
         "level": "A1",
         "description": "a coloured band given to someone you care about"
-      },
-      {
-        "word": "helping hand",
-        "level": "A1",
-        "description": "an offer to make a task easier"
-      },
-      {
-        "word": "new student",
-        "level": "A1",
-        "description": "a child who has just joined a class"
-      },
-      {
-        "word": "secret handshake",
-        "level": "A2",
-        "description": "a special set of hand movements between friends"
       },
       {
         "word": "partner",
@@ -17724,6 +17679,51 @@
         "word": "neighbour",
         "level": "A1",
         "description": "a person living near your home"
+      },
+      {
+        "word": "card",
+        "level": "A1",
+        "description": "a small stiff piece of paper"
+      },
+      {
+        "word": "leader",
+        "level": "A1",
+        "description": "a person who guides a group"
+      },
+      {
+        "word": "handshake",
+        "level": "A2",
+        "description": "a greeting made by holding another person's hand"
+      },
+      {
+        "word": "meeting",
+        "level": "A2",
+        "description": "a gathering where people talk together"
+      },
+      {
+        "word": "game",
+        "level": "A1",
+        "description": "an activity people play for fun"
+      },
+      {
+        "word": "thanks",
+        "level": "A1",
+        "description": "a word used to show you are grateful"
+      },
+      {
+        "word": "shy",
+        "level": "A1",
+        "description": "feeling nervous about speaking to new people"
+      },
+      {
+        "word": "honest",
+        "level": "A2",
+        "description": "telling the truth even when it is difficult"
+      },
+      {
+        "word": "caring",
+        "level": "A2",
+        "description": "kind and concerned about other people's needs"
       }
     ],
     "imposter": [
@@ -17731,91 +17731,91 @@
         "word": "friend",
         "level": "A1",
         "description": "a person you enjoy talking or playing with",
-        "hint": "a relationship",
-        "crewQuestion": "Who might you invite to join your game?",
-        "imposterQuestion": "Who might you invite to join your meal?"
+        "hint": "people you like",
+        "crewQuestion": "Where could you spend time with a friend?",
+        "imposterQuestion": "Which places might you visit with a cousin?"
       },
       {
         "word": "invite",
         "level": "A1",
         "description": "asking another person to join an event",
-        "hint": "a social action",
-        "crewQuestion": "What can you do before a birthday party?",
-        "imposterQuestion": "What can you do after a birthday party?"
+        "hint": "welcoming social actions",
+        "crewQuestion": "What could you invite someone to?",
+        "imposterQuestion": "Which activities would you suggest for a family weekend?"
       },
       {
         "word": "smile",
         "level": "A1",
         "description": "a happy look made by moving your mouth",
-        "hint": "a friendly action",
-        "crewQuestion": "What can show someone that you are pleased to meet them?",
-        "imposterQuestion": "What can show someone that you are sorry to leave them?"
+        "hint": "happy facial actions",
+        "crewQuestion": "What might make you smile in class?",
+        "imposterQuestion": "Which things could brighten a rainy afternoon?"
       },
       {
         "word": "team",
         "level": "A1",
         "description": "a group of people working or playing together",
-        "hint": "a group",
-        "crewQuestion": "What can classmates make for a game?",
-        "imposterQuestion": "What can classmates make for a meal?"
+        "hint": "working social groups",
+        "crewQuestion": "What helps a team work together?",
+        "imposterQuestion": "Which habits make sharing a kitchen easier?"
       },
       {
         "word": "compliment",
         "level": "A2",
         "description": "something kind said about another person",
-        "hint": "kind words",
-        "crewQuestion": "What can you say about a friend’s helpful work?",
-        "imposterQuestion": "What can you say about a friend’s messy work?"
+        "hint": "kind spoken comments",
+        "crewQuestion": "What could you compliment a friend on?",
+        "imposterQuestion": "Which things might you praise in a school performance?"
       },
       {
         "word": "playdate",
         "level": "A2",
         "description": "a planned time for children to play together",
-        "hint": "a social event",
-        "crewQuestion": "What can two friends arrange after school?",
-        "imposterQuestion": "What can two friends arrange before school?"
+        "hint": "friendly home visits",
+        "crewQuestion": "What would you take to a playdate?",
+        "imposterQuestion": "Which items might you bring to a sleepover?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "lunchbox",
+        "secret": "football",
         "kind": "thing",
         "level": "A1"
       },
       {
-        "secret": "birthday invitation",
+        "secret": "bicycle",
         "kind": "thing",
         "level": "A1"
       },
       {
-        "secret": "shared game",
+        "secret": "skateboard",
         "kind": "thing",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "friendship bracelet",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "cafe",
+        "kind": "place",
+        "level": "A2"
       },
       {
-        "secret": "tree house",
+        "secret": "playground",
         "kind": "place",
         "level": "A1"
       },
       {
-        "secret": "board game",
-        "kind": "job",
-        "level": "A1"
-      },
-      {
-        "secret": "team shirt",
-        "kind": "job",
-        "level": "A1"
-      },
-      {
-        "secret": "thanks card",
+        "secret": "bracelet",
         "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "park",
+        "kind": "place",
         "level": "A1"
+      },
+      {
+        "secret": "clubhouse",
+        "kind": "place",
+        "level": "A2"
       }
     ]
   },
@@ -17980,9 +17980,9 @@
     ],
     "hotSeat": [
       {
-        "word": "recipe box",
+        "word": "picnic",
         "level": "A1",
-        "description": "a small container holding cooking instructions"
+        "description": "a meal eaten outside on a cloth"
       },
       {
         "word": "photo album",
@@ -17990,49 +17990,49 @@
         "description": "a book with pictures from family life"
       },
       {
-        "word": "picnic",
-        "level": "A1",
-        "description": "a meal eaten outside on a cloth"
-      },
-      {
-        "word": "family game",
-        "level": "A1",
-        "description": "a fun activity played together at home"
-      },
-      {
-        "word": "story circle",
-        "level": "A2",
-        "description": "a time when people take turns telling stories"
-      },
-      {
-        "word": "old clothes",
-        "level": "A2",
-        "description": "things worn by an older family member before"
-      },
-      {
-        "word": "holiday card",
-        "level": "A1",
-        "description": "a note sent to people at a special time"
-      },
-      {
-        "word": "old song",
-        "level": "A1",
-        "description": "a tune people have known for many years"
-      },
-      {
-        "word": "family name",
-        "level": "A1",
-        "description": "the shared name used by people who are related"
-      },
-      {
         "word": "greeting",
         "level": "A2",
-        "description": "words or actions used when meeting someone"
+        "description": "friendly words or actions when people meet"
       },
       {
-        "word": "table setting",
+        "word": "keepsake",
+        "level": "A2",
+        "description": "a small object kept to remember something"
+      },
+      {
+        "word": "ancestor",
+        "level": "A2",
+        "description": "a relative who lived long before you"
+      },
+      {
+        "word": "name",
         "level": "A1",
-        "description": "plates and tools placed ready for a meal"
+        "description": "the word people use to call someone"
+      },
+      {
+        "word": "song",
+        "level": "A1",
+        "description": "words and a tune performed together"
+      },
+      {
+        "word": "home",
+        "level": "A1",
+        "description": "the place where you live with your family"
+      },
+      {
+        "word": "game",
+        "level": "A1",
+        "description": "an activity people play for fun"
+      },
+      {
+        "word": "card",
+        "level": "A1",
+        "description": "a small stiff piece of paper"
+      },
+      {
+        "word": "clothes",
+        "level": "A1",
+        "description": "things you wear on your body"
       },
       {
         "word": "welcome speech",
@@ -18040,14 +18040,14 @@
         "description": "words said to greet people at an event"
       },
       {
-        "word": "family garden",
-        "level": "A1",
-        "description": "an outdoor place cared for by relatives"
+        "word": "scrapbook",
+        "level": "A2",
+        "description": "a book holding pictures and special paper memories"
       },
       {
-        "word": "keepsake",
-        "level": "A2",
-        "description": "a small object kept to remember something"
+        "word": "cousin",
+        "level": "A1",
+        "description": "a child of your aunt or uncle"
       }
     ],
     "imposter": [
@@ -18055,91 +18055,91 @@
         "word": "recipe",
         "level": "A1",
         "description": "steps for preparing a meal or food",
-        "hint": "family activity",
-        "crewQuestion": "What helps a family cook the same dish each year?",
-        "imposterQuestion": "What helps a family sing the same tune each year?"
+        "hint": "traditional cooking instructions",
+        "crewQuestion": "Who might help you learn a family recipe?",
+        "imposterQuestion": "Which people could show you an old craft?"
       },
       {
         "word": "story",
         "level": "A1",
         "description": "words about people or events told aloud",
-        "hint": "family activity",
-        "crewQuestion": "What might a grandparent tell around the table?",
-        "imposterQuestion": "What might a grandparent show around the table?"
+        "hint": "spoken family tales",
+        "crewQuestion": "When could your family tell stories together?",
+        "imposterQuestion": "Which occasions suit looking at old photos?"
       },
       {
         "word": "photo album",
         "level": "A1",
         "description": "a book with pictures from family life",
-        "hint": "family object",
-        "crewQuestion": "Where might relatives look for old pictures?",
-        "imposterQuestion": "Where might relatives look for old recipes?"
+        "hint": "family picture collections",
+        "crewQuestion": "What would you keep in a photo album?",
+        "imposterQuestion": "Which pictures could decorate a family scrapbook?"
       },
       {
         "word": "keepsake",
         "level": "A2",
         "description": "a small object kept to remember something",
-        "hint": "family object",
-        "crewQuestion": "What may a child keep from a grandparent?",
-        "imposterQuestion": "What may a child borrow from a grandparent?"
+        "hint": "objects holding memories",
+        "crewQuestion": "Where might you store a keepsake?",
+        "imposterQuestion": "Which places would protect a special old letter?"
       },
       {
         "word": "picnic",
         "level": "A1",
         "description": "a meal shared outside on a cloth",
-        "hint": "family event",
-        "crewQuestion": "What might relatives enjoy together in a sunny park?",
-        "imposterQuestion": "What might relatives enjoy together in a sunny room?"
+        "hint": "outdoor family meals",
+        "crewQuestion": "What could you take to a family picnic?",
+        "imposterQuestion": "Which items belong at an outdoor birthday lunch?"
       },
       {
         "word": "reunion",
         "level": "A2",
         "description": "a time when relatives come together again",
-        "hint": "family event",
-        "crewQuestion": "When might cousins meet after a long time apart?",
-        "imposterQuestion": "When might cousins talk after a long time apart?"
+        "hint": "large family gatherings",
+        "crewQuestion": "What might you do at a family reunion?",
+        "imposterQuestion": "Which activities could suit a school friends' gathering?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "photo album",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "dumpling",
+        "kind": "food",
+        "level": "A2"
       },
       {
-        "secret": "picnic",
-        "kind": "activity",
-        "level": "A1"
-      },
-      {
-        "secret": "keepsake",
+        "secret": "teapot",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "family game",
-        "kind": "activity",
-        "level": "A1"
-      },
-      {
-        "secret": "family garden",
-        "kind": "place",
-        "level": "A1"
-      },
-      {
-        "secret": "holiday card",
+        "secret": "candle",
         "kind": "thing",
         "level": "A1"
       },
       {
-        "secret": "recipe box",
+        "secret": "piano",
         "kind": "thing",
         "level": "A1"
       },
       {
-        "secret": "story circle",
-        "kind": "activity",
+        "secret": "quilt",
+        "kind": "thing",
         "level": "A2"
+      },
+      {
+        "secret": "christmas tree",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "playing cards",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "guitar",
+        "kind": "thing",
+        "level": "A1"
       }
     ]
   },
@@ -18304,29 +18304,9 @@
     ],
     "hotSeat": [
       {
-        "word": "party blower",
-        "level": "A1",
-        "description": "a paper tube that makes a sound when blown"
-      },
-      {
         "word": "pinata",
         "level": "A2",
         "description": "a decorated hanging shape filled with sweets"
-      },
-      {
-        "word": "paper crown",
-        "level": "A1",
-        "description": "a round paper hat worn on the head"
-      },
-      {
-        "word": "gift bag",
-        "level": "A1",
-        "description": "a small bag holding a present"
-      },
-      {
-        "word": "guest list",
-        "level": "A1",
-        "description": "a page naming people who will come to a party"
       },
       {
         "word": "ice cream",
@@ -18334,24 +18314,9 @@
         "description": "a cold sweet food made from milk"
       },
       {
-        "word": "party favour",
-        "level": "A2",
-        "description": "a small gift given to each guest"
-      },
-      {
-        "word": "cake slice",
-        "level": "A1",
-        "description": "one piece cut from a larger sweet cake"
-      },
-      {
         "word": "wrapping paper",
         "level": "A1",
         "description": "coloured sheets used to cover a present"
-      },
-      {
-        "word": "gift tag",
-        "level": "A2",
-        "description": "a small label showing who a present is for"
       },
       {
         "word": "playlist",
@@ -18364,14 +18329,49 @@
         "description": "the person who welcomes guests to a party"
       },
       {
-        "word": "number candle",
+        "word": "crown",
         "level": "A1",
-        "description": "a wax light shaped like a birthday number"
+        "description": "a fancy headpiece worn by a king"
       },
       {
-        "word": "party banner",
+        "word": "bag",
         "level": "A1",
-        "description": "a long sign hung up for a celebration"
+        "description": "a container you carry things in"
+      },
+      {
+        "word": "guest",
+        "level": "A1",
+        "description": "someone invited to a party or home"
+      },
+      {
+        "word": "slice",
+        "level": "A2",
+        "description": "a thin piece cut from a larger food"
+      },
+      {
+        "word": "tag",
+        "level": "A2",
+        "description": "a small label showing a pet's name"
+      },
+      {
+        "word": "favour",
+        "level": "A2",
+        "description": "a little gift given to party visitors"
+      },
+      {
+        "word": "banner",
+        "level": "A2",
+        "description": "a long sign with colours or a message"
+      },
+      {
+        "word": "candle",
+        "level": "A1",
+        "description": "a stick of wax giving light when lit"
+      },
+      {
+        "word": "wish",
+        "level": "A1",
+        "description": "something you hope will happen"
       }
     ],
     "imposter": [
@@ -18379,89 +18379,89 @@
         "word": "birthday cake",
         "level": "A1",
         "description": "a sweet baked food with a candle on top",
-        "hint": "party food",
-        "crewQuestion": "What might guests eat after singing a special song?",
-        "imposterQuestion": "What might guests drink after singing a special song?"
+        "hint": "special celebration foods",
+        "crewQuestion": "What could you serve beside a birthday cake?",
+        "imposterQuestion": "Which foods might fill a party dessert table?"
       },
       {
         "word": "balloon",
         "level": "A1",
         "description": "a light rubber shape filled with air",
-        "hint": "party decoration",
-        "crewQuestion": "What can float above the table at a party?",
-        "imposterQuestion": "What can sit below the table at a party?"
+        "hint": "inflated party decorations",
+        "crewQuestion": "What could you tie balloons to?",
+        "imposterQuestion": "Which objects might hold up a party banner?"
       },
       {
         "word": "present",
         "level": "A1",
         "description": "something wrapped and given to someone as a gift",
-        "hint": "party item",
-        "crewQuestion": "What can a child open after the guests arrive?",
-        "imposterQuestion": "What can a child close after the guests arrive?"
+        "hint": "gifts for others",
+        "crewQuestion": "Where might you hide a wrapped present?",
+        "imposterQuestion": "Which places could keep party prizes out of sight?"
       },
       {
         "word": "invitation",
         "level": "A1",
         "description": "a note asking someone to come to a celebration",
-        "hint": "party paper",
-        "crewQuestion": "What can you send before the party begins?",
-        "imposterQuestion": "What can you send after the party ends?"
+        "hint": "written event welcomes",
+        "crewQuestion": "What details would you put on an invitation?",
+        "imposterQuestion": "Which information belongs on a club event poster?"
       },
       {
         "word": "cupcake",
         "level": "A1",
         "description": "a small sweet cake baked in a paper cup",
-        "hint": "party food",
-        "crewQuestion": "What treat can each guest have their own?",
-        "imposterQuestion": "What drink can each guest have their own?"
+        "hint": "tiny party cakes",
+        "crewQuestion": "How could you decorate a cupcake?",
+        "imposterQuestion": "Which toppings might brighten a small ice cream?"
       },
       {
         "word": "pinata",
         "level": "A2",
         "description": "a decorated hanging shape filled with sweets",
-        "hint": "party game",
-        "crewQuestion": "What might children take turns hitting with a stick?",
-        "imposterQuestion": "What might children take turns kicking with a ball?"
+        "hint": "hanging prize containers",
+        "crewQuestion": "What could you put inside a pinata?",
+        "imposterQuestion": "Which treats might fill a party goodie bag?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "pinata",
+        "secret": "magician",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "speaker",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "microphone",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "ice cream",
+        "secret": "biscuit",
         "kind": "food",
         "level": "A1"
       },
       {
-        "secret": "gift tag",
+        "secret": "jelly",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "lemonade",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "ribbon",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "party host",
-        "kind": "job",
-        "level": "A1"
-      },
-      {
-        "secret": "party blower",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "party banner",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "paper crown",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "party playlist",
+        "secret": "trampoline",
         "kind": "thing",
         "level": "A2"
       }
@@ -18633,44 +18633,9 @@
         "description": "a bright orange flower often used as decoration"
       },
       {
-        "word": "paper lantern",
-        "level": "A1",
-        "description": "a coloured cover holding a small light"
-      },
-      {
         "word": "musician",
         "level": "A1",
         "description": "a person who plays songs in a public place"
-      },
-      {
-        "word": "parade float",
-        "level": "A2",
-        "description": "a decorated vehicle moving in a street event"
-      },
-      {
-        "word": "festival mask",
-        "level": "A1",
-        "description": "a face cover worn during a celebration"
-      },
-      {
-        "word": "food stall",
-        "level": "A1",
-        "description": "a small stand where meals are sold"
-      },
-      {
-        "word": "dancing shoes",
-        "level": "A1",
-        "description": "footwear worn while moving to music"
-      },
-      {
-        "word": "festival map",
-        "level": "A2",
-        "description": "a drawing showing where event places are"
-      },
-      {
-        "word": "hand fan",
-        "level": "A1",
-        "description": "a folding object that moves air when waved"
       },
       {
         "word": "ticket",
@@ -18678,24 +18643,59 @@
         "description": "a small paper or card allowing entry"
       },
       {
-        "word": "crowd barrier",
-        "level": "A2",
-        "description": "a fence keeping people away from a path"
-      },
-      {
         "word": "drumstick",
         "level": "A1",
         "description": "a thin stick used to hit a drum"
       },
       {
-        "word": "market basket",
+        "word": "hand fan",
         "level": "A1",
-        "description": "a container for carrying things from stalls"
+        "description": "a folding object that moves air when waved"
       },
       {
-        "word": "stage light",
+        "word": "float",
+        "level": "A1",
+        "description": "a light object that stays on top of water"
+      },
+      {
+        "word": "stall",
         "level": "A2",
-        "description": "a bright lamp shining on performers"
+        "description": "a small stand selling things at a market"
+      },
+      {
+        "word": "shoes",
+        "level": "A1",
+        "description": "things worn on your feet outdoors"
+      },
+      {
+        "word": "route",
+        "level": "A2",
+        "description": "the path a parade follows through a town"
+      },
+      {
+        "word": "barrier",
+        "level": "A2",
+        "description": "a fence that keeps people away from something"
+      },
+      {
+        "word": "wreath",
+        "level": "A2",
+        "description": "a ring of leaves and flowers used as decoration"
+      },
+      {
+        "word": "light",
+        "level": "A1",
+        "description": "brightness that helps eyes see the world"
+      },
+      {
+        "word": "singer",
+        "level": "A1",
+        "description": "a person who performs with their voice"
+      },
+      {
+        "word": "feast",
+        "level": "A2",
+        "description": "a large special meal shared by people"
       }
     ],
     "imposter": [
@@ -18703,91 +18703,91 @@
         "word": "festival",
         "level": "A1",
         "description": "a public event with music, food or customs",
-        "hint": "public event",
-        "crewQuestion": "Where might neighbours gather to share music and food?",
-        "imposterQuestion": "Where might neighbours gather to share books and games?"
+        "hint": "community celebration events",
+        "crewQuestion": "What would you bring to an outdoor festival?",
+        "imposterQuestion": "Which items would you take to a crowded concert?"
       },
       {
         "word": "parade",
         "level": "A1",
         "description": "a line of people moving through a street",
-        "hint": "public event",
-        "crewQuestion": "What can pass slowly through a town with music?",
-        "imposterQuestion": "What can pass slowly through a town with shopping?"
+        "hint": "moving street celebrations",
+        "crewQuestion": "What might you hear at a parade?",
+        "imposterQuestion": "Which sounds could reach you from a street performance?"
       },
       {
         "word": "lantern",
         "level": "A1",
         "description": "a light inside a paper or glass cover",
-        "hint": "a celebration object",
-        "crewQuestion": "What can glow in the evening during a celebration?",
-        "imposterQuestion": "What can ring in the evening during a celebration?"
+        "hint": "glowing celebration objects",
+        "crewQuestion": "Where could you hang a lantern?",
+        "imposterQuestion": "Which places would suit strings of party lights?"
       },
       {
         "word": "drum",
         "level": "A1",
         "description": "a musical object hit by a hand or stick",
-        "hint": "music item",
-        "crewQuestion": "What can make a strong beat in a procession?",
-        "imposterQuestion": "What can make a bright light in a procession?"
+        "hint": "rhythmic music instruments",
+        "crewQuestion": "What could you play beside a drum?",
+        "imposterQuestion": "Which instruments might join a street band?"
       },
       {
         "word": "costume",
         "level": "A1",
         "description": "special clothes worn for an event or show",
-        "hint": "party clothing",
-        "crewQuestion": "What might a performer wear for a dance?",
-        "imposterQuestion": "What might a performer carry for a dance?"
+        "hint": "special dress outfits",
+        "crewQuestion": "What might you wear with a costume?",
+        "imposterQuestion": "Which accessories could finish a party outfit?"
       },
       {
         "word": "food stall",
         "level": "A1",
         "description": "a small stand where meals are sold",
-        "hint": "a festival place",
-        "crewQuestion": "Where can visitors buy a warm snack outdoors?",
-        "imposterQuestion": "Where can visitors buy a warm drink indoors?"
+        "hint": "festival eating places",
+        "crewQuestion": "What might you buy at a food stall?",
+        "imposterQuestion": "Which snacks could you find at a picnic market?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "street musician",
-        "kind": "job",
-        "level": "A1"
-      },
-      {
-        "secret": "marigold",
+        "secret": "trumpet",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "parade float",
-        "kind": "thing",
+        "secret": "dragon",
+        "kind": "animal",
         "level": "A2"
       },
       {
-        "secret": "food stall",
+        "secret": "temple",
         "kind": "place",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "festival ticket",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "rice cake",
+        "kind": "food",
+        "level": "A2"
       },
       {
-        "secret": "hand fan",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "piper",
+        "kind": "job",
+        "level": "A2"
       },
       {
-        "secret": "market basket",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "festival map",
+        "secret": "maypole",
         "kind": "thing",
         "level": "A2"
+      },
+      {
+        "secret": "bonfire",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "flower",
+        "kind": "thing",
+        "level": "A1"
       }
     ]
   },
@@ -18967,39 +18967,9 @@
         "description": "a tool with a needle showing direction"
       },
       {
-        "word": "train platform",
-        "level": "A1",
-        "description": "a raised place where passengers wait"
-      },
-      {
-        "word": "hotel key",
-        "level": "A1",
-        "description": "a small object opening a guest room"
-      },
-      {
-        "word": "room service",
-        "level": "A2",
-        "description": "food brought to a guest room"
-      },
-      {
-        "word": "travel pillow",
-        "level": "A1",
-        "description": "a soft support for sleeping while moving"
-      },
-      {
         "word": "campfire",
         "level": "A1",
         "description": "a small outdoor fire for warmth"
-      },
-      {
-        "word": "swimming goggles",
-        "level": "A1",
-        "description": "eye covers used under water"
-      },
-      {
-        "word": "city bus",
-        "level": "A1",
-        "description": "a vehicle carrying people around town"
       },
       {
         "word": "road trip",
@@ -19012,14 +18982,44 @@
         "description": "a card allowing someone onto a plane"
       },
       {
-        "word": "hiking boot",
+        "word": "goggles",
         "level": "A1",
-        "description": "a strong shoe for walking on trails"
+        "description": "large covers that protect eyes in water"
       },
       {
-        "word": "camera strap",
+        "word": "platform",
+        "level": "A1",
+        "description": "a raised place where travellers wait for a train"
+      },
+      {
+        "word": "key",
+        "level": "A1",
+        "description": "a small metal object that opens a lock"
+      },
+      {
+        "word": "pillow",
+        "level": "A1",
+        "description": "a soft object supporting your head in bed"
+      },
+      {
+        "word": "bus",
+        "level": "A1",
+        "description": "a large vehicle that carries many passengers"
+      },
+      {
+        "word": "strap",
         "level": "A2",
-        "description": "a band that keeps a camera near you"
+        "description": "a narrow band used to hold something"
+      },
+      {
+        "word": "hike",
+        "level": "A2",
+        "description": "a long walk in the countryside"
+      },
+      {
+        "word": "room service",
+        "level": "A2",
+        "description": "food brought to a guest room"
       }
     ],
     "imposter": [
@@ -19027,90 +19027,90 @@
         "word": "holiday",
         "level": "A1",
         "description": "a special time away from school or work",
-        "hint": "travel time",
-        "crewQuestion": "When might a family travel together to a new place?",
-        "imposterQuestion": "When might a family stay together at home?"
+        "hint": "travel break times",
+        "crewQuestion": "What would you pack for a holiday?",
+        "imposterQuestion": "Which things would help on a weekend at a friend's home?"
       },
       {
         "word": "suitcase",
         "level": "A1",
         "description": "a case used to carry clothes on a trip",
-        "hint": "travel item",
-        "crewQuestion": "What can hold clothes for a week away?",
-        "imposterQuestion": "What can hold toys for a day at school?"
+        "hint": "large luggage containers",
+        "crewQuestion": "What might you put in a suitcase first?",
+        "imposterQuestion": "Which items belong in a camping bag?"
       },
       {
         "word": "postcard",
         "level": "A1",
         "description": "a card sent from a place someone visited",
-        "hint": "travel paper",
-        "crewQuestion": "What can you mail to a friend from a trip?",
-        "imposterQuestion": "What can you mail to a friend before a trip?"
+        "hint": "short travel messages",
+        "crewQuestion": "What would you write on a postcard?",
+        "imposterQuestion": "Which details might you include in a message home?"
       },
       {
         "word": "hotel",
         "level": "A1",
         "description": "a building where travellers can sleep overnight",
-        "hint": "travel place",
-        "crewQuestion": "Where can visitors book a room for the night?",
-        "imposterQuestion": "Where can visitors book a table for dinner?"
+        "hint": "travel lodging places",
+        "crewQuestion": "What would you ask at a hotel desk?",
+        "imposterQuestion": "Which questions could you put to a campsite manager?"
       },
       {
         "word": "passport",
         "level": "A1",
         "description": "an official booklet used when travelling abroad",
-        "hint": "travel paper",
-        "crewQuestion": "What may an officer check before a flight?",
-        "imposterQuestion": "What may an officer check before a concert?"
+        "hint": "official travel documents",
+        "crewQuestion": "When would you check your passport?",
+        "imposterQuestion": "Which moments might make you check a train ticket?"
       },
       {
         "word": "souvenir",
         "level": "A2",
         "description": "an object bought to remember a place",
-        "hint": "travel item",
-        "crewQuestion": "What might someone bring home from a trip?",
-        "imposterQuestion": "What might someone bring along before a trip?"
+        "hint": "travel memory objects",
+        "crewQuestion": "What souvenir could you bring home?",
+        "imposterQuestion": "Which small gifts might you buy for a friend's birthday?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "passport",
+        "secret": "ferry",
         "kind": "thing",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "compass",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "hotel key",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "campfire",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "city bus",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "hiking boot",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "airport",
+        "secret": "hostel",
         "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "receptionist",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "sunglasses",
+        "kind": "thing",
         "level": "A1"
       },
       {
-        "secret": "camera strap",
+        "secret": "train",
         "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "caravan",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "luggage trolley",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "cabin",
+        "kind": "place",
         "level": "A2"
       }
     ]
@@ -19277,7 +19277,7 @@
     "hotSeat": [
       {
         "word": "lifeguard",
-        "level": "A1",
+        "level": "A2",
         "description": "a person who watches swimmers for danger"
       },
       {
@@ -19311,21 +19311,6 @@
         "description": "a person who teaches a team how to play"
       },
       {
-        "word": "lifeguard chair",
-        "level": "A2",
-        "description": "a tall seat above a swimming area"
-      },
-      {
-        "word": "delivery van",
-        "level": "A1",
-        "description": "a vehicle used to bring orders to homes"
-      },
-      {
-        "word": "tool belt",
-        "level": "A1",
-        "description": "a strap holding useful tools at the waist"
-      },
-      {
         "word": "uniform",
         "level": "A1",
         "description": "special clothes worn for a job"
@@ -19344,6 +19329,21 @@
         "word": "stethoscope",
         "level": "A2",
         "description": "a tool doctors use to listen inside a body"
+      },
+      {
+        "word": "van",
+        "level": "A1",
+        "description": "a vehicle used to carry goods"
+      },
+      {
+        "word": "belt",
+        "level": "A1",
+        "description": "a band worn around your waist"
+      },
+      {
+        "word": "shift",
+        "level": "A2",
+        "description": "a set period when someone works"
       }
     ],
     "imposter": [
@@ -19351,90 +19351,90 @@
         "word": "baker",
         "level": "A1",
         "description": "a person who makes bread and cakes",
-        "hint": "a job",
-        "crewQuestion": "Who may start work early to make fresh rolls?",
-        "imposterQuestion": "Who may start work early to sell fresh rolls?"
+        "hint": "bread making jobs",
+        "crewQuestion": "What could a baker make for a party?",
+        "imposterQuestion": "Which foods could a cafe serve at breakfast?"
       },
       {
         "word": "doctor",
         "level": "A1",
         "description": "a person who helps sick people feel better",
-        "hint": "a job",
-        "crewQuestion": "Who can check a fever at a clinic?",
-        "imposterQuestion": "Who can check a tooth at a clinic?"
+        "hint": "human health jobs",
+        "crewQuestion": "What might a doctor carry to work?",
+        "imposterQuestion": "Which tools could a nurse need on a home visit?"
       },
       {
         "word": "farmer",
         "level": "A1",
         "description": "a person who grows food on land",
-        "hint": "a job",
-        "crewQuestion": "Who may care for crops and farm animals?",
-        "imposterQuestion": "Who may care for books and school children?"
+        "hint": "food growing jobs",
+        "crewQuestion": "What might a farmer check each morning?",
+        "imposterQuestion": "Which things could a gardener inspect before watering?"
       },
       {
         "word": "teacher",
         "level": "A1",
         "description": "a person who helps children learn new things",
-        "hint": "a job",
-        "crewQuestion": "Who can explain a new lesson to a class?",
-        "imposterQuestion": "Who can explain a new game to a team?"
+        "hint": "classroom teaching jobs",
+        "crewQuestion": "What could a teacher show a new student?",
+        "imposterQuestion": "Which places would a school guide point out to visitors?"
       },
       {
         "word": "chef",
         "level": "A1",
         "description": "a person who prepares meals in a kitchen",
-        "hint": "a job",
-        "crewQuestion": "Who decides what food to cook in a restaurant?",
-        "imposterQuestion": "Who decides what music to play in a restaurant?"
+        "hint": "professional cooking jobs",
+        "crewQuestion": "What could a chef prepare for lunch?",
+        "imposterQuestion": "Which meals might a family cook for visitors?"
       },
       {
         "word": "pilot",
         "level": "A1",
         "description": "a person who flies an aircraft through the sky",
-        "hint": "a job",
-        "crewQuestion": "Who guides a plane above the clouds?",
-        "imposterQuestion": "Who guides a ship across the sea?"
+        "hint": "aircraft controlling jobs",
+        "crewQuestion": "What might a pilot check before leaving?",
+        "imposterQuestion": "Which details matter to a driver starting a long journey?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "lifeguard",
+        "secret": "librarian",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "engineer",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "waiter",
         "kind": "job",
         "level": "A1"
       },
       {
-        "secret": "cashier",
+        "secret": "florist",
         "kind": "job",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "photographer",
+        "secret": "barber",
         "kind": "job",
-        "level": "A1"
+        "level": "A2"
       },
       {
-        "secret": "delivery van",
-        "kind": "thing",
-        "level": "A1"
+        "secret": "tailor",
+        "kind": "job",
+        "level": "A2"
       },
       {
-        "secret": "tool belt",
-        "kind": "thing",
-        "level": "A1"
-      },
-      {
-        "secret": "workshop",
+        "secret": "hospital",
         "kind": "place",
         "level": "A1"
       },
       {
-        "secret": "stethoscope",
+        "secret": "tractor",
         "kind": "thing",
-        "level": "A2"
-      },
-      {
-        "secret": "hairdresser",
-        "kind": "job",
         "level": "A1"
       }
     ]
