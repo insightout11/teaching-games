@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 5/18; judged entries: 466/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 6/18; judged entries: 526/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -25,8 +25,9 @@ Completed libraries: 5/18; judged entries: 466/641. Cached inventory captured at
 | grammar-library.json | 89 | 77 | 0 | 4 | 8 | 0 | 0 |
 | hooks-library.json | 60 | 53 | 1 | 4 | 2 | 0 | 0 |
 | kids-library.json | 101 | 85 | 1 | 1 | 6 | 0 | 8 |
+| listening-library.json | 60 | 58 | 0 | 2 | 0 | 0 | 0 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
-| **TOTAL** | **466** | 353 | 3 | 18 | 84 | 0 | 8 |
+| **TOTAL** | **526** | 411 | 3 | 20 | 84 | 0 | 8 |
 
 ## Non-ok entries, grouped by library
 
@@ -113,6 +114,13 @@ Completed libraries: 5/18; judged entries: 466/641. Cached inventory captured at
 | kids_antarctica | Antarctica: The Coldest Place on Earth! | level-off | The 926-word explanation connects slanted sunlight, Earth’s shape and Antarctic dryness using extended causal clauses, beyond A1.  | Raise the language level to A2 after checking spoken pacing. |
 | kids_look_whos_talking | Look Who's Talking | partial | The full cache explains plant investigations, Venus flytrap sensing and Darwin’s stem-tip experiment; communication is mentioned only briefly, and no animal communication examples are given.  | Rewrite the description as investigating how plants sense their surroundings. |
 | kids_glow_on | Glow On | mismatch | The full cache explains nuclear fusion, stellar luminosity and Betelgeuse versus the Sun; it does not concern living things producing light.  | Retitle to Why Stars Glow and rewrite the description. |
+
+### listening-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| listening-r8-school-equipment | School public-address announcement — school equipment | partial | The full cache announces a book fair/raffle and science-day reporting, not an equipment announcement.  | Retitle to School book fair and science-day announcement; verify the institution attribution. |
+| listening-r8-school-counselling-records | School public-address announcement — school counselling records | partial | The complete cache announces a special-education committee meeting at 12:10 on the third floor; it does not concern counselling records.  | Retitle to Special-education committee meeting announcement. |
 
 ### teded-library.json
 
