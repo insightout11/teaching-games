@@ -38891,7 +38891,8 @@
           "learn",
           "repeat"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a regular way someone organises learning"
       },
       {
         "word": "spaced repetition",
@@ -38901,7 +38902,8 @@
           "memory",
           "interval"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "reviewing facts again after increasing time gaps"
       },
       {
         "word": "active recall",
@@ -38911,7 +38913,8 @@
           "notes",
           "test"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "trying to remember information without looking"
       },
       {
         "word": "flashcard",
@@ -38921,7 +38924,8 @@
           "study",
           "deck"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a card showing a question on one side"
       },
       {
         "word": "focus block",
@@ -38931,7 +38935,8 @@
           "break",
           "time"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a planned period working without interruption"
       },
       {
         "word": "study group",
@@ -38941,7 +38946,8 @@
           "together",
           "session"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "learning together with several classmates"
       },
       {
         "word": "revision notes",
@@ -38951,7 +38957,8 @@
           "review",
           "subject"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "short notes used to prepare for a test"
       },
       {
         "word": "distraction",
@@ -38961,7 +38968,8 @@
           "attention",
           "stop"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "something taking attention away from work"
       },
       {
         "word": "practice test",
@@ -38971,7 +38979,8 @@
           "try",
           "prepare"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a test used to prepare for a real exam"
       },
       {
         "word": "learning goal",
@@ -38981,7 +38990,8 @@
           "progress",
           "plan"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a result someone hopes to reach while studying"
       },
       {
         "word": "pomodoro",
@@ -38991,7 +39001,8 @@
           "break",
           "method"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a method using timed work and short breaks"
       },
       {
         "word": "study environment",
@@ -39001,7 +39012,8 @@
           "quiet",
           "desk"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a place and conditions where someone learns"
       },
       {
         "word": "retrieval practice",
@@ -39011,7 +39023,8 @@
           "without",
           "look"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "trying to remember facts as practice"
       },
       {
         "word": "weekly review",
@@ -39021,107 +39034,130 @@
           "check",
           "progress"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "checking what was learned once each week"
       }
     ],
     "hotSeat": [
       {
         "word": "flashcard box",
-        "level": "B1"
+        "level": "B1",
+        "description": "a container holding cards with questions and answers"
       },
       {
         "word": "study calendar",
-        "level": "B1"
+        "level": "B1",
+        "description": "a chart showing when someone will learn"
       },
       {
         "word": "desk organizer",
-        "level": "B1"
+        "level": "B1",
+        "description": "a holder keeping pens and papers in order"
       },
       {
         "word": "highlighter set",
-        "level": "B1"
+        "level": "B1",
+        "description": "bright pens used to mark important words"
       },
       {
         "word": "quiet library",
-        "level": "B1"
+        "level": "B1",
+        "description": "a place with books where people work silently"
       },
       {
         "word": "study playlist",
-        "level": "B1"
+        "level": "B1",
+        "description": "a list of songs chosen for learning time"
       },
       {
         "word": "focus timer",
-        "level": "B1"
+        "level": "B1",
+        "description": "a clock counting down a work period"
       },
       {
         "word": "revision chart",
-        "level": "B1"
+        "level": "B1",
+        "description": "a page showing which subjects to review"
       },
       {
         "word": "sticky tabs",
-        "level": "B1"
+        "level": "B1",
+        "description": "small markers placed on useful pages"
       },
       {
         "word": "practice quiz",
-        "level": "B1"
+        "level": "B1",
+        "description": "a short test used to check learning"
       },
       {
         "word": "study buddy",
-        "level": "B1"
+        "level": "B1",
+        "description": "a person learning alongside someone else"
       },
       {
         "word": "notebook divider",
-        "level": "B2"
+        "level": "B2",
+        "description": "a card separating sections in a book"
       },
       {
         "word": "reading lamp",
-        "level": "B1"
+        "level": "B1",
+        "description": "a small light used while reading"
       },
       {
         "word": "weekly planner",
-        "level": "B1"
+        "level": "B1",
+        "description": "a page organising tasks for seven days"
       }
     ],
     "imposter": [
       {
         "word": "study routine",
-        "decoy": "revision plan",
-        "level": "B1"
+        "level": "B1",
+        "description": "a regular way someone organises learning",
+        "hint": "study practice",
+        "crewQuestion": "What can help a student begin work at the same time each day?",
+        "imposterQuestion": "What can help a student finish work at the same time each day?"
       },
       {
-        "word": "spaced repetition",
-        "decoy": "retrieval practice",
-        "level": "B2"
-      },
-      {
-        "word": "active recall",
-        "decoy": "practice test",
-        "level": "B2"
+        "word": "flashcard",
+        "level": "B1",
+        "description": "a card showing a question and its answer",
+        "hint": "study tool",
+        "crewQuestion": "What can a learner turn over to check a new word?",
+        "imposterQuestion": "What can a learner turn over to check an old word?"
       },
       {
         "word": "focus block",
-        "decoy": "pomodoro",
-        "level": "B2"
+        "level": "B1",
+        "description": "a planned period working without interruption",
+        "hint": "study practice",
+        "crewQuestion": "How long might someone work before taking a break?",
+        "imposterQuestion": "How long might someone rest before taking a break?"
       },
       {
-        "word": "revision notes",
-        "decoy": "study guide",
-        "level": "B1"
+        "word": "study group",
+        "level": "B1",
+        "description": "several classmates learning together",
+        "hint": "study practice",
+        "crewQuestion": "Who can compare notes before an important test?",
+        "imposterQuestion": "Who can compare notes after an important test?"
       },
       {
-        "word": "learning goal",
-        "decoy": "study target",
-        "level": "B1"
+        "word": "practice test",
+        "level": "B1",
+        "description": "a sample exam used to prepare for the real one",
+        "hint": "study tool",
+        "crewQuestion": "What can someone complete before the test day?",
+        "imposterQuestion": "What can someone review after the test day?"
       },
       {
-        "word": "study environment",
-        "decoy": "quiet space",
-        "level": "B1"
-      },
-      {
-        "word": "weekly review",
-        "decoy": "progress check",
-        "level": "B2"
+        "word": "Pomodoro",
+        "level": "B2",
+        "description": "a method using timed work periods and short breaks",
+        "hint": "study method",
+        "crewQuestion": "What can help someone divide a long task into parts?",
+        "imposterQuestion": "What can help someone combine a long task into parts?"
       }
     ],
     "twentyQuestions": [
@@ -39179,7 +39215,8 @@
           "rest",
           "body"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a pattern the body follows between sleeping and waking"
       },
       {
         "word": "circadian rhythm",
@@ -39189,7 +39226,8 @@
           "day",
           "night"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "the body’s roughly daily pattern of rest and activity"
       },
       {
         "word": "deep sleep",
@@ -39199,7 +39237,8 @@
           "brain",
           "hard"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "the deepest stage of rest during a night"
       },
       {
         "word": "memory consolidation",
@@ -39209,7 +39248,8 @@
           "store",
           "learning"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "the process of keeping new information in memory"
       },
       {
         "word": "bedtime routine",
@@ -39219,7 +39259,8 @@
           "habit",
           "night"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a series of actions before going to bed"
       },
       {
         "word": "sleep debt",
@@ -39229,7 +39270,8 @@
           "catch up",
           "tired"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "lost rest that can build up over several nights"
       },
       {
         "word": "screen light",
@@ -39239,7 +39281,8 @@
           "evening",
           "blue"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "light from a phone or computer display"
       },
       {
         "word": "nap",
@@ -39249,7 +39292,8 @@
           "day",
           "rest"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a short period of daytime sleep"
       },
       {
         "word": "alertness",
@@ -39259,7 +39303,8 @@
           "attention",
           "ready"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "being awake and ready to notice things"
       },
       {
         "word": "dream",
@@ -39269,7 +39314,8 @@
           "brain",
           "sleep"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "images and stories experienced while asleep"
       },
       {
         "word": "sleep schedule",
@@ -39279,7 +39325,8 @@
           "wake",
           "regular"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "planned times for sleeping and waking"
       },
       {
         "word": "learning retention",
@@ -39289,7 +39336,8 @@
           "knowledge",
           "study"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "how well information remains after learning"
       },
       {
         "word": "noise level",
@@ -39299,7 +39347,8 @@
           "room",
           "decibels"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "how loud a sound is in a place"
       },
       {
         "word": "wake-up alarm",
@@ -39309,107 +39358,130 @@
           "clock",
           "stop"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a device making a sound to start the day"
       }
     ],
     "hotSeat": [
       {
         "word": "alarm clock",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device making a sound at a chosen time"
       },
       {
         "word": "blackout curtain",
-        "level": "B1"
+        "level": "B1",
+        "description": "a thick window cover blocking outside light"
       },
       {
         "word": "bedside lamp",
-        "level": "B1"
+        "level": "B1",
+        "description": "a small light placed near a bed"
       },
       {
         "word": "eye mask",
-        "level": "B1"
+        "level": "B1",
+        "description": "a soft cover worn over the eyes"
       },
       {
-        "word": "white noise app",
-        "level": "B2"
+        "word": "noise app",
+        "level": "B2",
+        "description": "software playing steady sounds for rest"
       },
       {
         "word": "bedtime book",
-        "level": "B1"
+        "level": "B1",
+        "description": "a story read before someone goes to sleep"
       },
       {
         "word": "sleep diary",
-        "level": "B2"
+        "level": "B2",
+        "description": "a notebook recording when someone rests"
       },
       {
         "word": "mattress",
-        "level": "B1"
+        "level": "B1",
+        "description": "a soft surface someone lies on in bed"
       },
       {
         "word": "morning light",
-        "level": "B1"
+        "level": "B1",
+        "description": "brightness appearing at the start of a day"
       },
       {
         "word": "earplugs",
-        "level": "B1"
+        "level": "B1",
+        "description": "small pieces placed in ears to block noise"
       },
       {
         "word": "alarm setting",
-        "level": "B1"
+        "level": "B1",
+        "description": "a choice controlling when a device makes sound"
       },
       {
         "word": "study notes",
-        "level": "B1"
+        "level": "B1",
+        "description": "short written reminders for a lesson"
       },
       {
         "word": "sleep tracker",
-        "level": "B2"
+        "level": "B2",
+        "description": "a device or app measuring rest"
       },
       {
         "word": "quiet bedroom",
-        "level": "B1"
+        "level": "B1",
+        "description": "a room with little sound for sleeping"
       }
     ],
     "imposter": [
       {
         "word": "sleep cycle",
-        "decoy": "sleep stage",
-        "level": "B2"
-      },
-      {
-        "word": "deep sleep",
-        "decoy": "REM sleep",
-        "level": "B2"
+        "level": "B1",
+        "description": "a pattern the body follows between rest and waking",
+        "hint": "rest pattern",
+        "crewQuestion": "What can repeat several times during one night?",
+        "imposterQuestion": "What can repeat several times during one school day?"
       },
       {
         "word": "circadian rhythm",
-        "decoy": "body clock",
-        "level": "B2"
+        "level": "B2",
+        "description": "the body’s roughly daily pattern of rest and activity",
+        "hint": "body pattern",
+        "crewQuestion": "What can make someone feel awake in the daytime?",
+        "imposterQuestion": "What can make someone feel sleepy in the daytime?"
       },
       {
-        "word": "nap",
-        "decoy": "rest break",
-        "level": "B1"
-      },
-      {
-        "word": "alertness",
-        "decoy": "attention",
-        "level": "B1"
-      },
-      {
-        "word": "sleep debt",
-        "decoy": "tiredness",
-        "level": "B2"
+        "word": "deep sleep",
+        "level": "B1",
+        "description": "the deepest stage of rest during a night",
+        "hint": "rest stage",
+        "crewQuestion": "What part of rest can be difficult to wake from?",
+        "imposterQuestion": "What part of rest can be easy to wake from?"
       },
       {
         "word": "memory consolidation",
-        "decoy": "long-term memory",
-        "level": "B2"
+        "level": "B2",
+        "description": "the process of keeping new information in memory",
+        "hint": "learning process",
+        "crewQuestion": "What can help new facts stay in someone’s mind?",
+        "imposterQuestion": "What can make new facts leave someone’s mind?"
       },
       {
-        "word": "bedtime routine",
-        "decoy": "sleep schedule",
-        "level": "B1"
+        "word": "alarm clock",
+        "level": "B1",
+        "description": "a device making a sound at a chosen time",
+        "hint": "bedroom item",
+        "crewQuestion": "What can wake someone before school begins?",
+        "imposterQuestion": "What can help someone fall asleep before school begins?"
+      },
+      {
+        "word": "mattress",
+        "level": "B1",
+        "description": "a soft surface someone lies on in bed",
+        "hint": "bedroom item",
+        "crewQuestion": "What supports someone while they rest at night?",
+        "imposterQuestion": "What covers someone while they rest at night?"
       }
     ],
     "twentyQuestions": [
@@ -39467,7 +39539,8 @@
           "class",
           "subject"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a class someone may choose to study"
       },
       {
         "word": "prerequisite",
@@ -39477,7 +39550,8 @@
           "course",
           "entry"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a class needed before studying another one"
       },
       {
         "word": "course catalogue",
@@ -39487,7 +39561,8 @@
           "read",
           "school"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a list of classes offered by a school"
       },
       {
         "word": "career goal",
@@ -39497,7 +39572,8 @@
           "aim",
           "work"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a result someone hopes to reach through work"
       },
       {
         "word": "assessment style",
@@ -39507,7 +39583,8 @@
           "grade",
           "how"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "the way a teacher checks what a student learned"
       },
       {
         "word": "course load",
@@ -39517,7 +39594,8 @@
           "work",
           "term"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "the number of classes or tasks someone has"
       },
       {
         "word": "interest",
@@ -39527,7 +39605,8 @@
           "curious",
           "subject"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "something someone wants to learn more about"
       },
       {
         "word": "strength",
@@ -39537,7 +39616,8 @@
           "ability",
           "subject"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "something someone can do well"
       },
       {
         "word": "pathway",
@@ -39547,7 +39627,8 @@
           "study",
           "choice"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a route through classes toward a future goal"
       },
       {
         "word": "academic adviser",
@@ -39557,7 +39638,8 @@
           "plan",
           "person"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a person helping students choose school courses"
       },
       {
         "word": "subject choice",
@@ -39567,7 +39649,8 @@
           "school",
           "study"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a decision about which class to take"
       },
       {
         "word": "course credit",
@@ -39577,7 +39660,8 @@
           "program",
           "earn"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a unit earned for completing a class"
       },
       {
         "word": "practical subject",
@@ -39587,7 +39671,8 @@
           "do",
           "lesson"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a class where students learn by doing"
       },
       {
         "word": "reading list",
@@ -39597,107 +39682,130 @@
           "books",
           "materials"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "books and texts someone is asked to read"
       }
     ],
     "hotSeat": [
       {
         "word": "option form",
-        "level": "B1"
+        "level": "B1",
+        "description": "a page where someone marks their choices"
       },
       {
         "word": "course handbook",
-        "level": "B1"
+        "level": "B1",
+        "description": "a book explaining available classes"
       },
       {
         "word": "subject fair",
-        "level": "B1"
+        "level": "B1",
+        "description": "an event where students learn about courses"
       },
       {
         "word": "adviser meeting",
-        "level": "B2"
+        "level": "B2",
+        "description": "a talk with someone helping plan studies"
       },
       {
         "word": "class timetable",
-        "level": "B1"
+        "level": "B1",
+        "description": "a chart showing lesson times"
       },
       {
         "word": "grade sheet",
-        "level": "B1"
+        "level": "B1",
+        "description": "a page showing marks from schoolwork"
       },
       {
         "word": "application portal",
-        "level": "B1"
+        "level": "B1",
+        "description": "a website where students submit their choices"
       },
       {
         "word": "course brochure",
-        "level": "B1"
+        "level": "B1",
+        "description": "a leaflet describing classes and activities"
       },
       {
         "word": "career quiz",
-        "level": "B1"
+        "level": "B1",
+        "description": "questions suggesting types of future work"
       },
       {
         "word": "subject taster",
-        "level": "B2"
+        "level": "B2",
+        "description": "a short sample lesson in a class"
       },
       {
         "word": "planning worksheet",
-        "level": "B1"
+        "level": "B1",
+        "description": "a page for organising possible choices"
       },
       {
         "word": "parent meeting",
-        "level": "B1"
+        "level": "B1",
+        "description": "a talk between family and school staff"
       },
       {
         "word": "school prospectus",
-        "level": "B2"
+        "level": "B2",
+        "description": "a book describing a school and its courses"
       },
       {
         "word": "elective list",
-        "level": "B1"
+        "level": "B1",
+        "description": "names of classes students may choose"
       }
     ],
     "imposter": [
       {
         "word": "elective",
-        "decoy": "option",
-        "level": "B1"
+        "level": "B1",
+        "description": "a class someone may choose to study",
+        "hint": "school course",
+        "crewQuestion": "What can a student pick from several options?",
+        "imposterQuestion": "What can a student attend after picking one option?"
       },
       {
         "word": "prerequisite",
-        "decoy": "requirement",
-        "level": "B2"
+        "level": "B2",
+        "description": "a class needed before studying another one",
+        "hint": "school course",
+        "crewQuestion": "What must someone complete before taking an advanced class?",
+        "imposterQuestion": "What must someone complete after taking an advanced class?"
       },
       {
         "word": "course catalogue",
-        "decoy": "subject list",
-        "level": "B1"
+        "level": "B1",
+        "description": "a list of classes offered by a school",
+        "hint": "school resource",
+        "crewQuestion": "Where can students look before choosing their subjects?",
+        "imposterQuestion": "Where can students look after choosing their subjects?"
       },
       {
-        "word": "assessment style",
-        "decoy": "grading method",
-        "level": "B2"
-      },
-      {
-        "word": "course load",
-        "decoy": "workload",
-        "level": "B2"
-      },
-      {
-        "word": "pathway",
-        "decoy": "route",
-        "level": "B1"
+        "word": "career goal",
+        "level": "B1",
+        "description": "a result someone hopes to reach through work",
+        "hint": "future plan",
+        "crewQuestion": "What might help a student choose a useful course?",
+        "imposterQuestion": "What might help a student choose a useful lunch?"
       },
       {
         "word": "academic adviser",
-        "decoy": "school counsellor",
-        "level": "B2"
+        "level": "B2",
+        "description": "a person helping students choose school courses",
+        "hint": "school role",
+        "crewQuestion": "Who can discuss which subjects fit a student’s plans?",
+        "imposterQuestion": "Who can discuss which books fit a student’s plans?"
       },
       {
-        "word": "course credit",
-        "decoy": "grade point",
-        "level": "B2"
+        "word": "option form",
+        "level": "B1",
+        "description": "a page where someone marks their choices",
+        "hint": "school paper",
+        "crewQuestion": "What can a student return before course selection closes?",
+        "imposterQuestion": "What can a student receive before course selection closes?"
       }
     ],
     "twentyQuestions": [
@@ -39755,7 +39863,8 @@
           "time",
           "travel"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a year away from study between education stages"
       },
       {
         "word": "volunteer placement",
@@ -39765,7 +39874,8 @@
           "unpaid",
           "community"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a temporary role helping an organisation or cause"
       },
       {
         "word": "work placement",
@@ -39775,7 +39885,8 @@
           "company",
           "learn"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a temporary role learning or working at a company"
       },
       {
         "word": "travel budget",
@@ -39785,7 +39896,8 @@
           "cost",
           "trip"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a plan for spending money while travelling"
       },
       {
         "word": "defer admission",
@@ -39795,7 +39907,8 @@
           "place",
           "delay"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "to delay starting a place on a course"
       },
       {
         "word": "skill-building",
@@ -39805,7 +39918,8 @@
           "ability",
           "develop"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "developing abilities through practice and experience"
       },
       {
         "word": "host family",
@@ -39815,7 +39929,8 @@
           "local",
           "people"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "people providing a home during a stay abroad"
       },
       {
         "word": "travel insurance",
@@ -39825,7 +39940,8 @@
           "emergency",
           "pay"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "protection if problems happen during a trip"
       },
       {
         "word": "structured program",
@@ -39835,7 +39951,8 @@
           "planned",
           "activity"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "an organised course or set of activities"
       },
       {
         "word": "independent travel",
@@ -39845,7 +39962,8 @@
           "trip",
           "choose"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "travelling without a group or tour"
       },
       {
         "word": "language immersion",
@@ -39855,7 +39973,8 @@
           "local",
           "phrases"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "learning by spending time surrounded by a language"
       },
       {
         "word": "return plan",
@@ -39865,7 +39984,8 @@
           "after",
           "year"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a plan for what to do after a long trip"
       },
       {
         "word": "placement agency",
@@ -39875,7 +39995,8 @@
           "company",
           "find"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a company arranging volunteer or work roles"
       },
       {
         "word": "personal growth",
@@ -39885,107 +40006,130 @@
           "confidence",
           "develop"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "changes in someone’s abilities or understanding"
       }
     ],
     "hotSeat": [
       {
         "word": "passport wallet",
-        "level": "B1"
+        "level": "B1",
+        "description": "a small case holding travel documents"
       },
       {
         "word": "volunteer badge",
-        "level": "B1"
+        "level": "B1",
+        "description": "a sign showing someone is helping without pay"
       },
       {
         "word": "travel journal",
-        "level": "B1"
+        "level": "B1",
+        "description": "a book recording places visited and experiences"
       },
       {
         "word": "hostel bunk",
-        "level": "B1"
+        "level": "B1",
+        "description": "a bed in a shared travel room"
       },
       {
-        "word": "work placement form",
-        "level": "B2"
+        "word": "placement form",
+        "level": "B2",
+        "description": "a page applying for a temporary work role"
       },
       {
         "word": "train pass",
-        "level": "B1"
+        "level": "B1",
+        "description": "a card allowing travel on several trains"
       },
       {
         "word": "travel adapter",
-        "level": "B1"
+        "level": "B1",
+        "description": "a plug tool used in another country"
       },
       {
         "word": "packing list",
-        "level": "B1"
+        "level": "B1",
+        "description": "a note naming things to bring on a trip"
       },
       {
         "word": "budget sheet",
-        "level": "B1"
+        "level": "B1",
+        "description": "a page showing planned travel costs"
       },
       {
         "word": "program calendar",
-        "level": "B1"
+        "level": "B1",
+        "description": "a chart showing dates for activities"
       },
       {
         "word": "language class",
-        "level": "B1"
+        "level": "B1",
+        "description": "a lesson for learning how people speak"
       },
       {
         "word": "insurance card",
-        "level": "B1"
+        "level": "B1",
+        "description": "a card with details about travel protection"
       },
       {
         "word": "return ticket",
-        "level": "B1"
+        "level": "B1",
+        "description": "a pass for travelling back again"
       },
       {
-        "word": "gap-year adviser",
-        "level": "B2"
+        "word": "gap adviser",
+        "level": "B2",
+        "description": "a person helping plan time away from study"
       }
     ],
     "imposter": [
       {
         "word": "gap year",
-        "decoy": "sabbatical",
-        "level": "B2"
+        "level": "B1",
+        "description": "a year away from study between education stages",
+        "hint": "travel plan",
+        "crewQuestion": "When might someone travel before beginning university?",
+        "imposterQuestion": "When might someone travel after finishing university?"
       },
       {
         "word": "volunteer placement",
-        "decoy": "service trip",
-        "level": "B1"
+        "level": "B1",
+        "description": "a temporary role helping an organisation or cause",
+        "hint": "travel work",
+        "crewQuestion": "What can someone do to support a community abroad?",
+        "imposterQuestion": "What can someone buy to support a community abroad?"
       },
       {
         "word": "work placement",
-        "decoy": "internship",
-        "level": "B1"
-      },
-      {
-        "word": "defer admission",
-        "decoy": "delay enrollment",
-        "level": "B2"
-      },
-      {
-        "word": "host family",
-        "decoy": "homestay",
-        "level": "B1"
-      },
-      {
-        "word": "structured program",
-        "decoy": "organized trip",
-        "level": "B2"
-      },
-      {
-        "word": "independent travel",
-        "decoy": "solo travel",
-        "level": "B1"
+        "level": "B1",
+        "description": "a temporary role learning or working at a company",
+        "hint": "travel work",
+        "crewQuestion": "What can someone arrange to gain experience in another country?",
+        "imposterQuestion": "What can someone arrange to gain a holiday in another country?"
       },
       {
         "word": "travel budget",
-        "decoy": "trip budget",
-        "level": "B1"
+        "level": "B1",
+        "description": "a plan for spending money while travelling",
+        "hint": "travel plan",
+        "crewQuestion": "What can help someone decide how much to spend abroad?",
+        "imposterQuestion": "What can help someone decide where to sleep abroad?"
+      },
+      {
+        "word": "host family",
+        "level": "B1",
+        "description": "people providing a home during a stay abroad",
+        "hint": "travel home",
+        "crewQuestion": "Who might welcome a student into their house overseas?",
+        "imposterQuestion": "Who might guide a student through their town overseas?"
+      },
+      {
+        "word": "passport wallet",
+        "level": "B1",
+        "description": "a small case holding travel documents",
+        "hint": "travel item",
+        "crewQuestion": "Where can someone keep important papers during a trip?",
+        "imposterQuestion": "Where can someone keep important clothes during a trip?"
       }
     ],
     "twentyQuestions": [
@@ -40010,7 +40154,7 @@
         "level": "B1"
       },
       {
-        "secret": "train pass",
+        "secret": "travel pass",
         "kind": "thing",
         "level": "B1"
       },
@@ -40025,8 +40169,8 @@
         "level": "B1"
       },
       {
-        "secret": "gap-year adviser",
-        "kind": "job",
+        "secret": "visa form",
+        "kind": "thing",
         "level": "B2"
       }
     ]
@@ -40043,7 +40187,8 @@
           "listen",
           "share"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "sharing information clearly with another person"
       },
       {
         "word": "problem-solving",
@@ -40053,7 +40198,8 @@
           "find",
           "fix"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "finding a way through a difficult task"
       },
       {
         "word": "time management",
@@ -40063,7 +40209,8 @@
           "deadline",
           "organize"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "organising how time is used"
       },
       {
         "word": "adaptability",
@@ -40073,7 +40220,8 @@
           "new",
           "situation"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "changing actions when a situation changes"
       },
       {
         "word": "teamwork",
@@ -40083,7 +40231,8 @@
           "people",
           "collaborate"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "working with others toward a shared result"
       },
       {
         "word": "digital literacy",
@@ -40093,7 +40242,8 @@
           "skill",
           "information"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "using computers and online tools confidently"
       },
       {
         "word": "initiative",
@@ -40103,7 +40253,8 @@
           "without",
           "ask"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "starting useful action without being asked"
       },
       {
         "word": "critical thinking",
@@ -40113,7 +40264,8 @@
           "judge",
           "ideas"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "examining ideas carefully before deciding"
       },
       {
         "word": "work ethic",
@@ -40123,7 +40275,8 @@
           "job",
           "attitude"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "being dependable and careful at work"
       },
       {
         "word": "negotiation",
@@ -40133,7 +40286,8 @@
           "terms",
           "deal"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "discussing terms to reach an agreement"
       },
       {
         "word": "presentation skill",
@@ -40143,7 +40297,8 @@
           "slides",
           "explain"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "sharing information with a group aloud"
       },
       {
         "word": "networking",
@@ -40153,7 +40308,8 @@
           "career",
           "people"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "building professional contacts with others"
       },
       {
         "word": "decision-making",
@@ -40163,7 +40319,8 @@
           "consider",
           "select"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "choosing an action after considering options"
       },
       {
         "word": "feedback skill",
@@ -40173,107 +40330,130 @@
           "improve",
           "respond"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "ideas that help someone improve a task"
       }
     ],
     "hotSeat": [
       {
         "word": "meeting agenda",
-        "level": "B1"
+        "level": "B1",
+        "description": "a list of topics for people to discuss"
       },
       {
         "word": "project brief",
-        "level": "B1"
+        "level": "B1",
+        "description": "a page explaining what a team must do"
       },
       {
         "word": "feedback sheet",
-        "level": "B1"
+        "level": "B1",
+        "description": "a page where someone writes comments"
       },
       {
         "word": "work portfolio",
-        "level": "B1"
+        "level": "B1",
+        "description": "a collection showing someone’s projects"
       },
       {
         "word": "team task",
-        "level": "B1"
+        "level": "B1",
+        "description": "a piece of work completed by a group"
       },
       {
         "word": "calendar invite",
-        "level": "B1"
+        "level": "B1",
+        "description": "a message asking someone to attend a meeting"
       },
       {
         "word": "presentation slide",
-        "level": "B1"
+        "level": "B1",
+        "description": "one page shown during a talk"
       },
       {
         "word": "job interview",
-        "level": "B1"
+        "level": "B1",
+        "description": "a meeting asking someone about work experience"
       },
       {
         "word": "skills checklist",
-        "level": "B1"
+        "level": "B1",
+        "description": "a list used to review someone’s abilities"
       },
       {
         "word": "professional email",
-        "level": "B1"
+        "level": "B1",
+        "description": "a work message sent through the internet"
       },
       {
         "word": "workplace scenario",
-        "level": "B2"
+        "level": "B2",
+        "description": "a short example of a situation at work"
       },
       {
-        "word": "decision matrix",
-        "level": "B2"
+        "word": "decision chart",
+        "level": "B2",
+        "description": "a table helping compare possible choices"
       },
       {
         "word": "contact list",
-        "level": "B1"
+        "level": "B1",
+        "description": "names and details of people to reach"
       },
       {
         "word": "reference call",
-        "level": "B2"
+        "level": "B2",
+        "description": "a phone conversation about someone’s work"
       }
     ],
     "imposter": [
       {
         "word": "communication",
-        "decoy": "collaboration",
-        "level": "B1"
+        "level": "B1",
+        "description": "sharing information clearly with another person",
+        "hint": "work skill",
+        "crewQuestion": "What can help a team understand an instruction?",
+        "imposterQuestion": "What can help a team forget an instruction?"
       },
       {
         "word": "problem-solving",
-        "decoy": "troubleshooting",
-        "level": "B2"
-      },
-      {
-        "word": "time management",
-        "decoy": "organization",
-        "level": "B1"
+        "level": "B1",
+        "description": "finding a way through a difficult task",
+        "hint": "work skill",
+        "crewQuestion": "What can help someone fix an unexpected issue?",
+        "imposterQuestion": "What can help someone notice an unexpected issue?"
       },
       {
         "word": "adaptability",
-        "decoy": "flexibility",
-        "level": "B2"
+        "level": "B2",
+        "description": "changing actions when a situation changes",
+        "hint": "work skill",
+        "crewQuestion": "What helps someone adjust when a new task appears?",
+        "imposterQuestion": "What helps someone stay the same when a new task appears?"
       },
       {
         "word": "initiative",
-        "decoy": "leadership",
-        "level": "B2"
+        "level": "B2",
+        "description": "starting useful action without being asked",
+        "hint": "work skill",
+        "crewQuestion": "What might someone show before a manager gives directions?",
+        "imposterQuestion": "What might someone wait for before a manager gives directions?"
       },
       {
         "word": "critical thinking",
-        "decoy": "analysis",
-        "level": "B2"
+        "level": "B2",
+        "description": "examining ideas carefully before deciding",
+        "hint": "work skill",
+        "crewQuestion": "What helps someone check if a claim is supported?",
+        "imposterQuestion": "What helps someone check if a claim is popular?"
       },
       {
-        "word": "work ethic",
-        "decoy": "professionalism",
-        "level": "B2"
-      },
-      {
-        "word": "negotiation",
-        "decoy": "mediation",
-        "level": "B2"
+        "word": "meeting agenda",
+        "level": "B1",
+        "description": "a list of topics for people to discuss",
+        "hint": "work item",
+        "crewQuestion": "What can a team review before a meeting begins?",
+        "imposterQuestion": "What can a team write after a meeting ends?"
       }
     ],
     "twentyQuestions": [
@@ -40331,7 +40511,8 @@
           "carbon",
           "emission"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "gases trapping heat in the atmosphere"
       },
       {
         "word": "carbon footprint",
@@ -40341,7 +40522,8 @@
           "impact",
           "measure"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "the amount of gases linked to someone’s daily actions"
       },
       {
         "word": "global warming",
@@ -40351,7 +40533,8 @@
           "temperature",
           "climate"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a long-term rise in the planet’s average temperature"
       },
       {
         "word": "sea level rise",
@@ -40361,7 +40544,8 @@
           "coast",
           "high"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "water getting higher along the coast"
       },
       {
         "word": "heatwave",
@@ -40371,7 +40555,8 @@
           "summer",
           "weather"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a period of unusually hot weather"
       },
       {
         "word": "climate model",
@@ -40381,7 +40566,8 @@
           "computer",
           "estimate"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a computer tool exploring possible future weather"
       },
       {
         "word": "drought",
@@ -40391,7 +40577,8 @@
           "dry",
           "land"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a long time with very little rain"
       },
       {
         "word": "flood risk",
@@ -40401,7 +40588,8 @@
           "rain",
           "damage"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "the chance that land may be covered by water"
       },
       {
         "word": "adaptation",
@@ -40411,7 +40599,8 @@
           "cope",
           "impact"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "changing places or actions to handle new conditions"
       },
       {
         "word": "mitigation",
@@ -40421,7 +40610,8 @@
           "emissions",
           "action"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "actions that reduce the causes of a problem"
       },
       {
         "word": "extreme weather",
@@ -40431,7 +40621,8 @@
           "strong",
           "unusual"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "weather events that are unusually strong"
       },
       {
         "word": "climate pattern",
@@ -40441,7 +40632,8 @@
           "usual",
           "change"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "usual weather conditions over many years"
       },
       {
         "word": "emission target",
@@ -40451,7 +40643,8 @@
           "reduce",
           "year"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a chosen limit for gases released into air"
       },
       {
         "word": "climate resilience",
@@ -40461,107 +40654,130 @@
           "community",
           "change"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "the ability of a place to cope with change"
       }
     ],
     "hotSeat": [
       {
         "word": "thermometer record",
-        "level": "B1"
+        "level": "B1",
+        "description": "a written list of measured temperatures"
       },
       {
         "word": "weather station",
-        "level": "B1"
+        "level": "B1",
+        "description": "a place collecting information about wind and rain"
       },
       {
         "word": "climate graph",
-        "level": "B1"
+        "level": "B1",
+        "description": "a chart showing weather changes over time"
       },
       {
         "word": "coastal town",
-        "level": "B1"
+        "level": "B1",
+        "description": "a group of homes and shops beside the sea"
       },
       {
         "word": "flood barrier",
-        "level": "B2"
+        "level": "B2",
+        "description": "a wall built to keep rising water back"
       },
       {
         "word": "drought map",
-        "level": "B1"
+        "level": "B1",
+        "description": "a drawing showing places with little rain"
       },
       {
         "word": "electric meter",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device recording power used in a building"
       },
       {
         "word": "carbon calculator",
-        "level": "B2"
+        "level": "B2",
+        "description": "a tool estimating gases linked to activities"
       },
       {
         "word": "heat alert",
-        "level": "B1"
+        "level": "B1",
+        "description": "a warning about very hot weather"
       },
       {
         "word": "tide marker",
-        "level": "B1"
+        "level": "B1",
+        "description": "a sign showing how high the sea reached"
       },
       {
         "word": "climate report",
-        "level": "B2"
+        "level": "B2",
+        "description": "a document describing weather patterns and risks"
       },
       {
         "word": "tree canopy",
-        "level": "B1"
+        "level": "B1",
+        "description": "the leafy roof formed by tree branches"
       },
       {
         "word": "solar shade",
-        "level": "B1"
+        "level": "B1",
+        "description": "a cover using sunlight to make electricity"
       },
       {
         "word": "emergency plan",
-        "level": "B1"
+        "level": "B1",
+        "description": "steps prepared for a dangerous event"
       }
     ],
     "imposter": [
       {
         "word": "greenhouse gas",
-        "decoy": "carbon dioxide",
-        "level": "B1"
+        "level": "B1",
+        "description": "a gas that traps warmth in the atmosphere",
+        "hint": "climate science",
+        "crewQuestion": "What can build up when people burn coal and oil?",
+        "imposterQuestion": "What can build up when people plant trees and flowers?"
       },
       {
         "word": "global warming",
-        "decoy": "climate change",
-        "level": "B1"
+        "level": "B1",
+        "description": "a long-term rise in the planet’s average temperature",
+        "hint": "climate science",
+        "crewQuestion": "What can make glaciers melt over many years?",
+        "imposterQuestion": "What can make glaciers grow over many years?"
       },
       {
         "word": "drought",
-        "decoy": "water shortage",
-        "level": "B1"
+        "level": "B1",
+        "description": "a long time with very little rain",
+        "hint": "weather event",
+        "crewQuestion": "What may leave farms with dry soil and low crops?",
+        "imposterQuestion": "What may leave farms with wet soil and high crops?"
       },
       {
-        "word": "adaptation",
-        "decoy": "mitigation",
-        "level": "B2"
-      },
-      {
-        "word": "flood risk",
-        "decoy": "storm risk",
-        "level": "B1"
+        "word": "heatwave",
+        "level": "B1",
+        "description": "a period of unusually hot weather",
+        "hint": "weather event",
+        "crewQuestion": "What can make people seek shade for several days?",
+        "imposterQuestion": "What can make people seek warmth for several days?"
       },
       {
         "word": "climate model",
-        "decoy": "weather forecast",
-        "level": "B2"
+        "level": "B2",
+        "description": "a computer tool exploring possible future weather",
+        "hint": "climate science",
+        "crewQuestion": "What can help researchers compare possible future conditions?",
+        "imposterQuestion": "What can help researchers compare possible past conditions?"
       },
       {
-        "word": "carbon footprint",
-        "decoy": "emissions total",
-        "level": "B2"
-      },
-      {
-        "word": "climate resilience",
-        "decoy": "disaster recovery",
-        "level": "B2"
+        "word": "flood barrier",
+        "level": "B2",
+        "description": "a wall built to keep rising water back",
+        "hint": "safety structure",
+        "crewQuestion": "What can protect a town beside a rising river?",
+        "imposterQuestion": "What can protect a town beside a falling river?"
       }
     ],
     "twentyQuestions": [
@@ -40619,7 +40835,8 @@
           "electricity",
           "light"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a device changing sunlight into electricity"
       },
       {
         "word": "wind turbine",
@@ -40629,7 +40846,8 @@
           "power",
           "generator"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a machine using moving air to generate power"
       },
       {
         "word": "hydropower",
@@ -40639,7 +40857,8 @@
           "water",
           "electricity"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "electricity made by moving water"
       },
       {
         "word": "geothermal energy",
@@ -40649,7 +40868,8 @@
           "earth",
           "steam"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "power drawn from heat beneath the ground"
       },
       {
         "word": "renewable source",
@@ -40659,7 +40879,8 @@
           "energy",
           "repeat"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a supply that can be replaced naturally"
       },
       {
         "word": "energy storage",
@@ -40669,7 +40890,8 @@
           "power",
           "keep"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "keeping electricity for later use"
       },
       {
         "word": "solar farm",
@@ -40679,7 +40901,8 @@
           "electricity",
           "sun"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a large area with many sunlight-collecting devices"
       },
       {
         "word": "offshore wind",
@@ -40689,7 +40912,8 @@
           "ocean",
           "coastal"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "wind machines placed out at sea"
       },
       {
         "word": "power grid",
@@ -40699,7 +40923,8 @@
           "lines",
           "connect"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a network carrying electricity to buildings"
       },
       {
         "word": "inverter",
@@ -40709,7 +40934,8 @@
           "solar",
           "device"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a device changing one kind of current into another"
       },
       {
         "word": "clean energy",
@@ -40719,7 +40945,8 @@
           "source",
           "power"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "power from sources that naturally return"
       },
       {
         "word": "energy mix",
@@ -40729,7 +40956,8 @@
           "country",
           "power"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "the different sources used to produce power"
       },
       {
         "word": "microgrid",
@@ -40739,7 +40967,8 @@
           "power",
           "small"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a small local network sharing electricity"
       },
       {
         "word": "home battery",
@@ -40749,107 +40978,130 @@
           "electricity",
           "save"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a device storing electricity for a house"
       }
     ],
     "hotSeat": [
       {
         "word": "roof panel",
-        "level": "B1"
+        "level": "B1",
+        "description": "a flat device collecting light above a home"
       },
       {
         "word": "wind farm",
-        "level": "B1"
+        "level": "B1",
+        "description": "a large area with machines using moving air"
       },
       {
         "word": "dam wall",
-        "level": "B1"
+        "level": "B1",
+        "description": "a barrier holding back flowing water"
       },
       {
         "word": "battery bank",
-        "level": "B2"
+        "level": "B2",
+        "description": "several power stores connected together"
       },
       {
         "word": "solar calculator",
-        "level": "B1"
+        "level": "B1",
+        "description": "a number tool powered by light"
       },
       {
         "word": "power line",
-        "level": "B1"
+        "level": "B1",
+        "description": "a cable carrying electricity between places"
       },
       {
         "word": "electric meter",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device recording power used in a building"
       },
       {
         "word": "charging station",
-        "level": "B1"
+        "level": "B1",
+        "description": "a place where a battery can refill with electricity"
       },
       {
         "word": "energy monitor",
-        "level": "B2"
+        "level": "B2",
+        "description": "a display showing how much power is being used"
       },
       {
         "word": "hydro turbine",
-        "level": "B2"
+        "level": "B2",
+        "description": "a machine turned by flowing water"
       },
       {
         "word": "geothermal plant",
-        "level": "B2"
+        "level": "B2",
+        "description": "a facility using heat from beneath the ground"
       },
       {
         "word": "inverter box",
-        "level": "B2"
+        "level": "B2",
+        "description": "a device changing electricity into a usable form"
       },
       {
         "word": "power station",
-        "level": "B1"
+        "level": "B1",
+        "description": "a place where electricity is produced"
       },
       {
         "word": "sun tracker",
-        "level": "B2"
+        "level": "B2",
+        "description": "a tool turning a panel toward bright light"
       }
     ],
     "imposter": [
       {
         "word": "solar panel",
-        "decoy": "photovoltaic cell",
-        "level": "B2"
+        "level": "B1",
+        "description": "a device changing sunlight into electricity",
+        "hint": "clean power",
+        "crewQuestion": "What can collect light on a house roof?",
+        "imposterQuestion": "What can block light on a house roof?"
       },
       {
         "word": "wind turbine",
-        "decoy": "windmill",
-        "level": "B1"
+        "level": "B1",
+        "description": "a machine using moving air to generate power",
+        "hint": "clean power",
+        "crewQuestion": "What can turn when a strong breeze blows?",
+        "imposterQuestion": "What can stay still when a strong breeze blows?"
       },
       {
         "word": "hydropower",
-        "decoy": "tidal power",
-        "level": "B2"
+        "level": "B2",
+        "description": "electricity made by moving water",
+        "hint": "clean power",
+        "crewQuestion": "What can a dam produce as water passes through?",
+        "imposterQuestion": "What can a dam store as water passes through?"
       },
       {
         "word": "geothermal energy",
-        "decoy": "solar energy",
-        "level": "B1"
+        "level": "B2",
+        "description": "power drawn from heat beneath the ground",
+        "hint": "clean power",
+        "crewQuestion": "What can use warmth from deep below our feet?",
+        "imposterQuestion": "What can use cool air from high above our heads?"
       },
       {
-        "word": "energy storage",
-        "decoy": "battery storage",
-        "level": "B2"
-      },
-      {
-        "word": "solar farm",
-        "decoy": "wind farm",
-        "level": "B1"
+        "word": "battery bank",
+        "level": "B2",
+        "description": "several power stores connected together",
+        "hint": "energy storage",
+        "crewQuestion": "Where might extra electricity wait until evening?",
+        "imposterQuestion": "Where might extra electricity be used during daytime?"
       },
       {
         "word": "power grid",
-        "decoy": "electric grid",
-        "level": "B2"
-      },
-      {
-        "word": "offshore wind",
-        "decoy": "onshore wind",
-        "level": "B1"
+        "level": "B2",
+        "description": "a network carrying electricity between places",
+        "hint": "energy system",
+        "crewQuestion": "What connects homes with distant power stations?",
+        "imposterQuestion": "What connects farms with distant roads?"
       }
     ],
     "twentyQuestions": [
@@ -40907,7 +41159,8 @@
           "one",
           "time"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a plastic item used once before being thrown away"
       },
       {
         "word": "microplastic",
@@ -40917,7 +41170,8 @@
           "water",
           "fibre"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "tiny pieces of plastic in soil or water"
       },
       {
         "word": "recycling",
@@ -40927,7 +41181,8 @@
           "reuse",
           "process"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "turning used materials into new products"
       },
       {
         "word": "plastic bag",
@@ -40937,7 +41192,8 @@
           "thin",
           "handle"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a light container used to carry shopping"
       },
       {
         "word": "landfill",
@@ -40947,7 +41203,8 @@
           "ground",
           "site"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a place where rubbish is buried in the ground"
       },
       {
         "word": "reusable bottle",
@@ -40957,7 +41214,8 @@
           "metal",
           "carry"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a bottle made to be used many times"
       },
       {
         "word": "packaging waste",
@@ -40967,7 +41225,8 @@
           "throw away",
           "product"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "unwanted material left from wrapping products"
       },
       {
         "word": "plastic pellet",
@@ -40977,7 +41236,8 @@
           "manufacture",
           "nurdle"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a small round piece used to make plastic goods"
       },
       {
         "word": "waste stream",
@@ -40987,7 +41247,8 @@
           "collect",
           "route"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "the route rubbish follows after being thrown away"
       },
       {
         "word": "biodegradable",
@@ -40997,7 +41258,8 @@
           "material",
           "compost"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "able to break down naturally over time"
       },
       {
         "word": "deposit scheme",
@@ -41007,7 +41269,8 @@
           "money",
           "refund"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a plan returning money when a container is brought back"
       },
       {
         "word": "sorting facility",
@@ -41017,7 +41280,8 @@
           "plant",
           "process"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a place where different materials are separated"
       },
       {
         "word": "marine debris",
@@ -41027,7 +41291,8 @@
           "water",
           "trash"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "rubbish carried into the sea"
       },
       {
         "word": "refill station",
@@ -41037,107 +41302,130 @@
           "public",
           "tap"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a place where people can fill a container again"
       }
     ],
     "hotSeat": [
       {
         "word": "recycling symbol",
-        "level": "B1"
+        "level": "B1",
+        "description": "a set of arrows printed on reusable material"
       },
       {
         "word": "collection bin",
-        "level": "B1"
+        "level": "B1",
+        "description": "a container where people place used items"
       },
       {
         "word": "compost bag",
-        "level": "B1"
+        "level": "B1",
+        "description": "a sack holding food scraps for soil"
       },
       {
         "word": "glass bottle",
-        "level": "B1"
+        "level": "B1",
+        "description": "a container made from a hard clear material"
       },
       {
         "word": "metal straw",
-        "level": "B1"
+        "level": "B1",
+        "description": "a narrow reusable tube for drinking"
       },
       {
         "word": "shopping tote",
-        "level": "B1"
+        "level": "B1",
+        "description": "a strong bag carried to a store"
       },
       {
         "word": "sorting belt",
-        "level": "B2"
+        "level": "B2",
+        "description": "a moving strip where workers separate rubbish"
       },
       {
         "word": "waste truck",
-        "level": "B1"
+        "level": "B1",
+        "description": "a vehicle carrying rubbish away"
       },
       {
         "word": "refill tap",
-        "level": "B1"
+        "level": "B1",
+        "description": "a water source used to fill a bottle again"
       },
       {
         "word": "plastic wrapper",
-        "level": "B1"
+        "level": "B1",
+        "description": "a thin cover around food or goods"
       },
       {
         "word": "recycling centre",
-        "level": "B1"
+        "level": "B1",
+        "description": "a place where used materials are processed"
       },
       {
         "word": "river litter",
-        "level": "B1"
+        "level": "B1",
+        "description": "rubbish floating or resting beside fresh water"
       },
       {
         "word": "return kiosk",
-        "level": "B2"
+        "level": "B2",
+        "description": "a machine accepting empty containers"
       },
       {
         "word": "waste audit",
-        "level": "B2"
+        "level": "B2",
+        "description": "a review of what materials are thrown away"
       }
     ],
     "imposter": [
       {
-        "word": "single-use plastic",
-        "decoy": "disposable packaging",
-        "level": "B1"
-      },
-      {
-        "word": "microplastic",
-        "decoy": "plastic fibre",
-        "level": "B2"
-      },
-      {
         "word": "recycling",
-        "decoy": "reuse",
-        "level": "B1"
+        "level": "B1",
+        "description": "turning used materials into new products",
+        "hint": "waste reduction",
+        "crewQuestion": "What can happen to a glass jar after use?",
+        "imposterQuestion": "What can happen to a glass jar before use?"
+      },
+      {
+        "word": "plastic bag",
+        "level": "B1",
+        "description": "a light container made from flexible material",
+        "hint": "waste item",
+        "crewQuestion": "What might someone reuse to carry shopping home?",
+        "imposterQuestion": "What might someone fill to carry shopping home?"
       },
       {
         "word": "landfill",
-        "decoy": "dump",
-        "level": "B1"
+        "level": "B1",
+        "description": "a place where rubbish is buried in the ground",
+        "hint": "waste place",
+        "crewQuestion": "Where may rubbish go when it cannot be reused?",
+        "imposterQuestion": "Where may rubbish go when it can be reused?"
       },
       {
-        "word": "plastic pellet",
-        "decoy": "resin bead",
-        "level": "B2"
+        "word": "reusable bottle",
+        "level": "B1",
+        "description": "a container made to be used many times",
+        "hint": "waste reduction",
+        "crewQuestion": "What can someone refill each day instead of throwing away?",
+        "imposterQuestion": "What can someone empty each day instead of throwing away?"
       },
       {
-        "word": "biodegradable",
-        "decoy": "compostable",
-        "level": "B2"
+        "word": "microplastic",
+        "level": "B2",
+        "description": "a tiny piece of plastic in nature",
+        "hint": "waste problem",
+        "crewQuestion": "What small pollution might appear in a river sample?",
+        "imposterQuestion": "What small pollution might disappear from a river sample?"
       },
       {
-        "word": "deposit scheme",
-        "decoy": "bottle return",
-        "level": "B2"
-      },
-      {
-        "word": "marine debris",
-        "decoy": "ocean litter",
-        "level": "B1"
+        "word": "collection bin",
+        "level": "B1",
+        "description": "a container where people place used materials",
+        "hint": "waste item",
+        "crewQuestion": "Where can someone drop an empty can at school?",
+        "imposterQuestion": "Where can someone pick up an empty can at school?"
       }
     ],
     "twentyQuestions": [
@@ -41195,7 +41483,8 @@
           "trees",
           "land"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "the loss of places where animals or plants live"
       },
       {
         "word": "endangered species",
@@ -41205,7 +41494,8 @@
           "protect",
           "animals"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "animals or plants at risk of disappearing"
       },
       {
         "word": "conservation area",
@@ -41215,7 +41505,8 @@
           "park",
           "wildlife"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a protected place where nature can remain safe"
       },
       {
         "word": "wildlife corridor",
@@ -41225,7 +41516,8 @@
           "habitat",
           "animals"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a path joining two natural living areas"
       },
       {
         "word": "poaching",
@@ -41235,7 +41527,8 @@
           "hunt",
           "trade"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "illegal hunting or catching of wild animals"
       },
       {
         "word": "population survey",
@@ -41245,7 +41538,8 @@
           "field",
           "data"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "counting animals to learn how many there are"
       },
       {
         "word": "nesting site",
@@ -41255,7 +41549,8 @@
           "place",
           "breed"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a place where eggs or young animals are kept"
       },
       {
         "word": "camera trap",
@@ -41265,7 +41560,8 @@
           "animal",
           "record"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a hidden camera taking pictures of passing animals"
       },
       {
         "word": "rehabilitation centre",
@@ -41275,7 +41571,8 @@
           "animals",
           "return"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a place helping injured animals recover"
       },
       {
         "word": "native species",
@@ -41285,7 +41582,8 @@
           "plant",
           "animal"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a plant or animal that belongs in one region"
       },
       {
         "word": "invasive species",
@@ -41295,7 +41593,8 @@
           "change",
           "ecosystem"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a nonlocal plant or animal that causes harm"
       },
       {
         "word": "anti-poaching patrol",
@@ -41305,7 +41604,8 @@
           "walk",
           "illegal"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "people searching an area to stop illegal hunting"
       },
       {
         "word": "release site",
@@ -41315,7 +41615,8 @@
           "animal",
           "place"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a safe place where animals can be returned"
       },
       {
         "word": "conservation group",
@@ -41325,107 +41626,130 @@
           "organize",
           "wildlife"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a group working to protect nature"
       }
     ],
     "hotSeat": [
       {
         "word": "field notebook",
-        "level": "B1"
+        "level": "B1",
+        "description": "a small book for recording outdoor observations"
       },
       {
         "word": "wildlife camera",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device taking pictures of animals outside"
       },
       {
         "word": "bird hide",
-        "level": "B1"
+        "level": "B1",
+        "description": "a shelter where watchers can observe birds quietly"
       },
       {
         "word": "tracking collar",
-        "level": "B2"
+        "level": "B2",
+        "description": "a band showing where an animal travels"
       },
       {
         "word": "park ranger",
-        "level": "B1"
+        "level": "B1",
+        "description": "a person caring for a natural area"
       },
       {
         "word": "nest box",
-        "level": "B1"
+        "level": "B1",
+        "description": "a wooden shelter where birds can lay eggs"
       },
       {
         "word": "rescue centre",
-        "level": "B1"
+        "level": "B1",
+        "description": "a place treating animals that need help"
       },
       {
         "word": "habitat map",
-        "level": "B1"
+        "level": "B1",
+        "description": "a drawing showing where animals can live"
       },
       {
         "word": "animal footprint",
-        "level": "B1"
+        "level": "B1",
+        "description": "a mark left by a wild creature’s foot"
       },
       {
         "word": "wildlife crossing",
-        "level": "B2"
+        "level": "B2",
+        "description": "a safe path animals can use across a road"
       },
       {
         "word": "tree nursery",
-        "level": "B1"
+        "level": "B1",
+        "description": "a place where young trees are grown"
       },
       {
         "word": "patrol route",
-        "level": "B2"
+        "level": "B2",
+        "description": "a path followed while checking an area"
       },
       {
         "word": "species list",
-        "level": "B1"
+        "level": "B1",
+        "description": "a record naming plants or animals found"
       },
       {
         "word": "release crate",
-        "level": "B2"
+        "level": "B2",
+        "description": "a box carrying an animal to a safe place"
       }
     ],
     "imposter": [
       {
         "word": "habitat loss",
-        "decoy": "deforestation",
-        "level": "B1"
+        "level": "B1",
+        "description": "the loss of places where wild things live",
+        "hint": "nature problem",
+        "crewQuestion": "What can happen when trees are cut down for roads?",
+        "imposterQuestion": "What can happen when trees are planted beside roads?"
       },
       {
         "word": "endangered species",
-        "decoy": "threatened species",
-        "level": "B1"
-      },
-      {
-        "word": "wildlife corridor",
-        "decoy": "migration route",
-        "level": "B2"
+        "level": "B1",
+        "description": "an animal or plant at risk of disappearing",
+        "hint": "nature protection",
+        "crewQuestion": "Which kind of animal may need special protection?",
+        "imposterQuestion": "Which kind of animal may need no protection?"
       },
       {
         "word": "poaching",
-        "decoy": "illegal hunting",
-        "level": "B2"
+        "level": "B2",
+        "description": "illegal hunting or catching of wild animals",
+        "hint": "nature problem",
+        "crewQuestion": "What crime can a patrol try to prevent?",
+        "imposterQuestion": "What job can a patrol try to encourage?"
+      },
+      {
+        "word": "population survey",
+        "level": "B2",
+        "description": "counting animals to learn how many exist",
+        "hint": "nature research",
+        "crewQuestion": "What can help a team estimate how many birds remain?",
+        "imposterQuestion": "What can help a team estimate how many birds arrived?"
       },
       {
         "word": "camera trap",
-        "decoy": "trail camera",
-        "level": "B2"
+        "level": "B2",
+        "description": "a hidden camera taking pictures of passing animals",
+        "hint": "field equipment",
+        "crewQuestion": "What can record a fox passing at night?",
+        "imposterQuestion": "What can record a fox passing in daylight?"
       },
       {
-        "word": "rehabilitation centre",
-        "decoy": "rescue centre",
-        "level": "B1"
-      },
-      {
-        "word": "native species",
-        "decoy": "endemic species",
-        "level": "B2"
-      },
-      {
-        "word": "invasive species",
-        "decoy": "introduced species",
-        "level": "B2"
+        "word": "park ranger",
+        "level": "B1",
+        "description": "a person caring for a natural area",
+        "hint": "nature job",
+        "crewQuestion": "Who might check a trail and help visitors?",
+        "imposterQuestion": "Who might cross a trail and greet visitors?"
       }
     ],
     "twentyQuestions": [
@@ -41483,7 +41807,8 @@
           "top",
           "city"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a roof covered with plants above a building"
       },
       {
         "word": "street tree",
@@ -41493,7 +41818,8 @@
           "shade",
           "leaf"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a tall plant growing beside a road"
       },
       {
         "word": "community garden",
@@ -41503,7 +41829,8 @@
           "grow",
           "shared"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a shared place where neighbours grow food"
       },
       {
         "word": "urban wildlife",
@@ -41513,7 +41840,8 @@
           "live",
           "streets"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "animals and plants living in a town"
       },
       {
         "word": "rain garden",
@@ -41523,7 +41851,8 @@
           "drain",
           "storm"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a planted area soaking up rainwater"
       },
       {
         "word": "pollinator garden",
@@ -41533,7 +41862,8 @@
           "nectar",
           "plants"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a flower area helping insects find food"
       },
       {
         "word": "wildlife crossing",
@@ -41543,7 +41873,8 @@
           "bridge",
           "safe"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a safe route for animals to cross a road"
       },
       {
         "word": "tree canopy",
@@ -41553,7 +41884,8 @@
           "shade",
           "street"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "the leafy cover made by branches above streets"
       },
       {
         "word": "green corridor",
@@ -41563,7 +41895,8 @@
           "path",
           "nature"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a planted path connecting green places"
       },
       {
         "word": "bird feeder",
@@ -41573,7 +41906,8 @@
           "visit",
           "garden"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a container holding food for wild birds"
       },
       {
         "word": "native planting",
@@ -41583,7 +41917,8 @@
           "choose",
           "area"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "growing plants that belong in a local area"
       },
       {
         "word": "park bench",
@@ -41593,7 +41928,8 @@
           "people",
           "rest"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a seat placed outside in a public green space"
       },
       {
         "word": "community orchard",
@@ -41603,7 +41939,8 @@
           "shared",
           "grow"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a place where fruit trees are grown together"
       },
       {
         "word": "vacant lot",
@@ -41613,107 +41950,130 @@
           "city",
           "build"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "an empty piece of land between buildings"
       }
     ],
     "hotSeat": [
       {
         "word": "balcony planter",
-        "level": "B1"
+        "level": "B1",
+        "description": "a container on a raised ledge for flowers"
       },
       {
         "word": "nesting box",
-        "level": "B1"
+        "level": "B1",
+        "description": "a wooden shelter where small birds can raise young"
       },
       {
         "word": "street planter",
-        "level": "B1"
+        "level": "B1",
+        "description": "a large container of plants beside a road"
       },
       {
         "word": "park map",
-        "level": "B1"
+        "level": "B1",
+        "description": "a drawing showing paths and places in a green space"
       },
       {
         "word": "allotment plot",
-        "level": "B2"
+        "level": "B2",
+        "description": "a small piece of land used to grow food"
       },
       {
         "word": "wildflower strip",
-        "level": "B2"
+        "level": "B2",
+        "description": "a narrow area filled with local flowers"
       },
       {
         "word": "urban fox",
-        "level": "B1"
+        "level": "B1",
+        "description": "a wild animal living among city buildings"
       },
       {
         "word": "bird bath",
-        "level": "B1"
+        "level": "B1",
+        "description": "a shallow dish where birds can drink or wash"
       },
       {
         "word": "green wall",
-        "level": "B2"
+        "level": "B2",
+        "description": "a building side covered in living plants"
       },
       {
         "word": "tree pit",
-        "level": "B2"
+        "level": "B2",
+        "description": "an opening in pavement where a tree grows"
       },
       {
-        "word": "community compost",
-        "level": "B2"
+        "word": "compost bin",
+        "level": "B2",
+        "description": "a container where leaves and food scraps break down"
       },
       {
         "word": "roof garden",
-        "level": "B1"
+        "level": "B1",
+        "description": "a planted outdoor space above a building"
       },
       {
         "word": "bird count",
-        "level": "B1"
+        "level": "B1",
+        "description": "the number of birds seen in an area"
       },
       {
         "word": "park volunteer",
-        "level": "B1"
+        "level": "B1",
+        "description": "a person who helps care for a green space"
       }
     ],
     "imposter": [
       {
         "word": "green roof",
-        "decoy": "roof garden",
-        "level": "B1"
+        "level": "B1",
+        "description": "a roof covered with plants above a building",
+        "hint": "city nature",
+        "crewQuestion": "What can cool a city building in hot weather?",
+        "imposterQuestion": "What can warm a city building in cold weather?"
       },
       {
         "word": "street tree",
-        "decoy": "park tree",
-        "level": "B1"
+        "level": "B1",
+        "description": "a tall plant growing beside a road",
+        "hint": "city nature",
+        "crewQuestion": "What can give shade to people walking on a pavement?",
+        "imposterQuestion": "What can give light to people walking on a pavement?"
       },
       {
         "word": "community garden",
-        "decoy": "allotment",
-        "level": "B2"
+        "level": "B1",
+        "description": "a shared place where neighbours grow food",
+        "hint": "city nature",
+        "crewQuestion": "Where can people grow vegetables together near home?",
+        "imposterQuestion": "Where can people buy vegetables together near home?"
       },
       {
-        "word": "urban wildlife",
-        "decoy": "city wildlife",
-        "level": "B1"
+        "word": "pollinator garden",
+        "level": "B1",
+        "description": "a flower area helping insects find food",
+        "hint": "city nature",
+        "crewQuestion": "What can help bees find blossoms in a town?",
+        "imposterQuestion": "What can help fish find streams in a town?"
       },
       {
-        "word": "rain garden",
-        "decoy": "wetland",
-        "level": "B2"
+        "word": "urban fox",
+        "level": "B1",
+        "description": "a wild animal living among city buildings",
+        "hint": "city wildlife",
+        "crewQuestion": "Which animal may search for food near houses at night?",
+        "imposterQuestion": "Which animal may search for food near houses at noon?"
       },
       {
-        "word": "green corridor",
-        "decoy": "wildlife corridor",
-        "level": "B2"
-      },
-      {
-        "word": "bird feeder",
-        "decoy": "bird bath",
-        "level": "B1"
-      },
-      {
-        "word": "vacant lot",
-        "decoy": "brownfield site",
-        "level": "B2"
+        "word": "bird bath",
+        "level": "B1",
+        "description": "a shallow dish where birds can drink or wash",
+        "hint": "garden item",
+        "crewQuestion": "What can help birds clean their feathers in a yard?",
+        "imposterQuestion": "What can help birds warm their feathers in a yard?"
       }
     ],
     "twentyQuestions": [
@@ -41771,7 +42131,8 @@
           "travel",
           "pay"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a card or pass used to pay for public travel"
       },
       {
         "word": "bus lane",
@@ -41781,7 +42142,8 @@
           "vehicle",
           "traffic"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a road section reserved for buses"
       },
       {
         "word": "commuter train",
@@ -41791,7 +42153,8 @@
           "ride",
           "rail"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a train carrying people to and from work"
       },
       {
         "word": "route map",
@@ -41801,7 +42164,8 @@
           "look",
           "direction"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a drawing showing routes for buses or trains"
       },
       {
         "word": "transfer",
@@ -41811,7 +42175,8 @@
           "trip",
           "ticket"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "changing from one vehicle to another on a trip"
       },
       {
         "word": "accessibility ramp",
@@ -41821,7 +42186,8 @@
           "slope",
           "step-free"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a sloped path helping wheels reach another level"
       },
       {
         "word": "fare zone",
@@ -41831,7 +42197,8 @@
           "boundary",
           "route"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "an area where one fare price applies"
       },
       {
         "word": "rapid transit",
@@ -41841,7 +42208,8 @@
           "city",
           "rail"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a system moving many passengers quickly"
       },
       {
         "word": "service alert",
@@ -41851,7 +42219,8 @@
           "route",
           "change"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a message about a change to normal service"
       },
       {
         "word": "bike share",
@@ -41861,7 +42230,8 @@
           "station",
           "short"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "bicycles people can borrow for short trips"
       },
       {
         "word": "peak hour",
@@ -41871,7 +42241,8 @@
           "evening",
           "travel"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "the busiest time for travelling in a day"
       },
       {
         "word": "real-time display",
@@ -41881,7 +42252,8 @@
           "minutes",
           "update"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a display showing the latest arrival information"
       },
       {
         "word": "bus shelter",
@@ -41891,7 +42263,8 @@
           "wait",
           "seat"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a small covered place to wait for a bus"
       },
       {
         "word": "integrated ticket",
@@ -41901,107 +42274,130 @@
           "system",
           "transfer"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "one pass used to travel in several ways"
       }
     ],
     "hotSeat": [
       {
         "word": "bus stop",
-        "level": "B1"
+        "level": "B1",
+        "description": "a marked place where passengers wait for buses"
       },
       {
         "word": "train platform",
-        "level": "B1"
+        "level": "B1",
+        "description": "a raised area beside a train track"
       },
       {
         "word": "tram bell",
-        "level": "B1"
+        "level": "B1",
+        "description": "a ringing sound warning people near a streetcar"
       },
       {
         "word": "ticket machine",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device that sells travel passes"
       },
       {
         "word": "station gate",
-        "level": "B1"
+        "level": "B1",
+        "description": "an entrance checked before boarding"
       },
       {
         "word": "arrival board",
-        "level": "B1"
+        "level": "B1",
+        "description": "a display showing when vehicles are due"
       },
       {
         "word": "transit app",
-        "level": "B1"
+        "level": "B1",
+        "description": "software showing routes and travel times"
       },
       {
         "word": "ferry terminal",
-        "level": "B1"
+        "level": "B1",
+        "description": "a building where boats collect passengers"
       },
       {
         "word": "travel card",
-        "level": "B1"
+        "level": "B1",
+        "description": "a card used to pay for public journeys"
       },
       {
         "word": "bike rack",
-        "level": "B1"
+        "level": "B1",
+        "description": "a frame where bicycles can be locked"
       },
       {
         "word": "route timetable",
-        "level": "B1"
+        "level": "B1",
+        "description": "a chart showing when vehicles should arrive"
       },
       {
         "word": "accessible lift",
-        "level": "B1"
+        "level": "B1",
+        "description": "a moving platform helping people change floors"
       },
       {
         "word": "platform edge",
-        "level": "B1"
+        "level": "B1",
+        "description": "the outer line beside the track"
       },
       {
         "word": "service map",
-        "level": "B1"
+        "level": "B1",
+        "description": "a drawing showing the available travel network"
       }
     ],
     "imposter": [
       {
         "word": "transit pass",
-        "decoy": "travel card",
-        "level": "B1"
+        "level": "B1",
+        "description": "a card or pass used to pay for public travel",
+        "hint": "travel item",
+        "crewQuestion": "What might someone show before boarding a city bus?",
+        "imposterQuestion": "What might someone show before boarding a city train?"
       },
       {
         "word": "bus lane",
-        "decoy": "cycle lane",
-        "level": "B1"
+        "level": "B1",
+        "description": "a road section reserved for buses",
+        "hint": "road feature",
+        "crewQuestion": "Which part of a street helps buses avoid other traffic?",
+        "imposterQuestion": "Which part of a street helps bikes avoid other traffic?"
       },
       {
         "word": "commuter train",
-        "decoy": "regional train",
-        "level": "B2"
+        "level": "B1",
+        "description": "a train carrying people to and from work",
+        "hint": "rail transport",
+        "crewQuestion": "What can carry workers into a city each morning?",
+        "imposterQuestion": "What can carry students into a city each morning?"
       },
       {
         "word": "route map",
-        "decoy": "network map",
-        "level": "B1"
+        "level": "B1",
+        "description": "a drawing showing paths for buses or trains",
+        "hint": "travel tool",
+        "crewQuestion": "What can help a visitor choose which line to take?",
+        "imposterQuestion": "What can help a visitor choose which meal to take?"
       },
       {
-        "word": "rapid transit",
-        "decoy": "light rail",
-        "level": "B2"
-      },
-      {
-        "word": "fare zone",
-        "decoy": "ticket zone",
-        "level": "B2"
+        "word": "ferry terminal",
+        "level": "B1",
+        "description": "a building where boats collect passengers",
+        "hint": "travel place",
+        "crewQuestion": "Where can people wait before crossing water by boat?",
+        "imposterQuestion": "Where can people wait before crossing water by bridge?"
       },
       {
         "word": "bike share",
-        "decoy": "car share",
-        "level": "B1"
-      },
-      {
-        "word": "peak hour",
-        "decoy": "rush hour",
-        "level": "B1"
+        "level": "B1",
+        "description": "bicycles people can borrow for short trips",
+        "hint": "travel service",
+        "crewQuestion": "What can a visitor use to travel across town outdoors?",
+        "imposterQuestion": "What can a visitor use to travel across town underground?"
       }
     ],
     "twentyQuestions": [
@@ -42059,7 +42455,8 @@
           "urban",
           "system"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a city using technology to manage its services"
       },
       {
         "word": "green building",
@@ -42069,7 +42466,8 @@
           "efficient",
           "design"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a structure designed to use less energy"
       },
       {
         "word": "urban density",
@@ -42079,7 +42477,8 @@
           "space",
           "crowded"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "how many people live in one city area"
       },
       {
         "word": "mixed-use block",
@@ -42089,7 +42488,8 @@
           "offices",
           "together"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a group of buildings used for different purposes"
       },
       {
         "word": "public square",
@@ -42099,7 +42499,8 @@
           "open",
           "city"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "an open area where people can gather"
       },
       {
         "word": "walkability",
@@ -42109,7 +42510,8 @@
           "easy",
           "nearby"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "how easy it is to walk around an area"
       },
       {
         "word": "district heating",
@@ -42119,7 +42521,8 @@
           "buildings",
           "energy"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "heating shared among several buildings"
       },
       {
         "word": "floodable park",
@@ -42129,7 +42532,8 @@
           "green",
           "space"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a park designed to hold extra rainwater"
       },
       {
         "word": "housing co-op",
@@ -42139,7 +42543,8 @@
           "own",
           "building"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "homes owned and managed by the people living there"
       },
       {
         "word": "urban farm",
@@ -42149,7 +42554,8 @@
           "grow",
           "rooftop"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "growing food inside a town or city"
       },
       {
         "word": "cool roof",
@@ -42159,7 +42565,8 @@
           "building",
           "reflect"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a roof designed to stay cooler in hot weather"
       },
       {
         "word": "mobility hub",
@@ -42169,7 +42576,8 @@
           "connect",
           "place"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a place joining several ways of getting around"
       },
       {
         "word": "street redesign",
@@ -42179,7 +42587,8 @@
           "space",
           "change"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "changing a road to work better for people"
       },
       {
         "word": "accessible design",
@@ -42189,107 +42598,130 @@
           "everyone",
           "plan"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "planning places so more people can use them"
       }
     ],
     "hotSeat": [
       {
         "word": "rooftop garden",
-        "level": "B1"
+        "level": "B1",
+        "description": "an outdoor place with plants above a building"
       },
       {
         "word": "solar canopy",
-        "level": "B2"
+        "level": "B2",
+        "description": "a cover collecting sunlight over a path or car park"
       },
       {
         "word": "shared courtyard",
-        "level": "B1"
+        "level": "B1",
+        "description": "an open space used by nearby homes"
       },
       {
         "word": "bike garage",
-        "level": "B1"
+        "level": "B1",
+        "description": "a locked building where bicycles can be kept"
       },
       {
         "word": "rainwater tank",
-        "level": "B1"
+        "level": "B1",
+        "description": "a container storing water from a roof"
       },
       {
         "word": "green wall",
-        "level": "B2"
+        "level": "B2",
+        "description": "a building side covered in living plants"
       },
       {
         "word": "bus plaza",
-        "level": "B1"
+        "level": "B1",
+        "description": "an open area where several buses stop"
       },
       {
         "word": "pedestrian bridge",
-        "level": "B1"
+        "level": "B1",
+        "description": "a raised path people can walk across"
       },
       {
         "word": "smart meter",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device measuring power or water use"
       },
       {
         "word": "community hub",
-        "level": "B1"
+        "level": "B1",
+        "description": "a shared place for services and activities"
       },
       {
         "word": "public bench",
-        "level": "B1"
+        "level": "B1",
+        "description": "a long seat outside for anyone to use"
       },
       {
         "word": "cooling centre",
-        "level": "B2"
+        "level": "B2",
+        "description": "a public room offering shelter in hot weather"
       },
       {
         "word": "housing tower",
-        "level": "B1"
+        "level": "B1",
+        "description": "a tall building with many homes"
       },
       {
         "word": "urban greenhouse",
-        "level": "B2"
+        "level": "B2",
+        "description": "a glass building growing plants in a city"
       }
     ],
     "imposter": [
       {
         "word": "smart city",
-        "decoy": "connected city",
-        "level": "B2"
+        "level": "B1",
+        "description": "a city using technology to manage its services",
+        "hint": "city planning",
+        "crewQuestion": "What can help a town manage traffic and energy?",
+        "imposterQuestion": "What can help a town manage parks and gardens?"
       },
       {
         "word": "green building",
-        "decoy": "eco-building",
-        "level": "B1"
-      },
-      {
-        "word": "urban density",
-        "decoy": "population density",
-        "level": "B2"
-      },
-      {
-        "word": "mixed-use block",
-        "decoy": "commercial district",
-        "level": "B2"
-      },
-      {
-        "word": "public square",
-        "decoy": "plaza",
-        "level": "B1"
+        "level": "B1",
+        "description": "a structure designed to use less energy",
+        "hint": "city planning",
+        "crewQuestion": "What can reduce power use in an office?",
+        "imposterQuestion": "What can increase power use in an office?"
       },
       {
         "word": "walkability",
-        "decoy": "pedestrian access",
-        "level": "B2"
+        "level": "B2",
+        "description": "how easy it is to walk around an area",
+        "hint": "city planning",
+        "crewQuestion": "What can make a neighbourhood comfortable to explore on foot?",
+        "imposterQuestion": "What can make a neighbourhood difficult to explore on foot?"
       },
       {
-        "word": "district heating",
-        "decoy": "central heating",
-        "level": "B2"
+        "word": "public square",
+        "level": "B1",
+        "description": "an open area where people can gather",
+        "hint": "city place",
+        "crewQuestion": "Where can neighbours meet in the centre of town?",
+        "imposterQuestion": "Where can neighbours meet at the edge of town?"
       },
       {
-        "word": "urban farm",
-        "decoy": "community garden",
-        "level": "B1"
+        "word": "cool roof",
+        "level": "B1",
+        "description": "a roof designed to stay cooler in hot weather",
+        "hint": "building design",
+        "crewQuestion": "What can help keep an apartment comfortable on a sunny day?",
+        "imposterQuestion": "What can help make an apartment warmer on a sunny day?"
+      },
+      {
+        "word": "bike garage",
+        "level": "B1",
+        "description": "a locked building where bicycles can be kept",
+        "hint": "city feature",
+        "crewQuestion": "Where can residents leave a bicycle safely?",
+        "imposterQuestion": "Where can residents leave a car safely?"
       }
     ],
     "twentyQuestions": [
@@ -42347,7 +42779,8 @@
           "planet",
           "explore"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a machine sent away from Earth to study space"
       },
       {
         "word": "mission control",
@@ -42357,7 +42790,8 @@
           "monitor",
           "flight"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a place where people guide a mission"
       },
       {
         "word": "space station",
@@ -42367,7 +42801,8 @@
           "live",
           "lab"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a home and workplace travelling above Earth"
       },
       {
         "word": "launch window",
@@ -42377,7 +42812,8 @@
           "rocket",
           "opportunity"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a suitable period for starting a launch"
       },
       {
         "word": "spacewalk",
@@ -42387,7 +42823,8 @@
           "suit",
           "station"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "working outside a spacecraft in a special suit"
       },
       {
         "word": "payload",
@@ -42397,7 +42834,8 @@
           "carry",
           "mission"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "equipment or supplies carried on a spacecraft"
       },
       {
         "word": "deep space",
@@ -42407,7 +42845,8 @@
           "explore",
           "universe"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "space far away from planets and stars near us"
       },
       {
         "word": "communication delay",
@@ -42417,7 +42856,8 @@
           "signal",
           "minutes"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "time taken for a message to travel across space"
       },
       {
         "word": "landing system",
@@ -42427,7 +42867,8 @@
           "vehicle",
           "planet"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "equipment helping a spacecraft touch down safely"
       },
       {
         "word": "orbital path",
@@ -42437,7 +42878,8 @@
           "route",
           "space"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "the path an object follows around a planet"
       },
       {
         "word": "mission patch",
@@ -42447,7 +42889,8 @@
           "design",
           "flight"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a small sign showing which trip someone joined"
       },
       {
         "word": "ground station",
@@ -42457,7 +42900,8 @@
           "signal",
           "receive"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a place on Earth sending or receiving space messages"
       },
       {
         "word": "sample return",
@@ -42467,7 +42911,8 @@
           "back",
           "mission"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "bringing material from a distant place back to Earth"
       },
       {
         "word": "crew capsule",
@@ -42477,107 +42922,130 @@
           "launch",
           "return"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a small cabin where space travellers sit"
       }
     ],
     "hotSeat": [
       {
         "word": "crew emblem",
-        "level": "B1"
+        "level": "B1",
+        "description": "a small symbol used by a space team"
       },
       {
         "word": "launch tower",
-        "level": "B1"
+        "level": "B1",
+        "description": "a tall structure holding a rocket before takeoff"
       },
       {
         "word": "space helmet",
-        "level": "B1"
+        "level": "B1",
+        "description": "a protective cover worn on an astronaut’s head"
       },
       {
         "word": "control console",
-        "level": "B1"
+        "level": "B1",
+        "description": "a desk of screens and buttons for operators"
       },
       {
         "word": "radio dish",
-        "level": "B1"
+        "level": "B1",
+        "description": "a curved tool sending or receiving signals"
       },
       {
         "word": "crew cabin",
-        "level": "B1"
+        "level": "B1",
+        "description": "a room where travellers sit inside a spacecraft"
       },
       {
         "word": "sample container",
-        "level": "B1"
+        "level": "B1",
+        "description": "a box holding material collected for study"
       },
       {
         "word": "planet model",
-        "level": "B1"
+        "level": "B1",
+        "description": "a small round copy of a world"
       },
       {
         "word": "mission timeline",
-        "level": "B2"
+        "level": "B2",
+        "description": "a chart showing the order of planned events"
       },
       {
         "word": "landing camera",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device taking pictures as a craft reaches ground"
       },
       {
         "word": "space agency",
-        "level": "B1"
+        "level": "B1",
+        "description": "an organisation planning space missions"
       },
       {
         "word": "flight director",
-        "level": "B2"
+        "level": "B2",
+        "description": "a person guiding a spacecraft mission from Earth"
       },
       {
         "word": "orbital map",
-        "level": "B2"
+        "level": "B2",
+        "description": "a drawing showing a path around a world"
       },
       {
         "word": "space telescope",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device in orbit that observes far objects"
       }
     ],
     "imposter": [
       {
         "word": "space probe",
-        "decoy": "rover",
-        "level": "B1"
-      },
-      {
-        "word": "mission control",
-        "decoy": "ground station",
-        "level": "B1"
+        "level": "B1",
+        "description": "a machine sent away from Earth to study space",
+        "hint": "space equipment",
+        "crewQuestion": "What can scientists send to collect information far away?",
+        "imposterQuestion": "What can scientists send to collect information nearby?"
       },
       {
         "word": "space station",
-        "decoy": "orbital laboratory",
-        "level": "B2"
+        "level": "B1",
+        "description": "a home and workplace travelling above Earth",
+        "hint": "space place",
+        "crewQuestion": "Where can astronauts live while circling our planet?",
+        "imposterQuestion": "Where can sailors live while crossing our planet?"
       },
       {
         "word": "spacewalk",
-        "decoy": "extravehicular activity",
-        "level": "B2"
+        "level": "B1",
+        "description": "work done outside a spacecraft in a special suit",
+        "hint": "space activity",
+        "crewQuestion": "What may an astronaut do beyond the wall of a ship?",
+        "imposterQuestion": "What may an astronaut do within the wall of a ship?"
       },
       {
         "word": "payload",
-        "decoy": "cargo",
-        "level": "B1"
+        "level": "B2",
+        "description": "equipment or supplies carried on a spacecraft",
+        "hint": "space equipment",
+        "crewQuestion": "What does a rocket carry besides its fuel?",
+        "imposterQuestion": "What does a rocket use besides its cargo?"
       },
       {
-        "word": "deep space",
-        "decoy": "outer space",
-        "level": "B1"
+        "word": "ground station",
+        "level": "B2",
+        "description": "a place on Earth receiving space messages",
+        "hint": "space place",
+        "crewQuestion": "Where can engineers listen for signals from orbit?",
+        "imposterQuestion": "Where can engineers send signals from orbit?"
       },
       {
-        "word": "launch window",
-        "decoy": "flight window",
-        "level": "B2"
-      },
-      {
-        "word": "sample return",
-        "decoy": "cargo return",
-        "level": "B2"
+        "word": "space telescope",
+        "level": "B1",
+        "description": "a device in orbit that observes far objects",
+        "hint": "space equipment",
+        "crewQuestion": "What can help scientists see distant stars more clearly?",
+        "imposterQuestion": "What can help scientists hear distant stars more clearly?"
       }
     ],
     "twentyQuestions": [
@@ -42635,7 +43103,8 @@
           "wheels",
           "explore"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a robotic vehicle exploring the surface of Mars"
       },
       {
         "word": "regolith",
@@ -42645,7 +43114,8 @@
           "Martian",
           "surface"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "loose material covering the surface of a planet"
       },
       {
         "word": "landing site",
@@ -42655,7 +43125,8 @@
           "choose",
           "safe"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a place chosen for a spacecraft to touch down"
       },
       {
         "word": "sample tube",
@@ -42665,7 +43136,8 @@
           "collect",
           "small"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a small tube holding material collected for study"
       },
       {
         "word": "solar array",
@@ -42675,7 +43147,8 @@
           "power",
           "unfold"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "flat devices collecting light to make electricity"
       },
       {
         "word": "dust storm",
@@ -42685,7 +43158,8 @@
           "blow",
           "planet"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a moving cloud of dust on a dry planet"
       },
       {
         "word": "habitat module",
@@ -42695,7 +43169,8 @@
           "room",
           "Mars"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a room or building module for people to live in"
       },
       {
         "word": "ascent vehicle",
@@ -42705,7 +43180,8 @@
           "return",
           "up"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a vehicle carrying travellers away from a planet"
       },
       {
         "word": "communication window",
@@ -42715,7 +43191,8 @@
           "time",
           "send"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a period when a spacecraft can send or receive messages"
       },
       {
         "word": "Martian day",
@@ -42725,7 +43202,8 @@
           "planet",
           "time"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a day on Mars from one noon to the next"
       },
       {
         "word": "heat shield",
@@ -42735,7 +43213,8 @@
           "protect",
           "vehicle"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a cover protecting a vehicle from intense heat"
       },
       {
         "word": "drill core",
@@ -42745,7 +43224,8 @@
           "collect",
           "soil"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a long sample cut from material underground"
       },
       {
         "word": "mission timeline",
@@ -42755,7 +43235,8 @@
           "flight",
           "plan"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a chart showing the planned order of events"
       },
       {
         "word": "crew supplies",
@@ -42765,107 +43246,130 @@
           "tools",
           "carry"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "food and tools carried by a space crew"
       }
     ],
     "hotSeat": [
       {
         "word": "rover wheel",
-        "level": "B1"
+        "level": "B1",
+        "description": "a round part helping a machine cross rough ground"
       },
       {
         "word": "landing parachute",
-        "level": "B1"
+        "level": "B1",
+        "description": "a wide fabric cover slowing a vehicle’s fall"
       },
       {
         "word": "sample canister",
-        "level": "B2"
+        "level": "B2",
+        "description": "a hard container holding collected soil or rock"
       },
       {
         "word": "Mars map",
-        "level": "B1"
+        "level": "B1",
+        "description": "a drawing showing places on the red planet"
       },
       {
-        "word": "red dust filter",
-        "level": "B2"
+        "word": "dust filter",
+        "level": "B2",
+        "description": "a screen trapping fine dirt from the air"
       },
       {
         "word": "habitat door",
-        "level": "B1"
+        "level": "B1",
+        "description": "an entrance to a shelter on a planet"
       },
       {
         "word": "solar panel",
-        "level": "B1"
+        "level": "B1",
+        "description": "a flat device changing sunlight into power"
       },
       {
         "word": "mission badge",
-        "level": "B1"
+        "level": "B1",
+        "description": "a small symbol worn by a space team"
       },
       {
         "word": "soil drill",
-        "level": "B1"
+        "level": "B1",
+        "description": "a tool making a hole in the ground"
       },
       {
         "word": "robot arm",
-        "level": "B1"
+        "level": "B1",
+        "description": "a mechanical limb that can move objects"
       },
       {
         "word": "oxygen tank",
-        "level": "B1"
+        "level": "B1",
+        "description": "a container holding air for breathing"
       },
       {
         "word": "entry capsule",
-        "level": "B2"
+        "level": "B2",
+        "description": "a small vehicle carrying people through an atmosphere"
       },
       {
         "word": "surface camera",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device taking pictures from the ground"
       },
       {
-        "word": "planetarium model",
-        "level": "B1"
+        "word": "planet model",
+        "level": "B1",
+        "description": "a small round copy of a world"
       }
     ],
     "imposter": [
       {
         "word": "Mars rover",
-        "decoy": "lunar rover",
-        "level": "B1"
+        "level": "B1",
+        "description": "a robotic vehicle exploring the surface of Mars",
+        "hint": "space equipment",
+        "crewQuestion": "What can move across the red planet without a driver?",
+        "imposterQuestion": "What can move across the red planet with a driver?"
       },
       {
         "word": "regolith",
-        "decoy": "soil",
-        "level": "B2"
+        "level": "B2",
+        "description": "loose material covering the surface of a planet",
+        "hint": "planet material",
+        "crewQuestion": "What covers much of the ground on Mars?",
+        "imposterQuestion": "What covers much of the ground under an ocean?"
       },
       {
         "word": "landing site",
-        "decoy": "launch site",
-        "level": "B1"
+        "level": "B1",
+        "description": "a place chosen for a spacecraft to touch down",
+        "hint": "space place",
+        "crewQuestion": "Where might mission planners choose to set a vehicle down?",
+        "imposterQuestion": "Where might mission planners choose to send a vehicle away?"
       },
       {
         "word": "sample tube",
-        "decoy": "specimen jar",
-        "level": "B2"
-      },
-      {
-        "word": "solar array",
-        "decoy": "solar panel",
-        "level": "B1"
+        "level": "B1",
+        "description": "a small container holding material collected for study",
+        "hint": "space equipment",
+        "crewQuestion": "What can protect a piece of soil brought from Mars?",
+        "imposterQuestion": "What can protect a piece of food brought from Mars?"
       },
       {
         "word": "dust storm",
-        "decoy": "sandstorm",
-        "level": "B1"
+        "level": "B1",
+        "description": "a moving cloud of fine dirt in dry weather",
+        "hint": "planet weather",
+        "crewQuestion": "What can cover a rover during rough weather on Mars?",
+        "imposterQuestion": "What can uncover a rover during calm weather on Mars?"
       },
       {
-        "word": "habitat module",
-        "decoy": "crew capsule",
-        "level": "B2"
-      },
-      {
-        "word": "ascent vehicle",
-        "decoy": "descent stage",
-        "level": "B2"
+        "word": "oxygen tank",
+        "level": "B1",
+        "description": "a container holding air for breathing",
+        "hint": "space equipment",
+        "crewQuestion": "What can help a crew breathe inside a shelter?",
+        "imposterQuestion": "What can help a crew sleep inside a shelter?"
       }
     ],
     "twentyQuestions": [
@@ -42923,7 +43427,8 @@
           "space",
           "device"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "an object travelling around a planet"
       },
       {
         "word": "orbit",
@@ -42933,7 +43438,8 @@
           "path",
           "space"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "the curved path one object follows around another"
       },
       {
         "word": "solar panel",
@@ -42943,7 +43449,8 @@
           "wing",
           "energy"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a device changing sunlight into electricity"
       },
       {
         "word": "antenna",
@@ -42953,7 +43460,8 @@
           "receive",
           "metal"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a device sending or receiving radio waves"
       },
       {
         "word": "payload",
@@ -42963,7 +43471,8 @@
           "carry",
           "satellite"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "equipment or supplies carried by a spacecraft"
       },
       {
         "word": "ground station",
@@ -42973,7 +43482,8 @@
           "communicate",
           "receive"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a place on Earth sending or receiving space messages"
       },
       {
         "word": "geostationary orbit",
@@ -42983,7 +43493,8 @@
           "Earth",
           "weather"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a path above one point as Earth turns"
       },
       {
         "word": "low Earth orbit",
@@ -42993,7 +43504,8 @@
           "space",
           "fast"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a low path close to the planet’s surface"
       },
       {
         "word": "signal delay",
@@ -43003,7 +43515,8 @@
           "receive",
           "wait"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "time taken for a message to travel"
       },
       {
         "word": "imaging satellite",
@@ -43013,7 +43526,8 @@
           "camera",
           "observe"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a spacecraft taking pictures of land or clouds"
       },
       {
         "word": "weather satellite",
@@ -43023,7 +43537,8 @@
           "forecast",
           "track"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "a spacecraft studying clouds and storms"
       },
       {
         "word": "navigation system",
@@ -43033,7 +43548,8 @@
           "GPS",
           "route"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "a tool helping someone or something find its way"
       },
       {
         "word": "space debris",
@@ -43043,7 +43559,8 @@
           "orbit",
           "collision"
         ],
-        "level": "B1"
+        "level": "B1",
+        "description": "old pieces of machines moving around Earth"
       },
       {
         "word": "telemetry",
@@ -43053,107 +43570,130 @@
           "send",
           "signal"
         ],
-        "level": "B2"
+        "level": "B2",
+        "description": "information sent from a spacecraft to Earth"
       }
     ],
     "hotSeat": [
       {
         "word": "dish antenna",
-        "level": "B1"
+        "level": "B1",
+        "description": "a curved device sending and receiving signals"
       },
       {
         "word": "control room",
-        "level": "B1"
+        "level": "B1",
+        "description": "a place where operators watch machines and displays"
       },
       {
         "word": "solar wing",
-        "level": "B1"
+        "level": "B1",
+        "description": "a flat panel collecting sunlight in space"
       },
       {
         "word": "tracking station",
-        "level": "B1"
+        "level": "B1",
+        "description": "a place following the position of a spacecraft"
       },
       {
         "word": "weather image",
-        "level": "B1"
+        "level": "B1",
+        "description": "a picture showing clouds from above Earth"
       },
       {
         "word": "navigation receiver",
-        "level": "B2"
+        "level": "B2",
+        "description": "a device that reads location signals"
       },
       {
         "word": "orbit diagram",
-        "level": "B1"
+        "level": "B1",
+        "description": "a drawing showing a path around a planet"
       },
       {
         "word": "launch vehicle",
-        "level": "B1"
+        "level": "B1",
+        "description": "a rocket carrying equipment into space"
       },
       {
         "word": "signal booster",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device strengthening a radio message"
       },
       {
         "word": "space telescope",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device in orbit that observes far objects"
       },
       {
         "word": "ground antenna",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device on Earth connecting with spacecraft"
       },
       {
-        "word": "data downlink",
-        "level": "B2"
+        "word": "data link",
+        "level": "B2",
+        "description": "a connection sending information to or from space"
       },
       {
         "word": "tracking dish",
-        "level": "B2"
+        "level": "B2",
+        "description": "a curved tool pointing toward an object overhead"
       },
       {
-        "word": "orbital debris map",
-        "level": "B2"
+        "word": "debris chart",
+        "level": "B2",
+        "description": "a drawing showing pieces of material in orbit"
       }
     ],
     "imposter": [
       {
         "word": "satellite",
-        "decoy": "spacecraft",
-        "level": "B1"
+        "level": "B1",
+        "description": "an object travelling around a planet",
+        "hint": "space object",
+        "crewQuestion": "What can circle Earth and send information to people?",
+        "imposterQuestion": "What can circle Earth and receive information from people?"
       },
       {
         "word": "orbit",
-        "decoy": "trajectory",
-        "level": "B2"
+        "level": "B1",
+        "description": "the curved path one object follows around another",
+        "hint": "space path",
+        "crewQuestion": "What route does a moon follow around a planet?",
+        "imposterQuestion": "What route does a plane follow over a city?"
       },
       {
         "word": "antenna",
-        "decoy": "dish",
-        "level": "B1"
+        "level": "B1",
+        "description": "a device sending or receiving radio waves",
+        "hint": "space equipment",
+        "crewQuestion": "What can send a signal to a distant spacecraft?",
+        "imposterQuestion": "What can receive a signal from a distant spacecraft?"
       },
       {
         "word": "payload",
-        "decoy": "instrument",
-        "level": "B2"
-      },
-      {
-        "word": "geostationary orbit",
-        "decoy": "equatorial orbit",
-        "level": "B2"
-      },
-      {
-        "word": "imaging satellite",
-        "decoy": "earth-observation satellite",
-        "level": "B2"
+        "level": "B2",
+        "description": "equipment or supplies carried by a spacecraft",
+        "hint": "space equipment",
+        "crewQuestion": "What might a rocket deliver into space?",
+        "imposterQuestion": "What might a rocket bring back from space?"
       },
       {
         "word": "weather satellite",
-        "decoy": "communications satellite",
-        "level": "B1"
+        "level": "B1",
+        "description": "a spacecraft studying clouds and storms",
+        "hint": "space object",
+        "crewQuestion": "What can send pictures of clouds above Earth?",
+        "imposterQuestion": "What can send pictures of buildings below Earth?"
       },
       {
-        "word": "space debris",
-        "decoy": "orbital debris",
-        "level": "B1"
+        "word": "dish antenna",
+        "level": "B1",
+        "description": "a curved device sending and receiving signals",
+        "hint": "space equipment",
+        "crewQuestion": "What can point toward a satellite above a house?",
+        "imposterQuestion": "What can point toward a satellite below a house?"
       }
     ],
     "twentyQuestions": [

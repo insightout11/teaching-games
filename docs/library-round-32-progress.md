@@ -39,3 +39,7 @@ Completed Virtual Reality, Coding, Cybersecurity, Online Learning, Digital Art, 
 Completed Food Culture, Cooking Skills, Language Learning, Travel Etiquette, Local Traditions, Exams, Homework, School Clubs, Part-Time Jobs, Future Jobs, Entrepreneurship, Money and Saving, Budgeting, Volunteering, and Public Speaking. Partial checks pass for 120 updated decks. This batch changed 5 Hot Seat and 3 Twenty Questions entries; cumulative changes: 257 and 41.
 
 The validator checks card counts and levels, descriptions and target-word forms, forbidden-word overlap, duplicate Taboo/Hot Seat cards, six Imposter fields and question quality, phrase lengths, overused targets, and similar decks. Imposter questions must use WH starters and end in `?`. Partial checks report zero failures across the 120 updated decks. Final counts and four complete sample decks will be added once all 150 decks are complete.
+
+## Batch 10 — Study Habits through Satellites (15 topics)
+
+Completed Study Habits, Sleep and Learning, Choosing Subjects, Gap Years, Career Skills, Climate Change, Renewable Energy, Plastic Waste, Wildlife Conservation, Urban Nature, Public Transport, Cities of the Future, Space Exploration, Mars Missions, and Satellites. Partial checks pass for 135 updated decks. Batch and cumulative replacement counts will be entered from the comparison with `origin/main`.
