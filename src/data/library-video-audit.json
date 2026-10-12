@@ -540,20 +540,20 @@
     "note": "Not yet, effort, learning from errors and growth-oriented classrooms match Dweck’s mindset talk; occasional caption errors do not erase its meaning."
   },
   "business-english-library.json/business-emails": {
-    "status": "mismatch",
-    "note": "Evidence: The opening explicitly introduces answering job interview questions. Suggested action: Correct the entry to the actual subject."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The opening explicitly introduces answering job interview questions. Changed fields: title, topicTags, description, summary. Video identity and duration preserved."
   },
   "business-english-library.json/business-meetings": {
-    "status": "mismatch",
-    "note": "Evidence: The opening explicitly introduces writing an email and later shows calls to action. Suggested action: Correct the entry to the actual subject."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The opening explicitly introduces writing an email and later shows calls to action. Changed fields: title, topicTags, description, summary. Video identity and duration preserved."
   },
   "business-english-library.json/business-presentations": {
-    "status": "mismatch",
-    "note": "Evidence: The cache explicitly teaches formal email openings, purpose, appointments and closings, not giving presentations or Q&A. Suggested action: Retitle to Formal Email Phrases after verifying the video/cache identity."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The cache explicitly teaches formal email openings, purpose, appointments and closings, not giving presentations or Q&A. Changed fields: title, topicTags, description, summary, hidden, hiddenNote. Video identity and duration preserved."
   },
   "business-english-library.json/business-interviews": {
-    "status": "mismatch",
-    "note": "Evidence: Martin introduces teamwork, task assignment, deadlines and clarification phrases, not common job interview answers. Suggested action: Retitle to English for Team Projects and rewrite the description."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Martin introduces teamwork, task assignment, deadlines and clarification phrases, not common job interview answers. Changed fields: title, topicTags, description, summary, hidden, hiddenNote. Video identity and duration preserved."
   },
   "business-english-library.json/business-interview-prepare-bbc": {
     "status": "ok",
@@ -568,16 +568,16 @@
     "note": "Creativity/conflict questions and STAR situation/task/action/result explain competency answers."
   },
   "business-english-library.json/business-networking": {
-    "status": "mismatch",
-    "note": "Evidence: The opening asks where you work, what you do and what kind of company employs you. Suggested action: Correct the entry to the actual subject."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The opening asks where you work, what you do and what kind of company employs you. Changed fields: title, topicTags, description, summary. Video identity and duration preserved."
   },
   "business-english-library.json/business-phone": {
-    "status": "mismatch",
-    "note": "Evidence: The English opening explicitly introduces small talk, not telephone calls. Suggested action: Correct the entry to the actual subject."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The English opening explicitly introduces small talk, not telephone calls. Changed fields: title, topicTags, description, summary. Video identity and duration preserved."
   },
   "business-english-library.json/business-negotiating": {
-    "status": "mismatch",
-    "note": "Evidence: The 4,841-word cache joins BBC work-topic programmes about office return, self-employment, bossless firms and product lifecycle; it is not a negotiation-language lesson. Suggested action: Verify the video/cache pairing and replace or retitle the source as a work-topic compilation."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The 4,841-word cache joins BBC work-topic programmes about office return, self-employment, bossless firms and product lifecycle; it is not a negotiation-language lesson. Changed fields: title, topicTags, description, summary, hidden, hiddenNote. Video identity and duration preserved."
   },
   "crash-course-library.json/cc-ww1-overview": {
     "status": "partial",
