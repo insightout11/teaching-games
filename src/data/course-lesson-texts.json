@@ -2019,5 +2019,146 @@
     "courseId": "skills-debate",
     "title": "Make the Case Again",
     "level": "B1"
+  },
+  {
+    "lessonIndex": 2,
+    "text": "Finn tells a partner about a small surprise on his walk home. First, he heard a soft ringing sound near a tree. He stopped and looked around. A bicycle stood beside the path, but nobody was riding it. Then he noticed a little bell hanging from a branch. The wind moved it against the leaves. Finn took a picture instead of touching it. Later, he showed the picture to his neighbor. She had hung the bell beside a bird feeder. Finn's story has a beginning, a discovery and an ending. His partner can follow the order without guessing what happened first.",
+    "words": [
+      {
+        "word": "ringing",
+        "meaning": "making a clear bell sound"
+      },
+      {
+        "word": "branch",
+        "meaning": "a part growing out from a tree"
+      },
+      {
+        "word": "discovery",
+        "meaning": "something you find out or notice"
+      },
+      {
+        "word": "feeder",
+        "meaning": "a container holding food for birds"
+      },
+      {
+        "word": "order",
+        "meaning": "the way things come one after another"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Where does Finn hear the sound?",
+        "a": "near a tree"
+      },
+      {
+        "q": "What is hanging from a branch?",
+        "a": "a little bell"
+      },
+      {
+        "q": "Who had hung the bell?",
+        "a": "his neighbor"
+      }
+    ],
+    "talk": [
+      "What small moment could you tell as a story with three steps?",
+      "Which details help a listener picture the discovery?"
+    ],
+    "courseId": "skills-speaking",
+    "title": "Describe a Moment",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 3,
+    "text": "Two partners are planning a class display. Lena wants a large drawing. Finn wants a model made from boxes. Lena speaks first, then asks Finn to explain his idea. “A model would let people look from different sides,” he says. She agrees, but points out that their table is small. Finn listens and changes his plan. They could make a small model with a drawing behind it. Lena offers to draw the background while Finn measures the boxes. Both partners now have a job. They did not need to win an argument. They needed to understand the other idea and build a shared plan.",
+    "words": [
+      {
+        "word": "display",
+        "meaning": "things arranged for people to look at"
+      },
+      {
+        "word": "model",
+        "meaning": "a small copy or planned version"
+      },
+      {
+        "word": "background",
+        "meaning": "the part shown behind the main thing"
+      },
+      {
+        "word": "measures",
+        "meaning": "finds the size of something"
+      },
+      {
+        "word": "shared",
+        "meaning": "belonging to or done by several people"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does Lena want to make?",
+        "a": "a large drawing"
+      },
+      {
+        "q": "What limits the model's size?",
+        "a": "their table is small"
+      },
+      {
+        "q": "Who will draw the background?",
+        "a": "Lena"
+      }
+    ],
+    "talk": [
+      "How could you invite a quieter partner to explain an idea?",
+      "What could you change when two good ideas do not fit together?"
+    ],
+    "courseId": "skills-speaking",
+    "title": "Speak with a Partner",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Finn listens to the short introduction he made at the start. He said his name and that he liked making things. Now he adds a choice and two reasons. “I would join a model club,” he says. “I enjoy finding ways to build strong shapes. I also want to learn from people with different ideas.” His partner asks for an example. Finn describes the small display he planned with Lena. Their different suggestions became one shared design. He pauses between his reasons instead of rushing. His stronger answer is still simple. The listener now knows his interests and reasons for joining.",
+    "words": [
+      {
+        "word": "introduction",
+        "meaning": "the first words explaining who or what"
+      },
+      {
+        "word": "choice",
+        "meaning": "one thing selected from different possibilities"
+      },
+      {
+        "word": "shapes",
+        "meaning": "the forms of objects"
+      },
+      {
+        "word": "design",
+        "meaning": "a plan for how something will look"
+      },
+      {
+        "word": "pauses",
+        "meaning": "stops briefly before continuing"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What club would Finn join?",
+        "a": "a model club"
+      },
+      {
+        "q": "Who planned a display with Finn?",
+        "a": "Lena"
+      },
+      {
+        "q": "What does he do between reasons?",
+        "a": "pauses"
+      }
+    ],
+    "talk": [
+      "How would you introduce yourself and explain a choice with two reasons?",
+      "What example could make one of your reasons clearer?"
+    ],
+    "courseId": "skills-speaking",
+    "title": "My Stronger Answer",
+    "level": "A2"
   }
 ]

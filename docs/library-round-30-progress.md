@@ -22,3 +22,4 @@ Texts are written individually for each lesson's topic and flight. Opening and c
 - teens-money: 2 texts; course checker passes.
 - teens-planet: 2 texts; course checker passes.
 - skills-debate: 5 texts; course checker passes.
+- skills-speaking: 3 texts; course checker passes.
