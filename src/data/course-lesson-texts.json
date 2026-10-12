@@ -1314,5 +1314,99 @@
     "courseId": "teens-sport",
     "title": "My Sport Invitation",
     "level": "B1"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "When Dara needs a quiet break, she chooses a short piece of instrumental music. It begins with a soft drum pattern, then a low melody enters. There are no words to follow. Her friend asks why she chooses it instead of a louder song. Dara taps the rhythm on the table. “The beat is steady, but little sounds change around it,” she says. “It reminds me of watching rain from indoors.” Her friend notices the melody but finds the repeated beat dull. Dara is surprised that they hear the same piece differently. She writes a first introduction for her course task: what the music sounds like, when she listens and why it matters to her. She does not need to persuade her friend to enjoy it. She wants to describe her choice clearly enough for another person to imagine the sound. Later, she hopes to notice more than whether a piece feels calm or energetic.",
+    "words": [
+      {
+        "word": "instrumental",
+        "meaning": "played with instruments rather than sung words"
+      },
+      {
+        "word": "melody",
+        "meaning": "a sequence of musical notes"
+      },
+      {
+        "word": "rhythm",
+        "meaning": "a repeated pattern of beats"
+      },
+      {
+        "word": "steady",
+        "meaning": "continuing at a regular pace"
+      },
+      {
+        "word": "energetic",
+        "meaning": "full of energy"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What begins the piece?",
+        "a": "a soft drum pattern"
+      },
+      {
+        "q": "What does the music remind Dara of?",
+        "a": "watching rain from indoors"
+      },
+      {
+        "q": "What does her friend find dull?",
+        "a": "the repeated beat"
+      }
+    ],
+    "talk": [
+      "What sounds would help you describe a piece you enjoy?",
+      "Why might two people respond differently to the same music?"
+    ],
+    "courseId": "teens-music",
+    "title": "The Music I Choose",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Dara prepares a new introduction to the instrumental piece from her first lesson. She listens for changes instead of calling the whole piece “quiet.” The drum enters alone. A low melody follows, and a higher sound answers it. Near the middle, the drum stops briefly, leaving more space around the notes. Dara plays that section for her friend. “That pause makes the next beat feel stronger,” she says. She also explains her personal reason for choosing the piece. Listening to a familiar pattern gives her a small break between busy tasks, while the changing sounds keep it interesting. Her friend still prefers music with words, but now understands her choice. Dara's final introduction names the instruments she can hear, describes one contrast and connects it to her own experience. She avoids claiming that the music will make everyone feel the same way. A good introduction can help a listener notice something without telling them what to like.",
+    "words": [
+      {
+        "word": "section",
+        "meaning": "one part of a larger piece"
+      },
+      {
+        "word": "briefly",
+        "meaning": "for a short time"
+      },
+      {
+        "word": "contrast",
+        "meaning": "a clear difference between two things"
+      },
+      {
+        "word": "familiar",
+        "meaning": "already known to you"
+      },
+      {
+        "word": "pattern",
+        "meaning": "an arrangement that repeats"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What stops near the middle?",
+        "a": "the drum"
+      },
+      {
+        "q": "What music does Dara's friend prefer?",
+        "a": "music with words"
+      },
+      {
+        "q": "What does Dara describe in her final introduction?",
+        "a": "one contrast"
+      }
+    ],
+    "talk": [
+      "Which small change in a piece would you point out to a listener?",
+      "How could you explain why music matters without making a claim for everyone?"
+    ],
+    "courseId": "teens-music",
+    "title": "My Music Introduction",
+    "level": "B1"
   }
 ]
