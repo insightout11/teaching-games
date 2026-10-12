@@ -1807,6 +1807,58 @@
     "status": "ok",
     "note": "Flood warnings, thunderstorms, fog and a football-day forecast match weather; occasional name/kickoff errors do not obscure the report."
   },
+  "natgeo-library.json/natgeo-wolves-change-rivers": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “[ذئاب تعوي] - [الراوي] من أكثر”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "natgeo-library.json/natgeo-octopus-intelligence": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ahmad Arnab المدقّق: Muhammad Samir”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "natgeo-library.json/natgeo-deep-ocean": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “في بعض الأحيان تشعر بأن العالم,”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "natgeo-library.json/natgeo-elephants-memory": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Lalla Khadija Tigha المدقّق: khalid”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "natgeo-library.json/natgeo-how-volcanoes-work": {
+    "status": "level-off",
+    "note": "Evidence: The explanation combines tectonic plates, molten mantle, calderas and logarithmic eruption magnitudes in extended scientific clauses, beyond the stored A2/Easy language level. Suggested action: Raise to B1 after checking pacing."
+  },
+  "natgeo-library.json/natgeo-human-brain": {
+    "status": "partial",
+    "note": "Evidence: The full cache describes mouse-brain tissue slicing and wiring diagrams; it gives neither the claimed 86-billion-neuron number nor a faster-than-computers comparison. Suggested action: Rewrite the description as mapping brain connections with thin tissue sections."
+  },
+  "natgeo-library.json/natgeo-amazon-rainforest": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Salma Mohammed المدقّق: Hani Eldalees”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "natgeo-library.json/natgeo-coral-reef-crisis": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mahmoud Aghiorly المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "natgeo-library.json/natgeo-ancient-egypt": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبًا، اسمي جون غرين، وهذه سلسلة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied. Secondary attribution concern: the Arabic introduction explicitly names John Green and Crash Course World History, rather than the library’s National Geographic attribution; verify source metadata."
+  },
+  "natgeo-library.json/natgeo-climate-change": {
+    "status": "ok",
+    "note": "Greenhouse gases, crop/water challenges, health and renewable energy match climate-change impacts."
+  },
+  "natgeo-library.json/natgeo-plastic-pollution": {
+    "status": "partial",
+    "note": "Evidence: The full cache explains ocean plastics, circular packaging and agricultural nutrient pollution; the description’s 9%-recycled claim is absent. Suggested action: Rewrite the description around the actual ocean-pollution and packaging examples."
+  },
+  "natgeo-library.json/natgeo-sleep-science": {
+    "status": "partial",
+    "note": "Evidence: The cache opens as Andrew Huberman’s Huberman Lab Podcast and runs to 4,919.853 seconds, while the entry names National Geographic and stores 295 seconds. Sleep matches, but this is an approximately 82-minute podcast cache. Suggested action: Verify the video/cache identity and correct publisher/duration before recommending it as a short clip."
+  },
+  "natgeo-library.json/natgeo-space-exploration": {
+    "status": "ok",
+    "note": "Orbital velocity, altitude, drag, Skylab and re-entry explain satellite orbit as claimed. The caption names SciShow Space, so verify the National Geographic attribution; the title/description subject matches."
+  },
   "ted-library.json/ken_robinson_schools_kill_creativity": {
     "status": "weak-captions",
     "note": "Evidence: The cached body is Afrikaans translation (for example, Goeie môre. Hoe gaan dit? (Gelag)), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."

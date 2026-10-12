@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 9/18; judged entries: 573/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 10/18; judged entries: 586/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -28,9 +28,10 @@ Completed libraries: 9/18; judged entries: 573/641. Cached inventory captured at
 | kids-library.json | 101 | 85 | 1 | 1 | 6 | 0 | 8 |
 | kurzgesagt-library.json | 13 | 1 | 0 | 0 | 12 | 0 | 0 |
 | listening-library.json | 60 | 58 | 0 | 2 | 0 | 0 | 0 |
+| natgeo-library.json | 13 | 2 | 0 | 3 | 7 | 0 | 1 |
 | ted-library.json | 20 | 1 | 0 | 0 | 19 | 0 | 0 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
-| **TOTAL** | **573** | 414 | 3 | 21 | 126 | 0 | 9 |
+| **TOTAL** | **586** | 416 | 3 | 24 | 133 | 0 | 10 |
 
 ## Non-ok entries, grouped by library
 
@@ -159,6 +160,22 @@ Completed libraries: 9/18; judged entries: 573/641. Cached inventory captured at
 |---|---|---|---|---|
 | listening-r8-school-equipment | School public-address announcement — school equipment | partial | The full cache announces a book fair/raffle and science-day reporting, not an equipment announcement.  | Retitle to School book fair and science-day announcement; verify the institution attribution. |
 | listening-r8-school-counselling-records | School public-address announcement — school counselling records | partial | The complete cache announces a special-education committee meeting at 12:10 on the third floor; it does not concern counselling records.  | Retitle to Special-education committee meeting announcement. |
+
+### natgeo-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| natgeo-wolves-change-rivers | How Wolves Change Rivers | weak-captions | the stored text is an Arabic-script translation, beginning “[ذئاب تعوي] - [الراوي] من أكثر”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| natgeo-octopus-intelligence | Why the Octopus Brain is So Extraordinary | weak-captions | the stored text is an Arabic-script translation, beginning “المترجم: Ahmad Arnab المدقّق: Muhammad Samir”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| natgeo-deep-ocean | What's Hiding at the Most Solitary Place on Earth? The Deep Sea | weak-captions | the stored text is an Arabic-script translation, beginning “في بعض الأحيان تشعر بأن العالم,”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| natgeo-elephants-memory | Why Elephants Never Forget | weak-captions | the stored text is an Arabic-script translation, beginning “المترجم: Lalla Khadija Tigha المدقّق: khalid”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| natgeo-how-volcanoes-work | How Volcanoes Work | level-off | The explanation combines tectonic plates, molten mantle, calderas and logarithmic eruption magnitudes in extended scientific clauses, beyond the stored A2/Easy language level.  | Raise to B1 after checking pacing. |
+| natgeo-human-brain | The Incredible Human Brain | partial | The full cache describes mouse-brain tissue slicing and wiring diagrams; it gives neither the claimed 86-billion-neuron number nor a faster-than-computers comparison.  | Rewrite the description as mapping brain connections with thin tissue sections. |
+| natgeo-amazon-rainforest | Is the Amazon Rainforest Disappearing? | weak-captions | the stored text is an Arabic-script translation, beginning “المترجم: Salma Mohammed المدقّق: Hani Eldalees”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| natgeo-coral-reef-crisis | Conserving our Spectacular, Vulnerable Coral Reefs | weak-captions | the stored text is an Arabic-script translation, beginning “المترجم: Mahmoud Aghiorly المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| natgeo-ancient-egypt | The Secrets of Ancient Egypt | weak-captions | the stored text is an Arabic-script translation, beginning “مرحبًا، اسمي جون غرين، وهذه سلسلة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. Secondary attribution concern: the Arabic introduction explicitly names John Green and Crash Course World History, rather than the library’s National Geographic attribution; verify source metadata. |
+| natgeo-plastic-pollution | The Plastic Problem | partial | The full cache explains ocean plastics, circular packaging and agricultural nutrient pollution; the description’s 9%-recycled claim is absent.  | Rewrite the description around the actual ocean-pollution and packaging examples. |
+| natgeo-sleep-science | The Science of Sleep | partial | The cache opens as Andrew Huberman’s Huberman Lab Podcast and runs to 4,919.853 seconds, while the entry names National Geographic and stores 295 seconds. Sleep matches, but this is an approximately 82-minute podcast cache.  | Verify the video/cache identity and correct publisher/duration before recommending it as a short clip. |
 
 ### ted-library.json
 
