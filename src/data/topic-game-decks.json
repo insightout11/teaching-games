@@ -27358,5 +27358,4325 @@
         "level": "B1"
       }
     ]
+  },
+  {
+    "topicId": "topic-teens-friendship",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "trust",
+        "forbidden": [
+          "believe",
+          "secret",
+          "rely",
+          "honest"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "boundaries",
+        "forbidden": [
+          "limit",
+          "personal",
+          "space",
+          "say no"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "mutual support",
+        "forbidden": [
+          "help",
+          "each other",
+          "listen",
+          "share"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "loyalty",
+        "forbidden": [
+          "stay",
+          "friend",
+          "faithful",
+          "side"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "conflict",
+        "forbidden": [
+          "argument",
+          "disagree",
+          "problem",
+          "solve"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "active listening",
+        "forbidden": [
+          "hear",
+          "focus",
+          "reply",
+          "attention"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "reconnect",
+        "forbidden": [
+          "again",
+          "contact",
+          "after",
+          "time"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "inside joke",
+        "forbidden": [
+          "funny",
+          "private",
+          "group",
+          "remember"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "shared interest",
+        "forbidden": [
+          "like",
+          "same",
+          "hobby",
+          "topic"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "peer group",
+        "forbidden": [
+          "friends",
+          "people",
+          "age",
+          "together"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "honest feedback",
+        "forbidden": [
+          "truth",
+          "advice",
+          "say",
+          "kind"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "social circle",
+        "forbidden": [
+          "friends",
+          "group",
+          "people",
+          "know"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "long-distance friend",
+        "forbidden": [
+          "far",
+          "away",
+          "contact",
+          "live"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "friendship bracelet",
+        "forbidden": [
+          "wear",
+          "thread",
+          "gift",
+          "colour"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "voice note",
+        "level": "B1"
+      },
+      {
+        "word": "group chat",
+        "level": "B1"
+      },
+      {
+        "word": "old photograph",
+        "level": "B1"
+      },
+      {
+        "word": "apology message",
+        "level": "B1"
+      },
+      {
+        "word": "shared playlist",
+        "level": "B1"
+      },
+      {
+        "word": "study partner",
+        "level": "B1"
+      },
+      {
+        "word": "team invitation",
+        "level": "B1"
+      },
+      {
+        "word": "weekend plan",
+        "level": "B1"
+      },
+      {
+        "word": "birthday message",
+        "level": "B1"
+      },
+      {
+        "word": "support network",
+        "level": "B2"
+      },
+      {
+        "word": "reunion lunch",
+        "level": "B2"
+      },
+      {
+        "word": "phone call",
+        "level": "B1"
+      },
+      {
+        "word": "friendship journal",
+        "level": "B2"
+      },
+      {
+        "word": "check-in text",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "trust",
+        "decoy": "loyalty",
+        "level": "B2"
+      },
+      {
+        "word": "boundaries",
+        "decoy": "privacy",
+        "level": "B2"
+      },
+      {
+        "word": "mutual support",
+        "decoy": "teamwork",
+        "level": "B1"
+      },
+      {
+        "word": "conflict",
+        "decoy": "disagreement",
+        "level": "B1"
+      },
+      {
+        "word": "reconnect",
+        "decoy": "reunite",
+        "level": "B1"
+      },
+      {
+        "word": "inside joke",
+        "decoy": "shared memory",
+        "level": "B2"
+      },
+      {
+        "word": "shared interest",
+        "decoy": "common hobby",
+        "level": "B1"
+      },
+      {
+        "word": "social circle",
+        "decoy": "peer group",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "group chat",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "shared playlist",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "study partner",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "team invitation",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "support network",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "phone call",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "friendship journal",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "check-in text",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-peer-pressure",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "peer pressure",
+        "forbidden": [
+          "friends",
+          "choice",
+          "group",
+          "do"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "group norm",
+        "forbidden": [
+          "usual",
+          "people",
+          "expect",
+          "behaviour"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "resist",
+        "forbidden": [
+          "say no",
+          "refuse",
+          "stop",
+          "pressure"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "confidence",
+        "forbidden": [
+          "believe",
+          "able",
+          "feel",
+          "sure"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "social risk",
+        "forbidden": [
+          "friends",
+          "judgement",
+          "choice",
+          "group"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "boundary",
+        "forbidden": [
+          "limit",
+          "personal",
+          "refuse",
+          "rule"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "conformity",
+        "forbidden": [
+          "copy",
+          "group",
+          "fit in",
+          "follow"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "assertive reply",
+        "forbidden": [
+          "clear",
+          "calm",
+          "words",
+          "answer"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "influence",
+        "forbidden": [
+          "affect",
+          "change",
+          "choice",
+          "person"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "independent choice",
+        "forbidden": [
+          "own",
+          "decide",
+          "alone",
+          "choose"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "dare",
+        "forbidden": [
+          "challenge",
+          "prove",
+          "do",
+          "risk"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "online trend",
+        "forbidden": [
+          "copy",
+          "video",
+          "popular",
+          "post"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "pressure tactic",
+        "forbidden": [
+          "trick",
+          "words",
+          "push",
+          "convince"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "supportive friend",
+        "forbidden": [
+          "help",
+          "listen",
+          "kind",
+          "trust"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "group message",
+        "level": "B1"
+      },
+      {
+        "word": "private conversation",
+        "level": "B1"
+      },
+      {
+        "word": "exit plan",
+        "level": "B2"
+      },
+      {
+        "word": "trusted adult",
+        "level": "B1"
+      },
+      {
+        "word": "practice phrase",
+        "level": "B2"
+      },
+      {
+        "word": "social media post",
+        "level": "B1"
+      },
+      {
+        "word": "team decision",
+        "level": "B1"
+      },
+      {
+        "word": "refusal script",
+        "level": "B2"
+      },
+      {
+        "word": "friend group",
+        "level": "B1"
+      },
+      {
+        "word": "personal value",
+        "level": "B2"
+      },
+      {
+        "word": "choice card",
+        "level": "B1"
+      },
+      {
+        "word": "quiet moment",
+        "level": "B1"
+      },
+      {
+        "word": "support hotline",
+        "level": "B2"
+      },
+      {
+        "word": "boundary statement",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "peer pressure",
+        "decoy": "social pressure",
+        "level": "B1"
+      },
+      {
+        "word": "conformity",
+        "decoy": "compliance",
+        "level": "B2"
+      },
+      {
+        "word": "resist",
+        "decoy": "refuse",
+        "level": "B1"
+      },
+      {
+        "word": "boundary",
+        "decoy": "limit",
+        "level": "B1"
+      },
+      {
+        "word": "assertive reply",
+        "decoy": "aggressive response",
+        "level": "B2"
+      },
+      {
+        "word": "dare",
+        "decoy": "challenge",
+        "level": "B1"
+      },
+      {
+        "word": "independent choice",
+        "decoy": "personal choice",
+        "level": "B2"
+      },
+      {
+        "word": "supportive friend",
+        "decoy": "trusted adult",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "trusted adult",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "exit plan",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "choice card",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "friend group",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "social media post",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "quiet moment",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "support hotline",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "practice phrase",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-teamwork",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "shared goal",
+        "forbidden": [
+          "team",
+          "aim",
+          "finish",
+          "common"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "role",
+        "forbidden": [
+          "job",
+          "person",
+          "task",
+          "team"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "delegate",
+        "forbidden": [
+          "give",
+          "task",
+          "person",
+          "share"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "compromise",
+        "forbidden": [
+          "agree",
+          "meet",
+          "middle",
+          "change"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "collaboration",
+        "forbidden": [
+          "work",
+          "group",
+          "together",
+          "create"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "feedback",
+        "forbidden": [
+          "advice",
+          "comments",
+          "improve",
+          "team"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "deadline",
+        "forbidden": [
+          "date",
+          "finish",
+          "time",
+          "project"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "team meeting",
+        "forbidden": [
+          "people",
+          "discuss",
+          "plan",
+          "group"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "contribution",
+        "forbidden": [
+          "add",
+          "work",
+          "help",
+          "part"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "trust",
+        "forbidden": [
+          "believe",
+          "rely",
+          "honest",
+          "team"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "coordination",
+        "forbidden": [
+          "organize",
+          "move",
+          "roles",
+          "work"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "conflict resolution",
+        "forbidden": [
+          "disagree",
+          "solve",
+          "problem",
+          "talk"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "reliable teammate",
+        "forbidden": [
+          "depend",
+          "finish",
+          "help",
+          "person"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "team charter",
+        "forbidden": [
+          "rules",
+          "group",
+          "agreement",
+          "document"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "task board",
+        "level": "B1"
+      },
+      {
+        "word": "meeting agenda",
+        "level": "B1"
+      },
+      {
+        "word": "project timeline",
+        "level": "B2"
+      },
+      {
+        "word": "team leader",
+        "level": "B1"
+      },
+      {
+        "word": "shared document",
+        "level": "B1"
+      },
+      {
+        "word": "feedback form",
+        "level": "B1"
+      },
+      {
+        "word": "group chat",
+        "level": "B1"
+      },
+      {
+        "word": "progress chart",
+        "level": "B1"
+      },
+      {
+        "word": "team presentation",
+        "level": "B1"
+      },
+      {
+        "word": "work plan",
+        "level": "B1"
+      },
+      {
+        "word": "role card",
+        "level": "B1"
+      },
+      {
+        "word": "deadline reminder",
+        "level": "B1"
+      },
+      {
+        "word": "team exercise",
+        "level": "B1"
+      },
+      {
+        "word": "decision log",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "shared goal",
+        "decoy": "common aim",
+        "level": "B1"
+      },
+      {
+        "word": "delegate",
+        "decoy": "assign",
+        "level": "B2"
+      },
+      {
+        "word": "compromise",
+        "decoy": "consensus",
+        "level": "B2"
+      },
+      {
+        "word": "collaboration",
+        "decoy": "cooperation",
+        "level": "B1"
+      },
+      {
+        "word": "contribution",
+        "decoy": "participation",
+        "level": "B2"
+      },
+      {
+        "word": "coordination",
+        "decoy": "organization",
+        "level": "B2"
+      },
+      {
+        "word": "team charter",
+        "decoy": "group agreement",
+        "level": "B2"
+      },
+      {
+        "word": "team leader",
+        "decoy": "project manager",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "task board",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "meeting agenda",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "team leader",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "shared document",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "feedback form",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "progress chart",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "decision log",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "team exercise",
+        "kind": "activity",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-music-genres",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "genre",
+        "forbidden": [
+          "style",
+          "type",
+          "music",
+          "sound"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "tempo",
+        "forbidden": [
+          "speed",
+          "beat",
+          "fast",
+          "slow"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "melody",
+        "forbidden": [
+          "notes",
+          "tune",
+          "sing",
+          "main"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "rhythm",
+        "forbidden": [
+          "beat",
+          "pattern",
+          "time",
+          "move"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "harmony",
+        "forbidden": [
+          "notes",
+          "together",
+          "sound",
+          "chord"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "instrumental",
+        "forbidden": [
+          "no",
+          "voice",
+          "play",
+          "music"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "electronic music",
+        "forbidden": [
+          "computer",
+          "synth",
+          "beat",
+          "produce"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "folk music",
+        "forbidden": [
+          "tradition",
+          "acoustic",
+          "community",
+          "song"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "classical music",
+        "forbidden": [
+          "orchestra",
+          "composer",
+          "old",
+          "formal"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "hip-hop",
+        "forbidden": [
+          "rap",
+          "beat",
+          "urban",
+          "genre"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "chorus",
+        "forbidden": [
+          "repeat",
+          "song",
+          "words",
+          "part"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "album",
+        "forbidden": [
+          "songs",
+          "artist",
+          "record",
+          "collection"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "fusion",
+        "forbidden": [
+          "mix",
+          "styles",
+          "combine",
+          "music"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "subgenre",
+        "forbidden": [
+          "smaller",
+          "type",
+          "style",
+          "within"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "vinyl record",
+        "level": "B1"
+      },
+      {
+        "word": "music chart",
+        "level": "B1"
+      },
+      {
+        "word": "genre playlist",
+        "level": "B1"
+      },
+      {
+        "word": "concert poster",
+        "level": "B1"
+      },
+      {
+        "word": "music critic",
+        "level": "B2"
+      },
+      {
+        "word": "record sleeve",
+        "level": "B1"
+      },
+      {
+        "word": "radio station",
+        "level": "B1"
+      },
+      {
+        "word": "streaming queue",
+        "level": "B1"
+      },
+      {
+        "word": "music festival",
+        "level": "B1"
+      },
+      {
+        "word": "album cover",
+        "level": "B1"
+      },
+      {
+        "word": "listening party",
+        "level": "B1"
+      },
+      {
+        "word": "music shop",
+        "level": "B1"
+      },
+      {
+        "word": "record player",
+        "level": "B1"
+      },
+      {
+        "word": "genre label",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "genre",
+        "decoy": "style",
+        "level": "B1"
+      },
+      {
+        "word": "tempo",
+        "decoy": "rhythm",
+        "level": "B2"
+      },
+      {
+        "word": "melody",
+        "decoy": "harmony",
+        "level": "B2"
+      },
+      {
+        "word": "folk music",
+        "decoy": "country music",
+        "level": "B2"
+      },
+      {
+        "word": "classical music",
+        "decoy": "orchestral music",
+        "level": "B2"
+      },
+      {
+        "word": "hip-hop",
+        "decoy": "rap",
+        "level": "B1"
+      },
+      {
+        "word": "chorus",
+        "decoy": "verse",
+        "level": "B1"
+      },
+      {
+        "word": "fusion",
+        "decoy": "crossover",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "vinyl record",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "music chart",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "concert poster",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "record sleeve",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "radio station",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "album cover",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "record player",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "music critic",
+        "kind": "job",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-live-music",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "soundcheck",
+        "forbidden": [
+          "test",
+          "audio",
+          "microphone",
+          "before"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "setlist",
+        "forbidden": [
+          "songs",
+          "order",
+          "perform",
+          "show"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "stage",
+        "forbidden": [
+          "perform",
+          "lights",
+          "raised",
+          "music"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "audience",
+        "forbidden": [
+          "crowd",
+          "watch",
+          "listen",
+          "people"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "encore",
+        "forbidden": [
+          "again",
+          "clap",
+          "return",
+          "finish"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "venue",
+        "forbidden": [
+          "place",
+          "concert",
+          "room",
+          "event"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "acoustic set",
+        "forbidden": [
+          "unplugged",
+          "guitar",
+          "quiet",
+          "live"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "opening act",
+        "forbidden": [
+          "first",
+          "band",
+          "perform",
+          "warm up"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "backstage",
+        "forbidden": [
+          "behind",
+          "crew",
+          "artists",
+          "area"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "lighting rig",
+        "forbidden": [
+          "lights",
+          "hang",
+          "concert",
+          "equipment"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "merchandise",
+        "forbidden": [
+          "shirt",
+          "buy",
+          "band",
+          "products"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "live recording",
+        "forbidden": [
+          "audio",
+          "save",
+          "concert",
+          "track"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "front row",
+        "forbidden": [
+          "near",
+          "stage",
+          "seats",
+          "people"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "stage manager",
+        "forbidden": [
+          "organize",
+          "show",
+          "crew",
+          "person"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "wristband",
+        "level": "B1"
+      },
+      {
+        "word": "ticket scanner",
+        "level": "B1"
+      },
+      {
+        "word": "mixing desk",
+        "level": "B2"
+      },
+      {
+        "word": "ear monitor",
+        "level": "B2"
+      },
+      {
+        "word": "stage pass",
+        "level": "B1"
+      },
+      {
+        "word": "venue map",
+        "level": "B1"
+      },
+      {
+        "word": "merch table",
+        "level": "B1"
+      },
+      {
+        "word": "gig poster",
+        "level": "B1"
+      },
+      {
+        "word": "security barrier",
+        "level": "B2"
+      },
+      {
+        "word": "light operator",
+        "level": "B2"
+      },
+      {
+        "word": "drum riser",
+        "level": "B2"
+      },
+      {
+        "word": "green room",
+        "level": "B2"
+      },
+      {
+        "word": "crowd surfer",
+        "level": "B2"
+      },
+      {
+        "word": "standing area",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "soundcheck",
+        "decoy": "rehearsal",
+        "level": "B1"
+      },
+      {
+        "word": "setlist",
+        "decoy": "playlist",
+        "level": "B1"
+      },
+      {
+        "word": "encore",
+        "decoy": "finale",
+        "level": "B1"
+      },
+      {
+        "word": "venue",
+        "decoy": "arena",
+        "level": "B1"
+      },
+      {
+        "word": "opening act",
+        "decoy": "support act",
+        "level": "B2"
+      },
+      {
+        "word": "backstage",
+        "decoy": "green room",
+        "level": "B2"
+      },
+      {
+        "word": "mixing desk",
+        "decoy": "soundboard",
+        "level": "B2"
+      },
+      {
+        "word": "front row",
+        "decoy": "standing area",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "wristband",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "ticket scanner",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "mixing desk",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "stage pass",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "merch table",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "green room",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "gig poster",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "light operator",
+        "kind": "job",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-songwriting",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "verse",
+        "forbidden": [
+          "song",
+          "words",
+          "chorus",
+          "part"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "chorus",
+        "forbidden": [
+          "repeat",
+          "song",
+          "main",
+          "words"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "rhyme",
+        "forbidden": [
+          "sound",
+          "ends",
+          "words",
+          "match"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "hook",
+        "forbidden": [
+          "catchy",
+          "line",
+          "remember",
+          "repeat"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "bridge",
+        "forbidden": [
+          "middle",
+          "change",
+          "song",
+          "section"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "lyric",
+        "forbidden": [
+          "words",
+          "sing",
+          "song",
+          "write"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "melody",
+        "forbidden": [
+          "tune",
+          "notes",
+          "sing",
+          "main"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "demo",
+        "forbidden": [
+          "early",
+          "recording",
+          "version",
+          "share"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "refrain",
+        "forbidden": [
+          "repeat",
+          "chorus",
+          "line",
+          "return"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "draft",
+        "forbidden": [
+          "first",
+          "version",
+          "edit",
+          "write"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "meter",
+        "forbidden": [
+          "syllables",
+          "beat",
+          "lines",
+          "poem"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "wordplay",
+        "forbidden": [
+          "language",
+          "clever",
+          "meaning",
+          "phrase"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "collaboration",
+        "forbidden": [
+          "co-write",
+          "partner",
+          "share",
+          "create"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "inspiration",
+        "forbidden": [
+          "idea",
+          "create",
+          "feeling",
+          "start"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "notebook",
+        "level": "B1"
+      },
+      {
+        "word": "voice memo",
+        "level": "B1"
+      },
+      {
+        "word": "guitar riff",
+        "level": "B1"
+      },
+      {
+        "word": "lyric sheet",
+        "level": "B1"
+      },
+      {
+        "word": "recording booth",
+        "level": "B2"
+      },
+      {
+        "word": "rhyming dictionary",
+        "level": "B2"
+      },
+      {
+        "word": "song demo",
+        "level": "B1"
+      },
+      {
+        "word": "keyboard",
+        "level": "B1"
+      },
+      {
+        "word": "metronome",
+        "level": "B2"
+      },
+      {
+        "word": "music stand",
+        "level": "B1"
+      },
+      {
+        "word": "draft folder",
+        "level": "B1"
+      },
+      {
+        "word": "studio headphones",
+        "level": "B1"
+      },
+      {
+        "word": "co-writer",
+        "level": "B2"
+      },
+      {
+        "word": "melody line",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "verse",
+        "decoy": "chorus",
+        "level": "B1"
+      },
+      {
+        "word": "rhyme",
+        "decoy": "rhythm",
+        "level": "B1"
+      },
+      {
+        "word": "hook",
+        "decoy": "refrain",
+        "level": "B2"
+      },
+      {
+        "word": "bridge",
+        "decoy": "middle eight",
+        "level": "B2"
+      },
+      {
+        "word": "lyric",
+        "decoy": "poetry",
+        "level": "B1"
+      },
+      {
+        "word": "demo",
+        "decoy": "recording",
+        "level": "B1"
+      },
+      {
+        "word": "meter",
+        "decoy": "tempo",
+        "level": "B2"
+      },
+      {
+        "word": "draft",
+        "decoy": "outline",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "voice memo",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "guitar riff",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "lyric sheet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "recording booth",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "rhyming dictionary",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "metronome",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "co-writer",
+        "kind": "job",
+        "level": "B2"
+      },
+      {
+        "secret": "music stand",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-film-genres",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "genre",
+        "forbidden": [
+          "style",
+          "type",
+          "film",
+          "kind"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "comedy",
+        "forbidden": [
+          "laugh",
+          "funny",
+          "jokes",
+          "film"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "thriller",
+        "forbidden": [
+          "suspense",
+          "danger",
+          "tense",
+          "story"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "documentary",
+        "forbidden": [
+          "real",
+          "facts",
+          "people",
+          "film"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "animation",
+        "forbidden": [
+          "drawn",
+          "characters",
+          "frames",
+          "move"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "science fiction",
+        "forbidden": [
+          "future",
+          "space",
+          "technology",
+          "aliens"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "horror",
+        "forbidden": [
+          "scary",
+          "fear",
+          "monster",
+          "night"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "romance",
+        "forbidden": [
+          "love",
+          "relationship",
+          "couple",
+          "story"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "plot",
+        "forbidden": [
+          "events",
+          "story",
+          "what",
+          "happens"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "subgenre",
+        "forbidden": [
+          "smaller",
+          "type",
+          "within",
+          "category"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "mockumentary",
+        "forbidden": [
+          "fake",
+          "documentary",
+          "comedy",
+          "style"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "historical drama",
+        "forbidden": [
+          "past",
+          "period",
+          "real",
+          "events"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "coming-of-age",
+        "forbidden": [
+          "grow",
+          "teen",
+          "change",
+          "life"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "genre convention",
+        "forbidden": [
+          "usual",
+          "expected",
+          "story",
+          "rule"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "film poster",
+        "level": "B1"
+      },
+      {
+        "word": "movie ticket",
+        "level": "B1"
+      },
+      {
+        "word": "streaming menu",
+        "level": "B1"
+      },
+      {
+        "word": "director interview",
+        "level": "B1"
+      },
+      {
+        "word": "film festival",
+        "level": "B1"
+      },
+      {
+        "word": "cinema screen",
+        "level": "B1"
+      },
+      {
+        "word": "trailer clip",
+        "level": "B1"
+      },
+      {
+        "word": "movie review",
+        "level": "B1"
+      },
+      {
+        "word": "genre shelf",
+        "level": "B2"
+      },
+      {
+        "word": "screenplay",
+        "level": "B2"
+      },
+      {
+        "word": "movie rating",
+        "level": "B1"
+      },
+      {
+        "word": "film archive",
+        "level": "B2"
+      },
+      {
+        "word": "double feature",
+        "level": "B2"
+      },
+      {
+        "word": "subtitle track",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "comedy",
+        "decoy": "satire",
+        "level": "B2"
+      },
+      {
+        "word": "thriller",
+        "decoy": "mystery",
+        "level": "B1"
+      },
+      {
+        "word": "documentary",
+        "decoy": "mockumentary",
+        "level": "B2"
+      },
+      {
+        "word": "animation",
+        "decoy": "live action",
+        "level": "B1"
+      },
+      {
+        "word": "science fiction",
+        "decoy": "fantasy",
+        "level": "B1"
+      },
+      {
+        "word": "horror",
+        "decoy": "monster film",
+        "level": "B1"
+      },
+      {
+        "word": "romance",
+        "decoy": "romantic comedy",
+        "level": "B2"
+      },
+      {
+        "word": "coming-of-age",
+        "decoy": "teen drama",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "film poster",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "movie ticket",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "director interview",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "film festival",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "cinema screen",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "screenplay",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "movie review",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "film archive",
+        "kind": "place",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-film-making",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "script",
+        "forbidden": [
+          "story",
+          "write",
+          "scenes",
+          "dialogue"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "camera",
+        "forbidden": [
+          "record",
+          "lens",
+          "shoot",
+          "video"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "director",
+        "forbidden": [
+          "lead",
+          "film",
+          "crew",
+          "decide"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "editing",
+        "forbidden": [
+          "cut",
+          "join",
+          "video",
+          "post"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "shot list",
+        "forbidden": [
+          "camera",
+          "plan",
+          "sequence",
+          "scenes"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "storyboard",
+        "forbidden": [
+          "draw",
+          "frames",
+          "plan",
+          "film"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "close-up",
+        "forbidden": [
+          "face",
+          "near",
+          "camera",
+          "shot"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "wide shot",
+        "forbidden": [
+          "scene",
+          "distance",
+          "whole",
+          "frame"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "voice-over",
+        "forbidden": [
+          "narration",
+          "off-camera",
+          "speak",
+          "record"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "continuity",
+        "forbidden": [
+          "match",
+          "scene",
+          "detail",
+          "consistent"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "location scout",
+        "forbidden": [
+          "find",
+          "place",
+          "film",
+          "look"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "production schedule",
+        "forbidden": [
+          "dates",
+          "plan",
+          "shoot",
+          "team"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "rough cut",
+        "forbidden": [
+          "early",
+          "edit",
+          "version",
+          "film"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "call sheet",
+        "forbidden": [
+          "crew",
+          "time",
+          "place",
+          "shoot"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "tripod",
+        "level": "B1"
+      },
+      {
+        "word": "clapperboard",
+        "level": "B1"
+      },
+      {
+        "word": "boom microphone",
+        "level": "B2"
+      },
+      {
+        "word": "camera operator",
+        "level": "B1"
+      },
+      {
+        "word": "lighting stand",
+        "level": "B1"
+      },
+      {
+        "word": "memory card",
+        "level": "B1"
+      },
+      {
+        "word": "editing timeline",
+        "level": "B2"
+      },
+      {
+        "word": "film permit",
+        "level": "B2"
+      },
+      {
+        "word": "makeup kit",
+        "level": "B1"
+      },
+      {
+        "word": "costume rack",
+        "level": "B1"
+      },
+      {
+        "word": "set dressing",
+        "level": "B2"
+      },
+      {
+        "word": "camera monitor",
+        "level": "B1"
+      },
+      {
+        "word": "shot counter",
+        "level": "B2"
+      },
+      {
+        "word": "location van",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "script",
+        "decoy": "screenplay",
+        "level": "B1"
+      },
+      {
+        "word": "camera",
+        "decoy": "camcorder",
+        "level": "B1"
+      },
+      {
+        "word": "close-up",
+        "decoy": "medium shot",
+        "level": "B2"
+      },
+      {
+        "word": "wide shot",
+        "decoy": "long shot",
+        "level": "B2"
+      },
+      {
+        "word": "voice-over",
+        "decoy": "voice acting",
+        "level": "B2"
+      },
+      {
+        "word": "continuity",
+        "decoy": "consistency",
+        "level": "B2"
+      },
+      {
+        "word": "rough cut",
+        "decoy": "final cut",
+        "level": "B2"
+      },
+      {
+        "word": "location scout",
+        "decoy": "production designer",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "tripod",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "clapperboard",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "boom microphone",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "lighting stand",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "editing timeline",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "film permit",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "costume rack",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "camera monitor",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-fashion",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "silhouette",
+        "forbidden": [
+          "shape",
+          "outline",
+          "clothes",
+          "look"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "fabric",
+        "forbidden": [
+          "cloth",
+          "material",
+          "sew",
+          "wear"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "trend",
+        "forbidden": [
+          "popular",
+          "now",
+          "style",
+          "copy"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "tailoring",
+        "forbidden": [
+          "fit",
+          "alter",
+          "sew",
+          "clothes"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "pattern",
+        "forbidden": [
+          "print",
+          "design",
+          "repeat",
+          "cloth"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "collection",
+        "forbidden": [
+          "designer",
+          "clothes",
+          "season",
+          "show"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "fast fashion",
+        "forbidden": [
+          "cheap",
+          "quick",
+          "shop",
+          "trend"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "runway",
+        "forbidden": [
+          "models",
+          "walk",
+          "show",
+          "catwalk"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "wardrobe",
+        "forbidden": [
+          "clothes",
+          "closet",
+          "wear",
+          "collection"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "accessory",
+        "forbidden": [
+          "extra",
+          "bag",
+          "jewellery",
+          "finish"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "ethical fashion",
+        "forbidden": [
+          "fair",
+          "workers",
+          "materials",
+          "clothes"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "fashion cycle",
+        "forbidden": [
+          "trend",
+          "return",
+          "change",
+          "time"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "garment",
+        "forbidden": [
+          "item",
+          "clothing",
+          "wear",
+          "piece"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "fashion editor",
+        "forbidden": [
+          "magazine",
+          "choose",
+          "photos",
+          "job"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "sewing machine",
+        "level": "B1"
+      },
+      {
+        "word": "measuring tape",
+        "level": "B1"
+      },
+      {
+        "word": "fabric swatch",
+        "level": "B2"
+      },
+      {
+        "word": "clothing rack",
+        "level": "B1"
+      },
+      {
+        "word": "fashion sketch",
+        "level": "B1"
+      },
+      {
+        "word": "designer label",
+        "level": "B2"
+      },
+      {
+        "word": "thrift shop",
+        "level": "B1"
+      },
+      {
+        "word": "fashion magazine",
+        "level": "B1"
+      },
+      {
+        "word": "shoe display",
+        "level": "B1"
+      },
+      {
+        "word": "style board",
+        "level": "B2"
+      },
+      {
+        "word": "clothing tag",
+        "level": "B1"
+      },
+      {
+        "word": "tailor's chalk",
+        "level": "B2"
+      },
+      {
+        "word": "changing room",
+        "level": "B1"
+      },
+      {
+        "word": "fashion show",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "fabric",
+        "decoy": "textile",
+        "level": "B2"
+      },
+      {
+        "word": "trend",
+        "decoy": "fad",
+        "level": "B1"
+      },
+      {
+        "word": "tailoring",
+        "decoy": "alteration",
+        "level": "B2"
+      },
+      {
+        "word": "runway",
+        "decoy": "catwalk",
+        "level": "B1"
+      },
+      {
+        "word": "fast fashion",
+        "decoy": "mass fashion",
+        "level": "B2"
+      },
+      {
+        "word": "wardrobe",
+        "decoy": "closet",
+        "level": "B1"
+      },
+      {
+        "word": "garment",
+        "decoy": "outfit",
+        "level": "B1"
+      },
+      {
+        "word": "ethical fashion",
+        "decoy": "sustainable fashion",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "sewing machine",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "measuring tape",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "fabric swatch",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "clothing rack",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "fashion sketch",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "thrift shop",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "fashion magazine",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "changing room",
+        "kind": "place",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-personal-style",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "personal style",
+        "forbidden": [
+          "clothes",
+          "choose",
+          "look",
+          "express"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "signature item",
+        "forbidden": [
+          "usual",
+          "wear",
+          "recognize",
+          "own"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "colour palette",
+        "forbidden": [
+          "hues",
+          "choose",
+          "match",
+          "clothes"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "comfort",
+        "forbidden": [
+          "feel",
+          "soft",
+          "fit",
+          "relaxed"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "self-expression",
+        "forbidden": [
+          "show",
+          "identity",
+          "choice",
+          "style"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "outfit",
+        "forbidden": [
+          "clothes",
+          "together",
+          "wear",
+          "look"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "dress code",
+        "forbidden": [
+          "rules",
+          "school",
+          "work",
+          "wear"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "capsule wardrobe",
+        "forbidden": [
+          "few",
+          "clothes",
+          "mix",
+          "closet"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "accessory",
+        "forbidden": [
+          "jewellery",
+          "bag",
+          "extra",
+          "finish"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "influence",
+        "forbidden": [
+          "copy",
+          "friend",
+          "trend",
+          "affect"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "confidence",
+        "forbidden": [
+          "sure",
+          "feel",
+          "wear",
+          "believe"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "second-hand",
+        "forbidden": [
+          "used",
+          "old",
+          "shop",
+          "pre-owned"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "style icon",
+        "forbidden": [
+          "person",
+          "admire",
+          "clothes",
+          "influence"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "personal brand",
+        "forbidden": [
+          "image",
+          "identity",
+          "public",
+          "style"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "favourite jacket",
+        "level": "B1"
+      },
+      {
+        "word": "shoe collection",
+        "level": "B1"
+      },
+      {
+        "word": "closet mirror",
+        "level": "B1"
+      },
+      {
+        "word": "style journal",
+        "level": "B2"
+      },
+      {
+        "word": "thrift-store find",
+        "level": "B1"
+      },
+      {
+        "word": "colour card",
+        "level": "B1"
+      },
+      {
+        "word": "outfit photo",
+        "level": "B1"
+      },
+      {
+        "word": "clothing swap",
+        "level": "B1"
+      },
+      {
+        "word": "accessory tray",
+        "level": "B1"
+      },
+      {
+        "word": "wardrobe plan",
+        "level": "B2"
+      },
+      {
+        "word": "uniform shirt",
+        "level": "B1"
+      },
+      {
+        "word": "shopping list",
+        "level": "B1"
+      },
+      {
+        "word": "shoe rack",
+        "level": "B1"
+      },
+      {
+        "word": "personal mood board",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "signature item",
+        "decoy": "favourite item",
+        "level": "B1"
+      },
+      {
+        "word": "colour palette",
+        "decoy": "colour scheme",
+        "level": "B2"
+      },
+      {
+        "word": "outfit",
+        "decoy": "ensemble",
+        "level": "B2"
+      },
+      {
+        "word": "dress code",
+        "decoy": "uniform",
+        "level": "B1"
+      },
+      {
+        "word": "capsule wardrobe",
+        "decoy": "clothing collection",
+        "level": "B2"
+      },
+      {
+        "word": "second-hand",
+        "decoy": "vintage",
+        "level": "B1"
+      },
+      {
+        "word": "style icon",
+        "decoy": "fashion influencer",
+        "level": "B2"
+      },
+      {
+        "word": "personal brand",
+        "decoy": "public image",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "closet mirror",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "style journal",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "colour card",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "outfit photo",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "clothing swap",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "accessory tray",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "shoe rack",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "personal mood board",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-food-culture",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "food culture",
+        "forbidden": [
+          "tradition",
+          "meal",
+          "group",
+          "identity"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "staple food",
+        "forbidden": [
+          "daily",
+          "main",
+          "grain",
+          "common"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "street food",
+        "forbidden": [
+          "stall",
+          "quick",
+          "outside",
+          "snack"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "recipe",
+        "forbidden": [
+          "ingredients",
+          "steps",
+          "cook",
+          "write"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "food memory",
+        "forbidden": [
+          "childhood",
+          "meal",
+          "remember",
+          "taste"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "seasonal dish",
+        "forbidden": [
+          "time",
+          "year",
+          "produce",
+          "menu"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "table manners",
+        "forbidden": [
+          "polite",
+          "eat",
+          "custom",
+          "place"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "fusion cuisine",
+        "forbidden": [
+          "mix",
+          "styles",
+          "combine",
+          "food"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "food market",
+        "forbidden": [
+          "buy",
+          "produce",
+          "stall",
+          "local"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "shared meal",
+        "forbidden": [
+          "together",
+          "eat",
+          "people",
+          "table"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "food taboo",
+        "forbidden": [
+          "avoid",
+          "belief",
+          "rule",
+          "eat"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "regional cuisine",
+        "forbidden": [
+          "area",
+          "place",
+          "dishes",
+          "local"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "food identity",
+        "forbidden": [
+          "culture",
+          "belong",
+          "meal",
+          "history"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "comfort food",
+        "forbidden": [
+          "familiar",
+          "warm",
+          "feeling",
+          "eat"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "family recipe",
+        "level": "B1"
+      },
+      {
+        "word": "spice jar",
+        "level": "B1"
+      },
+      {
+        "word": "market basket",
+        "level": "B1"
+      },
+      {
+        "word": "dining table",
+        "level": "B1"
+      },
+      {
+        "word": "food festival",
+        "level": "B1"
+      },
+      {
+        "word": "recipe notebook",
+        "level": "B1"
+      },
+      {
+        "word": "tea ceremony",
+        "level": "B2"
+      },
+      {
+        "word": "community kitchen",
+        "level": "B2"
+      },
+      {
+        "word": "local bakery",
+        "level": "B1"
+      },
+      {
+        "word": "menu board",
+        "level": "B1"
+      },
+      {
+        "word": "shared platter",
+        "level": "B1"
+      },
+      {
+        "word": "food stall",
+        "level": "B1"
+      },
+      {
+        "word": "seasonal produce",
+        "level": "B2"
+      },
+      {
+        "word": "picnic dish",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "staple food",
+        "decoy": "comfort food",
+        "level": "B1"
+      },
+      {
+        "word": "street food",
+        "decoy": "fast food",
+        "level": "B1"
+      },
+      {
+        "word": "fusion cuisine",
+        "decoy": "regional cuisine",
+        "level": "B2"
+      },
+      {
+        "word": "food memory",
+        "decoy": "shared meal",
+        "level": "B2"
+      },
+      {
+        "word": "food market",
+        "decoy": "farmers market",
+        "level": "B1"
+      },
+      {
+        "word": "food taboo",
+        "decoy": "dietary rule",
+        "level": "B2"
+      },
+      {
+        "word": "recipe",
+        "decoy": "menu",
+        "level": "B1"
+      },
+      {
+        "word": "food identity",
+        "decoy": "cultural heritage",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "spice jar",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "food festival",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "recipe notebook",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "community kitchen",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "local bakery",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "menu board",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "shared platter",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "seasonal produce",
+        "kind": "food",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-cooking-skills",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "knife skills",
+        "forbidden": [
+          "cut",
+          "blade",
+          "chop",
+          "safe"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mise en place",
+        "forbidden": [
+          "prepare",
+          "ingredients",
+          "station",
+          "before"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "sauté",
+        "forbidden": [
+          "pan",
+          "oil",
+          "quick",
+          "stir"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "seasoning",
+        "forbidden": [
+          "salt",
+          "pepper",
+          "flavour",
+          "add"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "food safety",
+        "forbidden": [
+          "clean",
+          "temperature",
+          "raw",
+          "protect"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "temperature",
+        "forbidden": [
+          "heat",
+          "degree",
+          "measure",
+          "hot"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "portion",
+        "forbidden": [
+          "amount",
+          "plate",
+          "serve",
+          "size"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "emulsify",
+        "forbidden": [
+          "mix",
+          "oil",
+          "water",
+          "sauce"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "reduce",
+        "forbidden": [
+          "sauce",
+          "boil",
+          "thicken",
+          "less"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "cross-contamination",
+        "forbidden": [
+          "raw",
+          "clean",
+          "food",
+          "transfer"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "substitute",
+        "forbidden": [
+          "replace",
+          "ingredient",
+          "change",
+          "recipe"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mise en place bowl",
+        "forbidden": [
+          "measure",
+          "prepare",
+          "ingredients",
+          "small"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "garnish",
+        "forbidden": [
+          "top",
+          "decorate",
+          "herbs",
+          "finish"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "texture",
+        "forbidden": [
+          "crunch",
+          "soft",
+          "feel",
+          "mouth"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "chef's knife",
+        "level": "B1"
+      },
+      {
+        "word": "chopping board",
+        "level": "B1"
+      },
+      {
+        "word": "kitchen scale",
+        "level": "B1"
+      },
+      {
+        "word": "meat thermometer",
+        "level": "B2"
+      },
+      {
+        "word": "mixing spoon",
+        "level": "B1"
+      },
+      {
+        "word": "paring knife",
+        "level": "B2"
+      },
+      {
+        "word": "measuring jug",
+        "level": "B1"
+      },
+      {
+        "word": "prep station",
+        "level": "B2"
+      },
+      {
+        "word": "ingredient list",
+        "level": "B1"
+      },
+      {
+        "word": "pantry shelf",
+        "level": "B1"
+      },
+      {
+        "word": "oven timer",
+        "level": "B1"
+      },
+      {
+        "word": "food processor",
+        "level": "B1"
+      },
+      {
+        "word": "saucepan lid",
+        "level": "B1"
+      },
+      {
+        "word": "serving plate",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "sauté",
+        "decoy": "fry",
+        "level": "B2"
+      },
+      {
+        "word": "seasoning",
+        "decoy": "spice",
+        "level": "B1"
+      },
+      {
+        "word": "emulsify",
+        "decoy": "blend",
+        "level": "B2"
+      },
+      {
+        "word": "reduce",
+        "decoy": "thicken",
+        "level": "B2"
+      },
+      {
+        "word": "garnish",
+        "decoy": "plating",
+        "level": "B2"
+      },
+      {
+        "word": "knife skills",
+        "decoy": "cutting technique",
+        "level": "B1"
+      },
+      {
+        "word": "portion",
+        "decoy": "serving",
+        "level": "B1"
+      },
+      {
+        "word": "food safety",
+        "decoy": "kitchen hygiene",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "chef's knife",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "chopping board",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "kitchen scale",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "meat thermometer",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "prep station",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "ingredient list",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "food processor",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "saucepan lid",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-language-learning",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "fluency",
+        "forbidden": [
+          "speak",
+          "smooth",
+          "language",
+          "easily"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "pronunciation",
+        "forbidden": [
+          "sounds",
+          "words",
+          "say",
+          "accent"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "vocabulary",
+        "forbidden": [
+          "words",
+          "meaning",
+          "learn",
+          "language"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "grammar pattern",
+        "forbidden": [
+          "rule",
+          "sentence",
+          "form",
+          "structure"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "spaced practice",
+        "forbidden": [
+          "review",
+          "time",
+          "repeat",
+          "memory"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "conversation partner",
+        "forbidden": [
+          "speak",
+          "person",
+          "practice",
+          "with"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "listening skill",
+        "forbidden": [
+          "hear",
+          "understand",
+          "audio",
+          "focus"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "false friend",
+        "forbidden": [
+          "similar",
+          "word",
+          "meaning",
+          "different"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "language exchange",
+        "forbidden": [
+          "partner",
+          "teach",
+          "practice",
+          "swap"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "phrasebook",
+        "forbidden": [
+          "small",
+          "words",
+          "travel",
+          "useful"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "comprehension",
+        "forbidden": [
+          "understand",
+          "text",
+          "meaning",
+          "read"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "language app",
+        "forbidden": [
+          "phone",
+          "practice",
+          "words",
+          "lesson"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "immersion",
+        "forbidden": [
+          "surround",
+          "language",
+          "hear",
+          "live"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "study streak",
+        "forbidden": [
+          "days",
+          "continue",
+          "practice",
+          "record"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "flashcard deck",
+        "level": "B1"
+      },
+      {
+        "word": "listening clip",
+        "level": "B1"
+      },
+      {
+        "word": "conversation club",
+        "level": "B1"
+      },
+      {
+        "word": "verb chart",
+        "level": "B1"
+      },
+      {
+        "word": "pronunciation guide",
+        "level": "B2"
+      },
+      {
+        "word": "language tutor",
+        "level": "B1"
+      },
+      {
+        "word": "subtitle track",
+        "level": "B1"
+      },
+      {
+        "word": "vocabulary notebook",
+        "level": "B1"
+      },
+      {
+        "word": "audio lesson",
+        "level": "B1"
+      },
+      {
+        "word": "word bank",
+        "level": "B1"
+      },
+      {
+        "word": "study timer",
+        "level": "B1"
+      },
+      {
+        "word": "translation card",
+        "level": "B1"
+      },
+      {
+        "word": "practice partner",
+        "level": "B1"
+      },
+      {
+        "word": "grammar workbook",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "fluency",
+        "decoy": "proficiency",
+        "level": "B2"
+      },
+      {
+        "word": "pronunciation",
+        "decoy": "accent",
+        "level": "B1"
+      },
+      {
+        "word": "vocabulary",
+        "decoy": "word bank",
+        "level": "B1"
+      },
+      {
+        "word": "false friend",
+        "decoy": "cognate",
+        "level": "B2"
+      },
+      {
+        "word": "comprehension",
+        "decoy": "understanding",
+        "level": "B1"
+      },
+      {
+        "word": "immersion",
+        "decoy": "language exchange",
+        "level": "B2"
+      },
+      {
+        "word": "phrasebook",
+        "decoy": "dictionary",
+        "level": "B1"
+      },
+      {
+        "word": "study streak",
+        "decoy": "learning habit",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "flashcard deck",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "listening clip",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "conversation club",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "verb chart",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "language tutor",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "subtitle track",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "audio lesson",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "grammar workbook",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-travel-etiquette",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "etiquette",
+        "forbidden": [
+          "manners",
+          "polite",
+          "custom",
+          "behaviour"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "local custom",
+        "forbidden": [
+          "place",
+          "usual",
+          "people",
+          "tradition"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "greeting",
+        "forbidden": [
+          "hello",
+          "meet",
+          "wave",
+          "words"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "dress code",
+        "forbidden": [
+          "clothes",
+          "wear",
+          "place",
+          "rule"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "personal space",
+        "forbidden": [
+          "distance",
+          "near",
+          "body",
+          "comfort"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "queue",
+        "forbidden": [
+          "line",
+          "wait",
+          "order",
+          "people"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "table manners",
+        "forbidden": [
+          "eat",
+          "polite",
+          "fork",
+          "custom"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "respectful phrase",
+        "forbidden": [
+          "words",
+          "kind",
+          "say",
+          "local"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "public behaviour",
+        "forbidden": [
+          "street",
+          "quiet",
+          "people",
+          "act"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "cultural norm",
+        "forbidden": [
+          "expected",
+          "usual",
+          "group",
+          "rule"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "tip",
+        "forbidden": [
+          "money",
+          "service",
+          "extra",
+          "leave"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "gesture",
+        "forbidden": [
+          "hand",
+          "sign",
+          "body",
+          "meaning"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "permission",
+        "forbidden": [
+          "ask",
+          "allowed",
+          "yes",
+          "consent"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "visitor centre",
+        "forbidden": [
+          "help",
+          "information",
+          "travel",
+          "place"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "phrase card",
+        "level": "B1"
+      },
+      {
+        "word": "local guide",
+        "level": "B1"
+      },
+      {
+        "word": "transit sign",
+        "level": "B1"
+      },
+      {
+        "word": "restaurant menu",
+        "level": "B1"
+      },
+      {
+        "word": "public notice",
+        "level": "B1"
+      },
+      {
+        "word": "quiet carriage",
+        "level": "B2"
+      },
+      {
+        "word": "temple shoes",
+        "level": "B2"
+      },
+      {
+        "word": "museum sign",
+        "level": "B1"
+      },
+      {
+        "word": "cash tip",
+        "level": "B1"
+      },
+      {
+        "word": "greeting card",
+        "level": "B1"
+      },
+      {
+        "word": "travel journal",
+        "level": "B1"
+      },
+      {
+        "word": "help desk",
+        "level": "B1"
+      },
+      {
+        "word": "market aisle",
+        "level": "B1"
+      },
+      {
+        "word": "customs leaflet",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "etiquette",
+        "decoy": "manners",
+        "level": "B1"
+      },
+      {
+        "word": "local custom",
+        "decoy": "cultural norm",
+        "level": "B2"
+      },
+      {
+        "word": "greeting",
+        "decoy": "introduction",
+        "level": "B1"
+      },
+      {
+        "word": "personal space",
+        "decoy": "privacy",
+        "level": "B2"
+      },
+      {
+        "word": "queue",
+        "decoy": "line",
+        "level": "B1"
+      },
+      {
+        "word": "table manners",
+        "decoy": "dining etiquette",
+        "level": "B2"
+      },
+      {
+        "word": "gesture",
+        "decoy": "signal",
+        "level": "B1"
+      },
+      {
+        "word": "visitor centre",
+        "decoy": "information desk",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "phrase card",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "local guide",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "transit sign",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "restaurant menu",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "public notice",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "quiet carriage",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "help desk",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "travel journal",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-local-traditions",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "oral history",
+        "forbidden": [
+          "stories",
+          "speak",
+          "elder",
+          "remember"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "community festival",
+        "forbidden": [
+          "celebrate",
+          "people",
+          "event",
+          "local"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "craft tradition",
+        "forbidden": [
+          "make",
+          "hand",
+          "skill",
+          "pass down"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "seasonal custom",
+        "forbidden": [
+          "year",
+          "time",
+          "practice",
+          "repeat"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "family recipe",
+        "forbidden": [
+          "cook",
+          "food",
+          "relative",
+          "share"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "folk dance",
+        "forbidden": [
+          "music",
+          "steps",
+          "group",
+          "traditional"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "local legend",
+        "forbidden": [
+          "story",
+          "place",
+          "old",
+          "tell"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "heritage language",
+        "forbidden": [
+          "grandparent",
+          "words",
+          "history",
+          "speak"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "community gathering",
+        "forbidden": [
+          "meet",
+          "people",
+          "together",
+          "event"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "traditional dress",
+        "forbidden": [
+          "clothes",
+          "wear",
+          "occasion",
+          "style"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "handmade craft",
+        "forbidden": [
+          "create",
+          "tool",
+          "material",
+          "skill"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "anniversary",
+        "forbidden": [
+          "date",
+          "remember",
+          "year",
+          "mark"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "procession",
+        "forbidden": [
+          "walk",
+          "group",
+          "street",
+          "ceremony"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "shared ritual",
+        "forbidden": [
+          "action",
+          "repeat",
+          "community",
+          "meaning"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "craft market",
+        "level": "B1"
+      },
+      {
+        "word": "story circle",
+        "level": "B1"
+      },
+      {
+        "word": "heritage centre",
+        "level": "B2"
+      },
+      {
+        "word": "family album",
+        "level": "B1"
+      },
+      {
+        "word": "festival programme",
+        "level": "B1"
+      },
+      {
+        "word": "folk instrument",
+        "level": "B1"
+      },
+      {
+        "word": "community hall",
+        "level": "B1"
+      },
+      {
+        "word": "recipe card",
+        "level": "B1"
+      },
+      {
+        "word": "traditional pattern",
+        "level": "B2"
+      },
+      {
+        "word": "dance costume",
+        "level": "B1"
+      },
+      {
+        "word": "local archive",
+        "level": "B2"
+      },
+      {
+        "word": "ceremony drum",
+        "level": "B2"
+      },
+      {
+        "word": "holiday calendar",
+        "level": "B1"
+      },
+      {
+        "word": "memory box",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "oral history",
+        "decoy": "local legend",
+        "level": "B2"
+      },
+      {
+        "word": "community festival",
+        "decoy": "street fair",
+        "level": "B1"
+      },
+      {
+        "word": "craft tradition",
+        "decoy": "handicraft",
+        "level": "B2"
+      },
+      {
+        "word": "seasonal custom",
+        "decoy": "annual ritual",
+        "level": "B2"
+      },
+      {
+        "word": "folk dance",
+        "decoy": "traditional dance",
+        "level": "B1"
+      },
+      {
+        "word": "heritage language",
+        "decoy": "regional language",
+        "level": "B2"
+      },
+      {
+        "word": "community gathering",
+        "decoy": "reunion",
+        "level": "B1"
+      },
+      {
+        "word": "traditional dress",
+        "decoy": "ceremonial clothing",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "craft market",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "heritage centre",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "family album",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "festival programme",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "community hall",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "local archive",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "ceremony drum",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "memory box",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
   }
 ]
