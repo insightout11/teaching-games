@@ -12958,5 +12958,4325 @@
         "level": "A2"
       }
     ]
+  },
+  {
+    "topicId": "topic-kids-cooking",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "recipe",
+        "forbidden": [
+          "food",
+          "steps",
+          "make",
+          "book"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pan",
+        "forbidden": [
+          "cook",
+          "hot",
+          "stove",
+          "metal"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "spoon",
+        "forbidden": [
+          "stir",
+          "eat",
+          "tool",
+          "round"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "chop",
+        "forbidden": [
+          "knife",
+          "cut",
+          "small",
+          "food"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "stir",
+        "forbidden": [
+          "mix",
+          "spoon",
+          "round",
+          "pot"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "boil",
+        "forbidden": [
+          "water",
+          "hot",
+          "bubbles",
+          "fire"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fry",
+        "forbidden": [
+          "oil",
+          "pan",
+          "heat",
+          "cook"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "grill",
+        "forbidden": [
+          "outside",
+          "fire",
+          "meat",
+          "hot"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "apron",
+        "forbidden": [
+          "clothes",
+          "front",
+          "wear",
+          "dirty"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "oven",
+        "forbidden": [
+          "bake",
+          "hot",
+          "kitchen",
+          "food"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "kettle",
+        "forbidden": [
+          "water",
+          "hot",
+          "drink",
+          "steam"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "colander",
+        "forbidden": [
+          "drain",
+          "pasta",
+          "holes",
+          "bowl"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "measuring cup",
+        "forbidden": [
+          "measure",
+          "recipe",
+          "liquid",
+          "tool"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mixing bowl",
+        "forbidden": [
+          "stir",
+          "food",
+          "large",
+          "dish"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "spatula",
+        "level": "A1"
+      },
+      {
+        "word": "whisk",
+        "level": "A1"
+      },
+      {
+        "word": "ladle",
+        "level": "A2"
+      },
+      {
+        "word": "rolling pin",
+        "level": "A1"
+      },
+      {
+        "word": "cutting board",
+        "level": "A1"
+      },
+      {
+        "word": "pot holder",
+        "level": "A1"
+      },
+      {
+        "word": "timer",
+        "level": "A1"
+      },
+      {
+        "word": "peeler",
+        "level": "A2"
+      },
+      {
+        "word": "garlic press",
+        "level": "A2"
+      },
+      {
+        "word": "strainer",
+        "level": "A2"
+      },
+      {
+        "word": "wooden spoon",
+        "level": "A1"
+      },
+      {
+        "word": "food thermometer",
+        "level": "A2"
+      },
+      {
+        "word": "can opener",
+        "level": "A1"
+      },
+      {
+        "word": "recipe card",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "pan",
+        "decoy": "pot",
+        "level": "A1"
+      },
+      {
+        "word": "stir",
+        "decoy": "whisk",
+        "level": "A1"
+      },
+      {
+        "word": "boil",
+        "decoy": "steam",
+        "level": "A1"
+      },
+      {
+        "word": "oven",
+        "decoy": "microwave",
+        "level": "A1"
+      },
+      {
+        "word": "colander",
+        "decoy": "strainer",
+        "level": "A2"
+      },
+      {
+        "word": "apron",
+        "decoy": "oven mitt",
+        "level": "A1"
+      },
+      {
+        "word": "grill",
+        "decoy": "toaster",
+        "level": "A1"
+      },
+      {
+        "word": "kettle",
+        "decoy": "coffee pot",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "spatula",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "rolling pin",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "timer",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "oven",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "cutting board",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "colander",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "apron",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "whisk",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-baking",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "flour",
+        "forbidden": [
+          "white",
+          "powder",
+          "bread",
+          "bag"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "dough",
+        "forbidden": [
+          "mix",
+          "flour",
+          "soft",
+          "bread"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "yeast",
+        "forbidden": [
+          "bread",
+          "rise",
+          "tiny",
+          "live"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rolling pin",
+        "forbidden": [
+          "flat",
+          "dough",
+          "wood",
+          "tool"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cookie cutter",
+        "forbidden": [
+          "shape",
+          "metal",
+          "dough",
+          "star"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cupcake",
+        "forbidden": [
+          "sweet",
+          "paper",
+          "small",
+          "icing"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "icing",
+        "forbidden": [
+          "sugar",
+          "cake",
+          "white",
+          "top"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mixing bowl",
+        "forbidden": [
+          "stir",
+          "batter",
+          "round",
+          "large"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "oven",
+        "forbidden": [
+          "hot",
+          "kitchen",
+          "bake",
+          "door"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tray",
+        "forbidden": [
+          "flat",
+          "metal",
+          "oven",
+          "bake"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "measuring spoon",
+        "forbidden": [
+          "small",
+          "recipe",
+          "amount",
+          "tool"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pastry brush",
+        "forbidden": [
+          "paint",
+          "egg",
+          "top",
+          "baking"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "doughnut",
+        "forbidden": [
+          "round",
+          "sweet",
+          "hole",
+          "fry"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "loaf tin",
+        "forbidden": [
+          "bread",
+          "metal",
+          "bake",
+          "shape"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "muffin",
+        "level": "A1"
+      },
+      {
+        "word": "bread roll",
+        "level": "A1"
+      },
+      {
+        "word": "gingerbread person",
+        "level": "A2"
+      },
+      {
+        "word": "pie crust",
+        "level": "A2"
+      },
+      {
+        "word": "cake stand",
+        "level": "A1"
+      },
+      {
+        "word": "baking paper",
+        "level": "A1"
+      },
+      {
+        "word": "cooling rack",
+        "level": "A2"
+      },
+      {
+        "word": "oven mitt",
+        "level": "A1"
+      },
+      {
+        "word": "icing bag",
+        "level": "A2"
+      },
+      {
+        "word": "waffle iron",
+        "level": "A2"
+      },
+      {
+        "word": "bread maker",
+        "level": "A2"
+      },
+      {
+        "word": "pastry",
+        "level": "A2"
+      },
+      {
+        "word": "shortbread",
+        "level": "A2"
+      },
+      {
+        "word": "banana bread",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "flour",
+        "decoy": "sugar",
+        "level": "A1"
+      },
+      {
+        "word": "dough",
+        "decoy": "batter",
+        "level": "A1"
+      },
+      {
+        "word": "muffin",
+        "decoy": "cupcake",
+        "level": "A1"
+      },
+      {
+        "word": "icing",
+        "decoy": "frosting",
+        "level": "A2"
+      },
+      {
+        "word": "loaf tin",
+        "decoy": "cake tin",
+        "level": "A2"
+      },
+      {
+        "word": "cooling rack",
+        "decoy": "cake stand",
+        "level": "A2"
+      },
+      {
+        "word": "cookie cutter",
+        "decoy": "knife",
+        "level": "A1"
+      },
+      {
+        "word": "bread roll",
+        "decoy": "bagel",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "muffin",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "pie crust",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "oven mitt",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "cake stand",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "bread maker",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "banana bread",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "waffle iron",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "gingerbread person",
+        "kind": "food",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-fruits",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "apple",
+        "forbidden": [
+          "red",
+          "tree",
+          "crunch",
+          "fruit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "banana",
+        "forbidden": [
+          "yellow",
+          "long",
+          "peel",
+          "fruit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "orange",
+        "forbidden": [
+          "juice",
+          "round",
+          "peel",
+          "fruit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "grape",
+        "forbidden": [
+          "small",
+          "purple",
+          "bunch",
+          "fruit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pear",
+        "forbidden": [
+          "green",
+          "shape",
+          "tree",
+          "fruit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "peach",
+        "forbidden": [
+          "fuzzy",
+          "pit",
+          "sweet",
+          "fruit"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "watermelon",
+        "forbidden": [
+          "green",
+          "big",
+          "pink",
+          "seeds"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pineapple",
+        "forbidden": [
+          "spiky",
+          "yellow",
+          "tropical",
+          "fruit"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "strawberry",
+        "forbidden": [
+          "red",
+          "seeds",
+          "small",
+          "fruit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "blueberry",
+        "forbidden": [
+          "small",
+          "bush",
+          "round",
+          "snack"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "lemon",
+        "forbidden": [
+          "sour",
+          "yellow",
+          "juice",
+          "fruit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cherry",
+        "forbidden": [
+          "red",
+          "pit",
+          "small",
+          "fruit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "kiwi",
+        "forbidden": [
+          "fuzzy",
+          "green",
+          "small",
+          "fruit"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mango",
+        "forbidden": [
+          "sweet",
+          "stone",
+          "tropical",
+          "fruit"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "plum",
+        "level": "A1"
+      },
+      {
+        "word": "apricot",
+        "level": "A2"
+      },
+      {
+        "word": "raspberry",
+        "level": "A2"
+      },
+      {
+        "word": "blackberry",
+        "level": "A2"
+      },
+      {
+        "word": "grapefruit",
+        "level": "A2"
+      },
+      {
+        "word": "coconut",
+        "level": "A1"
+      },
+      {
+        "word": "papaya",
+        "level": "A2"
+      },
+      {
+        "word": "fig",
+        "level": "A2"
+      },
+      {
+        "word": "pomegranate",
+        "level": "A2"
+      },
+      {
+        "word": "lime",
+        "level": "A1"
+      },
+      {
+        "word": "melon",
+        "level": "A1"
+      },
+      {
+        "word": "nectarine",
+        "level": "A2"
+      },
+      {
+        "word": "fruit bowl",
+        "level": "A1"
+      },
+      {
+        "word": "peel",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "peach",
+        "decoy": "nectarine",
+        "level": "A2"
+      },
+      {
+        "word": "lemon",
+        "decoy": "lime",
+        "level": "A1"
+      },
+      {
+        "word": "blackberry",
+        "decoy": "raspberry",
+        "level": "A2"
+      },
+      {
+        "word": "plum",
+        "decoy": "apricot",
+        "level": "A2"
+      },
+      {
+        "word": "grape",
+        "decoy": "cherry",
+        "level": "A1"
+      },
+      {
+        "word": "mango",
+        "decoy": "papaya",
+        "level": "A2"
+      },
+      {
+        "word": "melon",
+        "decoy": "watermelon",
+        "level": "A1"
+      },
+      {
+        "word": "grapefruit",
+        "decoy": "orange",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "coconut",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "lime",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "pomegranate",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "fig",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "raspberry",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "melon",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "fruit bowl",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "papaya",
+        "kind": "food",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-vegetables",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "carrot",
+        "forbidden": [
+          "orange",
+          "root",
+          "rabbit",
+          "crunch"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "potato",
+        "forbidden": [
+          "brown",
+          "mash",
+          "fries",
+          "ground"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tomato",
+        "forbidden": [
+          "red",
+          "salad",
+          "round",
+          "seed"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "onion",
+        "forbidden": [
+          "layers",
+          "cry",
+          "strong",
+          "smell"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "lettuce",
+        "forbidden": [
+          "salad",
+          "green",
+          "leaf",
+          "crunch"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "peas",
+        "forbidden": [
+          "green",
+          "small",
+          "pod",
+          "round"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "corn",
+        "forbidden": [
+          "yellow",
+          "cob",
+          "kernels",
+          "field"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cucumber",
+        "forbidden": [
+          "green",
+          "long",
+          "salad",
+          "cool"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "broccoli",
+        "forbidden": [
+          "green",
+          "tree",
+          "small",
+          "florets"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pumpkin",
+        "forbidden": [
+          "orange",
+          "large",
+          "autumn",
+          "seed"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pepper",
+        "forbidden": [
+          "red",
+          "green",
+          "spicy",
+          "crunch"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "spinach",
+        "forbidden": [
+          "leaf",
+          "green",
+          "salad",
+          "iron"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "beetroot",
+        "forbidden": [
+          "purple",
+          "earth",
+          "stain",
+          "vegetable"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "cauliflower",
+        "forbidden": [
+          "white",
+          "florets",
+          "head",
+          "roast"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "cabbage",
+        "level": "A1"
+      },
+      {
+        "word": "celery",
+        "level": "A1"
+      },
+      {
+        "word": "radish",
+        "level": "A2"
+      },
+      {
+        "word": "zucchini",
+        "level": "A2"
+      },
+      {
+        "word": "eggplant",
+        "level": "A2"
+      },
+      {
+        "word": "sweet potato",
+        "level": "A1"
+      },
+      {
+        "word": "green bean",
+        "level": "A1"
+      },
+      {
+        "word": "asparagus",
+        "level": "A2"
+      },
+      {
+        "word": "turnip",
+        "level": "A2"
+      },
+      {
+        "word": "leek",
+        "level": "A2"
+      },
+      {
+        "word": "artichoke",
+        "level": "A2"
+      },
+      {
+        "word": "okra",
+        "level": "A2"
+      },
+      {
+        "word": "parsnip",
+        "level": "A2"
+      },
+      {
+        "word": "brussels sprout",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "carrot",
+        "decoy": "parsnip",
+        "level": "A1"
+      },
+      {
+        "word": "broccoli",
+        "decoy": "cauliflower",
+        "level": "A1"
+      },
+      {
+        "word": "peas",
+        "decoy": "green beans",
+        "level": "A1"
+      },
+      {
+        "word": "lettuce",
+        "decoy": "cabbage",
+        "level": "A1"
+      },
+      {
+        "word": "potato",
+        "decoy": "sweet potato",
+        "level": "A1"
+      },
+      {
+        "word": "cucumber",
+        "decoy": "zucchini",
+        "level": "A2"
+      },
+      {
+        "word": "beetroot",
+        "decoy": "radish",
+        "level": "A2"
+      },
+      {
+        "word": "onion",
+        "decoy": "leek",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "celery",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "cabbage",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "radish",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "sweet potato",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "eggplant",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "green bean",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "okra",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "parsnip",
+        "kind": "food",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-breakfast",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "cereal",
+        "forbidden": [
+          "bowl",
+          "milk",
+          "morning",
+          "flakes"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "toast",
+        "forbidden": [
+          "bread",
+          "hot",
+          "butter",
+          "crunch"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pancake",
+        "forbidden": [
+          "hot",
+          "round",
+          "syrup",
+          "flat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "porridge",
+        "forbidden": [
+          "oats",
+          "warm",
+          "bowl",
+          "spoon"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "muesli",
+        "forbidden": [
+          "oats",
+          "bowl",
+          "milk",
+          "flakes"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "orange juice",
+        "forbidden": [
+          "drink",
+          "fruit",
+          "morning",
+          "glass"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "yogurt",
+        "forbidden": [
+          "cold",
+          "milk",
+          "cup",
+          "spoon"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "jam",
+        "forbidden": [
+          "fruit",
+          "sweet",
+          "spread",
+          "toast"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "waffle",
+        "forbidden": [
+          "grid",
+          "square",
+          "syrup",
+          "hot"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "breakfast table",
+        "forbidden": [
+          "eat",
+          "morning",
+          "chair",
+          "food"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "honey",
+        "forbidden": [
+          "bee",
+          "sweet",
+          "jar",
+          "toast"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "granola",
+        "forbidden": [
+          "oats",
+          "nuts",
+          "bowl",
+          "crunch"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "hash brown",
+        "forbidden": [
+          "potato",
+          "fried",
+          "flat",
+          "hot"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fruit salad",
+        "forbidden": [
+          "morning",
+          "chopped",
+          "bowl",
+          "colours"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "saucer",
+        "level": "A1"
+      },
+      {
+        "word": "teaspoon",
+        "level": "A1"
+      },
+      {
+        "word": "milk jug",
+        "level": "A1"
+      },
+      {
+        "word": "bread basket",
+        "level": "A1"
+      },
+      {
+        "word": "boiled egg",
+        "level": "A1"
+      },
+      {
+        "word": "fried egg",
+        "level": "A1"
+      },
+      {
+        "word": "omelette",
+        "level": "A2"
+      },
+      {
+        "word": "breakfast bar",
+        "level": "A2"
+      },
+      {
+        "word": "thermos",
+        "level": "A1"
+      },
+      {
+        "word": "napkin",
+        "level": "A1"
+      },
+      {
+        "word": "tablecloth",
+        "level": "A1"
+      },
+      {
+        "word": "breakfast menu",
+        "level": "A1"
+      },
+      {
+        "word": "coffee mug",
+        "level": "A1"
+      },
+      {
+        "word": "honeycomb",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "toast",
+        "decoy": "waffle",
+        "level": "A1"
+      },
+      {
+        "word": "pancake",
+        "decoy": "crepe",
+        "level": "A2"
+      },
+      {
+        "word": "porridge",
+        "decoy": "cereal",
+        "level": "A1"
+      },
+      {
+        "word": "jam",
+        "decoy": "honey",
+        "level": "A1"
+      },
+      {
+        "word": "orange juice",
+        "decoy": "apple juice",
+        "level": "A1"
+      },
+      {
+        "word": "boiled egg",
+        "decoy": "fried egg",
+        "level": "A1"
+      },
+      {
+        "word": "granola",
+        "decoy": "muesli",
+        "level": "A2"
+      },
+      {
+        "word": "hash brown",
+        "decoy": "potato cake",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "omelette",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "milk jug",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "thermos",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "honeycomb",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "fruit salad",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "waffle",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "teaspoon",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "breakfast bar",
+        "kind": "food",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-school-lunch",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "lunchbox",
+        "forbidden": [
+          "food",
+          "carry",
+          "school",
+          "bag"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sandwich",
+        "forbidden": [
+          "bread",
+          "fill",
+          "cut",
+          "eat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "thermos",
+        "forbidden": [
+          "drink",
+          "hot",
+          "flask",
+          "carry"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "apple",
+        "forbidden": [
+          "fruit",
+          "red",
+          "crunch",
+          "tree"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "carrot sticks",
+        "forbidden": [
+          "orange",
+          "crunch",
+          "vegetable",
+          "snack"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "napkin",
+        "forbidden": [
+          "paper",
+          "clean",
+          "mouth",
+          "table"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "water bottle",
+        "forbidden": [
+          "drink",
+          "carry",
+          "cap",
+          "refill"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cheese",
+        "forbidden": [
+          "milk",
+          "yellow",
+          "slice",
+          "sandwich"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "wrap",
+        "forbidden": [
+          "flat",
+          "bread",
+          "fill",
+          "roll"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "leftovers",
+        "forbidden": [
+          "yesterday",
+          "food",
+          "save",
+          "fridge"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "canteen",
+        "forbidden": [
+          "school",
+          "eat",
+          "room",
+          "lunch"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "packed lunch",
+        "forbidden": [
+          "bring",
+          "home",
+          "food",
+          "school"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "snack",
+        "forbidden": [
+          "small",
+          "eat",
+          "between",
+          "food"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fruit cup",
+        "forbidden": [
+          "sweet",
+          "small",
+          "juice",
+          "plastic"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "lunch tray",
+        "level": "A1"
+      },
+      {
+        "word": "spork",
+        "level": "A2"
+      },
+      {
+        "word": "bread roll",
+        "level": "A1"
+      },
+      {
+        "word": "grapes",
+        "level": "A1"
+      },
+      {
+        "word": "crisps",
+        "level": "A1"
+      },
+      {
+        "word": "dipping sauce",
+        "level": "A2"
+      },
+      {
+        "word": "picnic blanket",
+        "level": "A1"
+      },
+      {
+        "word": "reusable container",
+        "level": "A2"
+      },
+      {
+        "word": "cheese stick",
+        "level": "A1"
+      },
+      {
+        "word": "juice carton",
+        "level": "A1"
+      },
+      {
+        "word": "lunch menu",
+        "level": "A1"
+      },
+      {
+        "word": "compost bin",
+        "level": "A2"
+      },
+      {
+        "word": "ice pack",
+        "level": "A1"
+      },
+      {
+        "word": "pasta salad",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "sandwich",
+        "decoy": "wrap",
+        "level": "A1"
+      },
+      {
+        "word": "thermos",
+        "decoy": "water bottle",
+        "level": "A1"
+      },
+      {
+        "word": "napkin",
+        "decoy": "tissue",
+        "level": "A1"
+      },
+      {
+        "word": "carrot sticks",
+        "decoy": "celery sticks",
+        "level": "A2"
+      },
+      {
+        "word": "leftovers",
+        "decoy": "packed lunch",
+        "level": "A2"
+      },
+      {
+        "word": "canteen",
+        "decoy": "cafeteria",
+        "level": "A2"
+      },
+      {
+        "word": "juice carton",
+        "decoy": "milk carton",
+        "level": "A1"
+      },
+      {
+        "word": "spork",
+        "decoy": "spoon",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "lunch tray",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "grapes",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "juice carton",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "picnic blanket",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "ice pack",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "compost bin",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "pasta salad",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "reusable container",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-caring-for-pets",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "pet",
+        "forbidden": [
+          "animal",
+          "home",
+          "care",
+          "friend"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "food bowl",
+        "forbidden": [
+          "eat",
+          "dog",
+          "cat",
+          "dish"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "lead",
+        "forbidden": [
+          "walk",
+          "dog",
+          "string",
+          "hold"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "collar",
+        "forbidden": [
+          "neck",
+          "tag",
+          "wear",
+          "pet"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "brush",
+        "forbidden": [
+          "fur",
+          "comb",
+          "clean",
+          "coat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "water dish",
+        "forbidden": [
+          "drink",
+          "bowl",
+          "pet",
+          "lick"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "vet",
+        "forbidden": [
+          "animal",
+          "doctor",
+          "clinic",
+          "care"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pet carrier",
+        "forbidden": [
+          "box",
+          "travel",
+          "cat",
+          "carry"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "hamster wheel",
+        "forbidden": [
+          "spin",
+          "small",
+          "run",
+          "cage"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fish tank",
+        "forbidden": [
+          "water",
+          "glass",
+          "swim",
+          "home"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "poop scoop",
+        "forbidden": [
+          "clean",
+          "walk",
+          "dog",
+          "bag"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "scratch post",
+        "forbidden": [
+          "cat",
+          "climb",
+          "claw",
+          "wood"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "bed",
+        "forbidden": [
+          "sleep",
+          "soft",
+          "pet",
+          "mat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pet sitter",
+        "forbidden": [
+          "person",
+          "feed",
+          "away",
+          "home"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "litter tray",
+        "level": "A2"
+      },
+      {
+        "word": "leash",
+        "level": "A1"
+      },
+      {
+        "word": "kennel",
+        "level": "A1"
+      },
+      {
+        "word": "cat flap",
+        "level": "A2"
+      },
+      {
+        "word": "hay",
+        "level": "A1"
+      },
+      {
+        "word": "guinea pig",
+        "level": "A1"
+      },
+      {
+        "word": "parakeet",
+        "level": "A2"
+      },
+      {
+        "word": "dog toy",
+        "level": "A1"
+      },
+      {
+        "word": "flea comb",
+        "level": "A2"
+      },
+      {
+        "word": "name tag",
+        "level": "A1"
+      },
+      {
+        "word": "pet passport",
+        "level": "A2"
+      },
+      {
+        "word": "bird cage",
+        "level": "A1"
+      },
+      {
+        "word": "stable",
+        "level": "A1"
+      },
+      {
+        "word": "treat jar",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "collar",
+        "decoy": "harness",
+        "level": "A1"
+      },
+      {
+        "word": "kennel",
+        "decoy": "cage",
+        "level": "A1"
+      },
+      {
+        "word": "vet",
+        "decoy": "pet sitter",
+        "level": "A1"
+      },
+      {
+        "word": "fish tank",
+        "decoy": "aquarium",
+        "level": "A1"
+      },
+      {
+        "word": "hamster wheel",
+        "decoy": "exercise wheel",
+        "level": "A2"
+      },
+      {
+        "word": "lead",
+        "decoy": "rope",
+        "level": "A1"
+      },
+      {
+        "word": "litter tray",
+        "decoy": "poop scoop",
+        "level": "A2"
+      },
+      {
+        "word": "hay",
+        "decoy": "straw",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "guinea pig",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "parakeet",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "kennel",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "cat flap",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "dog toy",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "hay",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "stable",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "treat jar",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-school-day",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "timetable",
+        "forbidden": [
+          "class",
+          "day",
+          "lessons",
+          "times"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bell",
+        "forbidden": [
+          "ring",
+          "sound",
+          "school",
+          "break"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "backpack",
+        "forbidden": [
+          "books",
+          "carry",
+          "bag",
+          "school"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "desk",
+        "forbidden": [
+          "sit",
+          "write",
+          "class",
+          "table"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "recess",
+        "forbidden": [
+          "play",
+          "break",
+          "outside",
+          "school"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "assembly",
+        "forbidden": [
+          "hall",
+          "students",
+          "meet",
+          "speech"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "homework",
+        "forbidden": [
+          "study",
+          "finish",
+          "teacher",
+          "assignment"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "classroom",
+        "forbidden": [
+          "students",
+          "lessons",
+          "teacher",
+          "building"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "school bus",
+        "forbidden": [
+          "yellow",
+          "ride",
+          "stop",
+          "children"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "locker",
+        "forbidden": [
+          "door",
+          "books",
+          "store",
+          "school"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "corridor",
+        "forbidden": [
+          "walk",
+          "rooms",
+          "school",
+          "long"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "attendance",
+        "forbidden": [
+          "present",
+          "names",
+          "teacher",
+          "count"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "school uniform",
+        "forbidden": [
+          "children",
+          "same",
+          "clothes",
+          "wear"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "school bell",
+        "forbidden": [
+          "time",
+          "ring",
+          "lesson",
+          "break"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "pencil case",
+        "level": "A1"
+      },
+      {
+        "word": "whiteboard",
+        "level": "A1"
+      },
+      {
+        "word": "library card",
+        "level": "A1"
+      },
+      {
+        "word": "playground duty",
+        "level": "A2"
+      },
+      {
+        "word": "school gate",
+        "level": "A1"
+      },
+      {
+        "word": "bus pass",
+        "level": "A1"
+      },
+      {
+        "word": "coat hook",
+        "level": "A1"
+      },
+      {
+        "word": "class register",
+        "level": "A2"
+      },
+      {
+        "word": "science lab",
+        "level": "A1"
+      },
+      {
+        "word": "art room",
+        "level": "A1"
+      },
+      {
+        "word": "water fountain",
+        "level": "A1"
+      },
+      {
+        "word": "school nurse",
+        "level": "A1"
+      },
+      {
+        "word": "lost property",
+        "level": "A2"
+      },
+      {
+        "word": "hall pass",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "timetable",
+        "decoy": "calendar",
+        "level": "A1"
+      },
+      {
+        "word": "recess",
+        "decoy": "lunch break",
+        "level": "A1"
+      },
+      {
+        "word": "locker",
+        "decoy": "cupboard",
+        "level": "A1"
+      },
+      {
+        "word": "school bus",
+        "decoy": "coach",
+        "level": "A1"
+      },
+      {
+        "word": "assembly",
+        "decoy": "class meeting",
+        "level": "A2"
+      },
+      {
+        "word": "school uniform",
+        "decoy": "sports kit",
+        "level": "A1"
+      },
+      {
+        "word": "class register",
+        "decoy": "attendance list",
+        "level": "A2"
+      },
+      {
+        "word": "corridor",
+        "decoy": "hallway",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "pencil case",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "library card",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "school gate",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "science lab",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "coat hook",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "water fountain",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "school bus",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "school nurse",
+        "kind": "job",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-classroom-rules",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "listen",
+        "forbidden": [
+          "hear",
+          "quiet",
+          "teacher",
+          "ears"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "raise your hand",
+        "forbidden": [
+          "ask",
+          "talk",
+          "arm",
+          "teacher"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "share",
+        "forbidden": [
+          "give",
+          "take",
+          "friend",
+          "toy"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "take turns",
+        "forbidden": [
+          "wait",
+          "play",
+          "one",
+          "time"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "line up",
+        "forbidden": [
+          "stand",
+          "row",
+          "door",
+          "walk"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "quiet voice",
+        "forbidden": [
+          "soft",
+          "sound",
+          "talk",
+          "noise"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "kind words",
+        "forbidden": [
+          "nice",
+          "say",
+          "speak",
+          "friend"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "classroom rule",
+        "forbidden": [
+          "must",
+          "do",
+          "school",
+          "teacher"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "borrow",
+        "forbidden": [
+          "use",
+          "ask",
+          "return",
+          "pen"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tidy up",
+        "forbidden": [
+          "clean",
+          "put",
+          "away",
+          "room"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "helpful",
+        "forbidden": [
+          "kind",
+          "useful",
+          "good",
+          "friend"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "respect",
+        "forbidden": [
+          "care",
+          "listen",
+          "people",
+          "kind"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "inside voice",
+        "forbidden": [
+          "quiet",
+          "room",
+          "talk",
+          "school"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "wait patiently",
+        "forbidden": [
+          "time",
+          "turn",
+          "calm",
+          "line"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "class helper",
+        "level": "A1"
+      },
+      {
+        "word": "hand signal",
+        "level": "A2"
+      },
+      {
+        "word": "talking stick",
+        "level": "A2"
+      },
+      {
+        "word": "book corner",
+        "level": "A1"
+      },
+      {
+        "word": "quiet corner",
+        "level": "A1"
+      },
+      {
+        "word": "clean-up song",
+        "level": "A1"
+      },
+      {
+        "word": "sharing box",
+        "level": "A1"
+      },
+      {
+        "word": "doorway",
+        "level": "A1"
+      },
+      {
+        "word": "class promise",
+        "level": "A2"
+      },
+      {
+        "word": "turn card",
+        "level": "A2"
+      },
+      {
+        "word": "group table",
+        "level": "A1"
+      },
+      {
+        "word": "kindness chart",
+        "level": "A2"
+      },
+      {
+        "word": "class pet",
+        "level": "A1"
+      },
+      {
+        "word": "floor marker",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "listen",
+        "decoy": "look",
+        "level": "A1"
+      },
+      {
+        "word": "share",
+        "decoy": "borrow",
+        "level": "A2"
+      },
+      {
+        "word": "line up",
+        "decoy": "take turns",
+        "level": "A1"
+      },
+      {
+        "word": "quiet voice",
+        "decoy": "inside voice",
+        "level": "A2"
+      },
+      {
+        "word": "tidy up",
+        "decoy": "put away",
+        "level": "A1"
+      },
+      {
+        "word": "class promise",
+        "decoy": "classroom rule",
+        "level": "A2"
+      },
+      {
+        "word": "hand signal",
+        "decoy": "turn card",
+        "level": "A2"
+      },
+      {
+        "word": "class helper",
+        "decoy": "teacher aide",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "class helper",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "talking stick",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "book corner",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "sharing box",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "doorway",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "class pet",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "kindness chart",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "floor marker",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-making-friends",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "friend",
+        "forbidden": [
+          "kind",
+          "play",
+          "talk",
+          "school"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "invite",
+        "forbidden": [
+          "ask",
+          "come",
+          "party",
+          "join"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "share",
+        "forbidden": [
+          "give",
+          "toy",
+          "together",
+          "turn"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "smile",
+        "forbidden": [
+          "face",
+          "happy",
+          "teeth",
+          "look"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "greeting",
+        "forbidden": [
+          "hello",
+          "wave",
+          "meet",
+          "say"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "team",
+        "forbidden": [
+          "group",
+          "game",
+          "work",
+          "people"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "kindness",
+        "forbidden": [
+          "nice",
+          "help",
+          "care",
+          "friend"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "conversation",
+        "forbidden": [
+          "talk",
+          "words",
+          "listen",
+          "chat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "apologize",
+        "forbidden": [
+          "sorry",
+          "wrong",
+          "say",
+          "forgive"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "welcome",
+        "forbidden": [
+          "greet",
+          "arrive",
+          "open",
+          "invited"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "trust",
+        "forbidden": [
+          "believe",
+          "keep",
+          "secret",
+          "friend"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "playdate",
+        "forbidden": [
+          "visit",
+          "friends",
+          "home",
+          "together"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "compliment",
+        "forbidden": [
+          "nice",
+          "words",
+          "say",
+          "person"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "lonely",
+        "forbidden": [
+          "alone",
+          "no",
+          "friend",
+          "sad"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "wave",
+        "level": "A1"
+      },
+      {
+        "word": "high five",
+        "level": "A1"
+      },
+      {
+        "word": "birthday invitation",
+        "level": "A1"
+      },
+      {
+        "word": "team captain",
+        "level": "A1"
+      },
+      {
+        "word": "conversation starter",
+        "level": "A2"
+      },
+      {
+        "word": "shared game",
+        "level": "A1"
+      },
+      {
+        "word": "thank-you note",
+        "level": "A1"
+      },
+      {
+        "word": "club meeting",
+        "level": "A1"
+      },
+      {
+        "word": "friendship bracelet",
+        "level": "A1"
+      },
+      {
+        "word": "helping hand",
+        "level": "A1"
+      },
+      {
+        "word": "new student",
+        "level": "A1"
+      },
+      {
+        "word": "secret handshake",
+        "level": "A2"
+      },
+      {
+        "word": "partner",
+        "level": "A1"
+      },
+      {
+        "word": "neighbour",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "invite",
+        "decoy": "welcome",
+        "level": "A1"
+      },
+      {
+        "word": "share",
+        "decoy": "take turns",
+        "level": "A1"
+      },
+      {
+        "word": "smile",
+        "decoy": "laugh",
+        "level": "A1"
+      },
+      {
+        "word": "apologize",
+        "decoy": "forgive",
+        "level": "A2"
+      },
+      {
+        "word": "lonely",
+        "decoy": "shy",
+        "level": "A1"
+      },
+      {
+        "word": "compliment",
+        "decoy": "greeting",
+        "level": "A2"
+      },
+      {
+        "word": "trust",
+        "decoy": "promise",
+        "level": "A2"
+      },
+      {
+        "word": "playdate",
+        "decoy": "club meeting",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "lunchbox",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "birthday invitation",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "shared game",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "friendship bracelet",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "tree house",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "partner",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "team captain",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "thank-you note",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-family-traditions",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "tradition",
+        "forbidden": [
+          "family",
+          "old",
+          "usual",
+          "do"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "recipe",
+        "forbidden": [
+          "food",
+          "steps",
+          "book",
+          "cook"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "story",
+        "forbidden": [
+          "tell",
+          "hear",
+          "words",
+          "old"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "holiday meal",
+        "forbidden": [
+          "eat",
+          "feast",
+          "family",
+          "food"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "family photo",
+        "forbidden": [
+          "picture",
+          "people",
+          "smile",
+          "frame"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "heirloom",
+        "forbidden": [
+          "old",
+          "passed",
+          "object",
+          "relative"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "celebration",
+        "forbidden": [
+          "party",
+          "joy",
+          "people",
+          "mark"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "custom",
+        "forbidden": [
+          "tradition",
+          "usual",
+          "group",
+          "way"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "grandparent",
+        "forbidden": [
+          "old",
+          "relative",
+          "family",
+          "adult"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "reunion",
+        "forbidden": [
+          "meet",
+          "again",
+          "relatives",
+          "together"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "special dish",
+        "forbidden": [
+          "food",
+          "make",
+          "occasion",
+          "recipe"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "memory",
+        "forbidden": [
+          "remember",
+          "past",
+          "think",
+          "story"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "family tree",
+        "forbidden": [
+          "names",
+          "relatives",
+          "branches",
+          "draw"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "annual visit",
+        "forbidden": [
+          "every",
+          "year",
+          "travel",
+          "see"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "recipe box",
+        "level": "A1"
+      },
+      {
+        "word": "photo album",
+        "level": "A1"
+      },
+      {
+        "word": "picnic",
+        "level": "A1"
+      },
+      {
+        "word": "family game",
+        "level": "A1"
+      },
+      {
+        "word": "story circle",
+        "level": "A2"
+      },
+      {
+        "word": "hand-me-down",
+        "level": "A2"
+      },
+      {
+        "word": "holiday card",
+        "level": "A1"
+      },
+      {
+        "word": "old song",
+        "level": "A1"
+      },
+      {
+        "word": "family name",
+        "level": "A1"
+      },
+      {
+        "word": "special greeting",
+        "level": "A2"
+      },
+      {
+        "word": "table setting",
+        "level": "A1"
+      },
+      {
+        "word": "welcome speech",
+        "level": "A2"
+      },
+      {
+        "word": "family garden",
+        "level": "A1"
+      },
+      {
+        "word": "keepsake",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "heirloom",
+        "decoy": "keepsake",
+        "level": "A2"
+      },
+      {
+        "word": "reunion",
+        "decoy": "visit",
+        "level": "A1"
+      },
+      {
+        "word": "tradition",
+        "decoy": "custom",
+        "level": "A2"
+      },
+      {
+        "word": "family photo",
+        "decoy": "photo album",
+        "level": "A1"
+      },
+      {
+        "word": "special dish",
+        "decoy": "holiday meal",
+        "level": "A1"
+      },
+      {
+        "word": "grandparent",
+        "decoy": "relative",
+        "level": "A1"
+      },
+      {
+        "word": "family tree",
+        "decoy": "ancestry chart",
+        "level": "A2"
+      },
+      {
+        "word": "holiday card",
+        "decoy": "birthday card",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "photo album",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "picnic",
+        "kind": "activity",
+        "level": "A1"
+      },
+      {
+        "secret": "keepsake",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "family game",
+        "kind": "activity",
+        "level": "A1"
+      },
+      {
+        "secret": "family garden",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "holiday card",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "recipe box",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "story circle",
+        "kind": "activity",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-birthday-parties",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "birthday cake",
+        "forbidden": [
+          "candles",
+          "sweet",
+          "blow",
+          "party"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "balloon",
+        "forbidden": [
+          "air",
+          "round",
+          "blow",
+          "colour"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "present",
+        "forbidden": [
+          "gift",
+          "wrap",
+          "open",
+          "box"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "invitation",
+        "forbidden": [
+          "ask",
+          "come",
+          "party",
+          "card"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "party hat",
+        "forbidden": [
+          "wear",
+          "head",
+          "point",
+          "colour"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "streamers",
+        "forbidden": [
+          "paper",
+          "hang",
+          "colour",
+          "decor"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "birthday song",
+        "forbidden": [
+          "sing",
+          "years",
+          "voice",
+          "party"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "party game",
+        "forbidden": [
+          "play",
+          "win",
+          "children",
+          "fun"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cupcake",
+        "forbidden": [
+          "icing",
+          "sweet",
+          "paper",
+          "small"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "goodie bag",
+        "forbidden": [
+          "take",
+          "home",
+          "party",
+          "toys"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "confetti",
+        "forbidden": [
+          "tiny",
+          "paper",
+          "throw",
+          "colour"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "birthday candle",
+        "forbidden": [
+          "flame",
+          "wax",
+          "blow",
+          "cake"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "party table",
+        "forbidden": [
+          "food",
+          "chairs",
+          "guests",
+          "room"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "thank-you card",
+        "forbidden": [
+          "write",
+          "guest",
+          "thanks",
+          "mail"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "party blower",
+        "level": "A1"
+      },
+      {
+        "word": "pinata",
+        "level": "A2"
+      },
+      {
+        "word": "paper crown",
+        "level": "A1"
+      },
+      {
+        "word": "gift bag",
+        "level": "A1"
+      },
+      {
+        "word": "party invitation",
+        "level": "A1"
+      },
+      {
+        "word": "ice cream",
+        "level": "A1"
+      },
+      {
+        "word": "party favour",
+        "level": "A2"
+      },
+      {
+        "word": "cake slice",
+        "level": "A1"
+      },
+      {
+        "word": "wrapping paper",
+        "level": "A1"
+      },
+      {
+        "word": "gift tag",
+        "level": "A2"
+      },
+      {
+        "word": "party playlist",
+        "level": "A2"
+      },
+      {
+        "word": "party host",
+        "level": "A1"
+      },
+      {
+        "word": "number candle",
+        "level": "A1"
+      },
+      {
+        "word": "party banner",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "birthday cake",
+        "decoy": "cupcake",
+        "level": "A1"
+      },
+      {
+        "word": "balloon",
+        "decoy": "beach ball",
+        "level": "A1"
+      },
+      {
+        "word": "present",
+        "decoy": "goodie bag",
+        "level": "A1"
+      },
+      {
+        "word": "party hat",
+        "decoy": "paper crown",
+        "level": "A1"
+      },
+      {
+        "word": "streamers",
+        "decoy": "banner",
+        "level": "A1"
+      },
+      {
+        "word": "party game",
+        "decoy": "board game",
+        "level": "A1"
+      },
+      {
+        "word": "pinata",
+        "decoy": "party box",
+        "level": "A2"
+      },
+      {
+        "word": "thank-you card",
+        "decoy": "invitation",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "pinata",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "ice cream",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "gift tag",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "party host",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "party blower",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "party banner",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "paper crown",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "party playlist",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-festivals-around-the-world",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "festival",
+        "forbidden": [
+          "crowd",
+          "celebrate",
+          "year",
+          "day"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "parade",
+        "forbidden": [
+          "march",
+          "street",
+          "people",
+          "band"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "lantern",
+        "forbidden": [
+          "light",
+          "paper",
+          "hang",
+          "glow"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "drum",
+        "forbidden": [
+          "music",
+          "beat",
+          "round",
+          "hit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "costume",
+        "forbidden": [
+          "clothes",
+          "wear",
+          "character",
+          "dress"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fireworks",
+        "forbidden": [
+          "night",
+          "bright",
+          "bang",
+          "sky"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "mask",
+        "forbidden": [
+          "face",
+          "wear",
+          "hide",
+          "eyes"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "procession",
+        "forbidden": [
+          "walk",
+          "group",
+          "street",
+          "slow"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "festival food",
+        "forbidden": [
+          "eat",
+          "special",
+          "stall",
+          "share"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "banner",
+        "forbidden": [
+          "cloth",
+          "hang",
+          "words",
+          "colour"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "dancer",
+        "forbidden": [
+          "move",
+          "music",
+          "steps",
+          "perform"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "festival market",
+        "forbidden": [
+          "buy",
+          "stall",
+          "crowd",
+          "food"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "prayer flag",
+        "forbidden": [
+          "cloth",
+          "colour",
+          "hang",
+          "wind"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "drumbeat",
+        "forbidden": [
+          "sound",
+          "fast",
+          "music",
+          "listen"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "marigold",
+        "level": "A2"
+      },
+      {
+        "word": "paper lantern",
+        "level": "A1"
+      },
+      {
+        "word": "street musician",
+        "level": "A1"
+      },
+      {
+        "word": "parade float",
+        "level": "A2"
+      },
+      {
+        "word": "festival mask",
+        "level": "A1"
+      },
+      {
+        "word": "food stall",
+        "level": "A1"
+      },
+      {
+        "word": "dancing shoes",
+        "level": "A1"
+      },
+      {
+        "word": "festival map",
+        "level": "A2"
+      },
+      {
+        "word": "hand fan",
+        "level": "A1"
+      },
+      {
+        "word": "festival ticket",
+        "level": "A1"
+      },
+      {
+        "word": "crowd barrier",
+        "level": "A2"
+      },
+      {
+        "word": "drumstick",
+        "level": "A1"
+      },
+      {
+        "word": "market basket",
+        "level": "A1"
+      },
+      {
+        "word": "stage light",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "parade",
+        "decoy": "procession",
+        "level": "A1"
+      },
+      {
+        "word": "lantern",
+        "decoy": "paper lantern",
+        "level": "A1"
+      },
+      {
+        "word": "drum",
+        "decoy": "drumstick",
+        "level": "A1"
+      },
+      {
+        "word": "costume",
+        "decoy": "mask",
+        "level": "A1"
+      },
+      {
+        "word": "fireworks",
+        "decoy": "sparklers",
+        "level": "A2"
+      },
+      {
+        "word": "festival food",
+        "decoy": "street food",
+        "level": "A2"
+      },
+      {
+        "word": "banner",
+        "decoy": "flag",
+        "level": "A1"
+      },
+      {
+        "word": "food stall",
+        "decoy": "festival market",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "street musician",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "marigold",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "parade float",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "food stall",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "festival ticket",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "hand fan",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "market basket",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "festival map",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-holidays",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "holiday",
+        "forbidden": [
+          "trip",
+          "school",
+          "break",
+          "travel"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "suitcase",
+        "forbidden": [
+          "clothes",
+          "pack",
+          "travel",
+          "bag"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "postcard",
+        "forbidden": [
+          "write",
+          "send",
+          "place",
+          "mail"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hotel",
+        "forbidden": [
+          "sleep",
+          "room",
+          "travel",
+          "stay"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "map",
+        "forbidden": [
+          "place",
+          "find",
+          "road",
+          "look"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "train ticket",
+        "forbidden": [
+          "ride",
+          "paper",
+          "seat",
+          "journey"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "beach towel",
+        "forbidden": [
+          "sand",
+          "swim",
+          "lie",
+          "water"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "camping tent",
+        "forbidden": [
+          "sleep",
+          "outside",
+          "canvas",
+          "pitch"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "holiday photo",
+        "forbidden": [
+          "picture",
+          "trip",
+          "remember",
+          "smile"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sun cream",
+        "forbidden": [
+          "heat",
+          "skin",
+          "protect",
+          "rub"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "airport",
+        "forbidden": [
+          "plane",
+          "travel",
+          "terminal",
+          "fly"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "travel guide",
+        "forbidden": [
+          "book",
+          "places",
+          "read",
+          "visit"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "day trip",
+        "forbidden": [
+          "one",
+          "return",
+          "visit",
+          "travel"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "souvenir",
+        "forbidden": [
+          "buy",
+          "remember",
+          "place",
+          "keep"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "passport",
+        "level": "A1"
+      },
+      {
+        "word": "backpack",
+        "level": "A1"
+      },
+      {
+        "word": "compass",
+        "level": "A1"
+      },
+      {
+        "word": "train platform",
+        "level": "A1"
+      },
+      {
+        "word": "hotel key",
+        "level": "A1"
+      },
+      {
+        "word": "room service",
+        "level": "A2"
+      },
+      {
+        "word": "travel pillow",
+        "level": "A1"
+      },
+      {
+        "word": "campfire",
+        "level": "A1"
+      },
+      {
+        "word": "swimming goggles",
+        "level": "A1"
+      },
+      {
+        "word": "city bus",
+        "level": "A1"
+      },
+      {
+        "word": "road trip",
+        "level": "A1"
+      },
+      {
+        "word": "boarding pass",
+        "level": "A2"
+      },
+      {
+        "word": "hiking boot",
+        "level": "A1"
+      },
+      {
+        "word": "camera strap",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "suitcase",
+        "decoy": "backpack",
+        "level": "A1"
+      },
+      {
+        "word": "postcard",
+        "decoy": "holiday photo",
+        "level": "A1"
+      },
+      {
+        "word": "hotel",
+        "decoy": "hostel",
+        "level": "A2"
+      },
+      {
+        "word": "train ticket",
+        "decoy": "boarding pass",
+        "level": "A2"
+      },
+      {
+        "word": "beach towel",
+        "decoy": "camping blanket",
+        "level": "A2"
+      },
+      {
+        "word": "map",
+        "decoy": "compass",
+        "level": "A1"
+      },
+      {
+        "word": "day trip",
+        "decoy": "road trip",
+        "level": "A1"
+      },
+      {
+        "word": "travel pillow",
+        "decoy": "sleeping bag",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "passport",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "compass",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "hotel key",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "campfire",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "city bus",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "hiking boot",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "airport",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "camera strap",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-jobs-people-do",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "baker",
+        "forbidden": [
+          "bread",
+          "cake",
+          "oven",
+          "food"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "doctor",
+        "forbidden": [
+          "patient",
+          "health",
+          "hospital",
+          "help"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "farmer",
+        "forbidden": [
+          "field",
+          "crops",
+          "animals",
+          "food"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "builder",
+        "forbidden": [
+          "house",
+          "tools",
+          "make",
+          "hardhat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "teacher",
+        "forbidden": [
+          "class",
+          "school",
+          "learn",
+          "students"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "firefighter",
+        "forbidden": [
+          "truck",
+          "water",
+          "brave",
+          "rescue"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "dentist",
+        "forbidden": [
+          "teeth",
+          "mouth",
+          "check",
+          "chair"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "chef",
+        "forbidden": [
+          "cook",
+          "restaurant",
+          "food",
+          "hat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pilot",
+        "forbidden": [
+          "plane",
+          "fly",
+          "cockpit",
+          "travel"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "vet",
+        "forbidden": [
+          "pet",
+          "animal",
+          "clinic",
+          "doctor"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "plumber",
+        "forbidden": [
+          "pipe",
+          "water",
+          "leak",
+          "fix"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "artist",
+        "forbidden": [
+          "draw",
+          "paint",
+          "picture",
+          "creative"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "mail carrier",
+        "forbidden": [
+          "letter",
+          "deliver",
+          "post",
+          "walk"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mechanic",
+        "forbidden": [
+          "car",
+          "engine",
+          "repair",
+          "garage"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "lifeguard",
+        "level": "A1"
+      },
+      {
+        "word": "gardener",
+        "level": "A1"
+      },
+      {
+        "word": "bus driver",
+        "level": "A1"
+      },
+      {
+        "word": "cashier",
+        "level": "A1"
+      },
+      {
+        "word": "hairdresser",
+        "level": "A1"
+      },
+      {
+        "word": "photographer",
+        "level": "A1"
+      },
+      {
+        "word": "coach",
+        "level": "A1"
+      },
+      {
+        "word": "lifeguard chair",
+        "level": "A2"
+      },
+      {
+        "word": "delivery van",
+        "level": "A1"
+      },
+      {
+        "word": "tool belt",
+        "level": "A1"
+      },
+      {
+        "word": "uniform",
+        "level": "A1"
+      },
+      {
+        "word": "workshop",
+        "level": "A1"
+      },
+      {
+        "word": "shop assistant",
+        "level": "A1"
+      },
+      {
+        "word": "stethoscope",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "doctor",
+        "decoy": "nurse",
+        "level": "A1"
+      },
+      {
+        "word": "baker",
+        "decoy": "chef",
+        "level": "A1"
+      },
+      {
+        "word": "builder",
+        "decoy": "carpenter",
+        "level": "A2"
+      },
+      {
+        "word": "pilot",
+        "decoy": "flight attendant",
+        "level": "A2"
+      },
+      {
+        "word": "vet",
+        "decoy": "zookeeper",
+        "level": "A2"
+      },
+      {
+        "word": "farmer",
+        "decoy": "gardener",
+        "level": "A1"
+      },
+      {
+        "word": "mail carrier",
+        "decoy": "delivery driver",
+        "level": "A2"
+      },
+      {
+        "word": "mechanic",
+        "decoy": "plumber",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "lifeguard",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "cashier",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "photographer",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "delivery van",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "tool belt",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "workshop",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "stethoscope",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "hairdresser",
+        "kind": "job",
+        "level": "A1"
+      }
+    ]
   }
 ]
