@@ -1843,5 +1843,312 @@
       "migration",
       "identity"
     ]
+  },
+  "bogota/my-city-video": {
+    "keyIdea": "Bogota's recyclers collect usable waste early in the day, turning discarded materials into income for their families.",
+    "tradeoff": "They compete with other collectors and face pressure from authorities to disappear.",
+    "designUse": "Recognize informal recycling work when setting collection times and city waste rules.",
+    "investigationTags": [
+      "environment",
+      "economics",
+      "daily life"
+    ]
+  },
+  "bogota/gold-museum-video": {
+    "keyIdea": "Bogota's Gold Museum uses old objects to explain different Indigenous rituals and traditions, making collections part of public learning.",
+    "tradeoff": "Famous pieces can receive more attention than the wider diversity of past communities.",
+    "designUse": "Explain what objects meant to their communities, beyond their material value.",
+    "investigationTags": [
+      "museums",
+      "history",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "bogota/graffiti-projects-video": {
+    "keyIdea": "Bogota offers public mural spaces and support for artists, changing how unused walls and graffiti are understood.",
+    "tradeoff": "Painting outside approved spaces can still lead to detention or cleanup costs.",
+    "designUse": "Provide clear legal art spaces and explain where painting remains restricted.",
+    "investigationTags": [
+      "art",
+      "government",
+      "public space"
+    ]
+  },
+  "bogota/ciclovia-open-streets": {
+    "keyIdea": "Bogota regularly opens streets for walking, cycling, and exercise, showing that road space can serve different uses at different times.",
+    "tradeoff": "Closing roads needs signs, staff, medical support, and alternative routes for vehicles.",
+    "designUse": "Schedule recurring street uses with support services and routes around closures.",
+    "investigationTags": [
+      "public space",
+      "transport",
+      "community"
+    ]
+  },
+  "bogota/transmilenio-network": {
+    "keyIdea": "Bogota's TransMilenio uses dedicated bus lanes and payment before boarding to avoid delays and load passengers more quickly.",
+    "tradeoff": "Crowding and difficult station connections can weaken the whole journey.",
+    "designUse": "Pair dedicated bus corridors with easy station access and manageable passenger flows.",
+    "investigationTags": [
+      "transport",
+      "systems thinking",
+      "urban planning"
+    ]
+  },
+  "bogota/paramo-water": {
+    "keyIdea": "Bogota's mountain paramos capture, store, and slowly release water, linking the city's taps with distant plants and soils.",
+    "tradeoff": "Conservation rules can affect rural people whose work depends on those landscapes.",
+    "designUse": "Protect water-storing ecosystems while discussing land-use limits with nearby communities.",
+    "investigationTags": [
+      "water",
+      "environment",
+      "geography"
+    ]
+  },
+  "reykjavik/city-landmarks-video": {
+    "keyIdea": "Reykjavik's Elm fashion workshop uses its nearby shop to test local customers' responses before selling its designs abroad.",
+    "tradeoff": "A small local test market cannot represent every customer's tastes abroad.",
+    "designUse": "Test designs with local users while checking needs in other intended markets.",
+    "investigationTags": [
+      "design",
+      "economics",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "reykjavik/iceland-history-video": {
+    "keyIdea": "Iceland's shared assembly made laws through councils, creating a public institution that continued as the country changed governments.",
+    "tradeoff": "Conflict between local leaders later contributed to the loss of independence.",
+    "designUse": "Keep shared decision-making bodies able to resolve disagreements without prolonged conflict.",
+    "investigationTags": [
+      "history",
+      "government",
+      "community"
+    ],
+    "thin": true
+  },
+  "reykjavik/culture-night-video": {
+    "keyIdea": "Reykjavik's Culture Night depends on small events across the city, with residents and places contributing beyond the official program.",
+    "tradeoff": "Events outside the official program are harder to coordinate as one schedule.",
+    "designUse": "Support small local events within a shared citywide celebration framework.",
+    "investigationTags": [
+      "culture",
+      "community",
+      "public space"
+    ],
+    "tradeoffInferred": true
+  },
+  "reykjavik/geothermal-city": {
+    "keyIdea": "Reykjavik sends naturally heated underground water through a shared system, warming many buildings without separate heating in each one.",
+    "tradeoff": "Drilling, gases, land use, and extraction rates still require careful management.",
+    "designUse": "Manage shared heat supplies around local geology and long-term reservoir care.",
+    "investigationTags": [
+      "engineering",
+      "environment",
+      "science"
+    ]
+  },
+  "reykjavik/ocean-and-fishing": {
+    "keyIdea": "Reykjavik's fishing economy connects scientific stock estimates with rules on catches, linking natural limits to jobs and trade.",
+    "tradeoff": "Fishing limits protect stocks but change work for communities depending on the sea.",
+    "designUse": "Adjust catch rules using evidence about fish stocks and affected livelihoods.",
+    "investigationTags": [
+      "nature",
+      "science",
+      "economics"
+    ]
+  },
+  "reykjavik/language-and-names": {
+    "keyIdea": "Reykjavik's public institutions keep Icelandic useful by teaching it and creating words for new ideas and technologies.",
+    "tradeoff": "Global media and other languages bring opportunities while pressuring a small speech community.",
+    "designUse": "Develop local-language terms and services for new tools and everyday work.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "community"
+    ]
+  },
+  "nairobi/capital-history-video": {
+    "keyIdea": "Nairobi stayed at its railway camp site because existing tracks and warehouses made moving the settlement too expensive.",
+    "tradeoff": "The chosen site had poor drainage and health risks despite earlier investment.",
+    "designUse": "Check site safety before heavy investment makes relocation difficult.",
+    "investigationTags": [
+      "history",
+      "transport",
+      "cause and effect"
+    ]
+  },
+  "nairobi/railway-city-video": {
+    "keyIdea": "Nairobi's Railway City plan links rail, buses, walking routes, housing, and business spaces around a rebuilt central station.",
+    "tradeoff": "The planned connections depend on major resources and cooperation between investment partners.",
+    "designUse": "Integrate station rebuilding with nearby homes, walkways, and different transport services.",
+    "investigationTags": [
+      "transport",
+      "urban planning",
+      "housing"
+    ],
+    "tradeoffInferred": true
+  },
+  "nairobi/un-hub-video": {
+    "keyIdea": "Nairobi's planned UN expansion links more offices and conference space with jobs for contractors, hotels, and other local services.",
+    "tradeoff": "New buildings and larger meetings need substantial funding and room to operate.",
+    "designUse": "Connect institutional expansion with local service jobs and practical conference access.",
+    "investigationTags": [
+      "economics",
+      "government",
+      "urban planning"
+    ],
+    "tradeoffInferred": true
+  },
+  "nairobi/national-park-edge": {
+    "keyIdea": "Nairobi's wildlife park depends on connected land beyond its boundary because animals move through the wider landscape.",
+    "tradeoff": "Roads, fences, and urban growth can cut routes wildlife needs.",
+    "designUse": "Protect wildlife connections across park edges when planning surrounding roads and homes.",
+    "investigationTags": [
+      "nature",
+      "geography",
+      "urban planning"
+    ]
+  },
+  "nairobi/matatu-visual-language": {
+    "keyIdea": "Nairobi's matatus use names, images, music, and interiors to stand out while carrying passengers between neighborhoods.",
+    "tradeoff": "Competition can encourage creativity while raising concerns about safety, fares, and predictable service.",
+    "designUse": "Keep transport identity creative while making fares and safety expectations clear.",
+    "investigationTags": [
+      "transport",
+      "culture",
+      "daily life"
+    ]
+  },
+  "nairobi/silicon-savannah": {
+    "keyIdea": "Nairobi's mobile services solve local payment and information problems, linking technology businesses with needs older systems do not meet.",
+    "tradeoff": "Device costs, connectivity, skills, and privacy can create new gaps in access.",
+    "designUse": "Design digital services around local needs and users' actual resources.",
+    "investigationTags": [
+      "economics",
+      "problem solving",
+      "ethics"
+    ]
+  },
+  "lima/city-history-video": {
+    "keyIdea": "Lima's architecture and street culture combine Indigenous, colonial, and later influences, keeping different periods visible in the growing city.",
+    "tradeoff": "Growth and earthquakes place pressure on the same city fabric.",
+    "designUse": "Recognize several cultural layers when planning how a growing district should change.",
+    "investigationTags": [
+      "history",
+      "identity",
+      "urban change"
+    ],
+    "tradeoffInferred": true
+  },
+  "lima/ancient-ruins-video": {
+    "keyIdea": "Near Lima, preservation groups engage women living around archaeological sites so heritage protection can also support local income.",
+    "tradeoff": "Residents may see a site as taking space unless it adds value to their lives.",
+    "designUse": "Link heritage protection with work and benefits for neighboring residents.",
+    "investigationTags": [
+      "archaeology",
+      "community",
+      "economics"
+    ]
+  },
+  "lima/transport-strike-video": {
+    "keyIdea": "Lima's bus drivers strike over threats from organized crime, showing how worker safety affects school, business, and daily travel.",
+    "tradeoff": "When buses stop, commuters lose journeys and schools and shops can close.",
+    "designUse": "Treat transport-worker safety as part of keeping essential city journeys available.",
+    "investigationTags": [
+      "transport",
+      "government",
+      "daily life"
+    ]
+  },
+  "lima/desert-water-and-fog": {
+    "keyIdea": "Lima's desert water supply relies on mountain rivers and city systems, while coastal fog supports smaller local uses.",
+    "tradeoff": "Fog collectors cannot replace the large water network needed by millions of people.",
+    "designUse": "Use small moisture-capture projects alongside, rather than instead of, reliable water networks.",
+    "investigationTags": [
+      "water",
+      "geography",
+      "environment"
+    ]
+  },
+  "lima/historic-center-earthquakes": {
+    "keyIdea": "Lima's old center needs structural care as well as preserved appearances so historic buildings remain safe and useful.",
+    "tradeoff": "Limited restoration resources force choices about which vulnerable places receive attention first.",
+    "designUse": "Prioritize earthquake repairs by safety, cultural value, and continuing community use.",
+    "investigationTags": [
+      "heritage",
+      "engineering",
+      "urban planning"
+    ]
+  },
+  "lima/food-and-migration": {
+    "keyIdea": "Lima's cooks combine ingredients and methods from different communities, changing dishes to fit local markets and family needs.",
+    "tradeoff": "Famous restaurants can draw attention away from growers, fishers, and lower-paid workers.",
+    "designUse": "Show the whole food network when celebrating dishes shaped by migration.",
+    "investigationTags": [
+      "food culture",
+      "migration",
+      "identity"
+    ]
+  },
+  "perth/quokkas-video": {
+    "keyIdea": "Quokkas near Perth survive in an island refuge, while public attention has highlighted pressures on their mainland habitats.",
+    "tradeoff": "Urban expansion, fires, and invasive species reduce habitat, and direct wildlife interaction is discouraged.",
+    "designUse": "Turn wildlife attention into habitat protection without encouraging close physical contact.",
+    "investigationTags": [
+      "nature",
+      "environment"
+    ]
+  },
+  "perth/transperth-video": {
+    "keyIdea": "Perth's transport system links buses, trains, and ferries through shared services and payment, connecting spread-out homes with work and education.",
+    "tradeoff": "A growing, widely spread population increases demand on the transport network.",
+    "designUse": "Integrate fares and route connections before expanding separate transport services.",
+    "investigationTags": [
+      "transport",
+      "systems thinking",
+      "urban planning"
+    ]
+  },
+  "perth/fremantle-video": {
+    "keyIdea": "Fremantle's working brewery combines production with visitor space, letting staff explain what they make while supporting local hospitality work.",
+    "tradeoff": "The experience depends on teams managing both daily service and the working site.",
+    "designUse": "Combine production and visitor spaces so workers can explain what they make.",
+    "investigationTags": [
+      "economics",
+      "community",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "perth/boorloo-and-derbarl-yerrigan": {
+    "keyIdea": "Perth's Noongar names connect the modern city and river with older living knowledge, cultural responsibility, and relationships.",
+    "tradeoff": "Using names alone does not include Traditional Custodians' authority in decisions.",
+    "designUse": "Include Traditional Custodians in decisions about named places and river care.",
+    "investigationTags": [
+      "identity",
+      "heritage",
+      "water"
+    ]
+  },
+  "perth/climate-resilient-water": {
+    "keyIdea": "Perth added different water sources as rainfall into dams fell, spreading the risk of relying on one supply.",
+    "tradeoff": "Desalination needs energy and careful handling of the salty water it leaves.",
+    "designUse": "Compare backup water sources through energy costs and waste-management needs.",
+    "investigationTags": [
+      "water",
+      "climate",
+      "engineering"
+    ]
+  },
+  "perth/kings-park-biodiversity": {
+    "keyIdea": "Perth's Kings Park combines public paths with seed conservation and plant research that can support restoration beyond the park.",
+    "tradeoff": "Visitor use, fire, invasive species, and climate change can damage the living landscape.",
+    "designUse": "Link public gardens with plant research, conservation, and careful visitor routes.",
+    "investigationTags": [
+      "nature",
+      "science",
+      "public space"
+    ]
   }
 }

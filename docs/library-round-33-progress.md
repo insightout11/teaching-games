@@ -33,3 +33,7 @@ Authored 30 more entries (150 total). Entries distinguish Carnival’s shared cu
 ## Batch 6: Lagos, Hong Kong, Amsterdam, Honolulu, Miami
 
 Authored 30 more entries (180 total), reading all captions and lesson texts. Hong Kong’s rail/property model is grounded in its own transcript; housing-standard costs are grounded in tenants’ reported displacement fears. Honolulu’s entries distinguish regional Hawaiian cultural material from specific coast and watershed mechanisms. No historical video claims are presented as new forecasts or current numerical rankings. Partial checks pass with zero errors.
+
+## Batch 7: Bogota, Reykjavik, Nairobi, Lima, Perth
+
+Authored 30 more entries (210 total), grounded in all associated captions/texts. Future project claims remain plans rather than completed results (Nairobi Railway City and UN expansion). Reykjavik’s national history is flagged thin for its city-specific link. Evidence includes direct, stated limits on fog collection, wildlife movement, historic repairs, and desalination; inferred limits remain marked. Partial checks pass.
