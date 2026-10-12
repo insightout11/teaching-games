@@ -21,3 +21,5 @@ Cards are authored individually. A serialization helper only formats the explici
 - Batch 8: 15 culture, music and language topics (Friendship through Local Traditions), 110 topics total / 4,840 cards. Partial checker: all errors 0; kids A1 1,880, A2 1,640; teens B1 814, B2 506; 288 unique sticker matches, 866 target/decoy occurrences.
 
 - Batch 9: 15 school, money, work and speaking topics (Exams through Career Skills), 125 topics total / 5,500 cards. Partial checker: all errors 0; kids A1 1,880, A2 1,640; teens B1 1,300, B2 680; 290 unique sticker matches, 872 target/decoy occurrences.
+
+- Batch 10: 15 climate, transport, space and invention topics (Climate Change through Water Conservation), 140 topics total / 6,160 cards. Partial checker: all errors 0; kids A1 1,880, A2 1,640; teens B1 1,722, B2 918; 293 unique sticker matches, 878 target/decoy occurrences.

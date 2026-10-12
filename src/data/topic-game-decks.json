@@ -35998,5 +35998,4325 @@
         "level": "B1"
       }
     ]
+  },
+  {
+    "topicId": "topic-teens-climate-change",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "greenhouse gas",
+        "forbidden": [
+          "air",
+          "warm",
+          "carbon",
+          "emission"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "carbon footprint",
+        "forbidden": [
+          "travel",
+          "energy",
+          "impact",
+          "measure"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "global warming",
+        "forbidden": [
+          "planet",
+          "heat",
+          "temperature",
+          "climate"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "sea level rise",
+        "forbidden": [
+          "ocean",
+          "water",
+          "coast",
+          "high"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "heatwave",
+        "forbidden": [
+          "hot",
+          "days",
+          "summer",
+          "weather"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "climate model",
+        "forbidden": [
+          "future",
+          "data",
+          "computer",
+          "estimate"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "drought",
+        "forbidden": [
+          "rain",
+          "water",
+          "dry",
+          "land"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "flood risk",
+        "forbidden": [
+          "water",
+          "heavy",
+          "rain",
+          "damage"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "adaptation",
+        "forbidden": [
+          "change",
+          "prepare",
+          "cope",
+          "impact"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "mitigation",
+        "forbidden": [
+          "reduce",
+          "prevent",
+          "emissions",
+          "action"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "extreme weather",
+        "forbidden": [
+          "storm",
+          "heat",
+          "strong",
+          "unusual"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "climate pattern",
+        "forbidden": [
+          "long-term",
+          "weather",
+          "usual",
+          "change"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "emission target",
+        "forbidden": [
+          "goal",
+          "carbon",
+          "reduce",
+          "year"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "climate resilience",
+        "forbidden": [
+          "recover",
+          "prepare",
+          "community",
+          "change"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "thermometer record",
+        "level": "B1"
+      },
+      {
+        "word": "weather station",
+        "level": "B1"
+      },
+      {
+        "word": "climate graph",
+        "level": "B1"
+      },
+      {
+        "word": "coastal town",
+        "level": "B1"
+      },
+      {
+        "word": "flood barrier",
+        "level": "B2"
+      },
+      {
+        "word": "drought map",
+        "level": "B1"
+      },
+      {
+        "word": "electric meter",
+        "level": "B1"
+      },
+      {
+        "word": "carbon calculator",
+        "level": "B2"
+      },
+      {
+        "word": "heat alert",
+        "level": "B1"
+      },
+      {
+        "word": "tide marker",
+        "level": "B1"
+      },
+      {
+        "word": "climate report",
+        "level": "B2"
+      },
+      {
+        "word": "tree canopy",
+        "level": "B1"
+      },
+      {
+        "word": "solar shade",
+        "level": "B1"
+      },
+      {
+        "word": "emergency plan",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "greenhouse gas",
+        "decoy": "carbon dioxide",
+        "level": "B1"
+      },
+      {
+        "word": "global warming",
+        "decoy": "climate change",
+        "level": "B1"
+      },
+      {
+        "word": "drought",
+        "decoy": "water shortage",
+        "level": "B1"
+      },
+      {
+        "word": "adaptation",
+        "decoy": "mitigation",
+        "level": "B2"
+      },
+      {
+        "word": "flood risk",
+        "decoy": "storm risk",
+        "level": "B1"
+      },
+      {
+        "word": "climate model",
+        "decoy": "weather forecast",
+        "level": "B2"
+      },
+      {
+        "word": "carbon footprint",
+        "decoy": "emissions total",
+        "level": "B2"
+      },
+      {
+        "word": "climate resilience",
+        "decoy": "disaster recovery",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "thermometer record",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "weather station",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "climate graph",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "flood barrier",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "drought map",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "carbon calculator",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "heat alert",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "emergency plan",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-renewable-energy",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "solar panel",
+        "forbidden": [
+          "sun",
+          "roof",
+          "electricity",
+          "light"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "wind turbine",
+        "forbidden": [
+          "blades",
+          "rotate",
+          "power",
+          "generator"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "hydropower",
+        "forbidden": [
+          "river",
+          "dam",
+          "water",
+          "electricity"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "geothermal energy",
+        "forbidden": [
+          "heat",
+          "ground",
+          "earth",
+          "steam"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "renewable source",
+        "forbidden": [
+          "replace",
+          "natural",
+          "energy",
+          "repeat"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "energy storage",
+        "forbidden": [
+          "battery",
+          "save",
+          "power",
+          "keep"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "solar farm",
+        "forbidden": [
+          "field",
+          "panels",
+          "electricity",
+          "sun"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "offshore wind",
+        "forbidden": [
+          "sea",
+          "turbine",
+          "ocean",
+          "coastal"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "power grid",
+        "forbidden": [
+          "electricity",
+          "network",
+          "lines",
+          "connect"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "inverter",
+        "forbidden": [
+          "current",
+          "convert",
+          "solar",
+          "device"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "clean energy",
+        "forbidden": [
+          "pollution",
+          "low",
+          "source",
+          "power"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "energy mix",
+        "forbidden": [
+          "sources",
+          "combine",
+          "country",
+          "power"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "microgrid",
+        "forbidden": [
+          "local",
+          "network",
+          "power",
+          "small"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "home battery",
+        "forbidden": [
+          "store",
+          "house",
+          "electricity",
+          "save"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "roof panel",
+        "level": "B1"
+      },
+      {
+        "word": "wind farm",
+        "level": "B1"
+      },
+      {
+        "word": "dam wall",
+        "level": "B1"
+      },
+      {
+        "word": "battery bank",
+        "level": "B2"
+      },
+      {
+        "word": "solar calculator",
+        "level": "B1"
+      },
+      {
+        "word": "power line",
+        "level": "B1"
+      },
+      {
+        "word": "electric meter",
+        "level": "B1"
+      },
+      {
+        "word": "charging station",
+        "level": "B1"
+      },
+      {
+        "word": "energy monitor",
+        "level": "B2"
+      },
+      {
+        "word": "hydro turbine",
+        "level": "B2"
+      },
+      {
+        "word": "geothermal plant",
+        "level": "B2"
+      },
+      {
+        "word": "inverter box",
+        "level": "B2"
+      },
+      {
+        "word": "power station",
+        "level": "B1"
+      },
+      {
+        "word": "sun tracker",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "solar panel",
+        "decoy": "photovoltaic cell",
+        "level": "B2"
+      },
+      {
+        "word": "wind turbine",
+        "decoy": "windmill",
+        "level": "B1"
+      },
+      {
+        "word": "hydropower",
+        "decoy": "tidal power",
+        "level": "B2"
+      },
+      {
+        "word": "geothermal energy",
+        "decoy": "solar energy",
+        "level": "B1"
+      },
+      {
+        "word": "energy storage",
+        "decoy": "battery storage",
+        "level": "B2"
+      },
+      {
+        "word": "solar farm",
+        "decoy": "wind farm",
+        "level": "B1"
+      },
+      {
+        "word": "power grid",
+        "decoy": "electric grid",
+        "level": "B2"
+      },
+      {
+        "word": "offshore wind",
+        "decoy": "onshore wind",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "roof panel",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "dam wall",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "battery bank",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "solar calculator",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "power line",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "charging station",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "geothermal plant",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "sun tracker",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-plastic-waste",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "single-use plastic",
+        "forbidden": [
+          "throw away",
+          "packaging",
+          "one",
+          "time"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "microplastic",
+        "forbidden": [
+          "particles",
+          "tiny",
+          "water",
+          "fibre"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "recycling",
+        "forbidden": [
+          "sort",
+          "bin",
+          "reuse",
+          "process"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "plastic bag",
+        "forbidden": [
+          "shop",
+          "carry",
+          "thin",
+          "handle"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "landfill",
+        "forbidden": [
+          "rubbish",
+          "buried",
+          "ground",
+          "site"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "reusable bottle",
+        "forbidden": [
+          "drink",
+          "refill",
+          "metal",
+          "carry"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "packaging waste",
+        "forbidden": [
+          "box",
+          "wrap",
+          "throw away",
+          "product"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "plastic pellet",
+        "forbidden": [
+          "small",
+          "raw",
+          "manufacture",
+          "nurdle"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "waste stream",
+        "forbidden": [
+          "rubbish",
+          "system",
+          "collect",
+          "route"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "biodegradable",
+        "forbidden": [
+          "break down",
+          "nature",
+          "material",
+          "compost"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "deposit scheme",
+        "forbidden": [
+          "return",
+          "container",
+          "money",
+          "refund"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "sorting facility",
+        "forbidden": [
+          "separate",
+          "materials",
+          "plant",
+          "process"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "marine debris",
+        "forbidden": [
+          "ocean",
+          "litter",
+          "water",
+          "trash"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "refill station",
+        "forbidden": [
+          "bottle",
+          "water",
+          "public",
+          "tap"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "recycling symbol",
+        "level": "B1"
+      },
+      {
+        "word": "collection bin",
+        "level": "B1"
+      },
+      {
+        "word": "compost bag",
+        "level": "B1"
+      },
+      {
+        "word": "glass bottle",
+        "level": "B1"
+      },
+      {
+        "word": "metal straw",
+        "level": "B1"
+      },
+      {
+        "word": "shopping tote",
+        "level": "B1"
+      },
+      {
+        "word": "sorting belt",
+        "level": "B2"
+      },
+      {
+        "word": "waste truck",
+        "level": "B1"
+      },
+      {
+        "word": "refill tap",
+        "level": "B1"
+      },
+      {
+        "word": "plastic wrapper",
+        "level": "B1"
+      },
+      {
+        "word": "recycling centre",
+        "level": "B1"
+      },
+      {
+        "word": "river litter",
+        "level": "B1"
+      },
+      {
+        "word": "return kiosk",
+        "level": "B2"
+      },
+      {
+        "word": "waste audit",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "single-use plastic",
+        "decoy": "disposable packaging",
+        "level": "B1"
+      },
+      {
+        "word": "microplastic",
+        "decoy": "plastic fibre",
+        "level": "B2"
+      },
+      {
+        "word": "recycling",
+        "decoy": "reuse",
+        "level": "B1"
+      },
+      {
+        "word": "landfill",
+        "decoy": "dump",
+        "level": "B1"
+      },
+      {
+        "word": "plastic pellet",
+        "decoy": "resin bead",
+        "level": "B2"
+      },
+      {
+        "word": "biodegradable",
+        "decoy": "compostable",
+        "level": "B2"
+      },
+      {
+        "word": "deposit scheme",
+        "decoy": "bottle return",
+        "level": "B2"
+      },
+      {
+        "word": "marine debris",
+        "decoy": "ocean litter",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "recycling symbol",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "collection bin",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "glass bottle",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "shopping tote",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "sorting belt",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "waste truck",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "refill tap",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "return kiosk",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-wildlife-conservation",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "habitat loss",
+        "forbidden": [
+          "animals",
+          "home",
+          "trees",
+          "land"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "endangered species",
+        "forbidden": [
+          "few",
+          "at risk",
+          "protect",
+          "animals"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "conservation area",
+        "forbidden": [
+          "protected",
+          "land",
+          "park",
+          "wildlife"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "wildlife corridor",
+        "forbidden": [
+          "path",
+          "connect",
+          "habitat",
+          "animals"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "poaching",
+        "forbidden": [
+          "illegal",
+          "animal",
+          "hunt",
+          "trade"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "population survey",
+        "forbidden": [
+          "count",
+          "animals",
+          "field",
+          "data"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "nesting site",
+        "forbidden": [
+          "eggs",
+          "birds",
+          "place",
+          "breed"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "camera trap",
+        "forbidden": [
+          "photo",
+          "remote",
+          "animal",
+          "record"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "rehabilitation centre",
+        "forbidden": [
+          "care",
+          "injured",
+          "animals",
+          "return"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "native species",
+        "forbidden": [
+          "local",
+          "original",
+          "plant",
+          "animal"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "invasive species",
+        "forbidden": [
+          "introduced",
+          "spread",
+          "change",
+          "ecosystem"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "anti-poaching patrol",
+        "forbidden": [
+          "ranger",
+          "protect",
+          "walk",
+          "illegal"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "release site",
+        "forbidden": [
+          "wild",
+          "return",
+          "animal",
+          "place"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "conservation group",
+        "forbidden": [
+          "people",
+          "protect",
+          "organize",
+          "wildlife"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "field notebook",
+        "level": "B1"
+      },
+      {
+        "word": "wildlife camera",
+        "level": "B1"
+      },
+      {
+        "word": "bird hide",
+        "level": "B1"
+      },
+      {
+        "word": "tracking collar",
+        "level": "B2"
+      },
+      {
+        "word": "park ranger",
+        "level": "B1"
+      },
+      {
+        "word": "nest box",
+        "level": "B1"
+      },
+      {
+        "word": "rescue centre",
+        "level": "B1"
+      },
+      {
+        "word": "habitat map",
+        "level": "B1"
+      },
+      {
+        "word": "animal footprint",
+        "level": "B1"
+      },
+      {
+        "word": "wildlife crossing",
+        "level": "B2"
+      },
+      {
+        "word": "tree nursery",
+        "level": "B1"
+      },
+      {
+        "word": "patrol route",
+        "level": "B2"
+      },
+      {
+        "word": "species list",
+        "level": "B1"
+      },
+      {
+        "word": "release crate",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "habitat loss",
+        "decoy": "deforestation",
+        "level": "B1"
+      },
+      {
+        "word": "endangered species",
+        "decoy": "threatened species",
+        "level": "B1"
+      },
+      {
+        "word": "wildlife corridor",
+        "decoy": "migration route",
+        "level": "B2"
+      },
+      {
+        "word": "poaching",
+        "decoy": "illegal hunting",
+        "level": "B2"
+      },
+      {
+        "word": "camera trap",
+        "decoy": "trail camera",
+        "level": "B2"
+      },
+      {
+        "word": "rehabilitation centre",
+        "decoy": "rescue centre",
+        "level": "B1"
+      },
+      {
+        "word": "native species",
+        "decoy": "endemic species",
+        "level": "B2"
+      },
+      {
+        "word": "invasive species",
+        "decoy": "introduced species",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "field notebook",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "wildlife camera",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "bird hide",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "park ranger",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "rescue centre",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "habitat map",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "tree nursery",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "release crate",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-urban-nature",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "green roof",
+        "forbidden": [
+          "building",
+          "plants",
+          "top",
+          "city"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "street tree",
+        "forbidden": [
+          "road",
+          "sidewalk",
+          "shade",
+          "leaf"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "community garden",
+        "forbidden": [
+          "neighbours",
+          "plot",
+          "grow",
+          "shared"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "urban wildlife",
+        "forbidden": [
+          "city",
+          "animals",
+          "live",
+          "streets"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "rain garden",
+        "forbidden": [
+          "water",
+          "plants",
+          "drain",
+          "storm"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "pollinator garden",
+        "forbidden": [
+          "bees",
+          "flowers",
+          "nectar",
+          "plants"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "wildlife crossing",
+        "forbidden": [
+          "road",
+          "animals",
+          "bridge",
+          "safe"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "tree canopy",
+        "forbidden": [
+          "branches",
+          "cover",
+          "shade",
+          "street"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "green corridor",
+        "forbidden": [
+          "parks",
+          "connect",
+          "path",
+          "nature"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "bird feeder",
+        "forbidden": [
+          "seed",
+          "hanging",
+          "visit",
+          "garden"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "native planting",
+        "forbidden": [
+          "local",
+          "plants",
+          "choose",
+          "area"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "park bench",
+        "forbidden": [
+          "sit",
+          "green",
+          "people",
+          "rest"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "community orchard",
+        "forbidden": [
+          "fruit",
+          "trees",
+          "shared",
+          "grow"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "vacant lot",
+        "forbidden": [
+          "empty",
+          "space",
+          "city",
+          "build"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "balcony planter",
+        "level": "B1"
+      },
+      {
+        "word": "nesting box",
+        "level": "B1"
+      },
+      {
+        "word": "street planter",
+        "level": "B1"
+      },
+      {
+        "word": "park map",
+        "level": "B1"
+      },
+      {
+        "word": "allotment plot",
+        "level": "B2"
+      },
+      {
+        "word": "wildflower strip",
+        "level": "B2"
+      },
+      {
+        "word": "urban fox",
+        "level": "B1"
+      },
+      {
+        "word": "bird bath",
+        "level": "B1"
+      },
+      {
+        "word": "green wall",
+        "level": "B2"
+      },
+      {
+        "word": "tree pit",
+        "level": "B2"
+      },
+      {
+        "word": "community compost",
+        "level": "B2"
+      },
+      {
+        "word": "roof garden",
+        "level": "B1"
+      },
+      {
+        "word": "bird count",
+        "level": "B1"
+      },
+      {
+        "word": "park volunteer",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "green roof",
+        "decoy": "roof garden",
+        "level": "B1"
+      },
+      {
+        "word": "street tree",
+        "decoy": "park tree",
+        "level": "B1"
+      },
+      {
+        "word": "community garden",
+        "decoy": "allotment",
+        "level": "B2"
+      },
+      {
+        "word": "urban wildlife",
+        "decoy": "city wildlife",
+        "level": "B1"
+      },
+      {
+        "word": "rain garden",
+        "decoy": "wetland",
+        "level": "B2"
+      },
+      {
+        "word": "green corridor",
+        "decoy": "wildlife corridor",
+        "level": "B2"
+      },
+      {
+        "word": "bird feeder",
+        "decoy": "bird bath",
+        "level": "B1"
+      },
+      {
+        "word": "vacant lot",
+        "decoy": "brownfield site",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "balcony planter",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "nesting box",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "park map",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "allotment plot",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "urban fox",
+        "kind": "animal",
+        "level": "B1"
+      },
+      {
+        "secret": "bird bath",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "tree pit",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "roof garden",
+        "kind": "place",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-public-transport",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "transit pass",
+        "forbidden": [
+          "ride",
+          "card",
+          "travel",
+          "pay"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "bus lane",
+        "forbidden": [
+          "road",
+          "marked",
+          "vehicle",
+          "traffic"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "commuter train",
+        "forbidden": [
+          "work",
+          "city",
+          "ride",
+          "rail"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "route map",
+        "forbidden": [
+          "lines",
+          "stops",
+          "look",
+          "direction"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "transfer",
+        "forbidden": [
+          "change",
+          "vehicle",
+          "trip",
+          "ticket"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "accessibility ramp",
+        "forbidden": [
+          "wheelchair",
+          "board",
+          "slope",
+          "step-free"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "fare zone",
+        "forbidden": [
+          "area",
+          "pay",
+          "boundary",
+          "route"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "rapid transit",
+        "forbidden": [
+          "metro",
+          "fast",
+          "city",
+          "rail"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "service alert",
+        "forbidden": [
+          "delay",
+          "notice",
+          "route",
+          "change"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "bike share",
+        "forbidden": [
+          "rent",
+          "cycle",
+          "station",
+          "short"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "peak hour",
+        "forbidden": [
+          "busy",
+          "morning",
+          "evening",
+          "travel"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "real-time display",
+        "forbidden": [
+          "arrival",
+          "screen",
+          "minutes",
+          "update"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "bus shelter",
+        "forbidden": [
+          "stop",
+          "roof",
+          "wait",
+          "seat"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "integrated ticket",
+        "forbidden": [
+          "one",
+          "pay",
+          "system",
+          "transfer"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "bus stop",
+        "level": "B1"
+      },
+      {
+        "word": "train platform",
+        "level": "B1"
+      },
+      {
+        "word": "tram bell",
+        "level": "B1"
+      },
+      {
+        "word": "ticket machine",
+        "level": "B1"
+      },
+      {
+        "word": "station gate",
+        "level": "B1"
+      },
+      {
+        "word": "arrival board",
+        "level": "B1"
+      },
+      {
+        "word": "transit app",
+        "level": "B1"
+      },
+      {
+        "word": "ferry terminal",
+        "level": "B1"
+      },
+      {
+        "word": "travel card",
+        "level": "B1"
+      },
+      {
+        "word": "bike rack",
+        "level": "B1"
+      },
+      {
+        "word": "route timetable",
+        "level": "B1"
+      },
+      {
+        "word": "accessible lift",
+        "level": "B1"
+      },
+      {
+        "word": "platform edge",
+        "level": "B1"
+      },
+      {
+        "word": "service map",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "transit pass",
+        "decoy": "travel card",
+        "level": "B1"
+      },
+      {
+        "word": "bus lane",
+        "decoy": "cycle lane",
+        "level": "B1"
+      },
+      {
+        "word": "commuter train",
+        "decoy": "regional train",
+        "level": "B2"
+      },
+      {
+        "word": "route map",
+        "decoy": "network map",
+        "level": "B1"
+      },
+      {
+        "word": "rapid transit",
+        "decoy": "light rail",
+        "level": "B2"
+      },
+      {
+        "word": "fare zone",
+        "decoy": "ticket zone",
+        "level": "B2"
+      },
+      {
+        "word": "bike share",
+        "decoy": "car share",
+        "level": "B1"
+      },
+      {
+        "word": "peak hour",
+        "decoy": "rush hour",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "bus stop",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "train platform",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "ticket machine",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "station gate",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "arrival board",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "transit app",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "ferry terminal",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "accessible lift",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-cities-of-the-future",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "smart city",
+        "forbidden": [
+          "data",
+          "technology",
+          "urban",
+          "system"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "green building",
+        "forbidden": [
+          "energy",
+          "plants",
+          "efficient",
+          "design"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "urban density",
+        "forbidden": [
+          "people",
+          "area",
+          "space",
+          "crowded"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "mixed-use block",
+        "forbidden": [
+          "homes",
+          "shops",
+          "offices",
+          "together"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "public square",
+        "forbidden": [
+          "people",
+          "meet",
+          "open",
+          "city"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "walkability",
+        "forbidden": [
+          "foot",
+          "street",
+          "easy",
+          "nearby"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "district heating",
+        "forbidden": [
+          "pipes",
+          "warm",
+          "buildings",
+          "energy"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "floodable park",
+        "forbidden": [
+          "rain",
+          "water",
+          "green",
+          "space"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "housing co-op",
+        "forbidden": [
+          "residents",
+          "shared",
+          "own",
+          "building"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "urban farm",
+        "forbidden": [
+          "food",
+          "city",
+          "grow",
+          "rooftop"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "cool roof",
+        "forbidden": [
+          "heat",
+          "white",
+          "building",
+          "reflect"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mobility hub",
+        "forbidden": [
+          "transit",
+          "bikes",
+          "connect",
+          "place"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "street redesign",
+        "forbidden": [
+          "cars",
+          "people",
+          "space",
+          "change"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "accessible design",
+        "forbidden": [
+          "include",
+          "ramps",
+          "everyone",
+          "plan"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "rooftop garden",
+        "level": "B1"
+      },
+      {
+        "word": "solar canopy",
+        "level": "B2"
+      },
+      {
+        "word": "shared courtyard",
+        "level": "B1"
+      },
+      {
+        "word": "bike garage",
+        "level": "B1"
+      },
+      {
+        "word": "rainwater tank",
+        "level": "B1"
+      },
+      {
+        "word": "green wall",
+        "level": "B2"
+      },
+      {
+        "word": "bus plaza",
+        "level": "B1"
+      },
+      {
+        "word": "pedestrian bridge",
+        "level": "B1"
+      },
+      {
+        "word": "smart meter",
+        "level": "B1"
+      },
+      {
+        "word": "community hub",
+        "level": "B1"
+      },
+      {
+        "word": "public bench",
+        "level": "B1"
+      },
+      {
+        "word": "cooling centre",
+        "level": "B2"
+      },
+      {
+        "word": "housing tower",
+        "level": "B1"
+      },
+      {
+        "word": "urban greenhouse",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "smart city",
+        "decoy": "connected city",
+        "level": "B2"
+      },
+      {
+        "word": "green building",
+        "decoy": "eco-building",
+        "level": "B1"
+      },
+      {
+        "word": "urban density",
+        "decoy": "population density",
+        "level": "B2"
+      },
+      {
+        "word": "mixed-use block",
+        "decoy": "commercial district",
+        "level": "B2"
+      },
+      {
+        "word": "public square",
+        "decoy": "plaza",
+        "level": "B1"
+      },
+      {
+        "word": "walkability",
+        "decoy": "pedestrian access",
+        "level": "B2"
+      },
+      {
+        "word": "district heating",
+        "decoy": "central heating",
+        "level": "B2"
+      },
+      {
+        "word": "urban farm",
+        "decoy": "community garden",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "rooftop garden",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "bike garage",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "rainwater tank",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "bus plaza",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "pedestrian bridge",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "smart meter",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "cooling centre",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "urban greenhouse",
+        "kind": "place",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-space-exploration",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "space probe",
+        "forbidden": [
+          "robot",
+          "send",
+          "planet",
+          "explore"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mission control",
+        "forbidden": [
+          "people",
+          "Earth",
+          "monitor",
+          "flight"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "space station",
+        "forbidden": [
+          "orbit",
+          "crew",
+          "live",
+          "lab"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "launch window",
+        "forbidden": [
+          "time",
+          "ready",
+          "rocket",
+          "opportunity"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "spacewalk",
+        "forbidden": [
+          "astronaut",
+          "outside",
+          "suit",
+          "station"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "payload",
+        "forbidden": [
+          "cargo",
+          "rocket",
+          "carry",
+          "mission"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "deep space",
+        "forbidden": [
+          "far",
+          "Earth",
+          "explore",
+          "universe"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "communication delay",
+        "forbidden": [
+          "message",
+          "wait",
+          "signal",
+          "minutes"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "landing system",
+        "forbidden": [
+          "surface",
+          "arrive",
+          "vehicle",
+          "planet"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "orbital path",
+        "forbidden": [
+          "circle",
+          "Earth",
+          "route",
+          "space"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "mission patch",
+        "forbidden": [
+          "badge",
+          "crew",
+          "design",
+          "flight"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "ground station",
+        "forbidden": [
+          "antenna",
+          "Earth",
+          "signal",
+          "receive"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "sample return",
+        "forbidden": [
+          "rock",
+          "bring",
+          "back",
+          "mission"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "crew capsule",
+        "forbidden": [
+          "astronaut",
+          "vehicle",
+          "launch",
+          "return"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "crew emblem",
+        "level": "B1"
+      },
+      {
+        "word": "launch tower",
+        "level": "B1"
+      },
+      {
+        "word": "space helmet",
+        "level": "B1"
+      },
+      {
+        "word": "control console",
+        "level": "B1"
+      },
+      {
+        "word": "radio dish",
+        "level": "B1"
+      },
+      {
+        "word": "crew cabin",
+        "level": "B1"
+      },
+      {
+        "word": "sample container",
+        "level": "B1"
+      },
+      {
+        "word": "planet model",
+        "level": "B1"
+      },
+      {
+        "word": "mission timeline",
+        "level": "B2"
+      },
+      {
+        "word": "landing camera",
+        "level": "B1"
+      },
+      {
+        "word": "space agency",
+        "level": "B1"
+      },
+      {
+        "word": "flight director",
+        "level": "B2"
+      },
+      {
+        "word": "orbital map",
+        "level": "B2"
+      },
+      {
+        "word": "space telescope",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "space probe",
+        "decoy": "rover",
+        "level": "B1"
+      },
+      {
+        "word": "mission control",
+        "decoy": "ground station",
+        "level": "B1"
+      },
+      {
+        "word": "space station",
+        "decoy": "orbital laboratory",
+        "level": "B2"
+      },
+      {
+        "word": "spacewalk",
+        "decoy": "extravehicular activity",
+        "level": "B2"
+      },
+      {
+        "word": "payload",
+        "decoy": "cargo",
+        "level": "B1"
+      },
+      {
+        "word": "deep space",
+        "decoy": "outer space",
+        "level": "B1"
+      },
+      {
+        "word": "launch window",
+        "decoy": "flight window",
+        "level": "B2"
+      },
+      {
+        "word": "sample return",
+        "decoy": "cargo return",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "launch tower",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "radio dish",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "crew cabin",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "sample container",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "planet model",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "landing camera",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "flight director",
+        "kind": "job",
+        "level": "B2"
+      },
+      {
+        "secret": "space telescope",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-mars-missions",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "Mars rover",
+        "forbidden": [
+          "red",
+          "robot",
+          "wheels",
+          "explore"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "regolith",
+        "forbidden": [
+          "dust",
+          "soil",
+          "Martian",
+          "surface"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "landing site",
+        "forbidden": [
+          "touchdown",
+          "place",
+          "choose",
+          "safe"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "sample tube",
+        "forbidden": [
+          "rock",
+          "store",
+          "collect",
+          "small"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "solar array",
+        "forbidden": [
+          "panel",
+          "electricity",
+          "power",
+          "unfold"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "dust storm",
+        "forbidden": [
+          "wind",
+          "red",
+          "blow",
+          "planet"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "habitat module",
+        "forbidden": [
+          "crew",
+          "live",
+          "room",
+          "Mars"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "ascent vehicle",
+        "forbidden": [
+          "leave",
+          "launch",
+          "return",
+          "up"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "communication window",
+        "forbidden": [
+          "signal",
+          "Earth",
+          "time",
+          "send"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "Martian day",
+        "forbidden": [
+          "sol",
+          "length",
+          "planet",
+          "time"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "heat shield",
+        "forbidden": [
+          "entry",
+          "hot",
+          "protect",
+          "vehicle"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "drill core",
+        "forbidden": [
+          "rock",
+          "deep",
+          "collect",
+          "soil"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "mission timeline",
+        "forbidden": [
+          "schedule",
+          "events",
+          "flight",
+          "plan"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "crew supplies",
+        "forbidden": [
+          "food",
+          "water",
+          "tools",
+          "carry"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "rover wheel",
+        "level": "B1"
+      },
+      {
+        "word": "landing parachute",
+        "level": "B1"
+      },
+      {
+        "word": "sample canister",
+        "level": "B2"
+      },
+      {
+        "word": "Mars map",
+        "level": "B1"
+      },
+      {
+        "word": "red dust filter",
+        "level": "B2"
+      },
+      {
+        "word": "habitat door",
+        "level": "B1"
+      },
+      {
+        "word": "solar panel",
+        "level": "B1"
+      },
+      {
+        "word": "mission badge",
+        "level": "B1"
+      },
+      {
+        "word": "soil drill",
+        "level": "B1"
+      },
+      {
+        "word": "robot arm",
+        "level": "B1"
+      },
+      {
+        "word": "oxygen tank",
+        "level": "B1"
+      },
+      {
+        "word": "entry capsule",
+        "level": "B2"
+      },
+      {
+        "word": "surface camera",
+        "level": "B1"
+      },
+      {
+        "word": "planetarium model",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "Mars rover",
+        "decoy": "lunar rover",
+        "level": "B1"
+      },
+      {
+        "word": "regolith",
+        "decoy": "soil",
+        "level": "B2"
+      },
+      {
+        "word": "landing site",
+        "decoy": "launch site",
+        "level": "B1"
+      },
+      {
+        "word": "sample tube",
+        "decoy": "specimen jar",
+        "level": "B2"
+      },
+      {
+        "word": "solar array",
+        "decoy": "solar panel",
+        "level": "B1"
+      },
+      {
+        "word": "dust storm",
+        "decoy": "sandstorm",
+        "level": "B1"
+      },
+      {
+        "word": "habitat module",
+        "decoy": "crew capsule",
+        "level": "B2"
+      },
+      {
+        "word": "ascent vehicle",
+        "decoy": "descent stage",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "rover wheel",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "sample canister",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "Mars map",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "habitat door",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "soil drill",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "oxygen tank",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "entry capsule",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "surface camera",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-satellites",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "satellite",
+        "forbidden": [
+          "orbit",
+          "Earth",
+          "space",
+          "device"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "orbit",
+        "forbidden": [
+          "circle",
+          "planet",
+          "path",
+          "space"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "solar panel",
+        "forbidden": [
+          "sun",
+          "electricity",
+          "wing",
+          "energy"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "antenna",
+        "forbidden": [
+          "signal",
+          "radio",
+          "receive",
+          "metal"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "payload",
+        "forbidden": [
+          "instrument",
+          "camera",
+          "carry",
+          "satellite"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "ground station",
+        "forbidden": [
+          "Earth",
+          "dish",
+          "communicate",
+          "receive"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "geostationary orbit",
+        "forbidden": [
+          "fixed",
+          "above",
+          "Earth",
+          "weather"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "low Earth orbit",
+        "forbidden": [
+          "close",
+          "planet",
+          "space",
+          "fast"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "signal delay",
+        "forbidden": [
+          "time",
+          "send",
+          "receive",
+          "wait"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "imaging satellite",
+        "forbidden": [
+          "photo",
+          "land",
+          "camera",
+          "observe"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "weather satellite",
+        "forbidden": [
+          "clouds",
+          "storm",
+          "forecast",
+          "track"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "navigation system",
+        "forbidden": [
+          "map",
+          "position",
+          "GPS",
+          "route"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "space debris",
+        "forbidden": [
+          "old",
+          "parts",
+          "orbit",
+          "collision"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "telemetry",
+        "forbidden": [
+          "data",
+          "measure",
+          "send",
+          "signal"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "dish antenna",
+        "level": "B1"
+      },
+      {
+        "word": "control room",
+        "level": "B1"
+      },
+      {
+        "word": "solar wing",
+        "level": "B1"
+      },
+      {
+        "word": "tracking station",
+        "level": "B1"
+      },
+      {
+        "word": "weather image",
+        "level": "B1"
+      },
+      {
+        "word": "navigation receiver",
+        "level": "B2"
+      },
+      {
+        "word": "orbit diagram",
+        "level": "B1"
+      },
+      {
+        "word": "launch vehicle",
+        "level": "B1"
+      },
+      {
+        "word": "signal booster",
+        "level": "B1"
+      },
+      {
+        "word": "space telescope",
+        "level": "B1"
+      },
+      {
+        "word": "ground antenna",
+        "level": "B1"
+      },
+      {
+        "word": "data downlink",
+        "level": "B2"
+      },
+      {
+        "word": "tracking dish",
+        "level": "B2"
+      },
+      {
+        "word": "orbital debris map",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "satellite",
+        "decoy": "spacecraft",
+        "level": "B1"
+      },
+      {
+        "word": "orbit",
+        "decoy": "trajectory",
+        "level": "B2"
+      },
+      {
+        "word": "antenna",
+        "decoy": "dish",
+        "level": "B1"
+      },
+      {
+        "word": "payload",
+        "decoy": "instrument",
+        "level": "B2"
+      },
+      {
+        "word": "geostationary orbit",
+        "decoy": "equatorial orbit",
+        "level": "B2"
+      },
+      {
+        "word": "imaging satellite",
+        "decoy": "earth-observation satellite",
+        "level": "B2"
+      },
+      {
+        "word": "weather satellite",
+        "decoy": "communications satellite",
+        "level": "B1"
+      },
+      {
+        "word": "space debris",
+        "decoy": "orbital debris",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "dish antenna",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "control room",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "tracking station",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "navigation receiver",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "orbit diagram",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "signal booster",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "data downlink",
+        "kind": "activity",
+        "level": "B2"
+      },
+      {
+        "secret": "tracking dish",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-inventions",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "prototype",
+        "forbidden": [
+          "early",
+          "model",
+          "test",
+          "first"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "patent",
+        "forbidden": [
+          "legal",
+          "invention",
+          "protect",
+          "file"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "invention",
+        "forbidden": [
+          "new",
+          "device",
+          "create",
+          "idea"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "design brief",
+        "forbidden": [
+          "problem",
+          "goal",
+          "make",
+          "document"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "iteration",
+        "forbidden": [
+          "repeat",
+          "improve",
+          "version",
+          "test"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "inventor",
+        "forbidden": [
+          "person",
+          "create",
+          "new",
+          "device"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "patent drawing",
+        "forbidden": [
+          "lines",
+          "technical",
+          "show",
+          "device"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "mechanism",
+        "forbidden": [
+          "parts",
+          "move",
+          "device",
+          "how"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "problem statement",
+        "forbidden": [
+          "need",
+          "question",
+          "design",
+          "goal"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "user need",
+        "forbidden": [
+          "person",
+          "solve",
+          "requirement",
+          "product"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "test model",
+        "forbidden": [
+          "try",
+          "prototype",
+          "change",
+          "check"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "innovation",
+        "forbidden": [
+          "new",
+          "improve",
+          "idea",
+          "solution"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "material choice",
+        "forbidden": [
+          "wood",
+          "plastic",
+          "metal",
+          "select"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "invention fair",
+        "forbidden": [
+          "show",
+          "students",
+          "display",
+          "project"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "idea notebook",
+        "level": "B1"
+      },
+      {
+        "word": "prototype case",
+        "level": "B1"
+      },
+      {
+        "word": "patent office",
+        "level": "B2"
+      },
+      {
+        "word": "invention sketch",
+        "level": "B1"
+      },
+      {
+        "word": "toolbox",
+        "level": "B1"
+      },
+      {
+        "word": "model bridge",
+        "level": "B1"
+      },
+      {
+        "word": "design table",
+        "level": "B1"
+      },
+      {
+        "word": "test bench",
+        "level": "B2"
+      },
+      {
+        "word": "parts tray",
+        "level": "B1"
+      },
+      {
+        "word": "measuring caliper",
+        "level": "B2"
+      },
+      {
+        "word": "invention poster",
+        "level": "B1"
+      },
+      {
+        "word": "maker space",
+        "level": "B1"
+      },
+      {
+        "word": "user interview",
+        "level": "B2"
+      },
+      {
+        "word": "prototype label",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "prototype",
+        "decoy": "model",
+        "level": "B1"
+      },
+      {
+        "word": "patent",
+        "decoy": "copyright",
+        "level": "B1"
+      },
+      {
+        "word": "iteration",
+        "decoy": "revision",
+        "level": "B2"
+      },
+      {
+        "word": "mechanism",
+        "decoy": "machine",
+        "level": "B1"
+      },
+      {
+        "word": "problem statement",
+        "decoy": "design brief",
+        "level": "B2"
+      },
+      {
+        "word": "user need",
+        "decoy": "customer need",
+        "level": "B1"
+      },
+      {
+        "word": "test model",
+        "decoy": "scale model",
+        "level": "B1"
+      },
+      {
+        "word": "innovation",
+        "decoy": "invention",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "idea notebook",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "prototype case",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "patent office",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "toolbox",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "test bench",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "parts tray",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "maker space",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "measuring caliper",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-medical-technology",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "ultrasound",
+        "forbidden": [
+          "waves",
+          "baby",
+          "image",
+          "scan"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "prosthetic",
+        "forbidden": [
+          "artificial",
+          "limb",
+          "replace",
+          "body"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "diagnostic tool",
+        "forbidden": [
+          "test",
+          "doctor",
+          "find",
+          "condition"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "wearable monitor",
+        "forbidden": [
+          "body",
+          "device",
+          "track",
+          "health"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "telemedicine",
+        "forbidden": [
+          "doctor",
+          "video",
+          "remote",
+          "appointment"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "MRI scanner",
+        "forbidden": [
+          "magnet",
+          "body",
+          "image",
+          "hospital"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "medical record",
+        "forbidden": [
+          "patient",
+          "history",
+          "information",
+          "clinic"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "assistive device",
+        "forbidden": [
+          "help",
+          "person",
+          "ability",
+          "tool"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "robotic surgery",
+        "forbidden": [
+          "assisted",
+          "doctor",
+          "operation",
+          "precise"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "hearing aid",
+        "forbidden": [
+          "listen",
+          "amplify",
+          "device",
+          "volume"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "blood pressure cuff",
+        "forbidden": [
+          "arm",
+          "measure",
+          "doctor",
+          "inflatable"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "prosthetic limb",
+        "forbidden": [
+          "artificial",
+          "arm",
+          "leg",
+          "replace"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "health sensor",
+        "forbidden": [
+          "body",
+          "measure",
+          "data",
+          "device"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "clinical trial",
+        "forbidden": [
+          "research",
+          "patients",
+          "test",
+          "medicine"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "stethoscope",
+        "level": "B1"
+      },
+      {
+        "word": "wheelchair",
+        "level": "B1"
+      },
+      {
+        "word": "digital thermometer",
+        "level": "B1"
+      },
+      {
+        "word": "hearing clinic",
+        "level": "B1"
+      },
+      {
+        "word": "medical scanner",
+        "level": "B1"
+      },
+      {
+        "word": "patient chart",
+        "level": "B1"
+      },
+      {
+        "word": "blood test kit",
+        "level": "B1"
+      },
+      {
+        "word": "rehabilitation robot",
+        "level": "B2"
+      },
+      {
+        "word": "hospital monitor",
+        "level": "B1"
+      },
+      {
+        "word": "telehealth screen",
+        "level": "B2"
+      },
+      {
+        "word": "lab coat",
+        "level": "B1"
+      },
+      {
+        "word": "mobility aid",
+        "level": "B2"
+      },
+      {
+        "word": "clinic tablet",
+        "level": "B1"
+      },
+      {
+        "word": "prosthetic hand",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "ultrasound",
+        "decoy": "sonogram",
+        "level": "B2"
+      },
+      {
+        "word": "prosthetic",
+        "decoy": "orthotic",
+        "level": "B2"
+      },
+      {
+        "word": "telemedicine",
+        "decoy": "telehealth",
+        "level": "B2"
+      },
+      {
+        "word": "MRI scanner",
+        "decoy": "CT scanner",
+        "level": "B1"
+      },
+      {
+        "word": "medical record",
+        "decoy": "patient chart",
+        "level": "B1"
+      },
+      {
+        "word": "assistive device",
+        "decoy": "mobility aid",
+        "level": "B2"
+      },
+      {
+        "word": "robotic surgery",
+        "decoy": "robot-assisted surgery",
+        "level": "B2"
+      },
+      {
+        "word": "hearing aid",
+        "decoy": "cochlear implant",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "stethoscope",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "wheelchair",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "digital thermometer",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "hearing clinic",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "patient chart",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "blood test kit",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "telehealth screen",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "prosthetic hand",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-food-waste",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "food waste",
+        "forbidden": [
+          "leftovers",
+          "throw away",
+          "bin",
+          "uneaten"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "best-before date",
+        "forbidden": [
+          "label",
+          "food",
+          "safe",
+          "calendar"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "compost",
+        "forbidden": [
+          "soil",
+          "rot",
+          "scraps",
+          "garden"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "leftover meal",
+        "forbidden": [
+          "yesterday",
+          "food",
+          "save",
+          "eat"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "portion size",
+        "forbidden": [
+          "amount",
+          "plate",
+          "serve",
+          "too much"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "food rescue",
+        "forbidden": [
+          "collect",
+          "save",
+          "share",
+          "edible"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "surplus food",
+        "forbidden": [
+          "extra",
+          "unsold",
+          "store",
+          "donate"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "landfill methane",
+        "forbidden": [
+          "rubbish",
+          "gas",
+          "food",
+          "climate"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "meal planning",
+        "forbidden": [
+          "list",
+          "week",
+          "shop",
+          "prepare"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "imperfect produce",
+        "forbidden": [
+          "odd",
+          "shape",
+          "fruit",
+          "vegetable"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "food bank",
+        "forbidden": [
+          "donate",
+          "community",
+          "need",
+          "give"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "expiry label",
+        "forbidden": [
+          "date",
+          "food",
+          "discard",
+          "read"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "storage life",
+        "forbidden": [
+          "fresh",
+          "keep",
+          "fridge",
+          "time"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "food donation",
+        "forbidden": [
+          "give",
+          "edible",
+          "share",
+          "charity"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "scrap bucket",
+        "level": "B1"
+      },
+      {
+        "word": "freezer container",
+        "level": "B1"
+      },
+      {
+        "word": "shopping list",
+        "level": "B1"
+      },
+      {
+        "word": "food-share fridge",
+        "level": "B2"
+      },
+      {
+        "word": "compost bin",
+        "level": "B1"
+      },
+      {
+        "word": "leftover box",
+        "level": "B1"
+      },
+      {
+        "word": "date label",
+        "level": "B1"
+      },
+      {
+        "word": "community pantry",
+        "level": "B2"
+      },
+      {
+        "word": "market stall",
+        "level": "B1"
+      },
+      {
+        "word": "portion scoop",
+        "level": "B1"
+      },
+      {
+        "word": "reusable container",
+        "level": "B1"
+      },
+      {
+        "word": "meal calendar",
+        "level": "B1"
+      },
+      {
+        "word": "food waste audit",
+        "level": "B2"
+      },
+      {
+        "word": "storage jar",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "best-before date",
+        "decoy": "use-by date",
+        "level": "B2"
+      },
+      {
+        "word": "compost",
+        "decoy": "food recycling",
+        "level": "B1"
+      },
+      {
+        "word": "food rescue",
+        "decoy": "food donation",
+        "level": "B1"
+      },
+      {
+        "word": "surplus food",
+        "decoy": "leftovers",
+        "level": "B1"
+      },
+      {
+        "word": "imperfect produce",
+        "decoy": "misshapen produce",
+        "level": "B2"
+      },
+      {
+        "word": "expiry label",
+        "decoy": "date label",
+        "level": "B1"
+      },
+      {
+        "word": "meal planning",
+        "decoy": "shopping plan",
+        "level": "B1"
+      },
+      {
+        "word": "food bank",
+        "decoy": "community pantry",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "scrap bucket",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "freezer container",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "food-share fridge",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "compost bin",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "leftover box",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "community pantry",
+        "kind": "place",
+        "level": "B2"
+      },
+      {
+        "secret": "portion scoop",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "storage jar",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-sustainable-fashion",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "circular fashion",
+        "forbidden": [
+          "reuse",
+          "repair",
+          "clothes",
+          "cycle"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "second-hand",
+        "forbidden": [
+          "used",
+          "pre-owned",
+          "shop",
+          "clothing"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "repair culture",
+        "forbidden": [
+          "mend",
+          "fix",
+          "wear",
+          "again"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "textile waste",
+        "forbidden": [
+          "fabric",
+          "discard",
+          "clothing",
+          "bin"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "ethical supply chain",
+        "forbidden": [
+          "workers",
+          "fair",
+          "company",
+          "materials"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "recycled fibre",
+        "forbidden": [
+          "fabric",
+          "old",
+          "material",
+          "make"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "clothing swap",
+        "forbidden": [
+          "trade",
+          "garments",
+          "friends",
+          "event"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "garment worker",
+        "forbidden": [
+          "sew",
+          "factory",
+          "job",
+          "clothing"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "slow fashion",
+        "forbidden": [
+          "buy",
+          "less",
+          "quality",
+          "time"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "natural dye",
+        "forbidden": [
+          "plant",
+          "colour",
+          "fabric",
+          "stain"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "upcycling",
+        "forbidden": [
+          "old",
+          "change",
+          "make",
+          "new"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "fashion footprint",
+        "forbidden": [
+          "water",
+          "carbon",
+          "clothing",
+          "impact"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "take-back scheme",
+        "forbidden": [
+          "return",
+          "brand",
+          "garment",
+          "collect"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "durability",
+        "forbidden": [
+          "last",
+          "long",
+          "strong",
+          "quality"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "repair kit",
+        "level": "B1"
+      },
+      {
+        "word": "clothing label",
+        "level": "B1"
+      },
+      {
+        "word": "mending basket",
+        "level": "B1"
+      },
+      {
+        "word": "thrift shop",
+        "level": "B1"
+      },
+      {
+        "word": "fabric scrap",
+        "level": "B1"
+      },
+      {
+        "word": "sewing needle",
+        "level": "B1"
+      },
+      {
+        "word": "clothing swap rack",
+        "level": "B2"
+      },
+      {
+        "word": "recycling bin",
+        "level": "B1"
+      },
+      {
+        "word": "garment bag",
+        "level": "B1"
+      },
+      {
+        "word": "darning mushroom",
+        "level": "B2"
+      },
+      {
+        "word": "second-hand stall",
+        "level": "B1"
+      },
+      {
+        "word": "recycled thread",
+        "level": "B2"
+      },
+      {
+        "word": "coat hanger",
+        "level": "B1"
+      },
+      {
+        "word": "supply map",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "circular fashion",
+        "decoy": "closed-loop fashion",
+        "level": "B2"
+      },
+      {
+        "word": "second-hand",
+        "decoy": "vintage",
+        "level": "B1"
+      },
+      {
+        "word": "repair culture",
+        "decoy": "mending culture",
+        "level": "B2"
+      },
+      {
+        "word": "textile waste",
+        "decoy": "fabric waste",
+        "level": "B1"
+      },
+      {
+        "word": "recycled fibre",
+        "decoy": "reclaimed yarn",
+        "level": "B2"
+      },
+      {
+        "word": "clothing swap",
+        "decoy": "swap meet",
+        "level": "B1"
+      },
+      {
+        "word": "slow fashion",
+        "decoy": "fast fashion",
+        "level": "B1"
+      },
+      {
+        "word": "upcycling",
+        "decoy": "repurposing",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "repair kit",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "clothing label",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "mending basket",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "thrift shop",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "fabric scrap",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "sewing needle",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "darning mushroom",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "coat hanger",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-water-conservation",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "water conservation",
+        "forbidden": [
+          "save",
+          "less",
+          "use",
+          "resource"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "drought restriction",
+        "forbidden": [
+          "limit",
+          "outdoor",
+          "water",
+          "rule"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "low-flow tap",
+        "forbidden": [
+          "faucet",
+          "less",
+          "water",
+          "device"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "rainwater harvesting",
+        "forbidden": [
+          "collect",
+          "roof",
+          "store",
+          "storm"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "greywater",
+        "forbidden": [
+          "used",
+          "shower",
+          "clean",
+          "reuse"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "leak detection",
+        "forbidden": [
+          "pipe",
+          "drip",
+          "find",
+          "repair"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "water meter",
+        "forbidden": [
+          "measure",
+          "house",
+          "use",
+          "number"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "irrigation schedule",
+        "forbidden": [
+          "plants",
+          "field",
+          "time",
+          "water"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "watershed",
+        "forbidden": [
+          "area",
+          "river",
+          "drain",
+          "land"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "water footprint",
+        "forbidden": [
+          "food",
+          "clothes",
+          "use",
+          "hidden"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "drip irrigation",
+        "forbidden": [
+          "slow",
+          "pipe",
+          "plants",
+          "drop"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "xeriscaping",
+        "forbidden": [
+          "garden",
+          "dry",
+          "plants",
+          "low-water"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "stormwater tank",
+        "forbidden": [
+          "rain",
+          "store",
+          "drain",
+          "city"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "water reuse",
+        "forbidden": [
+          "clean",
+          "again",
+          "greywater",
+          "system"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "rain barrel",
+        "level": "B1"
+      },
+      {
+        "word": "toilet cistern",
+        "level": "B2"
+      },
+      {
+        "word": "water bill",
+        "level": "B1"
+      },
+      {
+        "word": "drip hose",
+        "level": "B1"
+      },
+      {
+        "word": "leaky pipe",
+        "level": "B1"
+      },
+      {
+        "word": "garden timer",
+        "level": "B1"
+      },
+      {
+        "word": "water filter",
+        "level": "B1"
+      },
+      {
+        "word": "flow meter",
+        "level": "B2"
+      },
+      {
+        "word": "greywater tank",
+        "level": "B2"
+      },
+      {
+        "word": "roof gutter",
+        "level": "B1"
+      },
+      {
+        "word": "shower timer",
+        "level": "B1"
+      },
+      {
+        "word": "irrigation valve",
+        "level": "B2"
+      },
+      {
+        "word": "drought notice",
+        "level": "B1"
+      },
+      {
+        "word": "water-saving washer",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "water conservation",
+        "decoy": "water saving",
+        "level": "B1"
+      },
+      {
+        "word": "greywater",
+        "decoy": "reclaimed water",
+        "level": "B2"
+      },
+      {
+        "word": "leak detection",
+        "decoy": "pipe inspection",
+        "level": "B2"
+      },
+      {
+        "word": "water meter",
+        "decoy": "flow meter",
+        "level": "B1"
+      },
+      {
+        "word": "watershed",
+        "decoy": "river basin",
+        "level": "B2"
+      },
+      {
+        "word": "water footprint",
+        "decoy": "carbon footprint",
+        "level": "B2"
+      },
+      {
+        "word": "drip irrigation",
+        "decoy": "sprinkler irrigation",
+        "level": "B1"
+      },
+      {
+        "word": "water reuse",
+        "decoy": "water recycling",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "rain barrel",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "toilet cistern",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "water bill",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "drip hose",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "water filter",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "flow meter",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "greywater tank",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "irrigation valve",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
   }
 ]
