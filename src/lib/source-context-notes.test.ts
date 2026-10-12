@@ -22,3 +22,17 @@ describe('teaching notes in the source context', () => {
     expect(buildSourceContext(base)).not.toContain('Teaching notes');
   });
 });
+
+describe('a typed topic (background notes only)', () => {
+  it('tells activities the class has read nothing, and never to say "the text"', () => {
+    const ctx = buildSourceContext({ sourceType: 'text', title: 'Yummy Food', summary: 'Honey never spoils.', rawText: 'Honey never spoils.\n- Bread is made from flour.', backgroundOnly: true });
+    expect(ctx).toContain('Background notes on the topic "Yummy Food"');
+    expect(ctx).toContain('The class has NOT read or watched anything');
+    expect(ctx).not.toContain('ground ALL content ONLY in this source text');
+  });
+
+  it('still treats real pasted text as the text', () => {
+    const ctx = buildSourceContext({ sourceType: 'text', title: 'A Fair First Job', summary: 'Maya wants a job.', rawText: 'Maya wants a job.' });
+    expect(ctx).toContain('ground ALL content ONLY in this source text');
+  });
+});

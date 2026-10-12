@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
 
 Generate one question about "${topic}" for ESL learners in a FAST-PACED game.
 Random seed: ${randomSeed}
-${sourceContext}${sourceContext ? 'The question MUST be answerable from the source material above and test what it actually says — but rewrite it in simple, everyday words.\n' : ''}
+${sourceContext}${sourceContext && !sourceMaterial?.backgroundOnly ? 'The question MUST be answerable from the source material above and test what it actually says — but rewrite it in simple, everyday words.\n' : ''}
 The QUESTION STEM must be ONE short, plain sentence (≤18 words), quick to read at a glance in a game. No long or nested clauses, no academic jargon, no abstract nominalizations ("public memory is constructed rather than inherited...").
 ${qType === 'speaking' ? speakingPromptSuffix() : writtenPromptSuffix()}
 

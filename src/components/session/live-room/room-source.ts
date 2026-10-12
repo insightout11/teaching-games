@@ -30,6 +30,8 @@ export function roomItemToSource(item: RoomItem): SourceMaterial {
       title: item.title,
       summary: item.text.slice(0, 3000),
       rawText: item.text,
+      // A typed topic's text is the room's own notes: activities use it to get facts right, never as "the text".
+      ...(item.aiNotes ? { backgroundOnly: true } : {}),
       citations,
     };
   }
