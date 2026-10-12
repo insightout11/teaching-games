@@ -35,7 +35,7 @@ function hash(s: string) {
 
 export function farmStyleFor(region: string | null | undefined): FarmStyle {
   const r = region ?? '';
-  if (r.startsWith('city:')) return 'city';
+  if (r.startsWith('city:') || r.startsWith('town:')) return 'city';
   if (/Asia|Japan|Taiwan|Hainan|Philippines|Borneo|Sumatra|Java|Sulawesi|Sri Lanka/.test(r)) return 'paddies';
   if (/North America|South America|Australia/.test(r)) return 'grid';
   if (/Africa|Madagascar/.test(r)) return 'savanna';
@@ -95,7 +95,7 @@ export function farmTexture(region: string | null | undefined, palette: ScenePal
   const canvas = document.createElement('canvas');
   canvas.width = S; canvas.height = S;
   const g = canvas.getContext('2d')!;
-  if (style === 'city') return cityTexture(g, R, dim, water, night);
+  if (style === 'city') return cityTexture((region ?? '').slice(5), palette, night, (region ?? '').startsWith('town:'));
   g.fillStyle = css(tint(CROPS[style][0]));
   g.fillRect(0, 0, S, S);
 
@@ -203,72 +203,155 @@ export function farmTexture(region: string | null | undefined, palette: ScenePal
   return canvas;
 }
 
-/** A city seen from above: street grid, blocks of rooftops, parks, a highway and a river. */
-function cityTexture(g: CanvasRenderingContext2D, R: () => number, dim: (c: RGB) => RGB, water: RGB, night: boolean): HTMLCanvasElement {
-  const S = FARM_TEXTURE_SIZE;
-  const street = dim([92, 94, 100]);
-  g.fillStyle = css(street);
-  g.fillRect(0, 0, S, S);
-  // Irregular street grid: lines at 0 and S so the tile edge is just another street.
-  const cuts = (n: number) => {
-    const out = [0];
-    while (out[out.length - 1] < S - 40) out.push(Math.min(S, out[out.length - 1] + 28 + Math.floor(R() * 44)));
-    out[out.length - 1] = S;
-    return out.slice(0, n);
+type CityPlan = 'grid' | 'organic' | 'dense';
+
+/** Street plan by where in the world the city is, not which city: American and Australian grids, tight Asian and African blocks, organic European and other layouts. */
+function cityPlanFor(continent: string): CityPlan {
+  if (/North America|South America|Australia|Oceania/.test(continent)) return 'grid';
+  if (/Asia|Africa/.test(continent)) return 'dense';
+  return 'organic';
+}
+
+/**
+ * A city from above: a dense core of tall, grey, shadow-casting blocks thinning through ordinary blocks and
+ * garden suburbs into fields, laid out in districts that each have their own street grid (one grid for American
+ * cities, twisting grids for European ones, tight small blocks for Asian ones), with a ring road, two highways and
+ * a river. Lit from the upper left; at night the streets and windows glow. Tiles seamlessly.
+ */
+function cityTexture(place: string, palette: ScenePalette, night: boolean, town = false): HTMLCanvasElement {
+  const N = 512, S = FARM_TEXTURE_SIZE;
+  // `place` is "Name|Continent": the name only seeds this city's own layout; the continent picks the street plan.
+  const [name, continent = ''] = place.split('|');
+  const plan = cityPlanFor(continent);
+  const R = rng(hash(`city|${name}`));
+  const size = town ? 0.28 + R() * 0.1 : 0.8 + R() * 0.4;          // some cities sprawl further across the tile than others
+  const land = hexToRgb(palette.terrainTop);
+  const leaf = hexToRgb(palette.foliage);
+  const dim = (c: RGB): RGB => (night ? mixRgb(c, [6, 10, 22], 0.75) : c);
+  const step = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const hsh = (a: number, b: number, c: number) => {
+    let h = (Math.imul(a, 374761393) + Math.imul(b, 668265263) + Math.imul(c, 1274126177)) | 0;
+    h = Math.imul(h ^ (h >>> 13), 1274126177);
+    return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
   };
-  const xs = cuts(99), ys = cuts(99);
-  for (let i = 0; i < xs.length - 1; i++) for (let j = 0; j < ys.length - 1; j++) {
-    const x = xs[i] + 3, y = ys[j] + 3, w = xs[i + 1] - xs[i] - 6, h = ys[j + 1] - ys[j] - 6;
-    if (w <= 0 || h <= 0) continue;
-    if (R() < 0.07) {
-      g.fillStyle = css(dim([84, 132, 70]));               // park
-      g.fillRect(x, y, w, h);
-      for (let k = 0; k < 6; k++) { g.fillStyle = css(dim([56, 96, 50])); g.beginPath(); g.arc(x + R() * w, y + R() * h, 2 + R() * 3, 0, Math.PI * 2); g.fill(); }
-      continue;
+
+  // Districts: each owns a street grid with its own angle and block size. Nearest centre wins, wrapping at the edges.
+  const P = plan === 'grid' ? { bw: [10, 15], bh: [14, 22], sw: 1.5, turn: 0.04 } : plan === 'dense' ? { bw: [5, 8], bh: [6, 10], sw: 1.0, turn: 0.3 } : { bw: [7, 12], bh: [8, 15], sw: 1.2, turn: 1.4 };
+  const baseAngle = R() * Math.PI;
+  const districts = Array.from({ length: plan === 'grid' ? 10 : 18 }, () => {
+    const angle = baseAngle + (R() - 0.5) * P.turn * Math.PI;
+    return { x: R() * N, y: R() * N, cos: Math.cos(angle), sin: Math.sin(angle), bw: P.bw[0] + R() * (P.bw[1] - P.bw[0]), bh: P.bh[0] + R() * (P.bh[1] - P.bh[0]) };
+  });
+  // City centre and a smaller second centre; density falls away from them, broken up by noise.
+  const cu = 0.3 + R() * 0.4, cv = 0.3 + R() * 0.4, c2u = (cu + 0.5) % 1, c2v = (cv + 0.35) % 1;
+  const n3 = tileNoise(3, 311), n7 = tileNoise(7, 313), park = tileNoise(6, 317), field = tileNoise(5, 331), grain = tileNoise(96, 337);
+  const wrapD = (a: number, b: number) => { const d = Math.abs(a - b); return Math.min(d, 1 - d); };
+  const urbanAt = (u: number, v: number) => {
+    const d1 = Math.hypot(wrapD(u, cu), wrapD(v, cv)), d2 = Math.hypot(wrapD(u, c2u), wrapD(v, c2v));
+    return Math.max(0, Math.min(town ? 0.8 : 1.2, Math.max(1.45 - d1 / (0.42 * size), 1.1 - d2 / (0.26 * size)) + (n3(u, v) - 0.5) * 0.55 + (n7(u, v) - 0.5) * 0.25));
+  };
+
+  const asphalt: RGB = dim([88, 90, 96]);
+  const garden = dim(mixRgb(leaf, [112, 142, 84], 0.7));
+  const green = dim(mixRgb(leaf, [70, 118, 66], 0.7));
+  const coreRoof: RGB[] = [[150, 154, 162], [176, 180, 190], [128, 134, 146], [200, 202, 210]];
+  const midRoof: RGB[] = [[158, 112, 98], [150, 150, 154], [196, 186, 172], [124, 116, 112], [176, 150, 120]];
+  const homeRoof: RGB[] = [[156, 104, 88], [142, 142, 148], [198, 192, 184], [120, 100, 90]];
+  const crops: RGB[] = [mixRgb(land, [190, 170, 110], 0.7), mixRgb(land, [128, 156, 90], 0.7), mixRgb(land, [160, 138, 96], 0.7), mixRgb(land, [104, 140, 76], 0.7)];
+
+  const small = document.createElement('canvas');
+  small.width = N; small.height = N;
+  const sg = small.getContext('2d')!;
+  const img = sg.createImageData(N, N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const u = x / N, v = y / N;
+    // Nearest district (wrapped), and this pixel in that district's tilted grid.
+    let best = 0, bd = 1e9, bdx = 0, bdy = 0;
+    for (let i = 0; i < districts.length; i++) {
+      let dx = x - districts[i].x, dy = y - districts[i].y;
+      dx -= Math.round(dx / N) * N; dy -= Math.round(dy / N) * N;
+      const d = dx * dx + dy * dy;
+      if (d < bd) { bd = d; best = i; bdx = dx; bdy = dy; }
     }
-    // A block of buildings: rooftops of different sizes, each with a small shadow.
-    g.fillStyle = css(dim([120, 118, 116]));
-    g.fillRect(x, y, w, h);
-    const n = 2 + Math.floor(R() * 6);
-    for (let k = 0; k < n; k++) {
-      const bw = 6 + R() * Math.min(28, w), bh = 6 + R() * Math.min(28, h);
-      const bx = x + R() * Math.max(1, w - bw), by = y + R() * Math.max(1, h - bh);
-      const roof = CROPS.city[Math.floor(R() * CROPS.city.length)];
-      g.fillStyle = 'rgba(20,22,28,0.35)';
-      g.fillRect(bx + 2, by + 2, bw, bh);
-      g.fillStyle = css(dim(roof));
-      g.fillRect(bx, by, bw, bh);
+    const D = districts[best];
+    const rx = (bdx * D.cos + bdy * D.sin) / D.bw, ry = (-bdx * D.sin + bdy * D.cos) / D.bh;
+    const bi = Math.floor(rx), bj = Math.floor(ry), fx = rx - bi, fy = ry - bj;
+    const h = hsh(best, bi, bj);
+    const urban = urbanAt(u, v);
+    const road = fx < P.sw / D.bw || fy < P.sw / D.bh;
+    const sp = (grain(u, v) - 0.5) * 0.1;
+    const parkBlock = h < 0.06 + step(0.55, 0.8, park(u, v)) * 0.25;
+    const hx = hsh(x, y, 7);
+    let c: RGB;
+    if (urban < 0.22 + h * 0.08) {
+      // Outskirts: fields and the odd lane.
+      c = dim(crops[Math.floor(h * 4) % 4]);
+      if (road && h < 0.25) c = asphalt;
+      c = mixRgb(c, dim(leaf), step(0.55, 0.8, field(u, v)) * 0.3);
+    } else if (road) {
+      c = asphalt;
+      if (night) c = mixRgb(c, [255, 196, 120], Math.min(1, urban * 1.3 * (0.7 + hsh(bi, bj, 3))));
+    } else if (parkBlock) {
+      c = hx < 0.12 ? dim([46, 88, 46]) : green;
+    } else if (urban > 0.85) {
+      // Core: tall pale blocks; the taller, the longer the shadow on the lower right.
+      const tall = 0.4 + h * 0.6;
+      c = dim(coreRoof[Math.floor(h * 977) % coreRoof.length]);
+      const edge = Math.max(fx, fy);
+      if (edge > 1 - tall * 0.4) c = mixRgb(c, [20, 22, 34], 0.55);
+      else if (fx < 0.18 || fy < 0.18) c = mixRgb(c, [255, 250, 240], 0.2);
+      if (night && hx < 0.3) c = [255, 222, 150];
+    } else if (urban > 0.5) {
+      c = dim(midRoof[Math.floor(h * 977) % midRoof.length]);
+      const edge = Math.max(fx, fy);
+      if (edge > 0.78) c = mixRgb(c, [20, 22, 34], 0.4);
+      else if (fx < 0.2 || fy < 0.2) c = mixRgb(c, [255, 246, 230], 0.14);
+      if (night && hx < 0.2) c = [255, 214, 140];
+    } else {
+      // Suburb: gardens with a house in each small lot.
+      const lx = (fx * 3) % 1, ly = (fy * 2) % 1;
+      c = garden;
+      if (lx > 0.2 && lx < 0.75 && ly > 0.25 && ly < 0.7) c = dim(homeRoof[Math.floor(hsh(bi, bj, Math.floor(fx * 3) + Math.floor(fy * 2) * 3) * 977) % homeRoof.length]);
+      if (night && hx < 0.1) c = [255, 206, 130];
     }
+    const l = 1 + sp;
+    const p = (y * N + x) * 4;
+    img.data[p] = Math.min(255, c[0] * l); img.data[p + 1] = Math.min(255, c[1] * l); img.data[p + 2] = Math.min(255, c[2] * l); img.data[p + 3] = 255;
   }
-  // River and a highway across town.
-  const riverY = S * (0.25 + R() * 0.5), phase = R() * Math.PI * 2;
-  g.strokeStyle = css(dim(water));
-  g.lineWidth = 16;
-  g.beginPath();
-  for (let x = -8; x <= S + 8; x += 8) { const y = riverY + Math.sin((x / S) * Math.PI * 2 + phase) * 50; if (x < 0) g.moveTo(x, y); else g.lineTo(x, y); }
-  g.stroke();
-  g.strokeStyle = css(dim([210, 204, 190]));
-  g.lineWidth = 5;
-  g.beginPath(); g.moveTo(0, S * 0.1); g.lineTo(S, S * 0.1); g.stroke();
-  if (night) {
-    // Streetlights along every street, lit windows on the rooftops, a bright highway.
-    for (const x of xs) for (let y = 4; y < S; y += 10 + Math.floor(R() * 8)) {
-      g.fillStyle = `rgba(255,${196 + Math.floor(R() * 40)},120,${0.55 + R() * 0.4})`;
-      g.fillRect(x - 1.5, y, 3, 3);
-    }
-    for (const y of ys) for (let x = 4; x < S; x += 10 + Math.floor(R() * 8)) {
-      g.fillStyle = `rgba(255,${196 + Math.floor(R() * 40)},120,${0.55 + R() * 0.4})`;
-      g.fillRect(x, y - 1.5, 3, 3);
-    }
-    for (let i = 0; i < 1400; i++) {
-      g.fillStyle = R() < 0.8 ? `rgba(255,226,150,${0.35 + R() * 0.5})` : `rgba(190,215,255,${0.3 + R() * 0.4})`;
-      g.fillRect(R() * S, R() * S, 2.5, 2.5);
-    }
-    g.strokeStyle = 'rgba(255,214,140,0.8)';
-    g.lineWidth = 3;
-    g.beginPath(); g.moveTo(0, S * 0.1); g.lineTo(S, S * 0.1); g.stroke();
-  }
-  return g.canvas;
+  sg.putImageData(img, 0, 0);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = S; canvas.height = S;
+  const g = canvas.getContext('2d')!;
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(small, 0, 0, S, S);
+
+  // A river with pale banks, two highways out of the centre and a ring road, all wrapped across the tile edge.
+  const copies = (draw: (ox: number, oy: number) => void) => { for (const ox of [-S, 0, S]) for (const oy of [-S, 0, S]) draw(ox, oy); };
+  g.lineCap = 'round'; g.lineJoin = 'round';
+  const water = dim(mixRgb(hexToRgb(palette.waterTop), [48, 104, 140], 0.6));
+  const riverY = S * (0.1 + R() * 0.8), phase = R() * Math.PI * 2, amp = 60 + R() * 60;
+  const riverPts: Array<[number, number]> = [];
+  for (let x = -16; x <= S + 16; x += 16) riverPts.push([x, riverY + Math.sin((x / S) * Math.PI * 2 + phase) * amp + Math.sin((x / S) * Math.PI * 6 + phase * 2) * 14]);
+  const strokeLine = (pts: Array<[number, number]>, color: string, width: number) => {
+    g.strokeStyle = color; g.lineWidth = width;
+    copies((ox, oy) => { g.beginPath(); pts.forEach(([px, py], i) => (i ? g.lineTo(px + ox, py + oy) : g.moveTo(px + ox, py + oy))); g.stroke(); });
+  };
+  strokeLine(riverPts, css(dim([200, 196, 176])), 34);
+  strokeLine(riverPts, css(water), 24);
+  const highway = (angle: number) => {
+    const pts: Array<[number, number]> = [[cu * S, cv * S]];
+    let px = cu * S, py = cv * S, a = angle;
+    for (let k = 0; k < 40; k++) { a += (R() - 0.5) * 0.18; px += Math.cos(a) * 26; py += Math.sin(a) * 26; pts.push([px, py]); }
+    strokeLine(pts, night ? 'rgba(255,214,140,0.85)' : css(dim([214, 208, 192])), 6);
+  };
+  if (town) return canvas;
+  highway(R() * Math.PI * 2);
+  highway(R() * Math.PI * 2);
+  const ring: Array<[number, number]> = [];
+  for (let k = 0; k <= 48; k++) { const t = (k / 48) * Math.PI * 2; ring.push([cu * S + Math.cos(t) * 190 * (1 + 0.08 * Math.sin(t * 3 + phase)), cv * S + Math.sin(t) * 150 * (1 + 0.1 * Math.cos(t * 2 + phase))]); }
+  strokeLine(ring, night ? 'rgba(255,214,140,0.8)' : css(dim([206, 200, 186])), 5);
+  return canvas;
 }
 
 /** Smooth noise that repeats exactly every `cells` lattice cells, so textures built from it tile. */
@@ -358,6 +441,379 @@ export function desertTexture(palette: ScenePalette, night: boolean): HTMLCanvas
   return canvas;
 }
 
+/**
+ * Open ocean from the air: broad deep and shallow bands, two crossing swells that bend and fade in and out, short
+ * wind chop and whitecaps that gather in patches, soft cloud shadows, one small ship with a wake. Lit from the
+ * upper left so each swell has a bright face and a dark one. Tiles seamlessly.
+ */
+export function oceanTexture(palette: ScenePalette, night: boolean): HTMLCanvasElement {
+  const N = 512, S = FARM_TEXTURE_SIZE;
+  const deep: RGB = mixRgb(hexToRgb(palette.waterBottom), [2, 22, 66], 0.92);
+  const shallow: RGB = mixRgb(hexToRgb(palette.waterTop), [10, 78, 134], 0.88);
+  const glint: RGB = [138, 196, 228];
+  const shade: RGB = [4, 24, 52];
+  const bands = tileNoise(3, 101), bandsFine = tileNoise(7, 103), warpA = tileNoise(4, 107), warpB = tileNoise(10, 109);
+  const patchA = tileNoise(3, 113), patchB = tileNoise(5, 127), foamZone = tileNoise(4, 131), cloud = tileNoise(2, 137);
+  const streak = tileNoise(8, 139), grain = tileNoise(128, 149), fleck = tileNoise(64, 151);
+  const step = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const TAU = Math.PI * 2;
+
+  const small = document.createElement('canvas');
+  small.width = N; small.height = N;
+  const sg = small.getContext('2d')!;
+  const img = sg.createImageData(N, N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const u = x / N, v = y / N;
+    const warp = (warpA(u, v) - 0.5) * 0.9 + (warpB(u, v) - 0.5) * 0.3;
+    // Depth: slow wide bands, deep to shallow.
+    const depth = step(0.3, 0.7, bands(u, v) * 0.75 + bandsFine(u, v) * 0.25);
+    const base = mixRgb(deep, shallow, depth * 0.85);
+    // Two swells at different angles. Each owns patches of sea and fades to a trace elsewhere.
+    const pa = step(0.3, 0.62, patchA(u, v)), pb = step(0.3, 0.62, patchB(u, v));
+    const fa = v * 5 + u * 2 + warp, fb = v * -2 + u * 6 + warp * 1.3 + 0.2;
+    const ha = Math.sin(fa * TAU) + 0.28 * Math.sin(fa * TAU * 2 + 1.1);
+    const hb = Math.sin(fb * TAU) + 0.28 * Math.sin(fb * TAU * 2 + 0.4);
+    // Slope facing the light: the wave's slope, bright on one side and dark on the other.
+    const sa = Math.cos(fa * TAU) * 1.45 * (0.35 + pa * 0.65);
+    const sb = Math.cos(fb * TAU) * -0.7 * (0.25 + pb * 0.75);
+    // Short chop riding on top, stronger in windy patches.
+    const windy = step(0.35, 0.7, foamZone(u + 0.2, v + 0.4));
+    const fc = v * 27 + u * 11 + warp * 3.1;
+    const chop = Math.cos(fc * TAU) * 0.14 * (0.3 + windy * 0.7);
+    const lane = streak(u, v * 4) - 0.5;
+    const light = Math.max(-1, Math.min(1, sa + sb + chop + lane * 0.5));
+    let c: RGB = light >= 0 ? mixRgb(base, glint, light * 0.7) : mixRgb(base, shade, -light * 0.85);
+    // Whitecaps: only on the high crests, only in the windy patches, broken up by flecks.
+    const crest = Math.max(ha * pa, hb * pb, Math.sin(fc * TAU) * windy * 0.8);
+    if (crest > 0.78) {
+      const foam = step(0.78, 1.15, crest) * step(0.42, 0.7, fleck(u, v) * 0.6 + grain(u, v) * 0.5) * (0.35 + windy * 0.65);
+      if (foam > 0) c = mixRgb(c, [236, 246, 250], Math.min(0.85, foam));
+    }
+    // Cloud shadows: a couple of big soft dark patches.
+    const cb = cloud(u, v);
+    if (cb > 0.4) c = mixRgb(c, mixRgb(c, shade, 0.7), step(0.58, 0.8, cb + (warpA(u + 0.5, v + 0.5) - 0.5) * 0.3) * 0.45);
+    const p = (y * N + x) * 4;
+    img.data[p] = c[0]; img.data[p + 1] = c[1]; img.data[p + 2] = c[2]; img.data[p + 3] = 255;
+  }
+  sg.putImageData(img, 0, 0);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = S; canvas.height = S;
+  const g = canvas.getContext('2d')!;
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(small, 0, 0, S, S);
+
+  // One small ship with a pale wake, drawn at wrapped positions so it can sit on the tile edge.
+  const R = rng(9103);
+  const sx = 180 + R() * 660, sy = 180 + R() * 660, heading = 0.5 + R() * 0.8;
+  const eachCopy = (draw: () => void) => {
+    for (const ox of [-S, 0, S]) for (const oy of [-S, 0, S]) {
+      const x = sx + ox, y = sy + oy;
+      if (x < -90 || x > S + 90 || y < -90 || y > S + 90) continue;
+      g.save(); g.translate(x, y); g.rotate(heading); draw(); g.restore();
+    }
+  };
+  eachCopy(() => {
+    const wake = g.createLinearGradient(0, 0, -70, 0);
+    wake.addColorStop(0, 'rgba(232,244,250,0.55)');
+    wake.addColorStop(1, 'rgba(232,244,250,0)');
+    g.fillStyle = wake;
+    g.beginPath(); g.moveTo(-3, 0); g.lineTo(-70, -7); g.lineTo(-70, 7); g.closePath(); g.fill();
+    g.fillStyle = 'rgba(8,16,28,0.45)';
+    g.fillRect(-7, -2, 15, 5.5);
+    g.fillStyle = 'rgb(232,234,238)';
+    g.beginPath(); g.moveTo(8, 0); g.lineTo(5, -3); g.lineTo(-8, -3); g.lineTo(-8, 3); g.lineTo(5, 3); g.closePath(); g.fill();
+    g.fillStyle = 'rgb(196,70,60)';
+    g.fillRect(-6, -2, 5, 4);
+  });
+  if (night) {
+    g.fillStyle = 'rgba(6,10,24,0.58)';
+    g.fillRect(0, 0, S, S);
+    // The ship keeps its lights on.
+    eachCopy(() => {
+      g.fillStyle = 'rgba(255,214,140,0.25)'; g.fillRect(-5, -5, 11, 11);
+      g.fillStyle = 'rgba(255,214,140,0.95)'; g.fillRect(-1, -1, 3, 3);
+    });
+  }
+  return canvas;
+}
+
+/**
+ * Forest from the air: a lumpy canopy in dark conifer, mid broadleaf and pale new growth, with hills implied by light
+ * and shade (lit from the upper left), darker damp valleys, clearings with fields, a few lakes and a winding river
+ * with pale banks. Tiles seamlessly.
+ */
+export function forestTexture(palette: ScenePalette, night: boolean): HTMLCanvasElement {
+  const N = 512, S = FARM_TEXTURE_SIZE;
+  const leaf = hexToRgb(palette.foliage);
+  const deepC: RGB = mixRgb(leaf, [22, 52, 34], 0.82);
+  const midC: RGB = mixRgb(leaf, [50, 96, 46], 0.78);
+  const lightC: RGB = mixRgb(leaf, [112, 148, 66], 0.7);
+  const fieldA: RGB = mixRgb(hexToRgb(palette.terrainTop), [168, 176, 92], 0.8);
+  const fieldB: RGB = mixRgb(hexToRgb(palette.terrainTop), [196, 176, 104], 0.8);
+  const lake: RGB = mixRgb(hexToRgb(palette.waterTop), [40, 92, 116], 0.7);
+  const n3 = tileNoise(3, 411), n6 = tileNoise(6, 413), species = tileNoise(5, 417), warp = tileNoise(4, 419);
+  const clear = tileNoise(7, 421), lakes = tileNoise(4, 431), crown = tileNoise(48, 433), grain = tileNoise(128, 439), sheet = tileNoise(3, 443);
+  const step = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const ridge = (n: number) => { const r = 1 - Math.abs(2 * n - 1); return r * r; };
+
+  const H = new Float32Array(N * N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const u = x / N, v = y / N;
+    const wu = u + (warp(u, v) - 0.5) * 0.1, wv = v + (warp(u + 0.5, v + 0.3) - 0.5) * 0.1;
+    H[y * N + x] = ridge(n3(wu, wv)) * 0.6 + ridge(n6(wu, wv)) * 0.3 + sheet(u, v) * 0.1;
+  }
+  const at = (x: number, y: number) => H[(((y % N) + N) % N) * N + (((x % N) + N) % N)];
+
+  const small = document.createElement('canvas');
+  small.width = N; small.height = N;
+  const sg = small.getContext('2d')!;
+  const img = sg.createImageData(N, N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const u = x / N, v = y / N;
+    const h = H[y * N + x];
+    const lit = (at(x + 2, y + 2) - at(x - 2, y - 2)) * 6;
+    // Species patches: conifer in the high, cold ground and valleys, broadleaf and new growth between.
+    const sp = species(u, v) * 0.7 + h * 0.3;
+    let c = mixRgb(mixRgb(midC, deepC, step(0.5, 0.7, sp)), lightC, step(0.45, 0.28, sp) * 0.9);
+    // Damp valleys are darker.
+    c = mixRgb(c, deepC, step(0.35, 0.1, h) * 0.5);
+    // Crowns: lumpy light and dark at the scale of a few trees, plus fine speckle.
+    const lump = crown(u, v) - 0.5, fine = grain(u, v) - 0.5;
+    // Clearings: pale fields in patches, two kinds, edges soft.
+    const cl = step(0.74, 0.8, clear(u, v));
+    if (cl > 0) c = mixRgb(c, (fine > 0 ? fieldA : fieldB), cl * 0.85);
+    // Lakes with a lighter shallow rim.
+    const lk = lakes(u + 0.2, v + 0.6);
+    if (lk > 0.84) c = mixRgb(c, mixRgb(lake, [110, 160, 170], step(0.84, 0.86, 1 - lk + 0.84) * 0.6), step(0.84, 0.86, lk));
+    const l = 1 + Math.max(-0.45, Math.min(0.45, lit)) * 0.75 + lump * 0.42 * (1 - cl) + fine * 0.2;
+    const p = (y * N + x) * 4;
+    img.data[p] = Math.min(255, c[0] * l); img.data[p + 1] = Math.min(255, c[1] * l); img.data[p + 2] = Math.min(255, c[2] * l); img.data[p + 3] = 255;
+  }
+  sg.putImageData(img, 0, 0);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = S; canvas.height = S;
+  const g = canvas.getContext('2d')!;
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(small, 0, 0, S, S);
+
+  // A winding river with pale banks, wrapped across the tile edge.
+  const R = rng(4409);
+  g.lineCap = 'round'; g.lineJoin = 'round';
+  const pts: Array<[number, number]> = [];
+  let px = R() * S, py = R() * S, a = R() * Math.PI * 2;
+  for (let k = 0; k < 64; k++) { a += (R() - 0.5) * 0.9; px += Math.cos(a) * 26; py += Math.sin(a) * 26; pts.push([px, py]); }
+  const draw = (color: string, width: number) => {
+    g.strokeStyle = color; g.lineWidth = width;
+    for (const ox of [-S * 2, -S, 0, S, S * 2]) for (const oy of [-S * 2, -S, 0, S, S * 2]) {
+      g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x + ox, y + oy) : g.moveTo(x + ox, y + oy))); g.stroke();
+    }
+  };
+  draw('rgba(196,204,170,0.7)', 16);
+  draw(`rgb(${Math.round(lake[0])},${Math.round(lake[1])},${Math.round(lake[2])})`, 9);
+  if (night) {
+    g.fillStyle = 'rgba(8,12,26,0.6)';
+    g.fillRect(0, 0, S, S);
+  }
+  return canvas;
+}
+
+/**
+ * Pack ice from the air: pale blue-white floes of every size split by dark, forking leads of open water, grey-blue
+ * pressure ridges along the floe edges, snow-drift streaks all running one way, a few turquoise melt pools, and
+ * stretches of unbroken sheet between. Lit from the upper left. Tiles seamlessly.
+ */
+export function iceTexture(palette: ScenePalette, night: boolean): HTMLCanvasElement {
+  const N = 512, S = FARM_TEXTURE_SIZE, G = 9;
+  const tintC = hexToRgb(palette.terrainTop);
+  const white: RGB = mixRgb([238, 244, 250], tintC, 0.06);
+  const blue: RGB = mixRgb([188, 214, 238], tintC, 0.06);
+  const water: RGB = mixRgb([14, 44, 78], hexToRgb(palette.waterBottom), 0.15);
+  const fringe: RGB = mixRgb([70, 112, 142], hexToRgb(palette.waterTop), 0.12);
+  const pool: RGB = [96, 188, 206];
+  const R = rng(5501);
+  const cells = Array.from({ length: G * G }, () => [R(), R()] as [number, number]);
+  const warp = tileNoise(8, 503), warp2 = tileNoise(16, 507), leady = tileNoise(3, 511), ridgeN = tileNoise(7, 513), streak = tileNoise(8, 517);
+  const poolN = tileNoise(10, 521), blotch = tileNoise(5, 523), grain = tileNoise(128, 527);
+  const step = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const hsh = (i: number) => { const s = Math.sin(i * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+
+  const small = document.createElement('canvas');
+  small.width = N; small.height = N;
+  const sg = small.getContext('2d')!;
+  const img = sg.createImageData(N, N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const u = x / N, v = y / N;
+    // Ragged floe edges: bend the lookup before finding the nearest floe centre.
+    const wu = u + (warp(u, v) - 0.5) * 0.045 + (warp2(u, v) - 0.5) * 0.012, wv = v + (warp(u + 0.5, v + 0.5) - 0.5) * 0.045 + (warp2(v, u) - 0.5) * 0.012;
+    const gx0 = Math.floor(wu * G), gy0 = Math.floor(wv * G);
+    let d1 = 9, d2 = 9, id = 0;
+    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+      const cx = gx0 + dx, cy = gy0 + dy;
+      const cell = cells[(((cy % G) + G) % G) * G + (((cx % G) + G) % G)];
+      const ex = (cx + cell[0]) / G - wu, ey = (cy + cell[1]) / G - wv;
+      const d = Math.sqrt(ex * ex + ey * ey);
+      if (d < d1) { d2 = d1; d1 = d; id = (((cy % G) + G) % G) * G + (((cx % G) + G) % G); } else if (d < d2) d2 = d;
+    }
+    const edge = d2 - d1;
+    // Where the sea is breaking up, leads are wide; elsewhere the sheet is whole and only hairline cracks show.
+    const breaking = step(0.38, 0.7, leady(u, v));
+    const leadW = 0.0015 + 0.015 * breaking;
+    const hf = hsh(id);
+    const fine = grain(u, v) - 0.5;
+    let c: RGB;
+    if (edge < leadW) {
+      c = edge < leadW * 0.45 ? water : mixRgb(water, fringe, 0.6);
+    } else {
+      // Floe surface: white to pale blue per floe, snow-drift streaks all one way, pressure ridges near the edges.
+      c = mixRgb(white, blue, hf * 0.7 + (blotch(u, v) - 0.5) * 0.35);
+      const drift = streak(u, v * 6) - 0.5;
+      const edgeZone = 1 - step(leadW, leadW + 0.03, edge);
+      const rdg = 1 - Math.abs(2 * ridgeN(u, v) - 1);
+      const rh = rdg * rdg * (0.35 + edgeZone * 0.9);
+      // Lit on the upper-left side of each ridge, shadowed on the lower right.
+      if (rh > 0.08) {
+        const lit = (ridgeN(u - 0.004, v - 0.004) - ridgeN(u + 0.004, v + 0.004)) * 18;
+        c = mixRgb(c, mixRgb([120, 146, 172], [250, 252, 255], Math.max(0, lit) * 0.9), Math.min(1, rh * 0.55) * (lit > 0 ? 0.8 : 0.2));
+        if (lit < 0) c = mixRgb(c, [64, 92, 128], Math.min(0.5, -lit * rh * 0.5));
+      }
+      c = mixRgb(c, [250, 252, 255], Math.max(0, drift) * 0.45);
+      c = mixRgb(c, [150, 178, 208], Math.max(0, -drift) * 0.35);
+      // Melt pools: turquoise with a darker rim, on the open floes only.
+      const pl = poolN(u + 0.3, v + 0.1);
+      if (pl > 0.7 && edgeZone < 0.5) c = mixRgb(c, mixRgb(pool, [30, 110, 140], step(0.7, 0.74, 1 - pl + 0.7) * 0.5), step(0.7, 0.735, pl) * 0.85);
+    }
+    const l = 1 + fine * 0.05;
+    const p = (y * N + x) * 4;
+    img.data[p] = Math.min(255, c[0] * l); img.data[p + 1] = Math.min(255, c[1] * l); img.data[p + 2] = Math.min(255, c[2] * l); img.data[p + 3] = 255;
+  }
+  sg.putImageData(img, 0, 0);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = S; canvas.height = S;
+  const g = canvas.getContext('2d')!;
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(small, 0, 0, S, S);
+  if (night) {
+    g.fillStyle = 'rgba(6,10,24,0.5)';
+    g.fillRect(0, 0, S, S);
+  }
+  return canvas;
+}
+
+/** What kind of mountains a region has: how the valley floor looks and what share of peaks wear snow or forest. */
+export interface RangeMix {
+  floor: 'alpine' | 'arid' | 'green';
+  /** Share of peaks that are snow-capped; the next `green` share are forested; the rest are bare rock. */
+  snow: number;
+  green: number;
+}
+
+export function rangeFor(region: string | null | undefined): RangeMix {
+  const r = region ?? '';
+  if (/Africa|Madagascar/.test(r)) return { floor: 'arid', snow: 0, green: 0.05 };
+  if (/Australia/.test(r)) return { floor: 'arid', snow: 0.02, green: 0.12 };
+  if (/Oceania|Pacific|New Zealand|Fiji/.test(r)) return { floor: 'green', snow: 0.2, green: 0.55 };
+  if (/Japan|Taiwan|Hainan|Philippines|Borneo|Sumatra|Java|Sulawesi|Sri Lanka/.test(r)) return { floor: 'green', snow: 0.05, green: 0.75 };
+  if (/Asia/.test(r)) return { floor: 'green', snow: 0.35, green: 0.35 };
+  if (/South America/.test(r)) return { floor: 'alpine', snow: 0.45, green: 0.3 };
+  if (/North America/.test(r)) return { floor: 'alpine', snow: 0.6, green: 0.25 };
+  if (/Europe/.test(r)) return { floor: 'alpine', snow: 0.7, green: 0.1 };
+  return { floor: 'alpine', snow: 0.5, green: 0.2 };
+}
+
+/**
+ * The ground between the peaks, seen from high up: a ridged height field lit from one side (so slopes read as slopes),
+ * coloured by height. Alpine: dull green valleys, grey rock, scree, snow on shaded high ground, dark conifer patches
+ * and a pale braided river. Arid: banded red and tan rock with a dry riverbed. Green: forested ridges and valleys.
+ * Tiles seamlessly.
+ */
+export function mountainTexture(palette: ScenePalette, night: boolean, floor: RangeMix['floor'] = 'alpine'): HTMLCanvasElement {
+  const N = 512, S = FARM_TEXTURE_SIZE;
+  const land = hexToRgb(palette.terrainTop);
+  const leaf = hexToRgb(palette.foliage);
+  const valley: RGB = floor === 'arid' ? mixRgb(land, [196, 150, 108], 0.8) : floor === 'green' ? mixRgb(leaf, [58, 104, 56], 0.7) : mixRgb(land, [96, 114, 82], 0.75);
+  const slopeC: RGB = floor === 'arid' ? mixRgb(land, [170, 108, 76], 0.8) : floor === 'green' ? mixRgb(leaf, [44, 86, 52], 0.7) : mixRgb(land, [122, 120, 114], 0.8);
+  const highC: RGB = floor === 'arid' ? mixRgb(land, [116, 80, 66], 0.8) : floor === 'green' ? mixRgb(leaf, [96, 118, 80], 0.6) : mixRgb(land, [170, 168, 164], 0.8);
+  const n3 = tileNoise(3, 211), n6 = tileNoise(6, 223), n13 = tileNoise(13, 227), warp = tileNoise(4, 229);
+  const patch = tileNoise(9, 233), conif = tileNoise(24, 239), grain = tileNoise(96, 241), band = tileNoise(5, 251);
+  const step = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const ridge = (n: number) => { const r = 1 - Math.abs(2 * n - 1); return r * r; };
+
+  // Height field first, so each pixel can compare itself with its neighbours.
+  const H = new Float32Array(N * N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const u = x / N, v = y / N;
+    const wu = u + (warp(u, v) - 0.5) * 0.12, wv = v + (warp(u + 0.5, v + 0.25) - 0.5) * 0.12;
+    H[y * N + x] = ridge(n3(wu, wv)) * 0.62 + ridge(n6(wu, wv)) * 0.28 + n13(u, v) * 0.1;
+  }
+  const at = (x: number, y: number) => H[(((y % N) + N) % N) * N + (((x % N) + N) % N)];
+
+  const small = document.createElement('canvas');
+  small.width = N; small.height = N;
+  const sg = small.getContext('2d')!;
+  const img = sg.createImageData(N, N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const u = x / N, v = y / N;
+    const h = H[y * N + x];
+    // Light from the upper left: slopes rising away from it are lit.
+    const lit = (at(x + 2, y + 2) - at(x - 2, y - 2)) * 7;
+    const steep = Math.abs(at(x + 2, y) - at(x - 2, y)) + Math.abs(at(x, y + 2) - at(x, y - 2));
+    const sp = grain(u, v) - 0.5;
+    let c: RGB;
+    if (floor === 'arid') {
+      // Banded rock: bands follow the height, so they bend around the hills like strata.
+      const strata = Math.sin((h * 5.2 + band(u, v) * 1.6) * Math.PI * 2) * 0.5 + 0.5;
+      c = mixRgb(mixRgb(valley, slopeC, step(0.18, 0.5, h)), highC, step(0.5, 0.9, h));
+      c = mixRgb(c, mixRgb(c, [236, 196, 150], 0.5), strata * 0.35);
+    } else {
+      c = mixRgb(mixRgb(valley, slopeC, step(0.2, 0.52, h)), highC, step(0.52, 0.88, h));
+      // Dark conifer patches on the low ground (alpine); the green floor is forest everywhere.
+      const wood = floor === 'green' ? 0.7 : step(0.44, 0.62, conif(u, v) * 0.55 + patch(u, v) * 0.5) * step(0.5, 0.2, h);
+      c = mixRgb(c, mixRgb(leaf, [20, 56, 34], 0.7), Math.min(0.85, wood * (floor === 'green' ? 0.55 + sp * 0.4 : 0.9)));
+      // Scree fans: pale and speckled where the ground is steep and not high.
+      c = mixRgb(c, [176, 172, 164], step(0.1, 0.22, steep) * step(0.7, 0.35, h) * (0.3 + sp) * 0.5);
+      // Snow on high ground, heaviest on the faces turned away from the light (alpine only).
+      if (floor === 'alpine') c = mixRgb(c, [238, 244, 250], step(0.66, 0.84, h - lit * 0.18 + sp * 0.1) * 0.9);
+    }
+    const l = 1 + Math.max(-0.5, Math.min(0.5, lit)) * 0.55 + sp * 0.05;
+    const p = (y * N + x) * 4;
+    img.data[p] = Math.min(255, c[0] * l); img.data[p + 1] = Math.min(255, c[1] * l); img.data[p + 2] = Math.min(255, c[2] * l); img.data[p + 3] = 255;
+  }
+  sg.putImageData(img, 0, 0);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = S; canvas.height = S;
+  const g = canvas.getContext('2d')!;
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(small, 0, 0, S, S);
+
+  // A braided river (pale glacial water; a dry riverbed in the arid ranges), wrapped across the tile edge.
+  const R = rng(5233);
+  g.lineCap = 'round';
+  g.strokeStyle = floor === 'arid' ? 'rgba(238,214,176,0.45)' : floor === 'green' ? 'rgba(168,196,190,0.5)' : 'rgba(196,222,226,0.55)';
+  const river = (x: number, y: number, angle: number, length: number, width: number, depth: number) => {
+    let px = x, py = y, a = angle;
+    for (let k = 0; k < length; k++) {
+      a += (R() - 0.5) * 0.55;
+      const nx = px + Math.cos(a) * 24, ny = py + Math.sin(a) * 24;
+      g.lineWidth = width;
+      for (const ox of [-S, 0, S]) for (const oy of [-S, 0, S]) {
+        g.beginPath(); g.moveTo(px + ox, py + oy); g.lineTo(nx + ox, ny + oy); g.stroke();
+      }
+      px = nx; py = ny;
+      if (depth < 2 && R() < 0.14) river(px, py, a + (R() < 0.5 ? 0.6 : -0.6), Math.floor(length * 0.35), width * 0.6, depth + 1);
+    }
+  };
+  for (let i = 0; i < 2; i++) river(R() * S, R() * S, R() * Math.PI * 2, 42, 6 + R() * 3, 0);
+  if (night) {
+    g.fillStyle = 'rgba(8,12,26,0.6)';
+    g.fillRect(0, 0, S, S);
+  }
+  return canvas;
+}
+
 /** Large, soft light/dark blotches (tileable value noise) drawn at a scale unrelated to the ground's. */
 let macroCache: HTMLCanvasElement | null = null;
 export function macroTexture(): HTMLCanvasElement {
@@ -388,3 +844,5 @@ export function macroTexture(): HTMLCanvasElement {
   macroCache = canvas;
   return canvas;
 }
+
+

@@ -41,6 +41,22 @@ export function countryAt(shapes: CountryShape[], p: LatLng): string | null {
   return null;
 }
 
+/**
+ * A small town under the plane when no major city is near. Not a real place: about a third of half-degree squares
+ * hold one, at a fixed jittered spot, so the same stretch of route always shows the same towns.
+ * Returns a seed for the town's layout, or null.
+ */
+export function townNear(p: LatLng): string | null {
+  const cell = 0.5;
+  const ci = Math.round(p.lat / cell), cj = Math.round(p.lng / cell);
+  const h = (a: number) => { const r = Math.sin(a) * 43758.5453; return r - Math.floor(r); };
+  if (h(ci * 127.1 + cj * 311.7) > 0.35) return null;
+  const lat = ci * cell + (h(ci * 269.5 + cj * 183.3) - 0.5) * 0.3;
+  const lng = cj * cell + (h(ci * 419.2 + cj * 371.9) - 0.5) * 0.3;
+  const km = Math.hypot(p.lat - lat, (p.lng - lng) * Math.cos((p.lat * Math.PI) / 180)) * 111;
+  return km < 9 ? `T${ci}_${cj}` : null;
+}
+
 export function cityNear(p: LatLng, maxKm = 60): { name: string; km: number } | null {
   let best: { name: string; km: number } | null = null;
   for (const [name, lat, lng] of MAJOR_CITIES) {

@@ -27,7 +27,7 @@ import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, offsetClock, solarClock, sunPosition } from '@/lib/live-room/sun';
-import { cityNear, countryAt, loadCountries, type CountryShape } from '@/lib/live-room/places-below';
+import { cityNear, countryAt, loadCountries, townNear, type CountryShape } from '@/lib/live-room/places-below';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import { useCabinShake } from '@/components/session/turbulence-beat';
@@ -538,7 +538,8 @@ export function FlightDeck({
       : country
         ? (feature ? `${feature}, ${country}` : country)
         : below.name;
-    return { label, overCity: city && city.km < 30 ? city.name : null };
+    const overCity = city && city.km < 30 ? city.name : null;
+    return { label, overCity, overTown: !overCity && below.terrain === 'farmland' ? townNear(below.point) : null };
   }, [countries, below]);
 
   // Real weather under the plane (every ten minutes, or when it moves on a
@@ -1447,8 +1448,8 @@ export function FlightDeck({
         sun={skyNow.sun}
         weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
         cloudCover={liveWx?.cloudCover}
-        terrain={place.overCity ? 'farmland' : below.terrain}
-        region={place.overCity ? `city:${place.overCity}` : below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : null}
+        terrain={place.overCity || place.overTown ? 'farmland' : below.terrain}
+        region={place.overCity ? `city:${place.overCity}|${regionOf(below.point) ?? ''}` : place.overTown ? `town:${place.overTown}|${regionOf(below.point) ?? ''}` : below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : null}
         calm={view !== 'boarding' && view !== 'talk'}
         turbulence={shaking}
         paused={runningKey === 'video-player'}

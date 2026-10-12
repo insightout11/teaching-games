@@ -7,8 +7,10 @@ import { arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-fligh
 import type { TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
-import { CockpitSky, cockpitCloudTint } from '@/components/live-room/flight/cockpit-sky';
+import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
+import { CockpitSky, cockpitCloudTint, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
+import { WindscreenWeather } from '@/components/session/cockpit-scene';
 import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 
@@ -105,6 +107,10 @@ export function FlightLab() {
     : diving ? Math.pow(progress / DIVE, 1.6) * 0.96
       : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
   const parting = phase === 'descent' && !diving ? Math.min(1, (progress - DIVE) / CLEAR) : 0;
+  // Same rules as the real windscreen: weather sets the cloud cover and the undercast; rain and snow only fall on climb and descent (in cruise you are above the weather).
+  const cover = weather === 'clear' || weather === 'aurora' ? 25 : 85;
+  const deck = useMemo(() => weatherDeckTint(cloudTint, weather).join(','), [cloudTint, weather]);
+  const undercast = phase === 'cruise' && !activity ? weatherUndercast(weather, cover) : 0;
   const cloudSpeed = phase === 'climb' ? 1.4 : diving ? 1.2 + progress * 3 : 0.55;
 
   const run = (p: Phase) => setPhase(p);
@@ -133,14 +139,28 @@ export function FlightLab() {
             ) : (
               <motion.div key="cockpit" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
                 <CockpitSky palette={palette} timeOfDay={tod} altitude={cockpitAlt} />
-                <CockpitWorld terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={cloudSpeed} />
+                <CockpitWorld key={`${terrain}|${region}`} terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={cloudSpeed} />
                 {/* Broken cloud layer between us and the ground */}
                 <div
                   aria-hidden
                   className="pointer-events-none absolute inset-x-0 bottom-0"
                   style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${cloudTint.join(',')},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${cloudTint.join(',')},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${cloudTint.join(',')},0.45), transparent 70%)` }}
                 />
-                <CockpitClouds speed={cloudSpeed} tint={cloudTint} density={activity && !diving ? 0.4 : 1} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} />
+                <CockpitClouds speed={cloudSpeed} tint={undercast > 0 ? weatherDeckTint(cloudTint, weather) : cloudTint} density={activity && !diving ? 0.4 : diving ? 1 : Math.min(1, 0.3 + (cover / 100) * 0.8)} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} />
+                {undercast > 0 && (
+                  <div className="absolute inset-x-0 bottom-0" style={{ top: '56%', background: `linear-gradient(180deg, rgba(${deck},${undercast * 0.55}) 0%, rgba(${deck},${undercast * 0.9}) 35%, rgba(${deck},${undercast * 0.95}) 100%)` }} />
+                )}
+                {undercast > 0 && <CloudDeck tint={deck} strength={undercast} speed={cloudSpeed} />}
+                {weather === 'storm' && (
+                  <motion.div
+                    className="absolute inset-x-0 bottom-0"
+                    style={{ top: '60%', background: 'radial-gradient(ellipse 30% 40% at 35% 60%, rgba(220,230,255,0.9), transparent 70%)' }}
+                    animate={{ opacity: [0, 0, 0.9, 0.1, 0.7, 0, 0, 0] }}
+                    transition={{ duration: 7, repeat: Infinity, times: [0, 0.6, 0.62, 0.65, 0.67, 0.72, 0.9, 1] }}
+                  />
+                )}
+                {(phase === 'climb' || phase === 'descent') && weather !== 'clear' && <WindscreenWeather weather={weather} />}
+                {phase === 'cruise' && weather === 'aurora' && <WindscreenWeather weather="aurora" />}
               </motion.div>
             )}
           </AnimatePresence>
@@ -210,8 +230,8 @@ export function FlightLab() {
           <select value={terrain} onChange={(e) => setTerrain(e.target.value as Terrain)} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Below us">
             {(['ocean', 'mountains', 'hills', 'forest', 'desert', 'ice', 'farmland'] as Terrain[]).map((t) => <option key={t} value={t}>Below: {t}</option>)}
           </select>
-          <select value={region} onChange={(e) => setRegion(e.target.value)} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Region">
-            {['Europe', 'Asia', 'North America', 'Africa', 'city:Tokyo'].map((r) => <option key={r} value={r}>{r.replace('city:', 'City: ')}</option>)}
+          <select value={region} onChange={(e) => { setRegion(e.target.value); if (/^(city|town):/.test(e.target.value)) setTerrain('farmland'); }} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Region">
+            {['Europe', 'Asia', 'North America', 'South America', 'Africa', 'Australia', 'Oceania', 'town:T1|Europe', 'town:T2|Asia', 'city:Aveiro|Europe', 'city:Dallas|North America', 'city:Lima|South America', 'city:Osaka|Asia', 'city:Kano|Africa', 'city:Perth|Australia'].map((r) => <option key={r} value={r}>{/^(city|town):/.test(r) ? `${r.startsWith('town:') ? 'Small town' : 'Big city'}: ${r.split('|')[1]} style` : r}</option>)}
           </select>
           <label className="flex items-center gap-1.5">Scrub
             <input

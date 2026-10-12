@@ -11,7 +11,8 @@ import { WindscreenWeather } from '@/components/session/cockpit-scene';
 import type { SunPosition } from '@/lib/live-room/sun';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
-import { CockpitSky, cockpitCloudTint } from '@/components/live-room/flight/cockpit-sky';
+import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
+import { CockpitSky, cockpitCloudTint, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
 import { useCabinShake } from '@/components/session/turbulence-beat';
@@ -141,13 +142,14 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   );
   const cover = cloudCover ?? (weather === 'clear' || weather === 'aurora' ? 25 : 85);
   const cloudDensity = diving ? 1 : Math.min(1, 0.3 + (cover / 100) * 0.8);
-  const undercast = phase === 'cruise' && !calm ? Math.max(0, (cover - 65) / 35) : 0;
+  const undercast = phase === 'cruise' && !calm ? weatherUndercast(weather, cover) : 0;
   const spot = sun ? lightSpot(sun, sun.heading, palette.light === 'moon') : undefined;
   const altitude = phase === 'climb' ? Math.min(1, progress * 1.1) : 1;
   const cloudSpeed = phase === 'climb' ? 1.4 : diving ? 1.2 + progress * 3 : 0.55;
   const whiteout = phase !== 'descent' ? 0 : diving ? Math.pow(progress / DIVE, 1.6) * 0.96 : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
   const parting = phase === 'descent' && !diving ? Math.min(1, (progress - DIVE) / CLEAR) : 0;
   const tint = cloudTint.join(',');
+  const deck = weatherDeckTint(cloudTint, weather).join(',');
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -176,8 +178,9 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             />
             {/* Thick cloud below: an undercast deck hides the ground, storms glow inside it. */}
             {undercast > 0 && (
-              <div className="absolute inset-x-0 bottom-0" style={{ top: '56%', background: `linear-gradient(180deg, rgba(${tint},${undercast * 0.55}) 0%, rgba(${tint},${undercast * 0.9}) 35%, rgba(${tint},${undercast * 0.95}) 100%)` }} />
+              <div className="absolute inset-x-0 bottom-0" style={{ top: '56%', background: `linear-gradient(180deg, rgba(${deck},${undercast * 0.55}) 0%, rgba(${deck},${undercast * 0.9}) 35%, rgba(${deck},${undercast * 0.95}) 100%)` }} />
             )}
+            {undercast > 0 && <CloudDeck tint={deck} strength={undercast} speed={cloudSpeed} paused={paused} />}
             {weather === 'storm' && phase === 'cruise' && (
               <motion.div
                 className="absolute inset-x-0 bottom-0"
@@ -188,7 +191,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             )}
             {(phase === 'climb' || phase === 'descent') && weather !== 'clear' && <WindscreenWeather weather={weather} />}
             {phase === 'cruise' && weather === 'aurora' && <WindscreenWeather weather="aurora" />}
-            <CockpitClouds speed={turbulence ? cloudSpeed + 1.6 : cloudSpeed} tint={cloudTint} density={turbulence ? 1 : calm && !diving ? 0.4 : cloudDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} paused={paused} />
+            <CockpitClouds speed={turbulence ? cloudSpeed + 1.6 : cloudSpeed} tint={undercast > 0 ? weatherDeckTint(cloudTint, weather) : cloudTint} density={turbulence ? 1 : calm && !diving ? 0.4 : cloudDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} paused={paused} />
           </motion.div>
         )}
       </AnimatePresence>

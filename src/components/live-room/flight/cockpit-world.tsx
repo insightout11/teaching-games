@@ -4,8 +4,9 @@ import { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import type { ScenePalette } from '@/components/world-flight/arrival-scene/types';
 import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
+import { drawPeak, type PeakKind } from '@/components/live-room/flight/peak-art';
 import { tileFor, type Terrain } from '@/components/live-room/flight/cockpit-ground';
-import { desertTexture, farmTexture, macroTexture } from '@/components/live-room/flight/ground-texture';
+import { desertTexture, farmTexture, forestTexture, iceTexture, macroTexture, mountainTexture, oceanTexture, rangeFor, type RangeMix } from '@/components/live-room/flight/ground-texture';
 
 /**
  * The world below the cockpit, drawn through ONE camera so everything moves
@@ -21,7 +22,7 @@ import { desertTexture, farmTexture, macroTexture } from '@/components/live-room
  */
 
 type RGB = [number, number, number];
-interface Peak { x: number; z: number; h: number; w: number; tone: number; hill: boolean }
+interface Peak { x: number; z: number; h: number; w: number; tone: number; roll: number; hill: boolean }
 
 interface Layer {
   terrain: Terrain;
@@ -35,6 +36,8 @@ interface Layer {
   land: RGB;
   rock: RGB;
   snow: RGB;
+  leaf: RGB;
+  range: RangeMix;
   night: boolean;
 }
 
@@ -91,6 +94,7 @@ function spawnPeak(p: Peak, camZ: number, far: boolean) {
     p.w = p.h * (1.6 + Math.random() * 1.2);
   }
   p.tone = Math.random();
+  p.roll = Math.random();
 }
 
 const css = (c: RGB) => `rgb(${c[0]},${c[1]},${c[2]})`;
@@ -112,11 +116,14 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const reg = region ?? null;
     look.current = { haze: hexToRgb(palette.skyBottom.startsWith('#') ? palette.skyBottom : '#9fb8d0'), night };
     const land = hexToRgb(palette.terrainTop);
-    const rockBase: RGB = mixRgb(land, [92, 90, 98], 0.7);
+    const range = rangeFor(reg);
+    const rockBase: RGB = range.floor === 'arid' ? mixRgb(land, [178, 96, 60], 0.88) : mixRgb(land, [92, 90, 98], 0.7);
     const style = {
       land,
       rock: night ? mixRgb(rockBase, [10, 14, 28], 0.55) : rockBase,
       snow: (night ? [150, 160, 185] : [244, 247, 252]) as RGB,
+      leaf: hexToRgb(palette.foliage),
+      range,
       night,
     };
 
@@ -147,8 +154,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     };
     const cached = textureCache.get(key);
     if (cached) apply(cached);
-    else if (terrain === 'farmland' || terrain === 'hills' || terrain === 'desert') {
-      const levels = ripChain(terrain === 'desert' ? desertTexture(palette, night) : farmTexture(reg, palette, night));
+    else if (terrain === 'farmland' || terrain === 'hills' || terrain === 'desert' || terrain === 'ocean' || terrain === 'mountains' || terrain === 'forest' || terrain === 'ice') {
+      const levels = ripChain(terrain === 'desert' ? desertTexture(palette, night) : terrain === 'ocean' ? oceanTexture(palette, night) : terrain === 'mountains' ? mountainTexture(palette, night, range.floor) : terrain === 'forest' ? forestTexture(palette, night) : terrain === 'ice' ? iceTexture(palette, night) : farmTexture(reg, palette, night));
       textureCache.set(key, levels);
       apply(levels);
     } else {
@@ -175,7 +182,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       if (terrain === 'mountains' || terrain === 'hills') {
         const hill = terrain === 'hills';
         for (let i = 0; i < (hill ? 190 : 160); i++) {
-          const pk: Peak = { x: 0, z: 0, h: 0, w: 0, tone: 0, hill };
+          const pk: Peak = { x: 0, z: 0, h: 0, w: 0, tone: 0, roll: 0, hill };
           spawnPeak(pk, cam.current, false);
           // A terrain we're flying into only has peaks beyond its edge.
           if (Number.isFinite(layer.startZ)) pk.z = layer.startZ + Math.random() * Z_FAR;
@@ -305,7 +312,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             const t = Math.pow(k / STOPS, 2.2);
             const zAt = (CAM_HEIGHT * F) / Math.max(0.5, t * (h - horizonY));
             const fog = Math.min(1, zAt / Z_FAR);
-            hazeFill.addColorStop(t, `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, dark ? 0.9 : 0.55) * (dark ? 0.7 : 0.92)})`);
+            hazeFill.addColorStop(t, `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, dark ? 1.1 : 0.55) * (dark ? 0.5 : 0.92)})`);
           }
         }
         ctx.fillStyle = hazeFill;
@@ -365,28 +372,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           ctx.globalAlpha = 1;
           continue;
         }
-        const tone = mixRgb(layer.rock, [128, 124, 116], p.tone * 0.25);
-        const lit = mixRgb(mixRgb(tone, [236, 228, 212], 0.3), haze, fog);
-        const shade = mixRgb(mixRgb(tone, [18, 20, 32], 0.4), haze, fog * 0.9);
-        const cap = mixRgb(layer.snow, haze, fog * 0.8);
-        ctx.globalAlpha = fade;
-        ctx.fillStyle = css(lit);
-        ctx.beginPath(); ctx.moveTo(cx - half, baseY); ctx.lineTo(cx, topY); ctx.lineTo(cx, baseY); ctx.fill();
-        ctx.fillStyle = css(shade);
-        ctx.beginPath(); ctx.moveTo(cx, topY); ctx.lineTo(cx + half, baseY); ctx.lineTo(cx, baseY); ctx.fill();
-        // snow cap on the upper third, with a ragged snow line
-        const k = 0.32;
-        const sy = topY + (baseY - topY) * k;
-        ctx.fillStyle = css(cap);
-        ctx.beginPath();
-        ctx.moveTo(cx - half * k, sy);
-        ctx.lineTo(cx, topY);
-        ctx.lineTo(cx + half * k, sy);
-        ctx.lineTo(cx + half * k * 0.45, sy - (sy - topY) * 0.18);
-        ctx.lineTo(cx, sy + (baseY - topY) * 0.04);
-        ctx.lineTo(cx - half * k * 0.5, sy - (sy - topY) * 0.22);
-        ctx.fill();
-        ctx.globalAlpha = 1;
+        const kind: PeakKind = p.roll < layer.range.snow ? 'snow' : p.roll < layer.range.snow + layer.range.green ? 'forest' : 'bare';
+        // A peak's kind comes from its own roll; shape detail uses a second, independent one.
+        drawPeak(ctx, kind, (p.roll * 7919) % 1, p.tone, { rock: layer.rock, leaf: layer.night ? mixRgb(layer.leaf, [10, 14, 28], 0.55) : layer.leaf, snow: layer.snow, warm: layer.range.floor === 'arid', night: layer.night }, cx, baseY, topY, half, fog, haze, fade);
       }
 
       // Soft band where the land meets the sky

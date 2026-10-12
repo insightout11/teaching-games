@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import type { ScenePalette, TimeOfDay } from '@/components/world-flight/arrival-scene/types';
+import type { ScenePalette, TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 
 /**
  * The sky seen from the cockpit, graded from the SAME palette the arrival and
@@ -22,6 +22,23 @@ export function hexToRgb(hex: string): RGB {
 }
 export const mixRgb = (a: RGB, b: RGB, t: number): RGB => a.map((v, i) => Math.round(v + (b[i] - v) * t)) as RGB;
 const css = (c: RGB, a = 1) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+
+/** The cloud deck under the plane in bad weather: white and bright in snow, flat grey in overcast, dark and bruised in rain and storm. */
+export function weatherDeckTint(tint: RGB, weather: WeatherCondition): RGB {
+  if (weather === 'storm') return mixRgb(tint, [58, 66, 88], 0.7);
+  if (weather === 'rain') return mixRgb(tint, [96, 108, 128], 0.5);
+  if (weather === 'overcast') return mixRgb(tint, [150, 158, 172], 0.25);
+  if (weather === 'snow') return mixRgb(tint, [255, 255, 255], 0.5);
+  return tint;
+}
+
+/** How completely the cloud deck below hides the ground at cruise: bad weather is a full deck, whatever the real cover says. */
+export function weatherUndercast(weather: WeatherCondition, cover: number): number {
+  if (weather === 'rain' || weather === 'storm') return 1;
+  if (weather === 'snow') return 0.9;
+  if (weather === 'overcast') return 0.8;
+  return Math.max(0, (cover - 65) / 35);
+}
 
 /** Cloud colour for this light: bright white by day, warm at dawn/dusk, blue-grey at night. */
 export function cockpitCloudTint(palette: ScenePalette, timeOfDay: TimeOfDay): RGB {
