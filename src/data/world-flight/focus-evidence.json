@@ -300,5 +300,309 @@
       "daily life",
       "community"
     ]
+  },
+  "london/sightseeing-english-video": {
+    "keyIdea": "London's Tower Bridge opens for large boats, sharing a river crossing between road traffic and water traffic.",
+    "tradeoff": "Cars must stop while the bridge opens to let a large boat pass.",
+    "designUse": "Schedule crossing changes so boat access and road delays are clear.",
+    "investigationTags": [
+      "transport",
+      "water"
+    ]
+  },
+  "london/tube-engineering-video": {
+    "keyIdea": "London's Underground trains use stopping marks and door controls, and drivers practice accurate stops in a simulator.",
+    "tradeoff": "A train that misses its stopping position cannot simply reverse and open its doors.",
+    "designUse": "Train operators with simulations before they manage precise stops in service.",
+    "investigationTags": [
+      "transport",
+      "engineering"
+    ]
+  },
+  "london/chinatown-restaurant-video": {
+    "keyIdea": "A Chinatown restaurant's closing shows how losing a lease can break lasting ties between workers and regular customers.",
+    "tradeoff": "Popular community businesses can still lose their premises when a lease ends.",
+    "designUse": "Give established food businesses a stable way to keep their premises.",
+    "investigationTags": [
+      "food culture",
+      "economics",
+      "community"
+    ],
+    "thin": true
+  },
+  "london/thames-barrier": {
+    "keyIdea": "London's Thames Barrier closes to help keep storm tides from pushing floodwater into the city.",
+    "tradeoff": "Rising seas and extreme weather can change earlier assumptions about protection.",
+    "designUse": "Plan flood defenses that can adapt when tides and weather change.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "climate"
+    ]
+  },
+  "london/west-end-theatre": {
+    "keyIdea": "London's West End performances depend on surrounding restaurants, transport, and workers who support audiences before and after shows.",
+    "tradeoff": "Live performance can be expensive, limiting who can afford a theatre visit.",
+    "designUse": "Coordinate evening performances with nearby food services and journeys home.",
+    "investigationTags": [
+      "culture",
+      "transport",
+      "economics"
+    ]
+  },
+  "london/borough-market": {
+    "keyIdea": "London's Borough Market lets buyers meet sellers and learn about food while shopping in a shared space.",
+    "tradeoff": "A public market can be noisier, more crowded, and more expensive than a supermarket.",
+    "designUse": "Make food buying social while leaving room for practical everyday shopping.",
+    "investigationTags": [
+      "food culture",
+      "urban culture",
+      "economics"
+    ]
+  },
+  "new-york/ellis-island-video": {
+    "keyIdea": "At New York's Ellis Island, interpreters helped migrants answer questions, while health and legal checks decided entry.",
+    "tradeoff": "Wealthier passengers avoided the island, while others faced waiting and possible detention.",
+    "designUse": "Provide language help wherever important checks decide people's access.",
+    "investigationTags": [
+      "migration",
+      "history",
+      "ethics"
+    ]
+  },
+  "new-york/subway-building-video": {
+    "keyIdea": "New York's electric subway linked central areas with outer boroughs, encouraging construction and making travel part of everyday life.",
+    "tradeoff": "Early passengers complained that trains were crowded and did not reach far enough.",
+    "designUse": "Extend busy rail networks toward neighborhoods that still lack useful connections.",
+    "investigationTags": [
+      "transport",
+      "urban history",
+      "cause and effect"
+    ]
+  },
+  "new-york/street-vendors-video": {
+    "keyIdea": "New York vendors organized to challenge fines and win translation help in hearings about their tickets.",
+    "tradeoff": "Large fines for minor breaches can threaten a vendor's ability to stay in business.",
+    "designUse": "Make enforcement understandable and give small sellers a way to challenge penalties.",
+    "investigationTags": [
+      "economics",
+      "government",
+      "community"
+    ]
+  },
+  "new-york/high-line-park": {
+    "keyIdea": "New York turned a former freight railway into the High Line, adding a planted public walkway above the streets.",
+    "tradeoff": "A popular new park can raise nearby costs for long-time residents and small businesses.",
+    "designUse": "Reuse old transport structures while checking effects on nearby rents.",
+    "investigationTags": [
+      "urban design",
+      "public space",
+      "housing"
+    ]
+  },
+  "new-york/skyscraper-zoning": {
+    "keyIdea": "New York's zoning rules control building height and land use because private towers also affect shared streets.",
+    "tradeoff": "Tall buildings add useful space but can block light and crowd sidewalks.",
+    "designUse": "Set building limits around sunlight, street space, and nearby people's needs.",
+    "investigationTags": [
+      "architecture",
+      "urban planning",
+      "government"
+    ]
+  },
+  "new-york/public-library": {
+    "keyIdea": "New York's public library offers books, learning help, and quiet space without asking people to buy anything.",
+    "tradeoff": "Shared spaces still need clear rules so different people can use them comfortably.",
+    "designUse": "Keep learning places free and offer guidance as well as information.",
+    "investigationTags": [
+      "community",
+      "public space",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "cairo/ancient-egypt-video": {
+    "keyIdea": "Ancient Egyptians used land measurement around the Nile to build canals and irrigation systems that supported farming.",
+    "tradeoff": "This farming system depended on access to land and water near the Nile.",
+    "designUse": "Measure local land and water before planning routes that supply crops.",
+    "investigationTags": [
+      "history",
+      "engineering",
+      "water"
+    ],
+    "tradeoffInferred": true
+  },
+  "cairo/nile-explainer-video": {
+    "keyIdea": "The Nile carried fertile soil to Egyptian fields, but the Aswan High Dam blocks much of that sediment.",
+    "tradeoff": "Blocking sediment disrupts the flood and harvest pattern that farming had relied on.",
+    "designUse": "Check what useful materials a new river barrier would stop downstream.",
+    "investigationTags": [
+      "water",
+      "geography",
+      "cause and effect"
+    ]
+  },
+  "cairo/food-tour-video": {
+    "keyIdea": "Cairo entrepreneurs use food tours to bring attention to local dishes and family-run places usually overshadowed by monuments.",
+    "tradeoff": "Tourists often come for history, leaving local cooking with less recognition.",
+    "designUse": "Create food routes that introduce visitors to local cooks and everyday dishes.",
+    "investigationTags": [
+      "food culture",
+      "economics",
+      "identity"
+    ]
+  },
+  "cairo/historic-cairo": {
+    "keyIdea": "Historic Cairo survives through both old buildings and living practices, including workshops, markets, and residents' daily routines.",
+    "tradeoff": "Restoration can change rents and businesses while residents still need better services.",
+    "designUse": "Protect crafts and affordable working spaces as well as historic building fronts.",
+    "investigationTags": [
+      "heritage",
+      "urban planning",
+      "community"
+    ]
+  },
+  "cairo/grand-egyptian-museum": {
+    "keyIdea": "Near Giza, the Grand Egyptian Museum uses light, labels, and visitor routes to help people understand old objects.",
+    "tradeoff": "Museum stories also involve disagreements about ownership and who gets to explain the past.",
+    "designUse": "Arrange objects with clear labels while showing who helps interpret their history.",
+    "investigationTags": [
+      "museums",
+      "identity",
+      "heritage"
+    ]
+  },
+  "cairo/khan-el-khalili": {
+    "keyIdea": "At Cairo's Khan el-Khalili, bargaining makes buying goods a personal conversation between sellers and visitors.",
+    "tradeoff": "Negotiation takes more time than fixed prices and can feel pressuring.",
+    "designUse": "Teach respectful ways to ask prices, make offers, and end a purchase.",
+    "investigationTags": [
+      "functional english",
+      "food culture",
+      "economics"
+    ]
+  },
+  "dubai/airport-history-video": {
+    "keyIdea": "Dubai expanded its airport alongside airlines, linking the city's growth with trade, tourism, and international business.",
+    "tradeoff": "Serving more passengers requires further airport infrastructure and continued expansion.",
+    "designUse": "Connect airport capacity plans with the businesses and services they support.",
+    "investigationTags": [
+      "transport",
+      "economics",
+      "urban change"
+    ],
+    "tradeoffInferred": true
+  },
+  "dubai/metro-route-2020-video": {
+    "keyIdea": "Dubai's Route 2020 extends the metro into new areas and designs stations for transfers to other transport.",
+    "tradeoff": "Reaching new areas required a large project with both elevated and underground sections.",
+    "designUse": "Place transfer points where a rail extension meets other public services.",
+    "investigationTags": [
+      "transport",
+      "urban planning",
+      "engineering"
+    ],
+    "tradeoffInferred": true
+  },
+  "dubai/dubai-history-video": {
+    "keyIdea": "Dubai invested oil income in ports, an airport, and public services to build businesses beyond oil.",
+    "tradeoff": "Oil wealth is limited, so the city cannot rely on it forever.",
+    "designUse": "Use income from one strong industry to develop other useful services.",
+    "investigationTags": [
+      "economics",
+      "urban history",
+      "cause and effect"
+    ]
+  },
+  "dubai/clean-energy": {
+    "keyIdea": "Dubai's clean-energy plans face strong demand from cooling buildings, making water, and moving people around the city.",
+    "tradeoff": "Solar power also needs storage, grids, investment, and changes in behavior.",
+    "designUse": "Match clean-power plans with the energy needs of cooling and water systems.",
+    "investigationTags": [
+      "sustainability",
+      "engineering",
+      "environment"
+    ]
+  },
+  "dubai/museum-of-future": {
+    "keyIdea": "Dubai's Museum of the Future uses stories and displays to help people imagine technologies and problems ahead.",
+    "tradeoff": "Exciting displays may inspire visitors without giving them a clear plan.",
+    "designUse": "Turn future scenarios into questions about actions visitors could take.",
+    "investigationTags": [
+      "museums",
+      "design",
+      "critical thinking"
+    ]
+  },
+  "dubai/desert-heat-design": {
+    "keyIdea": "Dubai needs shade, covered paths, and good transport links to make outdoor journeys easier in hot weather.",
+    "tradeoff": "Wide roads and cooling needs can make walking difficult despite impressive buildings.",
+    "designUse": "Shade walking and waiting places before adding attractive outdoor features.",
+    "investigationTags": [
+      "climate",
+      "urban design",
+      "problem solving"
+    ]
+  },
+  "sydney/harbour-ecology-video": {
+    "keyIdea": "Sydney Harbour's changing water and varied habitats support many species, including ones scientists have not yet recorded.",
+    "tradeoff": "Population growth increases the responsibility to protect habitats still not fully understood.",
+    "designUse": "Study different waterside habitats before deciding how to develop their edges.",
+    "investigationTags": [
+      "nature",
+      "water",
+      "science"
+    ],
+    "tradeoffInferred": true
+  },
+  "sydney/opera-house-history-video": {
+    "keyIdea": "Sydney's Opera House roof design changed when builders found problems with the site, materials, sound, and climate.",
+    "tradeoff": "Repeated redesigns increased costs and delayed opening the building to the public.",
+    "designUse": "Test a landmark's structure, sound, and weather response before construction.",
+    "investigationTags": [
+      "architecture",
+      "engineering",
+      "problem solving"
+    ]
+  },
+  "sydney/city-growth-video": {
+    "keyIdea": "Sydney's protected harbour supported trade and migration, while railways and a bridge connected its growing city and suburbs.",
+    "tradeoff": "The growing city faces high housing costs, traffic, and environmental pressures.",
+    "designUse": "Link a working port with routes that serve growing residential areas.",
+    "investigationTags": [
+      "geography",
+      "transport",
+      "migration"
+    ]
+  },
+  "sydney/gadigal-eora": {
+    "keyIdea": "Sydney's places carry Gadigal and Eora histories that began long before the modern city and its street map.",
+    "tradeoff": "A brief acknowledgment can become empty without including local knowledge in public learning.",
+    "designUse": "Include older place names and local knowledge in signs and lessons.",
+    "investigationTags": [
+      "identity",
+      "heritage",
+      "community"
+    ]
+  },
+  "sydney/beach-safety": {
+    "keyIdea": "Sydney's beach flags and lifesavers help people choose safer swimming areas and understand changing sea conditions.",
+    "tradeoff": "Water can be stronger than it looks, even where the beach seems inviting.",
+    "designUse": "Mark safer swimming areas and make expert advice easy to find.",
+    "investigationTags": [
+      "nature",
+      "functional english",
+      "problem solving"
+    ]
+  },
+  "sydney/ferry-commute": {
+    "keyIdea": "Sydney ferries carry commuters and visitors on the same harbour routes, combining everyday travel with views of the city.",
+    "tradeoff": "Weather, wharf access, capacity, and connections limit how useful a ferry journey is.",
+    "designUse": "Design water services for regular journeys as well as sightseeing passengers.",
+    "investigationTags": [
+      "transport",
+      "water",
+      "daily life"
+    ]
   }
 }

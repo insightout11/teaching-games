@@ -13,3 +13,7 @@ The validator checks all 300 exact lesson keys, fields, word counts, one-sentenc
 ## Batch 1: Bangkok, Tokyo, Seoul, Singapore, Paris
 
 Authored 30 entries after reading all 15 cached video transcripts and all 15 lesson texts. One Bangkok food video is marked thin because the usable caption evidence is sparse and partly garbled. Six tradeoffs are direct inferences and are flagged. The partial validator passes with zero field, count, tag, duplicate, or similarity failures. Tokyo transport evidence uses connected railway tracks and payment cards actually stated in the captions; it does not repeat the unsupported property-income claim from the brief example.
+
+## Batch 2: London, New York, Cairo, Dubai, Sydney
+
+Authored 30 more entries (60 total) from all six lesson materials per city. Important source mismatch: `london/chinatown-restaurant-video` captions explicitly refer to Excellent Dumpling House at 111 Lafayette Street and American customers, not a London restaurant. Its entry is marked thin and describes the lease/community mechanism without making a London-specific claim. No destination definition was changed. Partial checks pass with zero failures.
