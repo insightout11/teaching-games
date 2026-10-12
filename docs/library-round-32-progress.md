@@ -28,3 +28,7 @@ Completed Cooking, Baking, Fruits, Vegetables, Breakfast, School Lunch, Caring f
 ## Batch 6 — cooking through jobs (15 topics)
 
 Completed Cooking through Jobs People Do. The partial validator passes all checks for the 60 decks now updated. This batch changed 13 Hot Seat targets and 3 Twenty Questions secrets from `origin/main`; cumulative totals: 204 and 25.
+
+## Batch 7 — sports, play, and transport (15 topics)
+
+Completed Soccer, Basketball, Swimming, Cycling, Running, Dancing, Board Games, Puzzles, Building Blocks, Kites, Playgrounds, Superheroes, Robots, Trains, and Airplanes. The partial validator passes all checks for 75 updated decks. This batch changed 29 Hot Seat targets and 3 Twenty Questions secrets from `origin/main`; cumulative totals: 233 and 28.

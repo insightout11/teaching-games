@@ -19451,7 +19451,8 @@
           "ball",
           "win"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a point scored when the ball enters the target"
       },
       {
         "word": "goalkeeper",
@@ -19461,7 +19462,8 @@
           "stop",
           "player"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the player guarding the scoring space with hands"
       },
       {
         "word": "referee",
@@ -19471,7 +19473,8 @@
           "match",
           "black"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who makes sure game rules are followed"
       },
       {
         "word": "corner kick",
@@ -19481,7 +19484,8 @@
           "ball",
           "send"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a kick taken from the field corner"
       },
       {
         "word": "penalty",
@@ -19491,7 +19495,8 @@
           "shoot",
           "kick"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a chance to score after a rule is broken"
       },
       {
         "word": "offside",
@@ -19501,7 +19506,8 @@
           "defender",
           "position"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a rule about where players stand near the target"
       },
       {
         "word": "dribble",
@@ -19511,7 +19517,8 @@
           "ball",
           "control"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "moving the ball with small controlled kicks"
       },
       {
         "word": "header",
@@ -19521,7 +19528,8 @@
           "nod",
           "neck"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "hitting the ball with the forehead"
       },
       {
         "word": "team",
@@ -19531,7 +19539,8 @@
           "game",
           "group"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a group of players working together"
       },
       {
         "word": "cleats",
@@ -19541,7 +19550,8 @@
           "grass",
           "wear"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "strong shoes worn for playing on grass"
       },
       {
         "word": "touchline",
@@ -19551,7 +19561,8 @@
           "paint",
           "field"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the long line marking the side of a field"
       },
       {
         "word": "substitute",
@@ -19561,7 +19572,8 @@
           "replace",
           "match"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a player who replaces someone during a game"
       },
       {
         "word": "crossbar",
@@ -19571,7 +19583,8 @@
           "goal",
           "metal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the high bar across the scoring frame"
       },
       {
         "word": "striker",
@@ -19581,107 +19594,130 @@
           "player",
           "attack"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a player who tries to score goals"
       }
     ],
     "hotSeat": [
       {
         "word": "shin guards",
-        "level": "A1"
+        "level": "A1",
+        "description": "hard covers worn over the lower legs"
       },
       {
-        "word": "captain's armband",
-        "level": "A1"
+        "word": "captain band",
+        "level": "A1",
+        "description": "a strip worn to show the team leader"
       },
       {
         "word": "corner flag",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small marker at the edge of the field"
       },
       {
         "word": "goal line",
-        "level": "A1"
+        "level": "A1",
+        "description": "the end line a ball must cross"
       },
       {
         "word": "training cone",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright marker used in practice drills"
       },
       {
         "word": "football boots",
-        "level": "A1"
+        "level": "A1",
+        "description": "strong shoes with grips under the sole"
       },
       {
         "word": "team bench",
-        "level": "A1"
+        "level": "A1",
+        "description": "a row of seats for waiting players"
       },
       {
         "word": "scoreboard",
-        "level": "A1"
+        "level": "A1",
+        "description": "a board showing points and time"
       },
       {
-        "word": "half-time whistle",
-        "level": "A2"
+        "word": "break whistle",
+        "level": "A2",
+        "description": "a sound that signals the middle break"
       },
       {
         "word": "assistant referee",
-        "level": "A2"
+        "level": "A2",
+        "description": "a helper who watches the edge of play"
       },
       {
         "word": "goal kick",
-        "level": "A1"
+        "level": "A1",
+        "description": "a restart after the ball leaves at the end"
       },
       {
         "word": "free kick",
-        "level": "A1"
+        "level": "A1",
+        "description": "a restart given after a foul"
       },
       {
-        "word": "warm-up drill",
-        "level": "A2"
+        "word": "practice drill",
+        "level": "A2",
+        "description": "a short exercise before a game"
       },
       {
         "word": "stadium seat",
-        "level": "A1"
+        "level": "A1",
+        "description": "a place for a person watching the match"
       }
     ],
     "imposter": [
       {
+        "word": "goal",
+        "level": "A1",
+        "description": "a point scored when the ball enters the frame",
+        "hint": "a game result",
+        "crewQuestion": "What are players trying to score during a match?",
+        "imposterQuestion": "What are players trying to stop during a match?"
+      },
+      {
         "word": "goalkeeper",
-        "decoy": "defender",
-        "level": "A1"
-      },
-      {
-        "word": "corner kick",
-        "decoy": "goal kick",
-        "level": "A2"
-      },
-      {
-        "word": "cleats",
-        "decoy": "shin guards",
-        "level": "A1"
-      },
-      {
-        "word": "crossbar",
-        "decoy": "goalpost",
-        "level": "A2"
-      },
-      {
-        "word": "striker",
-        "decoy": "winger",
-        "level": "A2"
+        "level": "A1",
+        "description": "the player who guards the scoring space",
+        "hint": "a team role",
+        "crewQuestion": "Who can use hands near the goal area?",
+        "imposterQuestion": "Who can use feet near the goal area?"
       },
       {
         "word": "referee",
-        "decoy": "assistant referee",
-        "level": "A2"
+        "level": "A1",
+        "description": "a person who makes sure the rules are followed",
+        "hint": "a game role",
+        "crewQuestion": "Who can stop the match after a foul?",
+        "imposterQuestion": "Who can start the match after a break?"
+      },
+      {
+        "word": "corner kick",
+        "level": "A2",
+        "description": "a kick taken from the corner of a field",
+        "hint": "a game restart",
+        "crewQuestion": "Where does play begin after the ball leaves the end?",
+        "imposterQuestion": "Where does play begin after the ball leaves the side?"
       },
       {
         "word": "dribble",
-        "decoy": "pass",
-        "level": "A1"
+        "level": "A1",
+        "description": "moving the ball forward with small controlled kicks",
+        "hint": "a game move",
+        "crewQuestion": "How can a player keep the ball while moving?",
+        "imposterQuestion": "How can a player send the ball to a teammate?"
       },
       {
-        "word": "touchline",
-        "decoy": "goal line",
-        "level": "A2"
+        "word": "striker",
+        "level": "A2",
+        "description": "a player who often tries to score",
+        "hint": "a team role",
+        "crewQuestion": "Which player may take a shot near the goal?",
+        "imposterQuestion": "Which player may guard the goal from a shot?"
       }
     ],
     "twentyQuestions": [
@@ -19739,7 +19775,8 @@
           "ring",
           "ball"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a raised ring that players throw a ball through"
       },
       {
         "word": "dribble",
@@ -19749,7 +19786,8 @@
           "move",
           "ball"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "bouncing a ball while moving across the floor"
       },
       {
         "word": "free throw",
@@ -19759,7 +19797,8 @@
           "score",
           "penalty"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a shot taken from a marked line without a defender"
       },
       {
         "word": "backboard",
@@ -19769,7 +19808,8 @@
           "rectangle",
           "hit"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the flat board behind the scoring ring"
       },
       {
         "word": "court",
@@ -19779,7 +19819,8 @@
           "players",
           "wood"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a marked floor where teams play"
       },
       {
         "word": "pass",
@@ -19789,7 +19830,8 @@
           "ball",
           "share"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "sending the ball to another player"
       },
       {
         "word": "rebound",
@@ -19799,7 +19841,8 @@
           "board",
           "ball"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a ball caught after a missed shot"
       },
       {
         "word": "layup",
@@ -19809,7 +19852,8 @@
           "run",
           "hoop"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a close shot made while moving toward the ring"
       },
       {
         "word": "basket",
@@ -19819,7 +19863,8 @@
           "ring",
           "throw"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the ring and net used for scoring"
       },
       {
         "word": "traveling",
@@ -19829,7 +19874,8 @@
           "move",
           "ball"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "moving with the ball without bouncing it"
       },
       {
         "word": "defense",
@@ -19839,7 +19885,8 @@
           "block",
           "guard"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "stopping the other team from scoring"
       },
       {
         "word": "jersey",
@@ -19849,7 +19896,8 @@
           "team",
           "wear"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a shirt worn by a player"
       },
       {
         "word": "timeout",
@@ -19859,7 +19907,8 @@
           "minute",
           "game"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a short stop in play for a team"
       },
       {
         "word": "three-pointer",
@@ -19869,107 +19918,130 @@
           "shot",
           "score"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a shot worth three points from far away"
       }
     ],
     "hotSeat": [
       {
         "word": "sneaker",
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft shoe used for sport or walking"
       },
       {
         "word": "score clock",
-        "level": "A2"
+        "level": "A2",
+        "description": "a display showing time and points"
       },
       {
         "word": "team bench",
-        "level": "A1"
+        "level": "A1",
+        "description": "a row of seats for waiting players"
       },
       {
         "word": "basketball",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large orange ball used in a court game"
       },
       {
         "word": "referee whistle",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small tool blown to stop play"
       },
       {
         "word": "gym floor",
-        "level": "A1"
+        "level": "A1",
+        "description": "the smooth surface inside a sports hall"
       },
       {
         "word": "water bottle",
-        "level": "A1"
+        "level": "A1",
+        "description": "a container used to carry a drink"
       },
       {
         "word": "captain",
-        "level": "A1"
+        "level": "A1",
+        "description": "the player who leads a team"
       },
       {
         "word": "shot clock",
-        "level": "A2"
+        "level": "A2",
+        "description": "a timer limiting a team’s time with the ball"
       },
       {
         "word": "sideline",
-        "level": "A2"
+        "level": "A2",
+        "description": "the long boundary at the edge of a court"
       },
       {
-        "word": "warm-up jacket",
-        "level": "A1"
+        "word": "warm jacket",
+        "level": "A1",
+        "description": "a coat worn before or after the game"
       },
       {
-        "word": "free throw line",
-        "level": "A2"
+        "word": "shot mark",
+        "level": "A2",
+        "description": "a line where a player takes a penalty shot"
       },
       {
-        "word": "coach clipboard",
-        "level": "A2"
+        "word": "coach board",
+        "level": "A2",
+        "description": "a board used to explain a team plan"
       },
       {
         "word": "net",
-        "level": "A1"
+        "level": "A1",
+        "description": "a woven barrier hanging from the scoring ring"
       }
     ],
     "imposter": [
       {
         "word": "hoop",
-        "decoy": "basket",
-        "level": "A1"
+        "level": "A1",
+        "description": "a raised ring used for scoring with a ball",
+        "hint": "game equipment",
+        "crewQuestion": "What does a player try to send the ball through?",
+        "imposterQuestion": "What does a player try to bounce the ball on?"
       },
       {
-        "word": "backboard",
-        "decoy": "rim",
-        "level": "A2"
+        "word": "dribble",
+        "level": "A1",
+        "description": "bouncing a ball while moving across a court",
+        "hint": "a game move",
+        "crewQuestion": "How can a player move the ball without passing it?",
+        "imposterQuestion": "How can a player move the ball after passing it?"
       },
       {
-        "word": "layup",
-        "decoy": "dunk",
-        "level": "A2"
-      },
-      {
-        "word": "rebound",
-        "decoy": "pass",
-        "level": "A1"
+        "word": "free throw",
+        "level": "A2",
+        "description": "a shot taken from a line after a foul",
+        "hint": "a game move",
+        "crewQuestion": "Where can a player shoot without a defender nearby?",
+        "imposterQuestion": "Where can a player pass without a defender nearby?"
       },
       {
         "word": "court",
-        "decoy": "gym",
-        "level": "A1"
+        "level": "A1",
+        "description": "a marked floor where teams play a game",
+        "hint": "a sports place",
+        "crewQuestion": "Where can two teams play with an orange ball?",
+        "imposterQuestion": "Where can two teams play with a black puck?"
       },
       {
-        "word": "timeout",
-        "decoy": "halftime",
-        "level": "A2"
+        "word": "basketball",
+        "level": "A1",
+        "description": "a large orange ball used in a court game",
+        "hint": "sports equipment",
+        "crewQuestion": "What can players bounce before taking a shot?",
+        "imposterQuestion": "What can players kick before taking a shot?"
       },
       {
-        "word": "three-pointer",
-        "decoy": "free throw",
-        "level": "A2"
-      },
-      {
-        "word": "defense",
-        "decoy": "goalkeeping",
-        "level": "A2"
+        "word": "referee",
+        "level": "A1",
+        "description": "a person who makes sure a game follows rules",
+        "hint": "a game role",
+        "crewQuestion": "Who can blow a whistle when a player travels?",
+        "imposterQuestion": "Who can blow a whistle when a player scores?"
       }
     ],
     "twentyQuestions": [
@@ -20027,7 +20099,8 @@
           "wear",
           "see"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "large covers that protect eyes in water"
       },
       {
         "word": "lifeguard",
@@ -20037,7 +20110,8 @@
           "help",
           "save"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person watching swimmers to keep them safe"
       },
       {
         "word": "stroke",
@@ -20047,7 +20121,8 @@
           "move",
           "style"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a way of moving arms and legs through water"
       },
       {
         "word": "float",
@@ -20057,7 +20132,8 @@
           "top",
           "air"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a light object that stays on top of water"
       },
       {
         "word": "lane",
@@ -20067,7 +20143,8 @@
           "swim",
           "side"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a marked path for one swimmer in a pool"
       },
       {
         "word": "diving board",
@@ -20077,7 +20154,8 @@
           "pool",
           "spring"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a raised platform used for jumping into water"
       },
       {
         "word": "swimsuit",
@@ -20087,7 +20165,8 @@
           "water",
           "one-piece"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "clothes worn for swimming"
       },
       {
         "word": "kickboard",
@@ -20097,7 +20176,8 @@
           "legs",
           "practice"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat board held while practising leg kicks"
       },
       {
         "word": "freestyle",
@@ -20107,7 +20187,8 @@
           "crawl",
           "fast"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the fastest swimming style with the face down"
       },
       {
         "word": "backstroke",
@@ -20117,7 +20198,8 @@
           "breath side",
           "kick legs"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a swimming style with the face turned upward"
       },
       {
         "word": "changing room",
@@ -20127,7 +20209,8 @@
           "shower",
           "swim"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a place to change clothes before swimming"
       },
       {
         "word": "pool noodle",
@@ -20137,7 +20220,8 @@
           "float",
           "water"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a long soft tube that floats on water"
       },
       {
         "word": "lap",
@@ -20147,7 +20231,8 @@
           "pool",
           "swim"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "one trip from one end of a pool"
       },
       {
         "word": "earplugs",
@@ -20157,107 +20242,130 @@
           "small",
           "block"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "small covers worn in the ears underwater"
       }
     ],
     "hotSeat": [
       {
         "word": "swim cap",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tight cover that keeps hair away from water"
       },
       {
         "word": "pool ladder",
-        "level": "A1"
+        "level": "A1",
+        "description": "steps used to climb out of a pool"
       },
       {
         "word": "lane rope",
-        "level": "A2"
+        "level": "A2",
+        "description": "a floating line separating swimmers"
       },
       {
         "word": "locker key",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small tool opening a storage cupboard"
       },
       {
         "word": "water slide",
-        "level": "A1"
+        "level": "A1",
+        "description": "a smooth path that carries riders into water"
       },
       {
         "word": "beach ball",
-        "level": "A1"
+        "level": "A1",
+        "description": "a light colourful ball used near water"
       },
       {
         "word": "diving mask",
-        "level": "A1"
+        "level": "A1",
+        "description": "a face cover that helps someone see underwater"
       },
       {
         "word": "starting block",
-        "level": "A2"
+        "level": "A2",
+        "description": "a raised stand used before a race begins"
       },
       {
-        "word": "poolside chair",
-        "level": "A1"
+        "word": "pool chair",
+        "level": "A1",
+        "description": "a seat beside a swimming area"
       },
       {
         "word": "shower stall",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small space for washing before or after swimming"
       },
       {
         "word": "flippers",
-        "level": "A1"
+        "level": "A1",
+        "description": "wide foot covers that help someone swim"
       },
       {
         "word": "snorkel",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tube used for breathing face down in water"
       },
       {
         "word": "water polo",
-        "level": "A2"
+        "level": "A2",
+        "description": "a team game played in a swimming pool"
       },
       {
         "word": "rescue ring",
-        "level": "A1"
+        "level": "A1",
+        "description": "a floating circle thrown to someone in trouble"
       }
     ],
     "imposter": [
       {
-        "word": "freestyle",
-        "decoy": "front crawl",
-        "level": "A2"
-      },
-      {
-        "word": "backstroke",
-        "decoy": "breaststroke",
-        "level": "A1"
-      },
-      {
         "word": "goggles",
-        "decoy": "diving mask",
-        "level": "A1"
-      },
-      {
-        "word": "lane rope",
-        "decoy": "pool noodle",
-        "level": "A1"
-      },
-      {
-        "word": "starting block",
-        "decoy": "diving board",
-        "level": "A2"
+        "level": "A1",
+        "description": "covers protecting someone’s eyes in water",
+        "hint": "swim equipment",
+        "crewQuestion": "What helps a swimmer see clearly under the surface?",
+        "imposterQuestion": "What helps a swimmer breathe easily under the surface?"
       },
       {
         "word": "lifeguard",
-        "decoy": "swim coach",
-        "level": "A2"
-      },
-      {
-        "word": "lap",
-        "decoy": "length",
-        "level": "A2"
+        "level": "A1",
+        "description": "a person watching swimmers to keep them safe",
+        "hint": "a pool job",
+        "crewQuestion": "Who may help someone having trouble in the water?",
+        "imposterQuestion": "Who may help someone having trouble on a mountain?"
       },
       {
         "word": "float",
-        "decoy": "kickboard",
-        "level": "A1"
+        "level": "A1",
+        "description": "staying on top of the water without sinking",
+        "hint": "a water action",
+        "crewQuestion": "What can a swimmer do on their back to rest?",
+        "imposterQuestion": "What can a swimmer do on their back to race?"
+      },
+      {
+        "word": "swimsuit",
+        "level": "A1",
+        "description": "clothes made for moving comfortably in water",
+        "hint": "swim clothing",
+        "crewQuestion": "What can someone wear before jumping into a pool?",
+        "imposterQuestion": "What can someone wear before jumping into a puddle?"
+      },
+      {
+        "word": "kickboard",
+        "level": "A2",
+        "description": "a flat board held while practising leg movement",
+        "hint": "swim equipment",
+        "crewQuestion": "What can a learner hold while practising kicks?",
+        "imposterQuestion": "What can a learner hold while practising strokes?"
+      },
+      {
+        "word": "rescue ring",
+        "level": "A1",
+        "description": "a floating circle thrown to someone in trouble",
+        "hint": "safety equipment",
+        "crewQuestion": "What can a lifeguard throw across the pool?",
+        "imposterQuestion": "What can a lifeguard throw across the beach?"
       }
     ],
     "twentyQuestions": [
@@ -20315,7 +20423,8 @@
           "wheel",
           "ride"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a foot lever that turns a bicycle wheel"
       },
       {
         "word": "bike gloves",
@@ -20325,7 +20434,8 @@
           "cold",
           "wear"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "covers worn on the hands while riding"
       },
       {
         "word": "handlebar",
@@ -20335,7 +20445,8 @@
           "front",
           "grip"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the bar steered to turn the bicycle"
       },
       {
         "word": "bicycle chain",
@@ -20345,7 +20456,8 @@
           "gear",
           "move"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a linked metal loop that moves the back wheel"
       },
       {
         "word": "brake",
@@ -20355,7 +20467,8 @@
           "pad",
           "wheel"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool used to slow or stop a bike"
       },
       {
         "word": "saddle",
@@ -20365,7 +20478,8 @@
           "soft",
           "bike"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a seat where the rider sits"
       },
       {
         "word": "bell",
@@ -20375,7 +20489,8 @@
           "handle",
           "warning"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small device making a warning sound"
       },
       {
         "word": "puncture",
@@ -20385,7 +20500,8 @@
           "air",
           "repair"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hole in a tyre that lets air out"
       },
       {
         "word": "cycle path",
@@ -20395,7 +20511,8 @@
           "safe",
           "marked"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a marked way for bicycles to travel"
       },
       {
         "word": "gear",
@@ -20405,7 +20522,8 @@
           "climb",
           "shift"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a setting that changes how hard pedalling feels"
       },
       {
         "word": "spokes",
@@ -20415,7 +20533,8 @@
           "metal",
           "rim"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "thin metal lines holding the wheel in shape"
       },
       {
         "word": "basket",
@@ -20425,7 +20544,8 @@
           "things",
           "bike"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a container attached to a bicycle for carrying things"
       },
       {
         "word": "reflector",
@@ -20435,7 +20555,8 @@
           "see",
           "night"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a bright part that reflects light at night"
       },
       {
         "word": "training wheels",
@@ -20445,107 +20566,130 @@
           "child",
           "extra"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "small extra wheels helping a beginner balance"
       }
     ],
     "hotSeat": [
       {
         "word": "pump",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool that pushes air into a tyre"
       },
       {
         "word": "tyre lever",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small tool used to remove a wheel cover"
       },
       {
         "word": "bike lock",
-        "level": "A1"
+        "level": "A1",
+        "description": "a strong chain or cable stopping theft"
       },
       {
         "word": "mudguard",
-        "level": "A2"
+        "level": "A2",
+        "description": "a curved cover stopping dirt from splashing"
       },
       {
-        "word": "water bottle cage",
-        "level": "A2"
+        "word": "bottle cage",
+        "level": "A2",
+        "description": "a frame holding a drink on the bicycle"
       },
       {
         "word": "cycle bell",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small ringing signal for people nearby"
       },
       {
         "word": "repair kit",
-        "level": "A2"
+        "level": "A2",
+        "description": "a case with tools for fixing small problems"
       },
       {
         "word": "kickstand",
-        "level": "A1"
+        "level": "A1",
+        "description": "a metal leg holding a bicycle upright"
       },
       {
         "word": "cycling shorts",
-        "level": "A1"
+        "level": "A1",
+        "description": "close-fitting clothes worn for a long ride"
       },
       {
         "word": "bike rack",
-        "level": "A1"
+        "level": "A1",
+        "description": "a frame where bicycles can be stored"
       },
       {
         "word": "rear light",
-        "level": "A1"
+        "level": "A1",
+        "description": "a red lamp attached at the back"
       },
       {
         "word": "front light",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright lamp attached near the handlebar"
       },
       {
         "word": "route sign",
-        "level": "A2"
+        "level": "A2",
+        "description": "a marker showing which way a path goes"
       },
       {
         "word": "handlebar tape",
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft strip wrapped around the steering bar"
       }
     ],
     "imposter": [
       {
         "word": "pedal",
-        "decoy": "crank",
-        "level": "A2"
+        "level": "A1",
+        "description": "a foot lever that turns a bicycle wheel",
+        "hint": "bike equipment",
+        "crewQuestion": "What does a rider push with each foot?",
+        "imposterQuestion": "What does a driver turn with each hand?"
       },
       {
-        "word": "bike gloves",
-        "decoy": "knee pad",
-        "level": "A1"
+        "word": "handlebar",
+        "level": "A1",
+        "description": "the bar a rider holds to steer a bicycle",
+        "hint": "bike equipment",
+        "crewQuestion": "What does a cyclist hold to turn left?",
+        "imposterQuestion": "What does a swimmer hold to turn left?"
       },
       {
-        "word": "saddle",
-        "decoy": "seat",
-        "level": "A1"
+        "word": "brake",
+        "level": "A1",
+        "description": "a tool that slows or stops a bicycle",
+        "hint": "bike equipment",
+        "crewQuestion": "What can a rider squeeze before a crossing?",
+        "imposterQuestion": "What can a rider ring before a crossing?"
       },
       {
-        "word": "puncture",
-        "decoy": "broken chain",
-        "level": "A2"
+        "word": "helmet",
+        "level": "A1",
+        "description": "a hard cover protecting the head while riding",
+        "hint": "safety equipment",
+        "crewQuestion": "What should a cyclist wear before going on a road?",
+        "imposterQuestion": "What should a swimmer wear before going in a pool?"
       },
       {
-        "word": "cycle path",
-        "decoy": "bike lane",
-        "level": "A2"
+        "word": "pump",
+        "level": "A1",
+        "description": "a tool that pushes air into a tyre",
+        "hint": "bike equipment",
+        "crewQuestion": "What can fill a tyre when it feels flat?",
+        "imposterQuestion": "What can empty a tyre when it feels flat?"
       },
       {
         "word": "bike lock",
-        "decoy": "chain",
-        "level": "A1"
-      },
-      {
-        "word": "front light",
-        "decoy": "rear light",
-        "level": "A1"
-      },
-      {
-        "word": "training wheels",
-        "decoy": "stabilizers",
-        "level": "A2"
+        "level": "A1",
+        "description": "a strong cable or chain that stops theft",
+        "hint": "bike equipment",
+        "crewQuestion": "What can secure a bicycle outside a shop?",
+        "imposterQuestion": "What can secure a helmet outside a shop?"
       }
     ],
     "twentyQuestions": [
@@ -20603,7 +20747,8 @@
           "race",
           "run"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "running very fast for a short time"
       },
       {
         "word": "marathon",
@@ -20613,7 +20758,8 @@
           "road",
           "feet"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a very long race covering many kilometres"
       },
       {
         "word": "shoelace",
@@ -20623,7 +20769,8 @@
           "double",
           "knot"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cord tied to keep a shoe on"
       },
       {
         "word": "track",
@@ -20633,7 +20780,8 @@
           "lane",
           "run"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a marked place where people run races"
       },
       {
         "word": "warm up",
@@ -20643,7 +20791,8 @@
           "exercise",
           "body"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "easy exercise done before moving quickly"
       },
       {
         "word": "finish line",
@@ -20653,7 +20802,8 @@
           "cross",
           "white"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the line runners cross at the end"
       },
       {
         "word": "relay",
@@ -20663,7 +20813,8 @@
           "pass",
           "race"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a team race where runners take turns"
       },
       {
         "word": "pace",
@@ -20673,7 +20824,8 @@
           "run",
           "time"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the speed someone keeps during a run"
       },
       {
         "word": "start",
@@ -20683,7 +20835,8 @@
           "ready",
           "race"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the point where a race begins"
       },
       {
         "word": "lap",
@@ -20693,7 +20846,8 @@
           "one",
           "circuit"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "one full trip around a running track"
       },
       {
         "word": "breath",
@@ -20703,7 +20857,8 @@
           "out",
           "lungs"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "air taken into and out of the body"
       },
       {
         "word": "trainer",
@@ -20713,7 +20868,8 @@
           "lace",
           "sport"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a comfortable shoe used for exercise"
       },
       {
         "word": "hurdle",
@@ -20723,7 +20879,8 @@
           "race",
           "over"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a barrier runners jump over during a race"
       },
       {
         "word": "race number",
@@ -20733,107 +20890,130 @@
           "runner",
           "identify"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a number worn to identify someone racing"
       }
     ],
     "hotSeat": [
       {
         "word": "stopwatch",
-        "level": "A1"
+        "level": "A1",
+        "description": "a timer that measures short periods of time"
       },
       {
         "word": "starting pistol",
-        "level": "A2"
+        "level": "A2",
+        "description": "a loud tool used to signal a race start"
       },
       {
         "word": "running vest",
-        "level": "A1"
+        "level": "A1",
+        "description": "a light shirt worn while exercising"
       },
       {
         "word": "water station",
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where runners can drink"
       },
       {
         "word": "running shorts",
-        "level": "A1"
+        "level": "A1",
+        "description": "light clothes worn on the legs for a race"
       },
       {
         "word": "race medal",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small award worn after finishing"
       },
       {
         "word": "running belt",
-        "level": "A2"
+        "level": "A2",
+        "description": "a waist strap that carries small items"
       },
       {
-        "word": "marathon route",
-        "level": "A2"
+        "word": "race route",
+        "level": "A2",
+        "description": "the path followed by runners"
       },
       {
         "word": "relay baton",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small stick passed between runners"
       },
       {
         "word": "finish tape",
-        "level": "A1"
+        "level": "A1",
+        "description": "a strip crossed by the winner"
       },
       {
         "word": "sports watch",
-        "level": "A1"
+        "level": "A1",
+        "description": "a wrist tool that shows time and activity"
       },
       {
         "word": "park path",
-        "level": "A1"
+        "level": "A1",
+        "description": "a walkway through an outdoor green space"
       },
       {
         "word": "running club",
-        "level": "A1"
+        "level": "A1",
+        "description": "a group that meets to run together"
       },
       {
-        "word": "heart rate monitor",
-        "level": "A2"
+        "word": "heart monitor",
+        "level": "A2",
+        "description": "a device showing how fast the heart is beating"
       }
     ],
     "imposter": [
       {
         "word": "sprint",
-        "decoy": "dash",
-        "level": "A1"
+        "level": "A1",
+        "description": "running very fast for a short distance",
+        "hint": "a running event",
+        "crewQuestion": "What race may finish in less than a minute?",
+        "imposterQuestion": "What race may continue for many hours?"
       },
       {
         "word": "marathon",
-        "decoy": "half-marathon",
-        "level": "A2"
-      },
-      {
-        "word": "track",
-        "decoy": "trail",
-        "level": "A1"
-      },
-      {
-        "word": "relay",
-        "decoy": "team race",
-        "level": "A2"
-      },
-      {
-        "word": "hurdle",
-        "decoy": "fence",
-        "level": "A1"
-      },
-      {
-        "word": "stopwatch",
-        "decoy": "sports watch",
-        "level": "A1"
-      },
-      {
-        "word": "pace",
-        "decoy": "speed",
-        "level": "A2"
+        "level": "A2",
+        "description": "a very long race covering many kilometres",
+        "hint": "a running event",
+        "crewQuestion": "What race needs a runner to save energy?",
+        "imposterQuestion": "What race needs a runner to use energy quickly?"
       },
       {
         "word": "finish line",
-        "decoy": "start line",
-        "level": "A1"
+        "level": "A1",
+        "description": "the mark runners cross at the end",
+        "hint": "a race place",
+        "crewQuestion": "Where does the winner stop after the race?",
+        "imposterQuestion": "Where does the winner begin before the race?"
+      },
+      {
+        "word": "relay",
+        "level": "A2",
+        "description": "a team race where runners take turns",
+        "hint": "a race type",
+        "crewQuestion": "What event includes passing a stick to a teammate?",
+        "imposterQuestion": "What event includes passing a ball to a teammate?"
+      },
+      {
+        "word": "stopwatch",
+        "level": "A1",
+        "description": "a timer that measures short periods of time",
+        "hint": "sports equipment",
+        "crewQuestion": "What can a coach use to time a runner?",
+        "imposterQuestion": "What can a coach use to weigh a runner?"
+      },
+      {
+        "word": "hurdle",
+        "level": "A2",
+        "description": "a barrier runners jump over during a race",
+        "hint": "race equipment",
+        "crewQuestion": "What must a runner clear without stopping?",
+        "imposterQuestion": "What must a runner carry without dropping?"
       }
     ],
     "twentyQuestions": [
@@ -20891,7 +21071,8 @@
           "move",
           "steady"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a repeated pattern of beats and movement"
       },
       {
         "word": "pirouette",
@@ -20901,7 +21082,8 @@
           "one foot",
           "ballet"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a turn made on one foot by a ballet dancer"
       },
       {
         "word": "ballet",
@@ -20911,7 +21093,8 @@
           "shoes",
           "dance"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a kind of stage performance using graceful steps"
       },
       {
         "word": "tap dance",
@@ -20921,7 +21104,8 @@
           "floor",
           "feet"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a style of moving feet to quick music"
       },
       {
         "word": "choreography",
@@ -20931,7 +21115,8 @@
           "dance",
           "create"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the planned movements made for a whole dance"
       },
       {
         "word": "costume",
@@ -20941,7 +21126,8 @@
           "stage",
           "character"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "special clothes worn by a performer"
       },
       {
         "word": "partner",
@@ -20951,7 +21137,8 @@
           "hold",
           "another"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person dancing at the same time as another"
       },
       {
         "word": "twirl",
@@ -20961,7 +21148,8 @@
           "round",
           "fast"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "turning around quickly in a small space"
       },
       {
         "word": "leap",
@@ -20971,7 +21159,8 @@
           "high",
           "dance"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a jump made high into the air"
       },
       {
         "word": "rehearsal",
@@ -20981,7 +21170,8 @@
           "show",
           "prepare"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "practice before a show for an audience"
       },
       {
         "word": "dance floor",
@@ -20991,7 +21181,8 @@
           "move",
           "room"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a smooth area where people move to music"
       },
       {
         "word": "ballroom",
@@ -21001,7 +21192,8 @@
           "music",
           "floor"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a large room for formal dancing"
       },
       {
         "word": "hip-hop",
@@ -21011,7 +21203,8 @@
           "style",
           "move"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a style of music with spoken rhythm and beats"
       },
       {
         "word": "sequence",
@@ -21021,107 +21214,130 @@
           "repeat",
           "moves"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a set of actions done in a particular order"
       }
     ],
     "hotSeat": [
       {
         "word": "tutu",
-        "level": "A1"
+        "level": "A1",
+        "description": "a short skirt worn by some ballet dancers"
       },
       {
         "word": "toe shoes",
-        "level": "A1"
+        "level": "A1",
+        "description": "special shoes used for standing on the toes"
       },
       {
         "word": "maracas",
-        "level": "A1"
+        "level": "A1",
+        "description": "small rattling instruments shaken to make rhythm"
       },
       {
         "word": "dance teacher",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who shows others how to move"
       },
       {
         "word": "stage curtain",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large cloth hiding the stage before a show"
       },
       {
         "word": "spotlight",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright lamp aimed at one performer"
       },
       {
         "word": "hand fan",
-        "level": "A1"
+        "level": "A1",
+        "description": "a folding object waved to move air"
       },
       {
         "word": "dance class",
-        "level": "A1"
+        "level": "A1",
+        "description": "a lesson where people practise movement"
       },
       {
         "word": "clap",
-        "level": "A1"
+        "level": "A1",
+        "description": "hitting two hands together to make sound"
       },
       {
         "word": "mirror wall",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large reflective surface for checking movement"
       },
       {
         "word": "dance ribbon",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long cloth strip moved through the air"
       },
       {
-        "word": "music speaker",
-        "level": "A1"
+        "word": "speaker",
+        "level": "A1",
+        "description": "a device that plays music loudly"
       },
       {
         "word": "line dance",
-        "level": "A2"
+        "level": "A2",
+        "description": "a group dance done in rows"
       },
       {
         "word": "dance medal",
-        "level": "A1"
+        "level": "A1",
+        "description": "an award worn after a performance"
       }
     ],
     "imposter": [
       {
+        "word": "rhythm",
+        "level": "A1",
+        "description": "a repeated pattern of beats and movement",
+        "hint": "music idea",
+        "crewQuestion": "What helps dancers move together with the music?",
+        "imposterQuestion": "What helps singers breathe together with the music?"
+      },
+      {
         "word": "ballet",
-        "decoy": "tap dance",
-        "level": "A1"
-      },
-      {
-        "word": "pirouette",
-        "decoy": "twirl",
-        "level": "A2"
-      },
-      {
-        "word": "rehearsal",
-        "decoy": "practice",
-        "level": "A1"
-      },
-      {
-        "word": "partner",
-        "decoy": "duet",
-        "level": "A1"
-      },
-      {
-        "word": "hip-hop",
-        "decoy": "breakdance",
-        "level": "A2"
-      },
-      {
-        "word": "sequence",
-        "decoy": "routine",
-        "level": "A2"
+        "level": "A1",
+        "description": "a style of stage dancing with graceful steps",
+        "hint": "a dance style",
+        "crewQuestion": "Which kind of dance often uses pointed shoes?",
+        "imposterQuestion": "Which kind of dance often uses colourful scarves?"
       },
       {
         "word": "tutu",
-        "decoy": "costume",
-        "level": "A1"
+        "level": "A1",
+        "description": "a short skirt worn by some ballet dancers",
+        "hint": "dance clothing",
+        "crewQuestion": "What might a ballet performer wear around the waist?",
+        "imposterQuestion": "What might a football player wear around the waist?"
+      },
+      {
+        "word": "partner",
+        "level": "A1",
+        "description": "a person moving or working with someone else",
+        "hint": "a dance role",
+        "crewQuestion": "Who can turn with you during a ballroom dance?",
+        "imposterQuestion": "Who can sing with you during a school song?"
+      },
+      {
+        "word": "pirouette",
+        "level": "A2",
+        "description": "a full turn made on one foot while dancing",
+        "hint": "a dance move",
+        "crewQuestion": "Which move spins a dancer around in place?",
+        "imposterQuestion": "Which move jumps a dancer high in the air?"
       },
       {
         "word": "spotlight",
-        "decoy": "stage light",
-        "level": "A2"
+        "level": "A1",
+        "description": "a bright lamp aimed at one performer",
+        "hint": "stage equipment",
+        "crewQuestion": "What can shine on a dancer during a show?",
+        "imposterQuestion": "What can sound for a dancer during a show?"
       }
     ],
     "twentyQuestions": [
@@ -21179,7 +21395,8 @@
           "cube",
           "game"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "small cubes with dots used to choose a number"
       },
       {
         "word": "board",
@@ -21189,7 +21406,8 @@
           "squares",
           "flat"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat surface where a game is played"
       },
       {
         "word": "counter",
@@ -21199,7 +21417,8 @@
           "token",
           "game"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small object moved around a board"
       },
       {
         "word": "turn",
@@ -21209,7 +21428,8 @@
           "wait",
           "order"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the chance each player gets to act"
       },
       {
         "word": "rulebook",
@@ -21219,7 +21439,8 @@
           "guide",
           "pages"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a book explaining how to play"
       },
       {
         "word": "game piece",
@@ -21229,7 +21450,8 @@
           "player",
           "board"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small object moved during a game"
       },
       {
         "word": "spinner",
@@ -21239,7 +21461,8 @@
           "point",
           "number"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a turning arrow that chooses an option"
       },
       {
         "word": "score",
@@ -21249,7 +21472,8 @@
           "number",
           "keep"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "points recorded during a match"
       },
       {
         "word": "card game",
@@ -21259,7 +21483,8 @@
           "hand",
           "play"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a game played with a pack of paper pictures"
       },
       {
         "word": "strategy",
@@ -21269,7 +21494,8 @@
           "win",
           "smart"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a plan for making good choices in a game"
       },
       {
         "word": "timer",
@@ -21279,7 +21505,8 @@
           "sand",
           "game"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a device that counts down a player’s turn"
       },
       {
         "word": "team",
@@ -21289,7 +21516,8 @@
           "together",
           "side"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "people playing as one group"
       },
       {
         "word": "finish square",
@@ -21299,7 +21527,8 @@
           "win",
           "board"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the square where a game ends"
       },
       {
         "word": "game night",
@@ -21309,107 +21538,130 @@
           "evening",
           "fun"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an evening spent playing games together"
       }
     ],
     "hotSeat": [
       {
         "word": "hourglass",
-        "level": "A1"
+        "level": "A1",
+        "description": "a glass tool measuring time with falling sand"
       },
       {
         "word": "game box",
-        "level": "A1"
+        "level": "A1",
+        "description": "a container holding pieces for play"
       },
       {
         "word": "playing card",
-        "level": "A1"
+        "level": "A1",
+        "description": "a printed paper rectangle used in games"
       },
       {
         "word": "score pad",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small book for writing down points"
       },
       {
         "word": "token bag",
-        "level": "A1"
+        "level": "A1",
+        "description": "a pouch holding small game objects"
       },
       {
         "word": "chess clock",
-        "level": "A2"
+        "level": "A2",
+        "description": "a two-sided timer used during a chess match"
       },
       {
         "word": "rule sheet",
-        "level": "A1"
+        "level": "A1",
+        "description": "a page explaining how players should act"
       },
       {
         "word": "folding board",
-        "level": "A1"
+        "level": "A1",
+        "description": "a game surface that bends in half"
       },
       {
         "word": "team captain",
-        "level": "A1"
+        "level": "A1",
+        "description": "the player who leads one group"
       },
       {
         "word": "game shelf",
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where boxes are stored"
       },
       {
         "word": "wooden pawn",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small carved piece used in a board game"
       },
       {
-        "word": "colourful spinner",
-        "level": "A1"
+        "word": "game token",
+        "level": "A1",
+        "description": "a small marker moved around the board by a player"
       },
       {
         "word": "card holder",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool keeping paper cards upright"
       },
       {
         "word": "table edge",
-        "level": "A1"
+        "level": "A1",
+        "description": "the outside line of a flat surface"
       }
     ],
     "imposter": [
       {
         "word": "dice",
-        "decoy": "spinner",
-        "level": "A1"
+        "level": "A1",
+        "description": "small cubes with dots used to choose a number",
+        "hint": "game piece",
+        "crewQuestion": "What can players roll before moving a token?",
+        "imposterQuestion": "What can players draw before moving a token?"
+      },
+      {
+        "word": "board",
+        "level": "A1",
+        "description": "a flat surface where a game is played",
+        "hint": "game equipment",
+        "crewQuestion": "Where do players move pieces toward the finish?",
+        "imposterQuestion": "Where do players place pieces before the start?"
       },
       {
         "word": "counter",
-        "decoy": "game piece",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small piece moved around during a game",
+        "hint": "game piece",
+        "crewQuestion": "What can a player move after rolling a number?",
+        "imposterQuestion": "What can a player roll before moving a piece?"
       },
       {
-        "word": "rulebook",
-        "decoy": "rule sheet",
-        "level": "A1"
-      },
-      {
-        "word": "strategy",
-        "decoy": "plan",
-        "level": "A2"
+        "word": "spinner",
+        "level": "A2",
+        "description": "a turning arrow that points to a choice",
+        "hint": "game piece",
+        "crewQuestion": "What can decide how many spaces you move?",
+        "imposterQuestion": "What can decide which card you will draw?"
       },
       {
         "word": "card game",
-        "decoy": "board game",
-        "level": "A1"
+        "level": "A1",
+        "description": "a game played with a pack of printed cards",
+        "hint": "game type",
+        "crewQuestion": "What can friends play using a deck and a table?",
+        "imposterQuestion": "What can friends play using a ball and a field?"
       },
       {
-        "word": "score",
-        "decoy": "points",
-        "level": "A1"
-      },
-      {
-        "word": "timer",
-        "decoy": "hourglass",
-        "level": "A1"
-      },
-      {
-        "word": "game night",
-        "decoy": "game day",
-        "level": "A1"
+        "word": "hourglass",
+        "level": "A1",
+        "description": "a glass tool measuring time with falling sand",
+        "hint": "game equipment",
+        "crewQuestion": "What shows a short turn using falling grains?",
+        "imposterQuestion": "What shows a short turn using a clock hand?"
       }
     ],
     "twentyQuestions": [
@@ -21467,7 +21719,8 @@
           "fit",
           "board"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a picture cut into many shapes to put together"
       },
       {
         "word": "piece",
@@ -21477,7 +21730,8 @@
           "fit",
           "whole"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "one small part of a larger whole"
       },
       {
         "word": "clue",
@@ -21487,7 +21741,8 @@
           "answer",
           "secret"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "information that helps solve a problem"
       },
       {
         "word": "crossword",
@@ -21497,7 +21752,8 @@
           "letters",
           "across"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a word game with numbered squares"
       },
       {
         "word": "maze",
@@ -21507,7 +21763,8 @@
           "find",
           "way"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a path with turns that can be hard to find"
       },
       {
         "word": "pattern",
@@ -21517,7 +21774,8 @@
           "order",
           "see"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a repeated shape or design"
       },
       {
         "word": "solution",
@@ -21527,7 +21785,8 @@
           "solve",
           "correct"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the answer that solves a question"
       },
       {
         "word": "brain teaser",
@@ -21537,7 +21796,8 @@
           "question",
           "smart"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a question that makes people think carefully"
       },
       {
         "word": "missing piece",
@@ -21547,7 +21807,8 @@
           "fit",
           "space"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a part needed to finish a picture"
       },
       {
         "word": "word search",
@@ -21557,7 +21818,8 @@
           "circle",
           "grid"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a game where hidden words are found in letters"
       },
       {
         "word": "logic",
@@ -21567,7 +21829,8 @@
           "rule",
           "answer"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "using careful thought to solve a problem"
       },
       {
         "word": "edge piece",
@@ -21577,7 +21840,8 @@
           "border",
           "jigsaw"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a piece from the outside of a jigsaw"
       },
       {
         "word": "number puzzle",
@@ -21587,7 +21851,8 @@
           "fill",
           "solve"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a game asking someone to find the next number"
       },
       {
         "word": "picture clue",
@@ -21597,107 +21862,130 @@
           "answer",
           "look"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a detail in a picture that helps you guess"
       }
     ],
     "hotSeat": [
       {
         "word": "puzzle box",
-        "level": "A1"
+        "level": "A1",
+        "description": "a container with a tricky way to open it"
       },
       {
         "word": "corner piece",
-        "level": "A1"
+        "level": "A1",
+        "description": "a part with two straight outside edges"
       },
       {
         "word": "crayon maze",
-        "level": "A1"
+        "level": "A1",
+        "description": "a twisting path drawn with coloured wax"
       },
       {
         "word": "word grid",
-        "level": "A1"
+        "level": "A1",
+        "description": "a set of square spaces for letters"
       },
       {
         "word": "hidden picture",
-        "level": "A1"
+        "level": "A1",
+        "description": "an image with small shapes hard to notice"
       },
       {
-        "word": "cryptogram",
-        "level": "A2"
+        "word": "code puzzle",
+        "level": "A2",
+        "description": "a word challenge using secret letters or signs"
       },
       {
         "word": "matching game",
-        "level": "A1"
+        "level": "A1",
+        "description": "an activity where players find the same pairs"
       },
       {
         "word": "shape sorter",
-        "level": "A1"
+        "level": "A1",
+        "description": "a toy with holes for matching blocks"
       },
       {
         "word": "logic grid",
-        "level": "A2"
+        "level": "A2",
+        "description": "a chart used to work out clues"
       },
       {
         "word": "picture frame",
-        "level": "A1"
+        "level": "A1",
+        "description": "a border holding a drawing or photo"
       },
       {
-        "word": "number sequence",
-        "level": "A2"
+        "word": "number line",
+        "level": "A2",
+        "description": "a row of numbers in order"
       },
       {
-        "word": "rubik's cube",
-        "level": "A2"
+        "word": "twisty cube",
+        "level": "A2",
+        "description": "a coloured block puzzle turned by hand"
       },
       {
         "word": "answer sheet",
-        "level": "A1"
+        "level": "A1",
+        "description": "a page where completed answers are written"
       },
       {
         "word": "pattern block",
-        "level": "A2"
+        "level": "A2",
+        "description": "a coloured shape used to build designs"
       }
     ],
     "imposter": [
       {
         "word": "jigsaw",
-        "decoy": "mosaic",
-        "level": "A2"
-      },
-      {
-        "word": "crossword",
-        "decoy": "word search",
-        "level": "A1"
+        "level": "A1",
+        "description": "a picture cut into many shapes to rebuild",
+        "hint": "a puzzle type",
+        "crewQuestion": "What can a family finish by matching many shapes?",
+        "imposterQuestion": "What can a family finish by matching many words?"
       },
       {
         "word": "maze",
-        "decoy": "labyrinth",
-        "level": "A2"
+        "level": "A1",
+        "description": "a twisting path that can be hard to solve",
+        "hint": "a puzzle type",
+        "crewQuestion": "What can a pencil travel through to find an exit?",
+        "imposterQuestion": "What can a pencil travel through to find a word?"
+      },
+      {
+        "word": "crossword",
+        "level": "A1",
+        "description": "a word game using numbered square spaces",
+        "hint": "a puzzle type",
+        "crewQuestion": "What do players fill using clues across and down?",
+        "imposterQuestion": "What do players fill using numbers across and down?"
       },
       {
         "word": "clue",
-        "decoy": "hint",
-        "level": "A1"
+        "level": "A1",
+        "description": "information that helps someone solve a question",
+        "hint": "a puzzle part",
+        "crewQuestion": "What might help you find a missing piece?",
+        "imposterQuestion": "What might help you hide a missing piece?"
       },
       {
-        "word": "pattern",
-        "decoy": "sequence",
-        "level": "A2"
+        "word": "Rubik’s cube",
+        "level": "A2",
+        "description": "a coloured block puzzle turned by hand",
+        "hint": "a puzzle object",
+        "crewQuestion": "What can someone twist to line up each side?",
+        "imposterQuestion": "What can someone fold to line up each corner?"
       },
       {
-        "word": "solution",
-        "decoy": "answer",
-        "level": "A1"
-      },
-      {
-        "word": "corner piece",
-        "decoy": "edge piece",
-        "level": "A1"
-      },
-      {
-        "word": "cryptogram",
-        "decoy": "code puzzle",
-        "level": "A2"
+        "word": "logic grid",
+        "level": "A2",
+        "description": "a chart used to work out a set of clues",
+        "hint": "a puzzle tool",
+        "crewQuestion": "What can help a solver cross off impossible answers?",
+        "imposterQuestion": "What can help a solver circle impossible answers?"
       }
     ],
     "twentyQuestions": [
@@ -21755,7 +22043,8 @@
           "toy",
           "shape"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small solid piece used to build shapes"
       },
       {
         "word": "tower",
@@ -21765,7 +22054,8 @@
           "blocks",
           "build"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tall structure built from many pieces"
       },
       {
         "word": "bridge",
@@ -21775,7 +22065,8 @@
           "build",
           "connect"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a structure joining two sides over a gap"
       },
       {
         "word": "brick",
@@ -21785,7 +22076,8 @@
           "wall",
           "build"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small hard piece used in a wall"
       },
       {
         "word": "window",
@@ -21795,7 +22087,8 @@
           "house",
           "glass"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an opening in a wall that lets light through"
       },
       {
         "word": "roof",
@@ -21805,7 +22098,8 @@
           "cover",
           "build"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the top cover of a building"
       },
       {
         "word": "blueprint",
@@ -21815,7 +22109,8 @@
           "building",
           "design"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a drawing showing how something should be made"
       },
       {
         "word": "balance",
@@ -21825,7 +22120,8 @@
           "careful",
           "hold"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "being steady without falling over"
       },
       {
         "word": "wall",
@@ -21835,7 +22131,8 @@
           "block",
           "build"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a side made from joined building pieces"
       },
       {
         "word": "arch",
@@ -21845,7 +22142,8 @@
           "shape",
           "top"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a curved structure across an opening"
       },
       {
         "word": "foundation",
@@ -21855,7 +22153,8 @@
           "base",
           "building"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the strong bottom part that holds a building up"
       },
       {
         "word": "garage",
@@ -21865,7 +22164,8 @@
           "build",
           "door"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where a car can be kept"
       },
       {
         "word": "castle",
@@ -21875,7 +22175,8 @@
           "build",
           "tower"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large old building with towers and walls"
       },
       {
         "word": "construction",
@@ -21885,107 +22186,130 @@
           "work",
           "site"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the work of making houses or other structures"
       }
     ],
     "hotSeat": [
       {
         "word": "plastic brick",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small coloured block made from hard material"
       },
       {
         "word": "wooden cube",
-        "level": "A1"
+        "level": "A1",
+        "description": "a six-sided block cut from a tree"
       },
       {
         "word": "building plate",
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat base that holds small bricks"
       },
       {
         "word": "toy crane",
-        "level": "A1"
+        "level": "A1",
+        "description": "a model machine that lifts building pieces"
       },
       {
         "word": "toy truck",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small vehicle used for carrying blocks"
       },
       {
         "word": "construction worker",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who helps build houses or roads"
       },
       {
         "word": "block set",
-        "level": "A1"
+        "level": "A1",
+        "description": "a box containing pieces for making structures"
       },
       {
         "word": "drawbridge",
-        "level": "A2"
+        "level": "A2",
+        "description": "a bridge that can lift up to let boats pass"
       },
       {
-        "word": "spiral staircase",
-        "level": "A2"
+        "word": "staircase",
+        "level": "A2",
+        "description": "steps connecting one floor to another"
       },
       {
         "word": "toy house",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small model of a home"
       },
       {
         "word": "play mat",
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft floor cover for building toys"
       },
       {
         "word": "brick wall",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tall side made from many blocks"
       },
       {
-        "word": "blueprint roll",
-        "level": "A2"
+        "word": "plan roll",
+        "level": "A2",
+        "description": "a long sheet showing a design"
       },
       {
         "word": "toy hammer",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small tool for pretend building"
       }
     ],
     "imposter": [
       {
+        "word": "block",
+        "level": "A1",
+        "description": "a small solid piece used to build shapes",
+        "hint": "a toy piece",
+        "crewQuestion": "What can a child stack to make a tower?",
+        "imposterQuestion": "What can a child stack to make a sandwich?"
+      },
+      {
         "word": "tower",
-        "decoy": "skyscraper",
-        "level": "A2"
+        "level": "A1",
+        "description": "a tall structure built from many pieces",
+        "hint": "a structure",
+        "crewQuestion": "What can children build upward from small blocks?",
+        "imposterQuestion": "What can children build downward from small blocks?"
       },
       {
         "word": "bridge",
-        "decoy": "tunnel",
-        "level": "A1"
+        "level": "A1",
+        "description": "a structure joining two sides over a gap",
+        "hint": "a structure",
+        "crewQuestion": "What can toys cross above a pretend river?",
+        "imposterQuestion": "What can toys cross below a pretend river?"
       },
       {
         "word": "brick",
-        "decoy": "block",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small hard piece used in a wall",
+        "hint": "a building piece",
+        "crewQuestion": "What can a builder join to make a house?",
+        "imposterQuestion": "What can a baker join to make a sandwich?"
       },
       {
         "word": "blueprint",
-        "decoy": "instruction sheet",
-        "level": "A1"
+        "level": "A2",
+        "description": "a drawing showing how something should be made",
+        "hint": "a plan",
+        "crewQuestion": "What might a builder read before making a new home?",
+        "imposterQuestion": "What might a cook read before making a new meal?"
       },
       {
-        "word": "foundation",
-        "decoy": "basement",
-        "level": "A2"
-      },
-      {
-        "word": "castle",
-        "decoy": "fort",
-        "level": "A1"
-      },
-      {
-        "word": "garage",
-        "decoy": "car park",
-        "level": "A2"
-      },
-      {
-        "word": "building plate",
-        "decoy": "play mat",
-        "level": "A2"
+        "word": "crane",
+        "level": "A1",
+        "description": "a machine that lifts heavy building pieces",
+        "hint": "a machine",
+        "crewQuestion": "What can lift blocks high above a toy house?",
+        "imposterQuestion": "What can carry blocks far across a toy house?"
       }
     ],
     "twentyQuestions": [
@@ -22043,7 +22367,8 @@
           "pull",
           "thread"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a thin cord holding a flying toy"
       },
       {
         "word": "tail ribbons",
@@ -22053,7 +22378,8 @@
           "flutter",
           "attach"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "long strips of fabric trailing from a kite"
       },
       {
         "word": "diamond",
@@ -22063,7 +22389,8 @@
           "four",
           "fly"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a shape with four equal sides"
       },
       {
         "word": "paper kite",
@@ -22073,7 +22400,8 @@
           "fly",
           "fold"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a flying toy made from a light sheet"
       },
       {
         "word": "handle",
@@ -22083,7 +22411,8 @@
           "loop",
           "wood"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a part held in the hand"
       },
       {
         "word": "wind",
@@ -22093,7 +22422,8 @@
           "move",
           "breeze"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "moving air felt outside"
       },
       {
         "word": "kite frame",
@@ -22103,7 +22433,8 @@
           "build",
           "inside"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the crossed pieces supporting a kite’s shape"
       },
       {
         "word": "reel",
@@ -22113,7 +22444,8 @@
           "turn",
           "hold"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a round device holding a long cord"
       },
       {
         "word": "stunt kite",
@@ -22123,7 +22455,8 @@
           "control",
           "move"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a kite designed for fast turns and tricks"
       },
       {
         "word": "field",
@@ -22133,7 +22466,8 @@
           "space",
           "fly"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an open area where people can fly toys"
       },
       {
         "word": "bow",
@@ -22143,7 +22477,8 @@
           "decor",
           "loop"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a curved shape used to decorate a kite"
       },
       {
         "word": "launch",
@@ -22153,7 +22488,8 @@
           "air",
           "begin"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "sending a kite up into the air"
       },
       {
         "word": "kite festival",
@@ -22163,7 +22499,8 @@
           "sky",
           "event"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a public event where people fly many kites"
       },
       {
         "word": "bridle",
@@ -22173,107 +22510,130 @@
           "frame",
           "angle"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small set of lines steering a kite"
       }
     ],
     "hotSeat": [
       {
         "word": "spool",
-        "level": "A1"
+        "level": "A1",
+        "description": "a round object holding wound-up cord"
       },
       {
         "word": "windsock",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long cloth tube showing the direction of air"
       },
       {
         "word": "paper streamer",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long strip of thin paper decoration"
       },
       {
         "word": "kite bag",
-        "level": "A1"
+        "level": "A1",
+        "description": "a case used to carry a flying toy"
       },
       {
         "word": "hilltop",
-        "level": "A1"
+        "level": "A1",
+        "description": "the highest area of a small rise in land"
       },
       {
         "word": "open park",
-        "level": "A1"
+        "level": "A1",
+        "description": "a green public place with lots of space"
       },
       {
         "word": "gloves",
-        "level": "A1"
+        "level": "A1",
+        "description": "covers worn on the hands outside"
       },
       {
         "word": "flying line",
-        "level": "A2"
+        "level": "A2",
+        "description": "a cord joining the flyer to the kite"
       },
       {
         "word": "stunt pilot",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person controlling a kite during tricks"
       },
       {
         "word": "colourful sail",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright cloth surface catching moving air"
       },
       {
         "word": "kite shop",
-        "level": "A1"
+        "level": "A1",
+        "description": "a store selling flying toys"
       },
       {
         "word": "cloudy sky",
-        "level": "A1"
+        "level": "A1",
+        "description": "the view above when clouds cover much of it"
       },
       {
         "word": "wind meter",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool showing how fast air is moving"
       },
       {
-        "word": "kite string winder",
-        "level": "A2"
+        "word": "line winder",
+        "level": "A2",
+        "description": "a device used to wind cord back neatly"
       }
     ],
     "imposter": [
       {
+        "word": "string",
+        "level": "A1",
+        "description": "a thin cord used to tie or hold something",
+        "hint": "a flying toy part",
+        "crewQuestion": "What connects a child’s hand to a flying toy?",
+        "imposterQuestion": "What connects a child’s hand to a bouncing ball?"
+      },
+      {
+        "word": "kite",
+        "level": "A1",
+        "description": "a light toy that flies high on a cord",
+        "hint": "a flying toy",
+        "crewQuestion": "What can rise into the sky when air is moving?",
+        "imposterQuestion": "What can fall from the sky when air is moving?"
+      },
+      {
+        "word": "wind",
+        "level": "A1",
+        "description": "moving air that can be felt outside",
+        "hint": "moving air",
+        "crewQuestion": "What helps a kite stay high above a field?",
+        "imposterQuestion": "What helps a kite come down toward a field?"
+      },
+      {
         "word": "spool",
-        "decoy": "reel",
-        "level": "A1"
-      },
-      {
-        "word": "diamond",
-        "decoy": "rectangle",
-        "level": "A1"
-      },
-      {
-        "word": "tail ribbon",
-        "decoy": "bridle",
-        "level": "A2"
-      },
-      {
-        "word": "paper kite",
-        "decoy": "stunt kite",
-        "level": "A1"
-      },
-      {
-        "word": "launch",
-        "decoy": "land",
-        "level": "A1"
-      },
-      {
-        "word": "field",
-        "decoy": "meadow",
-        "level": "A1"
+        "level": "A1",
+        "description": "a round object holding wound-up cord",
+        "hint": "a flying toy part",
+        "crewQuestion": "What can store a long line before it is used?",
+        "imposterQuestion": "What can store a long ribbon before it is used?"
       },
       {
         "word": "kite frame",
-        "decoy": "bicycle frame",
-        "level": "A1"
+        "level": "A2",
+        "description": "crossed pieces supporting the shape of a flying toy",
+        "hint": "a toy part",
+        "crewQuestion": "What gives a kite its shape before it flies?",
+        "imposterQuestion": "What gives a paper plane its shape before it flies?"
       },
       {
-        "word": "bow",
-        "decoy": "ribbon",
-        "level": "A1"
+        "word": "stunt kite",
+        "level": "A2",
+        "description": "a flying toy made for quick turns and tricks",
+        "hint": "a flying toy",
+        "crewQuestion": "What can a skilled flyer steer in fast patterns?",
+        "imposterQuestion": "What can a skilled flyer steer in slow circles?"
       }
     ],
     "twentyQuestions": [
@@ -22331,7 +22691,8 @@
           "ladder",
           "play"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a smooth sloping surface children ride down"
       },
       {
         "word": "swing",
@@ -22341,7 +22702,8 @@
           "back",
           "forth"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a seat hanging from ropes that moves back and forth"
       },
       {
         "word": "seesaw",
@@ -22351,7 +22713,8 @@
           "down",
           "partner"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a board with a seat at each end that tips"
       },
       {
         "word": "climbing frame",
@@ -22361,7 +22724,8 @@
           "hands",
           "height"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a structure children climb with hands and feet"
       },
       {
         "word": "sandbox",
@@ -22371,7 +22735,8 @@
           "toys",
           "pail"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a box of loose sand for digging and building"
       },
       {
         "word": "roundabout",
@@ -22381,7 +22746,8 @@
           "ride",
           "children"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round ride that turns with seats"
       },
       {
         "word": "monkey bars",
@@ -22391,7 +22757,8 @@
           "across",
           "climb"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a climbing structure made of horizontal bars"
       },
       {
         "word": "rope ladder",
@@ -22401,7 +22768,8 @@
           "hold",
           "woven"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a ladder made from rope instead of wood"
       },
       {
         "word": "playground",
@@ -22411,7 +22779,8 @@
           "outdoor",
           "equipment"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an outdoor place with equipment for children"
       },
       {
         "word": "spring rider",
@@ -22421,7 +22790,8 @@
           "seat",
           "move"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a seat on a spring that rocks when pushed"
       },
       {
         "word": "slide pole",
@@ -22431,7 +22801,8 @@
           "metal",
           "climb"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall pole children can slide down"
       },
       {
         "word": "balance beam",
@@ -22441,7 +22812,8 @@
           "narrow",
           "wood"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a narrow raised strip used for walking carefully"
       },
       {
         "word": "safety mat",
@@ -22451,7 +22823,8 @@
           "ground",
           "protect"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft cover that helps protect someone who falls"
       },
       {
         "word": "climbing wall",
@@ -22461,107 +22834,130 @@
           "hold",
           "reach"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall rough surface for climbing"
       }
     ],
     "hotSeat": [
       {
         "word": "playground gate",
-        "level": "A1"
+        "level": "A1",
+        "description": "an entrance that can open into a play area"
       },
       {
         "word": "picnic bench",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long seat for eating outdoors"
       },
       {
         "word": "swingset",
-        "level": "A1"
+        "level": "A1",
+        "description": "a frame holding seats that move back and forth"
       },
       {
         "word": "carousel",
-        "level": "A1"
+        "level": "A1",
+        "description": "a round ride that spins with seats"
       },
       {
         "word": "chalk path",
-        "level": "A1"
+        "level": "A1",
+        "description": "a line drawn on the ground with coloured chalk"
       },
       {
         "word": "hopscotch grid",
-        "level": "A1"
+        "level": "A1",
+        "description": "squares drawn for a jumping game"
       },
       {
         "word": "climbing net",
-        "level": "A2"
+        "level": "A2",
+        "description": "a rope mesh children can climb over"
       },
       {
         "word": "stepping stones",
-        "level": "A1"
+        "level": "A1",
+        "description": "flat rocks placed for walking across a gap"
       },
       {
         "word": "play tunnel",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tube-shaped space children can crawl through"
       },
       {
-        "word": "water fountain",
-        "level": "A1"
+        "word": "fountain",
+        "level": "A1",
+        "description": "a place where water sprays upward"
       },
       {
         "word": "playground sign",
-        "level": "A1"
+        "level": "A1",
+        "description": "a board with words about a play area"
       },
       {
-        "word": "wheelchair ramp",
-        "level": "A2"
+        "word": "ramp",
+        "level": "A2",
+        "description": "a sloping path for wheels or walking"
       },
       {
-        "word": "shady tree",
-        "level": "A1"
+        "word": "shade tree",
+        "level": "A1",
+        "description": "a tall plant that blocks bright sun"
       },
       {
-        "word": "playground buddy",
-        "level": "A1"
+        "word": "play friend",
+        "level": "A1",
+        "description": "a child who joins another in a game"
       }
     ],
     "imposter": [
       {
         "word": "slide",
-        "decoy": "swing",
-        "level": "A1"
+        "level": "A1",
+        "description": "a smooth sloping surface children ride down",
+        "hint": "play equipment",
+        "crewQuestion": "What can a child climb before coming down quickly?",
+        "imposterQuestion": "What can a child climb before sitting down slowly?"
+      },
+      {
+        "word": "swing",
+        "level": "A1",
+        "description": "a seat hanging from ropes that moves back and forth",
+        "hint": "play equipment",
+        "crewQuestion": "What can move a child through the air at a park?",
+        "imposterQuestion": "What can move a child through the air at home?"
       },
       {
         "word": "seesaw",
-        "decoy": "roundabout",
-        "level": "A1"
+        "level": "A1",
+        "description": "a board with a seat at each end that tips",
+        "hint": "play equipment",
+        "crewQuestion": "What can two friends ride by taking turns up and down?",
+        "imposterQuestion": "What can two friends ride by taking turns around and around?"
       },
       {
         "word": "sandbox",
-        "decoy": "mud kitchen",
-        "level": "A2"
+        "level": "A1",
+        "description": "a box filled with loose sand for playing",
+        "hint": "play equipment",
+        "crewQuestion": "Where can children build small shapes from grains?",
+        "imposterQuestion": "Where can children build small shapes from blocks?"
       },
       {
-        "word": "monkey bars",
-        "decoy": "climbing net",
-        "level": "A2"
+        "word": "carousel",
+        "level": "A1",
+        "description": "a round ride that spins with seats",
+        "hint": "play equipment",
+        "crewQuestion": "What can carry several children around in a circle?",
+        "imposterQuestion": "What can carry several children up and down in a line?"
       },
       {
-        "word": "balance beam",
-        "decoy": "stepping stones",
-        "level": "A1"
-      },
-      {
-        "word": "climbing wall",
-        "decoy": "climbing frame",
-        "level": "A2"
-      },
-      {
-        "word": "spring rider",
-        "decoy": "rocking horse",
-        "level": "A1"
-      },
-      {
-        "word": "chalk path",
-        "decoy": "hopscotch grid",
-        "level": "A1"
+        "word": "climbing frame",
+        "level": "A1",
+        "description": "a structure children climb with hands and feet",
+        "hint": "play equipment",
+        "crewQuestion": "What can children explore above the ground at a park?",
+        "imposterQuestion": "What can children explore below the ground at a park?"
       }
     ],
     "twentyQuestions": [
@@ -22619,7 +23015,8 @@
           "fly",
           "cloth"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a piece of cloth worn behind a hero’s shoulders"
       },
       {
         "word": "mask",
@@ -22629,7 +23026,8 @@
           "eyes",
           "wear"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover worn over the face"
       },
       {
         "word": "secret identity",
@@ -22639,7 +23037,8 @@
           "hidden",
           "person"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hidden name used by a hero in ordinary life"
       },
       {
         "word": "rescue",
@@ -22649,7 +23048,8 @@
           " danger",
           "person"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "helping someone get away from danger"
       },
       {
         "word": "sidekick",
@@ -22659,7 +23059,8 @@
           "helper",
           "second"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a helper who works beside the main hero"
       },
       {
         "word": "superpower",
@@ -22669,7 +23070,8 @@
           "magic",
           "strong"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a special ability stronger than normal human skill"
       },
       {
         "word": "villain",
@@ -22679,7 +23081,8 @@
           "fight",
           "evil"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a bad character who causes trouble"
       },
       {
         "word": "hero",
@@ -22689,7 +23092,8 @@
           "good",
           "person"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a brave person who helps others"
       },
       {
         "word": "costume",
@@ -22699,7 +23103,8 @@
           "character",
           "look"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "special clothes worn by a character"
       },
       {
         "word": "hideout",
@@ -22709,7 +23114,8 @@
           "base",
           "place"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hidden place where a hero can meet"
       },
       {
         "word": "mission",
@@ -22719,7 +23125,8 @@
           "goal",
           "do"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an important task someone must complete"
       },
       {
         "word": "shield",
@@ -22729,7 +23136,8 @@
           "block",
           "hold"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard object used to block a blow"
       },
       {
         "word": "super strength",
@@ -22739,7 +23147,8 @@
           "power",
           "heavy"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "very strong power in the body"
       },
       {
         "word": "invisibility",
@@ -22749,107 +23158,130 @@
           "disappear",
           "hidden"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the ability to be unseen"
       }
     ],
     "hotSeat": [
       {
         "word": "comic book",
-        "level": "A1"
+        "level": "A1",
+        "description": "a story told through drawings and speech bubbles"
       },
       {
         "word": "utility belt",
-        "level": "A2"
+        "level": "A2",
+        "description": "a strap holding tools a hero might need"
       },
       {
         "word": "secret lair",
-        "level": "A2"
+        "level": "A2",
+        "description": "a hidden room where a hero can plan"
       },
       {
         "word": "rescue rope",
-        "level": "A1"
+        "level": "A1",
+        "description": "a strong cord used to help someone"
       },
       {
         "word": "signal light",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright sign calling a hero for help"
       },
       {
         "word": "hero badge",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small sign showing a hero’s symbol"
       },
       {
         "word": "robot helper",
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine that assists a brave character"
       },
       {
-        "word": "superhero team",
-        "level": "A1"
+        "word": "hero team",
+        "level": "A1",
+        "description": "a group of brave people helping together"
       },
       {
         "word": "city rooftop",
-        "level": "A1"
+        "level": "A1",
+        "description": "the top outside surface of a tall building"
       },
       {
         "word": "secret tunnel",
-        "level": "A1"
+        "level": "A1",
+        "description": "a hidden passage under or through a place"
       },
       {
         "word": "training room",
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where a hero practises skills"
       },
       {
         "word": "safe house",
-        "level": "A2"
+        "level": "A2",
+        "description": "a protected home where someone can hide"
       },
       {
         "word": "radio communicator",
-        "level": "A2"
+        "level": "A2",
+        "description": "a device for sending voices over a distance"
       },
       {
-        "word": "first-aid kit",
-        "level": "A1"
+        "word": "medic bag",
+        "level": "A1",
+        "description": "a case holding things for helping an injured person"
       }
     ],
     "imposter": [
       {
         "word": "cape",
-        "decoy": "cloak",
-        "level": "A1"
+        "level": "A1",
+        "description": "a piece of cloth worn behind a hero’s shoulders",
+        "hint": "hero clothing",
+        "crewQuestion": "What may flap behind a brave character while running?",
+        "imposterQuestion": "What may flap beside a brave character while standing?"
       },
       {
         "word": "mask",
-        "decoy": "face covering",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover worn over part of the face",
+        "hint": "hero clothing",
+        "crewQuestion": "What can hide a hero’s face from a crowd?",
+        "imposterQuestion": "What can show a hero’s face to a crowd?"
+      },
+      {
+        "word": "rescue",
+        "level": "A1",
+        "description": "helping someone move away from danger",
+        "hint": "a hero action",
+        "crewQuestion": "What might a hero do when someone is trapped?",
+        "imposterQuestion": "What might a hero do when someone is safe?"
       },
       {
         "word": "sidekick",
-        "decoy": "partner",
-        "level": "A1"
-      },
-      {
-        "word": "villain",
-        "decoy": "monster",
-        "level": "A1"
+        "level": "A2",
+        "description": "a helper who works beside the main hero",
+        "hint": "a character",
+        "crewQuestion": "Who may join a hero on a mission?",
+        "imposterQuestion": "Who may join a villain on a mission?"
       },
       {
         "word": "shield",
-        "decoy": "armour",
-        "level": "A2"
+        "level": "A1",
+        "description": "a hard object used to block a hit",
+        "hint": "hero equipment",
+        "crewQuestion": "What can a character hold to stay safe in a fight?",
+        "imposterQuestion": "What can a character throw to stay safe in a fight?"
       },
       {
-        "word": "hideout",
-        "decoy": "secret lair",
-        "level": "A2"
-      },
-      {
-        "word": "superpower",
-        "decoy": "special skill",
-        "level": "A2"
-      },
-      {
-        "word": "mission",
-        "decoy": "rescue",
-        "level": "A1"
+        "word": "comic book",
+        "level": "A1",
+        "description": "a story told through drawings and speech bubbles",
+        "hint": "a story item",
+        "crewQuestion": "What can show a hero’s adventures in printed pictures?",
+        "imposterQuestion": "What can show a hero’s adventures in moving pictures?"
       }
     ],
     "twentyQuestions": [
@@ -22889,7 +23321,7 @@
         "level": "A1"
       },
       {
-        "secret": "first-aid kit",
+        "secret": "medic bag",
         "kind": "thing",
         "level": "A1"
       }
@@ -22907,7 +23339,8 @@
           "move",
           "computer"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine that can do tasks by itself"
       },
       {
         "word": "wheel",
@@ -22917,7 +23350,8 @@
           "turn",
           "car"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round part that turns on a vehicle"
       },
       {
         "word": "arm",
@@ -22927,7 +23361,8 @@
           "robot",
           "body"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the part of a body between shoulder and hand"
       },
       {
         "word": "sensor",
@@ -22937,7 +23372,8 @@
           "detect",
           "part"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a device that notices movement or light"
       },
       {
         "word": "button",
@@ -22947,7 +23383,8 @@
           "control",
           "round"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small part pressed to start a machine"
       },
       {
         "word": "battery",
@@ -22957,7 +23394,8 @@
           "energy",
           "cell"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a container that stores power for a device"
       },
       {
         "word": "screen",
@@ -22967,7 +23405,8 @@
           "glass",
           "look"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the flat part showing words or pictures"
       },
       {
         "word": "remote control",
@@ -22977,7 +23416,8 @@
           "operate",
           "toy"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a device used to control something from far away"
       },
       {
         "word": "robot dog",
@@ -22987,7 +23427,8 @@
           "walk",
           "bark"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine shaped like a pet dog"
       },
       {
         "word": "motor",
@@ -22997,7 +23438,8 @@
           "part",
           "move"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the part that makes a machine move"
       },
       {
         "word": "gear",
@@ -23007,7 +23449,8 @@
           "inside",
           "metal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a toothed wheel that turns with another"
       },
       {
         "word": "camera",
@@ -23017,7 +23460,8 @@
           "lens",
           "robot"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a device used to take pictures"
       },
       {
         "word": "voice command",
@@ -23027,7 +23471,8 @@
           "control",
           "listen"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "spoken words that make a machine act"
       },
       {
         "word": "robot hand",
@@ -23037,107 +23482,130 @@
           "finger",
           "claw"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool shaped like a person’s hand"
       }
     ],
     "hotSeat": [
       {
         "word": "toy robot",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small machine made for children to play with"
       },
       {
         "word": "robot vacuum",
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine that cleans floors by moving around"
       },
       {
         "word": "factory arm",
-        "level": "A2"
+        "level": "A2",
+        "description": "a machine part that lifts or moves materials"
       },
       {
         "word": "robot kit",
-        "level": "A1"
+        "level": "A1",
+        "description": "a box of parts used to build a small machine"
       },
       {
         "word": "charging cable",
-        "level": "A1"
+        "level": "A1",
+        "description": "a wire that brings power into a device"
       },
       {
         "word": "control panel",
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat set of buttons and screens"
       },
       {
         "word": "robot car",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small vehicle that moves without a driver"
       },
       {
-        "word": "plastic casing",
-        "level": "A2"
+        "word": "plastic case",
+        "level": "A2",
+        "description": "a hard cover around a machine’s parts"
       },
       {
         "word": "assembly line",
-        "level": "A2"
+        "level": "A2",
+        "description": "a row of stations where products are made"
       },
       {
         "word": "delivery robot",
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine that carries orders to people"
       },
       {
         "word": "robot teacher",
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine that helps explain lessons"
       },
       {
         "word": "remote sensor",
-        "level": "A2"
+        "level": "A2",
+        "description": "a device that notices something from far away"
       },
       {
         "word": "mechanical claw",
-        "level": "A2"
+        "level": "A2",
+        "description": "a metal hand used for gripping objects"
       },
       {
         "word": "robot wheel",
-        "level": "A1"
+        "level": "A1",
+        "description": "a round part helping a machine roll"
       }
     ],
     "imposter": [
       {
-        "word": "robot dog",
-        "decoy": "robot cat",
-        "level": "A1"
+        "word": "robot",
+        "level": "A1",
+        "description": "a machine that can do tasks by itself",
+        "hint": "a machine",
+        "crewQuestion": "What can follow spoken instructions without being a person?",
+        "imposterQuestion": "What can follow spoken instructions after being a person?"
       },
       {
         "word": "wheel",
-        "decoy": "gear",
-        "level": "A1"
+        "level": "A1",
+        "description": "a round part that turns on a vehicle",
+        "hint": "a machine part",
+        "crewQuestion": "What helps a robot roll across the floor?",
+        "imposterQuestion": "What helps a robot climb up the wall?"
       },
       {
-        "word": "sensor",
-        "decoy": "camera",
-        "level": "A2"
-      },
-      {
-        "word": "motor",
-        "decoy": "battery",
-        "level": "A2"
+        "word": "battery",
+        "level": "A1",
+        "description": "a container storing power for a small device",
+        "hint": "a machine part",
+        "crewQuestion": "What can make a toy work without a wall plug?",
+        "imposterQuestion": "What can make a toy work with a wall plug?"
       },
       {
         "word": "remote control",
-        "decoy": "control panel",
-        "level": "A2"
+        "level": "A1",
+        "description": "a device used to operate something from far away",
+        "hint": "a machine tool",
+        "crewQuestion": "What can make a toy car turn from across a room?",
+        "imposterQuestion": "What can make a toy car turn from beside it?"
       },
       {
-        "word": "robot vacuum",
-        "decoy": "robot mower",
-        "level": "A2"
+        "word": "robot dog",
+        "level": "A1",
+        "description": "a machine shaped like a small pet",
+        "hint": "a machine",
+        "crewQuestion": "What can walk beside a child without being alive?",
+        "imposterQuestion": "What can walk beside a child after being alive?"
       },
       {
-        "word": "mechanical claw",
-        "decoy": "robot hand",
-        "level": "A2"
-      },
-      {
-        "word": "toy robot",
-        "decoy": "robot kit",
-        "level": "A1"
+        "word": "sensor",
+        "level": "A2",
+        "description": "a device that notices movement, light or touch",
+        "hint": "a machine part",
+        "crewQuestion": "What can help a machine notice a person nearby?",
+        "imposterQuestion": "What can help a machine hide a person nearby?"
       }
     ],
     "twentyQuestions": [
@@ -23195,7 +23663,8 @@
           "travel",
           "engine"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a long vehicle that carries people on rails"
       },
       {
         "word": "platform",
@@ -23205,7 +23674,8 @@
           "train",
           "edge"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a raised place where travellers wait for a train"
       },
       {
         "word": "conductor",
@@ -23215,7 +23685,8 @@
           "uniform",
           "train"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who checks tickets and helps passengers"
       },
       {
         "word": "carriage",
@@ -23225,7 +23696,8 @@
           "train",
           "room"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "one section of a train where people sit"
       },
       {
         "word": "railway track",
@@ -23235,7 +23707,8 @@
           "train",
           "ground"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the metal path that trains travel along"
       },
       {
         "word": "station",
@@ -23245,7 +23718,8 @@
           "travel",
           "building"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where trains stop for passengers"
       },
       {
         "word": "ticket",
@@ -23255,7 +23729,8 @@
           "pay",
           "show"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a paper or card showing a paid journey"
       },
       {
         "word": "locomotive",
@@ -23265,7 +23740,8 @@
           "pull",
           "steam"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the front machine that pulls train cars"
       },
       {
         "word": "signal",
@@ -23275,7 +23751,8 @@
           "green",
           "stop"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a coloured sign telling a train when to move"
       },
       {
         "word": "tunnel",
@@ -23285,7 +23762,8 @@
           "mountain",
           "train"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a passage going under a hill or building"
       },
       {
         "word": "level crossing",
@@ -23295,7 +23773,8 @@
           "track",
           "cars"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a place where road traffic crosses rail lines"
       },
       {
         "word": "dining car",
@@ -23305,7 +23784,8 @@
           "train",
           "eat"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a train section where people eat a meal"
       },
       {
         "word": "freight train",
@@ -23315,7 +23795,8 @@
           "carry",
           "cargo"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a train carrying goods rather than passengers"
       },
       {
         "word": "steam engine",
@@ -23325,107 +23806,130 @@
           "coal",
           "train"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a machine that uses steam to pull train cars"
       }
     ],
     "hotSeat": [
       {
         "word": "railway bridge",
-        "level": "A1"
+        "level": "A1",
+        "description": "a structure carrying a track over a gap"
       },
       {
         "word": "train whistle",
-        "level": "A1"
+        "level": "A1",
+        "description": "a loud signal blown from a train"
       },
       {
         "word": "ticket machine",
-        "level": "A1"
+        "level": "A1",
+        "description": "a device that sells travel tickets"
       },
       {
         "word": "station clock",
-        "level": "A1"
+        "level": "A1",
+        "description": "a time display inside a passenger station"
       },
       {
         "word": "sleeping car",
-        "level": "A2"
+        "level": "A2",
+        "description": "a train section with beds for a long trip"
       },
       {
         "word": "railway map",
-        "level": "A1"
+        "level": "A1",
+        "description": "a drawing showing routes between stations"
       },
       {
         "word": "train driver",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who controls a train"
       },
       {
         "word": "signal box",
-        "level": "A2"
+        "level": "A2",
+        "description": "a room controlling railway signs and switches"
       },
       {
         "word": "waiting room",
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where passengers sit before departure"
       },
       {
         "word": "train timetable",
-        "level": "A1"
+        "level": "A1",
+        "description": "a chart showing when trains arrive and leave"
       },
       {
         "word": "platform bench",
-        "level": "A1"
+        "level": "A1",
+        "description": "a seat where travellers can rest"
       },
       {
-        "word": "railway crossing",
-        "level": "A1"
+        "word": "rail crossing",
+        "level": "A1",
+        "description": "a place where road users pass over tracks"
       },
       {
         "word": "luggage rack",
-        "level": "A1"
+        "level": "A1",
+        "description": "a shelf holding bags during a journey"
       },
       {
         "word": "dining table",
-        "level": "A1"
+        "level": "A1",
+        "description": "a surface where train passengers can eat"
       }
     ],
     "imposter": [
       {
-        "word": "locomotive",
-        "decoy": "engine",
-        "level": "A2"
+        "word": "train",
+        "level": "A1",
+        "description": "a long vehicle that carries people on rails",
+        "hint": "rail transport",
+        "crewQuestion": "What can travel between cities on metal tracks?",
+        "imposterQuestion": "What can travel between cities on a road?"
       },
       {
         "word": "platform",
-        "decoy": "station",
-        "level": "A1"
-      },
-      {
-        "word": "carriage",
-        "decoy": "wagon",
-        "level": "A1"
-      },
-      {
-        "word": "steam engine",
-        "decoy": "diesel engine",
-        "level": "A2"
-      },
-      {
-        "word": "freight train",
-        "decoy": "passenger train",
-        "level": "A1"
-      },
-      {
-        "word": "level crossing",
-        "decoy": "railway bridge",
-        "level": "A2"
+        "level": "A1",
+        "description": "a raised place where passengers wait for a train",
+        "hint": "a station place",
+        "crewQuestion": "Where do travellers stand before boarding?",
+        "imposterQuestion": "Where do travellers sit before boarding?"
       },
       {
         "word": "conductor",
-        "decoy": "train driver",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who checks tickets and helps passengers",
+        "hint": "a train job",
+        "crewQuestion": "Who may walk through a carriage during a journey?",
+        "imposterQuestion": "Who may wait at a desk during a journey?"
       },
       {
-        "word": "sleeping car",
-        "decoy": "dining car",
-        "level": "A2"
+        "word": "carriage",
+        "level": "A1",
+        "description": "one section of a train where people sit",
+        "hint": "a train part",
+        "crewQuestion": "Where can a passenger find a seat on a journey?",
+        "imposterQuestion": "Where can a driver find a seat on a journey?"
+      },
+      {
+        "word": "ticket",
+        "level": "A1",
+        "description": "a paper or card showing a paid journey",
+        "hint": "travel paper",
+        "crewQuestion": "What might a passenger show before boarding?",
+        "imposterQuestion": "What might a passenger show after boarding?"
+      },
+      {
+        "word": "locomotive",
+        "level": "A2",
+        "description": "the front machine that pulls train cars",
+        "hint": "a train part",
+        "crewQuestion": "What leads the other cars along the track?",
+        "imposterQuestion": "What follows the other cars along the track?"
       }
     ],
     "twentyQuestions": [
@@ -23483,7 +23987,8 @@
           "feather",
           "plane"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat part helping a plane stay in the air"
       },
       {
         "word": "pilot",
@@ -23493,7 +23998,8 @@
           "person",
           "control"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who controls an aircraft"
       },
       {
         "word": "runway",
@@ -23503,7 +24009,8 @@
           "long",
           "strip"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a long strip used for takeoff and landing"
       },
       {
         "word": "seat belt",
@@ -23513,7 +24020,8 @@
           "safe",
           "strap"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a strap that keeps a person in a seat"
       },
       {
         "word": "window seat",
@@ -23523,7 +24031,8 @@
           "view",
           "plane"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a seat beside the glass opening of a plane"
       },
       {
         "word": "engine",
@@ -23533,7 +24042,8 @@
           "front",
           "fly"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine part that gives the aircraft power"
       },
       {
         "word": "propeller",
@@ -23543,7 +24053,8 @@
           "front",
           "air"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a turning blade that pulls a plane forward"
       },
       {
         "word": "tail fin",
@@ -23553,7 +24064,8 @@
           "plane",
           "steer"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the upright part at the back that helps steer"
       },
       {
         "word": "boarding pass",
@@ -23563,7 +24075,8 @@
           "seat",
           "ticket"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a card showing someone may get on a plane"
       },
       {
         "word": "airport",
@@ -23573,7 +24086,8 @@
           "travel",
           "plane"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where planes take off and land"
       },
       {
         "word": "landing gear",
@@ -23583,7 +24097,8 @@
           "runway",
           "deploy"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "wheels and supports under an aircraft"
       },
       {
         "word": "overhead bin",
@@ -23593,7 +24108,8 @@
           "seat",
           "store"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a high shelf where passengers store bags"
       },
       {
         "word": "flight attendant",
@@ -23603,7 +24119,8 @@
           "help",
           "onboard"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who helps travellers during a flight"
       },
       {
         "word": "airplane mode",
@@ -23613,107 +24130,130 @@
           "off",
           "inflight"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a phone setting that stops wireless signals"
       }
     ],
     "hotSeat": [
       {
         "word": "cockpit",
-        "level": "A1"
+        "level": "A1",
+        "description": "the front room where a pilot controls a plane"
       },
       {
         "word": "cloud layer",
-        "level": "A1"
+        "level": "A1",
+        "description": "a wide area of clouds at one height"
       },
       {
-        "word": "air traffic controller",
-        "level": "A2"
+        "word": "control tower",
+        "level": "A2",
+        "description": "a tall room where people guide aircraft"
       },
       {
         "word": "tray table",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small surface that folds out from a seat"
       },
       {
         "word": "seat pocket",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small pouch fixed to the back of a seat"
       },
       {
         "word": "flight map",
-        "level": "A1"
+        "level": "A1",
+        "description": "a drawing showing where an aircraft will travel"
       },
       {
         "word": "airport shuttle",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small bus carrying people around an airport"
       },
       {
         "word": "emergency exit",
-        "level": "A1"
+        "level": "A1",
+        "description": "a special door used when leaving quickly"
       },
       {
         "word": "pilot headset",
-        "level": "A1"
+        "level": "A1",
+        "description": "earphones and microphone worn by a pilot"
       },
       {
         "word": "jet bridge",
-        "level": "A2"
+        "level": "A2",
+        "description": "a covered walkway joining a plane to a building"
       },
       {
         "word": "flight deck",
-        "level": "A2"
+        "level": "A2",
+        "description": "the front area where pilots sit"
       },
       {
         "word": "wingtip",
-        "level": "A2"
+        "level": "A2",
+        "description": "the far outside end of an airplane wing"
       },
       {
-        "word": "carry-on bag",
-        "level": "A1"
+        "word": "cabin bag",
+        "level": "A1",
+        "description": "a small case taken into the passenger area"
       },
       {
-        "word": "air sickness bag",
-        "level": "A2"
+        "word": "sick bag",
+        "level": "A2",
+        "description": "a paper bag for someone feeling unwell"
       }
     ],
     "imposter": [
       {
-        "word": "runway",
-        "decoy": "taxiway",
-        "level": "A2"
+        "word": "wing",
+        "level": "A1",
+        "description": "a flat part helping an aircraft stay in the air",
+        "hint": "aircraft part",
+        "crewQuestion": "What part helps a plane lift above the runway?",
+        "imposterQuestion": "What part helps a train stay on the tracks?"
       },
       {
         "word": "pilot",
-        "decoy": "copilot",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who controls an aircraft",
+        "hint": "a travel job",
+        "crewQuestion": "Who guides a plane through the clouds?",
+        "imposterQuestion": "Who guides a train through the tunnel?"
       },
       {
-        "word": "propeller",
-        "decoy": "jet engine",
-        "level": "A1"
+        "word": "runway",
+        "level": "A1",
+        "description": "a long strip used for takeoff and landing",
+        "hint": "an airport place",
+        "crewQuestion": "Where does an aircraft speed up before flying?",
+        "imposterQuestion": "Where does a boat speed up before sailing?"
+      },
+      {
+        "word": "seat belt",
+        "level": "A1",
+        "description": "a strap that keeps a person in a seat",
+        "hint": "safety equipment",
+        "crewQuestion": "What should passengers fasten before takeoff?",
+        "imposterQuestion": "What should passengers unfasten before takeoff?"
+      },
+      {
+        "word": "airport",
+        "level": "A1",
+        "description": "a place where aircraft take off and land",
+        "hint": "a travel place",
+        "crewQuestion": "Where might a family wait before flying abroad?",
+        "imposterQuestion": "Where might a family wait before sailing abroad?"
       },
       {
         "word": "boarding pass",
-        "decoy": "train ticket",
-        "level": "A1"
-      },
-      {
-        "word": "tail fin",
-        "decoy": "rudder",
-        "level": "A2"
-      },
-      {
-        "word": "cockpit",
-        "decoy": "flight deck",
-        "level": "A1"
-      },
-      {
-        "word": "landing gear",
-        "decoy": "wheel",
-        "level": "A2"
-      },
-      {
-        "word": "flight attendant",
-        "decoy": "air marshal",
-        "level": "A2"
+        "level": "A2",
+        "description": "a card showing someone may get onto a plane",
+        "hint": "travel paper",
+        "crewQuestion": "What does a traveller show before entering the aircraft?",
+        "imposterQuestion": "What does a traveller show before entering the train?"
       }
     ],
     "twentyQuestions": [
@@ -23748,12 +24288,12 @@
         "level": "A1"
       },
       {
-        "secret": "carry-on bag",
+        "secret": "cabin bag",
         "kind": "thing",
         "level": "A1"
       },
       {
-        "secret": "air traffic controller",
+        "secret": "control tower",
         "kind": "job",
         "level": "A2"
       }
