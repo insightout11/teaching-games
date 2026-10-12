@@ -2150,5 +2150,314 @@
       "science",
       "public space"
     ]
+  },
+  "auckland/volcanic-field-video": {
+    "keyIdea": "Auckland's buried volcanic ash records past eruptions, helping scientists connect visible lakes, hills, and rocks with the region's history.",
+    "tradeoff": "Hidden ash layers need drilling and laboratory study rather than observation alone.",
+    "designUse": "Use ground records alongside visible landmarks when studying a city's natural risks.",
+    "investigationTags": [
+      "geography",
+      "science",
+      "nature"
+    ],
+    "tradeoffInferred": true
+  },
+  "auckland/electric-bus-video": {
+    "keyIdea": "Auckland's fully electric bus depot combines new vehicles with smart charging and partners who designed the supporting site.",
+    "tradeoff": "Replacing diesel buses also needs charging equipment and cooperation beyond the vehicles.",
+    "designUse": "Prepare depot power and charging partnerships before replacing a whole vehicle fleet.",
+    "investigationTags": [
+      "transport",
+      "engineering",
+      "environment"
+    ],
+    "tradeoffInferred": true
+  },
+  "auckland/new-zealand-history-video": {
+    "keyIdea": "New Zealand moved its capital from Auckland to Wellington to keep national government connected with both main islands.",
+    "tradeoff": "An important center's location may leave another region feeling too distant.",
+    "designUse": "Locate shared government services with connections to all regions they serve.",
+    "investigationTags": [
+      "history",
+      "government",
+      "geography"
+    ],
+    "tradeoffInferred": true
+  },
+  "auckland/tupuna-maunga": {
+    "keyIdea": "Auckland's ancestral mountains combine geological features with living Maori histories, and their management includes mana whenua and the council.",
+    "tradeoff": "Treating them only as city parks can hide cultural meaning and earlier damage.",
+    "designUse": "Share landscape decisions with ancestral communities as well as technical experts.",
+    "investigationTags": [
+      "identity",
+      "heritage",
+      "government"
+    ]
+  },
+  "auckland/pacific-city": {
+    "keyIdea": "Auckland's Pacific communities link neighborhoods and islands through families, money, language, food, and responsibilities moving in both directions.",
+    "tradeoff": "A simple city image can hide the different experiences of Pacific communities.",
+    "designUse": "Support two-way cultural and family connections rather than treating migration as one-way arrival.",
+    "investigationTags": [
+      "migration",
+      "community",
+      "identity"
+    ]
+  },
+  "auckland/working-waterfront": {
+    "keyIdea": "Auckland's central port needs secure handling space and freight links, while the same waterfront attracts public and residential uses.",
+    "tradeoff": "Port fences and industrial areas can block people's access to the water.",
+    "designUse": "Separate secure freight operations from routes that keep the waterfront publicly reachable.",
+    "investigationTags": [
+      "transport",
+      "economics",
+      "public space"
+    ]
+  },
+  "suva/city-geography-video": {
+    "keyIdea": "Suva's central area brings markets, shops, and government offices together, showing trade and administration close within one busy city.",
+    "tradeoff": "Limited routes in and out of the center contribute to traffic problems.",
+    "designUse": "Provide practical arrival routes for a center combining trade and public offices.",
+    "investigationTags": [
+      "economics",
+      "government",
+      "transport"
+    ]
+  },
+  "suva/city-history-video": {
+    "keyIdea": "Fiji's plantation economy brought Indian contract workers, creating communities whose lives became part of the country's changing identity.",
+    "tradeoff": "Unequal treatment and low wages deepened tension rather than giving workers fair participation.",
+    "designUse": "Protect workers' rights when recruiting people from outside a local community.",
+    "investigationTags": [
+      "history",
+      "migration",
+      "ethics"
+    ],
+    "thin": true
+  },
+  "suva/rugby-climate-video": {
+    "keyIdea": "Fijian coastal villages face rising water that threatens homes and the beaches where shared rugby traditions developed.",
+    "tradeoff": "Relocation can protect lives but separate people from valued land and routines.",
+    "designUse": "Let threatened communities weigh safety against the cultural costs of relocation.",
+    "investigationTags": [
+      "climate",
+      "culture",
+      "ethics"
+    ],
+    "thin": true
+  },
+  "suva/regional-capital": {
+    "keyIdea": "Suva's regional university and organizations bring people from distant Pacific countries together to study and negotiate shared problems.",
+    "tradeoff": "Great distances and different national experiences make shared access and agreement difficult.",
+    "designUse": "Use shared institutions to bring several island perspectives into regional decisions.",
+    "investigationTags": [
+      "community",
+      "government",
+      "geography"
+    ],
+    "tradeoffInferred": true
+  },
+  "suva/municipal-market": {
+    "keyIdea": "Suva's market connects rural and coastal producers with city meals, depending on vendors' knowledge and safe shared facilities.",
+    "tradeoff": "Storms and transport problems interrupt supply and put vendors' earnings at risk.",
+    "designUse": "Equip market workplaces with storage, sanitation, and support during supply disruptions.",
+    "investigationTags": [
+      "food culture",
+      "economics",
+      "transport"
+    ]
+  },
+  "suva/museum-and-memory": {
+    "keyIdea": "Suva's Fiji Museum protects objects from different communities, using them to explain settlement, movement, skills, and daily life.",
+    "tradeoff": "Removing objects from their settings can separate them from people and practices that give meaning.",
+    "designUse": "Keep community explanations connected to objects moved into museum collections.",
+    "investigationTags": [
+      "museums",
+      "history",
+      "identity"
+    ]
+  },
+  "ulaanbaatar/changing-capital-video": {
+    "keyIdea": "Ulaanbaatar's factories and permanent buildings drew workers into a formerly tented city, changing its population and public symbols.",
+    "tradeoff": "Pressure on herders' ways of life made moving into the city disruptive.",
+    "designUse": "Explain industrial growth through the experiences of people changing their livelihoods.",
+    "investigationTags": [
+      "urban change",
+      "history",
+      "migration"
+    ]
+  },
+  "ulaanbaatar/ger-area-transport-video": {
+    "keyIdea": "Ulaanbaatar used passengers' stories to choose ramps, accessible buses, shelters, and information in transport improvements for ger areas.",
+    "tradeoff": "Structures alone would miss unsafe driving and the need to report problems.",
+    "designUse": "Let different passengers' accounts guide both physical access and service training.",
+    "investigationTags": [
+      "transport",
+      "community",
+      "problem solving"
+    ]
+  },
+  "ulaanbaatar/sustainable-gers-video": {
+    "keyIdea": "Better insulation and added service spaces could let Ulaanbaatar's existing ger homes use less heating fuel.",
+    "tradeoff": "Residents cannot simply stop using coal when they need to keep their homes warm.",
+    "designUse": "Improve existing homes' warmth before asking residents to reduce essential fuel use.",
+    "investigationTags": [
+      "housing",
+      "environment",
+      "design"
+    ]
+  },
+  "ulaanbaatar/winter-city-systems": {
+    "keyIdea": "Ulaanbaatar's central heating network uses shared plants and pipes, while many outer ger households still rely on separate stoves.",
+    "tradeoff": "Aging equipment or failure in extreme cold can quickly become an emergency.",
+    "designUse": "Maintain shared heat networks while planning reliable support for unconnected homes.",
+    "investigationTags": [
+      "climate",
+      "engineering",
+      "housing"
+    ]
+  },
+  "ulaanbaatar/naadam-capital": {
+    "keyIdea": "Ulaanbaatar's Naadam uses city venues for wrestling and archery, while longer horse races need open land outside dense streets.",
+    "tradeoff": "Crowds and separated venues create transport, safety, and animal-welfare needs.",
+    "designUse": "Place festival activities according to space needs and plan connections between them.",
+    "investigationTags": [
+      "culture",
+      "identity",
+      "transport"
+    ]
+  },
+  "ulaanbaatar/vertical-script": {
+    "keyIdea": "Ulaanbaatar's traditional vertical writing needs skilled teachers and meaningful use alongside the Cyrillic alphabet common in modern life.",
+    "tradeoff": "Keeping old writing visible is not enough without practice and opportunities to use it.",
+    "designUse": "Give traditional writing regular uses alongside mentoring and long-term practice.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "heritage"
+    ]
+  },
+  "almaty/garden-city-video": {
+    "keyIdea": "Almaty's mountain camps use a climber's example and device-free trips to build children's confidence through outdoor challenges.",
+    "tradeoff": "Children may want easier routes while the camp emphasizes difficult challenges.",
+    "designUse": "Use experienced local guides to build confidence through supported outdoor challenges.",
+    "investigationTags": [
+      "nature",
+      "community",
+      "place"
+    ]
+  },
+  "almaty/apple-origin-video": {
+    "keyIdea": "Wild apples from Almaty's foothills traveled with Silk Road merchants, connecting local trees with food traditions far away.",
+    "tradeoff": "Orchard clearances and doubts about commercial value threaten valued local apple varieties.",
+    "designUse": "Protect local food varieties while exploring their wider trade history.",
+    "investigationTags": [
+      "food culture",
+      "nature",
+      "history"
+    ]
+  },
+  "almaty/metro-video": {
+    "keyIdea": "Almaty's metro stations combine distinct cultural themes with route displays, making everyday travel a place to encounter local stories.",
+    "tradeoff": "Building the system took years of delays before funding allowed work to continue.",
+    "designUse": "Add local stories to stations without losing clear information about the journey.",
+    "investigationTags": [
+      "transport",
+      "architecture",
+      "culture"
+    ]
+  },
+  "almaty/earthquake-ready-city": {
+    "keyIdea": "Almaty's earthquake safety depends on building information, enforced standards, and prepared people before shaking starts in the city.",
+    "tradeoff": "Rules only protect people when owners and builders follow them and repairs are funded.",
+    "designUse": "Check older structures and enforce building standards alongside household preparation.",
+    "investigationTags": [
+      "engineering",
+      "government",
+      "problem solving"
+    ]
+  },
+  "almaty/mountain-water": {
+    "keyIdea": "Almaty's mountain snow and glaciers store water, but shrinking ice changes future supplies and can create flood hazards.",
+    "tradeoff": "Extra meltwater now can hide a smaller reserve for future years.",
+    "designUse": "Track stored mountain water as well as today's river flow.",
+    "investigationTags": [
+      "water",
+      "climate",
+      "science"
+    ]
+  },
+  "almaty/former-capital-culture": {
+    "keyIdea": "Almaty's universities, cultural places, and professional networks continued attracting people after national government moved to another city.",
+    "tradeoff": "Moving official functions changes activity even when established local institutions remain strong.",
+    "designUse": "Support lasting cultural and learning networks when administrative roles change.",
+    "investigationTags": [
+      "history",
+      "culture",
+      "community"
+    ],
+    "tradeoffInferred": true
+  },
+  "madrid/city-exploration-video": {
+    "keyIdea": "Madrid's Crystal Palace changed from a greenhouse into a place for art, giving an old park building another use.",
+    "tradeoff": "Art displays change how visitors experience a building originally designed for plants.",
+    "designUse": "Adapt an older park building for art while explaining its first purpose.",
+    "investigationTags": [
+      "architecture",
+      "art",
+      "urban change"
+    ],
+    "tradeoffInferred": true
+  },
+  "madrid/flamenco-video": {
+    "keyIdea": "Flamenco dancers use their bodies as instruments, connecting movement with singing, music, and stories first shared within communities.",
+    "tradeoff": "Performers need musical understanding as well as movement skills to express the songs.",
+    "designUse": "Teach performance through its music and community stories as well as steps.",
+    "investigationTags": [
+      "culture",
+      "art",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "madrid/prado-collections-video": {
+    "keyIdea": "Madrid's Prado collection reflects royal tastes and later additions, rather than a complete planned account of all art history.",
+    "tradeoff": "Some periods and traditions are missing because collectors preferred other works.",
+    "designUse": "Explain collection gaps through past choices, tastes, and opportunities to acquire works.",
+    "investigationTags": [
+      "museums",
+      "art",
+      "history"
+    ]
+  },
+  "madrid/plaza-mayor-public-life": {
+    "keyIdea": "Madrid's Plaza Mayor kept a recognizable enclosed shape while its uses changed from royal displays to everyday meetings and tourism.",
+    "tradeoff": "The current square reflects repair and redesign, not one untouched historical moment.",
+    "designUse": "Keep useful public layouts adaptable as the activities around them change.",
+    "investigationTags": [
+      "public space",
+      "history",
+      "urban change"
+    ]
+  },
+  "madrid/retiro-public-park": {
+    "keyIdea": "Madrid's Retiro combines shade, wildlife, cultural buildings, and recreation in a planted landscape kept useful by continuous work.",
+    "tradeoff": "Trees, paths, water, and large events need care and competing uses must be balanced.",
+    "designUse": "Budget for gardeners and repairs alongside recreation and cultural park activities.",
+    "investigationTags": [
+      "nature",
+      "public space",
+      "urban planning"
+    ]
+  },
+  "madrid/tapas-social-life": {
+    "keyIdea": "Madrid's tapas turn small shared dishes into conversations, with bars serving as meeting places for neighbors and visitors.",
+    "tradeoff": "Tourism can support bars while increasing rents and pressure on neighborhood routines.",
+    "designUse": "Keep shared food venues usable for neighbors as well as visitors.",
+    "investigationTags": [
+      "food culture",
+      "daily life",
+      "economics"
+    ]
   }
 }

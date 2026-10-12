@@ -37,3 +37,7 @@ Authored 30 more entries (180 total), reading all captions and lesson texts. Hon
 ## Batch 7: Bogota, Reykjavik, Nairobi, Lima, Perth
 
 Authored 30 more entries (210 total), grounded in all associated captions/texts. Future project claims remain plans rather than completed results (Nairobi Railway City and UN expansion). Reykjavik’s national history is flagged thin for its city-specific link. Evidence includes direct, stated limits on fog collection, wildlife movement, historic repairs, and desalination; inferred limits remain marked. Partial checks pass.
+
+## Batch 8: Auckland, Suva, Ulaanbaatar, Almaty, Madrid
+
+Authored 30 more entries (240 total). Auckland’s ancestral-mountain management and Ulaanbaatar’s user-led transport upgrades use specific decision mechanisms. Suva’s national history and coral-coast village video are flagged thin for their city-specific connection and retain their actual regional setting. Almaty’s city-introduction evidence uses the mountain-camp example actually shown rather than invented garden policy. Partial checks pass.
