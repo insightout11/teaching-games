@@ -18019,14 +18019,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A soccer field has two goals."
+        "target": "present continuous",
+        "why": "Comment on a soccer match as the action happens.",
+        "example": "The striker is running toward the goal."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you pass or shoot first?"
+        "target": "past simple",
+        "why": "Retell the decisive moment in a soccer match.",
+        "example": "Lena passed the ball and Max scored."
       }
     ],
     "levels": {
@@ -18320,14 +18320,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A basketball court has lines and two hoops."
+        "target": "present continuous",
+        "why": "Describe basketball players' positions and actions.",
+        "example": "The players are passing the ball near the hoop."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you pass or shoot from close?"
+        "target": "comparatives & superlatives",
+        "why": "Compare two players' shots during practice.",
+        "example": "Your shot went farther than mine."
       }
     ],
     "levels": {
@@ -18620,14 +18620,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A pool has a shallow and deep end."
+        "target": "past simple",
+        "why": "Describe a swimming achievement from a lesson.",
+        "example": "I swam across the pool without stopping."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you float or kick first?"
+        "target": "future (going to)",
+        "why": "Set a simple goal for the next swimming lesson.",
+        "example": "I am going to practice floating next time."
       }
     ],
     "levels": {
@@ -18920,14 +18920,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A bicycle moves when pedals turn the wheels."
+        "target": "conditional",
+        "why": "Explain a cycling decision at a busy crossing.",
+        "example": "If the light turns red, I will stop my bike."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you ride to a park or shop?"
+        "target": "past simple",
+        "why": "Retell a bicycle ride with a clear destination.",
+        "example": "We rode our bikes to the park."
       }
     ],
     "levels": {
@@ -19220,14 +19220,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "Running makes your heart beat faster."
+        "target": "comparatives & superlatives",
+        "why": "Compare runners' speeds during a race.",
+        "example": "Mia runs faster than I do."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you sprint or jog around a field?"
+        "target": "future (will)",
+        "why": "Predict the finish of a classroom race.",
+        "example": "I think Ben will finish the race first."
       }
     ],
     "levels": {
@@ -19520,14 +19520,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A beat helps feet move together."
+        "target": "present continuous",
+        "why": "Describe dancers performing different movements.",
+        "example": "One dancer is spinning while the others are clapping."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you spin or clap first?"
+        "target": "past simple",
+        "why": "Retell the steps you learned in a dance lesson.",
+        "example": "We learned three steps and danced together."
       }
     ],
     "levels": {
@@ -19820,14 +19820,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "Players take turns."
+        "target": "conditional",
+        "why": "Explain how a board-game move changes the next turn.",
+        "example": "If you land here, you will miss a turn."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you move a red or blue token?"
+        "target": "past simple",
+        "why": "Tell how a board game ended.",
+        "example": "I rolled a six and moved my last piece home."
       }
     ],
     "levels": {
@@ -20120,14 +20120,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A jigsaw has many pieces."
+        "target": "comparatives & superlatives",
+        "why": "Compare the difficulty of two puzzles.",
+        "example": "This puzzle is harder than yesterday's puzzle."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you start with corners or colors?"
+        "target": "future (going to)",
+        "why": "Explain a plan for solving a jigsaw.",
+        "example": "I am going to find the corner pieces first."
       }
     ],
     "levels": {
@@ -20420,14 +20420,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A tower falls when its balance changes."
+        "target": "future (going to)",
+        "why": "Plan a structure before starting to build.",
+        "example": "We are going to build a bridge with these blocks."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you build a tower or bridge?"
+        "target": "future (will)",
+        "why": "Predict whether a block tower will stand.",
+        "example": "That narrow tower will fall if we add another block."
       }
     ],
     "levels": {
@@ -20720,14 +20720,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A kite needs moving air to lift."
+        "target": "conditional",
+        "why": "Connect wind conditions with a kite's movement.",
+        "example": "If the wind blows, our kite will rise."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you make a diamond or bird kite?"
+        "target": "comparatives & superlatives",
+        "why": "Compare two kite designs before flying them.",
+        "example": "This paper kite is lighter than the cloth kite."
       }
     ],
     "levels": {
@@ -21020,14 +21020,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A bench gives people a place to rest."
+        "target": "present continuous",
+        "why": "Describe simultaneous actions in a playground picture.",
+        "example": "Two children are swinging while a boy is climbing."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you choose a slide or swing?"
+        "target": "future (going to)",
+        "why": "Choose what to do on the next playground visit.",
+        "example": "I am going to try the slide after the swings."
       }
     ],
     "levels": {
@@ -21320,14 +21320,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A hero sometimes needs a friend."
+        "target": "future (will)",
+        "why": "Make a promise as a superhero in a story.",
+        "example": "I will help the people trapped in the tower."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would your hero fly or swim?"
+        "target": "conditional",
+        "why": "Connect a hero's action with the story's outcome.",
+        "example": "If the hero catches the train, everyone will be safe."
       }
     ],
     "levels": {
@@ -21620,14 +21620,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A motor makes parts move."
+        "target": "conditional",
+        "why": "Explain a simple robot instruction and its result.",
+        "example": "If I press this button, the robot will turn."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would your robot roll or walk?"
+        "target": "future (going to)",
+        "why": "Plan a useful job for a classroom robot.",
+        "example": "Our robot is going to carry books to the shelf."
       }
     ],
     "levels": {
@@ -21920,14 +21920,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A window shows towns passing by."
+        "target": "question forms",
+        "why": "Ask for the information needed to catch a train.",
+        "example": "Which train goes to the city?"
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you sit by the window or aisle?"
+        "target": "future (going to)",
+        "why": "Describe a planned train journey.",
+        "example": "We are going to take the morning train."
       }
     ],
     "levels": {
@@ -22221,14 +22221,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "An airplane has two wings."
+        "target": "question forms",
+        "why": "Ask an airport worker about a flight's departure.",
+        "example": "What time does our plane leave?"
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you sit by a window or aisle?"
+        "target": "future (will)",
+        "why": "Predict what you will see from an airplane window.",
+        "example": "We will see the sea from the plane."
       }
     ],
     "levels": {
@@ -22522,14 +22522,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A paddle moves water behind it."
+        "target": "past simple",
+        "why": "Retell a short journey across water.",
+        "example": "We crossed the lake in a small boat."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you paddle or sail?"
+        "target": "comparatives & superlatives",
+        "why": "Compare boats before choosing one for a race.",
+        "example": "This sailboat is faster than our little rowing boat."
       }
     ],
     "levels": {
@@ -22822,14 +22822,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A drum makes sound when struck."
+        "target": "present continuous",
+        "why": "Describe who is playing each instrument in a band.",
+        "example": "Sam is playing the drum and I am playing the flute."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you play a drum or flute?"
+        "target": "comparatives & superlatives",
+        "why": "Compare the sounds of two instruments.",
+        "example": "The drum is louder than the flute."
       }
     ],
     "levels": {
@@ -23122,14 +23122,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "An outline shows an edge."
+        "target": "future (going to)",
+        "why": "Explain your plan for a new drawing.",
+        "example": "I am going to draw the house with a red roof."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you draw an animal or house?"
+        "target": "present continuous",
+        "why": "Describe an artist's drawing as it takes shape.",
+        "example": "She is drawing a long tail on the cat."
       }
     ],
     "levels": {
@@ -23422,14 +23422,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A brush makes different marks as it turns."
+        "target": "present continuous",
+        "why": "Explain what you are painting during an art activity.",
+        "example": "I am painting blue waves around the boat."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you paint with blue or orange first?"
+        "target": "past simple",
+        "why": "Tell how you changed a painting yesterday.",
+        "example": "I added yellow paint and made the sun brighter."
       }
     ],
     "levels": {
@@ -23723,13 +23723,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "Our skin feels warm and cold things."
+        "why": "Explain what each sense helps you notice.",
+        "example": "My ears hear sounds and my nose smells flowers."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you listen to rain or birds?"
+        "target": "comparatives & superlatives",
+        "why": "Compare things using smell, touch or taste.",
+        "example": "This blanket feels softer than the towel."
       }
     ],
     "levels": {
