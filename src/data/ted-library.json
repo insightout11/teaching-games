@@ -49,12 +49,12 @@
       "psychology",
       "success"
     ],
-    "difficultyLevel": "Easy",
+    "difficultyLevel": "Intermediate",
     "description": "Psychologist Angela Duckworth explains why talent alone doesn't predict success — and why grit is the key differentiator.",
     "summary": "Angela Duckworth begins with a question she has studied for years: *Who succeeds, and why?* Her research began when she left a demanding consulting job to teach maths to seventh-graders in New York City. She expected the smartest students to do best — but she found that *IQ was not the only difference* between her best and worst students. Some highly talented students were *underperforming*, while students who struggled initially would *outwork everyone else*.\n\nThis led her to graduate school and a decade of studying children and adults in *challenging settings* — West Point military academy, the National Spelling Bee, schools in tough neighbourhoods, and companies. In every context, she found the same thing: the *highly successful* people were not the most talented or the most gifted. They had *grit*.\n\nDuckworth defines *grit* as *passion and perseverance for very long-term goals*. It is having *stamina* — sticking with your future, day in and day out, not just for a week or a month but for years. Working hard to make that future a reality. Grit is living life like it's a marathon, not a sprint.\n\nIn her research at West Point, grit turned out to be a better predictor of which cadets would *survive the gruelling first summer* of training than any other measure — including leadership potential, academic performance, or physical aptitude. At the National Spelling Bee, grittier children went further in competition, independent of their natural verbal IQ.\n\nDuckworth's most controversial finding: *talent does not make you gritty*. Data show that grit is often *inversely related* to talent measures. She is honest about the limits of her research — she does not yet know how to build grit. But she points to *growth mindset* (the belief that the ability to learn is not fixed) as the most promising approach. Key vocabulary: *perseverance, stamina, resilience, aptitude, persevere, toughness, potential, predict*. Her closing call: we need to be *gritty about getting our kids grittier*.",
     "youtubeId": "H14bBuluwB8",
     "genre": "expository",
-    "cefr": "A2",
+    "cefr": "B1",
     "ageBand": "teens",
     "flightQuestion": "Can perseverance matter more than talent for success?"
   },
@@ -69,12 +69,12 @@
       "psychology",
       "learning"
     ],
-    "difficultyLevel": "Easy",
+    "difficultyLevel": "Intermediate",
     "description": "Stanford psychologist Carol Dweck introduces the concept of 'growth mindset' and how praising effort rather than intelligence transforms learning.",
     "summary": "Carol Dweck opens with an observation that changed her research: a teacher in Chicago decided that students who were not yet ready to pass a course would receive the grade *Not Yet* rather than a failing grade. *Not Yet* acknowledges the student is on a *learning curve* — they're on a path, not at a dead end. This small change had profound effects on student motivation and outcome.\n\nDweck's research explores two *mindsets*. The *fixed mindset* assumes intelligence and ability are static, carved in stone. Students with this mindset spend their energy looking smart, avoiding challenges, giving up when obstacles arise, and feeling threatened by others' success. The *growth mindset* assumes that basic qualities can be *cultivated through effort and good strategy*. Challenges become opportunities. Failure becomes information, not identity.\n\nIn a key experiment, she gave ten-year-olds a set of problems that were *slightly too hard* for them. Children with a fixed mindset said things like 'I'm not smart enough' or tried to cheat. Children with a growth mindset said things like 'I love a challenge' or 'I was hoping this would be informative.' The same difficulty produced fundamentally different responses.\n\nDweck's most important finding: *praising intelligence harms children*. Telling a child they are 'so smart' after an easy task makes them avoid future challenges (because failing would disprove the label). But praising *process* — effort, strategy, focus — builds resilience. Children praised for effort take on harder tasks, persist longer, and perform better over time.\n\nShe introduces the concept of *yet* as a transformative word: instead of 'I can't do this', teach students to say 'I can't do this *yet*'. Neurological research confirms that the brain forms new connections when we struggle and learn — intelligence is genuinely *expandable*. Key vocabulary: *mindset, fixed, growth, resilience, praise, potential, cultivate, engage, persist*. Her conclusion: equipping students with a growth mindset changes the trajectory of their lives.",
     "youtubeId": "_X0mgOOSpLU",
     "genre": "expository",
-    "cefr": "A2",
+    "cefr": "B1",
     "ageBand": "teens",
     "flightQuestion": "Should teachers praise effort instead of intelligence?"
   },
@@ -349,12 +349,12 @@
       "technology",
       "learning"
     ],
-    "difficultyLevel": "Easy",
-    "description": "Khan Academy founder Sal Khan shares how short YouTube videos for one cousin grew into a free education platform for 10 million students — and why it points toward a better model for schools.",
-    "summary": "Sal Khan begins by explaining how Khan Academy started: in 2004, he began tutoring his cousin Nadia in maths using Yahoo Doodle. He began posting videos on YouTube so she could pause and rewatch. Other cousins started watching, then strangers — and he started getting messages from students around the world saying that a stranger on YouTube explained things better than their own teachers. More surprising: parents were writing to say that their children were *not embarrassed* to rewatch a video five times, where they would be embarrassed to ask a teacher to repeat themselves.\n\nThis insight is central to Khan's argument: the traditional classroom has it *backwards*. In the standard model, students receive a lecture in class (in real time, with no pause or rewind), then go home and do homework (the hard part — applying what they learned — alone, without support). In the *flipped classroom* model enabled by video, students watch lectures at home (on their own time, pausing and rewinding as needed), then come to class to *do the work*, with the teacher available to help when they get stuck.\n\nKhan shares a pilot programme in Los Altos, California, where students used Khan Academy in the classroom. Teachers could see exactly where each student was struggling — in real time, in a dashboard — and spend their time helping the specific student who needed help, rather than lecturing to the whole class. Students who grasped concepts quickly could move ahead. Students who needed more time could take it without falling behind.\n\nHis bigger vision: a world where education is *personalised, self-paced*, and decoupled from age. The idea that 30 students of the same age should move through the same content at the same speed is an *industrial-era relic*. Key vocabulary: *self-paced, mastery, lecture, dashboard, differentiated, personalise, scale, platform, foundation, engagement*.",
+    "difficultyLevel": "Intermediate",
+    "description": "Sal Khan explains how tutoring his cousins led to reusable videos and a free learning platform, then shows how self-paced practice can support classroom teaching.",
+    "summary": "Khan describes making YouTube explanations for his cousins and discovering that they could pause and replay them. At the time of the talk, the site serves about one million students per month. He demonstrates exercises, mastery-based progress and teacher dashboards, and discusses using classroom time for individual help.",
     "youtubeId": "gM95HHI4gLk",
     "genre": "narrative",
-    "cefr": "A2",
+    "cefr": "B1",
     "ageBand": "teens"
   },
   {

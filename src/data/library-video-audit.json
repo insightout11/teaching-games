@@ -2024,12 +2024,12 @@
     "note": "Refreshed English cache: Connection, shame and vulnerability as creativity/belonging/love match Brown’s research story."
   },
   "ted-library.json/angela_duckworth_grit": {
-    "status": "level-off",
-    "note": "Evidence: The speech moves from management consulting to cadet research, standardised scores and graduation prediction in sustained multi-clause academic narration, beyond A2. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The speech moves from management consulting to cadet research, standardised scores and graduation prediction in sustained multi-clause academic narration, beyond A2. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "ted-library.json/carol_dweck_power_of_believing": {
-    "status": "level-off",
-    "note": "Evidence: The speech explains growth/fixed mindsets, brain responses, school-transition studies and equality in sustained abstract causal clauses, beyond A2. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The speech explains growth/fixed mindsets, brain responses, school-transition studies and equality in sustained abstract causal clauses, beyond A2. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "ted-library.json/shawn_achor_happy_secret": {
     "status": "ok",
@@ -2084,8 +2084,8 @@
     "note": "Refreshed English cache: Coaching, teacher observations and video self-reflection match Gates’s proposal."
   },
   "ted-library.json/sal_khan_reinvent_education": {
-    "status": "level-off",
-    "note": "Evidence: The lengthy talk uses hypotenuse, differentiated/self-paced learning, mastery exercises and classroom models, exceeding A2. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The lengthy talk uses hypotenuse, differentiated/self-paced learning, mastery exercises and classroom models, exceeding A2. Changed fields: difficultyLevel, description, summary, cefr. Video identity and duration preserved."
   },
   "ted-library.json/temple_grandin_all_kinds_of_minds": {
     "status": "ok",
