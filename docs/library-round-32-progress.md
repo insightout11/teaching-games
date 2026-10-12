@@ -12,3 +12,7 @@ Replacement counts and four complete sample decks will be added after the full b
 
 Completed five additional kids' decks. Simplified difficult Hot Seat prompts and refreshed the Twenty Questions clues to concrete, findable secrets. The partial validator passes all checks for the 15 updated decks; it reports 105 two-word Hot Seat / Twenty Questions entries for manual skim. Cumulative word/secret changes from origin/main: see current measured counts to be recorded after batch comparison.
 
+
+## Batch 3 — sharks through earthquakes (15 more topics)
+
+Completed Sharks, Sea Turtles, Frogs, Butterflies, Bees, Dinosaurs, Fossils, The Moon, The Sun, Planets, Stars, Rockets, Astronauts, Volcanoes, and Earthquakes. Each deck has learner-level meanings and six topic-grounded spoken Imposter rounds. Replaced multiword labels where needed to keep Hot Seat and Twenty Questions clues easy to act on or identify. The partial validator passes all checks for the 30 updated decks. Across the current data, 158 Hot Seat targets and 18 Twenty Questions secrets differ from `origin/main`; the validator reports the complete two-word list for manual skim.

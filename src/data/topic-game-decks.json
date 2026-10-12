@@ -4871,7 +4871,8 @@
           "teeth",
           "swim"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large fish with sharp teeth in the sea"
       },
       {
         "word": "tooth",
@@ -4881,7 +4882,8 @@
           "sharp",
           "bite"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "one hard white part used for biting food"
       },
       {
         "word": "fin",
@@ -4891,7 +4893,8 @@
           "point",
           "swim"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat part used to steer through water"
       },
       {
         "word": "gill",
@@ -4901,7 +4904,8 @@
           "side",
           "fish"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an opening used to take oxygen from water"
       },
       {
         "word": "fish",
@@ -4911,7 +4915,8 @@
           "water",
           "small"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an animal that lives and breathes underwater"
       },
       {
         "word": "ocean",
@@ -4921,7 +4926,8 @@
           "blue",
           "deep"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a huge area of salty water"
       },
       {
         "word": "tail fin",
@@ -4931,7 +4937,8 @@
           "swim",
           "flat"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the part at the back that pushes it forward"
       },
       {
         "word": "sandbar",
@@ -4941,7 +4948,8 @@
           "ground",
           "beach"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a low area of sand under shallow water"
       },
       {
         "word": "ray",
@@ -4951,7 +4959,8 @@
           "sea",
           "wings"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat sea animal with a long tail"
       },
       {
         "word": "reef",
@@ -4961,7 +4970,8 @@
           "sea",
           "rocks"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a rocky area where many sea animals live"
       },
       {
         "word": "egg case",
@@ -4971,7 +4981,8 @@
           "bag",
           "inside"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft shell that protects a growing baby"
       },
       {
         "word": "snout",
@@ -4981,7 +4992,8 @@
           "head",
           "mouth"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the front part of an animal’s head"
       },
       {
         "word": "shark pup",
@@ -4991,7 +5003,8 @@
           "mother",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a baby shark that has just been born"
       },
       {
         "word": "deep sea",
@@ -5001,107 +5014,130 @@
           "water",
           "far"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very deep part of the ocean"
       }
     ],
     "hotSeat": [
       {
         "word": "beach",
-        "level": "A1"
+        "level": "A1",
+        "description": "a sandy or rocky place beside the sea"
       },
       {
         "word": "pebble",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small smooth stone from a shore"
       },
       {
-        "word": "underwater camera",
-        "level": "A2"
+        "word": "camera",
+        "level": "A2",
+        "description": "a device used to take a picture"
       },
       {
         "word": "diver",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who swims deep under water"
       },
       {
-        "word": "research boat",
-        "level": "A2"
+        "word": "boat",
+        "level": "A2",
+        "description": "a vehicle that travels across the sea"
       },
       {
-        "word": "shark scientist",
-        "level": "A2"
+        "word": "scientist",
+        "level": "A2",
+        "description": "a person who studies animals and nature"
       },
       {
         "word": "back fin",
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat part sticking up from its back"
       },
       {
-        "word": "shark skin",
-        "level": "A2"
+        "word": "rough skin",
+        "level": "A2",
+        "description": "a coarse covering over its body"
       },
       {
         "word": "sharp edge",
-        "level": "A1"
+        "level": "A1",
+        "description": "a thin side that can cut or bite"
       },
       {
         "word": "flat body",
-        "level": "A1"
+        "level": "A1",
+        "description": "a body with little height from top to bottom"
       },
       {
         "word": "tiger shark",
-        "level": "A2"
+        "level": "A2",
+        "description": "a large sea hunter with dark stripes"
       },
       {
-        "word": "hammerhead shark",
-        "level": "A2"
+        "word": "hammerhead",
+        "level": "A2",
+        "description": "a shark with a head shaped like a tool"
       },
       {
-        "word": "hunting circle",
-        "level": "A2"
+        "word": "hunt",
+        "level": "A2",
+        "description": "looking for another animal to eat"
       },
       {
         "word": "open water",
-        "level": "A1"
+        "level": "A1",
+        "description": "sea far away from the shore"
       }
     ],
     "imposter": [
       {
         "word": "shark",
-        "decoy": "ray",
-        "level": "A2"
+        "level": "A1",
+        "description": "a large sea fish with rows of sharp teeth",
+        "hint": "a sea animal",
+        "crewQuestion": "Which animal circles through the water looking for food?",
+        "imposterQuestion": "Which animal glides through the water looking for food?"
       },
       {
         "word": "tooth",
-        "decoy": "beak",
-        "level": "A1"
-      },
-      {
-        "word": "gill",
-        "decoy": "blowhole",
-        "level": "A2"
+        "level": "A1",
+        "description": "one hard white part used to bite food",
+        "hint": "a body part",
+        "crewQuestion": "What does this hunter use to bite its meal?",
+        "imposterQuestion": "What does a lion use to bite its meal?"
       },
       {
         "word": "fin",
-        "decoy": "flipper",
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat body part that helps steer in water",
+        "hint": "a body part",
+        "crewQuestion": "Which part helps it turn as it swims?",
+        "imposterQuestion": "Which part helps a boat turn in water?"
       },
       {
-        "word": "ocean",
-        "decoy": "river",
-        "level": "A1"
-      },
-      {
-        "word": "shark pup",
-        "decoy": "whale calf",
-        "level": "A2"
-      },
-      {
-        "word": "egg case",
-        "decoy": "egg",
-        "level": "A2"
+        "word": "gill",
+        "level": "A2",
+        "description": "an opening that takes oxygen from water",
+        "hint": "a body part",
+        "crewQuestion": "How does this fish take oxygen from water?",
+        "imposterQuestion": "How does a crab take oxygen from water?"
       },
       {
         "word": "reef",
-        "decoy": "sandbar",
-        "level": "A2"
+        "level": "A2",
+        "description": "a rocky sea home full of living things",
+        "hint": "a sea place",
+        "crewQuestion": "Where might small fish hide from a larger hunter?",
+        "imposterQuestion": "Where might small fish find food near shore?"
+      },
+      {
+        "word": "ray",
+        "level": "A2",
+        "description": "a flat sea animal with wide side fins",
+        "hint": "a sea animal",
+        "crewQuestion": "Which flat animal moves like it is flying underwater?",
+        "imposterQuestion": "Which small bird moves as if flying over water?"
       }
     ],
     "twentyQuestions": [
@@ -5159,7 +5195,8 @@
           "slow",
           "swim"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a sea animal with a hard shell on its back"
       },
       {
         "word": "shell",
@@ -5169,7 +5206,8 @@
           "cover",
           "protect"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard covering that protects an animal’s body"
       },
       {
         "word": "flipper",
@@ -5179,7 +5217,8 @@
           "body",
           "swim"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat limb used to move through water"
       },
       {
         "word": "nest",
@@ -5189,7 +5228,8 @@
           "sand",
           "baby"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a place made to hold eggs safely"
       },
       {
         "word": "beach",
@@ -5199,7 +5239,8 @@
           "shore",
           "walk"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "land beside the sea where waves reach"
       },
       {
         "word": "egg",
@@ -5209,7 +5250,8 @@
           "baby",
           "white"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round shell with a growing baby inside"
       },
       {
         "word": "hatchling",
@@ -5219,7 +5261,8 @@
           "small",
           "sand"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a very young turtle that has just come out"
       },
       {
         "word": "seaweed",
@@ -5229,7 +5272,8 @@
           "water",
           "food"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "long green plants that grow under the sea"
       },
       {
         "word": "seagrass",
@@ -5239,7 +5283,8 @@
           "water",
           "field"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "grass-like plants growing on the sea floor"
       },
       {
         "word": "reef",
@@ -5249,7 +5294,8 @@
           "rocks",
           "sea"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a rocky home for many sea creatures"
       },
       {
         "word": "track",
@@ -5259,7 +5305,8 @@
           "move",
           "line"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a line of marks left by moving feet"
       },
       {
         "word": "sand",
@@ -5269,7 +5316,8 @@
           "ground",
           "grains"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "tiny grains covering a sunny shore"
       },
       {
         "word": "sun",
@@ -5279,7 +5327,8 @@
           "hot",
           "day"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the bright object that warms the Earth"
       },
       {
         "word": "tide",
@@ -5289,107 +5338,130 @@
           "down",
           "shore"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the sea moving up or down along the shore"
       }
     ],
     "hotSeat": [
       {
-        "word": "turtle mother",
-        "level": "A1"
+        "word": "mother turtle",
+        "level": "A1",
+        "description": "the grown female that lays eggs"
       },
       {
         "word": "baby turtle",
-        "level": "A1"
+        "level": "A1",
+        "description": "a very young animal with a small shell"
       },
       {
         "word": "open sea",
-        "level": "A1"
+        "level": "A1",
+        "description": "salt water far from the coast"
       },
       {
         "word": "moonlight",
-        "level": "A1"
+        "level": "A1",
+        "description": "pale light seen outdoors at night"
       },
       {
-        "word": "turtle beak",
-        "level": "A2"
+        "word": "beak",
+        "level": "A2",
+        "description": "a hard pointed mouth used to bite food"
       },
       {
         "word": "sand hollow",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small dip in the shore"
       },
       {
         "word": "nest guard",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person watching over a place with eggs"
       },
       {
-        "word": "turtle rescue worker",
-        "level": "A2"
+        "word": "rescue worker",
+        "level": "A2",
+        "description": "a person who helps animals in danger"
       },
       {
         "word": "plastic bag",
-        "level": "A1"
+        "level": "A1",
+        "description": "a light bag made from thin material"
       },
       {
         "word": "seagrass bed",
-        "level": "A2"
+        "level": "A2",
+        "description": "a patch of green plants under the water"
       },
       {
         "word": "front flipper",
-        "level": "A2"
+        "level": "A2",
+        "description": "a wide limb near the head"
       },
       {
         "word": "back flipper",
-        "level": "A2"
+        "level": "A2",
+        "description": "a wide limb near the tail"
       },
       {
         "word": "slow crawl",
-        "level": "A1"
+        "level": "A1",
+        "description": "a careful walk close to the ground"
       },
       {
         "word": "long journey",
-        "level": "A2"
+        "level": "A2",
+        "description": "a trip that covers a great distance"
       }
     ],
     "imposter": [
       {
-        "word": "shell",
-        "decoy": "helmet",
-        "level": "A2"
+        "word": "turtle",
+        "level": "A1",
+        "description": "a slow reptile protected by a hard shell",
+        "hint": "an animal",
+        "crewQuestion": "Which animal returns to land to lay eggs?",
+        "imposterQuestion": "Which bird returns to land to lay eggs?"
       },
       {
-        "word": "turtle",
-        "decoy": "tortoise",
-        "level": "A2"
+        "word": "shell",
+        "level": "A2",
+        "description": "a hard covering that protects a small animal",
+        "hint": "a body part",
+        "crewQuestion": "What does a turtle carry on its back?",
+        "imposterQuestion": "What does a snail carry on its back?"
       },
       {
         "word": "flipper",
-        "decoy": "fin",
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat limb used to move through water",
+        "hint": "a body part",
+        "crewQuestion": "What helps a turtle swim away from shore?",
+        "imposterQuestion": "What helps a seal swim away from shore?"
       },
       {
-        "word": "beach",
-        "decoy": "sandbar",
-        "level": "A1"
+        "word": "nest",
+        "level": "A1",
+        "description": "a safe place where eggs stay warm",
+        "hint": "an animal place",
+        "crewQuestion": "Where does a mother turtle leave her eggs?",
+        "imposterQuestion": "Where does a hen leave her eggs?"
       },
       {
-        "word": "egg",
-        "decoy": "hatchling",
-        "level": "A2"
+        "word": "hatchling",
+        "level": "A2",
+        "description": "a baby animal that has just left its egg",
+        "hint": "a young animal",
+        "crewQuestion": "What crawls toward the sea after hatching?",
+        "imposterQuestion": "What runs after leaving a chicken egg?"
       },
       {
         "word": "seaweed",
-        "decoy": "seagrass",
-        "level": "A2"
-      },
-      {
-        "word": "reef",
-        "decoy": "rock pool",
-        "level": "A2"
-      },
-      {
-        "word": "track",
-        "decoy": "footprint",
-        "level": "A2"
+        "level": "A2",
+        "description": "a plant that grows in salty water",
+        "hint": "a sea plant",
+        "crewQuestion": "What green food may a turtle eat underwater?",
+        "imposterQuestion": "What green food may a rabbit eat on land?"
       }
     ],
     "twentyQuestions": [
@@ -5447,7 +5519,8 @@
           "jump",
           "pond"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small animal with strong back legs that jumps"
       },
       {
         "word": "tadpole",
@@ -5457,7 +5530,8 @@
           "tail",
           "swim"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a young animal with a long tail that swims"
       },
       {
         "word": "pond",
@@ -5467,7 +5541,8 @@
           "pool",
           "garden"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small pool where water stays after rain"
       },
       {
         "word": "fly",
@@ -5477,7 +5552,8 @@
           "food",
           "air"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tiny insect with two wings and six legs"
       },
       {
         "word": "hop",
@@ -5487,7 +5563,8 @@
           "move",
           "up"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a short jump made with both feet"
       },
       {
         "word": "wet skin",
@@ -5497,7 +5574,8 @@
           "soft",
           "touch"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a damp covering on an animal’s body"
       },
       {
         "word": "croak",
@@ -5507,7 +5585,8 @@
           "night",
           "pond"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a low sound made by a frog"
       },
       {
         "word": "lily pad",
@@ -5517,7 +5596,8 @@
           "water",
           "round"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a round leaf that floats on water"
       },
       {
         "word": "frog eggs",
@@ -5527,7 +5607,8 @@
           "water",
           "tiny"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "small round babies laid in water"
       },
       {
         "word": "webbed feet",
@@ -5537,7 +5618,8 @@
           "flat",
           "legs"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "feet joined by skin for better swimming"
       },
       {
         "word": "long tongue",
@@ -5547,7 +5629,8 @@
           "food",
           "sticky"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long sticky part used to catch food"
       },
       {
         "word": "hind legs",
@@ -5557,7 +5640,8 @@
           "strong",
           "body"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "strong back limbs used for jumping"
       },
       {
         "word": "insect",
@@ -5567,7 +5651,8 @@
           "wings",
           "animal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small animal without a backbone"
       },
       {
         "word": "young frog",
@@ -5577,107 +5662,130 @@
           "legs",
           "pond"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a frog that is past its baby stage"
       }
     ],
     "hotSeat": [
       {
         "word": "green body",
-        "level": "A1"
+        "level": "A1",
+        "description": "the colour and shape of a frog’s main part"
       },
       {
         "word": "small eyes",
-        "level": "A1"
+        "level": "A1",
+        "description": "little round parts used for seeing"
       },
       {
         "word": "jumping",
-        "level": "A1"
+        "level": "A1",
+        "description": "moving up and forward off the ground"
       },
       {
         "word": "water plant",
-        "level": "A1"
+        "level": "A1",
+        "description": "green growth found in a pool"
       },
       {
         "word": "stone edge",
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard border beside the water"
       },
       {
-        "word": "rainy garden",
-        "level": "A2"
+        "word": "rain garden",
+        "level": "A2",
+        "description": "a place with plants that collect rain"
       },
       {
-        "word": "pond keeper",
-        "level": "A2"
+        "word": "keeper",
+        "level": "A2",
+        "description": "a person who looks after animals"
       },
       {
-        "word": "frog footprint",
-        "level": "A2"
+        "word": "footprint",
+        "level": "A2",
+        "description": "a mark left by a foot on soft ground"
       },
       {
         "word": "night chorus",
-        "level": "A2"
+        "level": "A2",
+        "description": "many evening sounds heard together"
       },
       {
         "word": "muddy bank",
-        "level": "A1"
+        "level": "A1",
+        "description": "soft wet ground along a pond"
       },
       {
-        "word": "tadpole tail",
-        "level": "A1"
+        "word": "young swimmer",
+        "level": "A1",
+        "description": "an animal that lives in water before growing legs"
       },
       {
-        "word": "swimming tadpole",
-        "level": "A1"
+        "word": "swimming",
+        "level": "A1",
+        "description": "moving through water without touching the ground"
       },
       {
         "word": "sticky tongue",
-        "level": "A2"
+        "level": "A2",
+        "description": "a long wet part that catches insects"
       },
       {
         "word": "pond net",
-        "level": "A2"
+        "level": "A2",
+        "description": "a net used to lift things from water"
       }
     ],
     "imposter": [
       {
         "word": "frog",
-        "decoy": "toad",
-        "level": "A2"
+        "level": "A1",
+        "description": "a small animal with strong legs that jumps",
+        "hint": "a pond animal",
+        "crewQuestion": "Where does this animal wait for small insects?",
+        "imposterQuestion": "Where does a duck wait for small insects?"
       },
       {
         "word": "tadpole",
-        "decoy": "young frog",
-        "level": "A2"
+        "level": "A2",
+        "description": "a young swimmer that grows into a frog",
+        "hint": "a young animal",
+        "crewQuestion": "What swims before it grows legs?",
+        "imposterQuestion": "What swims beside its mother from birth?"
       },
       {
-        "word": "hop",
-        "decoy": "walk",
-        "level": "A1"
-      },
-      {
-        "word": "croak",
-        "decoy": "chirp",
-        "level": "A2"
+        "word": "pond",
+        "level": "A1",
+        "description": "a small area of still water outdoors",
+        "hint": "a water place",
+        "crewQuestion": "Where might you hear frogs calling at night?",
+        "imposterQuestion": "Where might you hear ducks calling at night?"
       },
       {
         "word": "lily pad",
-        "decoy": "water flower",
-        "level": "A2"
+        "level": "A2",
+        "description": "a wide leaf that floats on pond water",
+        "hint": "a pond plant",
+        "crewQuestion": "What can a frog sit on above the water?",
+        "imposterQuestion": "What can a duck swim past on the water?"
       },
       {
-        "word": "frog eggs",
-        "decoy": "fish eggs",
-        "level": "A2"
+        "word": "fly",
+        "level": "A1",
+        "description": "a small insect with two clear wings",
+        "hint": "an insect",
+        "crewQuestion": "What might a frog catch with its tongue?",
+        "imposterQuestion": "What might a spider catch in its web?"
       },
       {
-        "word": "wet skin",
-        "decoy": "scales",
-        "level": "A2"
-      },
-      {
-        "word": "long tongue",
-        "decoy": "hind legs",
-        "level": "A2"
+        "word": "toad",
+        "level": "A2",
+        "description": "a dry-skinned relative of a frog",
+        "hint": "a pond animal",
+        "crewQuestion": "Which animal has a round body and short jumps?",
+        "imposterQuestion": "Which animal has a round body and slow steps?"
       }
     ],
     "twentyQuestions": [
@@ -5735,7 +5843,8 @@
           "flower",
           "colour"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a colourful insect with wide patterned wings"
       },
       {
         "word": "caterpillar",
@@ -5745,7 +5854,8 @@
           "leaf",
           "eat"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long soft insect that later changes shape"
       },
       {
         "word": "egg",
@@ -5755,7 +5865,8 @@
           "baby",
           "leaf"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small round shape from which a larva grows"
       },
       {
         "word": "wing",
@@ -5765,7 +5876,8 @@
           "colour",
           "flat"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat part used by an insect to fly"
       },
       {
         "word": "flower",
@@ -5775,7 +5887,8 @@
           "garden",
           "smell"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the bright part of a plant that can make seeds"
       },
       {
         "word": "nectar",
@@ -5785,7 +5898,8 @@
           "drink",
           "flower"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "sweet liquid made inside some flowers"
       },
       {
         "word": "chrysalis",
@@ -5795,7 +5909,8 @@
           "case",
           "hang"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard case where a caterpillar changes"
       },
       {
         "word": "antenna",
@@ -5805,7 +5920,8 @@
           "long",
           "thin"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a thin feeler on the head of an insect"
       },
       {
         "word": "pattern",
@@ -5815,7 +5931,8 @@
           "repeat",
           "wings"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a repeated shape or colour on a surface"
       },
       {
         "word": "pollen",
@@ -5825,7 +5942,8 @@
           "flower",
           "carry"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "fine yellow dust moved between flowers"
       },
       {
         "word": "garden",
@@ -5835,7 +5953,8 @@
           "outside",
           "grow"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where flowers and insects grow"
       },
       {
         "word": "fluttering",
@@ -5845,7 +5964,8 @@
           "wings",
           "move"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "moving lightly through the air"
       },
       {
         "word": "leaf bite",
@@ -5855,7 +5975,8 @@
           "green",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small piece removed from a plant leaf"
       },
       {
         "word": "orange wing",
@@ -5865,107 +5986,130 @@
           "side",
           "bright"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a wing with the colour of a fruit"
       }
     ],
     "hotSeat": [
       {
         "word": "painted wings",
-        "level": "A1"
+        "level": "A1",
+        "description": "wide parts with bright marks and colours"
       },
       {
         "word": "thin legs",
-        "level": "A1"
+        "level": "A1",
+        "description": "narrow limbs that support a small body"
       },
       {
-        "word": "long feeding tube",
-        "level": "A2"
+        "word": "curled tube",
+        "level": "A2",
+        "description": "a rolled part used to sip flower liquid"
       },
       {
         "word": "flower pot",
-        "level": "A1"
+        "level": "A1",
+        "description": "a container where a plant can grow"
       },
       {
         "word": "sunny hedge",
-        "level": "A1"
+        "level": "A1",
+        "description": "a row of bushes in warm light"
       },
       {
         "word": "food plant",
-        "level": "A1"
+        "level": "A1",
+        "description": "green growth that an insect eats"
       },
       {
-        "word": "butterfly watcher",
-        "level": "A2"
+        "word": "watcher",
+        "level": "A2",
+        "description": "a person who looks closely at insects"
       },
       {
         "word": "silk thread",
-        "level": "A2"
+        "level": "A2",
+        "description": "a very fine strand made by a larva"
       },
       {
-        "word": "hanging pupa",
-        "level": "A2"
+        "word": "pupa",
+        "level": "A2",
+        "description": "the stage inside the case before it flies"
       },
       {
         "word": "emerging",
-        "level": "A2"
+        "level": "A2",
+        "description": "coming out after being hidden inside"
       },
       {
         "word": "pollinating",
-        "level": "A2"
+        "level": "A2",
+        "description": "moving flower dust so seeds can grow"
       },
       {
         "word": "meadow",
-        "level": "A2"
+        "level": "A2",
+        "description": "a wide grassy place with wild flowers"
       },
       {
         "word": "closed wings",
-        "level": "A1"
+        "level": "A1",
+        "description": "two flat parts folded together at rest"
       },
       {
         "word": "flower landing",
-        "level": "A1"
+        "level": "A1",
+        "description": "a stop on a blossom to drink"
       }
     ],
     "imposter": [
       {
         "word": "butterfly",
-        "decoy": "moth",
-        "level": "A2"
+        "level": "A1",
+        "description": "a flying insect with large colourful wings",
+        "hint": "an insect",
+        "crewQuestion": "Which insect visits flowers on a sunny day?",
+        "imposterQuestion": "Which insect visits flowers after dark?"
       },
       {
         "word": "caterpillar",
-        "decoy": "worm",
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft long insect that eats many leaves",
+        "hint": "a young insect",
+        "crewQuestion": "What crawls before it grows wings?",
+        "imposterQuestion": "What crawls before it becomes a beetle?"
       },
       {
-        "word": "wing",
-        "decoy": "leaf",
-        "level": "A1"
+        "word": "flower",
+        "level": "A1",
+        "description": "the bright part of a plant that makes seeds",
+        "hint": "a plant part",
+        "crewQuestion": "Where can an insect find sweet liquid?",
+        "imposterQuestion": "Where can a bee find sweet liquid?"
       },
       {
         "word": "chrysalis",
-        "decoy": "egg",
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard case where a larva changes",
+        "hint": "an insect stage",
+        "crewQuestion": "What holds a caterpillar while its body changes?",
+        "imposterQuestion": "What holds a seed while it starts growing?"
       },
       {
         "word": "nectar",
-        "decoy": "honey",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sweet liquid hidden inside some blossoms",
+        "hint": "a plant food",
+        "crewQuestion": "What does a butterfly sip from a flower?",
+        "imposterQuestion": "What does a bee gather from a flower?"
       },
       {
-        "word": "antenna",
-        "decoy": "leg",
-        "level": "A2"
-      },
-      {
-        "word": "pollen",
-        "decoy": "dust",
-        "level": "A2"
-      },
-      {
-        "word": "flower bud",
-        "decoy": "seed pod",
-        "level": "A2"
+        "word": "moth",
+        "level": "A2",
+        "description": "a winged insect that often flies at night",
+        "hint": "an insect",
+        "crewQuestion": "Which insect may circle a light after sunset?",
+        "imposterQuestion": "Which bird may circle a light after sunset?"
       }
     ],
     "twentyQuestions": [
@@ -6023,7 +6167,8 @@
           "small",
           "honey"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small flying insect that can make honey"
       },
       {
         "word": "hive",
@@ -6033,7 +6178,8 @@
           "insects",
           "together"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a home where many bees live together"
       },
       {
         "word": "honey",
@@ -6043,7 +6189,8 @@
           "jar",
           "sticky"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a sweet food made by bees from flowers"
       },
       {
         "word": "flower",
@@ -6053,7 +6200,8 @@
           "garden",
           "smell"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the colourful part of a plant that makes seeds"
       },
       {
         "word": "bee leg",
@@ -6063,7 +6211,8 @@
           "six",
           "body"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small limb used to carry flower dust"
       },
       {
         "word": "queen bee",
@@ -6073,7 +6222,8 @@
           "leader",
           "insect"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the female bee that lays eggs in a group"
       },
       {
         "word": "worker bee",
@@ -6083,7 +6233,8 @@
           "food",
           "insect"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a bee that gathers food and cares for young"
       },
       {
         "word": "pollen",
@@ -6093,7 +6244,8 @@
           "flower",
           "carry"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "fine yellow grains carried between flowers"
       },
       {
         "word": "nectar",
@@ -6103,7 +6255,8 @@
           "flower",
           "food"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "sweet liquid made inside some flowers"
       },
       {
         "word": "honeycomb",
@@ -6113,7 +6266,8 @@
           "inside",
           "hive"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "many small wax cells joined together"
       },
       {
         "word": "wax",
@@ -6123,7 +6277,8 @@
           "cells",
           "candle"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "soft material made by bees for their home"
       },
       {
         "word": "sting",
@@ -6133,7 +6288,8 @@
           "back",
           "insect"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sharp point used to protect the insect"
       },
       {
         "word": "swarm",
@@ -6143,7 +6299,8 @@
           "together",
           "many"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a large group of bees moving together"
       },
       {
         "word": "beekeeper",
@@ -6153,107 +6310,130 @@
           "job",
           "care"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who looks after bee homes"
       }
     ],
     "hotSeat": [
       {
         "word": "garden bee",
-        "level": "A1"
+        "level": "A1",
+        "description": "a flying insect often seen near blossoms"
       },
       {
         "word": "flower field",
-        "level": "A1"
+        "level": "A1",
+        "description": "a wide area full of colourful plants"
       },
       {
         "word": "buzzing",
-        "level": "A2"
+        "level": "A2",
+        "description": "a low vibrating sound made while flying"
       },
       {
         "word": "little legs",
-        "level": "A1"
+        "level": "A1",
+        "description": "short limbs under a small body"
       },
       {
         "word": "striped body",
-        "level": "A2"
+        "level": "A2",
+        "description": "a shape with bands of two colours"
       },
       {
         "word": "bee suit",
-        "level": "A2"
+        "level": "A2",
+        "description": "special clothes that protect a person nearby"
       },
       {
         "word": "hive brush",
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft tool for moving bees gently"
       },
       {
         "word": "flower visit",
-        "level": "A1"
+        "level": "A1",
+        "description": "a short stop to gather sweet liquid"
       },
       {
         "word": "flying home",
-        "level": "A1"
+        "level": "A1",
+        "description": "returning through the air to its group"
       },
       {
         "word": "food cell",
-        "level": "A2"
+        "level": "A2",
+        "description": "one small space holding a stored meal"
       },
       {
         "word": "bee dance",
-        "level": "A2"
+        "level": "A2",
+        "description": "a movement that points toward a food place"
       },
       {
-        "word": "storing honey",
-        "level": "A2"
+        "word": "honey store",
+        "level": "A2",
+        "description": "sweet food kept safely for later"
       },
       {
         "word": "baby bee",
-        "level": "A1"
+        "level": "A1",
+        "description": "a young insect still growing in its home"
       },
       {
-        "word": "collecting pollen",
-        "level": "A2"
+        "word": "pollen collecting",
+        "level": "A2",
+        "description": "gathering fine grains from flowering plants"
       }
     ],
     "imposter": [
       {
         "word": "bee",
-        "decoy": "wasp",
-        "level": "A2"
+        "level": "A1",
+        "description": "a striped insect that visits flowers",
+        "hint": "an insect",
+        "crewQuestion": "Which insect carries yellow dust between blossoms?",
+        "imposterQuestion": "Which bird carries seeds between trees?"
       },
       {
         "word": "hive",
-        "decoy": "nest",
-        "level": "A2"
-      },
-      {
-        "word": "queen bee",
-        "decoy": "worker bee",
-        "level": "A2"
+        "level": "A2",
+        "description": "a home where a group of bees live",
+        "hint": "an animal home",
+        "crewQuestion": "Where do worker bees return with food?",
+        "imposterQuestion": "Where do ants return with food?"
       },
       {
         "word": "honey",
-        "decoy": "nectar",
-        "level": "A1"
+        "level": "A1",
+        "description": "a sweet golden food made by bees",
+        "hint": "a food",
+        "crewQuestion": "What sticky food can bees make from flowers?",
+        "imposterQuestion": "What sweet food can fruit trees make?"
+      },
+      {
+        "word": "queen bee",
+        "level": "A2",
+        "description": "the female that lays eggs in a hive",
+        "hint": "a bee role",
+        "crewQuestion": "Which bee lays eggs for the whole group?",
+        "imposterQuestion": "Which bird lays eggs for a whole nest?"
       },
       {
         "word": "pollen",
-        "decoy": "dust",
-        "level": "A2"
-      },
-      {
-        "word": "honeycomb",
-        "decoy": "egg tray",
-        "level": "A2"
-      },
-      {
-        "word": "wax",
-        "decoy": "paper",
-        "level": "A2"
+        "level": "A2",
+        "description": "fine grains that help a flower make seeds",
+        "hint": "a plant part",
+        "crewQuestion": "What yellow dust sticks to a bee’s legs?",
+        "imposterQuestion": "What yellow colour can stick to a child’s hands?"
       },
       {
         "word": "beekeeper",
-        "decoy": "gardener",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who cares for hives and bees",
+        "hint": "a job",
+        "crewQuestion": "Who checks the bees and gathers their honey?",
+        "imposterQuestion": "Who checks the sheep and gathers their wool?"
       }
     ],
     "twentyQuestions": [
@@ -6311,7 +6491,8 @@
           "big",
           "bones"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an animal from long ago that no longer lives"
       },
       {
         "word": "bone",
@@ -6321,7 +6502,8 @@
           "inside",
           "white"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard part inside the body that can last"
       },
       {
         "word": "long tail",
@@ -6331,7 +6513,8 @@
           "move",
           "balance"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the long part extending behind its body"
       },
       {
         "word": "egg fossil",
@@ -6341,7 +6524,8 @@
           "stone",
           "old"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a trace of life preserved inside stone"
       },
       {
         "word": "dinosaur tooth",
@@ -6351,7 +6535,8 @@
           "bite",
           "food"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard pointed part from its mouth"
       },
       {
         "word": "footprint",
@@ -6361,7 +6546,8 @@
           "step",
           "mud"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a mark left by feet in soft ground"
       },
       {
         "word": "fern",
@@ -6371,7 +6557,8 @@
           "leaf",
           "forest"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small green plant with soft leaves"
       },
       {
         "word": "horn",
@@ -6381,7 +6568,8 @@
           "point",
           "animal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard point growing from an animal"
       },
       {
         "word": "spike",
@@ -6391,7 +6579,8 @@
           "point",
           "hard"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sharp part sticking out from a body"
       },
       {
         "word": "feather",
@@ -6401,7 +6590,8 @@
           "coat",
           "light"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the soft covering found on some ancient animals"
       },
       {
         "word": "nest",
@@ -6411,7 +6601,8 @@
           "egg",
           "ground"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a safe place where eggs stay together"
       },
       {
         "word": "skeleton",
@@ -6421,7 +6612,8 @@
           "shape",
           "inside"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "all the bones arranged to form one body"
       },
       {
         "word": "museum",
@@ -6431,7 +6623,8 @@
           "old",
           "look"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a building where people learn about the past"
       },
       {
         "word": "fossil",
@@ -6441,107 +6634,130 @@
           "animal",
           "mark"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a very old trace of life in stone"
       }
     ],
     "hotSeat": [
       {
-        "word": "big dinosaur",
-        "level": "A1"
+        "word": "large dinosaur",
+        "level": "A1",
+        "description": "an ancient animal as tall as a building"
       },
       {
         "word": "small dinosaur",
-        "level": "A1"
+        "level": "A1",
+        "description": "an ancient animal about the size of a bird"
       },
       {
-        "word": "long-necked dinosaur",
-        "level": "A1"
+        "word": "long neck",
+        "level": "A1",
+        "description": "the stretched part between head and body"
       },
       {
-        "word": "dinosaur model",
-        "level": "A1"
+        "word": "model",
+        "level": "A1",
+        "description": "a small copy of a real object"
       },
       {
         "word": "stone",
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard piece of earth"
       },
       {
-        "word": "muddy track",
-        "level": "A1"
+        "word": "track",
+        "level": "A1",
+        "description": "a line of marks left by walking feet"
       },
       {
-        "word": "plant-eating dinosaur",
-        "level": "A2"
+        "word": "plant eater",
+        "level": "A2",
+        "description": "an animal that gets food from leaves"
       },
       {
-        "word": "meat-eating dinosaur",
-        "level": "A2"
+        "word": "meat eater",
+        "level": "A2",
+        "description": "an animal that hunts other animals for food"
       },
       {
         "word": "dig site",
-        "level": "A2"
+        "level": "A2",
+        "description": "a place where people search under the ground"
       },
       {
-        "word": "fossil brush",
-        "level": "A2"
+        "word": "soft brush",
+        "level": "A2",
+        "description": "a tool with fine hairs for cleaning dust"
       },
       {
         "word": "rock layer",
-        "level": "A2"
+        "level": "A2",
+        "description": "one band of hard earth beneath another"
       },
       {
-        "word": "museum guide",
-        "level": "A2"
+        "word": "guide",
+        "level": "A2",
+        "description": "a person who shows visitors around"
       },
       {
         "word": "digging",
-        "level": "A2"
+        "level": "A2",
+        "description": "moving soil away to find something below"
       },
       {
         "word": "fossil hunter",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person searching for signs of old life"
       }
     ],
     "imposter": [
       {
         "word": "dinosaur",
-        "decoy": "lizard",
-        "level": "A2"
+        "level": "A1",
+        "description": "an ancient animal that disappeared long ago",
+        "hint": "an old animal",
+        "crewQuestion": "What large animal left bones under the ground?",
+        "imposterQuestion": "What large animal leaves bones in a zoo?"
       },
       {
         "word": "bone",
-        "decoy": "wood",
-        "level": "A1"
-      },
-      {
-        "word": "footprint",
-        "decoy": "handprint",
-        "level": "A2"
-      },
-      {
-        "word": "horn",
-        "decoy": "spike",
-        "level": "A2"
-      },
-      {
-        "word": "feather",
-        "decoy": "scale",
-        "level": "A2"
-      },
-      {
-        "word": "skeleton",
-        "decoy": "model",
-        "level": "A2"
-      },
-      {
-        "word": "plant-eating dinosaur",
-        "decoy": "meat-eating dinosaur",
-        "level": "A2"
+        "level": "A1",
+        "description": "a hard part that supports an animal’s body",
+        "hint": "a body part",
+        "crewQuestion": "What can remain after an animal is gone?",
+        "imposterQuestion": "What can remain after a meal is gone?"
       },
       {
         "word": "fossil",
-        "decoy": "egg fossil",
-        "level": "A2"
+        "level": "A2",
+        "description": "an old trace of life saved inside rock",
+        "hint": "a very old thing",
+        "crewQuestion": "What can show us a plant from long ago?",
+        "imposterQuestion": "What can show us a person from long ago?"
+      },
+      {
+        "word": "egg",
+        "level": "A1",
+        "description": "a round shell where a baby can grow",
+        "hint": "an animal item",
+        "crewQuestion": "What did a dinosaur parent keep in its nest?",
+        "imposterQuestion": "What did a bird parent keep in its nest?"
+      },
+      {
+        "word": "footprint",
+        "level": "A1",
+        "description": "a mark made by a foot on soft ground",
+        "hint": "a mark",
+        "crewQuestion": "What can show the path an animal took?",
+        "imposterQuestion": "What can show the path a person took?"
+      },
+      {
+        "word": "museum",
+        "level": "A1",
+        "description": "a building where people look at old things",
+        "hint": "a building",
+        "crewQuestion": "Where can children see dinosaur bones on display?",
+        "imposterQuestion": "Where can children see paintings on display?"
       }
     ],
     "twentyQuestions": [
@@ -6556,7 +6772,7 @@
         "level": "A1"
       },
       {
-        "secret": "long-necked dinosaur",
+        "secret": "diplodocus",
         "kind": "animal",
         "level": "A1"
       },
@@ -6599,7 +6815,8 @@
           "animal",
           "mark"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a trace from an ancient plant or animal"
       },
       {
         "word": "rock",
@@ -6609,7 +6826,8 @@
           "ground",
           "heavy"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard piece of the ground"
       },
       {
         "word": "shell",
@@ -6619,7 +6837,8 @@
           "animal",
           "cover"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard cover from a sea animal"
       },
       {
         "word": "leaf print",
@@ -6629,7 +6848,8 @@
           "rock",
           "shape"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a picture-like mark left by an old leaf"
       },
       {
         "word": "ancient bone",
@@ -6639,7 +6859,8 @@
           "hard",
           "animal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard part from a body long ago"
       },
       {
         "word": "footprint",
@@ -6649,7 +6870,8 @@
           "ground",
           "feet"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a mark left by a foot in soft ground"
       },
       {
         "word": "imprint",
@@ -6659,7 +6881,8 @@
           "press",
           "rock"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a shape pressed into another material"
       },
       {
         "word": "amber",
@@ -6669,7 +6892,8 @@
           "insect",
           "stone"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "golden tree resin that can hold tiny things"
       },
       {
         "word": "stone slab",
@@ -6679,7 +6903,8 @@
           "large",
           "rock"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat piece of hard stone"
       },
       {
         "word": "rock layer",
@@ -6689,7 +6914,8 @@
           "old",
           "lines"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "one band of rock below the ground"
       },
       {
         "word": "brush",
@@ -6699,7 +6925,8 @@
           "handle",
           "soft"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool with soft hairs for gentle cleaning"
       },
       {
         "word": "dig site",
@@ -6709,7 +6936,8 @@
           "work",
           "hole"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a place where people carefully search underground"
       },
       {
         "word": "magnifying glass",
@@ -6719,7 +6947,8 @@
           "lens",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hand tool that makes far objects look bigger"
       },
       {
         "word": "fossil cast",
@@ -6729,107 +6958,130 @@
           "model",
           "make"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a made copy of a shape found in stone"
       }
     ],
     "hotSeat": [
       {
         "word": "museum",
-        "level": "A1"
+        "level": "A1",
+        "description": "a building where old objects are shown"
       },
       {
         "word": "sand",
-        "level": "A1"
+        "level": "A1",
+        "description": "tiny grains found on beaches and deserts"
       },
       {
-        "word": "tiny tooth",
-        "level": "A1"
+        "word": "small tooth",
+        "level": "A1",
+        "description": "a hard little part used for biting"
       },
       {
         "word": "dinosaur",
-        "level": "A1"
+        "level": "A1",
+        "description": "an ancient animal that no longer lives"
       },
       {
         "word": "hammer",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool with a heavy head for hitting"
       },
       {
         "word": "chisel",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sharp tool for cutting stone"
       },
       {
         "word": "fossil tray",
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat holder for small finds"
       },
       {
         "word": "field bag",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bag carried while working outdoors"
       },
       {
         "word": "measuring tape",
-        "level": "A2"
+        "level": "A2",
+        "description": "a long strip used to check size"
       },
       {
         "word": "label",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small note naming an object"
       },
       {
         "word": "notebook",
-        "level": "A1"
+        "level": "A1",
+        "description": "a book for writing down observations"
       },
       {
         "word": "rock split",
-        "level": "A2"
+        "level": "A2",
+        "description": "a crack that opens a stone in two"
       },
       {
         "word": "spiral shell",
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard sea home curled into a coil"
       },
       {
-        "word": "trace drawing",
-        "level": "A2"
+        "word": "trace sketch",
+        "level": "A2",
+        "description": "a simple drawing showing an object’s shape"
       }
     ],
     "imposter": [
       {
         "word": "fossil",
-        "decoy": "fossil cast",
-        "level": "A2"
+        "level": "A1",
+        "description": "a trace of old life held inside stone",
+        "hint": "an old trace",
+        "crewQuestion": "What might a scientist uncover after digging?",
+        "imposterQuestion": "What might a gardener uncover after digging?"
       },
       {
         "word": "rock",
-        "decoy": "bone",
-        "level": "A1"
-      },
-      {
-        "word": "leaf print",
-        "decoy": "footprint",
-        "level": "A2"
+        "level": "A1",
+        "description": "a hard piece of earth found outside",
+        "hint": "a natural thing",
+        "crewQuestion": "What can hold a mark from a long time ago?",
+        "imposterQuestion": "What can cover a mark from a long time ago?"
       },
       {
         "word": "shell",
-        "decoy": "egg case",
-        "level": "A2"
+        "level": "A1",
+        "description": "a hard outside home for a small sea animal",
+        "hint": "an animal part",
+        "crewQuestion": "What might be saved from a sea animal long ago?",
+        "imposterQuestion": "What might be saved from a bird long ago?"
       },
       {
-        "word": "amber",
-        "decoy": "clear glass",
-        "level": "A2"
-      },
-      {
-        "word": "brush",
-        "decoy": "chisel",
-        "level": "A2"
+        "word": "bone",
+        "level": "A2",
+        "description": "a hard part inside the body",
+        "hint": "a body part",
+        "crewQuestion": "What can remain when a large animal is gone?",
+        "imposterQuestion": "What can remain when a meal is finished?"
       },
       {
         "word": "museum",
-        "decoy": "dig site",
-        "level": "A2"
+        "level": "A1",
+        "description": "a building where old discoveries are displayed",
+        "hint": "a building",
+        "crewQuestion": "Where can visitors learn about an ancient animal?",
+        "imposterQuestion": "Where can visitors learn about a famous artist?"
       },
       {
-        "word": "magnifying glass",
-        "decoy": "telescope",
-        "level": "A2"
+        "word": "brush",
+        "level": "A1",
+        "description": "a tool with hairs for gentle cleaning",
+        "hint": "a tool",
+        "crewQuestion": "What can clear dust from a delicate find?",
+        "imposterQuestion": "What can clear dust from a classroom desk?"
       }
     ],
     "twentyQuestions": [
@@ -6887,7 +7139,8 @@
           "round",
           "light"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the round object that shines in our night sky"
       },
       {
         "word": "crater",
@@ -6897,7 +7150,8 @@
           "ground",
           "deep"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a bowl-shaped hole made by a space rock"
       },
       {
         "word": "rock",
@@ -6907,7 +7161,8 @@
           "ground",
           "small"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small hard piece from a planet"
       },
       {
         "word": "spacesuit",
@@ -6917,7 +7172,8 @@
           "astronaut",
           "clothes"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "clothes that keep an astronaut safe in space"
       },
       {
         "word": "flag",
@@ -6927,7 +7183,8 @@
           "colour",
           "wave"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a piece of cloth raised to mark a place"
       },
       {
         "word": "rocket",
@@ -6937,7 +7194,8 @@
           "fire",
           "launch"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a vehicle that travels from Earth into space"
       },
       {
         "word": "lunar footprint",
@@ -6947,7 +7205,8 @@
           "ground",
           "step"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a mark made by a boot on dusty ground"
       },
       {
         "word": "moonlight",
@@ -6957,7 +7216,8 @@
           "sky",
           "bright"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "soft light seen outdoors after sunset"
       },
       {
         "word": "crescent",
@@ -6967,7 +7227,8 @@
           "curve",
           "night"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a thin curved shape like a fingernail"
       },
       {
         "word": "full Moon",
@@ -6977,7 +7238,8 @@
           "bright",
           "night"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the round shape seen when its face is bright"
       },
       {
         "word": "surface",
@@ -6987,7 +7249,8 @@
           "outside",
           "touch"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the outside layer of a planet or moon"
       },
       {
         "word": "Earth",
@@ -6997,7 +7260,8 @@
           "planet",
           "blue"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the planet where people live"
       },
       {
         "word": "Moon lander",
@@ -7007,7 +7271,8 @@
           "down",
           "space"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a vehicle that touches down on the ground"
       },
       {
         "word": "lunar rover",
@@ -7017,107 +7282,130 @@
           "vehicle",
           "explore"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small vehicle driven across dusty ground"
       }
     ],
     "hotSeat": [
       {
         "word": "star",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright point of light far away"
       },
       {
         "word": "telescope",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool for seeing far objects more clearly"
       },
       {
         "word": "helmet",
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard cover worn to protect the head"
       },
       {
         "word": "glove",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover worn on one hand"
       },
       {
         "word": "lunar dust",
-        "level": "A2"
+        "level": "A2",
+        "description": "fine grey powder covering the ground"
       },
       {
         "word": "crater edge",
-        "level": "A2"
+        "level": "A2",
+        "description": "the raised rim around a round hole"
       },
       {
         "word": "landing leg",
-        "level": "A2"
+        "level": "A2",
+        "description": "a support that holds a vehicle on ground"
       },
       {
         "word": "air tank",
-        "level": "A2"
+        "level": "A2",
+        "description": "a container holding air to breathe"
       },
       {
         "word": "Moon map",
-        "level": "A1"
+        "level": "A1",
+        "description": "a drawing showing places on its surface"
       },
       {
         "word": "boot print",
-        "level": "A1"
+        "level": "A1",
+        "description": "a mark left by the bottom of a shoe"
       },
       {
         "word": "dark sky",
-        "level": "A1"
+        "level": "A1",
+        "description": "the night view above the ground"
       },
       {
-        "word": "star cluster",
-        "level": "A2"
+        "word": "star group",
+        "level": "A2",
+        "description": "several bright points seen close together"
       },
       {
         "word": "orbit",
-        "level": "A2"
+        "level": "A2",
+        "description": "the curved path around a planet"
       },
       {
-        "word": "return journey",
-        "level": "A2"
+        "word": "return trip",
+        "level": "A2",
+        "description": "the journey back to the starting place"
       }
     ],
     "imposter": [
       {
         "word": "Moon",
-        "decoy": "Earth",
-        "level": "A1"
-      },
-      {
-        "word": "crescent",
-        "decoy": "full Moon",
-        "level": "A2"
-      },
-      {
-        "word": "crater",
-        "decoy": "valley",
-        "level": "A2"
-      },
-      {
-        "word": "moonlight",
-        "decoy": "sunlight",
-        "level": "A2"
-      },
-      {
-        "word": "spacesuit",
-        "decoy": "diving suit",
-        "level": "A2"
-      },
-      {
-        "word": "rock",
-        "decoy": "meteorite",
-        "level": "A2"
+        "level": "A1",
+        "description": "the round object moving around our planet",
+        "hint": "a space object",
+        "crewQuestion": "What shines above us after the sun sets?",
+        "imposterQuestion": "What shines above us before the sun rises?"
       },
       {
         "word": "rocket",
-        "decoy": "airplane",
-        "level": "A1"
+        "level": "A1",
+        "description": "a vehicle that travels beyond the sky",
+        "hint": "a vehicle",
+        "crewQuestion": "What carries astronauts away from Earth?",
+        "imposterQuestion": "What carries divers away from the beach?"
       },
       {
-        "word": "flag",
-        "decoy": "map",
-        "level": "A1"
+        "word": "spacesuit",
+        "level": "A2",
+        "description": "special clothes that protect a person in space",
+        "hint": "special clothes",
+        "crewQuestion": "What keeps an astronaut safe outside a spacecraft?",
+        "imposterQuestion": "What keeps a firefighter safe inside a burning building?"
+      },
+      {
+        "word": "telescope",
+        "level": "A2",
+        "description": "a tool that makes distant objects look nearer",
+        "hint": "a tool",
+        "crewQuestion": "What helps people look closely at distant stars?",
+        "imposterQuestion": "What helps people look closely at tiny insects?"
+      },
+      {
+        "word": "crater",
+        "level": "A2",
+        "description": "a round hole made by a space rock",
+        "hint": "a hole",
+        "crewQuestion": "What mark can a falling rock leave on the Moon?",
+        "imposterQuestion": "What mark can a falling ball leave in sand?"
+      },
+      {
+        "word": "Earth",
+        "level": "A1",
+        "description": "the planet that travels around the sun",
+        "hint": "a planet",
+        "crewQuestion": "Where do people live before going into space?",
+        "imposterQuestion": "Where do penguins live before going into water?"
       }
     ],
     "twentyQuestions": [
@@ -7175,7 +7463,8 @@
           "hot",
           "day"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the bright object that lights our daytime sky"
       },
       {
         "word": "light",
@@ -7185,7 +7474,8 @@
           "dark",
           "shine"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "brightness that helps eyes see the world"
       },
       {
         "word": "heat",
@@ -7195,7 +7485,8 @@
           "fire",
           "summer"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "energy that makes a place feel warm"
       },
       {
         "word": "shadow",
@@ -7205,7 +7496,8 @@
           "ground",
           "behind"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a dark shape made when light is blocked"
       },
       {
         "word": "day",
@@ -7215,7 +7507,8 @@
           "bright",
           "time"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the part of a full circle when light is here"
       },
       {
         "word": "sunrise",
@@ -7225,7 +7518,8 @@
           "light",
           "start"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the moment the bright disk first appears"
       },
       {
         "word": "sunset",
@@ -7235,7 +7529,8 @@
           "light",
           "end"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the time when daylight fades away"
       },
       {
         "word": "solar panel",
@@ -7245,7 +7540,8 @@
           "light",
           "electricity"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a device that changes sunshine into power"
       },
       {
         "word": "solar oven",
@@ -7255,7 +7551,8 @@
           "light",
           "food"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a box that cooks using sunshine"
       },
       {
         "word": "sunbeam",
@@ -7265,7 +7562,8 @@
           "window",
           "bright"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a narrow line of bright light"
       },
       {
         "word": "sundial",
@@ -7275,7 +7573,8 @@
           "clock",
           "ground"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool that tells time by a shadow"
       },
       {
         "word": "sunspot",
@@ -7285,7 +7584,8 @@
           "star",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a dark mark sometimes seen on its surface"
       },
       {
         "word": "eclipse",
@@ -7295,7 +7595,8 @@
           "dark",
           "sky"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "when one space object blocks another"
       },
       {
         "word": "solar viewer",
@@ -7305,107 +7606,130 @@
           "safe",
           "look"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "special glasses used to look safely upward"
       }
     ],
     "hotSeat": [
       {
         "word": "Earth",
-        "level": "A1"
+        "level": "A1",
+        "description": "the planet where people live"
       },
       {
-        "word": "moon",
-        "level": "A1"
+        "word": "Moon",
+        "level": "A1",
+        "description": "a round object that travels around Earth"
       },
       {
         "word": "sky",
-        "level": "A1"
+        "level": "A1",
+        "description": "the space seen above us outdoors"
       },
       {
         "word": "warm stone",
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard piece of ground heated by light"
       },
       {
         "word": "solar farm",
-        "level": "A2"
+        "level": "A2",
+        "description": "a large area that makes power from sunlight"
       },
       {
         "word": "telescope",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool that makes distant objects look closer"
       },
       {
-        "word": "solar scientist",
-        "level": "A2"
+        "word": "scientist",
+        "level": "A2",
+        "description": "a person who studies nature and space"
       },
       {
         "word": "window shade",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover that blocks light from glass"
       },
       {
         "word": "shade cloth",
-        "level": "A1"
+        "level": "A1",
+        "description": "a sheet that makes a cooler place outside"
       },
       {
         "word": "sunflower",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tall yellow flower with a round middle"
       },
       {
-        "word": "sunny playground",
-        "level": "A1"
+        "word": "playground",
+        "level": "A1",
+        "description": "an outdoor place where children play"
       },
       {
         "word": "dark lens",
-        "level": "A2"
+        "level": "A2",
+        "description": "a piece of glass that cuts bright light"
       },
       {
         "word": "hot sand",
-        "level": "A1"
+        "level": "A1",
+        "description": "tiny grains warmed by the sun"
       },
       {
         "word": "morning sky",
-        "level": "A1"
+        "level": "A1",
+        "description": "the view above us early in the day"
       }
     ],
     "imposter": [
       {
-        "word": "Sun",
-        "decoy": "Moon",
-        "level": "A1"
-      },
-      {
-        "word": "sunrise",
-        "decoy": "sunset",
-        "level": "A1"
-      },
-      {
-        "word": "sunlight",
-        "decoy": "moonlight",
-        "level": "A2"
+        "word": "sun",
+        "level": "A1",
+        "description": "the bright star that gives Earth light",
+        "hint": "a space object",
+        "crewQuestion": "What appears in the sky during the day?",
+        "imposterQuestion": "What appears in the sky after dark?"
       },
       {
         "word": "shadow",
-        "decoy": "reflection",
-        "level": "A2"
+        "level": "A1",
+        "description": "a dark shape made when light is blocked",
+        "hint": "a shape",
+        "crewQuestion": "What can you see beside you on a sunny day?",
+        "imposterQuestion": "What can you see beside you under a bright lamp?"
+      },
+      {
+        "word": "sunrise",
+        "level": "A1",
+        "description": "the time when the sun first appears",
+        "hint": "a time of day",
+        "crewQuestion": "When does the day begin to grow bright?",
+        "imposterQuestion": "When does the evening begin to grow dark?"
+      },
+      {
+        "word": "sunset",
+        "level": "A1",
+        "description": "the time when the sun disappears for night",
+        "hint": "a time of day",
+        "crewQuestion": "When does daylight end over the hills?",
+        "imposterQuestion": "When does moonlight begin over the hills?"
       },
       {
         "word": "solar panel",
-        "decoy": "solar oven",
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat device that changes light into power",
+        "hint": "a device",
+        "crewQuestion": "What can collect sunshine on a roof?",
+        "imposterQuestion": "What can collect rain on a roof?"
       },
       {
         "word": "sundial",
-        "decoy": "clock",
-        "level": "A2"
-      },
-      {
-        "word": "eclipse",
-        "decoy": "cloud cover",
-        "level": "A2"
-      },
-      {
-        "word": "solar viewer",
-        "decoy": "sunglasses",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool that tells time using a shadow",
+        "hint": "a tool",
+        "crewQuestion": "What can show the hour by its shadow?",
+        "imposterQuestion": "What can show direction with a needle?"
       }
     ],
     "twentyQuestions": [
@@ -7463,7 +7787,8 @@
           "round",
           "Sun"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large round object that travels around a star"
       },
       {
         "word": "Earth",
@@ -7473,7 +7798,8 @@
           "blue",
           "land"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the world that people call home"
       },
       {
         "word": "Mars",
@@ -7483,7 +7809,8 @@
           "space",
           "rover"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the red world next to Earth"
       },
       {
         "word": "Saturn",
@@ -7493,7 +7820,8 @@
           "space",
           "large"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a world with wide rings around it"
       },
       {
         "word": "orbit",
@@ -7503,7 +7831,8 @@
           "move",
           "Sun"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the path one space object follows around another"
       },
       {
         "word": "ring",
@@ -7513,7 +7842,8 @@
           "around",
           "shape"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a thin circle around a planet"
       },
       {
         "word": "globe",
@@ -7523,7 +7853,8 @@
           "map",
           "model"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round model showing land and water"
       },
       {
         "word": "moon",
@@ -7533,7 +7864,8 @@
           "round",
           "light"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a natural object that travels around a planet"
       },
       {
         "word": "space",
@@ -7543,7 +7875,8 @@
           "far",
           "rocket"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the huge area beyond our atmosphere"
       },
       {
         "word": "solar system",
@@ -7553,7 +7886,8 @@
           "group",
           "orbit"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the sun and all the worlds around it"
       },
       {
         "word": "gravity",
@@ -7563,7 +7897,8 @@
           "ground",
           "heavy"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a force that pulls objects toward one another"
       },
       {
         "word": "gas giant",
@@ -7573,7 +7908,8 @@
           "round",
           "cloud"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a huge world made mostly of gas"
       },
       {
         "word": "rocky planet",
@@ -7583,7 +7919,8 @@
           "hard",
           "world"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a world with a hard rocky outside"
       },
       {
         "word": "axis",
@@ -7593,107 +7930,130 @@
           "through",
           "middle"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an imaginary line through the middle of a planet"
       }
     ],
     "hotSeat": [
       {
         "word": "Jupiter",
-        "level": "A2"
+        "level": "A2",
+        "description": "the largest world in our solar system"
       },
       {
         "word": "Venus",
-        "level": "A2"
+        "level": "A2",
+        "description": "a very bright world near Earth"
       },
       {
         "word": "Mercury",
-        "level": "A2"
+        "level": "A2",
+        "description": "the smallest planet closest to the sun"
       },
       {
         "word": "Neptune",
-        "level": "A2"
+        "level": "A2",
+        "description": "a blue world far from the sun"
       },
       {
         "word": "space map",
-        "level": "A1"
+        "level": "A1",
+        "description": "a drawing that shows where objects are"
       },
       {
         "word": "space probe",
-        "level": "A2"
+        "level": "A2",
+        "description": "a machine sent out to study a distant world"
       },
       {
         "word": "cratered surface",
-        "level": "A2"
+        "level": "A2",
+        "description": "ground covered with round holes from space rocks"
       },
       {
         "word": "planet poster",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large classroom picture about the worlds"
       },
       {
         "word": "satellite",
-        "level": "A2"
+        "level": "A2",
+        "description": "an object that travels around a planet"
       },
       {
         "word": "surface ice",
-        "level": "A2"
+        "level": "A2",
+        "description": "frozen water covering part of a world"
       },
       {
         "word": "cloud band",
-        "level": "A2"
+        "level": "A2",
+        "description": "a long stripe of clouds across a planet"
       },
       {
-        "word": "planet explorer",
-        "level": "A2"
+        "word": "explorer",
+        "level": "A2",
+        "description": "a person who travels to learn about places"
       },
       {
         "word": "spinning",
-        "level": "A1"
+        "level": "A1",
+        "description": "turning around a middle point"
       },
       {
         "word": "star",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright ball of gas far away"
       }
     ],
     "imposter": [
       {
         "word": "planet",
-        "decoy": "moon",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large round world travelling around a star",
+        "hint": "a space object",
+        "crewQuestion": "Which object moves around the sun without its own light?",
+        "imposterQuestion": "Which object moves around Earth and shines at night?"
       },
       {
         "word": "Earth",
-        "decoy": "Mars",
-        "level": "A2"
+        "level": "A1",
+        "description": "the world where people live and grow food",
+        "hint": "a planet",
+        "crewQuestion": "Which world has oceans and living things?",
+        "imposterQuestion": "Which world has wide rings and many moons?"
       },
       {
-        "word": "ring",
-        "decoy": "orbit",
-        "level": "A2"
+        "word": "Mars",
+        "level": "A2",
+        "description": "a red world that has dusty ground",
+        "hint": "a planet",
+        "crewQuestion": "Which planet looks red through a telescope?",
+        "imposterQuestion": "Which planet looks blue through a telescope?"
       },
       {
-        "word": "globe",
-        "decoy": "map",
-        "level": "A1"
+        "word": "Saturn",
+        "level": "A2",
+        "description": "a large world surrounded by wide bright rings",
+        "hint": "a planet",
+        "crewQuestion": "Which planet is easy to spot by its rings?",
+        "imposterQuestion": "Which planet is famous for its big red spot?"
       },
       {
-        "word": "Jupiter",
-        "decoy": "Saturn",
-        "level": "A2"
+        "word": "orbit",
+        "level": "A2",
+        "description": "the path one object follows around another",
+        "hint": "a space path",
+        "crewQuestion": "What path does Earth follow around the sun?",
+        "imposterQuestion": "What path does a ball follow after a throw?"
       },
       {
-        "word": "gas giant",
-        "decoy": "rocky planet",
-        "level": "A2"
-      },
-      {
-        "word": "space probe",
-        "decoy": "rover",
-        "level": "A2"
-      },
-      {
-        "word": "gravity",
-        "decoy": "magnet",
-        "level": "A2"
+        "word": "moon",
+        "level": "A1",
+        "description": "a natural object that travels around a planet",
+        "hint": "a space object",
+        "crewQuestion": "What moves around Earth and shines at night?",
+        "imposterQuestion": "What moves around the sun and has a long tail?"
       }
     ],
     "twentyQuestions": [
@@ -7751,7 +8111,8 @@
           "light",
           "small"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a huge ball of glowing gas in distant space"
       },
       {
         "word": "night",
@@ -7761,7 +8122,8 @@
           "sleep",
           "evening"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the dark part of the day after sunset"
       },
       {
         "word": "sky",
@@ -7771,7 +8133,8 @@
           "blue",
           "above"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the space above the land where clouds move"
       },
       {
         "word": "telescope",
@@ -7781,7 +8144,8 @@
           "lens",
           "bigger"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool for seeing far objects more clearly"
       },
       {
         "word": "constellation",
@@ -7791,7 +8155,8 @@
           "shape",
           "sky"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a group of stars that makes a picture"
       },
       {
         "word": "shooting star",
@@ -7801,7 +8166,8 @@
           "fast",
           "line"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright space rock that seems to fall"
       },
       {
         "word": "darkness",
@@ -7811,7 +8177,8 @@
           "light",
           "see"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the state of having no light around"
       },
       {
         "word": "twinkle",
@@ -7821,7 +8188,8 @@
           "flash",
           "light"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "shining with a small changing light"
       },
       {
         "word": "star map",
@@ -7831,7 +8199,8 @@
           "find",
           "pattern"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a drawing that helps find stars"
       },
       {
         "word": "binoculars",
@@ -7841,7 +8210,8 @@
           "far",
           "lenses"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool with two lenses for looking far"
       },
       {
         "word": "Milky Way",
@@ -7851,7 +8221,8 @@
           "band",
           "light"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the bright band of stars across the sky"
       },
       {
         "word": "galaxy",
@@ -7861,7 +8232,8 @@
           "space",
           "group"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a huge collection of stars and dust"
       },
       {
         "word": "red star",
@@ -7871,7 +8243,8 @@
           "light",
           "hot"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a star that looks red from far away"
       },
       {
         "word": "blue star",
@@ -7881,107 +8254,130 @@
           "light",
           "bright"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a star that looks blue from far away"
       }
     ],
     "hotSeat": [
       {
         "word": "Moon",
-        "level": "A1"
+        "level": "A1",
+        "description": "a round object that travels around Earth"
       },
       {
         "word": "Saturn",
-        "level": "A2"
+        "level": "A2",
+        "description": "a large planet surrounded by wide rings"
       },
       {
         "word": "observatory",
-        "level": "A2"
+        "level": "A2",
+        "description": "a building where people watch space objects"
       },
       {
         "word": "astronomer",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who studies stars and planets"
       },
       {
         "word": "night garden",
-        "level": "A1"
+        "level": "A1",
+        "description": "an outdoor place with flowers after sunset"
       },
       {
-        "word": "camera",
-        "level": "A1"
+        "word": "sky photo",
+        "level": "A1",
+        "description": "a picture of distant lights taken after dark"
       },
       {
         "word": "tripod",
-        "level": "A2"
+        "level": "A2",
+        "description": "three legs that hold a camera steady"
       },
       {
         "word": "meteorite",
-        "level": "A2"
+        "level": "A2",
+        "description": "a space rock that has reached the ground"
       },
       {
         "word": "planet",
-        "level": "A1"
+        "level": "A1",
+        "description": "a round world that travels around a star"
       },
       {
         "word": "comet",
-        "level": "A2"
+        "level": "A2",
+        "description": "a space object with a bright trailing tail"
       },
       {
         "word": "satellite",
-        "level": "A2"
+        "level": "A2",
+        "description": "an object that travels around a planet"
       },
       {
         "word": "red light",
-        "level": "A1"
+        "level": "A1",
+        "description": "a coloured beam that helps people see"
       },
       {
         "word": "winter sky",
-        "level": "A1"
+        "level": "A1",
+        "description": "the view above us in the cold season"
       },
       {
-        "word": "clear horizon",
-        "level": "A2"
+        "word": "horizon",
+        "level": "A2",
+        "description": "the far line where land seems to meet sky"
       }
     ],
     "imposter": [
       {
         "word": "star",
-        "decoy": "planet",
-        "level": "A1"
+        "level": "A1",
+        "description": "a glowing ball of gas far across space",
+        "hint": "a space object",
+        "crewQuestion": "What shines like a tiny point after sunset?",
+        "imposterQuestion": "What shines like a tiny point before sunrise?"
       },
       {
-        "word": "constellation",
-        "decoy": "galaxy",
-        "level": "A2"
-      },
-      {
-        "word": "comet",
-        "decoy": "shooting star",
-        "level": "A2"
+        "word": "planet",
+        "level": "A1",
+        "description": "a large round world travelling around a star",
+        "hint": "a space object",
+        "crewQuestion": "What round world moves around the sun?",
+        "imposterQuestion": "What round object moves around Earth?"
       },
       {
         "word": "telescope",
-        "decoy": "binoculars",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool that brings far objects into view",
+        "hint": "a tool",
+        "crewQuestion": "What helps people look closely at a distant planet?",
+        "imposterQuestion": "What helps people look closely at a tiny bug?"
       },
       {
-        "word": "red star",
-        "decoy": "blue star",
-        "level": "A1"
+        "word": "comet",
+        "level": "A2",
+        "description": "a space object with a bright trail behind",
+        "hint": "a space object",
+        "crewQuestion": "Which object may show a glowing tail in the sky?",
+        "imposterQuestion": "Which animal may show a fluffy tail in the garden?"
       },
       {
-        "word": "night",
-        "decoy": "day",
-        "level": "A1"
-      },
-      {
-        "word": "camera",
-        "decoy": "tripod",
-        "level": "A2"
+        "word": "constellation",
+        "level": "A2",
+        "description": "a group of stars seen as a pattern",
+        "hint": "a star group",
+        "crewQuestion": "What picture can people find among stars?",
+        "imposterQuestion": "What picture can people find among clouds?"
       },
       {
         "word": "observatory",
-        "decoy": "museum",
-        "level": "A2"
+        "level": "A2",
+        "description": "a building designed for watching objects in space",
+        "hint": "a building",
+        "crewQuestion": "Where might a scientist watch the night sky?",
+        "imposterQuestion": "Where might a scientist watch sea animals?"
       }
     ],
     "twentyQuestions": [
@@ -8039,7 +8435,8 @@
           "fire",
           "up"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a vehicle sent high into the sky or space"
       },
       {
         "word": "launch",
@@ -8049,7 +8446,8 @@
           "fly",
           "ground"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the moment a spacecraft begins its journey"
       },
       {
         "word": "fuel",
@@ -8059,7 +8457,8 @@
           "power",
           "tank"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "material burned to give a vehicle power"
       },
       {
         "word": "flame",
@@ -8069,7 +8468,8 @@
           "light",
           "orange"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright hot line of burning gas"
       },
       {
         "word": "nose cone",
@@ -8079,7 +8479,8 @@
           "top",
           "shape"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the pointed front part of a flying vehicle"
       },
       {
         "word": "fin",
@@ -8089,7 +8490,8 @@
           "turn",
           "wing"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a flat part that helps guide a vehicle"
       },
       {
         "word": "engine",
@@ -8099,7 +8501,8 @@
           "fuel",
           "machine"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the machine part that pushes a vehicle forward"
       },
       {
         "word": "space",
@@ -8109,7 +8512,8 @@
           "sky",
           "planets"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the area beyond the air around Earth"
       },
       {
         "word": "fire",
@@ -8119,7 +8523,8 @@
           "light",
           "smoke"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a quick bright burn that gives off light"
       },
       {
         "word": "countdown",
@@ -8129,7 +8534,8 @@
           "ten",
           "back"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the spoken number count before a start"
       },
       {
         "word": "launch pad",
@@ -8139,7 +8545,8 @@
           "tower",
           "flat"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a prepared place where a vehicle takes off"
       },
       {
         "word": "booster",
@@ -8149,7 +8556,8 @@
           "engine",
           "push"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a smaller engine that adds extra power"
       },
       {
         "word": "parachute",
@@ -8159,7 +8567,8 @@
           "cloth",
           "air"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a fabric device that slows a falling object"
       },
       {
         "word": "capsule",
@@ -8169,107 +8578,130 @@
           "round",
           "return"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small cabin where travellers sit safely"
       }
     ],
     "hotSeat": [
       {
         "word": "astronaut",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person trained to travel into space"
       },
       {
         "word": "helmet",
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard cover worn to protect the head"
       },
       {
         "word": "ground crew",
-        "level": "A2"
+        "level": "A2",
+        "description": "people on Earth helping a mission"
       },
       {
         "word": "control room",
-        "level": "A2"
+        "level": "A2",
+        "description": "a place where people watch instruments"
       },
       {
         "word": "round window",
-        "level": "A1"
+        "level": "A1",
+        "description": "a circular piece of glass to look through"
       },
       {
         "word": "space station",
-        "level": "A2"
+        "level": "A2",
+        "description": "a large home that travels around Earth"
       },
       {
         "word": "smoke",
-        "level": "A1"
+        "level": "A1",
+        "description": "a grey cloud from burning material"
       },
       {
         "word": "launch tower",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall frame beside a waiting rocket"
       },
       {
-        "word": "space camera",
-        "level": "A2"
+        "word": "mission photo",
+        "level": "A2",
+        "description": "a picture taken to record a flight’s progress"
       },
       {
         "word": "rover",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small vehicle driven over another world"
       },
       {
         "word": "test flight",
-        "level": "A2"
+        "level": "A2",
+        "description": "a journey made to check a new vehicle"
       },
       {
-        "word": "return landing",
-        "level": "A2"
+        "word": "landing",
+        "level": "A2",
+        "description": "the moment a vehicle reaches the ground"
       },
       {
-        "word": "landing feet",
-        "level": "A1"
+        "word": "landing gear",
+        "level": "A1",
+        "description": "supports that hold a vehicle on ground"
       },
       {
-        "word": "paper rocket",
-        "level": "A1"
+        "word": "paper model",
+        "level": "A1",
+        "description": "a small shape folded from a sheet"
       }
     ],
     "imposter": [
       {
         "word": "rocket",
-        "decoy": "airplane",
-        "level": "A1"
-      },
-      {
-        "word": "engine",
-        "decoy": "motor",
-        "level": "A2"
+        "level": "A1",
+        "description": "a vehicle pushed high into the sky",
+        "hint": "a vehicle",
+        "crewQuestion": "What carries people away from Earth into space?",
+        "imposterQuestion": "What carries people away from shore across water?"
       },
       {
         "word": "fuel",
-        "decoy": "water",
-        "level": "A2"
+        "level": "A2",
+        "description": "material burned to make an engine move",
+        "hint": "a power source",
+        "crewQuestion": "What does an engine need before it can start?",
+        "imposterQuestion": "What does a lamp need before it can shine?"
       },
       {
-        "word": "launch",
-        "decoy": "landing",
-        "level": "A2"
-      },
-      {
-        "word": "nose cone",
-        "decoy": "wing",
-        "level": "A2"
+        "word": "engine",
+        "level": "A2",
+        "description": "a machine that gives power to a vehicle",
+        "hint": "a machine",
+        "crewQuestion": "What pushes a rocket up from the ground?",
+        "imposterQuestion": "What pushes a boat across the water?"
       },
       {
         "word": "parachute",
-        "decoy": "umbrella",
-        "level": "A2"
+        "level": "A2",
+        "description": "a fabric device that slows someone falling",
+        "hint": "a safety item",
+        "crewQuestion": "What can open above a person coming down?",
+        "imposterQuestion": "What can open above a person coming indoors?"
       },
       {
         "word": "capsule",
-        "decoy": "space station",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small cabin where travellers sit safely",
+        "hint": "a vehicle part",
+        "crewQuestion": "Where can astronauts ride during a space trip?",
+        "imposterQuestion": "Where can divers ride during a sea trip?"
       },
       {
-        "word": "flame",
-        "decoy": "smoke",
-        "level": "A1"
+        "word": "launch pad",
+        "level": "A2",
+        "description": "a prepared place where a rocket takes off",
+        "hint": "a launch place",
+        "crewQuestion": "Where does a rocket wait before starting upward?",
+        "imposterQuestion": "Where does a plane wait before moving forward?"
       }
     ],
     "twentyQuestions": [
@@ -8327,7 +8759,8 @@
           "helmet",
           "job"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person trained to travel and work in space"
       },
       {
         "word": "spacesuit",
@@ -8337,7 +8770,8 @@
           "body",
           "clothes"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "clothing that protects a person outside a ship"
       },
       {
         "word": "helmet",
@@ -8347,7 +8781,8 @@
           "hard",
           "hat"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard cover that protects someone’s head"
       },
       {
         "word": "glove",
@@ -8357,7 +8792,8 @@
           "warm",
           "fingers"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover worn over one hand"
       },
       {
         "word": "boot",
@@ -8367,7 +8803,8 @@
           "shoe",
           "walk"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a strong shoe worn outdoors or at work"
       },
       {
         "word": "air tank",
@@ -8377,7 +8814,8 @@
           "back",
           "bottle"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a container of air for breathing"
       },
       {
         "word": "space station",
@@ -8387,7 +8825,8 @@
           "people",
           "science"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a home and workplace travelling around Earth"
       },
       {
         "word": "rocket",
@@ -8397,7 +8836,8 @@
           "up",
           "stars"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a vehicle that carries people beyond the sky"
       },
       {
         "word": "tether",
@@ -8407,7 +8847,8 @@
           "safe",
           "attach"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a line joining a worker to a spacecraft"
       },
       {
         "word": "mission badge",
@@ -8417,7 +8858,8 @@
           "cloth",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small sign showing which trip someone joined"
       },
       {
         "word": "floating",
@@ -8427,7 +8869,8 @@
           "weight",
           "up"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "moving without touching the ground"
       },
       {
         "word": "space food",
@@ -8437,7 +8880,8 @@
           "eat",
           "drink"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "food packed for a long trip in space"
       },
       {
         "word": "tool bag",
@@ -8447,7 +8891,8 @@
           "work",
           "open"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small case for carrying useful equipment"
       },
       {
         "word": "Moon rock",
@@ -8457,107 +8902,130 @@
           "collect",
           "sample"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a piece of stone brought from another world"
       }
     ],
     "hotSeat": [
       {
         "word": "spacewalker",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person working outside a spacecraft"
       },
       {
         "word": "cabin window",
-        "level": "A1"
+        "level": "A1",
+        "description": "glass opening in a small room aboard a ship"
       },
       {
         "word": "Earth view",
-        "level": "A1"
+        "level": "A1",
+        "description": "the sight of our planet from far above"
       },
       {
         "word": "sleeping bag",
-        "level": "A1"
+        "level": "A1",
+        "description": "a warm cover for resting while travelling"
       },
       {
         "word": "meal packet",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small wrapped serving of food"
       },
       {
         "word": "exercise bike",
-        "level": "A2"
+        "level": "A2",
+        "description": "a machine used to pedal without moving"
       },
       {
-        "word": "space camera",
-        "level": "A2"
+        "word": "camera",
+        "level": "A2",
+        "description": "a tool for taking pictures of a place"
       },
       {
         "word": "repair kit",
-        "level": "A2"
+        "level": "A2",
+        "description": "a case with tools for fixing things"
       },
       {
         "word": "space diary",
-        "level": "A2"
+        "level": "A2",
+        "description": "a book where a traveller writes each day"
       },
       {
         "word": "radio",
-        "level": "A1"
+        "level": "A1",
+        "description": "a device for sending and receiving voices"
       },
       {
         "word": "ground team",
-        "level": "A2"
+        "level": "A2",
+        "description": "people on Earth supporting a space trip"
       },
       {
         "word": "water pouch",
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft bag holding drinking water"
       },
       {
         "word": "hand rail",
-        "level": "A2"
+        "level": "A2",
+        "description": "a bar someone can hold for support"
       },
       {
         "word": "return capsule",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small cabin that brings travellers home"
       }
     ],
     "imposter": [
       {
+        "word": "astronaut",
+        "level": "A1",
+        "description": "a person trained to work and travel in space",
+        "hint": "a job",
+        "crewQuestion": "Who wears a special suit beyond Earth?",
+        "imposterQuestion": "Who wears a special suit under the sea?"
+      },
+      {
         "word": "spacesuit",
-        "decoy": "raincoat",
-        "level": "A2"
+        "level": "A2",
+        "description": "clothing that protects a person outside a ship",
+        "hint": "special clothing",
+        "crewQuestion": "What must a traveller wear to leave a spacecraft?",
+        "imposterQuestion": "What must a diver wear to enter the water?"
       },
       {
         "word": "helmet",
-        "decoy": "hat",
-        "level": "A1"
-      },
-      {
-        "word": "boot",
-        "decoy": "glove",
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard cover that protects the head",
+        "hint": "safety gear",
+        "crewQuestion": "What protects a traveller’s head outside a ship?",
+        "imposterQuestion": "What protects a cyclist’s head on a road?"
       },
       {
         "word": "air tank",
-        "decoy": "water bottle",
-        "level": "A2"
+        "level": "A2",
+        "description": "a container holding air for someone to breathe",
+        "hint": "a safety item",
+        "crewQuestion": "What helps a person breathe outside a spacecraft?",
+        "imposterQuestion": "What helps a person breathe deep underwater?"
       },
       {
         "word": "space station",
-        "decoy": "capsule",
-        "level": "A2"
+        "level": "A2",
+        "description": "a home and workplace travelling around Earth",
+        "hint": "a place",
+        "crewQuestion": "Where can astronauts live while circling our planet?",
+        "imposterQuestion": "Where can sailors sleep while crossing the ocean?"
       },
       {
-        "word": "space food",
-        "decoy": "picnic food",
-        "level": "A1"
-      },
-      {
-        "word": "floating",
-        "decoy": "falling",
-        "level": "A2"
-      },
-      {
-        "word": "rocket",
-        "decoy": "airplane",
-        "level": "A1"
+        "word": "tether",
+        "level": "A2",
+        "description": "a strong line joining a worker to a ship",
+        "hint": "a safety line",
+        "crewQuestion": "What keeps a spacewalker from drifting away?",
+        "imposterQuestion": "What keeps a climber from falling down?"
       }
     ],
     "twentyQuestions": [
@@ -8615,7 +9083,8 @@
           "fire",
           "rock"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a mountain that can send hot material out"
       },
       {
         "word": "lava",
@@ -8625,7 +9094,8 @@
           "rock",
           "flow"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "melted rock that has reached the outside"
       },
       {
         "word": "crater",
@@ -8635,7 +9105,8 @@
           "round",
           "deep"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a bowl-shaped opening near a mountain top"
       },
       {
         "word": "ash",
@@ -8645,7 +9116,8 @@
           "fire",
           "air"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "fine grey pieces left after a fire or blast"
       },
       {
         "word": "smoke",
@@ -8655,7 +9127,8 @@
           "grey",
           "rise"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a grey cloud made by something burning"
       },
       {
         "word": "mountain",
@@ -8665,7 +9138,8 @@
           "top",
           "climb"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very high area of land"
       },
       {
         "word": "rock",
@@ -8675,7 +9149,8 @@
           "ground",
           "heavy"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard piece of earth you can hold"
       },
       {
         "word": "eruption",
@@ -8685,7 +9160,8 @@
           "ash",
           "out"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sudden event when material bursts out"
       },
       {
         "word": "lava flow",
@@ -8695,7 +9171,8 @@
           "ground",
           "move"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "melted stone moving down a mountain side"
       },
       {
         "word": "slope",
@@ -8705,7 +9182,8 @@
           "hill",
           "steep"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the side of a hill from top to bottom"
       },
       {
         "word": "vent",
@@ -8715,7 +9193,8 @@
           "out",
           "opening"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an opening where heat and gas can escape"
       },
       {
         "word": "island",
@@ -8725,7 +9204,8 @@
           "water",
           "around"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "land with water all around it"
       },
       {
         "word": "hot spring",
@@ -8735,7 +9215,8 @@
           "pool",
           "ground"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "warm water bubbling naturally from the ground"
       },
       {
         "word": "magma",
@@ -8745,107 +9226,130 @@
           "inside",
           "liquid"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "hot melted stone held below the surface"
       }
     ],
     "hotSeat": [
       {
         "word": "steep hill",
-        "level": "A1"
+        "level": "A1",
+        "description": "land rising sharply above the ground"
       },
       {
         "word": "lava tube",
-        "level": "A2"
+        "level": "A2",
+        "description": "a long hollow tunnel made by melted stone"
       },
       {
         "word": "model volcano",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small copy used to show a mountain eruption"
       },
       {
         "word": "ash cloud",
-        "level": "A2"
+        "level": "A2",
+        "description": "a grey mass of fine dust in the air"
       },
       {
         "word": "warning sign",
-        "level": "A1"
+        "level": "A1",
+        "description": "a board telling people about danger"
       },
       {
         "word": "safe viewpoint",
-        "level": "A2"
+        "level": "A2",
+        "description": "a place where visitors can watch from a distance"
       },
       {
         "word": "eruption map",
-        "level": "A2"
+        "level": "A2",
+        "description": "a drawing showing where hot material may go"
       },
       {
         "word": "rock sample",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small piece collected for study"
       },
       {
         "word": "volcano poster",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large classroom picture about an active mountain"
       },
       {
         "word": "mountain village",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small group of homes high on a slope"
       },
       {
         "word": "hot pool",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small area of naturally warm water"
       },
       {
-        "word": "underground chamber",
-        "level": "A2"
+        "word": "deep chamber",
+        "level": "A2",
+        "description": "a large space beneath the mountain"
       },
       {
         "word": "lava fountain",
-        "level": "A2"
+        "level": "A2",
+        "description": "a bright stream of hot stone shooting upward"
       },
       {
-        "word": "volcano scientist",
-        "level": "A2"
+        "word": "scientist",
+        "level": "A2",
+        "description": "a person who studies rocks and eruptions"
       }
     ],
     "imposter": [
       {
-        "word": "lava",
-        "decoy": "magma",
-        "level": "A2"
+        "word": "volcano",
+        "level": "A1",
+        "description": "a mountain with an opening that can erupt",
+        "hint": "a landform",
+        "crewQuestion": "Which mountain can send hot rock down its sides?",
+        "imposterQuestion": "Which mountain can send snow down its sides?"
       },
       {
-        "word": "ash",
-        "decoy": "dust",
-        "level": "A2"
+        "word": "lava",
+        "level": "A2",
+        "description": "melted rock that has reached the outside",
+        "hint": "hot material",
+        "crewQuestion": "What flows down a mountain after an eruption?",
+        "imposterQuestion": "What flows down a mountain after heavy rain?"
       },
       {
         "word": "crater",
-        "decoy": "cave",
-        "level": "A2"
+        "level": "A2",
+        "description": "a large round hole near a mountain top",
+        "hint": "a landform",
+        "crewQuestion": "What opening can form after material bursts out?",
+        "imposterQuestion": "What opening can form after a space rock hits?"
+      },
+      {
+        "word": "ash",
+        "level": "A2",
+        "description": "fine grey dust left after something burns",
+        "hint": "a material",
+        "crewQuestion": "What can cover nearby homes after an eruption?",
+        "imposterQuestion": "What can cover nearby homes after a fire?"
+      },
+      {
+        "word": "magma",
+        "level": "A2",
+        "description": "hot melted rock still under the ground",
+        "hint": "hot material",
+        "crewQuestion": "What is melted stone called before it comes out?",
+        "imposterQuestion": "What is melted ice called before it reaches the sea?"
       },
       {
         "word": "mountain",
-        "decoy": "island",
-        "level": "A1"
-      },
-      {
-        "word": "smoke",
-        "decoy": "cloud",
-        "level": "A1"
-      },
-      {
-        "word": "vent",
-        "decoy": "tunnel",
-        "level": "A2"
-      },
-      {
-        "word": "hot spring",
-        "decoy": "cold spring",
-        "level": "A2"
-      },
-      {
-        "word": "eruption",
-        "decoy": "earthquake",
-        "level": "A2"
+        "level": "A1",
+        "description": "a very high area of land with steep sides",
+        "hint": "a landform",
+        "crewQuestion": "What landform may have a peak above a village?",
+        "imposterQuestion": "What landform may have a peak above the clouds?"
       }
     ],
     "twentyQuestions": [
@@ -8903,7 +9407,8 @@
           "move",
           "building"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a sudden movement that makes the ground shake"
       },
       {
         "word": "ground",
@@ -8913,7 +9418,8 @@
           "feet",
           "land"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the solid surface under our feet"
       },
       {
         "word": "shaking",
@@ -8923,7 +9429,8 @@
           "wobble",
           "still"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "moving back and forth quickly"
       },
       {
         "word": "crack",
@@ -8933,7 +9440,8 @@
           "wall",
           "split"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a narrow break in a hard surface"
       },
       {
         "word": "shelf",
@@ -8943,7 +9451,8 @@
           "wood",
           "hold"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat board fixed to a wall"
       },
       {
         "word": "table",
@@ -8953,7 +9462,8 @@
           "sit",
           "under"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a piece of furniture with a flat top"
       },
       {
         "word": "fault",
@@ -8963,7 +9473,8 @@
           "break",
           "ground"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a break in rock where the sides can move"
       },
       {
         "word": "plate boundary",
@@ -8973,7 +9484,8 @@
           "move",
           "ground"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the place where two large ground pieces meet"
       },
       {
         "word": "seismograph",
@@ -8983,7 +9495,8 @@
           "shake",
           "machine"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a machine that records movement in the ground"
       },
       {
         "word": "aftershock",
@@ -8993,7 +9506,8 @@
           "later",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a smaller shake after a larger one"
       },
       {
         "word": "epicentre",
@@ -9003,7 +9517,8 @@
           "above",
           "ground"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the spot on the ground above an earthquake start"
       },
       {
         "word": "building sway",
@@ -9013,7 +9528,8 @@
           "wall",
           "wobble"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a building moving gently from side to side"
       },
       {
         "word": "rubble",
@@ -9023,7 +9539,8 @@
           "wall",
           "ground"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "broken pieces left after a wall falls"
       },
       {
         "word": "quake drill",
@@ -9033,107 +9550,130 @@
           "school",
           "steps"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a practice that teaches people what to do safely"
       }
     ],
     "hotSeat": [
       {
         "word": "fallen cup",
-        "level": "A1"
+        "level": "A1",
+        "description": "a drinking container that has tipped down"
       },
       {
         "word": "moving lamp",
-        "level": "A1"
+        "level": "A1",
+        "description": "a light that swings from side to side"
       },
       {
         "word": "school yard",
-        "level": "A1"
+        "level": "A1",
+        "description": "an open area beside a place for lessons"
       },
       {
         "word": "emergency bag",
-        "level": "A2"
+        "level": "A2",
+        "description": "a pack with useful items for a dangerous time"
       },
       {
-        "word": "safe meeting place",
-        "level": "A1"
+        "word": "safe place",
+        "level": "A1",
+        "description": "an area where people can wait out of danger"
       },
       {
-        "word": "teacher's signal",
-        "level": "A1"
+        "word": "teacher signal",
+        "level": "A1",
+        "description": "a sound or sign from the adult leading the class"
       },
       {
-        "word": "under a desk",
-        "level": "A1"
+        "word": "school desk",
+        "level": "A1",
+        "description": "a table used by one student in a classroom"
       },
       {
         "word": "wall repair",
-        "level": "A2"
+        "level": "A2",
+        "description": "work that fixes a broken side of a room"
       },
       {
         "word": "rescue worker",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person trained to help people in danger"
       },
       {
         "word": "building check",
-        "level": "A2"
+        "level": "A2",
+        "description": "a look to see if a structure is safe"
       },
       {
-        "word": "seismic map",
-        "level": "A2"
+        "word": "quake map",
+        "level": "A2",
+        "description": "a drawing showing places where shaking may happen"
       },
       {
         "word": "rock movement",
-        "level": "A2"
+        "level": "A2",
+        "description": "a shift in the solid ground"
       },
       {
         "word": "warning bell",
-        "level": "A1"
+        "level": "A1",
+        "description": "a sound that tells people to pay attention"
       },
       {
         "word": "quake model",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small copy showing how ground may shake"
       }
     ],
     "imposter": [
       {
         "word": "earthquake",
-        "decoy": "volcano",
-        "level": "A1"
+        "level": "A1",
+        "description": "a sudden shaking movement deep in the ground",
+        "hint": "a natural event",
+        "crewQuestion": "What can make classroom objects move by themselves?",
+        "imposterQuestion": "What can make classroom objects fall during a storm?"
       },
       {
-        "word": "shaking",
-        "decoy": "swaying",
-        "level": "A2"
-      },
-      {
-        "word": "crack",
-        "decoy": "scratch",
-        "level": "A2"
-      },
-      {
-        "word": "seismograph",
-        "decoy": "thermometer",
-        "level": "A2"
-      },
-      {
-        "word": "rubble",
-        "decoy": "gravel",
-        "level": "A2"
-      },
-      {
-        "word": "aftershock",
-        "decoy": "first quake",
-        "level": "A2"
+        "word": "quake drill",
+        "level": "A2",
+        "description": "a practice for staying safe during ground shaking",
+        "hint": "a safety practice",
+        "crewQuestion": "What do students practise before a real emergency?",
+        "imposterQuestion": "What do players practise before an important game?"
       },
       {
         "word": "table",
-        "decoy": "desk",
-        "level": "A1"
+        "level": "A1",
+        "description": "furniture with a flat top and legs",
+        "hint": "a kind of furniture",
+        "crewQuestion": "What can students shelter under during a shake?",
+        "imposterQuestion": "What can students put books on during a lesson?"
       },
       {
-        "word": "emergency bag",
-        "decoy": "school bag",
-        "level": "A2"
+        "word": "school yard",
+        "level": "A1",
+        "description": "an open area beside a building for lessons",
+        "hint": "a place",
+        "crewQuestion": "Where can a class meet safely outside?",
+        "imposterQuestion": "Where can a class play games outside?"
+      },
+      {
+        "word": "warning bell",
+        "level": "A1",
+        "description": "a loud sound that signals possible danger",
+        "hint": "a signal",
+        "crewQuestion": "What may tell people to leave a building?",
+        "imposterQuestion": "What may tell people the lesson has ended?"
+      },
+      {
+        "word": "rescue worker",
+        "level": "A2",
+        "description": "a person trained to help after a disaster",
+        "hint": "a job",
+        "crewQuestion": "Who searches for people after a building falls?",
+        "imposterQuestion": "Who searches for lost hikers after a storm?"
       }
     ],
     "twentyQuestions": [
