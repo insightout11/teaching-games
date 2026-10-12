@@ -1943,6 +1943,22 @@
     "status": "ok",
     "note": "Flood warnings, thunderstorms, fog and a football-day forecast match weather; occasional name/kickoff errors do not obscure the report."
   },
+  "minecraft-library.json/minecraft-survival": {
+    "status": "ok",
+    "note": "Pixlriffs starts a survival world, gathers logs and constructs shelter as claimed. The extended spontaneous gamer narration makes A2 demanding and the duration should be reviewed, but a clearly wrong language level is uncertain."
+  },
+  "minecraft-library.json/minecraft-crafting": {
+    "status": "partial",
+    "note": "Evidence: Waddles calls this the first episode of a new survival adventure and crafts basic tools, a furnace and campfire; this is not everything you can make in a complete crafting walkthrough. Suggested action: Retitle to Starting a Minecraft Survival World and narrow the crafting promise; verify duration."
+  },
+  "minecraft-library.json/minecraft-building": {
+    "status": "partial",
+    "note": "Evidence: The caption introduces an everything-including-basics Minecraft 2023 beginner guide and covers tools, mining and a house, rather than a house-focused planning/interior-design tutorial. Suggested action: Retitle to Minecraft Beginner Survival Guide and describe the broader scope; verify duration."
+  },
+  "minecraft-library.json/minecraft-redstone": {
+    "status": "mismatch",
+    "note": "Evidence: Capp00 introduces starting Minecraft, wood planks, crafting and stone tools; the complete caption contains no redstone or circuit explanation. Suggested action: Retitle to Getting Started in Minecraft, or verify and replace the wrong video/cache pairing."
+  },
   "natgeo-library.json/natgeo-wolves-change-rivers": {
     "status": "weak-captions",
     "note": "Evidence: the stored text is an Arabic-script translation, beginning “[ذئاب تعوي] - [الراوي] من أكثر”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."

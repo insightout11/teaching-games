@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 16/18; judged entries: 636/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 17/18; judged entries: 640/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -32,12 +32,13 @@ Completed libraries: 16/18; judged entries: 636/641. Cached inventory captured a
 | kids-library.json | 101 | 85 | 1 | 1 | 6 | 0 | 8 |
 | kurzgesagt-library.json | 13 | 1 | 0 | 0 | 12 | 0 | 0 |
 | listening-library.json | 60 | 58 | 0 | 2 | 0 | 0 | 0 |
+| minecraft-library.json | 4 | 1 | 1 | 2 | 0 | 0 | 0 |
 | natgeo-library.json | 13 | 2 | 0 | 3 | 7 | 0 | 1 |
 | ted-library.json | 20 | 1 | 0 | 0 | 19 | 0 | 0 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
 | travel-english-library.json | 6 | 1 | 2 | 2 | 1 | 0 | 0 |
 | vox-library.json | 10 | 7 | 0 | 0 | 3 | 0 | 0 |
-| **TOTAL** | **636** | 442 | 12 | 30 | 141 | 0 | 11 |
+| **TOTAL** | **640** | 443 | 13 | 32 | 141 | 0 | 11 |
 
 ## Non-ok entries, grouped by library
 
@@ -202,6 +203,14 @@ Completed libraries: 16/18; judged entries: 636/641. Cached inventory captured a
 |---|---|---|---|---|
 | listening-r8-school-equipment | School public-address announcement — school equipment | partial | The full cache announces a book fair/raffle and science-day reporting, not an equipment announcement.  | Retitle to School book fair and science-day announcement; verify the institution attribution. |
 | listening-r8-school-counselling-records | School public-address announcement — school counselling records | partial | The complete cache announces a special-education committee meeting at 12:10 on the third floor; it does not concern counselling records.  | Retitle to Special-education committee meeting announcement. |
+
+### minecraft-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| minecraft-crafting | The Complete Crafting Guide | partial | Waddles calls this the first episode of a new survival adventure and crafts basic tools, a furnace and campfire; this is not everything you can make in a complete crafting walkthrough.  | Retitle to Starting a Minecraft Survival World and narrow the crafting promise; verify duration. |
+| minecraft-building | Building Your First House in Minecraft | partial | The caption introduces an everything-including-basics Minecraft 2023 beginner guide and covers tools, mining and a house, rather than a house-focused planning/interior-design tutorial.  | Retitle to Minecraft Beginner Survival Guide and describe the broader scope; verify duration. |
+| minecraft-redstone | Introduction to Redstone | mismatch | Capp00 introduces starting Minecraft, wood planks, crafting and stone tools; the complete caption contains no redstone or circuit explanation.  | Retitle to Getting Started in Minecraft, or verify and replace the wrong video/cache pairing. |
 
 ### natgeo-library.json
 
