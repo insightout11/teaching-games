@@ -1,7 +1,7 @@
 [
   {
     "id": "bigthink_free_will_physics",
-    "title": "Why Physics Ends the Free Will Debate",
+    "title": "Physics and Free Will",
     "speaker": "Michio Kaku",
     "url": "https://www.youtube.com/watch?v=Jint5kjoy6I",
     "youtubeId": "Jint5kjoy6I",
@@ -13,7 +13,7 @@
       "science"
     ],
     "difficultyLevel": "Advanced",
-    "description": "Michio Kaku argues that quantum mechanics undermines the concept of free will — and what that means for how we think about consciousness, choice, and human identity.",
+    "description": "Michio Kaku contrasts Newtonian determinism with quantum uncertainty and argues that uncertainty leaves room for free will.",
     "genre": "opinion",
     "cefr": "B2",
     "ageBand": "teens",
@@ -203,9 +203,7 @@
         ]
       }
     },
-    "transcriptVerified": true,
-    "hidden": true,
-    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. Kaku says quantum uncertainty means in some sense we do have some kind of free will, directly opposite the description’s claim that quantum mechanics undermines free will. Suggested action: Rewrite the description to say uncertainty challen"
+    "transcriptVerified": true
   },
   {
     "id": "bigthink_fermi_paradox",
@@ -268,33 +266,31 @@
       "free-will"
     ],
     "difficultyLevel": "Advanced",
-    "description": "Cognitive scientist Steven Pinker tackles the age-old question of free will — exploring what neuroscience says about conscious choice and why the debate matters for morality and law.",
+    "description": "Steven Pinker distinguishes deliberate choices from involuntary reflexes and explains free will in terms of physical brain processes.",
     "genre": "discussion",
     "cefr": "B2",
     "ageBand": "teens"
   },
   {
     "id": "bigthink_psychology_happiness",
-    "title": "The Psychology of Happiness",
+    "title": "How We React to Feedback",
     "speaker": "Sheila Heen",
     "url": "https://www.youtube.com/watch?v=BoLVO-OdfC8",
     "youtubeId": "BoLVO-OdfC8",
     "durationSecs": 330,
     "topicTags": [
       "psychology",
-      "happiness",
-      "wellbeing",
-      "self-improvement"
+      "communication",
+      "work",
+      "feedback"
     ],
     "difficultyLevel": "Intermediate",
-    "description": "Harvard negotiation expert Sheila Heen explores what psychological research reveals about happiness — why we're bad at predicting what will make us happy, and what actually does.",
+    "description": "Sheila Heen explains how emotional baseline, reaction strength and recovery time affect giving and receiving feedback.",
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Should people plan happiness or let it surprise them?",
-    "hidden": true,
-    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. The full caption explains receiving feedback through baseline, emotional swing, recovery and distortions; it is not a guide to predicting what makes us happy. Suggested action: Retitle to Why People React Differently to Feedback and rewrite"
+    "flightQuestion": "Should people plan happiness or let it surprise them?"
   },
   {
     "id": "bigthink_evolution_intelligence",
@@ -310,7 +306,7 @@
       "technology"
     ],
     "difficultyLevel": "Intermediate",
-    "description": "Michio Kaku traces the evolution of the human brain — from primates to modern Homo sapiens — and asks whether artificial intelligence could surpass us on the same evolutionary scale.",
+    "description": "Michio Kaku discusses thumbs, predator eyesight and language as factors in human intelligence, then considers hypothetical genetic changes to chimpanzees.",
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",

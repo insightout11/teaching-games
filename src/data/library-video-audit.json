@@ -500,8 +500,8 @@
     "note": "Dan contrasts hypothetical past/present time relationships and third-to-second or second-to-third conditionals, matching mixed conditionals."
   },
   "bigthink-library.json/bigthink_free_will_physics": {
-    "status": "mismatch",
-    "note": "Evidence: Kaku says quantum uncertainty means in some sense we do have some kind of free will, directly opposite the description’s claim that quantum mechanics undermines free will. Suggested action: Rewrite the description to say uncertainty challenges determinism and leaves room for choice."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Kaku says quantum uncertainty means in some sense we do have some kind of free will, directly opposite the description’s claim that quantum mechanics undermines free will. Changed fields: title, description, hidden, hiddenNote. Video identity and duration preserved."
   },
   "bigthink-library.json/bigthink_fermi_paradox": {
     "status": "ok",
@@ -512,16 +512,16 @@
     "note": "Kandel discusses Libet experiments, conscious/unconscious decisions and choosing with incomplete information; creativity is not developed, but the principal decision-making claim matches."
   },
   "bigthink-library.json/bigthink_free_will_pinker": {
-    "status": "partial",
-    "note": "Evidence: The full cache distinguishes conscious choices from reflexes and rejects a mysterious soul, but never discusses morality or law as promised. Suggested action: Narrow the description to brain processes, conscious choice and reflexes."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full cache distinguishes conscious choices from reflexes and rejects a mysterious soul, but never discusses morality or law as promised. Changed fields: description. Video identity and duration preserved."
   },
   "bigthink-library.json/bigthink_psychology_happiness": {
-    "status": "mismatch",
-    "note": "Evidence: The full caption explains receiving feedback through baseline, emotional swing, recovery and distortions; it is not a guide to predicting what makes us happy. Suggested action: Retitle to Why People React Differently to Feedback and rewrite the description."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full caption explains receiving feedback through baseline, emotional swing, recovery and distortions; it is not a guide to predicting what makes us happy. Changed fields: title, topicTags, description, hidden, hiddenNote. Video identity and duration preserved."
   },
   "bigthink-library.json/bigthink_evolution_intelligence": {
-    "status": "partial",
-    "note": "Evidence: The full caption covers thumbs, predator eyesight, language and making chimpanzees more intelligent through genes; it never discusses artificial intelligence. Suggested action: Remove the AI promise and describe evolution plus hypothetical primate gene changes."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full caption covers thumbs, predator eyesight, language and making chimpanzees more intelligent through genes; it never discusses artificial intelligence. Changed fields: description. Video identity and duration preserved."
   },
   "bigthink-library.json/bigthink_reverse_unhappiness": {
     "status": "ok",
