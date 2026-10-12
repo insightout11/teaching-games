@@ -6020,19 +6020,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Fossils help us learn about dinosaurs."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw a dinosaur egg or footprint?"
+        "target": "past simple",
+        "why": "Tell what happened in an imagined dinosaur encounter.",
+        "example": "The dinosaur chased a smaller animal through the forest."
       },
       {
         "target": "comparatives & superlatives",
-        "why": "Compare dinosaur sizes.",
-        "example": "Some dinosaurs were smaller than a child."
+        "why": "Compare dinosaur models by size.",
+        "example": "My long-necked dinosaur is taller than your toy dinosaur."
       }
     ],
     "levels": {
@@ -6325,19 +6320,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Other fossils show tracks or leaf marks."
+        "target": "past simple",
+        "why": "Explain how you discovered a fossil.",
+        "example": "I found a small fossil beside the river."
       },
       {
         "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you hunt for a shell or leaf imprint?"
-      },
-      {
-        "target": "past simple",
-        "why": "Describe how a trace formed.",
-        "example": "A track fossil marks where something walked."
+        "why": "Interview someone about a fossil discovery.",
+        "example": "Where did you find this fossil?"
       }
     ],
     "levels": {
@@ -6631,14 +6621,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "The Moon looks bright because it reflects sunlight."
+        "target": "comparatives & superlatives",
+        "why": "Compare the Moon's appearance on different nights.",
+        "example": "The Moon looks brighter tonight than yesterday."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw a full Moon or crescent?"
+        "target": "future (will)",
+        "why": "Predict the Moon's appearance in a night-sky drawing.",
+        "example": "The Moon will shine above the dark hills."
       }
     ],
     "levels": {
@@ -6932,17 +6922,12 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "The Sun is much bigger than Earth."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw sunrise or sunset?"
+        "why": "Explain the Sun's role in everyday life.",
+        "example": "The Sun gives us light and warmth."
       },
       {
         "target": "comparatives & superlatives",
-        "why": "Compare the Sun and Earth.",
+        "why": "Compare the Sun's size with Earth's size.",
         "example": "The Sun is much bigger than Earth."
       }
     ],
@@ -7236,14 +7221,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Each planet has its own kind of sky."
+        "target": "comparatives & superlatives",
+        "why": "Compare planets using a classroom model.",
+        "example": "This planet model is smaller than that one."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you visit a blue or red planet?"
+        "target": "future (going to)",
+        "why": "Plan a model of a chosen planet.",
+        "example": "I am going to make a model of Mars."
       }
     ],
     "levels": {
@@ -7536,19 +7521,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "They seem still, but they move through space."
+        "target": "present continuous",
+        "why": "Describe the night sky while looking outside.",
+        "example": "The stars are shining above our house."
       },
       {
         "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw one bright star or many?"
-      },
-      {
-        "target": "comparatives & superlatives",
-        "why": "Compare stars by temperature.",
-        "example": "Blue stars can be hotter than red ones."
+        "why": "Ask a partner to identify stars in a picture.",
+        "example": "How many stars do you see above the tree?"
       }
     ],
     "levels": {
@@ -7841,14 +7821,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Fuel gives a rocket energy."
+        "target": "future (going to)",
+        "why": "Describe preparations for a pretend rocket launch.",
+        "example": "We are going to launch our paper rocket outside."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw a rocket on land or in sky?"
+        "target": "future (will)",
+        "why": "Predict a rocket's flight in a classroom experiment.",
+        "example": "Our light rocket will fly higher this time."
       }
     ],
     "levels": {
@@ -8141,14 +8121,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Astronauts eat food from special packages."
+        "target": "present continuous",
+        "why": "Describe astronauts' actions in a space-station clip.",
+        "example": "The astronauts are floating beside the window."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you float or look out the window?"
+        "target": "future (going to)",
+        "why": "Plan a pretend astronaut's work in space.",
+        "example": "I am going to take pictures of Earth."
       }
     ],
     "levels": {
@@ -8442,14 +8422,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Some volcanoes have quiet green slopes."
+        "target": "past simple",
+        "why": "Retell an eruption shown in a story.",
+        "example": "The volcano erupted and hot lava covered the road."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw a round crater or tall slope?"
+        "target": "comparatives & superlatives",
+        "why": "Compare the shapes of two volcanoes.",
+        "example": "This volcano is steeper than the one in our book."
       }
     ],
     "levels": {
@@ -8742,14 +8722,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "An earthquake makes the ground shake."
+        "target": "past simple",
+        "why": "Describe what moved during an earthquake story.",
+        "example": "The ground shook and a cup fell from the shelf."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you practice under a table or outdoors?"
+        "target": "conditional",
+        "why": "Say what the class will do if shaking starts.",
+        "example": "If the floor shakes, we will follow our teacher."
       }
     ],
     "levels": {
@@ -9042,19 +9022,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "A mountain has a high peak."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you walk a valley or hill trail?"
-      },
-      {
         "target": "comparatives & superlatives",
-        "why": "Describe the highest parts of mountains.",
-        "example": "Clouds sometimes cover the highest parts."
+        "why": "Choose between two mountain paths by steepness.",
+        "example": "This mountain path is steeper than the other one."
+      },
+      {
+        "target": "past simple",
+        "why": "Retell a walk to a mountain viewpoint.",
+        "example": "We climbed the mountain and saw snow at the top."
       }
     ],
     "levels": {
@@ -9348,13 +9323,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "A river has two banks."
+        "why": "Describe the route a river follows.",
+        "example": "The river flows past our town."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you cross a bridge or ride a boat?"
+        "target": "present continuous",
+        "why": "Describe river water moving around an obstacle.",
+        "example": "The river is flowing around a large rock."
       }
     ],
     "levels": {
@@ -9647,14 +9622,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "A beach is where land meets the sea."
+        "target": "comparatives & superlatives",
+        "why": "Compare waves seen from the shore.",
+        "example": "Today's ocean waves are bigger than yesterday's waves."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you watch waves or look in a rock pool?"
+        "target": "present continuous",
+        "why": "Describe the ocean during a windy beach visit.",
+        "example": "The ocean waves are crashing against the rocks."
       }
     ],
     "levels": {
@@ -9948,13 +9923,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Tiny coral animals live close together."
+        "why": "Explain how reef animals use coral spaces.",
+        "example": "Small fish hide between the corals."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw a reef fish or polyp?"
+        "target": "present continuous",
+        "why": "Narrate fish movements in a reef video.",
+        "example": "The fish are swimming through the coral reef."
       }
     ],
     "levels": {
@@ -10247,19 +10222,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Some leaves are bigger than dinner plates."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you look up at leaves or down at mushrooms?"
-      },
-      {
         "target": "comparatives & superlatives",
-        "why": "Compare leaf sizes.",
-        "example": "Some leaves are bigger than dinner plates."
+        "why": "Compare layers of rainforest plants.",
+        "example": "The tall trees are higher than the small plants."
+      },
+      {
+        "target": "past simple",
+        "why": "Retell a rainforest walk using things you noticed.",
+        "example": "We walked through the rainforest and heard birds overhead."
       }
     ],
     "levels": {
