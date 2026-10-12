@@ -42,3 +42,7 @@ Rewrote 90 pairs and category hints, reviewed 210 Hot Seat targets, and separate
 ## Batch 7: virtual reality through personal style
 
 Rewrote 90 pairs and hints, reviewed 210 Hot Seat targets and separated 120 secrets. Examples: film script / play notes (dialogue, actions, scene); VR controller / gamepad comfort (grip, size, weight); music genre / film style descriptions (fast, calm, dramatic). Checker with --round34-count=105: all 19 error counts 0.
+
+## Batch 8: food culture through public speaking
+
+Rewrote 90 pairs and hints, reviewed 210 Hot Seat targets and separated 120 secrets. Examples: customer / product-user feedback (price, quality, usability); fixed bills / planned household payments (rent, subscriptions, insurance); speech opening / club welcome (greeting, purpose, names). Corrected the existing broken encoding of sauté in the cooking Taboo list. Checker with --round34-count=120: all 19 error counts 0.

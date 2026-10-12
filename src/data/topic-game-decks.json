@@ -34180,34 +34180,29 @@
     ],
     "hotSeat": [
       {
-        "word": "family recipe",
-        "level": "B1",
-        "description": "instructions for a dish passed between relatives"
-      },
-      {
         "word": "spice jar",
         "level": "B1",
         "description": "a small container holding dried flavouring"
       },
       {
-        "word": "market basket",
+        "word": "hamper",
         "level": "B1",
-        "description": "a container used to carry goods from stalls"
+        "description": "a large container filled with picnic foods"
       },
       {
-        "word": "dining table",
+        "word": "cutlery",
         "level": "B1",
-        "description": "a large surface where people eat together"
+        "description": "knives forks and spoons used during a meal"
       },
       {
-        "word": "food festival",
+        "word": "festival",
         "level": "B1",
-        "description": "a public event celebrating dishes and cooking"
+        "description": "a public event with music, food or special customs"
       },
       {
-        "word": "recipe notebook",
+        "word": "cookbook",
         "level": "B1",
-        "description": "a book where cooking instructions are kept"
+        "description": "a book containing instructions for making meals"
       },
       {
         "word": "tea ceremony",
@@ -34220,34 +34215,39 @@
         "description": "a shared place where neighbours prepare meals"
       },
       {
-        "word": "local bakery",
+        "word": "bakery",
         "level": "B1",
-        "description": "a shop making bread and cakes nearby"
+        "description": "a shop where bread and cakes are made"
       },
       {
-        "word": "menu board",
-        "level": "B1",
-        "description": "a sign listing meals available to order"
-      },
-      {
-        "word": "shared platter",
-        "level": "B1",
-        "description": "a large dish several people eat from"
-      },
-      {
-        "word": "food stall",
-        "level": "B1",
-        "description": "a small stand selling meals to passers-by"
-      },
-      {
-        "word": "seasonal produce",
+        "word": "cuisine",
         "level": "B2",
-        "description": "fruit or vegetables available at one time of year"
+        "description": "a style of cooking associated with a place"
       },
       {
-        "word": "picnic dish",
+        "word": "platter",
+        "level": "B2",
+        "description": "a large flat dish for serving shared food"
+      },
+      {
+        "word": "stall",
         "level": "B1",
-        "description": "food prepared to be eaten outdoors"
+        "description": "a small stand selling things at a market"
+      },
+      {
+        "word": "produce",
+        "level": "B2",
+        "description": "fresh fruit and vegetables grown for sale"
+      },
+      {
+        "word": "picnic",
+        "level": "B1",
+        "description": "a meal eaten outside on a cloth"
+      },
+      {
+        "word": "market",
+        "level": "B1",
+        "description": "a place where sellers offer goods at stalls"
       }
     ],
     "imposter": [
@@ -34255,91 +34255,91 @@
         "word": "staple food",
         "level": "B1",
         "description": "a food eaten regularly as part of main meals",
-        "hint": "food custom",
-        "crewQuestion": "What food might a family serve with many dishes?",
-        "imposterQuestion": "What drink might a family serve with many dishes?"
+        "hint": "everyday basic foods",
+        "crewQuestion": "What staple foods might a family serve each day?",
+        "imposterQuestion": "Which ingredients could fill a basic lunch menu?"
       },
       {
         "word": "street food",
         "level": "B1",
         "description": "food prepared and sold outdoors on a street",
-        "hint": "food custom",
-        "crewQuestion": "What can someone buy from a small stand outside?",
-        "imposterQuestion": "What can someone cook at a small stand outside?"
+        "hint": "outdoor prepared foods",
+        "crewQuestion": "What could you buy from a street-food seller?",
+        "imposterQuestion": "Which snacks might appear at a school fair?"
       },
       {
         "word": "recipe",
         "level": "B1",
         "description": "instructions for preparing a dish",
-        "hint": "food item",
-        "crewQuestion": "What can help someone make a family meal again?",
-        "imposterQuestion": "What can help someone serve a family meal again?"
+        "hint": "cooking instruction records",
+        "crewQuestion": "Who might teach you a family recipe?",
+        "imposterQuestion": "Which people could show you how to cook a favorite snack?"
       },
       {
         "word": "seasonal dish",
         "level": "B2",
         "description": "food made with ingredients available at one time of year",
-        "hint": "food tradition",
-        "crewQuestion": "What meal might appear when local fruit is ready?",
-        "imposterQuestion": "What meal might appear when local fruit is gone?"
+        "hint": "time specific dishes",
+        "crewQuestion": "What seasonal foods could you find in autumn?",
+        "imposterQuestion": "Which produce might be sold at a harvest market?"
       },
       {
         "word": "food market",
         "level": "B1",
         "description": "a place where people buy ingredients and meals",
-        "hint": "food place",
-        "crewQuestion": "Where can shoppers choose fresh fruit and spices?",
-        "imposterQuestion": "Where can cooks prepare fresh fruit and spices?"
+        "hint": "fresh food selling places",
+        "crewQuestion": "What might you see at a food market?",
+        "imposterQuestion": "Which objects could be near a farm shop?"
       },
       {
         "word": "comfort food",
         "level": "B1",
         "description": "a familiar meal that feels pleasant or soothing",
-        "hint": "food idea",
-        "crewQuestion": "What dish might someone choose on a difficult day?",
-        "imposterQuestion": "What dish might someone avoid on a difficult day?"
+        "hint": "emotionally familiar meals",
+        "crewQuestion": "What food feels comforting on a cold day?",
+        "imposterQuestion": "Which meals would you choose after a tiring trip?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "spice jar",
-        "kind": "thing",
+        "secret": "dumpling",
+        "kind": "food",
         "level": "B1"
       },
       {
-        "secret": "food festival",
-        "kind": "activity",
+        "secret": "taco",
+        "kind": "food",
         "level": "B1"
       },
       {
-        "secret": "recipe notebook",
-        "kind": "thing",
+        "secret": "sushi",
+        "kind": "food",
         "level": "B1"
       },
       {
-        "secret": "community kitchen",
-        "kind": "place",
-        "level": "B2"
-      },
-      {
-        "secret": "local bakery",
-        "kind": "place",
+        "secret": "curry",
+        "kind": "food",
         "level": "B1"
       },
       {
-        "secret": "menu board",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "shared platter",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "seasonal produce",
+        "secret": "kimchi",
         "kind": "food",
         "level": "B2"
+      },
+      {
+        "secret": "pasta",
+        "kind": "food",
+        "level": "B1"
+      },
+      {
+        "secret": "cook",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "restaurant",
+        "kind": "place",
+        "level": "B1"
       }
     ]
   },
@@ -34370,7 +34370,7 @@
         "description": "preparing and arranging ingredients before cooking"
       },
       {
-        "word": "sautÃ©",
+        "word": "sauté",
         "forbidden": [
           "pan",
           "oil",
@@ -34504,9 +34504,9 @@
     ],
     "hotSeat": [
       {
-        "word": "chef’s knife",
+        "word": "chef's knife",
         "level": "B1",
-        "description": "a large sharp tool used to cut food"
+        "description": "a large sharp tool used for preparing food"
       },
       {
         "word": "chopping board",
@@ -34514,19 +34514,19 @@
         "description": "a flat surface for safely cutting ingredients"
       },
       {
-        "word": "kitchen scale",
+        "word": "scale",
         "level": "B1",
-        "description": "a device showing how heavy food is"
+        "description": "a device used to measure an ingredient's weight"
       },
       {
-        "word": "meat thermometer",
+        "word": "thermostat",
         "level": "B2",
-        "description": "a tool checking how hot food is inside"
+        "description": "a control that keeps cooking heat at a set level"
       },
       {
-        "word": "mixing spoon",
+        "word": "spoon",
         "level": "B1",
-        "description": "a utensil used to stir ingredients together"
+        "description": "a tool with a round end for eating or mixing"
       },
       {
         "word": "paring knife",
@@ -34534,29 +34534,29 @@
         "description": "a small sharp tool for peeling fruit"
       },
       {
-        "word": "measuring jug",
+        "word": "jug",
         "level": "B1",
-        "description": "a marked container for measuring liquid"
+        "description": "a container with a handle for pouring liquids"
       },
       {
-        "word": "prep station",
+        "word": "station",
+        "level": "B1",
+        "description": "a place where trains stop for passengers"
+      },
+      {
+        "word": "ingredient",
+        "level": "B1",
+        "description": "one of the foods used to make a dish"
+      },
+      {
+        "word": "pantry",
         "level": "B2",
-        "description": "a clean surface where ingredients are made ready"
+        "description": "a cupboard or room for storing food"
       },
       {
-        "word": "ingredient list",
+        "word": "clock",
         "level": "B1",
-        "description": "a set of foods needed for a recipe"
-      },
-      {
-        "word": "pantry shelf",
-        "level": "B1",
-        "description": "a board holding stored food containers"
-      },
-      {
-        "word": "oven timer",
-        "level": "B1",
-        "description": "a device counting cooking minutes"
+        "description": "a device that shows the current time"
       },
       {
         "word": "food processor",
@@ -34564,14 +34564,14 @@
         "description": "a machine that cuts or mixes ingredients"
       },
       {
-        "word": "saucepan lid",
+        "word": "lid",
         "level": "B1",
-        "description": "a cover placed on a deep cooking pot"
+        "description": "a cover that closes a cooking pot"
       },
       {
-        "word": "serving plate",
+        "word": "plate",
         "level": "B1",
-        "description": "a flat dish used to present a meal"
+        "description": "a flat dish used to serve food"
       }
     ],
     "imposter": [
@@ -34579,89 +34579,89 @@
         "word": "knife skills",
         "level": "B1",
         "description": "ways to cut food safely with a blade",
-        "hint": "cooking skill",
-        "crewQuestion": "What should a cook practise before chopping vegetables?",
-        "imposterQuestion": "What should a cook practise before washing vegetables?"
+        "hint": "safe cutting techniques",
+        "crewQuestion": "What helps you chop vegetables safely?",
+        "imposterQuestion": "Which habits matter when cutting fruit for a picnic?"
       },
       {
         "word": "sauté",
         "level": "B2",
         "description": "cooking food quickly in a little hot oil",
-        "hint": "cooking method",
-        "crewQuestion": "What can someone do with vegetables in a warm pan?",
-        "imposterQuestion": "What can someone do with vegetables in a cool bowl?"
+        "hint": "quick pan cooking",
+        "crewQuestion": "What could you cook quickly in a hot pan?",
+        "imposterQuestion": "Which foods might you fry for a simple lunch?"
       },
       {
         "word": "seasoning",
         "level": "B1",
         "description": "adding salt or spices to improve flavour",
-        "hint": "cooking method",
-        "crewQuestion": "What can make a soup taste more interesting?",
-        "imposterQuestion": "What can make a soup look more interesting?"
+        "hint": "food flavor additions",
+        "crewQuestion": "What could improve a soup's flavor?",
+        "imposterQuestion": "Which ingredients might make a sauce taste richer?"
       },
       {
         "word": "food safety",
         "level": "B1",
         "description": "keeping ingredients and tools clean and safe",
-        "hint": "cooking idea",
-        "crewQuestion": "What helps stop germs from spreading in a kitchen?",
-        "imposterQuestion": "What helps stop flavours from spreading in a kitchen?"
+        "hint": "safe eating practices",
+        "crewQuestion": "What would you check before serving leftovers?",
+        "imposterQuestion": "Which details matter when packing food for a trip?"
       },
       {
         "word": "portion",
         "level": "B1",
         "description": "the amount of food served to one person",
-        "hint": "cooking amount",
-        "crewQuestion": "How much pasta should go onto one plate?",
-        "imposterQuestion": "How much pasta should go into one pot?"
+        "hint": "served food amounts",
+        "crewQuestion": "How would you decide a suitable portion size?",
+        "imposterQuestion": "Which details affect how much food you pack for a picnic?"
       },
       {
         "word": "chef’s knife",
         "level": "B1",
         "description": "a large sharp tool used to cut food",
-        "hint": "cooking equipment",
-        "crewQuestion": "What can a cook use to slice an onion?",
-        "imposterQuestion": "What can a cook use to stir an onion?"
+        "hint": "large cutting utensils",
+        "crewQuestion": "What could you cut with a chef's knife?",
+        "imposterQuestion": "Which foods might need slicing on a chopping board?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "chef's knife",
+        "secret": "chef",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "whisk",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "chopping board",
+        "secret": "colander",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "kitchen scale",
+        "secret": "ladle",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "meat thermometer",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "prep station",
-        "kind": "place",
-        "level": "B2"
-      },
-      {
-        "secret": "ingredient list",
+        "secret": "blender",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "food processor",
+        "secret": "spatula",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "saucepan lid",
+        "secret": "sieve",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "oven",
         "kind": "thing",
         "level": "B1"
       }
@@ -34828,24 +34828,24 @@
     ],
     "hotSeat": [
       {
-        "word": "flashcard deck",
+        "word": "flashcard",
         "level": "B1",
-        "description": "a group of cards showing a word and meaning"
+        "description": "a card showing a question on one side"
       },
       {
-        "word": "listening clip",
+        "word": "clip",
         "level": "B1",
-        "description": "a short sound recording used for practice"
+        "description": "a short section of video or audio"
       },
       {
-        "word": "conversation club",
+        "word": "club",
         "level": "B1",
-        "description": "a group meeting to practise speaking"
+        "description": "a group that meets for an activity"
       },
       {
-        "word": "verb chart",
+        "word": "verb",
         "level": "B1",
-        "description": "a page showing how action words change"
+        "description": "a word describing an action or state"
       },
       {
         "word": "pronunciation guide",
@@ -34853,24 +34853,29 @@
         "description": "a tool explaining how words should sound"
       },
       {
-        "word": "language tutor",
+        "word": "tutor",
         "level": "B1",
-        "description": "a person who helps someone learn to communicate"
+        "description": "a teacher who helps an individual learner"
       },
       {
-        "word": "subtitle track",
+        "word": "subtitle",
         "level": "B1",
-        "description": "written words shown below a video"
+        "description": "written speech shown at the bottom of a film"
       },
       {
-        "word": "vocabulary notebook",
+        "word": "notepad",
         "level": "B1",
-        "description": "a book collecting new words and meanings"
+        "description": "a small book for writing quick reminders"
       },
       {
-        "word": "audio lesson",
+        "word": "lesson",
         "level": "B1",
-        "description": "a recorded class someone can listen to"
+        "description": "a period of teaching about a particular subject"
+      },
+      {
+        "word": "expression",
+        "level": "B1",
+        "description": "a group of words carrying a particular meaning"
       },
       {
         "word": "word bank",
@@ -34878,24 +34883,19 @@
         "description": "a set of words available for an activity"
       },
       {
-        "word": "study timer",
-        "level": "B1",
-        "description": "a clock counting a practice period"
+        "word": "repetition",
+        "level": "B2",
+        "description": "doing an activity again to remember it better"
       },
       {
-        "word": "translation card",
+        "word": "partner",
         "level": "B1",
-        "description": "a small card showing words in another language"
+        "description": "one person paired with another for an activity"
       },
       {
-        "word": "practice partner",
+        "word": "workbook",
         "level": "B1",
-        "description": "someone who helps you rehearse a new skill"
-      },
-      {
-        "word": "grammar workbook",
-        "level": "B1",
-        "description": "a book with language rules and exercises"
+        "description": "a book containing exercises for learners to complete"
       }
     ],
     "imposter": [
@@ -34903,89 +34903,89 @@
         "word": "fluency",
         "level": "B1",
         "description": "speaking smoothly without stopping often",
-        "hint": "language skill",
-        "crewQuestion": "What can help a learner speak more easily in a chat?",
-        "imposterQuestion": "What can help a learner write more easily in a chat?"
+        "hint": "smooth speaking abilities",
+        "crewQuestion": "What helps conversation flow when learning a language?",
+        "imposterQuestion": "Which habits make chatting with a new friend easier?"
       },
       {
         "word": "pronunciation",
         "level": "B1",
         "description": "the way someone forms sounds in a language",
-        "hint": "language skill",
-        "crewQuestion": "What can make a new word easier to understand aloud?",
-        "imposterQuestion": "What can make a new word easier to spell aloud?"
+        "hint": "spoken word sounds",
+        "crewQuestion": "What could improve your pronunciation practice?",
+        "imposterQuestion": "Which tools help you learn a song's unfamiliar words?"
       },
       {
         "word": "vocabulary",
         "level": "B1",
         "description": "words known and used by a language learner",
-        "hint": "language skill",
-        "crewQuestion": "What grows when someone learns useful new words?",
-        "imposterQuestion": "What grows when someone learns useful new songs?"
+        "hint": "learned word collections",
+        "crewQuestion": "Where could you find useful new vocabulary?",
+        "imposterQuestion": "Which places might offer phrases for a travel notebook?"
       },
       {
         "word": "false friend",
         "level": "B2",
         "description": "a similar-looking word with a different meaning",
-        "hint": "language idea",
-        "crewQuestion": "What can confuse someone when two languages share a word?",
-        "imposterQuestion": "What can help someone when two languages share a word?"
+        "hint": "misleading language similarities",
+        "crewQuestion": "What might make a foreign word easy to misunderstand?",
+        "imposterQuestion": "Which clues could cause confusion when reading a translation?"
       },
       {
         "word": "phrasebook",
         "level": "B1",
         "description": "a small book of useful translated expressions",
-        "hint": "learning material",
-        "crewQuestion": "What can a traveller open to find polite local words?",
-        "imposterQuestion": "What can a traveller open to find polite local maps?"
+        "hint": "portable language guides",
+        "crewQuestion": "What would you include in a travel phrasebook?",
+        "imposterQuestion": "Which expressions might belong on a visitor's help card?"
       },
       {
         "word": "flashcard deck",
         "level": "B1",
         "description": "a group of cards showing words and meanings",
-        "hint": "study material",
-        "crewQuestion": "What can a student review while waiting for a bus?",
-        "imposterQuestion": "What can a student review while riding a bus?"
+        "hint": "small practice cards",
+        "crewQuestion": "What could you write on language flashcards?",
+        "imposterQuestion": "Which details would fit on a small revision card?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "flashcard deck",
+        "secret": "dictionary",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "listening clip",
+        "secret": "earbuds",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "conversation club",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "verb chart",
+        "secret": "book",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "language tutor",
+        "secret": "translator",
         "kind": "job",
         "level": "B1"
       },
       {
-        "secret": "subtitle track",
+        "secret": "bookshop",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "audiobook",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "audio lesson",
+        "secret": "recorder",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "grammar workbook",
+        "secret": "pen",
         "kind": "thing",
         "level": "B1"
       }
@@ -35152,29 +35152,29 @@
     ],
     "hotSeat": [
       {
-        "word": "phrase card",
+        "word": "phrase",
         "level": "B1",
-        "description": "a small note showing useful words to say"
+        "description": "a short group of words used together"
       },
       {
-        "word": "local guide",
+        "word": "guide",
         "level": "B1",
-        "description": "a person showing visitors around an area"
+        "description": "a person who shows visitors around"
       },
       {
-        "word": "transit sign",
+        "word": "sign",
         "level": "B1",
-        "description": "a marker showing where buses or trains go"
+        "description": "a board giving people information or instructions"
       },
       {
-        "word": "restaurant menu",
+        "word": "translation",
         "level": "B1",
-        "description": "a list of food and drinks to order"
+        "description": "words changed into a language a visitor understands"
       },
       {
-        "word": "public notice",
+        "word": "notice",
         "level": "B1",
-        "description": "a message displayed for everyone to read"
+        "description": "a written message displayed for people to read"
       },
       {
         "word": "quiet carriage",
@@ -35182,29 +35182,24 @@
         "description": "a train section where voices stay low"
       },
       {
-        "word": "temple shoes",
-        "level": "B2",
-        "description": "footwear removed before entering a sacred place"
+        "word": "shoes",
+        "level": "B1",
+        "description": "things worn on your feet outdoors"
       },
       {
-        "word": "museum sign",
+        "word": "museum",
         "level": "B1",
-        "description": "a notice giving information about an exhibit"
+        "description": "a building where people learn about the past"
       },
       {
-        "word": "cash tip",
+        "word": "coin",
         "level": "B1",
-        "description": "a small amount of money left for service"
+        "description": "a small round metal piece used as money"
       },
       {
-        "word": "greeting card",
+        "word": "journal",
         "level": "B1",
-        "description": "a note sent to say hello or welcome"
-      },
-      {
-        "word": "travel journal",
-        "level": "B1",
-        "description": "a book recording places visited and experiences"
+        "description": "a book recording thoughts and events over time"
       },
       {
         "word": "help desk",
@@ -35212,14 +35207,19 @@
         "description": "a counter where visitors can ask questions"
       },
       {
-        "word": "market aisle",
-        "level": "B1",
-        "description": "a walkway between rows of goods"
+        "word": "aisle",
+        "level": "B2",
+        "description": "a passage between rows of seats or shelves"
       },
       {
-        "word": "customs leaflet",
-        "level": "B2",
-        "description": "a paper explaining local rules for visitors"
+        "word": "leaflet",
+        "level": "B1",
+        "description": "a small folded sheet giving information"
+      },
+      {
+        "word": "visitor",
+        "level": "B1",
+        "description": "someone who comes to see a place"
       }
     ],
     "imposter": [
@@ -35227,90 +35227,90 @@
         "word": "etiquette",
         "level": "B1",
         "description": "polite behaviour expected in a particular place",
-        "hint": "travel idea",
-        "crewQuestion": "What can help a visitor act politely at dinner?",
-        "imposterQuestion": "What can help a visitor dress politely at dinner?"
+        "hint": "polite social conduct",
+        "crewQuestion": "What would you check before visiting a temple?",
+        "imposterQuestion": "Which details matter when entering a historic church?"
       },
       {
         "word": "local custom",
         "level": "B1",
         "description": "a way of acting followed in one community",
-        "hint": "travel idea",
-        "crewQuestion": "What may a visitor learn before entering someone’s home?",
-        "imposterQuestion": "What may a visitor learn before leaving someone’s home?"
+        "hint": "community behavior patterns",
+        "crewQuestion": "Who could explain an unfamiliar local custom?",
+        "imposterQuestion": "Which people might help you understand a festival rule?"
       },
       {
         "word": "greeting",
         "level": "B1",
         "description": "a polite action used when meeting someone",
-        "hint": "social action",
-        "crewQuestion": "What can start a friendly conversation with a host?",
-        "imposterQuestion": "What can end a friendly conversation with a host?"
+        "hint": "welcoming spoken expressions",
+        "crewQuestion": "What greeting could you use with a host?",
+        "imposterQuestion": "Which phrases might welcome a new classmate?"
       },
       {
         "word": "dress code",
         "level": "B1",
         "description": "rules about which clothes are suitable somewhere",
-        "hint": "travel rule",
-        "crewQuestion": "What might a museum ask visitors to follow?",
-        "imposterQuestion": "What might a museum ask visitors to read?"
+        "hint": "required clothing standards",
+        "crewQuestion": "What would you wear for a formal visit?",
+        "imposterQuestion": "Which clothes could suit a school celebration?"
       },
       {
         "word": "gesture",
         "level": "B1",
         "description": "a movement of the hand or body with meaning",
-        "hint": "body language",
-        "crewQuestion": "What can someone use instead of words to say hello?",
-        "imposterQuestion": "What can someone use instead of words to say goodbye?"
+        "hint": "communicating body movements",
+        "crewQuestion": "What gesture might make a visitor feel welcome?",
+        "imposterQuestion": "Which actions could reassure a nervous new student?"
       },
       {
         "word": "phrase card",
         "level": "B1",
         "description": "a small note showing useful local words",
-        "hint": "travel item",
-        "crewQuestion": "What might a visitor carry to ask for directions?",
-        "imposterQuestion": "What might a visitor carry to draw directions?"
+        "hint": "portable expression guides",
+        "crewQuestion": "What phrases belong on a visitor's card?",
+        "imposterQuestion": "Which words could help a guest ask for directions?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "phrase card",
+        "secret": "passport",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "local guide",
+        "secret": "shawl",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "temple",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "mosque",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "guidebook",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "suitcase",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "hotel",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "receptionist",
         "kind": "job",
-        "level": "B1"
-      },
-      {
-        "secret": "transit sign",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "restaurant menu",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "public notice",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "quiet carriage",
-        "kind": "place",
-        "level": "B2"
-      },
-      {
-        "secret": "help desk",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "travel journal",
-        "kind": "thing",
         "level": "B1"
       }
     ]
@@ -35476,9 +35476,9 @@
     ],
     "hotSeat": [
       {
-        "word": "craft market",
+        "word": "market",
         "level": "B1",
-        "description": "an event where makers sell handmade goods"
+        "description": "a place where sellers offer goods at stalls"
       },
       {
         "word": "story circle",
@@ -35491,19 +35491,19 @@
         "description": "a place preserving local stories and objects"
       },
       {
-        "word": "family album",
+        "word": "album",
         "level": "B1",
-        "description": "a book holding pictures of relatives"
+        "description": "a group of songs released together"
       },
       {
-        "word": "festival programme",
+        "word": "programme",
         "level": "B1",
-        "description": "a leaflet listing events and their times"
+        "description": "a printed list of events in a celebration"
       },
       {
-        "word": "folk instrument",
+        "word": "instrument",
         "level": "B1",
-        "description": "a tool played in traditional community music"
+        "description": "an object used to make musical sounds"
       },
       {
         "word": "community hall",
@@ -35513,32 +35513,32 @@
       {
         "word": "recipe card",
         "level": "B1",
-        "description": "a small note with cooking instructions"
+        "description": "a small sheet holding instructions for making food"
       },
       {
-        "word": "traditional pattern",
-        "level": "B2",
-        "description": "a repeated design used over many years"
-      },
-      {
-        "word": "dance costume",
+        "word": "pattern",
         "level": "B1",
-        "description": "special clothes worn during a performance"
+        "description": "a repeated picture or shape on material"
       },
       {
-        "word": "local archive",
-        "level": "B2",
-        "description": "a collection of historical papers and objects"
-      },
-      {
-        "word": "ceremony drum",
-        "level": "B2",
-        "description": "a musical object used during a formal event"
-      },
-      {
-        "word": "holiday calendar",
+        "word": "costume",
         "level": "B1",
-        "description": "a chart marking special days each year"
+        "description": "special clothes worn for a celebration or show"
+      },
+      {
+        "word": "archive",
+        "level": "B2",
+        "description": "a collection of older material kept for reference"
+      },
+      {
+        "word": "fiddle",
+        "level": "B1",
+        "description": "a bowed string instrument played in traditional music"
+      },
+      {
+        "word": "calendar",
+        "level": "B1",
+        "description": "a chart showing the days and months"
       },
       {
         "word": "memory box",
@@ -35551,90 +35551,90 @@
         "word": "oral history",
         "level": "B2",
         "description": "stories and knowledge passed down by speaking",
-        "hint": "community history",
-        "crewQuestion": "What can an elder share about life long ago?",
-        "imposterQuestion": "What can an elder share about life today?"
+        "hint": "spoken historical memories",
+        "crewQuestion": "Who might share a story about a town's past?",
+        "imposterQuestion": "Which people could explain an old family photograph?"
       },
       {
         "word": "community festival",
         "level": "B1",
         "description": "a public event shared by neighbours",
-        "hint": "local event",
-        "crewQuestion": "What may bring many families together in a town?",
-        "imposterQuestion": "What may bring many families together in a classroom?"
+        "hint": "local shared celebrations",
+        "crewQuestion": "What might you hear at a community festival?",
+        "imposterQuestion": "Which sounds could come from a neighborhood fair?"
       },
       {
         "word": "folk dance",
         "level": "B1",
         "description": "a dance passed through a community",
-        "hint": "local art",
-        "crewQuestion": "What can people perform at a celebration with music?",
-        "imposterQuestion": "What can people perform at a celebration without music?"
+        "hint": "traditional movement styles",
+        "crewQuestion": "What could you wear while learning a folk dance?",
+        "imposterQuestion": "Which clothes suit practicing a group performance?"
       },
       {
         "word": "local legend",
         "level": "B1",
         "description": "a story told about a place or person",
-        "hint": "community story",
-        "crewQuestion": "What might explain why a hill has its name?",
-        "imposterQuestion": "What might explain why a hill has its shape?"
+        "hint": "traditional local tales",
+        "crewQuestion": "What might happen in a local legend?",
+        "imposterQuestion": "Which events could appear in a family ghost story?"
       },
       {
         "word": "craft market",
         "level": "B1",
         "description": "an event where makers sell handmade goods",
-        "hint": "local place",
-        "crewQuestion": "Where can visitors buy objects made by local artists?",
-        "imposterQuestion": "Where can visitors see objects made by local artists?"
+        "hint": "handmade goods places",
+        "crewQuestion": "What could you buy at a craft market?",
+        "imposterQuestion": "Which gifts might be made in a school workshop?"
       },
       {
         "word": "family recipe",
         "level": "B1",
         "description": "instructions for a dish passed between relatives",
-        "hint": "food tradition",
-        "crewQuestion": "What can relatives keep and cook again over time?",
-        "imposterQuestion": "What can relatives eat and enjoy again over time?"
+        "hint": "inherited cooking instructions",
+        "crewQuestion": "What would you ask about a family recipe?",
+        "imposterQuestion": "Which questions help you learn a traditional baking method?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "craft market",
-        "kind": "place",
+        "secret": "potter",
+        "kind": "job",
         "level": "B1"
       },
       {
-        "secret": "heritage centre",
-        "kind": "place",
-        "level": "B2"
-      },
-      {
-        "secret": "family album",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "festival programme",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "community hall",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "local archive",
-        "kind": "place",
-        "level": "B2"
-      },
-      {
-        "secret": "ceremony drum",
+        "secret": "loom",
         "kind": "thing",
         "level": "B2"
       },
       {
-        "secret": "memory box",
+        "secret": "weaver",
+        "kind": "job",
+        "level": "B2"
+      },
+      {
+        "secret": "lantern",
         "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "maypole",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "embroidery",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "bread",
+        "kind": "food",
+        "level": "B1"
+      },
+      {
+        "secret": "temple",
+        "kind": "place",
         "level": "B1"
       }
     ]
@@ -35800,14 +35800,14 @@
     ],
     "hotSeat": [
       {
-        "word": "exam paper",
+        "word": "paper",
         "level": "B1",
-        "description": "sheets holding the questions for a test"
+        "description": "a flat thin material for writing or drawing"
       },
       {
-        "word": "answer booklet",
+        "word": "booklet",
         "level": "B1",
-        "description": "a small book where test responses are written"
+        "description": "a small thin book holding information"
       },
       {
         "word": "student ID",
@@ -35815,9 +35815,9 @@
         "description": "a card showing who a student is"
       },
       {
-        "word": "exam desk",
+        "word": "seat",
         "level": "B1",
-        "description": "a table used by one person during a test"
+        "description": "a place where one student sits"
       },
       {
         "word": "wall clock",
@@ -35830,44 +35830,44 @@
         "description": "a bright pen marking important words"
       },
       {
-        "word": "revision card",
+        "word": "flashcard",
         "level": "B1",
-        "description": "a small paper with facts to review"
+        "description": "a small study aid with information on two sides"
       },
       {
-        "word": "quiet sign",
+        "word": "silence",
         "level": "B1",
-        "description": "a notice asking people not to make noise"
+        "description": "a state in which nobody is making noise"
       },
       {
-        "word": "spare pen",
+        "word": "pen",
         "level": "B1",
-        "description": "an extra writing tool kept in case one fails"
+        "description": "a tool that writes using ink"
       },
       {
-        "word": "exam timetable",
+        "word": "timetable",
         "level": "B1",
-        "description": "a chart showing when each test will happen"
+        "description": "a chart showing lesson times for the day"
       },
       {
-        "word": "grade report",
+        "word": "grade",
         "level": "B1",
-        "description": "a page showing a student’s marks"
+        "description": "a mark showing the quality of school work"
       },
       {
-        "word": "study lamp",
+        "word": "lamp",
         "level": "B1",
-        "description": "a small light used while reading or writing"
+        "description": "an object that gives light indoors"
       },
       {
-        "word": "calculator case",
+        "word": "case",
         "level": "B1",
-        "description": "a cover protecting a number tool"
+        "description": "an outer covering that protects a machine"
       },
       {
-        "word": "revision folder",
+        "word": "folder",
         "level": "B1",
-        "description": "a cover holding notes used for review"
+        "description": "a place for grouping files on a computer"
       }
     ],
     "imposter": [
@@ -35875,89 +35875,89 @@
         "word": "revision",
         "level": "B1",
         "description": "studying material again to help remember it",
-        "hint": "study activity",
-        "crewQuestion": "What might a student do before a test next week?",
-        "imposterQuestion": "What might a student do after a test next week?"
+        "hint": "exam preparation activities",
+        "crewQuestion": "What helps you revise a difficult subject?",
+        "imposterQuestion": "Which habits suit preparing for a quiz?"
       },
       {
         "word": "practice paper",
         "level": "B1",
         "description": "a set of sample questions like a real test",
-        "hint": "study material",
-        "crewQuestion": "What can someone complete to prepare for an exam?",
-        "imposterQuestion": "What can someone complete to celebrate an exam?"
+        "hint": "trial examination tasks",
+        "crewQuestion": "What would you check after a practice paper?",
+        "imposterQuestion": "Which details matter when reviewing a class worksheet?"
       },
       {
         "word": "invigilator",
         "level": "B2",
         "description": "a person watching students during a test",
-        "hint": "a school role",
-        "crewQuestion": "Who can walk around a quiet exam room?",
-        "imposterQuestion": "Who can walk around a noisy lunch room?"
+        "hint": "exam supervising jobs",
+        "crewQuestion": "What might an invigilator remind students about?",
+        "imposterQuestion": "Which instructions could a teacher give before a quiet test?"
       },
       {
         "word": "multiple choice",
         "level": "B1",
         "description": "a question answered by selecting from options",
-        "hint": "question type",
-        "crewQuestion": "What kind of question lets someone pick one answer?",
-        "imposterQuestion": "What kind of question lets someone write one answer?"
+        "hint": "selection based questions",
+        "crewQuestion": "What could make a multiple-choice question confusing?",
+        "imposterQuestion": "Which details might make a quiz's options hard to compare?"
       },
       {
         "word": "calculator",
         "level": "B1",
         "description": "a device used to work with numbers",
-        "hint": "study equipment",
-        "crewQuestion": "What can help someone solve a maths problem quickly?",
-        "imposterQuestion": "What can help someone read a history story quickly?"
+        "hint": "number working devices",
+        "crewQuestion": "When would a calculator be useful?",
+        "imposterQuestion": "Which tasks might need help checking sums?"
       },
       {
         "word": "exam hall",
         "level": "B1",
         "description": "a large room where students sit a test",
-        "hint": "school place",
-        "crewQuestion": "Where might many students take the same test?",
-        "imposterQuestion": "Where might many students watch the same film?"
+        "hint": "formal testing places",
+        "crewQuestion": "What would you bring into an exam hall?",
+        "imposterQuestion": "Which items belong on a desk for a timed class test?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "exam paper",
+        "secret": "mechanical pencil",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "answer booklet",
+        "secret": "eraser",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "student ID",
+        "secret": "ruler",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "wall clock",
+        "secret": "protractor",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "revision card",
+        "secret": "flask",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "exam timetable",
+        "secret": "school",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "textbook",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "grade report",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "calculator",
+        "secret": "watch",
         "kind": "thing",
         "level": "B1"
       }
@@ -36126,7 +36126,7 @@
       {
         "word": "notebook",
         "level": "B1",
-        "description": "a book with pages for writing notes"
+        "description": "a book used for writing down new ideas"
       },
       {
         "word": "desk lamp",
@@ -36139,9 +36139,9 @@
         "description": "a book used to find facts and explanations"
       },
       {
-        "word": "research tab",
-        "level": "B2",
-        "description": "an open page used to look for information"
+        "word": "tab",
+        "level": "B1",
+        "description": "one open webpage among several in a browser"
       },
       {
         "word": "sticky note",
@@ -36149,43 +36149,43 @@
         "description": "a small paper square that sticks to a surface"
       },
       {
-        "word": "file folder",
+        "word": "folder",
         "level": "B1",
-        "description": "a cover used to keep papers together"
+        "description": "a place for grouping files on a computer"
       },
       {
-        "word": "study timer",
+        "word": "reminder",
         "level": "B1",
-        "description": "a clock counting a period for schoolwork"
+        "description": "a message that stops you forgetting a task"
       },
       {
-        "word": "charging cable",
+        "word": "charger",
         "level": "B1",
-        "description": "a wire bringing power into a device"
+        "description": "a device supplying electricity to a portable computer"
       },
       {
-        "word": "task list",
+        "word": "list",
         "level": "B1",
-        "description": "a set of jobs someone needs to complete"
+        "description": "items written one after another"
       },
       {
-        "word": "essay plan",
+        "word": "plan",
         "level": "B1",
-        "description": "a page arranging ideas for a written answer"
+        "description": "a drawing showing how you will build something"
       },
       {
-        "word": "citation guide",
-        "level": "B2",
-        "description": "instructions showing how to name a source"
-      },
-      {
-        "word": "teacher comment",
+        "word": "guide",
         "level": "B1",
-        "description": "a note written about a student’s work"
+        "description": "a person who shows visitors around"
       },
       {
-        "word": "work schedule",
-        "level": "B2",
+        "word": "comment",
+        "level": "B1",
+        "description": "a written response beneath an online post"
+      },
+      {
+        "word": "schedule",
+        "level": "B1",
         "description": "a plan showing when tasks will happen"
       },
       {
@@ -36199,90 +36199,90 @@
         "word": "assignment",
         "level": "B1",
         "description": "a piece of schoolwork students need to complete",
-        "hint": "school task",
-        "crewQuestion": "What might a teacher give after a lesson?",
-        "imposterQuestion": "What might a teacher collect before a lesson?"
+        "hint": "set learning tasks",
+        "crewQuestion": "What would you check before starting an assignment?",
+        "imposterQuestion": "Which details matter before writing a club report?"
       },
       {
         "word": "deadline",
         "level": "B1",
         "description": "the latest time work should be finished",
-        "hint": "schoolwork detail",
-        "crewQuestion": "When must a student turn in an essay?",
-        "imposterQuestion": "When can a student start writing an essay?"
+        "hint": "fixed submission dates",
+        "crewQuestion": "What helps you finish before a deadline?",
+        "imposterQuestion": "Which habits keep you ready for a project meeting?"
       },
       {
         "word": "citation",
         "level": "B2",
         "description": "a note showing where information came from",
-        "hint": "writing detail",
-        "crewQuestion": "What can help readers find a book used in research?",
-        "imposterQuestion": "What can help readers find a book used for fun?"
+        "hint": "source credit records",
+        "crewQuestion": "What information belongs in a source citation?",
+        "imposterQuestion": "Which details would help you find a library book again?"
       },
       {
         "word": "draft",
         "level": "B1",
         "description": "an early version of a piece of writing",
-        "hint": "writing stage",
-        "crewQuestion": "What can a student revise before handing work in?",
-        "imposterQuestion": "What can a student celebrate before handing work in?"
+        "hint": "early writing versions",
+        "crewQuestion": "What might you change in an essay draft?",
+        "imposterQuestion": "Which details could improve a first version of a speech?"
       },
       {
         "word": "notebook",
         "level": "B1",
         "description": "a book with pages for writing notes",
-        "hint": "school item",
-        "crewQuestion": "Where might someone write ideas during a class?",
-        "imposterQuestion": "Where might someone draw pictures during a class?"
+        "hint": "study writing books",
+        "crewQuestion": "What could you record in a homework notebook?",
+        "imposterQuestion": "Which notes might help you plan a week of study?"
       },
       {
         "word": "reference book",
         "level": "B1",
         "description": "a book used to find facts and explanations",
-        "hint": "study material",
-        "crewQuestion": "What can help someone check details for a project?",
-        "imposterQuestion": "What can help someone check spelling for a project?"
+        "hint": "fact checking volumes",
+        "crewQuestion": "Where would you look for a useful reference book?",
+        "imposterQuestion": "Which places might have background information for a presentation?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "desk lamp",
+        "secret": "dictionary",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "reference book",
+        "secret": "textbook",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "sticky note",
+        "secret": "binder",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "study timer",
+        "secret": "pen",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "task list",
+        "secret": "e-reader",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "citation guide",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "charging cable",
+        "secret": "office chair",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "quiet room",
-        "kind": "place",
+        "secret": "highlighter",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "clipboard",
+        "kind": "thing",
         "level": "B1"
       }
     ]
@@ -36448,14 +36448,14 @@
     ],
     "hotSeat": [
       {
-        "word": "club form",
+        "word": "form",
         "level": "B1",
-        "description": "a page someone fills in to join a group"
+        "description": "a page with spaces for requested information"
       },
       {
-        "word": "club badge",
+        "word": "badge",
         "level": "B1",
-        "description": "a small sign showing which group someone belongs to"
+        "description": "a small sign worn to show who you are"
       },
       {
         "word": "meeting room",
@@ -36463,9 +36463,9 @@
         "description": "a place where people gather to talk"
       },
       {
-        "word": "club newsletter",
+        "word": "newsletter",
         "level": "B1",
-        "description": "a short publication sharing group news"
+        "description": "a regular publication sharing a group's news"
       },
       {
         "word": "snack table",
@@ -36473,14 +36473,14 @@
         "description": "a surface holding food for an event"
       },
       {
-        "word": "event calendar",
+        "word": "calendar",
         "level": "B1",
-        "description": "a chart showing dates for group activities"
+        "description": "a chart showing the days and months"
       },
       {
-        "word": "club budget",
-        "level": "B2",
-        "description": "a plan showing money available to a group"
+        "word": "budget",
+        "level": "B1",
+        "description": "a plan for how someone will use money"
       },
       {
         "word": "notice board",
@@ -36488,34 +36488,34 @@
         "description": "a display where papers can be pinned"
       },
       {
-        "word": "volunteer form",
-        "level": "B1",
-        "description": "a page offering to help with an activity"
+        "word": "auditorium",
+        "level": "B2",
+        "description": "a large room where audiences watch performances"
       },
       {
-        "word": "school auditorium",
+        "word": "presentation",
         "level": "B1",
-        "description": "a large room where students gather"
+        "description": "a talk showing a group's ideas or achievements"
       },
       {
-        "word": "projector",
+        "word": "box",
         "level": "B1",
-        "description": "a device showing a picture on a large surface"
+        "description": "a square container with an open top"
       },
       {
-        "word": "fundraising box",
+        "word": "list",
         "level": "B1",
-        "description": "a container collecting money for a cause"
+        "description": "items written one after another"
       },
       {
-        "word": "member list",
+        "word": "logo",
         "level": "B1",
-        "description": "a page naming people in a group"
+        "description": "a recognizable symbol used by an organization"
       },
       {
-        "word": "club logo",
+        "word": "member",
         "level": "B1",
-        "description": "a picture used to represent a group"
+        "description": "a person belonging to a group or club"
       }
     ],
     "imposter": [
@@ -36523,90 +36523,90 @@
         "word": "club meeting",
         "level": "B1",
         "description": "a gathering where members plan an activity",
-        "hint": "school event",
-        "crewQuestion": "When can members decide what their group will do?",
-        "imposterQuestion": "When can members decide what their group has done?"
+        "hint": "school group gatherings",
+        "crewQuestion": "What might you discuss at a club meeting?",
+        "imposterQuestion": "Which subjects could come up while planning a class event?"
       },
       {
         "word": "committee",
         "level": "B2",
         "description": "a small group helping manage an organisation",
-        "hint": "school group",
-        "crewQuestion": "Who might plan a club event with a teacher?",
-        "imposterQuestion": "Who might attend a club event with a teacher?"
+        "hint": "student organizing groups",
+        "crewQuestion": "What jobs could a club committee divide?",
+        "imposterQuestion": "Which tasks might a student council share?"
       },
       {
         "word": "treasurer",
         "level": "B2",
         "description": "the person keeping track of a group’s money",
-        "hint": "club role",
-        "crewQuestion": "Who checks how much the group can spend?",
-        "imposterQuestion": "Who checks how much the group can raise?"
+        "hint": "group money managers",
+        "crewQuestion": "What records would a treasurer keep?",
+        "imposterQuestion": "Which details would someone track for a charity collection?"
       },
       {
         "word": "fundraiser",
         "level": "B1",
         "description": "an event collecting money for a cause",
-        "hint": "club event",
-        "crewQuestion": "What can a club run to pay for new equipment?",
-        "imposterQuestion": "What can a club run to show new equipment?"
+        "hint": "money raising events",
+        "crewQuestion": "What could you sell at a fundraiser?",
+        "imposterQuestion": "Which items might attract visitors to a school fair?"
       },
       {
         "word": "club form",
         "level": "B1",
         "description": "a page someone fills in to join a group",
-        "hint": "school paper",
-        "crewQuestion": "What can a student complete before joining a club?",
-        "imposterQuestion": "What can a student complete after leaving a club?"
+        "hint": "membership application sheets",
+        "crewQuestion": "What details belong on a club signup form?",
+        "imposterQuestion": "Which information might a sports camp ask for?"
       },
       {
         "word": "club badge",
         "level": "B1",
         "description": "a small sign showing a group someone belongs to",
-        "hint": "school item",
-        "crewQuestion": "What might members wear to show their group?",
-        "imposterQuestion": "What might members carry to show their group?"
+        "hint": "membership marking objects",
+        "crewQuestion": "Where could you wear a club badge?",
+        "imposterQuestion": "Which clothes might display a school pin?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "club form",
+        "secret": "chessboard",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "club badge",
+        "secret": "trombone",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "meeting room",
+        "secret": "paintbrush",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "drum kit",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "ukulele",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "drama studio",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "club newsletter",
+        "secret": "violin",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "event calendar",
+        "secret": "drone",
         "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "club budget",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "notice board",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "school auditorium",
-        "kind": "place",
         "level": "B1"
       }
     ]
@@ -36772,9 +36772,9 @@
     ],
     "hotSeat": [
       {
-        "word": "name badge",
+        "word": "name tag",
         "level": "B1",
-        "description": "a small sign showing someone’s name"
+        "description": "a small label showing what to call a worker"
       },
       {
         "word": "staff room",
@@ -36787,9 +36787,9 @@
         "description": "a device workers use to record their hours"
       },
       {
-        "word": "cash register",
+        "word": "register",
         "level": "B1",
-        "description": "a machine storing money and recording sales"
+        "description": "a list showing who is present at school"
       },
       {
         "word": "apron",
@@ -36797,19 +36797,19 @@
         "description": "a cover worn over clothes while working"
       },
       {
-        "word": "rota board",
+        "word": "rota",
         "level": "B2",
-        "description": "a display showing who works at each time"
+        "description": "a list showing when each person works"
       },
       {
-        "word": "employee handbook",
-        "level": "B2",
-        "description": "a book explaining workplace rules"
-      },
-      {
-        "word": "locker key",
+        "word": "handbook",
         "level": "B1",
-        "description": "a small tool opening a worker’s storage space"
+        "description": "a small book explaining important workplace rules"
+      },
+      {
+        "word": "key",
+        "level": "B1",
+        "description": "a small metal object that opens a lock"
       },
       {
         "word": "break room",
@@ -36817,9 +36817,9 @@
         "description": "a place where staff can pause and eat"
       },
       {
-        "word": "job advert",
+        "word": "advert",
         "level": "B1",
-        "description": "a notice describing a role someone can apply for"
+        "description": "a notice asking people to buy or apply"
       },
       {
         "word": "application form",
@@ -36827,19 +36827,19 @@
         "description": "a page asking for details from a candidate"
       },
       {
-        "word": "training shift",
+        "word": "training",
         "level": "B1",
-        "description": "a work period used to learn the job"
+        "description": "practice and instruction for a new job"
       },
       {
-        "word": "staff discount",
+        "word": "discount",
         "level": "B1",
-        "description": "a lower price offered to workers"
+        "description": "a reduction in the usual price"
       },
       {
-        "word": "payday calendar",
+        "word": "payday",
         "level": "B1",
-        "description": "a chart showing when workers receive money"
+        "description": "the day when workers receive their earnings"
       }
     ],
     "imposter": [
@@ -36847,89 +36847,89 @@
         "word": "shift",
         "level": "B1",
         "description": "a period when someone works at a job",
-        "hint": "work detail",
-        "crewQuestion": "When might a student serve customers after school?",
-        "imposterQuestion": "When might a student serve customers before school?"
+        "hint": "scheduled working periods",
+        "crewQuestion": "What would you pack for an evening work shift?",
+        "imposterQuestion": "Which items belong in a bag for a volunteer session?"
       },
       {
         "word": "pay slip",
         "level": "B1",
         "description": "a paper showing money earned and deductions",
-        "hint": "work paper",
-        "crewQuestion": "What might a worker receive after payday?",
-        "imposterQuestion": "What might a worker send before payday?"
+        "hint": "earnings detail records",
+        "crewQuestion": "What would you check on a pay slip?",
+        "imposterQuestion": "Which figures might you compare on a bank statement?"
       },
       {
         "word": "interview",
         "level": "B1",
         "description": "a meeting where someone is asked about a job",
-        "hint": "job step",
-        "crewQuestion": "What can happen before someone is offered a role?",
-        "imposterQuestion": "What can happen after someone accepts a role?"
+        "hint": "employment selection meetings",
+        "crewQuestion": "What would you ask at a job interview?",
+        "imposterQuestion": "Which questions could help you understand a volunteer role?"
       },
       {
         "word": "supervisor",
         "level": "B1",
         "description": "a person guiding workers during a shift",
-        "hint": "work role",
-        "crewQuestion": "Who can answer questions at a new job?",
-        "imposterQuestion": "Who can ask questions at a new job?"
+        "hint": "workplace guiding roles",
+        "crewQuestion": "What advice might a supervisor give a new worker?",
+        "imposterQuestion": "Which reminders could a club organizer give a new member?"
       },
       {
         "word": "cash register",
         "level": "B1",
         "description": "a machine recording sales and holding money",
-        "hint": "work equipment",
-        "crewQuestion": "What can a shop worker use to charge a customer?",
-        "imposterQuestion": "What can a shop worker use to greet a customer?"
+        "hint": "shop payment machines",
+        "crewQuestion": "What could you keep beside a cash register?",
+        "imposterQuestion": "Which objects might be near a market stall's till?"
       },
       {
         "word": "uniform",
         "level": "B1",
         "description": "special clothes worn by workers",
-        "hint": "work clothing",
-        "crewQuestion": "What might someone wear to show which shop they work for?",
-        "imposterQuestion": "What might someone wear to show which school they attend?"
+        "hint": "standard workplace clothes",
+        "crewQuestion": "What makes a work uniform comfortable?",
+        "imposterQuestion": "Which features matter in clothes for a long school event?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "name badge",
+        "secret": "waiter",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "barista",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "shelf",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "staff room",
+        "secret": "receipt",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "bakery",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "time clock",
+        "secret": "restaurant",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "shop",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "cash register",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "rota board",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "employee handbook",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "job advert",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "locker key",
+        "secret": "trolley",
         "kind": "thing",
         "level": "B1"
       }
@@ -37101,9 +37101,9 @@
         "description": "a place where work opportunities are listed"
       },
       {
-        "word": "career adviser",
+        "word": "adviser",
         "level": "B1",
-        "description": "a person helping someone plan future work"
+        "description": "someone who helps people make informed choices"
       },
       {
         "word": "interview room",
@@ -37111,34 +37111,24 @@
         "description": "a quiet place where a job meeting happens"
       },
       {
-        "word": "work portfolio",
+        "word": "course",
         "level": "B1",
-        "description": "a collection of projects made for work"
+        "description": "a series of lessons about a subject"
       },
       {
-        "word": "training course",
+        "word": "pass",
         "level": "B1",
-        "description": "lessons teaching skills for a type of job"
+        "description": "a document allowing entry to a workplace"
       },
       {
-        "word": "office badge",
+        "word": "website",
         "level": "B1",
-        "description": "a card showing someone may enter a workplace"
+        "description": "a collection of pages available on the internet"
       },
       {
-        "word": "career website",
+        "word": "letter",
         "level": "B1",
-        "description": "an online page with job and training advice"
-      },
-      {
-        "word": "reference letter",
-        "level": "B2",
-        "description": "a note describing someone’s work qualities"
-      },
-      {
-        "word": "work uniform",
-        "level": "B1",
-        "description": "matching clothes worn for a job"
+        "description": "a written message sent to another person"
       },
       {
         "word": "career map",
@@ -37146,9 +37136,9 @@
         "description": "a chart showing possible steps between roles"
       },
       {
-        "word": "skill checklist",
+        "word": "checklist",
         "level": "B1",
-        "description": "a list used to review someone’s abilities"
+        "description": "items marked off as they are completed"
       },
       {
         "word": "job shadowing",
@@ -37161,9 +37151,19 @@
         "description": "a small card with work contact details"
       },
       {
-        "word": "application email",
+        "word": "email",
         "level": "B1",
-        "description": "a message sent when asking for a job"
+        "description": "a message sent electronically to an address"
+      },
+      {
+        "word": "skill",
+        "level": "B1",
+        "description": "an ability developed through practice and learning"
+      },
+      {
+        "word": "applicant",
+        "level": "B2",
+        "description": "a person asking to be considered for a job"
       }
     ],
     "imposter": [
@@ -37171,90 +37171,90 @@
         "word": "career path",
         "level": "B1",
         "description": "a series of roles someone may have over time",
-        "hint": "work idea",
-        "crewQuestion": "What can someone plan while choosing future training?",
-        "imposterQuestion": "What can someone follow while choosing future training?"
+        "hint": "planned professional journeys",
+        "crewQuestion": "Who could help you explore a career path?",
+        "imposterQuestion": "Which people might advise you on choosing school subjects?"
       },
       {
         "word": "apprenticeship",
         "level": "B2",
         "description": "learning a job while working with an expert",
-        "hint": "work training",
-        "crewQuestion": "What can combine lessons with practical tasks?",
-        "imposterQuestion": "What can combine exams with practical tasks?"
+        "hint": "work based training",
+        "crewQuestion": "What might you learn during an apprenticeship?",
+        "imposterQuestion": "Which skills could you practise while helping a tradesperson?"
       },
       {
         "word": "qualification",
         "level": "B1",
         "description": "a course or skill recognised for a type of work",
-        "hint": "work detail",
-        "crewQuestion": "What may an employer ask someone to earn?",
-        "imposterQuestion": "What may an employer ask someone to lose?"
+        "hint": "proved learning achievements",
+        "crewQuestion": "What qualifications might a job ask for?",
+        "imposterQuestion": "Which achievements could help you enter a training course?"
       },
       {
         "word": "internship",
         "level": "B1",
         "description": "a short period learning inside a workplace",
-        "hint": "work training",
-        "crewQuestion": "What can give a student experience before a full-time role?",
-        "imposterQuestion": "What can give a student a holiday before a full-time role?"
+        "hint": "short workplace placements",
+        "crewQuestion": "What tasks might an intern help with?",
+        "imposterQuestion": "Which jobs could a new office volunteer try?"
       },
       {
         "word": "mentor",
         "level": "B1",
         "description": "an experienced person who offers useful advice",
-        "hint": "work support",
-        "crewQuestion": "Who can help someone decide which skill to learn?",
-        "imposterQuestion": "Who can help someone decide which lunch to eat?"
+        "hint": "experienced professional advisers",
+        "crewQuestion": "What would you ask a career mentor?",
+        "imposterQuestion": "Which questions might you put to a trusted teacher?"
       },
       {
         "word": "portfolio",
         "level": "B1",
         "description": "a collection showing examples of someone’s work",
-        "hint": "work item",
-        "crewQuestion": "What can an artist show during a job meeting?",
-        "imposterQuestion": "What can an artist show during a family meal?"
+        "hint": "collected work examples",
+        "crewQuestion": "What could you include in a work portfolio?",
+        "imposterQuestion": "Which examples belong in an art course application?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "job board",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "career adviser",
+        "secret": "electrician",
         "kind": "job",
         "level": "B1"
       },
       {
-        "secret": "interview room",
+        "secret": "nurse",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "carpenter",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "dentist",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "architect",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "veterinarian",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "laboratory",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "training course",
-        "kind": "activity",
-        "level": "B1"
-      },
-      {
-        "secret": "reference letter",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "career website",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "skill checklist",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "business card",
-        "kind": "thing",
+        "secret": "workshop",
+        "kind": "place",
         "level": "B1"
       }
     ]
@@ -37425,14 +37425,14 @@
         "description": "a set of slides explaining a business idea"
       },
       {
-        "word": "product sample",
+        "word": "sample",
         "level": "B1",
-        "description": "one example of something being made for sale"
+        "description": "a small piece taken for study"
       },
       {
-        "word": "business mentor",
+        "word": "mentor",
         "level": "B1",
-        "description": "an experienced person giving company advice"
+        "description": "an experienced person who gives helpful advice"
       },
       {
         "word": "market stall",
@@ -37440,14 +37440,14 @@
         "description": "a small stand selling goods outdoors"
       },
       {
-        "word": "company logo",
+        "word": "logo",
         "level": "B1",
-        "description": "a picture representing a business name"
+        "description": "a recognizable symbol used by an organization"
       },
       {
-        "word": "customer survey",
-        "level": "B2",
-        "description": "questions asking buyers what they think"
+        "word": "survey",
+        "level": "B1",
+        "description": "a collection of questions asking people's opinions"
       },
       {
         "word": "price list",
@@ -37460,9 +37460,9 @@
         "description": "a website where people can buy products"
       },
       {
-        "word": "startup budget",
-        "level": "B2",
-        "description": "a plan showing early business costs"
+        "word": "budget",
+        "level": "B1",
+        "description": "a plan for how someone will use money"
       },
       {
         "word": "business card",
@@ -37470,24 +37470,24 @@
         "description": "a small card with work contact details"
       },
       {
-        "word": "order form",
+        "word": "order",
         "level": "B1",
-        "description": "a page where customers request products"
+        "description": "a request to buy particular goods"
       },
       {
-        "word": "shop window",
+        "word": "storefront",
         "level": "B1",
-        "description": "glass at the front showing items for sale"
+        "description": "the visible entrance and display of a shop"
       },
       {
-        "word": "investor meeting",
-        "level": "B2",
-        "description": "a talk with someone considering funding a company"
+        "word": "meeting",
+        "level": "B1",
+        "description": "a gathering where people talk together"
       },
       {
-        "word": "delivery box",
+        "word": "package",
         "level": "B1",
-        "description": "a container used to send goods to buyers"
+        "description": "a wrapped container ready to send to a customer"
       }
     ],
     "imposter": [
@@ -37495,91 +37495,91 @@
         "word": "business idea",
         "level": "B1",
         "description": "a plan for offering a product or service",
-        "hint": "company planning",
-        "crewQuestion": "What might someone test before opening a small shop?",
-        "imposterQuestion": "What might someone advertise before opening a small shop?"
+        "hint": "possible trading plans",
+        "crewQuestion": "What problem could inspire a business idea?",
+        "imposterQuestion": "Which needs might lead to a school club project?"
       },
       {
         "word": "customer",
         "level": "B1",
         "description": "a person who buys a good or service",
-        "hint": "business role",
-        "crewQuestion": "Who might give feedback after buying a new product?",
-        "imposterQuestion": "Who might give feedback before buying a new product?"
+        "hint": "people buying goods",
+        "crewQuestion": "What feedback might a customer give?",
+        "imposterQuestion": "Which comments could a user make after trying a new product?"
       },
       {
         "word": "startup",
         "level": "B1",
         "description": "a new company trying to grow",
-        "hint": "business type",
-        "crewQuestion": "What kind of company may begin with a small team?",
-        "imposterQuestion": "What kind of company may finish with a small team?"
+        "hint": "new business organizations",
+        "crewQuestion": "What would a startup need before opening?",
+        "imposterQuestion": "Which supplies might a new school shop require?"
       },
       {
         "word": "revenue",
         "level": "B2",
         "description": "money earned from selling goods or services",
-        "hint": "business money",
-        "crewQuestion": "What money comes in when a shop makes sales?",
-        "imposterQuestion": "What money goes out when a shop makes sales?"
+        "hint": "incoming business money",
+        "crewQuestion": "Where might a small business earn money?",
+        "imposterQuestion": "Which sources could bring funds to a school fair?"
       },
       {
         "word": "profit",
         "level": "B1",
         "description": "money left after costs have been paid",
-        "hint": "business money",
-        "crewQuestion": "What can remain after a company pays its bills?",
-        "imposterQuestion": "What can be missing before a company pays its bills?"
+        "hint": "earnings after costs",
+        "crewQuestion": "What could reduce a shop's profit?",
+        "imposterQuestion": "Which costs might leave a charity fair with less money?"
       },
       {
         "word": "investor",
         "level": "B2",
         "description": "a person giving money to support a company",
-        "hint": "business role",
-        "crewQuestion": "Who may provide funds to help an idea grow?",
-        "imposterQuestion": "Who may provide advice to help an idea grow?"
+        "hint": "business funding people",
+        "crewQuestion": "What might an investor ask about a business?",
+        "imposterQuestion": "Which questions could a lender put to a small shop owner?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "product sample",
+        "secret": "shop",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "warehouse",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "till",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "business mentor",
+        "secret": "receipt",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "van",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "entrepreneur",
         "kind": "job",
-        "level": "B1"
-      },
-      {
-        "secret": "market stall",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "company logo",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "price list",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "online shop",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "business card",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "investor meeting",
-        "kind": "activity",
         "level": "B2"
+      },
+      {
+        "secret": "barcode",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "product",
+        "kind": "thing",
+        "level": "B1"
       }
     ]
   },
@@ -37749,9 +37749,9 @@
         "description": "a small container with a slot for coins"
       },
       {
-        "word": "savings jar",
+        "word": "jar",
         "level": "B1",
-        "description": "a container holding money someone plans to keep"
+        "description": "a glass container with a wide mouth"
       },
       {
         "word": "bank app",
@@ -37759,19 +37759,14 @@
         "description": "software for viewing or using a bank account"
       },
       {
-        "word": "cash envelope",
+        "word": "envelope",
         "level": "B1",
-        "description": "a paper holder for money set aside"
+        "description": "a paper container for money or letters"
       },
       {
         "word": "wallet",
         "level": "B1",
         "description": "a small case used to hold cash or cards"
-      },
-      {
-        "word": "payday slip",
-        "level": "B1",
-        "description": "a paper showing money received from work"
       },
       {
         "word": "coin tray",
@@ -37784,14 +37779,14 @@
         "description": "a card used at a cash machine"
       },
       {
-        "word": "bank statement",
-        "level": "B2",
-        "description": "a record of money entering and leaving an account"
+        "word": "statement",
+        "level": "B1",
+        "description": "a bank record showing money entering and leaving"
       },
       {
-        "word": "expense tracker",
-        "level": "B2",
-        "description": "a tool recording what someone spends"
+        "word": "tracker",
+        "level": "B1",
+        "description": "a tool that records spending over time"
       },
       {
         "word": "money box",
@@ -37799,19 +37794,24 @@
         "description": "a container where coins can be stored"
       },
       {
-        "word": "cash machine",
+        "word": "machine",
         "level": "B1",
-        "description": "a device giving money from a bank account"
+        "description": "equipment that uses power to do a job"
       },
       {
-        "word": "savings account",
+        "word": "account",
         "level": "B1",
-        "description": "a bank place for keeping money over time"
+        "description": "your personal access to an online service"
       },
       {
-        "word": "goal chart",
+        "word": "goal",
         "level": "B1",
-        "description": "a display showing progress toward an aim"
+        "description": "something you plan to achieve through saving"
+      },
+      {
+        "word": "payday",
+        "level": "B1",
+        "description": "the day when workers receive their earnings"
       }
     ],
     "imposter": [
@@ -37819,89 +37819,89 @@
         "word": "budget",
         "level": "B1",
         "description": "a plan showing how someone will use money",
-        "hint": "money plan",
-        "crewQuestion": "What can help a student save for a new phone?",
-        "imposterQuestion": "What can help a student spend for a new phone?"
+        "hint": "planned money allocations",
+        "crewQuestion": "What would you include in a monthly budget?",
+        "imposterQuestion": "Which costs might appear in a school trip plan?"
       },
       {
         "word": "savings goal",
         "level": "B1",
         "description": "an amount someone hopes to put aside",
-        "hint": "money plan",
-        "crewQuestion": "What might someone choose before putting coins away?",
-        "imposterQuestion": "What might someone choose after taking coins away?"
+        "hint": "planned saving aims",
+        "crewQuestion": "What could you save money for?",
+        "imposterQuestion": "Which purchases might you wait for until your birthday?"
       },
       {
         "word": "interest",
         "level": "B1",
         "description": "money paid for borrowing or saved in a bank",
-        "hint": "bank detail",
-        "crewQuestion": "What can a bank add to money kept there?",
-        "imposterQuestion": "What can a shop add to money spent there?"
+        "hint": "money growth rates",
+        "crewQuestion": "What would you check before choosing a savings account?",
+        "imposterQuestion": "Which figures matter when comparing bank offers?"
       },
       {
         "word": "income",
         "level": "B1",
         "description": "money received from work or another source",
-        "hint": "household money",
-        "crewQuestion": "What might someone receive after finishing a paid shift?",
-        "imposterQuestion": "What might someone pay after finishing a paid shift?"
+        "hint": "earned personal money",
+        "crewQuestion": "Where might a teen earn some income?",
+        "imposterQuestion": "Which activities could help pay for a club trip?"
       },
       {
         "word": "expense",
         "level": "B1",
         "description": "money used to buy goods or services",
-        "hint": "spending money",
-        "crewQuestion": "What should someone record after paying a bill?",
-        "imposterQuestion": "What should someone record before paying a bill?"
+        "hint": "outgoing money amounts",
+        "crewQuestion": "What expenses could a family have each week?",
+        "imposterQuestion": "Which costs might a student need to plan for?"
       },
       {
         "word": "piggy bank",
         "level": "B1",
         "description": "a small container with a slot for coins",
-        "hint": "a money item",
-        "crewQuestion": "Where can a child keep spare change at home?",
-        "imposterQuestion": "Where can a child keep spare keys at home?"
+        "hint": "coin saving containers",
+        "crewQuestion": "Where might you keep a piggy bank?",
+        "imposterQuestion": "Which places could protect a small jar of coins?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "piggy bank",
+        "secret": "coin",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "savings jar",
+        "secret": "banknote",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "bank app",
+        "secret": "bank",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "ATM",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "wallet",
+        "secret": "banker",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "safe",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "ATM card",
+        "secret": "receipt",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "bank statement",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "cash machine",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "goal chart",
+        "secret": "abacus",
         "kind": "thing",
         "level": "B1"
       }
@@ -38073,14 +38073,14 @@
         "description": "a cover holding proof of purchases"
       },
       {
-        "word": "calculator app",
+        "word": "calculator",
         "level": "B1",
-        "description": "software that works out numbers on a phone"
+        "description": "a device used to work with numbers"
       },
       {
-        "word": "monthly statement",
+        "word": "statement",
         "level": "B1",
-        "description": "a paper showing account activity for one month"
+        "description": "a bank record showing money entering and leaving"
       },
       {
         "word": "utility bill",
@@ -38093,24 +38093,24 @@
         "description": "a note naming things someone plans to buy"
       },
       {
-        "word": "rent notice",
-        "level": "B2",
-        "description": "a message about payment for a home"
+        "word": "rent",
+        "level": "B1",
+        "description": "money paid regularly to use a home"
       },
       {
-        "word": "payment calendar",
+        "word": "planner",
         "level": "B1",
-        "description": "a chart showing when costs must be paid"
+        "description": "a book recording payment dates and spending plans"
       },
       {
-        "word": "budget worksheet",
+        "word": "worksheet",
         "level": "B1",
-        "description": "a page for planning income and costs"
+        "description": "a page containing tasks or spaces for calculations"
       },
       {
-        "word": "coin jar",
+        "word": "jar",
         "level": "B1",
-        "description": "a container collecting small round money"
+        "description": "a glass container with a wide mouth"
       },
       {
         "word": "bank card",
@@ -38118,14 +38118,14 @@
         "description": "a card used to access money in an account"
       },
       {
-        "word": "expense column",
-        "level": "B2",
-        "description": "a section listing costs in a table"
+        "word": "column",
+        "level": "B1",
+        "description": "a vertical group of figures in a table"
       },
       {
-        "word": "cash withdrawal",
-        "level": "B1",
-        "description": "money taken out of a bank account"
+        "word": "withdrawal",
+        "level": "B2",
+        "description": "taking money out of a bank account"
       },
       {
         "word": "price tag",
@@ -38133,9 +38133,9 @@
         "description": "a label showing how much something costs"
       },
       {
-        "word": "budget meeting",
-        "level": "B2",
-        "description": "a talk about how money should be used"
+        "word": "meeting",
+        "level": "B1",
+        "description": "a gathering where people talk together"
       }
     ],
     "imposter": [
@@ -38143,90 +38143,90 @@
         "word": "fixed cost",
         "level": "B1",
         "description": "a regular payment that usually stays the same",
-        "hint": "money plan",
-        "crewQuestion": "What cost might stay the same every month?",
-        "imposterQuestion": "What cost might change every month?"
+        "hint": "regular stable expenses",
+        "crewQuestion": "What bills might stay similar each month?",
+        "imposterQuestion": "Which payments could a household plan for in advance?"
       },
       {
         "word": "variable cost",
         "level": "B2",
         "description": "a payment that can change from month to month",
-        "hint": "money plan",
-        "crewQuestion": "What cost may rise when someone uses more electricity?",
-        "imposterQuestion": "What cost may fall when someone uses more electricity?"
+        "hint": "changing weekly expenses",
+        "crewQuestion": "What spending might change from week to week?",
+        "imposterQuestion": "Which costs could rise during a family holiday?"
       },
       {
         "word": "surplus",
         "level": "B2",
         "description": "money remaining after planned spending",
-        "hint": "money amount",
-        "crewQuestion": "What is left when someone earns more than they spend?",
-        "imposterQuestion": "What is missing when someone spends more than they earn?"
+        "hint": "money left over",
+        "crewQuestion": "What could you do with extra money after bills?",
+        "imposterQuestion": "Which choices might suit a larger allowance this month?"
       },
       {
         "word": "shortfall",
         "level": "B2",
         "description": "money missing when costs exceed what is available",
-        "hint": "money amount",
-        "crewQuestion": "What can happen when a bill is higher than expected?",
-        "imposterQuestion": "What can happen when a bill is lower than expected?"
+        "hint": "insufficient money amounts",
+        "crewQuestion": "What would you check if your money runs short?",
+        "imposterQuestion": "Which habits might help when a trip costs more than planned?"
       },
       {
         "word": "price comparison",
         "level": "B1",
         "description": "checking costs of similar goods before choosing",
-        "hint": "shopping action",
-        "crewQuestion": "What can help a buyer choose between two prices?",
-        "imposterQuestion": "What can help a buyer choose between two colours?"
+        "hint": "purchase cost comparisons",
+        "crewQuestion": "What would you compare before buying a new backpack?",
+        "imposterQuestion": "Which details matter when choosing a lunchbox?"
       },
       {
         "word": "receipt folder",
         "level": "B1",
         "description": "a cover holding proof of purchases",
-        "hint": "money item",
-        "crewQuestion": "Where can someone keep papers after shopping?",
-        "imposterQuestion": "Where can someone keep coins after shopping?"
+        "hint": "purchase record holders",
+        "crewQuestion": "What would you keep in a receipt folder?",
+        "imposterQuestion": "Which papers might help track a shopping trip's cost?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "receipt folder",
+        "secret": "wallet",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "calculator app",
+        "secret": "bank",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "ATM",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "utility bill",
+        "secret": "coin",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "shopping list",
+        "secret": "banknote",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "payment calendar",
+        "secret": "money box",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "budget worksheet",
+        "secret": "receipt",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "price tag",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "bank card",
-        "kind": "thing",
+        "secret": "supermarket",
+        "kind": "place",
         "level": "B1"
       }
     ]
@@ -38392,11 +38392,6 @@
     ],
     "hotSeat": [
       {
-        "word": "volunteer desk",
-        "level": "B1",
-        "description": "a table where helpers receive instructions"
-      },
-      {
         "word": "donation box",
         "level": "B1",
         "description": "a container collecting money or useful items"
@@ -38407,24 +38402,24 @@
         "description": "a shared outdoor space where people grow plants"
       },
       {
-        "word": "food parcel",
+        "word": "parcel",
         "level": "B1",
-        "description": "a package holding food for someone in need"
+        "description": "a wrapped package prepared for someone else"
       },
       {
-        "word": "event badge",
+        "word": "lanyard",
         "level": "B1",
-        "description": "a small sign worn by someone helping"
+        "description": "a strap worn around the neck holding identification"
       },
       {
-        "word": "volunteer vest",
+        "word": "vest",
         "level": "B1",
-        "description": "a bright garment showing someone is a helper"
+        "description": "a shirt without sleeves worn for sport"
       },
       {
-        "word": "collection tin",
+        "word": "tin",
         "level": "B1",
-        "description": "a metal container collecting small donations"
+        "description": "a small metal container used to collect money"
       },
       {
         "word": "care home",
@@ -38432,9 +38427,9 @@
         "description": "a place where people receive daily support"
       },
       {
-        "word": "litter bag",
+        "word": "sack",
         "level": "B1",
-        "description": "a sack used to collect rubbish outdoors"
+        "description": "a large strong container for collected goods"
       },
       {
         "word": "charity shop",
@@ -38442,24 +38437,29 @@
         "description": "a store selling goods to raise money"
       },
       {
-        "word": "shift rota",
+        "word": "rota",
         "level": "B2",
-        "description": "a chart showing when helpers work"
+        "description": "a list showing when each person works"
       },
       {
-        "word": "welcome table",
+        "word": "welcome",
         "level": "B1",
-        "description": "a place where visitors are greeted"
+        "description": "a greeting that makes visitors feel included"
       },
       {
-        "word": "service certificate",
+        "word": "certificate",
+        "level": "B1",
+        "description": "a document proving an achievement or completed service"
+      },
+      {
+        "word": "notice",
+        "level": "B1",
+        "description": "a written message displayed for people to read"
+      },
+      {
+        "word": "steward",
         "level": "B2",
-        "description": "a paper recognising someone’s volunteer work"
-      },
-      {
-        "word": "community notice",
-        "level": "B1",
-        "description": "a message shared with people nearby"
+        "description": "someone who guides visitors during an event"
       }
     ],
     "imposter": [
@@ -38467,65 +38467,75 @@
         "word": "volunteer",
         "level": "B1",
         "description": "a person giving time to help without pay",
-        "hint": "community role",
-        "crewQuestion": "Who might help at a food bank on Saturday?",
-        "imposterQuestion": "Who might shop at a food bank on Saturday?"
+        "hint": "unpaid helping roles",
+        "crewQuestion": "What jobs could a volunteer do at an event?",
+        "imposterQuestion": "Which tasks might a school fair helper handle?"
       },
       {
         "word": "charity",
         "level": "B1",
         "description": "an organisation helping people or a cause",
-        "hint": "community group",
-        "crewQuestion": "What may collect gifts for people in need?",
-        "imposterQuestion": "What may deliver gifts for people in need?"
+        "hint": "public helping organizations",
+        "crewQuestion": "What could you donate to a local charity?",
+        "imposterQuestion": "Which items might be useful at a community collection?"
       },
       {
         "word": "fundraiser",
         "level": "B1",
         "description": "an event collecting money for a cause",
-        "hint": "community event",
-        "crewQuestion": "What can a school organise to support a local shelter?",
-        "imposterQuestion": "What can a school organise to visit a local shelter?"
+        "hint": "money collecting events",
+        "crewQuestion": "What activities could raise money for a cause?",
+        "imposterQuestion": "Which events might help fund a school club trip?"
       },
       {
         "word": "food bank",
         "level": "B1",
         "description": "a place providing food to people who need it",
-        "hint": "community place",
-        "crewQuestion": "Where can families receive groceries at no cost?",
-        "imposterQuestion": "Where can families buy groceries at a low cost?"
+        "hint": "donated food services",
+        "crewQuestion": "What foods might a food bank accept?",
+        "imposterQuestion": "Which supplies would you put in an emergency food parcel?"
       },
       {
         "word": "community garden",
         "level": "B1",
         "description": "a shared outdoor place where neighbours grow plants",
-        "hint": "community place",
-        "crewQuestion": "Where can people work together to grow vegetables?",
-        "imposterQuestion": "Where can people work together to sell vegetables?"
+        "hint": "shared growing spaces",
+        "crewQuestion": "What tools could you use in a community garden?",
+        "imposterQuestion": "Which equipment helps tidy a school vegetable patch?"
       },
       {
         "word": "donation box",
         "level": "B1",
         "description": "a container collecting money or useful things",
-        "hint": "community item",
-        "crewQuestion": "What can people use to give small gifts at an event?",
-        "imposterQuestion": "What can people use to take small gifts at an event?"
+        "hint": "gift collecting containers",
+        "crewQuestion": "What might you put in a donation box?",
+        "imposterQuestion": "Which items could go in a collection basket?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "volunteer desk",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "donation box",
+        "secret": "spade",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "community garden",
+        "secret": "gloves",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "hose",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "shelter",
         "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "wheelchair",
+        "kind": "thing",
         "level": "B1"
       },
       {
@@ -38534,24 +38544,14 @@
         "level": "B1"
       },
       {
-        "secret": "event badge",
+        "secret": "van",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "care home",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "charity shop",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "service certificate",
+        "secret": "apron",
         "kind": "thing",
-        "level": "B2"
+        "level": "B1"
       }
     ]
   },
@@ -38731,9 +38731,9 @@
         "description": "a handheld tool moving slides forward"
       },
       {
-        "word": "podium light",
-        "level": "B2",
-        "description": "a small lamp shining on a speaker’s notes"
+        "word": "podium",
+        "level": "B1",
+        "description": "a small raised platform for a speaker"
       },
       {
         "word": "slide deck",
@@ -38741,49 +38741,49 @@
         "description": "a set of pages shown during a talk"
       },
       {
-        "word": "timer screen",
+        "word": "screen",
         "level": "B1",
-        "description": "a display counting the time left"
+        "description": "the flat part showing words or pictures"
       },
       {
-        "word": "question card",
-        "level": "B1",
-        "description": "a paper with a question for the speaker"
-      },
-      {
-        "word": "speaker timer",
-        "level": "B1",
-        "description": "a device measuring how long someone talks"
-      },
-      {
-        "word": "auditorium seat",
-        "level": "B1",
-        "description": "a chair in a large room for talks"
-      },
-      {
-        "word": "feedback sheet",
-        "level": "B1",
-        "description": "a page where listeners write comments"
-      },
-      {
-        "word": "speech outline",
-        "level": "B1",
-        "description": "a plan showing the main parts of a talk"
-      },
-      {
-        "word": "water glass",
-        "level": "B1",
-        "description": "a cup holding a drink for the speaker"
-      },
-      {
-        "word": "name placard",
+        "word": "cue",
         "level": "B2",
-        "description": "a small sign showing who is speaking"
+        "description": "a brief prompt that helps a speaker remember"
+      },
+      {
+        "word": "duration",
+        "level": "B2",
+        "description": "the amount of time a speech lasts"
+      },
+      {
+        "word": "lecture",
+        "level": "B1",
+        "description": "a formal educational talk given before an audience"
+      },
+      {
+        "word": "sheet",
+        "level": "B1",
+        "description": "a flat piece of paper for writing"
+      },
+      {
+        "word": "outline",
+        "level": "B1",
+        "description": "a plan showing the main ideas in order"
+      },
+      {
+        "word": "glass",
+        "level": "B1",
+        "description": "a clear container used for drinking water"
+      },
+      {
+        "word": "placard",
+        "level": "B2",
+        "description": "a small sign displaying a person's name"
       },
       {
         "word": "practice room",
         "level": "B1",
-        "description": "a place where someone can rehearse a talk"
+        "description": "a place where players train together"
       }
     ],
     "imposter": [
@@ -38791,89 +38791,89 @@
         "word": "audience",
         "level": "B1",
         "description": "people listening to a talk or performance",
-        "hint": "a speaking event",
-        "crewQuestion": "Who can a speaker look toward during a talk?",
-        "imposterQuestion": "Who can a speaker look away from during a talk?"
+        "hint": "people hearing speeches",
+        "crewQuestion": "What helps an audience follow a presentation?",
+        "imposterQuestion": "Which features make a class explanation clear?"
       },
       {
         "word": "opening line",
         "level": "B1",
         "description": "the first words used to begin a presentation",
-        "hint": "presentation detail",
-        "crewQuestion": "What can help listeners pay attention at the start?",
-        "imposterQuestion": "What can help listeners pay attention at the end?"
+        "hint": "speech beginning phrases",
+        "crewQuestion": "What could you say at the start of a speech?",
+        "imposterQuestion": "Which words might begin welcoming visitors to a club?"
       },
       {
         "word": "eye contact",
         "level": "B1",
         "description": "looking toward listeners while talking",
-        "hint": "presentation skill",
-        "crewQuestion": "What can help a speaker connect with people in a room?",
-        "imposterQuestion": "What can help a speaker connect with people online?"
+        "hint": "direct visual connections",
+        "crewQuestion": "What makes eye contact feel comfortable?",
+        "imposterQuestion": "Which habits help you listen to a new classmate?"
       },
       {
         "word": "gesture",
         "level": "B1",
         "description": "a movement of the hand or body with meaning",
-        "hint": "presentation skill",
-        "crewQuestion": "What can someone use to make an idea clearer?",
-        "imposterQuestion": "What can someone use to make an idea quieter?"
+        "hint": "meaningful hand movements",
+        "crewQuestion": "What gestures might explain a speaker's point?",
+        "imposterQuestion": "Which movements could help tell a story aloud?"
       },
       {
         "word": "lectern",
         "level": "B2",
         "description": "a raised stand holding notes for a speaker",
-        "hint": "presentation equipment",
-        "crewQuestion": "Where might someone rest notes while addressing a crowd?",
-        "imposterQuestion": "Where might someone rest notes while listening to a crowd?"
+        "hint": "standing speaker furniture",
+        "crewQuestion": "What could you place on a lectern?",
+        "imposterQuestion": "Which objects belong on a teacher's demonstration desk?"
       },
       {
         "word": "microphone",
         "level": "B1",
         "description": "a device making someone’s voice louder",
-        "hint": "presentation equipment",
-        "crewQuestion": "What can help a speaker reach people at the back?",
-        "imposterQuestion": "What can help a listener hear people at the back?"
+        "hint": "voice amplifying tools",
+        "crewQuestion": "What would you test before using a microphone?",
+        "imposterQuestion": "Which checks matter before recording a spoken message?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "lectern",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "microphone",
+        "secret": "projector",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "presentation clicker",
+        "secret": "lecture hall",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "speaker",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "slide deck",
+        "secret": "auditorium",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "flip chart",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "question card",
+        "secret": "cue card",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "auditorium seat",
+        "secret": "megaphone",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "feedback sheet",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "speech outline",
+        "secret": "loudspeaker",
         "kind": "thing",
         "level": "B1"
       }
