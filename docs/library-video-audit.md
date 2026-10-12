@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 17/18; judged entries: 640/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 18/18; judged entries: 641/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -34,11 +34,12 @@ Completed libraries: 17/18; judged entries: 640/641. Cached inventory captured a
 | listening-library.json | 60 | 58 | 0 | 2 | 0 | 0 | 0 |
 | minecraft-library.json | 4 | 1 | 1 | 2 | 0 | 0 | 0 |
 | natgeo-library.json | 13 | 2 | 0 | 3 | 7 | 0 | 1 |
+| sports-library.json | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
 | ted-library.json | 20 | 1 | 0 | 0 | 19 | 0 | 0 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
 | travel-english-library.json | 6 | 1 | 2 | 2 | 1 | 0 | 0 |
 | vox-library.json | 10 | 7 | 0 | 0 | 3 | 0 | 0 |
-| **TOTAL** | **640** | 443 | 13 | 32 | 141 | 0 | 11 |
+| **TOTAL** | **641** | 444 | 13 | 32 | 141 | 0 | 11 |
 
 ## Non-ok entries, grouped by library
 
@@ -227,6 +228,10 @@ Completed libraries: 17/18; judged entries: 640/641. Cached inventory captured a
 | natgeo-ancient-egypt | The Secrets of Ancient Egypt | weak-captions | the stored text is an Arabic-script translation, beginning “مرحبًا، اسمي جون غرين، وهذه سلسلة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. Secondary attribution concern: the Arabic introduction explicitly names John Green and Crash Course World History, rather than the library’s National Geographic attribution; verify source metadata. |
 | natgeo-plastic-pollution | The Plastic Problem | partial | The full cache explains ocean plastics, circular packaging and agricultural nutrient pollution; the description’s 9%-recycled claim is absent.  | Rewrite the description around the actual ocean-pollution and packaging examples. |
 | natgeo-sleep-science | The Science of Sleep | partial | The cache opens as Andrew Huberman’s Huberman Lab Podcast and runs to 4,919.853 seconds, while the entry names National Geographic and stores 295 seconds. Sleep matches, but this is an approximately 82-minute podcast cache.  | Verify the video/cache identity and correct publisher/duration before recommending it as a short clip. |
+
+### sports-library.json
+
+No non-ok entries.
 
 ### ted-library.json
 

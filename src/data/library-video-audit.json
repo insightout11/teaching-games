@@ -2011,6 +2011,10 @@
     "status": "ok",
     "note": "Orbital velocity, altitude, drag, Skylab and re-entry explain satellite orbit as claimed. The caption names SciShow Space, so verify the National Geographic attribution; the title/description subject matches."
   },
+  "sports-library.json/world-cup-2026-format": {
+    "status": "ok",
+    "note": "The caption explicitly explains 48 teams, 12 groups, third-place qualification, a round of 32 and the expanded match structure, matching the format explainer. Current FIFA rules are not independently reverified in this cached-content audit."
+  },
   "ted-library.json/ken_robinson_schools_kill_creativity": {
     "status": "weak-captions",
     "note": "Evidence: The cached body is Afrikaans translation (for example, Goeie môre. Hoe gaan dit? (Gelag)), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
