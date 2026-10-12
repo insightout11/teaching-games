@@ -1260,20 +1260,20 @@
     "note": "Energy moving from the Sun through plants and animals matches the food-chain claim; technical terms are explained, so A2 is plausible with support."
   },
   "kids-library.json/kids_defining_gravity": {
-    "status": "partial",
-    "note": "Evidence: The full cache explains falling apples/balls, without the promised orbiting-planet example. Suggested action: Correct the entry to the caption-supported subject."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full cache explains falling apples/balls, without the promised orbiting-planet example. Changed fields: description. Video identity and duration preserved."
   },
   "kids-library.json/kids_weathering_erosion": {
     "status": "ok",
     "note": "Refreshed English cache: Mechanical/chemical weathering and changed coastlines explain Earth’s reshaping."
   },
   "kids-library.json/kids_science_of_lunch": {
-    "status": "mismatch",
-    "note": "Evidence: The cache studies a paper bag, bread, apples and other objects for hardness, malleability and conductivity, not digestion or body energy. Suggested action: Correct the entry to the caption-supported subject."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The cache studies a paper bag, bread, apples and other objects for hardness, malleability and conductivity, not digestion or body energy. Changed fields: title, topicTags, description, summary. Video identity and duration preserved."
   },
   "kids-library.json/kids_home_sweet_habitat": {
-    "status": "partial",
-    "note": "Evidence: The caption lists food, water, shelter and space, then explains Arctic food webs and adaptations; it does not list five needs including air. Suggested action: Correct the entry to the caption-supported subject."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The caption lists food, water, shelter and space, then explains Arctic food webs and adaptations; it does not list five needs including air. Changed fields: description. Video identity and duration preserved."
   },
   "kids-library.json/kids_food_webs": {
     "status": "ok",
@@ -1296,36 +1296,36 @@
     "note": "The captions cover polar bears, pineapples and peppered moths adapting over time. I could not find the description’s bacteria example, but the main subject matches; minor illustrative wording is uncertain."
   },
   "kids-library.json/kids_every_kind_of_volcano": {
-    "status": "level-off",
-    "note": "Evidence: The caption explains shield, cinder and composite volcanoes, magma, ash and eruption mechanisms in 1,173 words; sustained scientific explanation exceeds the stored A1/Beginner level. Suggested action: Raise the language level to B1 after checking spoken pacing."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The caption explains shield, cinder and composite volcanoes, magma, ash and eruption mechanisms in 1,173 words; sustained scientific explanation exceeds the stored A1/Beginner level. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "kids-library.json/kids_busy_bees": {
-    "status": "level-off",
-    "note": "Evidence: The 702-word explanation compares bee types and explains pollen, nectar and hive food production with causal clauses, rather than simple A1 phrases. Suggested action: Raise the language level to A2 after checking spoken pacing."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The 702-word explanation compares bee types and explains pollen, nectar and hive food production with causal clauses, rather than simple A1 phrases. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "kids-library.json/kids_dont_fear_spiders": {
-    "status": "level-off",
-    "note": "Evidence: The 775-word explanation distinguishes abdomen, thorax and cephalothorax and explains silk/web mechanisms; the anatomy and connected explanations exceed A1. Suggested action: Raise the language level to B1 after checking spoken pacing."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The 775-word explanation distinguishes abdomen, thorax and cephalothorax and explains silk/web mechanisms; the anatomy and connected explanations exceed A1. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "kids-library.json/kids_cave_animals": {
-    "status": "level-off",
-    "note": "Evidence: The 743-word explanation compares cave species, habitats and senses using relative clauses and adaptation reasoning, beyond short A1 everyday phrases. Suggested action: Raise the language level to A2 after checking spoken pacing. The description also promises glowing worms and names Jessi, but the full cache uses Mister Brown and has olm, tetra and cave wolf spider examples; rewrite those details when re-levelling."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The 743-word explanation compares cave species, habitats and senses using relative clauses and adaptation reasoning, beyond short A1 everyday phrases. Changed fields: difficultyLevel, description, cefr. Video identity and duration preserved."
   },
   "kids-library.json/kids_diamond_super_crystal": {
-    "status": "level-off",
-    "note": "Evidence: The 784-word caption explains carbon arrangements, molten rock, pressure and diamond formation with multi-step causes, beyond A1. Suggested action: Raise the language level to B1 after checking spoken pacing."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The 784-word caption explains carbon arrangements, molten rock, pressure and diamond formation with multi-step causes, beyond A1. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "kids-library.json/kids_whats_inside_rocks": {
-    "status": "level-off",
-    "note": "Evidence: The 568-word geode explanation describes mineral deposits building crystals over millions of years and gives multi-step hammering instructions, beyond A1. Suggested action: Raise the language level to A2 after checking spoken pacing. The full cache is specifically about geodes and crystals, not fossils; narrow the description when re-levelling."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The 568-word geode explanation describes mineral deposits building crystals over millions of years and gives multi-step hammering instructions, beyond A1. Changed fields: difficultyLevel, description, cefr. Video identity and duration preserved."
   },
   "kids-library.json/kids_stalactites_stalagmites": {
-    "status": "level-off",
-    "note": "Evidence: The 782-word explanation uses a dissolving-sugar analogy and evaporation to explain mineral deposition, including a conditional experiment, beyond A1. Suggested action: Raise the language level to B1 after checking spoken pacing."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The 782-word explanation uses a dissolving-sugar analogy and evaporation to explain mineral deposition, including a conditional experiment, beyond A1. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "kids-library.json/kids_antarctica": {
-    "status": "level-off",
-    "note": "Evidence: The 926-word explanation connects slanted sunlight, Earth’s shape and Antarctic dryness using extended causal clauses, beyond A1. Suggested action: Raise the language level to A2 after checking spoken pacing."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The 926-word explanation connects slanted sunlight, Earth’s shape and Antarctic dryness using extended causal clauses, beyond A1. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "kids-library.json/kids_four_spheres_geo_bio": {
     "status": "ok",
@@ -1368,8 +1368,8 @@
     "note": "Pineapples and Las Vegas water supply illustrate humans getting scarce resources, matching the broad organism/resource claim, though it is specifically human resource access."
   },
   "kids-library.json/kids_look_whos_talking": {
-    "status": "partial",
-    "note": "Evidence: The full cache explains plant investigations, Venus flytrap sensing and Darwin’s stem-tip experiment; communication is mentioned only briefly, and no animal communication examples are given. Suggested action: Rewrite the description as investigating how plants sense their surroundings."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full cache explains plant investigations, Venus flytrap sensing and Darwin’s stem-tip experiment; communication is mentioned only briefly, and no animal communication examples are given. Changed fields: description, summary. Video identity and duration preserved."
   },
   "kids-library.json/kids_particles_world": {
     "status": "ok",
@@ -1400,8 +1400,8 @@
     "note": "Sunlight near the equator and plant-growing conditions explain why pineapples cannot grow at the poles."
   },
   "kids-library.json/kids_glow_on": {
-    "status": "mismatch",
-    "note": "Evidence: The full cache explains nuclear fusion, stellar luminosity and Betelgeuse versus the Sun; it does not concern living things producing light. Suggested action: Retitle to Why Stars Glow and rewrite the description."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full cache explains nuclear fusion, stellar luminosity and Betelgeuse versus the Sun; it does not concern living things producing light. Changed fields: title, topicTags, difficultyLevel, cefr, description, summary, hidden, hiddenNote. Video identity and duration preserved."
   },
   "kids-library.json/kids_engineering_process": {
     "status": "ok",
