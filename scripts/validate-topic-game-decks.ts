@@ -121,6 +121,7 @@ for (const [index, value] of Array.from(raw.entries())) {
           for (const [questionField, question] of [['crewQuestion', card.crewQuestion], ['imposterQuestion', card.imposterQuestion]] as const) {
             if (!text(question) || !question.trim().endsWith('?')) fail('imposter', at, `${questionField} must be a question ending in ?`);
             else if (/^(?:do|does|is|are|can|did|will|have)\b/i.test(question.trim())) fail('imposter', at, `${questionField} must not be a yes/no question`);
+            else if (!/^(?:what|which|who|where|when|why|how)\b/i.test(question.trim())) fail('imposter', at, `${questionField} must ask an open question`);
           }
           if (text(card.crewQuestion) && text(card.imposterQuestion) && normalize(card.crewQuestion) === normalize(card.imposterQuestion)) fail('imposter', at, 'crew and imposter questions must differ');
           if (pairWords.has(normalized)) fail('imposter', at, 'secret word repeated');
