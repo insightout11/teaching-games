@@ -1792,7 +1792,7 @@
       {
         "word": "belly",
         "level": "A1",
-        "description": "the soft underside of an animal’s body"
+        "description": "the soft underside of an animalâ€™s body"
       },
       {
         "word": "mother",
@@ -2099,7 +2099,7 @@
           "small"
         ],
         "level": "A2",
-        "description": "a small hair bundle at the tail’s end"
+        "description": "a small hair bundle at the tailâ€™s end"
       }
     ],
     "hotSeat": [
@@ -2131,7 +2131,7 @@
       {
         "word": "muzzle",
         "level": "A2",
-        "description": "the front part of an animal’s face"
+        "description": "the front part of an animalâ€™s face"
       },
       {
         "word": "whisker",
@@ -3285,7 +3285,7 @@
           "body"
         ],
         "level": "A1",
-        "description": "the part above a kangaroo’s shoulders"
+        "description": "the part above a kangarooâ€™s shoulders"
       },
       {
         "word": "joey",
@@ -3296,7 +3296,7 @@
           "carry"
         ],
         "level": "A2",
-        "description": "a young kangaroo in its mother’s care"
+        "description": "a young kangaroo in its motherâ€™s care"
       },
       {
         "word": "pouch",
@@ -4032,7 +4032,7 @@
           "colour"
         ],
         "level": "A1",
-        "description": "light hair covering an animal’s body"
+        "description": "light hair covering an animalâ€™s body"
       },
       {
         "word": "floating ice",
@@ -4060,7 +4060,7 @@
       {
         "word": "big foot",
         "level": "A1",
-        "description": "the broad end of a bear’s leg"
+        "description": "the broad end of a bearâ€™s leg"
       },
       {
         "word": "mother bear",
@@ -4095,7 +4095,7 @@
       {
         "word": "smell trail",
         "level": "A2",
-        "description": "a scent left along an animal’s path"
+        "description": "a scent left along an animalâ€™s path"
       },
       {
         "word": "den",
@@ -4993,7 +4993,7 @@
           "mouth"
         ],
         "level": "A2",
-        "description": "the front part of an animal’s head"
+        "description": "the front part of an animalâ€™s head"
       },
       {
         "word": "shark pup",
@@ -5207,7 +5207,7 @@
           "protect"
         ],
         "level": "A2",
-        "description": "a hard covering that protects an animal’s body"
+        "description": "a hard covering that protects an animalâ€™s body"
       },
       {
         "word": "flipper",
@@ -5575,7 +5575,7 @@
           "touch"
         ],
         "level": "A2",
-        "description": "a damp covering on an animal’s body"
+        "description": "a damp covering on an animalâ€™s body"
       },
       {
         "word": "croak",
@@ -5670,7 +5670,7 @@
       {
         "word": "green body",
         "level": "A1",
-        "description": "the colour and shape of a frog’s main part"
+        "description": "the colour and shape of a frogâ€™s main part"
       },
       {
         "word": "small eyes",
@@ -6424,8 +6424,8 @@
         "level": "A2",
         "description": "fine grains that help a flower make seeds",
         "hint": "a plant part",
-        "crewQuestion": "What yellow dust sticks to a bee’s legs?",
-        "imposterQuestion": "What yellow colour can stick to a child’s hands?"
+        "crewQuestion": "What yellow dust sticks to a beeâ€™s legs?",
+        "imposterQuestion": "What yellow colour can stick to a childâ€™s hands?"
       },
       {
         "word": "beekeeper",
@@ -6722,7 +6722,7 @@
       {
         "word": "bone",
         "level": "A1",
-        "description": "a hard part that supports an animal’s body",
+        "description": "a hard part that supports an animalâ€™s body",
         "hint": "a body part",
         "crewQuestion": "What can remain after an animal is gone?",
         "imposterQuestion": "What can remain after a meal is gone?"
@@ -7031,7 +7031,7 @@
       {
         "word": "trace sketch",
         "level": "A2",
-        "description": "a simple drawing showing an object’s shape"
+        "description": "a simple drawing showing an objectâ€™s shape"
       }
     ],
     "imposter": [
@@ -8626,7 +8626,7 @@
       {
         "word": "mission photo",
         "level": "A2",
-        "description": "a picture taken to record a flight’s progress"
+        "description": "a picture taken to record a flightâ€™s progress"
       },
       {
         "word": "rover",
@@ -8782,7 +8782,7 @@
           "hat"
         ],
         "level": "A1",
-        "description": "a hard cover that protects someone’s head"
+        "description": "a hard cover that protects someoneâ€™s head"
       },
       {
         "word": "glove",
@@ -9000,8 +9000,8 @@
         "level": "A1",
         "description": "a hard cover that protects the head",
         "hint": "safety gear",
-        "crewQuestion": "What protects a traveller’s head outside a ship?",
-        "imposterQuestion": "What protects a cyclist’s head on a road?"
+        "crewQuestion": "What protects a travellerâ€™s head outside a ship?",
+        "imposterQuestion": "What protects a cyclistâ€™s head on a road?"
       },
       {
         "word": "air tank",
@@ -11532,7 +11532,7 @@
       {
         "word": "camel rider",
         "level": "A2",
-        "description": "a person sitting on a camel’s back"
+        "description": "a person sitting on a camelâ€™s back"
       },
       {
         "word": "shade cloth",
@@ -32712,7 +32712,7 @@
         "level": "B2"
       },
       {
-        "word": "sauté",
+        "word": "sautÃ©",
         "forbidden": [
           "pan",
           "oil",
@@ -32892,7 +32892,7 @@
     ],
     "imposter": [
       {
-        "word": "sauté",
+        "word": "sautÃ©",
         "decoy": "fry",
         "level": "B2"
       },
