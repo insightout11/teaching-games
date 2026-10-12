@@ -62,7 +62,7 @@ export interface WindscreenFlightProps {
   moon?: MoonPosition;
   /** Real cloud cover below (0–100), when known. */
   cloudCover?: number;
-  /** An activity or text is on screen: calmer, fewer clouds. */
+  /** An activity or text is on screen: the view is dimmed slightly behind it (the weather itself does not change). */
   calm?: boolean;
   /** Rough air: the view outside lurches (more than the cabin does) and cloud streams past. */
   turbulence?: boolean;
@@ -144,7 +144,9 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   );
   const cover = cloudCover ?? (weather === 'clear' || weather === 'aurora' ? 25 : 85);
   const cloudDensity = diving ? 1 : Math.min(1, 0.3 + (cover / 100) * 0.8);
-  const undercast = phase === 'cruise' && !calm ? weatherUndercast(weather, cover) : 0;
+  // The weather outside is the same whatever is on the windscreen (Boarding, Talk, Show, Game, Scores, Map): a cloudy
+  // sky used to clear the moment an activity or the map opened. `calm` only dims the view behind content.
+  const undercast = phase === 'cruise' ? weatherUndercast(weather, cover) : 0;
   const spot = sun ? lightSpot(sun, sun.heading, palette.light === 'moon', moon) : undefined;
   const altitude = phase === 'climb' ? Math.min(1, progress * 1.1) : 1;
   const cloudSpeed = phase === 'climb' ? 1.4 : diving ? 1.2 + progress * 3 : 0.55;
@@ -194,7 +196,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             )}
             {(phase === 'climb' || phase === 'descent') && weather !== 'clear' && <WindscreenWeather weather={weather} />}
             {phase === 'cruise' && weather === 'aurora' && <WindscreenWeather weather="aurora" />}
-            <CockpitClouds speed={turbulence ? cloudSpeed + 1.6 : cloudSpeed} tint={undercast > 0 ? weatherDeckTint(cloudTint, weather) : cloudTint} density={turbulence ? 1 : calm && !diving ? 0.4 : cloudDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} paused={paused} />
+            <CockpitClouds speed={turbulence ? cloudSpeed + 1.6 : cloudSpeed} tint={undercast > 0 ? weatherDeckTint(cloudTint, weather) : cloudTint} density={turbulence ? 1 : cloudDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} paused={paused} />
           </motion.div>
         )}
       </AnimatePresence>
