@@ -12,6 +12,7 @@ import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-ann
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON as _generateJSON } from '@/lib/ai';
 import { collectContentIssues, noteContentIssue } from '@/lib/content-health';
+import { describeVerdict, verifyMultipleChoice } from '@/lib/mcq-verify';
 import type { AISchema } from '@/lib/ai';
 import { bulkSemaphore } from '@/lib/ai/concurrency';
 import { requireAuthForGeneration } from '@/lib/auth-credits';
@@ -1287,7 +1288,16 @@ correctIndex is 0-based (0=A, 1=B, 2=C, 3=D). Return JSON with a "questions" arr
     return base;
   });
 
-  return { questions, ...(parsed.discussionPrompt ? { discussionPrompt: parsed.discussionPrompt } : {}) };
+  // An independent blind check against the material itself: exactly one right answer, and it is the marked one.
+  // A question that fails is dropped (the class gets fewer questions, never a wrong answer key).
+  const verdicts = await verifyMultipleChoice(questions, { material: contentBlock, topic: title });
+  const checked = questions.filter((q, i) => {
+    if (verdicts[i].ok) return true;
+    noteContentIssue({ kind: 'rejected', activity: isVideo ? 'video-player' : 'read-aloud', reason: `comprehension question dropped: ${describeVerdict(q, verdicts[i])}` });
+    return false;
+  });
+
+  return { questions: checked, ...(parsed.discussionPrompt ? { discussionPrompt: parsed.discussionPrompt } : {}) };
 }
 
 /** Video variant: prefers the stored timestamped transcript, falls back to the summary. */

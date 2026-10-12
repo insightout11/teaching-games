@@ -611,7 +611,8 @@ export function SectorStrikeGame({
       if (livePhase() !== 'loading') return;
 
       const data = await res.json() as { question: string; options?: string[]; correctIndex?: number };
-      const filledCell: Cell = { ...cell, bonusRevealed: true, question: data.question, options: data.options ?? null, correctIndex: data.correctIndex ?? null };
+      // A written question that failed its answer check comes back without options: it is asked aloud instead.
+      const filledCell: Cell = { ...cell, qType: data.options ? cell.qType : 'speaking', bonusRevealed: true, question: data.question, options: data.options ?? null, correctIndex: data.correctIndex ?? null };
       setCells((prev) => prev.map((c) => (c.index === cellIdx ? filledCell : c)));
       if (cell.qType === 'written' && data.options) {
         onSetInputSpec?.(buildQuestionSpec(filledCell));
@@ -718,7 +719,7 @@ export function SectorStrikeGame({
         );
         if (hit && hit.status === 'fulfilled' && hit.value.data) {
           const { question, options, correctIndex } = hit.value.data;
-          return { ...cell, question: question ?? null, options: options ?? null, correctIndex: correctIndex ?? null };
+          return { ...cell, qType: question && !options ? 'speaking' : cell.qType, question: question ?? null, options: options ?? null, correctIndex: correctIndex ?? null };
         }
         return cell;
       })

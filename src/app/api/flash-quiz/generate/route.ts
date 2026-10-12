@@ -1,3 +1,4 @@
+import { describeVerdict, verifyMultipleChoice } from '@/lib/mcq-verify';
 import { deckMeaningQuiz } from '@/lib/topic-game-decks';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
@@ -287,8 +288,19 @@ Return JSON:
       }
     }
 
+    // An independent blind check on every answer: a question is kept only when exactly one option is right and it is
+    // the marked one. Questions that fail are dropped (the quiz runs a little shorter), never shown.
+    const verdicts = await verifyMultipleChoice(data.questions, { topic, material: sourceMaterial?.rawText ?? sourceMaterial?.summary });
+    const checked = data.questions.filter((q, i) => {
+      if (verdicts[i].ok) return true;
+      console.warn(`[flash-quiz/generate] question dropped: ${describeVerdict(q, verdicts[i])}`);
+      return false;
+    });
+    // If the check threw out nearly everything, something is off with the check, not the quiz: keep the originals.
+    const usable = checked.length >= Math.min(3, data.questions.length) ? checked : data.questions;
+
     // Trim to exact count in case AI over-generates
-    const questions = data.questions.slice(0, questionCount);
+    const questions = usable.slice(0, questionCount);
 
     // 3. Store in cache — but never cache source-grounded content under the
     // shared topic key, or it would leak into non-source sessions on that topic.
