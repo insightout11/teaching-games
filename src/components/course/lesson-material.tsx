@@ -73,7 +73,7 @@ export function LessonMaterial({ lesson, level, junior, onChange }: { lesson: Ma
   return (
     <div className="flex flex-wrap items-center gap-2 text-xs">
       {lesson.ownMaterial ? (
-        <span className="inline-flex max-w-full items-center gap-1.5 rounded-md bg-amber-300/10 px-2 py-1 text-amber-200"><FileText className="h-3 w-3 shrink-0" /><span className="truncate">Your text: {lesson.ownMaterial.title}</span></span>
+        <span className="inline-flex max-w-full items-center gap-1.5 rounded-md bg-amber-300/10 px-2 py-1 text-amber-200"><FileText className="h-3 w-3 shrink-0" /><span className="truncate">{lesson.ownMaterial.provided ? 'Lesson text' : 'Your text'}: {lesson.ownMaterial.title}</span></span>
       ) : lesson.suggestedSource ? (
         <span className="inline-flex max-w-full items-center gap-1.5 rounded-md bg-cyan-300/10 px-2 py-1 text-cyan-200">
           {lesson.suggestedSource.kind === 'video' ? <Film className="h-3 w-3 shrink-0" /> : <FileText className="h-3 w-3 shrink-0" />}

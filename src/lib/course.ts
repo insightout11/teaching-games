@@ -93,8 +93,8 @@ export interface CourseOutlineLesson {
   goal: GoalTag;
   /** Best library match for this lesson's topic (from recommendSources), if any. */
   suggestedSource?: { kind: 'video' | 'reading'; sourceType: SourceType; id: string; title: string; listening?: boolean } | null;
-  /** Teacher's own material for this lesson (pasted text), used instead of a library source. */
-  ownMaterial?: { title: string; text: string } | null;
+  /** A text for this lesson (pasted by the teacher, or the one written for a ready course), used instead of a library source. */
+  ownMaterial?: { title: string; text: string; /** Written for this ready-course lesson, not pasted by the teacher. */ provided?: boolean } | null;
   /** Course arc: the first lesson sets this simple task, the last repeats it. */
   arcRole?: 'baseline' | 'compare';
   /** Grammar lessons: the grammar point (the Grammar flight needs it). */

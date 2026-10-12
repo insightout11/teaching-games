@@ -131,6 +131,20 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
     setLessons(withArcRoles(preset.lessons.map((lesson, i) => ({ ...lesson, _id: `${preset.id}-${i}` }))));
     setError(null);
     setPhase('outline');
+    // Ready courses: lessons without library material get the short text written for them. Loaded on demand (the
+    // bank is large) and only filled in where the teacher hasn't already chosen something.
+    if (preset.id.startsWith('ready-') && preset.lessons.some((l) => !l.suggestedSource && !l.ownMaterial)) {
+      void import('@/lib/course-lesson-texts').then(({ courseLessonTexts }) => {
+        const texts = courseLessonTexts(preset.id);
+        if (!texts.size) return;
+        setLessons((prev) => prev.map((l) => {
+          const m = l._id.startsWith(`${preset.id}-`) ? texts.get(Number(l._id.slice(preset.id.length + 1))) : undefined;
+          if (!m || l.suggestedSource || l.ownMaterial) return l;
+          const keywords = Array.from(new Set([...(l.keywords ?? []), ...m.words.map((w) => w.word)]));
+          return { ...l, keywords, ownMaterial: { title: m.title, text: m.text, provided: true } };
+        }));
+      }).catch(() => { /* the lesson still works from its topic */ });
+    }
   }, []);
 
   useEffect(() => {
