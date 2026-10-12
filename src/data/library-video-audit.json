@@ -2108,12 +2108,12 @@
     "note": "Refreshed English cache: Cortisol, neural changes and coping activities explain chronic stress."
   },
   "teded-library.json/teded_what_is_depression": {
-    "status": "level-off",
-    "note": "Evidence: Psychiatric diagnosis, neurotransmitters and electroconvulsive/transcranial treatment explanations use sustained specialised language beyond A2. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Psychiatric diagnosis, neurotransmitters and electroconvulsive/transcranial treatment explanations use sustained specialised language beyond A2. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "teded-library.json/teded_what_if_you_didnt_sleep": {
-    "status": "level-off",
-    "note": "Evidence: DNA repair, fatal insomnia, dementia and brain waste mechanisms use connected scientific explanations beyond A2. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. DNA repair, fatal insomnia, dementia and brain waste mechanisms use connected scientific explanations beyond A2. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "teded-library.json/teded_tragedy_of_the_commons": {
     "status": "ok",
@@ -2132,12 +2132,12 @@
     "note": "Refreshed English cache: Bacterial mutations, MRSA and overuse explain resistance."
   },
   "teded-library.json/teded_how_to_practice_effectively": {
-    "status": "level-off",
-    "note": "Evidence: Myelin sheaths, axons, insulation and physical/mental practice research exceed A2 language. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Myelin sheaths, axons, insulation and physical/mental practice research exceed A2 language. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "teded-library.json/teded_immune_system": {
-    "status": "partial",
-    "note": "Evidence: Macrophages, neutrophils, T cells and B cells explain infection response, but the complete cache does not explain vaccines. Suggested action: Narrow the description and summary."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Macrophages, neutrophils, T cells and B cells explain infection response, but the complete cache does not explain vaccines. Changed fields: description, summary. Video identity and duration preserved."
   },
   "teded-library.json/teded_what_is_kafkaesque": {
     "status": "ok",
@@ -2196,24 +2196,24 @@
     "note": "Refreshed English cache: Mars lander constraints and accidental inventions illustrate creative limits."
   },
   "teded-library.json/teded_why_do_cats_act_so_weird": {
-    "status": "level-off",
-    "note": "Evidence: A sustained 646-word evolutionary explanation with opportunistic predators, unconventional hiding and resource competition clearly exceeds A1. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. A sustained 646-word evolutionary explanation with opportunistic predators, unconventional hiding and resource competition clearly exceeds A1. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "teded-library.json/teded_what_makes_a_poem": {
     "status": "ok",
     "note": "Refreshed English cache: Sound, shape, visual poems and machine poetry explore defining a poem."
   },
   "teded-library.json/teded_why_is_glass_transparent": {
-    "status": "mismatch",
-    "note": "Evidence: The English caption concerns body water balance, dehydration and overhydration, not transparency or glass. Suggested action: Retitle and describe hydration."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The English caption concerns body water balance, dehydration and overhydration, not transparency or glass. Changed fields: title, topicTags, description, summary. Video identity and duration preserved."
   },
   "teded-library.json/teded_how_does_stock_market_work": {
-    "status": "level-off",
-    "note": "Evidence: Initial public offerings, fluctuating costs, market forces and investor psychology exceed A2 everyday language. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Initial public offerings, fluctuating costs, market forces and investor psychology exceed A2 everyday language. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "teded-library.json/teded_how_do_vaccines_work": {
-    "status": "level-off",
-    "note": "Evidence: Adaptive immune response, live attenuated/inactive/subunit vaccines and immunity trade-offs exceed A2. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Adaptive immune response, live attenuated/inactive/subunit vaccines and immunity trade-offs exceed A2. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "teded-library.json/teded_how_did_english_evolve": {
     "status": "ok",
@@ -2232,8 +2232,8 @@
     "note": "Refreshed English cache: Angelou/Einstein doubts, studies and sharing feelings explain imposter syndrome."
   },
   "teded-library.json/teded_history_of_world_according_to_cats": {
-    "status": "level-off",
-    "note": "Evidence: Neolithic farming, archaeological history, religious culture and domestication in extended clauses exceed A2. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Neolithic farming, archaeological history, religious culture and domestication in extended clauses exceed A2. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "teded-library.json/teded_how_does_money_laundering_work": {
     "status": "ok",
@@ -2248,8 +2248,8 @@
     "note": "Refreshed English cache: Pinhole eyes, lenses and retinal structure explain eye evolution."
   },
   "teded-library.json/teded_how_do_solar_panels_work": {
-    "status": "level-off",
-    "note": "Evidence: Charged electrons/holes, silicon bonds and p/n junction physics exceed A2. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Charged electrons/holes, silicon bonds and p/n junction physics exceed A2. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "teded-library.json/teded_benefits_of_bilingual_brain": {
     "status": "ok",

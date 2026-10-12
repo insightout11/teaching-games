@@ -857,3 +857,4 @@ Publisher/speaker attribution inconsistencies in protected fields also remain fo
 - Completed `src/data/picture-books-library.json` metadata corrections and audit status update.
 - Completed `src/data/storyweaver-library.json` metadata corrections and audit status update.
 - Completed `src/data/ted-library.json` metadata corrections and audit status update.
+- Completed `src/data/teded-library.json` metadata corrections and audit status update.
