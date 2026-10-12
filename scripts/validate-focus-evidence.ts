@@ -16,7 +16,7 @@ const errors: string[] = [];
 function fail(kind: string, message: string) { counts[kind] += 1; errors.push(message); }
 function words(s: string) { return s.trim().split(/\s+/).filter(Boolean); }
 function normalized(s: string) { return s.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim(); }
-const verbs = new Set(('bring complement count update budget equip improve recognize manage integrate prioritize group present agree code introduce let number publish put shape adapt adjust assess avoid celebrate consult demonstrate develop distribute encourage evaluate expand explain inspect invite listen maintain map mix monitor organize preserve review strengthen translate treat welcome repeat tell retain compare consider prepare coordinate extend schedule study ask help join match pair add adapt allow arrange balance build carry channel check choose collect combine connect create cut deliver design direct divide explain fund give grow guide include keep label leave link locate make mark measure move offer open place plan protect provide raise record reduce replace reserve restore reuse route save separate set shade share show slow space spread store support teach test track train turn use vary widen').split(' '));
+const verbs = new Set(('distinguish interpret judge time bring complement count update budget equip improve recognize manage integrate prioritize group present agree code introduce let number publish put shape adapt adjust assess avoid celebrate consult demonstrate develop distribute encourage evaluate expand explain inspect invite listen maintain map mix monitor organize preserve review strengthen translate treat welcome repeat tell retain compare consider prepare coordinate extend schedule study ask help join match pair add adapt allow arrange balance build carry channel check choose collect combine connect create cut deliver design direct divide explain fund give grow guide include keep label leave link locate make mark measure move offer open place plan protect provide raise record reduce replace reserve restore reuse route save separate set shade share show slow space spread store support teach test track train turn use vary widen').split(' '));
 Object.keys(expected).forEach(k => { if (!entries[k] && !partial) fail('missing', k + ': missing'); });
 Object.keys(entries).forEach(k => { if (!expected[k]) fail('unknown', k + ': unknown'); });
 const ideaOwners: Record<string, string> = {};
@@ -57,8 +57,8 @@ for (let a = 0; a < designs.length; a += 1) {
  for (let b = a + 1; b < designs.length; b += 1) {
   const left = designs[a]; const right = designs[b];
   const shared = left.tokens.filter(t => right.tokens.includes(t)).length;
-  // Jaccard overlap of normalized word sets: punctuation and word order cannot hide repeated instructions.
-  const overlap = shared / (left.tokens.length + right.tokens.length - shared);
+  // Share of the longer normalized word set: punctuation and word order cannot hide repeated instructions.
+  const overlap = shared / Math.max(left.tokens.length, right.tokens.length);
   if (overlap > .7 && normalized(entries[left.key].designUse) !== normalized(entries[right.key].designUse)) fail('similarDesignUse', left.key + ' / ' + right.key + ': designUse overlap ' + (100 * overlap).toFixed(1) + '%');
  }
 }

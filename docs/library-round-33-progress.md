@@ -45,3 +45,7 @@ Authored 30 more entries (240 total). Auckland’s ancestral-mountain management
 ## Batch 9: Lisbon, Dublin, Dakar, Recife, Panama City
 
 Authored 30 more entries (270 total). Source limitations: Dublin’s dance activity is explicitly filmed in California; Lisbon’s tile video discusses Portuguese/Algarve craft generally; Recife’s kids introduction covers Brazil broadly; Recife’s silent-drums report is in Olinda; Panama’s frog center is in El Valle. These entries keep the actual setting and carry thin flags for the weak city connection. Dakar’s biennale and electricity captions are largely garbled: evidence uses only the clear passages (distributed art spaces and the Goree-to-Dakar grid cable), with thin and inferred flags. Partial checks pass.
+
+## Batch 10: Santiago, Addis Ababa, Delhi, Manila, Ho Chi Minh City
+
+Authored the final 30 entries (300 total). The Addis coffee video is explicitly set in New York/Brooklyn, so its thin entry keeps that setting and does not claim an Addis cafe practice. National introductions, recipes, and out-of-city science/heritage videos are marked thin where they lack a concrete city mechanism. Delhi’s Qutub Minar entry preserves the source’s uncertainty rather than asserting speculative origins. Every lesson has been read before its entry was written. Full checks pass; final editorial review and required test results follow below.

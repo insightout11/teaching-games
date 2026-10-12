@@ -2774,5 +2774,318 @@
       "environment",
       "economics"
     ]
+  },
+  "santiago/chile-for-kids-video": {
+    "keyIdea": "Santiago sits in a mountain valley within a country stretching from desert landscapes to southern glaciers.",
+    "tradeoff": "A country overview says little about how this valley city manages daily needs.",
+    "designUse": "Use a city's surrounding landscape to frame more detailed local questions.",
+    "investigationTags": [
+      "geography",
+      "place"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "santiago/marraqueta-video": {
+    "keyIdea": "Chile's marraqueta rolls use joined dough pieces and a crisp crust, creating bread that pulls apart easily for sharing.",
+    "tradeoff": "The shape and crust need several resting stages and careful baking preparation.",
+    "designUse": "Shape shared foods around serving routines while planning the preparation time.",
+    "investigationTags": [
+      "food culture",
+      "daily life"
+    ],
+    "thin": true
+  },
+  "santiago/moai-video": {
+    "keyIdea": "Rapa Nui's restored stone moai preserve evidence of a distinct island culture and the major work of creating monuments.",
+    "tradeoff": "The island remains difficult to reach, even with modern flight connections.",
+    "designUse": "Balance access to remote heritage with explanations of its local cultural setting.",
+    "investigationTags": [
+      "archaeology",
+      "heritage",
+      "place"
+    ],
+    "thin": true
+  },
+  "santiago/mountain-water": {
+    "keyIdea": "Santiago's mountain snow and ice store water, connecting high-altitude conditions with supply and demand in the growing capital.",
+    "tradeoff": "Drought and changing snow patterns affect both water amounts and when supplies arrive.",
+    "designUse": "Plan water priorities for dry years and changes in seasonal supply.",
+    "investigationTags": [
+      "water",
+      "climate",
+      "government"
+    ]
+  },
+  "santiago/markets-and-produce": {
+    "keyIdea": "Santiago's markets combine regional food networks with new residents' dishes, making migration visible in ingredients and everyday trade.",
+    "tradeoff": "Prices, changing demand, and supply interruptions can put workers' livelihoods under pressure.",
+    "designUse": "Include new food traditions while strengthening the workers who supply local markets.",
+    "investigationTags": [
+      "food culture",
+      "migration",
+      "economics"
+    ]
+  },
+  "santiago/memory-and-democracy": {
+    "keyIdea": "Santiago's memory institutions preserve testimony and records of state violence, supporting public debate about rights and responsibility today.",
+    "tradeoff": "Different experiences can create disagreement about how suffering should be represented.",
+    "designUse": "Support public debate with reliable records and voices previously kept silent.",
+    "investigationTags": [
+      "history",
+      "ethics",
+      "museums"
+    ]
+  },
+  "addis-ababa/ethiopia-culture-video": {
+    "keyIdea": "Ethiopian shared meals use one plate and gestures of feeding others to express closeness, respect, and family relationships.",
+    "tradeoff": "A broad cultural introduction cannot show the different practices of every Ethiopian community.",
+    "designUse": "Explain shared meal customs while leaving room for different family practices.",
+    "investigationTags": [
+      "food culture",
+      "culture",
+      "community"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "addis-ababa/coffee-traditions-video": {
+    "keyIdea": "An Ethiopian cafe in New York uses coffee ceremony and photographs to connect migrants with memories and shared cultural space.",
+    "tradeoff": "Nostalgia can connect people without recreating all the experiences of home.",
+    "designUse": "Pair familiar gathering rituals with images that connect past and present lives.",
+    "investigationTags": [
+      "migration",
+      "culture",
+      "daily life"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "addis-ababa/lucy-fossil-video": {
+    "keyIdea": "Lucy's leg bones from Ethiopia show features of upright walking, letting researchers study movement in very early human ancestors.",
+    "tradeoff": "Bones reveal walking features but cannot recover every detail of a living animal.",
+    "designUse": "Explain scientific conclusions through visible evidence while identifying what remains uncertain.",
+    "investigationTags": [
+      "science",
+      "history"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "addis-ababa/african-union": {
+    "keyIdea": "Addis Ababa's African Union headquarters creates repeated contact between countries, making cooperation depend on institutions and continuing relationships.",
+    "tradeoff": "Meetings alone cannot solve problems across countries with different priorities.",
+    "designUse": "Keep diplomatic meetings connected to ongoing work and people beyond official rooms.",
+    "investigationTags": [
+      "government",
+      "community",
+      "economics"
+    ]
+  },
+  "addis-ababa/highland-city": {
+    "keyIdea": "Addis Ababa's highland growth needs roads and services that fit surrounding hills, heavy seasonal rain, and green areas.",
+    "tradeoff": "Building at the urban edge can damage forests, waterways, and existing communities.",
+    "designUse": "Plan hillside growth with drainage, green areas, and services for nearby residents.",
+    "investigationTags": [
+      "geography",
+      "urban planning",
+      "environment"
+    ]
+  },
+  "addis-ababa/scripts-and-languages": {
+    "keyIdea": "Addis Ababa's languages and Ge'ez writing link current services with different communities, older texts, and cultural knowledge.",
+    "tradeoff": "An official language can offer opportunity while home languages struggle for continued use.",
+    "designUse": "Support home languages through publishing, teaching, and tools used in modern communication.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "migration"
+    ]
+  },
+  "delhi/indian-food-video": {
+    "keyIdea": "Delhi's butter chicken combines leftover chicken with a tomato-and-butter sauce, showing how small kitchen changes can create familiar dishes.",
+    "tradeoff": "One local dish cannot represent all the different food traditions across India.",
+    "designUse": "Record useful kitchen adaptations alongside the different regional traditions they join.",
+    "investigationTags": [
+      "food culture",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "delhi/red-fort-video": {
+    "keyIdea": "Delhi's Red Fort used different audience halls for ordinary people's complaints and royal guests, organizing political access through building space.",
+    "tradeoff": "Separate halls gave groups different kinds of access to the ruler.",
+    "designUse": "Make places for public concerns clear within important civic buildings.",
+    "investigationTags": [
+      "architecture",
+      "history",
+      "government"
+    ],
+    "tradeoffInferred": true
+  },
+  "delhi/qutub-minar-video": {
+    "keyIdea": "Delhi's Qutub Minar contains inscriptions and designs that suggest several historical influences rather than one simple origin story.",
+    "tradeoff": "Lost records and changing accounts make a complete, certain explanation difficult.",
+    "designUse": "Show competing historical explanations with their clues and remaining uncertainties.",
+    "investigationTags": [
+      "heritage",
+      "history",
+      "architecture"
+    ]
+  },
+  "delhi/many-capitals": {
+    "keyIdea": "Delhi's successive rulers built new centers of power, leaving layers of walls, routes, and buildings later communities reused.",
+    "tradeoff": "Inherited spaces may still carry unequal access and meanings from earlier political systems.",
+    "designUse": "Interpret reused political spaces through both earlier power and current community uses.",
+    "investigationTags": [
+      "history",
+      "urban change",
+      "architecture"
+    ],
+    "tradeoffInferred": true
+  },
+  "delhi/stepwells-and-water": {
+    "keyIdea": "Delhi's stepwells let people descend farther as water levels fell, making seasonal supply visible through stairs and shared spaces.",
+    "tradeoff": "Restoring a stepwell does not automatically solve wider problems of water security.",
+    "designUse": "Make changing water availability visible while planning a dependable wider supply.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "heritage"
+    ]
+  },
+  "delhi/market-languages": {
+    "keyIdea": "Delhi's market sellers combine languages, gestures, and negotiation to build trust and keep trade moving among different customers.",
+    "tradeoff": "Deliveries, street access, power, and waste services still determine whether businesses can operate.",
+    "designUse": "Support informal market communication with reliable services for everyday trading.",
+    "investigationTags": [
+      "language",
+      "functional english",
+      "economics"
+    ]
+  },
+  "manila/philippines-for-kids-video": {
+    "keyIdea": "Philippine community festivals bring music, dancing, and shared gatherings into public celebrations that carry different traditions.",
+    "tradeoff": "A national introduction cannot explain the particular routines and systems of Manila.",
+    "designUse": "Choose a local celebration to explore beyond a broad national introduction.",
+    "investigationTags": [
+      "culture",
+      "community"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "manila/filipino-identity-video": {
+    "keyIdea": "Bayanihan connects Filipino community identity with mutual help, using a shared boat journey as an image of cooperation.",
+    "tradeoff": "A shared ideal does not erase differences in language, background, or experience.",
+    "designUse": "Encourage mutual help without assuming every community member has the same background.",
+    "investigationTags": [
+      "community",
+      "identity",
+      "migration"
+    ],
+    "tradeoffInferred": true
+  },
+  "manila/philippines-history-video": {
+    "keyIdea": "Manila's public independence ceremony marked a new state, but earlier struggles show that changing rulers did not always bring freedom.",
+    "tradeoff": "Independence hopes were interrupted when control passed between foreign powers.",
+    "designUse": "Judge political change through people's rights as well as ceremonies and titles.",
+    "investigationTags": [
+      "history",
+      "government",
+      "ethics"
+    ]
+  },
+  "manila/intramuros": {
+    "keyIdea": "Manila's Intramuros combines surviving walls with selected rebuilding, making its heritage an interpretation rather than a complete copy of the past.",
+    "tradeoff": "Colonial walls divided access, while later destruction left only parts available to reconstruct.",
+    "designUse": "Distinguish surviving evidence from reconstructed features when explaining a historic district.",
+    "investigationTags": [
+      "heritage",
+      "history",
+      "ethics"
+    ]
+  },
+  "manila/bay-and-flooding": {
+    "keyIdea": "Manila's flood risk comes from coastal weather and choices about drainage, wetlands, waste, housing, and building patterns.",
+    "tradeoff": "Protecting valuable land can shift flooding or disruption toward less-resourced communities.",
+    "designUse": "Check who receives flood protection and where risks move after construction.",
+    "investigationTags": [
+      "water",
+      "climate",
+      "urban planning"
+    ]
+  },
+  "manila/jeepney-culture": {
+    "keyIdea": "Manila's jeepneys turn adapted vehicles into affordable transport and cultural expression, supporting drivers, mechanics, painters, and local businesses.",
+    "tradeoff": "Cleaner replacement vehicles can be too expensive for small operators to afford.",
+    "designUse": "Improve vehicle safety and emissions without losing affordable rides or operators' livelihoods.",
+    "investigationTags": [
+      "transport",
+      "culture",
+      "economics"
+    ]
+  },
+  "ho-chi-minh-city/tet-for-kids-video": {
+    "keyIdea": "Vietnamese Tet gives different days to family, friends, and teachers, connecting New Year celebrations with relationships and remembering ancestors.",
+    "tradeoff": "Preparing homes, shrines, and food takes time before the celebration begins.",
+    "designUse": "Set aside different celebration moments for family, friendships, and learning relationships.",
+    "investigationTags": [
+      "culture",
+      "identity",
+      "daily life"
+    ]
+  },
+  "ho-chi-minh-city/vietnam-culture-video": {
+    "keyIdea": "Ho Chi Minh City's nightlife becomes livelier when cooler evening conditions make being outdoors more pleasant than during the day.",
+    "tradeoff": "Comfortable evenings do not remove the heat of daytime trips.",
+    "designUse": "Time outdoor gatherings for cooler hours while considering daytime comfort too.",
+    "investigationTags": [
+      "climate",
+      "daily life",
+      "urban culture"
+    ],
+    "tradeoffInferred": true
+  },
+  "ho-chi-minh-city/vietnam-history-video": {
+    "keyIdea": "Vietnam's economic reforms changed how businesses operated and helped trade grow after periods of war and central control.",
+    "tradeoff": "Economic growth alone does not settle continuing concerns about people's rights.",
+    "designUse": "Evaluate economic reforms through both livelihoods and people's basic rights.",
+    "investigationTags": [
+      "history",
+      "economics",
+      "government"
+    ],
+    "thin": true
+  },
+  "ho-chi-minh-city/river-city": {
+    "keyIdea": "Ho Chi Minh City's rivers and canals support movement and trade, while their condition also shapes drainage and flood safety.",
+    "tradeoff": "Waterfront redevelopment can displace established communities or reduce their access.",
+    "designUse": "Coordinate waterway repair with development plans and existing waterfront communities.",
+    "investigationTags": [
+      "water",
+      "transport",
+      "urban planning"
+    ]
+  },
+  "ho-chi-minh-city/coffee-culture": {
+    "keyIdea": "Ho Chi Minh City's coffee places connect farms and service workers with local gatherings, turning a global crop into daily social life.",
+    "tradeoff": "Price and quality choices affect workers throughout the long supply chain.",
+    "designUse": "Track coffee's supply workers when planning attractive places to drink and gather.",
+    "investigationTags": [
+      "food culture",
+      "economics",
+      "daily life"
+    ]
+  },
+  "ho-chi-minh-city/changing-architecture": {
+    "keyIdea": "Ho Chi Minh City's older buildings use shade, airflow, and courtyards to respond to heat and rain in everyday life.",
+    "tradeoff": "Demolition can remove affordable homes and useful climate knowledge alongside old buildings.",
+    "designUse": "Keep useful shade and airflow features when replacing older city buildings.",
+    "investigationTags": [
+      "architecture",
+      "climate",
+      "housing"
+    ]
   }
 }
