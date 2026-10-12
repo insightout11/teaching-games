@@ -14,7 +14,7 @@ import type {
 } from '@/activities/types';
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
-import { normalizeDesignStudioBrief, normalizeDesignStudioRound } from '@/lib/design-studio';
+import { normalizeDesignStudioBrief, normalizeDesignStudioRound, designStudioStage } from '@/lib/design-studio';
 import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
 
 export const maxDuration = 60;
@@ -311,7 +311,7 @@ Synthesize the ideas into exactly three genuinely different starting design dire
 This is a class vote, so none may be obviously correct.
 
 Return one designStudioRound:
-- stage: "Starting Direction"
+- stage: "Direction"
 - question: one direct question asking which direction should become the class design
 - whyItMatters: one short sentence
 - designSummary: one neutral sentence describing the challenge before a direction is selected
@@ -334,7 +334,7 @@ Return one designStudioRound:
         decisions: [],
       };
       return NextResponse.json({
-        designStudioRound: normalizeDesignStudioRound(parsed.designStudioRound, state),
+        designStudioRound: { ...normalizeDesignStudioRound(parsed.designStudioRound, state), stage: designStudioStage(1) },
       } satisfies ActivityContinueResponse);
     }
 
@@ -356,8 +356,12 @@ Return one designStudioRound:
         ?? difficultyDescriptions.Intermediate;
       const nextNumber = state.decisions.length + 1;
       const remaining = Math.max(1, (maxDecisions ?? 6) - state.decisions.length);
-      const stageGuide = ['Purpose', 'People', 'Core Features', 'Access and Fairness', 'Constraint and Adaptation', 'Final Refinement'];
-      const suggestedStage = stageGuide[Math.min(nextNumber - 1, stageGuide.length - 1)];
+      const suggestedStage = designStudioStage(nextNumber);
+      const stageBrief: Record<string, string> = {
+        People: 'who the design should help first',
+        'Main Feature': 'the one main thing the design has or does',
+        'The Hard Choice': 'a real trade-off the class must accept: something good it gives up to get something it wants more',
+      };
       const prompt = `Continue a progressive classroom Design Studio.
 
 ${languageRule}
@@ -378,7 +382,7 @@ CROSS-CITY EVIDENCE:
 ${formatWorldFlightMissionEvidence(worldFlightMission)}
 
 Generate the next contextual design decision. There are ${remaining} decisions remaining.
-Suggested progress stage: ${suggestedStage}.
+This decision is the stage '${suggestedStage}': ${stageBrief[suggestedStage] ?? 'the most important unresolved issue'}. Set stage to exactly '${suggestedStage}'.
 
 Rules:
 - Build directly from the current design and locked decisions.
@@ -400,7 +404,7 @@ Rules:
         { taskClass: 'activity-facilitation' },
       );
       return NextResponse.json({
-        designStudioRound: normalizeDesignStudioRound(parsed.designStudioRound, state),
+        designStudioRound: { ...normalizeDesignStudioRound(parsed.designStudioRound, state), stage: suggestedStage },
       } satisfies ActivityContinueResponse);
     }
 

@@ -11,6 +11,7 @@ export type DesignStudioPhase =
   | 'idle'
   | 'generating'
   | 'question'
+  | 'argue'
   | 'voting'
   | 'decision'
   | 'finalizing'

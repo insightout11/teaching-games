@@ -1,3 +1,4 @@
+import type { DesignStudioBrief, DesignStudioState } from '@/activities/types';
 import type { WorldFlightEvidenceSnapshot } from '@/lib/world-flight/journey';
 
 export interface WorldFlightInvestigationRequirement {
@@ -38,6 +39,8 @@ export interface WorldFlightInvestigationProgress {
   designMissionStatus: 'locked' | 'ready' | 'completed';
   completedDesignTitle: string | null;
   designMissionCompletedAt: string | null;
+  /** The finished design, so the class can open its blueprint again. */
+  completedBlueprint?: { brief: DesignStudioBrief; decisions: DesignStudioState['decisions'] } | null;
   requirements: WorldFlightInvestigationRequirementProgress[];
 }
 

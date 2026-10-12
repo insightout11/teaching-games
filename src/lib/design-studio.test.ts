@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   applyDesignStudioDecision,
+  assignArgueSides,
+  designStudioStage,
   buildFallbackDesignStudioBrief,
   normalizeDesignStudioBrief,
   normalizeDesignStudioRound,
@@ -104,5 +106,32 @@ describe('Design Studio decision engine', () => {
     expect(brief.summary).toBe(round.options[1].designChange);
     expect(brief.coreFeatures).toContain('Teenagers');
     expect(brief.pitch).toContain(initialState.challenge);
+  });
+});
+
+describe('assignArgueSides', () => {
+  const names = (n: number) => Array.from({ length: n }, (_, i) => ({ id: `s${i}` }));
+
+  it('gives every student an option, and partners different ones', () => {
+    for (const n of [2, 3, 4, 5, 8, 11]) {
+      for (const round of [0, 1, 2, 3]) {
+        const pairs = assignArgueSides(names(n), round);
+        expect(pairs.flatMap((p) => p.members)).toHaveLength(n);
+        for (const pair of pairs) {
+          expect(pair.members.length).toBeGreaterThanOrEqual(2);
+          expect(pair.options).toHaveLength(pair.members.length);
+          expect(new Set(pair.options).size).toBe(pair.options.length);
+        }
+      }
+    }
+  });
+
+  it('skips the argument for a class of one', () => {
+    expect(assignArgueSides(names(1), 0)).toEqual([]);
+    expect(assignArgueSides([], 0)).toEqual([]);
+  });
+
+  it('names the four stages in order', () => {
+    expect([1, 2, 3, 4, 9].map(designStudioStage)).toEqual(['Direction', 'People', 'Main Feature', 'The Hard Choice', 'The Hard Choice']);
   });
 });

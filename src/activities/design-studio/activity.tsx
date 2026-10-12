@@ -14,7 +14,11 @@ import type {
   DesignStudioState,
   DesignStudioVote,
 } from './types';
+import { DesignBlueprint } from '@/components/world-flight/design-blueprint';
 import {
+  DESIGN_STUDIO_DEFAULT_MAX_DECISIONS,
+  argueStarters,
+  assignArgueSides,
   applyDesignStudioDecision,
   buildFallbackDesignStudioBrief,
   buildFallbackDesignStudioRound,
@@ -46,6 +50,7 @@ function groundBriefInMissionEvidence(
 
 export function DesignStudioActivity({
   sessionId,
+  students,
   generatedContent,
   customTopic,
   sessionSettings,
@@ -57,7 +62,8 @@ export function DesignStudioActivity({
 }: ActivityProps) {
   const content = generatedContent as DesignStudioContent;
   const challenge = content.challenge || customTopic || 'Design something that improves everyday life.';
-  const maxDecisions = content.maxDecisions || 6;
+  // Always four: Direction, People, Main Feature, The Hard Choice (each argued, then voted).
+  const maxDecisions = DESIGN_STUDIO_DEFAULT_MAX_DECISIONS;
   const worldFlightMission = content.worldFlightMission;
   const [phase, setPhase] = useState<DesignStudioPhase>('idle');
   // Ideas the class said out loud, typed by the teacher (optional). Students never type here: every choice is a tap.
@@ -69,6 +75,19 @@ export function DesignStudioActivity({
   const [brief, setBrief] = useState<DesignStudioBrief | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [missionSaveStatus, setMissionSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+
+  // Convince your partner: who argues for which option this round, and the one-minute clock.
+  const pairings = useMemo(
+    () => assignArgueSides(students ?? [], state.decisions.length),
+    [students, state.decisions.length],
+  );
+  const [argueLeft, setArgueLeft] = useState(ARGUE_SECONDS);
+  useEffect(() => {
+    if (phase !== 'argue') return;
+    setArgueLeft(ARGUE_SECONDS);
+    const timer = setInterval(() => setArgueLeft((left) => Math.max(0, left - 1)), 1000);
+    return () => clearInterval(timer);
+  }, [phase, state.decisions.length]);
 
   const phaseRef = useRef(phase);
   const stateRef = useRef(state);
@@ -87,7 +106,26 @@ export function DesignStudioActivity({
   }, [onPhaseChange]);
 
   useEffect(() => {
-    if (phase === 'voting' && round) {
+    if (phase === 'argue' && round) {
+      const starters = argueStarters(sessionSettings.difficulty, state.decisions.length);
+      const cards: Record<string, { option: string; title: string; starters: string[] }> = {};
+      for (const pairing of pairings) {
+        pairing.members.forEach((student, index) => {
+          const option = round.options.find((candidate) => candidate.id === pairing.options[index]);
+          if (!option) return;
+          const card = { option: option.id, title: option.title, starters };
+          cards[student.id] = card;
+          cards[student.name] = card;
+        });
+      }
+      onSetInputSpec?.({
+        type: 'confirm',
+        gameKey: 'design-studio',
+        instruction: 'Convince your partner',
+        prompt: round.question,
+        perStudentData: cards,
+      });
+    } else if (phase === 'voting' && round) {
       onSetInputSpec?.({
         type: 'choice',
         gameKey: 'design-studio',
@@ -101,7 +139,7 @@ export function DesignStudioActivity({
     } else {
       onSetInputSpec?.(null);
     }
-  }, [phase, round, state.decisions.length, maxDecisions, onSetInputSpec]);
+  }, [phase, round, state.decisions.length, maxDecisions, onSetInputSpec, pairings, sessionSettings.difficulty]);
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
@@ -347,7 +385,9 @@ export function DesignStudioActivity({
     return (
       <DesignBriefView
         brief={brief}
-        decisions={state.decisions.length}
+        state={state}
+        mission={worldFlightMission}
+        designers={scoredDesigners(scoredParticipationRef.current)}
         notice={notice}
         missionSaveStatus={worldFlightMission ? missionSaveStatus : 'idle'}
         onRetryMissionSave={worldFlightMission && missionSaveStatus === 'error'
@@ -365,16 +405,19 @@ export function DesignStudioActivity({
       {notice && <Notice message={notice} />}
       {phase === 'decision' && selectedOption ? (
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-emerald-300/25 bg-emerald-300/[0.06] p-7">
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-300/80">The class decided</p>
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-300/80">
+            The class decided{votes.length > 0 ? ` · ${voteCounts[selectedOption.id]} of ${votes.length} votes` : ''}
+          </p>
           <h2 className="mt-2 font-display text-4xl text-white">{selectedOption.title}</h2>
           {backedBy(selectedOption.city) && <CityTag city={backedBy(selectedOption.city)!} />}
           <p className="mt-3 text-lg leading-relaxed text-white/75">{selectedOption.designChange}</p>
-          <div className="mt-5 grid gap-3 md:grid-cols-2">
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
             <DecisionDetail icon={<ThumbsUp className="h-4 w-4" />} label="What we gain" value={selectedOption.benefit} />
             <DecisionDetail icon={<TriangleAlert className="h-4 w-4" />} label="What we give up" value={selectedOption.tradeoff} />
+            <DecisionDetail icon={<MessagesSquare className="h-4 w-4" />} label="Say it" value={`"We chose ${selectedOption.id} because…" One student says it for the class.`} />
           </div>
           <button onClick={() => void continueDesign()} className={`${PRIMARY} mt-6`}>
-            {state.decisions.length >= maxDecisions ? 'Build the final design' : 'Next question'}
+            {state.decisions.length >= maxDecisions ? 'Build our blueprint' : 'Next decision'}
           </button>
         </motion.div>
       ) : round ? (
@@ -383,9 +426,19 @@ export function DesignStudioActivity({
             <div className="flex items-center justify-between gap-3">
               <p className={LABEL}>{round.stage}</p>
               {phase === 'voting' && <span className="font-mono text-xs text-white/50">{votes.length} {votes.length === 1 ? 'vote' : 'votes'}</span>}
+              {phase === 'argue' && (
+                <span className={`font-mono text-2xl font-bold tabular-nums ${argueLeft === 0 ? 'text-emerald-300' : 'text-amber-300'}`}>
+                  {Math.floor(argueLeft / 60)}:{String(argueLeft % 60).padStart(2, '0')}
+                </span>
+              )}
             </div>
             <h2 className="mt-2 font-display text-3xl leading-tight text-white sm:text-4xl">{round.question}</h2>
             <p className="mt-2 text-sm leading-relaxed text-white/55">{round.whyItMatters}</p>
+            {phase === 'argue' && (
+              <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/10">
+                <div className="h-full bg-amber-300 transition-[width] duration-1000 ease-linear" style={{ width: `${(argueLeft / ARGUE_SECONDS) * 100}%` }} />
+              </div>
+            )}
           </div>
           <div className="grid gap-3 md:grid-cols-3">
             {round.options.map((option) => (
@@ -404,15 +457,40 @@ export function DesignStudioActivity({
               </div>
             ))}
           </div>
+          {/* Who argues for what: helps the teacher run the room. No answers or scores here. */}
+          {phase === 'argue' && pairings.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {pairings.map((pairing) => (
+                <span key={pairing.members.map((student) => student.id).join('-')} className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-sm text-white/70">
+                  {pairing.members.map((student, index) => (
+                    <span key={student.id}>
+                      {index > 0 && <span className="mx-1.5 text-white/30">·</span>}
+                      {student.name} <b className="font-mono text-amber-300">{pairing.options[index]}</b>
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </div>
+          )}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-white/50">
-              {phase === 'voting' ? 'Phones show A, B and C. One tap each.' : 'Talk first: which would you choose, and why?'}
+              {phase === 'voting'
+                ? 'Phones show A, B and C. Vote for the one you really want.'
+                : phase === 'argue'
+                  ? 'Each phone has one option to argue for. Partners have different ones.'
+                  : pairings.length > 0
+                    ? 'First, one minute to convince a partner. Then the vote.'
+                    : 'Talk first: which would you choose, and why?'}
             </p>
             <button
-              onClick={phase === 'voting' ? closeVote : () => { setVotes([]); changePhase('voting'); }}
+              onClick={phase === 'voting'
+                ? closeVote
+                : phase === 'question' && pairings.length > 0
+                  ? () => changePhase('argue')
+                  : () => { setVotes([]); changePhase('voting'); }}
               className={PRIMARY}
             >
-              {phase === 'voting' ? 'Close the vote' : 'Open the class vote'}
+              {phase === 'voting' ? 'Close the vote' : phase === 'question' && pairings.length > 0 ? 'Convince your partner (1 min)' : 'Open the class vote'}
             </button>
           </div>
         </>
@@ -422,6 +500,7 @@ export function DesignStudioActivity({
 }
 
 // The app's current look: night panels, amber mono labels, serif display headings, cyan primary buttons.
+const ARGUE_SECONDS = 60;
 const PANEL = 'rounded-2xl border border-white/[0.07] bg-[#0a121e]/85';
 const LABEL = 'font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-amber-300/80';
 const PRIMARY = 'rounded-xl bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-300';
@@ -504,24 +583,42 @@ function Notice({ message }: { message: string }) {
   return <div className="rounded-xl border border-amber-300/25 bg-amber-300/[0.06] px-4 py-3 text-sm text-amber-100/85">{message}</div>;
 }
 
+/** How many different students voted at least once (the "designers" on the blueprint). */
+function scoredDesigners(keys: Set<string>): number {
+  return new Set(Array.from(keys).map((key) => key.split(':').slice(-1)[0])).size;
+}
+
 function DesignBriefView({
   brief,
-  decisions,
+  state,
+  mission,
+  designers,
   notice,
   missionSaveStatus,
   onRetryMissionSave,
 }: {
   brief: DesignStudioBrief;
-  decisions: number;
+  state: DesignStudioState;
+  mission?: WorldFlightDesignMissionContext;
+  designers: number;
   notice: string | null;
   missionSaveStatus: 'idle' | 'saving' | 'saved' | 'error';
   onRetryMissionSave?: () => void;
 }) {
   return (
-    <div className="mx-auto max-w-5xl space-y-5">
+    <div className="mx-auto max-w-5xl space-y-6 py-4">
       {notice && <Notice message={notice} />}
+      <DesignBlueprint
+        brief={brief}
+        decisions={state.decisions}
+        cities={mission?.evidence.map((evidence) => ({ city: evidence.city, found: evidence.designUse || evidence.keyIdea })) ?? []}
+        missionTitle={mission?.investigationTitle}
+        designers={designers}
+        completedAt={new Date().toISOString()}
+        animate
+      />
       {missionSaveStatus !== 'idle' && (
-        <div className={`flex items-center gap-2 rounded-xl border px-4 py-3 text-sm ${
+        <div className={`mx-auto flex max-w-4xl items-center gap-2 rounded-xl border px-4 py-3 text-sm ${
           missionSaveStatus === 'saved'
             ? 'border-emerald-300/25 bg-emerald-300/[0.06] text-emerald-100/85'
             : missionSaveStatus === 'error'
@@ -529,9 +626,9 @@ function DesignBriefView({
               : 'border-cyan-300/25 bg-cyan-300/[0.06] text-cyan-100/85'
         }`}>
           {missionSaveStatus === 'saving' ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Save className="h-4 w-4" aria-hidden />}
-          {missionSaveStatus === 'saved' && 'Saved to the class journey.'}
+          {missionSaveStatus === 'saved' && 'Saved to the class journey. Open it again from World Flight.'}
           {missionSaveStatus === 'saving' && 'Saving to the class journey...'}
-          {missionSaveStatus === 'error' && 'This design was not saved to the class journey yet. It is still here on screen.'}
+          {missionSaveStatus === 'error' && 'This blueprint was not saved to the class journey yet. It is still here on screen.'}
           {missionSaveStatus === 'error' && onRetryMissionSave && (
             <button
               type="button"
@@ -543,19 +640,8 @@ function DesignBriefView({
           )}
         </div>
       )}
-      <div className={`${PANEL} p-7`}>
-        <p className={LABEL}>Our class design · {decisions} decisions</p>
-        <h2 className="mt-2 font-display text-5xl leading-tight text-white">{brief.title}</h2>
-        <p className="mt-4 text-lg leading-relaxed text-white/75">{brief.summary}</p>
-        <div className="mt-6 rounded-xl border border-amber-300/25 bg-amber-300/[0.06] p-5">
-          <p className={LABEL}>Say it together</p>
-          <p className="mt-2 text-xl font-semibold leading-relaxed text-amber-50">{brief.pitch}</p>
-        </div>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-2">
         <BriefList title="Who it is for" items={brief.intendedUsers} />
-        <BriefList title="What it has" items={brief.coreFeatures} />
-        <BriefList title="Why we chose it" items={brief.evidenceAndReasoning} />
         <BriefList title="What we gave up" items={brief.remainingTradeoffs} />
       </div>
     </div>

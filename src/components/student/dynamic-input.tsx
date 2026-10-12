@@ -18,6 +18,7 @@ import { CargoHandInput } from './cargo-hand-input';
 import { CargoVoteInput } from './cargo-vote-input';
 import { ConversationRoundsPanel } from './conversation-rounds-panel';
 import { TabooSprintPanel } from './taboo-sprint-panel';
+import { DesignArguePanel } from './design-argue-panel';
 import { DefendItPanel } from './defend-it-panel';
 import { TwoTruthsWriter } from './two-truths-writer';
 import { TwentyQuestionsPanel } from './twenty-questions-panel';
@@ -1376,6 +1377,10 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName,
 
   if (spec.gameKey === 'defend-it' && spec.perStudentData?.__room) {
     return <DefendItPanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} onSubmit={onSubmit} />;
+  }
+
+  if (spec.gameKey === 'design-studio' && spec.perStudentData) {
+    return <DesignArguePanel spec={spec} displayName={displayName} studentId={studentId} clientId={clientId} />;
   }
 
   if (spec.gameKey === 'taboo-sprint' && spec.perStudentData) {
