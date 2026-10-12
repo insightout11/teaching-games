@@ -126,6 +126,9 @@ export interface FlightDeckProps {
   pendingPlan?: { name: string; topic: string; onStart: () => void } | null;
   /** Words of the loaded plan (topic, source, course theme): a city named there is suggested as the destination. */
   planText?: string | null;
+  /** A World Flight lesson (chosen on the map): the room flies to this city and nowhere else. Its leg is already
+   *  on the class's journey, so take-off does not record another. */
+  fixedDestinationId?: string | null;
 }
 
 export interface RoomFlightPlanStatus {
@@ -174,6 +177,7 @@ export function FlightDeck({
   flightPlan,
   pendingPlan,
   planText,
+  fixedDestinationId,
 }: FlightDeckProps) {
   const [planOpen, setPlanOpen] = useState(false);
   // "Land" in the top bar asks once more before it lands (it disarms itself after a few seconds).
@@ -236,6 +240,9 @@ export function FlightDeck({
     const d = position?.currentDestinationId ? SCENE_CITIES.find((c) => c.id === position.currentDestinationId) : undefined;
     return d ? toRouteCity(d) : HOME;
   }, [position]);
+  // Remembered once seen: the plan that named the city is dropped when its last stage ends, before the landing.
+  const [lockedId, setLockedId] = useState<string | null>(fixedDestinationId ?? null);
+  useEffect(() => { if (fixedDestinationId) setLockedId(fixedDestinationId); }, [fixedDestinationId]);
   const reachable = useMemo<RouteCity[]>(() => {
     const originPack = SCENE_CITIES.find((c) => c.id === origin.id);
     // First flight: anywhere (nearest to the hub first); otherwise within range. The
@@ -243,20 +250,23 @@ export function FlightDeck({
     const list = !originPack
       ? SCENE_CITIES.map(toRouteCity)
       : destinationsWithinRange(originPack, SCENE_CITIES, position?.rangeKm ?? STARTER_PLANE_RANGE_KM).map((r) => toRouteCity(r.destination));
+    const locked = lockedId ? SCENE_CITIES.find((c) => c.id === lockedId) : undefined;
+    if (locked) return [toRouteCity(locked)];
     return list.slice(0, 24);
-  }, [origin, position]);
+  }, [origin, position, lockedId]);
   const [chosenId, setChosenId] = useState<string | null>(null);
   const flightKey = `lc-room-flight-${sessionId}`;
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string } | null;
+      const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string; lockedId?: string } | null;
       if (saved?.chosenId) setChosenId(saved.chosenId);
+      if (saved?.lockedId) setLockedId((cur) => cur ?? saved.lockedId ?? null);
       if (saved?.stage === 'flying' && saved.takeoffAt) { setFlightStage('flying'); setTakeoffAt(saved.takeoffAt); }
     } catch { /* storage blocked */ }
   }, [flightKey]);
   useEffect(() => {
-    try { localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId })); } catch { /* storage blocked */ }
-  }, [flightKey, flightStage, takeoffAt, chosenId]);
+    try { localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId, lockedId })); } catch { /* storage blocked */ }
+  }, [flightKey, flightStage, takeoffAt, chosenId, lockedId]);
   const destination = useMemo<RouteCity>(
     () => reachable.find((c) => c.id === chosenId) ?? reachable[hashOf(sessionId) % Math.max(1, reachable.length)] ?? HOME,
     [reachable, chosenId, sessionId],
@@ -350,6 +360,7 @@ export function FlightDeck({
     setFlightStage('flying');
     setTakeoffAt(Date.now());
     flash(`Flight to ${destination.city}: cleared for take-off`);
+    if (lockedId) return;
     // Record the leg on the class's World Flight journey.
     void fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, {
       method: 'POST',

@@ -1867,9 +1867,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   // ─── LOBBY VIEW ──────────────────────────────────────────────────────────
   // Live Room: a session that arrives with a plan (course page / planner launch) boards IN the
-  // room, with the plan ready to start. World Flight map launches keep their own route + lobby.
-  const roomLobby = (LIVE_ROOM_ENV || liveRoomOptIn) && lesson.phase === 'lobby'
-    && !lesson.lessonPlanContent?.worldFlightContext && !lesson.lessonPlanContent?.destinationId;
+  // room, with the plan ready to start. World Flight lessons too: the room flies to the city chosen on the map.
+  const roomLobby = (LIVE_ROOM_ENV || liveRoomOptIn) && lesson.phase === 'lobby';
   if (lesson.phase === 'lobby' && !roomLobby) {
 
     return (
@@ -2224,6 +2223,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             onLaunchPlan={handleLaunchRoomPlan}
             flightPlan={roomFlightPlan}
             pendingPlan={roomPendingPlan}
+            fixedDestinationId={wfDestinationId ?? null}
             planText={lesson.lessonPlanContent ? [lesson.lessonPlanContent.customTopic, lesson.lessonPlanContent.sourceMaterial?.title, lesson.lessonPlanContent.courseContext?.courseTheme, lesson.lessonPlanContent.courseContext?.courseTitle].filter(Boolean).join(' · ') : null}
           />
         </div>
