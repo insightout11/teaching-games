@@ -27236,19 +27236,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Trust grows when small promises are kept repeatedly."
+        "target": "present perfect",
+        "why": "Describe promises kept or broken in a friendship.",
+        "example": "I have kept every promise I made to my friend."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "When should a friend tell an uncomfortable truth?"
+        "target": "reported speech",
+        "why": "Relay a friend's explanation after a misunderstanding.",
+        "example": "Aisha said she felt left out of our plans."
       },
       {
         "target": "conditional",
-        "why": "Describe how you might repair trust.",
-        "example": "If my friend apologizes, I will listen."
+        "why": "Explain what you would do to rebuild a friendship.",
+        "example": "If my friend felt ignored, I would invite her to talk."
       }
     ],
     "levels": {
@@ -27450,19 +27450,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A prepared answer is easier to use under pressure."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "What could you say when friends want a risky choice?"
+        "target": "conditional",
+        "why": "Rehearse a response to an unwanted group choice.",
+        "example": "If my friends pushed me to cheat, I would refuse."
       },
       {
         "target": "reported speech",
-        "why": "Relay a student’s account of pressure.",
-        "example": "She said she felt pushed to skip practice."
+        "why": "Report the words that made someone feel pressured.",
+        "example": "Leo told me that everyone expected him to join."
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify a person who supports an independent choice.",
+        "example": "A friend who respects my answer makes pressure easier to handle."
       }
     ],
     "levels": {
@@ -27664,19 +27664,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A group works better when everyone knows their part."
+        "target": "past perfect",
+        "why": "Sequence preparation before a team task succeeded or failed.",
+        "example": "We had divided the tasks before the project began."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "How would you handle a teammate who misses a deadline?"
+        "target": "passive voice",
+        "why": "Explain how work and responsibility are shared in a team.",
+        "example": "Each task is assigned to a different team member."
       },
       {
-        "target": "relative clause",
-        "why": "Identify work a team has missed.",
-        "example": "Clear roles help a team notice work that is not being done."
+        "target": "present perfect",
+        "why": "Review what a group has achieved so far.",
+        "example": "Our team has finished the poster but not the presentation."
       }
     ],
     "levels": {
@@ -27878,19 +27878,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A genre gives listeners clues about rhythm and instruments."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which matters more to you: rhythm or lyrics?"
-      },
-      {
         "target": "relative clause",
-        "why": "Specify a genre through its rhythm.",
-        "example": "A genre that uses strong beats makes me want to dance."
+        "why": "Describe a genre through its characteristic sounds.",
+        "example": "I like music that combines a strong beat with quiet vocals."
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare two genres using rhythm or instruments.",
+        "example": "This jazz track is slower than the dance track."
+      },
+      {
+        "target": "present perfect",
+        "why": "Share the range of music you have explored.",
+        "example": "I have listened to reggae, but I have never tried opera."
       }
     ],
     "levels": {
@@ -28092,19 +28092,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "The acoustics of a venue change how voices and instruments carry."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Would you choose a small venue or large festival?"
-      },
-      {
         "target": "past continuous",
-        "why": "Set the scene at a concert.",
-        "example": "The band was playing when the lights went out."
+        "why": "Describe a concert atmosphere around an unexpected interruption.",
+        "example": "The crowd was singing when the microphone stopped working."
+      },
+      {
+        "target": "past simple",
+        "why": "Retell the highlights of a performance you attended.",
+        "example": "The singer changed the last verse and everyone cheered."
+      },
+      {
+        "target": "present perfect",
+        "why": "Compare people's experience of live performances.",
+        "example": "I have seen a small band but never a large orchestra."
       }
     ],
     "levels": {
@@ -28306,19 +28306,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A hook is a short part listeners remember easily."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Would you begin a song with words or melody?"
+        "target": "present perfect continuous",
+        "why": "Explain time spent developing a song that is still unfinished.",
+        "example": "I have been working on this chorus all week."
       },
       {
         "target": "present perfect",
-        "why": "Explain a revision to a song.",
-        "example": "I have changed the chorus to fit the melody."
+        "why": "Describe changes made while revising lyrics.",
+        "example": "I have replaced the last line with a simpler phrase."
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify the lyric or melody that holds a song together.",
+        "example": "The line that repeats in the chorus carries the main idea."
       }
     ],
     "levels": {
@@ -28520,19 +28520,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A plot twist works best when earlier details still make sense."
+        "target": "relative clause",
+        "why": "Describe a film by the kind of story it tells.",
+        "example": "A film that mixes mystery and comedy keeps me curious."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which genre would you choose for a short film?"
+        "target": "comparatives & superlatives",
+        "why": "Compare the effect of two film genres.",
+        "example": "This thriller is more tense than the adventure film."
       },
       {
         "target": "conditional",
-        "why": "Speculate about a mixed-genre film.",
-        "example": "If the film mixes comedy and mystery, I will watch it."
+        "why": "Discuss how changing a film's genre would alter a scene.",
+        "example": "If this scene were a comedy, the music would sound lighter."
       }
     ],
     "levels": {
@@ -28734,19 +28734,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A short scene needs choices about camera position and sound."
+        "target": "passive voice",
+        "why": "Explain how a scene is recorded and assembled.",
+        "example": "The final scene was filmed in our school corridor."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which shot would you plan first in a mystery scene?"
+        "target": "past perfect",
+        "why": "Sequence planning before filming began.",
+        "example": "We had drawn the shots before we borrowed the camera."
       },
       {
-        "target": "relative clause",
-        "why": "Identify which moments editing selects.",
-        "example": "Editing decides which moments the viewer sees."
+        "target": "past continuous",
+        "why": "Describe what interrupted a film shoot.",
+        "example": "We were recording the dialogue when a bus passed outside."
       }
     ],
     "levels": {
@@ -28948,19 +28948,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Fabric texture affects comfort as well as appearance."
+        "target": "passive voice",
+        "why": "Explain how a garment reaches a shop.",
+        "example": "The fabric is cut and sewn before the jacket is sold."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Would you choose comfort or a bold trend for one day?"
+        "target": "comparatives & superlatives",
+        "why": "Compare clothes by comfort rather than trend.",
+        "example": "These loose trousers are more comfortable than the tight jeans."
       },
       {
         "target": "reported speech",
-        "why": "Report someone’s reason for an outfit.",
-        "example": "He said his jacket showed his style."
+        "why": "Report a designer's explanation of a clothing choice.",
+        "example": "The designer said the pockets made the jacket more useful."
       }
     ],
     "levels": {
@@ -29162,19 +29162,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "People choose details that make an outfit feel like theirs."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "What item feels most like your style, and why?"
-      },
-      {
         "target": "relative clause",
-        "why": "Describe details that express identity.",
-        "example": "People choose details that make an outfit feel like theirs."
+        "why": "Describe an item that expresses your identity.",
+        "example": "The scarf that my aunt gave me feels like part of my style."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe how your clothing choices have changed.",
+        "example": "I have stopped buying colours that I never wear."
+      },
+      {
+        "target": "conditional",
+        "why": "Imagine a style choice under a different dress rule.",
+        "example": "If I could choose any school outfit, I would wear trainers."
       }
     ],
     "levels": {
@@ -29376,19 +29376,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Rice is a staple in many homes."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which family dish would you teach a friend?"
-      },
-      {
         "target": "passive voice",
-        "why": "Focus on a recipe’s shared tradition.",
-        "example": "The family recipe is shared at every festival."
+        "why": "Explain how a traditional dish is prepared or served.",
+        "example": "The rice is wrapped in leaves before it is steamed."
+      },
+      {
+        "target": "past simple",
+        "why": "Retell learning a family dish from another generation.",
+        "example": "My uncle taught me to make our festival soup."
+      },
+      {
+        "target": "reported speech",
+        "why": "Share a family member's account of a recipe's history.",
+        "example": "Grandma said her mother used a different spice."
       }
     ],
     "levels": {
@@ -29590,19 +29590,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Cleaning as you go makes the last step easier."
+        "target": "conditional",
+        "why": "Explain how a cooking choice changes the result.",
+        "example": "If we cook the vegetables too long, they will become soft."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which cooking skill would you teach a beginner first?"
+        "target": "present perfect",
+        "why": "Describe practical kitchen skills you have learned.",
+        "example": "I have learned to chop onions without cutting my fingers."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Compare safe knife choices.",
-        "example": "A sharp knife can be safer than a dull one when used carefully."
+        "target": "passive voice",
+        "why": "Explain a preparation step without naming the cook.",
+        "example": "The vegetables are washed before they are chopped."
       }
     ],
     "levels": {
@@ -29804,19 +29804,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Small daily conversations offer repeated practice."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Would you practice with a conversation partner or recording?"
-      },
-      {
         "target": "present perfect continuous",
-        "why": "Describe ongoing language practice.",
-        "example": "I have been practicing English with my cousin for months."
+        "why": "Describe ongoing practice in a new language.",
+        "example": "I have been practicing Spanish with my cousin since June."
+      },
+      {
+        "target": "present perfect",
+        "why": "Reflect on progress toward a language goal.",
+        "example": "I have learned enough phrases to order a meal."
+      },
+      {
+        "target": "reported speech",
+        "why": "Relay helpful advice from a language partner.",
+        "example": "My partner told me to explain the word another way."
       }
     ],
     "levels": {
@@ -30018,19 +30018,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Watching before acting helps avoid an awkward mistake."
+        "target": "conditional",
+        "why": "Explain how you would act when a custom is unfamiliar.",
+        "example": "If I were unsure about a greeting, I would ask my host."
       },
       {
         "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "What would you ask before visiting an unfamiliar home?"
+        "why": "Ask a host about local visiting customs.",
+        "example": "What do visitors usually bring when they visit your home?"
       },
       {
-        "target": "relative clause",
-        "why": "Explain how greetings change across places.",
-        "example": "A greeting that feels polite in one place may feel distant elsewhere."
+        "target": "reported speech",
+        "why": "Report advice about behaving respectfully on a trip.",
+        "example": "Our guide told us to ask before taking photos."
       }
     ],
     "levels": {
@@ -30232,19 +30232,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Children often learn by helping with preparations."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which local custom would you teach a newcomer?"
-      },
-      {
         "target": "reported speech",
-        "why": "Retell a family memory of a festival.",
-        "example": "Grandma said the parade began when she was a child."
+        "why": "Retell an elder's explanation of a local celebration.",
+        "example": "Our neighbor said the parade began as a small village event."
+      },
+      {
+        "target": "passive voice",
+        "why": "Describe how a custom is passed between generations.",
+        "example": "The festival songs are taught to children by older relatives."
+      },
+      {
+        "target": "past simple",
+        "why": "Describe an occasion when you joined a local custom.",
+        "example": "We helped decorate the street before the festival began."
       }
     ],
     "levels": {
