@@ -1100,8 +1100,8 @@
     "note": "Hosts name planets, the Milky Way and other orbiting objects as claimed; it is a playlist introduction rather than a developed tour."
   },
   "hooks-library.json/hook-r2-TQgRIJdp2c0": {
-    "status": "mismatch",
-    "note": "Evidence: The full cache demonstrates a homemade lava lamp using oil, water, colouring and salt; eggs only appear in the closing introduction to the next videos. Suggested action: Retitle to Homemade Lava Lamp and rewrite the description."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full cache demonstrates a homemade lava lamp using oil, water, colouring and salt; eggs only appear in the closing introduction to the next videos. Changed fields: title, summary, topicTags, description, hidden, hiddenNote. Video identity and duration preserved."
   },
   "hooks-library.json/hook-r2-i7zpS4RkK2o": {
     "status": "ok",
