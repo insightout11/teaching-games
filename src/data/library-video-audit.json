@@ -4,8 +4,8 @@
     "note": "Epicurus, tranquility and modest versus elaborate pleasures explain hedonism as claimed."
   },
   "bbc-ideas-library.json/bbcideas_philosophy_absurdism": {
-    "status": "partial",
-    "note": "Evidence: The full cache explains Camus, meaningless existence and absurd theatre, but never gives the promised Sisyphus example. Suggested action: Rewrite the description around Camus and the theatre of the absurd."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full cache explains Camus, meaningless existence and absurd theatre, but never gives the promised Sisyphus example. Changed fields: description. Video identity and duration preserved."
   },
   "bbc-ideas-library.json/bbcideas_sports_psychology": {
     "status": "ok",
@@ -24,16 +24,16 @@
     "note": "Reading immersion, activated brain areas, mirror neurons and social surrogates match storytelling neuroscience."
   },
   "bbc-ideas-library.json/bbcideas_power_of_kindness": {
-    "status": "level-off",
-    "note": "Evidence: The 833-word caption uses reward pathways, cooperative relationships, institutional enabling and abstract community consequences with idiomatic speech, beyond the stored A2/Easy level. Suggested action: Raise to B1 after checking spoken delivery."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The 833-word caption uses reward pathways, cooperative relationships, institutional enabling and abstract community consequences with idiomatic speech, beyond the stored A2/Easy level. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "bbc-ideas-library.json/bbcideas_experience_world_differently": {
     "status": "ok",
     "note": "Brain predictions, shadows and the viral dress explain individual perception as claimed."
   },
   "bbc-ideas-library.json/bbcideas_hidden_clues_personality": {
-    "status": "mismatch",
-    "note": "Evidence: The cache discusses DNA, fingerprints, biometrics, government/corporate databases and privacy regulation, rather than personality cues from music, tidiness or walking. Suggested action: Retitle to Biometrics, Personal Data and Privacy and rewrite the description."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The cache discusses DNA, fingerprints, biometrics, government/corporate databases and privacy regulation, rather than personality cues from music, tidiness or walking. Changed fields: title, topicTags, description, hidden, hiddenNote. Video identity and duration preserved."
   },
   "bbc-ideas-library.json/bbcideas_psychology_seduction": {
     "status": "ok",
