@@ -2160,5 +2160,240 @@
     "courseId": "skills-speaking",
     "title": "My Stronger Answer",
     "level": "A2"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "Ari is meeting a speaking partner. “Hello, my name is Ari,” he says. His partner asks three questions. “What do you like doing?” Ari likes drawing. “Where do you play?” He plays in the garden. “What food do you like?” He likes rice and beans. His answers are short, but his partner understands him. Ari puts three small pictures on a card. They show his hobby, a place and a meal. He will use this card again later.",
+    "words": [
+      {
+        "word": "partner",
+        "meaning": "someone doing an activity with you"
+      },
+      {
+        "word": "drawing",
+        "meaning": "making pictures with a pencil"
+      },
+      {
+        "word": "garden",
+        "meaning": "a place with plants outside"
+      },
+      {
+        "word": "meal",
+        "meaning": "food eaten at one time"
+      },
+      {
+        "word": "hobby",
+        "meaning": "something you enjoy in your free time"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is the speaker's name?",
+        "a": "Ari"
+      },
+      {
+        "q": "Where does he play?",
+        "a": "in the garden"
+      },
+      {
+        "q": "What food does he like?",
+        "a": "rice and beans"
+      }
+    ],
+    "talk": [
+      "How would you introduce yourself to a new partner?",
+      "What could you say about an activity you enjoy?"
+    ],
+    "courseId": "exam-movers-style",
+    "title": "About Me First",
+    "level": "A1"
+  },
+  {
+    "lessonIndex": 1,
+    "text": "Imagine a room with a desk and a chair. A book is on the desk. A green bag is under the chair. Two pencils are beside the book. Kim points to the bag. “I can see a green bag,” she says. Her partner points to the pencils. “There are two,” he says. They take turns naming things and saying where they are. The last object is a clock above the door. Kim names it without help.",
+    "words": [
+      {
+        "word": "desk",
+        "meaning": "a table used for reading or work"
+      },
+      {
+        "word": "beside",
+        "meaning": "next to"
+      },
+      {
+        "word": "under",
+        "meaning": "below something"
+      },
+      {
+        "word": "above",
+        "meaning": "higher than something"
+      },
+      {
+        "word": "clock",
+        "meaning": "something that shows the time"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is on the desk?",
+        "a": "A book"
+      },
+      {
+        "q": "What colour is the bag?",
+        "a": "green"
+      },
+      {
+        "q": "Where is the clock?",
+        "a": "above the door"
+      }
+    ],
+    "talk": [
+      "What objects could you name in a room picture?",
+      "How could you help a partner find one object?"
+    ],
+    "courseId": "exam-movers-style",
+    "title": "Find and Name",
+    "level": "A1"
+  },
+  {
+    "lessonIndex": 2,
+    "text": "Picture a busy park on a warm day. A woman is reading on a bench. Two children are kicking a ball. A man is carrying a red basket. Near the gate, a girl is drinking water. “Who is carrying something?” asks Jay. His partner names the man. Then she asks about the children. Jay says what they are doing. The partners point to one person at a time. Each short answer helps the other see the scene.",
+    "words": [
+      {
+        "word": "bench",
+        "meaning": "a long seat for several people"
+      },
+      {
+        "word": "kicking",
+        "meaning": "hitting something with a foot"
+      },
+      {
+        "word": "basket",
+        "meaning": "a container for carrying things"
+      },
+      {
+        "word": "gate",
+        "meaning": "a door in a fence"
+      },
+      {
+        "word": "scene",
+        "meaning": "the people and things in one view"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Where is the woman reading?",
+        "a": "on a bench"
+      },
+      {
+        "q": "What are the children doing?",
+        "a": "kicking a ball"
+      },
+      {
+        "q": "What is the girl drinking?",
+        "a": "water"
+      }
+    ],
+    "talk": [
+      "What action would you show in your own park picture?",
+      "How would you describe two people doing different things?"
+    ],
+    "courseId": "exam-movers-style",
+    "title": "One Busy Picture",
+    "level": "A1"
+  },
+  {
+    "lessonIndex": 3,
+    "text": "One picture shows a quiet garden. There are flowers and a small pond. Another picture shows a beach with big waves. Bo chooses the garden. “I like the flowers,” she explains. Her partner chooses the beach. “I want to play in the sand,” he says. They listen to both reasons. Bo asks about the waves. Her partner asks about the pond. They do not have to choose the same picture. They can understand each other's choice.",
+    "words": [
+      {
+        "word": "pond",
+        "meaning": "a small area of water"
+      },
+      {
+        "word": "waves",
+        "meaning": "moving lines of water in the sea"
+      },
+      {
+        "word": "sand",
+        "meaning": "small grains found on many beaches"
+      },
+      {
+        "word": "reasons",
+        "meaning": "things explaining why someone chooses"
+      },
+      {
+        "word": "quiet",
+        "meaning": "with little noise"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Which picture does Bo choose?",
+        "a": "the garden"
+      },
+      {
+        "q": "What does Bo like?",
+        "a": "the flowers"
+      },
+      {
+        "q": "Where does her partner want to play?",
+        "a": "in the sand"
+      }
+    ],
+    "talk": [
+      "Which place would you choose, and what would you do there?",
+      "What question could you ask about your partner's choice?"
+    ],
+    "courseId": "exam-movers-style",
+    "title": "Choose a Picture",
+    "level": "A1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Ari brings back his small speaking card. This time, he starts with a full introduction. “Hello, I am Ari. I enjoy drawing animals.” His partner asks about free time. Ari describes making a cat picture with his cousin. She asks where he plays. He names the garden and the ball game. Her last question is about a meal. Ari explains that he helps stir beans at home. His three answers now give useful details. He listens for her next turn.",
+    "words": [
+      {
+        "word": "introduction",
+        "meaning": "first words telling someone who you are"
+      },
+      {
+        "word": "cousin",
+        "meaning": "a child of your aunt or uncle"
+      },
+      {
+        "word": "details",
+        "meaning": "small pieces of information"
+      },
+      {
+        "word": "stir",
+        "meaning": "move a spoon through food"
+      },
+      {
+        "word": "turn",
+        "meaning": "one person's chance to speak or act"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does Ari enjoy drawing?",
+        "a": "animals"
+      },
+      {
+        "q": "Who made a picture with him?",
+        "a": "his cousin"
+      },
+      {
+        "q": "What does Ari help stir?",
+        "a": "beans"
+      }
+    ],
+    "talk": [
+      "What detail could you add to one of your first answers?",
+      "How can you show a partner that you are listening?"
+    ],
+    "courseId": "exam-movers-style",
+    "title": "About Me Again",
+    "level": "A1"
   }
 ]
