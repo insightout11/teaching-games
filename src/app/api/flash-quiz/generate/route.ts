@@ -1,3 +1,4 @@
+import { deckMeaningQuiz } from '@/lib/topic-game-decks';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
@@ -323,6 +324,15 @@ Return JSON:
         );
       }
     } catch { /* cache also failed */ }
+
+    // A banked topic: a word-and-meaning quiz on the lesson's own vocabulary.
+    const meaningQuiz = deckMeaningQuiz(topic, difficulty, questionCount);
+    if (meaningQuiz) {
+      return NextResponse.json(
+        { questions: meaningQuiz, cacheId: null, degraded: true },
+        { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
+      );
+    }
 
     // Final fallback: generic English questions (topic-neutral but language-relevant)
     return NextResponse.json(

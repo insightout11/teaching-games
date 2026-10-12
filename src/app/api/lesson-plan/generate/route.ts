@@ -6,7 +6,7 @@ import { fallbackGist, isKidsLevel, listeningWindow, packBlackBox, packStaticRou
 import { fallbackSayItAgain } from '@/lib/say-it-again';
 import { fallbackPassTheLine, validPassTheLine } from '@/lib/pass-the-line';
 import { fallbackQuickFire } from '@/lib/quick-fire';
-import { deckHotSeatCards, deckTabooRounds } from '@/lib/topic-game-decks';
+import { deckHotSeatCards, deckImposterRounds, deckTabooRounds } from '@/lib/topic-game-decks';
 import { bankSituationFor, fallbackSpeakSituation, speakSituationIsTalk, validSpeakSituation } from '@/lib/speak-check';
 import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-announcement/content';
 import { NextRequest, NextResponse } from 'next/server';
@@ -2847,6 +2847,9 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word", "descr
     void storeCachedContent('imposter', topic, difficulty, { rounds }, 2, variant);
     return { activityKey: 'imposter', topicContext: topic, rounds, topic };
   } catch {
+    // A banked topic has its own rounds: use them before any filler.
+    const deckRounds = deckImposterRounds(topic, difficulty);
+    if (deckRounds) return { activityKey: 'imposter', topicContext: topic, rounds: deckRounds, topic };
     const fallback: ImposterRound[] = [
       { word: 'classroom', description: 'A room in a school where students gather to learn.', hint: 'at school', crewQuestion: 'What do you like to do at the weekend?', imposterQuestion: 'What do you do after school?' },
       { word: 'notebook', description: 'A small book with blank or lined pages used for writing notes.', hint: 'in your bag', crewQuestion: 'What would you take to a desert island?', imposterQuestion: 'What do you always carry with you?' },
@@ -3119,6 +3122,9 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "co
     void storeCachedContent('bluff-definition', topic, difficulty, { rounds }, 1, variant);
     return { activityKey: 'bluff-definition', topicContext: topic, rounds, topic };
   } catch {
+    // A banked topic: its own words and meanings, not three fixed linguistics terms.
+    const deckWords = (deckTabooRounds(topic, difficulty, 3) ?? []).filter((round) => round.description);
+    if (deckWords.length === 3) return { activityKey: 'bluff-definition', topicContext: topic, rounds: deckWords.map((round) => ({ word: round.word, correctDefinition: round.description })), topic };
     const fallback: BluffDefinitionRound[] = [
       { word: 'lexicon', correctDefinition: 'The vocabulary of a person, language, or branch of knowledge.' },
       { word: 'syntax', correctDefinition: 'The set of rules governing how words are arranged to form sentences.' },
@@ -3180,6 +3186,8 @@ Return JSON: { "rounds": [{ "word": string, "description": string, "forbiddenWor
     void storeCachedContent('taboo-sprint', topic, difficulty, { rounds }, 2, variant);
     return { activityKey: 'taboo-sprint', topicContext: topic, rounds, topic };
   } catch {
+    const deckRounds = deckTabooRounds(topic, difficulty);
+    if (deckRounds) return { activityKey: 'taboo-sprint', topicContext: topic, rounds: deckRounds, topic };
     const fallback: TabooRound[] = [
       { word: 'communicate', description: 'To share information or ideas with others.', forbiddenWords: ['talk', 'speak', 'tell', 'say'] },
       { word: 'strategy', description: 'A plan designed to achieve a long-term goal.', forbiddenWords: ['plan', 'method', 'approach', 'idea'] },
