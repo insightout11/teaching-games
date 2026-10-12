@@ -17,3 +17,7 @@ Authored 30 entries after reading all 15 cached video transcripts and all 15 les
 ## Batch 2: London, New York, Cairo, Dubai, Sydney
 
 Authored 30 more entries (60 total) from all six lesson materials per city. Important source mismatch: `london/chinatown-restaurant-video` captions explicitly refer to Excellent Dumpling House at 111 Lafayette Street and American customers, not a London restaurant. Its entry is marked thin and describes the lease/community mechanism without making a London-specific claim. No destination definition was changed. Partial checks pass with zero failures.
+
+## Batch 3: Beijing, Shanghai, Berlin, Moscow, Istanbul
+
+Authored 30 more entries (90 total) and read all corresponding texts/captions. Thin flags identify Beijing’s heavily garbled hutong captions, Shanghai’s sightseeing montage and literary plot overview (little city-specific mechanism), and Moscow’s tower vlog with tentative explanations. Moscow’s lesson labelled city history actually contains a modern tower tour; evidence follows the captions rather than the title. Inferred limits are explicitly flagged, including winter upkeep and ceremonial building interpretation. Partial checks pass.

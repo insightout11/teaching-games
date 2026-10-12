@@ -604,5 +604,316 @@
       "water",
       "daily life"
     ]
+  },
+  "beijing/city-history-video": {
+    "keyIdea": "Beijing's different rulers left major buildings that still connect the modern capital with earlier centers of political power.",
+    "tradeoff": "Keeping old sites means deciding how they fit within a changing modern city.",
+    "designUse": "Show successive periods of government through surviving buildings and nearby public explanations.",
+    "investigationTags": [
+      "history",
+      "heritage",
+      "government"
+    ],
+    "tradeoffInferred": true
+  },
+  "beijing/hutong-culture-video": {
+    "keyIdea": "Beijing's hutong lanes lead between courtyard homes, keeping older neighborhood life visible beside the modern city.",
+    "tradeoff": "Population growth puts pressure on old neighborhoods and their shared spaces.",
+    "designUse": "Keep courtyard routes usable for residents as well as interested visitors.",
+    "investigationTags": [
+      "heritage",
+      "neighborhoods",
+      "urban change"
+    ],
+    "thin": true
+  },
+  "beijing/subway-system-video": {
+    "keyIdea": "Beijing's subway uses English signs and announcements to help foreign passengers find routes, tickets, and connections.",
+    "tradeoff": "The system can still feel difficult to use during crowded rush hours.",
+    "designUse": "Repeat clear language support from station entrances through platforms and trains.",
+    "investigationTags": [
+      "transport",
+      "functional english",
+      "daily life"
+    ]
+  },
+  "beijing/temple-of-heaven-symbols": {
+    "keyIdea": "Beijing's Temple of Heaven uses shapes, colors, and spaces to show ideas about heaven, harvests, and imperial order.",
+    "tradeoff": "These building symbols need explanation if visitors do not know their meanings.",
+    "designUse": "Explain how a place's shapes and colors communicate shared beliefs.",
+    "investigationTags": [
+      "architecture",
+      "religion",
+      "design"
+    ],
+    "tradeoffInferred": true
+  },
+  "beijing/forbidden-city-scale": {
+    "keyIdea": "Beijing's Forbidden City uses gates, walls, and long paths to guide movement and separate people by status.",
+    "tradeoff": "Distance and barriers made important rooms harder to reach for some people.",
+    "designUse": "Check whether gates and paths welcome users or separate them by status.",
+    "investigationTags": [
+      "architecture",
+      "history",
+      "ethics"
+    ]
+  },
+  "beijing/olympic-legacy": {
+    "keyIdea": "Beijing's Olympic preparations linked stadiums, ceremonies, and transport upgrades to shape the city's image for a global audience.",
+    "tradeoff": "Venues still need upkeep and useful roles after visiting crowds leave.",
+    "designUse": "Plan permanent uses for event buildings before designing the opening celebration.",
+    "investigationTags": [
+      "urban planning",
+      "public space",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "shanghai/towers-temples-food-video": {
+    "keyIdea": "A Shanghai visitor combines food, temple visits, and skyline photography, showing several different attractions within one city trip.",
+    "tradeoff": "A short sightseeing visit reveals little about residents' daily routines.",
+    "designUse": "Pair landmark visits with time to hear about everyday local life.",
+    "investigationTags": [
+      "culture",
+      "place"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "shanghai/food-culture-shock-video": {
+    "keyIdea": "Shanghai's restaurant lesson shows how lively meals can express enjoyment, while private rooms offer space for quieter diners.",
+    "tradeoff": "People have different noise limits, so shared enjoyment can still disturb others.",
+    "designUse": "Offer quieter dining areas without treating lively conversation as automatically rude.",
+    "investigationTags": [
+      "food culture",
+      "culture",
+      "ethics"
+    ]
+  },
+  "shanghai/journey-to-the-west-video": {
+    "keyIdea": "Journey to the West combines different religious traditions and follows powerful characters learning through mistakes and shared challenges.",
+    "tradeoff": "The Monkey King's abilities do not protect him from punishment for harmful behavior.",
+    "designUse": "Tell shared stories through characters who change after mistakes and setbacks.",
+    "investigationTags": [
+      "literature",
+      "religion",
+      "culture"
+    ],
+    "thin": true
+  },
+  "shanghai/bund-and-pudong": {
+    "keyIdea": "Shanghai's two riverbanks show different periods of power, with the Bund's trading buildings facing Pudong's newer financial towers.",
+    "tradeoff": "The famous view can hide unequal trade histories and the systems needed by modern towers.",
+    "designUse": "Explain the decisions and resources behind contrasting buildings, beyond their appearance.",
+    "investigationTags": [
+      "history",
+      "architecture",
+      "economics"
+    ]
+  },
+  "shanghai/lilong-shikumen": {
+    "keyIdea": "Shanghai's lane neighborhoods combine private homes with shared outdoor routes used by neighbors, shops, children, and deliveries.",
+    "tradeoff": "Redevelopment can remove homes and daily relationships even when some buildings are preserved.",
+    "designUse": "Retain shared neighborhood routes when updating homes and local services.",
+    "investigationTags": [
+      "neighborhoods",
+      "heritage",
+      "housing"
+    ]
+  },
+  "shanghai/xiaolongbao-food-culture": {
+    "keyIdea": "Shanghai's soup dumplings depend on careful making and service, while diners use a slow routine to eat them.",
+    "tradeoff": "Weak wrappers leak, while thicker wrappers change the texture people expect.",
+    "designUse": "Design food service around skilled preparation and a safe way to eat.",
+    "investigationTags": [
+      "food culture",
+      "daily life",
+      "identity"
+    ]
+  },
+  "berlin/berlin-wall-video": {
+    "keyIdea": "Berlin's border opened when an announcement spread quickly and crowds pressed officials to let people cross.",
+    "tradeoff": "The wall had separated people and prevented many from leaving the eastern city.",
+    "designUse": "Make public travel announcements clear before staff must act on them.",
+    "investigationTags": [
+      "history",
+      "government",
+      "movement"
+    ]
+  },
+  "berlin/public-transport-video": {
+    "keyIdea": "Berlin's night buses replace some weekday subway services, keeping journeys possible when trains stop running.",
+    "tradeoff": "Night journeys may take longer because replacement buses run less often.",
+    "designUse": "Provide a visible backup service when main transport stops for the night.",
+    "investigationTags": [
+      "transport",
+      "functional english"
+    ]
+  },
+  "berlin/berlin-blockade-video": {
+    "keyIdea": "Blocking land and water access to western Berlin forced the city to rely on supplies brought by air.",
+    "tradeoff": "A city loses normal supply routes when another authority can close its access.",
+    "designUse": "Plan alternative supply routes if roads or waterways become unavailable.",
+    "investigationTags": [
+      "history",
+      "transport",
+      "cause and effect"
+    ],
+    "tradeoffInferred": true
+  },
+  "berlin/museum-island": {
+    "keyIdea": "Berlin's Museum Island groups collections in nearby buildings, making one small area a shared place for understanding the past.",
+    "tradeoff": "Museum choices give some histories and explanations more attention than others.",
+    "designUse": "Link nearby collections while making their different histories and ownership visible.",
+    "investigationTags": [
+      "museums",
+      "heritage",
+      "archaeology"
+    ]
+  },
+  "berlin/tempelhofer-feld": {
+    "keyIdea": "Berlin's former airport now gives people a large field for cycling, gardening, games, and meeting friends.",
+    "tradeoff": "Keeping the field open leaves less land available for housing.",
+    "designUse": "Compare shared open-space needs with housing needs before reusing large sites.",
+    "investigationTags": [
+      "public space",
+      "urban planning",
+      "housing"
+    ]
+  },
+  "berlin/memory-language": {
+    "keyIdea": "Berlin's memorials use different forms to make people pause and think about loss, responsibility, and public memory.",
+    "tradeoff": "Choosing which stories receive protection can leave others with less public attention.",
+    "designUse": "Create places for reflection that acknowledge more than one experience of history.",
+    "investigationTags": [
+      "history",
+      "ethics",
+      "heritage"
+    ]
+  },
+  "moscow/city-history-video": {
+    "keyIdea": "Some Moscow City tower plans changed or remained unbuilt when practical features proved difficult to deliver.",
+    "tradeoff": "Striking shapes can require equipment or upkeep that designers have not solved.",
+    "designUse": "Check equipment and winter upkeep before committing to unusual building shapes.",
+    "investigationTags": [
+      "architecture",
+      "engineering",
+      "design"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "moscow/metro-video": {
+    "keyIdea": "Moscow's decorated metro stations use architecture to communicate state power during an ordinary daily journey.",
+    "tradeoff": "The grand scale can make a passenger feel small beneath the state.",
+    "designUse": "Consider what station decoration tells passengers about who the space serves.",
+    "investigationTags": [
+      "transport",
+      "architecture",
+      "identity"
+    ]
+  },
+  "moscow/kremlin-red-square-video": {
+    "keyIdea": "Moscow's Kremlin churches show how religious places can become closely connected with government and national public life.",
+    "tradeoff": "Changes in government can lead to religious suppression and the destruction of sacred places.",
+    "designUse": "Protect sacred places while explaining changing relations between religion and government.",
+    "investigationTags": [
+      "religion",
+      "history",
+      "government"
+    ]
+  },
+  "moscow/river-capital": {
+    "keyIdea": "The Moscow River shaped the city's location and still guides bridges, parks, and routes through the modern capital.",
+    "tradeoff": "Modern transport does not remove the need to plan around the river.",
+    "designUse": "Use a river's course to connect bridges, green edges, and city routes.",
+    "investigationTags": [
+      "water",
+      "geography",
+      "transport"
+    ],
+    "tradeoffInferred": true
+  },
+  "moscow/winter-public-life": {
+    "keyIdea": "Moscow's public places need different lighting, surfaces, shelter, and activities when winter brings cold, ice, and darkness.",
+    "tradeoff": "Snow and ice can limit movement even when outdoor spaces work well in summer.",
+    "designUse": "Test public spaces for safe movement in both warm and cold seasons.",
+    "investigationTags": [
+      "climate",
+      "urban design",
+      "daily life"
+    ]
+  },
+  "moscow/literary-city": {
+    "keyIdea": "Moscow's libraries, theatres, bookshops, and street names can make learning about writers part of life beyond a classroom.",
+    "tradeoff": "Public choices about writers and books can make some histories less visible.",
+    "designUse": "Place opportunities to read and learn about writers along everyday routes.",
+    "investigationTags": [
+      "literature",
+      "heritage",
+      "public space"
+    ]
+  },
+  "istanbul/constantinople-istanbul-video": {
+    "keyIdea": "Istanbul's popular name gained official use through rules that encouraged other countries to adopt it.",
+    "tradeoff": "Other countries kept using the older name, slowing acceptance of the change.",
+    "designUse": "Use official names consistently on maps, notices, and public services.",
+    "investigationTags": [
+      "history",
+      "identity",
+      "government"
+    ]
+  },
+  "istanbul/mosques-architecture-video": {
+    "keyIdea": "Istanbul's Suleymaniye Mosque uses a wide shared interior and many windows to express religious unity through space and light.",
+    "tradeoff": "Its apparently light interior depends on very large structural supports.",
+    "designUse": "Make structural support serve an interior's shared purpose and atmosphere.",
+    "investigationTags": [
+      "architecture",
+      "religion",
+      "engineering"
+    ],
+    "tradeoffInferred": true
+  },
+  "istanbul/two-continents-video": {
+    "keyIdea": "Istanbul's waterway places European and Asian neighborhoods within one city, bringing different histories into the same urban setting.",
+    "tradeoff": "Living across water means movement must bridge the city's divided geography.",
+    "designUse": "Plan crossings that treat both sides of a waterway as one city.",
+    "investigationTags": [
+      "geography",
+      "place",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "istanbul/grand-bazaar-language": {
+    "keyIdea": "Istanbul's Grand Bazaar uses conversation about goods, stories, and prices to build relationships before a sale is agreed.",
+    "tradeoff": "Competition and changing demand can shift risk onto workers and small sellers.",
+    "designUse": "Allow time for product stories and friendly questions before negotiating a price.",
+    "investigationTags": [
+      "functional english",
+      "economics",
+      "culture"
+    ]
+  },
+  "istanbul/ferry-city": {
+    "keyIdea": "Istanbul's ferries make crossing the Bosphorus an ordinary commute as well as a journey through the city's landscape.",
+    "tradeoff": "A fast ferry is less useful if connections or final access are poor.",
+    "designUse": "Link ferry stops with clear onward routes to people's actual destinations.",
+    "investigationTags": [
+      "transport",
+      "water",
+      "daily life"
+    ]
+  },
+  "istanbul/earthquake-readiness": {
+    "keyIdea": "Istanbul's earthquake planning must connect strong buildings, emergency routes, family plans, and services in a dense historic city.",
+    "tradeoff": "Older buildings and dense streets make preparation more difficult across different neighborhoods.",
+    "designUse": "Prepare historic districts through building checks, local instructions, and usable rescue routes.",
+    "investigationTags": [
+      "problem solving",
+      "engineering",
+      "heritage"
+    ]
   }
 }
