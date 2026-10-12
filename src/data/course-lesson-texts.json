@@ -797,5 +797,99 @@
     "courseId": "kids-school",
     "title": "Our Class Guide",
     "level": "A1"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "On the way to the library, Bea sees a baker opening his shop. A tray of bread is beside the door. “How do you help our town?” she asks. “I make food for people,” he replies. Bea writes one sentence in her notebook. She notices a bus driver across the street. The driver helps passengers reach different places. Bea cannot interview everyone today. She chooses the baker for her first helper card. It names his job and one useful action. Later, she hopes to explain his work with a real example. She leaves space under her sentence for a picture and a question.",
+    "words": [
+      {
+        "word": "baker",
+        "meaning": "a person who makes bread and cakes"
+      },
+      {
+        "word": "tray",
+        "meaning": "a flat object for carrying things"
+      },
+      {
+        "word": "passengers",
+        "meaning": "people traveling in a vehicle"
+      },
+      {
+        "word": "action",
+        "meaning": "something a person does"
+      },
+      {
+        "word": "interview",
+        "meaning": "ask someone questions about their life or work"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Where is Bea going?",
+        "a": "the library"
+      },
+      {
+        "q": "Which helper does Bea choose?",
+        "a": "the baker"
+      },
+      {
+        "q": "What does the bus driver help passengers do?",
+        "a": "reach different places"
+      }
+    ],
+    "talk": [
+      "How does one worker help people in a town?",
+      "What would you ask that worker about their day?"
+    ],
+    "courseId": "kids-helpers",
+    "title": "People Who Help",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Bea returns to the bakery with her helper card. Her first sentence said that the baker makes food. Now she has a clearer example. Yesterday, the baker prepared small rolls for a community lunch. He counted them and packed them in clean boxes. The lunch team collected the boxes before the shop became busy. “Your work helped people share a meal,” Bea says. “Thank you.” The baker asks what she will put on her card. Bea describes the job, the people it helps and the useful action. She adds a drawing of the boxes. Her card now explains more than a job name.",
+    "words": [
+      {
+        "word": "bakery",
+        "meaning": "a place where bread is made or sold"
+      },
+      {
+        "word": "prepared",
+        "meaning": "made something ready"
+      },
+      {
+        "word": "community",
+        "meaning": "people living or working in the same area"
+      },
+      {
+        "word": "collected",
+        "meaning": "came and took something away"
+      },
+      {
+        "word": "packed",
+        "meaning": "put things into a container"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What did the baker prepare?",
+        "a": "small rolls"
+      },
+      {
+        "q": "Who collected the boxes?",
+        "a": "the lunch team"
+      },
+      {
+        "q": "What does Bea draw?",
+        "a": "the boxes"
+      }
+    ],
+    "talk": [
+      "What example would show how your chosen helper helps?",
+      "How can you thank someone with a clear reason?"
+    ],
+    "courseId": "kids-helpers",
+    "title": "Thank a Helper",
+    "level": "A2"
   }
 ]

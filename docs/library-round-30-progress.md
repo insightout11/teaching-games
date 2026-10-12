@@ -12,3 +12,4 @@ Texts are written individually for each lesson's topic and flight. Opening and c
 - kids-space: 2 A2 texts; course checker passes. The word counter ignores punctuation-only tokens in dialogue.
 - kids-dinosaurs: 3 A2 texts; course checker passes.
 - kids-school: 3 texts; course checker passes.
+- kids-helpers: 2 texts; course checker passes.
