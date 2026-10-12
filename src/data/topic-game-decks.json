@@ -11,7 +11,8 @@
           "sleep",
           "mouse"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small pet that purrs beside people"
       },
       {
         "word": "kitten",
@@ -21,7 +22,8 @@
           "soft",
           "play"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very young animal with tiny paws"
       },
       {
         "word": "cat treat",
@@ -31,7 +33,8 @@
           "pet",
           "give"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a little snack you give to a pet"
       },
       {
         "word": "box",
@@ -41,7 +44,8 @@
           "hide",
           "paper"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a square container with an open top"
       },
       {
         "word": "sofa",
@@ -51,7 +55,8 @@
           "soft",
           "sit"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft seat that fits several people"
       },
       {
         "word": "purr",
@@ -61,7 +66,8 @@
           "happy",
           "pet"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a low happy sound made in the throat"
       },
       {
         "word": "whiskers",
@@ -71,7 +77,8 @@
           "nose",
           "long"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "long hairs growing beside an animal's nose"
       },
       {
         "word": "claw",
@@ -81,7 +88,8 @@
           "scratch",
           "foot"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sharp curved nail on a foot"
       },
       {
         "word": "fur",
@@ -91,7 +99,8 @@
           "coat",
           "animal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft coat covering an animal's body"
       },
       {
         "word": "cat flap",
@@ -101,7 +110,8 @@
           "inside",
           "pet"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small door pets push through"
       },
       {
         "word": "scratching post",
@@ -111,7 +121,8 @@
           "tall",
           "pet"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall surface pets rake with claws"
       },
       {
         "word": "mouse toy",
@@ -121,7 +132,8 @@
           "small",
           "pet"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tiny plaything shaped like a rodent"
       },
       {
         "word": "litter tray",
@@ -131,7 +143,8 @@
           "clean",
           "pet"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a shallow pan kept for a pet"
       },
       {
         "word": "yarn",
@@ -141,107 +154,130 @@
           "wool",
           "play"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "long soft thread wound into a ball"
       }
     ],
     "hotSeat": [
       {
         "word": "nap",
-        "level": "A1"
+        "level": "A1",
+        "description": "a short rest taken during daytime"
       },
       {
         "word": "sunny window",
-        "level": "A1"
+        "level": "A1",
+        "description": "glass opening where warm light comes in"
       },
       {
         "word": "soft blanket",
-        "level": "A1"
+        "level": "A1",
+        "description": "a warm cover you can wrap around yourself"
       },
       {
         "word": "basket",
-        "level": "A1"
+        "level": "A1",
+        "description": "an open container woven from strips"
       },
       {
         "word": "paw",
-        "level": "A2"
+        "level": "A2",
+        "description": "the soft foot at the end of a leg"
       },
       {
         "word": "collar",
-        "level": "A1"
+        "level": "A1",
+        "description": "a band that fits around an animal's neck"
       },
       {
         "word": "tail",
-        "level": "A1"
+        "level": "A1",
+        "description": "the long part extending behind an animal"
       },
       {
         "word": "tongue",
-        "level": "A2"
+        "level": "A2",
+        "description": "a muscle in your mouth used to taste"
       },
       {
         "word": "cat carrier",
-        "level": "A2"
+        "level": "A2",
+        "description": "a travel box that safely holds a pet"
       },
       {
         "word": "chasing",
-        "level": "A2"
+        "level": "A2",
+        "description": "running after something that moves away"
       },
       {
         "word": "stretching",
-        "level": "A2"
+        "level": "A2",
+        "description": "reaching limbs to make your body feel loose"
       },
       {
         "word": "brushing",
-        "level": "A2"
+        "level": "A2",
+        "description": "using a comb to smooth an animal's coat"
       },
       {
-        "word": "pet carer",
-        "level": "A2"
+        "word": "pet sitter",
+        "level": "A2",
+        "description": "someone who feeds your animal while you are away"
       },
       {
         "word": "hiding",
-        "level": "A1"
+        "level": "A1",
+        "description": "staying where others cannot easily see you"
       }
     ],
     "imposter": [
       {
-        "word": "cat",
-        "decoy": "kitten",
-        "level": "A1"
+        "word": "kitten",
+        "level": "A1",
+        "description": "a very young animal that needs gentle care",
+        "hint": "a young pet",
+        "crewQuestion": "What young animal drinks milk from its mother?",
+        "imposterQuestion": "What young animal follows a mare across a field?"
       },
       {
         "word": "purr",
-        "decoy": "meow",
-        "level": "A2"
-      },
-      {
-        "word": "claw",
-        "decoy": "paw",
-        "level": "A2"
-      },
-      {
-        "word": "fur",
-        "decoy": "whiskers",
-        "level": "A2"
-      },
-      {
-        "word": "cat carrier",
-        "decoy": "cat bed",
-        "level": "A2"
-      },
-      {
-        "word": "scratch",
-        "decoy": "rub",
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft rumbling sound made when content",
+        "hint": "a happy sound",
+        "crewQuestion": "What sound might a relaxed pet make beside you?",
+        "imposterQuestion": "What sound might a dog make when greeting you?"
       },
       {
         "word": "mouse toy",
-        "decoy": "ball",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small plaything shaped like a little rodent",
+        "hint": "a pet toy",
+        "crewQuestion": "What small thing might a house pet chase across a floor?",
+        "imposterQuestion": "What small thing might a dog race to bring back?"
+      },
+      {
+        "word": "cat flap",
+        "level": "A2",
+        "description": "a little door fitted into a larger door",
+        "hint": "a home feature",
+        "crewQuestion": "What opening lets a small pet come inside?",
+        "imposterQuestion": "What opening might a dog use to enter a yard?"
       },
       {
         "word": "litter tray",
-        "decoy": "food bowl",
-        "level": "A2"
+        "level": "A2",
+        "description": "a shallow indoor pan kept for a household pet",
+        "hint": "a pet item",
+        "crewQuestion": "What pan might you clean for an indoor animal?",
+        "imposterQuestion": "What bed might you prepare for an indoor animal?"
+      },
+      {
+        "word": "yarn",
+        "level": "A2",
+        "description": "long soft thread wound into a round bundle",
+        "hint": "a craft material",
+        "crewQuestion": "What soft material might a pet bat across the room?",
+        "imposterQuestion": "What soft material might someone use to knit a scarf?"
       }
     ],
     "twentyQuestions": [
@@ -281,8 +317,8 @@
         "level": "A1"
       },
       {
-        "secret": "chasing",
-        "kind": "activity",
+        "secret": "cat toy",
+        "kind": "thing",
         "level": "A2"
       }
     ]
@@ -299,7 +335,8 @@
           "walk",
           "tail"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a friendly animal that may live with people"
       },
       {
         "word": "puppy",
@@ -309,7 +346,8 @@
           "play",
           "soft"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very young dog that needs care"
       },
       {
         "word": "tail",
@@ -319,7 +357,8 @@
           "long",
           "body"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the long part extending behind an animal"
       },
       {
         "word": "park",
@@ -329,7 +368,8 @@
           "outside",
           "trees"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an open green place where people walk"
       },
       {
         "word": "ball",
@@ -339,7 +379,8 @@
           "catch",
           "play"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round object you can throw or kick"
       },
       {
         "word": "leash",
@@ -349,7 +390,8 @@
           "hold",
           "collar"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a strap held while walking an animal"
       },
       {
         "word": "collar",
@@ -359,7 +401,8 @@
           "pet",
           "round"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a band worn around an animal's neck"
       },
       {
         "word": "kennel",
@@ -369,7 +412,8 @@
           "sleep",
           "pet"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sheltered home where a dog can rest"
       },
       {
         "word": "paw print",
@@ -379,7 +423,8 @@
           "mark",
           "ground"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a mark left by a foot on soft ground"
       },
       {
         "word": "bark",
@@ -389,7 +434,8 @@
           "pet",
           "voice"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sharp sound a dog makes"
       },
       {
         "word": "fetch",
@@ -399,7 +445,8 @@
           "ball",
           "run"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "to go and bring something back"
       },
       {
         "word": "wagging",
@@ -409,7 +456,8 @@
           "happy",
           "back"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "moving from side to side when pleased"
       },
       {
         "word": "dog biscuit",
@@ -419,7 +467,8 @@
           "eat",
           "crunchy"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a crunchy snack made for a pet"
       },
       {
         "word": "vet",
@@ -429,107 +478,130 @@
           "sick",
           "help"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a doctor who cares for animals"
       }
     ],
     "hotSeat": [
       {
         "word": "fur",
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft coat covering an animal's body"
       },
       {
         "word": "nose",
-        "level": "A1"
+        "level": "A1",
+        "description": "the part of a face used for smelling"
       },
       {
         "word": "water bowl",
-        "level": "A1"
+        "level": "A1",
+        "description": "a dish an animal drinks from"
       },
       {
         "word": "dog bed",
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft place where an animal can sleep"
       },
       {
         "word": "sit",
-        "level": "A1"
+        "level": "A1",
+        "description": "to rest with your body on a chair"
       },
       {
         "word": "name tag",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small label showing a person's or pet's name"
       },
       {
         "word": "guard dog",
-        "level": "A2"
+        "level": "A2",
+        "description": "an animal trained to watch a place"
       },
       {
         "word": "guide dog",
-        "level": "A2"
+        "level": "A2",
+        "description": "a trained helper that leads a person"
       },
       {
         "word": "muddy paws",
-        "level": "A2"
+        "level": "A2",
+        "description": "dirty feet left after walking through wet ground"
       },
       {
         "word": "dog brush",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool with bristles used to smooth a coat"
       },
       {
         "word": "dog trainer",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who teaches an animal useful actions"
       },
       {
         "word": "waiting",
-        "level": "A1"
+        "level": "A1",
+        "description": "staying still until something is ready"
       },
       {
         "word": "digging",
-        "level": "A2"
+        "level": "A2",
+        "description": "moving soil with paws or a small tool"
       },
       {
         "word": "greeting",
-        "level": "A2"
+        "level": "A2",
+        "description": "friendly words or actions when people meet"
       }
     ],
     "imposter": [
       {
-        "word": "dog",
-        "decoy": "puppy",
-        "level": "A1"
+        "word": "puppy",
+        "level": "A1",
+        "description": "a very young dog that plays and learns",
+        "hint": "a young animal",
+        "crewQuestion": "What young animal might chew a toy at home?",
+        "imposterQuestion": "What young animal might follow a cat around?"
       },
       {
         "word": "bark",
-        "decoy": "howl",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sharp sound a dog makes to get attention",
+        "hint": "an animal sound",
+        "crewQuestion": "What sound might you hear outside a house?",
+        "imposterQuestion": "What sound might you hear from a bird in a tree?"
       },
       {
         "word": "leash",
-        "decoy": "harness",
-        "level": "A2"
+        "level": "A2",
+        "description": "a long strap held while walking a pet",
+        "hint": "a walking item",
+        "crewQuestion": "What might someone hold while walking a dog?",
+        "imposterQuestion": "What might someone hold while guiding a horse?"
       },
       {
         "word": "kennel",
-        "decoy": "dog bed",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sheltered place where a dog can rest",
+        "hint": "an animal home",
+        "crewQuestion": "Where might a dog sleep when outside?",
+        "imposterQuestion": "Where might a horse sleep at night?"
       },
       {
         "word": "nose",
-        "decoy": "ear",
-        "level": "A1"
+        "level": "A1",
+        "description": "the part of a face used for smelling",
+        "hint": "a body part",
+        "crewQuestion": "Which body part helps a dog find a scent?",
+        "imposterQuestion": "Which body part helps a cat hear a sound?"
       },
       {
-        "word": "fetch",
-        "decoy": "chasing",
-        "level": "A2"
-      },
-      {
-        "word": "dog brush",
-        "decoy": "comb",
-        "level": "A2"
-      },
-      {
-        "word": "sitting",
-        "decoy": "lying down",
-        "level": "A1"
+        "word": "dog biscuit",
+        "level": "A2",
+        "description": "a crunchy snack made for a household animal",
+        "hint": "a pet snack",
+        "crewQuestion": "What might you give a dog after it follows a command?",
+        "imposterQuestion": "What might you give a horse after a ride?"
       }
     ],
     "twentyQuestions": [
@@ -564,8 +636,8 @@
         "level": "A2"
       },
       {
-        "secret": "fetch",
-        "kind": "activity",
+        "secret": "dog park",
+        "kind": "place",
         "level": "A2"
       },
       {
@@ -587,7 +659,8 @@
           "animal",
           "farm"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small horse that children may ride"
       },
       {
         "word": "foal",
@@ -597,7 +670,8 @@
           "legs",
           "young"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very young horse that stays near its mother"
       },
       {
         "word": "hay",
@@ -607,7 +681,8 @@
           "food",
           "eat"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "dry cut grass often given to farm animals"
       },
       {
         "word": "farm",
@@ -617,7 +692,8 @@
           "home",
           "work"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where animals and crops are kept"
       },
       {
         "word": "stable",
@@ -627,7 +703,8 @@
           "animal",
           "door"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a building where a horse rests at night"
       },
       {
         "word": "mane",
@@ -637,7 +714,8 @@
           "long",
           "brush"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "long hair growing along an animal's neck"
       },
       {
         "word": "hoof",
@@ -647,7 +725,8 @@
           "ground",
           "step"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the hard foot at the end of a horse's leg"
       },
       {
         "word": "saddle",
@@ -657,7 +736,8 @@
           "ride",
           "leather"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a seat placed on an animal before a ride"
       },
       {
         "word": "reins",
@@ -667,7 +747,8 @@
           "ride",
           "rope"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "straps used to guide an animal while riding"
       },
       {
         "word": "gallop",
@@ -677,7 +758,8 @@
           "legs",
           "field"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "to move quickly with long, steady steps"
       },
       {
         "word": "trot",
@@ -687,7 +769,8 @@
           "ride",
           "slow"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "to move at a gentle two-beat pace"
       },
       {
         "word": "horseshoe",
@@ -697,7 +780,8 @@
           "protect",
           "bend"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a curved metal shoe fitted under a foot"
       },
       {
         "word": "bridle",
@@ -707,7 +791,8 @@
           "ride",
           "straps"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "straps and pieces worn around an animal's head"
       },
       {
         "word": "horse cart",
@@ -717,107 +802,130 @@
           "road",
           "carry"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small wheeled vehicle pulled by an animal"
       }
     ],
     "hotSeat": [
       {
         "word": "horse",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large animal that people can ride"
       },
       {
         "word": "riding",
-        "level": "A1"
+        "level": "A1",
+        "description": "sitting on an animal while it moves"
       },
       {
         "word": "tail",
-        "level": "A1"
+        "level": "A1",
+        "description": "the long part extending behind an animal"
       },
       {
         "word": "brush",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool with short hairs for cleaning"
       },
       {
         "word": "pasture",
-        "level": "A2"
+        "level": "A2",
+        "description": "a grassy field where farm animals feed"
       },
       {
         "word": "rider",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who sits on an animal"
       },
       {
         "word": "jumping",
-        "level": "A1"
+        "level": "A1",
+        "description": "pushing yourself up into the air"
       },
       {
         "word": "water trough",
-        "level": "A2"
+        "level": "A2",
+        "description": "a long container animals drink from"
       },
       {
         "word": "groom",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who washes and brushes animals"
       },
       {
         "word": "saddlebag",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small pack fixed beside a riding seat"
       },
       {
         "word": "mounting",
-        "level": "A2"
+        "level": "A2",
+        "description": "getting onto an animal before a ride"
       },
       {
         "word": "neigh",
-        "level": "A2"
+        "level": "A2",
+        "description": "a high call made by a horse"
       },
       {
         "word": "horse race",
-        "level": "A2"
+        "level": "A2",
+        "description": "a contest where riders try to finish first"
       },
       {
         "word": "feeding",
-        "level": "A1"
+        "level": "A1",
+        "description": "giving food to a person or animal"
       }
     ],
     "imposter": [
       {
         "word": "pony",
-        "decoy": "horse",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small horse that can carry a rider",
+        "hint": "a farm animal",
+        "crewQuestion": "Which animal might a child ride around a field?",
+        "imposterQuestion": "Which animal might pull a cart along a road?"
       },
       {
         "word": "foal",
-        "decoy": "calf",
-        "level": "A2"
+        "level": "A1",
+        "description": "a young horse that stays close to its mother",
+        "hint": "a young animal",
+        "crewQuestion": "What young animal may stand on long legs soon after birth?",
+        "imposterQuestion": "What young animal may follow a cow through a field?"
       },
       {
         "word": "trot",
-        "decoy": "gallop",
-        "level": "A2"
+        "level": "A2",
+        "description": "a steady pace between walking and running",
+        "hint": "a way to move",
+        "crewQuestion": "What pace might a horse use on a gentle ride?",
+        "imposterQuestion": "What pace might a dog use while following its owner?"
       },
       {
         "word": "saddle",
-        "decoy": "blanket",
-        "level": "A2"
+        "level": "A2",
+        "description": "a padded seat placed on an animal's back",
+        "hint": "a riding item",
+        "crewQuestion": "What item helps a rider sit securely on a horse?",
+        "imposterQuestion": "What item helps a cyclist sit on a bicycle?"
       },
       {
         "word": "reins",
-        "decoy": "leash",
-        "level": "A2"
+        "level": "A2",
+        "description": "straps a rider holds to guide an animal",
+        "hint": "a riding item",
+        "crewQuestion": "What straps help a rider guide a horse left or right?",
+        "imposterQuestion": "What handle might guide a bicycle around a corner?"
       },
       {
         "word": "stable",
-        "decoy": "barn",
-        "level": "A2"
-      },
-      {
-        "word": "hay",
-        "decoy": "grass",
-        "level": "A1"
-      },
-      {
-        "word": "hoof",
-        "decoy": "paw",
-        "level": "A2"
+        "level": "A2",
+        "description": "a building where horses are kept and cared for",
+        "hint": "a farm building",
+        "crewQuestion": "Where might a horse sleep after a long ride?",
+        "imposterQuestion": "Where might a cow stay during a cold night?"
       }
     ],
     "twentyQuestions": [
@@ -852,8 +960,8 @@
         "level": "A1"
       },
       {
-        "secret": "riding",
-        "kind": "activity",
+        "secret": "horse cart",
+        "kind": "thing",
         "level": "A1"
       },
       {
@@ -875,7 +983,8 @@
           "grey",
           "nose"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very large animal with a long nose"
       },
       {
         "word": "calf",
@@ -885,7 +994,8 @@
           "young",
           "small"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a young animal that stays close to its mother"
       },
       {
         "word": "mud",
@@ -895,7 +1005,8 @@
           "ground",
           "dirty"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "soft wet ground found after heavy rain"
       },
       {
         "word": "grass",
@@ -905,7 +1016,8 @@
           "eat",
           "field"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a green plant animals may eat in a field"
       },
       {
         "word": "trunk",
@@ -915,7 +1027,8 @@
           "water",
           "lift"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long flexible nose used to lift things"
       },
       {
         "word": "tusk",
@@ -925,7 +1038,8 @@
           "long",
           "mouth"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "two hard white points beside an animal's mouth"
       },
       {
         "word": "herd",
@@ -935,7 +1049,8 @@
           "together",
           "walk"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a group of animals that live and move together"
       },
       {
         "word": "waterhole",
@@ -945,7 +1060,8 @@
           "dry",
           "animals"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a place where animals gather to drink"
       },
       {
         "word": "elephant ear",
@@ -955,7 +1071,8 @@
           "head",
           "flap"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large flap of skin beside an animal's head"
       },
       {
         "word": "heavy step",
@@ -965,7 +1082,8 @@
           "walk",
           "weight"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a strong footstep that presses into the ground"
       },
       {
         "word": "banana",
@@ -975,7 +1093,8 @@
           "eat",
           "peel"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a long yellow fruit with a soft middle"
       },
       {
         "word": "bathing",
@@ -985,7 +1104,8 @@
           "pool",
           "cool"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "getting clean by using water or mud"
       },
       {
         "word": "dust bath",
@@ -995,7 +1115,8 @@
           "skin",
           "throw"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "fine dry earth brushed over an animal"
       },
       {
         "word": "tree shade",
@@ -1005,107 +1126,130 @@
           "rest",
           "leaves"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cool place under branches on a hot day"
       }
     ],
     "hotSeat": [
       {
         "word": "wrinkled skin",
-        "level": "A2"
+        "level": "A2",
+        "description": "skin with many small folds across its surface"
       },
       {
         "word": "long nose",
-        "level": "A1"
+        "level": "A1",
+        "description": "a body part used to smell and breathe"
       },
       {
-        "word": "feeding time",
-        "level": "A1"
+        "word": "trumpet",
+        "level": "A1",
+        "description": "a loud call made by a large animal"
       },
       {
         "word": "river bank",
-        "level": "A1"
+        "level": "A1",
+        "description": "sloped ground beside a flowing stream"
       },
       {
         "word": "mother elephant",
-        "level": "A1"
+        "level": "A1",
+        "description": "an adult female that cares for her young"
       },
       {
-        "word": "trunk tip",
-        "level": "A2"
+        "word": "ear",
+        "level": "A2",
+        "description": "the body part that catches sounds"
       },
       {
-        "word": "raised foot",
-        "level": "A2"
+        "word": "large foot",
+        "level": "A2",
+        "description": "a big lower part used for standing"
       },
       {
-        "word": "muddy back",
-        "level": "A2"
+        "word": "mud bath",
+        "level": "A2",
+        "description": "a shallow area where animals roll"
       },
       {
-        "word": "plant eater",
-        "level": "A2"
+        "word": "branch",
+        "level": "A2",
+        "description": "a woody part growing from a tree"
       },
       {
-        "word": "elephant keeper",
-        "level": "A2"
+        "word": "zookeeper",
+        "level": "A2",
+        "description": "a person who cares for animals at a zoo"
       },
       {
-        "word": "walking herd",
-        "level": "A2"
+        "word": "family",
+        "level": "A2",
+        "description": "parents and young animals that stay close"
       },
       {
-        "word": "big foot",
-        "level": "A1"
+        "word": "tooth",
+        "level": "A1",
+        "description": "a hard white part inside the mouth"
       },
       {
         "word": "drinking",
-        "level": "A1"
+        "level": "A1",
+        "description": "taking liquid into your mouth"
       },
       {
-        "word": "lifting a log",
-        "level": "A2"
+        "word": "log",
+        "level": "A1",
+        "description": "a thick piece of a tree trunk"
       }
     ],
     "imposter": [
       {
         "word": "trunk",
-        "decoy": "hose",
-        "level": "A2"
+        "level": "A2",
+        "description": "a long flexible nose used for many tasks",
+        "hint": "a body part",
+        "crewQuestion": "What body part can lift food into an animal's mouth?",
+        "imposterQuestion": "What body part can spray water over an animal?"
       },
       {
         "word": "calf",
-        "decoy": "foal",
-        "level": "A1"
+        "level": "A1",
+        "description": "a young animal that stays near its mother",
+        "hint": "a young animal",
+        "crewQuestion": "What young animal may hide beside a very large parent?",
+        "imposterQuestion": "What young animal may stand beneath a horse?"
       },
       {
         "word": "tusk",
-        "decoy": "horn",
-        "level": "A2"
-      },
-      {
-        "word": "elephant ear",
-        "decoy": "fan",
-        "level": "A1"
+        "level": "A2",
+        "description": "a long hard point growing beside the mouth",
+        "hint": "an animal feature",
+        "crewQuestion": "What hard point can grow beside a large animal's mouth?",
+        "imposterQuestion": "What hard point can grow above a wild boar's nose?"
       },
       {
         "word": "dust bath",
-        "decoy": "mud bath",
-        "level": "A2"
-      },
-      {
-        "word": "grass",
-        "decoy": "hay",
-        "level": "A1"
+        "level": "A2",
+        "description": "fine dry earth rubbed over skin for cleaning",
+        "hint": "a cleaning method",
+        "crewQuestion": "What might an animal roll in to keep its skin clean?",
+        "imposterQuestion": "What might a bird toss over its feathers to clean them?"
       },
       {
         "word": "herd",
-        "decoy": "family",
-        "level": "A2"
+        "level": "A2",
+        "description": "a group of animals living and travelling together",
+        "hint": "an animal group",
+        "crewQuestion": "What do you call several large animals moving as one group?",
+        "imposterQuestion": "What do you call a group of sheep moving together?"
       },
       {
-        "word": "elephant",
-        "decoy": "hippo",
-        "level": "A1"
+        "word": "banana",
+        "level": "A1",
+        "description": "a long yellow fruit with a soft middle",
+        "hint": "a fruit",
+        "crewQuestion": "What fruit might a large animal peel with its trunk?",
+        "imposterQuestion": "What fruit might a monkey hold while sitting in a tree?"
       }
     ],
     "twentyQuestions": [
@@ -1135,17 +1279,17 @@
         "level": "A1"
       },
       {
-        "secret": "bathing",
-        "kind": "activity",
+        "secret": "mud bath",
+        "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "elephant keeper",
+        "secret": "zookeeper",
         "kind": "job",
         "level": "A2"
       },
       {
-        "secret": "tree shade",
+        "secret": "shady spot",
         "kind": "place",
         "level": "A1"
       }
@@ -1163,7 +1307,8 @@
           "legs",
           "tree"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very tall animal with a spotted coat"
       },
       {
         "word": "neck",
@@ -1173,7 +1318,8 @@
           "long",
           "bend"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the long part joining a head to a body"
       },
       {
         "word": "spots",
@@ -1183,7 +1329,8 @@
           "marks",
           "pattern"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "small marks covering an animal's coat"
       },
       {
         "word": "leaf",
@@ -1193,7 +1340,8 @@
           "eat",
           "plant"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat green part growing from a plant"
       },
       {
         "word": "tree",
@@ -1203,7 +1351,8 @@
           "branch",
           "shade"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tall plant with a woody trunk"
       },
       {
         "word": "tongue",
@@ -1213,7 +1362,8 @@
           "long",
           "pull"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a muscle used to taste and move food"
       },
       {
         "word": "tall legs",
@@ -1223,7 +1373,8 @@
           "feet",
           "body"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the long lower parts used for standing and walking"
       },
       {
         "word": "thorn",
@@ -1233,7 +1384,8 @@
           "point",
           "hurt"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sharp point on a branch or plant"
       },
       {
         "word": "acacia tree",
@@ -1243,7 +1395,8 @@
           "leaf",
           "food"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall tree with small leaves in Africa"
       },
       {
         "word": "calf",
@@ -1253,7 +1406,8 @@
           "mother",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a young animal that stays beside its mother"
       },
       {
         "word": "bending",
@@ -1263,7 +1417,8 @@
           "drink",
           "ground"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "lowering your body toward the ground"
       },
       {
         "word": "canopy",
@@ -1273,7 +1428,8 @@
           "forest",
           "high"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the upper layer formed by tall branches"
       },
       {
         "word": "neck pattern",
@@ -1283,7 +1439,8 @@
           "brown",
           "marks"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the pattern covering an animal's long neck"
       },
       {
         "word": "long stride",
@@ -1293,107 +1450,130 @@
           "legs",
           "distance"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long step that covers plenty of ground"
       }
     ],
     "hotSeat": [
       {
-        "word": "savanna",
-        "level": "A2"
+        "word": "long grass",
+        "level": "A2",
+        "description": "tall green plants covering an open field"
       },
       {
         "word": "treetop",
-        "level": "A1"
+        "level": "A1",
+        "description": "the highest branches of a tree"
       },
       {
         "word": "hoof",
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard foot at the end of a leg"
       },
       {
-        "word": "browsing",
-        "level": "A2"
+        "word": "feeding",
+        "level": "A2",
+        "description": "taking food from a tree or another place"
       },
       {
-        "word": "small herd",
-        "level": "A2"
+        "word": "herd",
+        "level": "A2",
+        "description": "a group of animals that live and move together"
       },
       {
-        "word": "drinking pool",
-        "level": "A2"
+        "word": "pool",
+        "level": "A1",
+        "description": "a small area filled with still water"
       },
       {
-        "word": "young giraffe",
-        "level": "A1"
+        "word": "baby",
+        "level": "A1",
+        "description": "a very young child or animal"
       },
       {
         "word": "back leg",
-        "level": "A1"
+        "level": "A1",
+        "description": "a limb near the rear of an animal"
       },
       {
         "word": "reaching",
-        "level": "A2"
+        "level": "A2",
+        "description": "stretching an arm or neck toward something"
       },
       {
-        "word": "tail tuft",
-        "level": "A2"
+        "word": "tail",
+        "level": "A2",
+        "description": "the long part extending behind an animal"
       },
       {
         "word": "lookout",
-        "level": "A2"
+        "level": "A2",
+        "description": "a place where someone watches the area"
       },
       {
         "word": "standing",
-        "level": "A1"
+        "level": "A1",
+        "description": "being upright on your feet"
       },
       {
-        "word": "shade patch",
-        "level": "A1"
+        "word": "shade",
+        "level": "A1",
+        "description": "a cool dark area away from direct light"
       },
       {
-        "word": "head bumps",
-        "level": "A2"
+        "word": "horn",
+        "level": "A2",
+        "description": "a hard point that grows on an animal's head"
       }
     ],
     "imposter": [
       {
         "word": "giraffe",
-        "decoy": "zebra",
-        "level": "A1"
+        "level": "A1",
+        "description": "a very tall animal with a spotted coat",
+        "hint": "a wild animal",
+        "crewQuestion": "Which animal reaches high leaves with its long neck?",
+        "imposterQuestion": "Which animal stretches its nose toward branches for food?"
       },
       {
         "word": "leaf",
-        "decoy": "grass",
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat green part growing from a plant",
+        "hint": "a plant part",
+        "crewQuestion": "What green part might an animal eat from a branch?",
+        "imposterQuestion": "What green food might a rabbit nibble near the ground?"
       },
       {
         "word": "neck",
-        "decoy": "leg",
-        "level": "A1"
+        "level": "A1",
+        "description": "the body part joining your head to your shoulders",
+        "hint": "a body part",
+        "crewQuestion": "Which body part lets an animal reach high branches?",
+        "imposterQuestion": "Which body part holds a bird's head above its body?"
       },
       {
         "word": "spots",
-        "decoy": "stripes",
-        "level": "A2"
-      },
-      {
-        "word": "treetop",
-        "decoy": "bush",
-        "level": "A1"
+        "level": "A1",
+        "description": "small round marks covering skin or fabric",
+        "hint": "a surface pattern",
+        "crewQuestion": "What pattern covers a giraffe's golden coat?",
+        "imposterQuestion": "What pattern runs across a zebra's black and white coat?"
       },
       {
         "word": "calf",
-        "decoy": "foal",
-        "level": "A2"
+        "level": "A2",
+        "description": "a young animal that stays near its mother",
+        "hint": "a young animal",
+        "crewQuestion": "What young animal may walk beside a tall parent?",
+        "imposterQuestion": "What young animal may trot near a horse?"
       },
       {
         "word": "tongue",
-        "decoy": "tail",
-        "level": "A2"
-      },
-      {
-        "word": "standing",
-        "decoy": "bending",
-        "level": "A1"
+        "level": "A2",
+        "description": "a muscle in your mouth used to taste",
+        "hint": "a body part",
+        "crewQuestion": "What body part can reach leaves on a branch?",
+        "imposterQuestion": "What body part can help an elephant lift food?"
       }
     ],
     "twentyQuestions": [
@@ -1428,13 +1608,13 @@
         "level": "A2"
       },
       {
-        "secret": "acacia tree",
+        "secret": "tree",
         "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "eating leaves",
-        "kind": "activity",
+        "secret": "zookeeper",
+        "kind": "job",
         "level": "A1"
       }
     ]
@@ -1451,7 +1631,8 @@
           "white",
           "horse"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an animal with a striped coat"
       },
       {
         "word": "stripes",
@@ -1461,7 +1642,8 @@
           "pattern",
           "coat"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "long dark lines across a lighter surface"
       },
       {
         "word": "herd",
@@ -1471,7 +1653,8 @@
           "animals",
           "walk"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a group of animals that travel together"
       },
       {
         "word": "grass",
@@ -1481,7 +1664,8 @@
           "eat",
           "field"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "green plants growing across open ground"
       },
       {
         "word": "hoof",
@@ -1491,7 +1675,8 @@
           "ground",
           "step"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard foot at the end of a leg"
       },
       {
         "word": "mane",
@@ -1501,7 +1686,8 @@
           "back",
           "brush"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "long hair growing along an animal's neck"
       },
       {
         "word": "dust",
@@ -1511,7 +1697,8 @@
           "air",
           "brown"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "fine dry earth blown through the air"
       },
       {
         "word": "river",
@@ -1521,7 +1708,8 @@
           "bank",
           "flow"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a long stream of water crossing land"
       },
       {
         "word": "grazing",
@@ -1531,7 +1719,8 @@
           "head",
           "down"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "eating plants while walking in a field"
       },
       {
         "word": "crossing",
@@ -1541,7 +1730,8 @@
           "side",
           "walk"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a marked place where animals pass safely"
       },
       {
         "word": "calf",
@@ -1551,7 +1741,8 @@
           "mother",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a young animal that stays near its mother"
       },
       {
         "word": "watering hole",
@@ -1561,7 +1752,8 @@
           "animals",
           "dry"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a pool where wild animals come to drink"
       },
       {
         "word": "long face",
@@ -1571,7 +1763,8 @@
           "eyes",
           "shape"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a shape with a stretched muzzle"
       },
       {
         "word": "wild horse",
@@ -1581,107 +1774,130 @@
           "field",
           "animal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a horse that lives freely outdoors"
       }
     ],
     "hotSeat": [
       {
-        "word": "savanna",
-        "level": "A2"
+        "word": "grassland",
+        "level": "A2",
+        "description": "a wide open place covered with grass"
       },
       {
         "word": "foal",
-        "level": "A2"
+        "level": "A2",
+        "description": "a young horse that stays near its mother"
       },
       {
-        "word": "tail tip",
-        "level": "A2"
+        "word": "belly",
+        "level": "A1",
+        "description": "the soft underside of an animal’s body"
       },
       {
-        "word": "zebra mother",
-        "level": "A1"
+        "word": "mother",
+        "level": "A1",
+        "description": "a female parent who cares for young"
       },
       {
-        "word": "running herd",
-        "level": "A2"
+        "word": "family",
+        "level": "A2",
+        "description": "parents and young animals that stay close"
       },
       {
-        "word": "ear twitch",
-        "level": "A2"
+        "word": "ears",
+        "level": "A1",
+        "description": "body parts that catch sounds"
       },
       {
-        "word": "muddy hoof",
-        "level": "A2"
+        "word": "mud",
+        "level": "A1",
+        "description": "soft wet earth found after rain"
       },
       {
-        "word": "open plain",
-        "level": "A2"
+        "word": "field",
+        "level": "A1",
+        "description": "an open area of land with grass"
       },
       {
-        "word": "shade tree",
-        "level": "A1"
+        "word": "shade",
+        "level": "A1",
+        "description": "a cool dark place away from sunlight"
       },
       {
-        "word": "alert ears",
-        "level": "A2"
+        "word": "snort",
+        "level": "A2",
+        "description": "a short loud breath through the nose"
       },
       {
-        "word": "drinking turn",
-        "level": "A2"
+        "word": "waterhole",
+        "level": "A2",
+        "description": "a pool where animals gather to drink"
       },
       {
-        "word": "warning snort",
-        "level": "A2"
+        "word": "leg",
+        "level": "A2",
+        "description": "the long part between a body and foot"
       },
       {
-        "word": "hoof step",
-        "level": "A1"
+        "word": "runner",
+        "level": "A1",
+        "description": "a person or animal moving at speed"
       },
       {
-        "word": "running",
-        "level": "A1"
+        "word": "galloping",
+        "level": "A2",
+        "description": "moving quickly with a strong bouncing pace"
       }
     ],
     "imposter": [
       {
         "word": "zebra",
-        "decoy": "horse",
-        "level": "A1"
+        "level": "A1",
+        "description": "a wild animal with a coat of stripes",
+        "hint": "a wild animal",
+        "crewQuestion": "Which animal has black and white stripes?",
+        "imposterQuestion": "Which animal has black and white spots?"
       },
       {
         "word": "stripes",
-        "decoy": "spots",
-        "level": "A2"
-      },
-      {
-        "word": "hoof",
-        "decoy": "paw",
-        "level": "A2"
-      },
-      {
-        "word": "mane",
-        "decoy": "fur",
-        "level": "A2"
-      },
-      {
-        "word": "river",
-        "decoy": "pond",
-        "level": "A1"
+        "level": "A2",
+        "description": "long dark lines across a lighter surface",
+        "hint": "a coat pattern",
+        "crewQuestion": "What pattern has long dark lines across fur?",
+        "imposterQuestion": "What pattern has small round marks across fur?"
       },
       {
         "word": "herd",
-        "decoy": "flock",
-        "level": "A2"
+        "level": "A2",
+        "description": "a group of animals travelling and feeding together",
+        "hint": "an animal group",
+        "crewQuestion": "What do you call several zebras travelling together?",
+        "imposterQuestion": "What do you call several sheep travelling together?"
       },
       {
-        "word": "foal",
-        "decoy": "calf",
-        "level": "A2"
+        "word": "hoof",
+        "level": "A2",
+        "description": "a hard covering on the end of a leg",
+        "hint": "an animal foot",
+        "crewQuestion": "What hard part does a farrier trim on a horse?",
+        "imposterQuestion": "What hard part might a blacksmith fit under a horse?"
       },
       {
         "word": "grazing",
-        "decoy": "drinking",
-        "level": "A2"
+        "level": "A2",
+        "description": "feeding on plants while standing in a field",
+        "hint": "an animal activity",
+        "crewQuestion": "What do cattle do while eating plants outdoors?",
+        "imposterQuestion": "What do birds do while finding seeds on the ground?"
+      },
+      {
+        "word": "calf",
+        "level": "A2",
+        "description": "a young animal that stays near its mother",
+        "hint": "a young animal",
+        "crewQuestion": "What is a young zebra called?",
+        "imposterQuestion": "What is a young cow called?"
       }
     ],
     "twentyQuestions": [
@@ -1711,13 +1927,13 @@
         "level": "A2"
       },
       {
-        "secret": "shade tree",
-        "kind": "thing",
+        "secret": "shade",
+        "kind": "place",
         "level": "A1"
       },
       {
-        "secret": "grazing",
-        "kind": "activity",
+        "secret": "watering hole",
+        "kind": "place",
         "level": "A2"
       },
       {
@@ -1739,7 +1955,8 @@
           "cat",
           "hair"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large wild cat known for a loud call"
       },
       {
         "word": "cub",
@@ -1749,7 +1966,8 @@
           "mother",
           "small"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a young animal that stays close to its mother"
       },
       {
         "word": "mane",
@@ -1759,7 +1977,8 @@
           "male",
           "head"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "long hair growing around an animal's head"
       },
       {
         "word": "roar",
@@ -1769,7 +1988,8 @@
           "voice",
           "animal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a deep sound made to warn others"
       },
       {
         "word": "lioness",
@@ -1779,7 +1999,8 @@
           "cat",
           "pride"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a female animal of this large cat family"
       },
       {
         "word": "pride",
@@ -1789,7 +2010,8 @@
           "together",
           "animals"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a group of these cats living together"
       },
       {
         "word": "meat",
@@ -1799,7 +2021,8 @@
           "animal",
           "dinner"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "food made from the bodies of animals"
       },
       {
         "word": "paw",
@@ -1809,7 +2032,8 @@
           "claw",
           "step"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the soft foot at the end of a leg"
       },
       {
         "word": "savanna",
@@ -1819,7 +2043,8 @@
           "open",
           "land"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a wide grassy place with scattered trees"
       },
       {
         "word": "shade",
@@ -1829,7 +2054,8 @@
           "rest",
           "tree"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cool dark area away from direct sunlight"
       },
       {
         "word": "hunting",
@@ -1839,7 +2065,8 @@
           "animal",
           "chase"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "chasing animals to catch food"
       },
       {
         "word": "den",
@@ -1849,7 +2076,8 @@
           "baby",
           "inside"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a sheltered place where a wild animal rests"
       },
       {
         "word": "fang",
@@ -1859,7 +2087,8 @@
           "mouth",
           "bite"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long sharp tooth in an animal's mouth"
       },
       {
         "word": "tuft",
@@ -1869,107 +2098,130 @@
           "end",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small hair bundle at the tail’s end"
       }
     ],
     "hotSeat": [
       {
         "word": "sleeping lion",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large cat resting with closed eyes"
       },
       {
         "word": "cave",
-        "level": "A1"
+        "level": "A1",
+        "description": "a dark hollow opening in a rocky hill"
       },
       {
         "word": "dry plain",
-        "level": "A2"
+        "level": "A2",
+        "description": "a wide open area with little rain"
       },
       {
-        "word": "family group",
-        "level": "A1"
+        "word": "family",
+        "level": "A1",
+        "description": "parents and young animals living close"
       },
       {
-        "word": "wide mouth",
-        "level": "A1"
+        "word": "mouth",
+        "level": "A1",
+        "description": "the opening used for eating and speaking"
       },
       {
-        "word": "lion footprint",
-        "level": "A2"
+        "word": "muzzle",
+        "level": "A2",
+        "description": "the front part of an animal’s face"
       },
       {
-        "word": "long whisker",
-        "level": "A2"
+        "word": "whisker",
+        "level": "A2",
+        "description": "a long stiff hair beside an animal's nose"
       },
       {
-        "word": "big teeth",
-        "level": "A1"
+        "word": "teeth",
+        "level": "A1",
+        "description": "hard white parts used for biting food"
       },
       {
-        "word": "watering place",
-        "level": "A2"
+        "word": "waterhole",
+        "level": "A2",
+        "description": "a pool where wild animals come to drink"
       },
       {
         "word": "guarding",
-        "level": "A2"
+        "level": "A2",
+        "description": "watching a place to keep it safe"
       },
       {
-        "word": "night call",
-        "level": "A2"
+        "word": "yawn",
+        "level": "A2",
+        "description": "opening the mouth wide when feeling sleepy"
       },
       {
-        "word": "young male",
-        "level": "A2"
+        "word": "male lion",
+        "level": "A2",
+        "description": "a grown male from this cat family"
       },
       {
         "word": "resting",
-        "level": "A1"
+        "level": "A1",
+        "description": "being still to regain energy"
       },
       {
-        "word": "pounce",
-        "level": "A2"
+        "word": "snarl",
+        "level": "A2",
+        "description": "a short rough warning sound made with teeth"
       }
     ],
     "imposter": [
       {
         "word": "lion",
-        "decoy": "tiger",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large wild cat with a deep roar",
+        "hint": "a wild animal",
+        "crewQuestion": "Which animal may rest in a pride on open land?",
+        "imposterQuestion": "Which animal may rest alone among trees?"
       },
       {
         "word": "cub",
-        "decoy": "kitten",
-        "level": "A1"
+        "level": "A1",
+        "description": "a very young animal that depends on its mother",
+        "hint": "a young animal",
+        "crewQuestion": "What is a young lion called?",
+        "imposterQuestion": "What is a young tiger called?"
       },
       {
         "word": "mane",
-        "decoy": "beard",
-        "level": "A2"
+        "level": "A2",
+        "description": "long hair growing around an animal's head",
+        "hint": "an animal feature",
+        "crewQuestion": "What hair surrounds a male lion's face?",
+        "imposterQuestion": "What hair may grow along a horse's neck?"
       },
       {
         "word": "roar",
-        "decoy": "growl",
-        "level": "A2"
+        "level": "A2",
+        "description": "a loud deep call heard across open ground",
+        "hint": "an animal sound",
+        "crewQuestion": "What sound might a lion make to warn others?",
+        "imposterQuestion": "What sound might a dog make to warn its family?"
       },
       {
         "word": "pride",
-        "decoy": "herd",
-        "level": "A2"
-      },
-      {
-        "word": "fang",
-        "decoy": "claw",
-        "level": "A2"
-      },
-      {
-        "word": "cave",
-        "decoy": "den",
-        "level": "A1"
+        "level": "A2",
+        "description": "a family group of lions living together",
+        "hint": "a cat group",
+        "crewQuestion": "What do you call a family group of lions?",
+        "imposterQuestion": "What do you call a group of wolves?"
       },
       {
         "word": "pounce",
-        "decoy": "chase",
-        "level": "A2"
+        "level": "A2",
+        "description": "jumping suddenly onto something while hunting",
+        "hint": "a hunting action",
+        "crewQuestion": "What might a cat do to catch moving prey?",
+        "imposterQuestion": "What might a bird do to catch a fish?"
       }
     ],
     "twentyQuestions": [
@@ -2004,8 +2256,8 @@
         "level": "A1"
       },
       {
-        "secret": "pounce",
-        "kind": "activity",
+        "secret": "roar",
+        "kind": "thing",
         "level": "A2"
       },
       {
@@ -2027,7 +2279,8 @@
           "black",
           "cat"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large striped cat that lives in forests"
       },
       {
         "word": "stripe",
@@ -2037,7 +2290,8 @@
           "black",
           "pattern"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "one dark line across an animal's coat"
       },
       {
         "word": "big paw",
@@ -2047,7 +2301,8 @@
           "soft",
           "step"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a broad foot with soft pads underneath"
       },
       {
         "word": "jungle",
@@ -2057,7 +2312,8 @@
           "thick",
           "forest"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a thick green place with many trees"
       },
       {
         "word": "pond",
@@ -2067,7 +2323,8 @@
           "swim",
           "pool"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small still pool of water"
       },
       {
         "word": "orange coat",
@@ -2077,7 +2334,8 @@
           "body",
           "black"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "orange hair covering an animal's body"
       },
       {
         "word": "stalking",
@@ -2087,7 +2345,8 @@
           "prey",
           "slow"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "moving quietly while watching something"
       },
       {
         "word": "pounce",
@@ -2097,7 +2356,8 @@
           "legs",
           "quick"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "jumping suddenly onto something while hunting"
       },
       {
         "word": "swimming",
@@ -2107,7 +2367,8 @@
           "pool",
           "legs"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "moving through water using arms or legs"
       },
       {
         "word": "cub",
@@ -2117,7 +2378,8 @@
           "mother",
           "small"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a young animal that stays by its mother"
       },
       {
         "word": "fang",
@@ -2127,7 +2389,8 @@
           "mouth",
           "bite"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long sharp tooth in an animal's mouth"
       },
       {
         "word": "territory",
@@ -2137,7 +2400,8 @@
           "mark",
           "space"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an area an animal treats as its own"
       },
       {
         "word": "claw",
@@ -2147,7 +2411,8 @@
           "paw",
           "scratch"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sharp curved nail on a foot"
       },
       {
         "word": "hiding place",
@@ -2157,107 +2422,130 @@
           "quiet",
           "inside"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a place where someone or something stays hidden"
       }
     ],
     "hotSeat": [
       {
         "word": "leopard",
-        "level": "A2"
+        "level": "A2",
+        "description": "a spotted wild cat that can climb trees"
       },
       {
-        "word": "big cat",
-        "level": "A1"
+        "word": "cat",
+        "level": "A1",
+        "description": "a small animal that may live in a home"
       },
       {
-        "word": "tail tip",
-        "level": "A2"
+        "word": "ear",
+        "level": "A1",
+        "description": "the body part that catches sounds"
       },
       {
-        "word": "long body",
-        "level": "A1"
+        "word": "body",
+        "level": "A1",
+        "description": "the main part that holds arms and legs"
       },
       {
         "word": "walking",
-        "level": "A1"
+        "level": "A1",
+        "description": "moving forward by putting one foot down"
       },
       {
-        "word": "thick forest",
-        "level": "A2"
+        "word": "forest",
+        "level": "A2",
+        "description": "a large area filled with many trees"
       },
       {
-        "word": "river pool",
-        "level": "A1"
+        "word": "river",
+        "level": "A1",
+        "description": "a long stream of water crossing land"
       },
       {
-        "word": "sharp teeth",
-        "level": "A1"
+        "word": "teeth",
+        "level": "A1",
+        "description": "hard white parts used to bite food"
       },
       {
-        "word": "night walk",
-        "level": "A2"
+        "word": "night",
+        "level": "A1",
+        "description": "the dark part of a day after sunset"
       },
       {
-        "word": "scent mark",
-        "level": "A2"
+        "word": "scent",
+        "level": "A2",
+        "description": "a smell that can help an animal find its way"
       },
       {
-        "word": "snowy forest",
-        "level": "A2"
+        "word": "snow",
+        "level": "A1",
+        "description": "soft white flakes falling in cold weather"
       },
       {
-        "word": "tiger keeper",
-        "level": "A2"
+        "word": "zookeeper",
+        "level": "A2",
+        "description": "a person who takes care of animals"
       },
       {
-        "word": "quiet step",
-        "level": "A2"
+        "word": "paw",
+        "level": "A2",
+        "description": "a soft foot with small pads"
       },
       {
-        "word": "shaded pool",
-        "level": "A2"
+        "word": "marsh",
+        "level": "A1",
+        "description": "wet ground where water and plants gather"
       }
     ],
     "imposter": [
       {
         "word": "tiger",
-        "decoy": "lion",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large wild cat covered in dark stripes",
+        "hint": "a wild animal",
+        "crewQuestion": "Which animal swims through a forest pool?",
+        "imposterQuestion": "Which animal climbs a tree to rest?"
       },
       {
         "word": "stripe",
-        "decoy": "spot",
-        "level": "A2"
+        "level": "A2",
+        "description": "a long narrow mark with a different colour",
+        "hint": "a coat pattern",
+        "crewQuestion": "What mark runs down an orange animal's coat?",
+        "imposterQuestion": "What mark forms a dark ring around a tree?"
       },
       {
         "word": "pond",
-        "decoy": "river",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small still area filled with water",
+        "hint": "a water place",
+        "crewQuestion": "What small water place might a tiger swim through?",
+        "imposterQuestion": "What small water place might frogs gather in?"
       },
       {
         "word": "claw",
-        "decoy": "fang",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sharp curved nail at the end of a foot",
+        "hint": "an animal feature",
+        "crewQuestion": "What sharp part helps a wild cat climb?",
+        "imposterQuestion": "What sharp part helps a bear climb?"
       },
       {
         "word": "stalking",
-        "decoy": "running",
-        "level": "A2"
-      },
-      {
-        "word": "jungle",
-        "decoy": "forest",
-        "level": "A1"
-      },
-      {
-        "word": "tiger keeper",
-        "decoy": "vet",
-        "level": "A2"
+        "level": "A2",
+        "description": "moving quietly closer while watching prey",
+        "hint": "a hunting action",
+        "crewQuestion": "What might a tiger do before it jumps at prey?",
+        "imposterQuestion": "What might a fox do before it catches a mouse?"
       },
       {
         "word": "cub",
-        "decoy": "kitten",
-        "level": "A1"
+        "level": "A1",
+        "description": "a young animal that stays near its mother",
+        "hint": "a young animal",
+        "crewQuestion": "What is a young tiger called?",
+        "imposterQuestion": "What is a young lion called?"
       }
     ],
     "twentyQuestions": [
@@ -2315,7 +2603,8 @@
           "black",
           "white"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a black and white bear that eats plants"
       },
       {
         "word": "bear",
@@ -2325,7 +2614,8 @@
           "black",
           "brown"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large strong animal with thick fur"
       },
       {
         "word": "baby panda",
@@ -2335,7 +2625,8 @@
           "young",
           "soft"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very young bear that needs its mother"
       },
       {
         "word": "bamboo",
@@ -2345,7 +2636,8 @@
           "eat",
           "hard"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall grass-like plant eaten by a bear"
       },
       {
         "word": "bamboo shoot",
@@ -2355,7 +2647,8 @@
           "food",
           "plant"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a new green part growing from a plant"
       },
       {
         "word": "black patch",
@@ -2365,7 +2658,8 @@
           "face",
           "white"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a dark patch of colour on light fur"
       },
       {
         "word": "round ear",
@@ -2375,7 +2669,8 @@
           "small",
           "side"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round part on each side of a head"
       },
       {
         "word": "climbing",
@@ -2385,7 +2680,8 @@
           "legs",
           "high"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "going up a tree or steep surface"
       },
       {
         "word": "forest floor",
@@ -2395,7 +2691,8 @@
           "under",
           "trees"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the ground layer beneath tall forest trees"
       },
       {
         "word": "chewing",
@@ -2405,7 +2702,8 @@
           "food",
           "bite"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "biting food again and again before swallowing"
       },
       {
         "word": "den",
@@ -2415,7 +2713,8 @@
           "inside",
           "animal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sheltered place where a wild animal sleeps"
       },
       {
         "word": "snow patch",
@@ -2425,7 +2724,8 @@
           "ground",
           "winter"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small area of white snow on the ground"
       },
       {
         "word": "thick coat",
@@ -2435,7 +2735,8 @@
           "body",
           "soft"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "thick hair covering an animal's body"
       },
       {
         "word": "panda keeper",
@@ -2445,107 +2746,130 @@
           "animal",
           "care"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who takes care of animals"
       }
     ],
     "hotSeat": [
       {
-        "word": "bamboo grove",
-        "level": "A2"
-      },
-      {
-        "word": "hill",
-        "level": "A1"
+        "word": "hillside",
+        "level": "A1",
+        "description": "the sloping side of a hill or mountain"
       },
       {
         "word": "sleeping",
-        "level": "A1"
+        "level": "A1",
+        "description": "resting with your eyes closed at night"
       },
       {
         "word": "water",
-        "level": "A1"
+        "level": "A1",
+        "description": "a clear liquid people drink every day"
       },
       {
         "word": "bamboo basket",
-        "level": "A2"
+        "level": "A1",
+        "description": "an open woven container used to carry gathered plants"
       },
       {
-        "word": "bamboo stem",
-        "level": "A2"
+        "word": "stem",
+        "level": "A2",
+        "description": "the long part holding leaves upright"
       },
       {
         "word": "front paw",
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft front foot with small claws"
       },
       {
         "word": "rear paw",
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft back foot used for walking"
       },
       {
         "word": "white fur",
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft pale coat covering an animal"
       },
       {
         "word": "mountain path",
-        "level": "A1"
+        "level": "A1",
+        "description": "a narrow route climbing up a high place"
       },
       {
-        "word": "feeding station",
-        "level": "A2"
+        "word": "zoo",
+        "level": "A1",
+        "description": "a place where people can see animals"
       },
       {
         "word": "rolling",
-        "level": "A2"
+        "level": "A2",
+        "description": "turning over and over on the ground"
       },
       {
-        "word": "mother panda",
-        "level": "A1"
+        "word": "mother",
+        "level": "A1",
+        "description": "a female parent who cares for young"
       },
       {
-        "word": "resting branch",
-        "level": "A2"
+        "word": "tree branch",
+        "level": "A2",
+        "description": "a woody part growing out from a trunk"
+      },
+      {
+        "word": "rest",
+        "level": "A1",
+        "description": "time spent relaxing after activity"
       }
     ],
     "imposter": [
       {
         "word": "panda",
-        "decoy": "koala",
-        "level": "A1"
+        "level": "A1",
+        "description": "a black and white bear that eats plants",
+        "hint": "a wild bear",
+        "crewQuestion": "Which bear eats bamboo while sitting in a forest?",
+        "imposterQuestion": "Which bear catches fish beside a cold river?"
       },
       {
         "word": "bamboo",
-        "decoy": "reed",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall woody grass eaten by some bears",
+        "hint": "a plant food",
+        "crewQuestion": "What tall plant do pandas chew in the wild?",
+        "imposterQuestion": "What green plant do rabbits nibble in a garden?"
       },
       {
         "word": "shoot",
-        "decoy": "leaf",
-        "level": "A2"
+        "level": "A2",
+        "description": "a new green part growing from a plant",
+        "hint": "a plant part",
+        "crewQuestion": "What new growth appears from a seed in spring?",
+        "imposterQuestion": "What new growth appears on a tree branch?"
       },
       {
         "word": "den",
-        "decoy": "cave",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sheltered place where a wild animal sleeps",
+        "hint": "an animal home",
+        "crewQuestion": "Where might a bear hide and rest?",
+        "imposterQuestion": "Where might a fox hide and rest?"
       },
       {
         "word": "chewing",
-        "decoy": "licking",
-        "level": "A2"
-      },
-      {
-        "word": "front paw",
-        "decoy": "rear paw",
-        "level": "A2"
-      },
-      {
-        "word": "round ear",
-        "decoy": "long ear",
-        "level": "A1"
+        "level": "A2",
+        "description": "biting food again and again before swallowing",
+        "hint": "an eating action",
+        "crewQuestion": "What do pandas do with tough plant stems?",
+        "imposterQuestion": "What do horses do with hay in a field?"
       },
       {
         "word": "climbing",
-        "decoy": "rolling",
-        "level": "A2"
+        "level": "A2",
+        "description": "moving upward by holding onto a surface",
+        "hint": "a movement",
+        "crewQuestion": "What might a panda do to reach a branch?",
+        "imposterQuestion": "What might a monkey do to reach a fruit?"
       }
     ],
     "twentyQuestions": [
@@ -2575,18 +2899,18 @@
         "level": "A2"
       },
       {
-        "secret": "mountain woodland",
+        "secret": "forest",
         "kind": "place",
         "level": "A2"
       },
       {
-        "secret": "climbing",
-        "kind": "activity",
+        "secret": "tree branch",
+        "kind": "thing",
         "level": "A2"
       },
       {
-        "secret": "panda keeper",
-        "kind": "job",
+        "secret": "zoo",
+        "kind": "place",
         "level": "A2"
       }
     ]
@@ -2603,7 +2927,8 @@
           "tree",
           "sleep"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a grey animal that sleeps in trees"
       },
       {
         "word": "tree",
@@ -2613,7 +2938,8 @@
           "leaf",
           "branch"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tall plant with a woody trunk"
       },
       {
         "word": "sleeping",
@@ -2623,7 +2949,8 @@
           "quiet",
           "night"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "resting with your eyes closed for a while"
       },
       {
         "word": "furry ear",
@@ -2633,7 +2960,8 @@
           "head",
           "hair"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "soft fur covering the outside of an ear"
       },
       {
         "word": "joey",
@@ -2643,7 +2971,8 @@
           "small",
           "young"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a very young animal carried by its mother"
       },
       {
         "word": "pouch",
@@ -2653,7 +2982,8 @@
           "carry",
           "body"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a fold of skin that holds a young animal"
       },
       {
         "word": "eucalyptus",
@@ -2663,7 +2993,8 @@
           "food",
           "smell"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tree with narrow leaves and a fresh smell"
       },
       {
         "word": "tree fork",
@@ -2673,7 +3004,8 @@
           "rest",
           "seat"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a place where two branches split apart"
       },
       {
         "word": "gripping",
@@ -2683,7 +3015,8 @@
           "climb",
           "tight"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "holding tightly with hands or feet"
       },
       {
         "word": "claw",
@@ -2693,7 +3026,8 @@
           "foot",
           "climb"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sharp curved nail at the end of a foot"
       },
       {
         "word": "tree trunk",
@@ -2703,7 +3037,8 @@
           "climb",
           "tall"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the thick upright part supporting tree branches"
       },
       {
         "word": "leaf meal",
@@ -2713,7 +3048,8 @@
           "eat",
           "plant"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a meal made from flat green plant parts"
       },
       {
         "word": "branch gap",
@@ -2723,7 +3059,8 @@
           "between",
           "trees"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an open space between nearby branches"
       },
       {
         "word": "koala keeper",
@@ -2733,107 +3070,130 @@
           "care",
           "animal"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who looks after animals"
       }
     ],
     "hotSeat": [
       {
         "word": "branch",
-        "level": "A1"
+        "level": "A1",
+        "description": "a woody part growing out from a tree trunk"
       },
       {
         "word": "leaf",
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat green part growing from a plant"
       },
       {
-        "word": "rounded head",
-        "level": "A1"
+        "word": "head",
+        "level": "A1",
+        "description": "the top part of your body with eyes"
       },
       {
-        "word": "small nose",
-        "level": "A1"
+        "word": "nose",
+        "level": "A1",
+        "description": "the part of a face used for smelling"
       },
       {
-        "word": "tree climber",
-        "level": "A2"
+        "word": "climber",
+        "level": "A2",
+        "description": "someone who moves upward on a steep surface"
       },
       {
-        "word": "grey fur",
-        "level": "A2"
+        "word": "grey coat",
+        "level": "A2",
+        "description": "a grey layer of fur covering an animal"
       },
       {
-        "word": "leaf basket",
-        "level": "A2"
+        "word": "basket",
+        "level": "A2",
+        "description": "an open container woven from strips"
       },
       {
-        "word": "forest canopy",
-        "level": "A2"
+        "word": "canopy",
+        "level": "A2",
+        "description": "the upper layer formed by tree branches"
       },
       {
-        "word": "curved nail",
-        "level": "A2"
+        "word": "nail",
+        "level": "A2",
+        "description": "a hard curved point at the end of a foot"
       },
       {
-        "word": "koala mother",
-        "level": "A1"
+        "word": "mother",
+        "level": "A1",
+        "description": "a female parent who cares for young"
       },
       {
-        "word": "tree hollow",
-        "level": "A2"
+        "word": "hollow",
+        "level": "A2",
+        "description": "an empty space inside a tree or rock"
       },
       {
-        "word": "grasping foot",
-        "level": "A2"
+        "word": "foot",
+        "level": "A1",
+        "description": "the lower part used for standing"
       },
       {
-        "word": "shade branch",
-        "level": "A2"
+        "word": "shade",
+        "level": "A2",
+        "description": "a cool dark place away from sunlight"
       },
       {
-        "word": "animal nurse",
-        "level": "A2"
+        "word": "zookeeper",
+        "level": "A2",
+        "description": "a person who cares for animals at a zoo"
       }
     ],
     "imposter": [
       {
         "word": "koala",
-        "decoy": "panda",
-        "level": "A1"
+        "level": "A1",
+        "description": "a grey tree-dwelling animal that eats leaves",
+        "hint": "a wild animal",
+        "crewQuestion": "Which animal rests high in a eucalyptus tree?",
+        "imposterQuestion": "Which animal rests high in a bamboo grove?"
       },
       {
         "word": "joey",
-        "decoy": "kitten",
-        "level": "A2"
+        "level": "A2",
+        "description": "a very young animal carried by its mother",
+        "hint": "a young animal",
+        "crewQuestion": "What is a baby koala called?",
+        "imposterQuestion": "What is a baby kangaroo called?"
       },
       {
         "word": "pouch",
-        "decoy": "basket",
-        "level": "A2"
+        "level": "A2",
+        "description": "a fold of skin that holds a young animal",
+        "hint": "a body part",
+        "crewQuestion": "Where does a mother carry her very young baby?",
+        "imposterQuestion": "Where does a kangaroo carry its baby?"
       },
       {
         "word": "claw",
-        "decoy": "nail",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sharp curved nail at the end of a foot",
+        "hint": "an animal feature",
+        "crewQuestion": "What helps a koala grip a tree trunk?",
+        "imposterQuestion": "What helps a sloth hold onto a branch?"
       },
       {
         "word": "eucalyptus",
-        "decoy": "bamboo",
-        "level": "A2"
-      },
-      {
-        "word": "tree fork",
-        "decoy": "tree hollow",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall tree whose leaves koalas like to eat",
+        "hint": "a tree type",
+        "crewQuestion": "Which tree has leaves that koalas eat?",
+        "imposterQuestion": "Which tree has nuts that squirrels collect?"
       },
       {
         "word": "sleeping",
-        "decoy": "resting",
-        "level": "A1"
-      },
-      {
-        "word": "grey fur",
-        "decoy": "white fur",
-        "level": "A1"
+        "level": "A1",
+        "description": "resting with your eyes closed for a while",
+        "hint": "a daily action",
+        "crewQuestion": "What might a koala do for many hours each day?",
+        "imposterQuestion": "What might a cat do on a warm window seat?"
       }
     ],
     "twentyQuestions": [
@@ -2853,7 +3213,7 @@
         "level": "A2"
       },
       {
-        "secret": "eucalyptus tree",
+        "secret": "eucalyptus",
         "kind": "thing",
         "level": "A2"
       },
@@ -2868,13 +3228,13 @@
         "level": "A1"
       },
       {
-        "secret": "koala keeper",
+        "secret": "zookeeper",
         "kind": "job",
         "level": "A2"
       },
       {
-        "secret": "sleeping",
-        "kind": "activity",
+        "secret": "branch",
+        "kind": "thing",
         "level": "A1"
       }
     ]
