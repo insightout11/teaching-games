@@ -11,3 +11,5 @@ Cards are authored individually. A serialization helper only formats the explici
 - Batch 3: 15 nature and plant topics (Deserts through Plant Growth), 45 topics total / 1,980 cards. Partial checker: all errors 0; A1 849, A2 1,131; 182 unique sticker matches, 626 target/decoy occurrences. The fifth-topic reuse check passed after replacing generic foliage, rain gear and water-side targets.
 
 - Batch 4: 15 food, school and community topics (Cooking through Jobs People Do), 60 topics total / 2,640 cards. Partial checker: all errors 0; kids A1 1,284, A2 1,356; 253 unique sticker matches, 773 target/decoy occurrences.
+
+- Batch 5: 20 sports, play, transport and creative topics (Soccer through The Five Senses), 80 topics total / 3,520 cards. Partial checker: all errors 0; kids A1 1,880, A2 1,640; 286 unique sticker matches, 858 target/decoy occurrences. Targets remain below 40% deck overlap; the highest observed overlap is 22.86%.

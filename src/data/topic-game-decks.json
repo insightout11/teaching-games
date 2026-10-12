@@ -5516,11 +5516,11 @@
         "level": "A1"
       },
       {
-        "word": "wing",
+        "word": "bee leg",
         "forbidden": [
-          "fly",
-          "side",
-          "thin",
+          "foot",
+          "crawl",
+          "six",
           "body"
         ],
         "level": "A1"
@@ -17275,6 +17275,5766 @@
       {
         "secret": "hairdresser",
         "kind": "job",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-soccer",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "goal",
+        "forbidden": [
+          "score",
+          "net",
+          "ball",
+          "win"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "goalkeeper",
+        "forbidden": [
+          "net",
+          "gloves",
+          "stop",
+          "player"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "referee",
+        "forbidden": [
+          "whistle",
+          "judge",
+          "match",
+          "black"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "corner kick",
+        "forbidden": [
+          "flag",
+          "side",
+          "ball",
+          "send"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "penalty",
+        "forbidden": [
+          "foul",
+          "spot",
+          "shoot",
+          "kick"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "offside",
+        "forbidden": [
+          "rule",
+          "forward",
+          "defender",
+          "position"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "dribble",
+        "forbidden": [
+          "feet",
+          "move",
+          "ball",
+          "control"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "header",
+        "forbidden": [
+          "crown",
+          "top",
+          "nod",
+          "neck"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "team",
+        "forbidden": [
+          "players",
+          "side",
+          "game",
+          "group"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cleats",
+        "forbidden": [
+          "shoes",
+          "studs",
+          "grass",
+          "wear"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "touchline",
+        "forbidden": [
+          "edge",
+          "boundary",
+          "paint",
+          "field"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "substitute",
+        "forbidden": [
+          "player",
+          "bench",
+          "replace",
+          "match"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "crossbar",
+        "forbidden": [
+          "top",
+          "pole",
+          "goal",
+          "metal"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "striker",
+        "forbidden": [
+          "score",
+          "forward",
+          "player",
+          "attack"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "shin guards",
+        "level": "A1"
+      },
+      {
+        "word": "captain's armband",
+        "level": "A1"
+      },
+      {
+        "word": "corner flag",
+        "level": "A1"
+      },
+      {
+        "word": "goal line",
+        "level": "A1"
+      },
+      {
+        "word": "training cone",
+        "level": "A1"
+      },
+      {
+        "word": "football boots",
+        "level": "A1"
+      },
+      {
+        "word": "team bench",
+        "level": "A1"
+      },
+      {
+        "word": "scoreboard",
+        "level": "A1"
+      },
+      {
+        "word": "half-time whistle",
+        "level": "A2"
+      },
+      {
+        "word": "assistant referee",
+        "level": "A2"
+      },
+      {
+        "word": "goal kick",
+        "level": "A1"
+      },
+      {
+        "word": "free kick",
+        "level": "A1"
+      },
+      {
+        "word": "warm-up drill",
+        "level": "A2"
+      },
+      {
+        "word": "stadium seat",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "goalkeeper",
+        "decoy": "defender",
+        "level": "A1"
+      },
+      {
+        "word": "corner kick",
+        "decoy": "goal kick",
+        "level": "A2"
+      },
+      {
+        "word": "cleats",
+        "decoy": "shin guards",
+        "level": "A1"
+      },
+      {
+        "word": "crossbar",
+        "decoy": "goalpost",
+        "level": "A2"
+      },
+      {
+        "word": "striker",
+        "decoy": "winger",
+        "level": "A2"
+      },
+      {
+        "word": "referee",
+        "decoy": "assistant referee",
+        "level": "A2"
+      },
+      {
+        "word": "dribble",
+        "decoy": "pass",
+        "level": "A1"
+      },
+      {
+        "word": "touchline",
+        "decoy": "goal line",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "scoreboard",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "corner flag",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "team bench",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "striker",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "whistle",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "shin guards",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "training cone",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "football boots",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-basketball",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "hoop",
+        "forbidden": [
+          "basket",
+          "score",
+          "ring",
+          "ball"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "dribble",
+        "forbidden": [
+          "bounce",
+          "hand",
+          "move",
+          "ball"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "free throw",
+        "forbidden": [
+          "line",
+          "shot",
+          "score",
+          "penalty"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "backboard",
+        "forbidden": [
+          "hoop",
+          "wood",
+          "rectangle",
+          "hit"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "court",
+        "forbidden": [
+          "floor",
+          "game",
+          "players",
+          "wood"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pass",
+        "forbidden": [
+          "throw",
+          "team",
+          "ball",
+          "share"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "rebound",
+        "forbidden": [
+          "miss",
+          "catch",
+          "board",
+          "ball"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "layup",
+        "forbidden": [
+          "close",
+          "shot",
+          "run",
+          "hoop"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "basket",
+        "forbidden": [
+          "net",
+          "score",
+          "ring",
+          "throw"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "traveling",
+        "forbidden": [
+          "rule",
+          "steps",
+          "move",
+          "ball"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "defense",
+        "forbidden": [
+          "stop",
+          "opponent",
+          "block",
+          "guard"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "jersey",
+        "forbidden": [
+          "shirt",
+          "number",
+          "team",
+          "wear"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "timeout",
+        "forbidden": [
+          "stop",
+          "coach",
+          "minute",
+          "game"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "three-pointer",
+        "forbidden": [
+          "long",
+          "line",
+          "shot",
+          "score"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "sneaker",
+        "level": "A1"
+      },
+      {
+        "word": "score clock",
+        "level": "A2"
+      },
+      {
+        "word": "team bench",
+        "level": "A1"
+      },
+      {
+        "word": "basketball",
+        "level": "A1"
+      },
+      {
+        "word": "referee whistle",
+        "level": "A1"
+      },
+      {
+        "word": "gym floor",
+        "level": "A1"
+      },
+      {
+        "word": "water bottle",
+        "level": "A1"
+      },
+      {
+        "word": "captain",
+        "level": "A1"
+      },
+      {
+        "word": "shot clock",
+        "level": "A2"
+      },
+      {
+        "word": "sideline",
+        "level": "A2"
+      },
+      {
+        "word": "warm-up jacket",
+        "level": "A1"
+      },
+      {
+        "word": "free throw line",
+        "level": "A2"
+      },
+      {
+        "word": "coach clipboard",
+        "level": "A2"
+      },
+      {
+        "word": "net",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "hoop",
+        "decoy": "basket",
+        "level": "A1"
+      },
+      {
+        "word": "backboard",
+        "decoy": "rim",
+        "level": "A2"
+      },
+      {
+        "word": "layup",
+        "decoy": "dunk",
+        "level": "A2"
+      },
+      {
+        "word": "rebound",
+        "decoy": "pass",
+        "level": "A1"
+      },
+      {
+        "word": "court",
+        "decoy": "gym",
+        "level": "A1"
+      },
+      {
+        "word": "timeout",
+        "decoy": "halftime",
+        "level": "A2"
+      },
+      {
+        "word": "three-pointer",
+        "decoy": "free throw",
+        "level": "A2"
+      },
+      {
+        "word": "defense",
+        "decoy": "goalkeeping",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "sneaker",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "score clock",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "referee whistle",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "coach clipboard",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "gym floor",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "captain",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "basketball",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "net",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-swimming",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "goggles",
+        "forbidden": [
+          "eyes",
+          "water",
+          "wear",
+          "see"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "lifeguard",
+        "forbidden": [
+          "pool",
+          "watch",
+          "help",
+          "save"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "stroke",
+        "forbidden": [
+          "arms",
+          "swim",
+          "move",
+          "style"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "float",
+        "forbidden": [
+          "water",
+          "stay",
+          "top",
+          "air"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "lane",
+        "forbidden": [
+          "pool",
+          "line",
+          "swim",
+          "side"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "diving board",
+        "forbidden": [
+          "jump",
+          "high",
+          "pool",
+          "spring"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "swimsuit",
+        "forbidden": [
+          "clothes",
+          "wear",
+          "water",
+          "one-piece"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "kickboard",
+        "forbidden": [
+          "float",
+          "hold",
+          "legs",
+          "practice"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "freestyle",
+        "forbidden": [
+          "race",
+          "front",
+          "crawl",
+          "fast"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "backstroke",
+        "forbidden": [
+          "face up",
+          "arms alternate",
+          "breath side",
+          "kick legs"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "changing room",
+        "forbidden": [
+          "clothes",
+          "locker",
+          "shower",
+          "swim"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pool noodle",
+        "forbidden": [
+          "long",
+          "foam",
+          "float",
+          "water"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "lap",
+        "forbidden": [
+          "one",
+          "around",
+          "pool",
+          "swim"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "earplugs",
+        "forbidden": [
+          "ears",
+          "water",
+          "small",
+          "block"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "swim cap",
+        "level": "A1"
+      },
+      {
+        "word": "pool ladder",
+        "level": "A1"
+      },
+      {
+        "word": "lane rope",
+        "level": "A2"
+      },
+      {
+        "word": "locker key",
+        "level": "A1"
+      },
+      {
+        "word": "water slide",
+        "level": "A1"
+      },
+      {
+        "word": "beach ball",
+        "level": "A1"
+      },
+      {
+        "word": "diving mask",
+        "level": "A1"
+      },
+      {
+        "word": "starting block",
+        "level": "A2"
+      },
+      {
+        "word": "poolside chair",
+        "level": "A1"
+      },
+      {
+        "word": "shower stall",
+        "level": "A1"
+      },
+      {
+        "word": "flippers",
+        "level": "A1"
+      },
+      {
+        "word": "snorkel",
+        "level": "A1"
+      },
+      {
+        "word": "water polo",
+        "level": "A2"
+      },
+      {
+        "word": "rescue ring",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "freestyle",
+        "decoy": "front crawl",
+        "level": "A2"
+      },
+      {
+        "word": "backstroke",
+        "decoy": "breaststroke",
+        "level": "A1"
+      },
+      {
+        "word": "goggles",
+        "decoy": "diving mask",
+        "level": "A1"
+      },
+      {
+        "word": "lane rope",
+        "decoy": "pool noodle",
+        "level": "A1"
+      },
+      {
+        "word": "starting block",
+        "decoy": "diving board",
+        "level": "A2"
+      },
+      {
+        "word": "lifeguard",
+        "decoy": "swim coach",
+        "level": "A2"
+      },
+      {
+        "word": "lap",
+        "decoy": "length",
+        "level": "A2"
+      },
+      {
+        "word": "float",
+        "decoy": "kickboard",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "swim cap",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "pool ladder",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "water slide",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "starting block",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "poolside chair",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "rescue ring",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "lifeguard",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "locker key",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-cycling",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "pedal",
+        "forbidden": [
+          "foot",
+          "turn",
+          "wheel",
+          "ride"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bike gloves",
+        "forbidden": [
+          "hands",
+          "fingers",
+          "cold",
+          "wear"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "handlebar",
+        "forbidden": [
+          "hands",
+          "steer",
+          "front",
+          "grip"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bicycle chain",
+        "forbidden": [
+          "metal",
+          "turn",
+          "gear",
+          "move"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "brake",
+        "forbidden": [
+          "stop",
+          "hand",
+          "pad",
+          "wheel"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "saddle",
+        "forbidden": [
+          "seat",
+          "ride",
+          "soft",
+          "bike"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bell",
+        "forbidden": [
+          "ring",
+          "sound",
+          "handle",
+          "warning"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "puncture",
+        "forbidden": [
+          "flat",
+          "tyre",
+          "air",
+          "repair"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "cycle path",
+        "forbidden": [
+          "road",
+          "ride",
+          "safe",
+          "marked"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "gear",
+        "forbidden": [
+          "change",
+          "speed",
+          "climb",
+          "shift"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "spokes",
+        "forbidden": [
+          "wheel",
+          "thin",
+          "metal",
+          "rim"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "basket",
+        "forbidden": [
+          "front",
+          "carry",
+          "things",
+          "bike"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "reflector",
+        "forbidden": [
+          "light",
+          "bright",
+          "see",
+          "night"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "training wheels",
+        "forbidden": [
+          "small",
+          "balance",
+          "child",
+          "extra"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "pump",
+        "level": "A1"
+      },
+      {
+        "word": "tyre lever",
+        "level": "A2"
+      },
+      {
+        "word": "bike lock",
+        "level": "A1"
+      },
+      {
+        "word": "mudguard",
+        "level": "A2"
+      },
+      {
+        "word": "water bottle cage",
+        "level": "A2"
+      },
+      {
+        "word": "cycle bell",
+        "level": "A1"
+      },
+      {
+        "word": "repair kit",
+        "level": "A2"
+      },
+      {
+        "word": "kickstand",
+        "level": "A1"
+      },
+      {
+        "word": "cycling shorts",
+        "level": "A1"
+      },
+      {
+        "word": "bike rack",
+        "level": "A1"
+      },
+      {
+        "word": "rear light",
+        "level": "A1"
+      },
+      {
+        "word": "front light",
+        "level": "A1"
+      },
+      {
+        "word": "route sign",
+        "level": "A2"
+      },
+      {
+        "word": "handlebar tape",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "pedal",
+        "decoy": "crank",
+        "level": "A2"
+      },
+      {
+        "word": "bike gloves",
+        "decoy": "knee pad",
+        "level": "A1"
+      },
+      {
+        "word": "saddle",
+        "decoy": "seat",
+        "level": "A1"
+      },
+      {
+        "word": "puncture",
+        "decoy": "broken chain",
+        "level": "A2"
+      },
+      {
+        "word": "cycle path",
+        "decoy": "bike lane",
+        "level": "A2"
+      },
+      {
+        "word": "bike lock",
+        "decoy": "chain",
+        "level": "A1"
+      },
+      {
+        "word": "front light",
+        "decoy": "rear light",
+        "level": "A1"
+      },
+      {
+        "word": "training wheels",
+        "decoy": "stabilizers",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "pump",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "bike lock",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "mudguard",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "repair kit",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "bike rack",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "route sign",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "cycling shorts",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "kickstand",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-running",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "sprint",
+        "forbidden": [
+          "fast",
+          "short",
+          "race",
+          "run"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "marathon",
+        "forbidden": [
+          "long",
+          "race",
+          "road",
+          "feet"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "shoelace",
+        "forbidden": [
+          "tie",
+          "bow",
+          "double",
+          "knot"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "track",
+        "forbidden": [
+          "oval",
+          "field",
+          "lane",
+          "run"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "warm up",
+        "forbidden": [
+          "stretch",
+          "before",
+          "exercise",
+          "body"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "finish line",
+        "forbidden": [
+          "end",
+          "race",
+          "cross",
+          "white"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "relay",
+        "forbidden": [
+          "team",
+          "baton",
+          "pass",
+          "race"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pace",
+        "forbidden": [
+          "speed",
+          "steady",
+          "run",
+          "time"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "start",
+        "forbidden": [
+          "begin",
+          "signal",
+          "ready",
+          "race"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "lap",
+        "forbidden": [
+          "around",
+          "track",
+          "one",
+          "circuit"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "breath",
+        "forbidden": [
+          "air",
+          "in",
+          "out",
+          "lungs"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "trainer",
+        "forbidden": [
+          "shoe",
+          "run",
+          "lace",
+          "sport"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hurdle",
+        "forbidden": [
+          "jump",
+          "bar",
+          "race",
+          "over"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "race number",
+        "forbidden": [
+          "shirt",
+          "paper",
+          "runner",
+          "identify"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "stopwatch",
+        "level": "A1"
+      },
+      {
+        "word": "starting pistol",
+        "level": "A2"
+      },
+      {
+        "word": "running vest",
+        "level": "A1"
+      },
+      {
+        "word": "water station",
+        "level": "A1"
+      },
+      {
+        "word": "running shorts",
+        "level": "A1"
+      },
+      {
+        "word": "race medal",
+        "level": "A1"
+      },
+      {
+        "word": "running belt",
+        "level": "A2"
+      },
+      {
+        "word": "marathon route",
+        "level": "A2"
+      },
+      {
+        "word": "relay baton",
+        "level": "A2"
+      },
+      {
+        "word": "finish tape",
+        "level": "A1"
+      },
+      {
+        "word": "sports watch",
+        "level": "A1"
+      },
+      {
+        "word": "park path",
+        "level": "A1"
+      },
+      {
+        "word": "running club",
+        "level": "A1"
+      },
+      {
+        "word": "heart rate monitor",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "sprint",
+        "decoy": "dash",
+        "level": "A1"
+      },
+      {
+        "word": "marathon",
+        "decoy": "half-marathon",
+        "level": "A2"
+      },
+      {
+        "word": "track",
+        "decoy": "trail",
+        "level": "A1"
+      },
+      {
+        "word": "relay",
+        "decoy": "team race",
+        "level": "A2"
+      },
+      {
+        "word": "hurdle",
+        "decoy": "fence",
+        "level": "A1"
+      },
+      {
+        "word": "stopwatch",
+        "decoy": "sports watch",
+        "level": "A1"
+      },
+      {
+        "word": "pace",
+        "decoy": "speed",
+        "level": "A2"
+      },
+      {
+        "word": "finish line",
+        "decoy": "start line",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "stopwatch",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "race medal",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "relay baton",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "water station",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "park path",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "running vest",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "hurdle",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "running club",
+        "kind": "job",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-dancing",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "rhythm",
+        "forbidden": [
+          "music",
+          "beat",
+          "move",
+          "steady"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pirouette",
+        "forbidden": [
+          "turn",
+          "spin",
+          "one foot",
+          "ballet"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "ballet",
+        "forbidden": [
+          "stage",
+          "grace",
+          "shoes",
+          "dance"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tap dance",
+        "forbidden": [
+          "shoes",
+          "sound",
+          "floor",
+          "feet"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "choreography",
+        "forbidden": [
+          "steps",
+          "plan",
+          "dance",
+          "create"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "costume",
+        "forbidden": [
+          "clothes",
+          "wear",
+          "stage",
+          "character"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "partner",
+        "forbidden": [
+          "two",
+          "with",
+          "hold",
+          "another"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "twirl",
+        "forbidden": [
+          "spin",
+          "turn",
+          "round",
+          "fast"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "leap",
+        "forbidden": [
+          "jump",
+          "air",
+          "high",
+          "dance"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "rehearsal",
+        "forbidden": [
+          "practice",
+          "again",
+          "show",
+          "prepare"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "dance floor",
+        "forbidden": [
+          "music",
+          "party",
+          "move",
+          "room"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ballroom",
+        "forbidden": [
+          "formal",
+          "partner",
+          "music",
+          "floor"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "hip-hop",
+        "forbidden": [
+          "street",
+          "music",
+          "style",
+          "move"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sequence",
+        "forbidden": [
+          "steps",
+          "order",
+          "repeat",
+          "moves"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "tutu",
+        "level": "A1"
+      },
+      {
+        "word": "toe shoes",
+        "level": "A1"
+      },
+      {
+        "word": "maracas",
+        "level": "A1"
+      },
+      {
+        "word": "dance teacher",
+        "level": "A1"
+      },
+      {
+        "word": "stage curtain",
+        "level": "A1"
+      },
+      {
+        "word": "spotlight",
+        "level": "A1"
+      },
+      {
+        "word": "hand fan",
+        "level": "A1"
+      },
+      {
+        "word": "dance class",
+        "level": "A1"
+      },
+      {
+        "word": "clap",
+        "level": "A1"
+      },
+      {
+        "word": "mirror wall",
+        "level": "A1"
+      },
+      {
+        "word": "dance ribbon",
+        "level": "A1"
+      },
+      {
+        "word": "music speaker",
+        "level": "A1"
+      },
+      {
+        "word": "line dance",
+        "level": "A2"
+      },
+      {
+        "word": "dance medal",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "ballet",
+        "decoy": "tap dance",
+        "level": "A1"
+      },
+      {
+        "word": "pirouette",
+        "decoy": "twirl",
+        "level": "A2"
+      },
+      {
+        "word": "rehearsal",
+        "decoy": "practice",
+        "level": "A1"
+      },
+      {
+        "word": "partner",
+        "decoy": "duet",
+        "level": "A1"
+      },
+      {
+        "word": "hip-hop",
+        "decoy": "breakdance",
+        "level": "A2"
+      },
+      {
+        "word": "sequence",
+        "decoy": "routine",
+        "level": "A2"
+      },
+      {
+        "word": "tutu",
+        "decoy": "costume",
+        "level": "A1"
+      },
+      {
+        "word": "spotlight",
+        "decoy": "stage light",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "tutu",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "toe shoes",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "dance teacher",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "stage curtain",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "maracas",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "dance ribbon",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "mirror wall",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "dance class",
+        "kind": "activity",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-board-games",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "dice",
+        "forbidden": [
+          "roll",
+          "numbers",
+          "cube",
+          "game"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "board",
+        "forbidden": [
+          "table",
+          "game",
+          "squares",
+          "flat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "counter",
+        "forbidden": [
+          "piece",
+          "move",
+          "token",
+          "game"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "turn",
+        "forbidden": [
+          "play",
+          "next",
+          "wait",
+          "order"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "rulebook",
+        "forbidden": [
+          "read",
+          "instructions",
+          "guide",
+          "pages"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "game piece",
+        "forbidden": [
+          "move",
+          "small",
+          "player",
+          "board"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "spinner",
+        "forbidden": [
+          "arrow",
+          "turn",
+          "point",
+          "number"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "score",
+        "forbidden": [
+          "points",
+          "win",
+          "number",
+          "keep"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "card game",
+        "forbidden": [
+          "deck",
+          "deal",
+          "hand",
+          "play"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "strategy",
+        "forbidden": [
+          "plan",
+          "think",
+          "win",
+          "smart"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "timer",
+        "forbidden": [
+          "clock",
+          "count",
+          "sand",
+          "game"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "team",
+        "forbidden": [
+          "group",
+          "players",
+          "together",
+          "side"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "finish square",
+        "forbidden": [
+          "last",
+          "reach",
+          "win",
+          "board"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "game night",
+        "forbidden": [
+          "family",
+          "play",
+          "evening",
+          "fun"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "hourglass",
+        "level": "A1"
+      },
+      {
+        "word": "game box",
+        "level": "A1"
+      },
+      {
+        "word": "playing card",
+        "level": "A1"
+      },
+      {
+        "word": "score pad",
+        "level": "A1"
+      },
+      {
+        "word": "token bag",
+        "level": "A1"
+      },
+      {
+        "word": "chess clock",
+        "level": "A2"
+      },
+      {
+        "word": "rule sheet",
+        "level": "A1"
+      },
+      {
+        "word": "folding board",
+        "level": "A1"
+      },
+      {
+        "word": "team captain",
+        "level": "A1"
+      },
+      {
+        "word": "game shelf",
+        "level": "A1"
+      },
+      {
+        "word": "wooden pawn",
+        "level": "A2"
+      },
+      {
+        "word": "colourful spinner",
+        "level": "A1"
+      },
+      {
+        "word": "card holder",
+        "level": "A1"
+      },
+      {
+        "word": "table edge",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "dice",
+        "decoy": "spinner",
+        "level": "A1"
+      },
+      {
+        "word": "counter",
+        "decoy": "game piece",
+        "level": "A1"
+      },
+      {
+        "word": "rulebook",
+        "decoy": "rule sheet",
+        "level": "A1"
+      },
+      {
+        "word": "strategy",
+        "decoy": "plan",
+        "level": "A2"
+      },
+      {
+        "word": "card game",
+        "decoy": "board game",
+        "level": "A1"
+      },
+      {
+        "word": "score",
+        "decoy": "points",
+        "level": "A1"
+      },
+      {
+        "word": "timer",
+        "decoy": "hourglass",
+        "level": "A1"
+      },
+      {
+        "word": "game night",
+        "decoy": "game day",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "hourglass",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "game box",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "score pad",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "chess clock",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "wooden pawn",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "card holder",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "game shelf",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "folding board",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-puzzles",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "jigsaw",
+        "forbidden": [
+          "pieces",
+          "picture",
+          "fit",
+          "board"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "piece",
+        "forbidden": [
+          "small",
+          "part",
+          "fit",
+          "whole"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "clue",
+        "forbidden": [
+          "help",
+          "find",
+          "answer",
+          "secret"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "crossword",
+        "forbidden": [
+          "words",
+          "grid",
+          "letters",
+          "across"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "maze",
+        "forbidden": [
+          "path",
+          "dead end",
+          "find",
+          "way"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pattern",
+        "forbidden": [
+          "repeat",
+          "shape",
+          "order",
+          "see"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "solution",
+        "forbidden": [
+          "answer",
+          "finish",
+          "solve",
+          "correct"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "brain teaser",
+        "forbidden": [
+          "think",
+          "hard",
+          "question",
+          "smart"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "missing piece",
+        "forbidden": [
+          "find",
+          "empty",
+          "fit",
+          "space"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "word search",
+        "forbidden": [
+          "letters",
+          "find",
+          "circle",
+          "grid"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "logic",
+        "forbidden": [
+          "reason",
+          "think",
+          "rule",
+          "answer"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "edge piece",
+        "forbidden": [
+          "side",
+          "flat",
+          "border",
+          "jigsaw"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "number puzzle",
+        "forbidden": [
+          "math",
+          "grid",
+          "fill",
+          "solve"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "picture clue",
+        "forbidden": [
+          "image",
+          "help",
+          "answer",
+          "look"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "puzzle box",
+        "level": "A1"
+      },
+      {
+        "word": "corner piece",
+        "level": "A1"
+      },
+      {
+        "word": "crayon maze",
+        "level": "A1"
+      },
+      {
+        "word": "word grid",
+        "level": "A1"
+      },
+      {
+        "word": "hidden picture",
+        "level": "A1"
+      },
+      {
+        "word": "cryptogram",
+        "level": "A2"
+      },
+      {
+        "word": "matching game",
+        "level": "A1"
+      },
+      {
+        "word": "shape sorter",
+        "level": "A1"
+      },
+      {
+        "word": "logic grid",
+        "level": "A2"
+      },
+      {
+        "word": "picture frame",
+        "level": "A1"
+      },
+      {
+        "word": "number sequence",
+        "level": "A2"
+      },
+      {
+        "word": "rubik's cube",
+        "level": "A2"
+      },
+      {
+        "word": "answer sheet",
+        "level": "A1"
+      },
+      {
+        "word": "pattern block",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "jigsaw",
+        "decoy": "mosaic",
+        "level": "A2"
+      },
+      {
+        "word": "crossword",
+        "decoy": "word search",
+        "level": "A1"
+      },
+      {
+        "word": "maze",
+        "decoy": "labyrinth",
+        "level": "A2"
+      },
+      {
+        "word": "clue",
+        "decoy": "hint",
+        "level": "A1"
+      },
+      {
+        "word": "pattern",
+        "decoy": "sequence",
+        "level": "A2"
+      },
+      {
+        "word": "solution",
+        "decoy": "answer",
+        "level": "A1"
+      },
+      {
+        "word": "corner piece",
+        "decoy": "edge piece",
+        "level": "A1"
+      },
+      {
+        "word": "cryptogram",
+        "decoy": "code puzzle",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "puzzle box",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "crayon maze",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "hidden picture",
+        "kind": "activity",
+        "level": "A1"
+      },
+      {
+        "secret": "shape sorter",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "picture frame",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "rubik's cube",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "answer sheet",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "logic grid",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-building-blocks",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "block",
+        "forbidden": [
+          "stack",
+          "build",
+          "toy",
+          "shape"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tower",
+        "forbidden": [
+          "high",
+          "fall",
+          "blocks",
+          "build"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bridge",
+        "forbidden": [
+          "across",
+          "river",
+          "build",
+          "connect"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "brick",
+        "forbidden": [
+          "small",
+          "red",
+          "wall",
+          "build"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "window",
+        "forbidden": [
+          "square",
+          "see",
+          "house",
+          "glass"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "roof",
+        "forbidden": [
+          "top",
+          "house",
+          "cover",
+          "build"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "blueprint",
+        "forbidden": [
+          "plan",
+          "draw",
+          "building",
+          "design"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "balance",
+        "forbidden": [
+          "steady",
+          "fall",
+          "careful",
+          "hold"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "wall",
+        "forbidden": [
+          "side",
+          "house",
+          "block",
+          "build"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "arch",
+        "forbidden": [
+          "curve",
+          "bridge",
+          "shape",
+          "top"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "foundation",
+        "forbidden": [
+          "bottom",
+          "strong",
+          "base",
+          "building"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "garage",
+        "forbidden": [
+          "car",
+          "house",
+          "build",
+          "door"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "castle",
+        "forbidden": [
+          "king",
+          "fort",
+          "build",
+          "tower"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "construction",
+        "forbidden": [
+          "make",
+          "building",
+          "work",
+          "site"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "plastic brick",
+        "level": "A1"
+      },
+      {
+        "word": "wooden cube",
+        "level": "A1"
+      },
+      {
+        "word": "building plate",
+        "level": "A1"
+      },
+      {
+        "word": "toy crane",
+        "level": "A1"
+      },
+      {
+        "word": "toy truck",
+        "level": "A1"
+      },
+      {
+        "word": "construction worker",
+        "level": "A1"
+      },
+      {
+        "word": "block set",
+        "level": "A1"
+      },
+      {
+        "word": "drawbridge",
+        "level": "A2"
+      },
+      {
+        "word": "spiral staircase",
+        "level": "A2"
+      },
+      {
+        "word": "toy house",
+        "level": "A1"
+      },
+      {
+        "word": "play mat",
+        "level": "A1"
+      },
+      {
+        "word": "brick wall",
+        "level": "A1"
+      },
+      {
+        "word": "blueprint roll",
+        "level": "A2"
+      },
+      {
+        "word": "toy hammer",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "tower",
+        "decoy": "skyscraper",
+        "level": "A2"
+      },
+      {
+        "word": "bridge",
+        "decoy": "tunnel",
+        "level": "A1"
+      },
+      {
+        "word": "brick",
+        "decoy": "block",
+        "level": "A1"
+      },
+      {
+        "word": "blueprint",
+        "decoy": "instruction sheet",
+        "level": "A1"
+      },
+      {
+        "word": "foundation",
+        "decoy": "basement",
+        "level": "A2"
+      },
+      {
+        "word": "castle",
+        "decoy": "fort",
+        "level": "A1"
+      },
+      {
+        "word": "garage",
+        "decoy": "car park",
+        "level": "A2"
+      },
+      {
+        "word": "building plate",
+        "decoy": "play mat",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "toy crane",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "toy truck",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "drawbridge",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "spiral staircase",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "toy house",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "play mat",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "construction worker",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "wooden cube",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-kites",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "string",
+        "forbidden": [
+          "tie",
+          "thin",
+          "pull",
+          "thread"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tail ribbons",
+        "forbidden": [
+          "long",
+          "back",
+          "flutter",
+          "attach"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "diamond",
+        "forbidden": [
+          "shape",
+          "point",
+          "four",
+          "fly"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "paper kite",
+        "forbidden": [
+          "light",
+          "build",
+          "fly",
+          "fold"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "handle",
+        "forbidden": [
+          "grip",
+          "hold",
+          "loop",
+          "wood"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "wind",
+        "forbidden": [
+          "air",
+          "blow",
+          "move",
+          "breeze"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "kite frame",
+        "forbidden": [
+          "sticks",
+          "shape",
+          "build",
+          "inside"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "reel",
+        "forbidden": [
+          "wind",
+          "string",
+          "turn",
+          "hold"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "stunt kite",
+        "forbidden": [
+          "two",
+          "strings",
+          "control",
+          "move"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "field",
+        "forbidden": [
+          "grass",
+          "open",
+          "space",
+          "fly"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bow",
+        "forbidden": [
+          "ribbon",
+          "tail",
+          "decor",
+          "loop"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "launch",
+        "forbidden": [
+          "start",
+          "throw",
+          "air",
+          "begin"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "kite festival",
+        "forbidden": [
+          "crowd",
+          "colour",
+          "sky",
+          "event"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "bridle",
+        "forbidden": [
+          "string",
+          "attach",
+          "frame",
+          "angle"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "spool",
+        "level": "A1"
+      },
+      {
+        "word": "windsock",
+        "level": "A1"
+      },
+      {
+        "word": "paper streamer",
+        "level": "A1"
+      },
+      {
+        "word": "kite bag",
+        "level": "A1"
+      },
+      {
+        "word": "hilltop",
+        "level": "A1"
+      },
+      {
+        "word": "open park",
+        "level": "A1"
+      },
+      {
+        "word": "gloves",
+        "level": "A1"
+      },
+      {
+        "word": "flying line",
+        "level": "A2"
+      },
+      {
+        "word": "stunt pilot",
+        "level": "A2"
+      },
+      {
+        "word": "colourful sail",
+        "level": "A1"
+      },
+      {
+        "word": "kite shop",
+        "level": "A1"
+      },
+      {
+        "word": "cloudy sky",
+        "level": "A1"
+      },
+      {
+        "word": "wind meter",
+        "level": "A2"
+      },
+      {
+        "word": "kite string winder",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "spool",
+        "decoy": "reel",
+        "level": "A1"
+      },
+      {
+        "word": "diamond",
+        "decoy": "rectangle",
+        "level": "A1"
+      },
+      {
+        "word": "tail ribbon",
+        "decoy": "bridle",
+        "level": "A2"
+      },
+      {
+        "word": "paper kite",
+        "decoy": "stunt kite",
+        "level": "A1"
+      },
+      {
+        "word": "launch",
+        "decoy": "land",
+        "level": "A1"
+      },
+      {
+        "word": "field",
+        "decoy": "meadow",
+        "level": "A1"
+      },
+      {
+        "word": "kite frame",
+        "decoy": "bicycle frame",
+        "level": "A1"
+      },
+      {
+        "word": "bow",
+        "decoy": "ribbon",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "spool",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "windsock",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "kite bag",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "hilltop",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "gloves",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "stunt pilot",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "wind meter",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "kite shop",
+        "kind": "place",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-playgrounds",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "slide",
+        "forbidden": [
+          "down",
+          "fast",
+          "ladder",
+          "play"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "swing",
+        "forbidden": [
+          "seat",
+          "chain",
+          "back",
+          "forth"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "seesaw",
+        "forbidden": [
+          "two",
+          "up",
+          "down",
+          "partner"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "climbing frame",
+        "forbidden": [
+          "swing",
+          "metal",
+          "hands",
+          "height"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sandbox",
+        "forbidden": [
+          "bucket",
+          "dig",
+          "toys",
+          "pail"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "roundabout",
+        "forbidden": [
+          "spin",
+          "turn",
+          "ride",
+          "children"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "monkey bars",
+        "forbidden": [
+          "hang",
+          "hands",
+          "across",
+          "climb"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rope ladder",
+        "forbidden": [
+          "steps",
+          "climb",
+          "hold",
+          "woven"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "playground",
+        "forbidden": [
+          "swings",
+          "children",
+          "outdoor",
+          "equipment"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "spring rider",
+        "forbidden": [
+          "bounce",
+          "animal",
+          "seat",
+          "move"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "slide pole",
+        "forbidden": [
+          "firefighter",
+          "down",
+          "metal",
+          "climb"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "balance beam",
+        "forbidden": [
+          "walk",
+          "steady",
+          "narrow",
+          "wood"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "safety mat",
+        "forbidden": [
+          "soft",
+          "fall",
+          "ground",
+          "protect"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "climbing wall",
+        "forbidden": [
+          "grip",
+          "high",
+          "hold",
+          "reach"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "playground gate",
+        "level": "A1"
+      },
+      {
+        "word": "picnic bench",
+        "level": "A1"
+      },
+      {
+        "word": "swingset",
+        "level": "A1"
+      },
+      {
+        "word": "carousel",
+        "level": "A1"
+      },
+      {
+        "word": "chalk path",
+        "level": "A1"
+      },
+      {
+        "word": "hopscotch grid",
+        "level": "A1"
+      },
+      {
+        "word": "climbing net",
+        "level": "A2"
+      },
+      {
+        "word": "stepping stones",
+        "level": "A1"
+      },
+      {
+        "word": "play tunnel",
+        "level": "A1"
+      },
+      {
+        "word": "water fountain",
+        "level": "A1"
+      },
+      {
+        "word": "playground sign",
+        "level": "A1"
+      },
+      {
+        "word": "wheelchair ramp",
+        "level": "A2"
+      },
+      {
+        "word": "shady tree",
+        "level": "A1"
+      },
+      {
+        "word": "playground buddy",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "slide",
+        "decoy": "swing",
+        "level": "A1"
+      },
+      {
+        "word": "seesaw",
+        "decoy": "roundabout",
+        "level": "A1"
+      },
+      {
+        "word": "sandbox",
+        "decoy": "mud kitchen",
+        "level": "A2"
+      },
+      {
+        "word": "monkey bars",
+        "decoy": "climbing net",
+        "level": "A2"
+      },
+      {
+        "word": "balance beam",
+        "decoy": "stepping stones",
+        "level": "A1"
+      },
+      {
+        "word": "climbing wall",
+        "decoy": "climbing frame",
+        "level": "A2"
+      },
+      {
+        "word": "spring rider",
+        "decoy": "rocking horse",
+        "level": "A1"
+      },
+      {
+        "word": "chalk path",
+        "decoy": "hopscotch grid",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "picnic bench",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "carousel",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "climbing net",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "stepping stones",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "play tunnel",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "water fountain",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "shady tree",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "playground gate",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-superheroes",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "cape",
+        "forbidden": [
+          "wear",
+          "back",
+          "fly",
+          "cloth"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "mask",
+        "forbidden": [
+          "face",
+          "hide",
+          "eyes",
+          "wear"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "secret identity",
+        "forbidden": [
+          "name",
+          "real",
+          "hidden",
+          "person"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rescue",
+        "forbidden": [
+          "help",
+          "save",
+          " danger",
+          "person"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sidekick",
+        "forbidden": [
+          "friend",
+          "hero",
+          "helper",
+          "second"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "superpower",
+        "forbidden": [
+          "special",
+          "ability",
+          "magic",
+          "strong"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "villain",
+        "forbidden": [
+          "bad",
+          "hero",
+          "fight",
+          "evil"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hero",
+        "forbidden": [
+          "brave",
+          "save",
+          "good",
+          "person"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "costume",
+        "forbidden": [
+          "clothes",
+          "wear",
+          "character",
+          "look"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hideout",
+        "forbidden": [
+          "secret",
+          "home",
+          "base",
+          "place"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mission",
+        "forbidden": [
+          "job",
+          "task",
+          "goal",
+          "do"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "shield",
+        "forbidden": [
+          "protect",
+          "round",
+          "block",
+          "hold"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "super strength",
+        "forbidden": [
+          "strong",
+          "lift",
+          "power",
+          "heavy"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "invisibility",
+        "forbidden": [
+          "cannot",
+          "see",
+          "disappear",
+          "hidden"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "comic book",
+        "level": "A1"
+      },
+      {
+        "word": "utility belt",
+        "level": "A2"
+      },
+      {
+        "word": "secret lair",
+        "level": "A2"
+      },
+      {
+        "word": "rescue rope",
+        "level": "A1"
+      },
+      {
+        "word": "signal light",
+        "level": "A1"
+      },
+      {
+        "word": "hero badge",
+        "level": "A1"
+      },
+      {
+        "word": "robot helper",
+        "level": "A1"
+      },
+      {
+        "word": "superhero team",
+        "level": "A1"
+      },
+      {
+        "word": "city rooftop",
+        "level": "A1"
+      },
+      {
+        "word": "secret tunnel",
+        "level": "A1"
+      },
+      {
+        "word": "training room",
+        "level": "A1"
+      },
+      {
+        "word": "safe house",
+        "level": "A2"
+      },
+      {
+        "word": "radio communicator",
+        "level": "A2"
+      },
+      {
+        "word": "first-aid kit",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "cape",
+        "decoy": "cloak",
+        "level": "A1"
+      },
+      {
+        "word": "mask",
+        "decoy": "face covering",
+        "level": "A1"
+      },
+      {
+        "word": "sidekick",
+        "decoy": "partner",
+        "level": "A1"
+      },
+      {
+        "word": "villain",
+        "decoy": "monster",
+        "level": "A1"
+      },
+      {
+        "word": "shield",
+        "decoy": "armour",
+        "level": "A2"
+      },
+      {
+        "word": "hideout",
+        "decoy": "secret lair",
+        "level": "A2"
+      },
+      {
+        "word": "superpower",
+        "decoy": "special skill",
+        "level": "A2"
+      },
+      {
+        "word": "mission",
+        "decoy": "rescue",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "comic book",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "utility belt",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "hero badge",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "rescue rope",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "robot helper",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "city rooftop",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "training room",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "first-aid kit",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-robots",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "robot",
+        "forbidden": [
+          "machine",
+          "metal",
+          "move",
+          "computer"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "wheel",
+        "forbidden": [
+          "round",
+          "roll",
+          "turn",
+          "car"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "arm",
+        "forbidden": [
+          "hand",
+          "move",
+          "robot",
+          "body"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sensor",
+        "forbidden": [
+          "feel",
+          "see",
+          "detect",
+          "part"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "button",
+        "forbidden": [
+          "press",
+          "small",
+          "control",
+          "round"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "battery",
+        "forbidden": [
+          "power",
+          "charge",
+          "energy",
+          "cell"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "screen",
+        "forbidden": [
+          "show",
+          "display",
+          "glass",
+          "look"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "remote control",
+        "forbidden": [
+          "buttons",
+          "far",
+          "operate",
+          "toy"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "robot dog",
+        "forbidden": [
+          "pet",
+          "toy",
+          "walk",
+          "bark"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "motor",
+        "forbidden": [
+          "spin",
+          "electric",
+          "part",
+          "move"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "gear",
+        "forbidden": [
+          "teeth",
+          "turn",
+          "inside",
+          "metal"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "camera",
+        "forbidden": [
+          "picture",
+          "see",
+          "lens",
+          "robot"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "voice command",
+        "forbidden": [
+          "say",
+          "words",
+          "control",
+          "listen"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "robot hand",
+        "forbidden": [
+          "grip",
+          "pick up",
+          "finger",
+          "claw"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "toy robot",
+        "level": "A1"
+      },
+      {
+        "word": "robot vacuum",
+        "level": "A1"
+      },
+      {
+        "word": "factory arm",
+        "level": "A2"
+      },
+      {
+        "word": "robot kit",
+        "level": "A1"
+      },
+      {
+        "word": "charging cable",
+        "level": "A1"
+      },
+      {
+        "word": "control panel",
+        "level": "A2"
+      },
+      {
+        "word": "robot car",
+        "level": "A1"
+      },
+      {
+        "word": "plastic casing",
+        "level": "A2"
+      },
+      {
+        "word": "assembly line",
+        "level": "A2"
+      },
+      {
+        "word": "delivery robot",
+        "level": "A1"
+      },
+      {
+        "word": "robot teacher",
+        "level": "A1"
+      },
+      {
+        "word": "remote sensor",
+        "level": "A2"
+      },
+      {
+        "word": "mechanical claw",
+        "level": "A2"
+      },
+      {
+        "word": "robot wheel",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "robot dog",
+        "decoy": "robot cat",
+        "level": "A1"
+      },
+      {
+        "word": "wheel",
+        "decoy": "gear",
+        "level": "A1"
+      },
+      {
+        "word": "sensor",
+        "decoy": "camera",
+        "level": "A2"
+      },
+      {
+        "word": "motor",
+        "decoy": "battery",
+        "level": "A2"
+      },
+      {
+        "word": "remote control",
+        "decoy": "control panel",
+        "level": "A2"
+      },
+      {
+        "word": "robot vacuum",
+        "decoy": "robot mower",
+        "level": "A2"
+      },
+      {
+        "word": "mechanical claw",
+        "decoy": "robot hand",
+        "level": "A2"
+      },
+      {
+        "word": "toy robot",
+        "decoy": "robot kit",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "robot vacuum",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "factory arm",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "robot car",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "delivery robot",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "assembly line",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "charging cable",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "robot teacher",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "robot mower",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-trains",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "train",
+        "forbidden": [
+          "track",
+          "carriage",
+          "travel",
+          "engine"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "platform",
+        "forbidden": [
+          "wait",
+          "station",
+          "train",
+          "edge"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "conductor",
+        "forbidden": [
+          "ticket",
+          "check",
+          "uniform",
+          "train"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "carriage",
+        "forbidden": [
+          "people",
+          "seat",
+          "train",
+          "room"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "railway track",
+        "forbidden": [
+          "metal",
+          "lines",
+          "train",
+          "ground"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "station",
+        "forbidden": [
+          "wait",
+          "platform",
+          "travel",
+          "building"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ticket",
+        "forbidden": [
+          "paper",
+          "ride",
+          "pay",
+          "show"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "locomotive",
+        "forbidden": [
+          "engine",
+          "front",
+          "pull",
+          "steam"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "signal",
+        "forbidden": [
+          "light",
+          "red",
+          "green",
+          "stop"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tunnel",
+        "forbidden": [
+          "dark",
+          "under",
+          "mountain",
+          "train"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "level crossing",
+        "forbidden": [
+          "road",
+          "gate",
+          "track",
+          "cars"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "dining car",
+        "forbidden": [
+          "food",
+          "seat",
+          "train",
+          "eat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "freight train",
+        "forbidden": [
+          "goods",
+          "heavy",
+          "carry",
+          "cargo"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "steam engine",
+        "forbidden": [
+          "smoke",
+          "old",
+          "coal",
+          "train"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "railway bridge",
+        "level": "A1"
+      },
+      {
+        "word": "train whistle",
+        "level": "A1"
+      },
+      {
+        "word": "ticket machine",
+        "level": "A1"
+      },
+      {
+        "word": "station clock",
+        "level": "A1"
+      },
+      {
+        "word": "sleeping car",
+        "level": "A2"
+      },
+      {
+        "word": "railway map",
+        "level": "A1"
+      },
+      {
+        "word": "train driver",
+        "level": "A1"
+      },
+      {
+        "word": "signal box",
+        "level": "A2"
+      },
+      {
+        "word": "waiting room",
+        "level": "A1"
+      },
+      {
+        "word": "train timetable",
+        "level": "A1"
+      },
+      {
+        "word": "platform bench",
+        "level": "A1"
+      },
+      {
+        "word": "railway crossing",
+        "level": "A1"
+      },
+      {
+        "word": "luggage rack",
+        "level": "A1"
+      },
+      {
+        "word": "dining table",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "locomotive",
+        "decoy": "engine",
+        "level": "A2"
+      },
+      {
+        "word": "platform",
+        "decoy": "station",
+        "level": "A1"
+      },
+      {
+        "word": "carriage",
+        "decoy": "wagon",
+        "level": "A1"
+      },
+      {
+        "word": "steam engine",
+        "decoy": "diesel engine",
+        "level": "A2"
+      },
+      {
+        "word": "freight train",
+        "decoy": "passenger train",
+        "level": "A1"
+      },
+      {
+        "word": "level crossing",
+        "decoy": "railway bridge",
+        "level": "A2"
+      },
+      {
+        "word": "conductor",
+        "decoy": "train driver",
+        "level": "A1"
+      },
+      {
+        "word": "sleeping car",
+        "decoy": "dining car",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "train whistle",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "ticket machine",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "station clock",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "signal box",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "waiting room",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "railway map",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "train driver",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "passenger train",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-airplanes",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "wing",
+        "forbidden": [
+          "fly",
+          "side",
+          "feather",
+          "plane"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pilot",
+        "forbidden": [
+          "cockpit",
+          "fly",
+          "person",
+          "control"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "runway",
+        "forbidden": [
+          "land",
+          "airport",
+          "long",
+          "strip"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "seat belt",
+        "forbidden": [
+          "sit",
+          "click",
+          "safe",
+          "strap"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "window seat",
+        "forbidden": [
+          "look",
+          "sky",
+          "view",
+          "plane"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "engine",
+        "forbidden": [
+          "power",
+          "noise",
+          "front",
+          "fly"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "propeller",
+        "forbidden": [
+          "spin",
+          "blade",
+          "front",
+          "air"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tail fin",
+        "forbidden": [
+          "back",
+          "vertical",
+          "plane",
+          "steer"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "boarding pass",
+        "forbidden": [
+          "gate",
+          "show",
+          "seat",
+          "ticket"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "airport",
+        "forbidden": [
+          "terminal",
+          "fly",
+          "travel",
+          "plane"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "landing gear",
+        "forbidden": [
+          "wheels",
+          "down",
+          "runway",
+          "deploy"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "overhead bin",
+        "forbidden": [
+          "bag",
+          "above",
+          "seat",
+          "store"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "flight attendant",
+        "forbidden": [
+          "crew",
+          "serve",
+          "help",
+          "onboard"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "airplane mode",
+        "forbidden": [
+          "phone",
+          "turn",
+          "off",
+          "inflight"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "cockpit",
+        "level": "A1"
+      },
+      {
+        "word": "cloud layer",
+        "level": "A1"
+      },
+      {
+        "word": "air traffic controller",
+        "level": "A2"
+      },
+      {
+        "word": "tray table",
+        "level": "A1"
+      },
+      {
+        "word": "seat pocket",
+        "level": "A1"
+      },
+      {
+        "word": "flight map",
+        "level": "A1"
+      },
+      {
+        "word": "airport shuttle",
+        "level": "A1"
+      },
+      {
+        "word": "emergency exit",
+        "level": "A1"
+      },
+      {
+        "word": "pilot headset",
+        "level": "A1"
+      },
+      {
+        "word": "jet bridge",
+        "level": "A2"
+      },
+      {
+        "word": "flight deck",
+        "level": "A2"
+      },
+      {
+        "word": "wingtip",
+        "level": "A2"
+      },
+      {
+        "word": "carry-on bag",
+        "level": "A1"
+      },
+      {
+        "word": "air sickness bag",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "runway",
+        "decoy": "taxiway",
+        "level": "A2"
+      },
+      {
+        "word": "pilot",
+        "decoy": "copilot",
+        "level": "A1"
+      },
+      {
+        "word": "propeller",
+        "decoy": "jet engine",
+        "level": "A1"
+      },
+      {
+        "word": "boarding pass",
+        "decoy": "train ticket",
+        "level": "A1"
+      },
+      {
+        "word": "tail fin",
+        "decoy": "rudder",
+        "level": "A2"
+      },
+      {
+        "word": "cockpit",
+        "decoy": "flight deck",
+        "level": "A1"
+      },
+      {
+        "word": "landing gear",
+        "decoy": "wheel",
+        "level": "A2"
+      },
+      {
+        "word": "flight attendant",
+        "decoy": "air marshal",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "cockpit",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "tray table",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "seat pocket",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "flight map",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "airport shuttle",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "emergency exit",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "carry-on bag",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "air traffic controller",
+        "kind": "job",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-boats",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "sailboat",
+        "forbidden": [
+          "wind",
+          "cloth",
+          "mast",
+          "travel"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "rowboat",
+        "forbidden": [
+          "oars",
+          "small",
+          "hand",
+          "water"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ferry",
+        "forbidden": [
+          "people",
+          "cars",
+          "cross",
+          "water"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "canoe",
+        "forbidden": [
+          "paddle",
+          "long",
+          "narrow",
+          "river"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "life jacket",
+        "forbidden": [
+          "safe",
+          "wear",
+          "water",
+          "orange"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "anchor",
+        "forbidden": [
+          "heavy",
+          "chain",
+          "stop",
+          "sea"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "harbour",
+        "forbidden": [
+          "boats",
+          "port",
+          "shore",
+          "place"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mast",
+        "forbidden": [
+          "tall",
+          "sail",
+          "wood",
+          "boat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "oar",
+        "forbidden": [
+          "row",
+          "water",
+          "hand",
+          "wood"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "deck",
+        "forbidden": [
+          "walk",
+          "top",
+          "boat",
+          "flat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "dinghy",
+        "forbidden": [
+          "small",
+          "rubber",
+          "tender",
+          "boat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rudder",
+        "forbidden": [
+          "steer",
+          "back",
+          "turn",
+          "boat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "captain",
+        "forbidden": [
+          "leader",
+          "ship",
+          "person",
+          "steer"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "compass",
+        "forbidden": [
+          "north",
+          "direction",
+          "needle",
+          "find"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "paddle",
+        "level": "A1"
+      },
+      {
+        "word": "boat hook",
+        "level": "A2"
+      },
+      {
+        "word": "mooring rope",
+        "level": "A1"
+      },
+      {
+        "word": "buoy",
+        "level": "A1"
+      },
+      {
+        "word": "ship wheel",
+        "level": "A1"
+      },
+      {
+        "word": "dinghy pump",
+        "level": "A2"
+      },
+      {
+        "word": "fishing boat",
+        "level": "A1"
+      },
+      {
+        "word": "canal boat",
+        "level": "A1"
+      },
+      {
+        "word": "lifebuoy",
+        "level": "A1"
+      },
+      {
+        "word": "port crane",
+        "level": "A2"
+      },
+      {
+        "word": "rowing seat",
+        "level": "A1"
+      },
+      {
+        "word": "boat shed",
+        "level": "A1"
+      },
+      {
+        "word": "deck chair",
+        "level": "A1"
+      },
+      {
+        "word": "waterproof bag",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "canoe",
+        "decoy": "paddle boat",
+        "level": "A1"
+      },
+      {
+        "word": "sailboat",
+        "decoy": "motorboat",
+        "level": "A1"
+      },
+      {
+        "word": "ferry",
+        "decoy": "cruise ship",
+        "level": "A1"
+      },
+      {
+        "word": "anchor",
+        "decoy": "buoy",
+        "level": "A1"
+      },
+      {
+        "word": "rudder",
+        "decoy": "oar",
+        "level": "A2"
+      },
+      {
+        "word": "harbour",
+        "decoy": "marina",
+        "level": "A2"
+      },
+      {
+        "word": "dinghy",
+        "decoy": "lifeboat",
+        "level": "A2"
+      },
+      {
+        "word": "canal boat",
+        "decoy": "rowboat",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "buoy",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "ship wheel",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "fishing boat",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "canal boat",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "port crane",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "lifebuoy",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "boat shed",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "waterproof bag",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-musical-instruments",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "guitar",
+        "forbidden": [
+          "string",
+          "play",
+          "music",
+          "wood"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "drum",
+        "forbidden": [
+          "beat",
+          "hit",
+          "sound",
+          "round"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "flute",
+        "forbidden": [
+          "blow",
+          "hole",
+          "air",
+          "woodwind"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "piano",
+        "forbidden": [
+          "keys",
+          "black",
+          "white",
+          "press"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "trumpet",
+        "forbidden": [
+          "brass",
+          "blow",
+          "loud",
+          "band"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "violin",
+        "forbidden": [
+          "bow",
+          "string",
+          "chin",
+          "small"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "triangle",
+        "forbidden": [
+          "metal",
+          "hit",
+          "shape",
+          "music"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "accordion",
+        "forbidden": [
+          "bellows",
+          "keys",
+          "squeeze",
+          "folk"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "keyboard",
+        "forbidden": [
+          "keys",
+          "electric",
+          "press",
+          "music"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "maracas",
+        "forbidden": [
+          "shake",
+          "seeds",
+          "round",
+          "sound"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "harp",
+        "forbidden": [
+          "string",
+          "large",
+          "pluck",
+          "music"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "recorder",
+        "forbidden": [
+          "blow",
+          "school",
+          "holes",
+          "plastic"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cymbal",
+        "forbidden": [
+          "metal",
+          "crash",
+          "round",
+          "drum"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "xylophone",
+        "forbidden": [
+          "bars",
+          "wood",
+          "hit",
+          "notes"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "clarinet",
+        "level": "A2"
+      },
+      {
+        "word": "trombone",
+        "level": "A2"
+      },
+      {
+        "word": "ukulele",
+        "level": "A1"
+      },
+      {
+        "word": "cello",
+        "level": "A2"
+      },
+      {
+        "word": "castanets",
+        "level": "A2"
+      },
+      {
+        "word": "music stand",
+        "level": "A1"
+      },
+      {
+        "word": "drumsticks",
+        "level": "A1"
+      },
+      {
+        "word": "mouthpiece",
+        "level": "A2"
+      },
+      {
+        "word": "concertina",
+        "level": "A2"
+      },
+      {
+        "word": "melodica",
+        "level": "A2"
+      },
+      {
+        "word": "tuning fork",
+        "level": "A2"
+      },
+      {
+        "word": "band leader",
+        "level": "A1"
+      },
+      {
+        "word": "music room",
+        "level": "A1"
+      },
+      {
+        "word": "instrument case",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "violin",
+        "decoy": "cello",
+        "level": "A1"
+      },
+      {
+        "word": "flute",
+        "decoy": "recorder",
+        "level": "A1"
+      },
+      {
+        "word": "trumpet",
+        "decoy": "trombone",
+        "level": "A2"
+      },
+      {
+        "word": "guitar",
+        "decoy": "ukulele",
+        "level": "A1"
+      },
+      {
+        "word": "drum",
+        "decoy": "cymbal",
+        "level": "A1"
+      },
+      {
+        "word": "clarinet",
+        "decoy": "oboe",
+        "level": "A2"
+      },
+      {
+        "word": "xylophone",
+        "decoy": "glockenspiel",
+        "level": "A2"
+      },
+      {
+        "word": "accordion",
+        "decoy": "concertina",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "ukulele",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "music stand",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "cello",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "castanets",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "instrument case",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "band leader",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "music room",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "tuning fork",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-drawing",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "pencil",
+        "forbidden": [
+          "lead",
+          "write",
+          "wood",
+          "point"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sketch",
+        "forbidden": [
+          "quick",
+          "draw",
+          "lines",
+          "idea"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "crayon",
+        "forbidden": [
+          "wax",
+          "colour",
+          "child",
+          "draw"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "eraser",
+        "forbidden": [
+          "rub",
+          "remove",
+          "mark",
+          "pink"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "outline",
+        "forbidden": [
+          "edge",
+          "shape",
+          "around",
+          "pencil"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sketchbook",
+        "forbidden": [
+          "pages",
+          "ideas",
+          "draw",
+          "journal"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "charcoal",
+        "forbidden": [
+          "black",
+          "soft",
+          "draw",
+          "sticks"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "portrait",
+        "forbidden": [
+          "face",
+          "person",
+          "head",
+          "draw"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "landscape",
+        "forbidden": [
+          "view",
+          "place",
+          "scenery",
+          "draw"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "doodle",
+        "forbidden": [
+          "small",
+          "quick",
+          "draw",
+          "while"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "shading",
+        "forbidden": [
+          "dark",
+          "light",
+          "pencil",
+          "grey"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "felt tip",
+        "forbidden": [
+          "pen",
+          "colour",
+          "marker",
+          "draw"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "paper",
+        "forbidden": [
+          "flat",
+          "white",
+          "fold",
+          "sheet"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sharpener",
+        "forbidden": [
+          "pencil",
+          "make",
+          "point",
+          "blade"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "drawing pin",
+        "level": "A1"
+      },
+      {
+        "word": "graphite stick",
+        "level": "A2"
+      },
+      {
+        "word": "coloured pencil",
+        "level": "A1"
+      },
+      {
+        "word": "paper clip",
+        "level": "A1"
+      },
+      {
+        "word": "drawing board",
+        "level": "A1"
+      },
+      {
+        "word": "blending stump",
+        "level": "A2"
+      },
+      {
+        "word": "chalk pastel",
+        "level": "A2"
+      },
+      {
+        "word": "eraser crumbs",
+        "level": "A1"
+      },
+      {
+        "word": "drawing glove",
+        "level": "A2"
+      },
+      {
+        "word": "artist stool",
+        "level": "A1"
+      },
+      {
+        "word": "line drawing",
+        "level": "A1"
+      },
+      {
+        "word": "comic strip",
+        "level": "A1"
+      },
+      {
+        "word": "profile view",
+        "level": "A2"
+      },
+      {
+        "word": "trace paper",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "sketch",
+        "decoy": "doodle",
+        "level": "A1"
+      },
+      {
+        "word": "portrait",
+        "decoy": "self-portrait",
+        "level": "A2"
+      },
+      {
+        "word": "charcoal",
+        "decoy": "graphite",
+        "level": "A2"
+      },
+      {
+        "word": "felt tip",
+        "decoy": "marker",
+        "level": "A1"
+      },
+      {
+        "word": "shading",
+        "decoy": "blending",
+        "level": "A2"
+      },
+      {
+        "word": "outline",
+        "decoy": "silhouette",
+        "level": "A2"
+      },
+      {
+        "word": "coloured pencil",
+        "decoy": "crayon",
+        "level": "A1"
+      },
+      {
+        "word": "drawing board",
+        "decoy": "sketchbook",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "coloured pencil",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "drawing board",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "blending stump",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "chalk pastel",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "paper clip",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "artist stool",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "comic strip",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "sharpener",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-painting",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "paintbrush",
+        "forbidden": [
+          "hair",
+          "handle",
+          "colour",
+          "stroke"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "palette",
+        "forbidden": [
+          "mix",
+          "colour",
+          "board",
+          "paint"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "watercolour",
+        "forbidden": [
+          "warm",
+          "thin",
+          "transparent",
+          "paper"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "acrylic",
+        "forbidden": [
+          "dry",
+          "fast",
+          "paint",
+          "plastic"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "easel",
+        "forbidden": [
+          "stand",
+          "canvas",
+          "hold",
+          "artist"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "canvas",
+        "forbidden": [
+          "cloth",
+          "paint",
+          "frame",
+          "large"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "paint pot",
+        "forbidden": [
+          "jar",
+          "colour",
+          "liquid",
+          "brush"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "splatter",
+        "forbidden": [
+          "drop",
+          "splash",
+          "paint",
+          "mess"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "mixing colour",
+        "forbidden": [
+          "red",
+          "blue",
+          "make",
+          "new"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "primary colour",
+        "forbidden": [
+          "red",
+          "yellow",
+          "blue",
+          "first"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "smock",
+        "forbidden": [
+          "clothes",
+          "wear",
+          "protect",
+          "paint"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "brushstroke",
+        "forbidden": [
+          "mark",
+          "paint",
+          "movement",
+          "art"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "finger painting",
+        "forbidden": [
+          "hands",
+          "children",
+          "colour",
+          "art"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "wall mural",
+        "forbidden": [
+          "brick",
+          "large",
+          "paint",
+          "picture"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "paint roller",
+        "level": "A1"
+      },
+      {
+        "word": "water jar",
+        "level": "A1"
+      },
+      {
+        "word": "apron",
+        "level": "A1"
+      },
+      {
+        "word": "paint tray",
+        "level": "A1"
+      },
+      {
+        "word": "masking tape",
+        "level": "A2"
+      },
+      {
+        "word": "paint palette knife",
+        "level": "A2"
+      },
+      {
+        "word": "drop cloth",
+        "level": "A2"
+      },
+      {
+        "word": "paint tube",
+        "level": "A1"
+      },
+      {
+        "word": "wet paper",
+        "level": "A1"
+      },
+      {
+        "word": "colour chart",
+        "level": "A1"
+      },
+      {
+        "word": "paint sponge",
+        "level": "A1"
+      },
+      {
+        "word": "artist canvas",
+        "level": "A1"
+      },
+      {
+        "word": "drying rack",
+        "level": "A1"
+      },
+      {
+        "word": "paint marker",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "watercolour",
+        "decoy": "gouache",
+        "level": "A2"
+      },
+      {
+        "word": "acrylic",
+        "decoy": "oil paint",
+        "level": "A2"
+      },
+      {
+        "word": "palette",
+        "decoy": "paint tray",
+        "level": "A1"
+      },
+      {
+        "word": "canvas",
+        "decoy": "paper",
+        "level": "A1"
+      },
+      {
+        "word": "paintbrush",
+        "decoy": "paint roller",
+        "level": "A1"
+      },
+      {
+        "word": "smock",
+        "decoy": "apron",
+        "level": "A1"
+      },
+      {
+        "word": "splatter",
+        "decoy": "drip",
+        "level": "A1"
+      },
+      {
+        "word": "wall mural",
+        "decoy": "canvas painting",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "paint roller",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "water jar",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "paint tray",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "masking tape",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "drop cloth",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "paint tube",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "drying rack",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "paint sponge",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-the-five-senses",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "sight",
+        "forbidden": [
+          "eyes",
+          "see",
+          "look",
+          "vision"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hearing",
+        "forbidden": [
+          "ears",
+          "sound",
+          "listen",
+          "noise"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "smell",
+        "forbidden": [
+          "nose",
+          "air",
+          "scent",
+          "breathe"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "taste",
+        "forbidden": [
+          "tongue",
+          "food",
+          "flavour",
+          "eat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "touch",
+        "forbidden": [
+          "hands",
+          "feel",
+          "skin",
+          "hold"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "whisper",
+        "forbidden": [
+          "quiet",
+          "voice",
+          "soft",
+          "talk"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "perfume",
+        "forbidden": [
+          "smell",
+          "bottle",
+          "spray",
+          "scent"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "texture",
+        "forbidden": [
+          "rough",
+          "smooth",
+          "feel",
+          "surface"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sour",
+        "forbidden": [
+          "lemon",
+          "taste",
+          "sharp",
+          "face"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "spicy",
+        "forbidden": [
+          "hot",
+          "pepper",
+          "tongue",
+          "food"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "echo",
+        "forbidden": [
+          "sound",
+          "repeat",
+          "cave",
+          "hear"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "vibration",
+        "forbidden": [
+          "shake",
+          "feel",
+          "sound",
+          "move"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "bright",
+        "forbidden": [
+          "light",
+          "see",
+          "sun",
+          "eyes"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "rough",
+        "forbidden": [
+          "bumpy",
+          "feel",
+          "surface",
+          "not smooth"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "blindfold",
+        "level": "A1"
+      },
+      {
+        "word": "earmuffs",
+        "level": "A1"
+      },
+      {
+        "word": "stethoscope",
+        "level": "A2"
+      },
+      {
+        "word": "smelling bottle",
+        "level": "A1"
+      },
+      {
+        "word": "taste test",
+        "level": "A1"
+      },
+      {
+        "word": "feather",
+        "level": "A1"
+      },
+      {
+        "word": "sandpaper",
+        "level": "A1"
+      },
+      {
+        "word": "bell",
+        "level": "A1"
+      },
+      {
+        "word": "music box",
+        "level": "A1"
+      },
+      {
+        "word": "scented soap",
+        "level": "A1"
+      },
+      {
+        "word": "lemon slice",
+        "level": "A1"
+      },
+      {
+        "word": "chilli pepper",
+        "level": "A1"
+      },
+      {
+        "word": "warm mug",
+        "level": "A1"
+      },
+      {
+        "word": "vibrating phone",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "sight",
+        "decoy": "vision",
+        "level": "A1"
+      },
+      {
+        "word": "hearing",
+        "decoy": "listening",
+        "level": "A1"
+      },
+      {
+        "word": "smell",
+        "decoy": "scent",
+        "level": "A1"
+      },
+      {
+        "word": "taste",
+        "decoy": "flavour",
+        "level": "A1"
+      },
+      {
+        "word": "rough",
+        "decoy": "bumpy",
+        "level": "A1"
+      },
+      {
+        "word": "sour",
+        "decoy": "bitter",
+        "level": "A1"
+      },
+      {
+        "word": "echo",
+        "decoy": "reverb",
+        "level": "A2"
+      },
+      {
+        "word": "feather",
+        "decoy": "cotton ball",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "blindfold",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "earmuffs",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "stethoscope",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "feather",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "sandpaper",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "bell",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "lemon slice",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "warm mug",
+        "kind": "thing",
         "level": "A1"
       }
     ]
