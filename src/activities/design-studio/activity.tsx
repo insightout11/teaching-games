@@ -136,10 +136,26 @@ export function DesignStudioActivity({
         optionLabels: round.options.map((option) => option.title),
         startedAt: Date.now(),
       });
+    } else if (phase === 'complete' && brief) {
+      // The ending: every phone shows the class's blueprint, to keep and show at home.
+      onSetInputSpec?.({
+        type: 'confirm',
+        gameKey: 'design-studio',
+        instruction: 'Our class design',
+        prompt: brief.title,
+        perStudentData: {
+          __blueprint: {
+            title: brief.title,
+            pitch: brief.pitch,
+            decisions: state.decisions.map((decision) => ({ stage: decision.stage, title: decision.selectedOption.title })),
+            cities: worldFlightMission?.evidence.map((evidence) => evidence.city) ?? [],
+          },
+        },
+      });
     } else {
       onSetInputSpec?.(null);
     }
-  }, [phase, round, state.decisions.length, maxDecisions, onSetInputSpec, pairings, sessionSettings.difficulty]);
+  }, [phase, round, brief, state.decisions, maxDecisions, onSetInputSpec, pairings, sessionSettings.difficulty, worldFlightMission]);
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
