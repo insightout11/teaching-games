@@ -515,5 +515,146 @@
     "courseId": "kids-space",
     "title": "Our Space Guide",
     "level": "A2"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "Omar finds a dinosaur model in a box. It has a long neck, a small head and four strong legs. He makes a card with three sentences. “This dinosaur is tall. It has a long tail. It walks on four legs.” His partner picks a different model. That one stands on two legs. They put the models beside each other and compare them. Neither model is a real animal, but each helps them notice body parts. Omar leaves the back of his card blank. Later, he wants to add clues from rocks. They can show more than a model.",
+    "words": [
+      {
+        "word": "model",
+        "meaning": "a small copy of something"
+      },
+      {
+        "word": "neck",
+        "meaning": "the part between head and body"
+      },
+      {
+        "word": "tail",
+        "meaning": "a long part behind an animal"
+      },
+      {
+        "word": "compare",
+        "meaning": "look for similarities and differences"
+      },
+      {
+        "word": "clues",
+        "meaning": "things that help you find an answer"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What kind of neck does Omar's model have?",
+        "a": "a long neck"
+      },
+      {
+        "q": "How many legs does it walk on?",
+        "a": "four"
+      },
+      {
+        "q": "Which part of the card stays blank?",
+        "a": "the back"
+      }
+    ],
+    "talk": [
+      "What three sentences could describe your dinosaur model?",
+      "How are a model and a real dinosaur different?"
+    ],
+    "courseId": "kids-dinosaurs",
+    "title": "Meet a Dinosaur",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 1,
+    "text": "A class visits a small display of old rocks. One rock holds a leaf shape. Another shows three footprints. “Where is the dinosaur?” asks Ada. The guide points at the footprints. “A fossil can be a mark,” she says. “It does not need to be a whole bone.” Ada studies the spaces between the prints. They show where an animal stepped long ago. She cannot learn its colour from these marks. Her friend draws the prints in a notebook. Together, they make two lists: things the rock shows and questions it cannot answer. Their best clue is small, but it tells a real part of a story.",
+    "words": [
+      {
+        "word": "display",
+        "meaning": "things arranged for people to look at"
+      },
+      {
+        "word": "footprints",
+        "meaning": "marks left by feet"
+      },
+      {
+        "word": "fossil",
+        "meaning": "an old body part or mark in rock"
+      },
+      {
+        "word": "mark",
+        "meaning": "a sign left on a surface"
+      },
+      {
+        "word": "stepped",
+        "meaning": "put a foot down while moving"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What shape does the first rock hold?",
+        "a": "a leaf shape"
+      },
+      {
+        "q": "What does the guide point at?",
+        "a": "the footprints"
+      },
+      {
+        "q": "What can Ada not learn from the marks?",
+        "a": "its colour"
+      }
+    ],
+    "talk": [
+      "What could a footprint tell you about an animal?",
+      "How would you explain the difference between a clue and a guess?"
+    ],
+    "courseId": "kids-dinosaurs",
+    "title": "Clues in the Ground",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Omar brings his dinosaur card to the class museum. He still uses his three body sentences. Now he adds a separate label for evidence. “These bones show long legs,” he says. “These footprints show steps in the ground.” A visitor asks whether the dinosaur was green. Omar does not invent an answer. “This model is green,” he replies. “Our clues do not show its colour.” He points to a sketch of a feather fossil. Some dinosaurs had feathers, but not every dinosaur was the same. His museum talk now describes an animal and explains what supports his ideas. The blank back of his first card is full.",
+    "words": [
+      {
+        "word": "label",
+        "meaning": "a short note identifying or explaining something"
+      },
+      {
+        "word": "evidence",
+        "meaning": "information that supports an idea"
+      },
+      {
+        "word": "invent",
+        "meaning": "make up something new"
+      },
+      {
+        "word": "sketch",
+        "meaning": "a simple drawing"
+      },
+      {
+        "word": "supports",
+        "meaning": "helps show that something may be true"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Where does Omar take his card?",
+        "a": "the class museum"
+      },
+      {
+        "q": "What do the bones show?",
+        "a": "long legs"
+      },
+      {
+        "q": "What is the model's colour?",
+        "a": "green"
+      }
+    ],
+    "talk": [
+      "How would you add evidence to your first dinosaur description?",
+      "What should a museum guide say when the answer is unknown?"
+    ],
+    "courseId": "kids-dinosaurs",
+    "title": "My Dinosaur Museum",
+    "level": "A2"
   }
 ]
