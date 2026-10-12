@@ -2395,5 +2395,240 @@
     "courseId": "exam-movers-style",
     "title": "About Me Again",
     "level": "A1"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "Imagine a picture of a class picnic. A boy is spreading a blanket on the grass. Two girls are opening a box of food. Their teacher is holding a ball beside a tree. Maya describes three things she notices. Then her partner asks which part of the picnic she would join. Maya chooses the ball game because she enjoys moving after lunch. She gives a reason, not just a word. Her partner prefers sitting under the tree and drawing. Maya saves her first picture description. She will try a new scene at the end. Her next description will add details and a clearer choice.",
+    "words": [
+      {
+        "word": "picnic",
+        "meaning": "a meal eaten outdoors"
+      },
+      {
+        "word": "spreading",
+        "meaning": "opening something over a surface"
+      },
+      {
+        "word": "blanket",
+        "meaning": "a thick cloth for warmth or sitting"
+      },
+      {
+        "word": "prefers",
+        "meaning": "likes one thing more than another"
+      },
+      {
+        "word": "description",
+        "meaning": "words explaining what something is like"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is the boy spreading?",
+        "a": "a blanket"
+      },
+      {
+        "q": "Who holds the ball?",
+        "a": "Their teacher"
+      },
+      {
+        "q": "Which activity does Maya choose?",
+        "a": "the ball game"
+      }
+    ],
+    "talk": [
+      "What details would you include in a picnic description?",
+      "Which part would you join, and what is your reason?"
+    ],
+    "courseId": "exam-flyers-style",
+    "title": "A First Picture Talk",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 1,
+    "text": "Two invented pictures show the same market stall. In the first, three apples sit in a bowl. A seller wears a blue hat. A dog rests under the table. In the second, the bowl holds pears. The seller's hat is red, and the dog stands beside a box. Eli describes one difference at a time. His partner listens and checks both scenes. They also notice one thing that stays the same. A small sign hangs above the stall in each picture. Their comparisons name the object before explaining its change. This helps the listener follow without guessing which part Eli means.",
+    "words": [
+      {
+        "word": "stall",
+        "meaning": "a small place where things are sold"
+      },
+      {
+        "word": "seller",
+        "meaning": "a person offering things to buy"
+      },
+      {
+        "word": "pears",
+        "meaning": "fruits wider at the bottom"
+      },
+      {
+        "word": "difference",
+        "meaning": "something that is not the same"
+      },
+      {
+        "word": "comparisons",
+        "meaning": "descriptions of similarities or differences"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Which fruit is in the first bowl?",
+        "a": "apples"
+      },
+      {
+        "q": "What colour is the second hat?",
+        "a": "red"
+      },
+      {
+        "q": "What stays the same above the stall?",
+        "a": "a small sign"
+      }
+    ],
+    "talk": [
+      "How would you explain a picture difference clearly?",
+      "What unchanged detail would you point out, and why?"
+    ],
+    "courseId": "exam-flyers-style",
+    "title": "Notice the Differences",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 2,
+    "text": "A notice announces a class craft afternoon. The text does not give every detail. Two partners have different information cards. Ina knows that the event is on Friday. Ben knows it begins at two o'clock. Ina asks about the place, and Ben answers, “The art room.” He asks what they should bring. Ina's card says, “A clean cardboard box.” They repeat the important details to check they agree. Then they write one complete message for a classmate. Their questions helped join two pieces of information. Neither partner could finish the message by reading only their own card.",
+    "words": [
+      {
+        "word": "notice",
+        "meaning": "a written message for people to read"
+      },
+      {
+        "word": "craft",
+        "meaning": "making things by hand"
+      },
+      {
+        "word": "event",
+        "meaning": "something planned to happen"
+      },
+      {
+        "word": "cardboard",
+        "meaning": "thick paper used for boxes"
+      },
+      {
+        "word": "repeat",
+        "meaning": "say or do something again"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Which day is the event?",
+        "a": "Friday"
+      },
+      {
+        "q": "Where will it take place?",
+        "a": "The art room"
+      },
+      {
+        "q": "What should they bring?",
+        "a": "A clean cardboard box"
+      }
+    ],
+    "talk": [
+      "What questions would you ask about a new class event?",
+      "How could you check that you understood your partner's information?"
+    ],
+    "courseId": "exam-flyers-style",
+    "title": "Ask for Information",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 3,
+    "text": "Three imaginary pictures tell a small story. First, a child places a paper boat beside a pond. Next, wind pushes the boat into the water. The child looks worried because the boat moves away. In the last picture, a friend uses a long stick. She gently brings the boat back to the edge. The child thanks her and chooses a dry place to play. Tom tells the story in order. He says who is there and what changes in each picture. His partner asks why the child looks worried. Tom answers using the boat's movement, not an invented extra problem.",
+    "words": [
+      {
+        "word": "imaginary",
+        "meaning": "made in the mind rather than real"
+      },
+      {
+        "word": "pond",
+        "meaning": "a small area of water"
+      },
+      {
+        "word": "edge",
+        "meaning": "the outside line of something"
+      },
+      {
+        "word": "gently",
+        "meaning": "in a careful, soft way"
+      },
+      {
+        "word": "worried",
+        "meaning": "thinking something bad might happen"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What moves the boat into the water?",
+        "a": "wind"
+      },
+      {
+        "q": "What does the friend use?",
+        "a": "a long stick"
+      },
+      {
+        "q": "Where does the child choose to play afterward?",
+        "a": "a dry place"
+      }
+    ],
+    "talk": [
+      "How would you connect three pictures into a clear story?",
+      "What could you describe without adding an event the pictures do not show?"
+    ],
+    "courseId": "exam-flyers-style",
+    "title": "Tell the Picture Story",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Maya describes a new picture of a school garden. One student carries a watering can. Another measures a tall plant beside a shorter one. Two classmates are drawing leaves at a table. Maya compares the plants before choosing an activity. She would join the drawing group because looking closely helps her notice shapes. Her partner chooses watering and explains how to avoid wetting the path. Maya remembers her first picnic talk. Her first talk had no comparisons. Now she connects actions, makes a comparison and gives a reason. Her answer is longer, but each detail helps the listener picture the garden.",
+    "words": [
+      {
+        "word": "watering can",
+        "meaning": "a container used to pour water on plants"
+      },
+      {
+        "word": "measures",
+        "meaning": "finds the size of something"
+      },
+      {
+        "word": "closely",
+        "meaning": "with careful attention"
+      },
+      {
+        "word": "comparison",
+        "meaning": "a description of how things differ"
+      },
+      {
+        "word": "shapes",
+        "meaning": "the forms of things"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does one student carry?",
+        "a": "a watering can"
+      },
+      {
+        "q": "Which activity would Maya join?",
+        "a": "the drawing group"
+      },
+      {
+        "q": "What does her partner choose?",
+        "a": "watering"
+      }
+    ],
+    "talk": [
+      "How would you improve a picture description you gave earlier?",
+      "Which comparison would help explain your choice in a new scene?"
+    ],
+    "courseId": "exam-flyers-style",
+    "title": "Picture Talk Again",
+    "level": "A2"
   }
 ]
