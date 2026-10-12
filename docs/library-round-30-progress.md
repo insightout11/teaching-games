@@ -6,3 +6,4 @@ Original material for the 66 unsourced ready-course lessons. Branch: `codex/libr
 
 Texts are written individually for each lesson's topic and flight. Opening and closing lessons introduce and revisit the course task. Course-scoped validation checks each completed course before its local commit; the final run checks all 66 lessons and cross-course similarity.
 - kids-family: 4 A1 texts; course checker passes.
+- kids-animals: 1 texts; course checker passes.

@@ -186,5 +186,52 @@
     "courseId": "kids-family",
     "title": "What We Can Say Now",
     "level": "A1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Nia opens the animal card she made in the first lesson. It says, “A penguin is a bird.” She wants her guide to say more. She adds three clear facts. “Penguins live in groups. They eat fish. They swim using their flippers.” Her partner asks, “Do all penguins live on ice?” Nia checks her notes. “No. Some live in warmer places,” she replies. She draws a penguin on a rocky beach, not beside an ice house. Her guide now shows a home, food and movement. She leaves a question at the bottom for visitors. “What would you like to find out next?”",
+    "words": [
+      {
+        "word": "guide",
+        "meaning": "something that explains a place or subject"
+      },
+      {
+        "word": "groups",
+        "meaning": "sets of people or animals together"
+      },
+      {
+        "word": "flippers",
+        "meaning": "flat body parts used for swimming"
+      },
+      {
+        "word": "warmer",
+        "meaning": "with more heat"
+      },
+      {
+        "word": "rocky",
+        "meaning": "covered with rocks"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Which animal does Nia describe?",
+        "a": "a penguin"
+      },
+      {
+        "q": "What do penguins eat?",
+        "a": "fish"
+      },
+      {
+        "q": "What do penguins use to swim?",
+        "a": "their flippers"
+      }
+    ],
+    "talk": [
+      "Which three facts would you include in an animal guide?",
+      "How can a picture help someone understand an animal's home?"
+    ],
+    "courseId": "kids-animals",
+    "title": "My Animal Guide",
+    "level": "A2"
   }
 ]
