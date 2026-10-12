@@ -31,3 +31,7 @@ Completed Soccer, Basketball, Swimming, Cycling, Running, Dancing, Board Games, 
 Completed Boats, Musical Instruments, Drawing, Painting, The Five Senses, Video Games, Game Design, Esports, Social Media, Online Privacy, Screen Time, Digital Footprints, Internet Memes, Artificial Intelligence, and Robots and Automation. Partial checks pass for 90 updated decks. This batch changed 21 Hot Seat targets and 5 Twenty Questions secrets; cumulative changes: 241 and 30.
 
 The validator now also requires Imposter prompts to begin with a WH word, in addition to ending in `?`, differing from one another, and avoiding yes/no starters. The partial validator reports zero failures across all updated decks. Full-bank samples and final counts will be added after all 150 decks are complete.
+
+## Batch 9 — virtual reality through personal style (15 topics)
+
+Completed Virtual Reality, Coding, Cybersecurity, Online Learning, Digital Art, Friendship, Peer Pressure, Teamwork, Music Genres, Live Music, Songwriting, Film Genres, Film Making, Fashion, and Personal Style. Partial checks pass for 105 updated decks. This batch changed the counts noted below compared with `origin/main`; cumulative totals will be confirmed after measurement.
