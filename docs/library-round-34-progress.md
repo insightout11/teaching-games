@@ -38,3 +38,7 @@ Rewrote 90 pairs and hints, reviewed 210 Hot Seat targets, and separated 120 sec
 ## Batch 6: boats through robots and automation
 
 Rewrote 90 pairs and category hints, reviewed 210 Hot Seat targets, and separated 120 secrets. Overlap examples: streamer / podcast equipment (headset, microphone, camera); recipe / AI prompt instructions (steps, quantities, desired result); ferry / bus waiting (read, talk, check time). Checker with --round34-count=90: all 19 error counts 0.
+
+## Batch 7: virtual reality through personal style
+
+Rewrote 90 pairs and hints, reviewed 210 Hot Seat targets and separated 120 secrets. Examples: film script / play notes (dialogue, actions, scene); VR controller / gamepad comfort (grip, size, weight); music genre / film style descriptions (fast, calm, dramatic). Checker with --round34-count=105: all 19 error counts 0.
