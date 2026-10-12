@@ -42,6 +42,18 @@ export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: Bo
   const [topic, setTopic] = useState(initialSource?.title ?? p?.topic ?? '');
   const [focusText, setFocusText] = useState<string | undefined>(p?.focus?.text);
   const [grammar, setGrammar] = useState<GrammarTarget | ''>((p?.payload?.grammarTarget as GrammarTarget | undefined) ?? '');
+  // Grammar points that fit the topic (banked topics only), looked up as the topic settles.
+  const [fits, setFits] = useState<Array<{ target: string; why: string; example: string }>>([]);
+  useEffect(() => {
+    if (type !== 'grammar' || topic.trim().length < 3) { setFits([]); return; }
+    const t = window.setTimeout(() => {
+      fetch(`/api/library/grammar-fits?topic=${encodeURIComponent(topic.trim())}`)
+        .then((r) => (r.ok ? r.json() : { fits: [] }))
+        .then((d: { fits?: Array<{ target: string; why: string; example: string }> }) => setFits(d.fits ?? []))
+        .catch(() => setFits([]));
+    }, 350);
+    return () => window.clearTimeout(t);
+  }, [type, topic]);
   const [material, setMaterial] = useState<MaterialLesson>({ _id: 'prep', title: initialSource?.title ?? p?.materialTitle ?? '', topic: initialSource?.title ?? p?.topic ?? '', suggestedSource: initialSource ?? null, ownMaterial: null });
   const [saving, setSaving] = useState(false);
   const [readyNow, setReadyNow] = useState(true);
@@ -192,6 +204,17 @@ export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: Bo
         {type === 'grammar' && (
           <section className="space-y-2">
             <label htmlFor="prep-grammar" className="block text-[11px] font-bold uppercase tracking-[0.2em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>Grammar point</label>
+            {fits.length > 0 && (
+              <div className="space-y-1.5">
+                <p className="text-xs text-white/50">Fits this topic:</p>
+                {fits.map((f) => (
+                  <button key={f.target} type="button" onClick={() => setGrammar(f.target as GrammarTarget)} className={`block w-full rounded-xl border px-3 py-2 text-left transition-colors ${grammar === f.target ? 'border-cyan-300 bg-cyan-300/[0.12]' : 'border-white/12 hover:border-white/30'}`}>
+                    <span className="block text-sm font-semibold capitalize text-white">{f.target}</span>
+                    <span className="block text-xs text-white/60">{f.why} <span className="italic text-white/45">&ldquo;{f.example}&rdquo;</span></span>
+                  </button>
+                ))}
+              </div>
+            )}
             <select id="prep-grammar" value={grammar} onChange={(e) => setGrammar(e.target.value as GrammarTarget | '')} className="w-full rounded-lg border border-white/12 bg-white/[0.05] px-3 py-2.5 text-sm text-lc-text focus:border-cyan-300/60 focus:outline-none">
               <option value="">Choose the grammar point…</option>
               {Object.entries(GRAMMAR_TARGET_GROUPS).map(([group, targets]) => (
