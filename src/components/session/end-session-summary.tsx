@@ -6,7 +6,7 @@ import { useSessionStore } from '@/stores/session-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { ArrowUpRight, Check, CheckCircle2, Clock3, Flame, Gauge, Loader2, Lock, PenLine, Plane, PlaneLanding, Crown, Sparkles, Star, Users } from 'lucide-react';
+import { ArrowUpRight, Check, CheckCircle2, Clock3, Flame, Gauge, Loader2, Lock, PenLine, Plane, PlaneLanding, Sparkles, Star, Users } from 'lucide-react';
 import type { StudentSessionPref } from '@/lib/supabase/types';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
@@ -22,6 +22,7 @@ import type { ClassLogbookSummary } from '@/lib/class-logbook';
 import { trackEvent } from '@/lib/analytics/posthog';
 import { resolveArrivalMetricDisplay } from './end-session-metrics';
 import { FLAP_FONT, Flaps, FlapStyles } from '@/components/ui/split-flap';
+import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { formatMeasure } from '@/lib/flight-result';
 
 export type EndSessionNextDestination =
@@ -217,6 +218,7 @@ export function EndSessionSummary({
   // Student beat — "Captain of the Day" (top scorer; only when there's a real winner)
   const captain = summary[0];
   const captainTies = captain ? summary.filter((s) => s.total === captain.total).length : 0;
+  const captainSeed = captain ? students.find((st) => st.id === captain.key)?.avatar_seed ?? captain.key : '';
 
   const rewardSnapshot = progressionReward?.snapshot ?? null;
   // The activity shell can unmount before its final score reconciliation finishes.
@@ -378,51 +380,55 @@ export function EndSessionSummary({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.35 }}
-            className="relative flex min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-3xl text-center"
+            className="relative flex min-h-[560px] flex-col items-center justify-center overflow-hidden rounded-3xl px-4 py-10 text-center"
           >
-            {/* Stage glow */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  'radial-gradient(ellipse 70% 55% at 50% 45%, rgba(245,158,11,0.14) 0%, transparent 70%)',
-              }}
-            />
-            <motion.p
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="font-instrument relative text-sm font-semibold uppercase tracking-[0.32em] text-amber-300/90"
-            >
-              Captain of the Day
-            </motion.p>
+            {/* A dark stage so the reveal reads over any arrival scene, with slow light rays behind the captain. */}
+            <div aria-hidden className="pointer-events-none absolute inset-0 rounded-3xl border border-white/[0.07] bg-[#070d18]/88 backdrop-blur-sm" />
             <motion.div
-              initial={{ scale: 0, rotate: -25, y: -30 }}
-              animate={{ scale: 1, rotate: 0, y: 0 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 13, delay: 0.85 }}
-              className="relative mt-7 flex h-24 w-24 items-center justify-center rounded-3xl border border-amber-400/35 bg-amber-400/15 shadow-[0_0_60px_-10px_rgba(245,158,11,0.55)]"
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-[44%] h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2"
+              style={{ background: 'repeating-conic-gradient(from 0deg, rgba(252,211,77,0.10) 0deg 9deg, transparent 9deg 22deg)', maskImage: 'radial-gradient(circle, #000 12%, transparent 62%)', WebkitMaskImage: 'radial-gradient(circle, #000 12%, transparent 62%)' }}
+              initial={{ opacity: 0, rotate: 0 }}
+              animate={{ opacity: 1, rotate: 360 }}
+              transition={{ opacity: { duration: 0.6, delay: 0.9 }, rotate: { duration: 60, repeat: Infinity, ease: 'linear' } }}
+            />
+            <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.15 }} className="relative">
+              <Flaps text="CAPTAIN OF THE DAY" tone="amber" max={18} />
+            </motion.div>
+            {/* The student's own crew character drops in wearing the captain's wings. */}
+            <motion.div
+              initial={{ scale: 0.2, y: -60, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 220, damping: 13, delay: 0.85 }}
+              className="relative mt-8 rounded-full p-2 shadow-[0_0_90px_-10px_rgba(252,211,77,0.65)] ring-2 ring-amber-300/60"
             >
-              <Crown className="h-12 w-12 text-amber-300" strokeWidth={1.5} />
+              <CrewAvatar
+                seed={isHidden(captain.key) ? 'anonymous-captain' : captainSeed}
+                name={isHidden(captain.key) ? '' : captain.name}
+                captain
+                size={168}
+              />
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, scale: 0.92, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 16, delay: 1.05 }}
-              className="relative mt-6 max-w-full truncate px-4 text-5xl font-extrabold tracking-tight text-lc-text"
+              transition={{ type: 'spring', stiffness: 200, damping: 16, delay: 1.1 }}
+              className="relative mt-9 max-w-full truncate px-4 font-display text-6xl text-white"
             >
               {isHidden(captain.key) ? 'Anonymous Captain' : captain.name}
-              {captainTies > 1 && <span className="text-2xl font-medium text-lc-text3"> +{captainTies - 1}</span>}
+              {captainTies > 1 && <span className="text-2xl font-medium text-white/50"> +{captainTies - 1}</span>}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 1.35 }}
-              className="relative mt-3 text-base text-lc-text2"
+              transition={{ duration: 0.5, delay: 1.4 }}
+              className="relative mt-3 font-mono text-sm uppercase tracking-[0.18em] text-amber-200/90"
             >
-              {captain.total} pts
-              {captain.accuracyAttempts > 0 && <> · {captain.correct}/{captain.accuracyAttempts} correct</>}
-              {captain.bestStreak >= 2 && <> · {captain.bestStreak} streak</>}
+              {captain.total} points
+              {captain.bestStreak >= 2 && <> · {captain.bestStreak} in a row</>}
+            </motion.p>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 1.7 }} className="relative mt-2 text-base text-white/60">
+              A round of applause for today&apos;s captain.
             </motion.p>
           </motion.div>
         )}
@@ -532,7 +538,7 @@ export function EndSessionSummary({
               >
                 {isSolo
                   ? <Sparkles className="h-7 w-7 text-cyan-300" strokeWidth={1.75} />
-                  : <Crown className="h-7 w-7 text-amber-300" strokeWidth={1.75} />}
+                  : <CrewAvatar seed={isHidden(captain.key) ? 'anonymous-captain' : captainSeed} name={isHidden(captain.key) ? '' : captain.name} captain size={44} />}
               </motion.div>
               <div className="min-w-0">
                 <p className={`text-[11px] font-semibold uppercase tracking-[0.18em] ${isSolo ? 'text-cyan-300/80' : 'text-amber-300/80'}`}>
