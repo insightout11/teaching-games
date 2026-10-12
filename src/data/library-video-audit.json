@@ -540,12 +540,12 @@
     "note": "Not yet, effort, learning from errors and growth-oriented classrooms match Dweck’s mindset talk; occasional caption errors do not erase its meaning."
   },
   "business-english-library.json/business-emails": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحباً ، ادعى جينا و أهلاً”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: The Arabic introduction says job-interview questions, not the entry’s professional email-writing subject. Verify the cache/video pairing before retitling."
+    "status": "mismatch",
+    "note": "Evidence: The opening explicitly introduces answering job interview questions. Suggested action: Correct the entry to the actual subject."
   },
   "business-english-library.json/business-meetings": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحباً؛ أنا مايك أهلاً بكم في”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: The Arabic introduction says writing an email, not the entry’s business-meeting subject. Verify the cache/video pairing before retitling."
+    "status": "mismatch",
+    "note": "Evidence: The opening explicitly introduces writing an email and later shows calls to action. Suggested action: Correct the entry to the actual subject."
   },
   "business-english-library.json/business-presentations": {
     "status": "mismatch",
@@ -568,72 +568,72 @@
     "note": "Creativity/conflict questions and STAR situation/task/action/result explain competency answers."
   },
   "business-english-library.json/business-networking": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبا .. أنا \"مايك\" وأهلاً بكم”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: The Arabic introduction says talking about your job and workplace, rather than networking-event introductions/follow-up. Verify the cache/video pairing before retitling."
+    "status": "mismatch",
+    "note": "Evidence: The opening asks where you work, what you do and what kind of company employs you. Suggested action: Correct the entry to the actual subject."
   },
   "business-english-library.json/business-phone": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored captions are Chinese-script translation (“嗨，我是Oli。 欢迎使用牛津在线英”), so the English speech and level cannot be checked. The translated introduction also says this is a small-talk lesson, not a telephone lesson. Suggested action: Remove from English-caption selection until English captions are cached; recheck the stated topic where noted."
+    "status": "mismatch",
+    "note": "Evidence: The English opening explicitly introduces small talk, not telephone calls. Suggested action: Correct the entry to the actual subject."
   },
   "business-english-library.json/business-negotiating": {
     "status": "mismatch",
     "note": "Evidence: The 4,841-word cache joins BBC work-topic programmes about office return, self-employment, bossless firms and product lifecycle; it is not a negotiation-language lesson. Suggested action: Verify the video/cache pairing and replace or retitle the source as a work-topic compilation."
   },
   "crash-course-library.json/cc-ww1-overview": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبًا، أنا جون غرين وهذه سلسلة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "partial",
+    "note": "Evidence: The opening explicitly says this episode explains how WWI happened and the next video treats the war itself. Suggested action: Correct the entry to the actual subject."
   },
   "crash-course-library.json/cc-ww2-overview": {
     "status": "level-off",
     "note": "Evidence: The 2,467-word caption uses unscaffolded terms such as Judeo-Bolshevism, non-aggression pact and totalitarian aggression within a dense account of military strategy, exceeding the stored B1 label. Suggested action: Raise to B2 after checking delivery."
   },
   "crash-course-library.json/cc-psychology-intro": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “ذلك الحلم عن الديناصور في ثوب”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Psychology history, structuralism, functionalism and psychoanalysis match the field introduction."
   },
   "crash-course-library.json/cc-economics-supply-demand": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “أنا السيد كليفورد، وهذه أدريان هيل،”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Strawberries, gasoline, price graphs and market responses explain supply/demand."
   },
   "crash-course-library.json/cc-biology-evolution": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “،مرحبًا، أنا \"هانك\" وأنا إنسان .لكني”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Peppered moths, inheritance and selection explain evolution."
   },
   "crash-course-library.json/cc-climate-science": {
     "status": "partial",
     "note": "Evidence: The climate mechanisms and consequences match, but the caption closes by naming SciShow, rather than the title’s Crash Course series. Suggested action: Correct the title/series attribution to a SciShow climate-change explainer after verifying the video/cache pairing."
   },
   "crash-course-library.json/cc-sociology-intro": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبًا بكم انا نيكول سوين, لدي”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Social location, institutions and group patterns explain sociology."
   },
   "crash-course-library.json/cc-english-lit-hamlet": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحًبا، أنا جون غرين وهذا Crash”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Ghost, Claudius, feigned madness and theatre match Hamlet."
   },
   "crash-course-library.json/cc-philosophy-intro": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “كراش كورس الفلسفة مُقدَّمة لك من”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Inquiry, big questions, metaphysics and values match philosophy."
   },
   "crash-course-library.json/cc-economics-globalisation": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبًا بكم في Crash Course Economics.”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Poverty, development technology, trade and workers match globalisation."
   },
   "crash-course-library.json/cc-astronomy-solarsystem": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “النظام الشمسي هو الاسم الذي نطلقه”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "level-off",
+    "note": "Evidence: The caption explains planetesimals, gravitational formation and competing planet definitions in connected scientific language beyond A2. Suggested action: Raise to B1."
   },
   "crash-course-library.json/cc-media-literacy": {
     "status": "ok",
     "note": "Jay Smooth explains consuming, interpreting and creating media and recognising messages, matching the media-literacy introduction."
   },
   "crash-course-library.json/cc-us-constitution": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبا، أنا Craig، وهذا \"كراش كورس\":”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Representation, ratification and constitutional bargaining match compromises."
   },
   "crash-course-library.json/cc-biology-cells": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached cell-biology body is Albanian translation, beginning Qelizat janë njësit me të vogla, not English speech captions. Suggested action: Replace with full English speech captions and verify the Hank Green attribution."
+    "status": "level-off",
+    "note": "Evidence: The caption explains ribosomes, endoplasmic reticulum, mitochondria and cytoskeleton in connected scientific language beyond A2. Suggested action: Raise to B1."
   },
   "grammar-library.json/grammar-r2-aizd-rWx1Zg": {
     "status": "ok",
@@ -1132,8 +1132,8 @@
     "note": "Astronauts describe darkness, the atmosphere and connection to Earth as claimed."
   },
   "hooks-library.json/hook-r2-iTHUUjTA-LI": {
-    "status": "ok",
-    "note": "Named missions and viewing distances match a visual perspective on Earth; the caption is mostly labels but has concrete usable information."
+    "status": "weak-captions",
+    "note": "Evidence: Only the older 91-word English narration remains; the owner reports no English captions are available, so alignment is unverified. Suggested action: Keep hidden pending verified captions."
   },
   "hooks-library.json/hook-r2-fshNptg_BxY": {
     "status": "ok",
@@ -1248,32 +1248,32 @@
     "note": "Outside the Fox hosts discuss meme communities, brand personas and internet humour/trust, matching online culture and norms; chronology is broad rather than a formal history."
   },
   "kids-library.json/kids_gotta_eat": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “(مقدمة) جميعنا نأكل صحيح؟ لكن هل”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Food, energy, living/nonliving comparisons and a plant experiment match needing to eat."
   },
   "kids-library.json/kids_here_comes_the_sun": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “علوم، كراش كورس للأطفال ها قد”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Sun temperatures, energy travel and Earth’s heat/light match the Sun explanation."
   },
   "kids-library.json/kids_fabulous_food_chains": {
     "status": "ok",
     "note": "Energy moving from the Sun through plants and animals matches the food-chain claim; technical terms are explained, so A2 is plausible with support."
   },
   "kids-library.json/kids_defining_gravity": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “تعريف الجاذبية إن أخبرتـُك أنك ربحت”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "partial",
+    "note": "Evidence: The full cache explains falling apples/balls, without the promised orbiting-planet example. Suggested action: Correct the entry to the caption-supported subject."
   },
   "kids-library.json/kids_weathering_erosion": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “هذه هي الأرض، موطن سبعة ملايين”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Mechanical/chemical weathering and changed coastlines explain Earth’s reshaping."
   },
   "kids-library.json/kids_science_of_lunch": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “أتعلمون ما هو أسوأ جُزء بوجبة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: the Arabic cache describes the physical properties of a brown paper lunch bag, while the description promises food ingredients and body energy; verify the cache/video pairing before rewriting that description."
+    "status": "mismatch",
+    "note": "Evidence: The cache studies a paper bag, bread, apples and other objects for hardness, malleability and conductivity, not digestion or body energy. Suggested action: Correct the entry to the caption-supported subject."
   },
   "kids-library.json/kids_home_sweet_habitat": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “تصوّرْ دباً قطبياً.. في الصَّحراء. ما”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "partial",
+    "note": "Evidence: The caption lists food, water, shelter and space, then explains Arctic food webs and adaptations; it does not list five needs including air. Suggested action: Correct the entry to the caption-supported subject."
   },
   "kids-library.json/kids_food_webs": {
     "status": "ok",
@@ -1652,56 +1652,56 @@
     "note": "Sun energy, liquid water and imagined alien food webs match conditions for life elsewhere."
   },
   "kurzgesagt-library.json/kurzgesagt_optimistic_nihilism": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Ekzistenca njerëzore është e frikshme dhe), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Limited lifetime and meaning chosen through action match optimistic nihilism."
   },
   "kurzgesagt-library.json/kurzgesagt_the_egg": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “كنت في طريقك إلى المنزل عندما”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Death, reincarnation and a shared soul match The Egg."
   },
   "kurzgesagt-library.json/kurzgesagt_how_small_is_an_atom": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Atomet janë qesharakë dhe jashtëzakonisht të), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Atom scales, quarks and orbitals match atomic size and structure."
   },
   "kurzgesagt-library.json/kurzgesagt_plastic_pollution": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “عندما منحت الآلهة الملك ميداس أمنية”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Plastic production, waste and substitute trade-offs match pollution."
   },
   "kurzgesagt-library.json/kurzgesagt_what_is_something": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Pyetjet e thjeshta janë ato më), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Particles, fields and forces match fundamental matter."
   },
   "kurzgesagt-library.json/kurzgesagt_loneliness": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Të gjithë ndihemi të vetmuar kohë), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Social isolation, threat perception and connection match loneliness."
   },
   "kurzgesagt-library.json/kurzgesagt_why_blue_whales_dont_get_cancer": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Kanceri është diçka e frikshme dhe), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "partial",
+    "note": "Evidence: The same-rate comparison is humans versus mice; the caption says whales seem to have much less cancer than expected. Suggested action: Narrow the description and summary."
   },
   "kurzgesagt-library.json/kurzgesagt_overpopulation_africa": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Afrikaans translation (for example, Vir die grootste deel van mensdom), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Bangladesh, education, healthcare and African development match population transition."
   },
   "kurzgesagt-library.json/kurzgesagt_why_are_you_alive": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Afrikaans translation (for example, Op hierdie sekonde is jy aan), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: ATP, cellular work and energy sources match life chemistry."
   },
   "kurzgesagt-library.json/kurzgesagt_universal_basic_income": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “ماذا لو غطت الدولة تكلفة معيشتك”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: UBI incentives, costs and economic scenarios match basic income."
   },
   "kurzgesagt-library.json/kurzgesagt_selfish_argument": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “حتى وقت قريب, الغالبية العظمى من”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Innovation, market size and curing disease match self-interested development."
   },
   "kurzgesagt-library.json/kurzgesagt_addiction": {
     "status": "ok",
     "note": "Rat Park, drugged water and human social bonds match the connection/environment explanation of addiction; the audit does not verify the scientific claims."
   },
   "kurzgesagt-library.json/kurzgesagt_nuclear_energy": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Azerbaijani translation (for example, İqlim dəyişikliyini dayandırmaq üçün nüvə enerjisinə), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "partial",
+    "note": "Evidence: The caption centres on low-carbon electricity and transition trade-offs and explicitly refers waste/accident concerns to other videos. Suggested action: Narrow the description and summary."
   },
   "listening-library.json/listening-r7-english-file-introductions": {
     "status": "ok",
@@ -1960,20 +1960,20 @@
     "note": "Evidence: Capp00 introduces starting Minecraft, wood planks, crafting and stone tools; the complete caption contains no redstone or circuit explanation. Suggested action: Retitle to Getting Started in Minecraft, or verify and replace the wrong video/cache pairing."
   },
   "natgeo-library.json/natgeo-wolves-change-rivers": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “[ذئاب تعوي] - [الراوي] من أكثر”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Yellowstone deer, vegetation and other animals explain trophic cascades."
   },
   "natgeo-library.json/natgeo-octopus-intelligence": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ahmad Arnab المدقّق: Muhammad Samir”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "partial",
+    "note": "Evidence: The cache explains ganglia, arm neurons and motor control, not the promised heart count or blue blood. Suggested action: Narrow the description and summary."
   },
   "natgeo-library.json/natgeo-deep-ocean": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “في بعض الأحيان تشعر بأن العالم,”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Dark zones, marine snow and deep adaptations match deep-sea life."
   },
   "natgeo-library.json/natgeo-elephants-memory": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Lalla Khadija Tigha المدقّق: khalid”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Brain size, memory and animal intelligence match elephants."
   },
   "natgeo-library.json/natgeo-how-volcanoes-work": {
     "status": "level-off",
@@ -1984,16 +1984,16 @@
     "note": "Evidence: The full cache describes mouse-brain tissue slicing and wiring diagrams; it gives neither the claimed 86-billion-neuron number nor a faster-than-computers comparison. Suggested action: Rewrite the description as mapping brain connections with thin tissue sections."
   },
   "natgeo-library.json/natgeo-amazon-rainforest": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Salma Mohammed المدقّق: Hani Eldalees”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Rainfall, deforestation and Indigenous protection match the Amazon."
   },
   "natgeo-library.json/natgeo-coral-reef-crisis": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mahmoud Aghiorly المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "partial",
+    "note": "Evidence: The full cache concerns connected marine reserves, migration and recovery; neither the 1% nor 25% statistic is given. Suggested action: Narrow the description and summary."
   },
   "natgeo-library.json/natgeo-ancient-egypt": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبًا، اسمي جون غرين، وهذه سلسلة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied. Secondary attribution concern: the Arabic introduction explicitly names John Green and Crash Course World History, rather than the library’s National Geographic attribution; verify source metadata."
+    "status": "partial",
+    "note": "Evidence: John Green names Crash Course World History and surveys kingdoms; no modern technology discovery is promised in the cache. Suggested action: Correct the entry to the actual subject."
   },
   "natgeo-library.json/natgeo-climate-change": {
     "status": "ok",
@@ -2016,284 +2016,284 @@
     "note": "The caption explicitly explains 48 teams, 12 groups, third-place qualification, a round of 32 and the expanded match structure, matching the format explainer. Current FIFA rules are not independently reverified in this cached-content audit."
   },
   "ted-library.json/ken_robinson_schools_kill_creativity": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Afrikaans translation (for example, Goeie môre. Hoe gaan dit? (Gelag)), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Education, diverse intelligence and creativity match Robinson’s argument."
   },
   "ted-library.json/brene_brown_power_of_vulnerability": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Po e filloj me një histori:), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Connection, shame and vulnerability as creativity/belonging/love match Brown’s research story."
   },
   "ted-library.json/angela_duckworth_grit": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Kur isha 27 vjeç, hoqa dore), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "level-off",
+    "note": "Evidence: The speech moves from management consulting to cadet research, standardised scores and graduation prediction in sustained multi-clause academic narration, beyond A2. Suggested action: Raise to B1."
   },
   "ted-library.json/carol_dweck_power_of_believing": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Fuqia e \"ende\". Dëgjova për një), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "level-off",
+    "note": "Evidence: The speech explains growth/fixed mindsets, brain responses, school-transition studies and equality in sustained abstract causal clauses, beyond A2. Suggested action: Raise to B1."
   },
   "ted-library.json/shawn_achor_happy_secret": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Kur une isha shtate vjece dhe), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Optimism and a closing daily-practice list match happiness and work."
   },
   "ted-library.json/robert_waldinger_good_life": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Taycir Yahmed المدقّق: Mohammed Basheer”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: The long adult-life study and relationship satisfaction match health/happiness."
   },
   "ted-library.json/chimamanda_adichie_danger_single_story": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Afrikaans translation (for example, Ek is ’n storieverteller. Ek wil), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Personal Nigerian/US experiences illustrate the harms of a single story."
   },
   "ted-library.json/dan_pink_puzzle_of_motivation": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Anwar Dafa-Alla المدقّق: Mahmoud Aghiorly”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Reward experiments and autonomy/mastery/purpose match motivation."
   },
   "ted-library.json/tim_urban_procrastinator": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ali Sumait المدقّق: Ahmad Abdelwahb”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Instant Gratification Monkey, Panic Monster and limited life weeks match procrastination."
   },
   "ted-library.json/susan_cain_power_of_introverts": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Kur isha 9 vjeçe për herë), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Camp, leadership and solitary creativity match undervalued introverts."
   },
   "ted-library.json/amy_cuddy_body_language": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Dua t'ia filloj duke ju treguar), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Posture, hormonal research and interview experiments match the power-posing claim; this audit does not verify the research."
   },
   "ted-library.json/adam_grant_originals": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Shtate vjet më parë, një student), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Warby Parker, moderate procrastination, self-doubt and trying many ideas match originals."
   },
   "ted-library.json/hans_rosling_best_stats": {
     "status": "ok",
     "note": "Income, child mortality, regional development and animated comparisons match Rosling’s development-statistics talk. An unrelated car advertisement appears at the end; the main talk remains usable."
   },
   "ted-library.json/jill_bolte_taylor_stroke": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, U rrita duke studiuar trurin sepse), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Stroke symptoms, brain hemispheres and inner peace match the personal account."
   },
   "ted-library.json/yuval_harari_why_humans_rule": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Shtatëdhjetë mijë vjet më parë, paraardhësit), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Shared stories, currency and large-scale cooperation match Harari’s argument."
   },
   "ted-library.json/elizabeth_gilbert_creative_genius": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Unë jam shkrimtare. Shkrimi i librave), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Ancient creative spirits and managing artistic pressure match Gilbert’s proposal."
   },
   "ted-library.json/bill_gates_teachers_need_feedback": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Çdokush ka nevojë për një trajner.), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Coaching, teacher observations and video self-reflection match Gates’s proposal."
   },
   "ted-library.json/sal_khan_reinvent_education": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “اشتهرت أكاديمية خان بمجموعة مقاطع فيديو”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "level-off",
+    "note": "Evidence: The lengthy talk uses hypotenuse, differentiated/self-paced learning, mastery exercises and classroom models, exceeding A2. Suggested action: Raise to B1."
   },
   "ted-library.json/temple_grandin_all_kinds_of_minds": {
-    "status": "weak-captions",
-    "note": "Evidence: The cached body is Albanian translation (for example, Mendoj që do filloj duke treguar), not English speech captions; the spoken English level cannot be judged. Suggested action: Replace with complete English speech captions before English lesson use."
+    "status": "ok",
+    "note": "Refreshed English cache: Thinking styles, autism, practical teaching and sensory issues match Grandin’s argument."
   },
   "ted-library.json/steven_johnson_where_good_ideas_come": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “:منذ خمس سنوات وأنا أعمل على”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Slow hunches, the Web and connected minds match collaborative innovation."
   },
   "teded-library.json/teded_how_sugar_affects_brain": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored captions are Albanian rather than English (“biskota te ngrohta e te lengshme,”); their translation cannot establish the spoken English level. Suggested action: Remove from English-caption lesson selection until a matching English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Reward networks and dopamine explain sugar cravings."
   },
   "teded-library.json/teded_why_do_we_dream": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Yazed AlMulhem المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Memory, threat rehearsal and other hypotheses explain dreaming."
   },
   "teded-library.json/teded_how_stress_affects_brain": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Shada Shaheen المدقّق: Ghalia Turki”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Cortisol, neural changes and coping activities explain chronic stress."
   },
   "teded-library.json/teded_what_is_depression": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Muhammad Samir المدقّق: Samar Mohamed”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "level-off",
+    "note": "Evidence: Psychiatric diagnosis, neurotransmitters and electroconvulsive/transcranial treatment explanations use sustained specialised language beyond A2. Suggested action: Raise to B1."
   },
   "teded-library.json/teded_what_if_you_didnt_sleep": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Inas Mar المدقّق: Hussain Laghabi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "level-off",
+    "note": "Evidence: DNA repair, fatal insomnia, dementia and brain waste mechanisms use connected scientific explanations beyond A2. Suggested action: Raise to B1."
   },
   "teded-library.json/teded_tragedy_of_the_commons": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mariam Aboud المدقّق: Mennatullah Mustafa”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: A shared fish pond and individual incentives illustrate resource depletion."
   },
   "teded-library.json/teded_prisoner_hat_riddle": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ahmad Jarbou المدقّق: Hussain Laghabi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Hat parity and information sharing solve the ten-prisoner puzzle."
   },
   "teded-library.json/teded_psychology_of_narcissism": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored captions are Albanian rather than English (“përpara selfie-t të parë, grekët dhe”); their translation cannot establish the spoken English level. Suggested action: Remove from English-caption lesson selection until a matching English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Narcissus, power seeking and disorder versus personality traits explain narcissism."
   },
   "teded-library.json/teded_antibiotic_resistance": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ahmad Wadan المدقّق: khalid marbou”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Bacterial mutations, MRSA and overuse explain resistance."
   },
   "teded-library.json/teded_how_to_practice_effectively": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mohammed Dz المدقّق: Eman Salah”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "level-off",
+    "note": "Evidence: Myelin sheaths, axons, insulation and physical/mental practice research exceed A2 language. Suggested action: Raise to B1."
   },
   "teded-library.json/teded_immune_system": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored captions are Albanian rather than English (“nen rrezik. Miliarda bakterie, viruse dhe”); their translation cannot establish the spoken English level. Suggested action: Remove from English-caption lesson selection until a matching English cache is supplied."
+    "status": "partial",
+    "note": "Evidence: Macrophages, neutrophils, T cells and B cells explain infection response, but the complete cache does not explain vaccines. Suggested action: Narrow the description and summary."
   },
   "teded-library.json/teded_what_is_kafkaesque": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mohammad Houri المدقّق: Ghalia Turki”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: The Trial, Poseidon and the hunger artist illustrate Kafkaesque absurd bureaucracy."
   },
   "teded-library.json/teded_philosophy_of_stoicism": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: El Hacene BOULKROUNE المدقّق: Hani”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Zeno, control of reactions and later examples explain Stoicism."
   },
   "teded-library.json/teded_how_memories_form": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ahmad Jarbou المدقّق: Hussain Laghabi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Synapses, hippocampal changes and other factors explain memory loss."
   },
   "teded-library.json/teded_plato_allegory_cave": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Amy Alzidan المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Cave prisoners, shadows and release illustrate reality and knowledge."
   },
   "teded-library.json/teded_what_makes_a_hero": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mahmoud Aghiorly المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Trials, ordeal, return and a Hunger Games example map Campbell’s hero journey."
   },
   "teded-library.json/teded_food_and_gut": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Maryam Eladdad المدقّق: Hani Eldalees”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Fibre, dietary changes and fermented foods explain microbiome effects."
   },
   "teded-library.json/teded_what_is_dna": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “Stated Clearly تقدم ما هو DNA”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: DNA, proteins, RNA and ribosomes explain genetic instructions."
   },
   "teded-library.json/teded_how_did_hitler_rise_to_power": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Hani Eldalees المدقّق: Muhammad Samir”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Postwar instability, antisemitism and democratic failures explain Hitler’s rise."
   },
   "teded-library.json/teded_bridge_riddle": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Muhammad Baraa Karazeh المدقّق: Mualla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Lantern return trips solve the four-person bridge puzzle."
   },
   "teded-library.json/teded_why_hard_to_cure_cancer": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Nada Shokry المدقّق: Mennatullah Mustafa”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Cell lines, immune evasion and cancer diversity explain cure difficulties."
   },
   "teded-library.json/teded_is_light_particle_or_wave": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mahmoud Aghiorly المدقّق: khalid marbou”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Light beams and interference explain particle/wave behaviour."
   },
   "teded-library.json/teded_what_is_entropy": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Nawal Sharabati المدقّق: Hani Eldalees”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Microstates and energy distributions explain statistical entropy."
   },
   "teded-library.json/teded_how_memories_can_be_manipulated": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Esraa Almoraifea المدقّق: Ayman Mahmoud”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Loftus’s Titus case and false-memory experiments match reconstructive memory."
   },
   "teded-library.json/teded_power_of_creative_constraints": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mohammed Abubaker المدقّق: Ayman Mahmoud”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Mars lander constraints and accidental inventions illustrate creative limits."
   },
   "teded-library.json/teded_why_do_cats_act_so_weird": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Abeer Darweesh المدقّق: Hani Eldalees”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "level-off",
+    "note": "Evidence: A sustained 646-word evolutionary explanation with opportunistic predators, unconventional hiding and resource competition clearly exceeds A1. Suggested action: Raise to B1."
   },
   "teded-library.json/teded_what_makes_a_poem": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: somyah puth المدقّق: Rana Al-Mahameed”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Sound, shape, visual poems and machine poetry explore defining a poem."
   },
   "teded-library.json/teded_why_is_glass_transparent": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is Albanian translation (“Uji është pothuajse gjithkund, nga lagështia”), not usable English speech captions. The translated cache also opens with water in the body and hydration, rather than glass transparency. Suggested action: Remove from English-caption selection pending an English cache; verify the caption/video subject where noted."
+    "status": "mismatch",
+    "note": "Evidence: The English caption concerns body water balance, dehydration and overhydration, not transparency or glass. Suggested action: Retitle and describe hydration."
   },
   "teded-library.json/teded_how_does_stock_market_work": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Ahmed samy المدقّق: Nada Qanbar”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "level-off",
+    "note": "Evidence: Initial public offerings, fluctuating costs, market forces and investor psychology exceed A2 everyday language. Suggested action: Raise to B1."
   },
   "teded-library.json/teded_how_do_vaccines_work": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Haroun SMIDA المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "level-off",
+    "note": "Evidence: Adaptive immune response, live attenuated/inactive/subunit vaccines and immunity trade-offs exceed A2. Suggested action: Raise to B1."
   },
   "teded-library.json/teded_how_did_english_evolve": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Razan Alrashed المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Old English and Norman borrowing explain words and registers."
   },
   "teded-library.json/teded_what_is_consciousness": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Tarek Aamer المدقّق: AFRAA ALZOUBI”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Attention models and stroke perception explain consciousness."
   },
   "teded-library.json/teded_heisenberg_uncertainty_principle": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Nora Mohammad المدقّق: Abd Al-Rahman”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Particle/wave combinations and momentum explain uncertainty."
   },
   "teded-library.json/teded_what_is_imposter_syndrome": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Aseel Obeidi المدقّق: Abdellatif ZOUMHANE”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Angelou/Einstein doubts, studies and sharing feelings explain imposter syndrome."
   },
   "teded-library.json/teded_history_of_world_according_to_cats": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: israa abdelkarim المدقّق: Fatima Zahra”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "level-off",
+    "note": "Evidence: Neolithic farming, archaeological history, religious culture and domestication in extended clauses exceed A2. Suggested action: Raise to B1."
   },
   "teded-library.json/teded_how_does_money_laundering_work": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: khalid kittani المدقّق: Ayman Mahmoud”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Placement, layering and integration explain money laundering."
   },
   "teded-library.json/teded_what_is_dyslexia": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Hussain Laghabi المدقّق: Anwar Dafa-Alla”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Decoding, phonetics and brain differences explain dyslexia."
   },
   "teded-library.json/teded_evolution_of_human_eye": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Salih Ahmed المدقّق: khalid marbou”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Pinhole eyes, lenses and retinal structure explain eye evolution."
   },
   "teded-library.json/teded_how_do_solar_panels_work": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: ahmed turk المدقّق: Abd Al-Rahman”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "level-off",
+    "note": "Evidence: Charged electrons/holes, silicon bonds and p/n junction physics exceed A2. Suggested action: Raise to B1."
   },
   "teded-library.json/teded_benefits_of_bilingual_brain": {
     "status": "ok",
     "note": "The captions distinguish bilingual types and discuss brain structure, attention and age of acquisition, matching the bilingual-brain claim. The opening has minor recognition errors, but the argument remains recoverable."
   },
   "teded-library.json/teded_what_is_a_calorie": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Allam Zedan المدقّق: Lalla Khadija”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Chemical energy, metabolism and absorption explain calories."
   },
   "teded-library.json/teded_why_do_we_feel_nostalgia": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Khaled Ali المدقّق: Fatima Zahra”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Historical illness labels and mood/meaning research explain nostalgia."
   },
   "teded-library.json/teded_science_of_attraction": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is Albanian translation (“Ne kemi deshire te mendojme per”), not usable English speech captions. Suggested action: Remove from English-caption selection pending an English cache; verify the caption/video subject where noted."
+    "status": "ok",
+    "note": "Refreshed English cache: Senses, scent, hormones and touch explain attraction."
   },
   "teded-library.json/teded_what_causes_insomnia": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Kowthar Alasady المدقّق: Hussain Laghabi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Hyperarousal, circadian habits and relaxation explain insomnia."
   },
   "teded-library.json/teded_myth_prometheus": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Fatima Zahra El Hafa المدقّق:”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Fire, Zeus and punishment match Prometheus."
   },
   "teded-library.json/teded_myth_orpheus_eurydice": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Mariam Aboud المدقّق: Fatima Zahra”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Eurydice’s death, the return condition and Orpheus’s loss match the myth."
   },
   "teded-library.json/teded_myth_sisyphus": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is Albanian translation (“Qoftë i lidhur në një rrotë”), not usable English speech captions. Suggested action: Remove from English-caption selection pending an English cache; verify the caption/video subject where noted."
+    "status": "ok",
+    "note": "Refreshed English cache: Tricking death and rolling the stone match Sisyphus."
   },
   "teded-library.json/teded_myth_king_midas": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Rana Al-Mahameed المدقّق: Hussain Laghabi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Golden touch, hunger and donkey ears match Midas."
   },
   "teded-library.json/teded_myth_arachne": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Hani Eldalees من البحّارة الذين”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Weaving competition, divine pride and spider transformation match Arachne."
   },
   "teded-library.json/teded_fairy_tale_origins": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “المترجم: Shimaa Nabil المدقّق: Selma Djaadi”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Grimm collection/editing and altered violent endings match fairy-tale adaptations."
   },
   "teded-library.json/teded_video_games_babies_learning": {
     "status": "ok",
@@ -2512,8 +2512,8 @@
     "note": "Evidence: The 4,687-word cache is a BBC compilation beginning with Antarctic tourism and continuing through heritage, time perception and other topics, not restaurant ordering/menu/payment. Suggested action: Verify the video/cache pairing before replacing the source or retitling."
   },
   "travel-english-library.json/travel-directions": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored captions are Chinese-script translation (“嗨，我是Justin。 欢迎来到Ox”), so the English speech and level cannot be checked. The translated introduction describes airport travel rather than a directions lesson. Suggested action: Remove from English-caption selection until English captions are cached; recheck the stated topic where noted."
+    "status": "mismatch",
+    "note": "Evidence: The opening explicitly introduces airport English and the cache includes seatbelts and tray tables. Suggested action: Correct the entry to the actual subject."
   },
   "travel-english-library.json/travel-shopping": {
     "status": "mismatch",
@@ -2524,16 +2524,16 @@
     "note": "Evidence: Neil and Georgie describe commuting, crowded trains and long-distance travel; the complete cache has no ticket-buying language promised by the description. Suggested action: Narrow the description to discussing commuting and transport experiences."
   },
   "vox-library.json/vox_world_maps_wrong": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored text is an Arabic-script translation, beginning “إذا أردنا أن نجعل هذه الكرة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+    "status": "ok",
+    "note": "Refreshed English cache: Mercator versus area-preserving maps illustrate sphere distortion."
   },
   "vox-library.json/vox_gerrymandering_overview": {
     "status": "ok",
     "note": "North Carolina vote/seat examples and Canadian independent commissions explain partisan district drawing."
   },
   "vox-library.json/vox_hostile_architecture": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored captions are Chinese-script translation (“為何城市中充滿著不舒服的長椅？ 這張”), so the English speech and level cannot be checked. Suggested action: Remove from English-caption selection until English captions are cached; recheck the stated topic where noted."
+    "status": "ok",
+    "note": "Refreshed English cache: Benches, leaning bars and excluded users illustrate hostile design."
   },
   "vox-library.json/vox_gerrymandering_thomas": {
     "status": "ok",
@@ -2552,8 +2552,8 @@
     "note": "Automation, historical job creation, exponential hardware gains and policy choices map the work debate."
   },
   "vox-library.json/vox_america_superpower": {
-    "status": "weak-captions",
-    "note": "Evidence: the stored captions are Chinese-script translation (“現代美國是人類歷史上最強大的國家。 ”), so the English speech and level cannot be checked. Suggested action: Remove from English-caption selection until English captions are cached; recheck the stated topic where noted."
+    "status": "ok",
+    "note": "Refreshed English cache: Expansion, world wars and alliances trace US global power."
   },
   "vox-library.json/vox_democracy_problem": {
     "status": "ok",
