@@ -6,7 +6,7 @@ import { fallbackGist, isKidsLevel, listeningWindow, packBlackBox, packStaticRou
 import { fallbackSayItAgain } from '@/lib/say-it-again';
 import { fallbackPassTheLine, validPassTheLine } from '@/lib/pass-the-line';
 import { fallbackQuickFire } from '@/lib/quick-fire';
-import { bankSituationFor, fallbackSpeakSituation, validSpeakSituation } from '@/lib/speak-check';
+import { bankSituationFor, fallbackSpeakSituation, speakSituationIsTalk, validSpeakSituation } from '@/lib/speak-check';
 import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-announcement/content';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON as _generateJSON } from '@/lib/ai';
@@ -2128,22 +2128,26 @@ async function generateSpeakCheck(topic: string, difficulty: Difficulty, sourceC
   if (banked) return { activityKey: 'speak-check', topicContext: topic, ...banked };
   const set: AISchema = { type: 'object', properties: { replies: { type: 'array', items: { type: 'string' } }, natural: { type: 'number' } }, required: ['replies', 'natural'] };
   const schema: AISchema = { type: 'object', properties: { situation: { type: 'string' }, canDo: { type: 'string' }, before: set, after: set }, required: ['situation', 'canDo', 'before', 'after'] };
-  const prompt = `You are writing the SITUATION CHECK for a speaking lesson: one real, everyday situation from the topic where a student must say something. Students see it at the start and again at the end of the lesson.
+  const prompt = `You are writing the SITUATION CHECK for a speaking lesson: one real, everyday moment connected to the topic where a student has to SAY something to another person. Students see it at the start and again at the end of the lesson. It checks how well they can TALK, never what they KNOW.
 
 Topic: "${topic}"
 LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
-${sourceCtx ? `\nLESSON MATERIAL:\n${sourceCtx.slice(0, 4000)}\n` : ''}
+${sourceCtx ? `
+LESSON MATERIAL (use it for the setting and the subject only; do NOT quiz its facts):
+${sourceCtx.slice(0, 4000)}
+` : ''}
 Return:
-- situation: 1-2 short sentences: where you are and what someone just said to you, in quotes. Kids/teens must recognise it. e.g. You're at a café. The waiter says: "Hi! What can I get you?"
-- canDo: what the student should be able to do, starting with a verb, no question mark. e.g. "Order food and drinks at a café in English"
-- before: 4 possible replies: exactly ONE natural, friendly reply a fluent speaker would say; the others are wrong in typical learner ways (too short or rude, too formal or stiff, a grammar mistake, or off-topic). natural = index of the natural one.
+- situation: 1-2 short sentences: where you are and what someone just said to you, in quotes. Kids/teens must recognise it. The other person invites a personal, social reply: an opinion, a reaction, a choice, a plan, an offer, a request. e.g. You're at a café. The waiter says: "Hi! What can I get you?"
+  NEVER a question that asks for a definition, an explanation or a fact ("What is a food chain?", "How does it work?", "Why does it happen?"). For an informational topic, make it a chat ABOUT the topic instead. e.g. topic food chains: You just watched a video about food chains with a friend. Your friend says: "That was cool! Which animal did you like best?"
+- canDo: what the student should be able to do, starting with a verb, no question mark. A speaking skill, not knowledge. e.g. "Say what you liked about a video and ask a friend's opinion in English"
+- before: 4 possible replies. Exactly ONE is the natural, friendly thing a fluent speaker of the students' age would really say out loud: 6-18 words, everyday words, usually with a reason or a question back. It must NOT sound like a textbook or a definition. The other three all answer the same question and are wrong ONLY in how they are said, one each from: too short or rude; too formal or stiff; a clear grammar mistake. No reply is wrong because of a fact, and nobody needs to know the subject to choose. natural = index of the natural one.
 - after: 4 DIFFERENT replies to the same situation (no reply repeated from before), same rules, natural at a different index.`;
   try {
     const parsed = await generateJSON<Record<string, unknown>>(prompt, schema);
     const valid = validSpeakSituation(parsed);
-    if (valid) return { activityKey: 'speak-check', topicContext: topic, ...valid };
+    if (valid && speakSituationIsTalk(valid)) return { activityKey: 'speak-check', topicContext: topic, ...valid };
   } catch { /* fall back below */ }
-  return { activityKey: 'speak-check', topicContext: topic, ...(bankSituationFor(topic, difficulty) ?? fallbackSpeakSituation(topic)) };
+  return { activityKey: 'speak-check', topicContext: topic, ...(bankSituationFor(topic, difficulty, junior, findTopicBriefing(topic)?.id) ?? fallbackSpeakSituation(topic)) };
 }
 
 async function generateFlightVerdict(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<FlightVerdictContent> {
