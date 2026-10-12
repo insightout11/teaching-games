@@ -1451,6 +1451,7 @@ export function FlightDeck({
         region={place.overCity ? `city:${place.overCity}` : below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : null}
         calm={view !== 'boarding' && view !== 'talk'}
         turbulence={shaking}
+        paused={runningKey === 'video-player'}
         onCinematic={setCinematic}
         onLanded={() => setLanded(true)}
       />
