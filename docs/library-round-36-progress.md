@@ -844,3 +844,4 @@ Publisher/speaker attribution inconsistencies in protected fields also remain fo
 - Completed `src/data/book-library.json` metadata corrections and audit status update.
 - Completed `src/data/business-english-library.json` metadata corrections and audit status update.
 - Completed `src/data/crash-course-library.json` metadata corrections and audit status update.
+- Completed `src/data/destination-reading-library.json` metadata corrections and audit status update.
