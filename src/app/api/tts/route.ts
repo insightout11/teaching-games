@@ -19,9 +19,11 @@ const MAX_CHARS = 700;
  * delivery instruction aloud ("Say this as a calm airline captain: …" came out as speech), and it does not accept a
  * separate instruction. Pace is adjusted at playback (see lib/speech).
  */
-const ROLES: Record<string, { voice: string }> = {
+// Chosen by the owner from samples (Oct 2026). The captain is pinned to American English: without it one voice
+// came out with a noticeable non-native accent.
+const ROLES: Record<string, { voice: string; language?: string }> = {
   presenter: { voice: 'Aoede' },
-  captain: { voice: 'Charon' },
+  captain: { voice: 'Iapetus', language: 'en-US' },
   junior: { voice: 'Kore' },
 };
 
@@ -47,13 +49,13 @@ export async function POST(request: Request) {
   if (kept) return new Response(new Uint8Array(kept), { headers: { 'Content-Type': 'audio/wav', 'Cache-Control': 'private, max-age=3600' } });
 
   try {
-    const { voice } = ROLES[role];
+    const { voice, language } = ROLES[role];
     const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
       body: JSON.stringify({
         contents: [{ parts: [{ text }] }],
-        generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } } },
+        generationConfig: { responseModalities: ['AUDIO'], speechConfig: { ...(language ? { languageCode: language } : {}), voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } } },
       }),
       signal: AbortSignal.timeout(25_000),
       cache: 'no-store',
