@@ -194,6 +194,7 @@ const designStudioOptionSchema: AISchema = {
     benefit: { type: 'string' },
     tradeoff: { type: 'string' },
     designChange: { type: 'string' },
+    city: { type: 'string' },
   },
   required: ['id', 'title', 'description', 'benefit', 'tradeoff', 'designChange'],
 };
@@ -315,7 +316,8 @@ Return one designStudioRound:
 - whyItMatters: one short sentence
 - designSummary: one neutral sentence describing the challenge before a direction is selected
 - options: exactly three options with ids A, B, C
-- each option needs a short title, concrete description, real benefit, meaningful tradeoff, and designChange
+- each option needs a title of 2-4 words (students tap it on a phone), a concrete description, real benefit, meaningful tradeoff, and designChange
+- city: when an option draws on one city's evidence, that city's exact name; otherwise leave it empty. Use each city at most once per round
 - designChange must be a complete 1-2 sentence summary of what the shared design becomes if selected
 - preserve the students' ideas; do not replace the subject with a different project
 - when cross-city evidence is attached, make the options respond to its real ideas without inventing facts about those cities`;
@@ -387,6 +389,8 @@ Rules:
 - No option may be obviously correct. Every option needs a real benefit and tradeoff.
 - designChange must be a complete updated 1-3 sentence design summary that preserves all earlier decisions and applies that option.
 - Keep choices concrete enough for students to debate aloud.
+- Each option's title is 2-4 words (students tap it on a phone).
+- city: when an option draws on one city's evidence, that city's exact name; otherwise leave it empty. Use each city at most once per round.
 - designSummary must accurately summarize the current design before this new vote.
 - when cross-city evidence is attached, progressively connect it to the design; do not merely name cities or invent new city facts.`;
 

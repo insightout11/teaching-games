@@ -65,6 +65,7 @@ export function normalizeDesignStudioRound(value: unknown, state: DesignStudioSt
       benefit: readString(candidate.benefit, fallbackOption.benefit),
       tradeoff: readString(candidate.tradeoff, fallbackOption.tradeoff),
       designChange: readString(candidate.designChange, fallbackOption.designChange),
+      ...(typeof candidate.city === 'string' && candidate.city.trim() ? { city: candidate.city.trim().slice(0, 40) } : {}),
     };
   });
 

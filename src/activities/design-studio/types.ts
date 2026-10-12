@@ -9,7 +9,6 @@ export type {
 
 export type DesignStudioPhase =
   | 'idle'
-  | 'idea-collect'
   | 'generating'
   | 'question'
   | 'voting'
