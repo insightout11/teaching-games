@@ -10522,14 +10522,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Some deserts have rocky ground instead of sand."
+        "target": "comparatives & superlatives",
+        "why": "Compare desert temperatures with a familiar place.",
+        "example": "This desert is hotter than our town."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you draw a dune or oasis?"
+        "target": "future (going to)",
+        "why": "Plan what to pack for a desert day.",
+        "example": "I am going to pack water for the desert trip."
       }
     ],
     "levels": {
@@ -10822,14 +10822,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "A sapling is a young tree."
+        "target": "past simple",
+        "why": "Retell a forest walk in the order it happened.",
+        "example": "We followed the forest path and found a fallen tree."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you draw a tall tree or sapling?"
+        "target": "present continuous",
+        "why": "Describe animals moving through a forest scene.",
+        "example": "A squirrel is climbing the forest tree."
       }
     ],
     "levels": {
@@ -11122,14 +11122,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Long summer days give more hours of light."
+        "target": "comparatives & superlatives",
+        "why": "Compare daylight or temperatures across seasons.",
+        "example": "Winter days are shorter than summer days."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you choose a rainy or sunny season?"
+        "target": "present simple",
+        "why": "Describe a repeated change during the year.",
+        "example": "Leaves fall from these trees in autumn."
       }
     ],
     "levels": {
@@ -11421,19 +11421,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Puddles show where water gathers."
+        "target": "future (will)",
+        "why": "Make a simple weather prediction from clouds.",
+        "example": "I think it will rain after lunch."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you jump over or around a puddle?"
-      },
-      {
-        "target": "past simple",
-        "why": "Recall what rain changed in a garden.",
-        "example": "The soil scent made the garden feel fresh."
+        "target": "conditional",
+        "why": "Connect rain with a plan for outdoor play.",
+        "example": "If it rains, we will play inside."
       }
     ],
     "levels": {
@@ -11725,14 +11720,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Snow covers streets and gardens in winter."
+        "target": "present continuous",
+        "why": "Describe snow falling outside the classroom.",
+        "example": "Snow is falling on the playground."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you make a snowball or snow angel?"
+        "target": "future (going to)",
+        "why": "Plan an activity for a snowy morning.",
+        "example": "We are going to build a snowman tomorrow."
       }
     ],
     "levels": {
@@ -12024,14 +12019,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "A breeze feels gentle."
+        "target": "future (will)",
+        "why": "Predict what wind will do to a light object.",
+        "example": "The wind will blow our paper boat across the pond."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you fly a kite or sail a toy boat?"
+        "target": "conditional",
+        "why": "Explain how stronger wind changes a kite plan.",
+        "example": "If the wind gets stronger, we will bring the kite down."
       }
     ],
     "levels": {
@@ -12324,14 +12319,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "They move at different speeds."
+        "target": "present continuous",
+        "why": "Describe changes in clouds while watching the sky.",
+        "example": "The dark clouds are moving over our school."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you draw a puffy or thin cloud?"
+        "target": "future (will)",
+        "why": "Predict the weather from a cloud picture.",
+        "example": "Those dark clouds will bring rain."
       }
     ],
     "levels": {
@@ -12624,14 +12619,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Moving your feet changes what you see."
+        "target": "past simple",
+        "why": "Tell when and where you saw a rainbow.",
+        "example": "We saw a rainbow after the rain stopped."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you paint a small or wide rainbow?"
+        "target": "future (will)",
+        "why": "Predict a rainbow's colours in a spray experiment.",
+        "example": "The rainbow will show red at the top."
       }
     ],
     "levels": {
@@ -12924,13 +12919,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Rain is one kind of precipitation."
+        "why": "Explain the repeating steps in water's journey.",
+        "example": "Water rises into the air and forms clouds."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you follow water from cloud or puddle?"
+        "target": "conditional",
+        "why": "Predict the result of warming a classroom puddle.",
+        "example": "If the puddle gets warm, the water will dry faster."
       }
     ],
     "levels": {
@@ -13224,13 +13219,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "A root grows into soil."
+        "why": "Explain a seedling's gradual changes.",
+        "example": "A seed grows roots before its leaves open."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you plant a bean or sunflower seed?"
+        "target": "future (going to)",
+        "why": "Describe the next step in a growing experiment.",
+        "example": "We are going to measure our plant every morning."
       }
     ],
     "levels": {

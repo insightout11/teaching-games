@@ -9,3 +9,5 @@ Each fit is authored for its topic. The examples are new classroom utterances, r
 - Rewrote **animals**: 20 topics, 40 individually authored fits. Existing library checks passed before the category commit.
 
 - Rewrote **earth and space**: 15 topics, 30 individually authored fits. Existing library checks passed before the category commit.
+
+- Rewrote **weather and nature**: 10 topics, 20 individually authored fits. Existing library checks passed before the category commit.
