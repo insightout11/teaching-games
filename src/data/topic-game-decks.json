@@ -9731,7 +9731,8 @@
           "top",
           "climb"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very high area of land with steep sides"
       },
       {
         "word": "peak",
@@ -9741,7 +9742,8 @@
           "point",
           "hill"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the highest point of a hill or mountain"
       },
       {
         "word": "valley",
@@ -9751,7 +9753,8 @@
           "hills",
           "river"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "low land between two higher areas"
       },
       {
         "word": "snow",
@@ -9761,7 +9764,8 @@
           "winter",
           "fall"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "frozen white flakes on the ground"
       },
       {
         "word": "rock",
@@ -9771,7 +9775,8 @@
           "ground",
           "heavy"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard piece of earth found outside"
       },
       {
         "word": "climb",
@@ -9781,7 +9786,8 @@
           "hands",
           "legs"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "moving upward using hands or feet"
       },
       {
         "word": "trail",
@@ -9791,7 +9797,8 @@
           "follow",
           "ground"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a marked path for walkers outdoors"
       },
       {
         "word": "rope",
@@ -9801,7 +9808,8 @@
           "tie",
           "string"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a strong line used for climbing or pulling"
       },
       {
         "word": "campsite",
@@ -9811,7 +9819,8 @@
           "outside",
           "place"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a place where people sleep in a tent"
       },
       {
         "word": "ridge",
@@ -9821,7 +9830,8 @@
           "narrow",
           "hill"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long narrow top of a mountain"
       },
       {
         "word": "glacier",
@@ -9831,7 +9841,8 @@
           "slow",
           "mountain"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a slow river of ice moving downhill"
       },
       {
         "word": "stone pile",
@@ -9841,7 +9852,8 @@
           "mark",
           "trail"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small stack made from flat rocks"
       },
       {
         "word": "waterfall",
@@ -9851,7 +9863,8 @@
           "down",
           "flow"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "water dropping over a high edge"
       },
       {
         "word": "hiking boot",
@@ -9861,107 +9874,130 @@
           "walk",
           "strong"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a strong shoe made for long walks"
       }
     ],
     "hotSeat": [
       {
         "word": "hat",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover worn on top of the head"
       },
       {
         "word": "backpack",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bag carried over both shoulders"
       },
       {
         "word": "tent",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cloth shelter used for sleeping outside"
       },
       {
         "word": "walking",
-        "level": "A1"
+        "level": "A1",
+        "description": "moving forward on your feet"
       },
       {
         "word": "map",
-        "level": "A1"
+        "level": "A1",
+        "description": "a drawing that shows where places are"
       },
       {
         "word": "mountain goat",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sure-footed animal living on rocky slopes"
       },
       {
         "word": "guide",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who shows others the way"
       },
       {
         "word": "steep path",
-        "level": "A1"
+        "level": "A1",
+        "description": "a route that climbs at a sharp angle"
       },
       {
         "word": "ledge",
-        "level": "A2"
+        "level": "A2",
+        "description": "a narrow flat edge on a rock face"
       },
       {
         "word": "pine tree",
-        "level": "A1"
+        "level": "A1",
+        "description": "an evergreen tree with pointed leaves"
       },
       {
         "word": "cliff",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall face of rock with a sharp drop"
       },
       {
         "word": "hill",
-        "level": "A1"
+        "level": "A1",
+        "description": "land higher than the area around it"
       },
       {
         "word": "mountain village",
-        "level": "A1"
+        "level": "A1",
+        "description": "a group of homes high on a slope"
       },
       {
         "word": "weather station",
-        "level": "A2"
+        "level": "A2",
+        "description": "a place that measures wind and rain"
       }
     ],
     "imposter": [
       {
         "word": "mountain",
-        "decoy": "hill",
-        "level": "A1"
+        "level": "A1",
+        "description": "a high area of land with steep sides",
+        "hint": "a landform",
+        "crewQuestion": "Where might hikers find snow above the trees?",
+        "imposterQuestion": "Where might skiers find snow above the trees?"
       },
       {
         "word": "peak",
-        "decoy": "ridge",
-        "level": "A2"
+        "level": "A2",
+        "description": "the highest point at the top of a mountain",
+        "hint": "a landform",
+        "crewQuestion": "What do climbers hope to reach at the top?",
+        "imposterQuestion": "What do singers hope to reach in a song?"
       },
       {
-        "word": "trail",
-        "decoy": "road",
-        "level": "A2"
-      },
-      {
-        "word": "rope",
-        "decoy": "leash",
-        "level": "A2"
-      },
-      {
-        "word": "tent",
-        "decoy": "cabin",
-        "level": "A1"
+        "word": "valley",
+        "level": "A2",
+        "description": "low ground between two taller areas of land",
+        "hint": "a landform",
+        "crewQuestion": "Where might a river flow between high slopes?",
+        "imposterQuestion": "Where might a road wind between high slopes?"
       },
       {
         "word": "glacier",
-        "decoy": "snowfield",
-        "level": "A2"
+        "level": "A2",
+        "description": "a huge slow river made from old ice",
+        "hint": "frozen water",
+        "crewQuestion": "What moves down a mountain very slowly?",
+        "imposterQuestion": "What flows down a mountain after heavy rain?"
       },
       {
-        "word": "waterfall",
-        "decoy": "river rapids",
-        "level": "A2"
+        "word": "tent",
+        "level": "A1",
+        "description": "a cloth shelter used when people sleep outside",
+        "hint": "camping gear",
+        "crewQuestion": "What can hikers put up beside a trail?",
+        "imposterQuestion": "What can hikers put on beside a trail?"
       },
       {
-        "word": "hiking boot",
-        "decoy": "running shoe",
-        "level": "A2"
+        "word": "rope",
+        "level": "A1",
+        "description": "a strong cord used for pulling or climbing",
+        "hint": "climbing gear",
+        "crewQuestion": "What can help someone stay safe on a steep climb?",
+        "imposterQuestion": "What can help someone carry a pack on a steep climb?"
       }
     ],
     "twentyQuestions": [
@@ -10019,7 +10055,8 @@
           "long",
           "bank"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a long flow of fresh water across land"
       },
       {
         "word": "stream",
@@ -10029,7 +10066,8 @@
           "flow",
           "field"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small narrow flow of water"
       },
       {
         "word": "bridge",
@@ -10039,7 +10077,8 @@
           "over",
           "water"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a structure built over water for crossing"
       },
       {
         "word": "waterfall",
@@ -10049,7 +10088,8 @@
           "flow",
           "river"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "water falling from a high rock edge"
       },
       {
         "word": "boat",
@@ -10059,7 +10099,8 @@
           "people",
           "travel"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a vehicle that travels on water"
       },
       {
         "word": "bank",
@@ -10069,7 +10110,8 @@
           "ground",
           "edge"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the land along the side of a waterway"
       },
       {
         "word": "bend",
@@ -10079,7 +10121,8 @@
           "path",
           "shape"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a curve in the path of flowing water"
       },
       {
         "word": "current",
@@ -10089,7 +10132,8 @@
           "water",
           "fast"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "water moving steadily in one direction"
       },
       {
         "word": "island",
@@ -10099,7 +10143,8 @@
           "small",
           "boat"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "land surrounded by water on all sides"
       },
       {
         "word": "pebble",
@@ -10109,7 +10154,8 @@
           "round",
           "hard"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small smooth stone found outside"
       },
       {
         "word": "reed",
@@ -10119,7 +10165,8 @@
           "tall",
           "thin"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall thin plant growing by water"
       },
       {
         "word": "fish ladder",
@@ -10129,7 +10176,8 @@
           "up",
           "help"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a set of steps helping fish move upstream"
       },
       {
         "word": "canoe",
@@ -10139,7 +10187,8 @@
           "narrow",
           "water"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a narrow boat moved with a paddle"
       },
       {
         "word": "rapids",
@@ -10149,107 +10198,130 @@
           "rocks",
           "flow"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "fast water rushing over rocks"
       }
     ],
     "hotSeat": [
       {
         "word": "river mouth",
-        "level": "A2"
+        "level": "A2",
+        "description": "the place where flowing water meets the sea"
       },
       {
-        "word": "source spring",
-        "level": "A2"
+        "word": "spring",
+        "level": "A2",
+        "description": "a place where fresh water comes out of ground"
       },
       {
         "word": "rowing",
-        "level": "A1"
+        "level": "A1",
+        "description": "moving a boat using long wooden arms"
       },
       {
         "word": "river guide",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person leading a trip on flowing water"
       },
       {
         "word": "oar",
-        "level": "A2"
+        "level": "A2",
+        "description": "a long tool used to push a boat"
       },
       {
         "word": "wet stone",
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard piece covered with water"
       },
       {
         "word": "riverside tree",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tall plant growing beside moving water"
       },
       {
-        "word": "river crossing",
-        "level": "A2"
+        "word": "crossing",
+        "level": "A2",
+        "description": "a place where people move from one bank to another"
       },
       {
         "word": "muddy shore",
-        "level": "A1"
+        "level": "A1",
+        "description": "soft wet ground beside a waterway"
       },
       {
         "word": "fishing net",
-        "level": "A1"
+        "level": "A1",
+        "description": "a woven tool used to catch fish"
       },
       {
         "word": "paddling",
-        "level": "A2"
+        "level": "A2",
+        "description": "moving a boat with a short blade"
       },
       {
         "word": "floodplain",
-        "level": "A2"
+        "level": "A2",
+        "description": "flat land that water can cover after rain"
       },
       {
-        "word": "riverside path",
-        "level": "A1"
+        "word": "river path",
+        "level": "A1",
+        "description": "a route for walking beside flowing water"
       },
       {
-        "word": "river harbour",
-        "level": "A2"
+        "word": "harbour",
+        "level": "A2",
+        "description": "a sheltered place where boats can stop"
       }
     ],
     "imposter": [
       {
         "word": "river",
-        "decoy": "stream",
-        "level": "A2"
+        "level": "A1",
+        "description": "a long flow of fresh water across land",
+        "hint": "a waterway",
+        "crewQuestion": "What flows from high ground toward the sea?",
+        "imposterQuestion": "What flies from a high tree toward the ground?"
+      },
+      {
+        "word": "stream",
+        "level": "A2",
+        "description": "a small narrow flow of fresh water",
+        "hint": "a waterway",
+        "crewQuestion": "What can run beside a path in a forest?",
+        "imposterQuestion": "What can grow beside a path in a forest?"
       },
       {
         "word": "bridge",
-        "decoy": "tunnel",
-        "level": "A2"
-      },
-      {
-        "word": "canoe",
-        "decoy": "kayak",
-        "level": "A2"
-      },
-      {
-        "word": "ferry",
-        "decoy": "rowing boat",
-        "level": "A2"
+        "level": "A1",
+        "description": "a structure built over water for crossing",
+        "hint": "a structure",
+        "crewQuestion": "What helps people reach the other bank without swimming?",
+        "imposterQuestion": "What helps boats reach the other shore without rowing?"
       },
       {
         "word": "waterfall",
-        "decoy": "rapids",
-        "level": "A2"
+        "level": "A2",
+        "description": "water dropping over a high edge of rock",
+        "hint": "a water feature",
+        "crewQuestion": "What might travellers hear before seeing it?",
+        "imposterQuestion": "What might travellers see before crossing a bridge?"
       },
       {
-        "word": "bank",
-        "decoy": "beach",
-        "level": "A1"
+        "word": "canoe",
+        "level": "A2",
+        "description": "a narrow light boat moved with a paddle",
+        "hint": "a boat",
+        "crewQuestion": "What can a family use to float downstream?",
+        "imposterQuestion": "What can a family use to walk downstream?"
       },
       {
-        "word": "reed",
-        "decoy": "bamboo",
-        "level": "A2"
-      },
-      {
-        "word": "pebble",
-        "decoy": "shell",
-        "level": "A1"
+        "word": "current",
+        "level": "A2",
+        "description": "water moving steadily in one direction",
+        "hint": "water movement",
+        "crewQuestion": "What can carry a leaf along the river?",
+        "imposterQuestion": "What can carry a kite across the sky?"
       }
     ],
     "twentyQuestions": [
@@ -10307,7 +10379,8 @@
           "blue",
           "deep"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a huge area of salty water covering much of Earth"
       },
       {
         "word": "wave",
@@ -10317,7 +10390,8 @@
           "shore",
           "up"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a moving hill of water in the sea"
       },
       {
         "word": "beach",
@@ -10327,7 +10401,8 @@
           "walk",
           "shore"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "land beside a sea where people can visit"
       },
       {
         "word": "shell",
@@ -10337,7 +10412,8 @@
           "sea",
           "cover"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard cover made by a small sea animal"
       },
       {
         "word": "tide",
@@ -10347,7 +10423,8 @@
           "down",
           "shore"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the regular rise and fall of the sea"
       },
       {
         "word": "coral",
@@ -10357,7 +10434,8 @@
           "animal",
           "branch"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard sea growth built by tiny animals"
       },
       {
         "word": "seaweed",
@@ -10367,7 +10445,8 @@
           "water",
           "food"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "green plants that grow in salty water"
       },
       {
         "word": "salt",
@@ -10377,7 +10456,8 @@
           "food",
           "water"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a white mineral that makes sea water taste different"
       },
       {
         "word": "current",
@@ -10387,7 +10467,8 @@
           "move",
           "strong"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a steady flow of water through the sea"
       },
       {
         "word": "horizon",
@@ -10397,7 +10478,8 @@
           "sea",
           "far"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the far line where the sea seems to meet sky"
       },
       {
         "word": "ship",
@@ -10407,7 +10489,8 @@
           "travel",
           "water"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large boat that carries people or things"
       },
       {
         "word": "submarine",
@@ -10417,7 +10500,8 @@
           "vehicle",
           "deep"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a vehicle that can travel deep below water"
       },
       {
         "word": "sand",
@@ -10427,7 +10511,8 @@
           "ground",
           "small"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "tiny grains found along a beach"
       },
       {
         "word": "shore",
@@ -10437,107 +10522,130 @@
           "land",
           "beach"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the land right beside the water"
       }
     ],
     "hotSeat": [
       {
         "word": "coastline",
-        "level": "A2"
+        "level": "A2",
+        "description": "the edge where land meets the sea"
       },
       {
         "word": "sea floor",
-        "level": "A2"
+        "level": "A2",
+        "description": "the ground far below the water surface"
       },
       {
-        "word": "saltwater fish",
-        "level": "A2"
+        "word": "sea fish",
+        "level": "A2",
+        "description": "an animal with fins living in salty water"
       },
       {
         "word": "ocean liner",
-        "level": "A2"
+        "level": "A2",
+        "description": "a very large ship carrying many passengers"
       },
       {
         "word": "coastal town",
-        "level": "A1"
+        "level": "A1",
+        "description": "a group of homes beside the sea"
       },
       {
         "word": "lifeguard",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who watches swimmers for danger"
       },
       {
         "word": "buoy",
-        "level": "A2"
+        "level": "A2",
+        "description": "a floating marker that shows a safe place"
       },
       {
         "word": "snorkel",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tube that lets a swimmer breathe face down"
       },
       {
         "word": "diver",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who swims below the surface"
       },
       {
         "word": "storm",
-        "level": "A1"
+        "level": "A1",
+        "description": "strong wind and rain over a wide area"
       },
       {
-        "word": "white foam",
-        "level": "A1"
+        "word": "foam",
+        "level": "A1",
+        "description": "white bubbles made when waves break"
       },
       {
         "word": "sandcastle",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small tower built from wet beach grains"
       },
       {
         "word": "harbour",
-        "level": "A2"
+        "level": "A2",
+        "description": "a protected place where boats can wait"
       },
       {
         "word": "deep water",
-        "level": "A1"
+        "level": "A1",
+        "description": "a part of the sea far below the top"
       }
     ],
     "imposter": [
       {
         "word": "ocean",
-        "decoy": "lake",
-        "level": "A1"
+        "level": "A1",
+        "description": "a huge area of salty water across the world",
+        "hint": "a water place",
+        "crewQuestion": "Where can a ship travel for many days?",
+        "imposterQuestion": "Where can a train travel for many days?"
       },
       {
         "word": "wave",
-        "decoy": "tide",
-        "level": "A2"
+        "level": "A1",
+        "description": "a moving hill of water on the sea",
+        "hint": "water movement",
+        "crewQuestion": "What can carry a shell toward the shore?",
+        "imposterQuestion": "What can carry a leaf toward the shore?"
+      },
+      {
+        "word": "beach",
+        "level": "A1",
+        "description": "land beside a sea with sand or stones",
+        "hint": "a place",
+        "crewQuestion": "Where can families build with wet sand?",
+        "imposterQuestion": "Where can families build with wooden blocks?"
       },
       {
         "word": "shell",
-        "decoy": "pebble",
-        "level": "A1"
-      },
-      {
-        "word": "coral",
-        "decoy": "seaweed",
-        "level": "A2"
+        "level": "A1",
+        "description": "a hard cover made by a small sea animal",
+        "hint": "a sea object",
+        "crewQuestion": "What might someone find after walking along the shore?",
+        "imposterQuestion": "What might someone find after walking along a path?"
       },
       {
         "word": "ship",
-        "decoy": "submarine",
-        "level": "A2"
+        "level": "A1",
+        "description": "a large boat that crosses wide areas of water",
+        "hint": "a vehicle",
+        "crewQuestion": "What can carry people across the ocean?",
+        "imposterQuestion": "What can carry people across the desert?"
       },
       {
-        "word": "shore",
-        "decoy": "sea floor",
-        "level": "A2"
-      },
-      {
-        "word": "current",
-        "decoy": "wind",
-        "level": "A2"
-      },
-      {
-        "word": "salt",
-        "decoy": "sand",
-        "level": "A1"
+        "word": "submarine",
+        "level": "A2",
+        "description": "a vehicle that travels below the sea surface",
+        "hint": "a vehicle",
+        "crewQuestion": "What can explore the deep sea without getting wet?",
+        "imposterQuestion": "What can explore the deep forest without getting lost?"
       }
     ],
     "twentyQuestions": [
@@ -10595,7 +10703,8 @@
           "colour",
           "branch"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tiny sea animal that builds hard colourful homes"
       },
       {
         "word": "reef",
@@ -10605,7 +10714,8 @@
           "fish",
           "coral"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a rocky home in the sea built by coral"
       },
       {
         "word": "polyp",
@@ -10615,7 +10725,8 @@
           "mouth",
           "arms"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a very small animal living inside coral"
       },
       {
         "word": "fish",
@@ -10625,7 +10736,8 @@
           "tail",
           "animal"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an animal that swims and breathes in water"
       },
       {
         "word": "clam",
@@ -10635,7 +10747,8 @@
           "close",
           "sea"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sea animal with two hard shells"
       },
       {
         "word": "anemone",
@@ -10645,7 +10758,8 @@
           "sea",
           "soft"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sea animal with waving arms around a mouth"
       },
       {
         "word": "sea star",
@@ -10655,7 +10769,8 @@
           "animal",
           "shape"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a sea animal shaped like a five-pointed star"
       },
       {
         "word": "seahorse",
@@ -10665,7 +10780,8 @@
           "small",
           "tail"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small sea animal with a horse-like head"
       },
       {
         "word": "parrotfish",
@@ -10675,7 +10791,8 @@
           "animal",
           "reef"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a colourful fish that bites hard growth"
       },
       {
         "word": "reef shark",
@@ -10685,7 +10802,8 @@
           "animal",
           "fin"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a large sea hunter living near coral homes"
       },
       {
         "word": "sponge",
@@ -10695,7 +10813,8 @@
           "animal",
           "soft"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft sea animal full of small holes"
       },
       {
         "word": "branching coral",
@@ -10705,7 +10824,8 @@
           "hard",
           "arms"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a coral shape that grows like a tree"
       },
       {
         "word": "lagoon",
@@ -10715,7 +10835,8 @@
           "sea",
           "island"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a calm pool of water near a reef"
       },
       {
         "word": "snorkel",
@@ -10725,107 +10846,130 @@
           "water",
           "swim"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tube used to breathe while swimming"
       }
     ],
     "hotSeat": [
       {
         "word": "diver",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who swims below the surface"
       },
       {
-        "word": "underwater garden",
-        "level": "A1"
+        "word": "garden",
+        "level": "A1",
+        "description": "a place where colourful living things grow"
       },
       {
         "word": "sea turtle",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large reptile that swims past coral"
       },
       {
         "word": "reef guide",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who shows visitors around coral"
       },
       {
         "word": "shallow water",
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where the bottom is not far down"
       },
       {
         "word": "coral nursery",
-        "level": "A2"
+        "level": "A2",
+        "description": "a safe place where young coral can grow"
       },
       {
         "word": "tiny mouth",
-        "level": "A1"
+        "level": "A1",
+        "description": "a very small opening used to eat"
       },
       {
         "word": "reef cave",
-        "level": "A2"
+        "level": "A2",
+        "description": "a dark opening among rocks underwater"
       },
       {
         "word": "rock pool",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small pocket of sea water by the shore"
       },
       {
         "word": "bubble trail",
-        "level": "A1"
+        "level": "A1",
+        "description": "a line of air bubbles left behind"
       },
       {
-        "word": "underwater camera",
-        "level": "A2"
+        "word": "underwater photo",
+        "level": "A2",
+        "description": "a picture taken below the surface of the sea"
       },
       {
         "word": "coral island",
-        "level": "A2"
+        "level": "A2",
+        "description": "land surrounded by warm shallow water"
       },
       {
         "word": "warm current",
-        "level": "A2"
+        "level": "A2",
+        "description": "a stream of water with a high temperature"
       },
       {
         "word": "reef map",
-        "level": "A1"
+        "level": "A1",
+        "description": "a drawing showing where coral can be found"
       }
     ],
     "imposter": [
       {
         "word": "coral",
-        "decoy": "seaweed",
-        "level": "A2"
+        "level": "A1",
+        "description": "a tiny sea animal that builds hard shapes",
+        "hint": "a sea animal",
+        "crewQuestion": "What makes colourful homes for small fish?",
+        "imposterQuestion": "What makes leafy homes for small birds?"
       },
       {
         "word": "reef",
-        "decoy": "rock pool",
-        "level": "A2"
+        "level": "A2",
+        "description": "a rocky sea home made by many corals",
+        "hint": "a sea place",
+        "crewQuestion": "Where can a parrotfish find food and shelter?",
+        "imposterQuestion": "Where can a mountain goat find food and shelter?"
+      },
+      {
+        "word": "polyp",
+        "level": "A2",
+        "description": "a tiny animal that grows in a coral home",
+        "hint": "a small animal",
+        "crewQuestion": "What little creature builds part of a reef?",
+        "imposterQuestion": "What little creature builds part of a web?"
       },
       {
         "word": "sea star",
-        "decoy": "seahorse",
-        "level": "A1"
+        "level": "A1",
+        "description": "a sea animal shaped like a five-pointed star",
+        "hint": "a sea animal",
+        "crewQuestion": "Which animal crawls over rocks under water?",
+        "imposterQuestion": "Which animal crawls over leaves on land?"
+      },
+      {
+        "word": "seahorse",
+        "level": "A1",
+        "description": "a small fish with a head like a horse",
+        "hint": "a sea animal",
+        "crewQuestion": "Which tiny swimmer holds onto plants with its tail?",
+        "imposterQuestion": "Which tiny swimmer holds onto a branch with its feet?"
       },
       {
         "word": "clam",
-        "decoy": "sponge",
-        "level": "A2"
-      },
-      {
-        "word": "anemone",
-        "decoy": "sea plant",
-        "level": "A2"
-      },
-      {
-        "word": "parrotfish",
-        "decoy": "clownfish",
-        "level": "A2"
-      },
-      {
-        "word": "snorkel",
-        "decoy": "diving mask",
-        "level": "A2"
-      },
-      {
-        "word": "lagoon",
-        "decoy": "deep sea",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sea animal living between two hard shells",
+        "hint": "a sea animal",
+        "crewQuestion": "Which animal can close two shells around its body?",
+        "imposterQuestion": "Which animal can close its petals around its centre?"
       }
     ],
     "twentyQuestions": [
@@ -10883,7 +11027,8 @@
           "green",
           "animals"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hot wet forest with many kinds of plants"
       },
       {
         "word": "tree",
@@ -10893,7 +11038,8 @@
           "leaf",
           "tall"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tall plant with a hard central stem"
       },
       {
         "word": "rain",
@@ -10903,7 +11049,8 @@
           "wet",
           "fall"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "water falling from clouds to the ground"
       },
       {
         "word": "large leaf",
@@ -10913,7 +11060,8 @@
           "thin",
           "tree"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a broad green part growing from a plant"
       },
       {
         "word": "vine",
@@ -10923,7 +11071,8 @@
           "climb",
           "rope"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long climbing plant growing around trees"
       },
       {
         "word": "canopy",
@@ -10933,7 +11082,8 @@
           "high",
           "forest"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the high roof formed by the tops of trees"
       },
       {
         "word": "forest floor",
@@ -10943,7 +11093,8 @@
           "leaves",
           "dark"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the ground beneath a forest full of leaves"
       },
       {
         "word": "stream",
@@ -10953,7 +11104,8 @@
           "flow",
           "rocks"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small flow of fresh water"
       },
       {
         "word": "waterfall",
@@ -10963,7 +11115,8 @@
           "down",
           "flow"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "water falling over a high edge"
       },
       {
         "word": "parrot",
@@ -10973,7 +11126,8 @@
           "beak",
           "fly"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a colourful bird with a curved mouth"
       },
       {
         "word": "monkey",
@@ -10983,7 +11137,8 @@
           "tail",
           "tree"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an animal with a long tail that climbs"
       },
       {
         "word": "orchid",
@@ -10993,7 +11148,8 @@
           "plant",
           "pretty"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a bright flower growing on another plant"
       },
       {
         "word": "wide root",
@@ -11003,7 +11159,8 @@
           "hold",
           "under"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a thick part of a tree below the trunk"
       },
       {
         "word": "ant",
@@ -11013,107 +11170,130 @@
           "legs",
           "walk"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very small insect that lives in groups"
       }
     ],
     "hotSeat": [
       {
         "word": "tree frog",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small green animal that climbs wet plants"
       },
       {
-        "word": "rainforest guide",
-        "level": "A2"
+        "word": "guide",
+        "level": "A2",
+        "description": "a person who shows visitors through a forest"
       },
       {
         "word": "wooden walkway",
-        "level": "A1"
+        "level": "A1",
+        "description": "a raised path made from planks"
       },
       {
         "word": "fallen fruit",
-        "level": "A1"
+        "level": "A1",
+        "description": "food that has dropped from a tree"
       },
       {
         "word": "muddy path",
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft wet route through the trees"
       },
       {
         "word": "tall trunk",
-        "level": "A1"
+        "level": "A1",
+        "description": "the long central part holding branches high"
       },
       {
         "word": "fruit bat",
-        "level": "A2"
+        "level": "A2",
+        "description": "a flying mammal that eats sweet plants"
       },
       {
         "word": "insect net",
-        "level": "A2"
+        "level": "A2",
+        "description": "a mesh tool used to catch small animals"
       },
       {
-        "word": "plant scientist",
-        "level": "A2"
+        "word": "scientist",
+        "level": "A2",
+        "description": "a person who studies plants and animals"
       },
       {
         "word": "leaf litter",
-        "level": "A2"
+        "level": "A2",
+        "description": "old leaves covering the forest ground"
       },
       {
         "word": "rain gauge",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool that measures falling water"
       },
       {
         "word": "rope bridge",
-        "level": "A2"
+        "level": "A2",
+        "description": "a crossing made from ropes and boards"
       },
       {
         "word": "seed pod",
-        "level": "A2"
+        "level": "A2",
+        "description": "a case that holds seeds for a new plant"
       },
       {
         "word": "raincoat",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover worn to stay dry outside"
       }
     ],
     "imposter": [
       {
         "word": "rainforest",
-        "decoy": "desert",
-        "level": "A2"
+        "level": "A2",
+        "description": "a hot wet forest with many kinds of life",
+        "hint": "a habitat",
+        "crewQuestion": "Where do monkeys climb among very tall trees?",
+        "imposterQuestion": "Where do squirrels climb among very tall trees?"
       },
       {
         "word": "tree",
-        "decoy": "vine",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tall plant with a thick central stem",
+        "hint": "a plant",
+        "crewQuestion": "What can give a monkey shade on a hot day?",
+        "imposterQuestion": "What can give a child shade on a hot day?"
+      },
+      {
+        "word": "rain",
+        "level": "A1",
+        "description": "water falling from clouds above the ground",
+        "hint": "wet weather",
+        "crewQuestion": "What helps a wet forest stay green?",
+        "imposterQuestion": "What helps a dry garden become green?"
+      },
+      {
+        "word": "monkey",
+        "level": "A1",
+        "description": "an animal with a long tail that can climb",
+        "hint": "a wild animal",
+        "crewQuestion": "Which animal swings between branches for fruit?",
+        "imposterQuestion": "Which animal flies between branches for fruit?"
       },
       {
         "word": "parrot",
-        "decoy": "monkey",
-        "level": "A1"
+        "level": "A1",
+        "description": "a colourful bird with a curved mouth",
+        "hint": "a bird",
+        "crewQuestion": "Which bird can sit high in a rainforest tree?",
+        "imposterQuestion": "Which mammal can sit high in a rainforest tree?"
       },
       {
-        "word": "orchid",
-        "decoy": "fern",
-        "level": "A2"
-      },
-      {
-        "word": "ant",
-        "decoy": "beetle",
-        "level": "A1"
-      },
-      {
-        "word": "stream",
-        "decoy": "waterfall",
-        "level": "A2"
-      },
-      {
-        "word": "canopy",
-        "decoy": "forest floor",
-        "level": "A2"
-      },
-      {
-        "word": "raincoat",
-        "decoy": "umbrella",
-        "level": "A1"
+        "word": "vine",
+        "level": "A2",
+        "description": "a long plant that climbs around other plants",
+        "hint": "a plant",
+        "crewQuestion": "What can hang down between tall rainforest trees?",
+        "imposterQuestion": "What can hang down between city buildings?"
       }
     ],
     "twentyQuestions": [
@@ -11171,7 +11351,8 @@
           "sand",
           "land"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very dry place with little rain"
       },
       {
         "word": "cactus",
@@ -11181,7 +11362,8 @@
           "sharp",
           "water"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a thick plant that stores water and has sharp points"
       },
       {
         "word": "dune",
@@ -11191,7 +11373,8 @@
           "wind",
           "shape"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hill of loose sand shaped by wind"
       },
       {
         "word": "sand",
@@ -11201,7 +11384,8 @@
           "ground",
           "beach"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "tiny grains covering a beach or dry land"
       },
       {
         "word": "camel",
@@ -11211,7 +11395,8 @@
           "ride",
           "desert"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large animal that can carry people across sand"
       },
       {
         "word": "oasis",
@@ -11221,7 +11406,8 @@
           "pool",
           "trees"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a green place with water in a very dry land"
       },
       {
         "word": "sun",
@@ -11231,7 +11417,8 @@
           "hot",
           "day"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the bright object that warms our planet"
       },
       {
         "word": "dry riverbed",
@@ -11241,7 +11428,8 @@
           "ground",
           "channel"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an empty channel where water once flowed"
       },
       {
         "word": "tent",
@@ -11251,7 +11439,8 @@
           "cloth",
           "outside"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cloth shelter people can carry and set up"
       },
       {
         "word": "lizard",
@@ -11261,7 +11450,8 @@
           "legs",
           "scales"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small reptile that moves close to the ground"
       },
       {
         "word": "scarab",
@@ -11271,7 +11461,8 @@
           "legs",
           "round"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a dark shiny beetle from an ancient story"
       },
       {
         "word": "boots",
@@ -11281,7 +11472,8 @@
           "shoes",
           "walk"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "strong shoes that cover the feet outdoors"
       },
       {
         "word": "water flask",
@@ -11291,7 +11483,8 @@
           "bottle",
           "full"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a bottle used to carry drinking water"
       },
       {
         "word": "rock arch",
@@ -11301,107 +11494,130 @@
           "hole",
           "bridge"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a natural opening shaped like a doorway in rock"
       }
     ],
     "hotSeat": [
       {
         "word": "desert fox",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small wild animal with large ears"
       },
       {
         "word": "camel calf",
-        "level": "A2"
+        "level": "A2",
+        "description": "a young animal with a hump"
       },
       {
         "word": "scorpion",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small animal with a curled tail and sting"
       },
       {
         "word": "sand trail",
-        "level": "A1"
+        "level": "A1",
+        "description": "a line of footsteps across loose grains"
       },
       {
         "word": "shade shelter",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cool place protected from direct light"
       },
       {
-        "word": "desert guide",
-        "level": "A2"
+        "word": "guide",
+        "level": "A2",
+        "description": "a person who shows visitors where to go"
       },
       {
         "word": "camel rider",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person sitting on a camel’s back"
       },
       {
         "word": "shade cloth",
-        "level": "A1"
+        "level": "A1",
+        "description": "a piece of fabric that blocks bright light"
       },
       {
         "word": "gravel",
-        "level": "A2"
+        "level": "A2",
+        "description": "small rough stones covering the ground"
       },
       {
         "word": "date palm",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall tree that grows sweet brown fruit"
       },
       {
         "word": "dry lake",
-        "level": "A2"
+        "level": "A2",
+        "description": "a wide flat place where water has gone"
       },
       {
         "word": "pebble",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small smooth stone found outdoors"
       },
       {
-        "word": "starry camp",
-        "level": "A1"
+        "word": "camp",
+        "level": "A1",
+        "description": "a place where people sleep outside"
       },
       {
         "word": "hot wind",
-        "level": "A1"
+        "level": "A1",
+        "description": "moving air that feels very warm"
       }
     ],
     "imposter": [
       {
         "word": "desert",
-        "decoy": "rainforest",
-        "level": "A2"
-      },
-      {
-        "word": "camel",
-        "decoy": "horse",
-        "level": "A1"
-      },
-      {
-        "word": "dune",
-        "decoy": "hill",
-        "level": "A2"
-      },
-      {
-        "word": "oasis",
-        "decoy": "dry lake",
-        "level": "A2"
+        "level": "A1",
+        "description": "a very dry place where little rain falls",
+        "hint": "a dry habitat",
+        "crewQuestion": "Where can a camel walk across wide sandy land?",
+        "imposterQuestion": "Where can a lizard hide among wide sandy land?"
       },
       {
         "word": "cactus",
-        "decoy": "date palm",
-        "level": "A2"
+        "level": "A1",
+        "description": "a thick plant that stores water and has sharp points",
+        "hint": "a desert plant",
+        "crewQuestion": "Which plant can live for months without much rain?",
+        "imposterQuestion": "Which animal can travel for days without much water?"
       },
       {
-        "word": "tent",
-        "decoy": "shade shelter",
-        "level": "A1"
+        "word": "camel",
+        "level": "A1",
+        "description": "a large animal that can carry people over sand",
+        "hint": "a desert animal",
+        "crewQuestion": "Which animal can walk far with a rider?",
+        "imposterQuestion": "Which vehicle can travel far with a driver?"
       },
       {
-        "word": "scorpion",
-        "decoy": "beetle",
-        "level": "A2"
+        "word": "oasis",
+        "level": "A2",
+        "description": "a green place with water in a dry land",
+        "hint": "a desert place",
+        "crewQuestion": "Where might travellers stop to drink in a desert?",
+        "imposterQuestion": "Where might travellers stop to rest in a forest?"
       },
       {
-        "word": "sand",
-        "decoy": "gravel",
-        "level": "A1"
+        "word": "dune",
+        "level": "A2",
+        "description": "a hill of loose sand shaped by wind",
+        "hint": "a landform",
+        "crewQuestion": "What can move and change shape when wind blows?",
+        "imposterQuestion": "What can move and change shape when water flows?"
+      },
+      {
+        "word": "water flask",
+        "level": "A2",
+        "description": "a bottle used to carry drinking water",
+        "hint": "a travel item",
+        "crewQuestion": "What should hikers carry on a hot dry walk?",
+        "imposterQuestion": "What should hikers carry on a cold wet walk?"
       }
     ],
     "twentyQuestions": [
@@ -11459,7 +11675,8 @@
           "walk",
           "animals"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a large area covered with many trees"
       },
       {
         "word": "tree",
@@ -11469,7 +11686,8 @@
           "leaf",
           "tall"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tall plant with a thick trunk and branches"
       },
       {
         "word": "branch",
@@ -11479,7 +11697,8 @@
           "arm",
           "leaf"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a part growing out from the side of a tree"
       },
       {
         "word": "roots",
@@ -11489,7 +11708,8 @@
           "water",
           "hold"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the parts of a plant reaching into the ground"
       },
       {
         "word": "pine cone",
@@ -11499,7 +11719,8 @@
           "brown",
           "hard"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard seed case from an evergreen tree"
       },
       {
         "word": "acorn",
@@ -11509,7 +11730,8 @@
           "brown",
           "small"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small nut that can grow into an oak"
       },
       {
         "word": "mushroom",
@@ -11519,7 +11741,8 @@
           "stem",
           "shade"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft growth found in damp shady places"
       },
       {
         "word": "fern",
@@ -11529,7 +11752,8 @@
           "leaf",
           "shade"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a green plant with delicate divided leaves"
       },
       {
         "word": "path",
@@ -11539,7 +11763,8 @@
           "ground",
           "line"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a narrow route for walking outdoors"
       },
       {
         "word": "red fox",
@@ -11549,7 +11774,8 @@
           "fur",
           "orange"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a wild animal with red fur and a bushy tail"
       },
       {
         "word": "deer",
@@ -11559,7 +11785,8 @@
           "legs",
           "brown"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a large animal with thin legs and antlers"
       },
       {
         "word": "bird",
@@ -11569,7 +11796,8 @@
           "beak",
           "wings"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a feathered animal that can fly"
       },
       {
         "word": "stream",
@@ -11579,7 +11807,8 @@
           "flow",
           "forest"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small flow of fresh water through land"
       },
       {
         "word": "fallen log",
@@ -11589,107 +11818,130 @@
           "ground",
           "old"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a fallen tree lying on the forest ground"
       }
     ],
     "hotSeat": [
       {
         "word": "squirrel",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small animal with a bushy tail that climbs"
       },
       {
         "word": "owl",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bird that hunts quietly after dark"
       },
       {
         "word": "woodpecker",
-        "level": "A2"
+        "level": "A2",
+        "description": "a bird that taps holes into tree bark"
       },
       {
         "word": "ranger",
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who looks after a forest"
       },
       {
         "word": "log bridge",
-        "level": "A2"
+        "level": "A2",
+        "description": "a fallen tree used to cross a stream"
       },
       {
         "word": "stump",
-        "level": "A2"
+        "level": "A2",
+        "description": "the short bottom left after a tree is cut"
       },
       {
         "word": "beetle",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small insect with hard wing covers"
       },
       {
         "word": "leaf carpet",
-        "level": "A1"
+        "level": "A1",
+        "description": "many fallen leaves covering the ground"
       },
       {
-        "word": "forest clearing",
-        "level": "A2"
+        "word": "clearing",
+        "level": "A2",
+        "description": "an open sunny space among trees"
       },
       {
         "word": "animal den",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sheltered home for a wild creature"
       },
       {
         "word": "tree bark",
-        "level": "A2"
+        "level": "A2",
+        "description": "the rough outside covering on a trunk"
       },
       {
         "word": "sap",
-        "level": "A2"
+        "level": "A2",
+        "description": "sticky liquid that flows inside a tree"
       },
       {
         "word": "tree ring",
-        "level": "A2"
+        "level": "A2",
+        "description": "a circle in wood showing one year of growth"
       },
       {
         "word": "picnic bench",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long seat for eating outdoors"
       }
     ],
     "imposter": [
       {
         "word": "forest",
-        "decoy": "garden",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large area covered with many kinds of trees",
+        "hint": "a habitat",
+        "crewQuestion": "Where can a deer find shade and food?",
+        "imposterQuestion": "Where can a camel find shade and food?"
+      },
+      {
+        "word": "tree",
+        "level": "A1",
+        "description": "a tall plant with a trunk and branches",
+        "hint": "a plant",
+        "crewQuestion": "What can provide a home for an owl?",
+        "imposterQuestion": "What can provide a home for a fish?"
+      },
+      {
+        "word": "branch",
+        "level": "A1",
+        "description": "a part that grows out from a tree trunk",
+        "hint": "a plant part",
+        "crewQuestion": "Where might a bird build a nest above the ground?",
+        "imposterQuestion": "Where might a rabbit build a nest below the ground?"
       },
       {
         "word": "pine cone",
-        "decoy": "acorn",
-        "level": "A2"
+        "level": "A2",
+        "description": "a hard case holding seeds from an evergreen",
+        "hint": "a plant part",
+        "crewQuestion": "What might fall from a tree in the woods?",
+        "imposterQuestion": "What might fall from a cloud in a storm?"
       },
       {
-        "word": "mushroom",
-        "decoy": "flower",
-        "level": "A2"
-      },
-      {
-        "word": "roots",
-        "decoy": "branch",
-        "level": "A2"
+        "word": "acorn",
+        "level": "A2",
+        "description": "a small nut that can grow into an oak",
+        "hint": "a seed",
+        "crewQuestion": "What might a squirrel hide for later?",
+        "imposterQuestion": "What might a bee store for later?"
       },
       {
         "word": "owl",
-        "decoy": "woodpecker",
-        "level": "A2"
-      },
-      {
-        "word": "stream",
-        "decoy": "pond",
-        "level": "A1"
-      },
-      {
-        "word": "tree bark",
-        "decoy": "scales",
-        "level": "A2"
-      },
-      {
-        "word": "ranger",
-        "decoy": "gardener",
-        "level": "A2"
+        "level": "A1",
+        "description": "a bird that hunts quietly when it is dark",
+        "hint": "a forest animal",
+        "crewQuestion": "Which bird can turn its head to look around?",
+        "imposterQuestion": "Which mammal can turn its head to look around?"
       }
     ],
     "twentyQuestions": [
@@ -11747,7 +11999,8 @@
           "winter",
           "season"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the season when many flowers begin to grow"
       },
       {
         "word": "summer",
@@ -11757,7 +12010,8 @@
           "holiday",
           "season"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the warmest part of the year"
       },
       {
         "word": "autumn",
@@ -11767,7 +12021,8 @@
           "cool",
           "season"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the time when leaves change colour and fall"
       },
       {
         "word": "winter",
@@ -11777,7 +12032,8 @@
           "coat",
           "season"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the coldest part of the year"
       },
       {
         "word": "fallen leaf",
@@ -11787,7 +12043,8 @@
           "brown",
           "plant"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a leaf that has fallen from a tree"
       },
       {
         "word": "snowflake",
@@ -11797,7 +12054,8 @@
           "small",
           "shape"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tiny piece of ice with six sides"
       },
       {
         "word": "blossom",
@@ -11807,7 +12065,8 @@
           "petals",
           "spring"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a flower growing on a fruit tree"
       },
       {
         "word": "scarf",
@@ -11817,7 +12076,8 @@
           "wear",
           "long"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a piece of cloth worn around the neck"
       },
       {
         "word": "shorts",
@@ -11827,7 +12087,8 @@
           "summer",
           "clothes"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "light clothing worn on the legs in warm weather"
       },
       {
         "word": "sweater",
@@ -11837,7 +12098,8 @@
           "arms",
           "clothes"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a warm knitted piece of clothing for the body"
       },
       {
         "word": "harvest",
@@ -11847,7 +12109,8 @@
           "crops",
           "autumn"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "gathering crops when they are ready"
       },
       {
         "word": "calendar",
@@ -11857,7 +12120,8 @@
           "year",
           "date"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a chart showing the days and months"
       },
       {
         "word": "daylight",
@@ -11867,7 +12131,8 @@
           "sky",
           "hours"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the hours when the sun stays above the horizon"
       },
       {
         "word": "frost",
@@ -11877,107 +12142,130 @@
           "ground",
           "morning"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a thin covering of ice on a cold surface"
       }
     ],
     "hotSeat": [
       {
         "word": "flower bud",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small unopened part that can become a bloom"
       },
       {
         "word": "warm day",
-        "level": "A1"
+        "level": "A1",
+        "description": "a time when outside air feels pleasant"
       },
       {
         "word": "cold morning",
-        "level": "A1"
+        "level": "A1",
+        "description": "the start of a day with low temperature"
       },
       {
         "word": "wool hat",
-        "level": "A1"
+        "level": "A1",
+        "description": "a warm cover for the head made from yarn"
       },
       {
         "word": "bare tree",
-        "level": "A1"
+        "level": "A1",
+        "description": "a plant that has lost its leaves"
       },
       {
         "word": "seed packet",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small paper cover holding seeds for planting"
       },
       {
         "word": "rain shower",
-        "level": "A1"
+        "level": "A1",
+        "description": "a short time when water falls from clouds"
       },
       {
         "word": "long evening",
-        "level": "A1"
+        "level": "A1",
+        "description": "a late part of the day that lasts many hours"
       },
       {
         "word": "apple basket",
-        "level": "A1"
+        "level": "A1",
+        "description": "a container used to carry picked fruit"
       },
       {
         "word": "planting",
-        "level": "A2"
+        "level": "A2",
+        "description": "putting seeds or young plants into soil"
       },
       {
         "word": "migration",
-        "level": "A2"
+        "level": "A2",
+        "description": "a seasonal journey made by groups of animals"
       },
       {
         "word": "dry season",
-        "level": "A2"
+        "level": "A2",
+        "description": "part of the year with little rainfall"
       },
       {
         "word": "wet season",
-        "level": "A2"
+        "level": "A2",
+        "description": "part of the year with frequent rainfall"
       },
       {
         "word": "sunshine",
-        "level": "A1"
+        "level": "A1",
+        "description": "bright light coming from the sun"
       }
     ],
     "imposter": [
       {
         "word": "spring",
-        "decoy": "autumn",
-        "level": "A1"
+        "level": "A1",
+        "description": "the season when new flowers and leaves appear",
+        "hint": "a time of year",
+        "crewQuestion": "When do many plants begin growing again?",
+        "imposterQuestion": "When do many animals begin sleeping more?"
       },
       {
         "word": "summer",
-        "decoy": "winter",
-        "level": "A1"
+        "level": "A1",
+        "description": "the warmest season with long sunny days",
+        "hint": "a time of year",
+        "crewQuestion": "When do children often spend more time outdoors?",
+        "imposterQuestion": "When do children often spend more time indoors?"
+      },
+      {
+        "word": "autumn",
+        "level": "A1",
+        "description": "the season when many leaves turn and fall",
+        "hint": "a time of year",
+        "crewQuestion": "When do trees drop many of their leaves?",
+        "imposterQuestion": "When do trees grow many fresh leaves?"
+      },
+      {
+        "word": "winter",
+        "level": "A1",
+        "description": "the coldest season with shorter daylight hours",
+        "hint": "a time of year",
+        "crewQuestion": "When might people wear scarves and warm coats?",
+        "imposterQuestion": "When might people wear shorts and light shirts?"
       },
       {
         "word": "scarf",
-        "decoy": "shorts",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long warm piece worn around the neck",
+        "hint": "winter clothing",
+        "crewQuestion": "What can keep your neck warm on a cold day?",
+        "imposterQuestion": "What can keep your feet warm on a cold day?"
       },
       {
-        "word": "blossom",
-        "decoy": "fallen leaf",
-        "level": "A2"
-      },
-      {
-        "word": "sweater",
-        "decoy": "raincoat",
-        "level": "A1"
-      },
-      {
-        "word": "calendar",
-        "decoy": "clock",
-        "level": "A1"
-      },
-      {
-        "word": "frost",
-        "decoy": "snowflake",
-        "level": "A2"
-      },
-      {
-        "word": "harvest",
-        "decoy": "planting",
-        "level": "A2"
+        "word": "snowflake",
+        "level": "A1",
+        "description": "a tiny frozen shape with many delicate points",
+        "hint": "a weather item",
+        "crewQuestion": "What can land on your sleeve in winter?",
+        "imposterQuestion": "What can land on your sleeve in spring?"
       }
     ],
     "twentyQuestions": [
@@ -12035,7 +12323,8 @@
           "wet",
           "fall"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "water falling from clouds above the ground"
       },
       {
         "word": "cloud",
@@ -12045,7 +12334,8 @@
           "white",
           "water"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a white or grey shape made of tiny water drops"
       },
       {
         "word": "puddle",
@@ -12055,7 +12345,8 @@
           "small",
           "splash"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small pool of water after a storm"
       },
       {
         "word": "umbrella",
@@ -12065,7 +12356,8 @@
           "wet",
           "dry"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover held over the head in wet weather"
       },
       {
         "word": "raincoat",
@@ -12075,7 +12367,8 @@
           "wet",
           "dry"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a long coat that keeps the body dry"
       },
       {
         "word": "boots",
@@ -12085,7 +12378,8 @@
           "shoes",
           "mud"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "shoes that protect feet from wet ground"
       },
       {
         "word": "raindrop",
@@ -12095,7 +12389,8 @@
           "round",
           "fall"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tiny ball of water falling from clouds"
       },
       {
         "word": "drizzle",
@@ -12105,7 +12400,8 @@
           "small",
           "slow"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "very light rain with small drops"
       },
       {
         "word": "downpour",
@@ -12115,7 +12411,8 @@
           "fast",
           "water"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a lot of rain falling very heavily"
       },
       {
         "word": "rain gauge",
@@ -12125,7 +12422,8 @@
           "water",
           "tube"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool that measures how much rain falls"
       },
       {
         "word": "gutter",
@@ -12135,7 +12433,8 @@
           "pipe",
           "edge"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a channel carrying rainwater away from a roof"
       },
       {
         "word": "rainbow",
@@ -12145,7 +12444,8 @@
           "curve",
           "sun"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a coloured arc that may appear after rain"
       },
       {
         "word": "storm",
@@ -12155,7 +12455,8 @@
           "heavy",
           "loud"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a weather event with strong wind and heavy rain"
       },
       {
         "word": "waterproof bag",
@@ -12165,107 +12466,130 @@
           "inside",
           "wet"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a bag made to keep its contents dry"
       }
     ],
     "hotSeat": [
       {
         "word": "wet pavement",
-        "level": "A1"
+        "level": "A1",
+        "description": "a hard walking surface covered in water"
       },
       {
-        "word": "roof drip",
-        "level": "A1"
+        "word": "roof leak",
+        "level": "A1",
+        "description": "a place where water comes through a roof"
       },
       {
         "word": "grey sky",
-        "level": "A1"
+        "level": "A1",
+        "description": "the view above when clouds hide the sun"
       },
       {
         "word": "rainwater",
-        "level": "A1"
+        "level": "A1",
+        "description": "water collected from falling drops"
       },
       {
         "word": "soaked coat",
-        "level": "A2"
+        "level": "A2",
+        "description": "outer clothing made very wet"
       },
       {
         "word": "splashing",
-        "level": "A1"
+        "level": "A1",
+        "description": "making water jump up with a movement"
       },
       {
         "word": "water barrel",
-        "level": "A2"
+        "level": "A2",
+        "description": "a large round container used to store rain"
       },
       {
         "word": "window drops",
-        "level": "A1"
+        "level": "A1",
+        "description": "small round marks of water on glass"
       },
       {
         "word": "muddy shoes",
-        "level": "A1"
+        "level": "A1",
+        "description": "footwear covered with soft wet earth"
       },
       {
         "word": "light shower",
-        "level": "A2"
+        "level": "A2",
+        "description": "a short period of gentle rain"
       },
       {
         "word": "heavy shower",
-        "level": "A2"
+        "level": "A2",
+        "description": "a short period of strong rain"
       },
       {
         "word": "dripping tree",
-        "level": "A1"
+        "level": "A1",
+        "description": "a plant still dropping water after rain"
       },
       {
-        "word": "covered walkway",
-        "level": "A2"
+        "word": "covered path",
+        "level": "A2",
+        "description": "a walkway protected from falling water"
       },
       {
-        "word": "weather reporter",
-        "level": "A2"
+        "word": "reporter",
+        "level": "A2",
+        "description": "a person who tells people about weather"
       }
     ],
     "imposter": [
       {
         "word": "rain",
-        "decoy": "snow",
-        "level": "A1"
+        "level": "A1",
+        "description": "water falling from clouds above the ground",
+        "hint": "wet weather",
+        "crewQuestion": "What can make a puddle grow on the road?",
+        "imposterQuestion": "What can make a puddle disappear from the road?"
+      },
+      {
+        "word": "cloud",
+        "level": "A1",
+        "description": "a shape of tiny drops floating high above",
+        "hint": "sky weather",
+        "crewQuestion": "What may cover the sun before a shower?",
+        "imposterQuestion": "What may cover the moon before a clear night?"
       },
       {
         "word": "umbrella",
-        "decoy": "parasol",
-        "level": "A2"
+        "level": "A1",
+        "description": "a cover held above you in wet weather",
+        "hint": "a rainy-day item",
+        "crewQuestion": "What can keep your head dry while walking?",
+        "imposterQuestion": "What can keep your head cool while walking?"
       },
       {
         "word": "raincoat",
-        "decoy": "sweater",
-        "level": "A1"
-      },
-      {
-        "word": "drizzle",
-        "decoy": "downpour",
-        "level": "A2"
+        "level": "A1",
+        "description": "a long outer cover that helps keep you dry",
+        "hint": "wet weather clothing",
+        "crewQuestion": "What can a child put on before going outside?",
+        "imposterQuestion": "What can a child take off before going outside?"
       },
       {
         "word": "puddle",
-        "decoy": "stream",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small pool of water on the ground",
+        "hint": "a water shape",
+        "crewQuestion": "What can form after a shower on the pavement?",
+        "imposterQuestion": "What can form after a cup spills on the floor?"
       },
       {
-        "word": "gutter",
-        "decoy": "drain",
-        "level": "A2"
-      },
-      {
-        "word": "storm",
-        "decoy": "rainbow",
-        "level": "A2"
-      },
-      {
-        "word": "raindrop",
-        "decoy": "snowflake",
-        "level": "A1"
+        "word": "rainbow",
+        "level": "A1",
+        "description": "a coloured arc sometimes seen after a shower",
+        "hint": "a sky sight",
+        "crewQuestion": "What can appear when sunlight comes through falling drops?",
+        "imposterQuestion": "What can appear when moonlight comes through falling drops?"
       }
     ],
     "twentyQuestions": [
@@ -12323,7 +12647,8 @@
           "winter",
           "fall"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "soft white flakes that fall in cold weather"
       },
       {
         "word": "snowflake",
@@ -12333,7 +12658,8 @@
           "small",
           "shape"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tiny frozen shape with many small points"
       },
       {
         "word": "snowman",
@@ -12343,7 +12669,8 @@
           "hat",
           "round"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round figure built from packed white flakes"
       },
       {
         "word": "snowball",
@@ -12353,7 +12680,8 @@
           "throw",
           "cold"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round lump made by squeezing cold flakes"
       },
       {
         "word": "ice",
@@ -12363,7 +12691,8 @@
           "hard",
           "slip"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "frozen water that feels hard and cold"
       },
       {
         "word": "skis",
@@ -12373,7 +12702,8 @@
           "snow",
           "long"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "long narrow boards used to glide on snow"
       },
       {
         "word": "sled",
@@ -12383,7 +12713,8 @@
           "snow",
           "sit"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a low vehicle that slides downhill on snow"
       },
       {
         "word": "scarf",
@@ -12393,7 +12724,8 @@
           "wear",
           "long"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a warm cloth worn around the neck"
       },
       {
         "word": "gloves",
@@ -12403,7 +12735,8 @@
           "warm",
           "fingers"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "covers worn on hands in cold weather"
       },
       {
         "word": "boots",
@@ -12413,7 +12746,8 @@
           "shoes",
           "walk"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "strong shoes that cover feet outdoors"
       },
       {
         "word": "icicle",
@@ -12423,7 +12757,8 @@
           "point",
           "cold"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a hanging point of ice under a roof"
       },
       {
         "word": "frost",
@@ -12433,7 +12768,8 @@
           "ground",
           "morning"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a thin cover of frozen water on a surface"
       },
       {
         "word": "snowdrift",
@@ -12443,7 +12779,8 @@
           "wind",
           "white"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a deep pile of wind-blown white flakes"
       },
       {
         "word": "snow shovel",
@@ -12453,107 +12790,130 @@
           "handle",
           "dig"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool used to clear white flakes from a path"
       }
     ],
     "hotSeat": [
       {
         "word": "winter hat",
-        "level": "A1"
+        "level": "A1",
+        "description": "a warm cover worn on the head in cold weather"
       },
       {
         "word": "warm socks",
-        "level": "A1"
+        "level": "A1",
+        "description": "soft clothing worn inside shoes"
       },
       {
         "word": "frozen pond",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small area of water turned hard by cold"
       },
       {
         "word": "snow angel",
-        "level": "A1"
+        "level": "A1",
+        "description": "a shape made by moving arms in white flakes"
       },
       {
         "word": "slippery path",
-        "level": "A2"
+        "level": "A2",
+        "description": "a walkway where feet can slide easily"
       },
       {
         "word": "white field",
-        "level": "A1"
+        "level": "A1",
+        "description": "a wide open area covered with flakes"
       },
       {
         "word": "snowplough",
-        "level": "A2"
+        "level": "A2",
+        "description": "a vehicle that pushes frozen flakes off roads"
       },
       {
         "word": "winter coat",
-        "level": "A1"
+        "level": "A1",
+        "description": "a thick outer layer for very cold days"
       },
       {
         "word": "cold breath",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cloud seen when someone exhales in winter"
       },
       {
         "word": "melting",
-        "level": "A2"
+        "level": "A2",
+        "description": "changing from a solid into a liquid"
       },
       {
         "word": "slush",
-        "level": "A2"
+        "level": "A2",
+        "description": "wet partly melted snow on the ground"
       },
       {
         "word": "ski lift",
-        "level": "A2"
+        "level": "A2",
+        "description": "a moving seat that carries skiers uphill"
       },
       {
         "word": "mitten",
-        "level": "A1"
+        "level": "A1",
+        "description": "a warm hand cover with one space for fingers"
       },
       {
-        "word": "deep footprints",
-        "level": "A2"
+        "word": "footprints",
+        "level": "A2",
+        "description": "marks left by shoes in soft snow"
       }
     ],
     "imposter": [
       {
         "word": "snow",
-        "decoy": "ice",
-        "level": "A1"
+        "level": "A1",
+        "description": "soft frozen flakes that fall from cold clouds",
+        "hint": "cold weather",
+        "crewQuestion": "What can cover a field during the coldest months?",
+        "imposterQuestion": "What can cover a field during the hottest months?"
       },
       {
         "word": "snowman",
-        "decoy": "snow angel",
-        "level": "A1"
+        "level": "A1",
+        "description": "a figure made by stacking packed white balls",
+        "hint": "a winter figure",
+        "crewQuestion": "What can children build outside after a heavy fall?",
+        "imposterQuestion": "What can children build inside with wooden blocks?"
       },
       {
         "word": "snowball",
-        "decoy": "snowflake",
-        "level": "A1"
+        "level": "A1",
+        "description": "a round lump made by squeezing soft flakes",
+        "hint": "a winter object",
+        "crewQuestion": "What might children throw in a friendly winter game?",
+        "imposterQuestion": "What might children throw in a friendly summer game?"
       },
       {
-        "word": "skis",
-        "decoy": "sled",
-        "level": "A1"
+        "word": "sled",
+        "level": "A1",
+        "description": "a low vehicle that slides down a snowy hill",
+        "hint": "a winter vehicle",
+        "crewQuestion": "What can carry a child downhill without wheels?",
+        "imposterQuestion": "What can carry a child uphill without wheels?"
+      },
+      {
+        "word": "ice",
+        "level": "A1",
+        "description": "water made hard by very low temperature",
+        "hint": "a material",
+        "crewQuestion": "What can make a pond too slippery to skate on?",
+        "imposterQuestion": "What can make a road too soft to skate on?"
       },
       {
         "word": "scarf",
-        "decoy": "mitten",
-        "level": "A1"
-      },
-      {
-        "word": "frost",
-        "decoy": "icicle",
-        "level": "A2"
-      },
-      {
-        "word": "snowdrift",
-        "decoy": "sand dune",
-        "level": "A2"
-      },
-      {
-        "word": "snow shovel",
-        "decoy": "garden spade",
-        "level": "A2"
+        "level": "A1",
+        "description": "a warm cloth worn around the neck",
+        "hint": "warm clothing",
+        "crewQuestion": "What can protect your neck from cold wind?",
+        "imposterQuestion": "What can protect your hands from cold wind?"
       }
     ],
     "twentyQuestions": [
@@ -12593,7 +12953,7 @@
         "level": "A2"
       },
       {
-        "secret": "snowplough driver",
+        "secret": "snowplough",
         "kind": "job",
         "level": "A2"
       }
@@ -12611,7 +12971,8 @@
           "soft",
           "cool"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a gentle movement of air outside"
       },
       {
         "word": "gust",
@@ -12621,7 +12982,8 @@
           "blow",
           "storm"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sudden strong push of moving air"
       },
       {
         "word": "flag",
@@ -12631,7 +12993,8 @@
           "move",
           "country"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a piece of cloth on a pole moved by air"
       },
       {
         "word": "kite",
@@ -12641,7 +13004,8 @@
           "sky",
           "toy"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a light toy that flies on a string"
       },
       {
         "word": "windmill",
@@ -12651,7 +13015,8 @@
           "toy",
           "air"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall machine that uses air to turn"
       },
       {
         "word": "fan",
@@ -12661,7 +13026,8 @@
           "hot",
           "electric"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine that moves air around a room"
       },
       {
         "word": "sail",
@@ -12671,7 +13037,8 @@
           "water",
           "move"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a large piece that catches air on a boat"
       },
       {
         "word": "pinwheel",
@@ -12681,7 +13048,8 @@
           "hand",
           "toy"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small toy with blades that spin in air"
       },
       {
         "word": "wind chime",
@@ -12691,7 +13059,8 @@
           "metal",
           "blow"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a set of small tubes that ring in moving air"
       },
       {
         "word": "hat",
@@ -12701,7 +13070,8 @@
           "fall",
           "cap"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover worn on top of the head"
       },
       {
         "word": "weather balloon",
@@ -12711,7 +13081,8 @@
           "fly",
           "soft"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a bag carrying air high above the ground"
       },
       {
         "word": "weather vane",
@@ -12721,7 +13092,8 @@
           "arrow",
           "direction"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool that points toward the direction of air"
       },
       {
         "word": "turbine",
@@ -12731,7 +13103,8 @@
           "large",
           "energy"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a machine that turns to make electricity"
       },
       {
         "word": "streamer",
@@ -12741,107 +13114,130 @@
           "long",
           "colour"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long strip of fabric waving outside"
       }
     ],
     "hotSeat": [
       {
         "word": "windsock",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long open tube that shows which way air blows"
       },
       {
         "word": "curtain",
-        "level": "A1"
+        "level": "A1",
+        "description": "a piece of cloth covering a window"
       },
       {
         "word": "laundry",
-        "level": "A1"
+        "level": "A1",
+        "description": "clothes washed and hung up to dry"
       },
       {
         "word": "windbreaker",
-        "level": "A2"
+        "level": "A2",
+        "description": "a light coat that blocks moving air"
       },
       {
         "word": "roof vent",
-        "level": "A2"
+        "level": "A2",
+        "description": "an opening letting air move through a roof"
       },
       {
         "word": "paper airplane",
-        "level": "A1"
+        "level": "A1",
+        "description": "a flying toy folded from a sheet"
       },
       {
-        "word": "dandelion seed",
-        "level": "A2"
+        "word": "seed",
+        "level": "A2",
+        "description": "a small part that can grow into a plant"
       },
       {
         "word": "sailboat",
-        "level": "A1"
+        "level": "A1",
+        "description": "a boat moved by cloth catching air"
       },
       {
-        "word": "weathervane",
-        "level": "A2"
+        "word": "air direction",
+        "level": "A2",
+        "description": "a clue showing which way the breeze is blowing"
       },
       {
         "word": "wind turbine",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall machine that makes power from moving air"
       },
       {
         "word": "storm door",
-        "level": "A2"
+        "level": "A2",
+        "description": "an outside door that blocks rough weather"
       },
       {
         "word": "hair dryer",
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine that blows warm air onto hair"
       },
       {
         "word": "bubble",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small round pocket of air in liquid"
       },
       {
         "word": "wind tunnel",
-        "level": "A2"
+        "level": "A2",
+        "description": "a passage where strong air is tested"
       }
     ],
     "imposter": [
       {
         "word": "breeze",
-        "decoy": "gust",
-        "level": "A1"
+        "level": "A1",
+        "description": "a gentle movement of air outdoors",
+        "hint": "moving air",
+        "crewQuestion": "What can move leaves without breaking branches?",
+        "imposterQuestion": "What can move leaves after a storm has passed?"
       },
       {
-        "word": "fan",
-        "decoy": "windmill",
-        "level": "A1"
+        "word": "gust",
+        "level": "A2",
+        "description": "a short strong push of moving air",
+        "hint": "moving air",
+        "crewQuestion": "What can suddenly push a hat off your head?",
+        "imposterQuestion": "What can suddenly push a hat onto your head?"
       },
       {
         "word": "kite",
-        "decoy": "balloon",
-        "level": "A1"
+        "level": "A1",
+        "description": "a light toy that flies on a long string",
+        "hint": "a toy",
+        "crewQuestion": "What can rise above a field on a breezy day?",
+        "imposterQuestion": "What can roll across a field on a breezy day?"
       },
       {
         "word": "flag",
-        "decoy": "windsock",
-        "level": "A2"
+        "level": "A1",
+        "description": "a piece of cloth raised on a pole",
+        "hint": "an object",
+        "crewQuestion": "What can show its shape when air moves?",
+        "imposterQuestion": "What can show its shape when water moves?"
       },
       {
-        "word": "pinwheel",
-        "decoy": "propeller",
-        "level": "A2"
+        "word": "windmill",
+        "level": "A2",
+        "description": "a tall machine with turning parts catching air",
+        "hint": "a machine",
+        "crewQuestion": "What can turn outside and help make power?",
+        "imposterQuestion": "What can turn outside and help pump water?"
       },
       {
-        "word": "sail",
-        "decoy": "parachute",
-        "level": "A2"
-      },
-      {
-        "word": "wind chime",
-        "decoy": "bell",
-        "level": "A1"
-      },
-      {
-        "word": "weather vane",
-        "decoy": "compass",
-        "level": "A2"
+        "word": "fan",
+        "level": "A1",
+        "description": "a machine that moves air around a room",
+        "hint": "a machine",
+        "crewQuestion": "What helps cool someone on a hot day?",
+        "imposterQuestion": "What helps dry someone on a rainy day?"
       }
     ],
     "twentyQuestions": [
@@ -12899,7 +13295,8 @@
           "water",
           "rain"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a white or grey shape of tiny drops in air"
       },
       {
         "word": "fog",
@@ -12909,7 +13306,8 @@
           "grey",
           "morning"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a thick grey cloud close to the ground"
       },
       {
         "word": "mist",
@@ -12919,7 +13317,8 @@
           "air",
           "thin"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a thin wet cloud close to the ground"
       },
       {
         "word": "storm cloud",
@@ -12929,7 +13328,8 @@
           "sky",
           "grey"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a dark cloud that may bring heavy rain"
       },
       {
         "word": "raindrop",
@@ -12939,7 +13339,8 @@
           "wet",
           "sky"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small round piece of water falling down"
       },
       {
         "word": "thunder",
@@ -12949,7 +13350,8 @@
           "sound",
           "sky"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a loud sound heard during a storm"
       },
       {
         "word": "lightning",
@@ -12959,7 +13361,8 @@
           "sky",
           "bright"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright electric flash across the sky"
       },
       {
         "word": "cirrus",
@@ -12969,7 +13372,8 @@
           "white",
           "cloud"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a thin high cloud made of ice crystals"
       },
       {
         "word": "cumulus",
@@ -12979,7 +13383,8 @@
           "sky",
           "cloud"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a fluffy cloud that looks like cotton"
       },
       {
         "word": "overcast sky",
@@ -12989,7 +13394,8 @@
           "clouds",
           "day"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sky covered by many grey clouds"
       },
       {
         "word": "hailstone",
@@ -12999,7 +13405,8 @@
           "small",
           "storm"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small hard ball of ice falling from clouds"
       },
       {
         "word": "cloud shadow",
@@ -13009,7 +13416,8 @@
           "sun",
           "move"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a dark shape made when a cloud blocks light"
       },
       {
         "word": "rain gauge",
@@ -13019,7 +13427,8 @@
           "weather",
           "tool"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool used to measure how much rain falls"
       },
       {
         "word": "fog bank",
@@ -13029,107 +13438,130 @@
           "thick",
           "grey"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long thick area of low cloud"
       }
     ],
     "hotSeat": [
       {
         "word": "sky",
-        "level": "A1"
+        "level": "A1",
+        "description": "the space above us where clouds move"
       },
       {
         "word": "rain hat",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover protecting your head from wet weather"
       },
       {
         "word": "thunderstorm",
-        "level": "A2"
+        "level": "A2",
+        "description": "a storm with loud sounds and bright flashes"
       },
       {
         "word": "hail",
-        "level": "A2"
+        "level": "A2",
+        "description": "small hard balls of ice falling from clouds"
       },
       {
         "word": "storm front",
-        "level": "A2"
+        "level": "A2",
+        "description": "the edge where a storm begins to arrive"
       },
       {
         "word": "rain poncho",
-        "level": "A1"
+        "level": "A1",
+        "description": "a loose cover worn over clothes in wet weather"
       },
       {
         "word": "rain boots",
-        "level": "A1"
+        "level": "A1",
+        "description": "waterproof shoes worn in a puddle"
       },
       {
         "word": "sunbeam",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright line of light from the sun"
       },
       {
         "word": "window",
-        "level": "A1"
+        "level": "A1",
+        "description": "glass opening in a wall to see outside"
       },
       {
         "word": "mountaintop",
-        "level": "A1"
+        "level": "A1",
+        "description": "the highest part of a mountain"
       },
       {
         "word": "weather station",
-        "level": "A2"
+        "level": "A2",
+        "description": "a place that measures rain, wind and temperature"
       },
       {
         "word": "drizzle",
-        "level": "A2"
+        "level": "A2",
+        "description": "very light rain with tiny drops"
       },
       {
         "word": "lightning rod",
-        "level": "A2"
+        "level": "A2",
+        "description": "a metal pole that guides an electric flash safely"
       },
       {
         "word": "dew",
-        "level": "A2"
+        "level": "A2",
+        "description": "tiny drops left on grass in the morning"
       }
     ],
     "imposter": [
       {
-        "word": "fog",
-        "decoy": "mist",
-        "level": "A1"
+        "word": "cloud",
+        "level": "A1",
+        "description": "a shape of tiny water drops high in air",
+        "hint": "weather shape",
+        "crewQuestion": "What may hide the sun before a storm?",
+        "imposterQuestion": "What may hide the moon before a clear night?"
       },
       {
-        "word": "cirrus",
-        "decoy": "cumulus",
-        "level": "A2"
+        "word": "fog",
+        "level": "A2",
+        "description": "a thick cloud close to the ground",
+        "hint": "low cloud",
+        "crewQuestion": "What can make a road hard to see through?",
+        "imposterQuestion": "What can make a road easy to see through?"
+      },
+      {
+        "word": "mist",
+        "level": "A2",
+        "description": "a thin cloud of drops near the ground",
+        "hint": "light fog",
+        "crewQuestion": "What can make a morning look soft and grey?",
+        "imposterQuestion": "What can make a morning look bright and clear?"
+      },
+      {
+        "word": "thunder",
+        "level": "A1",
+        "description": "a loud sound made during some storms",
+        "hint": "weather sound",
+        "crewQuestion": "What can people hear after a bright sky flash?",
+        "imposterQuestion": "What can people hear after a bright camera flash?"
+      },
+      {
+        "word": "lightning",
+        "level": "A1",
+        "description": "a bright electric flash across the sky",
+        "hint": "weather light",
+        "crewQuestion": "What can light up the sky during a storm?",
+        "imposterQuestion": "What can light up a room during a storm?"
       },
       {
         "word": "hailstone",
-        "decoy": "snowflake",
-        "level": "A2"
-      },
-      {
-        "word": "storm cloud",
-        "decoy": "rain cloud",
-        "level": "A2"
-      },
-      {
-        "word": "drizzle",
-        "decoy": "shower",
-        "level": "A2"
-      },
-      {
-        "word": "cloud shadow",
-        "decoy": "tree shadow",
-        "level": "A2"
-      },
-      {
-        "word": "weather map",
-        "decoy": "road map",
-        "level": "A1"
-      },
-      {
-        "word": "dew",
-        "decoy": "raindrop",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small hard ball of ice from a cloud",
+        "hint": "ice weather",
+        "crewQuestion": "What may bounce on the roof in a storm?",
+        "imposterQuestion": "What may bounce on the roof after a game?"
       }
     ],
     "twentyQuestions": [
@@ -13187,7 +13619,8 @@
           "drizzle",
           "arc"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an arch of colours sometimes seen after rain"
       },
       {
         "word": "prism",
@@ -13197,7 +13630,8 @@
           "colour",
           "triangle"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a clear object that splits bright light"
       },
       {
         "word": "raindrop",
@@ -13207,7 +13641,8 @@
           "wet",
           "cloud"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small ball of water falling from clouds"
       },
       {
         "word": "sunbeam",
@@ -13217,7 +13652,8 @@
           "bright",
           "sky"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a narrow line of bright light"
       },
       {
         "word": "red",
@@ -13227,7 +13663,8 @@
           "stop",
           "fire"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the colour of a ripe strawberry"
       },
       {
         "word": "orange",
@@ -13237,7 +13674,8 @@
           "carrot",
           "red"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a bright mix of red and yellow"
       },
       {
         "word": "yellow",
@@ -13247,7 +13685,8 @@
           "sun",
           "bright"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the bright colour of a lemon"
       },
       {
         "word": "green",
@@ -13257,7 +13696,8 @@
           "leaf",
           "blue"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the colour of fresh leaves"
       },
       {
         "word": "blue",
@@ -13267,7 +13707,8 @@
           "water",
           "green"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the colour of a clear daytime sky"
       },
       {
         "word": "violet",
@@ -13277,7 +13718,8 @@
           "flower",
           "blue"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a deep purple colour between blue and red"
       },
       {
         "word": "reflection",
@@ -13287,7 +13729,8 @@
           "see",
           "water"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "light bouncing back from a surface"
       },
       {
         "word": "waterfall mist",
@@ -13297,7 +13740,8 @@
           "white",
           "cool"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a light cloud of drops beside falling water"
       },
       {
         "word": "arc",
@@ -13307,7 +13751,8 @@
           "bridge",
           "circle"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a curved line shaped like part of a circle"
       },
       {
         "word": "colour band",
@@ -13317,107 +13762,130 @@
           "blue",
           "light"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "one stripe of colour within a larger pattern"
       }
     ],
     "hotSeat": [
       {
         "word": "indigo",
-        "level": "A2"
+        "level": "A2",
+        "description": "a deep blue-purple colour"
       },
       {
         "word": "spectrum",
-        "level": "A2"
+        "level": "A2",
+        "description": "a band showing many colours together"
       },
       {
         "word": "sun shower",
-        "level": "A2"
+        "level": "A2",
+        "description": "a short rain while sunlight is still visible"
       },
       {
         "word": "soap bubble",
-        "level": "A1"
+        "level": "A1",
+        "description": "a thin round skin filled with air and liquid"
       },
       {
         "word": "glass prism",
-        "level": "A2"
+        "level": "A2",
+        "description": "a clear solid shape that separates colours"
       },
       {
         "word": "garden hose",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long flexible tube used to water plants"
       },
       {
         "word": "sprinkler",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool that sprays water across a yard"
       },
       {
         "word": "water spray",
-        "level": "A1"
+        "level": "A1",
+        "description": "small drops sent into the air"
       },
       {
         "word": "mirror",
-        "level": "A1"
+        "level": "A1",
+        "description": "a smooth surface that shows a reflection"
       },
       {
         "word": "colour wheel",
-        "level": "A2"
+        "level": "A2",
+        "description": "a round chart showing colours side by side"
       },
       {
         "word": "sunlight",
-        "level": "A1"
+        "level": "A1",
+        "description": "bright natural light coming from the sun"
       },
       {
         "word": "rainbow trout",
-        "level": "A2"
+        "level": "A2",
+        "description": "a fish with colourful marks along its body"
       },
       {
-        "word": "colouring pencil",
-        "level": "A1"
+        "word": "colour pencil",
+        "level": "A1",
+        "description": "a stick of coloured material for drawing"
       },
       {
         "word": "light ray",
-        "level": "A2"
+        "level": "A2",
+        "description": "a narrow path taken by bright light"
       }
     ],
     "imposter": [
       {
-        "word": "prism",
-        "decoy": "mirror",
-        "level": "A1"
+        "word": "rainbow",
+        "level": "A1",
+        "description": "an arch of colours sometimes seen after rain",
+        "hint": "a sky sight",
+        "crewQuestion": "What can appear when sunlight shines through falling drops?",
+        "imposterQuestion": "What can appear when moonlight shines through falling drops?"
       },
       {
-        "word": "rainbow",
-        "decoy": "colour wheel",
-        "level": "A2"
+        "word": "prism",
+        "level": "A2",
+        "description": "a clear solid shape that splits bright light",
+        "hint": "a light object",
+        "crewQuestion": "What can make one beam show several colours?",
+        "imposterQuestion": "What can make one sound seem to come from several places?"
       },
       {
         "word": "red",
-        "decoy": "orange",
-        "level": "A1"
+        "level": "A1",
+        "description": "the colour of ripe berries and many apples",
+        "hint": "a colour",
+        "crewQuestion": "Which colour is often at the outside of an arch?",
+        "imposterQuestion": "Which colour is often at the centre of a flower?"
       },
       {
-        "word": "sunbeam",
-        "decoy": "lightning",
-        "level": "A1"
+        "word": "blue",
+        "level": "A1",
+        "description": "the colour of a clear sky at midday",
+        "hint": "a colour",
+        "crewQuestion": "Which colour can you see above a sunny beach?",
+        "imposterQuestion": "Which colour can you see below a sunny beach?"
       },
       {
-        "word": "mist",
-        "decoy": "spray",
-        "level": "A1"
+        "word": "mirror",
+        "level": "A1",
+        "description": "a smooth surface that shows what is in front",
+        "hint": "an object",
+        "crewQuestion": "What lets you see your face at home?",
+        "imposterQuestion": "What lets you hear your voice at home?"
       },
       {
-        "word": "reflection",
-        "decoy": "shadow",
-        "level": "A2"
-      },
-      {
-        "word": "arc",
-        "decoy": "circle",
-        "level": "A1"
-      },
-      {
-        "word": "spectrum",
-        "decoy": "rainbow arc",
-        "level": "A2"
+        "word": "soap bubble",
+        "level": "A1",
+        "description": "a thin round skin holding air and water",
+        "hint": "a round thing",
+        "crewQuestion": "What may show colours while floating in the yard?",
+        "imposterQuestion": "What may show colours while falling in the yard?"
       }
     ],
     "twentyQuestions": [
@@ -13475,7 +13943,8 @@
           "river",
           "sea"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the clear liquid that falls as rain and fills rivers"
       },
       {
         "word": "evaporation",
@@ -13485,7 +13954,8 @@
           "cloud",
           "turn"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "changing from liquid water into a gas"
       },
       {
         "word": "condensation",
@@ -13495,7 +13965,8 @@
           "air",
           "drops"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "changing water gas back into tiny liquid drops"
       },
       {
         "word": "water vapour",
@@ -13505,7 +13976,8 @@
           "hot",
           "see"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "water in the air that cannot be seen easily"
       },
       {
         "word": "rain",
@@ -13515,7 +13987,8 @@
           "fall",
           "sky"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "water falling from clouds to the ground"
       },
       {
         "word": "puddle",
@@ -13525,7 +13998,8 @@
           "small",
           "jump"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small pool left on a road after rain"
       },
       {
         "word": "steam",
@@ -13535,7 +14009,8 @@
           "air",
           "white"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "warm water gas rising from a hot surface"
       },
       {
         "word": "cloud",
@@ -13545,7 +14020,8 @@
           "rain",
           "water"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a shape of tiny water drops high in the air"
       },
       {
         "word": "sunshine",
@@ -13555,7 +14031,8 @@
           "day",
           "bright"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "bright light and warmth coming from the sun"
       },
       {
         "word": "drain",
@@ -13565,7 +14042,8 @@
           "street",
           "down"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a channel that carries used water away"
       },
       {
         "word": "reservoir",
@@ -13575,7 +14053,8 @@
           "large",
           "dam"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a large store of water saved for later"
       },
       {
         "word": "rain gauge",
@@ -13585,7 +14064,8 @@
           "tool",
           "amount"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool that measures how much rain has fallen"
       },
       {
         "word": "droplet",
@@ -13595,7 +14075,8 @@
           "fall",
           "round"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tiny round piece of liquid"
       },
       {
         "word": "waterfall",
@@ -13605,107 +14086,130 @@
           "rock",
           "splash"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "water dropping over a high edge"
       }
     ],
     "hotSeat": [
       {
         "word": "tap",
-        "level": "A1"
+        "level": "A1",
+        "description": "a handle that lets water flow from a pipe"
       },
       {
         "word": "well",
-        "level": "A1"
+        "level": "A1",
+        "description": "a deep hole where people can reach water"
       },
       {
         "word": "fountain",
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where water sprays upward and falls back"
       },
       {
         "word": "water tower",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall structure that stores water for a town"
       },
       {
         "word": "water tank",
-        "level": "A1"
+        "level": "A1",
+        "description": "a container that holds water for later"
       },
       {
         "word": "ice cube",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small square piece of frozen water"
       },
       {
         "word": "dew",
-        "level": "A2"
+        "level": "A2",
+        "description": "tiny drops forming on plants overnight"
       },
       {
         "word": "fog",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cloud of tiny drops close to the ground"
       },
       {
         "word": "rain barrel",
-        "level": "A2"
+        "level": "A2",
+        "description": "a round container that collects roof water"
       },
       {
         "word": "gutter",
-        "level": "A2"
+        "level": "A2",
+        "description": "a channel along a roof edge carrying water away"
       },
       {
         "word": "cloudburst",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sudden short fall of very heavy rain"
       },
       {
         "word": "wetland",
-        "level": "A2"
+        "level": "A2",
+        "description": "an area of land that stays covered in water"
       },
       {
         "word": "water pipe",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long tube that carries liquid to a tap"
       },
       {
         "word": "irrigation canal",
-        "level": "A2"
+        "level": "A2",
+        "description": "a channel bringing water to plants in fields"
       }
     ],
     "imposter": [
       {
-        "word": "vapour",
-        "decoy": "steam",
-        "level": "A2"
+        "word": "water",
+        "level": "A1",
+        "description": "the clear liquid found in rain, rivers and lakes",
+        "hint": "a liquid",
+        "crewQuestion": "What falls from clouds and fills a glass?",
+        "imposterQuestion": "What shines in the sky and fills a room?"
       },
       {
         "word": "evaporation",
-        "decoy": "condensation",
-        "level": "A2"
+        "level": "A2",
+        "description": "liquid slowly turning into an unseen gas",
+        "hint": "a change",
+        "crewQuestion": "What happens when a puddle dries in the sun?",
+        "imposterQuestion": "What happens when a puddle freezes overnight?"
+      },
+      {
+        "word": "condensation",
+        "level": "A2",
+        "description": "water gas cooling into tiny liquid drops",
+        "hint": "a change",
+        "crewQuestion": "What can make drops appear outside a cold glass?",
+        "imposterQuestion": "What can make drops disappear outside a cold glass?"
+      },
+      {
+        "word": "rain",
+        "level": "A1",
+        "description": "water falling from clouds above the ground",
+        "hint": "wet weather",
+        "crewQuestion": "What can fill a barrel placed below a roof?",
+        "imposterQuestion": "What can empty a barrel placed below a roof?"
       },
       {
         "word": "puddle",
-        "decoy": "puddle pool",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small pool of water on the ground",
+        "hint": "a water shape",
+        "crewQuestion": "What can appear after many drops fall on a path?",
+        "imposterQuestion": "What can appear after many drops dry from a path?"
       },
       {
-        "word": "reservoir",
-        "decoy": "water tower",
-        "level": "A2"
-      },
-      {
-        "word": "rain barrel",
-        "decoy": "water tank",
-        "level": "A1"
-      },
-      {
-        "word": "dew",
-        "decoy": "frost",
-        "level": "A2"
-      },
-      {
-        "word": "well",
-        "decoy": "spring",
-        "level": "A2"
-      },
-      {
-        "word": "gutter",
-        "decoy": "drain",
-        "level": "A2"
+        "word": "steam",
+        "level": "A1",
+        "description": "warm water gas rising into the air",
+        "hint": "a form of water",
+        "crewQuestion": "What can rise from a hot cup of tea?",
+        "imposterQuestion": "What can rise from a cold glass of juice?"
       }
     ],
     "twentyQuestions": [
@@ -13763,7 +14267,8 @@
           "soil",
           "grow"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small part that can grow into a new plant"
       },
       {
         "word": "root",
@@ -13773,7 +14278,8 @@
           "under",
           "drink"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the part of a plant that grows under soil"
       },
       {
         "word": "stem",
@@ -13783,7 +14289,8 @@
           "flower",
           "hold"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the main part holding leaves and flowers upright"
       },
       {
         "word": "shoot",
@@ -13793,7 +14300,8 @@
           "up",
           "grow"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a new part growing from a plant"
       },
       {
         "word": "seedling",
@@ -13803,7 +14311,8 @@
           "plant",
           "soil"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a very young plant with its first leaves"
       },
       {
         "word": "soil",
@@ -13813,7 +14322,8 @@
           "plant",
           "garden"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "dark earth where plants can take root"
       },
       {
         "word": "flower",
@@ -13823,7 +14333,8 @@
           "plant",
           "bloom"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the colourful part that can make seeds"
       },
       {
         "word": "bud",
@@ -13833,7 +14344,8 @@
           "open",
           "green"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small unopened part that can become a flower"
       },
       {
         "word": "watering can",
@@ -13843,7 +14355,8 @@
           "garden",
           "container"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a handled container used to pour water on plants"
       },
       {
         "word": "compost",
@@ -13853,7 +14366,8 @@
           "soil",
           "rot"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "rotted leaves and food that help soil"
       },
       {
         "word": "sunflower",
@@ -13863,7 +14377,8 @@
           "plant",
           "seed"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tall plant with a large yellow flower head"
       },
       {
         "word": "vine",
@@ -13873,7 +14388,8 @@
           "long",
           "green"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long plant that climbs around another surface"
       },
       {
         "word": "garden bed",
@@ -13883,7 +14399,8 @@
           "plant",
           "home"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a prepared area of soil where plants can grow"
       },
       {
         "word": "pollinator",
@@ -13893,107 +14410,130 @@
           "pollen",
           "visit"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an animal or insect that carries dust between flowers"
       }
     ],
     "hotSeat": [
       {
         "word": "sprout",
-        "level": "A1"
+        "level": "A1",
+        "description": "a new green part just starting to grow"
       },
       {
         "word": "root hair",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tiny part that helps a plant take in water"
       },
       {
         "word": "gardener",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who grows and cares for plants"
       },
       {
         "word": "plant pot",
-        "level": "A1"
+        "level": "A1",
+        "description": "a container holding soil and a growing plant"
       },
       {
         "word": "greenhouse",
-        "level": "A2"
+        "level": "A2",
+        "description": "a glass building where plants grow warmly"
       },
       {
         "word": "shovel",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool with a wide blade for moving earth"
       },
       {
         "word": "watering hose",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long tube used to send water to plants"
       },
       {
         "word": "bean",
-        "level": "A1"
+        "level": "A1",
+        "description": "a seed and food that grows in a pod"
       },
       {
         "word": "acorn",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small seed that can become an oak tree"
       },
       {
         "word": "weed",
-        "level": "A1"
+        "level": "A1",
+        "description": "a wild plant growing where it is not wanted"
       },
       {
         "word": "mulch",
-        "level": "A2"
+        "level": "A2",
+        "description": "a layer of leaves or bark covering soil"
       },
       {
         "word": "orchard",
-        "level": "A2"
+        "level": "A2",
+        "description": "a group of fruit trees grown together"
       },
       {
         "word": "vegetable patch",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small garden area for edible plants"
       },
       {
         "word": "trellis",
-        "level": "A2"
+        "level": "A2",
+        "description": "a frame that helps climbing plants grow upward"
       }
     ],
     "imposter": [
       {
         "word": "seed",
-        "decoy": "bulb",
-        "level": "A1"
-      },
-      {
-        "word": "shoot",
-        "decoy": "sprout",
-        "level": "A2"
+        "level": "A1",
+        "description": "a small part that can grow into a plant",
+        "hint": "a plant part",
+        "crewQuestion": "What can a gardener put in soil to start growing?",
+        "imposterQuestion": "What can a gardener take from soil after growing?"
       },
       {
         "word": "root",
-        "decoy": "stem",
-        "level": "A1"
+        "level": "A1",
+        "description": "the part of a plant that grows under ground",
+        "hint": "a plant part",
+        "crewQuestion": "What takes water from the soil for a plant?",
+        "imposterQuestion": "What gives water to the soil after a storm?"
       },
       {
-        "word": "bud",
-        "decoy": "seed pod",
-        "level": "A2"
+        "word": "stem",
+        "level": "A2",
+        "description": "the part that holds leaves up from the ground",
+        "hint": "a plant part",
+        "crewQuestion": "What supports a flower above the soil?",
+        "imposterQuestion": "What supports a roof above a house?"
       },
       {
-        "word": "compost",
-        "decoy": "mulch",
-        "level": "A2"
+        "word": "seedling",
+        "level": "A2",
+        "description": "a young plant with a few small leaves",
+        "hint": "a plant stage",
+        "crewQuestion": "What appears after a seed begins to grow?",
+        "imposterQuestion": "What appears before a seed is put in soil?"
       },
       {
-        "word": "vine",
-        "decoy": "ivy",
-        "level": "A2"
+        "word": "flower",
+        "level": "A1",
+        "description": "the colourful part of a plant that makes seeds",
+        "hint": "a plant part",
+        "crewQuestion": "What can attract bees to a garden?",
+        "imposterQuestion": "What can attract butterflies to a garden?"
       },
       {
-        "word": "greenhouse",
-        "decoy": "garden bed",
-        "level": "A2"
-      },
-      {
-        "word": "sunflower",
-        "decoy": "daisy",
-        "level": "A1"
+        "word": "gardener",
+        "level": "A1",
+        "description": "a person who grows and cares for plants",
+        "hint": "a job",
+        "crewQuestion": "Who may water the young plants each morning?",
+        "imposterQuestion": "Who may feed the young animals each morning?"
       }
     ],
     "twentyQuestions": [

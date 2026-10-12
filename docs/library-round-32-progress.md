@@ -16,3 +16,7 @@ Completed five additional kids' decks. Simplified difficult Hot Seat prompts and
 ## Batch 3 — sharks through earthquakes (15 more topics)
 
 Completed Sharks, Sea Turtles, Frogs, Butterflies, Bees, Dinosaurs, Fossils, The Moon, The Sun, Planets, Stars, Rockets, Astronauts, Volcanoes, and Earthquakes. Each deck has learner-level meanings and six topic-grounded spoken Imposter rounds. Replaced multiword labels where needed to keep Hot Seat and Twenty Questions clues easy to act on or identify. The partial validator passes all checks for the 30 updated decks. Across the current data, 158 Hot Seat targets and 18 Twenty Questions secrets differ from `origin/main`; the validator reports the complete two-word list for manual skim.
+
+## Batch 4 — mountains through plant growth (15 topics)
+
+Completed Mountains, Rivers, Oceans, Coral Reefs, Rainforests, Deserts, Forests, Seasons, Rain, Snow, Wind, Clouds, Rainbows, Water Cycle, and Plant Growth. The partial validator passes all checks for 45 updated decks. Cumulative changed targets against `origin/main`: 158 Hot Seat and 18 Twenty Questions entries (before this batch's comparison; updated counts recorded below after measuring).
