@@ -1,5 +1,5 @@
 /**
- * Cargo Hold â€” shared types.
+ * Cargo Hold — shared types.
  *
  * Spec: docs/cargo-hold-implementation-spec.md
  *
@@ -7,7 +7,7 @@
  * logic can be exhaustively tested without React.
  */
 
-// â”€â”€â”€ Content (generated with the lesson, cached, never fetched mid-round) â”€â”€â”€â”€
+// ─── Content (generated with the lesson, cached, never fetched mid-round) ────
 
 export type CargoCardFamily =
   | 'thing'        // noun or noun phrase
@@ -55,7 +55,7 @@ export interface CargoPrompt {
   explanation: string;
 }
 
-// â”€â”€â”€ Runtime state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Runtime state ───────────────────────────────────────────────────────────
 
 export type CargoPhase =
   | 'idle'
@@ -115,7 +115,7 @@ export interface CargoPublicRoundState {
   }>;
 }
 
-// â”€â”€â”€ Student actions (typed JSON over the existing submit path) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Student actions (typed JSON over the existing submit path) ──────────────
 
 export type CargoStudentAction =
   | { type: 'repack'; actionId: string; activityInstanceId: string; roundId: string; cardIds: string[] }
@@ -127,9 +127,11 @@ export type CargoStudentAction =
 /** What a single student's device is told. Never contains another student's hand. */
 export interface CargoPerStudentPayload {
   hand: CargoCard[];
+  /** The cards in this hand that fit the current prompt: the phone checks before loading, so a miss is a retry. */
+  fitsCardIds?: string[];
   repackUsed: boolean;
   submittedCardId?: string;
-  /** Set when Customs repaired this hand at round start â€” shown as a neutral notice. */
+  /** Set when Customs repaired this hand at round start — shown as a neutral notice. */
   customsRefreshed?: boolean;
   /** Sentence(s) this student must read aloud. Never includes the author. */
   readingAssignments?: Array<{ submissionId: string; sentence: string; done: boolean }>;

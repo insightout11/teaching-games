@@ -1,3 +1,4 @@
+import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Difficulty } from '@/lib/difficulty';
@@ -336,6 +337,8 @@ interface PlannerState {
 
   // Handoff to session. Does NOT reset — caller decides when to reset.
   setAttachSessionId: (id: string | null) => void;
+  /** The lesson plan as it would launch (World Flight saves it as the class's next lesson without launching). */
+  buildLaunchPayload(): LessonPlanPayload;
   launchLesson(): Promise<void>;
 
   // Full reset — called when teacher starts a fresh plan.
@@ -578,9 +581,8 @@ export const usePlannerStore = create<PlannerState>()(
       setWorldFlightRoute: (originId, destinationId) =>
         set({ worldFlightOriginId: originId, worldFlightDestinationId: destinationId }),
 
-      launchLesson: async () => {
-        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial, loadedPresetId, worldFlightContext, worldFlightDesignMissionContext, worldFlightOriginId, worldFlightDestinationId } = get();
-        if (!selectedClassId) return;
+      buildLaunchPayload: () => {
+        const { topic, difficulty, goals, modules, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial, loadedPresetId, worldFlightOriginId, worldFlightDestinationId } = get();
         const callsign = get().ensureCallsign();
 
         const primaryGoal = derivePrimaryGoal(goals);
@@ -602,7 +604,7 @@ export const usePlannerStore = create<PlannerState>()(
         const flightConfig = buildFlightConfigForSlots(loadedPreset?.flightConfig, slots);
         const tripPack = get().tripPack;
 
-        const lessonPlanPayload = {
+        return {
           customTopic: topic,
           callsign,
           difficulty,
@@ -613,12 +615,19 @@ export const usePlannerStore = create<PlannerState>()(
           ...(grammarTarget ? { grammarTarget } : {}),
           ...(sourceMaterial ? { sourceMaterial } : {}),
           ...(flightConfig && loadedPreset ? { flightPresetId: loadedPreset.id, flightConfig } : {}),
-          ...(worldFlightDestinationId ? { originId: worldFlightOriginId, destinationId: worldFlightDestinationId } : {}),
+          ...(worldFlightDestinationId ? { ...(worldFlightOriginId ? { originId: worldFlightOriginId } : {}), destinationId: worldFlightDestinationId } : {}),
           ...(tripPack?.stageSources ? { stageSources: tripPack.stageSources } : {}),
           slots,
           generatedContent: { ...(tripPack?.preGenerated ?? {}) },
           generatedGameContent: {},
         };
+      },
+
+      launchLesson: async () => {
+        const { selectedClassId, worldFlightContext, worldFlightDesignMissionContext } = get();
+        if (!selectedClassId) return;
+        const lessonPlanPayload = get().buildLaunchPayload();
+        const slots = lessonPlanPayload.slots;
 
         // One-shot: consume the World Flight route so a later non-WF launch
         // doesn't inherit a stale destination.

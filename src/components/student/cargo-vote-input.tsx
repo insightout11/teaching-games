@@ -35,7 +35,7 @@ export function CargoVoteInput({
     if (!selected || !clientId) return;
     await onSubmit(JSON.stringify({
       type: 'vote',
-      // One vote per student per round â€” the same action id on a retry keeps it that way.
+      // One vote per student per round — the same action id on a retry keeps it that way.
       actionId: `vote:${spec.activityInstanceId ?? 'x'}:${spec.roundId ?? 'x'}:${clientId}`,
       activityInstanceId: spec.activityInstanceId,
       roundId: `${spec.roundId ?? ''}::vote`,
@@ -46,7 +46,7 @@ export function CargoVoteInput({
   if (options.length === 0) {
     return (
       <p className="rounded-md border border-slate-600/40 bg-slate-800/40 px-3 py-4 text-center text-sm text-slate-300">
-        Waiting for the answersâ€¦
+        Waiting for the answers…
       </p>
     );
   }
@@ -83,7 +83,7 @@ export function CargoVoteInput({
                 {option.sentence}
                 {isOwn ? (
                   <span className="mt-1 block text-[11px] uppercase tracking-wide text-slate-500">
-                    Your answer â€” you cannot vote for yourself
+                    Your answer — you cannot vote for yourself
                   </span>
                 ) : null}
               </button>
@@ -98,7 +98,7 @@ export function CargoVoteInput({
         </p>
       ) : (
         <Button onClick={handleVote} disabled={isSubmitting || !selected} className="w-full">
-          {isSubmitting ? 'Sendingâ€¦' : 'Vote'}
+          {isSubmitting ? 'Sending…' : 'Vote'}
         </Button>
       )}
     </div>

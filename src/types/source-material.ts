@@ -57,6 +57,15 @@ export interface SourceMaterial {
   bookPages?: Array<{ text: string; image?: string }>;
   /** Uploaded book read as "Simplified": each lesson's part is retold at the class level when prepared. */
   simplify?: boolean;
+  /**
+   * Teaching notes written with the text (ready-course lesson texts): the words to teach, questions answered in the
+   * text, and open questions to talk about. Activities built from this source use these first.
+   */
+  teachingNotes?: {
+    words?: Array<{ word: string; meaning: string }>;
+    questions?: Array<{ q: string; a: string }>;
+    talk?: string[];
+  };
   /** Uploaded book: the end of the previous lesson's part, for "Previously..." and the cast so far. */
   previousPart?: { title: string; text: string };
 }

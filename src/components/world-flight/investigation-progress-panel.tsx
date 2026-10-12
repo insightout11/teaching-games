@@ -1,6 +1,9 @@
 'use client';
 
-import { Check, DraftingCompass, LockKeyhole, Radar, Sparkles } from 'lucide-react';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { Check, DraftingCompass, LockKeyhole, Radar, Sparkles, X } from 'lucide-react';
+import { DesignBlueprint } from './design-blueprint';
 import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/investigations';
 
 export function InvestigationProgressPanel({
@@ -10,6 +13,8 @@ export function InvestigationProgressPanel({
   investigations: WorldFlightInvestigationProgress[];
   onLaunchDesignMission?: (investigationId: string) => void;
 }) {
+  const [openBlueprintId, setOpenBlueprintId] = useState<string | null>(null);
+  const openBlueprint = investigations.find((investigation) => investigation.id === openBlueprintId && investigation.completedBlueprint) ?? null;
   const readyCount = investigations.filter((investigation) => investigation.designMissionStatus === 'ready').length;
   const completedCount = investigations.filter((investigation) => investigation.designMissionStatus === 'completed').length;
   const evidenceCount = investigations.reduce((total, investigation) => total + investigation.completedCount, 0);
@@ -84,6 +89,16 @@ export function InvestigationProgressPanel({
                 ? `Design mission ready: ${investigation.designMissionTitle}`
                 : 'Design mission locked'}
             </div>
+            {investigation.designMissionStatus === 'completed' && investigation.completedBlueprint && (
+              <button
+                type="button"
+                onClick={() => setOpenBlueprintId(investigation.id)}
+                className="mt-3 flex min-h-9 w-full items-center justify-center gap-2 rounded-md border border-lc-success/30 bg-lc-success/10 px-3 text-xs font-semibold text-lc-success transition-colors hover:bg-lc-success/15"
+              >
+                <DraftingCompass className="h-3.5 w-3.5" aria-hidden />
+                Open blueprint
+              </button>
+            )}
             {investigation.designMissionStatus === 'ready' && onLaunchDesignMission && (
               <button
                 type="button"
@@ -97,6 +112,24 @@ export function InvestigationProgressPanel({
           </section>
         ))}
       </div>
+      {/* The class's finished design, reopened full screen (portalled out of the narrow side panel). */}
+      {openBlueprint?.completedBlueprint && typeof document !== 'undefined' && createPortal(
+        <div className="fixed inset-0 z-[90] overflow-y-auto bg-[#05070d]/90 p-4 backdrop-blur-sm sm:p-10" role="dialog" aria-modal="true" aria-label={`${openBlueprint.title} blueprint`} onClick={() => setOpenBlueprintId(null)}>
+          <button type="button" onClick={() => setOpenBlueprintId(null)} className="fixed right-4 top-4 z-10 flex items-center gap-1.5 rounded-full border border-white/20 bg-slate-950/80 px-3 py-1.5 text-sm text-white hover:bg-slate-900">
+            <X className="h-4 w-4" aria-hidden /> Close
+          </button>
+          <div className="py-8" onClick={(event) => event.stopPropagation()}>
+            <DesignBlueprint
+              brief={openBlueprint.completedBlueprint.brief}
+              decisions={openBlueprint.completedBlueprint.decisions}
+              cities={openBlueprint.requirements.flatMap((requirement) => (requirement.evidence ? [{ city: requirement.evidence.city, found: requirement.evidence.focusTitle }] : []))}
+              missionTitle={openBlueprint.title}
+              completedAt={openBlueprint.designMissionCompletedAt}
+            />
+          </div>
+        </div>,
+        document.body,
+      )}
     </div>
   );
 }

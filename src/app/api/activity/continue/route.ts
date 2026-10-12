@@ -14,7 +14,7 @@ import type {
 } from '@/activities/types';
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
-import { normalizeDesignStudioBrief, normalizeDesignStudioRound } from '@/lib/design-studio';
+import { normalizeDesignStudioBrief, normalizeDesignStudioRound, designStudioStage } from '@/lib/design-studio';
 import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
 
 export const maxDuration = 60;
@@ -194,6 +194,7 @@ const designStudioOptionSchema: AISchema = {
     benefit: { type: 'string' },
     tradeoff: { type: 'string' },
     designChange: { type: 'string' },
+    city: { type: 'string' },
   },
   required: ['id', 'title', 'description', 'benefit', 'tradeoff', 'designChange'],
 };
@@ -310,12 +311,13 @@ Synthesize the ideas into exactly three genuinely different starting design dire
 This is a class vote, so none may be obviously correct.
 
 Return one designStudioRound:
-- stage: "Starting Direction"
+- stage: "Direction"
 - question: one direct question asking which direction should become the class design
 - whyItMatters: one short sentence
 - designSummary: one neutral sentence describing the challenge before a direction is selected
 - options: exactly three options with ids A, B, C
-- each option needs a short title, concrete description, real benefit, meaningful tradeoff, and designChange
+- each option needs a title of 2-4 words (students tap it on a phone), a concrete description, real benefit, meaningful tradeoff, and designChange
+- city: when an option draws on one city's evidence, that city's exact name; otherwise leave it empty. Use each city at most once per round
 - designChange must be a complete 1-2 sentence summary of what the shared design becomes if selected
 - preserve the students' ideas; do not replace the subject with a different project
 - when cross-city evidence is attached, make the options respond to its real ideas without inventing facts about those cities`;
@@ -332,7 +334,7 @@ Return one designStudioRound:
         decisions: [],
       };
       return NextResponse.json({
-        designStudioRound: normalizeDesignStudioRound(parsed.designStudioRound, state),
+        designStudioRound: { ...normalizeDesignStudioRound(parsed.designStudioRound, state), stage: designStudioStage(1) },
       } satisfies ActivityContinueResponse);
     }
 
@@ -354,8 +356,12 @@ Return one designStudioRound:
         ?? difficultyDescriptions.Intermediate;
       const nextNumber = state.decisions.length + 1;
       const remaining = Math.max(1, (maxDecisions ?? 6) - state.decisions.length);
-      const stageGuide = ['Purpose', 'People', 'Core Features', 'Access and Fairness', 'Constraint and Adaptation', 'Final Refinement'];
-      const suggestedStage = stageGuide[Math.min(nextNumber - 1, stageGuide.length - 1)];
+      const suggestedStage = designStudioStage(nextNumber);
+      const stageBrief: Record<string, string> = {
+        People: 'who the design should help first',
+        'Main Feature': 'the one main thing the design has or does',
+        'The Hard Choice': 'a real trade-off the class must accept: something good it gives up to get something it wants more',
+      };
       const prompt = `Continue a progressive classroom Design Studio.
 
 ${languageRule}
@@ -376,7 +382,7 @@ CROSS-CITY EVIDENCE:
 ${formatWorldFlightMissionEvidence(worldFlightMission)}
 
 Generate the next contextual design decision. There are ${remaining} decisions remaining.
-Suggested progress stage: ${suggestedStage}.
+This decision is the stage '${suggestedStage}': ${stageBrief[suggestedStage] ?? 'the most important unresolved issue'}. Set stage to exactly '${suggestedStage}'.
 
 Rules:
 - Build directly from the current design and locked decisions.
@@ -387,6 +393,8 @@ Rules:
 - No option may be obviously correct. Every option needs a real benefit and tradeoff.
 - designChange must be a complete updated 1-3 sentence design summary that preserves all earlier decisions and applies that option.
 - Keep choices concrete enough for students to debate aloud.
+- Each option's title is 2-4 words (students tap it on a phone).
+- city: when an option draws on one city's evidence, that city's exact name; otherwise leave it empty. Use each city at most once per round.
 - designSummary must accurately summarize the current design before this new vote.
 - when cross-city evidence is attached, progressively connect it to the design; do not merely name cities or invent new city facts.`;
 
@@ -396,7 +404,7 @@ Rules:
         { taskClass: 'activity-facilitation' },
       );
       return NextResponse.json({
-        designStudioRound: normalizeDesignStudioRound(parsed.designStudioRound, state),
+        designStudioRound: { ...normalizeDesignStudioRound(parsed.designStudioRound, state), stage: suggestedStage },
       } satisfies ActivityContinueResponse);
     }
 

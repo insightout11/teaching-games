@@ -39,7 +39,23 @@ export function buildSourceContext(source?: SourceMaterial, rawTranscript?: stri
 
   const supporting = buildSupportingContext(source.supportingSources);
   if (!primary && !supporting) return '';
-  return primary + supporting;
+  return primary + buildTeachingNotesContext(source.teachingNotes) + supporting;
+}
+
+/**
+ * Teaching notes written with the text. They were checked against the text and the class level, so an activity
+ * should use them before inventing its own words or questions.
+ */
+function buildTeachingNotesContext(notes?: SourceMaterial['teachingNotes']): string {
+  if (!notes) return '';
+  const parts: string[] = [];
+  const words = (notes.words ?? []).filter((w) => w.word?.trim()).slice(0, 8);
+  if (words.length) parts.push(`KEY WORDS for this text (when this activity teaches or tests vocabulary, use these first, with these meanings): ${words.map((w) => `${w.word} = ${w.meaning}`).join('; ')}`);
+  const questions = (notes.questions ?? []).filter((x) => x.q?.trim()).slice(0, 5);
+  if (questions.length) parts.push(`QUESTIONS ABOUT THE TEXT (when this activity asks what the text says, use these questions first, word for word, with these answers; add your own only if more are needed): ${questions.map((x) => `"${x.q}" (answer: ${x.a})`).join(' ')}`);
+  const talk = (notes.talk ?? []).filter((t) => t?.trim()).slice(0, 4);
+  if (talk.length) parts.push(`QUESTIONS TO TALK ABOUT (when this activity asks for opinions or discussion, use these first, word for word): ${talk.map((t) => `"${t}"`).join(' ')}`);
+  return parts.length ? `\nTeaching notes prepared for this text:\n${parts.join('\n')}\n` : '';
 }
 
 /**

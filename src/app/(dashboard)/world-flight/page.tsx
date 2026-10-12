@@ -1,6 +1,7 @@
 import { WorldFlightPage } from '@/components/world-flight/world-flight-page';
 import { STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { createServerSupabase } from '@/lib/supabase/server';
+import type { DesignStudioBrief, DesignStudioState } from '@/activities/types';
 import {
   deriveVisitedDestinationIds,
   type WorldFlightClassSummary,
@@ -53,7 +54,8 @@ export default async function WorldFlightRoutePage({
     class_id: string;
     investigation_id: string;
     completed_at: string | null;
-    brief_snapshot: { title?: string };
+    brief_snapshot: Partial<DesignStudioBrief>;
+    design_state_snapshot: Partial<DesignStudioState> | null;
   }> = [];
   let expeditionRunRows: Array<{
     id: string;
@@ -82,7 +84,7 @@ export default async function WorldFlightRoutePage({
         .order('completed_at', { ascending: true }),
       supabase
         .from('class_world_flight_design_missions')
-        .select('class_id, investigation_id, completed_at, brief_snapshot')
+        .select('class_id, investigation_id, completed_at, brief_snapshot, design_state_snapshot')
         .in('class_id', classIds)
         .eq('status', 'completed')
         .order('completed_at', { ascending: true }),
@@ -179,6 +181,9 @@ export default async function WorldFlightRoutePage({
                 designMissionStatus: 'completed' as const,
                 completedDesignTitle: mission.brief_snapshot?.title ?? investigation.designMissionTitle,
                 designMissionCompletedAt: mission.completed_at,
+                completedBlueprint: mission.brief_snapshot?.title && mission.brief_snapshot.pitch
+                  ? { brief: mission.brief_snapshot as DesignStudioBrief, decisions: Array.isArray(mission.design_state_snapshot?.decisions) ? mission.design_state_snapshot.decisions : [] }
+                  : null,
               }
             : investigation;
         }),

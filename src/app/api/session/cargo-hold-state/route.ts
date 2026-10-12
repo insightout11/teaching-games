@@ -88,7 +88,7 @@ export async function PUT(request: NextRequest) {
 
   // Compare-and-set happens inside the statement (migration 056). Reading the sequence
   // here and comparing it in JS would let two saves both read the same value, and the
-  // older payload could commit last â€” exactly the rollback this guards against.
+  // older payload could commit last — exactly the rollback this guards against.
   const { data, error } = await supabase.rpc(SAVE_RPC, {
     p_session_id: sessionId,
     p_sequence: sequence,

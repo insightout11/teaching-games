@@ -56,6 +56,21 @@ export function validSpeakSituation(raw: unknown): SpeakSituation | null {
   return { situation: r.situation.trim(), canDo: r.canDo.trim().replace(/[.?]$/, ''), before: r.before, after: r.after, ...(pictures.length ? { pictures } : {}) };
 }
 
+/**
+ * A generated situation must be a conversation, not a knowledge quiz: nobody is asked to define or explain
+ * something, and the natural reply is something a person would say out loud (short, not a textbook sentence).
+ */
+export function speakSituationIsTalk(s: SpeakSituation): boolean {
+  const said = (s.situation.match(/["“]([^"”]+)["”]/g) ?? [s.situation]).join(' ').toLowerCase();
+  const quiz = /\bwhat (is|are) (a |an |the )?[\w' -]{2,30}(,? anyway| exactly)\?|\bwhat (is|are) an? [\w'-]+( [\w'-]+)?\?|\bwhat does [\w' -]+ mean|\bhow (does|do) [\w' -]+ work|\bcan you explain|\bdefine /;
+  if (quiz.test(said)) return false;
+  return [s.before, s.after].every((set) => {
+    const natural = set.replies[set.natural] ?? '';
+    const n = natural.trim().split(/\s+/).length;
+    return n >= 3 && n <= 22 && !/^(it|this|that) is (a|an|the) (model|process|system|type|kind|term|concept)/i.test(natural.trim());
+  });
+}
+
 /** Deterministic fallback from the topic, so the takeoff never blocks on AI. */
 export function fallbackSpeakSituation(topic: string): SpeakSituation {
   const t = topic.trim() || 'your weekend';

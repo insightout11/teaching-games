@@ -1,10 +1,10 @@
 /**
- * The controller â†’ request â†’ API contract.
+ * The controller → request → API contract.
  *
  * The previous round of tests hand-built scoped round IDs and so passed while the real
  * controller was still sending the unsuffixed spec value, silently deduplicating every
- * student's second action. These tests build the request the way the component does â€”
- * from the JSON the Cargo inputs actually submit â€” and run it through the same
+ * student's second action. These tests build the request the way the component does —
+ * from the JSON the Cargo inputs actually submit — and run it through the same
  * validators the API uses.
  */
 import { describe, it, expect } from 'vitest';
@@ -62,7 +62,7 @@ function requestRoundId(spec: InputSpec, content: string) {
   return resolveSubmissionRoundId(spec, content);
 }
 
-describe('cargo hold â€” the request the controller actually sends', () => {
+describe('cargo hold — the request the controller actually sends', () => {
   it('sends a different durable round ID for Repack than for Play', () => {
     const repack = requestRoundId(chooseSpec, repackPayload(['card-a']));
     const play = requestRoundId(chooseSpec, playPayload('card-b'));
@@ -112,7 +112,7 @@ describe('cargo hold â€” the request the controller actually sends', () => 
   });
 });
 
-describe('cargo hold â€” server-side suffix validation', () => {
+describe('cargo hold — server-side suffix validation', () => {
   it('accepts the suffix each action is entitled to', () => {
     expect(cargoRoundSuffixMatchesAction(`${CHOOSE_ROUND}::play`, playPayload('c'))).toBe(true);
     expect(cargoRoundSuffixMatchesAction(`${CHOOSE_ROUND}::repack`, repackPayload(['c']))).toBe(true);

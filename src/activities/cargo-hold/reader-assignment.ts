@@ -1,5 +1,5 @@
 /**
- * Cargo Hold â€” reading assignment.
+ * Cargo Hold — reading assignment.
  *
  * Every submitted sentence is read aloud by someone other than its author. The
  * assignment must be deterministic (so it survives refresh unchanged) and balanced
@@ -31,7 +31,7 @@ function seededRandom(seed: number): () => number {
 
 export interface ReaderAssignmentInput {
   submissions: Array<Pick<CargoSubmission, 'submissionId' | 'clientId'>>;
-  /** Every client currently able to read â€” usually all connected players. */
+  /** Every client currently able to read — usually all connected players. */
   readerClientIds: string[];
   roundId: string;
 }
@@ -45,7 +45,7 @@ export interface ReaderAssignmentInput {
  * - reading load differs by at most one across available readers.
  *
  * When only one reader exists (everyone else disconnected) their own sentence is
- * left unassigned rather than mis-assigned â€” the teacher reads or skips it.
+ * left unassigned rather than mis-assigned — the teacher reads or skips it.
  */
 export function assignReaders({
   submissions,

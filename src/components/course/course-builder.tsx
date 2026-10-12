@@ -141,7 +141,7 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
           const m = l._id.startsWith(`${preset.id}-`) ? texts.get(Number(l._id.slice(preset.id.length + 1))) : undefined;
           if (!m || l.suggestedSource || l.ownMaterial) return l;
           const keywords = Array.from(new Set([...(l.keywords ?? []), ...m.words.map((w) => w.word)]));
-          return { ...l, keywords, ownMaterial: { title: m.title, text: m.text, provided: true } };
+          return { ...l, keywords, ownMaterial: { title: m.title, text: m.text, provided: true, notes: { words: m.words, questions: m.questions, talk: m.talk } } };
         }));
       }).catch(() => { /* the lesson still works from its topic */ });
     }
@@ -186,6 +186,7 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
             rawText: l.ownMaterial.text,
             originalText: l.ownMaterial.text,
             wordCount: l.ownMaterial.text.split(/\s+/).length,
+            ...(l.ownMaterial.notes ? { teachingNotes: l.ownMaterial.notes } : {}),
           };
           const labelOnly: SourceMaterial = { sourceType: 'text', title: material.title, summary: material.summary.slice(0, 200), wordCount: material.wordCount };
           return { title: l.title, orderIndex: i, sourceRef: { kind: 'custom' as const, material: labelOnly }, lessonPayload: { ...lessonPayload, sourceMaterial: material } };

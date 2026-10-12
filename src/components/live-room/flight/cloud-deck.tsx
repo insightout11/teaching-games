@@ -8,7 +8,7 @@ import { motion, useReducedMotion } from 'framer-motion';
  * tiled sideways, laid flat in perspective and drifting past. Drawn from an SVG noise filter, so there is no image
  * file. `tint` is the cloud colour as "r,g,b"; `strength` (0 to 1) how solid the deck is.
  */
-export function CloudDeck({ tint, strength, speed = 0.55 }: { tint: string; strength: number; speed?: number }) {
+export function CloudDeck({ tint, strength, speed = 0.55, paused = false }: { tint: string; strength: number; speed?: number; paused?: boolean }) {
   const reduce = useReducedMotion();
   const [light, dark] = useMemo(() => {
     const [r, g, b] = tint.split(',').map((n) => Number(n) / 255);
@@ -18,7 +18,7 @@ export function CloudDeck({ tint, strength, speed = 0.55 }: { tint: string; stre
     };
     return [layer(Math.min(1, r * 1.05), Math.min(1, g * 1.05), Math.min(1, b * 1.05), 4), layer(r * 0.55, g * 0.58, b * 0.68, 4)];
   }, [tint]);
-  const drift = reduce ? 0 : 1;
+  const drift = reduce || paused ? 0 : 1;
   const base = { backgroundRepeat: 'repeat-x', backgroundSize: '1200px 100%' } as const;
   return (
     <div

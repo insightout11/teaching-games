@@ -6,7 +6,48 @@ import type {
   DesignStudioState,
 } from '@/activities/types';
 
-export const DESIGN_STUDIO_DEFAULT_MAX_DECISIONS = 6;
+/** A mission is four decisions, each argued before it is voted (Oct 2026: was six quick votes). */
+export const DESIGN_STUDIO_DEFAULT_MAX_DECISIONS = 4;
+export const DESIGN_STUDIO_STAGES = ['Direction', 'People', 'Main Feature', 'The Hard Choice'];
+
+/** The stage a decision belongs to (1-based), so the blueprint always reads Direction, People, Main Feature, Hard Choice. */
+export function designStudioStage(roundNumber: number): string {
+  return DESIGN_STUDIO_STAGES[Math.max(0, Math.min(roundNumber - 1, DESIGN_STUDIO_STAGES.length - 1))];
+}
+
+export interface ArguePairing<T> { members: T[]; options: DesignStudioOption['id'][] }
+
+/**
+ * "Convince your partner": put the class in pairs (one trio when the number is odd) and give partners different
+ * options to argue for. The order changes each round so the same two students don't always meet.
+ */
+export function assignArgueSides<T>(students: T[], round: number): ArguePairing<T>[] {
+  const ids: DesignStudioOption['id'][] = ['A', 'B', 'C'];
+  if (students.length < 2) return [];
+  const order = students.map((student, index) => ({ student, key: ((index + 1) * 7919 * (round + 3)) % 104729 }))
+    .sort((a, b) => a.key - b.key)
+    .map((entry) => entry.student);
+  const pairs: ArguePairing<T>[] = [];
+  for (let i = 0; i + 1 < order.length; i += 2) {
+    const start = (pairs.length + round) % 3;
+    pairs.push({ members: [order[i], order[i + 1]], options: [ids[start], ids[(start + 1) % 3]] });
+  }
+  if (order.length % 2 === 1) {
+    const last = pairs[pairs.length - 1];
+    last.members.push(order[order.length - 1]);
+    last.options.push(ids.find((id) => !last.options.includes(id))!);
+  }
+  return pairs;
+}
+
+/** Two sentence starters for arguing: simpler for lower levels, and the second changes round by round. */
+export function argueStarters(difficulty: string | undefined, round: number): string[] {
+  const simple = difficulty === 'Beginner' || difficulty === 'Easy';
+  const second = simple
+    ? ['It is good for…', 'I like it because…', 'It helps…', 'It is better because…']
+    : ['It is better than yours because…', 'The problem with your idea is…', 'I see your point, but…', 'Yes, but what about…?'];
+  return [simple ? 'I think this one, because…' : 'I think we should choose this because…', second[round % second.length]];
+}
 
 export interface DesignStudioVote {
   clientId: string;
@@ -65,6 +106,7 @@ export function normalizeDesignStudioRound(value: unknown, state: DesignStudioSt
       benefit: readString(candidate.benefit, fallbackOption.benefit),
       tradeoff: readString(candidate.tradeoff, fallbackOption.tradeoff),
       designChange: readString(candidate.designChange, fallbackOption.designChange),
+      ...(typeof candidate.city === 'string' && candidate.city.trim() ? { city: candidate.city.trim().slice(0, 40) } : {}),
     };
   });
 

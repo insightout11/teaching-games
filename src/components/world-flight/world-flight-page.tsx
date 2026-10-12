@@ -13,6 +13,8 @@ import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-pr
 import { inferSourceGenre, bestPresetForGenre } from '@/lib/preset-fit';
 import { buildTripPack } from '@/lib/world-flight/trip-pack';
 import { usePlannerStore } from '@/stores/planner-store';
+import { savePreparedLesson, type PreparedLesson } from '@/lib/prepared-lesson';
+import type { CourseLessonPayload } from '@/lib/course';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, PLANE_TIERS, type PlaneEntry } from '@/lib/plane-progression';
 import { getWorldFlightUpgradeState } from '@/lib/world-flight/progression';
@@ -2454,7 +2456,11 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
       .addTo(mapRef.current);
   }, [mapReady, planeAsset.name, planeAsset.webp, routeOrigin]);
 
-  function launchSelectedFocus() {
+  // Board now flies straight into the room; Save keeps it as the class's next lesson on Home.
+  const [launching, setLaunching] = useState<'board' | 'save' | null>(null);
+  const [launchError, setLaunchError] = useState<string | null>(null);
+
+  async function launchSelectedFocus(mode: 'board' | 'save' = 'board') {
     if (movingFlightBlockedByPlaneChoice) {
       setSidebarMode('hangar');
       setDetailsOpen(false);
@@ -2488,11 +2494,39 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
       requestedMove: isReachable && !isLocalLesson,
       ...(!origin && firstDeparture ? { departureDestinationId: firstDeparture.id } : {}),
     });
-    store.setStep('flight-plan');
-    router.push('/lesson-planner');
+    if (!selectedClassId) {
+      setLaunchError('Choose a class first.');
+      return;
+    }
+    setLaunching(mode);
+    setLaunchError(null);
+    try {
+      if (mode === 'save') {
+        const worldFlightContext = usePlannerStore.getState().worldFlightContext ?? undefined;
+        const payload = store.buildLaunchPayload() as unknown as CourseLessonPayload;
+        const lesson: PreparedLesson = {
+          type: 'world',
+          topic: payload.customTopic,
+          title: `World Flight · ${selectedDestination.city} · ${payload.customTopic}`,
+          materialTitle: selectedFocus.title,
+          payload,
+          ...(worldFlightContext ? { worldFlightContext } : {}),
+          preparedAt: new Date().toISOString(),
+        };
+        await savePreparedLesson(selectedClassId, lesson);
+        store.reset();
+        router.push('/home');
+        return;
+      }
+      // Redirects to the room when the session exists.
+      await store.launchLesson();
+    } catch (e) {
+      setLaunchError(e instanceof Error ? e.message : 'Could not start the flight. Please try again.');
+      setLaunching(null);
+    }
   }
 
-  function launchDesignMission(investigationId: string) {
+  async function launchDesignMission(investigationId: string) {
     if (!selectedClassId) return;
     const investigation = selectedClass?.investigations.find((candidate) => candidate.id === investigationId);
     const preset = FLIGHT_PLAN_PRESETS.find((candidate) => candidate.id === 'design-studio-60');
@@ -2504,8 +2538,14 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
     store.loadPreset(preset);
     store.setSelectedClassId(selectedClassId);
     store.setWorldFlightDesignMissionContext({ investigationId });
-    store.setStep('flight-plan');
-    router.push('/lesson-planner');
+    setLaunching('board');
+    setLaunchError(null);
+    try {
+      await store.launchLesson();
+    } catch (e) {
+      setLaunchError(e instanceof Error ? e.message : 'Could not start the design mission. Please try again.');
+      setLaunching(null);
+    }
   }
 
   function selectFocusFilter(nextFilter: FocusFilter) {
@@ -3172,24 +3212,39 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
               <>
                 <button
                   type="button"
-                  onClick={launchSelectedFocus}
-                  className={`flex min-h-12 w-full items-center justify-center gap-2 rounded-lg px-4 text-sm font-bold transition-colors ${
+                  onClick={() => void launchSelectedFocus('board')}
+                  disabled={launching !== null}
+                  className={`flex min-h-12 w-full disabled:opacity-60 items-center justify-center gap-2 rounded-lg px-4 text-sm font-bold transition-colors ${
                     movingFlightBlockedByPlaneChoice
                       ? 'border border-lc-amber/35 bg-lc-amber/15 text-lc-amber hover:bg-lc-amber/22'
                       : 'bg-lc-blue text-[var(--wf-bg)] hover:bg-lc-blue-hover'
                   }`}
                 >
-                  {movingFlightBlockedByPlaneChoice
+                  {launching === 'board'
+                    ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                    : movingFlightBlockedByPlaneChoice
                     ? <Plane className="h-4 w-4" aria-hidden />
                     : <PlaneTakeoff className="h-4 w-4" aria-hidden />}
                   {movingFlightBlockedByPlaneChoice
                      ? 'Choose an aircraft in the Hangar'
                     : !isReachable && !isLocalLesson
-                     ? 'Build this lesson without moving'
+                     ? 'Board now, without moving'
                     : selectedPresetId === 'travel-60'
-                      ? `Build Travel — ${selectedDestination.city}`
-                      : `Build ${selectedPreset?.name ?? 'Flight Plan'}`}
+                      ? `Board now: Travel, ${selectedDestination.city}`
+                      : `Board now: ${selectedPreset?.name ?? 'Flight Plan'}`}
                 </button>
+                {!movingFlightBlockedByPlaneChoice && (
+                  <button
+                    type="button"
+                    onClick={() => void launchSelectedFocus('save')}
+                    disabled={launching !== null}
+                    className="mt-2 flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/15 px-4 text-sm font-semibold text-lc-text2 transition-colors hover:border-white/30 hover:text-lc-text disabled:opacity-60"
+                  >
+                    {launching === 'save' ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Clock3 className="h-4 w-4" aria-hidden />}
+                    Save as {selectedClass?.name ?? 'the class'}&apos;s next lesson
+                  </button>
+                )}
+                {launchError && <p role="alert" className="mt-2 text-center text-xs text-red-300">{launchError}</p>}
                 {selectedFocus.kind === 'video' && (
                   <a
                     href={selectedFocus.sourceUrl ?? selectedDestination.heroImage.sourceUrl}

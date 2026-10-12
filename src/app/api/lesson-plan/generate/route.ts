@@ -6,7 +6,8 @@ import { fallbackGist, isKidsLevel, listeningWindow, packBlackBox, packStaticRou
 import { fallbackSayItAgain } from '@/lib/say-it-again';
 import { fallbackPassTheLine, validPassTheLine } from '@/lib/pass-the-line';
 import { fallbackQuickFire } from '@/lib/quick-fire';
-import { bankSituationFor, fallbackSpeakSituation, validSpeakSituation } from '@/lib/speak-check';
+import { deckHotSeatCards, deckTabooRounds } from '@/lib/topic-game-decks';
+import { bankSituationFor, fallbackSpeakSituation, speakSituationIsTalk, validSpeakSituation } from '@/lib/speak-check';
 import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-announcement/content';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON as _generateJSON } from '@/lib/ai';
@@ -2128,22 +2129,26 @@ async function generateSpeakCheck(topic: string, difficulty: Difficulty, sourceC
   if (banked) return { activityKey: 'speak-check', topicContext: topic, ...banked };
   const set: AISchema = { type: 'object', properties: { replies: { type: 'array', items: { type: 'string' } }, natural: { type: 'number' } }, required: ['replies', 'natural'] };
   const schema: AISchema = { type: 'object', properties: { situation: { type: 'string' }, canDo: { type: 'string' }, before: set, after: set }, required: ['situation', 'canDo', 'before', 'after'] };
-  const prompt = `You are writing the SITUATION CHECK for a speaking lesson: one real, everyday situation from the topic where a student must say something. Students see it at the start and again at the end of the lesson.
+  const prompt = `You are writing the SITUATION CHECK for a speaking lesson: one real, everyday moment connected to the topic where a student has to SAY something to another person. Students see it at the start and again at the end of the lesson. It checks how well they can TALK, never what they KNOW.
 
 Topic: "${topic}"
 LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
-${sourceCtx ? `\nLESSON MATERIAL:\n${sourceCtx.slice(0, 4000)}\n` : ''}
+${sourceCtx ? `
+LESSON MATERIAL (use it for the setting and the subject only; do NOT quiz its facts):
+${sourceCtx.slice(0, 4000)}
+` : ''}
 Return:
-- situation: 1-2 short sentences: where you are and what someone just said to you, in quotes. Kids/teens must recognise it. e.g. You're at a café. The waiter says: "Hi! What can I get you?"
-- canDo: what the student should be able to do, starting with a verb, no question mark. e.g. "Order food and drinks at a café in English"
-- before: 4 possible replies: exactly ONE natural, friendly reply a fluent speaker would say; the others are wrong in typical learner ways (too short or rude, too formal or stiff, a grammar mistake, or off-topic). natural = index of the natural one.
+- situation: 1-2 short sentences: where you are and what someone just said to you, in quotes. Kids/teens must recognise it. The other person invites a personal, social reply: an opinion, a reaction, a choice, a plan, an offer, a request. e.g. You're at a café. The waiter says: "Hi! What can I get you?"
+  NEVER a question that asks for a definition, an explanation or a fact ("What is a food chain?", "How does it work?", "Why does it happen?"). For an informational topic, make it a chat ABOUT the topic instead. e.g. topic food chains: You just watched a video about food chains with a friend. Your friend says: "That was cool! Which animal did you like best?"
+- canDo: what the student should be able to do, starting with a verb, no question mark. A speaking skill, not knowledge. e.g. "Say what you liked about a video and ask a friend's opinion in English"
+- before: 4 possible replies. Exactly ONE is the natural, friendly thing a fluent speaker of the students' age would really say out loud: 6-18 words, everyday words, usually with a reason or a question back. It must NOT sound like a textbook or a definition. The other three all answer the same question and are wrong ONLY in how they are said, one each from: too short or rude; too formal or stiff; a clear grammar mistake. No reply is wrong because of a fact, and nobody needs to know the subject to choose. natural = index of the natural one.
 - after: 4 DIFFERENT replies to the same situation (no reply repeated from before), same rules, natural at a different index.`;
   try {
     const parsed = await generateJSON<Record<string, unknown>>(prompt, schema);
     const valid = validSpeakSituation(parsed);
-    if (valid) return { activityKey: 'speak-check', topicContext: topic, ...valid };
+    if (valid && speakSituationIsTalk(valid)) return { activityKey: 'speak-check', topicContext: topic, ...valid };
   } catch { /* fall back below */ }
-  return { activityKey: 'speak-check', topicContext: topic, ...(bankSituationFor(topic, difficulty) ?? fallbackSpeakSituation(topic)) };
+  return { activityKey: 'speak-check', topicContext: topic, ...(bankSituationFor(topic, difficulty, junior, findTopicBriefing(topic)?.id) ?? fallbackSpeakSituation(topic)) };
 }
 
 async function generateFlightVerdict(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<FlightVerdictContent> {
@@ -2826,11 +2831,12 @@ async function generateCargoHold(
   sourceContext = '',
   variant?: string,
 ): Promise<CargoHoldContent> {
-  const cached = await getCachedContent('cargo-hold', topic, difficulty, [], variant, 2);
+  // Deck version 3 (Oct 2026): funnier, interchangeable cards. Older cached decks are not reused.
+  const cached = await getCachedContent('cargo-hold', topic, difficulty, [], variant, 3);
   if (cached) {
     const c = cached.content_json as { cards?: unknown; prompts?: unknown };
     const checked = validateDeck(c.cards, c.prompts);
-    // A cached deck still has to satisfy the contract â€” an older cache entry must not
+    // A cached deck still has to satisfy the contract — an older cache entry must not
     // put a broken deck in front of a class.
     if (checked.valid) {
       return {
@@ -2889,27 +2895,44 @@ ${languageRule(difficulty)}
 ${sourceContext}
 THE GAME: the class sees a sentence with a blank. Each student holds 6 private cards and plays the one that fits the blank grammatically. The funniest valid sentence wins the class vote.
 
-CARDS â€” generate 32 cards:
+CARDS — generate 32 cards:
 - Each card is a short FUNNY PHRASE (3-8 words) built around one lesson word, not a bare dictionary word.
-- "family" must be exactly one of: "thing" (noun phrase), "action" (gerund phrase), "description" (adjective phrase), "reason" (a clause explaining a cause).
-- Spread them roughly evenly: 10 thing, 10 action, 6 description, 6 reason.
+- "family" must be exactly one of: "thing", "action", "description", "reason". Spread them: 10 thing, 10 action, 6 description, 6 reason.
+- Every card in a family must be INTERCHANGEABLE with every other card in that family, because any of them may be dropped into the same blank:
+  - thing: a noun phrase that starts with "a", "an", "the", "my" or a number ("a goat wearing the head teacher's glasses", "three angry sandwiches"). Never a bare noun, never a verb.
+  - action: starts with an -ing verb ("teaching a pigeon to queue", "hiding homework inside a pizza"). Never "to …", never a full sentence.
+  - description: an adjective phrase that fits after "is" or "was" ("suspiciously good at maths", "afraid of its own shoes"). No noun at the start, no verb at the start.
+  - reason: a complete clause with its own subject and verb that fits after "because" ("the dog had already eaten the map", "nobody could find the left shoe"). Never starts with "because".
 - "targetTerm" = the lesson word in its dictionary form. "targetForm" = the form actually used in the phrase (e.g. targetTerm "negotiate", targetForm "negotiating").
 - "meaning" = a plain-English definition of targetTerm, max 15 words.
-- "text" must be under 70 characters and must NOT start with a capital letter (it drops into the middle of a sentence).
+- "text" must be under 70 characters and must NOT start with a capital letter (it drops into the middle of a sentence). No full stop at the end.
 - Ground at least 24 of the 32 cards in vocabulary from the topic or source material above.
-- "source" MUST be "lesson-vocab" for a card built on a word from the topic or source material, "lesson-expression" for one built on a multi-word expression from it, and "safe-fallback" for any card you invented for grammatical variety rather than taking from the lesson. Be honest â€” this field is checked, and a deck that is mostly "safe-fallback" is rejected.
+- "source" MUST be "lesson-vocab" for a card built on a word from the topic or source material, "lesson-expression" for one built on a multi-word expression from it, and "safe-fallback" for any card you invented for grammatical variety rather than taking from the lesson. Be honest: this field is checked, and a deck that is mostly "safe-fallback" is rejected.
 - "id" = short kebab-case, unique.
 
-PROMPTS â€” generate 6 prompts:
-- "textBefore" is the sentence up to the blank, "textAfter" is what follows (usually "." ).
-- textBefore must end with a space so the card joins cleanly.
-- "acceptedFamilies" lists which card families fit grammatically. Most prompts should accept exactly one family.
-- Test the completed sentence with at least four cards from every accepted family. Do not label a family compatible merely because the sentence has a blank. For example, "start by ___" and "kept ___" require an action/gerund, never a thing; a frame ending in "because ___" requires a reason.
-- Across the 6 prompts, cover all four families at least once.
+WHAT MAKES A CARD FUNNY (the class votes for the funniest sentence, so this matters most):
+- Be SPECIFIC. Name the exact animal, food, number, place or person: "a goat wearing the head teacher's glasses" is funny; "a funny animal" is not.
+- A small, harmless disaster or a very serious person doing something silly: grandmothers, head teachers, pilots, goats, pigeons, sandwiches, lost shoes, Wi-Fi, homework, the school bus.
+- Put the lesson word somewhere it does not belong: a serious word in a silly place, or a silly word in a serious place.
+- The lesson word plus an adjective is NOT a card ("a very big volcano" is rejected). Every card needs a second surprising element.
+- Use the world students know: school, family, phones, food, pets, sport, the classroom itself. At least 8 cards include an animal and at least 6 include food.
+- Vary the jokes. No two cards may share the same animal, food or situation.
+
+PROMPTS — generate 6 prompts:
+- Each prompt is the SET-UP for a joke: an official or serious voice (a pilot, a head teacher, a news reporter, a doctor, a museum guide, a football commentator) with the blank where the surprise lands. At least 4 of the 6 are about the topic.
+- "textBefore" is the sentence up to the blank, "textAfter" is what follows (usually "."). textBefore must end with a space so the card joins cleanly.
+- "acceptedFamilies" lists which card families fit grammatically. Each prompt accepts exactly ONE family. Use these frames, which work with every card of the family:
+  - thing: "… because of ___." / "Nobody expected ___." / "The museum's newest exhibit is ___." / "Breaking news: scientists have discovered ___."
+  - action: "The head teacher was caught ___." / "My hobby is ___." / "The lesson was cancelled after someone started ___."
+  - description: "Our new pilot is ___." / "The class pet turned out to be ___."
+  - reason: "… because ___." (textBefore ends with "because ")
+- Never write a frame that needs a particular number or article ("a ___", "two ___", "is a ___"): the cards bring their own.
+- Read each prompt aloud with at least four cards of its family. If any combination is not a correct English sentence, rewrite the prompt.
+- Across the 6 prompts: 2 thing, 2 action, 1 description, 1 reason.
 - "promptTag" = short kebab-case id. "previewLabel" = how to tease it, e.g. "an action".
 - "explanation" = one line naming the grammar being practised.
 
-HUMOUR RULES â€” this is for a classroom:
+HUMOUR RULES — this is for a classroom:
 - Safe absurdity: travel mishaps, classroom chaos, exaggerated but harmless situations.
 - Surprising collisions between serious vocabulary and silly situations are the goal.
 - NEVER: sexual content, slurs, identity-based jokes, self-harm, violence, drugs, crime, gross-out or bodily-fluid humour, real celebrities, or anything aimed at a real student or teacher.
@@ -2925,7 +2948,7 @@ Return JSON with "cards" and "prompts" arrays.`;
         topic,
         difficulty,
         { cards: checked.cards, prompts: checked.prompts },
-        2,
+        3,
         variant,
       );
       return {
@@ -3957,6 +3980,11 @@ export async function POST(request: NextRequest) {
             generators.push(generateBluffDefinition(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'taboo-sprint':
+            // No video or text for this lesson: a ready deck for the topic (instant, on topic, at the class level).
+            if (!sourceMaterial) {
+              const deck = deckTabooRounds(customTopic, diff);
+              if (deck) { content[activityKey] = { activityKey: 'taboo-sprint', topicContext: customTopic, rounds: deck, topic: customTopic }; break; }
+            }
             generators.push(generateTabooSprint(customTopic, diff, kitSourceCtx, kitGrounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'static': {
@@ -4039,7 +4067,12 @@ export async function POST(request: NextRequest) {
             generators.push(generateRadioCheck(customTopic, diff, sourceMaterial, sourceRawTranscript, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'hot-seat':
-            // Same topic cards as Taboo (word + definition); the forbidden words go unused.
+            // A ready Hot Seat deck for the topic when there is one and no lesson material to draw on.
+            if (!sourceMaterial) {
+              const deck = deckHotSeatCards(customTopic, diff);
+              if (deck) { content[activityKey] = { activityKey: 'hot-seat', topicContext: customTopic, cards: deck, topic: customTopic }; break; }
+            }
+            // Otherwise the same topic cards as Taboo (word + definition); the forbidden words go unused.
             generators.push(generateTabooSprint(customTopic, diff, kitSourceCtx, kitGrounding).then((r) => {
               content[activityKey] = { activityKey: 'hot-seat', topicContext: r.topicContext, cards: r.rounds, topic: r.topic };
             }));

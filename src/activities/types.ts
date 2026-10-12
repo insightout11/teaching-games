@@ -501,6 +501,8 @@ export interface DesignStudioOption {
   benefit: string;
   tradeoff: string;
   designChange: string;
+  /** World Flight missions: the city whose lesson this option draws on, when it draws on one. */
+  city?: string;
 }
 
 export interface DesignStudioRound {

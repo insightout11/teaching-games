@@ -67,9 +67,9 @@ function action(type: CargoStudentAction['type'], extra: Record<string, unknown>
   } as CargoStudentAction;
 }
 
-// â”€â”€ Finding 1: Repack must not consume the student's Play â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Finding 1: Repack must not consume the student's Play ────────────────────
 
-describe('cargo hold â€” Repack and Play are independently durable', () => {
+describe('cargo hold — Repack and Play are independently durable', () => {
   const spec = { gameKey: 'cargo-hold', type: 'cargo-hand', roundId: chooseRound } as InputSpec;
 
   it('accepts distinct action-scoped round IDs against one live spec', () => {
@@ -127,9 +127,9 @@ describe('cargo hold â€” Repack and Play are independently durable', () => 
   });
 });
 
-// â”€â”€ Finding 2: replayed bursts must not overwrite one another â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Finding 2: replayed bursts must not overwrite one another ────────────────
 
-describe('cargo hold â€” synchronous burst handling', () => {
+describe('cargo hold — synchronous burst handling', () => {
   it('keeps every play when several arrive before a render', () => {
     const clients = ['c1', 'c2', 'c3', 'c4'];
     const { hands, players } = dealt(clients);
@@ -215,9 +215,9 @@ describe('cargo hold â€” synchronous burst handling', () => {
   });
 });
 
-// â”€â”€ Finding 3: persisted points must equal displayed points â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Finding 3: persisted points must equal displayed points ─────────────────
 
-describe('cargo hold â€” persisted score matches displayed score', () => {
+describe('cargo hold — persisted score matches displayed score', () => {
   const profile = {
     displayMode: 'competitive' as const,
     supportsOnTask: true,
@@ -258,9 +258,9 @@ describe('cargo hold â€” persisted score matches displayed score', () => {
   });
 });
 
-// â”€â”€ Finding 4: teacher refresh recovery â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Finding 4: teacher refresh recovery ─────────────────────────────────────
 
-describe('cargo hold â€” refresh recovery', () => {
+describe('cargo hold — refresh recovery', () => {
   it('round-trips a live round through the persisted payload', () => {
     const { hands, players } = dealt(['c1', 'c2', 'c3']);
     let state = baseState({ hands, players });
@@ -307,9 +307,9 @@ describe('cargo hold â€” refresh recovery', () => {
   });
 });
 
-// â”€â”€ Grounding gate â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Grounding gate ──────────────────────────────────────────────────────────
 
-describe('cargo hold â€” lesson grounding gate is real', () => {
+describe('cargo hold — lesson grounding gate is real', () => {
   it('treats undeclared provenance as fallback, not as lesson vocabulary', () => {
     const generic = sanitizeCards([
       { id: 'a', family: 'thing', text: 'a hat', targetTerm: 'hat', targetForm: 'hat', meaning: 'headwear' },
@@ -327,9 +327,9 @@ describe('cargo hold â€” lesson grounding gate is real', () => {
   });
 });
 
-// â”€â”€ Score-write recovery: pending scores survive and retry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Score-write recovery: pending scores survive and retry ──────────────────
 
-describe('cargo hold â€” unconfirmed score writes', () => {
+describe('cargo hold — unconfirmed score writes', () => {
   const pending = {
     key: `${INSTANCE}::round::c1`,
     studentId: null,

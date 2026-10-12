@@ -99,11 +99,11 @@ function spawnPeak(p: Peak, camZ: number, far: boolean) {
 
 const css = (c: RGB) => `rgb(${c[0]},${c[1]},${c[2]})`;
 
-export function CockpitWorld({ terrain, region, palette, night, speed }: { terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number }) {
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false }: { terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
-  const live = useRef({ speed });
-  live.current = { speed };
+  const live = useRef({ speed, paused });
+  live.current = { speed, paused };
   const cam = useRef(0);
   // Terrains along the route, oldest first.
   const layers = useRef<Layer[]>([]);
@@ -264,6 +264,12 @@ export function CockpitWorld({ terrain, region, palette, night, speed }: { terra
     };
 
     const frame = (now: number) => {
+      // A video is playing (or something is full screen): the scenery holds still so the video gets the whole machine.
+      if (live.current.paused || document.fullscreenElement) {
+        last = now;
+        raf = requestAnimationFrame(frame);
+        return;
+      }
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       drawnSpeed += (live.current.speed - drawnSpeed) * Math.min(1, dt * 1.2);

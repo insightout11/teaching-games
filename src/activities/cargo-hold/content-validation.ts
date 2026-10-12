@@ -1,5 +1,5 @@
 /**
- * Cargo Hold â€” content contract enforcement.
+ * Cargo Hold — content contract enforcement.
  *
  * A generated deck is never trusted just because it parsed. Everything here runs on
  * both the generator output and the cached content before a deck reaches a classroom.

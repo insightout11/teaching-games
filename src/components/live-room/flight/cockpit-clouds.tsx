@@ -21,6 +21,8 @@ export interface CockpitCloudsProps {
   horizon?: number;
   /** Descending into the cloud layer: clouds come straight at the windscreen. */
   dive?: boolean;
+  /** Hold still (a video is playing over the windscreen). */
+  paused?: boolean;
 }
 
 /** `rank` decides which clouds a thinner sky keeps (fixed per cloud); `show` fades each in and out. */
@@ -81,11 +83,11 @@ function spawn(c: Cloud, far: boolean, dive = false) {
   c.sprite = Math.floor(Math.random() * SPRITES);
 }
 
-export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive = false }: CockpitCloudsProps) {
+export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive = false, paused = false }: CockpitCloudsProps) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
-  const live = useRef({ speed, density, horizon, tint, dive });
-  live.current = { speed, density, horizon, tint, dive };
+  const live = useRef({ speed, density, horizon, tint, dive, paused });
+  live.current = { speed, density, horizon, tint, dive, paused };
 
   // Light shifts only repaint the sprites; the clouds themselves keep flying.
   const tintKey = tint.map((v) => Math.round(v / 12) * 12).join(',');
@@ -125,6 +127,12 @@ export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive =
     let last = performance.now();
     const drawn = { speed: 0 };
     const frame = (now: number) => {
+      // A video is playing (or something is full screen): the scenery holds still so the video gets the whole machine.
+      if (live.current.paused || document.fullscreenElement) {
+        last = now;
+        raf = requestAnimationFrame(frame);
+        return;
+      }
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       const target = live.current;

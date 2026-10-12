@@ -1,5 +1,5 @@
 /**
- * Cargo Hold â€” voting, favourites, and Scoring V2 mapping.
+ * Cargo Hold — voting, favourites, and Scoring V2 mapping.
  *
  * Two independent awards per round:
  *   grammar   1 point for a card that genuinely fits the prompt
@@ -67,12 +67,12 @@ export function scoreRound(submissions: CargoSubmission[]): CargoRoundScore[] {
   });
 }
 
-/** Idempotency key for a score write â€” one per student per round per activity run. */
+/** Idempotency key for a score write — one per student per round per activity run. */
 export function scoreKey(activityInstanceId: string, roundId: string, clientId: string): string {
   return `${activityInstanceId}::${roundId}::${clientId}`;
 }
 
-// â”€â”€â”€ Vote acceptance â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Vote acceptance ─────────────────────────────────────────────────────────
 
 export type VoteRejection =
   | 'stale-instance'
@@ -91,7 +91,7 @@ export interface VoteContext {
 
 /**
  * Authoritative vote check. The UI also disables the student's own tag, but self-vote
- * rejection must exist here too â€” the UI is not the security boundary.
+ * rejection must exist here too — the UI is not the security boundary.
  *
  * First valid vote is final: a second vote from the same student is rejected rather
  * than replacing the first.
@@ -122,13 +122,13 @@ export function acceptVote(
   return { accepted: true };
 }
 
-// â”€â”€â”€ Action parsing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Action parsing ──────────────────────────────────────────────────────────
 
 const ACTION_TYPES = new Set(['repack', 'play', 'read-complete', 'vote', 'board']);
 
 /**
  * Parse a student action off the wire. Anything malformed returns null rather than
- * throwing â€” a corrupt payload must never take the classroom activity down.
+ * throwing — a corrupt payload must never take the classroom activity down.
  */
 export function parseStudentAction(raw: string): CargoStudentAction | null {
   let parsed: unknown;
