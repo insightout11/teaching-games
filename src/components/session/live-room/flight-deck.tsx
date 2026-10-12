@@ -25,9 +25,9 @@ import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
-import { LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
+import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunPosition } from '@/lib/live-room/sun';
-import { cityNear, countryAt, loadCountries, townNear, type CountryShape } from '@/lib/live-room/places-below';
+import { citiesAround, countryAt, featureNear, featureText, loadCountries, sideOf, townNear, type CountryShape } from '@/lib/live-room/places-below';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import { useCabinShake } from '@/components/session/turbulence-beat';
@@ -529,18 +529,42 @@ export function FlightDeck({
   // Country and nearby big city under the plane (outlines load lazily).
   const [countries, setCountries] = useState<CountryShape[] | null>(null);
   useEffect(() => { void loadCountries().then(setCountries).catch(() => {}); }, []);
+  // The way the plane is heading along the route, so "on your left" means the plane's left.
+  const heading = useMemo(() => {
+    if (routeT < 0.99) return bearingDeg(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 0.01)));
+    return bearingDeg(greatCirclePoint(origin, destination, Math.max(0, routeT - 0.01)), below.point);
+  }, [origin, destination, routeT, below.point]);
+  // Big cities within 150 km, nearest first: the line of text names the nearest, and the windscreen draws their lights.
+  const around = useMemo(() => citiesAround(below.point, heading, 150), [below.point, heading]);
+  const countryNow = useMemo(() => (countries ? countryAt(countries, below.point) : null), [countries, below.point]);
   const place = useMemo(() => {
-    const country = countries ? countryAt(countries, below.point) : null;
-    const city = below.terrain !== 'ocean' ? cityNear(below.point) : null;
-    const feature = below.terrain !== 'farmland' && below.terrain !== 'ocean' ? below.name : null;
-    const label = city
-      ? `near ${city.name}${country ? `, ${country}` : ''}`
-      : country
-        ? (feature ? `${feature}, ${country}` : country)
-        : below.name;
-    const overCity = city && city.km < 30 ? city.name : null;
-    return { label, overCity, overTown: !overCity && below.terrain === 'farmland' ? townNear(below.point) : null };
-  }, [countries, below]);
+    const nearest = around[0];
+    const region = below.terrain !== 'farmland' && below.terrain !== 'ocean' ? below.name : null;
+    const named = featureNear(below.point);
+    const cityText = nearest
+      ? nearest.km < 20
+        ? `over ${nearest.name}`
+        : `${nearest.name}, ${nearest.km} km ${sideOf(nearest) === 'ahead' ? 'ahead' : `on your ${sideOf(nearest)}`}`
+      : null;
+    // Parts of "Below us: …", most specific first; the country is added after them (or replaced by a border crossing).
+    const parts = [named ? featureText(named) : region, cityText].filter((p): p is string => !!p);
+    const overCity = nearest && nearest.km < 30 ? nearest.name : null;
+    return { parts, country: countryNow, fallback: below.name, overCity, overTown: !overCity && below.terrain === 'farmland' ? townNear(below.point) : null };
+  }, [around, countryNow, below]);
+  // Crossing a border shows in the same line for a little while: no pop-up, no interruption.
+  const lastCountry = useRef<string | null>(null);
+  const [crossing, setCrossing] = useState<{ name: string; until: number } | null>(null);
+  useEffect(() => {
+    if (countryNow && lastCountry.current && countryNow !== lastCountry.current) setCrossing({ name: countryNow, until: Date.now() + 14_000 });
+    lastCountry.current = countryNow; // null over sea, so reaching a coast later is not "crossing" anything
+  }, [countryNow]);
+  const crossingNow = crossing && now < crossing.until ? crossing : null;
+  const belowText = (crossingNow ? [`crossing into ${crossingNow.name}`, ...place.parts] : [...place.parts, place.country]).filter(Boolean).join(' · ') || place.fallback;
+  // The cities the windscreen draws as lights in the distance (size is a stable stand-in, as no population is recorded).
+  const distantCities = useMemo(
+    () => around.map((c) => ({ id: c.id, ahead: c.ahead, lateral: c.lateral, size: 9 + (c.name.length * 7) % 12 })),
+    [around],
+  );
 
   // Real weather under the plane (every ten minutes, or when it moves on a
   // degree); World Flight's climate weather if the lookup fails.
@@ -1448,6 +1472,7 @@ export function FlightDeck({
         timeOfDay={skyNow.timeOfDay}
         sun={skyNow.sun}
         moon={skyNow.moon}
+        cities={distantCities}
         weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
         cloudCover={liveWx?.cloudCover}
         terrain={place.overCity || place.overTown ? 'farmland' : below.terrain}
@@ -1466,8 +1491,8 @@ export function FlightDeck({
         </div>
       )}
       {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
-        <p className="pointer-events-none absolute bottom-3 left-4 z-[5] rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/80 backdrop-blur-sm">
-          {holding ? `Holding over ${destination.city}` : `Below us: ${place.label}`} · {liveWx?.utcOffsetSeconds !== undefined ? offsetClock(liveWx.utcOffsetSeconds, new Date(now)) : skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
+        <p className="pointer-events-none absolute bottom-3 left-4 z-[5] max-w-[88%] truncate rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">
+          {holding ? `Holding over ${destination.city}` : `Below us: ${belowText}`} · {liveWx?.utcOffsetSeconds !== undefined ? offsetClock(liveWx.utcOffsetSeconds, new Date(now)) : skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
         </p>
       )}
 

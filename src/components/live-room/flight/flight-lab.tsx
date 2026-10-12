@@ -10,10 +10,11 @@ import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
 import type { SkyLight } from '@/components/world-flight/arrival-scene/sky-light';
 import { moonPosition, sunPosition } from '@/lib/live-room/sun';
-import { CockpitSky, cockpitCloudTint, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
+import { CockpitSky, cockpitCloudTint, mixRgb, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
+import { useEased, useEasedVector } from '@/components/live-room/flight/use-eased';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import { WindscreenWeather } from '@/components/session/cockpit-scene';
-import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
+import { CockpitWorld, type DistantCity } from '@/components/live-room/flight/cockpit-world';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 
 /**
@@ -43,6 +44,14 @@ const PHASE_LABEL: Record<Phase, string> = {
   landing: 'Landing',
   landed: 'Landed',
 };
+
+// Stand-ins for the big cities the live room finds within 150 km (the lab has no route): one far on the left, one dead
+// ahead, one nearer on the right.
+const LAB_CITIES: DistantCity[] = [
+  { id: 'lab-a', ahead: 130, lateral: -40, size: 15 },
+  { id: 'lab-b', ahead: 105, lateral: 4, size: 19 },
+  { id: 'lab-c', ahead: 85, lateral: 38, size: 11 },
+];
 
 export function FlightLab() {
   const cities = useMemo(() => WORLD_DESTINATIONS.filter((d) => d.scene), []);
@@ -120,8 +129,13 @@ export function FlightLab() {
   const parting = phase === 'descent' && !diving ? Math.min(1, (progress - DIVE) / CLEAR) : 0;
   // Same rules as the real windscreen: weather sets the cloud cover and the undercast; rain and snow only fall on climb and descent (in cruise you are above the weather).
   const cover = weather === 'clear' || weather === 'aurora' ? 25 : 85;
-  const deck = useMemo(() => weatherDeckTint(cloudTint, weather).join(','), [cloudTint, weather]);
-  const undercast = phase === 'cruise' && !activity ? weatherUndercast(weather, cover) : 0;
+  // Weather arrives gradually: see useEased.
+  const undercastTarget = phase === 'cruise' && !activity ? weatherUndercast(weather, cover) : 0;
+  const deckStrength = useEased(undercastTarget, { seconds: 26, delay: 8 }, { seconds: 14 });
+  const easedDensity = useEased(activity ? 0.4 : Math.min(1, 0.3 + (cover / 100) * 0.8), { seconds: 12 }, { seconds: 12 });
+  const deckRgb = useEasedVector(weatherDeckTint(cloudTint, weather), 255, { seconds: 20 });
+  const deck = deckRgb.map((c) => Math.round(c)).join(',');
+  const cloudsTint = deckStrength > 0.01 ? mixRgb(cloudTint, deckRgb as [number, number, number], Math.min(1, deckStrength)) : cloudTint;
   const cloudSpeed = phase === 'climb' ? 1.4 : diving ? 1.2 + progress * 3 : 0.55;
 
   const run = (p: Phase) => setPhase(p);
@@ -151,19 +165,19 @@ export function FlightLab() {
             ) : (
               <motion.div key="cockpit" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
                 <CockpitSky palette={palette} timeOfDay={tod} altitude={cockpitAlt} />
-                <CockpitWorld key={`${terrain}|${region}`} terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={cloudSpeed} />
+                <CockpitWorld key={`${terrain}|${region}`} cities={LAB_CITIES} terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={cloudSpeed} />
                 {/* Broken cloud layer between us and the ground */}
                 <div
                   aria-hidden
                   className="pointer-events-none absolute inset-x-0 bottom-0"
                   style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${cloudTint.join(',')},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${cloudTint.join(',')},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${cloudTint.join(',')},0.45), transparent 70%)` }}
                 />
-                <CockpitClouds speed={cloudSpeed} tint={undercast > 0 ? weatherDeckTint(cloudTint, weather) : cloudTint} density={activity && !diving ? 0.4 : diving ? 1 : Math.min(1, 0.3 + (cover / 100) * 0.8)} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} />
-                {undercast > 0 && (
-                  <div className="absolute inset-x-0 bottom-0" style={{ top: '56%', background: `linear-gradient(180deg, rgba(${deck},${undercast * 0.55}) 0%, rgba(${deck},${undercast * 0.9}) 35%, rgba(${deck},${undercast * 0.95}) 100%)` }} />
+                <CockpitClouds speed={cloudSpeed} tint={cloudsTint} density={diving ? 1 : easedDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} />
+                {deckStrength > 0.01 && (
+                  <div className="absolute inset-x-0 bottom-0" style={{ top: '56%', background: `linear-gradient(180deg, rgba(${deck},${deckStrength * 0.55}) 0%, rgba(${deck},${deckStrength * 0.9}) 35%, rgba(${deck},${deckStrength * 0.95}) 100%)` }} />
                 )}
-                {undercast > 0 && <CloudDeck tint={deck} strength={undercast} speed={cloudSpeed} />}
-                {weather === 'storm' && (
+                {deckStrength > 0.01 && <CloudDeck tint={deck} strength={deckStrength} speed={cloudSpeed} />}
+                {weather === 'storm' && deckStrength > 0.6 && (
                   <motion.div
                     className="absolute inset-x-0 bottom-0"
                     style={{ top: '60%', background: 'radial-gradient(ellipse 30% 40% at 35% 60%, rgba(220,230,255,0.9), transparent 70%)' }}

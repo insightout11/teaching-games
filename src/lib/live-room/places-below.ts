@@ -6,6 +6,8 @@
  */
 import type { LatLng } from '@/lib/live-room/route-terrain';
 import { MAJOR_CITIES } from '@/data/world/major-cities';
+import { NAMED_FEATURES, type FeatureKind } from '@/data/world/named-features';
+import { bearingDeg } from '@/lib/live-room/sun';
 import { distanceBetweenCoordsKm } from '@/lib/world-flight/geo';
 import { inRing, type Ring } from '@/lib/live-room/land-outlines';
 
@@ -55,6 +57,65 @@ export function townNear(p: LatLng): string | null {
   const lng = cj * cell + (h(ci * 419.2 + cj * 371.9) - 0.5) * 0.3;
   const km = Math.hypot(p.lat - lat, (p.lng - lng) * Math.cos((p.lat * Math.PI) / 180)) * 111;
   return km < 9 ? `T${ci}_${cj}` : null;
+}
+
+export interface CityAround {
+  id: string;
+  name: string;
+  km: number;
+  /** Kilometres ahead of the plane (negative: already behind). */
+  ahead: number;
+  /** Kilometres to the side: negative is the left of the plane, positive the right. */
+  lateral: number;
+}
+
+/**
+ * The listed big cities within `maxKm` of the plane that are ahead of it or just passing, with where each lies
+ * relative to the way the plane is heading. Nearest first. This is what "Paris, 80 km on your left" is made from, and
+ * what the distant city lights are drawn from.
+ */
+export function citiesAround(p: LatLng, headingDeg: number, maxKm = 150): CityAround[] {
+  const out: CityAround[] = [];
+  for (const [name, lat, lng] of MAJOR_CITIES) {
+    if (Math.abs(lat - p.lat) > maxKm / 111 + 0.5) continue;
+    const km = distanceBetweenCoordsKm(p, { lat, lng });
+    if (km > maxKm) continue;
+    const rel = ((bearingDeg(p, { lat, lng }) - headingDeg + 540) % 360 - 180) * (Math.PI / 180);
+    const ahead = km * Math.cos(rel);
+    if (ahead < -10) continue; // well behind us
+    out.push({ id: name, name, km: Math.round(km), ahead: Math.round(ahead), lateral: Math.round(km * Math.sin(rel)) });
+  }
+  return out.sort((a, b) => a.km - b.km);
+}
+
+/** "on your left", "on your right" or "ahead", for text. */
+export function sideOf(c: Pick<CityAround, 'km' | 'ahead' | 'lateral'>): 'left' | 'right' | 'ahead' {
+  if (Math.abs(c.lateral) < Math.max(8, c.km * 0.3) && c.ahead > 0) return 'ahead';
+  return c.lateral < 0 ? 'left' : 'right';
+}
+
+export interface FeatureBelow {
+  name: string;
+  kind: FeatureKind;
+  km: number;
+}
+
+/** The named river, lake, mountain, strait, island or sight the plane is over, if any (the closest to its centre). */
+export function featureNear(p: LatLng): FeatureBelow | null {
+  let best: (FeatureBelow & { ratio: number }) | null = null;
+  for (const [name, kind, lat, lng, radius] of NAMED_FEATURES) {
+    if (Math.abs(lat - p.lat) > radius / 111 + 0.5) continue;
+    const km = distanceBetweenCoordsKm(p, { lat, lng });
+    if (km > radius) continue;
+    const ratio = km / radius;
+    if (!best || ratio < best.ratio) best = { name, kind, km: Math.round(km), ratio };
+  }
+  return best ? { name: best.name, kind: best.kind, km: best.km } : null;
+}
+
+/** How a feature reads in "Below us: …": over rivers, lakes, straits and islands, near mountains and sights. */
+export function featureText(f: FeatureBelow): string {
+  return `${f.kind === 'mountain' || f.kind === 'sight' ? 'near' : 'over'} ${f.name}`;
 }
 
 export function cityNear(p: LatLng, maxKm = 60): { name: string; km: number } | null {

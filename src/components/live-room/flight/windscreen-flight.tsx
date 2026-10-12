@@ -12,9 +12,10 @@ import type { MoonPosition, SunPosition } from '@/lib/live-room/sun';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
-import { CockpitSky, cockpitCloudTint, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
+import { CockpitSky, cockpitCloudTint, mixRgb, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
+import { useEased, useEasedVector } from '@/components/live-room/flight/use-eased';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
-import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
+import { CockpitWorld, type DistantCity } from '@/components/live-room/flight/cockpit-world';
 import { useCabinShake } from '@/components/session/turbulence-beat';
 
 /**
@@ -60,6 +61,8 @@ export interface WindscreenFlightProps {
   sun?: SunPosition & { heading: number };
   /** The real moon over the same ground, for the moon's place in the sky and its phase. */
   moon?: MoonPosition;
+  /** Big cities within about 150 km, drawn as lights (or a smudge of haze by day) on the ground ahead. */
+  cities?: DistantCity[];
   /** Real cloud cover below (0–100), when known. */
   cloudCover?: number;
   /** An activity or text is on screen: the view is dimmed slightly behind it (the weather itself does not change). */
@@ -73,7 +76,7 @@ export interface WindscreenFlightProps {
   onCinematic?: (cinematic: boolean) => void;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cloudCover, calm = false, turbulence = false, paused = false, onLanded, onCinematic }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, cloudCover, calm = false, turbulence = false, paused = false, onLanded, onCinematic }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const lurch = useCabinShake(turbulence, 1.6);
@@ -146,14 +149,19 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   const cloudDensity = diving ? 1 : Math.min(1, 0.3 + (cover / 100) * 0.8);
   // The weather outside is the same whatever is on the windscreen (Boarding, Talk, Show, Game, Scores, Map): a cloudy
   // sky used to clear the moment an activity or the map opened. `calm` only dims the view behind content.
-  const undercast = phase === 'cruise' ? weatherUndercast(weather, cover) : 0;
+  // Weather arrives gradually: see useEased.
+  const undercastTarget = phase === 'cruise' ? weatherUndercast(weather, cover) : 0;
+  const deckStrength = useEased(undercastTarget, { seconds: 26, delay: 8 }, { seconds: 14 });
+  const easedDensity = useEased(cloudDensity, { seconds: 12 }, { seconds: 12 });
+  const deckRgb = useEasedVector(weatherDeckTint(cloudTint, weather), 255, { seconds: 20 });
+  const deck = deckRgb.map((c) => Math.round(c)).join(',');
+  const cloudsTint = deckStrength > 0.01 ? mixRgb(cloudTint, deckRgb as [number, number, number], Math.min(1, deckStrength)) : cloudTint;
   const spot = sun ? lightSpot(sun, sun.heading, palette.light === 'moon', moon) : undefined;
   const altitude = phase === 'climb' ? Math.min(1, progress * 1.1) : 1;
   const cloudSpeed = phase === 'climb' ? 1.4 : diving ? 1.2 + progress * 3 : 0.55;
   const whiteout = phase !== 'descent' ? 0 : diving ? Math.pow(progress / DIVE, 1.6) * 0.96 : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
   const parting = phase === 'descent' && !diving ? Math.min(1, (progress - DIVE) / CLEAR) : 0;
   const tint = cloudTint.join(',');
-  const deck = weatherDeckTint(cloudTint, weather).join(',');
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -176,17 +184,17 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
         ) : (
           <motion.div key="cockpit" className="absolute inset-[-4%]" style={{ x: lurch.x, y: lurch.y, rotate: lurch.rotate }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
             <CockpitSky palette={palette} timeOfDay={skyTime} altitude={altitude} spot={spot} />
-            <CockpitWorld terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} />
+            <CockpitWorld terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} />
             <div
               className="absolute inset-x-0 bottom-0"
               style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${tint},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${tint},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${tint},0.45), transparent 70%)` }}
             />
             {/* Thick cloud below: an undercast deck hides the ground, storms glow inside it. */}
-            {undercast > 0 && (
-              <div className="absolute inset-x-0 bottom-0" style={{ top: '56%', background: `linear-gradient(180deg, rgba(${deck},${undercast * 0.55}) 0%, rgba(${deck},${undercast * 0.9}) 35%, rgba(${deck},${undercast * 0.95}) 100%)` }} />
+            {deckStrength > 0.01 && (
+              <div className="absolute inset-x-0 bottom-0" style={{ top: '56%', background: `linear-gradient(180deg, rgba(${deck},${deckStrength * 0.55}) 0%, rgba(${deck},${deckStrength * 0.9}) 35%, rgba(${deck},${deckStrength * 0.95}) 100%)` }} />
             )}
-            {undercast > 0 && <CloudDeck tint={deck} strength={undercast} speed={cloudSpeed} paused={paused} />}
-            {weather === 'storm' && phase === 'cruise' && (
+            {deckStrength > 0.01 && <CloudDeck tint={deck} strength={deckStrength} speed={cloudSpeed} paused={paused} />}
+            {weather === 'storm' && phase === 'cruise' && deckStrength > 0.6 && (
               <motion.div
                 className="absolute inset-x-0 bottom-0"
                 style={{ top: '60%', background: 'radial-gradient(ellipse 30% 40% at 35% 60%, rgba(220,230,255,0.9), transparent 70%)' }}
@@ -196,7 +204,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             )}
             {(phase === 'climb' || phase === 'descent') && weather !== 'clear' && <WindscreenWeather weather={weather} />}
             {phase === 'cruise' && weather === 'aurora' && <WindscreenWeather weather="aurora" />}
-            <CockpitClouds speed={turbulence ? cloudSpeed + 1.6 : cloudSpeed} tint={undercast > 0 ? weatherDeckTint(cloudTint, weather) : cloudTint} density={turbulence ? 1 : cloudDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} paused={paused} />
+            <CockpitClouds speed={turbulence ? cloudSpeed + 1.6 : cloudSpeed} tint={cloudsTint} density={turbulence || diving ? 1 : easedDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} paused={paused} />
           </motion.div>
         )}
       </AnimatePresence>

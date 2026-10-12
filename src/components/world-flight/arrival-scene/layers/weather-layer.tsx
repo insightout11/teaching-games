@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { normalizeTerrain } from '../scene-registry';
+import { DEP_CITY_LEAD, departureCameraPan } from '../cinematic-motion';
 import { LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
 import { randRange, seededRand } from '../seed';
 import { WEATHER_PROFILE } from '../weather';
@@ -24,11 +25,13 @@ const VEIL: Record<string, { color: string; k: number }> = {
  * snow on the grass, a bank along the runway edge and drifts on the runway in snow. Drawn by the runway layer, so it
  * sits BEHIND the plane and windsock and never washes them out.
  */
-export function WeatherGround({ weather, ambient, idPrefix, scene, palette }: SceneLayerProps) {
+export function WeatherGround({ weather, ambient, idPrefix, scene, palette, mode, progress }: SceneLayerProps) {
   const prof = WEATHER_PROFILE[weather];
   if (prof.rain === 0 && prof.snow === 0) return null;
   const rand = seededRand(`${idPrefix}:${weather}:ground`);
   const night = palette.light === 'moon';
+  // Puddles and drifts are things lying on the ground: on takeoff they move with the world, not with the plane.
+  const worldShift = mode === 'departure' ? DEP_CITY_LEAD - departureCameraPan(Math.min(1, Math.max(0, progress))) : 0;
   // Scenes whose "ground" is water or a canal take no snow blanket (the runway edge still gets a drift).
   const terrain = normalizeTerrain(scene.terrain);
   const waterfront = scene.skylineVariant === 'dubai' || scene.skylineVariant === 'amsterdam' || scene.skylineVariant === 'singapore' || terrain === 'coastal' || terrain === 'island';
@@ -70,6 +73,7 @@ export function WeatherGround({ weather, ambient, idPrefix, scene, palette }: Sc
         <>
           <rect x="-200" y={LAYOUT.apronY} width={W + 400} height={RUN_TOP - LAYOUT.apronY} fill="rgb(10,18,30)" opacity={0.16 * prof.rain} />
           <rect x="-200" y={RUN_TOP} width={W + 400} height={H - RUN_TOP + 80} fill={`url(#${idPrefix}-wet-sheen)`} />
+          <g transform={`translate(${worldShift},0)`}>
           {puddles.map((p, i) => (
             <g key={i}>
               <ellipse cx={p.cx} cy={p.cy} rx={p.rx} ry={p.ry} fill={puddleFill} />
@@ -88,6 +92,7 @@ export function WeatherGround({ weather, ambient, idPrefix, scene, palette }: Sc
               })}
             </g>
           ))}
+          </g>
         </>
       )}
 
@@ -101,9 +106,11 @@ export function WeatherGround({ weather, ambient, idPrefix, scene, palette }: Sc
           {/* a thin dusting on the runway, heavier toward the edge, with a few drifts in the foreground */}
           <rect x="-200" y={RUN_TOP + 4} width={W + 400} height={H - RUN_TOP + 80} fill={night ? 'rgb(150,166,204)' : 'rgb(238,244,252)'} opacity={0.1} />
           <rect x="-200" y={RUN_TOP + 4} width={W + 400} height={26} fill={night ? 'rgb(168,182,214)' : 'rgb(244,248,255)'} opacity={0.3} />
+          <g transform={`translate(${worldShift},0)`}>
           {drifts.map((d, i) => (
             <ellipse key={i} cx={d.cx} cy={d.cy} rx={d.rx} ry={d.ry} fill={night ? 'rgb(172,186,218)' : 'rgb(244,248,255)'} opacity={d.o} />
           ))}
+          </g>
         </>
       )}
     </g>

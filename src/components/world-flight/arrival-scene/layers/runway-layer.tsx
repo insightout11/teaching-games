@@ -22,6 +22,10 @@ export function RunwayLayer(props: SceneLayerProps) {
   // faint motion streaks on the tarmac during peak acceleration.
   const prog = Math.min(1, Math.max(0, progress));
   const rollSpeed = rolling ? (prog < DEP_ROLL ? prog / DEP_ROLL : Math.max(0, 1 - (prog - DEP_ROLL) / 0.18)) : 0;
+  // Things that stand in the scene (the yacht, the Merlion, islands, a canal boat) travel with the world as the takeoff
+  // camera follows the plane, at the nearest depth like the runway paint itself. Without this they stay put on screen
+  // and look as if they follow the plane.
+  const worldShift = rolling ? DEP_CITY_LEAD - pan : 0;
   const terrain = normalizeTerrain(scene.terrain);
   const isDubaiBay = scene.skylineVariant === 'dubai';
   const isHomeBase = scene.skylineVariant === 'homebase';
@@ -104,6 +108,7 @@ export function RunwayLayer(props: SceneLayerProps) {
       {/* canal water + ripple + reflected light streaks */}
       <rect x="-200" y={canalTop} width={VIEWBOX.w + 400} height={canalBot - canalTop} fill={`url(#${canalId})`} />
       <path d={`M-200 ${canalTop + 10} Q 400 ${canalTop + 6} 900 ${canalTop + 11} T 2000 ${canalTop + 9} T 3080 ${canalTop + 10}`} fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth={1.5} />
+      <g transform={`translate(${worldShift},0)`}>
       {[0.16, 0.3, 0.52, 0.66, 0.86].map((fx, i) => (
         <rect key={i} x={BLEED_X + CONTENT_W * fx} y={canalTop + 6} width={2} height={canalBot - canalTop - 8} fill={warm} opacity={isNightAms ? 0.5 : 0.22} />
       ))}
@@ -111,10 +116,12 @@ export function RunwayLayer(props: SceneLayerProps) {
       <path d={`M ${boatX - 28} ${by} q 5 9 16 9 h 24 q 11 0 16 -9 Z`} fill="rgb(54,50,46)" />
       <rect x={boatX - 8} y={by - 9} width={26} height={9} rx={2} fill="rgb(78,70,62)" />
       <rect x={boatX - 4} y={by - 7} width={6} height={5} fill={warm} opacity={isNightAms ? 0.9 : 0.4} />
+      </g>
       {/* quayside road */}
       <rect x="-200" y={canalBot} width={VIEWBOX.w + 400} height={runTop - canalBot} fill="rgb(92,88,94)" />
       <rect x="-200" y={canalBot} width={VIEWBOX.w + 400} height={3} fill="rgb(150,144,150)" />
       <rect x="-200" y={canalBot + 3} width={VIEWBOX.w + 400} height={2} fill="rgba(0,0,0,0.2)" />
+      <g transform={`translate(${worldShift},0)`}>
       {/* humpback bridge over the canal */}
       <path d={`M ${bx - 58} ${canalBot} Q ${bx} ${canalTop - 14} ${bx + 58} ${canalBot}`} fill="none" stroke="rgb(150,128,104)" strokeWidth={7} strokeLinecap="round" />
       <path d={`M ${bx - 58} ${canalBot} Q ${bx} ${canalTop - 6} ${bx + 58} ${canalBot}`} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth={1.4} />
@@ -125,6 +132,7 @@ export function RunwayLayer(props: SceneLayerProps) {
           <circle cx={lx} cy={canalBot - 26} r={3} fill={warm} opacity={isNightAms ? 0.95 : 0.5} />
         </g>
       ))}
+      </g>
       {/* animated cyclists on the road */}
       {riders.map((c, i) =>
         ambient ? (
@@ -256,6 +264,7 @@ export function RunwayLayer(props: SceneLayerProps) {
           />
           {/* LessonCaptain yacht moored in the home-base bay, set back toward the
               city shore (near the top of the water band). */}
+          <g transform={`translate(${worldShift},0)`}>
           {isHomeBase && (
             <LcYacht
               cx={BLEED_X + CONTENT_W * 0.6}
@@ -267,6 +276,7 @@ export function RunwayLayer(props: SceneLayerProps) {
             />
           )}
           {merlion}
+          </g>
         </>
       ) : isAmsterdam ? (
         amsterdamGround
@@ -283,7 +293,7 @@ export function RunwayLayer(props: SceneLayerProps) {
       )}
 
       {isDubaiBay && (
-        <g transform={`translate(${BLEED_X},0)`}>
+        <g transform={`translate(${BLEED_X + worldShift},0)`}>
           {/* Stylized offshore islands and sandy headlands in Dubai's bay. */}
           <path d={`M60 ${runTop - 10} C120 ${runTop - 48} 245 ${runTop - 47} 322 ${runTop - 13} C244 ${runTop - 22} 141 ${runTop - 20} 60 ${runTop - 10} Z`} fill={`url(#${sandId})`} />
           <path d={`M1190 ${runTop - 12} C1268 ${runTop - 52} 1415 ${runTop - 49} 1542 ${runTop - 11} C1434 ${runTop - 23} 1314 ${runTop - 22} 1190 ${runTop - 12} Z`} fill={`url(#${sandId})`} />
