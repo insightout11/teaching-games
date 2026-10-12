@@ -62,8 +62,8 @@ export function WeatherGround({ weather, ambient, idPrefix, scene, palette }: Sc
           <stop offset="1" stopColor="rgb(8,14,26)" stopOpacity="0.26" />
         </linearGradient>
         <linearGradient id={`${idPrefix}-snow-ground`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="rgb(250,252,255)" stopOpacity={0.86 * k} />
-          <stop offset="1" stopColor="rgb(226,236,248)" stopOpacity={0.74 * k} />
+          <stop offset="0" stopColor={night ? 'rgb(168,182,214)' : 'rgb(250,252,255)'} stopOpacity={0.86 * k} />
+          <stop offset="1" stopColor={night ? 'rgb(132,148,186)' : 'rgb(226,236,248)'} stopOpacity={0.74 * k} />
         </linearGradient>
       </defs>
       {prof.rain > 0 && (
@@ -97,12 +97,12 @@ export function WeatherGround({ weather, ambient, idPrefix, scene, palette }: Sc
             <path d={`M-200 ${LAYOUT.apronY + 6} Q300 ${LAYOUT.apronY - 10} 760 ${LAYOUT.apronY + 4} T1700 ${LAYOUT.apronY - 2} T3080 ${LAYOUT.apronY + 3} L3080 ${RUN_TOP} L-200 ${RUN_TOP} Z`} fill={`url(#${idPrefix}-snow-ground)`} />
           )}
           {/* the bank along the runway edge */}
-          <path d={`M-200 ${RUN_TOP - 12} Q300 ${RUN_TOP - 30} 760 ${RUN_TOP - 15} T1700 ${RUN_TOP - 19} T3080 ${RUN_TOP - 13} L3080 ${RUN_TOP + 4} L-200 ${RUN_TOP + 4} Z`} fill="#f3f7fb" opacity={0.7} />
+          <path d={`M-200 ${RUN_TOP - 12} Q300 ${RUN_TOP - 30} 760 ${RUN_TOP - 15} T1700 ${RUN_TOP - 19} T3080 ${RUN_TOP - 13} L3080 ${RUN_TOP + 4} L-200 ${RUN_TOP + 4} Z`} fill={night ? '#aab8d4' : '#f3f7fb'} opacity={0.7} />
           {/* a thin dusting on the runway, heavier toward the edge, with a few drifts in the foreground */}
-          <rect x="-200" y={RUN_TOP + 4} width={W + 400} height={H - RUN_TOP + 80} fill="rgb(238,244,252)" opacity={0.1} />
-          <rect x="-200" y={RUN_TOP + 4} width={W + 400} height={26} fill="rgb(244,248,255)" opacity={0.3} />
+          <rect x="-200" y={RUN_TOP + 4} width={W + 400} height={H - RUN_TOP + 80} fill={night ? 'rgb(150,166,204)' : 'rgb(238,244,252)'} opacity={0.1} />
+          <rect x="-200" y={RUN_TOP + 4} width={W + 400} height={26} fill={night ? 'rgb(168,182,214)' : 'rgb(244,248,255)'} opacity={0.3} />
           {drifts.map((d, i) => (
-            <ellipse key={i} cx={d.cx} cy={d.cy} rx={d.rx} ry={d.ry} fill="rgb(244,248,255)" opacity={d.o} />
+            <ellipse key={i} cx={d.cx} cy={d.cy} rx={d.rx} ry={d.ry} fill={night ? 'rgb(172,186,218)' : 'rgb(244,248,255)'} opacity={d.o} />
           ))}
         </>
       )}
@@ -120,7 +120,7 @@ export function WeatherLayer({ weather, rand, ambient, idPrefix, palette }: Scen
   const prof = WEATHER_PROFILE[weather];
   if (prof.rain === 0 && prof.snow === 0 && !prof.lightning && prof.dim === 0) return null;
   const night = palette.light === 'moon';
-  const veil = VEIL[weather] ?? VEIL.rain;
+  const veil = night && weather === 'snow' ? { color: 'rgb(54,66,96)', k: 0.3 } : VEIL[weather] ?? VEIL.rain;
 
   // ── Falling sheets: a few depths each, every depth with its own period so the sheets never line up ──────────────
   const sheetOf = (d: Depth, draw: (f: { x: number; y: number; a: number; o: number }, i: number) => ReactNode) => {
@@ -201,7 +201,7 @@ export function WeatherLayer({ weather, rand, ambient, idPrefix, palette }: Scen
         <linearGradient id={`${idPrefix}-snow-haze`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="rgb(222,232,248)" stopOpacity="0.06" />
           <stop offset="0.55" stopColor="rgb(226,236,250)" stopOpacity="0.16" />
-          <stop offset="1" stopColor="rgb(244,248,255)" stopOpacity="0.34" />
+          <stop offset="1" stopColor="rgb(244,248,255)" stopOpacity={night ? 0.14 : 0.34} />
         </linearGradient>
         <linearGradient id={`${idPrefix}-flat-light`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="rgb(222,227,234)" stopOpacity="0" />
