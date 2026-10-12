@@ -22,6 +22,8 @@ export interface RoomItem {
   imageUrl?: string | null;
   /** Extracted article text (reader), capped server-side. */
   text?: string;
+  /** `text` is the room's own AI notes on a typed topic, not something the class has read or watched. */
+  aiNotes?: boolean;
   coordinates?: { latitude: number; longitude: number } | null;
   address?: string | null;
   videoId?: string | null;

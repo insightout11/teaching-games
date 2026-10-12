@@ -748,6 +748,7 @@ export function FlightDeck({
         if (item.kind === 'note' && !item.text) {
           updateItem(sessionId, item.id, {
             text: [d.briefing, ...d.facts.map((f) => `- ${f}`), ...d.angles.map((a) => `Question: ${a}`)].join('\n'),
+            aiNotes: true,
           });
         }
       })

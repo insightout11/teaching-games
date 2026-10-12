@@ -1,3 +1,4 @@
+import { describeVerdict, verifyMultipleChoice } from '@/lib/mcq-verify';
 import { deckMeaningQuiz } from '@/lib/topic-game-decks';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
@@ -238,7 +239,7 @@ Topic: "${topic}"
 Difficulty: ${difficultyDescriptions[difficulty]}
 Timer per question: ${TIMER_SECONDS} seconds
 Random seed (for variety): ${randomSeed}
-${sourceContext}${sourceContext ? '\nEvery question, option, and explanation MUST be answerable from the source material above — test comprehension of what it actually says, not outside general knowledge.\n' : ''}
+${sourceContext}${sourceContext && !sourceMaterial?.backgroundOnly ? '\nEvery question, option, and explanation MUST be answerable from the source material above — test comprehension of what it actually says, not outside general knowledge.\n' : ''}
 Keep every QUESTION STEM and all 4 options SHORT and plain (question ≤16 words), quick to read within the timer. Everyday words only — no academic jargon, no long nested clauses or abstract nominalizations — even if the source is more advanced.
 QUESTION STYLE — adapt to the topic:
 - Grammar topics (tenses, conditionals, articles, etc.) → sentence correction or fill-in-the-blank style
@@ -287,8 +288,19 @@ Return JSON:
       }
     }
 
+    // An independent blind check on every answer: a question is kept only when exactly one option is right and it is
+    // the marked one. Questions that fail are dropped (the quiz runs a little shorter), never shown.
+    const verdicts = await verifyMultipleChoice(data.questions, { topic, material: sourceMaterial?.rawText ?? sourceMaterial?.summary });
+    const checked = data.questions.filter((q, i) => {
+      if (verdicts[i].ok) return true;
+      console.warn(`[flash-quiz/generate] question dropped: ${describeVerdict(q, verdicts[i])}`);
+      return false;
+    });
+    // If the check threw out nearly everything, something is off with the check, not the quiz: keep the originals.
+    const usable = checked.length >= Math.min(3, data.questions.length) ? checked : data.questions;
+
     // Trim to exact count in case AI over-generates
-    const questions = data.questions.slice(0, questionCount);
+    const questions = usable.slice(0, questionCount);
 
     // 3. Store in cache — but never cache source-grounded content under the
     // shared topic key, or it would leak into non-source sessions on that topic.

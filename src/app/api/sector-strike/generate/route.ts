@@ -1,3 +1,4 @@
+import { describeVerdict, verifyMultipleChoice } from '@/lib/mcq-verify';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
@@ -115,37 +116,44 @@ export async function POST(request: NextRequest) {
 
 Generate one question about "${topic}" for ESL learners in a FAST-PACED game.
 Random seed: ${randomSeed}
-${sourceContext}${sourceContext ? 'The question MUST be answerable from the source material above and test what it actually says — but rewrite it in simple, everyday words.\n' : ''}
+${sourceContext}${sourceContext && !sourceMaterial?.backgroundOnly ? 'The question MUST be answerable from the source material above and test what it actually says — but rewrite it in simple, everyday words.\n' : ''}
 The QUESTION STEM must be ONE short, plain sentence (≤18 words), quick to read at a glance in a game. No long or nested clauses, no academic jargon, no abstract nominalizations ("public memory is constructed rather than inherited...").
 ${qType === 'speaking' ? speakingPromptSuffix() : writtenPromptSuffix()}
 
 No preamble, no numbering.`;
 
     const schema = qType === 'speaking' ? speakingSchema : writtenSchema;
-    const data = await generateJSON<GenerateResult>(prompt, schema, {
-      temperature: 1.0,
-      taskClass: 'content-generation',
-    });
+    const noStore = { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } };
+    // Written questions get up to two tries: each is checked by an independent blind pass (exactly one right answer,
+    // and it is the marked one) before the class sees it.
+    let data: GenerateResult | null = null;
+    for (let attempt = 0; attempt < (qType === 'written' ? 2 : 1); attempt += 1) {
+      data = await generateJSON<GenerateResult>(prompt, schema, {
+        temperature: 1.0,
+        taskClass: 'content-generation',
+      });
 
-    if (!data.question || typeof data.question !== 'string' || data.question.trim().length < 5) {
-      throw new Error('Invalid question generated');
-    }
+      if (!data.question || typeof data.question !== 'string' || data.question.trim().length < 5) {
+        throw new Error('Invalid question generated');
+      }
+      if (qType !== 'written') break;
 
-    if (qType === 'written') {
       const wr = data as WrittenResult;
       if (!Array.isArray(wr.options) || wr.options.length !== 4) throw new Error('Invalid MC options');
       if (typeof wr.correctIndex !== 'number' || wr.correctIndex < 0 || wr.correctIndex > 3) {
         throw new Error('Invalid correctIndex');
       }
-      return NextResponse.json(
-        {
-          question: data.question.trim(),
-          options: wr.options.map((o) => String(o).trim()),
-          correctIndex: wr.correctIndex,
-        },
-        { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
-      );
+      const item = { question: data.question.trim(), options: wr.options.map((o) => String(o).trim()), correctIndex: wr.correctIndex };
+      const [verdict] = await verifyMultipleChoice([item], { topic, material: sourceMaterial?.rawText ?? sourceMaterial?.summary });
+      if (verdict.ok) return NextResponse.json(item, noStore);
+      console.warn(`[sector-strike/generate] question rejected (try ${attempt + 1}): ${describeVerdict(item, verdict)}`);
     }
+    if (qType === 'written') {
+      // Both tries failed the check. The square becomes a spoken question: a team talking is always better than a
+      // wrong "correct" answer on the class screen.
+      return NextResponse.json({ question: `Tell the class two things you know about ${topic}.`, checked: 'spoken-instead' }, noStore);
+    }
+    if (!data) throw new Error('No question generated');
 
     return NextResponse.json(
       { question: data.question.trim() },
@@ -154,23 +162,8 @@ No preamble, no numbering.`;
   } catch (error) {
     console.error('[sector-strike/generate] error:', error);
 
-    if (qType === 'written') {
-      return NextResponse.json(
-        {
-          question: `Which of the following is true about ${topic}?`,
-          options: [
-            `It is commonly studied and discussed`,
-            `It is mostly a modern invention`,
-            `It matters only to specialists`,
-            `It has little effect on daily life`,
-          ],
-          correctIndex: 0,
-          degraded: true,
-        },
-        { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
-      );
-    }
-
+    // Never a made-up multiple choice (the old stand-in invented four "facts" and marked one correct): a failed
+    // written question becomes a spoken one.
     return NextResponse.json(
       {
         question: `What do you know about ${topic}? Share at least two ideas.`,

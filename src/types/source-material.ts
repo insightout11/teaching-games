@@ -41,6 +41,12 @@ export interface SourceMaterial {
   supportingSources?: SupportingSource[];
   duration?: number;  // seconds — video sources
   rawText?: string;   // original unprocessed text (text/paste sources only)
+  /**
+   * The text is background notes on a typed topic (written by the AI for the teacher's room), NOT material the
+   * class has read or watched. Activities may use it to keep facts right, but must never refer to "the text",
+   * "the passage" or "the article", and must not ask what it says.
+   */
+  backgroundOnly?: boolean;
   /** Student-facing text used for Captain's Briefing and downstream source-grounded generation. */
   briefingText?: string;
   briefingMode?: SourceBriefingMode;

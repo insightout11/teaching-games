@@ -24,7 +24,13 @@ export function buildSourceContext(source?: SourceMaterial, rawTranscript?: stri
   if (!source) return '';
 
   let primary = '';
-  if (rawTranscript) {
+  if (source.backgroundOnly && !rawTranscript) {
+    // A typed topic: these are the room's own notes, not something the class has seen.
+    const notes = (source.rawText ?? source.summary ?? '').slice(0, 6000);
+    primary = notes
+      ? `\nBackground notes on the topic "${source.title}" (for accuracy only). The class has NOT read or watched anything: there is no text, passage, article or video. NEVER write "according to the text", "in the passage", "the article says" or anything like it, and never ask what a text says. Write about the topic itself; use these notes only so your facts and examples are right, and feel free to go beyond them.\n\nNotes:\n${notes}\n`
+      : '';
+  } else if (rawTranscript) {
     const text = extractPlainText(rawTranscript).slice(0, 10000);
     primary = `\nSource material — ground ALL content ONLY in this transcript. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nTranscript:\n${text}\n`;
   } else {
