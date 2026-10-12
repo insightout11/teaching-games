@@ -24,12 +24,12 @@
         "level": "A1"
       },
       {
-        "word": "fish",
+        "word": "cat treat",
         "forbidden": [
-          "water",
-          "swim",
           "food",
-          "tail"
+          "small",
+          "pet",
+          "give"
         ],
         "level": "A1"
       },
@@ -256,7 +256,7 @@
         "level": "A1"
       },
       {
-        "secret": "fish",
+        "secret": "cat treat",
         "kind": "food",
         "level": "A1"
       },
@@ -1634,7 +1634,7 @@
         "level": "A2"
       },
       {
-        "word": "water",
+        "word": "hoof step",
         "level": "A1"
       },
       {
@@ -1842,12 +1842,12 @@
         "level": "A2"
       },
       {
-        "word": "rock",
+        "word": "den",
         "forbidden": [
-          "hard",
-          "stone",
-          "ground",
-          "sit"
+          "home",
+          "sleep",
+          "baby",
+          "inside"
         ],
         "level": "A1"
       },
@@ -1994,8 +1994,8 @@
         "level": "A1"
       },
       {
-        "secret": "rock",
-        "kind": "thing",
+        "secret": "den",
+        "kind": "place",
         "level": "A1"
       },
       {
@@ -2450,8 +2450,8 @@
     ],
     "hotSeat": [
       {
-        "word": "tree",
-        "level": "A1"
+        "word": "bamboo grove",
+        "level": "A2"
       },
       {
         "word": "hill",
@@ -2514,7 +2514,7 @@
       },
       {
         "word": "bamboo",
-        "decoy": "tree",
+        "decoy": "reed",
         "level": "A2"
       },
       {
@@ -3272,12 +3272,12 @@
         "level": "A1"
       },
       {
-        "word": "snow",
+        "word": "stone",
         "forbidden": [
-          "white",
-          "cold",
-          "winter",
-          "fall"
+          "hard",
+          "ground",
+          "small",
+          "grey"
         ],
         "level": "A1"
       },
@@ -3322,8 +3322,8 @@
         "level": "A1"
       },
       {
-        "word": "ocean",
-        "level": "A1"
+        "word": "coast",
+        "level": "A2"
       },
       {
         "word": "dive",
@@ -3398,7 +3398,7 @@
       },
       {
         "word": "ice",
-        "decoy": "snow",
+        "decoy": "water",
         "level": "A1"
       },
       {
@@ -6526,8 +6526,8 @@
         "level": "A1"
       },
       {
-        "word": "Sun",
-        "level": "A1"
+        "word": "star cluster",
+        "level": "A2"
       },
       {
         "word": "orbit",
@@ -6561,7 +6561,7 @@
       },
       {
         "word": "spacesuit",
-        "decoy": "raincoat",
+        "decoy": "diving suit",
         "level": "A2"
       },
       {
@@ -8634,6 +8634,4326 @@
       },
       {
         "secret": "emergency bag",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-mountains",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "mountain",
+        "forbidden": [
+          "high",
+          "land",
+          "top",
+          "climb"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "peak",
+        "forbidden": [
+          "top",
+          "high",
+          "point",
+          "hill"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "valley",
+        "forbidden": [
+          "low",
+          "between",
+          "hills",
+          "river"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "snow",
+        "forbidden": [
+          "white",
+          "cold",
+          "winter",
+          "fall"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "rock",
+        "forbidden": [
+          "hard",
+          "stone",
+          "ground",
+          "heavy"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "climb",
+        "forbidden": [
+          "up",
+          "high",
+          "hands",
+          "legs"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "trail",
+        "forbidden": [
+          "path",
+          "walk",
+          "follow",
+          "ground"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rope",
+        "forbidden": [
+          "long",
+          "hold",
+          "tie",
+          "string"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "campsite",
+        "forbidden": [
+          "tent",
+          "sleep",
+          "outside",
+          "place"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "ridge",
+        "forbidden": [
+          "long",
+          "top",
+          "narrow",
+          "hill"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "glacier",
+        "forbidden": [
+          "ice",
+          "cold",
+          "slow",
+          "mountain"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "stone pile",
+        "forbidden": [
+          "rocks",
+          "stack",
+          "mark",
+          "trail"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "waterfall",
+        "forbidden": [
+          "river",
+          "drop",
+          "down",
+          "flow"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "hiking boot",
+        "forbidden": [
+          "foot",
+          "shoe",
+          "walk",
+          "strong"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "hat",
+        "level": "A1"
+      },
+      {
+        "word": "backpack",
+        "level": "A1"
+      },
+      {
+        "word": "tent",
+        "level": "A1"
+      },
+      {
+        "word": "walking",
+        "level": "A1"
+      },
+      {
+        "word": "map",
+        "level": "A1"
+      },
+      {
+        "word": "mountain goat",
+        "level": "A2"
+      },
+      {
+        "word": "guide",
+        "level": "A2"
+      },
+      {
+        "word": "steep path",
+        "level": "A1"
+      },
+      {
+        "word": "ledge",
+        "level": "A2"
+      },
+      {
+        "word": "pine tree",
+        "level": "A1"
+      },
+      {
+        "word": "cliff",
+        "level": "A2"
+      },
+      {
+        "word": "hill",
+        "level": "A1"
+      },
+      {
+        "word": "mountain village",
+        "level": "A1"
+      },
+      {
+        "word": "weather station",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "mountain",
+        "decoy": "hill",
+        "level": "A1"
+      },
+      {
+        "word": "peak",
+        "decoy": "ridge",
+        "level": "A2"
+      },
+      {
+        "word": "trail",
+        "decoy": "road",
+        "level": "A2"
+      },
+      {
+        "word": "rope",
+        "decoy": "leash",
+        "level": "A2"
+      },
+      {
+        "word": "tent",
+        "decoy": "cabin",
+        "level": "A1"
+      },
+      {
+        "word": "glacier",
+        "decoy": "snowfield",
+        "level": "A2"
+      },
+      {
+        "word": "waterfall",
+        "decoy": "river rapids",
+        "level": "A2"
+      },
+      {
+        "word": "hiking boot",
+        "decoy": "running shoe",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "mountain",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "valley",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "tent",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "rope",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "mountain goat",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "snow",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "climb",
+        "kind": "activity",
+        "level": "A1"
+      },
+      {
+        "secret": "guide",
+        "kind": "job",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-rivers",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "river",
+        "forbidden": [
+          "water",
+          "flow",
+          "long",
+          "bank"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "stream",
+        "forbidden": [
+          "water",
+          "small",
+          "flow",
+          "field"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "bridge",
+        "forbidden": [
+          "cross",
+          "road",
+          "over",
+          "water"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "waterfall",
+        "forbidden": [
+          "drop",
+          "down",
+          "flow",
+          "river"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "boat",
+        "forbidden": [
+          "water",
+          "ride",
+          "people",
+          "travel"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bank",
+        "forbidden": [
+          "side",
+          "water",
+          "ground",
+          "edge"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "bend",
+        "forbidden": [
+          "turn",
+          "curve",
+          "path",
+          "shape"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "current",
+        "forbidden": [
+          "flow",
+          "move",
+          "water",
+          "fast"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "island",
+        "forbidden": [
+          "water",
+          "around",
+          "small",
+          "boat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pebble",
+        "forbidden": [
+          "stone",
+          "small",
+          "round",
+          "hard"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "reed",
+        "forbidden": [
+          "plant",
+          "water",
+          "tall",
+          "thin"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fish ladder",
+        "forbidden": [
+          "steps",
+          "swim",
+          "up",
+          "help"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "canoe",
+        "forbidden": [
+          "paddle",
+          "boat",
+          "narrow",
+          "water"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rapids",
+        "forbidden": [
+          "fast",
+          "water",
+          "rocks",
+          "flow"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "river mouth",
+        "level": "A2"
+      },
+      {
+        "word": "source spring",
+        "level": "A2"
+      },
+      {
+        "word": "rowing",
+        "level": "A1"
+      },
+      {
+        "word": "river guide",
+        "level": "A2"
+      },
+      {
+        "word": "oar",
+        "level": "A2"
+      },
+      {
+        "word": "wet stone",
+        "level": "A1"
+      },
+      {
+        "word": "riverside tree",
+        "level": "A1"
+      },
+      {
+        "word": "river crossing",
+        "level": "A2"
+      },
+      {
+        "word": "muddy shore",
+        "level": "A1"
+      },
+      {
+        "word": "fishing net",
+        "level": "A1"
+      },
+      {
+        "word": "paddling",
+        "level": "A2"
+      },
+      {
+        "word": "floodplain",
+        "level": "A2"
+      },
+      {
+        "word": "riverside path",
+        "level": "A1"
+      },
+      {
+        "word": "river harbour",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "river",
+        "decoy": "stream",
+        "level": "A2"
+      },
+      {
+        "word": "bridge",
+        "decoy": "tunnel",
+        "level": "A2"
+      },
+      {
+        "word": "canoe",
+        "decoy": "kayak",
+        "level": "A2"
+      },
+      {
+        "word": "ferry",
+        "decoy": "rowing boat",
+        "level": "A2"
+      },
+      {
+        "word": "waterfall",
+        "decoy": "rapids",
+        "level": "A2"
+      },
+      {
+        "word": "bank",
+        "decoy": "beach",
+        "level": "A1"
+      },
+      {
+        "word": "reed",
+        "decoy": "bamboo",
+        "level": "A2"
+      },
+      {
+        "word": "pebble",
+        "decoy": "shell",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "river",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "bridge",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "waterfall",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "canoe",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "island",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "reed",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "ferry",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "paddling",
+        "kind": "activity",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-oceans",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "ocean",
+        "forbidden": [
+          "sea",
+          "big",
+          "blue",
+          "deep"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "wave",
+        "forbidden": [
+          "water",
+          "move",
+          "shore",
+          "up"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "beach",
+        "forbidden": [
+          "sand",
+          "sea",
+          "walk",
+          "shore"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "shell",
+        "forbidden": [
+          "hard",
+          "animal",
+          "sea",
+          "cover"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tide",
+        "forbidden": [
+          "sea",
+          "up",
+          "down",
+          "shore"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "coral",
+        "forbidden": [
+          "reef",
+          "colour",
+          "animal",
+          "branch"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "seaweed",
+        "forbidden": [
+          "plant",
+          "green",
+          "water",
+          "food"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "salt",
+        "forbidden": [
+          "taste",
+          "white",
+          "food",
+          "water"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "current",
+        "forbidden": [
+          "flow",
+          "water",
+          "move",
+          "strong"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "horizon",
+        "forbidden": [
+          "line",
+          "sky",
+          "sea",
+          "far"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "ship",
+        "forbidden": [
+          "boat",
+          "large",
+          "travel",
+          "water"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "submarine",
+        "forbidden": [
+          "under",
+          "water",
+          "vehicle",
+          "deep"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sand",
+        "forbidden": [
+          "beach",
+          "grains",
+          "ground",
+          "small"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "shore",
+        "forbidden": [
+          "edge",
+          "water",
+          "land",
+          "beach"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "coastline",
+        "level": "A2"
+      },
+      {
+        "word": "sea floor",
+        "level": "A2"
+      },
+      {
+        "word": "saltwater fish",
+        "level": "A2"
+      },
+      {
+        "word": "ocean liner",
+        "level": "A2"
+      },
+      {
+        "word": "coastal town",
+        "level": "A1"
+      },
+      {
+        "word": "lifeguard",
+        "level": "A2"
+      },
+      {
+        "word": "buoy",
+        "level": "A2"
+      },
+      {
+        "word": "snorkel",
+        "level": "A2"
+      },
+      {
+        "word": "diver",
+        "level": "A2"
+      },
+      {
+        "word": "storm",
+        "level": "A1"
+      },
+      {
+        "word": "white foam",
+        "level": "A1"
+      },
+      {
+        "word": "sandcastle",
+        "level": "A1"
+      },
+      {
+        "word": "harbour",
+        "level": "A2"
+      },
+      {
+        "word": "deep water",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "ocean",
+        "decoy": "lake",
+        "level": "A1"
+      },
+      {
+        "word": "wave",
+        "decoy": "tide",
+        "level": "A2"
+      },
+      {
+        "word": "shell",
+        "decoy": "pebble",
+        "level": "A1"
+      },
+      {
+        "word": "coral",
+        "decoy": "seaweed",
+        "level": "A2"
+      },
+      {
+        "word": "ship",
+        "decoy": "submarine",
+        "level": "A2"
+      },
+      {
+        "word": "shore",
+        "decoy": "sea floor",
+        "level": "A2"
+      },
+      {
+        "word": "current",
+        "decoy": "wind",
+        "level": "A2"
+      },
+      {
+        "word": "salt",
+        "decoy": "sand",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "ocean",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "beach",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "ship",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "submarine",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "coral",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "seaweed",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "snorkelling",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "lifeguard",
+        "kind": "job",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-coral-reefs",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "coral",
+        "forbidden": [
+          "reef",
+          "animal",
+          "colour",
+          "branch"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "reef",
+        "forbidden": [
+          "sea",
+          "rocks",
+          "fish",
+          "coral"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "polyp",
+        "forbidden": [
+          "tiny",
+          "animal",
+          "mouth",
+          "arms"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fish",
+        "forbidden": [
+          "swim",
+          "water",
+          "tail",
+          "animal"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "clam",
+        "forbidden": [
+          "shell",
+          "open",
+          "close",
+          "sea"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "anemone",
+        "forbidden": [
+          "arms",
+          "animal",
+          "sea",
+          "soft"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sea star",
+        "forbidden": [
+          "arms",
+          "five",
+          "animal",
+          "shape"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "seahorse",
+        "forbidden": [
+          "animal",
+          "swim",
+          "small",
+          "tail"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "parrotfish",
+        "forbidden": [
+          "beak",
+          "colour",
+          "animal",
+          "reef"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "reef shark",
+        "forbidden": [
+          "teeth",
+          "swim",
+          "animal",
+          "fin"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sponge",
+        "forbidden": [
+          "holes",
+          "water",
+          "animal",
+          "soft"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "branching coral",
+        "forbidden": [
+          "tree",
+          "shape",
+          "hard",
+          "arms"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "lagoon",
+        "forbidden": [
+          "pool",
+          "shallow",
+          "sea",
+          "island"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "snorkel",
+        "forbidden": [
+          "tube",
+          "breathe",
+          "water",
+          "swim"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "diver",
+        "level": "A2"
+      },
+      {
+        "word": "underwater garden",
+        "level": "A1"
+      },
+      {
+        "word": "sea turtle",
+        "level": "A1"
+      },
+      {
+        "word": "reef guide",
+        "level": "A2"
+      },
+      {
+        "word": "shallow water",
+        "level": "A1"
+      },
+      {
+        "word": "coral nursery",
+        "level": "A2"
+      },
+      {
+        "word": "tiny mouth",
+        "level": "A1"
+      },
+      {
+        "word": "reef cave",
+        "level": "A2"
+      },
+      {
+        "word": "rock pool",
+        "level": "A2"
+      },
+      {
+        "word": "bubble trail",
+        "level": "A1"
+      },
+      {
+        "word": "underwater camera",
+        "level": "A2"
+      },
+      {
+        "word": "coral island",
+        "level": "A2"
+      },
+      {
+        "word": "warm current",
+        "level": "A2"
+      },
+      {
+        "word": "reef map",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "coral",
+        "decoy": "seaweed",
+        "level": "A2"
+      },
+      {
+        "word": "reef",
+        "decoy": "rock pool",
+        "level": "A2"
+      },
+      {
+        "word": "sea star",
+        "decoy": "seahorse",
+        "level": "A1"
+      },
+      {
+        "word": "clam",
+        "decoy": "sponge",
+        "level": "A2"
+      },
+      {
+        "word": "anemone",
+        "decoy": "sea plant",
+        "level": "A2"
+      },
+      {
+        "word": "parrotfish",
+        "decoy": "clownfish",
+        "level": "A2"
+      },
+      {
+        "word": "snorkel",
+        "decoy": "diving mask",
+        "level": "A2"
+      },
+      {
+        "word": "lagoon",
+        "decoy": "deep sea",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "coral",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "reef",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "sea star",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "seahorse",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "clam",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "reef guide",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "snorkelling",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "sea turtle",
+        "kind": "animal",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-rainforests",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "rainforest",
+        "forbidden": [
+          "trees",
+          "wet",
+          "green",
+          "animals"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tree",
+        "forbidden": [
+          "wood",
+          "branch",
+          "leaf",
+          "tall"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "rain",
+        "forbidden": [
+          "water",
+          "cloud",
+          "wet",
+          "fall"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "large leaf",
+        "forbidden": [
+          "green",
+          "plant",
+          "thin",
+          "tree"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "vine",
+        "forbidden": [
+          "plant",
+          "long",
+          "climb",
+          "rope"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "canopy",
+        "forbidden": [
+          "top",
+          "leaves",
+          "high",
+          "forest"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "forest floor",
+        "forbidden": [
+          "ground",
+          "under",
+          "leaves",
+          "dark"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "stream",
+        "forbidden": [
+          "water",
+          "small",
+          "flow",
+          "rocks"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "waterfall",
+        "forbidden": [
+          "river",
+          "drop",
+          "down",
+          "flow"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "parrot",
+        "forbidden": [
+          "bird",
+          "colour",
+          "beak",
+          "fly"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "monkey",
+        "forbidden": [
+          "animal",
+          "climb",
+          "tail",
+          "tree"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "orchid",
+        "forbidden": [
+          "flower",
+          "colour",
+          "plant",
+          "pretty"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "wide root",
+        "forbidden": [
+          "ground",
+          "tree",
+          "hold",
+          "under"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ant",
+        "forbidden": [
+          "small",
+          "animal",
+          "legs",
+          "walk"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "tree frog",
+        "level": "A2"
+      },
+      {
+        "word": "rainforest guide",
+        "level": "A2"
+      },
+      {
+        "word": "wooden walkway",
+        "level": "A1"
+      },
+      {
+        "word": "fallen fruit",
+        "level": "A1"
+      },
+      {
+        "word": "muddy path",
+        "level": "A1"
+      },
+      {
+        "word": "tall trunk",
+        "level": "A1"
+      },
+      {
+        "word": "fruit bat",
+        "level": "A2"
+      },
+      {
+        "word": "insect net",
+        "level": "A2"
+      },
+      {
+        "word": "plant scientist",
+        "level": "A2"
+      },
+      {
+        "word": "leaf litter",
+        "level": "A2"
+      },
+      {
+        "word": "rain gauge",
+        "level": "A2"
+      },
+      {
+        "word": "rope bridge",
+        "level": "A2"
+      },
+      {
+        "word": "seed pod",
+        "level": "A2"
+      },
+      {
+        "word": "raincoat",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "rainforest",
+        "decoy": "desert",
+        "level": "A2"
+      },
+      {
+        "word": "tree",
+        "decoy": "vine",
+        "level": "A1"
+      },
+      {
+        "word": "parrot",
+        "decoy": "monkey",
+        "level": "A1"
+      },
+      {
+        "word": "orchid",
+        "decoy": "fern",
+        "level": "A2"
+      },
+      {
+        "word": "ant",
+        "decoy": "beetle",
+        "level": "A1"
+      },
+      {
+        "word": "stream",
+        "decoy": "waterfall",
+        "level": "A2"
+      },
+      {
+        "word": "canopy",
+        "decoy": "forest floor",
+        "level": "A2"
+      },
+      {
+        "word": "raincoat",
+        "decoy": "umbrella",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "rainforest",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "parrot",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "monkey",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "ant",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "vine",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "waterfall",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "orchid",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "rainforest guide",
+        "kind": "job",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-deserts",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "desert",
+        "forbidden": [
+          "dry",
+          "hot",
+          "sand",
+          "land"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cactus",
+        "forbidden": [
+          "plant",
+          "green",
+          "sharp",
+          "water"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "dune",
+        "forbidden": [
+          "sand",
+          "hill",
+          "wind",
+          "shape"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sand",
+        "forbidden": [
+          "small",
+          "grains",
+          "ground",
+          "beach"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "camel",
+        "forbidden": [
+          "animal",
+          "hump",
+          "ride",
+          "desert"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "oasis",
+        "forbidden": [
+          "water",
+          "green",
+          "pool",
+          "trees"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sun",
+        "forbidden": [
+          "sky",
+          "light",
+          "hot",
+          "day"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "dry riverbed",
+        "forbidden": [
+          "water",
+          "gone",
+          "ground",
+          "channel"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tent",
+        "forbidden": [
+          "camp",
+          "sleep",
+          "cloth",
+          "outside"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "lizard",
+        "forbidden": [
+          "animal",
+          "small",
+          "legs",
+          "scales"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "scarab",
+        "forbidden": [
+          "insect",
+          "beetle",
+          "legs",
+          "round"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "boots",
+        "forbidden": [
+          "feet",
+          "wear",
+          "shoes",
+          "walk"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "water flask",
+        "forbidden": [
+          "drink",
+          "carry",
+          "bottle",
+          "full"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rock arch",
+        "forbidden": [
+          "stone",
+          "curve",
+          "hole",
+          "bridge"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "desert fox",
+        "level": "A2"
+      },
+      {
+        "word": "camel calf",
+        "level": "A2"
+      },
+      {
+        "word": "scorpion",
+        "level": "A2"
+      },
+      {
+        "word": "sand trail",
+        "level": "A1"
+      },
+      {
+        "word": "shade shelter",
+        "level": "A1"
+      },
+      {
+        "word": "desert guide",
+        "level": "A2"
+      },
+      {
+        "word": "camel rider",
+        "level": "A2"
+      },
+      {
+        "word": "shade cloth",
+        "level": "A1"
+      },
+      {
+        "word": "gravel",
+        "level": "A2"
+      },
+      {
+        "word": "date palm",
+        "level": "A2"
+      },
+      {
+        "word": "dry lake",
+        "level": "A2"
+      },
+      {
+        "word": "pebble",
+        "level": "A1"
+      },
+      {
+        "word": "starry camp",
+        "level": "A1"
+      },
+      {
+        "word": "hot wind",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "desert",
+        "decoy": "rainforest",
+        "level": "A2"
+      },
+      {
+        "word": "camel",
+        "decoy": "horse",
+        "level": "A1"
+      },
+      {
+        "word": "dune",
+        "decoy": "hill",
+        "level": "A2"
+      },
+      {
+        "word": "oasis",
+        "decoy": "dry lake",
+        "level": "A2"
+      },
+      {
+        "word": "cactus",
+        "decoy": "date palm",
+        "level": "A2"
+      },
+      {
+        "word": "tent",
+        "decoy": "shade shelter",
+        "level": "A1"
+      },
+      {
+        "word": "scorpion",
+        "decoy": "beetle",
+        "level": "A2"
+      },
+      {
+        "word": "sand",
+        "decoy": "gravel",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "desert",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "camel",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "cactus",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "oasis",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "dune",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "scorpion",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "desert guide",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "water flask",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-forests",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "forest",
+        "forbidden": [
+          "trees",
+          "green",
+          "walk",
+          "animals"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tree",
+        "forbidden": [
+          "wood",
+          "branch",
+          "leaf",
+          "tall"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "branch",
+        "forbidden": [
+          "tree",
+          "wood",
+          "arm",
+          "leaf"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "roots",
+        "forbidden": [
+          "ground",
+          "tree",
+          "water",
+          "hold"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pine cone",
+        "forbidden": [
+          "seed",
+          "tree",
+          "brown",
+          "hard"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "acorn",
+        "forbidden": [
+          "seed",
+          "oak",
+          "brown",
+          "small"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mushroom",
+        "forbidden": [
+          "ground",
+          "cap",
+          "stem",
+          "shade"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fern",
+        "forbidden": [
+          "plant",
+          "green",
+          "leaf",
+          "shade"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "path",
+        "forbidden": [
+          "walk",
+          "follow",
+          "ground",
+          "line"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "red fox",
+        "forbidden": [
+          "animal",
+          "tail",
+          "fur",
+          "orange"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "deer",
+        "forbidden": [
+          "animal",
+          "antlers",
+          "legs",
+          "brown"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "bird",
+        "forbidden": [
+          "animal",
+          "fly",
+          "beak",
+          "wings"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "stream",
+        "forbidden": [
+          "water",
+          "small",
+          "flow",
+          "forest"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fallen log",
+        "forbidden": [
+          "tree",
+          "wood",
+          "ground",
+          "old"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "squirrel",
+        "level": "A1"
+      },
+      {
+        "word": "owl",
+        "level": "A1"
+      },
+      {
+        "word": "woodpecker",
+        "level": "A2"
+      },
+      {
+        "word": "ranger",
+        "level": "A2"
+      },
+      {
+        "word": "log bridge",
+        "level": "A2"
+      },
+      {
+        "word": "stump",
+        "level": "A2"
+      },
+      {
+        "word": "beetle",
+        "level": "A2"
+      },
+      {
+        "word": "leaf carpet",
+        "level": "A1"
+      },
+      {
+        "word": "forest clearing",
+        "level": "A2"
+      },
+      {
+        "word": "animal den",
+        "level": "A2"
+      },
+      {
+        "word": "tree bark",
+        "level": "A2"
+      },
+      {
+        "word": "sap",
+        "level": "A2"
+      },
+      {
+        "word": "tree ring",
+        "level": "A2"
+      },
+      {
+        "word": "picnic bench",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "forest",
+        "decoy": "garden",
+        "level": "A1"
+      },
+      {
+        "word": "pine cone",
+        "decoy": "acorn",
+        "level": "A2"
+      },
+      {
+        "word": "mushroom",
+        "decoy": "flower",
+        "level": "A2"
+      },
+      {
+        "word": "roots",
+        "decoy": "branch",
+        "level": "A2"
+      },
+      {
+        "word": "owl",
+        "decoy": "woodpecker",
+        "level": "A2"
+      },
+      {
+        "word": "stream",
+        "decoy": "pond",
+        "level": "A1"
+      },
+      {
+        "word": "tree bark",
+        "decoy": "scales",
+        "level": "A2"
+      },
+      {
+        "word": "ranger",
+        "decoy": "gardener",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "forest",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "pine cone",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "acorn",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "mushroom",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "owl",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "deer",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "ranger",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "forest clearing",
+        "kind": "place",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-seasons",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "spring",
+        "forbidden": [
+          "flowers",
+          "warm",
+          "winter",
+          "season"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "summer",
+        "forbidden": [
+          "hot",
+          "sun",
+          "holiday",
+          "season"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "autumn",
+        "forbidden": [
+          "leaves",
+          "fall",
+          "cool",
+          "season"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "winter",
+        "forbidden": [
+          "cold",
+          "snow",
+          "coat",
+          "season"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fallen leaf",
+        "forbidden": [
+          "tree",
+          "ground",
+          "brown",
+          "plant"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "snowflake",
+        "forbidden": [
+          "white",
+          "cold",
+          "small",
+          "shape"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "blossom",
+        "forbidden": [
+          "flower",
+          "tree",
+          "petals",
+          "spring"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "scarf",
+        "forbidden": [
+          "neck",
+          "warm",
+          "wear",
+          "long"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "shorts",
+        "forbidden": [
+          "legs",
+          "wear",
+          "summer",
+          "clothes"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sweater",
+        "forbidden": [
+          "warm",
+          "wear",
+          "arms",
+          "clothes"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "harvest",
+        "forbidden": [
+          "food",
+          "collect",
+          "crops",
+          "autumn"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "calendar",
+        "forbidden": [
+          "days",
+          "months",
+          "year",
+          "date"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "daylight",
+        "forbidden": [
+          "sun",
+          "bright",
+          "sky",
+          "hours"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "frost",
+        "forbidden": [
+          "cold",
+          "white",
+          "ground",
+          "morning"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "flower bud",
+        "level": "A2"
+      },
+      {
+        "word": "warm day",
+        "level": "A1"
+      },
+      {
+        "word": "cold morning",
+        "level": "A1"
+      },
+      {
+        "word": "wool hat",
+        "level": "A1"
+      },
+      {
+        "word": "bare tree",
+        "level": "A1"
+      },
+      {
+        "word": "seed packet",
+        "level": "A1"
+      },
+      {
+        "word": "rain shower",
+        "level": "A1"
+      },
+      {
+        "word": "long evening",
+        "level": "A1"
+      },
+      {
+        "word": "apple basket",
+        "level": "A1"
+      },
+      {
+        "word": "planting",
+        "level": "A2"
+      },
+      {
+        "word": "migration",
+        "level": "A2"
+      },
+      {
+        "word": "dry season",
+        "level": "A2"
+      },
+      {
+        "word": "wet season",
+        "level": "A2"
+      },
+      {
+        "word": "sunshine",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "spring",
+        "decoy": "autumn",
+        "level": "A1"
+      },
+      {
+        "word": "summer",
+        "decoy": "winter",
+        "level": "A1"
+      },
+      {
+        "word": "scarf",
+        "decoy": "shorts",
+        "level": "A1"
+      },
+      {
+        "word": "blossom",
+        "decoy": "fallen leaf",
+        "level": "A2"
+      },
+      {
+        "word": "sweater",
+        "decoy": "raincoat",
+        "level": "A1"
+      },
+      {
+        "word": "calendar",
+        "decoy": "clock",
+        "level": "A1"
+      },
+      {
+        "word": "frost",
+        "decoy": "snowflake",
+        "level": "A2"
+      },
+      {
+        "word": "harvest",
+        "decoy": "planting",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "scarf",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "shorts",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "sweater",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "calendar",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "snowflake",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "flower bud",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "planting",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "harvest",
+        "kind": "activity",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-rain",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "rain",
+        "forbidden": [
+          "water",
+          "cloud",
+          "wet",
+          "fall"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cloud",
+        "forbidden": [
+          "sky",
+          "grey",
+          "white",
+          "water"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "puddle",
+        "forbidden": [
+          "water",
+          "ground",
+          "small",
+          "splash"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "umbrella",
+        "forbidden": [
+          "hold",
+          "head",
+          "wet",
+          "dry"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "raincoat",
+        "forbidden": [
+          "wear",
+          "clothes",
+          "wet",
+          "dry"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "boots",
+        "forbidden": [
+          "feet",
+          "wear",
+          "shoes",
+          "mud"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "raindrop",
+        "forbidden": [
+          "water",
+          "small",
+          "round",
+          "fall"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "drizzle",
+        "forbidden": [
+          "light",
+          "wet",
+          "small",
+          "slow"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "downpour",
+        "forbidden": [
+          "heavy",
+          "wet",
+          "fast",
+          "water"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rain gauge",
+        "forbidden": [
+          "measure",
+          "amount",
+          "water",
+          "tube"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "gutter",
+        "forbidden": [
+          "roof",
+          "water",
+          "pipe",
+          "edge"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rainbow",
+        "forbidden": [
+          "colours",
+          "sky",
+          "curve",
+          "sun"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "storm",
+        "forbidden": [
+          "wind",
+          "cloud",
+          "heavy",
+          "loud"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "waterproof bag",
+        "forbidden": [
+          "dry",
+          "carry",
+          "inside",
+          "wet"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "wet pavement",
+        "level": "A1"
+      },
+      {
+        "word": "roof drip",
+        "level": "A1"
+      },
+      {
+        "word": "grey sky",
+        "level": "A1"
+      },
+      {
+        "word": "rainwater",
+        "level": "A1"
+      },
+      {
+        "word": "soaked coat",
+        "level": "A2"
+      },
+      {
+        "word": "splashing",
+        "level": "A1"
+      },
+      {
+        "word": "water barrel",
+        "level": "A2"
+      },
+      {
+        "word": "window drops",
+        "level": "A1"
+      },
+      {
+        "word": "muddy shoes",
+        "level": "A1"
+      },
+      {
+        "word": "light shower",
+        "level": "A2"
+      },
+      {
+        "word": "heavy shower",
+        "level": "A2"
+      },
+      {
+        "word": "dripping tree",
+        "level": "A1"
+      },
+      {
+        "word": "covered walkway",
+        "level": "A2"
+      },
+      {
+        "word": "weather reporter",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "rain",
+        "decoy": "snow",
+        "level": "A1"
+      },
+      {
+        "word": "umbrella",
+        "decoy": "parasol",
+        "level": "A2"
+      },
+      {
+        "word": "raincoat",
+        "decoy": "sweater",
+        "level": "A1"
+      },
+      {
+        "word": "drizzle",
+        "decoy": "downpour",
+        "level": "A2"
+      },
+      {
+        "word": "puddle",
+        "decoy": "stream",
+        "level": "A1"
+      },
+      {
+        "word": "gutter",
+        "decoy": "drain",
+        "level": "A2"
+      },
+      {
+        "word": "storm",
+        "decoy": "rainbow",
+        "level": "A2"
+      },
+      {
+        "word": "raindrop",
+        "decoy": "snowflake",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "umbrella",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "raincoat",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "boots",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "puddle",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "rain gauge",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "rainbow",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "weather reporter",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "splashing",
+        "kind": "activity",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-snow",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "snow",
+        "forbidden": [
+          "white",
+          "cold",
+          "winter",
+          "fall"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "snowflake",
+        "forbidden": [
+          "white",
+          "cold",
+          "small",
+          "shape"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "snowman",
+        "forbidden": [
+          "body",
+          "carrot",
+          "hat",
+          "round"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "snowball",
+        "forbidden": [
+          "white",
+          "round",
+          "throw",
+          "cold"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ice",
+        "forbidden": [
+          "water",
+          "cold",
+          "hard",
+          "slip"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "skis",
+        "forbidden": [
+          "feet",
+          "slide",
+          "snow",
+          "long"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sled",
+        "forbidden": [
+          "ride",
+          "slide",
+          "snow",
+          "sit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "scarf",
+        "forbidden": [
+          "neck",
+          "warm",
+          "wear",
+          "long"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "gloves",
+        "forbidden": [
+          "hands",
+          "wear",
+          "warm",
+          "fingers"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "boots",
+        "forbidden": [
+          "feet",
+          "wear",
+          "shoes",
+          "walk"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "icicle",
+        "forbidden": [
+          "ice",
+          "hang",
+          "point",
+          "cold"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "frost",
+        "forbidden": [
+          "white",
+          "cold",
+          "ground",
+          "morning"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "snowdrift",
+        "forbidden": [
+          "deep",
+          "pile",
+          "wind",
+          "white"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "snow shovel",
+        "forbidden": [
+          "clear",
+          "path",
+          "handle",
+          "dig"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "winter hat",
+        "level": "A1"
+      },
+      {
+        "word": "warm socks",
+        "level": "A1"
+      },
+      {
+        "word": "frozen pond",
+        "level": "A1"
+      },
+      {
+        "word": "snow angel",
+        "level": "A1"
+      },
+      {
+        "word": "slippery path",
+        "level": "A2"
+      },
+      {
+        "word": "white field",
+        "level": "A1"
+      },
+      {
+        "word": "snowplough",
+        "level": "A2"
+      },
+      {
+        "word": "winter coat",
+        "level": "A1"
+      },
+      {
+        "word": "cold breath",
+        "level": "A1"
+      },
+      {
+        "word": "melting",
+        "level": "A2"
+      },
+      {
+        "word": "slush",
+        "level": "A2"
+      },
+      {
+        "word": "ski lift",
+        "level": "A2"
+      },
+      {
+        "word": "mitten",
+        "level": "A1"
+      },
+      {
+        "word": "deep footprints",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "snow",
+        "decoy": "ice",
+        "level": "A1"
+      },
+      {
+        "word": "snowman",
+        "decoy": "snow angel",
+        "level": "A1"
+      },
+      {
+        "word": "snowball",
+        "decoy": "snowflake",
+        "level": "A1"
+      },
+      {
+        "word": "skis",
+        "decoy": "sled",
+        "level": "A1"
+      },
+      {
+        "word": "scarf",
+        "decoy": "mitten",
+        "level": "A1"
+      },
+      {
+        "word": "frost",
+        "decoy": "icicle",
+        "level": "A2"
+      },
+      {
+        "word": "snowdrift",
+        "decoy": "sand dune",
+        "level": "A2"
+      },
+      {
+        "word": "snow shovel",
+        "decoy": "garden spade",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "snowman",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "snowball",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "skis",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "sled",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "icicle",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "frozen pond",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "skiing",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "snowplough driver",
+        "kind": "job",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-wind",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "breeze",
+        "forbidden": [
+          "air",
+          "moving",
+          "soft",
+          "cool"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "gust",
+        "forbidden": [
+          "wind",
+          "strong",
+          "blow",
+          "storm"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "flag",
+        "forbidden": [
+          "cloth",
+          "high",
+          "move",
+          "country"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "kite",
+        "forbidden": [
+          "fly",
+          "string",
+          "sky",
+          "toy"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "windmill",
+        "forbidden": [
+          "string",
+          "sky",
+          "toy",
+          "air"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fan",
+        "forbidden": [
+          "air",
+          "spin",
+          "hot",
+          "electric"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sail",
+        "forbidden": [
+          "boat",
+          "cloth",
+          "water",
+          "move"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pinwheel",
+        "forbidden": [
+          "spin",
+          "colour",
+          "hand",
+          "toy"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "wind chime",
+        "forbidden": [
+          "sound",
+          "hang",
+          "metal",
+          "blow"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "hat",
+        "forbidden": [
+          "head",
+          "wear",
+          "fall",
+          "cap"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "weather balloon",
+        "forbidden": [
+          "bird",
+          "light",
+          "fly",
+          "soft"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "weather vane",
+        "forbidden": [
+          "roof",
+          "points north",
+          "arrow",
+          "direction"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "turbine",
+        "forbidden": [
+          "power",
+          "blades",
+          "large",
+          "energy"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "streamer",
+        "forbidden": [
+          "paper",
+          "party",
+          "long",
+          "colour"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "windsock",
+        "level": "A1"
+      },
+      {
+        "word": "curtain",
+        "level": "A1"
+      },
+      {
+        "word": "laundry",
+        "level": "A1"
+      },
+      {
+        "word": "windbreaker",
+        "level": "A2"
+      },
+      {
+        "word": "roof vent",
+        "level": "A2"
+      },
+      {
+        "word": "paper airplane",
+        "level": "A1"
+      },
+      {
+        "word": "dandelion seed",
+        "level": "A2"
+      },
+      {
+        "word": "sailboat",
+        "level": "A1"
+      },
+      {
+        "word": "weathervane",
+        "level": "A2"
+      },
+      {
+        "word": "wind turbine",
+        "level": "A2"
+      },
+      {
+        "word": "storm door",
+        "level": "A2"
+      },
+      {
+        "word": "hair dryer",
+        "level": "A1"
+      },
+      {
+        "word": "bubble",
+        "level": "A1"
+      },
+      {
+        "word": "wind tunnel",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "breeze",
+        "decoy": "gust",
+        "level": "A1"
+      },
+      {
+        "word": "fan",
+        "decoy": "windmill",
+        "level": "A1"
+      },
+      {
+        "word": "kite",
+        "decoy": "balloon",
+        "level": "A1"
+      },
+      {
+        "word": "flag",
+        "decoy": "windsock",
+        "level": "A2"
+      },
+      {
+        "word": "pinwheel",
+        "decoy": "propeller",
+        "level": "A2"
+      },
+      {
+        "word": "sail",
+        "decoy": "parachute",
+        "level": "A2"
+      },
+      {
+        "word": "wind chime",
+        "decoy": "bell",
+        "level": "A1"
+      },
+      {
+        "word": "weather vane",
+        "decoy": "compass",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "kite",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "fan",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "dandelion seed",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "sailboat",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "wind turbine",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "weather vane",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "balloon",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "curtain",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-clouds",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "cloud",
+        "forbidden": [
+          "sky",
+          "white",
+          "water",
+          "rain"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fog",
+        "forbidden": [
+          "air",
+          "see",
+          "grey",
+          "morning"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mist",
+        "forbidden": [
+          "fog",
+          "water",
+          "air",
+          "thin"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "storm cloud",
+        "forbidden": [
+          "dark",
+          "rain",
+          "sky",
+          "grey"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "raindrop",
+        "forbidden": [
+          "water",
+          "fall",
+          "wet",
+          "sky"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "thunder",
+        "forbidden": [
+          "loud",
+          "storm",
+          "sound",
+          "sky"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "lightning",
+        "forbidden": [
+          "flash",
+          "storm",
+          "sky",
+          "bright"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cirrus",
+        "forbidden": [
+          "thin",
+          "high",
+          "white",
+          "cloud"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "cumulus",
+        "forbidden": [
+          "puffy",
+          "white",
+          "sky",
+          "cloud"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "overcast sky",
+        "forbidden": [
+          "grey",
+          "sun",
+          "clouds",
+          "day"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "hailstone",
+        "forbidden": [
+          "ice",
+          "fall",
+          "small",
+          "storm"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "cloud shadow",
+        "forbidden": [
+          "ground",
+          "dark",
+          "sun",
+          "move"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rain gauge",
+        "forbidden": [
+          "measure",
+          "water",
+          "weather",
+          "tool"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fog bank",
+        "forbidden": [
+          "road",
+          "see",
+          "thick",
+          "grey"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "sky",
+        "level": "A1"
+      },
+      {
+        "word": "rain hat",
+        "level": "A1"
+      },
+      {
+        "word": "thunderstorm",
+        "level": "A2"
+      },
+      {
+        "word": "hail",
+        "level": "A2"
+      },
+      {
+        "word": "storm front",
+        "level": "A2"
+      },
+      {
+        "word": "rain poncho",
+        "level": "A1"
+      },
+      {
+        "word": "rain boots",
+        "level": "A1"
+      },
+      {
+        "word": "sunbeam",
+        "level": "A1"
+      },
+      {
+        "word": "window",
+        "level": "A1"
+      },
+      {
+        "word": "mountaintop",
+        "level": "A1"
+      },
+      {
+        "word": "weather station",
+        "level": "A2"
+      },
+      {
+        "word": "drizzle",
+        "level": "A2"
+      },
+      {
+        "word": "lightning rod",
+        "level": "A2"
+      },
+      {
+        "word": "dew",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "fog",
+        "decoy": "mist",
+        "level": "A1"
+      },
+      {
+        "word": "cirrus",
+        "decoy": "cumulus",
+        "level": "A2"
+      },
+      {
+        "word": "hailstone",
+        "decoy": "snowflake",
+        "level": "A2"
+      },
+      {
+        "word": "storm cloud",
+        "decoy": "rain cloud",
+        "level": "A2"
+      },
+      {
+        "word": "drizzle",
+        "decoy": "shower",
+        "level": "A2"
+      },
+      {
+        "word": "cloud shadow",
+        "decoy": "tree shadow",
+        "level": "A2"
+      },
+      {
+        "word": "weather map",
+        "decoy": "road map",
+        "level": "A1"
+      },
+      {
+        "word": "dew",
+        "decoy": "raindrop",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "rain cloud",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "window",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "hailstone",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "weather map",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "thunderstorm",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "fog",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "rain gauge",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "mountaintop",
+        "kind": "place",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-rainbows",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "rainbow",
+        "forbidden": [
+          "colour",
+          "sky",
+          "drizzle",
+          "arc"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "prism",
+        "forbidden": [
+          "glass",
+          "light",
+          "colour",
+          "triangle"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "raindrop",
+        "forbidden": [
+          "water",
+          "fall",
+          "wet",
+          "cloud"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sunbeam",
+        "forbidden": [
+          "light",
+          "warm",
+          "bright",
+          "sky"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "red",
+        "forbidden": [
+          "colour",
+          "apple",
+          "stop",
+          "fire"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "orange",
+        "forbidden": [
+          "colour",
+          "fruit",
+          "carrot",
+          "red"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "yellow",
+        "forbidden": [
+          "colour",
+          "banana",
+          "sun",
+          "bright"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "green",
+        "forbidden": [
+          "colour",
+          "grass",
+          "leaf",
+          "blue"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "blue",
+        "forbidden": [
+          "colour",
+          "sky",
+          "water",
+          "green"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "violet",
+        "forbidden": [
+          "purple",
+          "colour",
+          "flower",
+          "blue"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "reflection",
+        "forbidden": [
+          "mirror",
+          "light",
+          "see",
+          "water"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "waterfall mist",
+        "forbidden": [
+          "spray",
+          "sprinkler",
+          "white",
+          "cool"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "arc",
+        "forbidden": [
+          "shape",
+          "curve",
+          "bridge",
+          "circle"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "colour band",
+        "forbidden": [
+          "line",
+          "red",
+          "blue",
+          "light"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "indigo",
+        "level": "A2"
+      },
+      {
+        "word": "spectrum",
+        "level": "A2"
+      },
+      {
+        "word": "sun shower",
+        "level": "A2"
+      },
+      {
+        "word": "soap bubble",
+        "level": "A1"
+      },
+      {
+        "word": "glass prism",
+        "level": "A2"
+      },
+      {
+        "word": "garden hose",
+        "level": "A1"
+      },
+      {
+        "word": "sprinkler",
+        "level": "A1"
+      },
+      {
+        "word": "water spray",
+        "level": "A1"
+      },
+      {
+        "word": "mirror",
+        "level": "A1"
+      },
+      {
+        "word": "colour wheel",
+        "level": "A2"
+      },
+      {
+        "word": "sunlight",
+        "level": "A1"
+      },
+      {
+        "word": "rainbow trout",
+        "level": "A2"
+      },
+      {
+        "word": "colouring pencil",
+        "level": "A1"
+      },
+      {
+        "word": "light ray",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "prism",
+        "decoy": "mirror",
+        "level": "A1"
+      },
+      {
+        "word": "rainbow",
+        "decoy": "colour wheel",
+        "level": "A2"
+      },
+      {
+        "word": "red",
+        "decoy": "orange",
+        "level": "A1"
+      },
+      {
+        "word": "sunbeam",
+        "decoy": "lightning",
+        "level": "A1"
+      },
+      {
+        "word": "mist",
+        "decoy": "spray",
+        "level": "A1"
+      },
+      {
+        "word": "reflection",
+        "decoy": "shadow",
+        "level": "A2"
+      },
+      {
+        "word": "arc",
+        "decoy": "circle",
+        "level": "A1"
+      },
+      {
+        "word": "spectrum",
+        "decoy": "rainbow arc",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "soap bubble",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "prism",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "sprinkler",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "mirror",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "colouring pencil",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "sunlight",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "rainbow trout",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "waterfall mist",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-water-cycle",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "water",
+        "forbidden": [
+          "drink",
+          "wet",
+          "river",
+          "sea"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "evaporation",
+        "forbidden": [
+          "heat",
+          "air",
+          "cloud",
+          "turn"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "condensation",
+        "forbidden": [
+          "cool",
+          "water",
+          "air",
+          "drops"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "water vapour",
+        "forbidden": [
+          "gas",
+          "air",
+          "hot",
+          "see"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rain",
+        "forbidden": [
+          "cloud",
+          "wet",
+          "fall",
+          "sky"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "puddle",
+        "forbidden": [
+          "ground",
+          "water",
+          "small",
+          "jump"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "steam",
+        "forbidden": [
+          "hot",
+          "kettle",
+          "air",
+          "white"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cloud",
+        "forbidden": [
+          "sky",
+          "white",
+          "rain",
+          "water"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sunshine",
+        "forbidden": [
+          "light",
+          "warm",
+          "day",
+          "bright"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "drain",
+        "forbidden": [
+          "pipe",
+          "water",
+          "street",
+          "down"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "reservoir",
+        "forbidden": [
+          "store",
+          "water",
+          "large",
+          "dam"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rain gauge",
+        "forbidden": [
+          "measure",
+          "weather",
+          "tool",
+          "amount"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "droplet",
+        "forbidden": [
+          "tiny",
+          "water",
+          "fall",
+          "round"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "waterfall",
+        "forbidden": [
+          "river",
+          "down",
+          "rock",
+          "splash"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "tap",
+        "level": "A1"
+      },
+      {
+        "word": "well",
+        "level": "A1"
+      },
+      {
+        "word": "fountain",
+        "level": "A1"
+      },
+      {
+        "word": "water tower",
+        "level": "A2"
+      },
+      {
+        "word": "water tank",
+        "level": "A1"
+      },
+      {
+        "word": "ice cube",
+        "level": "A1"
+      },
+      {
+        "word": "dew",
+        "level": "A2"
+      },
+      {
+        "word": "fog",
+        "level": "A1"
+      },
+      {
+        "word": "rain barrel",
+        "level": "A2"
+      },
+      {
+        "word": "gutter",
+        "level": "A2"
+      },
+      {
+        "word": "cloudburst",
+        "level": "A2"
+      },
+      {
+        "word": "wetland",
+        "level": "A2"
+      },
+      {
+        "word": "water pipe",
+        "level": "A1"
+      },
+      {
+        "word": "irrigation canal",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "vapour",
+        "decoy": "steam",
+        "level": "A2"
+      },
+      {
+        "word": "evaporation",
+        "decoy": "condensation",
+        "level": "A2"
+      },
+      {
+        "word": "puddle",
+        "decoy": "puddle pool",
+        "level": "A1"
+      },
+      {
+        "word": "reservoir",
+        "decoy": "water tower",
+        "level": "A2"
+      },
+      {
+        "word": "rain barrel",
+        "decoy": "water tank",
+        "level": "A1"
+      },
+      {
+        "word": "dew",
+        "decoy": "frost",
+        "level": "A2"
+      },
+      {
+        "word": "well",
+        "decoy": "spring",
+        "level": "A2"
+      },
+      {
+        "word": "gutter",
+        "decoy": "drain",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "tap",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "ice cube",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "fountain",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "rain barrel",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "water tower",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "well",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "dew",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "cloudburst",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-plant-growth",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "seed",
+        "forbidden": [
+          "plant",
+          "small",
+          "soil",
+          "grow"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "root",
+        "forbidden": [
+          "ground",
+          "plant",
+          "under",
+          "drink"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "stem",
+        "forbidden": [
+          "plant",
+          "green",
+          "flower",
+          "hold"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "shoot",
+        "forbidden": [
+          "new",
+          "plant",
+          "up",
+          "grow"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "seedling",
+        "forbidden": [
+          "small",
+          "young",
+          "plant",
+          "soil"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "soil",
+        "forbidden": [
+          "dirt",
+          "ground",
+          "plant",
+          "garden"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "flower",
+        "forbidden": [
+          "petal",
+          "colour",
+          "plant",
+          "bloom"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bud",
+        "forbidden": [
+          "flower",
+          "small",
+          "open",
+          "green"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "watering can",
+        "forbidden": [
+          "pour",
+          "plant",
+          "garden",
+          "container"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "compost",
+        "forbidden": [
+          "food",
+          "scraps",
+          "soil",
+          "rot"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sunflower",
+        "forbidden": [
+          "bright",
+          "tall",
+          "plant",
+          "seed"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "vine",
+        "forbidden": [
+          "climb",
+          "plant",
+          "long",
+          "green"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "garden bed",
+        "forbidden": [
+          "soil",
+          "rows",
+          "plant",
+          "home"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pollinator",
+        "forbidden": [
+          "bee",
+          "flower",
+          "pollen",
+          "visit"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "sprout",
+        "level": "A1"
+      },
+      {
+        "word": "root hair",
+        "level": "A2"
+      },
+      {
+        "word": "gardener",
+        "level": "A1"
+      },
+      {
+        "word": "plant pot",
+        "level": "A1"
+      },
+      {
+        "word": "greenhouse",
+        "level": "A2"
+      },
+      {
+        "word": "shovel",
+        "level": "A1"
+      },
+      {
+        "word": "watering hose",
+        "level": "A1"
+      },
+      {
+        "word": "bean",
+        "level": "A1"
+      },
+      {
+        "word": "acorn",
+        "level": "A1"
+      },
+      {
+        "word": "weed",
+        "level": "A1"
+      },
+      {
+        "word": "mulch",
+        "level": "A2"
+      },
+      {
+        "word": "orchard",
+        "level": "A2"
+      },
+      {
+        "word": "vegetable patch",
+        "level": "A2"
+      },
+      {
+        "word": "trellis",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "seed",
+        "decoy": "bulb",
+        "level": "A1"
+      },
+      {
+        "word": "shoot",
+        "decoy": "sprout",
+        "level": "A2"
+      },
+      {
+        "word": "root",
+        "decoy": "stem",
+        "level": "A1"
+      },
+      {
+        "word": "bud",
+        "decoy": "seed pod",
+        "level": "A2"
+      },
+      {
+        "word": "compost",
+        "decoy": "mulch",
+        "level": "A2"
+      },
+      {
+        "word": "vine",
+        "decoy": "ivy",
+        "level": "A2"
+      },
+      {
+        "word": "greenhouse",
+        "decoy": "garden bed",
+        "level": "A2"
+      },
+      {
+        "word": "sunflower",
+        "decoy": "daisy",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "acorn",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "bean",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "shovel",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "greenhouse",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "weed",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "plant pot",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "orchard",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "trellis",
         "kind": "thing",
         "level": "A2"
       }
