@@ -1173,5 +1173,146 @@
     "courseId": "teens-future-jobs",
     "title": "My Next Step",
     "level": "B1"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "Nell is choosing an activity for the school sports afternoon. Her friend wants to join a large football team, but Nell would rather try badminton. She likes games with short turns and a clear space to cover. “Does that mean you dislike working with people?” her friend asks. Nell explains that badminton can involve a partner too. What matters to her is having time to practice a movement before using it in a match. She has watched other students warm up, hit the shuttle and collect it when a rally ends. She has not yet learned how to control her shots. On her first sport card, she writes the activity, who can play and one reason it might suit her. The teacher reminds her that a first choice is not a permanent label. She can try another activity later. Nell keeps her card so she can give a more useful invitation to a newcomer at the course's end.",
+    "words": [
+      {
+        "word": "badminton",
+        "meaning": "a game hitting a shuttle over a net"
+      },
+      {
+        "word": "shuttle",
+        "meaning": "the object hit in badminton"
+      },
+      {
+        "word": "rally",
+        "meaning": "a series of hits during a game"
+      },
+      {
+        "word": "permanent",
+        "meaning": "lasting without a planned ending"
+      },
+      {
+        "word": "newcomer",
+        "meaning": "someone who has recently joined"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Which activity does Nell choose?",
+        "a": "badminton"
+      },
+      {
+        "q": "What has Nell not learned to control?",
+        "a": "her shots"
+      },
+      {
+        "q": "What does she keep?",
+        "a": "her card"
+      }
+    ],
+    "talk": [
+      "Why might one sport suit the way you like to learn?",
+      "What could trying a different activity teach you about yourself?"
+    ],
+    "courseId": "teens-sport",
+    "title": "One Sport for Me",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 3,
+    "text": "A school has enough space for one sports club after lessons. The current club plays only basketball. Hana argues for a wider choice. Some students want team matches, while others would prefer running, dance or individual practice. A choice could bring in people who do not enjoy the present club. Joel supports the idea but asks how it would work. The school has limited equipment and only two adults available to supervise. Offering every activity at once could leave groups without enough guidance. Hana proposes changing the activity each month instead. Joel worries that beginners would lose practice just as they started to improve. The group considers keeping one regular club and adding occasional trial sessions. That plan still needs a room, a timetable and somebody to lead it. Their debate shows that “more choice” can mean several different things. Before making a request, they decide to ask students which activities they would actually attend.",
+    "words": [
+      {
+        "word": "individual",
+        "meaning": "for one person rather than a group"
+      },
+      {
+        "word": "supervise",
+        "meaning": "watch and guide people doing an activity"
+      },
+      {
+        "word": "guidance",
+        "meaning": "help in deciding or learning something"
+      },
+      {
+        "word": "trial",
+        "meaning": "a chance to try before deciding"
+      },
+      {
+        "word": "attend",
+        "meaning": "go to and take part in"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Which sport does the current club play?",
+        "a": "basketball"
+      },
+      {
+        "q": "How many adults can supervise?",
+        "a": "two"
+      },
+      {
+        "q": "What does Hana propose changing each month?",
+        "a": "the activity"
+      }
+    ],
+    "talk": [
+      "Which version of a wider sports choice would be practical?",
+      "How could a school listen to students without promising more than it can offer?"
+    ],
+    "courseId": "teens-sport",
+    "title": "More Ways to Join",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Nell is helping a new student choose a sports session. She brings the badminton card she wrote earlier, but now adds details from practice. “You hit a shuttle across a net,” she explains. “You can play with a partner, and you take turns serving.” The newcomer says he is nervous about making mistakes in front of others. Nell suggests a practice court where students work on short rallies before keeping score. She does not promise that badminton is easy or right for everyone. He will need suitable shoes, space around the court and help with the first movements. She explains why it suits her: she enjoys quick decisions and seeing a shot improve after repeated practice. Then she asks what he enjoys. He prefers moving with one partner to joining a big team. They agree to try one supervised session and talk afterward. Nell's invitation now gives useful information, a personal reason and an honest chance to decide.",
+    "words": [
+      {
+        "word": "serving",
+        "meaning": "starting a point by hitting the shuttle"
+      },
+      {
+        "word": "nervous",
+        "meaning": "worried about what might happen"
+      },
+      {
+        "word": "court",
+        "meaning": "a marked area for playing a sport"
+      },
+      {
+        "word": "suitable",
+        "meaning": "right for a particular purpose"
+      },
+      {
+        "word": "repeated",
+        "meaning": "done again and again"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does Nell suggest before keeping score?",
+        "a": "short rallies"
+      },
+      {
+        "q": "What does the newcomer prefer to a big team?",
+        "a": "one partner"
+      },
+      {
+        "q": "What do they agree to try?",
+        "a": "one supervised session"
+      }
+    ],
+    "talk": [
+      "How would you invite a newcomer without putting pressure on them?",
+      "Which practical details would make your sport recommendation more useful?"
+    ],
+    "courseId": "teens-sport",
+    "title": "My Sport Invitation",
+    "level": "B1"
   }
 ]

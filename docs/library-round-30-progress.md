@@ -15,3 +15,4 @@ Texts are written individually for each lesson's topic and flight. Opening and c
 - kids-helpers: 2 texts; course checker passes.
 - teens-social-media: 3 texts; course checker passes.
 - teens-future-jobs: 3 texts; course checker passes.
+- teens-sport: 3 texts; course checker passes.
