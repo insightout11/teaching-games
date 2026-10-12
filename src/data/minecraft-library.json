@@ -26,7 +26,7 @@
   },
   {
     "id": "minecraft-crafting",
-    "title": "The Complete Crafting Guide",
+    "title": "Starting a Minecraft Survival World",
     "speaker": "wattles",
     "youtubeId": "ASfVaQH_1kI",
     "durationSecs": 734,
@@ -37,8 +37,8 @@
       "practical"
     ],
     "difficultyLevel": "Easy",
-    "description": "A complete walkthrough of Minecraft's crafting system — recipes, materials, and everything you can make.",
-    "summary": "This wattles video provides a comprehensive tour of *Minecraft's crafting system* — one of the game's most fundamental mechanics. Wattles is known for his energetic but clear delivery and beginner-friendly approach, making his content accessible to new players and English language learners alike.\n\nThe video begins by explaining the *crafting table* — a 3x3 grid where players arrange *ingredients* in specific *patterns* to create items. The placement of materials follows exact *recipes*, most of which have a visual logic: a sword is made by stacking two gems vertically with a stick handle; a pickaxe has three materials across the top and two stick 'legs' below.\n\nThe *crafting progression* is introduced: players begin with *wood-tier tools* (pickaxe, axe, shovel, hoe, sword), upgrade to *stone*, then *iron*, *gold*, *diamond*, and eventually *netherite* — the strongest material in the game. Each tier requires different *ores* that must be mined at specific *depths* in the world.\n\n*Tool categories* are explained: *pickaxes* for mining stone and ore, *axes* for chopping wood (and as combat weapons), *shovels* for digging dirt and sand, *hoes* for farming, and *swords* for fighting mobs. *Armour* — *helmet*, *chestplate*, *leggings*, *boots* — provides protection and is crafted with the same tier system.\n\nBeyond tools and armour, the video covers *utility crafting*: *chests* for storage, *furnaces* for *smelting* ores and cooking food, *beds* for setting your *respawn point* and skipping the night, *bookshelves* for *enchanting*, and *brewing stands* for *potions*.\n\n*Food crafting* is briefly covered: *bread* from wheat, *cake*, *cookies*, *golden apples* and other recipes. The concept of *stacking* items (most stack up to 64 in one inventory slot) is explained alongside inventory management tips.\n\nThe friendly, fast-paced narration and visual clarity make this video ideal for A2–B1 learners who want practical vocabulary in a gaming context.",
+    "description": "Waddles starts a survival world and makes basic tools, a furnace and a campfire, with food gathering and early-world decisions.",
+    "summary": "Waddles starts a survival world and makes basic tools, a furnace and a campfire, with food gathering and early-world decisions.",
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
@@ -51,7 +51,7 @@
   },
   {
     "id": "minecraft-building",
-    "title": "Building Your First House in Minecraft",
+    "title": "Minecraft Beginner Survival Guide",
     "speaker": "Farzy",
     "youtubeId": "wrXkC6jF-J0",
     "durationSecs": 678,
@@ -62,8 +62,8 @@
       "creativity"
     ],
     "difficultyLevel": "Easy",
-    "description": "A beginner's guide to building a proper house in Minecraft — planning, materials, interior design, and practical tips.",
-    "summary": "This Farzy video guides viewers through building their first proper *house* in Minecraft, moving beyond the basic dirt hut of night one to create a genuinely attractive and functional base. Farzy's calm, friendly delivery and clear instructions make this video accessible for beginner players and English language learners.\n\nThe video begins with *choosing a location* — flat ground is easiest for beginners, but the surrounding *biome* (forest, plains, desert, snowy tundra) affects which materials look best and what resources are nearby. The host explains the importance of *accessibility* (near resources) and *aesthetics* (the view from your door).\n\n*Planning* the house is introduced: sketching a rough *floor plan* before placing any blocks. The video recommends starting with a rectangle of manageable size — roughly 9x7 blocks — and thinking about room functions before building.\n\n*Material selection* is given careful attention. The video introduces the concept of a *colour palette* — choosing two or three complementary block types for exterior walls, *roof*, *trim*, and *detailing*. Common beginner combinations include *oak wood planks* with *cobblestone*, or *spruce planks* with *stone bricks*. The lesson explains how using a variety of textures makes buildings look more interesting.\n\nBuilding the *walls*, *windows* (using *glass panes*), *doors*, and *roof* is shown step by step. *Roof styles* are covered: the simple flat roof, the *gabled roof*, and the *hip roof*, with the gabled style recommended as the best balance of simplicity and appearance for beginners.\n\n*Interior design* vocabulary is introduced: *flooring*, *ceiling height*, *furniture* (using in-game blocks creatively as tables, chairs, and shelves), *lighting* (torches, *lanterns*, *sea lanterns*), and *storage* (chests, barrels).\n\n*Exterior details* — a *garden*, *pathways*, *fencing*, and *outdoor lighting* — transform a basic box into a proper home. The video uses encouraging language throughout, suitable for A2–B1 English learners.",
+    "description": "A broad Minecraft beginner guide introduces basic play, tools, mining and building a starter house.",
+    "summary": "A broad Minecraft beginner guide introduces basic play, tools, mining and building a starter house.",
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "teens",
@@ -76,29 +76,27 @@
   },
   {
     "id": "minecraft-redstone",
-    "title": "Introduction to Redstone",
+    "title": "Getting Started in Minecraft",
     "speaker": "Mumbo Jumbo",
     "youtubeId": "BEH_fMgRNrc",
     "durationSecs": 723,
     "topicTags": [
       "minecraft",
       "gaming",
-      "redstone",
-      "technology"
+      "survival",
+      "crafting"
     ],
-    "difficultyLevel": "Easy",
-    "description": "Learn the basics of Minecraft's redstone system — the in-game equivalent of electrical circuits — with beginner-friendly explanations.",
-    "summary": "This video introduces viewers to *redstone* — Minecraft's *electrical circuit system* that allows players to build *automated machines*, *hidden doors*, *traps*, *farms*, and incredibly complex *computational devices*. Redstone is often compared to real-world electronics, making this video a useful bridge between gaming and technology vocabulary.\n\nThe video starts by explaining what redstone *actually is* in the game: a *resource* mined from *redstone ore* found deep underground. When placed on the ground, it functions as *wire*, carrying a *signal* (analogous to electricity) from a *power source* to a *device*.\n\n*Power sources* are introduced: the *lever* (stays on when toggled), the *button* (gives a brief pulse), the *pressure plate* (activated by standing on it), the *tripwire* (activated by walking through it), and the *daylight sensor* (activated by sunlight). Each has different use cases explained with practical examples.\n\n*Signal transmission* is covered: redstone *dust* carries a signal up to 15 blocks before it weakens to zero. A *redstone repeater* can extend the signal another 15 blocks and can also introduce *delays* (used in timing circuits). The concept of *signal strength* is explained simply.\n\n*Basic components* are introduced one by one: the *redstone lamp* (lights up when powered), the *piston* (extends to push blocks), the *sticky piston* (pulls blocks back), the *dispenser* (fires items when powered), and the *dropper* (drops items). These components are the building blocks of most beginner *redstone builds*.\n\nSimple *practical builds* are constructed during the video: a basic *automatic door* (two pistons that open when you step on a pressure plate), a *hidden staircase*, and a *simple farm* with water flow control. These demonstrate how abstract redstone concepts translate into genuinely useful in-game creations.\n\nThe clear explanations and logical structure make this video excellent for A2–B1 learners interested in technology and problem-solving vocabulary.",
+    "difficultyLevel": "Intermediate",
+    "description": "Capp00 introduces starting a Minecraft world, gathering wood, crafting and making early stone tools.",
+    "summary": "Capp00 introduces starting a Minecraft world, gathering wood, crafting and making early stone tools.",
     "genre": "expository",
-    "cefr": "A2",
+    "cefr": "B1",
     "ageBand": "teens",
     "series": {
       "id": "round10-teens-a2-gaming",
       "title": "A2 Teens: Minecraft Survival Skills",
       "order": 4
     },
-    "flightQuestion": "Could redstone circuits make a Minecraft house more useful?",
-    "hidden": true,
-    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. Capp00 introduces starting Minecraft, wood planks, crafting and stone tools; the complete caption contains no redstone or circuit explanation. Suggested action: Retitle to Getting Started in Minecraft, or verify and replace the wrong video/"
+    "flightQuestion": "Could redstone circuits make a Minecraft house more useful?"
   }
 ]

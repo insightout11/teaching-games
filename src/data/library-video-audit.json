@@ -1948,16 +1948,16 @@
     "note": "Pixlriffs starts a survival world, gathers logs and constructs shelter as claimed. The extended spontaneous gamer narration makes A2 demanding and the duration should be reviewed, but a clearly wrong language level is uncertain."
   },
   "minecraft-library.json/minecraft-crafting": {
-    "status": "partial",
-    "note": "Evidence: Waddles calls this the first episode of a new survival adventure and crafts basic tools, a furnace and campfire; this is not everything you can make in a complete crafting walkthrough. Suggested action: Retitle to Starting a Minecraft Survival World and narrow the crafting promise; verify duration."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Waddles calls this the first episode of a new survival adventure and crafts basic tools, a furnace and campfire; this is not everything you can make in a complete crafting walkthrough. Changed fields: title, description, summary. Video identity and duration preserved."
   },
   "minecraft-library.json/minecraft-building": {
-    "status": "partial",
-    "note": "Evidence: The caption introduces an everything-including-basics Minecraft 2023 beginner guide and covers tools, mining and a house, rather than a house-focused planning/interior-design tutorial. Suggested action: Retitle to Minecraft Beginner Survival Guide and describe the broader scope; verify duration."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The caption introduces an everything-including-basics Minecraft 2023 beginner guide and covers tools, mining and a house, rather than a house-focused planning/interior-design tutorial. Changed fields: title, description, summary. Video identity and duration preserved."
   },
   "minecraft-library.json/minecraft-redstone": {
-    "status": "mismatch",
-    "note": "Evidence: Capp00 introduces starting Minecraft, wood planks, crafting and stone tools; the complete caption contains no redstone or circuit explanation. Suggested action: Retitle to Getting Started in Minecraft, or verify and replace the wrong video/cache pairing."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. Capp00 introduces starting Minecraft, wood planks, crafting and stone tools; the complete caption contains no redstone or circuit explanation. Changed fields: title, topicTags, difficultyLevel, description, summary, cefr, hidden, hiddenNote. Video identity and duration preserved."
   },
   "natgeo-library.json/natgeo-wolves-change-rivers": {
     "status": "ok",
