@@ -8,10 +8,12 @@ import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit
 import { speak, warmUpSpeech } from '@/lib/speech';
 import { useSessionStore } from '@/stores/session-store';
 
-// Fix the Captain: the captain's cabin announcements (chime + voice + text on screen) each hide
+// Fix the Captain: the captain's cabin announcements (chime + voice) each hide
 // ONE grammar mistake. Phones have a "Found it!" button; the first student to tap says the fix
 // out loud. Teacher: ✓ reveals the correction (and scores), ✗ passes to the next in the queue.
 // "Show the fix" when nobody gets it, which records the miss in the lesson thread (struggles).
+// It is a LISTENING activity: the words stay off the screen until the teacher shows them (or the fix is revealed),
+// except for beginner classes, who get the words from the start as reading support.
 
 type Phase = 'idle' | 'announce' | 'fixed' | 'done';
 type Buzz = { clientId: string; studentId: string | null; name: string };
@@ -53,7 +55,7 @@ function Announcement({ item, fixed }: { item: FixTheCaptainItem; fixed: boolean
   );
 }
 
-export function FixTheCaptainActivity({ generatedContent, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange, isMicroEvent }: ActivityProps) {
+export function FixTheCaptainActivity({ generatedContent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange, isMicroEvent }: ActivityProps) {
   const content = generatedContent as FixTheCaptainContent;
   const all = content.announcements ?? [];
   const items = isMicroEvent ? all.slice(0, 2) : all;
@@ -66,6 +68,9 @@ export function FixTheCaptainActivity({ generatedContent, onSetInputSpec, onRegi
   const [fixedBy, setFixedBy] = useState<string | null>(null);
   const [tally, setTally] = useState<Record<string, number>>({});
   const [missed, setMissed] = useState(0);
+  // Which announcement the teacher has put the words up for (none by default: listen first).
+  const [wordsShownFor, setWordsShownFor] = useState<number | null>(null);
+  const readingSupport = sessionSettings?.difficulty === 'Beginner';
   const token = useRef(0);
 
   const item = items[idx];
@@ -179,6 +184,7 @@ export function FixTheCaptainActivity({ generatedContent, onSetInputSpec, onRegi
 
   if (!item) return null;
   const fixed = phase === 'fixed';
+  const wordsVisible = fixed || wordsShownFor === idx || readingSupport;
   return (
     <div className="mx-auto max-w-5xl space-y-5 text-white">
       <div className="flex items-center justify-between">
@@ -188,7 +194,19 @@ export function FixTheCaptainActivity({ generatedContent, onSetInputSpec, onRegi
 
       <div className="relative overflow-hidden rounded-3xl border border-amber-300/30 bg-gradient-to-b from-slate-900/90 to-slate-950/90 px-8 pb-10 pt-6">
         <p className="mb-6 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-amber-300/80"><Megaphone className="h-4 w-4" />Cabin announcement</p>
-        <p className="font-display text-4xl leading-[1.6]"><Announcement item={item} fixed={fixed} /></p>
+        {wordsVisible ? (
+          <p className="font-display text-4xl leading-[1.6]"><Announcement item={item} fixed={fixed} /></p>
+        ) : (
+          <div className="flex flex-col items-center gap-5 py-6 text-center">
+            <div className="flex h-16 items-end gap-1.5" aria-hidden>
+              {[0.5, 0.9, 0.65, 1, 0.7, 0.85, 0.45, 0.75, 0.55].map((h, i) => (
+                <motion.span key={i} className="w-2 rounded-full bg-amber-300/80" animate={{ height: [`${h * 30}%`, `${h * 100}%`, `${h * 45}%`] }} transition={{ duration: 0.9 + i * 0.07, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }} style={{ height: `${h * 60}%` }} />
+              ))}
+            </div>
+            <p className="font-display text-4xl">Listen carefully.</p>
+            <p className="text-lg text-white/60">One mistake is hiding in this announcement.</p>
+          </div>
+        )}
         {fixed && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6 text-lg text-white/70">{item.explanation}</motion.p>}
       </div>
 
@@ -209,7 +227,10 @@ export function FixTheCaptainActivity({ generatedContent, onSetInputSpec, onRegi
       {fixed && fixedBy && <p className="text-center text-2xl text-emerald-200">Fixed by {fixedBy}!</p>}
 
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <KitButton tone="plain" onClick={() => readOut(item, false)} icon={<RotateCcw className="h-3.5 w-3.5" />}>Hear it again</KitButton>
+        <div className="flex flex-wrap gap-2">
+          <KitButton tone="plain" onClick={() => readOut(item, false)} icon={<RotateCcw className="h-3.5 w-3.5" />}>Hear it again</KitButton>
+          {!wordsVisible && <KitButton tone="plain" onClick={() => setWordsShownFor(idx)} icon={<Eye className="h-3.5 w-3.5" />}>Show the words</KitButton>}
+        </div>
         {fixed
           ? <KitButton tone="amber" solid onClick={next} className="!px-5 !py-2 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>{idx + 1 < items.length ? 'Next announcement' : 'Finish'}</KitButton>
           : <KitButton tone="plain" onClick={showFix} icon={<Eye className="h-3.5 w-3.5" />}>Show the fix</KitButton>}

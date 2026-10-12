@@ -11,8 +11,8 @@ import { findTopicBriefing } from '@/lib/topic-briefings';
 interface Deck {
   topicId: string;
   ageBand: string;
-  taboo: Array<{ word: string; forbidden: string[]; level: string }>;
-  hotSeat: Array<{ word: string; level: string }>;
+  taboo: Array<{ word: string; forbidden: string[]; level: string; description?: string }>;
+  hotSeat: Array<{ word: string; level: string; description?: string }>;
   twentyQuestions: Array<{ secret: string; kind: string; level: string }>;
 }
 
@@ -37,14 +37,14 @@ function pick<T extends { level: string }>(cards: T[], difficulty: string | unde
 export function deckTabooRounds(topic: string, difficulty?: string, count = 8): TabooRound[] | null {
   const deck = deckFor(topic);
   if (!deck?.taboo.length) return null;
-  return pick(deck.taboo, difficulty, count).map((card) => ({ word: card.word, description: '', forbiddenWords: card.forbidden.slice(0, 4) }));
+  return pick(deck.taboo, difficulty, count).map((card) => ({ word: card.word, description: card.description ?? '', forbiddenWords: card.forbidden.slice(0, 4) }));
 }
 
 /** Hot Seat words for a banked topic (the whole class gives clues, so there are no forbidden words). */
 export function deckHotSeatCards(topic: string, difficulty?: string, count = 8): TabooRound[] | null {
   const deck = deckFor(topic);
   if (!deck?.hotSeat.length) return null;
-  return pick(deck.hotSeat, difficulty, count).map((card) => ({ word: card.word, description: '', forbiddenWords: [] }));
+  return pick(deck.hotSeat, difficulty, count).map((card) => ({ word: card.word, description: card.description ?? '', forbiddenWords: [] }));
 }
 
 const KIND_CATEGORY: Record<string, 'person' | 'place' | 'thing' | 'concept'> = { job: 'person', place: 'place', activity: 'concept' };

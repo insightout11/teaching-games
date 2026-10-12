@@ -75,3 +75,38 @@ One entry per lesson, keyed `"<destination.id>/<focus.id>"` exactly as `WORLD_DE
   `designUse` will be sent back, as round 28 was.
 - Run the validators, `pnpm test src/lib src/data` and `tsc`.
 - Only touch `src/data/world-flight/focus-evidence.json`, the new validator in `scripts/`, and `docs/`.
+
+---
+
+## Part B (same round, separate commits): two things from round 32 that still need work
+
+Round 32 is merged. The descriptions are good (specific, child-sized, almost none repeated) and are now shown in
+Taboo Sprint and Hot Seat. Two parts are not in use yet, because they are not good enough to put in front of a class:
+
+### B1. Imposter questions were made by swapping one word
+Most pairs change a single word of the crew question, and the result is often a question nobody could answer:
+- crew: "What kind of company may begin with a small team?" / imposter: "What kind of company may **finish** with a small team?"
+- crew: "Who might give feedback **after** buying a new product?" / imposter: "…**before** buying a new product?"
+
+Rewrite every `imposterQuestion` as a real, different question whose natural answers overlap with the crew's:
+- crew: "What do you take with you when it rains?" / imposter: "What do you take with you to the beach?"
+  (both get short answers like "a hat", "a bag", "a towel"; a careful listener notices "sunscreen").
+- The imposter question must be a sensible question in its own right. Read it alone: if it sounds odd, rewrite it.
+- It asks about a **neighbouring situation**, not the same sentence with an opposite word.
+- Also vary the `hint`: "everyday objects" is used 30 times. A hint names the category of that word.
+- Validator: fail when the two questions differ by fewer than 3 words; report the 20 most similar pairs.
+
+### B2. Hot Seat and Twenty Questions still hold invented phrases
+Only 278 of 2,100 Hot Seat words changed, and 2,463 two-word entries remain. Many are not things anyone says:
+"trail register", "orienteering flag", "hiking sock", "camp mug", "startup budget", "analyst desk", "product sample".
+Also, each deck's Twenty Questions secrets are just eight of its Hot Seat words.
+- Hot Seat: prefer ONE-word targets a class can reach from clues (compass, tent, blister, waterfall, backpack).
+  Keep a two-word entry only when it is a fixed everyday phrase (sleeping bag, traffic light, ice cream).
+  Target: at least 9 of the 14 are single words.
+- Twenty Questions: 8 secrets that are **not** in the deck's Hot Seat or Taboo lists, each a single familiar
+  thing, place, animal, job or food.
+- Validator: enforce both rules above; fail a deck with fewer than 9 single-word Hot Seat entries or any Twenty
+  Questions secret that also appears in its Hot Seat or Taboo list.
+- Report how many entries you replaced this time, and paste 4 decks' Hot Seat and Twenty Questions lists.
+
+For Part B only, you may edit `src/data/topic-game-decks.json` and `scripts/validate-topic-game-decks.ts`.
