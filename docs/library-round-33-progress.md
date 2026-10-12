@@ -29,3 +29,7 @@ Authored 30 more entries (120 total) from each lesson’s own material. Strong m
 ## Batch 5: Rio de Janeiro, Mexico City, Buenos Aires, Los Angeles, Jakarta
 
 Authored 30 more entries (150 total). Entries distinguish Carnival’s shared cultural influences from samba schools’ project work, and preserve Rio’s housing-clearance mechanism without presenting residents through a poverty stereotype. Mexico City’s food-tour interviews are untranslated in the English captions, so that entry stays narrow and thin. Jakarta’s flood evidence includes land/relocation disagreements actually stated in the report. Partial checks pass.
+
+## Batch 6: Lagos, Hong Kong, Amsterdam, Honolulu, Miami
+
+Authored 30 more entries (180 total), reading all captions and lesson texts. Hong Kong’s rail/property model is grounded in its own transcript; housing-standard costs are grounded in tenants’ reported displacement fears. Honolulu’s entries distinguish regional Hawaiian cultural material from specific coast and watershed mechanisms. No historical video claims are presented as new forecasts or current numerical rankings. Partial checks pass with zero errors.

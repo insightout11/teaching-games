@@ -1533,5 +1533,315 @@
       "community"
     ],
     "tradeoffInferred": true
+  },
+  "lagos/local-city-video": {
+    "keyIdea": "Lagos' Lekki Conservation Center offers canopy walks and wildlife within the busy city, giving people a nearby natural escape.",
+    "tradeoff": "Traffic can make reaching places for leisure stressful even within the city.",
+    "designUse": "Connect crowded urban areas with accessible places for nature and quiet.",
+    "investigationTags": [
+      "nature",
+      "public space",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "lagos/mass-transit-video": {
+    "keyIdea": "Lagos commuters use boats to avoid slow roads, while transport plans aim to connect water, road, and rail services.",
+    "tradeoff": "Funding and implementation problems can prevent a transport plan from working.",
+    "designUse": "Combine faster water journeys with road and rail connections in one plan.",
+    "investigationTags": [
+      "transport",
+      "urban planning",
+      "water"
+    ]
+  },
+  "lagos/market-video": {
+    "keyIdea": "Lagos' Lekki Market gives craftspeople places to sell goods, while residents and visitors meet local art and traditions.",
+    "tradeoff": "Sellers need suitable materials and paying customers to keep their work going.",
+    "designUse": "Link craft selling with chances for customers to understand materials and makers.",
+    "investigationTags": [
+      "art",
+      "economics",
+      "culture"
+    ],
+    "tradeoffInferred": true
+  },
+  "lagos/lagoon-transport": {
+    "keyIdea": "Lagos' lagoon geography makes useful movement depend on links between islands, mainland roads, bridges, and water routes.",
+    "tradeoff": "Slow or costly connections can keep residents away from work and education.",
+    "designUse": "Map complete journeys across water and land rather than separate vehicle routes.",
+    "investigationTags": [
+      "transport",
+      "geography",
+      "systems thinking"
+    ]
+  },
+  "lagos/nollywood-city": {
+    "keyIdea": "Lagos' film production depends on writers, editors, drivers, and other workers as well as the stars audiences recognize.",
+    "tradeoff": "Workers face risks when audience demand, costs, or technology change quickly.",
+    "designUse": "Include support workers and distribution needs when planning a local creative industry.",
+    "investigationTags": [
+      "culture",
+      "economics",
+      "daily life"
+    ]
+  },
+  "lagos/market-enterprise": {
+    "keyIdea": "Lagos' market sellers use knowledge of goods and customers to organize busy trading spaces and build livelihoods.",
+    "tradeoff": "Crowding and noise can make it harder for unfamiliar buyers to communicate.",
+    "designUse": "Make price and quality discussions understandable even in crowded trading areas.",
+    "investigationTags": [
+      "functional english",
+      "economics",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "hong-kong/animated-history-video": {
+    "keyIdea": "Hong Kong shifted towards manufacturing and financial services when restrictions reduced its older trade links with mainland China.",
+    "tradeoff": "Growth also brought inequality and very crowded living conditions for poorer residents.",
+    "designUse": "Develop alternative industries while checking whether incoming workers can find decent homes.",
+    "investigationTags": [
+      "history",
+      "economics",
+      "housing"
+    ]
+  },
+  "hong-kong/transport-system-video": {
+    "keyIdea": "Hong Kong's MTR earns from buildings and shops around stations, using that income to maintain and expand railways.",
+    "tradeoff": "The model relies on suitable property around stations and businesses attracting customers.",
+    "designUse": "Fund rail improvements through the value created around well-connected stations.",
+    "investigationTags": [
+      "transport",
+      "economics",
+      "urban planning"
+    ],
+    "tradeoffInferred": true
+  },
+  "hong-kong/housing-video": {
+    "keyIdea": "Hong Kong's proposed minimum housing standards aim to improve tiny rooms, but tenants worry about losing affordable places.",
+    "tradeoff": "Upgrades can increase rents or displace residents without protection and replacement housing.",
+    "designUse": "Pair minimum housing standards with tenant protection and affordable alternatives.",
+    "investigationTags": [
+      "housing",
+      "ethics",
+      "government"
+    ]
+  },
+  "hong-kong/country-parks": {
+    "keyIdea": "Hong Kong's protected country parks keep hills, beaches, and trails close to people living in dense neighborhoods.",
+    "tradeoff": "Protecting natural areas requires continuing care alongside pressure from city use.",
+    "designUse": "Keep protected trails and green areas connected to dense residential districts.",
+    "investigationTags": [
+      "nature",
+      "geography",
+      "public space"
+    ],
+    "tradeoffInferred": true
+  },
+  "hong-kong/harbour-reclamation": {
+    "keyIdea": "Hong Kong adds land around its harbour to make space for roads, homes, offices, and public places.",
+    "tradeoff": "More land reduces water area and can change views people value.",
+    "designUse": "Compare new land uses with the water space and views they replace.",
+    "investigationTags": [
+      "urban planning",
+      "water",
+      "housing"
+    ]
+  },
+  "hong-kong/cha-chaan-teng": {
+    "keyIdea": "Hong Kong's cha chaan teng cafes mix different food influences with quick service that fits busy city routines.",
+    "tradeoff": "A marketable food image can simplify the history behind an ordinary meal.",
+    "designUse": "Offer quick everyday meals that keep mixed local food traditions visible.",
+    "investigationTags": [
+      "food culture",
+      "daily life",
+      "identity"
+    ]
+  },
+  "amsterdam/city-history-video": {
+    "keyIdea": "Amsterdam's early settlers used dikes and a river dam to make a flood-prone place suitable for a growing settlement.",
+    "tradeoff": "Building in a wet setting creates an ongoing need to manage water.",
+    "designUse": "Make water control part of a settlement's first layout, not a later addition.",
+    "investigationTags": [
+      "history",
+      "water",
+      "engineering"
+    ],
+    "tradeoffInferred": true
+  },
+  "amsterdam/cycling-video": {
+    "keyIdea": "Amsterdam reduced parking and closed some streets to cars, giving walking and cycling priority after pressure over road deaths.",
+    "tradeoff": "Better conditions for bikes deliberately make some journeys less convenient for drivers.",
+    "designUse": "Use slower shared streets and car limits to make cycling practical.",
+    "investigationTags": [
+      "transport",
+      "urban design",
+      "public space"
+    ]
+  },
+  "amsterdam/canals-video": {
+    "keyIdea": "Amsterdam uses boats with special cranes to clear canal debris, maintaining waterways that also carry boats and floating homes.",
+    "tradeoff": "Objects dropped into canals create repeated cleaning work for the city.",
+    "designUse": "Include access for cleaning equipment when designing active urban waterways.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "daily life"
+    ]
+  },
+  "amsterdam/canal-ring-planning": {
+    "keyIdea": "Amsterdam's canal ring joined trade, drainage, housing, and movement in one planned system that still shapes city life.",
+    "tradeoff": "Old layouts must keep serving new users while important historic features remain.",
+    "designUse": "Combine several city functions when planning a durable water-based street layout.",
+    "investigationTags": [
+      "urban planning",
+      "history",
+      "water"
+    ],
+    "tradeoffInferred": true
+  },
+  "amsterdam/water-management": {
+    "keyIdea": "Amsterdam combines canals, pumps, dikes, and local water management to keep places safe for living, travel, and building.",
+    "tradeoff": "Structures need upkeep and public cooperation, even when their work is hard to notice.",
+    "designUse": "Keep water-control equipment supported by maintenance routines and local knowledge.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "climate"
+    ]
+  },
+  "amsterdam/museum-choices": {
+    "keyIdea": "Amsterdam's museum displays shape which histories people see, including the trade and money that made art possible.",
+    "tradeoff": "Focusing only on beauty can hide where objects came from and who paid.",
+    "designUse": "Show objects' origins and funding alongside their appearance and artistic qualities.",
+    "investigationTags": [
+      "museums",
+      "history",
+      "economics"
+    ]
+  },
+  "honolulu/hula-story-video": {
+    "keyIdea": "Hawaiian hula keeps stories alive through dancers who learn to move together and share responsibility for the tradition.",
+    "tradeoff": "Treating the dance only as a hobby can hide its cultural responsibility.",
+    "designUse": "Teach shared performance as a responsibility to stories, not only entertainment.",
+    "investigationTags": [
+      "culture",
+      "identity",
+      "heritage"
+    ],
+    "tradeoffInferred": true
+  },
+  "honolulu/spam-musubi-video": {
+    "keyIdea": "Hawaiian musubi makers combine Japanese rice-snack traditions with local fillings, creating portable food that fits everyday demand.",
+    "tradeoff": "Customers from different backgrounds may expect different fillings and portion sizes.",
+    "designUse": "Adapt a portable food format while explaining different local versions.",
+    "investigationTags": [
+      "food culture",
+      "identity",
+      "daily life"
+    ]
+  },
+  "honolulu/city-history-video": {
+    "keyIdea": "Honolulu's sheltered harbour brought ships, goods, and ideas, helping the city grow as an important Pacific stopping place.",
+    "tradeoff": "Trade and plantation wealth also came with exploitation and pressure on local people.",
+    "designUse": "Assess port growth through workers' lives and local relationships as well as trade.",
+    "investigationTags": [
+      "geography",
+      "history",
+      "economics"
+    ]
+  },
+  "honolulu/ahupuaa-land-and-water": {
+    "keyIdea": "Honolulu's older ahupuaa framework links upland forests, streams, farms, and coastal waters through the movement of water downhill.",
+    "tradeoff": "Treating each property separately can miss effects reaching streams and reefs below.",
+    "designUse": "Plan from ridge to reef so upstream choices protect downstream places.",
+    "investigationTags": [
+      "water",
+      "environment",
+      "geography"
+    ],
+    "tradeoffInferred": true
+  },
+  "honolulu/waikiki-changing-coast": {
+    "keyIdea": "Honolulu's Waikiki beach combines altered waterways, buildings, and added sand, making its famous coast both natural and maintained.",
+    "tradeoff": "Protecting buildings can restrict sand movement, while replacing sand requires repeated spending.",
+    "designUse": "Leave room for coastal movement when balancing beach use and nearby buildings.",
+    "investigationTags": [
+      "environment",
+      "water",
+      "urban planning"
+    ]
+  },
+  "honolulu/pearl-harbor-memory": {
+    "keyIdea": "Honolulu's Pearl Harbor uses preserved ships, names, and quiet spaces to connect a working harbour with memory of war.",
+    "tradeoff": "The arrangement of memorials shapes which experiences of the conflict receive most attention.",
+    "designUse": "Arrange working historic sites with quiet places and varied personal accounts.",
+    "investigationTags": [
+      "history",
+      "heritage",
+      "museums"
+    ]
+  },
+  "miami/little-havana-video": {
+    "keyIdea": "Miami's Little Havana coffee windows give different generations places to exchange news, debate politics, and maintain Cuban community ties.",
+    "tradeoff": "Strong community symbols may not capture every generation's different experience.",
+    "designUse": "Create small meeting points where familiar food supports everyday community conversation.",
+    "investigationTags": [
+      "migration",
+      "community",
+      "food culture"
+    ],
+    "tradeoffInferred": true
+  },
+  "miami/everglades-video": {
+    "keyIdea": "South Florida's Everglades carry rainwater, support wildlife, and refill underground drinking-water supplies used by communities around Miami.",
+    "tradeoff": "Development and changed water flows can dry wetlands and threaten both wildlife and water supply.",
+    "designUse": "Restore wetland water flows as part of drinking-water and flood planning.",
+    "investigationTags": [
+      "water",
+      "environment",
+      "science"
+    ]
+  },
+  "miami/rapid-transit-video": {
+    "keyIdea": "Miami's express-bus plan combines dedicated lanes and sheltered, cooled stops to make journeys easier in heavy traffic and heat.",
+    "tradeoff": "Rail was considered too costly for existing passenger demand in the corridor.",
+    "designUse": "Choose expandable transit stops that address heat while serving current passenger demand.",
+    "investigationTags": [
+      "transport",
+      "urban planning",
+      "climate"
+    ]
+  },
+  "miami/art-deco-preservation": {
+    "keyIdea": "Miami Beach protected older Art Deco hotels as a shared collection, turning threatened buildings into a recognizable neighborhood identity.",
+    "tradeoff": "Restoration attracts new uses and audiences, so preservation still changes the area.",
+    "designUse": "Retain characteristic building features while updating systems for practical modern uses.",
+    "investigationTags": [
+      "architecture",
+      "heritage",
+      "urban change"
+    ]
+  },
+  "miami/rising-water": {
+    "keyIdea": "Miami's porous ground lets floodwater move beneath barriers, so protection must combine drainage, raised roads, and other measures.",
+    "tradeoff": "Raised streets can redirect water, while pumps require power and upkeep.",
+    "designUse": "Match flood defenses to ground conditions and check where displaced water goes.",
+    "investigationTags": [
+      "water",
+      "climate",
+      "engineering"
+    ]
+  },
+  "miami/languages-of-arrival": {
+    "keyIdea": "Miami's speakers choose languages for family, work, and public life, connecting neighborhoods with several places and cultures.",
+    "tradeoff": "Language ability can still limit access to jobs and public services.",
+    "designUse": "Provide language choices that reflect real users of local offices and businesses.",
+    "investigationTags": [
+      "language",
+      "migration",
+      "identity"
+    ]
   }
 }
