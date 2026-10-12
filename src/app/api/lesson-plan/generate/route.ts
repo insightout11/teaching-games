@@ -12,7 +12,7 @@ import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-ann
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON as _generateJSON } from '@/lib/ai';
 import { collectContentIssues, noteContentIssue } from '@/lib/content-health';
-import { describeVerdict, verifyMultipleChoice } from '@/lib/mcq-verify';
+import { describeVerdict, verifyMultipleChoice, type McqItem } from '@/lib/mcq-verify';
 import type { AISchema } from '@/lib/ai';
 import { bulkSemaphore } from '@/lib/ai/concurrency';
 import { requireAuthForGeneration } from '@/lib/auth-credits';
@@ -122,7 +122,7 @@ import { getCachedContent, storeCachedContent, groundingVariant } from '@/lib/co
 import { validateDeck, lessonGroundedRatio } from '@/activities/cargo-hold/content-validation';
 import { buildFallbackDeck } from '@/activities/cargo-hold/fallback-deck';
 import type { SourceMaterial } from '@/types/source-material';
-import { buildSourceContext, getGapFillMode, fetchSourceTranscript } from '@/lib/source-context';
+import { buildSourceContext, extractPlainText, getGapFillMode, fetchSourceTranscript } from '@/lib/source-context';
 import { findGrammarClip } from '@/lib/grammar-clips';
 import { normalizePastedSourceMaterial } from '@/lib/pasted-source';
 import { buildSourceGroundingContract, type SourceGroundingContract } from '@/lib/source-grounding';
@@ -456,7 +456,9 @@ Mix of true facts and plausible myths. Include explanation and 2-3 vocabulary wo
 Make claims progressively harder to guess (by content, not by harder vocabulary).`;
 
   const parsed = await generateJSON<{ claims: FactDetectiveContent['claims'] }>(prompt, schema);
-  return { activityKey: 'fact-detective', topicContext: topic, claims: parsed.claims };
+  // True or false is checked independently too: a claim the check finds unclear, or marked the wrong way, is dropped.
+  const claims = await keepVerified('fact-detective', parsed.claims ?? [], (claim) => ({ question: `True or false: "${claim.statement}"`, options: ['True', 'False'], correctIndex: claim.isTrue ? 0 : 1 }), { topic, material: sourceContext.trim() || undefined, min: 4 });
+  return { activityKey: 'fact-detective', topicContext: topic, claims };
 }
 
 async function generateExpertPanel(topic: string, difficulty: Difficulty, n: number = 9, missionContext?: string[], sourceContext = ''): Promise<ExpertPanelContent> {
@@ -1367,6 +1369,28 @@ const RADIO_SEGMENT_SCHEMA = {
   keyLine: { type: 'string' },
 } as const;
 
+/**
+ * Keep only the items whose answer passes the independent blind check (see lib/mcq-verify). Dropped items are noted
+ * for the content-health report. If the check would leave fewer than `min`, the originals are kept: an activity
+ * that cannot run is worse than one unchecked item.
+ */
+async function keepVerified<T>(
+  activity: string,
+  items: T[],
+  toMcq: (item: T) => McqItem,
+  opts: { material?: string; topic?: string; min: number },
+): Promise<T[]> {
+  if (!items.length) return items;
+  const mcqs = items.map(toMcq);
+  const verdicts = await verifyMultipleChoice(mcqs, { material: opts.material, topic: opts.topic });
+  const kept = items.filter((_, i) => {
+    if (verdicts[i].ok) return true;
+    noteContentIssue({ kind: 'rejected', activity, reason: `question dropped: ${describeVerdict(mcqs[i], verdicts[i])}` });
+    return false;
+  });
+  return kept.length >= Math.min(opts.min, items.length) ? kept : items;
+}
+
 /** Debate v2: the lesson's motion — a checked one when the topic matches, else generated, else a fallback. */
 async function generateDebateMotion(topic: string, difficulty: Difficulty, sourceCtx: string): Promise<DebateMotion> {
   const topicId = findTopicBriefing(topic)?.id;
@@ -1611,7 +1635,9 @@ Return JSON: { "segments": [...] }.`;
       }
       segments.sort((a, b) => (a.start ?? 0) - (b.start ?? 0));
       if (segments.length >= 2) {
-        return { activityKey: 'radio-check', topicContext: topic, title: source?.title ?? topic, mode: 'video', youtubeId, segments: segments.slice(0, 4) };
+        // Each answer is checked against the transcript before the class hears the clip.
+        const checked = await keepVerified('radio-check', segments.slice(0, 5), (seg) => ({ question: seg.question, options: seg.options, correctIndex: seg.correctIndex, context: seg.keyLine || undefined }), { material: rawTranscript ? extractPlainText(rawTranscript) : undefined, topic, min: 2 });
+        return { activityKey: 'radio-check', topicContext: topic, title: source?.title ?? topic, mode: 'video', youtubeId, segments: checked.slice(0, 4) };
       }
     } catch { /* fall through to voice mode */ }
   }
@@ -1649,7 +1675,9 @@ Return JSON: { "segments": [...] }.`;
       const { options, correctIndex } = shuffleOptions(raw, Math.max(0, Math.min(s.correctIndex ?? 0, raw.length - 1)));
       return { question: s.question, options, correctIndex, keyLine: s.keyLine ?? '', script: s.script };
     });
-  return { activityKey: 'radio-check', topicContext: topic, title: topic, mode: 'voice', segments };
+  // Each answer is checked against its own passage before the class hears it.
+  const checked = await keepVerified('radio-check', segments, (seg) => ({ question: seg.question, options: seg.options, correctIndex: seg.correctIndex, context: seg.script }), { topic, min: 2 });
+  return { activityKey: 'radio-check', topicContext: topic, title: topic, mode: 'voice', segments: checked };
 }
 
 
