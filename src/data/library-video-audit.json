@@ -539,6 +539,46 @@
     "status": "ok",
     "note": "Not yet, effort, learning from errors and growth-oriented classrooms match Dweck’s mindset talk; occasional caption errors do not erase its meaning."
   },
+  "business-english-library.json/business-emails": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحباً ، ادعى جينا و أهلاً”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: The Arabic introduction says job-interview questions, not the entry’s professional email-writing subject. Verify the cache/video pairing before retitling."
+  },
+  "business-english-library.json/business-meetings": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحباً؛ أنا مايك أهلاً بكم في”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: The Arabic introduction says writing an email, not the entry’s business-meeting subject. Verify the cache/video pairing before retitling."
+  },
+  "business-english-library.json/business-presentations": {
+    "status": "mismatch",
+    "note": "Evidence: The cache explicitly teaches formal email openings, purpose, appointments and closings, not giving presentations or Q&A. Suggested action: Retitle to Formal Email Phrases after verifying the video/cache identity."
+  },
+  "business-english-library.json/business-interviews": {
+    "status": "mismatch",
+    "note": "Evidence: Martin introduces teamwork, task assignment, deadlines and clarification phrases, not common job interview answers. Suggested action: Retitle to English for Team Projects and rewrite the description."
+  },
+  "business-english-library.json/business-interview-prepare-bbc": {
+    "status": "ok",
+    "note": "Anna’s sales interview and pride/planning examples match BBC interview preparation. Webpage framing surrounds a usable full dialogue."
+  },
+  "business-english-library.json/business-interview-answering-bbc": {
+    "status": "ok",
+    "note": "Anna replaces a forgotten word and structures reasons with firstly/secondly/above all, matching answering interviews."
+  },
+  "business-english-library.json/business-interview-competency-british-council": {
+    "status": "ok",
+    "note": "Creativity/conflict questions and STAR situation/task/action/result explain competency answers."
+  },
+  "business-english-library.json/business-networking": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبا .. أنا \"مايك\" وأهلاً بكم”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: The Arabic introduction says talking about your job and workplace, rather than networking-event introductions/follow-up. Verify the cache/video pairing before retitling."
+  },
+  "business-english-library.json/business-phone": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored captions are Chinese-script translation (“嗨，我是Oli。 欢迎使用牛津在线英”), so the English speech and level cannot be checked. The translated introduction also says this is a small-talk lesson, not a telephone lesson. Suggested action: Remove from English-caption selection until English captions are cached; recheck the stated topic where noted."
+  },
+  "business-english-library.json/business-negotiating": {
+    "status": "mismatch",
+    "note": "Evidence: The 4,841-word cache joins BBC work-topic programmes about office return, self-employment, bossless firms and product lifecycle; it is not a negotiation-language lesson. Suggested action: Verify the video/cache pairing and replace or retitle the source as a work-topic compilation."
+  },
   "crash-course-library.json/cc-ww1-overview": {
     "status": "weak-captions",
     "note": "Evidence: the stored text is an Arabic-script translation, beginning “مرحبًا، أنا جون غرين وهذه سلسلة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."

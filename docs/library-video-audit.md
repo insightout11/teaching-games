@@ -15,7 +15,7 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 12/18; judged entries: 606/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 13/18; judged entries: 616/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
@@ -24,6 +24,7 @@ Completed libraries: 12/18; judged entries: 606/641. Cached inventory captured a
 | bbc-ideas-library.json | 10 | 7 | 1 | 1 | 0 | 0 | 1 |
 | bbc-library.json | 115 | 86 | 1 | 9 | 19 | 0 | 0 |
 | bigthink-library.json | 10 | 6 | 2 | 2 | 0 | 0 | 0 |
+| business-english-library.json | 10 | 3 | 3 | 0 | 4 | 0 | 0 |
 | crash-course-library.json | 14 | 1 | 0 | 1 | 11 | 0 | 1 |
 | grammar-library.json | 89 | 77 | 0 | 4 | 8 | 0 | 0 |
 | hooks-library.json | 60 | 53 | 1 | 4 | 2 | 0 | 0 |
@@ -33,7 +34,7 @@ Completed libraries: 12/18; judged entries: 606/641. Cached inventory captured a
 | natgeo-library.json | 13 | 2 | 0 | 3 | 7 | 0 | 1 |
 | ted-library.json | 20 | 1 | 0 | 0 | 19 | 0 | 0 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
-| **TOTAL** | **606** | 429 | 6 | 27 | 133 | 0 | 11 |
+| **TOTAL** | **616** | 432 | 9 | 27 | 137 | 0 | 11 |
 
 ## Non-ok entries, grouped by library
 
@@ -87,6 +88,18 @@ Completed libraries: 12/18; judged entries: 606/641. Cached inventory captured a
 | bigthink_free_will_pinker | Free Will: Is It an Illusion? | partial | The full cache distinguishes conscious choices from reflexes and rejects a mysterious soul, but never discusses morality or law as promised.  | Narrow the description to brain processes, conscious choice and reflexes. |
 | bigthink_psychology_happiness | The Psychology of Happiness | mismatch | The full caption explains receiving feedback through baseline, emotional swing, recovery and distortions; it is not a guide to predicting what makes us happy.  | Retitle to Why People React Differently to Feedback and rewrite the description. |
 | bigthink_evolution_intelligence | The Evolution of Human Intelligence | partial | The full caption covers thumbs, predator eyesight, language and making chimpanzees more intelligent through genes; it never discusses artificial intelligence.  | Remove the AI promise and describe evolution plus hypothetical primate gene changes. |
+
+### business-english-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| business-emails | Writing Professional Emails in English | weak-captions | the stored text is an Arabic-script translation, beginning “مرحباً ، ادعى جينا و أهلاً”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: The Arabic introduction says job-interview questions, not the entry’s professional email-writing subject. Verify the cache/video pairing before retitling. |
+| business-meetings | English for Meetings | weak-captions | the stored text is an Arabic-script translation, beginning “مرحباً؛ أنا مايك أهلاً بكم في”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: The Arabic introduction says writing an email, not the entry’s business-meeting subject. Verify the cache/video pairing before retitling. |
+| business-presentations | Giving Presentations in English | mismatch | The cache explicitly teaches formal email openings, purpose, appointments and closings, not giving presentations or Q&A.  | Retitle to Formal Email Phrases after verifying the video/cache identity. |
+| business-interviews | Job Interview English | mismatch | Martin introduces teamwork, task assignment, deadlines and clarification phrases, not common job interview answers.  | Retitle to English for Team Projects and rewrite the description. |
+| business-networking | Networking in English | weak-captions | the stored text is an Arabic-script translation, beginning “مرحبا .. أنا "مايك" وأهلاً بكم”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: The Arabic introduction says talking about your job and workplace, rather than networking-event introductions/follow-up. Verify the cache/video pairing before retitling. |
+| business-phone | Telephone English for Business | weak-captions | the stored captions are Chinese-script translation (“嗨，我是Oli。 欢迎使用牛津在线英”), so the English speech and level cannot be checked. The translated introduction also says this is a small-talk lesson, not a telephone lesson.  | Remove from English-caption selection until English captions are cached; recheck the stated topic where noted. |
+| business-negotiating | Negotiating in English | mismatch | The 4,841-word cache joins BBC work-topic programmes about office return, self-employment, bossless firms and product lifecycle; it is not a negotiation-language lesson.  | Verify the video/cache pairing and replace or retitle the source as a work-topic compilation. |
 
 ### crash-course-library.json
 
