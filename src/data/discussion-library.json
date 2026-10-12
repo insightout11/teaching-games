@@ -1139,7 +1139,7 @@
       "culture"
     ],
     "genre": "expository",
-    "difficultyLevel": "Elementary",
+    "difficultyLevel": "Easy",
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
@@ -1166,7 +1166,7 @@
       "culture"
     ],
     "genre": "expository",
-    "difficultyLevel": "Elementary",
+    "difficultyLevel": "Easy",
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
@@ -1374,7 +1374,7 @@
       "cities"
     ],
     "genre": "expository",
-    "difficultyLevel": "Upper Intermediate",
+    "difficultyLevel": "Advanced",
     "cefr": "B2",
     "ageBand": "kids",
     "place": null,
@@ -1403,7 +1403,7 @@
       "geography"
     ],
     "genre": "expository",
-    "difficultyLevel": "Upper Intermediate",
+    "difficultyLevel": "Advanced",
     "cefr": "B2",
     "ageBand": "kids",
     "place": null,
@@ -1433,7 +1433,7 @@
       "school"
     ],
     "genre": "expository",
-    "difficultyLevel": "Upper Intermediate",
+    "difficultyLevel": "Advanced",
     "cefr": "B2",
     "ageBand": "kids",
     "place": null,
@@ -1463,7 +1463,7 @@
       "school"
     ],
     "genre": "expository",
-    "difficultyLevel": "Upper Intermediate",
+    "difficultyLevel": "Advanced",
     "cefr": "B2",
     "ageBand": "kids",
     "place": null,
@@ -1492,7 +1492,7 @@
       "society"
     ],
     "genre": "expository",
-    "difficultyLevel": "Upper Intermediate",
+    "difficultyLevel": "Advanced",
     "cefr": "B2",
     "ageBand": "kids",
     "place": null,
@@ -1522,7 +1522,7 @@
       "cities"
     ],
     "genre": "expository",
-    "difficultyLevel": "Upper Intermediate",
+    "difficultyLevel": "Advanced",
     "cefr": "B2",
     "ageBand": "kids",
     "place": null,
@@ -1726,7 +1726,7 @@
       "cities"
     ],
     "genre": "expository",
-    "difficultyLevel": "Elementary",
+    "difficultyLevel": "Easy",
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
@@ -1752,7 +1752,7 @@
       "cities"
     ],
     "genre": "expository",
-    "difficultyLevel": "Elementary",
+    "difficultyLevel": "Easy",
     "cefr": "A2",
     "ageBand": "teens",
     "place": null,
@@ -1777,7 +1777,7 @@
       "nature"
     ],
     "genre": "expository",
-    "difficultyLevel": "Upper Intermediate",
+    "difficultyLevel": "Advanced",
     "cefr": "B2",
     "ageBand": "teens",
     "place": null,
@@ -1802,7 +1802,7 @@
       "nature"
     ],
     "genre": "expository",
-    "difficultyLevel": "Upper Intermediate",
+    "difficultyLevel": "Advanced",
     "cefr": "B2",
     "ageBand": "teens",
     "place": null,
@@ -1831,7 +1831,7 @@
       "society"
     ],
     "genre": "expository",
-    "difficultyLevel": "Upper Intermediate",
+    "difficultyLevel": "Advanced",
     "cefr": "B2",
     "ageBand": "teens",
     "place": null,
@@ -1860,7 +1860,7 @@
       "family"
     ],
     "genre": "expository",
-    "difficultyLevel": "Upper Intermediate",
+    "difficultyLevel": "Advanced",
     "cefr": "B2",
     "ageBand": "teens",
     "place": null,
