@@ -18,7 +18,7 @@ import { PlaneLayer } from './layers/plane-layer';
 import { AmbientLayer } from './layers/ambient-layer';
 import { CinematicOverlay } from './layers/cinematic-overlay';
 import { WeatherLayer } from './layers/weather-layer';
-import { CityLighting } from './layers/lighting-layer';
+import { CityLighting, SunRays } from './layers/lighting-layer';
 import { atmosphereLayout } from './layers/atmosphere-layer';
 import { primaryLight, skyDiscs } from './sky-light';
 import { WEATHER_PROFILE } from './weather';
@@ -202,6 +202,8 @@ export function DestinationArrivalScene({
       <g transform={cameraTransform} data-cinematic-camera>
       {/* Full-canvas: sky (tier 1) */}
       {!transparentSky && <AtmosphereLayer {...propsFor('atmosphere')} />}
+      {/* Sun rays: behind the city and the ground, so buildings and hills stand in front of them */}
+      <SunRays {...propsFor('sunrays')} />
       {/* Focal background landmark — farthest, pans least on takeoff */}
       <g transform={focalAt(0.18)}>{landmarkAt('background')}</g>
       {/* Terrain base bands — full-canvas, FIXED (flat colour, no pan reference) */}

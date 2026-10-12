@@ -15,23 +15,54 @@ function mood(props: SceneLayerProps): { time: TimeOfDay; warm: number; open: nu
 }
 
 /**
- * The sun's light on the city, shared by every scene: a warm wash that grows toward the sun, soft rays through the
- * haze, and the buildings settling into the ground with a contact shadow. By night the city's own glow lifts its
- * base. Sits above the city and below the runway; everything fades out as the cloud thickens.
+ * Soft rays fanning out from the sun through the haze. Drawn right after the sky and BEFORE the landmarks, skyline and
+ * ground, so buildings and hills stand in front of them: the rays only show in the gaps, as they would. The sun does
+ * not move when the takeoff camera does, so neither do they.
  */
-export function CityLighting(props: SceneLayerProps) {
+export function SunRays(props: SceneLayerProps) {
   const { palette, idPrefix, ambient, sun } = props;
   const { time, warm, open } = mood(props);
-  const night = time === 'night';
-  const top = LAYOUT.horizonY - 400;
-  const base = LAYOUT.apronY;
-
-  // Rays fan out from the sun and fade before they reach the ground.
-  const rays = !sun ? [] : Array.from({ length: 6 }, (_, i) => {
+  if (!sun || time === 'night' || open <= 0) return null;
+  const rays = Array.from({ length: 6 }, (_, i) => {
     const spread = (i - 2.5) * 0.34;
     const reach = 1500 + (i % 3) * 260;
     return { x2: sun.x + Math.sin(spread) * reach, y2: sun.y + Math.cos(spread) * reach * 0.62, w: 70 + (i % 3) * 36, dur: 7 + i * 1.7, o: 0.55 + (i % 2) * 0.3 };
   });
+  return (
+    <g aria-hidden style={{ mixBlendMode: 'screen' }} opacity={open * (0.3 + warm * 0.7)}>
+      <defs>
+        {rays.map((r, i) => (
+          <linearGradient key={i} id={`${idPrefix}-ray-${i}`} gradientUnits="userSpaceOnUse" x1={sun.x} y1={sun.y} x2={r.x2} y2={r.y2}>
+            <stop offset="0" stopColor={palette.lightColor} stopOpacity={0.22 + warm * 0.2} />
+            <stop offset="1" stopColor={palette.lightColor} stopOpacity="0" />
+          </linearGradient>
+        ))}
+      </defs>
+      {rays.map((r, i) => {
+        const poly = <polygon points={`${sun.x - 6},${sun.y} ${sun.x + 6},${sun.y} ${r.x2 + r.w},${r.y2} ${r.x2 - r.w},${r.y2}`} fill={`url(#${idPrefix}-ray-${i})`} />;
+        return ambient ? (
+          <motion.g key={i} animate={{ opacity: [r.o * 0.4, r.o, r.o * 0.4] }} transition={{ duration: r.dur, repeat: Infinity, ease: 'easeInOut' }}>
+            {poly}
+          </motion.g>
+        ) : (
+          <g key={i} opacity={r.o * 0.7}>{poly}</g>
+        );
+      })}
+    </g>
+  );
+}
+
+/**
+ * The sun's light on the city, shared by every scene: a warm wash that grows toward the sun, and the buildings
+ * settling into the ground with a contact shadow. By night the city's own glow lifts its
+ * base. Sits above the city and below the runway; everything fades out as the cloud thickens.
+ */
+export function CityLighting(props: SceneLayerProps) {
+  const { palette, idPrefix, sun } = props;
+  const { time, warm, open } = mood(props);
+  const night = time === 'night';
+  const top = LAYOUT.horizonY - 400;
+  const base = LAYOUT.apronY;
 
   return (
     <g aria-hidden>
@@ -51,12 +82,6 @@ export function CityLighting(props: SceneLayerProps) {
           <stop offset="0" stopColor="rgb(255,190,110)" stopOpacity="0" />
           <stop offset="1" stopColor="rgb(255,190,110)" stopOpacity="0.2" />
         </linearGradient>
-        {sun && rays.map((r, i) => (
-          <linearGradient key={i} id={`${idPrefix}-ray-${i}`} gradientUnits="userSpaceOnUse" x1={sun.x} y1={sun.y} x2={r.x2} y2={r.y2}>
-            <stop offset="0" stopColor={palette.lightColor} stopOpacity={0.22 + warm * 0.2} />
-            <stop offset="1" stopColor={palette.lightColor} stopOpacity="0" />
-          </linearGradient>
-        ))}
       </defs>
 
       {sun && !night && open > 0 && (
@@ -65,19 +90,6 @@ export function CityLighting(props: SceneLayerProps) {
               rather than painting over them */}
           <g style={{ mixBlendMode: 'soft-light' }} opacity={open * (0.28 + warm * 0.55)}>
             <rect x="0" y={top} width={W} height={base - top} fill={`url(#${idPrefix}-sunwash)`} />
-          </g>
-          {/* Rays through the haze */}
-          <g style={{ mixBlendMode: 'screen' }} opacity={open * (0.3 + warm * 0.7)}>
-            {rays.map((r, i) => {
-              const poly = <polygon points={`${sun.x - 6},${sun.y} ${sun.x + 6},${sun.y} ${r.x2 + r.w},${r.y2} ${r.x2 - r.w},${r.y2}`} fill={`url(#${idPrefix}-ray-${i})`} />;
-              return ambient ? (
-                <motion.g key={i} animate={{ opacity: [r.o * 0.4, r.o, r.o * 0.4] }} transition={{ duration: r.dur, repeat: Infinity, ease: 'easeInOut' }}>
-                  {poly}
-                </motion.g>
-              ) : (
-                <g key={i} opacity={r.o * 0.7}>{poly}</g>
-              );
-            })}
           </g>
         </>
       )}
@@ -90,7 +102,7 @@ export function CityLighting(props: SceneLayerProps) {
 
 /**
  * The same light on the ground, drawn by the runway layer: a sun glint across the runway, and at night warm pools
- * under the edge lights (smeared downward when the surface is wet). Skipped while the runway scrolls on takeoff.
+ * under the edge lights (smeared downward when the surface is wet). The glints are skipped while the runway scrolls on takeoff: a spot of light that stayed put under the sun would look as if it followed the plane.
  */
 export function GroundLighting(props: SceneLayerProps) {
   const { palette, idPrefix, mode, weather, sun } = props;
@@ -118,10 +130,10 @@ export function GroundLighting(props: SceneLayerProps) {
       </defs>
 
       {/* Sun (or moon) glint on the runway, under the light in the sky */}
-      {sun && (night || open > 0.2) && !wet && (
+      {sun && mode !== 'departure' && (night || open > 0.2) && !wet && (
         <ellipse cx={sun.x} cy={RUN_TOP + 74} rx={night ? 260 : 340} ry={night ? 28 : 34} fill={`url(#${idPrefix}-glint)`} opacity={night ? 0.22 : open * (0.2 + warm * 0.22)} />
       )}
-      {sun && !night && open > 0.2 && !wet && (
+      {sun && mode !== 'departure' && !night && open > 0.2 && !wet && (
         <ellipse cx={sun.x} cy={LAYOUT.apronY + 34} rx={420} ry={22} fill={`url(#${idPrefix}-glint)`} opacity={open * (0.12 + warm * 0.18)} />
       )}
 
