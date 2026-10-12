@@ -580,12 +580,12 @@
     "note": "Round 36 metadata corrected from cached English evidence. The 4,841-word cache joins BBC work-topic programmes about office return, self-employment, bossless firms and product lifecycle; it is not a negotiation-language lesson. Changed fields: title, topicTags, description, summary, hidden, hiddenNote. Video identity and duration preserved."
   },
   "crash-course-library.json/cc-ww1-overview": {
-    "status": "partial",
-    "note": "Evidence: The opening explicitly says this episode explains how WWI happened and the next video treats the war itself. Suggested action: Correct the entry to the actual subject."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The opening explicitly says this episode explains how WWI happened and the next video treats the war itself. Changed fields: title, description, summary. Video identity and duration preserved."
   },
   "crash-course-library.json/cc-ww2-overview": {
-    "status": "level-off",
-    "note": "Evidence: The 2,467-word caption uses unscaffolded terms such as Judeo-Bolshevism, non-aggression pact and totalitarian aggression within a dense account of military strategy, exceeding the stored B1 label. Suggested action: Raise to B2 after checking delivery."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The 2,467-word caption uses unscaffolded terms such as Judeo-Bolshevism, non-aggression pact and totalitarian aggression within a dense account of military strategy, exceeding the stored B1 label. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "crash-course-library.json/cc-psychology-intro": {
     "status": "ok",
@@ -600,8 +600,8 @@
     "note": "Refreshed English cache: Peppered moths, inheritance and selection explain evolution."
   },
   "crash-course-library.json/cc-climate-science": {
-    "status": "partial",
-    "note": "Evidence: The climate mechanisms and consequences match, but the caption closes by naming SciShow, rather than the title’s Crash Course series. Suggested action: Correct the title/series attribution to a SciShow climate-change explainer after verifying the video/cache pairing."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The climate mechanisms and consequences match, but the caption closes by naming SciShow, rather than the title’s Crash Course series. Changed fields: title, description, summary. Video identity and duration preserved."
   },
   "crash-course-library.json/cc-sociology-intro": {
     "status": "ok",
@@ -620,8 +620,8 @@
     "note": "Refreshed English cache: Poverty, development technology, trade and workers match globalisation."
   },
   "crash-course-library.json/cc-astronomy-solarsystem": {
-    "status": "level-off",
-    "note": "Evidence: The caption explains planetesimals, gravitational formation and competing planet definitions in connected scientific language beyond A2. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The caption explains planetesimals, gravitational formation and competing planet definitions in connected scientific language beyond A2. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "crash-course-library.json/cc-media-literacy": {
     "status": "ok",
@@ -632,8 +632,8 @@
     "note": "Refreshed English cache: Representation, ratification and constitutional bargaining match compromises."
   },
   "crash-course-library.json/cc-biology-cells": {
-    "status": "level-off",
-    "note": "Evidence: The caption explains ribosomes, endoplasmic reticulum, mitochondria and cytoskeleton in connected scientific language beyond A2. Suggested action: Raise to B1."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The caption explains ribosomes, endoplasmic reticulum, mitochondria and cytoskeleton in connected scientific language beyond A2. Changed fields: difficultyLevel, cefr. Video identity and duration preserved."
   },
   "grammar-library.json/grammar-r2-aizd-rWx1Zg": {
     "status": "ok",
