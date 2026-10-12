@@ -6,6 +6,7 @@ import { validSpeakSituation } from '../src/lib/speak-check';
 import { listeningWindow, type ListeningPack } from '../src/lib/listening-pack';
 import { readingSentences } from './library-reading-sentences';
 import { validateTopicBriefings } from './library-topic-briefings-validator';
+import { validateGrammarFits } from './library-grammar-fits-validator';
 
 type Item = {
   id?: unknown;
@@ -812,6 +813,10 @@ else {
 }
 
 const topicBriefingCounts = validateTopicBriefings(dataDir, fail);
+const grammarFitAudit = validateGrammarFits(dataDir, fail);
+console.log(`Round 29 grammar audit: ${grammarFitAudit.topics} topics, ${grammarFitAudit.fits} fits; present simple ${grammarFitAudit.presentSimpleTopics}/${grammarFitAudit.topics}, question forms ${grammarFitAudit.questionTopics}/${grammarFitAudit.topics}, targets on 8+ topics ${grammarFitAudit.targetsWithEight}.`);
+console.log(`Round 29 grammar errors: repeated why ${grammarFitAudit.repeatedWhys}, repeated example ${grammarFitAudit.repeatedExamples}, form ${grammarFitAudit.formErrors}, kids target/conditional ${grammarFitAudit.kidsTargetErrors}.`);
+for (const age of ['kids', 'teens']) console.log(`Round 29 ${age} targets: ${Object.keys(grammarFitAudit.byAge[age]).sort().map((target) => `${target} ${grammarFitAudit.byAge[age][target]}`).join(', ')}.`);
 console.log(`Round 28 grammar fits: ${topicBriefingCounts.grammarFits} topics; targets ${Object.keys(topicBriefingCounts.grammarTargets).sort().map((target) => `${target} ${topicBriefingCounts.grammarTargets[target]}`).join(', ')}.`);
 console.log(`Round 28 debate links: ${round28MotionCount} motions added; teen topics ${linkedTeenTopics.size}/70, kids topics ${linkedKidsTopics.size}/80.`);
 console.log(`Round 22 picture words: ${topicBriefingCounts.shortPictureWords} topics below six, average ${topicBriefingCounts.averagePictureWords.toFixed(2)} per topic.`);
