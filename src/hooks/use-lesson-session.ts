@@ -77,11 +77,15 @@ export function getLessonPlanContent(
   persistedContent?: LessonPlanPayload | null,
 ): LessonPlanPayload | null {
   if (typeof window === 'undefined') return resolveLessonPlanPayload(persistedContent);
-  return resolveLessonPlanPayload(
-    persistedContent,
-    sessionStorage.getItem(lessonPlanStorageKey(sessionId)),
-    sessionStorage.getItem('lessonPlanContent'),
-  );
+  // Only this session's own plan. The older shared 'lessonPlanContent' key is NOT read as a fallback: it holds
+  // whatever lesson was launched last in this browser tab, and a new class session used to inherit it (Oct 2026:
+  // a room talking about unicorns got activities about carbon emissions from an earlier lesson's plan).
+  const plan = resolveLessonPlanPayload(persistedContent, sessionStorage.getItem(lessonPlanStorageKey(sessionId)));
+  // A session with no plan of its own clears that shared key, so nothing else reads a stale plan from it either.
+  if (!plan) {
+    try { sessionStorage.removeItem('lessonPlanContent'); } catch { /* storage unavailable */ }
+  }
+  return plan;
 }
 
 // ─── Hook return type ──────────────────────────────────────────────────────
@@ -847,7 +851,7 @@ export function useLessonSession(
 
       try {
         const storageKey = lessonPlanStorageKey(sessionId);
-        const stored = sessionStorage.getItem(storageKey) ?? sessionStorage.getItem('lessonPlanContent');
+        const stored = sessionStorage.getItem(storageKey);
         const parsed = stored ? JSON.parse(stored) : {};
         sessionStorage.setItem(
           storageKey,
