@@ -23038,5 +23038,2885 @@
         "level": "A1"
       }
     ]
+  },
+  {
+    "topicId": "topic-teens-video-games",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "avatar",
+        "forbidden": [
+          "player",
+          "character",
+          "screen",
+          "choose"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "level",
+        "forbidden": [
+          "stage",
+          "harder",
+          "progress",
+          "up"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "controller",
+        "forbidden": [
+          "buttons",
+          "console",
+          "hold",
+          "play"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "multiplayer",
+        "forbidden": [
+          "friends",
+          "online",
+          "together",
+          "team"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "quest",
+        "forbidden": [
+          "task",
+          "mission",
+          "complete",
+          "game"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "save point",
+        "forbidden": [
+          "pause",
+          "progress",
+          "return",
+          "place"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "open world",
+        "forbidden": [
+          "map",
+          "explore",
+          "free",
+          "game"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "power-up",
+        "forbidden": [
+          "extra",
+          "ability",
+          "collect",
+          "boost"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "respawn",
+        "forbidden": [
+          "again",
+          "after",
+          "lose",
+          "return"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "cutscene",
+        "forbidden": [
+          "story",
+          "watch",
+          "play",
+          "video"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "scoreboard",
+        "forbidden": [
+          "points",
+          "rank",
+          "players",
+          "show"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "boss fight",
+        "forbidden": [
+          "final",
+          "enemy",
+          "hard",
+          "beat"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "download",
+        "forbidden": [
+          "internet",
+          "install",
+          "file",
+          "game"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "gaming session",
+        "forbidden": [
+          "time",
+          "play",
+          "group",
+          "online"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "headset mic",
+        "level": "B1"
+      },
+      {
+        "word": "game menu",
+        "level": "B1"
+      },
+      {
+        "word": "loading screen",
+        "level": "B1"
+      },
+      {
+        "word": "multiplayer lobby",
+        "level": "B2"
+      },
+      {
+        "word": "health bar",
+        "level": "B1"
+      },
+      {
+        "word": "checkpoint",
+        "level": "B1"
+      },
+      {
+        "word": "game server",
+        "level": "B2"
+      },
+      {
+        "word": "controller cable",
+        "level": "B1"
+      },
+      {
+        "word": "voice chat",
+        "level": "B1"
+      },
+      {
+        "word": "ranked match",
+        "level": "B2"
+      },
+      {
+        "word": "game update",
+        "level": "B1"
+      },
+      {
+        "word": "pixel art",
+        "level": "B1"
+      },
+      {
+        "word": "game soundtrack",
+        "level": "B1"
+      },
+      {
+        "word": "player profile",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "avatar",
+        "decoy": "player skin",
+        "level": "B1"
+      },
+      {
+        "word": "quest",
+        "decoy": "mission",
+        "level": "B1"
+      },
+      {
+        "word": "multiplayer",
+        "decoy": "co-op",
+        "level": "B2"
+      },
+      {
+        "word": "open world",
+        "decoy": "sandbox game",
+        "level": "B2"
+      },
+      {
+        "word": "power-up",
+        "decoy": "bonus item",
+        "level": "B1"
+      },
+      {
+        "word": "respawn",
+        "decoy": "reload",
+        "level": "B2"
+      },
+      {
+        "word": "boss fight",
+        "decoy": "final level",
+        "level": "B1"
+      },
+      {
+        "word": "checkpoint",
+        "decoy": "save point",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "game controller",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "gaming headset",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "health bar",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "game server",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "game menu",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "player profile",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "ranked match",
+        "kind": "activity",
+        "level": "B2"
+      },
+      {
+        "secret": "game soundtrack",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-game-design",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "prototype",
+        "forbidden": [
+          "early",
+          "version",
+          "test",
+          "first"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mechanic",
+        "forbidden": [
+          "rule",
+          "game",
+          "action",
+          "player"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "level design",
+        "forbidden": [
+          "map",
+          "challenge",
+          "stage",
+          "plan"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "user interface",
+        "forbidden": [
+          "menu",
+          "screen",
+          "buttons",
+          "design"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "playtest",
+        "forbidden": [
+          "try",
+          "players",
+          "feedback",
+          "game"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "bug",
+        "forbidden": [
+          "error",
+          "broken",
+          "code",
+          "find"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "storyboard",
+        "forbidden": [
+          "panels",
+          "plan",
+          "draw",
+          "scene"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "game loop",
+        "forbidden": [
+          "repeat",
+          "play",
+          "cycle",
+          "action"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "character arc",
+        "forbidden": [
+          "change",
+          "story",
+          "grow",
+          "person"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "difficulty curve",
+        "forbidden": [
+          "hard",
+          "easy",
+          "gradually",
+          "levels"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "design document",
+        "forbidden": [
+          "plan",
+          "write",
+          "game",
+          "features"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "feedback",
+        "forbidden": [
+          "comments",
+          "improve",
+          "players",
+          "ideas"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "accessibility",
+        "forbidden": [
+          "include",
+          "players",
+          "options",
+          "needs"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "interface icon",
+        "forbidden": [
+          "symbol",
+          "button",
+          "screen",
+          "small"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "design notebook",
+        "level": "B1"
+      },
+      {
+        "word": "whiteboard sketch",
+        "level": "B1"
+      },
+      {
+        "word": "game engine",
+        "level": "B2"
+      },
+      {
+        "word": "bug report",
+        "level": "B2"
+      },
+      {
+        "word": "test build",
+        "level": "B1"
+      },
+      {
+        "word": "art reference",
+        "level": "B2"
+      },
+      {
+        "word": "menu screen",
+        "level": "B1"
+      },
+      {
+        "word": "dialogue tree",
+        "level": "B2"
+      },
+      {
+        "word": "animation frame",
+        "level": "B2"
+      },
+      {
+        "word": "level map",
+        "level": "B1"
+      },
+      {
+        "word": "control scheme",
+        "level": "B2"
+      },
+      {
+        "word": "player survey",
+        "level": "B2"
+      },
+      {
+        "word": "prototype controller",
+        "level": "B1"
+      },
+      {
+        "word": "character sheet",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "prototype",
+        "decoy": "demo",
+        "level": "B1"
+      },
+      {
+        "word": "mechanic",
+        "decoy": "feature",
+        "level": "B2"
+      },
+      {
+        "word": "playtest",
+        "decoy": "beta test",
+        "level": "B2"
+      },
+      {
+        "word": "storyboard",
+        "decoy": "script",
+        "level": "B2"
+      },
+      {
+        "word": "game loop",
+        "decoy": "feedback loop",
+        "level": "B2"
+      },
+      {
+        "word": "bug",
+        "decoy": "glitch",
+        "level": "B1"
+      },
+      {
+        "word": "game engine",
+        "decoy": "graphics engine",
+        "level": "B2"
+      },
+      {
+        "word": "level design",
+        "decoy": "map design",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "design notebook",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "game engine",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "bug report",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "menu screen",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "dialogue tree",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "level map",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "player survey",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "character sheet",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-esports",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "tournament",
+        "forbidden": [
+          "teams",
+          "bracket",
+          "compete",
+          "final"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "practice",
+        "forbidden": [
+          "train",
+          "repeat",
+          "improve",
+          "skill"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "team captain",
+        "forbidden": [
+          "lead",
+          "players",
+          "choose",
+          "group"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "commentator",
+        "forbidden": [
+          "talk",
+          "match",
+          "explain",
+          "live"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "streamer",
+        "forbidden": [
+          "online",
+          "video",
+          "play",
+          "audience"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "coach",
+        "forbidden": [
+          "plan",
+          "team",
+          "advice",
+          "practice"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "qualifier",
+        "forbidden": [
+          "early",
+          "round",
+          "advance",
+          "win"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "referee",
+        "forbidden": [
+          "rules",
+          "fair",
+          "watch",
+          "judge"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "team strategy",
+        "forbidden": [
+          "plan",
+          "move",
+          "opponent",
+          "win"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "broadcast",
+        "forbidden": [
+          "show",
+          "live",
+          "screen",
+          "match"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "rank",
+        "forbidden": [
+          "position",
+          "points",
+          "ladder",
+          "player"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "reaction time",
+        "forbidden": [
+          "fast",
+          "respond",
+          "eyes",
+          "skill"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "gaming venue",
+        "forbidden": [
+          "place",
+          "event",
+          "players",
+          "arena"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "esports league",
+        "forbidden": [
+          "season",
+          "teams",
+          "match",
+          "organize"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "team jersey",
+        "level": "B1"
+      },
+      {
+        "word": "gaming chair",
+        "level": "B1"
+      },
+      {
+        "word": "headset stand",
+        "level": "B1"
+      },
+      {
+        "word": "match schedule",
+        "level": "B1"
+      },
+      {
+        "word": "analyst desk",
+        "level": "B2"
+      },
+      {
+        "word": "team logo",
+        "level": "B1"
+      },
+      {
+        "word": "practice room",
+        "level": "B1"
+      },
+      {
+        "word": "championship trophy",
+        "level": "B1"
+      },
+      {
+        "word": "player draft",
+        "level": "B2"
+      },
+      {
+        "word": "live chat",
+        "level": "B1"
+      },
+      {
+        "word": "game replay",
+        "level": "B1"
+      },
+      {
+        "word": "team roster",
+        "level": "B2"
+      },
+      {
+        "word": "referee whistle",
+        "level": "B1"
+      },
+      {
+        "word": "scoreboard screen",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "tournament",
+        "decoy": "league",
+        "level": "B1"
+      },
+      {
+        "word": "coach",
+        "decoy": "analyst",
+        "level": "B1"
+      },
+      {
+        "word": "qualifier",
+        "decoy": "playoff",
+        "level": "B2"
+      },
+      {
+        "word": "commentator",
+        "decoy": "streamer",
+        "level": "B2"
+      },
+      {
+        "word": "team strategy",
+        "decoy": "game plan",
+        "level": "B2"
+      },
+      {
+        "word": "reaction time",
+        "decoy": "reflexes",
+        "level": "B2"
+      },
+      {
+        "word": "team jersey",
+        "decoy": "team uniform",
+        "level": "B1"
+      },
+      {
+        "word": "gaming venue",
+        "decoy": "arena",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "gaming chair",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "match schedule",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "team logo",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "championship trophy",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "practice room",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "player draft",
+        "kind": "activity",
+        "level": "B2"
+      },
+      {
+        "secret": "live chat",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "team roster",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-social-media",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "feed",
+        "forbidden": [
+          "posts",
+          "scroll",
+          "updates",
+          "screen"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "hashtag",
+        "forbidden": [
+          "symbol",
+          "search",
+          "topic",
+          "trend"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "follower",
+        "forbidden": [
+          "account",
+          "updates",
+          "person",
+          "audience"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "comment section",
+        "forbidden": [
+          "reply",
+          "read",
+          "post",
+          "below"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "direct message",
+        "forbidden": [
+          "private",
+          "send",
+          "chat",
+          "write"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "viral post",
+        "forbidden": [
+          "popular",
+          "spread",
+          "share",
+          "fast"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "notification",
+        "forbidden": [
+          "alert",
+          "phone",
+          "icon",
+          "sound"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "algorithm",
+        "forbidden": [
+          "recommend",
+          "system",
+          "choose",
+          "posts"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "profile picture",
+        "forbidden": [
+          "photo",
+          "account",
+          "face",
+          "show"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "trend",
+        "forbidden": [
+          "popular",
+          "now",
+          "copy",
+          "online"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "engagement",
+        "forbidden": [
+          "likes",
+          "comments",
+          "views",
+          "activity"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "content creator",
+        "forbidden": [
+          "make",
+          "video",
+          "post",
+          "person"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mute button",
+        "forbidden": [
+          "quiet",
+          "stop",
+          "alerts",
+          "press"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "group chat",
+        "forbidden": [
+          "friends",
+          "messages",
+          "send",
+          "together"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "privacy menu",
+        "level": "B2"
+      },
+      {
+        "word": "story archive",
+        "level": "B2"
+      },
+      {
+        "word": "like button",
+        "level": "B1"
+      },
+      {
+        "word": "share icon",
+        "level": "B1"
+      },
+      {
+        "word": "draft post",
+        "level": "B1"
+      },
+      {
+        "word": "caption box",
+        "level": "B1"
+      },
+      {
+        "word": "blocked account",
+        "level": "B2"
+      },
+      {
+        "word": "account settings",
+        "level": "B1"
+      },
+      {
+        "word": "content warning",
+        "level": "B2"
+      },
+      {
+        "word": "search bar",
+        "level": "B1"
+      },
+      {
+        "word": "profile bio",
+        "level": "B1"
+      },
+      {
+        "word": "report button",
+        "level": "B1"
+      },
+      {
+        "word": "comment reply",
+        "level": "B1"
+      },
+      {
+        "word": "screen time report",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "feed",
+        "decoy": "timeline",
+        "level": "B1"
+      },
+      {
+        "word": "hashtag",
+        "decoy": "keyword",
+        "level": "B1"
+      },
+      {
+        "word": "follower",
+        "decoy": "subscriber",
+        "level": "B1"
+      },
+      {
+        "word": "direct message",
+        "decoy": "private chat",
+        "level": "B1"
+      },
+      {
+        "word": "viral post",
+        "decoy": "trending post",
+        "level": "B2"
+      },
+      {
+        "word": "notification",
+        "decoy": "reminder",
+        "level": "B1"
+      },
+      {
+        "word": "algorithm",
+        "decoy": "search engine",
+        "level": "B2"
+      },
+      {
+        "word": "mute button",
+        "decoy": "block button",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "like button",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "story archive",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "privacy menu",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "caption box",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "search bar",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "account settings",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "content creator",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "group chat",
+        "kind": "activity",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-online-privacy",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "personal data",
+        "forbidden": [
+          "name",
+          "age",
+          "address",
+          "private"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "privacy setting",
+        "forbidden": [
+          "account",
+          "choose",
+          "share",
+          "control"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "permission",
+        "forbidden": [
+          "allow",
+          "app",
+          "ask",
+          "access"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "location sharing",
+        "forbidden": [
+          "map",
+          "place",
+          "phone",
+          "show"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "data trail",
+        "forbidden": [
+          "online",
+          "record",
+          "click",
+          "history"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "private account",
+        "forbidden": [
+          "public",
+          "followers",
+          "locked",
+          "profile"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "two-factor code",
+        "forbidden": [
+          "login",
+          "number",
+          "extra",
+          "security"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "consent",
+        "forbidden": [
+          "agree",
+          "permission",
+          "yes",
+          "choice"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "tracking cookie",
+        "forbidden": [
+          "website",
+          "small",
+          "follow",
+          "browser"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "secure password",
+        "forbidden": [
+          "secret",
+          "letters",
+          "login",
+          "guess"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "screen lock",
+        "forbidden": [
+          "phone",
+          "code",
+          "open",
+          "protect"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "public wifi",
+        "forbidden": [
+          "open",
+          "network",
+          "coffee",
+          "connect"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "privacy notice",
+        "forbidden": [
+          "read",
+          "website",
+          "policy",
+          "information"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "identity theft",
+        "forbidden": [
+          "someone",
+          "pretend",
+          "details",
+          "steal"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "password manager",
+        "level": "B2"
+      },
+      {
+        "word": "camera cover",
+        "level": "B1"
+      },
+      {
+        "word": "app permission",
+        "level": "B1"
+      },
+      {
+        "word": "security question",
+        "level": "B1"
+      },
+      {
+        "word": "browser history",
+        "level": "B1"
+      },
+      {
+        "word": "privacy policy",
+        "level": "B2"
+      },
+      {
+        "word": "login alert",
+        "level": "B1"
+      },
+      {
+        "word": "encrypted message",
+        "level": "B2"
+      },
+      {
+        "word": "data download",
+        "level": "B2"
+      },
+      {
+        "word": "account recovery",
+        "level": "B2"
+      },
+      {
+        "word": "incognito window",
+        "level": "B2"
+      },
+      {
+        "word": "location icon",
+        "level": "B1"
+      },
+      {
+        "word": "device list",
+        "level": "B1"
+      },
+      {
+        "word": "verification code",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "personal data",
+        "decoy": "private information",
+        "level": "B1"
+      },
+      {
+        "word": "privacy setting",
+        "decoy": "security setting",
+        "level": "B2"
+      },
+      {
+        "word": "consent",
+        "decoy": "permission",
+        "level": "B2"
+      },
+      {
+        "word": "private account",
+        "decoy": "locked profile",
+        "level": "B1"
+      },
+      {
+        "word": "tracking cookie",
+        "decoy": "browser cache",
+        "level": "B2"
+      },
+      {
+        "word": "secure password",
+        "decoy": "passphrase",
+        "level": "B2"
+      },
+      {
+        "word": "public wifi",
+        "decoy": "mobile data",
+        "level": "B1"
+      },
+      {
+        "word": "identity theft",
+        "decoy": "account takeover",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "password manager",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "camera cover",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "security question",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "browser history",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "privacy policy",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "login alert",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "encrypted message",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "device list",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-screen-time",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "screen time",
+        "forbidden": [
+          "phone",
+          "hours",
+          "device",
+          "watch"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "break reminder",
+        "forbidden": [
+          "pause",
+          "alert",
+          "stand",
+          "rest"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "blue light",
+        "forbidden": [
+          "screen",
+          "eyes",
+          "evening",
+          "glow"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "focus mode",
+        "forbidden": [
+          "notifications",
+          "quiet",
+          "study",
+          "phone"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "daily limit",
+        "forbidden": [
+          "minutes",
+          "maximum",
+          "control",
+          "app"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "bedtime setting",
+        "forbidden": [
+          "sleep",
+          "phone",
+          "night",
+          "automatic"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "device-free zone",
+        "forbidden": [
+          "no",
+          "phones",
+          "place",
+          "room"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "usage report",
+        "forbidden": [
+          "hours",
+          "screen",
+          "weekly",
+          "show"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "notification break",
+        "forbidden": [
+          "alerts",
+          "stop",
+          "rest",
+          "quiet"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "eye strain",
+        "forbidden": [
+          "tired",
+          "eyes",
+          "screen",
+          "headache"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "time tracker",
+        "forbidden": [
+          "count",
+          "hours",
+          "app",
+          "record"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "mindful pause",
+        "forbidden": [
+          "stop",
+          "breathe",
+          "notice",
+          "rest"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "screen break",
+        "forbidden": [
+          "phone",
+          "stop",
+          "rest",
+          "look"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "app timer",
+        "forbidden": [
+          "limit",
+          "minutes",
+          "close",
+          "phone"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "phone dock",
+        "level": "B1"
+      },
+      {
+        "word": "charging station",
+        "level": "B1"
+      },
+      {
+        "word": "focus timer",
+        "level": "B1"
+      },
+      {
+        "word": "analog clock",
+        "level": "B1"
+      },
+      {
+        "word": "reading lamp",
+        "level": "B1"
+      },
+      {
+        "word": "paper planner",
+        "level": "B1"
+      },
+      {
+        "word": "bedside table",
+        "level": "B1"
+      },
+      {
+        "word": "exercise mat",
+        "level": "B1"
+      },
+      {
+        "word": "notification badge",
+        "level": "B1"
+      },
+      {
+        "word": "weekly summary",
+        "level": "B2"
+      },
+      {
+        "word": "do not disturb",
+        "level": "B2"
+      },
+      {
+        "word": "alarm clock",
+        "level": "B1"
+      },
+      {
+        "word": "tablet stand",
+        "level": "B1"
+      },
+      {
+        "word": "screen filter",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "screen time",
+        "decoy": "device use",
+        "level": "B1"
+      },
+      {
+        "word": "focus mode",
+        "decoy": "do not disturb",
+        "level": "B2"
+      },
+      {
+        "word": "daily limit",
+        "decoy": "app timer",
+        "level": "B1"
+      },
+      {
+        "word": "eye strain",
+        "decoy": "headache",
+        "level": "B2"
+      },
+      {
+        "word": "usage report",
+        "decoy": "weekly summary",
+        "level": "B2"
+      },
+      {
+        "word": "mindful pause",
+        "decoy": "screen break",
+        "level": "B1"
+      },
+      {
+        "word": "blue light",
+        "decoy": "brightness",
+        "level": "B2"
+      },
+      {
+        "word": "device-free zone",
+        "decoy": "quiet room",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "focus timer",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "analog clock",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "reading lamp",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "paper planner",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "exercise mat",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "weekly summary",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "alarm clock",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "tablet stand",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-digital-footprints",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "digital footprint",
+        "forbidden": [
+          "online",
+          "trace",
+          "click",
+          "record"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "search history",
+        "forbidden": [
+          "browser",
+          "look",
+          "old",
+          "sites"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "post archive",
+        "forbidden": [
+          "old",
+          "content",
+          "save",
+          "account"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "data trail",
+        "forbidden": [
+          "record",
+          "website",
+          "activity",
+          "online"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "metadata",
+        "forbidden": [
+          "details",
+          "file",
+          "hidden",
+          "information"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "tagged photo",
+        "forbidden": [
+          "friend",
+          "mention",
+          "image",
+          "account"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "deletion request",
+        "forbidden": [
+          "remove",
+          "ask",
+          "content",
+          "website"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "public post",
+        "forbidden": [
+          "everyone",
+          "see",
+          "share",
+          "open"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "cached page",
+        "forbidden": [
+          "saved",
+          "old",
+          "copy",
+          "website"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "online reputation",
+        "forbidden": [
+          "people",
+          "think",
+          "profile",
+          "impression"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "digital record",
+        "forbidden": [
+          "stored",
+          "activity",
+          "account",
+          "history"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "old username",
+        "forbidden": [
+          "login",
+          "account",
+          "handle",
+          "profile"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "privacy audit",
+        "forbidden": [
+          "check",
+          "settings",
+          "review",
+          "account"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "location stamp",
+        "forbidden": [
+          "place",
+          "photo",
+          "where",
+          "time"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "browser cache",
+        "level": "B2"
+      },
+      {
+        "word": "old profile",
+        "level": "B1"
+      },
+      {
+        "word": "account history",
+        "level": "B1"
+      },
+      {
+        "word": "photo tag",
+        "level": "B1"
+      },
+      {
+        "word": "web search",
+        "level": "B1"
+      },
+      {
+        "word": "cookie settings",
+        "level": "B2"
+      },
+      {
+        "word": "data request",
+        "level": "B2"
+      },
+      {
+        "word": "public comment",
+        "level": "B1"
+      },
+      {
+        "word": "account deletion",
+        "level": "B2"
+      },
+      {
+        "word": "download folder",
+        "level": "B1"
+      },
+      {
+        "word": "location history",
+        "level": "B2"
+      },
+      {
+        "word": "profile link",
+        "level": "B1"
+      },
+      {
+        "word": "archive button",
+        "level": "B2"
+      },
+      {
+        "word": "online portfolio",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "digital footprint",
+        "decoy": "online identity",
+        "level": "B1"
+      },
+      {
+        "word": "search history",
+        "decoy": "browser history",
+        "level": "B1"
+      },
+      {
+        "word": "metadata",
+        "decoy": "file detail",
+        "level": "B2"
+      },
+      {
+        "word": "tagged photo",
+        "decoy": "profile picture",
+        "level": "B1"
+      },
+      {
+        "word": "cached page",
+        "decoy": "saved page",
+        "level": "B2"
+      },
+      {
+        "word": "deletion request",
+        "decoy": "account deletion",
+        "level": "B2"
+      },
+      {
+        "word": "online reputation",
+        "decoy": "public image",
+        "level": "B2"
+      },
+      {
+        "word": "location stamp",
+        "decoy": "geotag",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "browser cache",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "old profile",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "photo tag",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "cookie settings",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "download folder",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "location history",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "archive button",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "online portfolio",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-internet-memes",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "meme",
+        "forbidden": [
+          "joke",
+          "image",
+          "share",
+          "online"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "caption",
+        "forbidden": [
+          "words",
+          "below",
+          "picture",
+          "read"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "reaction image",
+        "forbidden": [
+          "face",
+          "reply",
+          "photo",
+          "feeling"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "remix",
+        "forbidden": [
+          "change",
+          "edit",
+          "version",
+          "copy"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "format",
+        "forbidden": [
+          "style",
+          "template",
+          "shape",
+          "usual"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "irony",
+        "forbidden": [
+          "opposite",
+          "meaning",
+          "joke",
+          "sarcasm"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "parody",
+        "forbidden": [
+          "copy",
+          "funny",
+          "imitate",
+          "original"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "viral joke",
+        "forbidden": [
+          "spread",
+          "online",
+          "popular",
+          "quick"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "image macro",
+        "forbidden": [
+          "photo",
+          "text",
+          "top",
+          "bottom"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "inside joke",
+        "forbidden": [
+          "group",
+          "understand",
+          "private",
+          "funny"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "trend cycle",
+        "forbidden": [
+          "popular",
+          "short",
+          "time",
+          "repeat"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "template",
+        "forbidden": [
+          "same",
+          "layout",
+          "copy",
+          "design"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "reaction meme",
+        "forbidden": [
+          "reply",
+          "face",
+          "image",
+          "comment"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "internet humour",
+        "forbidden": [
+          "online",
+          "funny",
+          "joke",
+          "people"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "meme page",
+        "level": "B1"
+      },
+      {
+        "word": "comment thread",
+        "level": "B1"
+      },
+      {
+        "word": "image editor",
+        "level": "B2"
+      },
+      {
+        "word": "reaction sticker",
+        "level": "B1"
+      },
+      {
+        "word": "funny screenshot",
+        "level": "B1"
+      },
+      {
+        "word": "share button",
+        "level": "B1"
+      },
+      {
+        "word": "viral clip",
+        "level": "B1"
+      },
+      {
+        "word": "comic panel",
+        "level": "B1"
+      },
+      {
+        "word": "caption box",
+        "level": "B1"
+      },
+      {
+        "word": "trend chart",
+        "level": "B2"
+      },
+      {
+        "word": "parody account",
+        "level": "B2"
+      },
+      {
+        "word": "emoji reply",
+        "level": "B1"
+      },
+      {
+        "word": "post draft",
+        "level": "B1"
+      },
+      {
+        "word": "format gallery",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "meme",
+        "decoy": "reaction image",
+        "level": "B1"
+      },
+      {
+        "word": "caption",
+        "decoy": "subtitle",
+        "level": "B1"
+      },
+      {
+        "word": "remix",
+        "decoy": "parody",
+        "level": "B2"
+      },
+      {
+        "word": "irony",
+        "decoy": "sarcasm",
+        "level": "B2"
+      },
+      {
+        "word": "template",
+        "decoy": "format",
+        "level": "B1"
+      },
+      {
+        "word": "viral joke",
+        "decoy": "inside joke",
+        "level": "B1"
+      },
+      {
+        "word": "image macro",
+        "decoy": "comic panel",
+        "level": "B2"
+      },
+      {
+        "word": "reaction meme",
+        "decoy": "reaction sticker",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "meme page",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "image editor",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "reaction sticker",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "funny screenshot",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "share button",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "comic panel",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "trend chart",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "parody account",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-artificial-intelligence",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "training data",
+        "forbidden": [
+          "examples",
+          "learn",
+          "model",
+          "information"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "prompt",
+        "forbidden": [
+          "ask",
+          "instruction",
+          "text",
+          "write"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "chatbot",
+        "forbidden": [
+          "message",
+          "reply",
+          "computer",
+          "talk"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "language model",
+        "forbidden": [
+          "words",
+          "pattern",
+          "AI",
+          "system"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "image generator",
+        "forbidden": [
+          "picture",
+          "create",
+          "tool",
+          "words"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "prediction",
+        "forbidden": [
+          "guess",
+          "next",
+          "likely",
+          "model"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "human review",
+        "forbidden": [
+          "person",
+          "check",
+          "answer",
+          "read"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "machine learning",
+        "forbidden": [
+          "data",
+          "train",
+          "computer",
+          "improve"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "voice assistant",
+        "forbidden": [
+          "speak",
+          "command",
+          "phone",
+          "reply"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "generated text",
+        "forbidden": [
+          "computer",
+          "write",
+          "words",
+          "automatic"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "hallucination",
+        "forbidden": [
+          "false",
+          "answer",
+          "AI",
+          "confident"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "bias",
+        "forbidden": [
+          "unfair",
+          "pattern",
+          "people",
+          "system"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "dataset",
+        "forbidden": [
+          "examples",
+          "collection",
+          "train",
+          "information"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "automated reply",
+        "forbidden": [
+          "computer",
+          "respond",
+          "instant",
+          "message"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "chat window",
+        "level": "B1"
+      },
+      {
+        "word": "voice recorder",
+        "level": "B1"
+      },
+      {
+        "word": "robot arm",
+        "level": "B1"
+      },
+      {
+        "word": "training example",
+        "level": "B2"
+      },
+      {
+        "word": "image prompt",
+        "level": "B1"
+      },
+      {
+        "word": "translation tool",
+        "level": "B1"
+      },
+      {
+        "word": "AI assistant",
+        "level": "B1"
+      },
+      {
+        "word": "data label",
+        "level": "B2"
+      },
+      {
+        "word": "smart speaker",
+        "level": "B1"
+      },
+      {
+        "word": "human editor",
+        "level": "B2"
+      },
+      {
+        "word": "code helper",
+        "level": "B1"
+      },
+      {
+        "word": "generated picture",
+        "level": "B1"
+      },
+      {
+        "word": "question box",
+        "level": "B1"
+      },
+      {
+        "word": "model card",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "training data",
+        "decoy": "dataset",
+        "level": "B1"
+      },
+      {
+        "word": "prompt",
+        "decoy": "instruction",
+        "level": "B1"
+      },
+      {
+        "word": "chatbot",
+        "decoy": "voice assistant",
+        "level": "B1"
+      },
+      {
+        "word": "language model",
+        "decoy": "translation model",
+        "level": "B2"
+      },
+      {
+        "word": "image generator",
+        "decoy": "art tool",
+        "level": "B1"
+      },
+      {
+        "word": "hallucination",
+        "decoy": "mistake",
+        "level": "B2"
+      },
+      {
+        "word": "bias",
+        "decoy": "stereotype",
+        "level": "B2"
+      },
+      {
+        "word": "human review",
+        "decoy": "fact check",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "chat window",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "voice recorder",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "robot arm",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "training example",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "translation tool",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "smart speaker",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "human editor",
+        "kind": "job",
+        "level": "B2"
+      },
+      {
+        "secret": "model card",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-robots-and-automation",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "automation",
+        "forbidden": [
+          "machine",
+          "task",
+          "repeat",
+          "automatic"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "robot arm",
+        "forbidden": [
+          "factory",
+          "move",
+          "metal",
+          "part"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "sensor",
+        "forbidden": [
+          "detect",
+          "signal",
+          "measure",
+          "device"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "assembly line",
+        "forbidden": [
+          "factory",
+          "products",
+          "workers",
+          "steps"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "conveyor belt",
+        "forbidden": [
+          "move",
+          "objects",
+          "roll",
+          "factory"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "industrial robot",
+        "forbidden": [
+          "large",
+          "work",
+          "automated",
+          "plant"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "programmed task",
+        "forbidden": [
+          "code",
+          "instruction",
+          "repeat",
+          "robot"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "quality check",
+        "forbidden": [
+          "test",
+          "product",
+          "defect",
+          "inspect"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "warehouse robot",
+        "forbidden": [
+          "box",
+          "carry",
+          "store",
+          "move"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "human operator",
+        "forbidden": [
+          "person",
+          "control",
+          "machine",
+          "work"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "automatic door",
+        "forbidden": [
+          "open",
+          "close",
+          "sensor",
+          "walk"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "robot vacuum",
+        "forbidden": [
+          "floor",
+          "clean",
+          "home",
+          "move"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "machine vision",
+        "forbidden": [
+          "camera",
+          "recognize",
+          "object",
+          "system"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "control panel",
+        "forbidden": [
+          "buttons",
+          "settings",
+          "operate",
+          "machine"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "robot cart",
+        "level": "B1"
+      },
+      {
+        "word": "factory floor",
+        "level": "B1"
+      },
+      {
+        "word": "barcode scanner",
+        "level": "B1"
+      },
+      {
+        "word": "robot gripper",
+        "level": "B2"
+      },
+      {
+        "word": "conveyor motor",
+        "level": "B2"
+      },
+      {
+        "word": "loading bay",
+        "level": "B1"
+      },
+      {
+        "word": "assembly station",
+        "level": "B2"
+      },
+      {
+        "word": "automated gate",
+        "level": "B1"
+      },
+      {
+        "word": "warning light",
+        "level": "B1"
+      },
+      {
+        "word": "machine guard",
+        "level": "B2"
+      },
+      {
+        "word": "delivery bot",
+        "level": "B1"
+      },
+      {
+        "word": "robot technician",
+        "level": "B2"
+      },
+      {
+        "word": "sorting machine",
+        "level": "B2"
+      },
+      {
+        "word": "factory shift",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "automation",
+        "decoy": "robotics",
+        "level": "B2"
+      },
+      {
+        "word": "robot arm",
+        "decoy": "robot hand",
+        "level": "B1"
+      },
+      {
+        "word": "sensor",
+        "decoy": "camera",
+        "level": "B1"
+      },
+      {
+        "word": "assembly line",
+        "decoy": "production line",
+        "level": "B2"
+      },
+      {
+        "word": "conveyor belt",
+        "decoy": "roller track",
+        "level": "B2"
+      },
+      {
+        "word": "warehouse robot",
+        "decoy": "delivery bot",
+        "level": "B1"
+      },
+      {
+        "word": "automatic door",
+        "decoy": "sliding door",
+        "level": "B1"
+      },
+      {
+        "word": "human operator",
+        "decoy": "robot technician",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "robot cart",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "barcode scanner",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "factory floor",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "robot gripper",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "loading bay",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "warning light",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "robot technician",
+        "kind": "job",
+        "level": "B2"
+      },
+      {
+        "secret": "sorting machine",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
   }
 ]

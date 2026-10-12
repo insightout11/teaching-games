@@ -13,3 +13,5 @@ Cards are authored individually. A serialization helper only formats the explici
 - Batch 4: 15 food, school and community topics (Cooking through Jobs People Do), 60 topics total / 2,640 cards. Partial checker: all errors 0; kids A1 1,284, A2 1,356; 253 unique sticker matches, 773 target/decoy occurrences.
 
 - Batch 5: 20 sports, play, transport and creative topics (Soccer through The Five Senses), 80 topics total / 3,520 cards. Partial checker: all errors 0; kids A1 1,880, A2 1,640; 286 unique sticker matches, 858 target/decoy occurrences. Targets remain below 40% deck overlap; the highest observed overlap is 22.86%.
+
+- Batch 6: 15 digital-life topics (Video Games through Robots and Automation), 95 topics total / 4,180 cards. Partial checker: all errors 0; kids A1 1,880, A2 1,640; teens B1 257, B2 183; 286 unique sticker matches, 859 target/decoy occurrences.
