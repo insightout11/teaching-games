@@ -1032,5 +1032,146 @@
     "courseId": "teens-social-media",
     "title": "My Better Online Day",
     "level": "B1"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "At a school careers table, Jamil picks up a card about bicycle repair. He enjoys finding out why small machines stop working, but he has never watched a mechanic for a whole day. His partner asks him to describe the job rather than just say it sounds interesting. Jamil imagines checking a brake, listening to a customer's problem and explaining what needs repair. He thinks patience and clear communication would matter as much as using tools. “Which part could you try safely now?” his partner asks. Jamil could learn the names of bicycle parts and observe a trained adult repairing a wheel. He would not test an unfamiliar repair on somebody's bike without help. He writes a short introduction to the role, then adds one reason it might suit him. There are still questions about training and the daily workload. For his course task, he keeps the card and leaves space to describe a next step when he knows more.",
+    "words": [
+      {
+        "word": "mechanic",
+        "meaning": "a person who repairs machines"
+      },
+      {
+        "word": "brake",
+        "meaning": "a part that slows or stops a vehicle"
+      },
+      {
+        "word": "patience",
+        "meaning": "staying calm when something takes time"
+      },
+      {
+        "word": "observe",
+        "meaning": "watch carefully to learn"
+      },
+      {
+        "word": "workload",
+        "meaning": "the amount of work someone has"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Which job interests Jamil?",
+        "a": "bicycle repair"
+      },
+      {
+        "q": "Who could he observe repairing a wheel?",
+        "a": "a trained adult"
+      },
+      {
+        "q": "What does he keep for his course task?",
+        "a": "the card"
+      }
+    ],
+    "talk": [
+      "What job could you try, and which part interests you?",
+      "How could you explore that job safely before choosing it?"
+    ],
+    "courseId": "teens-future-jobs",
+    "title": "A Job I Could Try",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 3,
+    "text": "A workshop wants to offer a short learning placement to teenagers. Two students discuss whether it should be paid. Mara argues that a student's time has value, especially when the student completes useful tasks. Payment could also make the placement possible for someone who must pay for travel. Dev agrees that access matters, but worries about a small workshop's budget. Teaching a beginner can take time away from normal work. If every placement costs more than the workshop can afford, it may offer none. Mara replies that a business should not use the word “learning” to hide ordinary unpaid work. Dev suggests separating observation from work that benefits the business. They both want clear hours, safe tasks and a named adult who can answer questions. Before deciding, they ask what the placement actually includes. Their debate is no longer only about money. It is also about whether the student receives real teaching and whether people with different resources can take part.",
+    "words": [
+      {
+        "word": "placement",
+        "meaning": "a short period of learning in a workplace"
+      },
+      {
+        "word": "payment",
+        "meaning": "money given for work or something bought"
+      },
+      {
+        "word": "access",
+        "meaning": "the chance to enter or take part"
+      },
+      {
+        "word": "budget",
+        "meaning": "a plan for money available and spent"
+      },
+      {
+        "word": "observation",
+        "meaning": "careful watching to learn"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What workplace offers the placement?",
+        "a": "a workshop"
+      },
+      {
+        "q": "What travel need does Mara mention?",
+        "a": "pay for travel"
+      },
+      {
+        "q": "What does Dev suggest separating from useful work?",
+        "a": "observation"
+      }
+    ],
+    "talk": [
+      "Which parts of a learning placement should be paid, and why?",
+      "What information would you need before deciding whether the offer is fair?"
+    ],
+    "courseId": "teens-future-jobs",
+    "title": "A Fair First Job",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Jamil reads his first careers card again. He still wants to try bicycle repair, but his description now goes beyond “I like machines.” He explains that a mechanic must identify a fault, choose a safe repair and tell a customer what has changed. During a supervised visit, he watched an adult ask questions before touching a bike. The rider's description helped reveal a loose part. Jamil had expected the job to begin with tools; instead, it began with listening. For his next step, he plans to label the parts on a drawing and practice explaining a simple problem to a partner. He will ask the workshop which beginner course teaches safe basic checks. His partner wants to know why this role still suits him. “I enjoy careful problem solving,” Jamil says, “and I want to get better at explaining my thinking.” His final card includes the role, a reason and a realistic skill-building plan rather than a promise that he already knows the job.",
+    "words": [
+      {
+        "word": "fault",
+        "meaning": "something wrong that stops proper working"
+      },
+      {
+        "word": "supervised",
+        "meaning": "watched and guided by a responsible person"
+      },
+      {
+        "word": "loose",
+        "meaning": "not firmly fixed in place"
+      },
+      {
+        "word": "realistic",
+        "meaning": "possible in the actual situation"
+      },
+      {
+        "word": "identify",
+        "meaning": "find and name what something is"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What did the mechanic do before touching the bike?",
+        "a": "ask questions"
+      },
+      {
+        "q": "What problem did the rider's description help reveal?",
+        "a": "a loose part"
+      },
+      {
+        "q": "What will Jamil label?",
+        "a": "the parts on a drawing"
+      }
+    ],
+    "talk": [
+      "How has your job idea changed after learning about its tasks?",
+      "What realistic next step would help you build a useful skill?"
+    ],
+    "courseId": "teens-future-jobs",
+    "title": "My Next Step",
+    "level": "B1"
   }
 ]
