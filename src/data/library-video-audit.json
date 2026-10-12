@@ -459,6 +459,410 @@
     "status": "ok",
     "note": "Dan contrasts hypothetical past/present time relationships and third-to-second or second-to-third conditionals, matching mixed conditionals."
   },
+  "kids-library.json/kids_gotta_eat": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “(مقدمة) جميعنا نأكل صحيح؟ لكن هل”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "kids-library.json/kids_here_comes_the_sun": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “علوم، كراش كورس للأطفال ها قد”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "kids-library.json/kids_fabulous_food_chains": {
+    "status": "ok",
+    "note": "Energy moving from the Sun through plants and animals matches the food-chain claim; technical terms are explained, so A2 is plausible with support."
+  },
+  "kids-library.json/kids_defining_gravity": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “تعريف الجاذبية إن أخبرتـُك أنك ربحت”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "kids-library.json/kids_weathering_erosion": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “هذه هي الأرض، موطن سبعة ملايين”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "kids-library.json/kids_science_of_lunch": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “أتعلمون ما هو أسوأ جُزء بوجبة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: the Arabic cache describes the physical properties of a brown paper lunch bag, while the description promises food ingredients and body energy; verify the cache/video pairing before rewriting that description."
+  },
+  "kids-library.json/kids_home_sweet_habitat": {
+    "status": "weak-captions",
+    "note": "Evidence: the stored text is an Arabic-script translation, beginning “تصوّرْ دباً قطبياً.. في الصَّحراء. ما”, rather than usable English speech captions; the spoken English level cannot be checked from this translation. Suggested action: Remove from English-caption lesson selection until an English cache is supplied."
+  },
+  "kids-library.json/kids_food_webs": {
+    "status": "ok",
+    "note": "Fruit-eating monkeys, seed dispersal and the effects of removing species match the promised food-web relationships."
+  },
+  "kids-library.json/kids_everything_revolves": {
+    "status": "ok",
+    "note": "Gravity, natural and artificial satellites and orbital speed match the description. Conditional explanations make A2 demanding, but the terms are defined and a clearly wrong level is not established."
+  },
+  "kids-library.json/kids_dinosaur_pee": {
+    "status": "ok",
+    "note": "Water moving through Earth systems, evaporation and condensation match the water-cycle explanation."
+  },
+  "kids-library.json/kids_climate_change": {
+    "status": "ok",
+    "note": "Cactus adaptations and changing environments connect to food chains and carbon dioxide, matching the climate-change subject."
+  },
+  "kids-library.json/kids_living_things_change": {
+    "status": "ok",
+    "note": "The captions cover polar bears, pineapples and peppered moths adapting over time. I could not find the description’s bacteria example, but the main subject matches; minor illustrative wording is uncertain."
+  },
+  "kids-library.json/kids_every_kind_of_volcano": {
+    "status": "level-off",
+    "note": "Evidence: The caption explains shield, cinder and composite volcanoes, magma, ash and eruption mechanisms in 1,173 words; sustained scientific explanation exceeds the stored A1/Beginner level. Suggested action: Raise the language level to B1 after checking spoken pacing."
+  },
+  "kids-library.json/kids_busy_bees": {
+    "status": "level-off",
+    "note": "Evidence: The 702-word explanation compares bee types and explains pollen, nectar and hive food production with causal clauses, rather than simple A1 phrases. Suggested action: Raise the language level to A2 after checking spoken pacing."
+  },
+  "kids-library.json/kids_dont_fear_spiders": {
+    "status": "level-off",
+    "note": "Evidence: The 775-word explanation distinguishes abdomen, thorax and cephalothorax and explains silk/web mechanisms; the anatomy and connected explanations exceed A1. Suggested action: Raise the language level to B1 after checking spoken pacing."
+  },
+  "kids-library.json/kids_cave_animals": {
+    "status": "level-off",
+    "note": "Evidence: The 743-word explanation compares cave species, habitats and senses using relative clauses and adaptation reasoning, beyond short A1 everyday phrases. Suggested action: Raise the language level to A2 after checking spoken pacing. The description also promises glowing worms and names Jessi, but the full cache uses Mister Brown and has olm, tetra and cave wolf spider examples; rewrite those details when re-levelling."
+  },
+  "kids-library.json/kids_diamond_super_crystal": {
+    "status": "level-off",
+    "note": "Evidence: The 784-word caption explains carbon arrangements, molten rock, pressure and diamond formation with multi-step causes, beyond A1. Suggested action: Raise the language level to B1 after checking spoken pacing."
+  },
+  "kids-library.json/kids_whats_inside_rocks": {
+    "status": "level-off",
+    "note": "Evidence: The 568-word geode explanation describes mineral deposits building crystals over millions of years and gives multi-step hammering instructions, beyond A1. Suggested action: Raise the language level to A2 after checking spoken pacing. The full cache is specifically about geodes and crystals, not fossils; narrow the description when re-levelling."
+  },
+  "kids-library.json/kids_stalactites_stalagmites": {
+    "status": "level-off",
+    "note": "Evidence: The 782-word explanation uses a dissolving-sugar analogy and evaporation to explain mineral deposition, including a conditional experiment, beyond A1. Suggested action: Raise the language level to B1 after checking spoken pacing."
+  },
+  "kids-library.json/kids_antarctica": {
+    "status": "level-off",
+    "note": "Evidence: The 926-word explanation connects slanted sunlight, Earth’s shape and Antarctic dryness using extended causal clauses, beyond A1. Suggested action: Raise the language level to A2 after checking spoken pacing."
+  },
+  "kids-library.json/kids_four_spheres_geo_bio": {
+    "status": "ok",
+    "note": "Geosphere rocks and landforms and biosphere plants and animals are identified in a scene, matching both spheres."
+  },
+  "kids-library.json/kids_what_on_earth": {
+    "status": "ok",
+    "note": "Land, water and the geosphere–hydrosphere relationship match the Earth-materials introduction."
+  },
+  "kids-library.json/kids_up_up_away": {
+    "status": "ok",
+    "note": "Wind, unequal heating, air pressure and sea breezes match the atmosphere/air subject; causal vocabulary is demanding for A2 but explained."
+  },
+  "kids-library.json/kids_landforms_hey": {
+    "status": "ok",
+    "note": "Mountains, valleys, plateaus, deltas, islands and deserts match the landform description."
+  },
+  "kids-library.json/kids_engineer": {
+    "status": "ok",
+    "note": "Civil, mechanical and aerospace engineering examples explain solving everyday transport problems, as claimed."
+  },
+  "kids-library.json/kids_defining_problem": {
+    "status": "ok",
+    "note": "The canyon-crossing problem illustrates identifying constraints and defining a solvable engineering problem."
+  },
+  "kids-library.json/kids_solutions": {
+    "status": "ok",
+    "note": "Tent, balloons and umbrella solutions to crossing a gorge match imagining alternative designs."
+  },
+  "kids-library.json/kids_what_ifs": {
+    "status": "ok",
+    "note": "Hang-glider weight and wing angle illustrate variables and what-if design questions."
+  },
+  "kids-library.json/kids_succeed_failing": {
+    "status": "ok",
+    "note": "Bowling trials and the Tacoma Narrows bridge illustrate failure points and iterative design; the collapse is not described graphically."
+  },
+  "kids-library.json/kids_picky_pineapples": {
+    "status": "ok",
+    "note": "Pineapples and Las Vegas water supply illustrate humans getting scarce resources, matching the broad organism/resource claim, though it is specifically human resource access."
+  },
+  "kids-library.json/kids_look_whos_talking": {
+    "status": "partial",
+    "note": "Evidence: The full cache explains plant investigations, Venus flytrap sensing and Darwin’s stem-tip experiment; communication is mentioned only briefly, and no animal communication examples are given. Suggested action: Rewrite the description as investigating how plants sense their surroundings."
+  },
+  "kids-library.json/kids_particles_world": {
+    "status": "ok",
+    "note": "Solids, liquids, gases and heating wax/water explain particles and changes of state as claimed."
+  },
+  "kids-library.json/kids_measurement_mystery": {
+    "status": "ok",
+    "note": "Measuring a mystery object with centimetres and grams matches careful units and measurement."
+  },
+  "kids-library.json/kids_over_to_moon": {
+    "status": "ok",
+    "note": "Gravity, mass and escaping Earth’s pull match the Moon-travel challenge."
+  },
+  "kids-library.json/kids_chemical_changes": {
+    "status": "ok",
+    "note": "Baking batter and burning a match illustrate irreversible changes of substances and their properties."
+  },
+  "kids-library.json/kids_earth_rotation_revolution": {
+    "status": "ok",
+    "note": "Earth’s axis, rotation, orbit and a lamp/globe demonstration match day/night and revolution."
+  },
+  "kids-library.json/kids_seasons_sun": {
+    "status": "ok",
+    "note": "Direct/indirect sunlight and hemisphere tilt explain the promised seasons."
+  },
+  "kids-library.json/kids_polar_pineapples": {
+    "status": "ok",
+    "note": "Sunlight near the equator and plant-growing conditions explain why pineapples cannot grow at the poles."
+  },
+  "kids-library.json/kids_glow_on": {
+    "status": "mismatch",
+    "note": "Evidence: The full cache explains nuclear fusion, stellar luminosity and Betelgeuse versus the Sun; it does not concern living things producing light. Suggested action: Retitle to Why Stars Glow and rewrite the description."
+  },
+  "kids-library.json/kids_engineering_process": {
+    "status": "ok",
+    "note": "Defining problems, research, prototypes, testing and improving match the engineering process. Dynamite is an engineering example, without detailed violence."
+  },
+  "kids-library.json/kids_0gmbjfqghfc": {
+    "status": "ok",
+    "note": "A sewer-phone retrieval robot illustrates the promised design challenge and controlled variables."
+  },
+  "kids-library.json/kids_skahb_8ctzg": {
+    "status": "ok",
+    "note": "Lake Baikal and Sahara examples explain freshwater adaptations as claimed."
+  },
+  "kids-library.json/kids_4b2kdceuwr4": {
+    "status": "ok",
+    "note": "California crops, toilets and limited freshwater illustrate community water scarcity and disputes."
+  },
+  "kids-library.json/kids_cye4_d6fb_w": {
+    "status": "ok",
+    "note": "Manhattan’s transformation and directed water/farmland illustrate human changes to city environments."
+  },
+  "kids-library.json/kids_1fkgqo0xk94": {
+    "status": "ok",
+    "note": "Prairie dog burrows, termite mounds and beaver dams match environmental changes by animals."
+  },
+  "kids-library.json/kids_durjvjc5xx0": {
+    "status": "ok",
+    "note": "Plant needs, carbon dioxide and possible adaptations on distant worlds match alien plant survival."
+  },
+  "kids-library.json/kids_lsdaf8_mr8e": {
+    "status": "ok",
+    "note": "Hang-glider, balloon and umbrella comparisons explain choosing a viable flying design."
+  },
+  "kids-library.json/kids_eb7gtjafae4": {
+    "status": "ok",
+    "note": "Ring toss and hang-glider trials explain isolating variables and testing outcomes."
+  },
+  "kids-library.json/kids_zfk0xhqt5fq": {
+    "status": "ok",
+    "note": "Shark teeth, plankton-feeding whale sharks and dwarf lantern sharks match diversity/features; minor auto-caption errors do not obscure the lesson."
+  },
+  "kids-library.json/kids_2zjzs19myik": {
+    "status": "ok",
+    "note": "Dr Turtleman and Jessi discuss turtles, tortoises, adaptations and conservation as claimed."
+  },
+  "kids-library.json/kids_kmdd6ttdz_g": {
+    "status": "ok",
+    "note": "Tropical and cooler rainforests, layers and different animals match the rainforest ecosystem."
+  },
+  "kids-library.json/kids_fxyp76jwxsu": {
+    "status": "ok",
+    "note": "Turning rocks over reveals insects, larvae, spiders and damp-habitat creatures as claimed."
+  },
+  "kids-library.json/kids_b79xio8qgiy": {
+    "status": "ok",
+    "note": "Brain messages and favourite-food memory match the brain introduction."
+  },
+  "kids-library.json/kids_3gy_gts86jm": {
+    "status": "ok",
+    "note": "Jaw growth, milk feeding, small teeth and adult teeth explain baby teeth as claimed."
+  },
+  "kids-library.json/kids_ibj2xmsjuhq": {
+    "status": "ok",
+    "note": "Sam and Jessi use a balloon analogy, breath and vocal folds to explain singing sounds."
+  },
+  "kids-library.json/kids_djdbtnbawoe": {
+    "status": "ok",
+    "note": "Cones, colour blindness, bee vision and brain interpretation match seeing colour."
+  },
+  "kids-library.json/kids_zojlcdmvwai": {
+    "status": "ok",
+    "note": "Surveys, excavation, grid labels and artifact evidence match archaeology."
+  },
+  "kids-library.json/kids_tsaveexeznw": {
+    "status": "ok",
+    "note": "Tardigrades, eyelash mites and nematodes match microscopic animals and extreme habitats."
+  },
+  "kids-library.json/kids_syawnjolnv8": {
+    "status": "ok",
+    "note": "Theropods, wings, feathers and descent connect birds and dinosaurs as claimed."
+  },
+  "kids-library.json/kids_dtk_uwx_vqo": {
+    "status": "ok",
+    "note": "Roots, leaves, flowers and seeds explain botanical fruits versus vegetables."
+  },
+  "kids-library.json/kids_tjcukcfz8qy": {
+    "status": "ok",
+    "note": "Raven recognition, gestures, explicit tool use and imitated sounds match the described abilities."
+  },
+  "kids-library.json/kids_ghfboypqqx0": {
+    "status": "ok",
+    "note": "Zebra species, predator smell and horsefly experiments match the stripe mystery."
+  },
+  "kids-library.json/kids_yoirci0ckzg": {
+    "status": "ok",
+    "note": "Animal colours, patterns and leaf-like shapes explain camouflage as claimed."
+  },
+  "kids-library.json/kids_gazkec59g1w": {
+    "status": "ok",
+    "note": "Cactus water storage, desert animal strategies and loose clothing match desert survival."
+  },
+  "kids-library.json/kids_jqqleh172ho": {
+    "status": "ok",
+    "note": "Hooves, heat-conserving noses and migration match reindeer cold adaptations."
+  },
+  "kids-library.json/kids_ueroeqyjxfo": {
+    "status": "ok",
+    "note": "Hyperion, redwoods, fog and water supply match exceptionally tall trees."
+  },
+  "kids-library.json/kids_hwfqek29wrg": {
+    "status": "ok",
+    "note": "Waxy needles and conifer examples explain evergreen leaf retention as claimed."
+  },
+  "kids-library.json/kids_x7_t_9wzjga": {
+    "status": "ok",
+    "note": "Burrs, hooks and fabric loops connect seed dispersal to Velcro."
+  },
+  "kids-library.json/kids_dlq0lhpyzd8": {
+    "status": "ok",
+    "note": "Radar, satellites and warm/cold air clues explain weather forecasting."
+  },
+  "kids-library.json/kids_0qmgdz9e47s": {
+    "status": "ok",
+    "note": "Tin-can solar updraft tower warms air and spins a paper pinwheel as claimed."
+  },
+  "kids-library.json/kids_mc3auuuj9_i": {
+    "status": "ok",
+    "note": "Plastic, dowels, string and wind instructions match making and flying a kite."
+  },
+  "kids-library.json/kids_3yqb2kfwjco": {
+    "status": "ok",
+    "note": "A cup/string phone and vibration experiments explain sound transmission."
+  },
+  "kids-library.json/kids_8whjjlmniku": {
+    "status": "ok",
+    "note": "Factory arms, Mars rovers and space robots match real robot examples."
+  },
+  "kids-library.json/kids_02wrls_ue1q": {
+    "status": "ok",
+    "note": "Halley’s comet, the asteroid belt and atmospheric meteors distinguish the two space objects."
+  },
+  "kids-library.json/kids_cjbmsssxf_a": {
+    "status": "ok",
+    "note": "Narwhal teeth, sex differences and uncertain tusk functions match the ocean animal introduction."
+  },
+  "kids-library.json/kids_c2_an98p0rm": {
+    "status": "ok",
+    "note": "Sweat glands, evaporation and animal cooling methods match why sweating cools the body."
+  },
+  "kids-library.json/kids_jyu966aonzi": {
+    "status": "ok",
+    "note": "REM sleep, memory and feelings explain possible dream functions, as claimed."
+  },
+  "kids-library.json/kids_8cqmky_wqao": {
+    "status": "ok",
+    "note": "Big-cat habitats, markings, hunting groups and ranges match lion/tiger/leopard/jaguar comparisons; predation is not graphically described."
+  },
+  "kids-library.json/kids_0otbv8_mdr4": {
+    "status": "ok",
+    "note": "Testing a model bridge with weights and extra supports matches fixing failure points."
+  },
+  "kids-library.json/kids_aoebfggcjvw": {
+    "status": "ok",
+    "note": "Enamel, bacteria, acid and cavities explain brushing for tooth health."
+  },
+  "kids-library.json/kids_optical_illusions": {
+    "status": "ok",
+    "note": "Ambiguous animal drawings and impossible elephant legs match optical illusions and brain interpretation."
+  },
+  "kids-library.json/kids_xyfuqfqfl30": {
+    "status": "ok",
+    "note": "A tent hang glider illustrates defining success criteria and available resources."
+  },
+  "kids-library.json/kids_bxfu86gnmrg": {
+    "status": "ok",
+    "note": "A bowling experiment controls speed and angle to isolate variables as promised."
+  },
+  "kids-library.json/kids_dkjlbcci6zs": {
+    "status": "ok",
+    "note": "A quiet treehouse, blankets, space needs and prototypes illustrate architectural design."
+  },
+  "kids-library.json/kids_gnnuid8hof0": {
+    "status": "ok",
+    "note": "Transport, neighbourhood needs, expansion and nature illustrate city planning."
+  },
+  "kids-library.json/kids_8lfd_ekze2m": {
+    "status": "ok",
+    "note": "Cake ingredients, agriculture, power and processed materials explain community use of natural resources."
+  },
+  "kids-library.json/kids_uxh_7wbns3a": {
+    "status": "ok",
+    "note": "Atmospheric layers, rain and a beach scene distinguish water and air systems."
+  },
+  "kids-library.json/kids_7vtfyamu6g4": {
+    "status": "ok",
+    "note": "The caption focuses on land versus water absorbing sunlight. The description is broader than the actual heat-comparison lesson, but the title and land/water subject match; consider narrowing the wording."
+  },
+  "kids-library.json/kids_ahcozc143ec": {
+    "status": "ok",
+    "note": "Sun/plant energy and animal diets explain herbivores, carnivores and omnivores."
+  },
+  "kids-library.json/kids_ecsirlk0gts": {
+    "status": "ok",
+    "note": "Plant resources and hydroponics explain soil’s role and why plants can grow without it."
+  },
+  "kids-library.json/kids_elchwuilwa8": {
+    "status": "ok",
+    "note": "Balloon volume and weight demonstrate matter and its states."
+  },
+  "kids-library.json/kids_zzynerze3cg": {
+    "status": "ok",
+    "note": "Block dimensions, volume and scales illustrate observable/measurable material properties."
+  },
+  "kids-library.json/kids_3lhhoitdmk4": {
+    "status": "ok",
+    "note": "Sugar dissolved in water and changed substances illustrate conservation of mass."
+  },
+  "kids-library.json/kids_rrj1_yofcaa": {
+    "status": "ok",
+    "note": "A hammer/feather Moon experiment and parachutes in air/vacuum illustrate testing falling objects."
+  },
+  "kids-library.json/kids_zd7w5o0bh7g": {
+    "status": "ok",
+    "note": "Transparency, reflectivity and magnetism group familiar objects by properties."
+  },
+  "kids-library.json/kids_tgflhpslejq": {
+    "status": "ok",
+    "note": "Steel and Gorilla Glass illustrate improving and choosing material properties."
+  },
+  "kids-library.json/kids_mrahoi_yik4": {
+    "status": "ok",
+    "note": "Natural versus lab-grown diamonds and cutting tools match formation and useful hardness."
+  },
+  "kids-library.json/kids_fnd_2jett1w": {
+    "status": "ok",
+    "note": "Cornstarch/water oobleck under pressure matches non-Newtonian behaviour."
+  },
+  "kids-library.json/kids_t7hk6ompvbe": {
+    "status": "ok",
+    "note": "Water on mountains and in a vacuum matches familiar materials in unusual conditions."
+  },
+  "kids-library.json/kids_agvxycrpun8": {
+    "status": "ok",
+    "note": "The Sun, black holes, Pluto and different orbital patterns match varied space orbits."
+  },
+  "kids-library.json/kids_8ghdcosi5es": {
+    "status": "ok",
+    "note": "Sun energy, liquid water and imagined alien food webs match conditions for life elsewhere."
+  },
   "teded-library.json/teded_how_sugar_affects_brain": {
     "status": "weak-captions",
     "note": "Evidence: the stored captions are Albanian rather than English (“biskota te ngrohta e te lengshme,”); their translation cannot establish the spoken English level. Suggested action: Remove from English-caption lesson selection until a matching English cache is supplied."

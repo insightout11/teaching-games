@@ -15,15 +15,16 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 2/18; judged entries: 216/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 3/18; judged entries: 317/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
 | Library | Entries | ok | mismatch | partial | weak-captions | no-captions | level-off |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | bbc-library.json | 115 | 86 | 1 | 9 | 19 | 0 | 0 |
+| kids-library.json | 101 | 85 | 1 | 1 | 6 | 0 | 8 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
-| **TOTAL** | **216** | 138 | 1 | 9 | 68 | 0 | 0 |
+| **TOTAL** | **317** | 223 | 2 | 10 | 74 | 0 | 8 |
 
 ## Non-ok entries, grouped by library
 
@@ -60,6 +61,27 @@ Completed libraries: 2/18; judged entries: 216/641. Cached inventory captured at
 | bbc-grammar-r2-3dA7P5arkyc | Used to — 6 Minute Grammar | weak-captions | The 47-word cache asks about used to versus past simple and says “look at some examples first”, without providing those examples.  | Remove from video-caption lesson selection until a complete matching English transcript is cached. |
 | bbc-grammar-r2-38QqDrckyxM | Active and passive voice — 6 Minute Grammar | weak-captions | The 83-word cache explains only active voice, ending “So what is the passive voice?”, without transcribing the answer.  | Remove from video-caption lesson selection until a complete matching English transcript is cached. |
 | bbc-grammar-r2-foyWhOHhTT0 | Question tags — 6 Minute Grammar | weak-captions | The 85-word cache tells readers to “stay on this page” to learn question tags; the tag lesson itself is absent.  | Remove from video-caption lesson selection until a complete matching English transcript is cached. |
+
+### kids-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| kids_gotta_eat | Gotta Eat! | weak-captions | the stored text is an Arabic-script translation, beginning “(مقدمة) جميعنا نأكل صحيح؟ لكن هل”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| kids_here_comes_the_sun | Here Comes the Sun | weak-captions | the stored text is an Arabic-script translation, beginning “علوم، كراش كورس للأطفال ها قد”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| kids_defining_gravity | Defining Gravity | weak-captions | the stored text is an Arabic-script translation, beginning “تعريف الجاذبية إن أخبرتـُك أنك ربحت”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| kids_weathering_erosion | Weathering and Erosion | weak-captions | the stored text is an Arabic-script translation, beginning “هذه هي الأرض، موطن سبعة ملايين”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| kids_science_of_lunch | The Science of Lunch | weak-captions | the stored text is an Arabic-script translation, beginning “أتعلمون ما هو أسوأ جُزء بوجبة”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. Secondary subject concern: the Arabic cache describes the physical properties of a brown paper lunch bag, while the description promises food ingredients and body energy; verify the cache/video pairing before rewriting that description. |
+| kids_home_sweet_habitat | Home Sweet Habitat | weak-captions | the stored text is an Arabic-script translation, beginning “تصوّرْ دباً قطبياً.. في الصَّحراء. ما”, rather than usable English speech captions; the spoken English level cannot be checked from this translation.  | Remove from English-caption lesson selection until an English cache is supplied. |
+| kids_every_kind_of_volcano | Every Kind of Volcano | level-off | The caption explains shield, cinder and composite volcanoes, magma, ash and eruption mechanisms in 1,173 words; sustained scientific explanation exceeds the stored A1/Beginner level.  | Raise the language level to B1 after checking spoken pacing. |
+| kids_busy_bees | Busy Bees! Bumblebees and Honeybees | level-off | The 702-word explanation compares bee types and explains pollen, nectar and hive food production with causal clauses, rather than simple A1 phrases.  | Raise the language level to A2 after checking spoken pacing. |
+| kids_dont_fear_spiders | Don't Be Afraid of Spiders! | level-off | The 775-word explanation distinguishes abdomen, thorax and cephalothorax and explains silk/web mechanisms; the anatomy and connected explanations exceed A1.  | Raise the language level to B1 after checking spoken pacing. |
+| kids_cave_animals | The Amazing Adaptations of Cave Animals! | level-off | The 743-word explanation compares cave species, habitats and senses using relative clauses and adaptation reasoning, beyond short A1 everyday phrases.  | Raise the language level to A2 after checking spoken pacing. The description also promises glowing worms and names Jessi, but the full cache uses Mister Brown and has olm, tetra and cave wolf spider examples; rewrite those details when re-levelling. |
+| kids_diamond_super_crystal | Diamond, the Super Crystal! | level-off | The 784-word caption explains carbon arrangements, molten rock, pressure and diamond formation with multi-step causes, beyond A1.  | Raise the language level to B1 after checking spoken pacing. |
+| kids_whats_inside_rocks | What's Inside These Rocks? | level-off | The 568-word geode explanation describes mineral deposits building crystals over millions of years and gives multi-step hammering instructions, beyond A1.  | Raise the language level to A2 after checking spoken pacing. The full cache is specifically about geodes and crystals, not fossils; narrow the description when re-levelling. |
+| kids_stalactites_stalagmites | What Are Stalactites and Stalagmites? | level-off | The 782-word explanation uses a dissolving-sugar analogy and evaporation to explain mineral deposition, including a conditional experiment, beyond A1.  | Raise the language level to B1 after checking spoken pacing. |
+| kids_antarctica | Antarctica: The Coldest Place on Earth! | level-off | The 926-word explanation connects slanted sunlight, Earth’s shape and Antarctic dryness using extended causal clauses, beyond A1.  | Raise the language level to A2 after checking spoken pacing. |
+| kids_look_whos_talking | Look Who's Talking | partial | The full cache explains plant investigations, Venus flytrap sensing and Darwin’s stem-tip experiment; communication is mentioned only briefly, and no animal communication examples are given.  | Rewrite the description as investigating how plants sense their surroundings. |
+| kids_glow_on | Glow On | mismatch | The full cache explains nuclear fusion, stellar luminosity and Betelgeuse versus the Sun; it does not concern living things producing light.  | Retitle to Why Stars Glow and rewrite the description. |
 
 ### teded-library.json
 
