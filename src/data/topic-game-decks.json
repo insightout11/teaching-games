@@ -1,0 +1,4322 @@
+[
+  {
+    "topicId": "topic-kids-cats",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "cat",
+        "forbidden": [
+          "animal",
+          "pet",
+          "sleep",
+          "mouse"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "kitten",
+        "forbidden": [
+          "baby",
+          "small",
+          "soft",
+          "play"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fish",
+        "forbidden": [
+          "water",
+          "swim",
+          "food",
+          "tail"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "box",
+        "forbidden": [
+          "open",
+          "inside",
+          "hide",
+          "paper"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sofa",
+        "forbidden": [
+          "seat",
+          "home",
+          "soft",
+          "sit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "purr",
+        "forbidden": [
+          "sound",
+          "quiet",
+          "happy",
+          "pet"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "whiskers",
+        "forbidden": [
+          "hair",
+          "face",
+          "nose",
+          "long"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "claw",
+        "forbidden": [
+          "sharp",
+          "nail",
+          "scratch",
+          "foot"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fur",
+        "forbidden": [
+          "hair",
+          "soft",
+          "coat",
+          "animal"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "cat flap",
+        "forbidden": [
+          "door",
+          "outside",
+          "inside",
+          "pet"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "scratching post",
+        "forbidden": [
+          "claw",
+          "wood",
+          "tall",
+          "pet"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mouse toy",
+        "forbidden": [
+          "play",
+          "catch",
+          "small",
+          "pet"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "litter tray",
+        "forbidden": [
+          "toilet",
+          "sand",
+          "clean",
+          "pet"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "yarn",
+        "forbidden": [
+          "string",
+          "ball",
+          "wool",
+          "play"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "nap",
+        "level": "A1"
+      },
+      {
+        "word": "sunny window",
+        "level": "A1"
+      },
+      {
+        "word": "soft blanket",
+        "level": "A1"
+      },
+      {
+        "word": "basket",
+        "level": "A1"
+      },
+      {
+        "word": "paw",
+        "level": "A2"
+      },
+      {
+        "word": "collar",
+        "level": "A1"
+      },
+      {
+        "word": "tail",
+        "level": "A1"
+      },
+      {
+        "word": "tongue",
+        "level": "A2"
+      },
+      {
+        "word": "cat carrier",
+        "level": "A2"
+      },
+      {
+        "word": "chasing",
+        "level": "A2"
+      },
+      {
+        "word": "stretching",
+        "level": "A2"
+      },
+      {
+        "word": "brushing",
+        "level": "A2"
+      },
+      {
+        "word": "pet carer",
+        "level": "A2"
+      },
+      {
+        "word": "hiding",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "cat",
+        "decoy": "kitten",
+        "level": "A1"
+      },
+      {
+        "word": "purr",
+        "decoy": "meow",
+        "level": "A2"
+      },
+      {
+        "word": "claw",
+        "decoy": "paw",
+        "level": "A2"
+      },
+      {
+        "word": "fur",
+        "decoy": "whiskers",
+        "level": "A2"
+      },
+      {
+        "word": "cat carrier",
+        "decoy": "cat bed",
+        "level": "A2"
+      },
+      {
+        "word": "scratch",
+        "decoy": "rub",
+        "level": "A2"
+      },
+      {
+        "word": "mouse toy",
+        "decoy": "ball",
+        "level": "A1"
+      },
+      {
+        "word": "litter tray",
+        "decoy": "food bowl",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "cat",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "kitten",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "fish",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "cat carrier",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "scratching post",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "sofa",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "cat bed",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "chasing",
+        "kind": "activity",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-dogs",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "dog",
+        "forbidden": [
+          "animal",
+          "pet",
+          "walk",
+          "tail"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "puppy",
+        "forbidden": [
+          "baby",
+          "small",
+          "play",
+          "soft"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tail",
+        "forbidden": [
+          "back",
+          "wag",
+          "long",
+          "body"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "park",
+        "forbidden": [
+          "grass",
+          "walk",
+          "outside",
+          "trees"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ball",
+        "forbidden": [
+          "round",
+          "throw",
+          "catch",
+          "play"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "leash",
+        "forbidden": [
+          "rope",
+          "walk",
+          "hold",
+          "collar"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "collar",
+        "forbidden": [
+          "neck",
+          "wear",
+          "pet",
+          "round"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "kennel",
+        "forbidden": [
+          "house",
+          "outside",
+          "sleep",
+          "pet"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "paw print",
+        "forbidden": [
+          "mud",
+          "foot",
+          "mark",
+          "ground"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "bark",
+        "forbidden": [
+          "sound",
+          "loud",
+          "pet",
+          "voice"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fetch",
+        "forbidden": [
+          "throw",
+          "bring",
+          "ball",
+          "run"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "wagging",
+        "forbidden": [
+          "tail",
+          "move",
+          "happy",
+          "back"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "dog biscuit",
+        "forbidden": [
+          "food",
+          "treat",
+          "eat",
+          "crunchy"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "vet",
+        "forbidden": [
+          "doctor",
+          "animal",
+          "sick",
+          "help"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "fur",
+        "level": "A2"
+      },
+      {
+        "word": "nose",
+        "level": "A1"
+      },
+      {
+        "word": "water bowl",
+        "level": "A1"
+      },
+      {
+        "word": "dog bed",
+        "level": "A1"
+      },
+      {
+        "word": "sit",
+        "level": "A1"
+      },
+      {
+        "word": "name tag",
+        "level": "A2"
+      },
+      {
+        "word": "guard dog",
+        "level": "A2"
+      },
+      {
+        "word": "guide dog",
+        "level": "A2"
+      },
+      {
+        "word": "muddy paws",
+        "level": "A2"
+      },
+      {
+        "word": "dog brush",
+        "level": "A2"
+      },
+      {
+        "word": "dog trainer",
+        "level": "A2"
+      },
+      {
+        "word": "waiting",
+        "level": "A1"
+      },
+      {
+        "word": "digging",
+        "level": "A2"
+      },
+      {
+        "word": "greeting",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "dog",
+        "decoy": "puppy",
+        "level": "A1"
+      },
+      {
+        "word": "bark",
+        "decoy": "howl",
+        "level": "A2"
+      },
+      {
+        "word": "leash",
+        "decoy": "harness",
+        "level": "A2"
+      },
+      {
+        "word": "kennel",
+        "decoy": "dog bed",
+        "level": "A2"
+      },
+      {
+        "word": "nose",
+        "decoy": "ear",
+        "level": "A1"
+      },
+      {
+        "word": "fetch",
+        "decoy": "chasing",
+        "level": "A2"
+      },
+      {
+        "word": "dog brush",
+        "decoy": "comb",
+        "level": "A2"
+      },
+      {
+        "word": "sitting",
+        "decoy": "lying down",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "dog",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "puppy",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "dog bed",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "leash",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "dog walker",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "animal clinic",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "fetch",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "dog biscuit",
+        "kind": "food",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-horses",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "pony",
+        "forbidden": [
+          "small",
+          "ride",
+          "animal",
+          "farm"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "foal",
+        "forbidden": [
+          "baby",
+          "mother",
+          "legs",
+          "young"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hay",
+        "forbidden": [
+          "dry",
+          "grass",
+          "food",
+          "eat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "farm",
+        "forbidden": [
+          "animals",
+          "field",
+          "home",
+          "work"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "stable",
+        "forbidden": [
+          "house",
+          "sleep",
+          "animal",
+          "door"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mane",
+        "forbidden": [
+          "hair",
+          "neck",
+          "long",
+          "brush"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "hoof",
+        "forbidden": [
+          "foot",
+          "hard",
+          "ground",
+          "step"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "saddle",
+        "forbidden": [
+          "seat",
+          "back",
+          "ride",
+          "leather"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "reins",
+        "forbidden": [
+          "hold",
+          "turn",
+          "ride",
+          "rope"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "gallop",
+        "forbidden": [
+          "fast",
+          "run",
+          "legs",
+          "field"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "trot",
+        "forbidden": [
+          "move",
+          "steps",
+          "ride",
+          "slow"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "horseshoe",
+        "forbidden": [
+          "metal",
+          "foot",
+          "protect",
+          "bend"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "bridle",
+        "forbidden": [
+          "head",
+          "wear",
+          "ride",
+          "straps"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "horse cart",
+        "forbidden": [
+          "wheels",
+          "pull",
+          "road",
+          "carry"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "horse",
+        "level": "A1"
+      },
+      {
+        "word": "riding",
+        "level": "A1"
+      },
+      {
+        "word": "tail",
+        "level": "A1"
+      },
+      {
+        "word": "brush",
+        "level": "A1"
+      },
+      {
+        "word": "pasture",
+        "level": "A2"
+      },
+      {
+        "word": "rider",
+        "level": "A2"
+      },
+      {
+        "word": "jumping",
+        "level": "A1"
+      },
+      {
+        "word": "water trough",
+        "level": "A2"
+      },
+      {
+        "word": "groom",
+        "level": "A2"
+      },
+      {
+        "word": "saddlebag",
+        "level": "A2"
+      },
+      {
+        "word": "mounting",
+        "level": "A2"
+      },
+      {
+        "word": "neigh",
+        "level": "A2"
+      },
+      {
+        "word": "horse race",
+        "level": "A2"
+      },
+      {
+        "word": "feeding",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "pony",
+        "decoy": "horse",
+        "level": "A1"
+      },
+      {
+        "word": "foal",
+        "decoy": "calf",
+        "level": "A2"
+      },
+      {
+        "word": "trot",
+        "decoy": "gallop",
+        "level": "A2"
+      },
+      {
+        "word": "saddle",
+        "decoy": "blanket",
+        "level": "A2"
+      },
+      {
+        "word": "reins",
+        "decoy": "leash",
+        "level": "A2"
+      },
+      {
+        "word": "stable",
+        "decoy": "barn",
+        "level": "A2"
+      },
+      {
+        "word": "hay",
+        "decoy": "grass",
+        "level": "A1"
+      },
+      {
+        "word": "hoof",
+        "decoy": "paw",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "horse",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "pony",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "foal",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "stable",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "saddle",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "hay",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "riding",
+        "kind": "activity",
+        "level": "A1"
+      },
+      {
+        "secret": "groom",
+        "kind": "job",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-elephants",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "elephant",
+        "forbidden": [
+          "animal",
+          "big",
+          "grey",
+          "nose"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "calf",
+        "forbidden": [
+          "baby",
+          "mother",
+          "young",
+          "small"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "mud",
+        "forbidden": [
+          "wet",
+          "brown",
+          "ground",
+          "dirty"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "grass",
+        "forbidden": [
+          "green",
+          "plant",
+          "eat",
+          "field"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "trunk",
+        "forbidden": [
+          "nose",
+          "long",
+          "water",
+          "lift"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tusk",
+        "forbidden": [
+          "tooth",
+          "white",
+          "long",
+          "mouth"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "herd",
+        "forbidden": [
+          "group",
+          "animals",
+          "together",
+          "walk"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "waterhole",
+        "forbidden": [
+          "drink",
+          "pool",
+          "dry",
+          "animals"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "elephant ear",
+        "forbidden": [
+          "hear",
+          "big",
+          "head",
+          "flap"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "heavy step",
+        "forbidden": [
+          "foot",
+          "ground",
+          "walk",
+          "weight"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "banana",
+        "forbidden": [
+          "yellow",
+          "fruit",
+          "eat",
+          "peel"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bathing",
+        "forbidden": [
+          "water",
+          "wash",
+          "pool",
+          "cool"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "dust bath",
+        "forbidden": [
+          "dry",
+          "soil",
+          "skin",
+          "throw"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tree shade",
+        "forbidden": [
+          "cool",
+          "sun",
+          "rest",
+          "leaves"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "wrinkled skin",
+        "level": "A2"
+      },
+      {
+        "word": "long nose",
+        "level": "A1"
+      },
+      {
+        "word": "feeding time",
+        "level": "A1"
+      },
+      {
+        "word": "river bank",
+        "level": "A1"
+      },
+      {
+        "word": "mother elephant",
+        "level": "A1"
+      },
+      {
+        "word": "trunk tip",
+        "level": "A2"
+      },
+      {
+        "word": "raised foot",
+        "level": "A2"
+      },
+      {
+        "word": "muddy back",
+        "level": "A2"
+      },
+      {
+        "word": "plant eater",
+        "level": "A2"
+      },
+      {
+        "word": "elephant keeper",
+        "level": "A2"
+      },
+      {
+        "word": "walking herd",
+        "level": "A2"
+      },
+      {
+        "word": "big foot",
+        "level": "A1"
+      },
+      {
+        "word": "drinking",
+        "level": "A1"
+      },
+      {
+        "word": "lifting a log",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "trunk",
+        "decoy": "hose",
+        "level": "A2"
+      },
+      {
+        "word": "calf",
+        "decoy": "foal",
+        "level": "A1"
+      },
+      {
+        "word": "tusk",
+        "decoy": "horn",
+        "level": "A2"
+      },
+      {
+        "word": "elephant ear",
+        "decoy": "fan",
+        "level": "A1"
+      },
+      {
+        "word": "dust bath",
+        "decoy": "mud bath",
+        "level": "A2"
+      },
+      {
+        "word": "grass",
+        "decoy": "hay",
+        "level": "A1"
+      },
+      {
+        "word": "herd",
+        "decoy": "family",
+        "level": "A2"
+      },
+      {
+        "word": "elephant",
+        "decoy": "hippo",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "elephant",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "calf",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "trunk",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "waterhole",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "banana",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "bathing",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "elephant keeper",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "tree shade",
+        "kind": "place",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-giraffes",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "giraffe",
+        "forbidden": [
+          "animal",
+          "tall",
+          "legs",
+          "tree"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "neck",
+        "forbidden": [
+          "head",
+          "body",
+          "long",
+          "bend"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "spots",
+        "forbidden": [
+          "brown",
+          "skin",
+          "marks",
+          "pattern"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "leaf",
+        "forbidden": [
+          "green",
+          "tree",
+          "eat",
+          "plant"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tree",
+        "forbidden": [
+          "wood",
+          "tall",
+          "branch",
+          "shade"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tongue",
+        "forbidden": [
+          "mouth",
+          "taste",
+          "long",
+          "pull"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tall legs",
+        "forbidden": [
+          "walk",
+          "high",
+          "feet",
+          "body"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "thorn",
+        "forbidden": [
+          "sharp",
+          "plant",
+          "point",
+          "hurt"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "acacia tree",
+        "forbidden": [
+          "branch",
+          "green",
+          "leaf",
+          "food"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "calf",
+        "forbidden": [
+          "baby",
+          "young",
+          "mother",
+          "small"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "bending",
+        "forbidden": [
+          "down",
+          "neck",
+          "drink",
+          "ground"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "canopy",
+        "forbidden": [
+          "leaves",
+          "top",
+          "forest",
+          "high"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "neck pattern",
+        "forbidden": [
+          "spots",
+          "skin",
+          "brown",
+          "marks"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "long stride",
+        "forbidden": [
+          "walk",
+          "steps",
+          "legs",
+          "distance"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "savanna",
+        "level": "A2"
+      },
+      {
+        "word": "treetop",
+        "level": "A1"
+      },
+      {
+        "word": "hoof",
+        "level": "A2"
+      },
+      {
+        "word": "browsing",
+        "level": "A2"
+      },
+      {
+        "word": "small herd",
+        "level": "A2"
+      },
+      {
+        "word": "drinking pool",
+        "level": "A2"
+      },
+      {
+        "word": "young giraffe",
+        "level": "A1"
+      },
+      {
+        "word": "back leg",
+        "level": "A1"
+      },
+      {
+        "word": "reaching",
+        "level": "A2"
+      },
+      {
+        "word": "tail tuft",
+        "level": "A2"
+      },
+      {
+        "word": "lookout",
+        "level": "A2"
+      },
+      {
+        "word": "standing",
+        "level": "A1"
+      },
+      {
+        "word": "shade patch",
+        "level": "A1"
+      },
+      {
+        "word": "head bumps",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "giraffe",
+        "decoy": "zebra",
+        "level": "A1"
+      },
+      {
+        "word": "leaf",
+        "decoy": "grass",
+        "level": "A1"
+      },
+      {
+        "word": "neck",
+        "decoy": "leg",
+        "level": "A1"
+      },
+      {
+        "word": "spots",
+        "decoy": "stripes",
+        "level": "A2"
+      },
+      {
+        "word": "treetop",
+        "decoy": "bush",
+        "level": "A1"
+      },
+      {
+        "word": "calf",
+        "decoy": "foal",
+        "level": "A2"
+      },
+      {
+        "word": "tongue",
+        "decoy": "tail",
+        "level": "A2"
+      },
+      {
+        "word": "standing",
+        "decoy": "bending",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "giraffe",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "zebra",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "treetop",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "leaf",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "grass",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "calf",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "acacia tree",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "eating leaves",
+        "kind": "activity",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-zebras",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "zebra",
+        "forbidden": [
+          "animal",
+          "black",
+          "white",
+          "horse"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "stripes",
+        "forbidden": [
+          "lines",
+          "skin",
+          "pattern",
+          "coat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "herd",
+        "forbidden": [
+          "group",
+          "together",
+          "animals",
+          "walk"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "grass",
+        "forbidden": [
+          "green",
+          "plant",
+          "eat",
+          "field"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hoof",
+        "forbidden": [
+          "foot",
+          "hard",
+          "ground",
+          "step"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mane",
+        "forbidden": [
+          "hair",
+          "neck",
+          "back",
+          "brush"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "dust",
+        "forbidden": [
+          "dry",
+          "soil",
+          "air",
+          "brown"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "river",
+        "forbidden": [
+          "water",
+          "cross",
+          "bank",
+          "flow"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "grazing",
+        "forbidden": [
+          "eat",
+          "plants",
+          "head",
+          "down"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "crossing",
+        "forbidden": [
+          "river",
+          "other",
+          "side",
+          "walk"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "calf",
+        "forbidden": [
+          "baby",
+          "young",
+          "mother",
+          "small"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "watering hole",
+        "forbidden": [
+          "drink",
+          "pool",
+          "animals",
+          "dry"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "long face",
+        "forbidden": [
+          "nose",
+          "head",
+          "eyes",
+          "shape"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "wild horse",
+        "forbidden": [
+          "ride",
+          "stripes",
+          "field",
+          "animal"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "savanna",
+        "level": "A2"
+      },
+      {
+        "word": "foal",
+        "level": "A2"
+      },
+      {
+        "word": "tail tip",
+        "level": "A2"
+      },
+      {
+        "word": "zebra mother",
+        "level": "A1"
+      },
+      {
+        "word": "running herd",
+        "level": "A2"
+      },
+      {
+        "word": "ear twitch",
+        "level": "A2"
+      },
+      {
+        "word": "muddy hoof",
+        "level": "A2"
+      },
+      {
+        "word": "open plain",
+        "level": "A2"
+      },
+      {
+        "word": "shade tree",
+        "level": "A1"
+      },
+      {
+        "word": "alert ears",
+        "level": "A2"
+      },
+      {
+        "word": "drinking turn",
+        "level": "A2"
+      },
+      {
+        "word": "warning snort",
+        "level": "A2"
+      },
+      {
+        "word": "water",
+        "level": "A1"
+      },
+      {
+        "word": "running",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "zebra",
+        "decoy": "horse",
+        "level": "A1"
+      },
+      {
+        "word": "stripes",
+        "decoy": "spots",
+        "level": "A2"
+      },
+      {
+        "word": "hoof",
+        "decoy": "paw",
+        "level": "A2"
+      },
+      {
+        "word": "mane",
+        "decoy": "fur",
+        "level": "A2"
+      },
+      {
+        "word": "river",
+        "decoy": "pond",
+        "level": "A1"
+      },
+      {
+        "word": "herd",
+        "decoy": "flock",
+        "level": "A2"
+      },
+      {
+        "word": "foal",
+        "decoy": "calf",
+        "level": "A2"
+      },
+      {
+        "word": "grazing",
+        "decoy": "drinking",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "zebra",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "horse",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "river",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "grass",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "hoof",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "shade tree",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "grazing",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "foal",
+        "kind": "animal",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-lions",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "lion",
+        "forbidden": [
+          "animal",
+          "big",
+          "cat",
+          "hair"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cub",
+        "forbidden": [
+          "baby",
+          "young",
+          "mother",
+          "small"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "mane",
+        "forbidden": [
+          "hair",
+          "neck",
+          "male",
+          "head"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "roar",
+        "forbidden": [
+          "sound",
+          "loud",
+          "voice",
+          "animal"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "lioness",
+        "forbidden": [
+          "mother",
+          "female",
+          "cat",
+          "pride"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pride",
+        "forbidden": [
+          "group",
+          "family",
+          "together",
+          "animals"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "meat",
+        "forbidden": [
+          "food",
+          "hungry",
+          "animal",
+          "dinner"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "paw",
+        "forbidden": [
+          "foot",
+          "soft",
+          "claw",
+          "step"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "savanna",
+        "forbidden": [
+          "grass",
+          "trees",
+          "open",
+          "land"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "shade",
+        "forbidden": [
+          "sun",
+          "cool",
+          "rest",
+          "tree"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hunting",
+        "forbidden": [
+          "food",
+          "catch",
+          "animal",
+          "chase"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rock",
+        "forbidden": [
+          "hard",
+          "stone",
+          "ground",
+          "sit"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fang",
+        "forbidden": [
+          "tooth",
+          "sharp",
+          "mouth",
+          "bite"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tuft",
+        "forbidden": [
+          "hair",
+          "tail",
+          "end",
+          "small"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "sleeping lion",
+        "level": "A1"
+      },
+      {
+        "word": "cave",
+        "level": "A1"
+      },
+      {
+        "word": "dry plain",
+        "level": "A2"
+      },
+      {
+        "word": "family group",
+        "level": "A1"
+      },
+      {
+        "word": "wide mouth",
+        "level": "A1"
+      },
+      {
+        "word": "lion footprint",
+        "level": "A2"
+      },
+      {
+        "word": "long whisker",
+        "level": "A2"
+      },
+      {
+        "word": "big teeth",
+        "level": "A1"
+      },
+      {
+        "word": "watering place",
+        "level": "A2"
+      },
+      {
+        "word": "guarding",
+        "level": "A2"
+      },
+      {
+        "word": "night call",
+        "level": "A2"
+      },
+      {
+        "word": "young male",
+        "level": "A2"
+      },
+      {
+        "word": "resting",
+        "level": "A1"
+      },
+      {
+        "word": "pounce",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "lion",
+        "decoy": "tiger",
+        "level": "A1"
+      },
+      {
+        "word": "cub",
+        "decoy": "kitten",
+        "level": "A1"
+      },
+      {
+        "word": "mane",
+        "decoy": "beard",
+        "level": "A2"
+      },
+      {
+        "word": "roar",
+        "decoy": "growl",
+        "level": "A2"
+      },
+      {
+        "word": "pride",
+        "decoy": "herd",
+        "level": "A2"
+      },
+      {
+        "word": "fang",
+        "decoy": "claw",
+        "level": "A2"
+      },
+      {
+        "word": "cave",
+        "decoy": "den",
+        "level": "A1"
+      },
+      {
+        "word": "pounce",
+        "decoy": "chase",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "lion",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "cub",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "lioness",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "cave",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "rock",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "meat",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "pounce",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "paw",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-tigers",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "tiger",
+        "forbidden": [
+          "animal",
+          "orange",
+          "black",
+          "cat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "stripe",
+        "forbidden": [
+          "line",
+          "coat",
+          "black",
+          "pattern"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "big paw",
+        "forbidden": [
+          "foot",
+          "claw",
+          "soft",
+          "step"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "jungle",
+        "forbidden": [
+          "trees",
+          "green",
+          "thick",
+          "forest"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "pond",
+        "forbidden": [
+          "water",
+          "small",
+          "swim",
+          "pool"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "orange coat",
+        "forbidden": [
+          "fur",
+          "colour",
+          "body",
+          "black"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "stalking",
+        "forbidden": [
+          "quiet",
+          "walk",
+          "prey",
+          "slow"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pounce",
+        "forbidden": [
+          "jump",
+          "catch",
+          "legs",
+          "quick"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "swimming",
+        "forbidden": [
+          "water",
+          "move",
+          "pool",
+          "legs"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cub",
+        "forbidden": [
+          "baby",
+          "young",
+          "mother",
+          "small"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fang",
+        "forbidden": [
+          "tooth",
+          "sharp",
+          "mouth",
+          "bite"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "territory",
+        "forbidden": [
+          "home",
+          "area",
+          "mark",
+          "space"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "claw",
+        "forbidden": [
+          "nail",
+          "sharp",
+          "paw",
+          "scratch"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "hiding place",
+        "forbidden": [
+          "safe",
+          "bush",
+          "quiet",
+          "inside"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "leopard",
+        "level": "A2"
+      },
+      {
+        "word": "big cat",
+        "level": "A1"
+      },
+      {
+        "word": "tail tip",
+        "level": "A2"
+      },
+      {
+        "word": "long body",
+        "level": "A1"
+      },
+      {
+        "word": "walking",
+        "level": "A1"
+      },
+      {
+        "word": "thick forest",
+        "level": "A2"
+      },
+      {
+        "word": "river pool",
+        "level": "A1"
+      },
+      {
+        "word": "sharp teeth",
+        "level": "A1"
+      },
+      {
+        "word": "night walk",
+        "level": "A2"
+      },
+      {
+        "word": "scent mark",
+        "level": "A2"
+      },
+      {
+        "word": "snowy forest",
+        "level": "A2"
+      },
+      {
+        "word": "tiger keeper",
+        "level": "A2"
+      },
+      {
+        "word": "quiet step",
+        "level": "A2"
+      },
+      {
+        "word": "shaded pool",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "tiger",
+        "decoy": "lion",
+        "level": "A1"
+      },
+      {
+        "word": "stripe",
+        "decoy": "spot",
+        "level": "A2"
+      },
+      {
+        "word": "pond",
+        "decoy": "river",
+        "level": "A1"
+      },
+      {
+        "word": "claw",
+        "decoy": "fang",
+        "level": "A2"
+      },
+      {
+        "word": "stalking",
+        "decoy": "running",
+        "level": "A2"
+      },
+      {
+        "word": "jungle",
+        "decoy": "forest",
+        "level": "A1"
+      },
+      {
+        "word": "tiger keeper",
+        "decoy": "vet",
+        "level": "A2"
+      },
+      {
+        "word": "cub",
+        "decoy": "kitten",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "tiger",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "leopard",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "jungle",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "pond",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "claw",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "cub",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "swimming",
+        "kind": "activity",
+        "level": "A1"
+      },
+      {
+        "secret": "meat",
+        "kind": "food",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-pandas",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "panda",
+        "forbidden": [
+          "animal",
+          "bear",
+          "black",
+          "white"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bear",
+        "forbidden": [
+          "animal",
+          "big",
+          "black",
+          "brown"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "baby panda",
+        "forbidden": [
+          "small",
+          "mother",
+          "young",
+          "soft"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bamboo",
+        "forbidden": [
+          "plant",
+          "green",
+          "eat",
+          "hard"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "bamboo shoot",
+        "forbidden": [
+          "new",
+          "young",
+          "food",
+          "plant"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "black patch",
+        "forbidden": [
+          "eye",
+          "colour",
+          "face",
+          "white"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "round ear",
+        "forbidden": [
+          "hear",
+          "head",
+          "small",
+          "side"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "climbing",
+        "forbidden": [
+          "up",
+          "tree",
+          "legs",
+          "high"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "forest floor",
+        "forbidden": [
+          "ground",
+          "leaves",
+          "under",
+          "trees"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "chewing",
+        "forbidden": [
+          "teeth",
+          "mouth",
+          "food",
+          "bite"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "den",
+        "forbidden": [
+          "home",
+          "sleep",
+          "inside",
+          "animal"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "snow patch",
+        "forbidden": [
+          "white",
+          "cold",
+          "ground",
+          "winter"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "thick coat",
+        "forbidden": [
+          "fur",
+          "warm",
+          "body",
+          "soft"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "panda keeper",
+        "forbidden": [
+          "job",
+          "feed",
+          "animal",
+          "care"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "tree",
+        "level": "A1"
+      },
+      {
+        "word": "hill",
+        "level": "A1"
+      },
+      {
+        "word": "sleeping",
+        "level": "A1"
+      },
+      {
+        "word": "water",
+        "level": "A1"
+      },
+      {
+        "word": "bamboo basket",
+        "level": "A2"
+      },
+      {
+        "word": "bamboo stem",
+        "level": "A2"
+      },
+      {
+        "word": "front paw",
+        "level": "A2"
+      },
+      {
+        "word": "rear paw",
+        "level": "A2"
+      },
+      {
+        "word": "white fur",
+        "level": "A1"
+      },
+      {
+        "word": "mountain path",
+        "level": "A1"
+      },
+      {
+        "word": "feeding station",
+        "level": "A2"
+      },
+      {
+        "word": "rolling",
+        "level": "A2"
+      },
+      {
+        "word": "mother panda",
+        "level": "A1"
+      },
+      {
+        "word": "resting branch",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "panda",
+        "decoy": "koala",
+        "level": "A1"
+      },
+      {
+        "word": "bamboo",
+        "decoy": "tree",
+        "level": "A2"
+      },
+      {
+        "word": "shoot",
+        "decoy": "leaf",
+        "level": "A2"
+      },
+      {
+        "word": "den",
+        "decoy": "cave",
+        "level": "A2"
+      },
+      {
+        "word": "chewing",
+        "decoy": "licking",
+        "level": "A2"
+      },
+      {
+        "word": "front paw",
+        "decoy": "rear paw",
+        "level": "A2"
+      },
+      {
+        "word": "round ear",
+        "decoy": "long ear",
+        "level": "A1"
+      },
+      {
+        "word": "climbing",
+        "decoy": "rolling",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "panda",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "bear",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "bamboo",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "bamboo shoot",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "den",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "mountain woodland",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "climbing",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "panda keeper",
+        "kind": "job",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-koalas",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "koala",
+        "forbidden": [
+          "animal",
+          "grey",
+          "tree",
+          "sleep"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tree",
+        "forbidden": [
+          "wood",
+          "tall",
+          "leaf",
+          "branch"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sleeping",
+        "forbidden": [
+          "eyes",
+          "rest",
+          "quiet",
+          "night"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "furry ear",
+        "forbidden": [
+          "hear",
+          "soft",
+          "head",
+          "hair"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "joey",
+        "forbidden": [
+          "baby",
+          "mother",
+          "small",
+          "young"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pouch",
+        "forbidden": [
+          "bag",
+          "baby",
+          "carry",
+          "body"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "eucalyptus",
+        "forbidden": [
+          "tree",
+          "leaf",
+          "food",
+          "smell"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tree fork",
+        "forbidden": [
+          "branch",
+          "split",
+          "rest",
+          "seat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "gripping",
+        "forbidden": [
+          "hold",
+          "foot",
+          "climb",
+          "tight"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "claw",
+        "forbidden": [
+          "nail",
+          "sharp",
+          "foot",
+          "climb"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tree trunk",
+        "forbidden": [
+          "wood",
+          "bark",
+          "climb",
+          "tall"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "leaf meal",
+        "forbidden": [
+          "food",
+          "green",
+          "eat",
+          "plant"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "branch gap",
+        "forbidden": [
+          "jump",
+          "space",
+          "between",
+          "trees"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "koala keeper",
+        "forbidden": [
+          "job",
+          "feed",
+          "care",
+          "animal"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "branch",
+        "level": "A1"
+      },
+      {
+        "word": "leaf",
+        "level": "A1"
+      },
+      {
+        "word": "rounded head",
+        "level": "A1"
+      },
+      {
+        "word": "small nose",
+        "level": "A1"
+      },
+      {
+        "word": "tree climber",
+        "level": "A2"
+      },
+      {
+        "word": "grey fur",
+        "level": "A2"
+      },
+      {
+        "word": "leaf basket",
+        "level": "A2"
+      },
+      {
+        "word": "forest canopy",
+        "level": "A2"
+      },
+      {
+        "word": "curved nail",
+        "level": "A2"
+      },
+      {
+        "word": "koala mother",
+        "level": "A1"
+      },
+      {
+        "word": "tree hollow",
+        "level": "A2"
+      },
+      {
+        "word": "grasping foot",
+        "level": "A2"
+      },
+      {
+        "word": "shade branch",
+        "level": "A2"
+      },
+      {
+        "word": "animal nurse",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "koala",
+        "decoy": "panda",
+        "level": "A1"
+      },
+      {
+        "word": "joey",
+        "decoy": "kitten",
+        "level": "A2"
+      },
+      {
+        "word": "pouch",
+        "decoy": "basket",
+        "level": "A2"
+      },
+      {
+        "word": "claw",
+        "decoy": "nail",
+        "level": "A2"
+      },
+      {
+        "word": "eucalyptus",
+        "decoy": "bamboo",
+        "level": "A2"
+      },
+      {
+        "word": "tree fork",
+        "decoy": "tree hollow",
+        "level": "A2"
+      },
+      {
+        "word": "sleeping",
+        "decoy": "resting",
+        "level": "A1"
+      },
+      {
+        "word": "grey fur",
+        "decoy": "white fur",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "koala",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "joey",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "pouch",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "eucalyptus tree",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "tree hollow",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "leaf",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "koala keeper",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "sleeping",
+        "kind": "activity",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-kangaroos",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "kangaroo",
+        "forbidden": [
+          "animal",
+          "jump",
+          "baby",
+          "legs"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hop",
+        "forbidden": [
+          "jump",
+          "feet",
+          "move",
+          "up"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "open field",
+        "forbidden": [
+          "grass",
+          "space",
+          "land",
+          "wide"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "small head",
+        "forbidden": [
+          "face",
+          "ears",
+          "nose",
+          "body"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "joey",
+        "forbidden": [
+          "baby",
+          "mother",
+          "young",
+          "carry"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pouch",
+        "forbidden": [
+          "bag",
+          "baby",
+          "body",
+          "carry"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tail balance",
+        "forbidden": [
+          "stand",
+          "back",
+          "long",
+          "steady"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "hind leg",
+        "forbidden": [
+          "back",
+          "foot",
+          "jump",
+          "strong"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "leaping",
+        "forbidden": [
+          "jump",
+          "far",
+          "air",
+          "move"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "red kangaroo",
+        "forbidden": [
+          "colour",
+          "animal",
+          "jump",
+          "big"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "grey kangaroo",
+        "forbidden": [
+          "colour",
+          "animal",
+          "jump",
+          "smaller"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "grazing",
+        "forbidden": [
+          "eat",
+          "plants",
+          "ground",
+          "head"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "footprint",
+        "forbidden": [
+          "mark",
+          "ground",
+          "step",
+          "mud"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "forepaw",
+        "forbidden": [
+          "front",
+          "arm",
+          "hand",
+          "small"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "long ears",
+        "level": "A1"
+      },
+      {
+        "word": "big jump",
+        "level": "A1"
+      },
+      {
+        "word": "mother kangaroo",
+        "level": "A1"
+      },
+      {
+        "word": "drinking kangaroo",
+        "level": "A1"
+      },
+      {
+        "word": "left leg",
+        "level": "A1"
+      },
+      {
+        "word": "short arms",
+        "level": "A1"
+      },
+      {
+        "word": "resting group",
+        "level": "A2"
+      },
+      {
+        "word": "bent knees",
+        "level": "A2"
+      },
+      {
+        "word": "stretching",
+        "level": "A2"
+      },
+      {
+        "word": "jump distance",
+        "level": "A2"
+      },
+      {
+        "word": "tail tip",
+        "level": "A2"
+      },
+      {
+        "word": "dry plain",
+        "level": "A2"
+      },
+      {
+        "word": "seeking water",
+        "level": "A2"
+      },
+      {
+        "word": "sandy track",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "kangaroo",
+        "decoy": "wallaby",
+        "level": "A2"
+      },
+      {
+        "word": "joey",
+        "decoy": "cub",
+        "level": "A2"
+      },
+      {
+        "word": "pouch",
+        "decoy": "bag",
+        "level": "A2"
+      },
+      {
+        "word": "hop",
+        "decoy": "jump",
+        "level": "A1"
+      },
+      {
+        "word": "hind leg",
+        "decoy": "forepaw",
+        "level": "A2"
+      },
+      {
+        "word": "footprint",
+        "decoy": "handprint",
+        "level": "A2"
+      },
+      {
+        "word": "red kangaroo",
+        "decoy": "grey kangaroo",
+        "level": "A2"
+      },
+      {
+        "word": "grassland",
+        "decoy": "forest",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "kangaroo",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "wallaby",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "joey",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "pouch",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "grassland",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "hop",
+        "kind": "activity",
+        "level": "A1"
+      },
+      {
+        "secret": "mother kangaroo",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "footprint",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-penguins",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "penguin",
+        "forbidden": [
+          "bird",
+          "swim",
+          "black",
+          "white"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "chick",
+        "forbidden": [
+          "baby",
+          "bird",
+          "young",
+          "small"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "egg",
+        "forbidden": [
+          "shell",
+          "round",
+          "baby",
+          "nest"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ice",
+        "forbidden": [
+          "cold",
+          "water",
+          "hard",
+          "white"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "flipper",
+        "forbidden": [
+          "swim",
+          "side",
+          "flat",
+          "body"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "beak",
+        "forbidden": [
+          "mouth",
+          "bird",
+          "hard",
+          "point"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "feather",
+        "forbidden": [
+          "bird",
+          "soft",
+          "coat",
+          "light"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "colony",
+        "forbidden": [
+          "group",
+          "birds",
+          "together",
+          "home"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "waddle",
+        "forbidden": [
+          "walk",
+          "side",
+          "feet",
+          "slow"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fish",
+        "forbidden": [
+          "water",
+          "food",
+          "swim",
+          "catch"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "snow",
+        "forbidden": [
+          "white",
+          "cold",
+          "winter",
+          "fall"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "nest",
+        "forbidden": [
+          "home",
+          "egg",
+          "bird",
+          "stones"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "huddle",
+        "forbidden": [
+          "close",
+          "together",
+          "warm",
+          "group"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "belly slide",
+        "forbidden": [
+          "ice",
+          "front",
+          "move",
+          "down"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "seal",
+        "level": "A1"
+      },
+      {
+        "word": "rocky beach",
+        "level": "A1"
+      },
+      {
+        "word": "ocean",
+        "level": "A1"
+      },
+      {
+        "word": "dive",
+        "level": "A1"
+      },
+      {
+        "word": "webbed foot",
+        "level": "A2"
+      },
+      {
+        "word": "white breast",
+        "level": "A2"
+      },
+      {
+        "word": "black back",
+        "level": "A1"
+      },
+      {
+        "word": "warming an egg",
+        "level": "A2"
+      },
+      {
+        "word": "penguin parent",
+        "level": "A1"
+      },
+      {
+        "word": "small stone",
+        "level": "A1"
+      },
+      {
+        "word": "feeding a chick",
+        "level": "A2"
+      },
+      {
+        "word": "surfacing",
+        "level": "A2"
+      },
+      {
+        "word": "swimming bird",
+        "level": "A2"
+      },
+      {
+        "word": "icy shore",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "penguin",
+        "decoy": "seal",
+        "level": "A1"
+      },
+      {
+        "word": "chick",
+        "decoy": "egg",
+        "level": "A1"
+      },
+      {
+        "word": "beak",
+        "decoy": "snout",
+        "level": "A2"
+      },
+      {
+        "word": "flipper",
+        "decoy": "wing",
+        "level": "A2"
+      },
+      {
+        "word": "nest",
+        "decoy": "den",
+        "level": "A2"
+      },
+      {
+        "word": "ice",
+        "decoy": "snow",
+        "level": "A1"
+      },
+      {
+        "word": "waddle",
+        "decoy": "walk",
+        "level": "A2"
+      },
+      {
+        "word": "huddle",
+        "decoy": "herd",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "penguin",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "seal",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "egg",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "ice",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "flipper",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "nest",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "waddle",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "rocky beach",
+        "kind": "place",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-polar-bears",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "polar bear",
+        "forbidden": [
+          "animal",
+          "white",
+          "cold",
+          "snow"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "cub",
+        "forbidden": [
+          "baby",
+          "young",
+          "mother",
+          "small"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "snow",
+        "forbidden": [
+          "white",
+          "cold",
+          "winter",
+          "fall"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ice",
+        "forbidden": [
+          "water",
+          "cold",
+          "hard",
+          "white"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bear paw",
+        "forbidden": [
+          "foot",
+          "claw",
+          "soft",
+          "step"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "seal",
+        "forbidden": [
+          "animal",
+          "swim",
+          "food",
+          "ocean"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "thick fur",
+        "forbidden": [
+          "warm",
+          "hair",
+          "coat",
+          "soft"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "black skin",
+        "forbidden": [
+          "dark",
+          "under",
+          "body",
+          "colour"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sea ice",
+        "forbidden": [
+          "frozen",
+          "water",
+          "float",
+          "cold"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "snow den",
+        "forbidden": [
+          "home",
+          "winter",
+          "inside",
+          "mother"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "swimming",
+        "forbidden": [
+          "water",
+          "move",
+          "legs",
+          "cross"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hunting",
+        "forbidden": [
+          "food",
+          "catch",
+          "smell",
+          "animal"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "white coat",
+        "forbidden": [
+          "hair",
+          "warm",
+          "body",
+          "colour"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "floating ice",
+        "forbidden": [
+          "water",
+          "move",
+          "cold",
+          "island"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "Arctic",
+        "level": "A2"
+      },
+      {
+        "word": "cold sea",
+        "level": "A1"
+      },
+      {
+        "word": "big foot",
+        "level": "A1"
+      },
+      {
+        "word": "bear mother",
+        "level": "A1"
+      },
+      {
+        "word": "long swim",
+        "level": "A1"
+      },
+      {
+        "word": "fat layer",
+        "level": "A2"
+      },
+      {
+        "word": "ice edge",
+        "level": "A2"
+      },
+      {
+        "word": "wet fur",
+        "level": "A1"
+      },
+      {
+        "word": "small snout",
+        "level": "A2"
+      },
+      {
+        "word": "scent trail",
+        "level": "A2"
+      },
+      {
+        "word": "den entrance",
+        "level": "A2"
+      },
+      {
+        "word": "standing bear",
+        "level": "A1"
+      },
+      {
+        "word": "snow track",
+        "level": "A2"
+      },
+      {
+        "word": "thawed ice",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "polar bear",
+        "decoy": "brown bear",
+        "level": "A1"
+      },
+      {
+        "word": "cub",
+        "decoy": "chick",
+        "level": "A1"
+      },
+      {
+        "word": "snow den",
+        "decoy": "cave",
+        "level": "A2"
+      },
+      {
+        "word": "sea ice",
+        "decoy": "river ice",
+        "level": "A2"
+      },
+      {
+        "word": "seal",
+        "decoy": "walrus",
+        "level": "A2"
+      },
+      {
+        "word": "bear paw",
+        "decoy": "seal flipper",
+        "level": "A2"
+      },
+      {
+        "word": "black skin",
+        "decoy": "white coat",
+        "level": "A2"
+      },
+      {
+        "word": "swimming",
+        "decoy": "walking",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "polar bear",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "cub",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "seal",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "snow den",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "sea ice",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "bear paw",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "hunting",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "white coat",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-dolphins",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "dolphin",
+        "forbidden": [
+          "animal",
+          "sea",
+          "swim",
+          "jump"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fin",
+        "forbidden": [
+          "back",
+          "water",
+          "body",
+          "point"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "blowhole",
+        "forbidden": [
+          "air",
+          "head",
+          "breathe",
+          "top"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fish",
+        "forbidden": [
+          "water",
+          "swim",
+          "food",
+          "tail"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "jump",
+        "forbidden": [
+          "up",
+          "air",
+          "water",
+          "high"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ocean",
+        "forbidden": [
+          "sea",
+          "water",
+          "big",
+          "blue"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "boat",
+        "forbidden": [
+          "water",
+          "ride",
+          "people",
+          "travel"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "click",
+        "forbidden": [
+          "sound",
+          "short",
+          "hear",
+          "find"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pod",
+        "forbidden": [
+          "group",
+          "together",
+          "animals",
+          "swim"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "echo",
+        "forbidden": [
+          "sound",
+          "back",
+          "hear",
+          "repeat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "wave",
+        "forbidden": [
+          "water",
+          "move",
+          "sea",
+          "shore"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "dolphin calf",
+        "forbidden": [
+          "baby",
+          "mother",
+          "small",
+          "young"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "surfacing",
+        "forbidden": [
+          "top",
+          "water",
+          "air",
+          "breathe"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "flipper",
+        "forbidden": [
+          "side",
+          "flat",
+          "swim",
+          "body"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "swimming",
+        "level": "A1"
+      },
+      {
+        "word": "smooth skin",
+        "level": "A1"
+      },
+      {
+        "word": "sea spray",
+        "level": "A1"
+      },
+      {
+        "word": "small teeth",
+        "level": "A1"
+      },
+      {
+        "word": "curved back",
+        "level": "A1"
+      },
+      {
+        "word": "dolphin trainer",
+        "level": "A2"
+      },
+      {
+        "word": "breathing",
+        "level": "A2"
+      },
+      {
+        "word": "diving",
+        "level": "A2"
+      },
+      {
+        "word": "fish school",
+        "level": "A2"
+      },
+      {
+        "word": "open sea",
+        "level": "A1"
+      },
+      {
+        "word": "river dolphin",
+        "level": "A2"
+      },
+      {
+        "word": "tail fluke",
+        "level": "A2"
+      },
+      {
+        "word": "dolphin mother",
+        "level": "A1"
+      },
+      {
+        "word": "playful leap",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "dolphin",
+        "decoy": "seal",
+        "level": "A1"
+      },
+      {
+        "word": "click",
+        "decoy": "whistle",
+        "level": "A2"
+      },
+      {
+        "word": "fin",
+        "decoy": "flipper",
+        "level": "A2"
+      },
+      {
+        "word": "blowhole",
+        "decoy": "nostril",
+        "level": "A2"
+      },
+      {
+        "word": "pod",
+        "decoy": "fish school",
+        "level": "A2"
+      },
+      {
+        "word": "jump",
+        "decoy": "dive",
+        "level": "A1"
+      },
+      {
+        "word": "smooth skin",
+        "decoy": "fur",
+        "level": "A2"
+      },
+      {
+        "word": "river dolphin",
+        "decoy": "ocean dolphin",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "dolphin",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "seal",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "blowhole",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "fish",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "boat",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "ocean",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "diving",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "dolphin calf",
+        "kind": "animal",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-whales",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "whale",
+        "forbidden": [
+          "animal",
+          "big",
+          "sea",
+          "swim"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "blue whale",
+        "forbidden": [
+          "large",
+          "sea",
+          "animal",
+          "long"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "humpback whale",
+        "forbidden": [
+          "song",
+          "jump",
+          "sea",
+          "animal"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "blowhole",
+        "forbidden": [
+          "head",
+          "air",
+          "breathe",
+          "top"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "spout",
+        "forbidden": [
+          "water",
+          "air",
+          "blow",
+          "up"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fluke",
+        "forbidden": [
+          "tail",
+          "flat",
+          "back",
+          "swim"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "tiny shrimp",
+        "forbidden": [
+          "food",
+          "sea",
+          "small",
+          "pink"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "whale song",
+        "forbidden": [
+          "sound",
+          "hear",
+          "call",
+          "water"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ocean",
+        "forbidden": [
+          "sea",
+          "blue",
+          "water",
+          "deep"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "migration",
+        "forbidden": [
+          "travel",
+          "seasons",
+          "far",
+          "route"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mouth plates",
+        "forbidden": [
+          "filter",
+          "food",
+          "comb",
+          "inside"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "whale calf",
+        "forbidden": [
+          "baby",
+          "mother",
+          "young",
+          "small"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "feeding ground",
+        "forbidden": [
+          "food",
+          "place",
+          "sea",
+          "eat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "deep water",
+        "forbidden": [
+          "dark",
+          "sea",
+          "down",
+          "swim"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "dolphin",
+        "level": "A1"
+      },
+      {
+        "word": "big mouth",
+        "level": "A1"
+      },
+      {
+        "word": "long dive",
+        "level": "A1"
+      },
+      {
+        "word": "ship",
+        "level": "A1"
+      },
+      {
+        "word": "whale watcher",
+        "level": "A2"
+      },
+      {
+        "word": "breaching",
+        "level": "A2"
+      },
+      {
+        "word": "bubbles",
+        "level": "A1"
+      },
+      {
+        "word": "open ocean",
+        "level": "A1"
+      },
+      {
+        "word": "whale pod",
+        "level": "A2"
+      },
+      {
+        "word": "side fin",
+        "level": "A2"
+      },
+      {
+        "word": "tail wave",
+        "level": "A1"
+      },
+      {
+        "word": "cold current",
+        "level": "A2"
+      },
+      {
+        "word": "whale recording",
+        "level": "A2"
+      },
+      {
+        "word": "surface breath",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "whale",
+        "decoy": "dolphin",
+        "level": "A1"
+      },
+      {
+        "word": "blue whale",
+        "decoy": "humpback whale",
+        "level": "A2"
+      },
+      {
+        "word": "whale song",
+        "decoy": "whistle",
+        "level": "A2"
+      },
+      {
+        "word": "blowhole",
+        "decoy": "nostril",
+        "level": "A2"
+      },
+      {
+        "word": "mouth plates",
+        "decoy": "teeth",
+        "level": "A2"
+      },
+      {
+        "word": "tiny shrimp",
+        "decoy": "small fish",
+        "level": "A2"
+      },
+      {
+        "word": "breaching",
+        "decoy": "diving",
+        "level": "A2"
+      },
+      {
+        "word": "spout",
+        "decoy": "wave",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "whale",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "blue whale",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "blowhole",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "feeding ground",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "tiny shrimp",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "ship",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "long dive",
+        "kind": "activity",
+        "level": "A1"
+      },
+      {
+        "secret": "whale watcher",
+        "kind": "job",
+        "level": "A2"
+      }
+    ]
+  }
+]
