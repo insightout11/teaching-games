@@ -73,7 +73,7 @@ describe('POST /api/vocab-sprint/generate', () => {
     expect(data.sentences).toEqual(FAKE_SENTENCES);
     expect(data.cacheId).toBe('new-cache-uuid');
     expect(generateJSON).toHaveBeenCalledOnce();
-    expect(storeCachedContent).toHaveBeenCalledWith('vocab-sprint', 'Business', 'Advanced', FAKE_SENTENCES, 3);
+    expect(storeCachedContent).toHaveBeenCalledWith('vocab-sprint', 'Business', 'Advanced', FAKE_SENTENCES, 4);
   });
 
   it('passes seenItems as exclusion list to AI on cache miss', async () => {
@@ -109,7 +109,7 @@ describe('POST /api/vocab-sprint/generate', () => {
     });
     await POST(req as never);
 
-    expect(getCachedContent).toHaveBeenCalledWith('vocab-sprint', 'Travel', 'Easy', excludeIds, undefined, 3);
+    expect(getCachedContent).toHaveBeenCalledWith('vocab-sprint', 'Travel', 'Easy', excludeIds, undefined, 4);
   });
 
   it('returns 200 with degraded fallback when AI throws and cache misses', async () => {
