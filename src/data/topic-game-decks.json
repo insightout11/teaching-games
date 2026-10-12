@@ -4318,5 +4318,4325 @@
         "level": "A2"
       }
     ]
+  },
+  {
+    "topicId": "topic-kids-sharks",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "shark",
+        "forbidden": [
+          "animal",
+          "sea",
+          "teeth",
+          "swim"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tooth",
+        "forbidden": [
+          "mouth",
+          "white",
+          "sharp",
+          "bite"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fin",
+        "forbidden": [
+          "back",
+          "water",
+          "point",
+          "swim"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "gill",
+        "forbidden": [
+          "breathe",
+          "water",
+          "side",
+          "fish"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fish",
+        "forbidden": [
+          "food",
+          "swim",
+          "water",
+          "small"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ocean",
+        "forbidden": [
+          "sea",
+          "big",
+          "blue",
+          "deep"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tail fin",
+        "forbidden": [
+          "back",
+          "move",
+          "swim",
+          "flat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sandbar",
+        "forbidden": [
+          "shallow",
+          "water",
+          "ground",
+          "beach"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "ray",
+        "forbidden": [
+          "flat",
+          "animal",
+          "sea",
+          "wings"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "reef",
+        "forbidden": [
+          "coral",
+          "fish",
+          "sea",
+          "rocks"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "egg case",
+        "forbidden": [
+          "baby",
+          "shell",
+          "bag",
+          "inside"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "snout",
+        "forbidden": [
+          "nose",
+          "front",
+          "head",
+          "mouth"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "shark pup",
+        "forbidden": [
+          "baby",
+          "young",
+          "mother",
+          "small"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "deep sea",
+        "forbidden": [
+          "dark",
+          "down",
+          "water",
+          "far"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "beach",
+        "level": "A1"
+      },
+      {
+        "word": "pebble",
+        "level": "A1"
+      },
+      {
+        "word": "underwater camera",
+        "level": "A2"
+      },
+      {
+        "word": "diver",
+        "level": "A2"
+      },
+      {
+        "word": "research boat",
+        "level": "A2"
+      },
+      {
+        "word": "shark scientist",
+        "level": "A2"
+      },
+      {
+        "word": "back fin",
+        "level": "A1"
+      },
+      {
+        "word": "shark skin",
+        "level": "A2"
+      },
+      {
+        "word": "sharp edge",
+        "level": "A1"
+      },
+      {
+        "word": "flat body",
+        "level": "A1"
+      },
+      {
+        "word": "tiger shark",
+        "level": "A2"
+      },
+      {
+        "word": "hammerhead shark",
+        "level": "A2"
+      },
+      {
+        "word": "hunting circle",
+        "level": "A2"
+      },
+      {
+        "word": "open water",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "shark",
+        "decoy": "ray",
+        "level": "A2"
+      },
+      {
+        "word": "tooth",
+        "decoy": "beak",
+        "level": "A1"
+      },
+      {
+        "word": "gill",
+        "decoy": "blowhole",
+        "level": "A2"
+      },
+      {
+        "word": "fin",
+        "decoy": "flipper",
+        "level": "A2"
+      },
+      {
+        "word": "ocean",
+        "decoy": "river",
+        "level": "A1"
+      },
+      {
+        "word": "shark pup",
+        "decoy": "whale calf",
+        "level": "A2"
+      },
+      {
+        "word": "egg case",
+        "decoy": "egg",
+        "level": "A2"
+      },
+      {
+        "word": "reef",
+        "decoy": "sandbar",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "shark",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "ray",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "tooth",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "reef",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "ocean",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "gill",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "diver",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "egg case",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-sea-turtles",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "turtle",
+        "forbidden": [
+          "animal",
+          "shell",
+          "slow",
+          "swim"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "shell",
+        "forbidden": [
+          "back",
+          "hard",
+          "cover",
+          "protect"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "flipper",
+        "forbidden": [
+          "flat",
+          "side",
+          "body",
+          "swim"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "nest",
+        "forbidden": [
+          "home",
+          "egg",
+          "sand",
+          "baby"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "beach",
+        "forbidden": [
+          "sand",
+          "sea",
+          "shore",
+          "walk"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "egg",
+        "forbidden": [
+          "round",
+          "shell",
+          "baby",
+          "white"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hatchling",
+        "forbidden": [
+          "baby",
+          "new",
+          "small",
+          "sand"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "seaweed",
+        "forbidden": [
+          "plant",
+          "green",
+          "water",
+          "food"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "seagrass",
+        "forbidden": [
+          "plant",
+          "green",
+          "water",
+          "field"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "reef",
+        "forbidden": [
+          "coral",
+          "fish",
+          "rocks",
+          "sea"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "track",
+        "forbidden": [
+          "mark",
+          "sand",
+          "move",
+          "line"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sand",
+        "forbidden": [
+          "beach",
+          "small",
+          "ground",
+          "grains"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sun",
+        "forbidden": [
+          "sky",
+          "light",
+          "hot",
+          "day"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tide",
+        "forbidden": [
+          "sea",
+          "up",
+          "down",
+          "shore"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "turtle mother",
+        "level": "A1"
+      },
+      {
+        "word": "baby turtle",
+        "level": "A1"
+      },
+      {
+        "word": "open sea",
+        "level": "A1"
+      },
+      {
+        "word": "moonlight",
+        "level": "A1"
+      },
+      {
+        "word": "turtle beak",
+        "level": "A2"
+      },
+      {
+        "word": "sand hollow",
+        "level": "A2"
+      },
+      {
+        "word": "nest guard",
+        "level": "A2"
+      },
+      {
+        "word": "turtle rescue worker",
+        "level": "A2"
+      },
+      {
+        "word": "plastic bag",
+        "level": "A1"
+      },
+      {
+        "word": "seagrass bed",
+        "level": "A2"
+      },
+      {
+        "word": "front flipper",
+        "level": "A2"
+      },
+      {
+        "word": "back flipper",
+        "level": "A2"
+      },
+      {
+        "word": "slow crawl",
+        "level": "A1"
+      },
+      {
+        "word": "long journey",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "shell",
+        "decoy": "helmet",
+        "level": "A2"
+      },
+      {
+        "word": "turtle",
+        "decoy": "tortoise",
+        "level": "A2"
+      },
+      {
+        "word": "flipper",
+        "decoy": "fin",
+        "level": "A2"
+      },
+      {
+        "word": "beach",
+        "decoy": "sandbar",
+        "level": "A1"
+      },
+      {
+        "word": "egg",
+        "decoy": "hatchling",
+        "level": "A2"
+      },
+      {
+        "word": "seaweed",
+        "decoy": "seagrass",
+        "level": "A2"
+      },
+      {
+        "word": "reef",
+        "decoy": "rock pool",
+        "level": "A2"
+      },
+      {
+        "word": "track",
+        "decoy": "footprint",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "turtle",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "tortoise",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "shell",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "beach",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "nest",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "sun",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "seaweed",
+        "kind": "food",
+        "level": "A2"
+      },
+      {
+        "secret": "hatchling",
+        "kind": "animal",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-frogs",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "frog",
+        "forbidden": [
+          "animal",
+          "green",
+          "jump",
+          "pond"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tadpole",
+        "forbidden": [
+          "baby",
+          "water",
+          "tail",
+          "swim"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pond",
+        "forbidden": [
+          "water",
+          "small",
+          "pool",
+          "garden"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fly",
+        "forbidden": [
+          "insect",
+          "wings",
+          "food",
+          "air"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hop",
+        "forbidden": [
+          "jump",
+          "legs",
+          "move",
+          "up"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "wet skin",
+        "forbidden": [
+          "water",
+          "body",
+          "soft",
+          "touch"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "croak",
+        "forbidden": [
+          "sound",
+          "voice",
+          "night",
+          "pond"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "lily pad",
+        "forbidden": [
+          "leaf",
+          "float",
+          "water",
+          "round"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "frog eggs",
+        "forbidden": [
+          "jelly",
+          "round",
+          "water",
+          "tiny"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "webbed feet",
+        "forbidden": [
+          "swim",
+          "toes",
+          "flat",
+          "legs"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "long tongue",
+        "forbidden": [
+          "mouth",
+          "catch",
+          "food",
+          "sticky"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "hind legs",
+        "forbidden": [
+          "back",
+          "jump",
+          "strong",
+          "body"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "insect",
+        "forbidden": [
+          "small",
+          "legs",
+          "wings",
+          "animal"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "young frog",
+        "forbidden": [
+          "baby",
+          "small",
+          "legs",
+          "pond"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "green body",
+        "level": "A1"
+      },
+      {
+        "word": "small eyes",
+        "level": "A1"
+      },
+      {
+        "word": "jumping",
+        "level": "A1"
+      },
+      {
+        "word": "water plant",
+        "level": "A1"
+      },
+      {
+        "word": "stone edge",
+        "level": "A1"
+      },
+      {
+        "word": "rainy garden",
+        "level": "A2"
+      },
+      {
+        "word": "pond keeper",
+        "level": "A2"
+      },
+      {
+        "word": "frog footprint",
+        "level": "A2"
+      },
+      {
+        "word": "night chorus",
+        "level": "A2"
+      },
+      {
+        "word": "muddy bank",
+        "level": "A1"
+      },
+      {
+        "word": "tadpole tail",
+        "level": "A1"
+      },
+      {
+        "word": "swimming tadpole",
+        "level": "A1"
+      },
+      {
+        "word": "sticky tongue",
+        "level": "A2"
+      },
+      {
+        "word": "pond net",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "frog",
+        "decoy": "toad",
+        "level": "A2"
+      },
+      {
+        "word": "tadpole",
+        "decoy": "young frog",
+        "level": "A2"
+      },
+      {
+        "word": "hop",
+        "decoy": "walk",
+        "level": "A1"
+      },
+      {
+        "word": "croak",
+        "decoy": "chirp",
+        "level": "A2"
+      },
+      {
+        "word": "lily pad",
+        "decoy": "water flower",
+        "level": "A2"
+      },
+      {
+        "word": "frog eggs",
+        "decoy": "fish eggs",
+        "level": "A2"
+      },
+      {
+        "word": "wet skin",
+        "decoy": "scales",
+        "level": "A2"
+      },
+      {
+        "word": "long tongue",
+        "decoy": "hind legs",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "frog",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "toad",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "tadpole",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "pond",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "fly",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "lily pad",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "young frog",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "pond net",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-butterflies",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "butterfly",
+        "forbidden": [
+          "insect",
+          "wings",
+          "flower",
+          "colour"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "caterpillar",
+        "forbidden": [
+          "young",
+          "legs",
+          "leaf",
+          "eat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "egg",
+        "forbidden": [
+          "small",
+          "round",
+          "baby",
+          "leaf"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "wing",
+        "forbidden": [
+          "fly",
+          "side",
+          "colour",
+          "flat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "flower",
+        "forbidden": [
+          "plant",
+          "colour",
+          "garden",
+          "smell"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "nectar",
+        "forbidden": [
+          "sweet",
+          "food",
+          "drink",
+          "flower"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "chrysalis",
+        "forbidden": [
+          "change",
+          "stage",
+          "case",
+          "hang"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "antenna",
+        "forbidden": [
+          "head",
+          "feel",
+          "long",
+          "thin"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pattern",
+        "forbidden": [
+          "marks",
+          "colour",
+          "repeat",
+          "wings"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pollen",
+        "forbidden": [
+          "yellow",
+          "dust",
+          "flower",
+          "carry"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "garden",
+        "forbidden": [
+          "plants",
+          "flowers",
+          "outside",
+          "grow"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fluttering",
+        "forbidden": [
+          "fly",
+          "quick",
+          "wings",
+          "move"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "leaf bite",
+        "forbidden": [
+          "eat",
+          "hole",
+          "green",
+          "small"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "orange wing",
+        "forbidden": [
+          "colour",
+          "fly",
+          "side",
+          "bright"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "painted wings",
+        "level": "A1"
+      },
+      {
+        "word": "thin legs",
+        "level": "A1"
+      },
+      {
+        "word": "long feeding tube",
+        "level": "A2"
+      },
+      {
+        "word": "flower pot",
+        "level": "A1"
+      },
+      {
+        "word": "sunny hedge",
+        "level": "A1"
+      },
+      {
+        "word": "food plant",
+        "level": "A1"
+      },
+      {
+        "word": "butterfly watcher",
+        "level": "A2"
+      },
+      {
+        "word": "silk thread",
+        "level": "A2"
+      },
+      {
+        "word": "hanging pupa",
+        "level": "A2"
+      },
+      {
+        "word": "emerging",
+        "level": "A2"
+      },
+      {
+        "word": "pollinating",
+        "level": "A2"
+      },
+      {
+        "word": "meadow",
+        "level": "A2"
+      },
+      {
+        "word": "closed wings",
+        "level": "A1"
+      },
+      {
+        "word": "flower landing",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "butterfly",
+        "decoy": "moth",
+        "level": "A2"
+      },
+      {
+        "word": "caterpillar",
+        "decoy": "worm",
+        "level": "A2"
+      },
+      {
+        "word": "wing",
+        "decoy": "leaf",
+        "level": "A1"
+      },
+      {
+        "word": "chrysalis",
+        "decoy": "egg",
+        "level": "A2"
+      },
+      {
+        "word": "nectar",
+        "decoy": "honey",
+        "level": "A2"
+      },
+      {
+        "word": "antenna",
+        "decoy": "leg",
+        "level": "A2"
+      },
+      {
+        "word": "pollen",
+        "decoy": "dust",
+        "level": "A2"
+      },
+      {
+        "word": "flower bud",
+        "decoy": "seed pod",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "butterfly",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "moth",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "caterpillar",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "chrysalis",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "flower",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "garden",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "fluttering",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "nectar",
+        "kind": "food",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-bees",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "bee",
+        "forbidden": [
+          "insect",
+          "fly",
+          "small",
+          "honey"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hive",
+        "forbidden": [
+          "home",
+          "box",
+          "insects",
+          "together"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "honey",
+        "forbidden": [
+          "sweet",
+          "food",
+          "jar",
+          "sticky"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "flower",
+        "forbidden": [
+          "plant",
+          "colour",
+          "garden",
+          "smell"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "wing",
+        "forbidden": [
+          "fly",
+          "side",
+          "thin",
+          "body"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "queen bee",
+        "forbidden": [
+          "mother",
+          "eggs",
+          "leader",
+          "insect"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "worker bee",
+        "forbidden": [
+          "job",
+          "collect",
+          "food",
+          "insect"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "pollen",
+        "forbidden": [
+          "yellow",
+          "dust",
+          "flower",
+          "carry"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "nectar",
+        "forbidden": [
+          "sweet",
+          "liquid",
+          "flower",
+          "food"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "honeycomb",
+        "forbidden": [
+          "cells",
+          "shape",
+          "inside",
+          "hive"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "wax",
+        "forbidden": [
+          "soft",
+          "make",
+          "cells",
+          "candle"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sting",
+        "forbidden": [
+          "sharp",
+          "hurt",
+          "back",
+          "insect"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "swarm",
+        "forbidden": [
+          "group",
+          "fly",
+          "together",
+          "many"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "beekeeper",
+        "forbidden": [
+          "honey",
+          "hive",
+          "job",
+          "care"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "garden bee",
+        "level": "A1"
+      },
+      {
+        "word": "flower field",
+        "level": "A1"
+      },
+      {
+        "word": "buzzing",
+        "level": "A2"
+      },
+      {
+        "word": "little legs",
+        "level": "A1"
+      },
+      {
+        "word": "striped body",
+        "level": "A2"
+      },
+      {
+        "word": "bee suit",
+        "level": "A2"
+      },
+      {
+        "word": "hive brush",
+        "level": "A2"
+      },
+      {
+        "word": "flower visit",
+        "level": "A1"
+      },
+      {
+        "word": "flying home",
+        "level": "A1"
+      },
+      {
+        "word": "food cell",
+        "level": "A2"
+      },
+      {
+        "word": "bee dance",
+        "level": "A2"
+      },
+      {
+        "word": "storing honey",
+        "level": "A2"
+      },
+      {
+        "word": "baby bee",
+        "level": "A1"
+      },
+      {
+        "word": "collecting pollen",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "bee",
+        "decoy": "wasp",
+        "level": "A2"
+      },
+      {
+        "word": "hive",
+        "decoy": "nest",
+        "level": "A2"
+      },
+      {
+        "word": "queen bee",
+        "decoy": "worker bee",
+        "level": "A2"
+      },
+      {
+        "word": "honey",
+        "decoy": "nectar",
+        "level": "A1"
+      },
+      {
+        "word": "pollen",
+        "decoy": "dust",
+        "level": "A2"
+      },
+      {
+        "word": "honeycomb",
+        "decoy": "egg tray",
+        "level": "A2"
+      },
+      {
+        "word": "wax",
+        "decoy": "paper",
+        "level": "A2"
+      },
+      {
+        "word": "beekeeper",
+        "decoy": "gardener",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "bee",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "wasp",
+        "kind": "animal",
+        "level": "A2"
+      },
+      {
+        "secret": "hive",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "honey",
+        "kind": "food",
+        "level": "A1"
+      },
+      {
+        "secret": "honeycomb",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "beekeeper",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "wax",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "flower",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-dinosaurs",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "dinosaur",
+        "forbidden": [
+          "animal",
+          "old",
+          "big",
+          "bones"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "bone",
+        "forbidden": [
+          "body",
+          "hard",
+          "inside",
+          "white"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "long tail",
+        "forbidden": [
+          "back",
+          "body",
+          "move",
+          "balance"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "egg fossil",
+        "forbidden": [
+          "round",
+          "baby",
+          "stone",
+          "old"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "dinosaur tooth",
+        "forbidden": [
+          "mouth",
+          "sharp",
+          "bite",
+          "food"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "footprint",
+        "forbidden": [
+          "mark",
+          "ground",
+          "step",
+          "mud"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fern",
+        "forbidden": [
+          "green",
+          "plant",
+          "leaf",
+          "forest"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "horn",
+        "forbidden": [
+          "head",
+          "sharp",
+          "point",
+          "animal"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "spike",
+        "forbidden": [
+          "sharp",
+          "back",
+          "point",
+          "hard"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "feather",
+        "forbidden": [
+          "bird",
+          "soft",
+          "coat",
+          "light"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "nest",
+        "forbidden": [
+          "home",
+          "baby",
+          "egg",
+          "ground"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "skeleton",
+        "forbidden": [
+          "bones",
+          "body",
+          "shape",
+          "inside"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "museum",
+        "forbidden": [
+          "building",
+          "visit",
+          "old",
+          "look"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fossil",
+        "forbidden": [
+          "old",
+          "rock",
+          "animal",
+          "mark"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "big dinosaur",
+        "level": "A1"
+      },
+      {
+        "word": "small dinosaur",
+        "level": "A1"
+      },
+      {
+        "word": "long-necked dinosaur",
+        "level": "A1"
+      },
+      {
+        "word": "dinosaur model",
+        "level": "A1"
+      },
+      {
+        "word": "stone",
+        "level": "A1"
+      },
+      {
+        "word": "muddy track",
+        "level": "A1"
+      },
+      {
+        "word": "plant-eating dinosaur",
+        "level": "A2"
+      },
+      {
+        "word": "meat-eating dinosaur",
+        "level": "A2"
+      },
+      {
+        "word": "dig site",
+        "level": "A2"
+      },
+      {
+        "word": "fossil brush",
+        "level": "A2"
+      },
+      {
+        "word": "rock layer",
+        "level": "A2"
+      },
+      {
+        "word": "museum guide",
+        "level": "A2"
+      },
+      {
+        "word": "digging",
+        "level": "A2"
+      },
+      {
+        "word": "fossil hunter",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "dinosaur",
+        "decoy": "lizard",
+        "level": "A2"
+      },
+      {
+        "word": "bone",
+        "decoy": "wood",
+        "level": "A1"
+      },
+      {
+        "word": "footprint",
+        "decoy": "handprint",
+        "level": "A2"
+      },
+      {
+        "word": "horn",
+        "decoy": "spike",
+        "level": "A2"
+      },
+      {
+        "word": "feather",
+        "decoy": "scale",
+        "level": "A2"
+      },
+      {
+        "word": "skeleton",
+        "decoy": "model",
+        "level": "A2"
+      },
+      {
+        "word": "plant-eating dinosaur",
+        "decoy": "meat-eating dinosaur",
+        "level": "A2"
+      },
+      {
+        "word": "fossil",
+        "decoy": "egg fossil",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "dinosaur",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "bone",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "long-necked dinosaur",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "nest",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "museum",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "fossil",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "digging",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "fossil hunter",
+        "kind": "job",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-fossils",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "fossil",
+        "forbidden": [
+          "old",
+          "rock",
+          "animal",
+          "mark"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "rock",
+        "forbidden": [
+          "hard",
+          "stone",
+          "ground",
+          "heavy"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "shell",
+        "forbidden": [
+          "sea",
+          "hard",
+          "animal",
+          "cover"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "leaf print",
+        "forbidden": [
+          "plant",
+          "mark",
+          "rock",
+          "shape"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ancient bone",
+        "forbidden": [
+          "old",
+          "body",
+          "hard",
+          "animal"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "footprint",
+        "forbidden": [
+          "step",
+          "mark",
+          "ground",
+          "feet"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "imprint",
+        "forbidden": [
+          "mark",
+          "shape",
+          "press",
+          "rock"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "amber",
+        "forbidden": [
+          "yellow",
+          "clear",
+          "insect",
+          "stone"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "stone slab",
+        "forbidden": [
+          "flat",
+          "heavy",
+          "large",
+          "rock"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rock layer",
+        "forbidden": [
+          "ground",
+          "stack",
+          "old",
+          "lines"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "brush",
+        "forbidden": [
+          "clean",
+          "hair",
+          "handle",
+          "soft"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "dig site",
+        "forbidden": [
+          "ground",
+          "find",
+          "work",
+          "hole"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "magnifying glass",
+        "forbidden": [
+          "see",
+          "bigger",
+          "lens",
+          "small"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fossil cast",
+        "forbidden": [
+          "copy",
+          "shape",
+          "model",
+          "make"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "museum",
+        "level": "A1"
+      },
+      {
+        "word": "sand",
+        "level": "A1"
+      },
+      {
+        "word": "tiny tooth",
+        "level": "A1"
+      },
+      {
+        "word": "dinosaur",
+        "level": "A1"
+      },
+      {
+        "word": "hammer",
+        "level": "A2"
+      },
+      {
+        "word": "chisel",
+        "level": "A2"
+      },
+      {
+        "word": "fossil tray",
+        "level": "A2"
+      },
+      {
+        "word": "field bag",
+        "level": "A1"
+      },
+      {
+        "word": "measuring tape",
+        "level": "A2"
+      },
+      {
+        "word": "label",
+        "level": "A2"
+      },
+      {
+        "word": "notebook",
+        "level": "A1"
+      },
+      {
+        "word": "rock split",
+        "level": "A2"
+      },
+      {
+        "word": "spiral shell",
+        "level": "A2"
+      },
+      {
+        "word": "trace drawing",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "fossil",
+        "decoy": "fossil cast",
+        "level": "A2"
+      },
+      {
+        "word": "rock",
+        "decoy": "bone",
+        "level": "A1"
+      },
+      {
+        "word": "leaf print",
+        "decoy": "footprint",
+        "level": "A2"
+      },
+      {
+        "word": "shell",
+        "decoy": "egg case",
+        "level": "A2"
+      },
+      {
+        "word": "amber",
+        "decoy": "clear glass",
+        "level": "A2"
+      },
+      {
+        "word": "brush",
+        "decoy": "chisel",
+        "level": "A2"
+      },
+      {
+        "word": "museum",
+        "decoy": "dig site",
+        "level": "A2"
+      },
+      {
+        "word": "magnifying glass",
+        "decoy": "telescope",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "fossil",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "rock",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "shell",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "museum",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "dig site",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "brush",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "dinosaur",
+        "kind": "animal",
+        "level": "A1"
+      },
+      {
+        "secret": "fossil cast",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-the-moon",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "Moon",
+        "forbidden": [
+          "night",
+          "sky",
+          "round",
+          "light"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "crater",
+        "forbidden": [
+          "hole",
+          "round",
+          "ground",
+          "deep"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rock",
+        "forbidden": [
+          "hard",
+          "stone",
+          "ground",
+          "small"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "spacesuit",
+        "forbidden": [
+          "wear",
+          "air",
+          "astronaut",
+          "clothes"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "flag",
+        "forbidden": [
+          "cloth",
+          "stick",
+          "colour",
+          "wave"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "rocket",
+        "forbidden": [
+          "space",
+          "fly",
+          "fire",
+          "launch"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "lunar footprint",
+        "forbidden": [
+          "boot",
+          "mark",
+          "ground",
+          "step"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "moonlight",
+        "forbidden": [
+          "night",
+          "shine",
+          "sky",
+          "bright"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "crescent",
+        "forbidden": [
+          "shape",
+          "thin",
+          "curve",
+          "night"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "full Moon",
+        "forbidden": [
+          "round",
+          "sky",
+          "bright",
+          "night"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "surface",
+        "forbidden": [
+          "top",
+          "ground",
+          "outside",
+          "touch"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "Earth",
+        "forbidden": [
+          "world",
+          "home",
+          "planet",
+          "blue"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "Moon lander",
+        "forbidden": [
+          "vehicle",
+          "legs",
+          "down",
+          "space"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "lunar rover",
+        "forbidden": [
+          "wheels",
+          "drive",
+          "vehicle",
+          "explore"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "star",
+        "level": "A1"
+      },
+      {
+        "word": "telescope",
+        "level": "A2"
+      },
+      {
+        "word": "helmet",
+        "level": "A1"
+      },
+      {
+        "word": "glove",
+        "level": "A1"
+      },
+      {
+        "word": "lunar dust",
+        "level": "A2"
+      },
+      {
+        "word": "crater edge",
+        "level": "A2"
+      },
+      {
+        "word": "landing leg",
+        "level": "A2"
+      },
+      {
+        "word": "air tank",
+        "level": "A2"
+      },
+      {
+        "word": "Moon map",
+        "level": "A1"
+      },
+      {
+        "word": "boot print",
+        "level": "A1"
+      },
+      {
+        "word": "dark sky",
+        "level": "A1"
+      },
+      {
+        "word": "Sun",
+        "level": "A1"
+      },
+      {
+        "word": "orbit",
+        "level": "A2"
+      },
+      {
+        "word": "return journey",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "Moon",
+        "decoy": "Earth",
+        "level": "A1"
+      },
+      {
+        "word": "crescent",
+        "decoy": "full Moon",
+        "level": "A2"
+      },
+      {
+        "word": "crater",
+        "decoy": "valley",
+        "level": "A2"
+      },
+      {
+        "word": "moonlight",
+        "decoy": "sunlight",
+        "level": "A2"
+      },
+      {
+        "word": "spacesuit",
+        "decoy": "raincoat",
+        "level": "A2"
+      },
+      {
+        "word": "rock",
+        "decoy": "meteorite",
+        "level": "A2"
+      },
+      {
+        "word": "rocket",
+        "decoy": "airplane",
+        "level": "A1"
+      },
+      {
+        "word": "flag",
+        "decoy": "map",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "Moon",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "rocket",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "spacesuit",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "telescope",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "crater",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "Earth",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "flag",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "lunar rover",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-the-sun",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "sun",
+        "forbidden": [
+          "sky",
+          "light",
+          "hot",
+          "day"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "light",
+        "forbidden": [
+          "bright",
+          "see",
+          "dark",
+          "shine"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "heat",
+        "forbidden": [
+          "hot",
+          "warm",
+          "fire",
+          "summer"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "shadow",
+        "forbidden": [
+          "dark",
+          "shape",
+          "ground",
+          "behind"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "day",
+        "forbidden": [
+          "morning",
+          "night",
+          "bright",
+          "time"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sunrise",
+        "forbidden": [
+          "morning",
+          "sky",
+          "light",
+          "start"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sunset",
+        "forbidden": [
+          "evening",
+          "sky",
+          "light",
+          "end"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "solar panel",
+        "forbidden": [
+          "roof",
+          "power",
+          "light",
+          "electricity"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "solar oven",
+        "forbidden": [
+          "cook",
+          "hot",
+          "light",
+          "food"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sunbeam",
+        "forbidden": [
+          "light",
+          "line",
+          "window",
+          "bright"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sundial",
+        "forbidden": [
+          "time",
+          "shadow",
+          "clock",
+          "ground"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "sunspot",
+        "forbidden": [
+          "dark",
+          "mark",
+          "star",
+          "small"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "eclipse",
+        "forbidden": [
+          "Moon",
+          "cover",
+          "dark",
+          "sky"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "solar viewer",
+        "forbidden": [
+          "eyes",
+          "light",
+          "safe",
+          "look"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "Earth",
+        "level": "A1"
+      },
+      {
+        "word": "moon",
+        "level": "A1"
+      },
+      {
+        "word": "sky",
+        "level": "A1"
+      },
+      {
+        "word": "warm stone",
+        "level": "A1"
+      },
+      {
+        "word": "solar farm",
+        "level": "A2"
+      },
+      {
+        "word": "telescope",
+        "level": "A2"
+      },
+      {
+        "word": "solar scientist",
+        "level": "A2"
+      },
+      {
+        "word": "window shade",
+        "level": "A1"
+      },
+      {
+        "word": "shade cloth",
+        "level": "A1"
+      },
+      {
+        "word": "sunflower",
+        "level": "A1"
+      },
+      {
+        "word": "sunny playground",
+        "level": "A1"
+      },
+      {
+        "word": "dark lens",
+        "level": "A2"
+      },
+      {
+        "word": "hot sand",
+        "level": "A1"
+      },
+      {
+        "word": "morning sky",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "Sun",
+        "decoy": "Moon",
+        "level": "A1"
+      },
+      {
+        "word": "sunrise",
+        "decoy": "sunset",
+        "level": "A1"
+      },
+      {
+        "word": "sunlight",
+        "decoy": "moonlight",
+        "level": "A2"
+      },
+      {
+        "word": "shadow",
+        "decoy": "reflection",
+        "level": "A2"
+      },
+      {
+        "word": "solar panel",
+        "decoy": "solar oven",
+        "level": "A2"
+      },
+      {
+        "word": "sundial",
+        "decoy": "clock",
+        "level": "A2"
+      },
+      {
+        "word": "eclipse",
+        "decoy": "cloud cover",
+        "level": "A2"
+      },
+      {
+        "word": "solar viewer",
+        "decoy": "sunglasses",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "Sun",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "solar oven",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "solar panel",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "solar farm",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "sundial",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "eclipse",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "sunflower",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "clock",
+        "kind": "thing",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-planets",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "planet",
+        "forbidden": [
+          "space",
+          "world",
+          "round",
+          "Sun"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "Earth",
+        "forbidden": [
+          "world",
+          "home",
+          "blue",
+          "land"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "Mars",
+        "forbidden": [
+          "red",
+          "planet",
+          "space",
+          "rover"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "Saturn",
+        "forbidden": [
+          "rings",
+          "planet",
+          "space",
+          "large"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "orbit",
+        "forbidden": [
+          "round",
+          "path",
+          "move",
+          "Sun"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "ring",
+        "forbidden": [
+          "circle",
+          "round",
+          "around",
+          "shape"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "globe",
+        "forbidden": [
+          "world",
+          "round",
+          "map",
+          "model"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "moon",
+        "forbidden": [
+          "night",
+          "sky",
+          "round",
+          "light"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "space",
+        "forbidden": [
+          "stars",
+          "sky",
+          "far",
+          "rocket"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "solar system",
+        "forbidden": [
+          "Sun",
+          "planets",
+          "group",
+          "orbit"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "gravity",
+        "forbidden": [
+          "pull",
+          "fall",
+          "ground",
+          "heavy"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "gas giant",
+        "forbidden": [
+          "planet",
+          "big",
+          "round",
+          "cloud"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rocky planet",
+        "forbidden": [
+          "stone",
+          "surface",
+          "hard",
+          "world"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "axis",
+        "forbidden": [
+          "turn",
+          "line",
+          "through",
+          "middle"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "Jupiter",
+        "level": "A2"
+      },
+      {
+        "word": "Venus",
+        "level": "A2"
+      },
+      {
+        "word": "Mercury",
+        "level": "A2"
+      },
+      {
+        "word": "Neptune",
+        "level": "A2"
+      },
+      {
+        "word": "space map",
+        "level": "A1"
+      },
+      {
+        "word": "space probe",
+        "level": "A2"
+      },
+      {
+        "word": "cratered surface",
+        "level": "A2"
+      },
+      {
+        "word": "planet poster",
+        "level": "A1"
+      },
+      {
+        "word": "satellite",
+        "level": "A2"
+      },
+      {
+        "word": "surface ice",
+        "level": "A2"
+      },
+      {
+        "word": "cloud band",
+        "level": "A2"
+      },
+      {
+        "word": "planet explorer",
+        "level": "A2"
+      },
+      {
+        "word": "spinning",
+        "level": "A1"
+      },
+      {
+        "word": "star",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "planet",
+        "decoy": "moon",
+        "level": "A1"
+      },
+      {
+        "word": "Earth",
+        "decoy": "Mars",
+        "level": "A2"
+      },
+      {
+        "word": "ring",
+        "decoy": "orbit",
+        "level": "A2"
+      },
+      {
+        "word": "globe",
+        "decoy": "map",
+        "level": "A1"
+      },
+      {
+        "word": "Jupiter",
+        "decoy": "Saturn",
+        "level": "A2"
+      },
+      {
+        "word": "gas giant",
+        "decoy": "rocky planet",
+        "level": "A2"
+      },
+      {
+        "word": "space probe",
+        "decoy": "rover",
+        "level": "A2"
+      },
+      {
+        "word": "gravity",
+        "decoy": "magnet",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "Earth",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "Mars",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "Saturn",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "ring",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "globe",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "satellite",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "space probe",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "spinning",
+        "kind": "activity",
+        "level": "A1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-stars",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "star",
+        "forbidden": [
+          "sky",
+          "night",
+          "light",
+          "small"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "night",
+        "forbidden": [
+          "dark",
+          "day",
+          "sleep",
+          "evening"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "sky",
+        "forbidden": [
+          "up",
+          "clouds",
+          "blue",
+          "above"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "telescope",
+        "forbidden": [
+          "look",
+          "far",
+          "lens",
+          "bigger"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "constellation",
+        "forbidden": [
+          "stars",
+          "pattern",
+          "shape",
+          "sky"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "shooting star",
+        "forbidden": [
+          "light",
+          "sky",
+          "fast",
+          "line"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "darkness",
+        "forbidden": [
+          "night",
+          "black",
+          "light",
+          "see"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "twinkle",
+        "forbidden": [
+          "shine",
+          "small",
+          "flash",
+          "light"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "star map",
+        "forbidden": [
+          "paper",
+          "sky",
+          "find",
+          "pattern"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "binoculars",
+        "forbidden": [
+          "look",
+          "eyes",
+          "far",
+          "lenses"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "Milky Way",
+        "forbidden": [
+          "stars",
+          "sky",
+          "band",
+          "light"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "galaxy",
+        "forbidden": [
+          "stars",
+          "many",
+          "space",
+          "group"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "red star",
+        "forbidden": [
+          "colour",
+          "sky",
+          "light",
+          "hot"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "blue star",
+        "forbidden": [
+          "colour",
+          "sky",
+          "light",
+          "bright"
+        ],
+        "level": "A1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "Moon",
+        "level": "A1"
+      },
+      {
+        "word": "Saturn",
+        "level": "A2"
+      },
+      {
+        "word": "observatory",
+        "level": "A2"
+      },
+      {
+        "word": "astronomer",
+        "level": "A2"
+      },
+      {
+        "word": "night garden",
+        "level": "A1"
+      },
+      {
+        "word": "camera",
+        "level": "A1"
+      },
+      {
+        "word": "tripod",
+        "level": "A2"
+      },
+      {
+        "word": "meteorite",
+        "level": "A2"
+      },
+      {
+        "word": "planet",
+        "level": "A1"
+      },
+      {
+        "word": "comet",
+        "level": "A2"
+      },
+      {
+        "word": "satellite",
+        "level": "A2"
+      },
+      {
+        "word": "red light",
+        "level": "A1"
+      },
+      {
+        "word": "winter sky",
+        "level": "A1"
+      },
+      {
+        "word": "clear horizon",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "star",
+        "decoy": "planet",
+        "level": "A1"
+      },
+      {
+        "word": "constellation",
+        "decoy": "galaxy",
+        "level": "A2"
+      },
+      {
+        "word": "comet",
+        "decoy": "shooting star",
+        "level": "A2"
+      },
+      {
+        "word": "telescope",
+        "decoy": "binoculars",
+        "level": "A2"
+      },
+      {
+        "word": "red star",
+        "decoy": "blue star",
+        "level": "A1"
+      },
+      {
+        "word": "night",
+        "decoy": "day",
+        "level": "A1"
+      },
+      {
+        "word": "camera",
+        "decoy": "tripod",
+        "level": "A2"
+      },
+      {
+        "word": "observatory",
+        "decoy": "museum",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "star",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "planet",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "telescope",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "comet",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "shooting star",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "meteorite",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "observatory",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "astronomer",
+        "kind": "job",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-rockets",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "rocket",
+        "forbidden": [
+          "space",
+          "fly",
+          "fire",
+          "up"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "launch",
+        "forbidden": [
+          "start",
+          "up",
+          "fly",
+          "ground"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fuel",
+        "forbidden": [
+          "engine",
+          "burn",
+          "power",
+          "tank"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "flame",
+        "forbidden": [
+          "fire",
+          "hot",
+          "light",
+          "orange"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "nose cone",
+        "forbidden": [
+          "front",
+          "point",
+          "top",
+          "shape"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "fin",
+        "forbidden": [
+          "side",
+          "flat",
+          "turn",
+          "wing"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "engine",
+        "forbidden": [
+          "power",
+          "move",
+          "fuel",
+          "machine"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "space",
+        "forbidden": [
+          "stars",
+          "far",
+          "sky",
+          "planets"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fire",
+        "forbidden": [
+          "hot",
+          "burn",
+          "light",
+          "smoke"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "countdown",
+        "forbidden": [
+          "numbers",
+          "start",
+          "ten",
+          "back"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "launch pad",
+        "forbidden": [
+          "ground",
+          "start",
+          "tower",
+          "flat"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "booster",
+        "forbidden": [
+          "power",
+          "extra",
+          "engine",
+          "push"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "parachute",
+        "forbidden": [
+          "fall",
+          "slow",
+          "cloth",
+          "air"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "capsule",
+        "forbidden": [
+          "people",
+          "small",
+          "round",
+          "return"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "astronaut",
+        "level": "A1"
+      },
+      {
+        "word": "helmet",
+        "level": "A1"
+      },
+      {
+        "word": "ground crew",
+        "level": "A2"
+      },
+      {
+        "word": "control room",
+        "level": "A2"
+      },
+      {
+        "word": "round window",
+        "level": "A1"
+      },
+      {
+        "word": "space station",
+        "level": "A2"
+      },
+      {
+        "word": "smoke",
+        "level": "A1"
+      },
+      {
+        "word": "launch tower",
+        "level": "A2"
+      },
+      {
+        "word": "space camera",
+        "level": "A2"
+      },
+      {
+        "word": "rover",
+        "level": "A2"
+      },
+      {
+        "word": "test flight",
+        "level": "A2"
+      },
+      {
+        "word": "return landing",
+        "level": "A2"
+      },
+      {
+        "word": "landing feet",
+        "level": "A1"
+      },
+      {
+        "word": "paper rocket",
+        "level": "A1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "rocket",
+        "decoy": "airplane",
+        "level": "A1"
+      },
+      {
+        "word": "engine",
+        "decoy": "motor",
+        "level": "A2"
+      },
+      {
+        "word": "fuel",
+        "decoy": "water",
+        "level": "A2"
+      },
+      {
+        "word": "launch",
+        "decoy": "landing",
+        "level": "A2"
+      },
+      {
+        "word": "nose cone",
+        "decoy": "wing",
+        "level": "A2"
+      },
+      {
+        "word": "parachute",
+        "decoy": "umbrella",
+        "level": "A2"
+      },
+      {
+        "word": "capsule",
+        "decoy": "space station",
+        "level": "A2"
+      },
+      {
+        "word": "flame",
+        "decoy": "smoke",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "rocket",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "airplane",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "parachute",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "launch pad",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "control room",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "astronaut",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "engine",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "countdown",
+        "kind": "activity",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-astronauts",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "astronaut",
+        "forbidden": [
+          "space",
+          "fly",
+          "helmet",
+          "job"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "spacesuit",
+        "forbidden": [
+          "wear",
+          "air",
+          "body",
+          "clothes"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "helmet",
+        "forbidden": [
+          "head",
+          "wear",
+          "hard",
+          "hat"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "glove",
+        "forbidden": [
+          "hand",
+          "wear",
+          "warm",
+          "fingers"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "boot",
+        "forbidden": [
+          "foot",
+          "wear",
+          "shoe",
+          "walk"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "air tank",
+        "forbidden": [
+          "breathe",
+          "carry",
+          "back",
+          "bottle"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "space station",
+        "forbidden": [
+          "orbit",
+          "home",
+          "people",
+          "science"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rocket",
+        "forbidden": [
+          "fly",
+          "fire",
+          "up",
+          "stars"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tether",
+        "forbidden": [
+          "rope",
+          "hold",
+          "safe",
+          "attach"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "mission badge",
+        "forbidden": [
+          "wear",
+          "name",
+          "cloth",
+          "small"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "floating",
+        "forbidden": [
+          "air",
+          "move",
+          "weight",
+          "up"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "space food",
+        "forbidden": [
+          "meal",
+          "packet",
+          "eat",
+          "drink"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "tool bag",
+        "forbidden": [
+          "carry",
+          "fix",
+          "work",
+          "open"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "Moon rock",
+        "forbidden": [
+          "stone",
+          "grey",
+          "collect",
+          "sample"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "spacewalker",
+        "level": "A2"
+      },
+      {
+        "word": "cabin window",
+        "level": "A1"
+      },
+      {
+        "word": "Earth view",
+        "level": "A1"
+      },
+      {
+        "word": "sleeping bag",
+        "level": "A1"
+      },
+      {
+        "word": "meal packet",
+        "level": "A2"
+      },
+      {
+        "word": "exercise bike",
+        "level": "A2"
+      },
+      {
+        "word": "space camera",
+        "level": "A2"
+      },
+      {
+        "word": "repair kit",
+        "level": "A2"
+      },
+      {
+        "word": "space diary",
+        "level": "A2"
+      },
+      {
+        "word": "radio",
+        "level": "A1"
+      },
+      {
+        "word": "ground team",
+        "level": "A2"
+      },
+      {
+        "word": "water pouch",
+        "level": "A1"
+      },
+      {
+        "word": "hand rail",
+        "level": "A2"
+      },
+      {
+        "word": "return capsule",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "spacesuit",
+        "decoy": "raincoat",
+        "level": "A2"
+      },
+      {
+        "word": "helmet",
+        "decoy": "hat",
+        "level": "A1"
+      },
+      {
+        "word": "boot",
+        "decoy": "glove",
+        "level": "A1"
+      },
+      {
+        "word": "air tank",
+        "decoy": "water bottle",
+        "level": "A2"
+      },
+      {
+        "word": "space station",
+        "decoy": "capsule",
+        "level": "A2"
+      },
+      {
+        "word": "space food",
+        "decoy": "picnic food",
+        "level": "A1"
+      },
+      {
+        "word": "floating",
+        "decoy": "falling",
+        "level": "A2"
+      },
+      {
+        "word": "rocket",
+        "decoy": "airplane",
+        "level": "A1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "astronaut",
+        "kind": "job",
+        "level": "A1"
+      },
+      {
+        "secret": "spacesuit",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "helmet",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "air tank",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "space station",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "tether",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "floating",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "Moon rock",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-volcanoes",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "volcano",
+        "forbidden": [
+          "mountain",
+          "hot",
+          "fire",
+          "rock"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "lava",
+        "forbidden": [
+          "hot",
+          "liquid",
+          "rock",
+          "flow"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "crater",
+        "forbidden": [
+          "hole",
+          "top",
+          "round",
+          "deep"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "ash",
+        "forbidden": [
+          "grey",
+          "dust",
+          "fire",
+          "air"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "smoke",
+        "forbidden": [
+          "fire",
+          "air",
+          "grey",
+          "rise"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "mountain",
+        "forbidden": [
+          "high",
+          "land",
+          "top",
+          "climb"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "rock",
+        "forbidden": [
+          "stone",
+          "hard",
+          "ground",
+          "heavy"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "eruption",
+        "forbidden": [
+          "burst",
+          "lava",
+          "ash",
+          "out"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "lava flow",
+        "forbidden": [
+          "river",
+          "hot",
+          "ground",
+          "move"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "slope",
+        "forbidden": [
+          "side",
+          "down",
+          "hill",
+          "steep"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "vent",
+        "forbidden": [
+          "hole",
+          "gas",
+          "out",
+          "opening"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "island",
+        "forbidden": [
+          "sea",
+          "beach",
+          "water",
+          "around"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "hot spring",
+        "forbidden": [
+          "warm",
+          "water",
+          "pool",
+          "ground"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "magma",
+        "forbidden": [
+          "hot",
+          "rock",
+          "inside",
+          "liquid"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "steep hill",
+        "level": "A1"
+      },
+      {
+        "word": "lava tube",
+        "level": "A2"
+      },
+      {
+        "word": "model volcano",
+        "level": "A1"
+      },
+      {
+        "word": "ash cloud",
+        "level": "A2"
+      },
+      {
+        "word": "warning sign",
+        "level": "A1"
+      },
+      {
+        "word": "safe viewpoint",
+        "level": "A2"
+      },
+      {
+        "word": "eruption map",
+        "level": "A2"
+      },
+      {
+        "word": "rock sample",
+        "level": "A2"
+      },
+      {
+        "word": "volcano poster",
+        "level": "A1"
+      },
+      {
+        "word": "mountain village",
+        "level": "A1"
+      },
+      {
+        "word": "hot pool",
+        "level": "A1"
+      },
+      {
+        "word": "underground chamber",
+        "level": "A2"
+      },
+      {
+        "word": "lava fountain",
+        "level": "A2"
+      },
+      {
+        "word": "volcano scientist",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "lava",
+        "decoy": "magma",
+        "level": "A2"
+      },
+      {
+        "word": "ash",
+        "decoy": "dust",
+        "level": "A2"
+      },
+      {
+        "word": "crater",
+        "decoy": "cave",
+        "level": "A2"
+      },
+      {
+        "word": "mountain",
+        "decoy": "island",
+        "level": "A1"
+      },
+      {
+        "word": "smoke",
+        "decoy": "cloud",
+        "level": "A1"
+      },
+      {
+        "word": "vent",
+        "decoy": "tunnel",
+        "level": "A2"
+      },
+      {
+        "word": "hot spring",
+        "decoy": "cold spring",
+        "level": "A2"
+      },
+      {
+        "word": "eruption",
+        "decoy": "earthquake",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "volcano",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "crater",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "island",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "lava",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "magma",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "rock",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "lava tube",
+        "kind": "place",
+        "level": "A2"
+      },
+      {
+        "secret": "volcano scientist",
+        "kind": "job",
+        "level": "A2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-kids-earthquakes",
+    "ageBand": "kids",
+    "taboo": [
+      {
+        "word": "earthquake",
+        "forbidden": [
+          "ground",
+          "shake",
+          "move",
+          "building"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "ground",
+        "forbidden": [
+          "soil",
+          "walk",
+          "feet",
+          "land"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "shaking",
+        "forbidden": [
+          "move",
+          "quick",
+          "wobble",
+          "still"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "crack",
+        "forbidden": [
+          "line",
+          "break",
+          "wall",
+          "split"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "shelf",
+        "forbidden": [
+          "books",
+          "wall",
+          "wood",
+          "hold"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "table",
+        "forbidden": [
+          "legs",
+          "flat",
+          "sit",
+          "under"
+        ],
+        "level": "A1"
+      },
+      {
+        "word": "fault",
+        "forbidden": [
+          "rock",
+          "line",
+          "break",
+          "ground"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "plate boundary",
+        "forbidden": [
+          "rock",
+          "edge",
+          "move",
+          "ground"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "seismograph",
+        "forbidden": [
+          "paper",
+          "line",
+          "shake",
+          "machine"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "aftershock",
+        "forbidden": [
+          "second",
+          "shake",
+          "later",
+          "small"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "epicentre",
+        "forbidden": [
+          "map",
+          "point",
+          "above",
+          "ground"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "building sway",
+        "forbidden": [
+          "move",
+          "side",
+          "wall",
+          "wobble"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "rubble",
+        "forbidden": [
+          "broken",
+          "stones",
+          "wall",
+          "ground"
+        ],
+        "level": "A2"
+      },
+      {
+        "word": "quake drill",
+        "forbidden": [
+          "practice",
+          "safe",
+          "school",
+          "steps"
+        ],
+        "level": "A2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "fallen cup",
+        "level": "A1"
+      },
+      {
+        "word": "moving lamp",
+        "level": "A1"
+      },
+      {
+        "word": "school yard",
+        "level": "A1"
+      },
+      {
+        "word": "emergency bag",
+        "level": "A2"
+      },
+      {
+        "word": "safe meeting place",
+        "level": "A1"
+      },
+      {
+        "word": "teacher's signal",
+        "level": "A1"
+      },
+      {
+        "word": "under a desk",
+        "level": "A1"
+      },
+      {
+        "word": "wall repair",
+        "level": "A2"
+      },
+      {
+        "word": "rescue worker",
+        "level": "A2"
+      },
+      {
+        "word": "building check",
+        "level": "A2"
+      },
+      {
+        "word": "seismic map",
+        "level": "A2"
+      },
+      {
+        "word": "rock movement",
+        "level": "A2"
+      },
+      {
+        "word": "warning bell",
+        "level": "A1"
+      },
+      {
+        "word": "quake model",
+        "level": "A2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "earthquake",
+        "decoy": "volcano",
+        "level": "A1"
+      },
+      {
+        "word": "shaking",
+        "decoy": "swaying",
+        "level": "A2"
+      },
+      {
+        "word": "crack",
+        "decoy": "scratch",
+        "level": "A2"
+      },
+      {
+        "word": "seismograph",
+        "decoy": "thermometer",
+        "level": "A2"
+      },
+      {
+        "word": "rubble",
+        "decoy": "gravel",
+        "level": "A2"
+      },
+      {
+        "word": "aftershock",
+        "decoy": "first quake",
+        "level": "A2"
+      },
+      {
+        "word": "table",
+        "decoy": "desk",
+        "level": "A1"
+      },
+      {
+        "word": "emergency bag",
+        "decoy": "school bag",
+        "level": "A2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "earthquake",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "quake drill",
+        "kind": "activity",
+        "level": "A2"
+      },
+      {
+        "secret": "table",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "school yard",
+        "kind": "place",
+        "level": "A1"
+      },
+      {
+        "secret": "warning bell",
+        "kind": "thing",
+        "level": "A1"
+      },
+      {
+        "secret": "rescue worker",
+        "kind": "job",
+        "level": "A2"
+      },
+      {
+        "secret": "seismograph",
+        "kind": "thing",
+        "level": "A2"
+      },
+      {
+        "secret": "emergency bag",
+        "kind": "thing",
+        "level": "A2"
+      }
+    ]
   }
 ]

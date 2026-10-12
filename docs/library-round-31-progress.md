@@ -6,3 +6,4 @@ Topic-by-topic spoken-game decks, written on `codex/library-round-31` from `orig
 
 Cards are authored individually. A serialization helper only formats the explicitly written words, forbidden lists, pairs, secrets, kinds and level tags; it supplies no card content. The partial checker validates completed decks while allowing the next topics to be absent.
 - Batch 1: 15 animal topics (Cats through Whales), 660 cards. Partial checker: all errors 0; A1 280, A2 380; 70 unique sticker matches, 202 occurrences. Beginner forbidden lists use simple familiar words.
+- Batch 2: Sharks through Earthquakes, 30 topics total / 1,320 cards. Partial checker: all errors 0; A1 541, A2 779. Simplified technical forbidden clues and kept lunar dust specific to its topic.
