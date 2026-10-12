@@ -1,19 +1,33 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import ts from 'typescript';
 import { WORLD_DESTINATIONS } from '../src/data/world-flight/destinations';
 import { WORLD_FLIGHT_INVESTIGATIONS } from '../src/lib/world-flight/investigations';
 
 type Evidence = { keyIdea: string; tradeoff: string; designUse: string; investigationTags: string[]; thin?: boolean; tradeoffInferred?: boolean };
 const partial = process.argv.includes('--partial');
 const file = path.resolve('src/data/world-flight/focus-evidence.json');
-const entries: Record<string, Evidence> = JSON.parse(fs.readFileSync(file, 'utf8'));
+const raw = fs.readFileSync(file, 'utf8');
+const entries: Record<string, Evidence> = JSON.parse(raw);
 const expected: Record<string, { city: string; skills: string[] }> = {};
 WORLD_DESTINATIONS.forEach(d => d.focusOptions.forEach(f => { expected[d.id + '/' + f.id] = { city: d.id, skills: f.skills }; }));
 const validTags = new Set<string>();
 WORLD_FLIGHT_INVESTIGATIONS.forEach(i => i.requirements.forEach(r => r.matchTags.forEach(t => validTags.add(t))));
-const counts: Record<string, number> = { missing: 0, unknown: 0, fields: 0, wordCount: 0, sentence: 0, starts: 0, tags: 0, duplicateKeyIdea: 0, duplicateDesignUse: 0, similarDesignUse: 0, coverage: 0 };
+const counts: Record<string, number> = { missing: 0, unknown: 0, duplicateEntry: 0, fields: 0, wordCount: 0, sentence: 0, starts: 0, tags: 0, duplicateKeyIdea: 0, duplicateDesignUse: 0, similarDesignUse: 0, coverage: 0 };
 const errors: string[] = [];
 function fail(kind: string, message: string) { counts[kind] += 1; errors.push(message); }
+// JSON.parse silently overwrites duplicate object keys; inspect the syntax as well.
+const syntax = ts.parseJsonText(file, raw);
+const statement = syntax.statements[0];
+if (statement && ts.isExpressionStatement(statement) && ts.isObjectLiteralExpression(statement.expression)) {
+ const seen = new Set<string>();
+ statement.expression.properties.forEach(property => {
+  if (!ts.isPropertyAssignment(property) || !ts.isStringLiteral(property.name)) return;
+  const key = property.name.text;
+  if (seen.has(key)) fail('duplicateEntry', key + ': duplicate JSON entry');
+  seen.add(key);
+ });
+}
 function words(s: string) { return s.trim().split(/\s+/).filter(Boolean); }
 function normalized(s: string) { return s.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim(); }
 const verbs = new Set(('distinguish interpret judge time bring complement count update budget equip improve recognize manage integrate prioritize group present agree code introduce let number publish put shape adapt adjust assess avoid celebrate consult demonstrate develop distribute encourage evaluate expand explain inspect invite listen maintain map mix monitor organize preserve review strengthen translate treat welcome repeat tell retain compare consider prepare coordinate extend schedule study ask help join match pair add adapt allow arrange balance build carry channel check choose collect combine connect create cut deliver design direct divide explain fund give grow guide include keep label leave link locate make mark measure move offer open place plan protect provide raise record reduce replace reserve restore reuse route save separate set shade share show slow space spread store support teach test track train turn use vary widen').split(' '));
