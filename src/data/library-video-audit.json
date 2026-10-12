@@ -169,7 +169,7 @@
   },
   "bbc-library.json/bbc_climate_saving_water": {
     "status": "partial",
-    "note": "Evidence: the captions call Yuma “one of the driest places on earth”, while the title claims the single driest place. Suggested action: Retitle to “Saving Water on Desert Date Farms” or retain “one of the driest places”."
+    "note": "Evidence: The caption calls Yuma “one of the driest places” and shows desert date farming and water supply; it does not establish the title’s absolute driest-place claim. Suggested action: Retitle to Saving Water on Desert Date Farms, or qualify the driest-place wording."
   },
   "bbc-library.json/bbc_climate_recycling_system": {
     "status": "ok",
@@ -1009,7 +1009,7 @@
   },
   "hooks-library.json/hook-r2-eT89nvkYNDM": {
     "status": "partial",
-    "note": "Evidence: The child-oriented cache describes digesting prey on the outside and slurping it up, then eating each other with a joke about Uncle Brian; this is detailed cannibalistic predation. Suggested action: Remove from child-facing recommendations pending owner suitability review, or use an appropriate adult/teen audience label."
+    "note": "Evidence: The child-oriented cache says “slurping them up” after external digestion and “eat each other” with an Uncle Brian joke; this is detailed cannibalistic predation. Suggested action: Remove from child-facing recommendations pending owner suitability review, or use an appropriate adult/teen audience label."
   },
   "hooks-library.json/hook-r2--nQzs_4WhO0": {
     "status": "ok",
@@ -1037,7 +1037,7 @@
   },
   "hooks-library.json/hook-r2-W4og8g_X22o": {
     "status": "partial",
-    "note": "Evidence: The narration says the meerkat bites off the stinger and praises the crunchy goodness of a freshly killed scorpion, giving explicit killing/eating detail. Suggested action: Remove from child-facing recommendations pending owner suitability review, or use an appropriate adult/teen audience label."
+    "note": "Evidence: The narration says “bites off the stinger” and “freshly killed scorpion”, giving explicit killing/eating detail. Suggested action: Remove from child-facing recommendations pending owner suitability review, or use an appropriate adult/teen audience label."
   },
   "hooks-library.json/hook-r2-_hRJJdSg8Hw": {
     "status": "ok",
@@ -1085,7 +1085,7 @@
   },
   "hooks-library.json/hook-r2-7rOvmN-qfaA": {
     "status": "partial",
-    "note": "Evidence: The caption says they bite victims, then liquefy their bodies and suck it all up like a straw; this explicitly describes bodily destruction/eating. Suggested action: Remove from child-facing recommendations pending owner suitability review."
+    "note": "Evidence: The caption describes biting victims, then “liquefy their bodies and suck it all up”; this explicitly describes bodily destruction/eating. Suggested action: Remove from child-facing recommendations pending owner suitability review."
   },
   "hooks-library.json/hook-r2-jI6aFbBUqkY": {
     "status": "ok",
@@ -1093,7 +1093,7 @@
   },
   "hooks-library.json/hook-r2-xB74swq2LlI": {
     "status": "partial",
-    "note": "Evidence: The narrator says ants spray acid into the crab’s mouth and eyes, followed by pain dialogue and if you’re still alive; the attack is described in detail. Suggested action: Review suitability before recommending to young children."
+    "note": "Evidence: The narrator says “spray acid into the crab’s mouth and eyes”, followed by pain dialogue and a survival warning; the attack is described in detail. Suggested action: Review suitability before recommending to young children."
   },
   "hooks-library.json/hook-r2-XVYaz-D2MYE": {
     "status": "ok",
