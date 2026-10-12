@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
-import { randRange } from '../seed';
+import { randRange, seededRand } from '../seed';
 import { WEATHER_PROFILE } from '../weather';
 
 // Soft puffy clouds — clusters of circles softened by a Gaussian blur, matching
@@ -11,16 +11,12 @@ const CLOUD_SHAPES: ReadonlyArray<ReadonlyArray<{ cx: number; cy: number; r: num
   [{ cx: 0, cy: 0, r: 52 }, { cx: 62, cy: -16, r: 60 }, { cx: 124, cy: -4, r: 46 }, { cx: -50, cy: 10, r: 40 }, { cx: 162, cy: 8, r: 30 }],
 ];
 
-// Sky gradient + sun/moon + stars (night) + a few drifting clouds. Drift /
-// twinkle are AMBIENT only (disabled when !ambient) and never affect the plane.
-export function AtmosphereLayer({ palette, rand, idPrefix, ambient, weather }: SceneLayerProps) {
-  const skyId = `${idPrefix}-sky`;
-  const glowId = `${idPrefix}-horizon`;
-  const lightId = `${idPrefix}-light`;
-  const auroraId = `${idPrefix}-aurora`;
-  const isMoon = palette.light === 'moon';
-  const wx = WEATHER_PROFILE[weather];
 
+/**
+ * Everything in the sky that uses the scene's random numbers, in the one order the layer always drew them, so the
+ * sun sits where it always has. Exported so the lighting layer can find the sun without redrawing the sky.
+ */
+export function atmosphereLayout(rand: () => number, isMoon: boolean, wx: { cloudCover: number; aurora: boolean }) {
   // Deterministic stars (only meaningful on the night palette but cheap anyway).
   const stars = isMoon
     ? Array.from({ length: 46 }, () => ({
@@ -31,8 +27,6 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient, weather }: S
       }))
     : [];
 
-  const cloudFilterId = `${idPrefix}-cloud`;
-  const cloudFill = isMoon ? 'rgba(208,222,246,0.5)' : 'rgba(255,255,255,0.82)';
   const clouds = Array.from({ length: 4 }, (_, i) => ({
     x: randRange(rand, 80, VIEWBOX.w - 360),
     y: randRange(rand, 56, LAYOUT.horizonY - 230),
@@ -42,12 +36,6 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient, weather }: S
     drift: (i % 2 === 0 ? 1 : -1) * randRange(rand, 120, 240),
   }));
 
-  // Overcast cloud deck — a low, dark layer that thickens with cloudCover and
-  // sits in front of the sun, so heavy skies actually read as heavy.
-  // Overcast is a pale grey ceiling, rain a heavier slate, storm nearly black-blue, snow a bright milky grey.
-  const deckFill = isMoon
-    ? 'rgba(34,42,60,0.94)'
-    : weather === 'overcast' ? 'rgba(148,156,170,0.94)' : weather === 'snow' ? 'rgba(174,182,196,0.94)' : weather === 'storm' ? 'rgba(54,62,82,0.95)' : 'rgba(92,102,122,0.94)';
   const deck =
     wx.cloudCover > 0.4
       ? Array.from({ length: 6 }, (_, i) => ({
@@ -60,7 +48,6 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient, weather }: S
         }))
       : [];
 
-  // Aurora ribbons — wavy translucent bands high in the (night) sky.
   const auroraBands = wx.aurora
     ? Array.from({ length: 3 }, (_, i) => ({
         y: 120 + i * 46,
@@ -70,6 +57,46 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient, weather }: S
         drift: (i % 2 === 0 ? 1 : -1) * randRange(rand, 40, 80),
       }))
     : [];
+  const lightX = randRange(rand, VIEWBOX.w * 0.3, VIEWBOX.w * 0.7);
+  const lightY = randRange(rand, 120, 240);
+
+  return { stars, clouds, deck, auroraBands, lightX, lightY };
+}
+
+/**
+ * The lit part of the moon as an SVG path around the origin, for a waxing moon (lit on the right; the caller mirrors it
+ * for a waning one). `illumination` runs from 0 (new) to 1 (full): the right edge is always a half circle, and the
+ * terminator is an ellipse that bows right for a crescent and left for a gibbous moon.
+ */
+export function moonLitPath(r: number, illumination: number): string {
+  const rx = Math.abs(1 - 2 * illumination) * r;
+  const sweep = illumination < 0.5 ? 0 : 1;
+  return `M 0 ${-r} A ${r} ${r} 0 0 1 0 ${r} A ${rx} ${r} 0 0 ${sweep} 0 ${-r} Z`;
+}
+
+// Sky gradient + sun/moon + stars (night) + a few drifting clouds. Drift /
+// twinkle are AMBIENT only (disabled when !ambient) and never affect the plane.
+export function AtmosphereLayer({ palette, rand, seed, idPrefix, ambient, weather, discs }: SceneLayerProps) {
+  const skyId = `${idPrefix}-sky`;
+  const glowId = `${idPrefix}-horizon`;
+  const lightId = `${idPrefix}-light`;
+  const auroraId = `${idPrefix}-aurora`;
+  const isMoon = palette.light === 'moon';
+  const wx = WEATHER_PROFILE[weather];
+
+  const { stars, clouds, deck, auroraBands, lightX, lightY } = // A fresh generator from the seed each time: in development React renders a layer twice, and a shared generator
+  // would hand the second pass different numbers, moving the sun away from where the lighting expects it.
+  atmosphereLayout(seed ? seededRand(seed) : rand, isMoon, wx);
+
+  const cloudFilterId = `${idPrefix}-cloud`;
+  const cloudFill = isMoon ? 'rgba(208,222,246,0.5)' : 'rgba(255,255,255,0.82)';
+  // Overcast cloud deck — a low, dark layer that thickens with cloudCover and
+  // sits in front of the sun, so heavy skies actually read as heavy.
+  // Overcast is a pale grey ceiling, rain a heavier slate, storm nearly black-blue, snow a bright milky grey.
+  const deckFill = isMoon
+    ? 'rgba(34,42,60,0.94)'
+    : weather === 'overcast' ? 'rgba(148,156,170,0.94)' : weather === 'snow' ? 'rgba(174,182,196,0.94)' : weather === 'storm' ? 'rgba(54,62,82,0.95)' : 'rgba(92,102,122,0.94)';
+  // Aurora ribbons — wavy translucent bands high in the (night) sky.
   const auroraBand = (y: number, amp: number, h = 64) => {
     const w = VIEWBOX.w;
     return (
@@ -77,9 +104,6 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient, weather }: S
       ` L ${w + 80} ${y + h} C ${w * 0.82} ${y + h - amp} ${w * 0.5} ${y + h + amp} ${w * 0.5} ${y + h} S ${w * 0.18} ${y + h - amp} -80 ${y + h} Z`
     );
   };
-
-  const lightX = randRange(rand, VIEWBOX.w * 0.3, VIEWBOX.w * 0.7);
-  const lightY = randRange(rand, 120, 240);
 
   return (
     <g aria-hidden>
@@ -92,6 +116,11 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient, weather }: S
         <radialGradient id={glowId} cx="0.5" cy="1" r="0.9">
           <stop offset="0" stopColor={palette.horizonGlow} />
           <stop offset="1" stopColor="rgba(0,0,0,0)" />
+        </radialGradient>
+        <radialGradient id={`${idPrefix}-moonglow`} cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stopColor="rgb(220,232,255)" stopOpacity="0.85" />
+          <stop offset="0.5" stopColor="rgb(220,232,255)" stopOpacity="0.3" />
+          <stop offset="1" stopColor="rgb(220,232,255)" stopOpacity="0" />
         </radialGradient>
         <radialGradient id={lightId} cx="0.5" cy="0.5" r="0.5">
           <stop offset="0" stopColor={palette.lightColor} />
@@ -145,9 +174,31 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient, weather }: S
         ),
       )}
 
-      {/* sun / moon */}
-      <circle cx={lightX} cy={lightY} r={isMoon ? 56 : 70} fill={`url(#${lightId})`} />
-      <circle cx={lightX} cy={lightY} r={isMoon ? 30 : 40} fill={palette.lightColor} opacity={isMoon ? 0.9 : 0.85} />
+      {/* sun / moon: at the real positions when the scene has them, otherwise at a fixed spot per city */}
+      {discs ? (
+        <>
+          {discs.sun.visible && (
+            <>
+              <circle cx={discs.sun.x} cy={discs.sun.y} r={70} fill={`url(#${lightId})`} />
+              <circle cx={discs.sun.x} cy={discs.sun.y} r={40} fill={palette.lightColor} opacity={0.85} />
+            </>
+          )}
+          {discs.moon.visible && (
+            <g opacity={0.35 + (1 - discs.daylight) * 0.65}>
+              <circle cx={discs.moon.x} cy={discs.moon.y} r={44 + discs.moon.illumination * 22} fill={`url(#${idPrefix}-moonglow)`} opacity={0.4 + discs.moon.illumination * 0.6} />
+              <g transform={`translate(${discs.moon.x} ${discs.moon.y})${discs.moon.litOnRight ? '' : ' scale(-1 1)'}`}>
+                <circle r={30} fill="rgb(34,44,70)" opacity={0.55} />
+                <path d={moonLitPath(30, discs.moon.illumination)} fill="rgb(238,243,255)" />
+              </g>
+            </g>
+          )}
+        </>
+      ) : (
+        <>
+          <circle cx={lightX} cy={lightY} r={isMoon ? 56 : 70} fill={`url(#${lightId})`} />
+          <circle cx={lightX} cy={lightY} r={isMoon ? 30 : 40} fill={palette.lightColor} opacity={isMoon ? 0.9 : 0.85} />
+        </>
+      )}
 
       {/* horizon glow */}
       <rect x="0" y={LAYOUT.horizonY - 220} width={VIEWBOX.w} height={260} fill={`url(#${glowId})`} />

@@ -8,7 +8,7 @@ import type { TimeOfDay, WeatherCondition } from '@/components/world-flight/arri
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import { skyForSun, lightSpot } from '@/components/live-room/flight/sun-sky';
 import { WindscreenWeather } from '@/components/session/cockpit-scene';
-import type { SunPosition } from '@/lib/live-room/sun';
+import type { MoonPosition, SunPosition } from '@/lib/live-room/sun';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
@@ -58,6 +58,8 @@ export interface WindscreenFlightProps {
   region?: string | null;
   /** The real sun over the ground below, and the plane's heading: drives the cockpit sky. */
   sun?: SunPosition & { heading: number };
+  /** The real moon over the same ground, for the moon's place in the sky and its phase. */
+  moon?: MoonPosition;
   /** Real cloud cover below (0–100), when known. */
   cloudCover?: number;
   /** An activity or text is on screen: calmer, fewer clouds. */
@@ -71,7 +73,7 @@ export interface WindscreenFlightProps {
   onCinematic?: (cinematic: boolean) => void;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, cloudCover, calm = false, turbulence = false, paused = false, onLanded, onCinematic }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cloudCover, calm = false, turbulence = false, paused = false, onLanded, onCinematic }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const lurch = useCabinShake(turbulence, 1.6);
@@ -143,7 +145,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   const cover = cloudCover ?? (weather === 'clear' || weather === 'aurora' ? 25 : 85);
   const cloudDensity = diving ? 1 : Math.min(1, 0.3 + (cover / 100) * 0.8);
   const undercast = phase === 'cruise' && !calm ? weatherUndercast(weather, cover) : 0;
-  const spot = sun ? lightSpot(sun, sun.heading, palette.light === 'moon') : undefined;
+  const spot = sun ? lightSpot(sun, sun.heading, palette.light === 'moon', moon) : undefined;
   const altitude = phase === 'climb' ? Math.min(1, progress * 1.1) : 1;
   const cloudSpeed = phase === 'climb' ? 1.4 : diving ? 1.2 + progress * 3 : 0.55;
   const whiteout = phase !== 'descent' ? 0 : diving ? Math.pow(progress / DIVE, 1.6) * 0.96 : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
@@ -164,6 +166,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
               progress={sideFrame.progress}
               timeOfDay={timeOfDay}
               weather={weather}
+              skyLight={sun && moon ? { sun, moon, heading: sun.heading } : undefined}
               fit="slice"
               className="absolute inset-0"
             />

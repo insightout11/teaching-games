@@ -26,7 +26,11 @@ export type TimeOfDay = 'dawn' | 'day' | 'dusk' | 'night';
  *  (renders exactly as before). See arrival-scene/weather.ts for the generator. */
 export type WeatherCondition = 'clear' | 'overcast' | 'rain' | 'storm' | 'snow' | 'aurora';
 
+import type { SkyDiscs, SkyLight } from './sky-light';
+
 export interface DestinationArrivalSceneProps {
+  /** The real sun and moon, and the plane's heading. Without it the sun and moon sit at a fixed spot per city. */
+  skyLight?: SkyLight;
   destinationId: string;
   scene: DestinationScene;
   phase: ArrivalPhase;
@@ -85,6 +89,14 @@ export interface SceneLayerProps {
   mode: ArrivalMode;
   /** Live weather condition (default 'clear'). Read by the atmosphere + weather layers. */
   weather: WeatherCondition;
+  /** The seed `rand` was made from, for layers that must give the same layout on every render. */
+  seed?: string;
+  /** Where the real sun and moon are drawn, when the scene has real sky data. */
+  discs?: SkyDiscs;
+  /** Where the sun (or moon) sits in the sky, shared so the lighting lines up with the disc the sky draws. */
+  sun?: { x: number; y: number };
+  /** The live time of day, when the flight clock sets one (otherwise the destination's baked palette rules). */
+  timeOfDay?: TimeOfDay;
 }
 
 /**

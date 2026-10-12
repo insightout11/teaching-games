@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { moonLitPath } from '@/components/world-flight/arrival-scene/layers/atmosphere-layer';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { ScenePalette, TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 
@@ -60,7 +61,7 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
   timeOfDay: TimeOfDay;
   altitude: number;
   /** Real sun/moon placement; without it, a fixed spot per time of day. */
-  spot?: { x: string; y: string; size: number; visible: boolean };
+  spot?: { x: string; y: string; size: number; visible: boolean; phase?: { illumination: number; litOnRight: boolean } };
 }) {
   const reduce = useReducedMotion();
   const top = hexToRgb(palette.skyTop);
@@ -110,7 +111,20 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
         className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{ transition: glide, left: pos.x, top: pos.y, width: pos.size * 5, height: pos.size * 5, background: `radial-gradient(circle, ${css(light, palette.light === 'moon' ? 0.25 : 0.55)} 0%, transparent 60%)` }}
       />}
-      {pos.visible && <div
+      {pos.visible && palette.light === 'moon' && pos.phase && (
+        <svg
+          className="absolute -translate-x-1/2 -translate-y-1/2"
+          viewBox="-30 -30 60 60"
+          style={{ transition: glide, left: pos.x, top: pos.y, width: pos.size, height: pos.size, filter: `drop-shadow(0 0 ${pos.size / 3}px ${css(light, 0.5)})` }}
+        >
+          {/* the real phase: a dim full disc with the lit part drawn over it, mirrored in the southern hemisphere */}
+          <g transform={pos.phase.litOnRight ? undefined : 'scale(-1 1)'}>
+            <circle r={30} fill="rgb(34,44,70)" opacity={0.55} />
+            <path d={moonLitPath(30, pos.phase.illumination)} fill="rgb(238,243,255)" />
+          </g>
+        </svg>
+      )}
+      {pos.visible && !(palette.light === 'moon' && pos.phase) && <div
         className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{ transition: glide, left: pos.x, top: pos.y, width: pos.size, height: pos.size, background: palette.light === 'moon' ? `radial-gradient(circle at 40% 40%, #f4f6ff, ${css(light)} 70%)` : `radial-gradient(circle, #fffdf0 0%, ${css(light)} 60%, ${css(light, 0)} 100%)`, boxShadow: `0 0 ${pos.size}px ${css(light, 0.5)}` }}
       />}

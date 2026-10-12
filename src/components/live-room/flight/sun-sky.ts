@@ -1,6 +1,6 @@
 import type { ScenePalette, TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
-import type { SunPosition } from '@/lib/live-room/sun';
+import type { MoonPosition, SunPosition } from '@/lib/live-room/sun';
 
 /**
  * The cockpit sky from the real sun: palettes blend smoothly by the sun's
@@ -70,15 +70,20 @@ export interface LightSpot {
   y: string;
   size: number;
   visible: boolean;
+  /** The moon's phase, when the real moon is known. */
+  phase?: { illumination: number; litOnRight: boolean };
 }
 
 /** Where to draw the sun (or the moon, roughly opposite it) on the windscreen. */
-export function lightSpot(sun: SunPosition, headingDeg: number, isMoon: boolean): LightSpot {
-  const az = isMoon ? (sun.azimuth + 180) % 360 : sun.azimuth;
-  const el = isMoon ? Math.max(12, -sun.elevation * 0.8) : sun.elevation;
+export function lightSpot(sun: SunPosition, headingDeg: number, isMoon: boolean, moon?: MoonPosition): LightSpot {
+  // With the real moon its own position is used; without it, a guess roughly opposite the sun.
+  const az = isMoon ? (moon ? moon.azimuth : (sun.azimuth + 180) % 360) : sun.azimuth;
+  const el = isMoon ? (moon ? moon.elevation : Math.max(12, -sun.elevation * 0.8)) : sun.elevation;
   const rel = ((az - headingDeg + 540) % 360) - 180; // −180…180, 0 = dead ahead
   const x = 50 + (rel / 70) * 50;
   const y = Math.max(5, 58 - el * 1.4);
   const size = isMoon ? 56 : Math.round(66 + Math.max(0, 14 - el) * 3);
-  return { x: `${x}%`, y: `${y}%`, size, visible: Math.abs(rel) < 78 && (isMoon || el > -3) };
+  // The real moon is hidden once it has set; the old guess always showed it.
+  const up = isMoon ? (moon ? el > 1 : true) : el > -3;
+  return { x: `${x}%`, y: `${y}%`, size, visible: Math.abs(rel) < 78 && up, phase: isMoon && moon ? { illumination: moon.illumination, litOnRight: moon.litOnRight } : undefined };
 }
