@@ -891,5 +891,146 @@
     "courseId": "kids-helpers",
     "title": "Thank a Helper",
     "level": "A2"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "After school, Elin opens a group chat to check a rehearsal time. Ten minutes later, she is still looking at pictures. Her brother asks why she has not started her homework. “I came here for one message,” she says, “but every post led to another.” He suggests deleting the app. Elin does not want to lose the group where her friends arrange music practice. Instead, she draws a simple map of her online day. One part is useful: checking plans and sharing a recording. Another part is less useful: opening the feed whenever a task feels difficult. “What would you change first?” her brother asks. Elin chooses one small experiment. She will check the rehearsal chat after dinner, then leave her phone outside the room while she studies. She writes down her reason beside the plan. At the end of the course, she wants to explain whether that change helped and what she would keep.",
+    "words": [
+      {
+        "word": "rehearsal",
+        "meaning": "practice before a performance"
+      },
+      {
+        "word": "feed",
+        "meaning": "a changing list of online posts"
+      },
+      {
+        "word": "arrange",
+        "meaning": "plan how something will happen"
+      },
+      {
+        "word": "experiment",
+        "meaning": "a planned way to try an idea"
+      },
+      {
+        "word": "recording",
+        "meaning": "sound or video saved to play again"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why does Elin first open the chat?",
+        "a": "to check a rehearsal time"
+      },
+      {
+        "q": "Which activity does she want to keep?",
+        "a": "music practice"
+      },
+      {
+        "q": "Where will she leave her phone while studying?",
+        "a": "outside the room"
+      }
+    ],
+    "talk": [
+      "Which part of an online routine would you keep, and why?",
+      "How could you tell whether one small change was useful?"
+    ],
+    "courseId": "teens-social-media",
+    "title": "My Online Day",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 3,
+    "text": "A youth club is discussing whether social platforms should limit teenagers' time. Noor supports a limit. “A feed does not have a natural stopping point,” she says. “A clear boundary could help people leave before a short visit becomes a long evening.” Felix disagrees with a single rule for everyone. He uses a group chat to organize a volunteer project. Some evenings, he needs more time to answer questions and share plans. Noor replies that essential messages could be treated differently from endless scrolling. Felix asks who would decide which activities count as essential. Their leader writes two concerns on the board: help people stop, and keep useful communication available. The group considers a warning that users can adjust, but that idea raises another question. Would people ignore it? Nobody has a complete answer yet. Before voting, the club asks each speaker to give one benefit, one possible problem and a reason the other side might find convincing.",
+    "words": [
+      {
+        "word": "boundary",
+        "meaning": "a limit showing where something stops"
+      },
+      {
+        "word": "essential",
+        "meaning": "needed for an important purpose"
+      },
+      {
+        "word": "communication",
+        "meaning": "sharing information with other people"
+      },
+      {
+        "word": "adjust",
+        "meaning": "change something to suit a need"
+      },
+      {
+        "word": "convincing",
+        "meaning": "giving good reasons to believe something"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Who supports a time limit?",
+        "a": "Noor"
+      },
+      {
+        "q": "What does Felix organize online?",
+        "a": "a volunteer project"
+      },
+      {
+        "q": "What adjustable option does the group consider?",
+        "a": "a warning"
+      }
+    ],
+    "talk": [
+      "What should a fair platform rule protect?",
+      "How would you reply to the strongest reason on the other side?"
+    ],
+    "courseId": "teens-social-media",
+    "title": "Rules for Platforms",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Elin returns to the map of her online day. Her original plan was to check the rehearsal chat after dinner and keep her phone outside the study room. She explains the result to her brother. “The quiet room helped me finish a difficult task,” she says. “But once I missed a last-minute change to rehearsal.” He asks whether she will abandon the plan. Elin thinks the problem needs a smaller repair. She will check the group once before starting work and once when she finishes. If a rehearsal is happening that evening, she will ask a friend to call about urgent changes. She keeps music messages but turns off alerts from the picture feed. Her new explanation has more than a rule. It names the useful part of social media, the interruption she wants to reduce and the cost of her choice. Elin does not claim that everyone should copy her routine. She can now give a reason for the change that suits her own day.",
+    "words": [
+      {
+        "word": "urgent",
+        "meaning": "needing attention very soon"
+      },
+      {
+        "word": "alerts",
+        "meaning": "signals that tell you something has happened"
+      },
+      {
+        "word": "interruption",
+        "meaning": "something that breaks your attention or activity"
+      },
+      {
+        "word": "abandon",
+        "meaning": "stop following a plan"
+      },
+      {
+        "word": "routine",
+        "meaning": "a usual order of activities"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What did Elin miss?",
+        "a": "a last-minute change to rehearsal"
+      },
+      {
+        "q": "Who could call about urgent changes?",
+        "a": "a friend"
+      },
+      {
+        "q": "Which alerts does she turn off?",
+        "a": "alerts from the picture feed"
+      }
+    ],
+    "talk": [
+      "How would you revise an online plan that partly worked?",
+      "What reason would make your proposed change convincing to someone else?"
+    ],
+    "courseId": "teens-social-media",
+    "title": "My Better Online Day",
+    "level": "B1"
   }
 ]
