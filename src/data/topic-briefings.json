@@ -15,13 +15,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Cats sleep for many hours each day."
+        "why": "Tell a partner about a pet cat's daily habits.",
+        "example": "My cat sleeps on the sofa every afternoon."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a sleeping cat or kitten?"
+        "target": "present continuous",
+        "why": "Describe what a cat is doing in a picture.",
+        "example": "The cat is hiding under the chair."
       }
     ],
     "levels": {
@@ -315,14 +315,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "A leash helps keep a dog near its person."
+        "target": "future (going to)",
+        "why": "Plan the next step in training a dog.",
+        "example": "I am going to teach my dog to sit."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you play fetch or take a walk?"
+        "target": "conditional",
+        "why": "Explain how a dog responds to a clear signal.",
+        "example": "If I call his name, my dog will come."
       }
     ],
     "levels": {
@@ -616,14 +616,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "A horse has one hoof on each leg."
+        "target": "comparatives & superlatives",
+        "why": "Compare a pony's height with a larger horse.",
+        "example": "This horse is taller than the pony."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you brush a mane or carry hay?"
+        "target": "present continuous",
+        "why": "Comment on a horse's movements beside its rider.",
+        "example": "The horse is walking beside its rider."
       }
     ],
     "levels": {
@@ -916,14 +916,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "They use mud to keep their skin cool."
+        "target": "comparatives & superlatives",
+        "why": "Compare an elephant calf with its mother.",
+        "example": "The mother elephant is bigger than her calf."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a trunk or big ears?"
+        "target": "present simple",
+        "why": "Explain how an elephant uses its trunk.",
+        "example": "An elephant lifts food with its trunk."
       }
     ],
     "levels": {
@@ -1216,14 +1216,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Giraffes sleep for only short periods."
+        "target": "comparatives & superlatives",
+        "why": "Compare giraffes' reach with other animals.",
+        "example": "A giraffe reaches higher branches than a zebra."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw spots or very long legs?"
+        "target": "present simple",
+        "why": "Describe how a giraffe eats from tall trees.",
+        "example": "A giraffe pulls leaves from branches."
       }
     ],
     "levels": {
@@ -1517,13 +1517,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Zebras use their tails to swat away flies."
+        "why": "Describe features that help someone recognize a zebra.",
+        "example": "A zebra has black and white stripes."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw thin stripes or wide stripes?"
+        "target": "present continuous",
+        "why": "Give a live description of a zebra herd.",
+        "example": "The zebras are moving across the grass."
       }
     ],
     "levels": {
@@ -1816,14 +1816,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "A young lion is called a cub."
+        "target": "present continuous",
+        "why": "Narrate a lion family's actions in a wildlife clip.",
+        "example": "The lion cubs are playing beside their mother."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a cub asleep or awake?"
+        "target": "past simple",
+        "why": "Retell a memorable lion sighting.",
+        "example": "We saw a lion resting under a tree."
       }
     ],
     "levels": {
@@ -2116,14 +2116,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "A tiger's tail helps it keep balance."
+        "target": "comparatives & superlatives",
+        "why": "Compare an adult tiger with a cub.",
+        "example": "The adult tiger is heavier than the cub."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a tiger by trees or water?"
+        "target": "conditional",
+        "why": "Predict a tiger's response to a splash in a story.",
+        "example": "If the fish splashes, the tiger will look at the water."
       }
     ],
     "levels": {
@@ -2417,13 +2417,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Pandas have black patches around their eyes."
+        "why": "Explain what pandas eat each day.",
+        "example": "Pandas eat bamboo for many hours."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would your toy panda climb or roll?"
+        "target": "present continuous",
+        "why": "Describe a panda's actions during feeding time.",
+        "example": "The panda is holding bamboo in its paws."
       }
     ],
     "levels": {
@@ -2717,13 +2717,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Koalas have two thumbs on each front paw."
+        "why": "Describe where koalas spend their time.",
+        "example": "Koalas rest in trees during the day."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a koala high or low?"
+        "target": "comparatives & superlatives",
+        "why": "Compare a koala's pace with a hopping animal.",
+        "example": "A koala moves more slowly than a kangaroo."
       }
     ],
     "levels": {
@@ -3016,14 +3016,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Kangaroos use their tails while standing and moving."
+        "target": "present continuous",
+        "why": "Describe a kangaroo moving with its joey.",
+        "example": "The kangaroo is carrying a joey in her pouch."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you hop like a kangaroo or frog?"
+        "target": "comparatives & superlatives",
+        "why": "Compare the jumps of two kangaroos.",
+        "example": "This kangaroo jumps farther than the little one."
       }
     ],
     "levels": {
@@ -3316,14 +3316,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Penguins have feathers packed close together."
+        "target": "present continuous",
+        "why": "Describe penguins moving between ice and water.",
+        "example": "The penguins are diving into the sea."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you watch a penguin dive or walk?"
+        "target": "past simple",
+        "why": "Tell the sequence of a penguin sighting.",
+        "example": "The penguin jumped into the water and swam away."
       }
     ],
     "levels": {
@@ -3616,14 +3616,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Polar bears have black skin under their pale fur."
+        "target": "comparatives & superlatives",
+        "why": "Compare a bear's size with its cub.",
+        "example": "The polar bear is much larger than its cub."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a bear swimming or walking?"
+        "target": "conditional",
+        "why": "Predict what a bear will do when ice breaks.",
+        "example": "If the ice breaks, the bear will swim."
       }
     ],
     "levels": {
@@ -3916,14 +3916,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "They move their tails up and down to swim."
+        "target": "past simple",
+        "why": "Retell what dolphins did during a boat trip.",
+        "example": "Two dolphins jumped beside our boat."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you hear clicks or watch a jump?"
+        "target": "present continuous",
+        "why": "Describe dolphins' movements as a clip plays.",
+        "example": "The dolphins are swimming together near the boat."
       }
     ],
     "levels": {
@@ -4216,14 +4216,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Some whales have long flippers."
+        "target": "comparatives & superlatives",
+        "why": "Compare a whale's size with a familiar sea animal.",
+        "example": "A blue whale is bigger than a dolphin."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a tail above or below water?"
+        "target": "present simple",
+        "why": "Explain why whales come to the surface.",
+        "example": "Whales come to the surface to breathe."
       }
     ],
     "levels": {
@@ -4518,14 +4518,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Many sharks need to keep water moving past their gills."
+        "target": "present continuous",
+        "why": "Describe a shark's movement around a reef.",
+        "example": "The shark is swimming past the coral."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a shark near a reef?"
+        "target": "comparatives & superlatives",
+        "why": "Compare sharks shown in two pictures.",
+        "example": "This shark is longer than that one."
       }
     ],
     "levels": {
@@ -4818,14 +4818,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Its shell grows as the turtle grows."
+        "target": "past simple",
+        "why": "Retell a hatchling's journey to the sea.",
+        "example": "The baby turtle crossed the sand and reached the sea."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a turtle swimming or resting?"
+        "target": "conditional",
+        "why": "Explain how removing litter can help a turtle.",
+        "example": "If we move the rubbish, the turtle will have a clear path."
       }
     ],
     "levels": {
@@ -5119,13 +5119,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Frogs have moist skin that needs care."
+        "why": "Describe the changes from tadpole to frog.",
+        "example": "A tadpole grows legs and loses its tail."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a frog or tadpole?"
+        "target": "present continuous",
+        "why": "Describe a frog catching food beside a pond.",
+        "example": "The frog is jumping toward a fly."
       }
     ],
     "levels": {
@@ -5418,14 +5418,14 @@
     "category": "animals",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "A caterpillar eats leaves."
+        "target": "past simple",
+        "why": "Retell a butterfly's arrival in a garden.",
+        "example": "A butterfly landed on our red flower."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a wing or caterpillar?"
+        "target": "present continuous",
+        "why": "Describe a butterfly's movement between flowers.",
+        "example": "The butterfly is flying from flower to flower."
       }
     ],
     "levels": {
@@ -5719,13 +5719,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe an animal feature or habit.",
-        "example": "Bees have fuzzy bodies that catch flower dust."
+        "why": "Explain a bee's repeated trips to flowers.",
+        "example": "Bees carry pollen between flowers."
       },
       {
-        "target": "question forms",
-        "why": "Ask classmates about an animal choice.",
-        "example": "Would you draw a bee or a flower?"
+        "target": "conditional",
+        "why": "Predict how planting flowers will attract bees.",
+        "example": "If we plant more flowers, bees will visit our garden."
       }
     ],
     "levels": {
@@ -6020,19 +6020,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Fossils help us learn about dinosaurs."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw a dinosaur egg or footprint?"
+        "target": "past simple",
+        "why": "Tell what happened in an imagined dinosaur encounter.",
+        "example": "The dinosaur chased a smaller animal through the forest."
       },
       {
         "target": "comparatives & superlatives",
-        "why": "Compare dinosaur sizes.",
-        "example": "Some dinosaurs were smaller than a child."
+        "why": "Compare dinosaur models by size.",
+        "example": "My long-necked dinosaur is taller than your toy dinosaur."
       }
     ],
     "levels": {
@@ -6325,19 +6320,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Other fossils show tracks or leaf marks."
+        "target": "past simple",
+        "why": "Explain how you discovered a fossil.",
+        "example": "I found a small fossil beside the river."
       },
       {
         "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you hunt for a shell or leaf imprint?"
-      },
-      {
-        "target": "past simple",
-        "why": "Describe how a trace formed.",
-        "example": "A track fossil marks where something walked."
+        "why": "Interview someone about a fossil discovery.",
+        "example": "Where did you find this fossil?"
       }
     ],
     "levels": {
@@ -6631,14 +6621,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "The Moon looks bright because it reflects sunlight."
+        "target": "comparatives & superlatives",
+        "why": "Compare the Moon's appearance on different nights.",
+        "example": "The Moon looks brighter tonight than yesterday."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw a full Moon or crescent?"
+        "target": "future (will)",
+        "why": "Predict the Moon's appearance in a night-sky drawing.",
+        "example": "The Moon will shine above the dark hills."
       }
     ],
     "levels": {
@@ -6932,17 +6922,12 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "The Sun is much bigger than Earth."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw sunrise or sunset?"
+        "why": "Explain the Sun's role in everyday life.",
+        "example": "The Sun gives us light and warmth."
       },
       {
         "target": "comparatives & superlatives",
-        "why": "Compare the Sun and Earth.",
+        "why": "Compare the Sun's size with Earth's size.",
         "example": "The Sun is much bigger than Earth."
       }
     ],
@@ -7236,14 +7221,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Each planet has its own kind of sky."
+        "target": "comparatives & superlatives",
+        "why": "Compare planets using a classroom model.",
+        "example": "This planet model is smaller than that one."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you visit a blue or red planet?"
+        "target": "future (going to)",
+        "why": "Plan a model of a chosen planet.",
+        "example": "I am going to make a model of Mars."
       }
     ],
     "levels": {
@@ -7536,19 +7521,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "They seem still, but they move through space."
+        "target": "present continuous",
+        "why": "Describe the night sky while looking outside.",
+        "example": "The stars are shining above our house."
       },
       {
         "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw one bright star or many?"
-      },
-      {
-        "target": "comparatives & superlatives",
-        "why": "Compare stars by temperature.",
-        "example": "Blue stars can be hotter than red ones."
+        "why": "Ask a partner to identify stars in a picture.",
+        "example": "How many stars do you see above the tree?"
       }
     ],
     "levels": {
@@ -7841,14 +7821,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Fuel gives a rocket energy."
+        "target": "future (going to)",
+        "why": "Describe preparations for a pretend rocket launch.",
+        "example": "We are going to launch our paper rocket outside."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw a rocket on land or in sky?"
+        "target": "future (will)",
+        "why": "Predict a rocket's flight in a classroom experiment.",
+        "example": "Our light rocket will fly higher this time."
       }
     ],
     "levels": {
@@ -8141,14 +8121,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Astronauts eat food from special packages."
+        "target": "present continuous",
+        "why": "Describe astronauts' actions in a space-station clip.",
+        "example": "The astronauts are floating beside the window."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you float or look out the window?"
+        "target": "future (going to)",
+        "why": "Plan a pretend astronaut's work in space.",
+        "example": "I am going to take pictures of Earth."
       }
     ],
     "levels": {
@@ -8442,14 +8422,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Some volcanoes have quiet green slopes."
+        "target": "past simple",
+        "why": "Retell an eruption shown in a story.",
+        "example": "The volcano erupted and hot lava covered the road."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw a round crater or tall slope?"
+        "target": "comparatives & superlatives",
+        "why": "Compare the shapes of two volcanoes.",
+        "example": "This volcano is steeper than the one in our book."
       }
     ],
     "levels": {
@@ -8742,14 +8722,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "An earthquake makes the ground shake."
+        "target": "past simple",
+        "why": "Describe what moved during an earthquake story.",
+        "example": "The ground shook and a cup fell from the shelf."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you practice under a table or outdoors?"
+        "target": "conditional",
+        "why": "Say what the class will do if shaking starts.",
+        "example": "If the floor shakes, we will follow our teacher."
       }
     ],
     "levels": {
@@ -9042,19 +9022,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "A mountain has a high peak."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you walk a valley or hill trail?"
-      },
-      {
         "target": "comparatives & superlatives",
-        "why": "Describe the highest parts of mountains.",
-        "example": "Clouds sometimes cover the highest parts."
+        "why": "Choose between two mountain paths by steepness.",
+        "example": "This mountain path is steeper than the other one."
+      },
+      {
+        "target": "past simple",
+        "why": "Retell a walk to a mountain viewpoint.",
+        "example": "We climbed the mountain and saw snow at the top."
       }
     ],
     "levels": {
@@ -9348,13 +9323,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "A river has two banks."
+        "why": "Describe the route a river follows.",
+        "example": "The river flows past our town."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you cross a bridge or ride a boat?"
+        "target": "present continuous",
+        "why": "Describe river water moving around an obstacle.",
+        "example": "The river is flowing around a large rock."
       }
     ],
     "levels": {
@@ -9647,14 +9622,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "A beach is where land meets the sea."
+        "target": "comparatives & superlatives",
+        "why": "Compare waves seen from the shore.",
+        "example": "Today's ocean waves are bigger than yesterday's waves."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you watch waves or look in a rock pool?"
+        "target": "present continuous",
+        "why": "Describe the ocean during a windy beach visit.",
+        "example": "The ocean waves are crashing against the rocks."
       }
     ],
     "levels": {
@@ -9948,13 +9923,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Tiny coral animals live close together."
+        "why": "Explain how reef animals use coral spaces.",
+        "example": "Small fish hide between the corals."
       },
       {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you draw a reef fish or polyp?"
+        "target": "present continuous",
+        "why": "Narrate fish movements in a reef video.",
+        "example": "The fish are swimming through the coral reef."
       }
     ],
     "levels": {
@@ -10247,19 +10222,14 @@
     "category": "earth and space",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a feature of the natural world.",
-        "example": "Some leaves are bigger than dinner plates."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask what the class would explore.",
-        "example": "Would you look up at leaves or down at mushrooms?"
-      },
-      {
         "target": "comparatives & superlatives",
-        "why": "Compare leaf sizes.",
-        "example": "Some leaves are bigger than dinner plates."
+        "why": "Compare layers of rainforest plants.",
+        "example": "The tall trees are higher than the small plants."
+      },
+      {
+        "target": "past simple",
+        "why": "Retell a rainforest walk using things you noticed.",
+        "example": "We walked through the rainforest and heard birds overhead."
       }
     ],
     "levels": {
@@ -10552,14 +10522,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Some deserts have rocky ground instead of sand."
+        "target": "comparatives & superlatives",
+        "why": "Compare desert temperatures with a familiar place.",
+        "example": "This desert is hotter than our town."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you draw a dune or oasis?"
+        "target": "future (going to)",
+        "why": "Plan what to pack for a desert day.",
+        "example": "I am going to pack water for the desert trip."
       }
     ],
     "levels": {
@@ -10852,14 +10822,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "A sapling is a young tree."
+        "target": "past simple",
+        "why": "Retell a forest walk in the order it happened.",
+        "example": "We followed the forest path and found a fallen tree."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you draw a tall tree or sapling?"
+        "target": "present continuous",
+        "why": "Describe animals moving through a forest scene.",
+        "example": "A squirrel is climbing the forest tree."
       }
     ],
     "levels": {
@@ -11152,14 +11122,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Long summer days give more hours of light."
+        "target": "comparatives & superlatives",
+        "why": "Compare daylight or temperatures across seasons.",
+        "example": "Winter days are shorter than summer days."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you choose a rainy or sunny season?"
+        "target": "present simple",
+        "why": "Describe a repeated change during the year.",
+        "example": "Leaves fall from these trees in autumn."
       }
     ],
     "levels": {
@@ -11451,19 +11421,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Puddles show where water gathers."
+        "target": "future (will)",
+        "why": "Make a simple weather prediction from clouds.",
+        "example": "I think it will rain after lunch."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you jump over or around a puddle?"
-      },
-      {
-        "target": "past simple",
-        "why": "Recall what rain changed in a garden.",
-        "example": "The soil scent made the garden feel fresh."
+        "target": "conditional",
+        "why": "Connect rain with a plan for outdoor play.",
+        "example": "If it rains, we will play inside."
       }
     ],
     "levels": {
@@ -11755,14 +11720,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Snow covers streets and gardens in winter."
+        "target": "present continuous",
+        "why": "Describe snow falling outside the classroom.",
+        "example": "Snow is falling on the playground."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you make a snowball or snow angel?"
+        "target": "future (going to)",
+        "why": "Plan an activity for a snowy morning.",
+        "example": "We are going to build a snowman tomorrow."
       }
     ],
     "levels": {
@@ -12054,14 +12019,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "A breeze feels gentle."
+        "target": "future (will)",
+        "why": "Predict what wind will do to a light object.",
+        "example": "The wind will blow our paper boat across the pond."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you fly a kite or sail a toy boat?"
+        "target": "conditional",
+        "why": "Explain how stronger wind changes a kite plan.",
+        "example": "If the wind gets stronger, we will bring the kite down."
       }
     ],
     "levels": {
@@ -12354,14 +12319,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "They move at different speeds."
+        "target": "present continuous",
+        "why": "Describe changes in clouds while watching the sky.",
+        "example": "The dark clouds are moving over our school."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you draw a puffy or thin cloud?"
+        "target": "future (will)",
+        "why": "Predict the weather from a cloud picture.",
+        "example": "Those dark clouds will bring rain."
       }
     ],
     "levels": {
@@ -12654,14 +12619,14 @@
     "category": "weather and nature",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Moving your feet changes what you see."
+        "target": "past simple",
+        "why": "Tell when and where you saw a rainbow.",
+        "example": "We saw a rainbow after the rain stopped."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you paint a small or wide rainbow?"
+        "target": "future (will)",
+        "why": "Predict a rainbow's colours in a spray experiment.",
+        "example": "The rainbow will show red at the top."
       }
     ],
     "levels": {
@@ -12954,13 +12919,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "Rain is one kind of precipitation."
+        "why": "Explain the repeating steps in water's journey.",
+        "example": "Water rises into the air and forms clouds."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you follow water from cloud or puddle?"
+        "target": "conditional",
+        "why": "Predict the result of warming a classroom puddle.",
+        "example": "If the puddle gets warm, the water will dry faster."
       }
     ],
     "levels": {
@@ -13254,13 +13219,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a natural pattern or process.",
-        "example": "A root grows into soil."
+        "why": "Explain a seedling's gradual changes.",
+        "example": "A seed grows roots before its leaves open."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to imagine a nature choice.",
-        "example": "Would you plant a bean or sunflower seed?"
+        "target": "future (going to)",
+        "why": "Describe the next step in a growing experiment.",
+        "example": "We are going to measure our plant every morning."
       }
     ],
     "levels": {
@@ -13553,14 +13518,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Clean tools help keep a kitchen safe."
+        "target": "present continuous",
+        "why": "Describe each cook's actions during a shared meal.",
+        "example": "Dad is stirring soup while I am chopping carrots."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you chop carrots or stir soup?"
+        "target": "conditional",
+        "why": "Explain how an ingredient changes a dish.",
+        "example": "If we add more carrots, the soup will taste sweeter."
       }
     ],
     "levels": {
@@ -13853,14 +13818,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "A warm oven makes dough change."
+        "target": "future (going to)",
+        "why": "Plan the steps for a baking session.",
+        "example": "We are going to mix the flour and eggs first."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you bake a loaf or small rolls?"
+        "target": "conditional",
+        "why": "Predict what happens when dough goes into the oven.",
+        "example": "If we bake the dough, it will become bread."
       }
     ],
     "levels": {
@@ -14153,14 +14118,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Some fruits have one big stone inside."
+        "target": "comparatives & superlatives",
+        "why": "Compare fruit flavours before choosing a snack.",
+        "example": "This orange is sweeter than that lemon."
       },
       {
         "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you eat a berry or slice of melon?"
+        "why": "Survey classmates about the fruit they eat.",
+        "example": "Which fruit do you eat most often?"
       }
     ],
     "levels": {
@@ -14453,14 +14418,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "We eat many different plant parts."
+        "target": "comparatives & superlatives",
+        "why": "Compare vegetables' textures or sizes.",
+        "example": "A raw carrot is harder than a cooked carrot."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you roast carrots or eat them raw?"
+        "target": "present continuous",
+        "why": "Describe someone preparing vegetables for a meal.",
+        "example": "My sister is washing the vegetables."
       }
     ],
     "levels": {
@@ -14754,13 +14719,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Some families eat together before school."
+        "why": "Describe a normal morning meal.",
+        "example": "I eat toast and an egg for breakfast."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you eat warm porridge or cold cereal?"
+        "target": "past simple",
+        "why": "Tell a partner what you ate this morning.",
+        "example": "I ate porridge before school today."
       }
     ],
     "levels": {
@@ -15053,14 +15018,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Lunch time gives a break from lessons."
+        "target": "question forms",
+        "why": "Find out what classmates bring for lunch.",
+        "example": "What do you bring for school lunch?"
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you bring food or choose a school meal?"
+        "target": "future (going to)",
+        "why": "Explain a plan for tomorrow's lunch.",
+        "example": "I am going to pack rice and vegetables tomorrow."
       }
     ],
     "levels": {
@@ -15354,13 +15319,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "A pet needs care even on busy days."
+        "why": "Describe daily tasks that keep a pet well.",
+        "example": "I fill my rabbit's water bowl every morning."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you care for a cat or rabbit?"
+        "target": "future (going to)",
+        "why": "Arrange who will care for a pet during a trip.",
+        "example": "My brother is going to feed the cat while we travel."
       }
     ],
     "levels": {
@@ -15654,13 +15619,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Some lessons need books, others need art tools."
+        "why": "Explain the order of a usual school day.",
+        "example": "Our first lesson starts at nine every morning."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you start with art or reading?"
+        "target": "past simple",
+        "why": "Retell a school day that broke the usual routine.",
+        "example": "We had art before lunch and played outside afterward."
       }
     ],
     "levels": {
@@ -15953,14 +15918,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "A quiet signal helps us listen."
+        "target": "conditional",
+        "why": "Explain the consequence of a classroom choice.",
+        "example": "If everyone talks together, we will miss the instructions."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you make a rule for talking or sharing?"
+        "target": "past simple",
+        "why": "Describe how the class agreed on a rule.",
+        "example": "We agreed to put our books away after reading."
       }
     ],
     "levels": {
@@ -16253,14 +16218,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Playing together helps people relax."
+        "target": "past simple",
+        "why": "Tell how a new friendship began.",
+        "example": "I met Sam when we played a game together."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you invite someone to draw or play?"
+        "target": "future (going to)",
+        "why": "Plan a small invitation for a new classmate.",
+        "example": "I am going to invite the new student to play."
       }
     ],
     "levels": {
@@ -16554,13 +16519,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Our bedtime story is a ritual."
+        "why": "Explain a custom your family repeats.",
+        "example": "My family cooks noodles together every Sunday."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you make food or tell a story together?"
+        "target": "past simple",
+        "why": "Retell one special time your family followed a tradition.",
+        "example": "Last Sunday, Grandma taught me our family recipe."
       }
     ],
     "levels": {
@@ -16853,14 +16818,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "A small game helps guests meet."
+        "target": "future (going to)",
+        "why": "Describe preparations for a birthday celebration.",
+        "example": "We are going to decorate the room with paper stars."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you play a game or decorate a cake?"
+        "target": "future (will)",
+        "why": "Offer help while planning a party.",
+        "example": "I will bring the birthday cake to your party."
       }
     ],
     "levels": {
@@ -17153,14 +17118,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "A parade moves along a street."
+        "target": "past simple",
+        "why": "Retell a festival visit through memorable actions.",
+        "example": "We watched a parade and carried lanterns at the festival."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you carry a lantern or wave at a parade?"
+        "target": "present continuous",
+        "why": "Describe a festival procession as it passes.",
+        "example": "The dancers are moving through the street."
       }
     ],
     "levels": {
@@ -17453,14 +17418,14 @@
     "category": "everyday life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Families visit parks on holidays."
+        "target": "past simple",
+        "why": "Share events from a holiday you took.",
+        "example": "We visited the beach and built a sandcastle."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you picnic by water or trees?"
+        "target": "future (going to)",
+        "why": "Describe plans for the next holiday.",
+        "example": "We are going to visit my cousins during the holidays."
       }
     ],
     "levels": {
@@ -17754,13 +17719,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Describe a familiar routine or custom.",
-        "example": "Many jobs help a town run."
+        "why": "Explain the regular work of a local worker.",
+        "example": "A baker makes bread early every morning."
       },
       {
         "target": "question forms",
-        "why": "Ask about a real-life preference.",
-        "example": "Would you help a baker or mechanic?"
+        "why": "Interview a worker about their working day.",
+        "example": "What time do you start work at the bakery?"
       }
     ],
     "levels": {
@@ -18054,14 +18019,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A soccer field has two goals."
+        "target": "present continuous",
+        "why": "Comment on a soccer match as the action happens.",
+        "example": "The striker is running toward the goal."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you pass or shoot first?"
+        "target": "past simple",
+        "why": "Retell the decisive moment in a soccer match.",
+        "example": "Lena passed the ball and Max scored."
       }
     ],
     "levels": {
@@ -18355,14 +18320,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A basketball court has lines and two hoops."
+        "target": "present continuous",
+        "why": "Describe basketball players' positions and actions.",
+        "example": "The players are passing the ball near the hoop."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you pass or shoot from close?"
+        "target": "comparatives & superlatives",
+        "why": "Compare two players' shots during practice.",
+        "example": "Your shot went farther than mine."
       }
     ],
     "levels": {
@@ -18655,14 +18620,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A pool has a shallow and deep end."
+        "target": "past simple",
+        "why": "Describe a swimming achievement from a lesson.",
+        "example": "I swam across the pool without stopping."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you float or kick first?"
+        "target": "future (going to)",
+        "why": "Set a simple goal for the next swimming lesson.",
+        "example": "I am going to practice floating next time."
       }
     ],
     "levels": {
@@ -18955,14 +18920,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A bicycle moves when pedals turn the wheels."
+        "target": "conditional",
+        "why": "Explain a cycling decision at a busy crossing.",
+        "example": "If the light turns red, I will stop my bike."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you ride to a park or shop?"
+        "target": "past simple",
+        "why": "Retell a bicycle ride with a clear destination.",
+        "example": "We rode our bikes to the park."
       }
     ],
     "levels": {
@@ -19255,14 +19220,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "Running makes your heart beat faster."
+        "target": "comparatives & superlatives",
+        "why": "Compare runners' speeds during a race.",
+        "example": "Mia runs faster than I do."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you sprint or jog around a field?"
+        "target": "future (will)",
+        "why": "Predict the finish of a classroom race.",
+        "example": "I think Ben will finish the race first."
       }
     ],
     "levels": {
@@ -19555,14 +19520,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A beat helps feet move together."
+        "target": "present continuous",
+        "why": "Describe dancers performing different movements.",
+        "example": "One dancer is spinning while the others are clapping."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you spin or clap first?"
+        "target": "past simple",
+        "why": "Retell the steps you learned in a dance lesson.",
+        "example": "We learned three steps and danced together."
       }
     ],
     "levels": {
@@ -19855,14 +19820,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "Players take turns."
+        "target": "conditional",
+        "why": "Explain how a board-game move changes the next turn.",
+        "example": "If you land here, you will miss a turn."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you move a red or blue token?"
+        "target": "past simple",
+        "why": "Tell how a board game ended.",
+        "example": "I rolled a six and moved my last piece home."
       }
     ],
     "levels": {
@@ -20155,14 +20120,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A jigsaw has many pieces."
+        "target": "comparatives & superlatives",
+        "why": "Compare the difficulty of two puzzles.",
+        "example": "This puzzle is harder than yesterday's puzzle."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you start with corners or colors?"
+        "target": "future (going to)",
+        "why": "Explain a plan for solving a jigsaw.",
+        "example": "I am going to find the corner pieces first."
       }
     ],
     "levels": {
@@ -20455,14 +20420,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A tower falls when its balance changes."
+        "target": "future (going to)",
+        "why": "Plan a structure before starting to build.",
+        "example": "We are going to build a bridge with these blocks."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you build a tower or bridge?"
+        "target": "future (will)",
+        "why": "Predict whether a block tower will stand.",
+        "example": "That narrow tower will fall if we add another block."
       }
     ],
     "levels": {
@@ -20755,14 +20720,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A kite needs moving air to lift."
+        "target": "conditional",
+        "why": "Connect wind conditions with a kite's movement.",
+        "example": "If the wind blows, our kite will rise."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you make a diamond or bird kite?"
+        "target": "comparatives & superlatives",
+        "why": "Compare two kite designs before flying them.",
+        "example": "This paper kite is lighter than the cloth kite."
       }
     ],
     "levels": {
@@ -21055,14 +21020,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A bench gives people a place to rest."
+        "target": "present continuous",
+        "why": "Describe simultaneous actions in a playground picture.",
+        "example": "Two children are swinging while a boy is climbing."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you choose a slide or swing?"
+        "target": "future (going to)",
+        "why": "Choose what to do on the next playground visit.",
+        "example": "I am going to try the slide after the swings."
       }
     ],
     "levels": {
@@ -21355,14 +21320,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A hero sometimes needs a friend."
+        "target": "future (will)",
+        "why": "Make a promise as a superhero in a story.",
+        "example": "I will help the people trapped in the tower."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would your hero fly or swim?"
+        "target": "conditional",
+        "why": "Connect a hero's action with the story's outcome.",
+        "example": "If the hero catches the train, everyone will be safe."
       }
     ],
     "levels": {
@@ -21655,14 +21620,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A motor makes parts move."
+        "target": "conditional",
+        "why": "Explain a simple robot instruction and its result.",
+        "example": "If I press this button, the robot will turn."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would your robot roll or walk?"
+        "target": "future (going to)",
+        "why": "Plan a useful job for a classroom robot.",
+        "example": "Our robot is going to carry books to the shelf."
       }
     ],
     "levels": {
@@ -21955,14 +21920,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A window shows towns passing by."
+        "target": "question forms",
+        "why": "Ask for the information needed to catch a train.",
+        "example": "Which train goes to the city?"
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you sit by the window or aisle?"
+        "target": "future (going to)",
+        "why": "Describe a planned train journey.",
+        "example": "We are going to take the morning train."
       }
     ],
     "levels": {
@@ -22256,14 +22221,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "An airplane has two wings."
+        "target": "question forms",
+        "why": "Ask an airport worker about a flight's departure.",
+        "example": "What time does our plane leave?"
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you sit by a window or aisle?"
+        "target": "future (will)",
+        "why": "Predict what you will see from an airplane window.",
+        "example": "We will see the sea from the plane."
       }
     ],
     "levels": {
@@ -22557,14 +22522,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A paddle moves water behind it."
+        "target": "past simple",
+        "why": "Retell a short journey across water.",
+        "example": "We crossed the lake in a small boat."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you paddle or sail?"
+        "target": "comparatives & superlatives",
+        "why": "Compare boats before choosing one for a race.",
+        "example": "This sailboat is faster than our little rowing boat."
       }
     ],
     "levels": {
@@ -22857,14 +22822,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A drum makes sound when struck."
+        "target": "present continuous",
+        "why": "Describe who is playing each instrument in a band.",
+        "example": "Sam is playing the drum and I am playing the flute."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you play a drum or flute?"
+        "target": "comparatives & superlatives",
+        "why": "Compare the sounds of two instruments.",
+        "example": "The drum is louder than the flute."
       }
     ],
     "levels": {
@@ -23157,14 +23122,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "An outline shows an edge."
+        "target": "future (going to)",
+        "why": "Explain your plan for a new drawing.",
+        "example": "I am going to draw the house with a red roof."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you draw an animal or house?"
+        "target": "present continuous",
+        "why": "Describe an artist's drawing as it takes shape.",
+        "example": "She is drawing a long tail on the cat."
       }
     ],
     "levels": {
@@ -23457,14 +23422,14 @@
     "category": "play and creativity",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "A brush makes different marks as it turns."
+        "target": "present continuous",
+        "why": "Explain what you are painting during an art activity.",
+        "example": "I am painting blue waves around the boat."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you paint with blue or orange first?"
+        "target": "past simple",
+        "why": "Tell how you changed a painting yesterday.",
+        "example": "I added yellow paint and made the sun brighter."
       }
     ],
     "levels": {
@@ -23758,13 +23723,13 @@
     "grammarFits": [
       {
         "target": "present simple",
-        "why": "Explain how an activity or object works.",
-        "example": "Our skin feels warm and cold things."
+        "why": "Explain what each sense helps you notice.",
+        "example": "My ears hear sounds and my nose smells flowers."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a play or design choice.",
-        "example": "Would you listen to rain or birds?"
+        "target": "comparatives & superlatives",
+        "why": "Compare things using smell, touch or taste.",
+        "example": "This blanket feels softer than the towel."
       }
     ],
     "levels": {
@@ -24057,19 +24022,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "A player learns a game by testing its rules, not just reading them."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Should a game let players skip a frustrating level?"
-      },
-      {
         "target": "present perfect",
-        "why": "Describe experience with a difficult game.",
-        "example": "I have played this level twice, but I still miss the hidden path."
+        "why": "Compare players' experience of finishing a difficult level.",
+        "example": "I have beaten this level twice without losing a life."
+      },
+      {
+        "target": "past continuous",
+        "why": "Describe what was happening when a game suddenly stopped.",
+        "example": "We were crossing the bridge when the game froze."
+      },
+      {
+        "target": "conditional",
+        "why": "Explain how a changed game rule would affect players.",
+        "example": "If players had more lives, they would take bigger risks."
       }
     ],
     "levels": {
@@ -24271,19 +24236,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "The balance feels wrong here."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Which rule would you test first in a new game?"
-      },
-      {
         "target": "passive voice",
-        "why": "Focus on how a prototype is written.",
-        "example": "A paper prototype can test rules before any code is written."
+        "why": "Explain how rules and rewards are built into a game.",
+        "example": "Points are awarded when a player solves the puzzle."
+      },
+      {
+        "target": "relative clause",
+        "why": "Specify the game mechanic you want to change.",
+        "example": "The rule that rewards speed makes beginners rush."
+      },
+      {
+        "target": "past perfect",
+        "why": "Sequence early playtesting before a game design change.",
+        "example": "We had tested the paper game before we changed its rules."
       }
     ],
     "levels": {
@@ -24485,19 +24450,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Competitive players study opponents as well as their own moves."
+        "target": "reported speech",
+        "why": "Relay a teammate's instructions after an esports match.",
+        "example": "Our captain told us to protect the goal."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Should an esports team practice communication more than speed?"
+        "target": "past continuous",
+        "why": "Describe team actions at the moment a match changed.",
+        "example": "Our team was defending the base when the connection failed."
       },
       {
-        "target": "past simple",
-        "why": "Review a team decision.",
-        "example": "Our team call was too late."
+        "target": "present perfect continuous",
+        "why": "Describe how long an esports team has been practicing.",
+        "example": "We have been practicing our team calls for three weeks."
       }
     ],
     "levels": {
@@ -24700,19 +24665,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Engagement is not the same as trust."
+        "target": "reported speech",
+        "why": "Report a creator's explanation of an online post.",
+        "example": "The creator said the picture was a joke."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Should users see why a post appears in their feed?"
+        "target": "passive voice",
+        "why": "Explain how a post reaches people beyond its creator.",
+        "example": "Popular posts are shared beyond the creator's own followers."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Compare ways to respond online.",
-        "example": "A private message could be better than a public reply."
+        "target": "conditional",
+        "why": "Discuss what would change if a feed were chronological.",
+        "example": "If posts appeared in order, I would notice different stories."
       }
     ],
     "levels": {
@@ -24914,19 +24879,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "A longer passphrase is easier to remember as a sentence."
+        "target": "passive voice",
+        "why": "Explain what happens to information entered into an app.",
+        "example": "Your location is stored when you allow this permission."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Which account would you protect first, and why?"
+        "target": "relative clause",
+        "why": "Identify the app permission that worries you.",
+        "example": "The app that tracks my location needs a clear explanation."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Compare ways to remember passwords.",
-        "example": "A long passphrase can be easier to remember than random characters."
+        "target": "conditional",
+        "why": "Describe how you would respond to excessive data requests.",
+        "example": "If an app wanted my contacts, I would refuse."
       }
     ],
     "levels": {
@@ -25128,19 +25093,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "An app timer shows duration but not whether the time felt useful."
+        "target": "present perfect continuous",
+        "why": "Describe an ongoing habit of checking a phone.",
+        "example": "I have been checking my phone during every study break."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Which phone notification would you turn off first?"
+        "target": "present perfect",
+        "why": "Reflect on changes already made to screen habits.",
+        "example": "I have turned off the notifications that interrupt my homework."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Compare planned and actual breaks.",
-        "example": "Scrolling can make a break longer than planned."
+        "target": "conditional",
+        "why": "Predict how a screen limit could affect an evening.",
+        "example": "If I leave my phone downstairs, I will sleep earlier."
       }
     ],
     "levels": {
@@ -25342,19 +25307,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Old posts remain visible after their authors change."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "How should someone respond to an unwanted tag?"
+        "target": "present perfect",
+        "why": "Describe online traces left over time.",
+        "example": "I have posted photos that I no longer want online."
       },
       {
         "target": "passive voice",
-        "why": "Focus on what happens to an old comment.",
-        "example": "A casual comment can be found long after it was written."
+        "why": "Explain how a public photo can spread.",
+        "example": "My photo was copied before I changed the settings."
+      },
+      {
+        "target": "past perfect",
+        "why": "Sequence an old post before a later change of mind.",
+        "example": "I had shared the joke before I understood its meaning."
       }
     ],
     "levels": {
@@ -25556,19 +25521,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "A meme changes as people add new captions."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "What makes a meme funny to your group?"
+        "target": "relative clause",
+        "why": "Identify a meme by the context it depends on.",
+        "example": "The meme that uses our school joke confuses outsiders."
       },
       {
         "target": "reported speech",
-        "why": "Retell a classmate’s changing reaction.",
-        "example": "Mia said the meme was funny until she learned its context."
+        "why": "Report different people's readings of the same meme.",
+        "example": "My cousin said the caption meant something different to her."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain how a meme changes as it spreads.",
+        "example": "The same picture is reused with different captions."
       }
     ],
     "levels": {
@@ -25771,19 +25736,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Training data gives a model examples from which to learn patterns."
+        "target": "reported speech",
+        "why": "Report an AI claim before checking its source.",
+        "example": "The tool said the book was written in Japan."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Which school tasks should AI tools help with?"
+        "target": "passive voice",
+        "why": "Explain how examples become an AI tool's training material.",
+        "example": "The model is trained on many examples of text."
       },
       {
-        "target": "past simple",
-        "why": "Retell a test of a model.",
-        "example": "The model gave two answers."
+        "target": "conditional",
+        "why": "Discuss when you would reject an AI answer.",
+        "example": "If the answer had no source, I would check it elsewhere."
       }
     ],
     "levels": {
@@ -25985,19 +25950,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Sensors help machines notice a part's position."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "Which repetitive job would you automate first?"
-      },
-      {
         "target": "passive voice",
-        "why": "Focus on a robot’s programmed task.",
-        "example": "The factory robots are programmed to lift heavy parts."
+        "why": "Describe a factory task without focusing on the human programmer.",
+        "example": "Heavy parts are lifted by the factory robot."
+      },
+      {
+        "target": "relative clause",
+        "why": "Specify which workplace tasks a robot could take over.",
+        "example": "A robot that repeats one movement could pack these boxes."
+      },
+      {
+        "target": "future continuous",
+        "why": "Imagine people and robots working together at a future time.",
+        "example": "Next year, robots will be sorting parcels beside human workers."
       }
     ],
     "levels": {
@@ -26200,19 +26165,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Turning your head changes the view."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "What would you explore first in a virtual museum?"
+        "target": "past continuous",
+        "why": "Retell a virtual experience interrupted by the real world.",
+        "example": "I was exploring a virtual museum when someone called my name."
       },
       {
         "target": "conditional",
-        "why": "Discuss a safe response to discomfort.",
-        "example": "If the headset makes me dizzy, I will take a break."
+        "why": "Explain how you would choose a useful virtual experience.",
+        "example": "If I could explore anywhere, I would choose an underwater reef."
+      },
+      {
+        "target": "present perfect",
+        "why": "Compare virtual experiences students have tried.",
+        "example": "I have visited a virtual gallery but never a virtual concert."
       }
     ],
     "levels": {
@@ -26414,19 +26379,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "A syntax error stops some programs before they begin."
+        "target": "past perfect",
+        "why": "Sequence a code change before a program failure.",
+        "example": "I had changed one symbol before the program stopped working."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "What small program would you build for your class?"
+        "target": "conditional",
+        "why": "Explain what a program does after a condition is met.",
+        "example": "If the score reaches ten, the program will end the game."
       },
       {
         "target": "relative clause",
-        "why": "Specify which program value changes.",
-        "example": "A variable stores a value that may change while code runs."
+        "why": "Identify the variable or instruction causing a coding problem.",
+        "example": "The variable that stores the score changes after each correct answer."
       }
     ],
     "levels": {
@@ -26629,19 +26594,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "An extra login step makes stealing an account harder."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "What clue would make you question a message?"
-      },
-      {
         "target": "passive voice",
-        "why": "Describe what happens to stolen credentials.",
-        "example": "A stolen password is used to enter an account."
+        "why": "Explain how an account can be attacked or protected.",
+        "example": "A stolen password is used to open the account."
+      },
+      {
+        "target": "past perfect",
+        "why": "Trace a mistaken click before a security problem appeared.",
+        "example": "I had opened the attachment before I noticed the strange address."
+      },
+      {
+        "target": "reported speech",
+        "why": "Relay a warning about a suspicious message.",
+        "example": "Our teacher told us not to open the unknown link."
       }
     ],
     "levels": {
@@ -26843,19 +26808,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "A live session gives space for immediate questions."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "When would you choose a live lesson over a recording?"
-      },
-      {
         "target": "present perfect",
-        "why": "Share progress from an online lesson.",
-        "example": "I have learned three new words in today’s online lesson."
+        "why": "Describe progress achieved through an online course.",
+        "example": "I have completed three lessons in my online Spanish course."
+      },
+      {
+        "target": "present perfect continuous",
+        "why": "Explain how long you have used an online learning routine.",
+        "example": "I have been watching a short lesson every evening."
+      },
+      {
+        "target": "relative clause",
+        "why": "Describe the online lesson format that helps you learn.",
+        "example": "A lesson that lets me ask questions feels easier to follow."
       }
     ],
     "levels": {
@@ -27057,19 +27022,19 @@
     "category": "digital life",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe how a digital tool or practice works.",
-        "example": "Undo makes a risky experiment easier."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to weigh a digital choice.",
-        "example": "What would you paint on a separate layer first?"
-      },
-      {
         "target": "passive voice",
-        "why": "Explain how an image was changed.",
-        "example": "The image was edited on separate layers."
+        "why": "Explain the edits made to a digital image.",
+        "example": "The background was painted on a separate layer."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe revisions an artist has made so far.",
+        "example": "I have changed the colours but kept the original outline."
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare digital tools for a specific drawing task.",
+        "example": "This brush makes softer edges than the other brush."
       }
     ],
     "levels": {
@@ -27271,19 +27236,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Trust grows when small promises are kept repeatedly."
+        "target": "present perfect",
+        "why": "Describe promises kept or broken in a friendship.",
+        "example": "I have kept every promise I made to my friend."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "When should a friend tell an uncomfortable truth?"
+        "target": "reported speech",
+        "why": "Relay a friend's explanation after a misunderstanding.",
+        "example": "Aisha said she felt left out of our plans."
       },
       {
         "target": "conditional",
-        "why": "Describe how you might repair trust.",
-        "example": "If my friend apologizes, I will listen."
+        "why": "Explain what you would do to rebuild a friendship.",
+        "example": "If my friend felt ignored, I would invite her to talk."
       }
     ],
     "levels": {
@@ -27485,19 +27450,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A prepared answer is easier to use under pressure."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "What could you say when friends want a risky choice?"
+        "target": "conditional",
+        "why": "Rehearse a response to an unwanted group choice.",
+        "example": "If my friends pushed me to cheat, I would refuse."
       },
       {
         "target": "reported speech",
-        "why": "Relay a student’s account of pressure.",
-        "example": "She said she felt pushed to skip practice."
+        "why": "Report the words that made someone feel pressured.",
+        "example": "Leo told me that everyone expected him to join."
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify a person who supports an independent choice.",
+        "example": "A friend who respects my answer makes pressure easier to handle."
       }
     ],
     "levels": {
@@ -27699,19 +27664,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A group works better when everyone knows their part."
+        "target": "past perfect",
+        "why": "Sequence preparation before a team task succeeded or failed.",
+        "example": "We had divided the tasks before the project began."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "How would you handle a teammate who misses a deadline?"
+        "target": "passive voice",
+        "why": "Explain how work and responsibility are shared in a team.",
+        "example": "Each task is assigned to a different team member."
       },
       {
-        "target": "relative clause",
-        "why": "Identify work a team has missed.",
-        "example": "Clear roles help a team notice work that is not being done."
+        "target": "present perfect",
+        "why": "Review what a group has achieved so far.",
+        "example": "Our team has finished the poster but not the presentation."
       }
     ],
     "levels": {
@@ -27913,19 +27878,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A genre gives listeners clues about rhythm and instruments."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which matters more to you: rhythm or lyrics?"
-      },
-      {
         "target": "relative clause",
-        "why": "Specify a genre through its rhythm.",
-        "example": "A genre that uses strong beats makes me want to dance."
+        "why": "Describe a genre through its characteristic sounds.",
+        "example": "I like music that combines a strong beat with quiet vocals."
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare two genres using rhythm or instruments.",
+        "example": "This jazz track is slower than the dance track."
+      },
+      {
+        "target": "present perfect",
+        "why": "Share the range of music you have explored.",
+        "example": "I have listened to reggae, but I have never tried opera."
       }
     ],
     "levels": {
@@ -28127,19 +28092,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "The acoustics of a venue change how voices and instruments carry."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Would you choose a small venue or large festival?"
-      },
-      {
         "target": "past continuous",
-        "why": "Set the scene at a concert.",
-        "example": "The band was playing when the lights went out."
+        "why": "Describe a concert atmosphere around an unexpected interruption.",
+        "example": "The crowd was singing when the microphone stopped working."
+      },
+      {
+        "target": "past simple",
+        "why": "Retell the highlights of a performance you attended.",
+        "example": "The singer changed the last verse and everyone cheered."
+      },
+      {
+        "target": "present perfect",
+        "why": "Compare people's experience of live performances.",
+        "example": "I have seen a small band but never a large orchestra."
       }
     ],
     "levels": {
@@ -28341,19 +28306,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A hook is a short part listeners remember easily."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Would you begin a song with words or melody?"
+        "target": "present perfect continuous",
+        "why": "Explain time spent developing a song that is still unfinished.",
+        "example": "I have been working on this chorus all week."
       },
       {
         "target": "present perfect",
-        "why": "Explain a revision to a song.",
-        "example": "I have changed the chorus to fit the melody."
+        "why": "Describe changes made while revising lyrics.",
+        "example": "I have replaced the last line with a simpler phrase."
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify the lyric or melody that holds a song together.",
+        "example": "The line that repeats in the chorus carries the main idea."
       }
     ],
     "levels": {
@@ -28555,19 +28520,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A plot twist works best when earlier details still make sense."
+        "target": "relative clause",
+        "why": "Describe a film by the kind of story it tells.",
+        "example": "A film that mixes mystery and comedy keeps me curious."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which genre would you choose for a short film?"
+        "target": "comparatives & superlatives",
+        "why": "Compare the effect of two film genres.",
+        "example": "This thriller is more tense than the adventure film."
       },
       {
         "target": "conditional",
-        "why": "Speculate about a mixed-genre film.",
-        "example": "If the film mixes comedy and mystery, I will watch it."
+        "why": "Discuss how changing a film's genre would alter a scene.",
+        "example": "If this scene were a comedy, the music would sound lighter."
       }
     ],
     "levels": {
@@ -28769,19 +28734,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "A short scene needs choices about camera position and sound."
+        "target": "passive voice",
+        "why": "Explain how a scene is recorded and assembled.",
+        "example": "The final scene was filmed in our school corridor."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which shot would you plan first in a mystery scene?"
+        "target": "past perfect",
+        "why": "Sequence planning before filming began.",
+        "example": "We had drawn the shots before we borrowed the camera."
       },
       {
-        "target": "relative clause",
-        "why": "Identify which moments editing selects.",
-        "example": "Editing decides which moments the viewer sees."
+        "target": "past continuous",
+        "why": "Describe what interrupted a film shoot.",
+        "example": "We were recording the dialogue when a bus passed outside."
       }
     ],
     "levels": {
@@ -28983,19 +28948,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Fabric texture affects comfort as well as appearance."
+        "target": "passive voice",
+        "why": "Explain how a garment reaches a shop.",
+        "example": "The fabric is cut and sewn before the jacket is sold."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Would you choose comfort or a bold trend for one day?"
+        "target": "comparatives & superlatives",
+        "why": "Compare clothes by comfort rather than trend.",
+        "example": "These loose trousers are more comfortable than the tight jeans."
       },
       {
         "target": "reported speech",
-        "why": "Report someone’s reason for an outfit.",
-        "example": "He said his jacket showed his style."
+        "why": "Report a designer's explanation of a clothing choice.",
+        "example": "The designer said the pockets made the jacket more useful."
       }
     ],
     "levels": {
@@ -29197,19 +29162,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "People choose details that make an outfit feel like theirs."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "What item feels most like your style, and why?"
-      },
-      {
         "target": "relative clause",
-        "why": "Describe details that express identity.",
-        "example": "People choose details that make an outfit feel like theirs."
+        "why": "Describe an item that expresses your identity.",
+        "example": "The scarf that my aunt gave me feels like part of my style."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe how your clothing choices have changed.",
+        "example": "I have stopped buying colours that I never wear."
+      },
+      {
+        "target": "conditional",
+        "why": "Imagine a style choice under a different dress rule.",
+        "example": "If I could choose any school outfit, I would wear trainers."
       }
     ],
     "levels": {
@@ -29411,19 +29376,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Rice is a staple in many homes."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which family dish would you teach a friend?"
-      },
-      {
         "target": "passive voice",
-        "why": "Focus on a recipe’s shared tradition.",
-        "example": "The family recipe is shared at every festival."
+        "why": "Explain how a traditional dish is prepared or served.",
+        "example": "The rice is wrapped in leaves before it is steamed."
+      },
+      {
+        "target": "past simple",
+        "why": "Retell learning a family dish from another generation.",
+        "example": "My uncle taught me to make our festival soup."
+      },
+      {
+        "target": "reported speech",
+        "why": "Share a family member's account of a recipe's history.",
+        "example": "Grandma said her mother used a different spice."
       }
     ],
     "levels": {
@@ -29625,19 +29590,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Cleaning as you go makes the last step easier."
+        "target": "conditional",
+        "why": "Explain how a cooking choice changes the result.",
+        "example": "If we cook the vegetables too long, they will become soft."
       },
       {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which cooking skill would you teach a beginner first?"
+        "target": "present perfect",
+        "why": "Describe practical kitchen skills you have learned.",
+        "example": "I have learned to chop onions without cutting my fingers."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Compare safe knife choices.",
-        "example": "A sharp knife can be safer than a dull one when used carefully."
+        "target": "passive voice",
+        "why": "Explain a preparation step without naming the cook.",
+        "example": "The vegetables are washed before they are chopped."
       }
     ],
     "levels": {
@@ -29839,19 +29804,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Small daily conversations offer repeated practice."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Would you practice with a conversation partner or recording?"
-      },
-      {
         "target": "present perfect continuous",
-        "why": "Describe ongoing language practice.",
-        "example": "I have been practicing English with my cousin for months."
+        "why": "Describe ongoing practice in a new language.",
+        "example": "I have been practicing Spanish with my cousin since June."
+      },
+      {
+        "target": "present perfect",
+        "why": "Reflect on progress toward a language goal.",
+        "example": "I have learned enough phrases to order a meal."
+      },
+      {
+        "target": "reported speech",
+        "why": "Relay helpful advice from a language partner.",
+        "example": "My partner told me to explain the word another way."
       }
     ],
     "levels": {
@@ -30053,19 +30018,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Watching before acting helps avoid an awkward mistake."
+        "target": "conditional",
+        "why": "Explain how you would act when a custom is unfamiliar.",
+        "example": "If I were unsure about a greeting, I would ask my host."
       },
       {
         "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "What would you ask before visiting an unfamiliar home?"
+        "why": "Ask a host about local visiting customs.",
+        "example": "What do visitors usually bring when they visit your home?"
       },
       {
-        "target": "relative clause",
-        "why": "Explain how greetings change across places.",
-        "example": "A greeting that feels polite in one place may feel distant elsewhere."
+        "target": "reported speech",
+        "why": "Report advice about behaving respectfully on a trip.",
+        "example": "Our guide told us to ask before taking photos."
       }
     ],
     "levels": {
@@ -30267,19 +30232,19 @@
     "category": "culture and relationships",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a social or creative practice.",
-        "example": "Children often learn by helping with preparations."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask about a cultural or personal choice.",
-        "example": "Which local custom would you teach a newcomer?"
-      },
-      {
         "target": "reported speech",
-        "why": "Retell a family memory of a festival.",
-        "example": "Grandma said the parade began when she was a child."
+        "why": "Retell an elder's explanation of a local celebration.",
+        "example": "Our neighbor said the parade began as a small village event."
+      },
+      {
+        "target": "passive voice",
+        "why": "Describe how a custom is passed between generations.",
+        "example": "The festival songs are taught to children by older relatives."
+      },
+      {
+        "target": "past simple",
+        "why": "Describe an occasion when you joined a local custom.",
+        "example": "We helped decorate the street before the festival began."
       }
     ],
     "levels": {
@@ -30481,19 +30446,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Preparation works better when it reveals gaps early."
+        "target": "present perfect",
+        "why": "Describe preparation already completed before an exam.",
+        "example": "I have practiced the questions that I found hardest."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Should students see the mark scheme before an exam?"
+        "target": "conditional",
+        "why": "Explain a plan for handling limited exam time.",
+        "example": "If a question takes too long, I will return to it later."
       },
       {
-        "target": "future (will)",
-        "why": "Predict how exam work will be judged.",
-        "example": "A rubric describes how work will be judged."
+        "target": "passive voice",
+        "why": "Explain how an exam answer is assessed.",
+        "example": "Each answer is marked using the same set of criteria."
       }
     ],
     "levels": {
@@ -30695,19 +30660,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "A task is harder when instructions are unclear."
+        "target": "present perfect continuous",
+        "why": "Describe sustained effort on an unfinished assignment.",
+        "example": "I have been working on this essay since dinner."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What makes an assignment worth doing at home?"
+        "target": "reported speech",
+        "why": "Report a teacher's explanation of an assignment.",
+        "example": "Our teacher said the homework would prepare us for the discussion."
       },
       {
-        "target": "future (will)",
-        "why": "Explain when completed work will be discussed.",
-        "example": "A deadline helps coordinate when work will be discussed."
+        "target": "conditional",
+        "why": "Explain how unclear instructions would affect homework.",
+        "example": "If the task had an example, I would understand it better."
       }
     ],
     "levels": {
@@ -30909,19 +30874,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "A club gives students a place to try an interest."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which new club would you start at school?"
-      },
-      {
         "target": "future (going to)",
-        "why": "Announce a plan for a new club.",
-        "example": "We are going to start a photography club next term."
+        "why": "Describe concrete plans for a new school club.",
+        "example": "We are going to start a film club next term."
+      },
+      {
+        "target": "relative clause",
+        "why": "Specify a club by what its members do.",
+        "example": "I want a club where beginners can try making films."
+      },
+      {
+        "target": "present perfect",
+        "why": "Review what club members have achieved together.",
+        "example": "Our club has organized two exhibitions this term."
       }
     ],
     "levels": {
@@ -31123,19 +31088,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Pay is only one part of deciding whether a job fits."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What would you ask before accepting a first job?"
-      },
-      {
         "target": "present perfect",
-        "why": "Describe work experience up to now.",
-        "example": "I have worked at the cafe for two months."
+        "why": "Describe experience gained in a first job.",
+        "example": "I have worked in the cafe for three months."
+      },
+      {
+        "target": "reported speech",
+        "why": "Relay a manager's instructions about a shift.",
+        "example": "My manager told me to arrive before the shop opened."
+      },
+      {
+        "target": "past continuous",
+        "why": "Describe an interruption during a work shift.",
+        "example": "I was serving a customer when the card machine stopped."
       }
     ],
     "levels": {
@@ -31337,19 +31302,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Some work needs care and judgment more than speed."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which job would you shadow for a day?"
-      },
-      {
         "target": "future continuous",
-        "why": "Imagine work in a future workplace.",
-        "example": "Robots will be helping nurses with routine tasks next year."
+        "why": "Imagine tasks people will be doing in a future workplace.",
+        "example": "In ten years, nurses will be using different tools at work."
+      },
+      {
+        "target": "conditional",
+        "why": "Discuss how automation might change a career choice.",
+        "example": "If machines handled routine tasks, I would focus on helping people."
+      },
+      {
+        "target": "relative clause",
+        "why": "Describe a future job through the skills it requires.",
+        "example": "A job that needs human judgment may change without disappearing."
       }
     ],
     "levels": {
@@ -31551,19 +31516,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "A small business begins by finding a problem people have."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What everyday problem could a small business solve?"
-      },
-      {
         "target": "conditional",
-        "why": "Connect a useful idea to customers.",
-        "example": "If we solve a real problem, customers will return."
+        "why": "Connect a business idea with a possible customer response.",
+        "example": "If our service saved time, more people would try it."
+      },
+      {
+        "target": "present perfect",
+        "why": "Explain what you have learned from testing a business idea.",
+        "example": "We have asked ten customers what they need."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain how a small business handles orders.",
+        "example": "Each order is checked before it is sent to the customer."
       }
     ],
     "levels": {
@@ -31765,19 +31730,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Saving means keeping some money for a later need or goal."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What would make saving easier for a student?"
-      },
-      {
         "target": "present perfect",
-        "why": "Describe progress toward a savings goal.",
-        "example": "I have saved enough for a new bicycle."
+        "why": "Describe progress toward a purchase you are saving for.",
+        "example": "I have saved half the money for my bicycle."
+      },
+      {
+        "target": "future (going to)",
+        "why": "Explain a concrete plan for using an allowance.",
+        "example": "I am going to save five pounds from each allowance."
+      },
+      {
+        "target": "conditional",
+        "why": "Explain how a spending choice affects a savings goal.",
+        "example": "If I buy fewer snacks, I will reach my goal sooner."
       }
     ],
     "levels": {
@@ -31979,19 +31944,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Some costs are fixed while others vary."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which expense would you list first in a budget?"
+        "target": "conditional",
+        "why": "Explain what you would change when a budget exceeds income.",
+        "example": "If transport cost more, I would spend less on entertainment."
       },
       {
         "target": "comparatives & superlatives",
-        "why": "Compare fixed and variable costs.",
-        "example": "A fixed cost usually changes less often than a variable one."
+        "why": "Compare predicted and actual spending in a budget.",
+        "example": "Our travel costs were higher than we expected."
+      },
+      {
+        "target": "present perfect",
+        "why": "Review expenses already recorded for a project.",
+        "example": "We have included the materials but forgotten the delivery cost."
       }
     ],
     "levels": {
@@ -32193,19 +32158,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Volunteers offer time to help with a community task."
+        "target": "present perfect continuous",
+        "why": "Describe an ongoing commitment to a local project.",
+        "example": "I have been helping at the community garden every Saturday."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which local task would you volunteer for?"
+        "target": "relative clause",
+        "why": "Identify a volunteer role by its practical responsibilities.",
+        "example": "The volunteer who checks the tools helps keep everyone safe."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Compare steady and one-off help.",
-        "example": "A steady commitment can be more useful than one busy afternoon."
+        "target": "past simple",
+        "why": "Retell the useful work completed during a volunteer session.",
+        "example": "We cleared the path and planted three trees."
       }
     ],
     "levels": {
@@ -32407,19 +32372,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Pauses give people time to understand."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What would you do if you lost your place?"
-      },
-      {
         "target": "past continuous",
-        "why": "Describe an interruption during a speech.",
-        "example": "I was speaking when I lost my place."
+        "why": "Explain what was happening when a speech went wrong.",
+        "example": "I was explaining my main point when I forgot the next sentence."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe improvements made through speech rehearsal.",
+        "example": "I have shortened the introduction and added a clearer example."
+      },
+      {
+        "target": "reported speech",
+        "why": "Relay feedback received after giving a talk.",
+        "example": "My partner said the pauses helped her follow my ideas."
       }
     ],
     "levels": {
@@ -32621,19 +32586,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "My study session is short."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which study habit would you test for one week?"
+        "target": "present perfect continuous",
+        "why": "Describe a study routine maintained over several weeks.",
+        "example": "I have been reviewing ten words each evening for a month."
       },
       {
         "target": "present perfect",
-        "why": "Reflect on a strategy already tried.",
-        "example": "I have tested flashcards, and they helped me remember."
+        "why": "Compare study strategies you have already tried.",
+        "example": "I have tried rereading, but practice questions helped me more."
+      },
+      {
+        "target": "conditional",
+        "why": "Predict the effect of changing one study habit.",
+        "example": "If I test myself tomorrow, I will notice what I forgot."
       }
     ],
     "levels": {
@@ -32835,19 +32800,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Sleep gives the brain time to process a busy day."
+        "target": "past perfect",
+        "why": "Sequence poor sleep before a difficult morning lesson.",
+        "example": "I had slept badly before I tried to learn the new words."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which evening habit would you change before an exam?"
+        "target": "past continuous",
+        "why": "Describe an evening distraction that delayed sleep.",
+        "example": "I was scrolling through messages when I should have been sleeping."
       },
       {
-        "target": "conditional",
-        "why": "Predict the benefit of enough sleep.",
-        "example": "If I sleep enough, I will remember more of my lessons."
+        "target": "comparatives & superlatives",
+        "why": "Compare learning after different amounts of sleep.",
+        "example": "The lesson felt easier after a longer night's sleep."
       }
     ],
     "levels": {
@@ -33049,19 +33014,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Advice from others helps when it leaves room for the student's interests."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which subject would you choose just from curiosity?"
+        "target": "conditional",
+        "why": "Explore a subject choice without committing to it.",
+        "example": "If I chose biology, I would learn more about living things."
       },
       {
         "target": "reported speech",
-        "why": "Relay advice about a subject choice.",
-        "example": "My teacher said biology would help me understand living things."
+        "why": "Report advice about a subject and its demands.",
+        "example": "My teacher said chemistry involved practical work as well as calculations."
+      },
+      {
+        "target": "relative clause",
+        "why": "Describe the kind of subject you want to study.",
+        "example": "I want a subject that lets me investigate real problems."
       }
     ],
     "levels": {
@@ -33263,19 +33228,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Some students take time between school and further study."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What would you hope to learn from time away?"
-      },
-      {
         "target": "past perfect",
-        "why": "Sequence saving and a gap year.",
-        "example": "She had saved money before her gap year began."
+        "why": "Explain preparations completed before a gap year started.",
+        "example": "She had saved enough money before her gap year began."
+      },
+      {
+        "target": "future (going to)",
+        "why": "Describe a planned activity during time away from study.",
+        "example": "I am going to volunteer abroad before I start college."
+      },
+      {
+        "target": "present perfect",
+        "why": "Reflect on skills gained during a gap year.",
+        "example": "I have learned to plan journeys and manage my own money."
       }
     ],
     "levels": {
@@ -33477,19 +33442,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Many jobs need clear communication and dependable habits."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which project best shows a skill you have developed?"
+        "target": "present perfect",
+        "why": "Describe practical skills gained through projects or work.",
+        "example": "I have learned to explain a problem clearly to customers."
       },
       {
         "target": "relative clause",
-        "why": "Describe the portfolio employers can inspect.",
-        "example": "A portfolio that shows real projects can help employers."
+        "why": "Identify work that demonstrates a particular career skill.",
+        "example": "The project that I led shows how I organize a team."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain how an employer checks evidence of a skill.",
+        "example": "Applicants are asked to give examples of solving problems."
       }
     ],
     "levels": {
@@ -33692,19 +33657,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "A changing climate affects seasons, water, and growing conditions."
+        "target": "present perfect",
+        "why": "Describe climate changes noticed over a period of time.",
+        "example": "Our town has experienced longer dry periods in recent years."
       },
       {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which local change would you prepare for first?"
+        "target": "conditional",
+        "why": "Discuss how a local response could reduce heat risks.",
+        "example": "If the street had more shade, summer walks would feel cooler."
       },
       {
         "target": "passive voice",
-        "why": "Focus on the people facing heat.",
-        "example": "Homes are affected by longer heatwaves."
+        "why": "Explain how people and places are affected by warming.",
+        "example": "Homes are damaged when heavy rain floods the river."
       }
     ],
     "levels": {
@@ -33907,19 +33872,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "A wind turbine works best where winds are suitable and steady."
+        "target": "passive voice",
+        "why": "Explain how sunlight or wind is turned into electricity.",
+        "example": "Electricity is generated when sunlight reaches the solar panels."
       },
       {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Would your town benefit more from solar or wind?"
+        "target": "comparatives & superlatives",
+        "why": "Compare energy sources for the conditions in a particular place.",
+        "example": "Solar panels are more useful here than wind turbines."
       },
       {
-        "target": "future (going to)",
-        "why": "Describe a school’s energy plan.",
-        "example": "Our school is going to install solar panels."
+        "target": "conditional",
+        "why": "Discuss what happens when renewable supply changes.",
+        "example": "If the wind drops, we will need another source of power."
       }
     ],
     "levels": {
@@ -34121,19 +34086,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Plastic is useful because it is light and durable."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which plastic item would you remove from school first?"
-      },
-      {
         "target": "passive voice",
-        "why": "Trace plastic after an event.",
-        "example": "Plastic bottles are collected after the festival."
+        "why": "Trace how plastic items are collected and sorted.",
+        "example": "Plastic bottles are sorted before they are recycled."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe changes already made to reduce plastic use.",
+        "example": "Our class has replaced disposable cups with reusable ones."
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify a plastic product by its use or lifespan.",
+        "example": "The packaging that protects one snack lasts longer than the snack."
       }
     ],
     "levels": {
@@ -34335,19 +34300,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Animals need food, shelter, and room to move."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which animal would you protect first in a local area?"
-      },
-      {
         "target": "conditional",
-        "why": "Link habitat protection to animals’ needs.",
-        "example": "If we protect the forest, the animals will have shelter."
+        "why": "Connect habitat protection with an animal's future.",
+        "example": "If we protect the nesting beach, more turtles will reach the sea."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain a conservation action without focusing on its organizers.",
+        "example": "The nesting area is protected during the breeding season."
+      },
+      {
+        "target": "present perfect",
+        "why": "Review actions taken to protect a local species.",
+        "example": "Volunteers have removed rubbish from the birds' nesting area."
       }
     ],
     "levels": {
@@ -34549,19 +34514,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Trees and gardens give city animals places to live."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Where would you plant a tree in your neighborhood?"
-      },
-      {
         "target": "present perfect",
-        "why": "Describe a recent change to street trees.",
-        "example": "Our street has lost two trees this year."
+        "why": "Describe a change to green space in a neighborhood.",
+        "example": "Our neighborhood has turned an empty lot into a garden."
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify city spaces that could support wildlife.",
+        "example": "A park that has flowering plants gives insects more food."
+      },
+      {
+        "target": "conditional",
+        "why": "Imagine how adding nature would change a busy street.",
+        "example": "If we planted trees here, the bus stop would have shade."
       }
     ],
     "levels": {
@@ -34765,19 +34730,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Frequency matters when a passenger has no flexible schedule."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which bus route would improve your town most?"
-      },
-      {
         "target": "comparatives & superlatives",
-        "why": "Compare frequency with a lower fare.",
-        "example": "A frequent bus is more useful than a cheaper bus that rarely comes."
+        "why": "Compare bus routes by frequency rather than price alone.",
+        "example": "The frequent bus is more convenient than the cheaper one."
+      },
+      {
+        "target": "conditional",
+        "why": "Explain how a transport change would affect your journey.",
+        "example": "If the last bus left later, I would stay for the club."
+      },
+      {
+        "target": "reported speech",
+        "why": "Report a passenger's problem with a bus service.",
+        "example": "The passenger said the early bus did not stop near her home."
       }
     ],
     "levels": {
@@ -34979,19 +34944,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Homes, parks, and services need to fit together."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "What would you put within a short walk of home?"
-      },
-      {
         "target": "future (will)",
-        "why": "Imagine a walkable future district.",
-        "example": "The new district will have parks near homes."
+        "why": "Predict a concrete feature of a future neighborhood.",
+        "example": "Future neighborhoods will have shops within walking distance of homes."
+      },
+      {
+        "target": "relative clause",
+        "why": "Describe the kind of city district you want to design.",
+        "example": "I want a district where children can walk safely to school."
+      },
+      {
+        "target": "future continuous",
+        "why": "Picture daily life at a specific future point.",
+        "example": "In twenty years, people will be cycling along these new streets."
       }
     ],
     "levels": {
@@ -35193,19 +35158,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Space missions use instruments to learn about distant places."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which question would you send a probe to investigate?"
+        "target": "past simple",
+        "why": "Retell the sequence of an exploration mission.",
+        "example": "The probe reached the planet and sent back pictures."
       },
       {
         "target": "present perfect",
-        "why": "Describe what missions have discovered.",
-        "example": "Space probes have sent us images of distant worlds."
+        "why": "Describe knowledge gained through missions over time.",
+        "example": "Space missions have revealed worlds we could not see clearly before."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain how distant places are studied remotely.",
+        "example": "Images are collected by cameras on the space probe."
       }
     ],
     "levels": {
@@ -35407,19 +35372,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Mars is far away, and a message takes time to travel."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Where would you send a rover first?"
-      },
-      {
         "target": "past perfect",
-        "why": "Sequence rover testing and launch.",
-        "example": "The rover had tested its camera before leaving Earth."
+        "why": "Sequence rover preparations before a mission began.",
+        "example": "Engineers had tested the rover before it left Earth."
+      },
+      {
+        "target": "future continuous",
+        "why": "Describe a rover's planned work during a future mission.",
+        "example": "Tomorrow, the rover will be collecting samples near the crater."
+      },
+      {
+        "target": "conditional",
+        "why": "Explain how a discovery could change the next mission step.",
+        "example": "If the rover found unusual rocks, scientists would examine them closely."
       }
     ],
     "levels": {
@@ -35621,19 +35586,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Navigation services use timing information from orbit."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which problem on Earth could a satellite help study?"
-      },
-      {
         "target": "passive voice",
-        "why": "Explain a use for orbital data.",
-        "example": "Satellite data is used to track storms."
+        "why": "Explain how satellite data is gathered and used.",
+        "example": "Weather images are sent from the satellite to Earth."
+      },
+      {
+        "target": "relative clause",
+        "why": "Identify a satellite by the job it performs.",
+        "example": "A satellite that watches storms can help weather forecasters."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe what repeated satellite observations have revealed.",
+        "example": "Satellite pictures have shown changes in the coastline over time."
       }
     ],
     "levels": {
@@ -35835,19 +35800,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "An invention begins with a problem someone notices."
+        "target": "past simple",
+        "why": "Tell how an invention solved an earlier problem.",
+        "example": "The inventor built a tool that helped people carry water."
       },
       {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which everyday object would you improve first?"
+        "target": "passive voice",
+        "why": "Explain an invention's materials or production process.",
+        "example": "The handle is made from recycled plastic."
       },
       {
         "target": "relative clause",
-        "why": "Identify an invention with daily impact.",
-        "example": "An invention that saves time can change a daily routine."
+        "why": "Specify an invention through the problem it solves.",
+        "example": "An invention that saves water could help this garden."
       }
     ],
     "levels": {
@@ -36050,19 +36015,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Clear instructions matter when patients use equipment at home."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "What would you ask before trusting a health device?"
-      },
-      {
         "target": "passive voice",
-        "why": "Follow how a scan informs treatment.",
-        "example": "The scan is checked by a doctor before treatment."
+        "why": "Explain how medical equipment supports a diagnosis.",
+        "example": "The scan is checked before the doctor decides on treatment."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe how a device has helped a patient over time.",
+        "example": "The monitor has helped her notice changes in her heartbeat."
+      },
+      {
+        "target": "conditional",
+        "why": "Discuss a safeguard before trusting a health device.",
+        "example": "If the readings seemed unusual, I would ask a doctor."
       }
     ],
     "levels": {
@@ -36264,19 +36229,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "This portion is too big."
+        "target": "past perfect",
+        "why": "Trace the earlier decision that caused food to be wasted.",
+        "example": "We had cooked too much rice before we counted the guests."
       },
       {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Which leftovers would you turn into another meal?"
+        "target": "conditional",
+        "why": "Connect meal planning with a reduction in waste.",
+        "example": "If we check the fridge first, we will buy less extra food."
       },
       {
-        "target": "relative clause",
-        "why": "Specify which portions create waste.",
-        "example": "A portion that is too large may become uneaten food."
+        "target": "passive voice",
+        "why": "Explain what happens to food after a meal.",
+        "example": "Uneaten food is weighed before it goes into the compost bin."
       }
     ],
     "levels": {
@@ -36478,19 +36443,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Clothes use materials, energy, and labor before reaching a shop."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "What item would you mend rather than replace?"
-      },
-      {
         "target": "passive voice",
-        "why": "Focus on a garment’s whole life.",
-        "example": "A fiber’s source affects how it is made and disposed of."
+        "why": "Explain a garment's journey through production and reuse.",
+        "example": "The jacket is repaired before it is sold again."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe changes made to buying and caring for clothes.",
+        "example": "I have mended two shirts instead of replacing them."
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare clothing choices by durability.",
+        "example": "This sturdy jacket will last longer than the thin one."
       }
     ],
     "levels": {
@@ -36692,19 +36657,19 @@
     "category": "science and environment",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe a scientific or environmental process.",
-        "example": "Clean water needs to be collected, treated, and delivered."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask how people might respond.",
-        "example": "Where would you check for wasted water first?"
-      },
-      {
         "target": "conditional",
-        "why": "Predict the effect of repairing a leak.",
-        "example": "If we fix the leak, we will save water."
+        "why": "Predict the effect of a concrete water-saving action.",
+        "example": "If we repair the tap, we will waste less water."
+      },
+      {
+        "target": "present perfect",
+        "why": "Review water savings after a change in habits.",
+        "example": "Our class has stopped leaving the taps running."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain how water is prepared for use again.",
+        "example": "Used water is treated before it is sent to public gardens."
       }
     ],
     "levels": {
@@ -36907,19 +36872,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "Players share a goal but have different jobs on the field."
+        "target": "present perfect",
+        "why": "Review a team's progress across several matches.",
+        "example": "Our team has improved its passing since the season began."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "How would you help a teammate after a mistake?"
+        "target": "past continuous",
+        "why": "Describe players' actions when a match changed direction.",
+        "example": "We were defending the goal when our captain slipped."
       },
       {
         "target": "reported speech",
-        "why": "Share the captain’s view of the game.",
-        "example": "The captain said every player had helped the team."
+        "why": "Report a captain's feedback on shared performance.",
+        "example": "The captain said everyone had helped the team recover."
       }
     ],
     "levels": {
@@ -37122,19 +37087,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "An individual athlete makes many decisions without teammates nearby."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "What goal would you set beyond winning?"
-      },
-      {
         "target": "present perfect continuous",
-        "why": "Describe a personal training routine.",
-        "example": "I have been training alone for six weeks."
+        "why": "Describe sustained training toward an individual goal.",
+        "example": "I have been practicing my serve for six weeks."
+      },
+      {
+        "target": "comparatives & superlatives",
+        "why": "Compare your own performances rather than different athletes.",
+        "example": "My second swim was faster than my first."
+      },
+      {
+        "target": "conditional",
+        "why": "Explain how you would adapt an individual training plan.",
+        "example": "If my shoulder felt sore, I would change the exercise."
       }
     ],
     "levels": {
@@ -37336,19 +37301,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "A routine works better when it fits ordinary life."
+        "target": "present perfect continuous",
+        "why": "Describe how long you have followed a fitness routine.",
+        "example": "I have been walking after dinner every day this month."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "What movement would you enjoy repeating each week?"
+        "target": "present perfect",
+        "why": "Review changes made to make exercise easier to maintain.",
+        "example": "I have added short walks to my normal school day."
       },
       {
         "target": "conditional",
-        "why": "Explain what helps a routine last.",
-        "example": "If the routine feels enjoyable, I will keep doing it."
+        "why": "Connect an enjoyable routine with the chance of maintaining it.",
+        "example": "If I enjoy the activity, I will keep doing it."
       }
     ],
     "levels": {
@@ -37550,19 +37515,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "A hike or camp changes when weather changes."
+        "target": "past perfect",
+        "why": "Explain preparations completed before an outdoor trip.",
+        "example": "We had checked the route before we left the campsite."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "Which item would you pack first for a day hike?"
+        "target": "conditional",
+        "why": "Explain how your group would respond to changed outdoor conditions.",
+        "example": "If the path became flooded, we would turn back."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Plan for the slowest walker.",
-        "example": "A route needs enough time for the slowest person."
+        "target": "past continuous",
+        "why": "Set the scene for an unexpected moment on a hike.",
+        "example": "We were crossing the valley when the rain began."
       }
     ],
     "levels": {
@@ -37764,19 +37729,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "A clue points toward more than one possibility."
+        "target": "past perfect",
+        "why": "Place an earlier event on a mystery timeline.",
+        "example": "The visitor had left before the window broke."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "Which clue would you check before accusing anyone?"
+        "target": "reported speech",
+        "why": "Compare a witness's account with other evidence.",
+        "example": "The witness said she had seen a red coat."
       },
       {
-        "target": "relative clause",
-        "why": "Identify which witness statement matters.",
-        "example": "A timeline can reveal that two accounts do not fit together."
+        "target": "past continuous",
+        "why": "Explain what someone was doing at the key moment.",
+        "example": "I was reading upstairs when I heard the crash."
       }
     ],
     "levels": {
@@ -37978,19 +37943,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "That legend has several versions."
+        "target": "reported speech",
+        "why": "Retell a local account without claiming it is proven.",
+        "example": "The guide said people had heard music inside the empty house."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "What would you ask someone who lived near an old ruin?"
+        "target": "present perfect",
+        "why": "Describe what investigators have established so far.",
+        "example": "Researchers have found old tools beneath the ruined tower."
       },
       {
-        "target": "past perfect",
-        "why": "Sequence an old tale and later research.",
-        "example": "The villagers had told stories before researchers examined the site."
+        "target": "passive voice",
+        "why": "Separate what was physically found from stories about a site.",
+        "example": "The stone doorway was discovered beneath the newer wall."
       }
     ],
     "levels": {
@@ -38192,19 +38157,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "The brain uses context to interpret what the eyes receive."
+        "target": "comparatives & superlatives",
+        "why": "Compare an illusion's apparent sizes with its real sizes.",
+        "example": "The upper line looks longer than the lower line."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "Which illusion fooled you even after an explanation?"
+        "target": "passive voice",
+        "why": "Explain how an illusion's picture was arranged.",
+        "example": "The circles are placed beside different background patterns."
       },
       {
-        "target": "past simple",
-        "why": "Describe an illusion you experienced.",
-        "example": "Perspective made one line seem longer."
+        "target": "relative clause",
+        "why": "Identify the visual cue that changes your perception.",
+        "example": "The shadow that falls across the square makes it look darker."
       }
     ],
     "levels": {
@@ -38406,19 +38371,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "Meals give the body energy and materials for growth."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "What satisfying meal could you make with simple ingredients?"
-      },
-      {
         "target": "conditional",
-        "why": "Connect meal preparation with a healthy choice.",
-        "example": "If I prepare lunch early, I will eat more vegetables."
+        "why": "Explain how a meal plan changes a food choice.",
+        "example": "If I pack lunch early, I will include more vegetables."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe a food habit you have changed over time.",
+        "example": "I have started adding beans to my lunches."
+      },
+      {
+        "target": "relative clause",
+        "why": "Specify a meal by the ingredients it contains.",
+        "example": "A meal that includes vegetables and rice keeps me satisfied."
       }
     ],
     "levels": {
@@ -38620,19 +38585,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "A support network offers people to ask for help."
+        "target": "present perfect continuous",
+        "why": "Describe an ongoing source of pressure.",
+        "example": "I have been worrying about the presentation all week."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "What would you notice first when pressure grows?"
+        "target": "conditional",
+        "why": "Plan a response when pressure becomes difficult to manage.",
+        "example": "If I feel overwhelmed, I will ask someone for help."
       },
       {
-        "target": "present perfect",
-        "why": "Reflect on a change in wellbeing.",
-        "example": "I have felt calmer since I changed my evening routine."
+        "target": "reported speech",
+        "why": "Report supportive advice received during a stressful week.",
+        "example": "My friend told me to take one task at a time."
       }
     ],
     "levels": {
@@ -38834,19 +38799,19 @@
     "category": "wellbeing and adventure",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Describe an experience or healthy practice.",
-        "example": "A trip begins with decisions about time, money, and transport."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to make an informed choice.",
-        "example": "Which part of a trip would you plan first?"
-      },
-      {
         "target": "future (going to)",
-        "why": "Explain the next step in a trip.",
-        "example": "We are going to book tickets after choosing a route."
+        "why": "Describe a concrete decision in an upcoming trip.",
+        "example": "We are going to book the train after choosing a hotel."
+      },
+      {
+        "target": "past perfect",
+        "why": "Explain which travel arrangement came before another decision.",
+        "example": "We had checked everyone's budget before we chose the hotel."
+      },
+      {
+        "target": "future continuous",
+        "why": "Picture the group at a particular time during the trip.",
+        "example": "Tomorrow afternoon, we will be traveling along the coast."
       }
     ],
     "levels": {
