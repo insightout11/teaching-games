@@ -233,5 +233,99 @@
     "courseId": "kids-animals",
     "title": "My Animal Guide",
     "level": "A2"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "A small food club is making a picture menu. Sami draws a bowl of rice with beans and carrots. “This is my favourite meal,” he says. “It is warm. The carrots are sweet. The rice is soft.” His partner draws bread with tomato soup. They ask each other about their choices. Sami likes beans because they make his meal filling. His partner likes soup because she can dip bread into it. They each write three describing words beside their pictures. The menu has room for more meals. Nobody needs to choose the same favourite. The club wants to hear different ideas.",
+    "words": [
+      {
+        "word": "menu",
+        "meaning": "a list of food choices"
+      },
+      {
+        "word": "sweet",
+        "meaning": "with a taste like sugar"
+      },
+      {
+        "word": "soft",
+        "meaning": "easy to press or bite"
+      },
+      {
+        "word": "filling",
+        "meaning": "making you feel you have eaten enough"
+      },
+      {
+        "word": "dip",
+        "meaning": "put something briefly into a liquid"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does Sami draw?",
+        "a": "a bowl of rice"
+      },
+      {
+        "q": "How do the carrots taste?",
+        "a": "sweet"
+      },
+      {
+        "q": "What does his partner dip into soup?",
+        "a": "bread"
+      }
+    ],
+    "talk": [
+      "How would you describe a meal you enjoy?",
+      "What makes different meals enjoyable for different people?"
+    ],
+    "courseId": "kids-food",
+    "title": "My Favourite Meal",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "The food club puts its old picture menu on the table. Sami reads the words beside his rice bowl. Last time, he only said “nice” and “good.” Now he tries clearer words. “The rice is soft. The carrots are sweet and crunchy. The beans have a smooth skin.” His partner asks which part she should taste first. “Try a carrot,” says Sami. “Then try it with a little rice.” She describes her soup too. It is warm, thick and full of small tomato pieces. They add their new words to the menu. A visitor can now imagine how both meals taste.",
+    "words": [
+      {
+        "word": "crunchy",
+        "meaning": "making a noise when you bite"
+      },
+      {
+        "word": "smooth",
+        "meaning": "without bumps"
+      },
+      {
+        "word": "thick",
+        "meaning": "not flowing as easily as water"
+      },
+      {
+        "word": "pieces",
+        "meaning": "small parts of something"
+      },
+      {
+        "word": "imagine",
+        "meaning": "make a picture in your mind"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Which food is crunchy?",
+        "a": "The carrots"
+      },
+      {
+        "q": "What should Sami's partner try first?",
+        "a": "a carrot"
+      },
+      {
+        "q": "Which food is warm and thick?",
+        "a": "her soup"
+      }
+    ],
+    "talk": [
+      "Which describing words help you imagine a meal?",
+      "How could you improve the description of your first meal?"
+    ],
+    "courseId": "kids-food",
+    "title": "Our Food Table",
+    "level": "A2"
   }
 ]
