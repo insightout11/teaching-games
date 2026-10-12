@@ -6,7 +6,7 @@ import { useSessionStore } from '@/stores/session-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { ArrowUpRight, Check, CheckCircle2, Clock3, Gauge, Loader2, Lock, Plane, PlaneLanding, Crown, Sparkles, Star, Users } from 'lucide-react';
+import { ArrowUpRight, Check, CheckCircle2, Clock3, Flame, Gauge, Loader2, Lock, PenLine, Plane, PlaneLanding, Crown, Sparkles, Star, Users } from 'lucide-react';
 import type { StudentSessionPref } from '@/lib/supabase/types';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
@@ -21,6 +21,8 @@ import { ClassLogbookDepositCard } from '@/components/class/class-logbook-card';
 import type { ClassLogbookSummary } from '@/lib/class-logbook';
 import { trackEvent } from '@/lib/analytics/posthog';
 import { resolveArrivalMetricDisplay } from './end-session-metrics';
+import { FLAP_FONT, Flaps, FlapStyles } from '@/components/ui/split-flap';
+import { formatMeasure } from '@/lib/flight-result';
 
 export type EndSessionNextDestination =
   | {
@@ -255,7 +257,9 @@ export function EndSessionSummary({
 
   // Adaptive beat list: Captain beat only exists when there's a real winner
   // among 2+ students — a solo student doesn't need a "beat the field" reveal.
-  const hasCaptainBeat = !!(captain && captain.total > 0) && !isSolo;
+  // Junior classes never rank children: no Captain reveal, no standings.
+  const junior = useSessionStore((s) => s.junior);
+  const hasCaptainBeat = !!(captain && captain.total > 0) && !isSolo && !junior;
   const beats: readonly ('arrival' | 'captain' | 'debrief')[] = hasCaptainBeat
     ? ['arrival', 'captain', 'debrief']
     : ['arrival', 'debrief'];
@@ -295,13 +299,15 @@ export function EndSessionSummary({
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 220, damping: 18, delay: 0.05 }}
         >
-          <PlaneLanding className="mx-auto h-11 w-11 text-cyan-300" strokeWidth={1.5} />
+          <PlaneLanding className="mx-auto h-10 w-10 text-cyan-300" strokeWidth={1.5} />
         </motion.div>
-        {flightCode && (
-          <p className="text-center text-[11px] font-mono tracking-[0.2em] text-amber-400/50 mt-2">{flightCode} · ARRIVED</p>
-        )}
-        <h1 className="text-4xl font-extrabold text-center text-lc-text tracking-tight mt-1">You&apos;ve Landed!</h1>
-        <p className="text-center text-lc-text3 mb-8">{className} · lesson complete</p>
+        <FlapStyles />
+        <div className="mt-3 flex flex-col items-center gap-2">
+          <Flaps text="Arrived" tone="amber" size="lg" />
+          {flightCode && <p className="text-[11px] font-bold tracking-[0.24em] text-amber-300/70" style={{ fontFamily: FLAP_FONT }}>{flightCode}</p>}
+        </div>
+        <h1 className="mt-3 text-center font-display text-5xl text-white">You&apos;ve <em className="text-amber-300">landed</em>.</h1>
+        <p className="mb-8 mt-2 text-center text-lc-text2">{className} · lesson complete</p>
 
         {/* Travel arc — retell the trip the class just took */}
         {tripLog.length > 0 && (
@@ -343,28 +349,24 @@ export function EndSessionSummary({
           </motion.div>
         )}
 
-        {/* Stat tiles land like passport stamps — staggered thunks, each settling
-            at its own slight angle (animate-passport-stamp / --stamp-rotation). */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+        {/* The lesson in one line of numbers; the last one is what the class achieved (its result), not a streak. */}
+        <dl className="mx-auto mb-8 grid max-w-2xl grid-cols-2 overflow-hidden rounded-2xl border border-white/[0.09] bg-[#05080d]/85 sm:grid-cols-4">
           {[
-            { v: arrivalMetrics.aboard, l: 'Aboard', c: 'text-cyan-300', r: '-1.6deg' },
-            { v: arrivalMetrics.responses, l: 'Responses', c: 'text-sky-300', r: '1.2deg' },
-            { v: arrivalMetrics.accuracy, l: 'Accuracy', c: 'text-emerald-300', r: '-1deg' },
-            { v: arrivalMetrics.bestStreak, l: 'Best Streak', c: 'text-amber-300', r: '1.8deg' },
-          ].map((s, i) => (
-            <div
-              key={s.l}
-              className="glass animate-passport-stamp rounded-2xl border border-lc-border p-4 text-center"
-              style={{
-                '--stamp-rotation': s.r,
-                animationDelay: `${0.25 + i * 0.16}s`,
-              } as React.CSSProperties}
-            >
-              <p className={`text-3xl font-bold ${s.c}`}>{s.v}</p>
-              <p className="text-[11px] text-lc-text2 mt-0.5 uppercase tracking-wider">{s.l}</p>
+            { v: arrivalMetrics.aboard, l: 'Aboard' },
+            { v: arrivalMetrics.responses, l: 'Responses' },
+            { v: arrivalMetrics.accuracy, l: 'Answers right' },
+            sessionResult?.measures[0]
+              ? { v: formatMeasure(sessionResult.measures[0]), l: sessionResult.measures[0].label }
+              : coveredEntry && coveredEntry.words.length + coveredEntry.moreWords > 0
+                ? { v: String(coveredEntry.words.length + coveredEntry.moreWords), l: 'Words met' }
+                : { v: arrivalMetrics.bestStreak, l: 'Best streak' },
+          ].map((st) => (
+            <div key={st.l} className="border-white/[0.07] px-4 py-4 text-center [&:not(:first-child)]:border-l">
+              <dd className="text-2xl font-bold text-[#fff4dc]" style={{ fontFamily: FLAP_FONT }}>{st.v}</dd>
+              <dt className="mt-1 text-[11px] uppercase tracking-[0.14em] text-white/50">{st.l}</dt>
             </div>
           ))}
-        </div>
+        </dl>
           </motion.div>
         )}
 
@@ -434,8 +436,8 @@ export function EndSessionSummary({
             transition={{ duration: 0.4 }}
           >
         <div className="mb-8 text-center">
-          <p className="font-instrument text-[11px] uppercase tracking-[0.26em] text-cyan-300/80">Lesson debrief</p>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-lc-text">{className} · lesson complete</h1>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-300/90" style={{ fontFamily: FLAP_FONT }}>Lesson debrief</p>
+          <h1 className="mt-2 font-display text-4xl text-white">{className}</h1>
         </div>
 
         {teacherView && sessionResult && (
@@ -446,7 +448,7 @@ export function EndSessionSummary({
 
         {teacherView && coveredEntry && (
           <div className="mx-auto mb-6 max-w-xl rounded-2xl border border-cyan-300/20 bg-cyan-400/[0.04] p-4 text-left">
-            <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">What this lesson covered</p>
+            <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-amber-300" style={{ fontFamily: FLAP_FONT }}>What this lesson covered</p>
             <LessonEntryLines entry={coveredEntry} />
           </div>
         )}
@@ -513,7 +515,7 @@ export function EndSessionSummary({
         )}
 
         {/* ── Student beat — Captain of the Day (class) / Nice Work (solo) ── */}
-        {captain && captain.total > 0 && (
+        {captain && captain.total > 0 && !junior && (
           <motion.div
             className={`relative glass rounded-2xl border p-5 mb-6 overflow-hidden ${isSolo ? 'border-cyan-400/30' : 'border-amber-400/30'}`}
             initial={{ opacity: 0, y: 16 }}
@@ -550,6 +552,7 @@ export function EndSessionSummary({
           </motion.div>
         )}
 
+        {summary.length > 0 && !junior && (
         <div className="glass rounded-2xl border border-lc-border p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-lc-text">{isSolo ? 'Your Results' : 'Final Standings'}</h2>
@@ -594,7 +597,7 @@ export function EndSessionSummary({
                         <span className="text-lc-text3">
                           {entry.accuracyAttempts > 0 ? `${entry.correct}/${entry.accuracyAttempts}` : '—'}
                         </span>
-                        {entry.bestStreak >= 2 && <span className="text-lc-warn">🔥{entry.bestStreak}</span>}
+                        {entry.bestStreak >= 2 && <span className="flex items-center gap-0.5 text-lc-warn"><Flame className="h-3.5 w-3.5" aria-hidden />{entry.bestStreak}</span>}
                         <span className="font-bold text-lc-blue w-16 text-right">{entry.total} pts</span>
                       </>
                     )}
@@ -604,6 +607,7 @@ export function EndSessionSummary({
             })}
           </div>
         </div>
+        )}
 
         {teacherView && onLaunchBonusVote && (
           <div className="mt-6 p-4 bg-slate-950/55 backdrop-blur-md border border-cyan-400/30 rounded-2xl text-center">
@@ -635,14 +639,19 @@ export function EndSessionSummary({
               </Button>
             </Link>
           )}
+          {teacherView && !nextDestination && (
+            <Link href={`/home?prepare=${classId}`} onClick={reset} className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-2 text-sm font-semibold text-[#03202a] hover:bg-cyan-300">
+              <PenLine className="h-4 w-4" aria-hidden />Prepare the next lesson
+            </Link>
+          )}
           <Link href={`/classes/${classId}`}>
-            <Button variant="secondary" onClick={reset}>{nextDestination ? 'Class page' : 'Back to Class'}</Button>
+            <Button variant="secondary" onClick={reset}>{nextDestination ? 'Class page' : 'Back to class'}</Button>
           </Link>
           <Link
             href={`/classes/${classId}/sessions/${sessionId}/control-room`}
             className="inline-flex items-center justify-center rounded-xl border border-lc-border bg-lc-surface px-4 py-2 text-sm font-medium text-lc-text2 transition-all hover:bg-lc-card focus:outline-none focus:ring-2 focus:ring-lc-blue-glow"
           >
-            View Control Room
+            Control Room
           </Link>
         </div>
           </motion.div>
