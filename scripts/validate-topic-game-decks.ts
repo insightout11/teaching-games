@@ -9,9 +9,6 @@ const topics: Topic[] = JSON.parse(fs.readFileSync(path.join(dataDir, 'topic-bri
 const raw: unknown = JSON.parse(fs.readFileSync(path.join(dataDir, 'topic-game-decks.json'), 'utf8'));
 const stickerIds: string[] = JSON.parse(fs.readFileSync(path.join(dataDir, 'sticker-ids.json'), 'utf8'));
 const partial = process.argv.includes('--partial');
-const reviewArg = process.argv.find(arg => arg.startsWith('--round34-count='));
-const reviewedCount = reviewArg ? Number(reviewArg.split('=')[1]) : topics.length;
-if (!Number.isInteger(reviewedCount) || reviewedCount < 0 || reviewedCount > topics.length) throw new Error('Invalid --round34-count');
 function questionDistance(a: string, b: string) {
  const left = normalize(a).split(' '); const right = normalize(b).split(' ');
  let previous = right.map((_, i) => i + 1); previous.unshift(0);
@@ -64,13 +61,16 @@ const byLevel: Record<string, number> = { A1: 0, A2: 0, B1: 0, B2: 0 };
 const byAgeLevel: Record<string, Record<string, number>> = { kids: { A1: 0, A2: 0 }, teens: { B1: 0, B2: 0 } };
 const stickerWords = new Set<string>();
 let stickerOccurrences = 0;
+let hotSeatSingles = 0;
+let minimumHotSeatSingles = 14;
+let imposterRounds = 0;
+let separatedSecrets = 0;
 const twoWordEntries: string[] = [];
 const kind = new Set(['thing', 'place', 'animal', 'job', 'food', 'activity']);
 if (!Array.isArray(raw)) throw new Error('topic-game-decks.json must contain an array');
 for (const [index, value] of Array.from(raw.entries())) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) { fail('badCard', String(index), 'deck must be an object'); continue; }
   const deck = value as Deck;
-  const round34 = index < reviewedCount;
   const topic = known.get(deck.topicId);
   if (!topic) { fail('unknown', String(deck.topicId), 'unknown topic'); continue; }
   if (ids.has(deck.topicId)) fail('duplicateDeck', deck.topicId, 'duplicate topic');
@@ -108,7 +108,7 @@ for (const [index, value] of Array.from(raw.entries())) {
       const normalized = normalize(word);
       addWord(word);
       const wordCount = normalized ? normalized.split(' ').length : 0;
-      if (field === 'hotSeat' && wordCount === 1) singleWords += 1;
+      if (field === 'hotSeat' && wordCount === 1) { singleWords += 1; hotSeatSingles += 1; }
       if ((!partial || round32) && (field === 'hotSeat' || field === 'twentyQuestions') && wordCount > 2) fail('longPhrase', at, 'entry must be one or two words');
       if ((!partial || round32) && (field === 'hotSeat' || field === 'twentyQuestions') && wordCount === 2) twoWordEntries.push(`${deck.topicId}.${field}: ${word}`);
       if (field === 'taboo' || field === 'hotSeat') {
@@ -130,6 +130,7 @@ for (const [index, value] of Array.from(raw.entries())) {
         else if ((!partial || round32) && containsWordOrForm(card.description as string, word)) fail('description', at, 'description contains target word or a form of it');
       }
       if (field === 'imposter') {
+        imposterRounds += 1;
         if (!partial || round32) {
           if (!text(card.description) || card.description.trim().split(/\s+/).length < 4 || card.description.trim().split(/\s+/).length > 10) fail('description', at, 'description must be 4–10 words');
           else if (containsWordOrForm(card.description, word)) fail('description', at, 'description contains target word or a form of it');
@@ -143,8 +144,8 @@ for (const [index, value] of Array.from(raw.entries())) {
           if (text(card.crewQuestion) && text(card.imposterQuestion)) {
             const distance = questionDistance(card.crewQuestion, card.imposterQuestion);
             const longest = Math.max(normalize(card.crewQuestion).split(' ').length, normalize(card.imposterQuestion).split(' ').length);
-            if (round34 && distance < 3) fail('questionDifference', at, 'questions need at least three word edits');
-            if (round34) similarQuestions.push({ at, crew: card.crewQuestion, imposter: card.imposterQuestion, distance, similarity: 1 - distance / longest });
+            if (distance < 3) fail('questionDifference', at, 'questions need at least three word edits');
+            similarQuestions.push({ at, crew: card.crewQuestion, imposter: card.imposterQuestion, distance, similarity: 1 - distance / longest });
             if (!distance) fail('imposter', at, 'crew and imposter questions must differ');
           }
           if (pairWords.has(normalized)) fail('imposter', at, 'secret word repeated');
@@ -152,14 +153,16 @@ for (const [index, value] of Array.from(raw.entries())) {
         }
       }
       if (field === 'twentyQuestions') {
-        if (round34 && tabooAndSeat.has(normalized)) fail('repeatedSecret', at, 'secret repeats a Taboo or Hot Seat target');
-        if (round34 && card.kind === 'activity') fail('badCard', at, 'secret must be a concrete thing, place, animal, job, or food');
+        if (tabooAndSeat.has(normalized)) fail('repeatedSecret', at, 'secret repeats a Taboo or Hot Seat target');
+        else separatedSecrets += 1;
+        if (card.kind === 'activity') fail('badCard', at, 'secret must be a concrete thing, place, animal, job, or food');
         if (!text(card.kind) || !kind.has(card.kind)) fail('badCard', at, 'invalid secret kind');
         if (secrets.has(normalized)) fail('badCard', at, 'secret repeated');
         secrets.add(normalized);
       }
     }
-    if (round34 && field === 'hotSeat' && singleWords < 9) fail('singleWordHotSeat', deck.topicId, 'Hot Seat needs at least nine single-word targets');
+    if (field === 'hotSeat') minimumHotSeatSingles = Math.min(minimumHotSeatSingles, singleWords);
+    if (field === 'hotSeat' && singleWords < 9) fail('singleWordHotSeat', deck.topicId, 'Hot Seat needs at least nine single-word targets');
     if ((field === 'taboo' || field === 'hotSeat') && easy < 4) fail('lowestLevel', deck.topicId, `${field} needs at least four ${lowest} cards`);
   }
   if (!partial && Array.isArray(deck.imposter) && deck.imposter.length !== 6) fail('imposter', deck.topicId, 'imposter needs exactly 6 rounds');
@@ -184,7 +187,8 @@ console.log(`Cards by level: ${Object.keys(byLevel).map((level) => `${level} ${b
 for (const age of ['kids', 'teens']) console.log(`${age}: ${Object.keys(byAgeLevel[age]).map((level) => `${level} ${byAgeLevel[age][level]}`).join(', ')}.`);
 console.log(`Sticker matches: ${stickerWords.size} unique words, ${stickerOccurrences} target/decoy occurrences.`);
 console.log(`Two-word Hot Seat / Twenty Questions entries (${twoWordEntries.length}):\n${twoWordEntries.join('\n')}`);
-console.log(`Round 34 reviewed: ${reviewedCount}/${topics.length}; 20 most similar question pairs:`);
+console.log(`Round 34: imposter rounds ${imposterRounds}; single-word Hot Seat targets ${hotSeatSingles}/2100; minimum per deck ${minimumHotSeatSingles}; separated Twenty Questions secrets ${separatedSecrets}/1200.`);
+console.log('20 most similar question pairs (word edit similarity):');
 similarQuestions.sort((a, b) => b.similarity - a.similarity || a.at.localeCompare(b.at)).slice(0, 20).forEach(pair => console.log(`${pair.at}: ${(100 * pair.similarity).toFixed(1)}% similar; ${pair.distance} word edits; crew: ${pair.crew} / imposter: ${pair.imposter}`));
 console.log(`Maximum target overlap: ${(maximumOverlap * 100).toFixed(2)}% (${closest || 'no pairs'}).`);
 console.log(`Deck checks: ${Object.keys(counts).map((check) => `${check} ${counts[check]}`).join(', ')}.`);
